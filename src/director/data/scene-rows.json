@@ -68,6 +68,7 @@
     "address",
     "hearing",
     "verdict",
-    "party-recruit"
+    "party-recruit",
+    "speech-afterward"
   ]
 }

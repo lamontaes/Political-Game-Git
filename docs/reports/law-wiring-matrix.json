@@ -44,6 +44,18 @@
       "state": "US-SD"
     },
     {
+      "seed": "ff9f86424ae744d07c822e8fde62f06287481184b293cca63b8f10069043327b",
+      "key": "3439630",
+      "name": "Lebanon, New Jersey",
+      "state": "US-NJ"
+    },
+    {
+      "seed": "afc18600c6f7ece84169f4427ce6b21d26ac0c812b34428ee8def2d92f91069c",
+      "key": "4174850",
+      "name": "Troutdale, Oregon",
+      "state": "US-OR"
+    },
+    {
       "seed": "92e100aa6b951b4ae3d2187bb6f19b67cbfbbc84cca49cd7b23da7b476a833eb",
       "key": "1255125",
       "name": "Parkland, Florida",
@@ -64,9 +76,9 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 58,
-    "partly": 20,
-    "stopgapped": 11,
+    "wired": 63,
+    "partly": 13,
+    "stopgapped": 13,
     "byLink": {
       "exists": {
         "wired": 89,
@@ -83,51 +95,51 @@
         "n/a": 0
       },
       "reach": {
-        "wired": 76,
+        "wired": 79,
         "partial": 3,
-        "missing": 1,
-        "stopgap": 7,
+        "missing": 0,
+        "stopgap": 5,
         "n/a": 2
       },
       "systems": {
-        "wired": 81,
-        "partial": 1,
-        "missing": 1,
-        "stopgap": 6,
+        "wired": 87,
+        "partial": 0,
+        "missing": 0,
+        "stopgap": 2,
         "n/a": 0
       },
       "money": {
-        "wired": 62,
-        "partial": 11,
-        "missing": 1,
-        "stopgap": 8,
+        "wired": 74,
+        "partial": 4,
+        "missing": 0,
+        "stopgap": 4,
         "n/a": 7
       },
       "web": {
-        "wired": 48,
+        "wired": 53,
         "partial": 2,
-        "missing": 2,
-        "stopgap": 20,
-        "n/a": 17
+        "missing": 0,
+        "stopgap": 18,
+        "n/a": 16
       },
       "knowing": {
-        "wired": 86,
+        "wired": 88,
         "partial": 0,
-        "missing": 3,
+        "missing": 1,
         "stopgap": 0,
         "n/a": 0
       },
       "repeal": {
-        "wired": 79,
+        "wired": 83,
         "partial": 0,
-        "missing": 9,
+        "missing": 5,
         "stopgap": 0,
         "n/a": 1
       },
       "allPlaces": {
-        "wired": 80,
-        "partial": 1,
-        "missing": 8,
+        "wired": 82,
+        "partial": 2,
+        "missing": 5,
         "stopgap": 0,
         "n/a": 0
       }
@@ -141,7 +153,7 @@
       "family": "infrastructure",
       "reachGroup": "B",
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -155,33 +167,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 90 open (full 85, counted groups 1/0 people, households 0, orgs 4, govts 0) e.g. budget-line:highways|person_0161274dc68d50d8|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 90 open (full 84, counted groups 1/0 people, households 0, orgs 5, govts 0) e.g. budget-line:highways|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 99 open (full 92, counted groups 1/0 people, households 0, orgs 6, govts 0) e.g. budget-line:highways|person_0161274dc68d50d8|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 103 open (full 95, counted groups 1/0 people, households 0, orgs 7, govts 0) e.g. budget-line:highways|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/counted-money.ts, src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/credit-deposits.ts, src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/work-payroll-cash.ts, src/core2/finance-cash.ts",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 34674391 -> 34701819 (journal:2025-01-24:1626); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:829 59223958076371 -> 59223958076370 (journal:2025-02-01:1724); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/budgets-treasury.ts:579 37178541537624 -> 37178541521432 (journal:2025-02-01:1618)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing budget-line:highways: 1311012 (control world 1123) (journal:2025-02-03:7463); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing budget-line:highways: 1783593 (control world 189358) (journal:2025-02-03:7632); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 2 the law paid or charged, the payments that changed first: 2 accounts.transfer paid out (src/core2/modules/residents.ts:1282; e.g. jurisdiction_971998ff58477430 on 2025-04-22: -16724273 in the control world, -16724274 here, journal:2025-04-22:23839); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 2 the law paid or charged, the payments that changed first: 2 accounts.transfer paid out (src/core2/modules/residents.ts:1264; e.g. jurisdiction_45a3b3ebe97fe71d on 2025-03-03: 162 in the control world, 159 here, journal:2025-03-03:15101)",
+          "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "road-condition-to-vehicle-costs: size-not-set",
-          "why": "every link is unbuilt: size-not-set (registered SG-GOV-REACH-B-road-condition)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 highways-spending-to-poor-roads -0.0582; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 highways-spending-to-poor-roads -0.0582; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 highways-spending-to-poor-roads -0.0582",
+          "why": ""
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "news heard table",
-          "why": "nobody heard of it: the change is not a news story anyone receives"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:highways:law-wiring-c8a99055); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:highways:law-wiring-c8a99055)",
+          "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 90 open -> after repeal 0 open, 90 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 90 open -> after repeal 0 open, 91 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 99 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 103 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
@@ -418,7 +429,7 @@
       "family": "infrastructure",
       "reachGroup": "B",
       "mechanic": "highway-shift",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -431,51 +442,50 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 1/0 people, households 0, orgs 0, govts 0) e.g. us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|jurisdiction_45a3b3ebe97fe71d",
-          "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open (full 0, counted groups 2/227 people, households 0, orgs 0, govts 1) e.g. us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|jurisdiction_971998ff58477430; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 3 open (full 0, counted groups 2/227 people, households 0, orgs 0, govts 1) e.g. us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|jurisdiction_45a3b3ebe97fe71d",
+          "why": ""
         },
         "systems": {
-          "status": "partial",
-          "evidence": "src/core2/law-reach/group-b.ts:213",
-          "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+          "status": "wired",
+          "evidence": "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:1255",
+          "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 34674391 -> 34673032 (journal:2025-01-24:1626); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:829 59223958076371 -> 59223958076368 (journal:2025-02-01:1724); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): work-payroll @ src/core2/work-payroll-cash.ts:2351 14026980 -> 14009974 (journal:2025-01-28:1547)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): the place:2666300 treasury's payments on highways, which the act moved by -399417: 1404245 without the act, 1223439 with it (journal:2025-02-01:1907); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): the place:2666300 treasury's payments on transit, which the act moved by 399417: 0 without the act, 153696 with it (journal:2025-02-01:1931); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): the place:3149425 treasury's payments on highways, which the act moved by -814969: 209636 without the act, 187220 with it, payments before 2025-03-20 (journal:2025-03-01:8715)",
+          "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "highway-money-for-transit-to-service",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): highway-money-for-transit-to-service lags 24 months, past the run's window; the web read law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit as 1 (control 0) in web:jurisdiction_971998ff58477430:2025-01 (2025-01); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): highway-money-for-transit-to-service lags 24 months, past the run's window; the web read law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit as 1 (control 0) in web:jurisdiction_971998ff58477430:2025-02 (2025-02); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): highway-money-for-transit-to-service lags 24 months, past the run's window; the web read law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit as 1 (control 0) in web:jurisdiction_971998ff58477430:2025-03 (2025-03)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 74 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 113 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 142 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open -> after repeal 0 open, 1 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 3 open -> after repeal 0 open, 1 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 3 open -> after repeal 0 open, 1 ended",
           "why": ""
         },
         "allPlaces": {
-          "status": "partial",
+          "status": "wired",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reached people in one drawn place and not the other"
+          "why": ""
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
@@ -3724,50 +3734,55 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
-          "why": "handler registered (group B, mechanic compliance-cost) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): 3 open (full 0, counted groups 0/0 people, households 0, orgs 3, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e",
+          "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10), Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/business.ts:919",
+          "evidence": "src/core2/modules/business.ts:921, src/core2/modules/business.ts:1340",
           "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "status": "wired",
+          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): of 3 the law paid or charged, the payments that changed first: 3 interest-group-dues paid in (src/core2/modules/interest-groups.ts:433; e.g. organization_2bf73e822188c0dc on 2025-04-18: -50000 in the control world, 0 here, )",
+          "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "emission-rules-to-particulates",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+          "status": "wired",
+          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): web:jurisdiction_7303b6b2477005c1:2026-02 emission-rules-to-particulates -0.0230",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): 144 people heard (person_0ea5c71948f2853c:printed:outlet:newspaper:0:jurisdiction_7303b6b2477005c1:law-took-effect:law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): 3 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c)",
+          "why": "reached people in one drawn place and not the other"
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c)",
+          "change": "enacted at city (law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2026-02-26",
           "inForceAtOpening": false
         }
       ],
@@ -3780,7 +3795,7 @@
       "family": "energy-environment",
       "reachGroup": "B",
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -3794,19 +3809,18 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 109 open (full 106, counted groups 1/0 people, households 0, orgs 2, govts 0) e.g. budget-line:naturalResources|person_0161274dc68d50d8|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 107 open (full 105, counted groups 1/0 people, households 0, orgs 1, govts 0) e.g. budget-line:naturalResources|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 117 open (full 113, counted groups 1/0 people, households 0, orgs 3, govts 0) e.g. budget-line:naturalResources|person_0161274dc68d50d8|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 127 open (full 124, counted groups 1/0 people, households 0, orgs 2, govts 0) e.g. budget-line:naturalResources|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/counted-money.ts, src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/work-payroll-cash.ts, src/core2/finance-cash.ts, src/core2/official-living.ts, src/core2/modules/residents.ts, src/core2/world-transfer.ts",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 34674391 -> 34670734 (journal:2025-01-24:1626); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:829 59223958076371 -> 59223958076368 (journal:2025-02-01:1724); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/budgets-treasury.ts:579 37178541537624 -> 37178541521432 (journal:2025-02-01:1618)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing law-wiring-8d04ad08: 7133482 (journal:2025-02-01:1931); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law-wiring-8d04ad08: 4938002 (journal:2025-03-01:8664); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid in (src/core2/budgets-treasury.ts:1104; e.g. jurisdiction_971998ff58477430 on 2025-02-01: 58894809288085 in the control world, 58894809302129 here, journal:2025-02-01:1784); 1 accounts.transfer paid out (src/core2/counted-money.ts:576; e.g. jurisdiction_971998ff58477430 on 2025-02-01: 7787773 in the control world, 7773916 here, journal:2025-02-01:2658); 1 accounts.transfer paid out (src/core2/credit-deposits.ts:159; e.g. jurisdiction_971998ff58477430 on 2025-02-01: 2152993 in the control world, 2144959 here, journal:2025-02-01:1937); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid in (src/core2/budgets-treasury.ts:1104; e.g. jurisdiction_45a3b3ebe97fe71d on 2025-03-01: 58489797662642 in the control world, 58489797684848 here, journal:2025-03-01:8478); 1 accounts.transfer paid out (src/core2/counted-money.ts:576; e.g. jurisdiction_45a3b3ebe97fe71d on 2025-03-01: 4454263 in the control world, 4442721 here, journal:2025-03-01:10246); 1 accounts.transfer paid out (src/core2/world-transfer.ts:40; e.g. jurisdiction_45a3b3ebe97fe71d on 2025-03-01: 15600334 in the control world, 15589667 here, journal:2025-03-01:8734)",
+          "why": ""
         },
         "web": {
           "status": "stopgap",
@@ -3814,13 +3828,13 @@
           "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure land conservation and park visits (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "news heard table",
-          "why": "nobody heard of it: the change is not a news story anyone receives"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:naturalResources:law-wiring-8d04ad08); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:naturalResources:law-wiring-8d04ad08)",
+          "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 109 open -> after repeal 0 open, 109 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 107 open -> after repeal 0 open, 108 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 117 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 127 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
@@ -5516,7 +5530,7 @@
       "family": "rights",
       "reachGroup": "A",
       "mechanic": "none",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -5530,32 +5544,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 10 open (full 0, counted groups 0/0 people, households 0, orgs 10, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:employers:organization_8820139c2233ecf6:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 20 open (full 0, counted groups 0/0 people, households 0, orgs 20, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b:employers:organization_01b157d5b2d5f916:2025-01-21",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 37 open (full 0, counted groups 2/2 people, households 0, orgs 35, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_382d8445c99fb630:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open (full 3, counted groups 2/2 people, households 0, orgs 36, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b:landlords:organization_34499ce6d84b7823:2025-01-21",
           "why": ""
         },
         "systems": {
-          "status": "stopgap",
-          "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-discrimination)"
+          "status": "wired",
+          "evidence": "src/core2/jobs-age-bias.ts:36",
+          "why": ""
         },
         "money": {
-          "status": "stopgap",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-discrimination)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work: 462943 (control world 596891) (journal:2025-09-28:62704); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work: 596891 (journal:2025-09-29:62905); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 7 the law paid or charged, the payments that changed first: 5 work-payroll paid in (src/core2/work-payroll-cash.ts:2386; e.g. person_3b8e45617114c97d on 2025-05-15: 0 in the control world, 21936 here, journal:2025-05-15:31137); 5 budgets:withholding paid out (src/core2/modules/budgets.ts:1603; e.g. person_3b8e45617114c97d on 2025-05-15: 0 in the control world, -1812 here, journal:2025-05-15:31138)",
+          "why": ""
         },
         "web": {
-          "status": "n/a",
-          "evidence": "anti-discrimination-to-poverty: about-zero (Burn 2018, Journal of Labor Research; Utah Legislative Fiscal Analyst, S.B. 296 fiscal note (3/9/2015); West Virginia Human Rights Commission, HB 2266 fiscal note (1/18/2023))",
-          "why": "the research puts every outcome link from it at about zero, so there is nothing for the web to move"
+          "status": "wired",
+          "evidence": "anti-discrimination-to-poverty: carried by src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure (Burn 2018, Journal of Labor Research; Utah Legislative Fiscal Analyst, S.B. 296 fiscal note (3/9/2015); West Virginia Human Rights Commission, HB 2266 fiscal note (1/18/2023))",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 75 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 140 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 118 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 10 -> after repeal 0 -> re-enacted 14; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 20 open -> after repeal 0 open, 20 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 37 -> after repeal 0 -> re-enacted 32; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 41 open -> after repeal 0 open, 4 ended",
           "why": ""
         },
         "allPlaces": {
@@ -5567,12 +5581,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
@@ -5585,7 +5599,7 @@
       "family": "rights",
       "reachGroup": "A",
       "mechanic": "parks-funding",
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -5599,51 +5613,55 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 66 open (full 64, counted groups 1/164 people, households 0, orgs 1, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_6bfeefad73e308c6:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 78 open (full 76, counted groups 1/151 people, households 0, orgs 1, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_cbfc5223476b3c20:2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 55 open (full 49, counted groups 2/10140638 people, households 0, orgs 3, govts 1) e.g. reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_6bfeefad73e308c6:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 74 open (full 68, counted groups 2/2005624 people, households 0, orgs 3, govts 1) e.g. reach:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_cbfc5223476b3c20:2025-01-20; Colome, South Dakota, US-SD (seed 8a0a30a37a501): 96 open (full 90, counted groups 2/585 people, households 0, orgs 3, govts 1) e.g. reach:law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4:recreation:organization_e0e550931000cecf:2025-01-21",
           "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+          "status": "wired",
+          "evidence": "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:1255, src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:1255",
+          "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:829 59223958076371 -> 59223599102838 (journal:2025-02-01:1724); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 34674391 -> 34672382 (journal:2025-01-24:1626); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/budgets-treasury.ts:829 58548607836842 -> 58548479771256 (journal:2025-02-01:1641)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Colome, South Dakota, US-SD (seed 8a0a30a37a501): posts citing law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4: 368631 (journal:2025-03-01:9044); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:civil-family-community.dedicated-parks-funding: 4315112244 (journal:2025-02-01:1844); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:civil-family-community.dedicated-parks-funding: 1530570870 (journal:2025-02-01:1804); Colome, South Dakota, US-SD (seed 8a0a30a37a501): of 2 the law paid or charged, the payments that changed first: 2 accounts.transfer paid in (src/core2/budgets-treasury.ts:1104 under us-policy-positions:civil-family-community.dedicated-parks-funding; e.g. jurisdiction_309b0ef82ebd0e42 on 2025-03-01: 0 in the control world, 15305 here, journal:2025-03-01:9046); 2 accounts.transfer paid out (src/core2/budgets-treasury.ts:1104; e.g. jurisdiction_309b0ef82ebd0e42 on 2025-03-01: 58442400608771 in the control world, 58442400590206 here, journal:2025-03-01:8813)",
+          "why": ""
         },
         "web": {
           "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure park access and exercise (SG-LAW-outcome-link-unresearched)"
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 parks-spending-to-exercise-access 0.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 parks-spending-to-exercise-access 0.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 parks-spending-to-exercise-access 0.0000 (ledger row only)",
+          "why": "no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 84 people heard (person_a4689f4c0a9e8279:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 89 people heard (person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 71 people heard (person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 78 people heard (person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Colome, South Dakota, US-SD (seed 8a0a30a37a501): 108 people heard (person_0f191d3cca699b51:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:budget-line-changed:budget:place:4613300:2025:parks:law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 66 -> after repeal 0 -> re-enacted 108; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 78 -> after repeal 0 -> re-enacted 106",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 55 -> after repeal 0 -> re-enacted 138; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 74 -> after repeal 0 -> re-enacted 127; Colome, South Dakota, US-SD (seed 8a0a30a37a501): 96 open -> after repeal 0 open, 92 ended",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Colome, South Dakota, US-SD (seed 8a0a30a37a501)",
           "why": ""
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
+        },
+        {
+          "place": "Colome, South Dakota, US-SD (seed 8a0a30a37a501)",
+          "change": "enacted at city (law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "inForceAtOpening": false
         }
       ],
       "errors": []
@@ -5655,7 +5673,7 @@
       "family": "rights",
       "reachGroup": "A",
       "mechanic": "none",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -5669,32 +5687,32 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 24 open (full 21, counted groups 1/31 people, households 0, orgs 2, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_33f81f3b0c519679:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 26 open (full 23, counted groups 1/30 people, households 0, orgs 2, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting:women:person_eadfea9a418d1c87:2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 24 open (full 19, counted groups 2/74 people, households 1, orgs 2, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_ae720410206893b1:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 25 open (full 21, counted groups 2/66 people, households 0, orgs 2, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting:women:person_eadfea9a418d1c87:2025-01-20",
           "why": ""
         },
         "systems": {
-          "status": "stopgap",
-          "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-abortion)"
+          "status": "wired",
+          "evidence": "src/core2/births-counted.ts:723, src/core2/births-unplanned.ts:63",
+          "why": ""
         },
         "money": {
-          "status": "stopgap",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-abortion)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:civil-family-community.restrict-abortion: 266094 (control world 262729) (journal:2025-09-23:62638); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40; e.g. household_1093168c88d35e93 on 2025-01-21: -960 in the control world, -1080 here, journal:2025-01-21:1660)",
+          "why": ""
         },
         "web": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 abortion-ban-to-births -0.0230; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 abortion-ban-to-infant-deaths -0.0600",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 138 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 73 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 24 open -> after repeal 0 open, 24 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 26 -> after repeal 0 -> re-enacted 36",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 24 open -> after repeal 0 open, 38 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 25 -> after repeal 0 -> re-enacted 37",
           "why": ""
         },
         "allPlaces": {
@@ -5706,12 +5724,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
         }
       ],
@@ -5738,18 +5756,18 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 9 open (full 7, counted groups 1/4 people, households 0, orgs 1, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_64420f52d99b1d5d:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 19 open (full 17, counted groups 1/10 people, households 0, orgs 1, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_eadfea9a418d1c87:2025-01-21",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 6 open (full 4, counted groups 1/7 people, households 0, orgs 1, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b218ebc09c07:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open (full 16, counted groups 1/11 people, households 0, orgs 1, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_eadfea9a418d1c87:2025-01-21",
           "why": ""
         },
         "systems": {
-          "status": "stopgap",
-          "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-age-verification)"
+          "status": "wired",
+          "evidence": "src/core2/modules/business.ts:1276, src/core2/modules/business.ts:1340",
+          "why": ""
         },
         "money": {
-          "status": "stopgap",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-age-verification)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 133387 (journal:2025-02-01:1949); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:technology-privacy.age-verification-for-social-media: 53565 (control world 10836) (journal:2025-02-01:1893); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_ba7f49eca549fa70 on 2025-02-01: 0 in the control world, -10903 here, journal:2025-02-01:1949); 1 accounts.transfer paid in (src/core2/counted-money.ts:576; e.g. organization_ba7f49eca549fa70 on 2025-02-01: -51311 in the control world, -40408 here, journal:2025-02-01:1965); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.age-verification-for-social-media; e.g. organization_07da3fc20d983a22 on 2025-02-01: 0 in the control world, -5280 here, journal:2025-02-01:1893); 1 accounts.transfer paid in (src/core2/counted-money.ts:576; e.g. organization_07da3fc20d983a22 on 2025-02-01: -18231 in the control world, -12951 here, journal:2025-02-01:1914)",
+          "why": ""
         },
         "web": {
           "status": "stopgap",
@@ -5758,12 +5776,12 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 9 open -> after repeal 0 open, 9 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 19 open -> after repeal 0 open, 19 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 6 open -> after repeal 0 open, 5 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open -> after repeal 0 open, 17 ended",
           "why": ""
         },
         "allPlaces": {
@@ -5775,12 +5793,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
@@ -5792,8 +5810,8 @@
       "kind": "question",
       "family": "technology",
       "reachGroup": "A",
-      "mechanic": "none",
-      "overall": "partly",
+      "mechanic": "police-oversight",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -5806,33 +5824,33 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 2 open (full 1, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:department:organization_c8c4bd3ade9bbdd0:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:department:organization_323a5cedbef21846:2025-01-21",
-          "why": "full people only: no counted group is reached (one model, two tiers)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 5 open (full 1, counted groups 1/227 people, households 0, orgs 2, govts 1) e.g. reach:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:department:organization_c8c4bd3ade9bbdd0:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 5 open (full 1, counted groups 1/227 people, households 0, orgs 2, govts 1) e.g. reach:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:department:organization_323a5cedbef21846:2025-01-21",
+          "why": ""
         },
         "systems": {
-          "status": "stopgap",
-          "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-facial-recognition)"
+          "status": "wired",
+          "evidence": "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:1255, src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:1255",
+          "why": ""
         },
         "money": {
-          "status": "stopgap",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-facial-recognition)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c: 6031 (journal:2025-02-01:1910); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c: 4946 (journal:2025-03-01:8653); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 work-payroll paid in (src/core2/work-payroll-cash.ts:2386; e.g. jurisdiction_971998ff58477430 on 2025-03-31: -961452 in the control world, -948214 here, journal:2025-03-31:16192); 1 accounts.transfer paid in (src/core2/credit-deposits.ts:159; e.g. jurisdiction_971998ff58477430 on 2025-04-01: 27910221 in the control world, 28023365 here, journal:2025-04-01:16438); 1 accounts.transfer paid in (src/core2/modules/coverage.ts:230; e.g. jurisdiction_971998ff58477430 on 2025-04-01: 766876 in the control world, 866154 here, journal:2025-04-01:22317); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid in (src/core2/counted-money.ts:698; e.g. jurisdiction_45a3b3ebe97fe71d on 2026-02-01: -12865195 in the control world, -11370344 here, journal:2026-02-01:103422); 1 accounts.transfer paid out (src/core2/counted-money.ts:576; e.g. jurisdiction_45a3b3ebe97fe71d on 2026-02-01: 4097804 in the control world, 3465354 here, journal:2026-02-01:101920); 1 accounts.transfer paid out (src/core2/credit-deposits.ts:159; e.g. jurisdiction_45a3b3ebe97fe71d on 2026-02-01: 3555699 in the control world, 2991947 here, journal:2026-02-01:101888)",
+          "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "facial-recognition-limit-to-crime",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-facial-recognition)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 facial-recognition-limit-to-crime 0.0100; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 facial-recognition-limit-to-crime 0.0100",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 106 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:police:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 131 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:police:law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 2 open -> after repeal 0 open, 2 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open -> after repeal 0 open, 1 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 5 open -> after repeal 0 open, 2 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 5 open -> after repeal 0 open, 2 ended",
           "why": ""
         },
         "allPlaces": {
@@ -5844,12 +5862,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at city effective 2026-02-26",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at state, city effective 2026-02-26",
           "inForceAtOpening": false
         }
       ],
@@ -5876,17 +5894,17 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 open (full 57, counted groups 1/136 people, households 0, orgs 9, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_33f81e3b0c5194c6:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 68 open (full 52, counted groups 1/111 people, households 0, orgs 15, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting:consumers:person_eadfec9a418d1fed:2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 open (full 50, counted groups 1/143 people, households 0, orgs 16, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_ae720410206893b1:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 67 open (full 48, counted groups 1/115 people, households 0, orgs 18, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting:consumers:person_eadfec9a418d1fed:2025-01-20",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/business.ts:1190",
+          "evidence": "src/core2/modules/business.ts:1340, src/core2/modules/business.ts:1276",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:technology-privacy.consumer-data-privacy-law: 1312469 (journal:2025-02-01:1896)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:technology-privacy.consumer-data-privacy-law: 17233484 (journal:2025-02-01:1949); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:technology-privacy.consumer-data-privacy-law: 8646284 (control world 16303169) (journal:2025-10-01:65101); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:technology-privacy.consumer-data-privacy-law: 16303169 (journal:2025-02-01:1879); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 16 the law paid or charged, the payments that changed first: 16 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-policy-positions:technology-privacy.consumer-data-privacy-law; e.g. organization_474c2f7aee205efe on 2025-02-01: 0 in the control world, -474561 here, journal:2025-02-01:1953); 12 accounts.transfer paid in (src/core2/world-transfer.ts:40; e.g. organization_4b47f062ac052d9a on 2025-02-01: -118947 in the control world, -85741 here, journal:2025-02-01:1978)",
           "why": ""
         },
         "web": {
@@ -5896,12 +5914,12 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 open -> after repeal 0 open, 67 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 68 -> after repeal 0 -> re-enacted 93",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 open -> after repeal 0 open, 51 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 67 -> after repeal 0 -> re-enacted 117",
           "why": ""
         },
         "allPlaces": {
@@ -5913,12 +5931,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6) effective 2025-01-21; then repealed at city effective 2026-01-22",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
         }
       ],
@@ -5944,52 +5962,56 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-02-26:law-wiring-70bb716f-b) effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at city effective 2025-02-26",
-          "why": "handler registered (group B, mechanic farm-output) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-business-cost)"
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_2c4415fc453bce44",
+          "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/business.ts:1137",
+          "evidence": "src/core2/modules/business.ts:1152",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1191 128076494 -> 128394650 (journal:2025-01-21:1556); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): interest-group-dues @ src/core2/modules/interest-groups.ts:432 200000 -> 150000 (journal:2025-02-25:8174)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (journal:2025-04-22:23519); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (control world 50000) (journal:2025-02-13:7952); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 100000 (journal:2025-02-05:10362); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1282; e.g. organization_4b47f062ac052d9a on 2025-02-04: 804234 in the control world, 883773 here, journal:2025-02-04:7909); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1282; e.g. organization_2c4415fc453bce44 on 2025-02-04: 1960538 in the control world, 2154437 here, journal:2025-02-04:10332); 1 interest-group-dues paid in (src/core2/modules/interest-groups.ts:433; e.g. organization_2c4415fc453bce44 on 2025-02-05: 0 in the control world, -50000 here, journal:2025-02-05:10363); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): accounts.transfer @ src/core2/modules/business.ts:1888 187955772 -> 187962120 (journal:2025-04-01:31253)",
+          "why": ""
         },
         "web": {
           "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only)",
           "why": "no production reader: groundwater-limits-to-irrigation-pumping (SG-WEB-unread-water-irrigation-groundwater) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 75 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 112 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 192 people heard (person_007e1131ed2acda5:printed:outlet:cable:0:national:law-took-effect:law:US-OR:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): opening 1 -> after repeal 0 -> re-enacted 1",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Troutdale, Oregon, US-OR (seed dcb716723dd3881c)",
+          "why": "reached people in one drawn place and not the other"
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-02-26:law-wiring-70bb716f-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
           "inForceAtOpening": false
+        },
+        {
+          "place": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c)",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+          "inForceAtOpening": true
         }
       ],
       "errors": []
@@ -6001,7 +6023,7 @@
       "family": "agriculture",
       "reachGroup": "B",
       "mechanic": "housing-construction",
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -6014,51 +6036,50 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-02-26:law-wiring-cdbf4067-b) effective 2025-02-26; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067) effective 2025-01-21; then repealed at city effective 2025-02-26",
-          "why": "handler registered (group B, mechanic housing-construction) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-land-use)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_971998ff58477430; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_45a3b3ebe97fe71d",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/housing.ts:1504",
+          "evidence": "src/core2/modules/housing.ts:1656",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): interest-group-dues @ src/core2/modules/interest-groups.ts:432 200000 -> 50000 (journal:2025-02-25:8174)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:agriculture-natural-resources.protect-farmland-from-development: 100000 (journal:2025-04-01:16491); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.protect-farmland-from-development: 200000 (control world 200000) (journal:2025-02-01:1911)",
+          "why": ""
         },
         "web": {
           "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 farmland-easements-to-farmland-lost 0.4700 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 farmland-easements-to-farmland-lost 0.4700 (ledger row only)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 farmland-easements-to-farmland-lost 0.4700 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 farmland-easements-to-farmland-lost 0.4700 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 farmland-easements-to-farmland-lost 0.4700 (ledger row only)",
           "why": "no production reader: farmland-easements-to-farmland-lost (SG-WEB-unread-farmland-developed-acres) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 75 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 109 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
+          "status": "wired",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "why": ""
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-02-26:law-wiring-cdbf4067-b) effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
           "inForceAtOpening": false
         }
       ],
@@ -6071,7 +6092,7 @@
       "family": "parks-culture",
       "reachGroup": "B",
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -6085,34 +6106,33 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 43 open (full 42, counted groups 1/0 people, households 0, orgs 0, govts 0) e.g. budget-line:parks|person_0161274dc68d50d8|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 31 open (full 30, counted groups 1/0 people, households 0, orgs 0, govts 0) e.g. budget-line:parks|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 116 open (full 113, counted groups 1/0 people, households 0, orgs 2, govts 0) e.g. budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 128 open (full 124, counted groups 1/0 people, households 0, orgs 3, govts 0) e.g. budget-line:parks|person_00a28a6650e55809|2025-01-20",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/counted-money.ts, src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/work-payroll-cash.ts, src/core2/finance-cash.ts, src/core2/official-living.ts, src/core2/counted-money.ts, src/core2/modules/residents.ts",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 34674391 -> 34684864 (journal:2025-01-24:1626); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:829 59223958076371 -> 59223958076370 (journal:2025-02-01:1724); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/budgets-treasury.ts:579 37178541537624 -> 37178541521432 (journal:2025-02-01:1618)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing law-wiring-17ac6c1b: 7142548 (journal:2025-02-01:1916); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law-wiring-17ac6c1b: 4934776 (journal:2025-03-01:8657); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 2 the law paid or charged, the payments that changed first: 2 accounts.transfer paid in (src/core2/credit-deposits.ts:159; e.g. jurisdiction_971998ff58477430 on 2025-02-01: 2152993 in the control world, 2198507 here, journal:2025-02-01:1938)",
+          "why": ""
         },
         "web": {
           "status": "stopgap",
-          "evidence": "parks-spending-to-exercise-access",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-park-use)"
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 parks-spending-to-exercise-access 0.0546 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 parks-spending-to-exercise-access 0.0546 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 parks-spending-to-exercise-access 0.0546 (ledger row only)",
+          "why": "no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 66 people heard (person_a4689f4c0a9e8279:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 57 people heard (person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 130 people heard (person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 43 open -> after repeal 108 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 31 open -> after repeal 106 open, 2 ended",
-          "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 116 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 128 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
           "status": "wired",

@@ -6,7 +6,7 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:

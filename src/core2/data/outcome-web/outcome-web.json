@@ -298,13 +298,13 @@
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.medianHouseholdEarningsMinor (the middle earning household's yearly earnings), in thousands of dollars",
       "field": "medianHouseholdEarningsMinor",
-      "unitScale": 0.00001
+      "unitScale": 1e-5
     },
     "housing.home-prices": {
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.medianHomeValueMinor (the housing engine's typical owned home), in tens of thousands of dollars",
       "field": "medianHomeValueMinor",
-      "unitScale": 0.000001
+      "unitScale": 1e-6
     },
     "housing.rent-to-income-pct": {
       "owner": "OPUS-WORLD",
@@ -357,6 +357,36 @@
       "unitScale": 1,
       "baselineReader": "state-corporate-rate"
     },
+    "budget.parks-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "gov-measures budget.parks-added-pct: the city's parks line above its Census base this fiscal year, in percent (the budgets module's budget row in force)",
+      "reader": "parks-added-pct",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.highways-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "gov-measures budget.highways-added-pct: the town's highway spending above its Census base this fiscal year, in percent (each government's highways line in the budgets module, by the town's share of it)",
+      "reader": "highways-added-pct",
+      "field": "",
+      "unitScale": 1
+    },
+    "police.officers-per-1000": {
+      "owner": "OPUS-GOV",
+      "record": "public-safety months.officersPer1000 (sworn officers per 1,000 residents: the state's recorded rate times the town's police service, its police lines against where they began the year)",
+      "module": "core2-public-safety-v1",
+      "table": "months",
+      "field": "officersPer1000",
+      "unitScale": 1,
+      "ownsOutcome": true
+    },
+    "budget.schools-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
+      "reader": "schools-line-above-base",
+      "field": "",
+      "unitScale": 1
+    },
     "program.snap-maximum-change-pct": {
       "owner": "OPUS-GOV",
       "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",
@@ -384,22 +414,6 @@
       "reader": "budget-line-added:higherEducation",
       "field": "",
       "unitScale": 1
-    },
-    "budget.schools-added-pct": {
-      "owner": "OPUS-GOV",
-      "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
-      "reader": "schools-line-above-base",
-      "field": "",
-      "unitScale": 1
-    },
-    "police.officers-per-1000": {
-      "owner": "OPUS-GOV",
-      "record": "public-safety months.officersPer1000 (sworn officers per 1,000 residents: the state's recorded rate times the town's police service, its police lines against where they began the year)",
-      "module": "core2-public-safety-v1",
-      "table": "months",
-      "field": "officersPer1000",
-      "unitScale": 1,
-      "ownsOutcome": true
     }
   },
   "measureOwners": {
