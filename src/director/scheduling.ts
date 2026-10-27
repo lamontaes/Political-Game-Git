@@ -725,6 +725,17 @@ export function scheduleMoment(
     ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
       moment.selfNamed === true &&
       bindings.some((row) => met.has(row.setting.kind)));
+  // A tie that turned with someone the person spent time with (a friendship
+  // grown over many meetings, a falling-out) is met then, with them: its
+  // cause is the relationship record, contacted on the day its change was
+  // measured or the day before, as a day's ties are read once it closes.
+  const contacted = moment.label.startsWith("tie:")
+    ? core.relationships.get(moment.causeId)?.lastContactDate
+    : undefined;
+  const tieMet =
+    !!contacted &&
+    contacted >= addDays(makeIsoDate(moment.date), -one) &&
+    contacted <= moment.date;
   const waits =
     bindings.length > zero &&
     bindings.every(
@@ -734,7 +745,7 @@ export function scheduleMoment(
   // nothing to show or answer, so it is the journal's line, never a stop.
   const interrupt =
     bindings.length > zero &&
-    (moment.impact >= options.interruptImpact || familyNews) &&
+    (moment.impact >= options.interruptImpact || familyNews || tieMet) &&
     !waits;
   if (!found.length)
     coverage ??= {
