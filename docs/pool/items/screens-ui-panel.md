@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/screens-ui-panel
 pr: #6178
 blocked-on:

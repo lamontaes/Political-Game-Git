@@ -6,13 +6,6 @@
     "reads": "The target's recorded vote on the bill (the legislature's votes table), which the target's position decides."
   },
   "narration": {
-    "setting": {
-      "bank": "scene-words",
-      "keys": [
-        "scene-words.setting-public-out.youre-in-place",
-        "scene-words.setting-public-out.you-are-in-place"
-      ]
-    },
     "lead": {
       "bank": "scene-words",
       "keys": [

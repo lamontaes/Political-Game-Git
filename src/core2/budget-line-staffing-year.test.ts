@@ -37,3 +37,14 @@ it("a new fiscal year starts from the positions the carried line funds, not the 
 it("with no earlier change the base is the staff in place", () => {
   expect(baseStaffFor(null, 2026, 30)).toBe(30);
 });
+
+it("another government's change is not carried: the base is the staff in place", () => {
+  // A state's schools line funded 93 positions at the district; the city's
+  // own line change starts from the 30 teachers in place, not from them.
+  expect(
+    baseStaffFor(row({ governmentId: "US-NY" }), 2026, 30, "place:3625076"),
+  ).toBe(30);
+  expect(baseStaffFor(row({ governmentId: "US-NY" }), 2026, 30, "US-NY")).toBe(
+    93,
+  );
+});

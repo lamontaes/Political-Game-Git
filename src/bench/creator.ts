@@ -5,7 +5,7 @@ import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   getNameCorpus,
   givenNamePoolForStatedGender,
-} from "../simulation/names-data";
+} from "../core2/gov-rules/names-data";
 import {
   corePlaceByKey,
   searchCorePlaces,
@@ -245,24 +245,31 @@ export function readChosenPerson(text: string): ChosenPerson {
   };
 }
 
+/** The chosen birthday as a date, the one the world build and the identity call both take. */
+export function chosenBirthDate(chosen: ChosenPerson) {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return makeIsoDate(
+    `${chosen.birthYear}-${pad(chosen.birthMonth)}-${pad(chosen.birthDay)}`,
+  );
+}
+
 /**
  * Makes the new world's player the chosen person: name, birth date, gender
- * and appearance, through the core's identity call. The life's generated past
- * (school, work, household) stays as drawn for the original age.
- * stopgapId: SG-PLAY-creator-age-keeps-past
+ * and appearance, through the core's identity call. The world was built for
+ * the chosen birthday (`playerBirthDate` in buildBenchWorld), so the player is
+ * a resident of that age and the past drawn for them (household, kin,
+ * schooling, work, money) already fits it; only who they are called and how
+ * they look is set here.
  */
 export function applyChosenPerson(
   core: CoreState,
   id: string,
   chosen: ChosenPerson,
 ) {
-  const pad = (n: number) => String(n).padStart(2, "0");
   coreAPI(core).chooseIdentityV1(id, {
     givenName: chosen.givenName,
     familyName: chosen.familyName,
-    birthDate: makeIsoDate(
-      `${chosen.birthYear}-${pad(chosen.birthMonth)}-${pad(chosen.birthDay)}`,
-    ),
+    birthDate: chosenBirthDate(chosen),
     looks: {
       gender: chosen.gender,
       ...(chosen.recipe ? { recipe: JSON.stringify(chosen.recipe) } : {}),

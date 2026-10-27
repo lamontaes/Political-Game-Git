@@ -1,0 +1,1130 @@
+[
+  {
+    "section": "The model for all of it",
+    "title": "Comic-strip stories",
+    "date": "Oct 26",
+    "quote": "The way it does its stories or scenes, like in the comic book strips, that's how I want it in my game... where the narrative and the story progresses through those scenes, where you're clicking throug",
+    "source": "OD:32",
+    "kind": "rule",
+    "types": [],
+    "why": "general scene-style rule"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Scene out of the world",
+    "date": "Oct 24, via the acting CTO",
+    "quote": "that come out of what is actually happening in the world, narrated into a moment, played out with real dialogue and choices, the outcome back into the game; the current opening is the right shape, the",
+    "source": "OD:77, LAW:50",
+    "kind": "rule",
+    "types": [],
+    "why": "scenes must come from world records"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Wildermyth month pacing",
+    "date": "Oct 26",
+    "quote": "a month might jump by... It's okay if it goes from January 14th all the way to March 11th, and then there's something on March 11th, 17th, 18th, and 21st, then nothing till July.",
+    "source": "PT:20, OD:14",
+    "kind": "rule",
+    "types": [],
+    "why": "director pacing rule"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Scenes are the narrative",
+    "date": "Oct 14, night",
+    "quote": "The President's address at the opening is the model: the director reads the records, picks from everything the simulation supports the scenes that apply to this person now, and fires one, told by the ",
+    "source": "OD:287, LAW:42",
+    "kind": "rule",
+    "types": [],
+    "why": "director selection rule"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "What a scene is",
+    "date": "Oct 15, evening",
+    "quote": "A scene has a setup, a person with a purpose, and stakes, and it plays out.",
+    "source": "OD:381",
+    "kind": "rule",
+    "types": [],
+    "why": "scene definition"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Scenes play out as trees",
+    "date": "Oct 16, early morning",
+    "quote": "become trees with several branches and endings (up to about ten per scene as the engine grows).",
+    "source": "OD:408",
+    "kind": "rule",
+    "types": [],
+    "why": "branching rule"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Every scene has conclusions",
+    "date": "Oct 16",
+    "quote": "A scene has several distinct endings, and several ways to reach each one; today most branches just stop.",
+    "source": "OD:426",
+    "kind": "rule",
+    "types": [],
+    "why": "endings rule"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Consequential dialogue",
+    "date": "Oct 14, night, 9:25 p.m.",
+    "quote": "its dialogue is consequential: a family scene at home, or a tense floor vote where the goal is to convince one member to vote no on the amendment (the owner's example: McCain and the Obamacare repeal)",
+    "source": "OD:304",
+    "kind": "scene",
+    "types": ["floor-vote", "vote-asked", "section-bargain"],
+    "why": "floor-switch / colleague vote-ask staged on amendment records; no explicit convince-to-vote-no goal"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Narrator speaks mid-scene",
+    "date": "Oct 19, later",
+    "quote": "let the narrator speak between lines ('the crowd grows louder'), as Baldur's Gate does.",
+    "source": "OD:511",
+    "kind": "rule",
+    "types": [],
+    "why": "narration rule"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Extra replies from your life",
+    "date": "Oct 19",
+    "quote": "Baldur's Gate 3 is the model: some replies are extra options drawn from the player's own life ('[Out of work]').",
+    "source": "OD:501",
+    "kind": "rule",
+    "types": [],
+    "why": "reply-option rule"
+  },
+  {
+    "section": "The model for all of it",
+    "title": "Skip or simulate a scene",
+    "date": "Oct 26",
+    "quote": "Continue",
+    "source": "PT:27, OD:21",
+    "kind": "screen",
+    "types": [],
+    "why": "control request"
+  },
+  {
+    "section": "Opening",
+    "title": "President's address as a speech",
+    "date": "Oct 26",
+    "quote": "This isn't coming out like a speech. And these scenes are hard-coded in.",
+    "source": "DR/covered-notes.md:11",
+    "kind": "scene",
+    "types": ["address"],
+    "why": "address type with speaker, aide, audience on president.address"
+  },
+  {
+    "section": "Opening",
+    "title": "Speech per world",
+    "date": "Oct 24",
+    "quote": "The opening speech is generated per world and per president from the game's numbers, not formulaic.",
+    "source": "LAW:43",
+    "kind": "scene",
+    "types": ["address"],
+    "why": "address type; per-world generation is wording"
+  },
+  {
+    "section": "Opening",
+    "title": "Real figures in speeches",
+    "date": "Oct 19",
+    "quote": "Speeches should work in real figures naturally (inflation, Social Security, states' rights, whatever the record holds).",
+    "source": "OD:465",
+    "kind": "scene",
+    "types": ["address"],
+    "why": "address type carries the speech; figures are a wording matter"
+  },
+  {
+    "section": "Opening",
+    "title": "Speaker kinds",
+    "date": "Oct 19",
+    "quote": "should belong to kinds of people and ways of speaking (a newscaster, a plain speaker, a polished one).",
+    "source": "OD:465",
+    "kind": "rule",
+    "types": [],
+    "why": "how lines are voiced"
+  },
+  {
+    "section": "Opening",
+    "title": "Inauguration as news",
+    "date": "Oct 26",
+    "quote": "This isn't news.",
+    "source": "DR/words-news-inauguration-story-reads-as-news.md:18",
+    "kind": "screen",
+    "types": [],
+    "why": "news story presentation"
+  },
+  {
+    "section": "Opening",
+    "title": "President poses",
+    "date": "overnight",
+    "quote": "three or four poses that the president could take... one maybe like an action one where they're pointing, one sitting at the Resolute desk, you know, one among a bunch of people.",
+    "source": "OR:590",
+    "kind": "screen",
+    "types": [],
+    "why": "picture request"
+  },
+  {
+    "section": "Opening",
+    "title": "First \"this is cool\" moment",
+    "date": "",
+    "quote": "Seeing the President and Vice President, clicking them and reading their records; then seeing a bill and everything legislation can do.",
+    "source": "REG:220",
+    "kind": "screen",
+    "types": [],
+    "why": "screen reading records"
+  },
+  {
+    "section": "Opening",
+    "title": "Opening order",
+    "date": "Sept 28",
+    "quote": "the year and the world, then the White House, then your corner of the country (your state's governor, legislature and current fights; your county and town), then your story last.",
+    "source": "PR-screens:109",
+    "kind": "screen",
+    "types": [],
+    "why": "screen order"
+  },
+  {
+    "section": "Opening",
+    "title": "Title as national scenes",
+    "date": "Oct 8",
+    "quote": "title screen = recognizable national scenes (White House at night, Lincoln Memorial, rally, convention) with people posed in them.",
+    "source": "LAW:24, PR-screens:29",
+    "kind": "screen",
+    "types": [],
+    "why": "title screen art"
+  },
+  {
+    "section": "Home and family",
+    "title": "Family reaction with a purpose",
+    "date": "Oct 26",
+    "quote": "there was no reason to have that dialogue. ... that's not like Wildermyth, because there was no reason to have that conversation. It was unnatural. Like, that scene was useless.",
+    "source": "DR/words-household-filing-scene-has-a-purpose.md:18",
+    "kind": "scene",
+    "types": ["family-filing", "family-win", "family-loss"],
+    "why": "relative/you roles on candidate-filed and election-result"
+  },
+  {
+    "section": "Home and family",
+    "title": "Narration that does not restate",
+    "date": "Oct 26",
+    "quote": "It shouldn't say you're at home. You're obviously [there].",
+    "source": "DR/words-scene-narration-does-not-restate-where-you-are.md:18",
+    "kind": "rule",
+    "types": [],
+    "why": "narration rule"
+  },
+  {
+    "section": "Home and family",
+    "title": "Mother asks you to sit down",
+    "date": "Oct 14, night",
+    "quote": "a mother asking the player to sit down: a divorce, a lost job with hope for another,",
+    "source": "OD:287",
+    "kind": "scene",
+    "types": ["news-arrives"],
+    "why": "news-arrives: a household member brings a lost job, an eviction, a death or an illness home, and can soften it first (\"Sit down a minute.\", #6352); a divorce has no record yet (`engine-records-for-waiting-life-scenes`)"
+  },
+  {
+    "section": "Home and family",
+    "title": "Parent interrupts when the world says so",
+    "date": "Oct 14, night",
+    "quote": "A parent interrupts the player when the simulation says so ('did you do your homework?'), never on a schedule.",
+    "source": "OD:287",
+    "kind": "scene",
+    "types": [],
+    "why": "no parent-interrupt type"
+  },
+  {
+    "section": "Home and family",
+    "title": "Family scene from household records",
+    "date": "Oct 14, night",
+    "quote": "the director picks the scene that applies from the household's own records (money, work, school, health), and it has consequences.",
+    "source": "OD:294",
+    "kind": "rule",
+    "types": [],
+    "why": "selection rule over household records"
+  },
+  {
+    "section": "Home and family",
+    "title": "Family absence",
+    "date": "Oct 25",
+    "quote": "a family member's absence is a scene when a record explains it (moved away, in the hospital, jailed, died), silent otherwise.",
+    "source": "OD:44",
+    "kind": "scene",
+    "types": ["family-absence", "gathering-missing"],
+    "why": "family-absence on away-from-home; gathering-missing has absent role"
+  },
+  {
+    "section": "Home and family",
+    "title": "Family reacts to filing, win, loss, absence",
+    "date": "Oct 15, evening",
+    "quote": "a family member reacting to your filing, your win, your loss or your absence.",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["family-filing", "family-win", "family-loss", "family-absence"],
+    "why": "one family-* type per named event"
+  },
+  {
+    "section": "Home and family",
+    "title": "Win greeting",
+    "date": "Oct 15, night",
+    "quote": "a win may say 'Mr. Commissioner'; promises like 'This weekend is ours' belong after a few exchanges.",
+    "source": "OD:410",
+    "kind": "rule",
+    "types": [],
+    "why": "line wording"
+  },
+  {
+    "section": "Home and family",
+    "title": "Money breaks the wallet",
+    "date": "",
+    "quote": "Money trouble shows in scenes and in how the person looks and lives (a worn look when broke, a scene that breaks the wallet).",
+    "source": "OD:133",
+    "kind": "scene",
+    "types": ["layoff", "eviction-notice"],
+    "why": "money-trouble causes (job lost, eviction); no wallet-breaking scene itself"
+  },
+  {
+    "section": "Home and family",
+    "title": "Wedding",
+    "date": "Oct 14, evening",
+    "quote": "Thirty items are thirty different scenes (a legislator arguing, pork barreling, a wedding, a council meeting, a rally).",
+    "source": "OD:267",
+    "kind": "scene",
+    "types": ["celebration"],
+    "why": "celebration with cause married"
+  },
+  {
+    "section": "Home and family",
+    "title": "A death retrospective",
+    "date": "",
+    "quote": "A death retrospective like Crusader Kings III or BitLife: journal-like, the kind that makes you say 'I forgot that happened.'",
+    "source": "REG:1110",
+    "kind": "screen",
+    "types": [],
+    "why": "summary screen"
+  },
+  {
+    "section": "Home and family",
+    "title": "Heir rides the wave",
+    "date": "Oct 14",
+    "quote": "ride the wave of my movement",
+    "source": "OD:213",
+    "kind": "scene",
+    "types": [],
+    "why": "no heir scene type"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Talks with replies and purpose",
+    "date": "Oct 26",
+    "quote": "what the hell, mark gap, say nothing, leave. This is not ... like what I approved as dialogue.",
+    "source": "DR/covered-notes.md:5",
+    "kind": "rule",
+    "types": [],
+    "why": "talk reply rule"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Four replies, say nothing apart",
+    "date": "Oct 14, afternoon",
+    "quote": "A conversation always offers four replies ranked by the engine, with 'say nothing' as a smaller control beside them.",
+    "source": "OD:263",
+    "kind": "rule",
+    "types": [],
+    "why": "reply rule"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "A reply continues the talk",
+    "date": "Oct 15, evening",
+    "quote": "'All right' and 'Okay' as answers to 'How's Keanu?' are not how conversations work.",
+    "source": "OD:362",
+    "kind": "rule",
+    "types": [],
+    "why": "reply rule"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Introduce people first",
+    "date": "Oct 15, night",
+    "quote": "The narrator says who someone is and why they are here ('You arrive for the interview Michael Howell asked for; he writes for Weom').",
+    "source": "OD:399",
+    "kind": "rule",
+    "types": [],
+    "why": "narration rule"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "A good exchange keeps going",
+    "date": "Oct 16",
+    "quote": "'If I wait, somebody else takes it' met with 'Or you lose, and nobody remembers you either' should open more talk, not end.",
+    "source": "OD:454",
+    "kind": "rule",
+    "types": [],
+    "why": "exchange length rule"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Scenes run five to ten exchanges",
+    "date": "Oct 15, night",
+    "quote": "five to ten exchanges for a contentious one; a scene does not end at 'Deal.' when there is more to settle.",
+    "source": "OD:404",
+    "kind": "rule",
+    "types": [],
+    "why": "length rule"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Mirror escalation",
+    "date": "Oct 16",
+    "quote": "When the other person escalates, the player can escalate back.",
+    "source": "OD:438",
+    "kind": "rule",
+    "types": [],
+    "why": "reply rule"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Shared-cause invitation",
+    "date": "Oct 24 playtest",
+    "quote": "shared cause",
+    "source": "`docs/reports/playtest-2026-10-24.md:128`",
+    "kind": "scene",
+    "types": ["cause-invite"],
+    "why": "cause-invite on cause.shared"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Mentor scene",
+    "date": "Oct 16",
+    "quote": "Run for state senator when you can win it, not when you want it.",
+    "source": "OD:461",
+    "kind": "scene",
+    "types": ["advice"],
+    "why": "advice (mentor-advice) with adviser and deciding roles"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Volunteer after a rally",
+    "date": "Oct 16",
+    "quote": "They loved you up there. What do you need from us this week?",
+    "source": "OD:420",
+    "kind": "scene",
+    "types": ["campaign-stop", "speech-afterward"],
+    "why": "rally-volunteer on speech.heard; ask-support listener afterward"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Reporter at your door",
+    "date": "Oct 15, evening",
+    "quote": "a reporter at your door.",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["press-interview"],
+    "why": "reporter and official roles; no at-your-door setting"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Interview",
+    "date": "Oct 26",
+    "quote": "having interviews",
+    "source": "PT:21",
+    "kind": "scene",
+    "types": ["interview", "press-interview"],
+    "why": "interviewer/candidate type; press-interview for reporter"
+  },
+  {
+    "section": "Meeting people and talks",
+    "title": "Romance without a prompt",
+    "date": "Sept",
+    "quote": "Romance progresses naturally from time spent together (shared places, repeated meetings, conversations)... no prompt, no dice.",
+    "source": "`prior-rulings/people.md:14`",
+    "kind": "scene",
+    "types": ["date"],
+    "why": "date on started-dating; no time-together romance cause"
+  },
+  {
+    "section": "Filing",
+    "title": "Filing deliberately marked",
+    "date": "Oct 26",
+    "quote": "on-ballot",
+    "source": "PT:35",
+    "kind": "scene",
+    "types": ["filing"],
+    "why": "filing-clerk on candidate-filed"
+  },
+  {
+    "section": "Filing",
+    "title": "Filing is a conversation at the clerk",
+    "date": "Oct 6",
+    "quote": "Files at the clerk's office (a conversation that teaches the campaign).",
+    "source": "PR-elections:40",
+    "kind": "scene",
+    "types": ["filing"],
+    "why": "filing-clerk, candidate and clerk roles"
+  },
+  {
+    "section": "Filing",
+    "title": "Signatures are a few played scenes",
+    "date": "",
+    "quote": "Signatures: a few played scenes, the rest background, where the place requires them.",
+    "source": "PR-elections:39",
+    "kind": "scene",
+    "types": [],
+    "why": "no signature-gathering type"
+  },
+  {
+    "section": "Filing",
+    "title": "Party asks you to run",
+    "date": "Oct 25 and Oct 14",
+    "quote": "a player with a high-standing job may be propositioned to run for a seat someone needs filled (a Pendergast-style approach).",
+    "source": "OD:44, OD:189",
+    "kind": "scene",
+    "types": ["party-recruit"],
+    "why": "ask-to-run, chair and you, on party-asked"
+  },
+  {
+    "section": "Filing",
+    "title": "Party asks only with inroads",
+    "date": "Oct 15, night",
+    "quote": "The party asks someone to run only with some inroads on record.",
+    "source": "OD:37",
+    "kind": "rule",
+    "types": [],
+    "why": "condition on when party asks"
+  },
+  {
+    "section": "Campaign season",
+    "title": "A season full of scenes",
+    "date": "Oct 26",
+    "quote": "See, there's nothing happening. This is where scenes should be happening. You know, getting ready for the election, having interviews, a debate, assembling, you know, an election team, meeting people,",
+    "source": "DR/words-campaign-season-scenes-fill-the-months.md:18, OD:15",
+    "kind": "scene",
+    "types": ["interview", "press-interview", "campaign-stop"],
+    "why": "campaign-season types that exist; debate, team and others missing"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Election team",
+    "date": "Oct 26",
+    "quote": "assembling, you know, an election team",
+    "source": "same quote",
+    "kind": "scene",
+    "types": ["volunteer-offer", "staff-news"],
+    "why": "the team forms from people who offer to work after a speech (volunteer-offer) and the staff who bring news (staff-news); hiring a paid manager has no record yet"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Moments that change your life",
+    "date": "Oct 26",
+    "quote": "having moments that, you know, change your life",
+    "source": "same quote",
+    "kind": "rule",
+    "types": [],
+    "why": "general ask, no specific moment"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Working with other candidates and officials",
+    "date": "Oct 26",
+    "quote": "",
+    "source": "same quote",
+    "kind": "scene",
+    "types": ["vote-asked", "section-bargain", "bill-carry", "party-recruit"],
+    "why": "working with officials: a member asks your vote, trades a section, asks you to carry a bill; the party recruits you"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Corruption if it comes up",
+    "date": "Oct 26",
+    "quote": "participating in corruption if it comes up",
+    "source": "PT:21",
+    "kind": "scene",
+    "types": ["bribe-offer"],
+    "why": "bribe-offer: someone with business before the office offers money for a vote or a contract, and the reply writes back"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Door knocking as a montage",
+    "date": "Oct 8, recorded Oct 26",
+    "quote": "Door knocking plays as a montage with porch scenes, not a tally.",
+    "source": "OD:24, DR/words-door-knocking-montage-with-porch-scenes.md:18",
+    "kind": "scene",
+    "types": ["first-meeting", "visit"],
+    "why": "canvass-visit causes on first-meeting and visit; no montage"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Door count means nothing",
+    "date": "Oct 26",
+    "quote": "How do you know you knocked on 45 doors, 32 reached? What the hell does that mean?",
+    "source": "same file:18",
+    "kind": "screen",
+    "types": [],
+    "why": "tally readout complaint"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Campaign acts are scenes",
+    "date": "Oct 20",
+    "quote": "Campaign acts are scenes you go to (a venue for a speech, doors to knock, an interview, a debate).",
+    "source": "OD:131, LAW:60",
+    "kind": "scene",
+    "types": ["campaign-stop", "interview", "press-interview"],
+    "why": "rally, interview types; no doors or debate"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Debate",
+    "date": "Oct 14",
+    "quote": "A campaign day: a handful of choices. Debates are in early access.",
+    "source": "OD:191",
+    "kind": "scene",
+    "types": [],
+    "why": "no debate type"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Debate answers as scenes",
+    "date": "Oct 24 playtest",
+    "quote": "No debate scene, no opponent answers, no audience.",
+    "source": "`docs/reports/playtest-2026-10-24.md:141`",
+    "kind": "scene",
+    "types": [],
+    "why": "no debate type"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Speech built four parts at a time",
+    "date": "Oct 14",
+    "quote": "the player composes a speech by picking one of four parts at a time, as Suzerain does.",
+    "source": "OD:192",
+    "kind": "screen",
+    "types": [],
+    "why": "speech builder control"
+  },
+  {
+    "section": "Campaign season",
+    "title": "A four-line rally is not a speech",
+    "date": "Oct 15, evening",
+    "quote": "Short openers and closers, then longer, meatier choices at the core of the speech... The rally's choice set (batch 11 scene 16) is the shape to build on.",
+    "source": "OD:364",
+    "kind": "screen",
+    "types": [],
+    "why": "speech choice shape"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Rally as a public scene",
+    "date": "Oct 14",
+    "quote": "the director gains public scenes (a rally, a march, a crowd, a speech to strangers).",
+    "source": "OD:185",
+    "kind": "scene",
+    "types": ["campaign-stop", "rally-opponent"],
+    "why": "rally-volunteer and rally-opponent on campaign events; no march"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Rally, debate stage, convention held until produced",
+    "date": "CTO on the owner's Oct 6 decision",
+    "quote": "happen only when real actors (sponsors, parties, campaigns) set them up.",
+    "source": "PR-elections:105",
+    "kind": "rule",
+    "types": [],
+    "why": "producer gating rule"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Campaign volunteer or opponent at a rally",
+    "date": "Oct 15, evening",
+    "quote": "",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["campaign-stop", "rally-opponent"],
+    "why": "volunteer and opponent roles"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Donor or party chair asks",
+    "date": "Oct 15, evening",
+    "quote": "a donor or a party chair asking for something.",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["donor-ask", "party-ask"],
+    "why": "donor-ask and party-ask types"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Campaign is not a math problem",
+    "date": "overnight",
+    "quote": "if you are really good at speeches, like that can really guide you, or... you need a Pendergast-type figure.",
+    "source": "OR:441",
+    "kind": "rule",
+    "types": [],
+    "why": "design principle"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Interest groups approach you",
+    "date": "Oct 14",
+    "quote": "The player is approached (support with strings, a bribe with a real risk), but never through hard-coded situations.",
+    "source": "OD:208",
+    "kind": "scene",
+    "types": ["donor-ask"],
+    "why": "donor-ask on contribution; no bribe or group approach"
+  },
+  {
+    "section": "Campaign season",
+    "title": "Primary challenge",
+    "date": "Oct 14",
+    "quote": "primary challenges",
+    "source": "OD:185",
+    "kind": "scene",
+    "types": [],
+    "why": "no primary-challenge type; race-lost not bound to primaries"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Election day is five minutes of scenes",
+    "date": "Oct 26",
+    "quote": "canvassing, 'going to vote, this should be a scene, you know, maybe with a narrator', the returns, 'conceding or... celebrating.'",
+    "source": "PT:22, OD:16",
+    "kind": "scene",
+    "types": ["polling-place", "race-won", "race-lost"],
+    "why": "election-day voting and election-result scenes; canvass missing"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Going to vote with a narrator",
+    "date": "Oct 26",
+    "quote": "going to vote, this should be a scene, you know, maybe with a narrator.",
+    "source": "PT:22",
+    "kind": "scene",
+    "types": ["polling-place"],
+    "why": "poll-problem voter at election-day"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Election morning canvass",
+    "date": "Oct 26",
+    "quote": "",
+    "source": "OD:16",
+    "kind": "scene",
+    "types": ["polling-place"],
+    "why": "election morning plays the canvass, then the polling place (election-day sequence, #6252); the polling-place type is its situation"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Election night as its own pop-up",
+    "date": "Oct 26",
+    "quote": "needs to be its own pop-up menu kind of thing.",
+    "source": "PT:22, OD:16",
+    "kind": "screen",
+    "types": [],
+    "why": "pop-up screen"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Concede or celebrate",
+    "date": "Oct 26",
+    "quote": "conceding or... celebrating.",
+    "source": "PT:22",
+    "kind": "scene",
+    "types": ["race-won", "race-lost"],
+    "why": "victory-night and concession-call"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Election night with your real people",
+    "date": "Oct 6",
+    "quote": "election night is a played scene with your real people, precinct by precinct, crowd behind sized by turnout.",
+    "source": "PR-elections:19, `prior-rulings/press.md:15`",
+    "kind": "scene",
+    "types": ["race-won", "race-lost"],
+    "why": "candidate, supporters, family roles on election-result"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Polling place scene",
+    "date": "Oct 14",
+    "quote": "The player goes to their polling place and marks a ballot there; the vote is cast in the scene, never in a menu.",
+    "source": "OD:164, REG:82",
+    "kind": "scene",
+    "types": ["polling-place"],
+    "why": "polling-place type"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Engine never votes for you",
+    "date": "Oct 14",
+    "quote": "the engine never votes for the player",
+    "source": "OD:332",
+    "kind": "scene",
+    "types": ["polling-place"],
+    "why": "vote cast in the polling-place scene"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Loser's podium",
+    "date": "Oct 14",
+    "quote": "",
+    "source": "OD:339",
+    "kind": "scene",
+    "types": ["race-lost"],
+    "why": "concession-call"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Morning after",
+    "date": "Oct 26",
+    "quote": "has purpose",
+    "source": "PT:38",
+    "kind": "scene",
+    "types": ["morning-after"],
+    "why": "morning-after: the day after the count, someone who worked the campaign or lives with the candidate comes by (#6342)"
+  },
+  {
+    "section": "Election day and night",
+    "title": "Election night text panel",
+    "date": "Oct 26",
+    "quote": "a text panel with 'Turnout 34 / 161' against 373 votes.",
+    "source": "PT:38",
+    "kind": "screen",
+    "types": [],
+    "why": "panel presentation"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Colleague asks for your vote",
+    "date": "Oct 15, evening",
+    "quote": "a colleague asking for your vote; you telling a colleague you can't vote yes after all.",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["vote-asked", "vote-confirmed"],
+    "why": "ask-vote and confirm-vote with colleague and you"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Telling a colleague no",
+    "date": "Oct 15, evening",
+    "quote": "I'm really worried about this vote. I know I told you yes, but this time I can't do it.",
+    "source": "OD:383",
+    "kind": "scene",
+    "types": ["vote-confirmed"],
+    "why": "colleague/you vote exchange; reversal not explicit"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Carry a bill",
+    "date": "Oct 15, evening",
+    "quote": "a member asking you to carry a bill.",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["bill-carry"],
+    "why": "carry-bill member and you"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Mayor's desk with a bill",
+    "date": "Oct 15, evening",
+    "quote": "the mayor's desk with a bill waiting.",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["desk-bill"],
+    "why": "aide and you on bill-presented"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Office hours",
+    "date": "Oct 15, evening",
+    "quote": "a constituent at office hours with a problem.",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["office-hours"],
+    "why": "constituent-help"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Staff bring bad news",
+    "date": "Oct 25",
+    "quote": "staff bringing bad news is a scene when a press record names the player or their bill.",
+    "source": "OD:44",
+    "kind": "scene",
+    "types": ["staff-news"],
+    "why": "aide and you on press-story"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Council bargaining over a section",
+    "date": "Oct 15, evening",
+    "quote": "",
+    "source": "OD:390",
+    "kind": "scene",
+    "types": ["section-bargain"],
+    "why": "section-bargain"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Bill scenes at every stage",
+    "date": "Oct 16",
+    "quote": "There can be multiple scenes. Multiple things can happen when writing a bill.",
+    "source": "OD:480",
+    "kind": "scene",
+    "types": [
+      "bill-carry",
+      "public-hearing",
+      "vote-asked",
+      "section-bargain",
+      "floor-vote",
+      "desk-bill",
+      "bill-signed"
+    ],
+    "why": "one type per bill stage"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Floor switch",
+    "date": "Oct 16",
+    "quote": "Why me?",
+    "source": "OD:461",
+    "kind": "scene",
+    "types": ["floor-vote"],
+    "why": "floor-switch"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Appointment",
+    "date": "Oct 16",
+    "quote": "Why me? We've never met.",
+    "source": "OD:461",
+    "kind": "scene",
+    "types": ["appointment"],
+    "why": "appointment-offer"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Vote and floor on screen",
+    "date": "Oct 26",
+    "quote": "spends a year in her bedroom: no D.C., no Capitol, no colleagues, constituents, lobbyists.",
+    "source": "PT:40",
+    "kind": "screen",
+    "types": [],
+    "why": "screen of the chamber"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Legislature in the background",
+    "date": "Oct 26",
+    "quote": "",
+    "source": "OD:19",
+    "kind": "scene",
+    "types": ["floor-vote", "section-bargain", "veto"],
+    "why": "floor, bargain and veto types cover the named events; killed bills and pork missing"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Trial in scenes",
+    "date": "Oct 14",
+    "quote": "the trial plays in scenes; then the player is gone for the sentence.",
+    "source": "OD:201",
+    "kind": "scene",
+    "types": ["hearing", "verdict"],
+    "why": "justice.charged and convicted/acquitted causes"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Temptation and scandal",
+    "date": "Oct 14",
+    "quote": "an affair, a payoff, told without graphic detail.",
+    "source": "OD:201",
+    "kind": "scene",
+    "types": ["bribe-offer", "scandal"],
+    "why": "a payoff offered (bribe-offer) and exposure in the press (scandal); an affair has no record yet"
+  },
+  {
+    "section": "Holding office and lawmaking",
+    "title": "Recall",
+    "date": "Oct 14",
+    "quote": "Recalls: in. Rare, from causes.",
+    "source": "OD:207",
+    "kind": "scene",
+    "types": ["recall"],
+    "why": "recall-confront on petition and outcome"
+  },
+  {
+    "section": "News and the journal",
+    "title": "Journal as a chronicle",
+    "date": "overnight",
+    "quote": "It needs to be more in a narrative way... you ran for governor, you ended up raising this much. You know, maybe this could affect your legacy.",
+    "source": "OR:472",
+    "kind": "screen",
+    "types": [],
+    "why": "journal screen"
+  },
+  {
+    "section": "News and the journal",
+    "title": "Journal from day one with history",
+    "date": "Oct 26",
+    "quote": "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated.",
+    "source": "DR/covered-notes.md:26",
+    "kind": "screen",
+    "types": [],
+    "why": "journal screen"
+  },
+  {
+    "section": "News and the journal",
+    "title": "News looks like a newspaper",
+    "date": "overnight",
+    "quote": "literally visually look like a newspaper or a magazine... a bunch of different titles, kind of like Apple News.",
+    "source": "OR:464",
+    "kind": "screen",
+    "types": [],
+    "why": "news screen"
+  },
+  {
+    "section": "News and the journal",
+    "title": "A news story opens as the paper",
+    "date": "Oct 26",
+    "quote": "",
+    "source": "PT:39",
+    "kind": "screen",
+    "types": [],
+    "why": "news screen"
+  },
+  {
+    "section": "News and the journal",
+    "title": "Live news worded",
+    "date": "Oct 26",
+    "quote": "",
+    "source": "PT:39",
+    "kind": "screen",
+    "types": [],
+    "why": "news wording on screen"
+  },
+  {
+    "section": "News and the journal",
+    "title": "News overheard",
+    "date": "Oct 14",
+    "quote": "TV or radio speaks like anyone else: a small card in the conversation text style with a tiny radio/TV icon.",
+    "source": "LAW:77",
+    "kind": "screen",
+    "types": [],
+    "why": "card style control"
+  },
+  {
+    "section": "News and the journal",
+    "title": "Heard it from the news",
+    "date": "Oct 16",
+    "quote": "most people's friends don't talk about laws that were passed. Usually... the news and social media and stuff.",
+    "source": "OD:474",
+    "kind": "scene",
+    "types": ["law-takes-effect"],
+    "why": "law-reaches via law.effect-learned"
+  },
+  {
+    "section": "News and the journal",
+    "title": "Bills get monikers",
+    "date": "Oct 14, evening",
+    "quote": "People call a bill what people call it (Obamacare, the bottle bill, the One Big Beautiful Bill).",
+    "source": "OD:268",
+    "kind": "rule",
+    "types": [],
+    "why": "naming rule"
+  },
+  {
+    "section": "Other",
+    "title": "Death or stepping away",
+    "date": "Oct 14",
+    "quote": "a summary in the manner of Crusader Kings 3; continue as anyone... keep watching the world, or start a new game.",
+    "source": "OD:213",
+    "kind": "screen",
+    "types": [],
+    "why": "summary screen"
+  },
+  {
+    "section": "Other",
+    "title": "The world happens around you",
+    "date": "overnight",
+    "quote": "other people lie, or other people run for elections, or other people literally anything: go to college, get married... You're a cog.",
+    "source": "OR:381",
+    "kind": "scene",
+    "types": ["celebration"],
+    "why": "celebration covers marriage and school; other lives not staged"
+  },
+  {
+    "section": "Other",
+    "title": "Corruption caught by people turning",
+    "date": "Oct 5",
+    "quote": "caught ONLY via investigations, leaks, records, or people who turn on you. No detection roll.",
+    "source": "`prior-rulings/press.md:27`",
+    "kind": "scene",
+    "types": ["scandal"],
+    "why": "scandal on press.exposed; detection by investigation not bound"
+  },
+  {
+    "section": "Other",
+    "title": "Judge plays cases as scenes",
+    "date": "",
+    "quote": "Judge play: cases as scenes, rule within law and philosophy, appealed, reported, remembered.",
+    "source": "`prior-rulings/justice-officials-population.md:31`",
+    "kind": "scene",
+    "types": [],
+    "why": "no judge type"
+  },
+  {
+    "section": "Other",
+    "title": "Epidemic closes the schools",
+    "date": "Sept",
+    "quote": "named people you know get sick, and officials decide whether schools close.",
+    "source": "`prior-rulings/people.md:74`",
+    "kind": "scene",
+    "types": [],
+    "why": "no school-closure type"
+  },
+  {
+    "section": "Other",
+    "title": "Threats sound like politics",
+    "date": "Oct 15, night",
+    "quote": "You'll need friends after this vote. I won't be one.",
+    "source": "OD:403",
+    "kind": "rule",
+    "types": [],
+    "why": "line wording"
+  },
+  {
+    "section": "Other",
+    "title": "Public meeting agenda",
+    "date": "Sept 29",
+    "quote": "A public meeting's agenda comes from real local business: the ordinances filed.",
+    "source": "PR-words:34",
+    "kind": "scene",
+    "types": ["public-hearing"],
+    "why": "hearing-testify on public-comment"
+  },
+  {
+    "section": "Other",
+    "title": "A state capital and local places",
+    "date": "overnight",
+    "quote": "50 state capitals, uh, scenes, but local stuff... like the parks or whatever.",
+    "source": "OR:596",
+    "kind": "screen",
+    "types": [],
+    "why": "place art"
+  },
+  {
+    "section": "Other",
+    "title": "A notice from the election office",
+    "date": "Oct 14",
+    "quote": "A notice from the election office is the kind of thing the newspaper prints.",
+    "source": "OD:241",
+    "kind": "screen",
+    "types": [],
+    "why": "newspaper/notice item"
+  }
+]

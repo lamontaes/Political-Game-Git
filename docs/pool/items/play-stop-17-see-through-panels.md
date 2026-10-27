@@ -29,6 +29,6 @@ claimed-at:
 
 **Files.** src/bench/play.css
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:53 onward; screenshots 12, 13, 18, 20, 24. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:53 onward; screenshots 12, 13, 18, 20, 24. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2. Playtest Oct 26 sitting 1 (installed v0.34.0): News and menu panels were see-through at v0.34.0; #6066 merged after the build; re-check on the next build.
 
 Merger 2, October 26: implementation PR #6066 merged at c9bbd73754754b45e2c10920878e4c5b7133defa with local gate and fresh browser proof. This installed-build owner acceptance item remains open until the owner confirms; bench evidence does not close it, per CTO ruling6405126079.
