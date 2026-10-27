@@ -1,5 +1,5 @@
 ---
-id: world-deposit-reserve-reads-unweighted-costs
+id: world-deposit-reserve-reads-unweighted-costs-aggregate
 impact: patch
 section: Fixed
 title: Businesses in a big town keep enough cash for their bills
