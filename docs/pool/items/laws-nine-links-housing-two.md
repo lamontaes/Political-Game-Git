@@ -6,12 +6,12 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-nine-links-housing-credit
 pr: "#6011"
 blocked-on:
 source: laws-effects lead, Oct 26 (Merger 3's send-back on #6011)
-claimed-at:
+claimed-at: 2026-10-27T02:20:37.479Z
 ---
 
 **What.** A bounded part of laws-nine-links-housing-credit, as Merger 3 asked when PR #6011 could not meet the six-law family item. Two of the family's six laws grade wired on all nine links on main's checker and the family test names each one's own payment: allow-multifamily-in-single-family-zones and inclusionary-requirement. The housing budget line's money grades partial: rent help is paid through transferCash under an id that does not name the line's law, so the checker cannot credit it to the law (src/core2/housing-assistance.ts). Rent stabilization's renewals saved no household anything in the year runs (its 7 percent cap binds only when the market rises faster), the consumer-loan cap has no small-dollar loan to hold down until world-small-dollar-lenders is built, and the right to counsel reached an eviction hearing in only one of three towns. Those three and the housing line stay on the family item.
