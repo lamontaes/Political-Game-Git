@@ -76,6 +76,7 @@ import type {
   ActOffer,
   ActionDefinition,
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   JobInput,
@@ -1476,7 +1477,7 @@ export function layOff(
   // lost lived in the counted books: the event names them, so they learn of it
   // and answer it as anyone named does.
   const full = c.people.has(job.personId);
-  api.emit({
+  const lost: CoreEventInput = {
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
     kind: "work.job-lost",
@@ -1497,7 +1498,8 @@ export function layOff(
       organizationId,
       ...(full ? {} : { "counted-subject": job.personId }),
     },
-  });
+  };
+  api.emit(lost);
   // Laid off through no choice of their own: a claim under the state's program.
   fileClaim(
     api,
@@ -1505,6 +1507,7 @@ export function layOff(
     job,
     jobsData.reasons.layoff,
     weeksWorked,
+    lost,
   );
   if (inCustody(api, job.personId)) return { heads };
   if (counted)
