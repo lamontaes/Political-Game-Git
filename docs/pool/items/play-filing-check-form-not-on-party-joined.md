@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/filing.browser.mjs
 
-**Notes.** TODO
+**Notes.** Found Oct 27 by Merger 4; flaky on clean main (about one draw in four).
