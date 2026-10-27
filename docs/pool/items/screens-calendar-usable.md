@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: screens/calendar-usable
+status: open
+claimed-by:
 pr: #6382
 blocked-on:
 source: "the owner's v0.56.2 sitting, Oct 27, 3:30 PM Eastern (Carlos Washington, 35, Salida, Colorado), filed by the screens designer"
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-27T20:10:00.000Z
+claimed-at:
 ---
 
 **What.** In v0.56.2 the owner called the calendar "just a blob": a bare month grid with an empty middle, and Coming up paged three at a time with five "LAW TAKES EFFECT" rows for Feb 20 naming no body and no effect, then birthdays, then "FILING DEADLINE / Council member" three times. He said "These random laws take effects are not useful." The month must fill the panel, each day must show what is on it, Coming up must be one worded line per thing saying who and what, with seats of one office sharing a date as one line and the player's own races first. A day the player clicks lists its own lines first.
