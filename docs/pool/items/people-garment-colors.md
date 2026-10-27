@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-garment-colors
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T21:56:17.186Z
 ---
 
 **What.** The owner asked for clothing colors per garment: the vest, the shirt, the pants and the shoes each its own color. Today a person has one clothes color, applied to every unsaturated gray pixel of the figure, which also catches the eyes. The art session painted garment maps for 108 v2 figures (red jacket or vest, yellow shirt, blue pants, green shoes, only on pixels that were clothing). This item gives each person four garment colors on their record, recolors each piece from its map keeping the folds, and gives the creator a color row for each piece the outfit has.
