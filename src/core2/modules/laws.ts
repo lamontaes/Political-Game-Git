@@ -23,6 +23,7 @@ import { POLICY_QUESTIONS } from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
 import {
   holdPublicPay,
+  holdTeacherPay,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_REVIEW,
 } from "../public-pay-floor";
@@ -112,7 +113,7 @@ export const LAWS_MODULE: PreStartModule = {
   },
   onCalendarWork: (api, work) => {
     lawTookEffect(api, work);
-    // A public pay floor in force holds later public hires to it, monthly.
+    // A public pay floor or a teacher minimum salary in force holds later hires to it, monthly.
     if (work.kind === PUBLIC_PAY_REVIEW) recordPublicPay(api, work.source);
   },
 };
@@ -612,6 +613,15 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     row.series,
     addDays(makeIsoDate(api.state.date), -1),
   ).governing;
+  // The amount in force on the series, the day before and today, which the
+  // press sizes the move by (a wage floor is the highest level's; one level's
+  // row ending can leave another's in force).
+  const wasInForce = lawInForce(
+    api,
+    row.series,
+    addDays(makeIsoDate(api.state.date), -1),
+  ).value;
+  const nowInForce = lawInForce(api, row.series, api.state.date).value;
   const ends =
     before &&
     before.id !== row.id &&
@@ -641,6 +651,10 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           ? "replaced"
           : "new",
       ...(before && before.id !== row.id ? { replacesLawId: before.id } : {}),
+      // The amount it replaces, for the press to size the move by.
+      ...(wasInForce !== null && nowInForce !== null
+        ? { priorValue: String(wasInForce), inForceValue: String(nowInForce) }
+        : {}),
       ...(row.terms?.enactedBy
         ? { enactedBy: String(row.terms.enactedBy) }
         : {}),
@@ -657,19 +671,28 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 }
 
 /**
- * The public pay floor's raises, each on the worker's record like a minimum
- * wage raise. stopgapId: SG-GOV-public-pay-floor-owner
+ * The public pay floor's and the teacher minimum salary's raises, each on the
+ * worker's record like a minimum wage raise. stopgapId:
+ * SG-GOV-public-pay-floor-owner
  */
-function recordPublicPay(api: CoreAPI, source: Source): void {
+export function recordPublicPay(api: CoreAPI, source: Source): void {
   const raises = api.moduleState(LAWS_MODULE_ID).table("raises");
-  for (const r of holdPublicPay(api, source))
+  for (const r of [
+    ...holdPublicPay(api, source),
+    ...holdTeacherPay(api, source),
+  ]) {
+    const id = `raise:${r.jobId}:${api.state.date}`;
+    // Two floors raising one job the same day are one raise on the record.
+    const earlier = raises.get(id) as unknown as
+      { fromMinor: number } | undefined;
     raises.put({
-      id: `raise:${r.jobId}:${api.state.date}`,
+      id,
       personId: r.personId,
       jobId: r.jobId,
       date: api.state.date,
-      fromMinor: r.fromMinor,
+      fromMinor: earlier?.fromMinor ?? r.fromMinor,
       toMinor: r.toMinor,
       lawId: r.lawId,
     });
+  }
 }

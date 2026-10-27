@@ -226,7 +226,7 @@ export function decideSchoolOutcome(
   if (kind === "graduation") api.stopgap(data.stopgaps.collegeCompletion);
   // stopgapId: SG-SCHOOL-hispanic-enrollment (no enrollment by ethnicity; that measure stays the web's ledger)
   api.stopgap("SG-SCHOOL-hispanic-enrollment");
-  // stopgapId: SG-SCHOOL-links-not-running (thirteen links into school outcomes lack a size, a recorded cause or a per-student exposure record)
+  // stopgapId: SG-SCHOOL-links-not-running (eight links into school outcomes lack a recorded cause or a per-student exposure record)
   api.stopgap("SG-SCHOOL-links-not-running");
   const written: SchoolMeasureRow[] = [];
   const carry = table(api, "carry");
@@ -273,8 +273,12 @@ export function decideSchoolOutcome(
           ?.owed ?? 0) + expected;
       list.sort((a, b) => b.standing - a.standing || (a.id < b.id ? -1 : 1));
       let passed = 0;
-      for (const s of list) {
-        const clears = owed + 1e-9 >= s.weight;
+      const cleared = clearsInOrder(
+        list.map((s) => s.weight),
+        owed,
+      );
+      for (const [at, s] of list.entries()) {
+        const clears = cleared[at]!;
         if (clears) {
           owed -= s.weight;
           passed += s.weight;
@@ -329,6 +333,27 @@ export function decideSchoolOutcome(
     written.push(row);
   }
   return written;
+}
+
+/**
+ * Who clears when a fifth's owed share is spent down its students in order of
+ * standing: each clears only if the owed share left covers their whole weight,
+ * and the walk stops at the first who does not, so a lower-standing student
+ * never clears past a higher one. Monotone: more owed share never fails
+ * anyone who cleared with less.
+ */
+export function clearsInOrder(
+  weights: readonly number[],
+  owed: number,
+): boolean[] {
+  let left = owed;
+  let walking = true;
+  return weights.map((weight) => {
+    const clears = walking && left + 1e-9 >= weight;
+    if (clears) left -= weight;
+    else walking = false;
+    return clears;
+  });
 }
 
 /** Real students aged 5 to 17 at the start of the school year, and all residents, by place (full people and counted weights). */

@@ -1,7 +1,8 @@
 /**
  * Who is poor, from incomes: every household in a place (the named people's
  * and the counted residents', each counted record standing for its weight)
- * has a yearly cash income (pay plus recorded awards) and a Census poverty
+ * has a yearly cash income (pay, recorded awards and the welfare line's cash
+ * assistance) and a Census poverty
  * threshold for its size, its children and its eldest member. A person is
  * poor when their household's income is under its threshold. World-metrics
  * records the share monthly; the outcome web reads that record. Unemployment
@@ -11,6 +12,7 @@
 import thresholds from "./data/world-metrics/poverty-thresholds-2024.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { ageOn, type HouseholdKind } from "./counted-groups";
+import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
 import type { ClaimRow } from "./jobs-benefits";
 import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
@@ -147,10 +149,15 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
         (contract.amountMinor * 12) / Math.max(1, contract.periodMonths),
     );
   }
+  // The welfare line's cash assistance is public assistance, which the
+  // Census counts in the income poverty status is computed from.
+  const assistance = assistanceIncomeByHousehold(core);
   for (const household of core.households.values()) {
     const ages: number[] = [];
     let income =
-      (awards.get(household.id) ?? 0) + (claims.get(household.id) ?? 0);
+      (awards.get(household.id) ?? 0) +
+      (assistance.get(household.id) ?? 0) +
+      (claims.get(household.id) ?? 0);
     for (const id of household.memberIds) {
       const person = core.people.get(id);
       if (!person?.alive) continue;
@@ -172,7 +179,9 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
         h.placeId,
         false,
         ages,
-        householdIncome(rt, h) + (claims.get(h.id) ?? 0),
+        householdIncome(rt, h) +
+          (assistance.get(h.id) ?? 0) +
+          (claims.get(h.id) ?? 0),
         rt.store.weightOf(h),
       );
     }

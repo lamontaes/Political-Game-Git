@@ -29,4 +29,4 @@ milestone: play-first
 
 **Files.** src/bench/scene.ts, src/bench/play.mjs
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-07-every-day-starts-at-midnight (Oct 24, lane; the work order's screen half). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-07-every-day-starts-at-midnight (Oct 24, lane; the work order's screen half). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): The county board of elections was open with daylight windows at 8:30 PM; the bedroom was sunlit at midnight; the opening went from night to day in one room.

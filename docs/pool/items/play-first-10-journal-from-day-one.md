@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: done
+status: open
 claimed-by:
-pr: #6093
+pr: #6230
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
@@ -29,10 +29,11 @@ claimed-at:
 
 **Files.** src/director/journal.ts, src/core2/deep-past.ts, src/bench/story.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Journal words are the Words lead's (`needs-from: words`); the lane builds the screen side. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Journal words are the Words lead's (`needs-from: words`); the lane builds the screen side. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Journal opens "Our family came from Albion, Pennsylvania. I was raised by my parent Kendall. My father Brian lived somewhere else. My brother Leo was born after me." and the first toast is "My brother Leo was born after me." Owner: "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up." Playtest Oct 26 sitting 1 (installed v0.34.0): Journal opens "Our family came from Albion, Pennsylvania. I was raised by my parent Kendall. My father Brian lived somewhere else. My brother Leo was born after me." and the first toast is "My brother Leo was born after me." Owner: "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up." Reopened by the CTO, Oct 26: owner, "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up."
 
 Sent back 2026-10-25 from PR #6093 (branch words/play-first-10-journal): 23 new journal bank pieces are origin authored with shippable true and no grading evidence for their keys; route through permitted admission before claiming shippable opening text; finish on that branch, merge main into it first.
 
 2026-10-25 Merger 1 correction: the authored-only send-back is withdrawn after verifying the newer Oct 24 owner ruling releasing that hold. Bank shippable flags are checked against the grade ledger; authored origin alone is not a blocker. Current Words claim and in-pr status are preserved; local gate resumes after the fresh main-integration window. GitHub comment 6404004843 records the correction.
 
 Sent back 2026-10-25 from PR #6093 (branch words/play-first-10-journal): own main-integrated static gates, opening-world proof, 113 bank checks and East Douglas first-evening screenshot pass; three journal failures reproduced identically on clean base and do not block; plain integration push rejected by automatic approval review, explicit user authorization needed, no author source fix requested and authored-origin objection remains withdrawn; finish on that branch, merge main into it first.
+Sent back Oct 27 from PR #6230 (branch play-first/play-first-10-journal-from-day-one): journal.json has a duplicate part text (`i went on to {school}.` under two keys) failing english-parts-banks; finish on that branch, merge main into it first.

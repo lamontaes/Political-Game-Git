@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
 pr: #6146
 blocked-on:
@@ -32,3 +32,4 @@ claimed-at:
 
 **Notes.** Owner, Oct 25: "will give me the seats"; build all three scenes without asking (OWNER-DECISIONS, Oct 25). The party officer is a person on the record, introduced before speaking (Oct 15 ruling).
 Sent back 2026-10-26 from PR #6146 (branch words/party-asks-you-to-run): owner-decision question and stopgap SG-P15-party-ask-order lack the Read line; finish on that branch, merge main into it first.
+Merged 2026-10-27 in PR #6146; awaiting the owner's installed-build check.

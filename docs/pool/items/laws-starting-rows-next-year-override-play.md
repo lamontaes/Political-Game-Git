@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/law-in-play-beats-starting
-pr:
+pr: #6177
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T18:59:55.733Z
@@ -19,6 +19,8 @@ claimed-at: 2026-10-26T18:59:55.733Z
 **Rules.** One rule, all 56 places. Replace, never layer: the precedence rule changes in the law-in-force answer, not in each engine. No dice.
 
 **Done when.** In a played world (`buildBenchWorld`, a drawn place and seed named), a state income tax rate a legislature changes in 2025 is still in force on February 1, 2026, named by law id. A scheduled 2026 row for a series nobody changed still takes effect on January 1, 2026. The taxes and labor family tests pass. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/laws-in-force.ts, src/core2/modules/laws.ts
 

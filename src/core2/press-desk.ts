@@ -210,6 +210,21 @@ function readerCare(
   return out;
 }
 
+/**
+ * How far a law on an amount (a wage floor, a tax rate) moves what it sets,
+ * 0 to 1: the change against the amount it replaced. A policy law is read
+ * through its readers' stances instead; an amount law has none, so the size of
+ * its move is the care it asks of its readers. A new amount, or one that
+ * replaced nothing recorded, moves nothing it can be measured against.
+ */
+function amountMove(item: WireItem): number {
+  if (item.kind !== "law-took-effect" || isPolicyTopic(item.topic)) return 0;
+  const was = Number(item.facts?.priorValue);
+  const now = Number(item.facts?.inForceValue);
+  if (!(Math.abs(was) > 0) || !Number.isFinite(now)) return 0;
+  return clamp(Math.abs(now - was) / Math.abs(was), 0, 1);
+}
+
 /** The weight of a reporter's own causes and grudges on an item. */
 function driveTerm(api: CoreAPI, reporterId: string, item: WireItem): number {
   const person = api.state.people.get(reporterId);
@@ -558,6 +573,25 @@ function holdsHighOffice(api: CoreAPI, id: string): boolean {
   return office?.level === "federal" || office?.level === "state";
 }
 
+/** Whether the person serves a term in a local (not a state or federal) office. */
+function servesLocally(api: CoreAPI, personId: string): boolean {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  return (
+    offices.table("terms").query("byPerson", [personId]) as unknown as {
+      status?: string;
+      officeId: string;
+    }[]
+  ).some((term) => {
+    if (term.status !== "serving") return false;
+    const level = (
+      offices.table("offices").get(term.officeId) as unknown as
+        { level?: string } | undefined
+    )?.level;
+    return level !== undefined && level !== "federal" && level !== "state";
+  });
+}
+
 /**
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
  * outlet has not printed and files their best, up to their week's count.
@@ -585,6 +619,16 @@ export function runDesk(
   // town) and the counted followers, who are read by the same rule as a
   // full follower.
   const involved = (item: WireItem): number => {
+    // A charge against, or an exposure of, someone serving in a local office
+    // is the town's business: it involves every follower, named or counted,
+    // as a law in force does, so it is not outranked by every law and town
+    // hall that week.
+    // stopgapId: SG-TRAITS-press-local-misconduct-reach
+    if (
+      (item.kind === "justice.charged" || item.kind === "press.exposed") &&
+      item.subjectIds.some((id) => servesLocally(api, id))
+    )
+      return followers.length + ctx.countedFollowers(outlet);
     // A budget the executive signs or vetoes binds the whole town as much as
     // a law in force: every follower, named or counted, is involved.
     if (item.kind === "executive-action" && isBudgetBill(api, item))
@@ -621,7 +665,7 @@ export function runDesk(
     proximity: p(
       (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
     ),
-    readerCare: care.get(item.topic) ?? 0,
+    readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
     people: Math.log1p(
       Math.max(item.subjectIds.filter(inTown).length, involved(item)),
     ),

@@ -18,7 +18,7 @@ import {
   type CampaignDayChoice,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import type { FilingRow } from "../core2/modules/elections";
+import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
 import { retellingsOf } from "../core2/modules/speech";
@@ -117,8 +117,21 @@ export function campaignView(core: CoreState, personId: string) {
         contacted: number;
         answers: Record<string, number>;
       }[];
+      // The race by its own record: the office and the day it is decided.
+      const contest = api
+        .moduleState(ELECTIONS)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined;
       return {
         filing,
+        contest: contest
+          ? {
+              title: contest.district
+                ? `${contest.title} (${contest.district})`
+                : contest.title,
+              electionDate: contest.electionDate,
+            }
+          : null,
         campaign: {
           ...campaign,
           volunteers: campaign.volunteerIds.length,

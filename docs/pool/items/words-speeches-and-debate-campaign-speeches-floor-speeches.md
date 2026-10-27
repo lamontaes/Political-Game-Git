@@ -4,9 +4,9 @@ title: "Speeches and debate (campaign speeches, floor speeches, public comment),
 area: words
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-7xkkii
-pr: #5196
+pr:
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 37 (unchecked checklist line)"
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T22:19:00.484Z
 
 **Files.** data/english/parts/address.json, scripts/english-corpus/address-bank.ts, src/director/speech-builder.ts, src/core2/modules/speech.ts
 
-**Notes.** Checklist line from words.md; verify against main before starting.
+**Notes.** Checklist line from words.md; verify against main before starting. Released from idle draft #5196 by the CTO, Oct 26.
