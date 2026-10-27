@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: m0-m2
 source: CTO opening root-cause report, Oct 27
 ---
 
@@ -17,6 +18,8 @@ source: CTO opening root-cause report, Oct 27
 **Rules.** Wire to the world: the appearance seed is written once at fill-in, as residents' are, and read by every figure chooser. One rule, all 56 places: an official's deep past is placed at their home-state record for national offices and their seat's state otherwise. Replace, never layer: no second appearance field.
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, every seated official's person record id carries an appearanceSeed, the President's school:cohort-estimate records sit in the state their home-state record names, and the inauguration record's place is the Capitol's; a test beside src/core2/officials-deep-past.test.ts checks all three.
+
+**Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 
 **Files.** src/core2/state.ts, src/core2/modules/officials.ts, src/core2/modules/offices.ts
 

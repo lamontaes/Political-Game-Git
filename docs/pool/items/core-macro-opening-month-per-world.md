@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: m0-m2
 source: CTO opening root-cause report, Oct 27
 ---
 
@@ -17,6 +18,8 @@ source: CTO opening root-cause report, Oct 27
 **Rules.** Estimate, never UNKNOWN: each opening figure starts from the published value with a per-world spread taken from the series' sourced error or revision band, tagged ESTIMATED with its source in the parameter table. No dice: the draw is generation of the world's starting state, seeded once, never an actor's outcome. One rule, all 56 places.
 
 **Done when.** In three played worlds (buildBenchWorld) on drawn places and seeds the builder did not choose, the macro-month record id for the opening month differs in unemployment and inflation across the worlds, each value sits inside the sourced band, and the address cites that record id; a test beside src/core2/macro-model.ts asserts both.
+
+**Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 
 **Files.** src/core2/macro-model.ts, src/core2/modules/macro.ts, src/core2/data/parameters.json
 

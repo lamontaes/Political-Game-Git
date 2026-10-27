@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: words
 source: CTO opening root-cause report, Oct 27
 ---
 
@@ -17,6 +18,8 @@ source: CTO opening root-cause report, Oct 27
 **Rules.** No hand-written player text: new passages are bank pieces with slots, graded by the owner's sitting notes, and the old per-number moves and bare place fragments are deleted in the same PR. Wire to the world: each figure line names the ask it bears on, read from the President's goals and the macro month records. Ask why: every sentence cites its record ids.
 
 **Done when.** In two played worlds (buildBenchWorld) in drawn places and seeds the builder did not choose, no address sentence states a figure without a clause tying it to an ask or to the listener, every place line carries the visit record's reason, the inauguration night's news uses an inauguration story kind citing inauguration record id, and a test beside src/english/english-opening-speech.ts fails on the old per-number shape.
+
+**Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 
 **Files.** src/english/english-opening-speech.ts, src/director/opening-story.ts, data/english/parts/opening-speech.json, src/english/english-newscast.ts
 

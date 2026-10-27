@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: director
 source: CTO opening root-cause report, Oct 27
 ---
 
@@ -17,6 +18,8 @@ source: CTO opening root-cause report, Oct 27
 **Rules.** Replace, never layer: the stage list, opening-pictures.json, castOf, cutawayFor, placeOf and their tests are deleted in the same PR, and the body counts what was removed. Wire to the world: each cutaway is the town's own business for the fact (orgPlace) with the people who work there (presentIds). One rule, all 56 places: no place, picture or office named in logic. The owner's sequence (Oct 14) and key people (Oct 15) stay as the scene's roles.
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, both named in the PR, the opening is staged by the director's scene path from one situation-type row; every cutaway's setting names an organization record id in that town and at least one cast person whose job record is at it; the home frames use the evening; and grep finds no opening-pictures.json or castOf on the branch.
+
+**Time box.** 8 hours; if not done, push what exists, open the draft PR, write the handoff.
 
 **Files.** src/director/data/situation-types.json, src/director/opening-sequence.ts, src/director/opening-story.ts, src/bench/opening.ts, src/bench/data/opening-pictures.json, src/bench/scene.ts
 
