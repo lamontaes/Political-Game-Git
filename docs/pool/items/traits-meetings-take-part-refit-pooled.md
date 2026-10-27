@@ -6,11 +6,12 @@ lead: laws-effects
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-meetings-take-part-refit
 pr:
 blocked-on:
 source: laws-and-effects lead, Oct 27 (follow-up to PR #6143, merged at 05:28 with the five-town weight)
+claimed-at: 2026-10-27T06:53:24.180Z
 ---
 
 **What.** PR #6143 merged with `traitWeightMeetingsTakePart` at 0.32, fitted on five towns, and a meetings trait test that holds one drawn town to half to double the study's 1.088 log odds. Over 20 towns drawn fresh through the test's own draw, 0.32 runs 0.31 to 2.52 and four towns fall outside the band, among them CI's Wyoming, Rhode Island at 2.320, so the test on main fails in about one random town in five. At 0.26 the 16 towns with 100 or more different residents weighed have a geometric mean of 1.077, and no single weight keeps every town inside the band, because one town's own spread nearly fills it.
