@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-42-news-story-opens-as-the-paper
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:32:06.539Z
 ---
 
 **What.** Clicking the News toast in v0.34.0 opens a gray see-through overlay titled with the headline and holding the whole address as a bare list of lines, with a side column under it. The owner: "this is just a big gray screen with absolutely nothing on it. This isn't news." The ruling is that News opens as a front page with a layout per outlet (old broadsheet, modern daily, tabloid, town weekly), each with its own masthead and fonts. The paper layouts and masthead art already exist (paper-masthead styles in src/bench/play.css; art/ui-kit13/news/masthead-*.png), but the toast's reader (#news-reader in src/bench/play.html) does not use them. This item draws the story the toast opens in its outlet's front-page layout.
