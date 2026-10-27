@@ -624,6 +624,18 @@
       "outcome": "labor.unemployment-pct",
       "reason": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
       "stopgapId": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "link": "snap-maximum-to-food-insecurity",
+      "outcome": "household.food-insecurity",
+      "reason": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.snap-maximum-change-pct",
+      "stopgapId": "SG-WEB-unread-household-food-insecurity"
+    },
+    {
+      "link": "higher-education-spending-to-college-completion",
+      "outcome": "school.college-completion-pct",
+      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
+      "stopgapId": "SG-WEB-unread-school-college-completion-pct"
     }
   ]
 }

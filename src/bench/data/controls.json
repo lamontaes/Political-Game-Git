@@ -122,7 +122,16 @@
     "place": "Home",
     "talk": "Talk",
     "back": "Back",
-    "continue": "Continue"
+    "continue": "Continue",
+    "knows": "Knows",
+    "noColleagues": "Knows no one in office yet",
+    "tieWords": {
+      "coworker": "Works with",
+      "contact": "Knows",
+      "group": "In a group with",
+      "family": "Family"
+    },
+    "rival": "Rival"
   },
   "options": {
     "version": "Version",
@@ -405,5 +414,12 @@
     "jobsLost": "Jobs lost",
     "sales": "Sales",
     "costs": "Costs"
+  },
+  "localRaces": {
+    "title": "Local races on the ballot",
+    "unopposed": "Unopposed",
+    "noFilers": "No one has filed",
+    "filingCloses": "Filing closes",
+    "noBallot": "No local election is on the calendar"
   }
 }
