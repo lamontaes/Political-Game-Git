@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** In the played world (buildBenchWorld, every module) for Steamboat Springs, Colorado seed 2fed679e253cf36aec36b937cf2d408b729b11e382abb5ea7600a670f788f4d7 and Franklin, North Carolina seed 23f248b6a1147437ca65cc858b239aeff4ef96fd723ef91676708a7ecf41e085, m1-11-check.ts clause 4 reports no drive aimed at a party other than the one its event names, by record id, and src/core2/drives-economy.test.ts passes unchanged.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/modules/drives.ts, src/bench/m1-11-check.ts
 
 **Notes.** Found Oct 26 by the fixer on PR 6044 (m0-m2 lead helper); counts measured with the unchanged check on clean main and on the PR.
