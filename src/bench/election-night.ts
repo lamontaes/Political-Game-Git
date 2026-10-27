@@ -66,6 +66,15 @@ function ownFiling(
   return null;
 }
 
+/** Whether the person is a candidate on the ballot on that date. */
+export function onBallotOn(
+  core: CoreState,
+  personId: string,
+  date: string,
+): boolean {
+  return ownFiling(coreAPI(core), personId, date) !== null;
+}
+
 /**
  * Who comes by to canvass: the campaign's first volunteer or staffer, in the
  * order they signed on, who is alive and in town. None, and the candidate
@@ -91,17 +100,22 @@ function canvasser(api: CoreAPI, filingId: string, personId: string) {
 export function electionDay(
   core: CoreState,
   personId: string,
-  visit: PollingVisit,
+  visit: PollingVisit | null,
   canvassed: boolean,
+  awayDate?: string,
 ) {
   const api = coreAPI(core);
-  const date = visit.record.electionDate;
+  const date = visit?.record.electionDate ?? awayDate ?? "";
+  const own = ownFiling(api, personId, date);
   const moment = {
     key: `${personId}:${date}`,
     worldSeed: core.seed,
-    recordIds: visit.contests.map((row) => row.id),
+    recordIds: visit
+      ? visit.contests.map((row) => row.id)
+      : own
+        ? [own.contest.id]
+        : [],
   };
-  const own = ownFiling(api, personId, date);
   const place = townName(api);
   const lines: Line[] = [];
   const say = (role: string, facts: Record<string, DayFact>) => {
@@ -119,7 +133,7 @@ export function electionDay(
       office: fact(own.contest.title, own.contest.id),
       ...(rival && rivalName ? { opponent: fact(rivalName, rival.id) } : {}),
     });
-  } else {
+  } else if (visit) {
     const races = visit.contests.length;
     say("ballot", {
       number: fact(count(races), ...visit.contests.map((row) => row.id)),
@@ -135,22 +149,35 @@ export function electionDay(
       ...(helper ? { helper: fact("yes", helper) } : {}),
       ...(helper ? { name: fact(nameOf(api, helper) ?? "", helper) } : {}),
     });
-  const withName = visit.withIds.length ? nameOf(api, visit.withIds[0]!) : null;
+  const withId = visit?.withIds[0];
+  const withName = withId ? nameOf(api, withId) : null;
   return {
     date,
-    contestIds: visit.contests.map((row) => row.id),
+    contestIds: moment.recordIds,
     lines,
     canvass:
       own && !canvassed ? { filingId: own.filing.id, helperId: helper } : null,
+    // No polling visit: a candidate who lives outside the town the count
+    // reads (an eviction, a move) has no ballot here, and the day says so.
+    away: !visit,
     // The choice itself is asked after the canvass, or at once.
     ask: [
-      electionDayLine(
-        "vote-ask",
-        withName
-          ? { with: fact("yes"), companion: fact(withName, visit.withIds[0]!) }
-          : {},
-        moment,
-      ),
+      visit
+        ? electionDayLine(
+            "vote-ask",
+            withName && withId
+              ? { with: fact("yes"), companion: fact(withName, withId) }
+              : {},
+            moment,
+          )
+        : core.people.get(personId as EntityId)?.placeId !==
+            lawChain(api).townPlaceId
+          ? electionDayLine(
+              "vote-away",
+              place ? { place: fact(place) } : {},
+              moment,
+            )
+          : electionDayLine("vote-none", {}, moment),
     ].filter((line): line is Line => line !== null),
   };
 }

@@ -698,12 +698,17 @@ async function act(path) {
     // Election morning still open (the page reloaded on it): the day first.
     const polls = await api("/api/polling-place");
     if (polls) await electionMorning(polls);
+    else {
+      const day = await api("/api/election-day");
+      if (day?.away) await electionMorning(null);
+    }
     const result = await post(path);
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
-    if (result.pollingPlace) {
-      // Election morning: canvass if you're running, then vote or stay home.
+    if (result.pollingPlace || result.candidateMorning) {
+      // Election morning: canvass if you're running, then vote or stay home
+      // (or, with no ballot here, go on with the day).
       await electionMorning(result.pollingPlace);
       busy = false;
       return act(path);
@@ -932,6 +937,14 @@ function electionMorning(scene) {
     };
     const ask = (day) => {
       say(day.ask);
+      if (day.away)
+        return buttons([
+          labels.go,
+          async () => {
+            await post("/api/election-day/done");
+            finish();
+          },
+        ]);
       buttons(
         [
           labels.vote,
@@ -954,9 +967,12 @@ function electionMorning(scene) {
       );
     };
     api("/api/election-day").then((day) => {
-      if (!day) return atThePolls(scene).then(resolve);
-      $("backdrop").src = scene.backdrop.url;
-      drawPeople(scene.people);
+      if (!day)
+        return (scene ? atThePolls(scene) : Promise.resolve()).then(resolve);
+      if (scene) {
+        $("backdrop").src = scene.backdrop.url;
+        drawPeople(scene.people);
+      }
       $("election-day-lines").replaceChildren();
       say(day.lines);
       if (day.canvass)

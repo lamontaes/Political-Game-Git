@@ -912,6 +912,92 @@
         "move": "narrate",
         "key": "election-day"
       }
+    },
+    {
+      "key": "election-day.vote-away.you-don-t-live-in-place-anymore-so-there-s-no-ballot-for-you",
+      "move": "vote-away",
+      "kind": "written",
+      "text": "You don't live in {place} anymore, so there's no ballot for you here today.",
+      "uses": [
+        {
+          "move": "vote-away",
+          "subject": "election-day",
+          "role": "vote-away",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "election-day.vote-away.your-name-is-on-the-ballot-in-place-but-your-vote-isn-t-cast",
+      "move": "vote-away",
+      "kind": "written",
+      "text": "Your name is on the ballot in {place}, but your vote isn't cast there now.",
+      "uses": [
+        {
+          "move": "vote-away",
+          "subject": "election-day",
+          "role": "vote-away",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "election-day.vote-away.there-s-no-ballot-for-you-here-today-you-no-longer-live-wher",
+      "move": "vote-away",
+      "kind": "written",
+      "text": "There's no ballot for you here today. You no longer live where this race is voted.",
+      "uses": [
+        {
+          "move": "vote-away",
+          "subject": "election-day",
+          "role": "vote-away"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "election-day.vote-none.there-s-no-ballot-for-you-to-cast-today",
+      "move": "vote-none",
+      "kind": "written",
+      "text": "There's no ballot for you to cast today.",
+      "uses": [
+        {
+          "move": "vote-none",
+          "subject": "election-day",
+          "role": "vote-none"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
     }
   ]
 }

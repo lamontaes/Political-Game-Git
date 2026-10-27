@@ -1232,6 +1232,7 @@ export async function benchRequest(
           pollingPlace: player.pollingPlace
             ? pollingScene(requireCore(), player.pollingPlace)
             : null,
+          candidateMorning: player.candidateMorning ?? null,
         });
         return;
       }
@@ -1239,19 +1240,28 @@ export async function benchRequest(
       // and the choice to vote.
       if (request.method === "GET" && url.pathname === "/api/election-day") {
         const visit = player?.pollingPlace;
+        const date = visit?.record.electionDate ?? player?.candidateMorning;
         send(
           200,
-          visit && player?.personId
+          date && player?.personId
             ? electionDay(
                 requireCore(),
                 player.personId,
-                visit,
-                canvassedOn.has(
-                  `${player.personId}|${visit.record.electionDate}`,
-                ),
+                visit ?? null,
+                canvassedOn.has(`${player.personId}|${date}`),
+                date,
               )
             : null,
         );
+        return;
+      }
+      // A candidate's morning with no ballot here: done once they go on.
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/election-day/done"
+      ) {
+        if (player) player.candidateMorning = undefined;
+        send(200, { ok: true });
         return;
       }
       if (
@@ -1259,20 +1269,27 @@ export async function benchRequest(
         url.pathname === "/api/election-day/canvass"
       ) {
         const visit = player?.pollingPlace;
-        if (!visit || !player?.personId)
+        const date = visit?.record.electionDate ?? player?.candidateMorning;
+        if (!date || !player?.personId)
           throw new Error("There is no election today.");
-        const day = electionDay(requireCore(), player.personId, visit, false);
+        const day = electionDay(
+          requireCore(),
+          player.personId,
+          visit ?? null,
+          false,
+          date,
+        );
         if (!day.canvass) throw new Error("You aren't on the ballot today.");
         const result = campaignDay(requireCore(), player.personId, {
           filingId: day.canvass.filingId,
           kind: "canvass",
         });
-        canvassedOn.add(`${player.personId}|${visit.record.electionDate}`);
+        canvassedOn.add(`${player.personId}|${date}`);
         send(200, {
           line: canvassedLine(
             requireCore(),
             player.personId,
-            visit.record.electionDate,
+            date,
             day.canvass.filingId,
             result,
           ),
@@ -1338,6 +1355,10 @@ export async function benchRequest(
           ...result,
           names: namesFor(result.packet),
           progress: benchProgress(requireCore(), placeId, player?.personId),
+          pollingPlace: player.pollingPlace
+            ? pollingScene(requireCore(), player.pollingPlace)
+            : null,
+          candidateMorning: player.candidateMorning ?? null,
         });
         return;
       }

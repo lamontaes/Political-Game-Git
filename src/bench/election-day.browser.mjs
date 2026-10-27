@@ -167,21 +167,28 @@ try {
   await page
     .getByRole("button", { name: "Go canvassing", exact: true })
     .click();
-  await page.waitForFunction(
-    () =>
-      document.querySelectorAll("#election-day-lines p").length > 3 ||
-      [...document.querySelectorAll("#election-day-acts button")].some(
-        (b) => b.textContent === "Go vote",
-      ),
+  await page.waitForFunction(() =>
+    [...document.querySelectorAll("#election-day-acts button")].some((b) =>
+      ["Go vote", "Continue"].includes(b.textContent),
+    ),
   );
   console.log("CANVASS:", await page.locator("#election-day").innerText());
   await shot("eday-2-canvass-and-choice");
-  await page.getByRole("button", { name: "Go vote", exact: true }).click();
-  await page.locator("#ballot:not([hidden])").waitFor();
-  await shot("eday-3-ballot");
+  // A candidate who no longer lives in the town the count reads (an
+  // eviction, a move) has no ballot here: the morning says so and goes on.
+  const away = !(await page
+    .getByRole("button", { name: "Go vote", exact: true })
+    .isVisible());
+  if (away)
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+  else {
+    await page.getByRole("button", { name: "Go vote", exact: true }).click();
+    await page.locator("#ballot:not([hidden])").waitFor();
+    await shot("eday-3-ballot");
+  }
   // Mark each race for its first candidate, as a voter might; a race below
   // the panel's fold is marked the same way.
-  for (let i = 0; i < 40; i += 1) {
+  for (let i = 0; i < 40 && !away; i += 1) {
     if (!(await page.locator("#ballot:not([hidden])").isVisible())) break;
     const marked = await page.evaluate(() => {
       const open = document.querySelector(
