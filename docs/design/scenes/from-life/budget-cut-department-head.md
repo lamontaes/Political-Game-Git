@@ -21,11 +21,11 @@ Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief. Calibrati
 
 Asked in a played world (`buildBenchWorld`, two-level, a mayor as the player), one year each, drawn places and seeds:
 
-| Place | Seed | Records naming the mayor | Budget records that year | Scenes the director fired |
-| --- | --- | --- | --- | --- |
-| Riverton, Wyoming (5666220) | `2deb6d3f7811...` | person.weighed 92, person.acted 365, town-hall 5, speech.retold 17, office.approached 1, office.introduced 1 | budget-line-changed 38, budget-adopted 4 | office-hours 1, press-interview 1 |
-| Prospect, Kentucky (2163264) | `6a45d21b78d3...` | person.weighed 137, bill-presented 5, press-story 17, person.acted 365 | budget-line-changed 37, budget-adopted 3 | desk-bill 2, office-hours 1, celebration 1, press-interview 1 |
-| East Bend, North Carolina (3719320) | `dcdfc83e1a78...` | person.acted 626, press-story 20, office.approached 15, election-result 1 | budget-line-changed 40, budget-adopted 4 | law-takes-effect 2, office-hours 15, filing 1, race-won 1 |
+| Place                               | Seed              | Records naming the mayor                                                                                     | Budget records that year                 | Scenes the director fired                                     |
+| ----------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ------------------------------------------------------------- |
+| Riverton, Wyoming (5666220)         | `2deb6d3f7811...` | person.weighed 92, person.acted 365, town-hall 5, speech.retold 17, office.approached 1, office.introduced 1 | budget-line-changed 38, budget-adopted 4 | office-hours 1, press-interview 1                             |
+| Prospect, Kentucky (2163264)        | `6a45d21b78d3...` | person.weighed 137, bill-presented 5, press-story 17, person.acted 365                                       | budget-line-changed 37, budget-adopted 3 | desk-bill 2, office-hours 1, celebration 1, press-interview 1 |
+| East Bend, North Carolina (3719320) | `dcdfc83e1a78...` | person.acted 626, press-story 20, office.approached 15, election-result 1                                    | budget-line-changed 40, budget-adopted 4 | law-takes-effect 2, office-hours 15, filing 1, race-won 1     |
 
 - The record exists: `budget-line-changed` (`src/core2/modules/budgets.ts`), once per line the council's adopted budget moves, with the line, level, signed change and the budget row it came from. It names no one in `personIds`. **Exists, names no one, nothing fires.** Engine item `world-budget-cut-names-the-executive`, lead `laws-effects`.
 - The department head exists: the town's appointment records seat a person in each post (`appointmentsIn`), and the post-line table maps police chief to police, fire chief to fire, public works to highways, library and parks to parks, planning to housing. **Exists for towns, nothing fires.** For a state cabinet post and a county head the table has only the administration fallback; engine item `world-state-cabinet-posts-draw-agency-lines`.
