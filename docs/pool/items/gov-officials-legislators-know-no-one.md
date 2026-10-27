@@ -19,6 +19,8 @@ claimed-at: 2026-10-26T23:45:58.958Z
 
 **Done when.** The M1-12 command in Kagman IV, Northern Mariana Islands (seed above) and a second place drawn from all 56 shows every serving official with at least one relationship, by record id in the PR body, and a test fails when a chamber's members get no ties. **On screen.** Nothing yet: filed play-official-ties-on-screen, which puts it on a person card.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/modules/officials.ts
 
 **Notes.** Found by the M0-M2 lead writing M1-12's command, Oct 24. Blocks roadmap M1-12.
