@@ -82,8 +82,9 @@ try {
   await page.screenshot({
     path: "docs/reports/politics-hub-2026-10-14/government.png",
   });
-  // Politics shows the service years and the election that seated an official,
-  // named by the term record (the Politics sheet reads `townSeats` and `pastElections`).
+  // Each member's term reads as a voter says it ("Term ends January 2027"), never
+  // "when your story began"; a vote share shows only for a race the world ran,
+  // never the opening history's average (owner, Oct 27).
   await page.locator('[data-level="local"]').click();
   assert.ok(government, "the Politics sheet read the government view");
   const view = government;
@@ -91,46 +92,43 @@ try {
     ["state", "federal"].includes(seat.level) ? seat.level : "local";
   let checked = 0;
   for (const level of ["local", "state", "federal"]) {
-    // The first member listed on the level's first body is on its first page.
-    const first = view.seats.find((seat) => levelOf(seat) === level);
-    const won = first?.holder
-      ? first.elections.find((e) => e.termId === first.holder.termId)
-      : undefined;
-    if (!won) continue;
+    const first = view.seats.find(
+      (seat) => levelOf(seat) === level && seat.holder?.endDate,
+    );
+    if (!first) continue;
     await page.locator(`[data-level="${level}"]`).click();
     const shown = await page.locator(".government-content").innerText();
-    assert.equal(
-      await page
-        .locator(`.government-content [data-election="${won.termId}"]`)
-        .count(),
-      1,
-      `Politics (${level}) reads the election term ${won.termId}`,
-    );
     assert.ok(
-      !shown.includes("term:seat:"),
-      `Politics (${level}) shows no raw term id`,
+      !/story began/i.test(shown),
+      `Politics (${level}): no opening line`,
     );
-    // Dates read as a person says them ("January 1, 2010"), never ISO (player-screen-text).
-    const started = new Date(
-      `${first.holder.serviceStart}T12:00:00`,
-    ).toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
+    assert.ok(!shown.includes("term:seat:"), `Politics (${level}): no raw id`);
     assert.ok(
-      shown.includes(started),
-      `Politics (${level}) shows the service start ${started}`,
+      !/\d{4}-\d{2}-\d{2}/.test(shown),
+      `Politics (${level}): no ISO date`,
     );
-    console.log(
-      "History on screen:",
-      level,
-      won.termId,
-      first.holder.serviceStart,
+    const ends = new Date(
+      `${first.holder.endDate}T12:00:00`,
+    ).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    assert.ok(
+      shown.includes(ends),
+      `Politics (${level}) says the term ends ${ends}`,
     );
+    // Every share on screen is one the seat's election records carry.
+    const shares = new Set(
+      view.seats.flatMap((seat) =>
+        seat.elections.map((e) => `${Math.round(e.share * 100)}%`),
+      ),
+    );
+    for (const share of shown.match(/\d+% of the vote/g) ?? [])
+      assert.ok(
+        shares.has(share.split(" ")[0]),
+        `${share} is read from a race`,
+      );
+    console.log("Term on screen:", level, first.holder.termId, ends);
     checked += 1;
   }
-  assert.ok(checked > 0, "at least one level shows a holder's election");
+  assert.ok(checked > 0, "at least one level shows a holder's term");
   await page.locator('[data-level="state"]').click();
   // The state filter: switch to another state and its legislators are listed.
   await page.locator('[data-level="state"]').click();

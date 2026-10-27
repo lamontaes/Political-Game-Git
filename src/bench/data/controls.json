@@ -123,7 +123,6 @@
     "place": "Home",
     "school": "School",
     "lastTalked": "Last talked",
-    "talk": "Talk",
     "back": "Back",
     "continue": "Continue",
     "knows": "Knows",
@@ -142,6 +141,8 @@
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
     "skipOpening": "Skip opening",
+    "guide": "Guide",
+    "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
   },
   "polling": {
@@ -220,6 +221,7 @@
     "nameHeadPick": "Name to the post"
   },
   "titleUnavailable": {
+    "continue": "No life in progress yet. Start a life first.",
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
   },
@@ -274,11 +276,12 @@
     "go": "Go",
     "back": "Back",
     "next": "Continue",
-    "from": "You are at home",
-    "nobody": "Nobody there right now",
+    "open": "Open now",
+    "closed": "Closed now",
     "andOthers": "and {n} more",
     "reasons": {
       "work": "You work here",
+      "family": "Your family works here",
       "study": "Someone at home studies here",
       "known": "works here",
       "action": "You can",
@@ -404,12 +407,8 @@
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
-    "reached": {
-      "in office at the opening": "Serving when your story began",
-      "elected": "Elected"
-    },
-    "electedOn": "Elected",
-    "ofVote": "of the vote",
+    "electedWith": "Elected {date} with {share} of the vote",
+    "termEnds": "Term ends {date}",
     "adopted": "Adopted",
     "elected": "Elected",
     "takesOffice": "Takes office",

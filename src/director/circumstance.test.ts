@@ -17,6 +17,7 @@ import {
 import { advanceCore } from "../core2/life";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
+import { SCHOOL_MODULE_ID } from "../core2/school-measures";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { CIRCUMSTANCES, sceneWebRows } from "./circumstance";
@@ -116,16 +117,26 @@ function playYear(
     if (!entry || !moment?.label.startsWith("circumstance:")) return;
     const record = core.durableLog.get(moment.causeId);
     // A cause is a logged record, or a core record read directly (a job, a
-    // household member).
+    // household member, a school year's result).
+    const result = coreAPI(core)
+      .moduleState(SCHOOL_MODULE_ID)
+      .table("results")
+      .get(moment.causeId) as unknown as { date: string } | undefined;
     expect(
       record ??
         core.jobs.get(moment.causeId) ??
-        core.people.get(moment.causeId as PersonId),
+        core.people.get(moment.causeId as PersonId) ??
+        result,
       moment.id,
     ).toBeTruthy();
     const row = CIRCUMSTANCES.rows.find(
       (item) => `circumstance:${item.id}` === moment.label,
     )!;
+    if (result)
+      expect(
+        addDays(makeIsoDate(result.date), row.afterDays ?? 0),
+        moment.id,
+      ).toBe(moment.date);
     if (record) {
       // Its record is the day's own, or a row's days after it (the morning
       // after the count).
@@ -172,14 +183,27 @@ function playYear(
       ...(replyId ? { replyId } : {}),
     });
   };
-  let packet = advancePlayerV1(core, {
-    controlledPersonId: personId,
-    through: {
-      date: addDays(makeIsoDate(core.date), DAYS),
-      minuteOfDay: P.zero,
+  let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
+    core,
+    {
+      controlledPersonId: personId,
+      through: {
+        date: addDays(makeIsoDate(core.date), DAYS),
+        minuteOfDay: P.zero,
+      },
     },
-  });
-  while (packet.kind !== "complete") {
+  );
+  // A life can end inside the year: the clock refuses a person who has died,
+  // and the played year ends with them.
+  const resume = (input: Parameters<typeof resumePlayerV1>[1]) => {
+    try {
+      return resumePlayerV1(core, input);
+    } catch (error) {
+      if (core.people.get(personId)?.alive) throw error;
+      return undefined;
+    }
+  };
+  while (packet && packet.kind !== "complete") {
     if (packet.kind === "stop") {
       for (const stop of packet.stop.modules) {
         const offer = jobsView(core, personId).offers.find((item) =>
@@ -188,9 +212,9 @@ function playYear(
         if (offer) answerJobOffer(core, personId, offer.id, "accept");
         open(stop.recordId);
       }
-      packet = resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId });
+      packet = resume({ kind: "stop", pauseId: packet.pauseId });
     } else
-      packet = resumePlayerV1(core, {
+      packet = resume({
         kind: "choice",
         pauseId: packet.pauseId,
         offerId: packet.offers[P.zero]!.offerId,

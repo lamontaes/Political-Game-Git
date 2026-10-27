@@ -95,7 +95,7 @@ describe("the release event", () => {
     );
     expect(packaging).not.toContain("push:");
     expect(packaging).not.toContain("pull_request");
-    // One group for the whole workflow; a running package is never cancelled.
+    // One group for the whole workflow; a running package is never canceled.
     expect(packaging).toMatch(
       /^concurrency:\n {2}group: release-package\n {2}cancel-in-progress: false/m,
     );
