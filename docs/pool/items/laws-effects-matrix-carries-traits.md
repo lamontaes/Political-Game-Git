@@ -6,12 +6,12 @@ lead: laws-effects
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: laws-effects/effects-matrix-traits
 pr: #6257
 blocked-on:
 source: work order docs/work-orders/lead-laws-effects-2026-10-26.md, steps 3 and 4 (owner, Oct 26: one checker and one matrix, traits rows in the effects matrix)
-claimed-at:
+claimed-at: 2026-10-27T10:50:25.781Z
 ---
 
 **What.** The owner made one lead for laws, effects and traits, with the traits rows in the effects matrix (Oct 26). The effects matrix (`docs/reports/effect-web-matrix-2026-10-20.json`, written by `scripts/outcome-web/effect-matrix.ts`) holds only the outcome-web links, while the trait decisions sit in a separate trait-wiring matrix last built on October 20. Once the civic, integrity and take-part families are on main, the trait-wiring matrix is regenerated on main, and the effects matrix reads it: one row per trait decision with its calls in the played year, whether it ran and its gap, plus the count of decisions that ran in its summary.
