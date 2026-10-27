@@ -54,6 +54,8 @@ Batch-style line grading is not how the owner grades. He plays or watches a scen
 - **Narration that restates the screen** ("It's a {weekday} in {month}.", "You're at home in {place}.") was rejected by the owner; scenes follow `scene-standard` rule 6.
 - **The opening address reads as a stat readout** (one sentence per number); journal lines are single facts ("I voted for H.R. 2.") with no context, and the game cast that vote for the player.
 
+- **Director code keeps no numbers, and its counts are not hand-typed.** Before opening a scene PR run `npx vitest run src/director/director.test.ts` on the head with main merged in: its "keeps numbers in data" guard rejects every numeric literal in `src/director/*.ts` (a day length, a `b[1] - a[1]` comparator, an age cutoff) and its situation-type count must name the new type. Put values in a `src/director/data/` table tagged SOURCED, ESTIMATED or TUNABLE and read them through a named accessor (Oct 27: #6237 and #6260 sent back for it, #6273 fixed red main).
+
 ## The owner's standing rulings on this line
 
 - **Grades tune the engine; they never gate it** (owner, Oct 24: "Quit worrying about my grades ... Get the English engine in the game. That should make every single piece of dialogue available. If I find pieces I don't like or I keep grading, you can keep updating it, and that will keep tuning the engine."). Every piece in every bank plays in ordinary play, scenes included, unless a grade holds it; a grade run reaches the whole game at once. Nothing waits for the owner to grade it, and a batch never asks him to approve lines one by one.
