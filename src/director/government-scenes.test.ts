@@ -18,7 +18,7 @@ import {
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 
-// A floor vote, a signing and a veto are scenes (owner, Oct 15): the roll
+// A floor vote, a signing and a veto are scenes: the roll
 // call reaches each member who is a watched person, and the executive's
 // signature or veto reaches the bill's sponsor, each citing the record the
 // legislature wrote.
@@ -26,8 +26,10 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 // A drawn place may have no seat held by a full person, or a chamber that does
 // not vote in the run; draw again, a bounded number of times, and fail if none does.
 const ATTEMPTS = 8;
+const WEEK = 7;
 
-const run = (attemptSeed: string): boolean => {
+/** One drawn place: whether its bill was voted, and whether an executive's signature or veto on it was checked. */
+const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
   const place = drawPlace(attemptSeed, "government-scenes");
   const seed = attemptSeed;
   setBookkeeping(false);
@@ -54,9 +56,31 @@ const run = (attemptSeed: string): boolean => {
         Number(a.office.level === "state") - Number(b.office.level === "state"),
     );
   if (!lawmaking.length) {
-    return false;
+    console.log(`SCENES ${place.name} ${seed}\nno body here with full members`);
+    return { voted: false, acted: false };
   }
-  const seats = lawmaking;
+  // A question the body's government may enact, from the place's own grant
+  // of authority (policy-authority.ts). A government granted none here has
+  // no bill this test can draft; another body, or another place, is read.
+  const allowedPolicy = (level: string) =>
+    billCatalog(api, level as "city" | "county" | "state")
+      .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
+      .find((row) => row.kind === "policy-question" && row.authority.allowed);
+  const seats = lawmaking.filter((row) => allowedPolicy(row.office.level));
+  // The bodies set aside for having no question they may enact, named in the log.
+  const setAside = [
+    ...new Set(
+      lawmaking
+        .filter((row) => !seats.includes(row))
+        .map((row) => row.office.id),
+    ),
+  ];
+  if (!seats.length) {
+    console.log(
+      `SCENES ${place.name} ${seed}\nno catalog question its ${[...new Set(lawmaking.map((row) => row.office.level))].join(", ")} bodies may enact`,
+    );
+    return { voted: false, acted: false };
+  }
   const withExecutive = seats.find((row) => {
     const id = executiveOf(api, row.office.id).term?.personId;
     return id && id !== row.holder!.personId && core.people.has(id);
@@ -74,22 +98,23 @@ const run = (attemptSeed: string): boolean => {
     ...(executiveId ? [executiveId] : []),
   ])
     director.watch(core, id);
-  const policy = billCatalog(
-    api,
-    seat!.office.level as "city" | "county" | "state",
-  )
-    .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
-    .find((row) => row.kind === "policy-question" && row.authority.allowed)!;
+  const policy = allowedPolicy(seat!.office.level)!;
   const bill = draftBill(api, {
     bodyOfficeId: seat!.office.id,
     sponsorId,
     provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
   });
   scheduleVote(api, bill.id);
-  advanceCore(
-    core,
-    addDays(makeIsoDate(core.date), seat!.office.level === "state" ? 400 : 120),
+  // Played a week at a time until the executive acts, so the vote and the
+  // act are read within weeks of happening: a watched resident's older
+  // moments fold into the director's summaries (its memory window; the
+  // player keeps all of theirs).
+  const end = addDays(
+    makeIsoDate(core.date),
+    seat!.office.level === "state" ? 400 : 120,
   );
+  while (core.date < end && !core.durableLog.has(`executive-action:${bill.id}`))
+    advanceCore(core, [addDays(makeIsoDate(core.date), WEEK), end].sort()[0]!);
 
   const scenesOf = (personId: string, cause: string) =>
     (director.ledger.people.get(personId)?.schedule ?? [])
@@ -98,9 +123,12 @@ const run = (attemptSeed: string): boolean => {
   // The roll call reaches the members; the one who sits on it is in the floor
   // scene with the chair and their colleagues named from the body's records.
   const voteCause = `bill-vote:${bill.id}:${seat!.office.id}`;
+  // A state chamber's bill waits on its committee and session; nothing was voted.
   if (!core.durableLog.has(voteCause)) {
-    // A state chamber's bill waits on its committee and session; nothing was voted.
-    return false;
+    console.log(
+      `SCENES ${place.name} ${seed}\n${bill.id} not voted by ${core.date}${setAside.length ? `; ${setAside.join(", ")} may enact no catalog question` : ""}`,
+    );
+    return { voted: false, acted: false };
   }
   const seatedNow = members(api, seat!.office.id).map((term) =>
     memberKey(term),
@@ -124,38 +152,77 @@ const run = (attemptSeed: string): boolean => {
 
   // The executive's act, where the body's form of government gives one.
   const acted = core.durableLog.get(`executive-action:${bill.id}`);
-  const lines = [`${bill.id} floor-vote for ${heard.length}`];
+  const lines = [
+    `${bill.id} floor-vote for ${heard.length}`,
+    ...(setAside.length ? [`set aside: ${setAside.join(", ")}`] : []),
+  ];
+  let checked = false;
   if (acted?.facts?.action) {
     const action = acted.facts.action;
     const type =
       action === "signed" ? "bill-signed" : action === "vetoed" ? "veto" : null;
-    const sponsorScenes = scenesOf(sponsorId, `executive-action:${bill.id}`);
-    if (type && executiveId && executiveId !== sponsorId) {
+    // A veto and the vote to override it come the same day, and one sitting
+    // covers a day (scheduling.ts): the sponsor's scene may stand on either,
+    // or be the day's sitting with the same people that took this bill's act
+    // in (two of the sponsor's bills vetoed in one afternoon are one sitting).
+    const causes = [`executive-action:${bill.id}`, `veto-override:${bill.id}`];
+    const actOf = (personId: string) =>
+      (director.ledger.people.get(personId)?.schedule ?? []).flatMap((row) =>
+        row.bindings.filter(
+          (binding) =>
+            causes.some((cause) => row.momentId.includes(cause)) ||
+            (binding.joined ?? []).some((entry) =>
+              causes.some((cause) => entry.momentId.includes(cause)),
+            ),
+        ),
+      );
+    const sponsorScenes = actOf(sponsorId);
+    // The act's own record names whoever sat at the desk that day, and the
+    // director casts the signer from it. The office can change hands, or its
+    // official be filled in, during the run: the one who acted held it when
+    // the run began or holds it now.
+    const actorId = String(acted.facts.executiveId ?? "");
+    const holders = [
+      executiveId,
+      executiveOf(api, seat!.office.id).term?.personId,
+    ];
+    // A signature or a veto names who acted.
+    if (type)
+      expect(actorId, `${bill.id}: the act names no executive`).not.toBe("");
+    if (type && actorId !== sponsorId) {
+      expect(holders, `${bill.id}: the act's executive`).toContain(actorId);
       expect(sponsorScenes.map((row) => row.typeKey)).toContain(type);
       const scene = sponsorScenes.find((row) => row.typeKey === type)!;
       const executive = scene.roles.find(
         (row) => row.role === (type === "veto" ? "executive" : "signer"),
       )!;
-      expect(executive.personIds).toEqual([executiveId]);
+      expect(executive.personIds).toEqual([actorId]);
       // The executive's own moment is not a scene about their own bill.
-      expect(
-        scenesOf(executiveId, `executive-action:${bill.id}`).map(
-          (row) => row.typeKey,
-        ),
-      ).not.toContain(type);
-      lines.push(`${action} by ${executiveId}`);
+      expect(actOf(actorId).map((row) => row.typeKey)).not.toContain(type);
+      lines.push(`${action} by ${actorId}`);
+      checked = true;
     }
   }
   console.log(`SCENES ${place.name} ${seed}\n${lines.join("\n")}`);
-  return true;
+  return { voted: true, acted: checked };
 };
 
 it(`a bill's vote and the executive's act are scenes for the people they reach (up to ${ATTEMPTS} drawn places from seed ${seed})`, () => {
-  let reached = false;
-  for (let attempt = 0; attempt < ATTEMPTS && !reached; attempt += 1)
-    reached = run(`${seed}:${attempt}`);
+  // Places are drawn until one has had a floor vote checked and one an
+  // executive's signature or veto on a bill someone else sponsored.
+  let voted = false;
+  let acted = false;
+  for (let attempt = 0; attempt < ATTEMPTS && !(voted && acted); attempt += 1) {
+    const result = run(`${seed}:${attempt}`);
+    voted ||= result.voted;
+    acted ||= result.acted;
+  }
   expect(
-    reached,
+    voted,
     `no drawn place from seed ${seed} voted a bill with a full-person seat`,
+  ).toBe(true);
+  expect(
+    acted,
+    `no drawn place from seed ${seed} had an executive sign or veto another's bill`,
   ).toBe(true);
 }, 1_800_000);

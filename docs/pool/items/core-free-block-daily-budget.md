@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: which act fills an evening comes from the person's needs, ties, money and traits scored in their own reasons, never a draw against the ATUS share. Speed: the plan is made once per activation and read by date, never a daily scan of the world, within the 20% year budget.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR), scripts/research/core-year.ts prints the town's share of adult-days with a visit, by tier, inside the ATUS band, naming two person ids whose planned acts changed a later day's need, and a test in src/core2/free-block.test.ts shows a need that regrows between planned days.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR), scripts/research/core-year.ts prints the town's share of adult-days with a visit, by tier, inside the ATUS band, naming two person ids whose planned acts changed a later day's need, and a test in src/core2/free-block.test.ts shows a need that regrows between planned days. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/free-block.ts, src/core2/free-block.test.ts, src/core2/data/free-block.json, data/research/core/atus-2025-socializing.json, src/core2/data/stopgaps.json
 

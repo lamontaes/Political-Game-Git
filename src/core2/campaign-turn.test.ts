@@ -17,6 +17,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
@@ -33,12 +34,14 @@ import {
   CAMPAIGNS_MODULE_ID,
   askForDonation,
   campaignFor,
+  campaignRecognition,
   campaignTurn,
   contributionLimit,
   giftOf,
   makeStatements,
   openCampaigns,
   reachablePeople,
+  rivalDay,
   runAd,
   type GiftRow,
   type PromiseRow,
@@ -125,14 +128,33 @@ function twoCandidates(
  * A world in which two wealthy adults can file in the first contest. A small
  * town may have none, so another place is drawn (up to eight) before failing.
  */
-function worldWithPair(salt: string) {
+function worldWithPair(
+  salt: string,
+  /** Null when the world has what the case tests, else why it has not (read from the world's own records), and the draw goes on. */
+  suits?: (
+    w: ReturnType<typeof world> & {
+      pair: NonNullable<ReturnType<typeof twoCandidates>>;
+    },
+  ) => string | null,
+) {
+  const tried: string[] = [];
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const w = world(`${salt}:${attempt}`);
     const pair = twoCandidates(w.api, w.core);
-    if (pair) return { ...w, pair };
+    if (!pair) {
+      tried.push(`${w.where}: no two candidates for the first contest`);
+      continue;
+    }
+    const found = { ...w, pair };
+    const lacks = suits?.(found) ?? null;
+    if (lacks) {
+      tried.push(`${w.where}: ${lacks}`);
+      continue;
+    }
+    return found;
   }
   throw new Error(
-    `no drawn place had two candidates for the first contest in 8 draws (run seed ${runSeed}, ${salt})`,
+    `no drawn place suited the case in 8 draws (run seed ${runSeed}, ${salt}): ${tried.join("; ")}`,
   );
 }
 
@@ -243,6 +265,144 @@ describe("campaigns that raise and spend", () => {
     );
   }, 300_000);
 
+  it("a world candidate's turn is a campaign day taken through the player's own choices", () => {
+    // A candidate whose town has someone left to ask for money (the choice's
+    // own facts say so); a town where every reachable adult has given or is
+    // not askable is passed over by name.
+    const { api, where, pair } = worldWithPair("shared-day", (w) => {
+      const raise = campaignDayChoices(w.api, w.pair.rival.id, true).find(
+        (c) => c.kind === "raise-money",
+      );
+      return raise?.available
+        ? null
+        : `no one left to ask for money (${JSON.stringify(raise?.facts ?? {})})`;
+    });
+    const { rival } = pair;
+    // The player's day is not open to a rival; the same choices are, for a world candidate.
+    expect(campaignDayChoices(api, rival.id)).toEqual([]);
+    const choices = campaignDayChoices(api, rival.id, true);
+    expect(
+      choices.map((c) => c.kind),
+      where,
+    ).toContain("raise-money");
+    const turn = campaignTurn(api, rival.id, electionOf(api, rival));
+    // The turn asked people for money through the call-time session.
+    expect(turn.asked, where).toBeGreaterThan(0);
+  }, 300_000);
+
+  it("a rival chooses between calls and doors by their money and standing, sliding with each", () => {
+    // The bank can only slide the day between calls and doors for a candidate
+    // the records offer both: someone left to ask, and doors in their town.
+    // Everyone a candidate can reach may already have given (Simsboro,
+    // Louisiana), so take either of the pair, and draw again if neither.
+    const offeredBoth = (api: CoreAPI, filing: FilingRow) => {
+      const day = campaignDayChoices(api, filing.id, true);
+      return ["raise-money", "canvass"].every(
+        (kind) => day.find((c) => c.kind === kind)?.available,
+      );
+    };
+    const tried: string[] = [];
+    let found: {
+      core: CoreState;
+      api: CoreAPI;
+      where: string;
+      rival: FilingRow;
+    } | null = null;
+    for (let attempt = 0; attempt < 8 && !found; attempt += 1) {
+      const w = world(attempt ? `rival-chooser:${attempt}` : "rival-chooser");
+      const pair = twoCandidates(w.api, w.core);
+      const rival =
+        pair && [pair.rival, pair.you].find((f) => offeredBoth(w.api, f));
+      if (rival) found = { ...w, rival };
+      else
+        tried.push(
+          `${w.where}: ${pair ? "neither candidate is offered both calls and doors" : "no two candidates"}`,
+        );
+    }
+    expect(found, tried.join("\n")).not.toBeNull();
+    const { core, api, where, rival } = found!;
+    process.stdout.write(`rival chooser: ${where}, ${rival.id}\n`);
+    const campaign = campaignFor(api, rival.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const town = candidate.placeId;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    const share = () => {
+      const day = rivalDay(api, rival.id, candidate, town);
+      return day.callHours / (day.callHours + day.doorHours);
+    };
+    const poor = ((bank.liquidMinor = 0), share());
+    const rich = ((bank.liquidMinor = 50_000_000_00), share());
+    // Every dollar in the bank moves hours from calls to doors, with no cut-off.
+    bank.liquidMinor = 20_000_00;
+    const middle = share();
+    expect(poor, `${where}: empty bank leans on calls`).toBeGreaterThan(rich);
+    expect(middle, where).toBeLessThan(poor);
+    expect(middle, where).toBeGreaterThan(rich);
+  }, 300_000);
+
+  it("a rich rival holds an event on a day it is offered and a poor one does not", () => {
+    // A rival whose campaign could hold an event if it could pay the venue:
+    // a platform with a stance and a live candidate, read from the choice's
+    // facts with money given to it. A campaign with no platform is passed over.
+    const { core, api, where, pair } = worldWithPair("rival-event", (w) => {
+      const bank = w.core.organizations.get(
+        campaignFor(w.api, w.pair.rival.id).organizationId,
+      )!;
+      const had = bank.liquidMinor;
+      bank.liquidMinor = 50_000_000_00;
+      const offered = campaignDayChoices(w.api, w.pair.rival.id, true).find(
+        (c) => c.kind === "event",
+      );
+      bank.liquidMinor = had;
+      return offered?.available
+        ? null
+        : `no event could be offered (${JSON.stringify(offered?.facts ?? {})})`;
+    });
+    const filing = pair.rival;
+    const campaign = campaignFor(api, filing.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    bank.liquidMinor = 0;
+    const poor = rivalDay(api, filing.id, candidate, candidate.placeId);
+    bank.liquidMinor = 50_000_000_00;
+    const offered = campaignDayChoices(api, filing.id, true).find(
+      (c) => c.kind === "event",
+    );
+    expect(offered?.available, `${where}: an event is offered`).toBe(true);
+    const rich = rivalDay(api, filing.id, candidate, candidate.placeId);
+    expect(poor.act, `${where}: a poor rival holds no event`).not.toBe("event");
+    expect(rich.act, `${where}: a rich rival holds one`).toBe("event");
+    const turn = campaignTurn(api, filing.id, electionOf(api, filing));
+    expect(turn.dayAct, where).toBe("event");
+  }, 300_000);
+
+  it("an unknown rival puts more of the day into doors than a well-known one", () => {
+    const { core, api, where, pair } = worldWithPair("rival-known");
+    const campaign = campaignFor(api, pair.rival.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    const doorShare = () => {
+      const day = rivalDay(api, pair.rival.id, candidate, candidate.placeId);
+      return day.doorHours / (day.callHours + day.doorHours);
+    };
+    bank.liquidMinor = 0;
+    const knownBefore = campaignRecognition(api, pair.rival.id);
+    const unknown = doorShare();
+    // Weeks of canvassing make them known in town.
+    takeCampaignDayChoice(api, pair.rival.id, "canvass", {
+      world: true,
+      hours: 400,
+    });
+    bank.liquidMinor = 0;
+    const knownAfter = campaignRecognition(api, pair.rival.id);
+    expect(knownAfter, `${where}: doors made them known`).toBeGreaterThan(
+      knownBefore,
+    );
+    expect(doorShare(), `${where}: better known, fewer doors`).toBeLessThan(
+      unknown,
+    );
+  }, 300_000);
+
   it("a donor's running total is read from its indexed row, not from the history of payments", () => {
     // Donors decide for their own reasons: draw places until a campaign
     // reaches one who gives.
@@ -273,12 +433,21 @@ describe("campaigns that raise and spend", () => {
         );
         continue;
       }
+      // The turn went on after the gift (its doors warm the people it
+      // reaches), so the donor may now give more in all: asked once more,
+      // they give what they'd give now (Green Isle, Minnesota, seed
+      // 3d29bb4ba93ab238770ab3570ad393b0144d225cabba0415b78f6a7fd4ccb5bc).
+      askForDonation(api, rival.id, gift.donorId);
+      const total = giftOf(api, rival.id, gift.donorId)!;
       // Forget every payment record: the donor has still given what they'd give.
       const money = api.moduleState(CAMPAIGNS_MODULE_ID).table("money");
       for (const row of money.rows().slice()) money.remove(row.id);
       expect(askForDonation(api, rival.id, gift.donorId), where).toBe(0);
       expect(giftOf(api, rival.id, gift.donorId)!.totalMinor, where).toBe(
-        gift.totalMinor,
+        total.totalMinor,
+      );
+      console.info(
+        `campaign-turn donor ${where}: ${gift.donorId} gave ${gift.totalMinor} to ${rival.id}, ${total.totalMinor} in all, and nothing more with the payments forgotten`,
       );
       return;
     }
@@ -325,6 +494,18 @@ describe("campaigns that raise and spend", () => {
       }
       if (free === 0 && campaign.spentMinor === 0) {
         tried.push(`${where}: nothing raised or spent`);
+        continue;
+      }
+      // The views engine moves a stance someone holds: viewers with none on
+      // the ad's question have nothing for it to move.
+      if (
+        !viewers.some((id) =>
+          stancesOf(api, id).some((s) => s.topic === lead.question),
+        )
+      ) {
+        tried.push(
+          `${where}: none of ${viewers.length} viewers holds a stance on ${lead.question}`,
+        );
         continue;
       }
       const moved = viewers.filter((id) =>

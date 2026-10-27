@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Wire to the world; every dollar balances; an effect is a read.
 
-**Done when.** After core-finance-contracts-vs-obligations is done: a one-year run of the played world (buildBenchWorld, a drawn place from all 56, a seed the builder did not choose) shows a loan payment posted from a standing payment by journal record id, one missed payment accruing arrears on it, and credit reading that arrears record when it decides on the next loan; the loan row's own late and past-due bookkeeping is deleted (replace, never layer) and the credit tests pass.
+**Done when.** After core-finance-contracts-vs-obligations is done: a one-year run of the played world (buildBenchWorld, a drawn place from all 56, a seed the builder did not choose) shows a loan payment posted from a standing payment by journal record id, one missed payment accruing arrears on it, and credit reading that arrears record when it decides on the next loan; the loan row's own late and past-due bookkeeping is deleted (replace, never layer) and the credit tests pass. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/credit.ts
 

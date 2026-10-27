@@ -14,7 +14,10 @@
  * English engine words.
  */
 import { registerElectorate } from "../electorate";
-import { termLimitReached } from "../law-reach/group-a-voting";
+import {
+  recordTermLimitFiling,
+  termLimitReached,
+} from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { partyName } from "../appointments";
@@ -350,7 +353,9 @@ function contestFor(
       termEnd,
       onDate,
     });
-  let dates = at(holder?.endDate ?? null);
+  // An office its law creates later is first filled at the last election
+  // before its first term, as a term ending then would be.
+  let dates = at(holder?.endDate ?? office.firstTermStart ?? null);
   // A holder whose seat's election passed with no one elected holds over;
   // the seat's next election comes a full term on.
   if (
@@ -654,7 +659,7 @@ export function checkEligibility(
       required: String(wards.seatWard),
       actual: String(wards.homeWard),
       source:
-        "Assumed: most ward and district charters ask it (SG-GOV-ward-residency)",
+        "Assumed: most charters with district seats ask it (SG-GOV-ward-residency)",
     });
   }
   // Registration is research metadata, not a modeled status. The game has
@@ -723,6 +728,8 @@ export function fileCandidacy(
   const contest = table(api, "contests").get(
     input.contestId,
   ) as unknown as ContestRow;
+  // A term limit in force reached this filing (law-reach, group A).
+  recordTermLimitFiling(api, input.personId, contest.officeId);
   const rules = filingRulesFor(
     api,
     contest,
@@ -796,7 +803,40 @@ export function announce(
       filedWith: filing.filedWith,
     },
   });
+  // The ballot is public: each candidate already on it learns who filed
+  // against them, a record of their own.
+  for (const other of ballot(api, contest.id))
+    if (
+      other.personId !== filing.personId &&
+      other.status === "on-ballot" &&
+      api.state.people.get(other.personId)?.alive
+    )
+      api.emit({
+        id: `${RIVAL_FILED_EVENT}:${filing.id}:${other.personId}`,
+        date: api.state.date,
+        kind: RIVAL_FILED_EVENT,
+        personIds: [
+          other.personId,
+          ...(api.state.people.has(filing.personId) ? [filing.personId] : []),
+        ],
+        placeId: town(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `Filing ${filing.id}, on the ballot beside ${other.id}`,
+          asOf: api.state.date,
+        },
+        facts: {
+          invitedId: other.personId,
+          rivalId: filing.personId,
+          filingId: filing.id,
+          contestId: contest.id,
+          office: contest.title,
+        },
+      });
 }
+
+/** The kind of a candidate's own record that someone filed against them. */
+export const RIVAL_FILED_EVENT = "rival-filed";
 
 /**
  * Everyone on the ballot for a contest, filed so far. A candidate who has

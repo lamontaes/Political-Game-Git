@@ -4,7 +4,7 @@ title: "Stopgaps in staff (missing-engine): 4 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr: #5583
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: Officials' automatic hires (an aide at the monthly staff review, a department head refilled at the executive's review) choose only among people out of work, though anyone paid less than the post would apply. PR #5583 closed unmerged (Oct 23); reopened by reconcile.
 
 Oct 20: PR #5248 merged and resolved only SG-GOV-staff-hire-out-of-work; the other four rows in this item are still open.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

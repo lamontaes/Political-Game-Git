@@ -19,7 +19,7 @@ import {
   say,
 } from "../../src/director/conversation";
 import { createDirector } from "../../src/director/ledger";
-import { MINED_CONVERSATION } from "../../src/director/mined/conversation-bank";
+import { MINED_CONVERSATION } from "../../src/english/mined/conversation-bank";
 
 const real = JSON.parse(
   readFileSync("data/english/counts/everyday.json", "utf8"),

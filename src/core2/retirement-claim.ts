@@ -35,6 +35,28 @@ export interface ClaimWeights {
   fullBufferMonths: number;
 }
 
+/**
+ * The case for claiming after the full retirement age before personality, in
+ * units of patience: the anchor and the pull of thin savings, over the years
+ * one unit of patience moves the claim. Positive patience beyond it waits past
+ * the full retirement age, so the claim age is a two-way score at the
+ * decision's trait weight (`scripts/traits/trait-calibrate.ts` fits that
+ * weight against the study of claiming age).
+ */
+export function claimWaitCase(
+  bufferMonths: number,
+  weights: ClaimWeights,
+): number {
+  const need = Math.max(
+    0,
+    1 - Math.max(0, bufferMonths) / weights.fullBufferMonths,
+  );
+  return weights.traitPullYears > 0
+    ? (-weights.anchorYearsBeforeFull - need * weights.needPullYears) /
+        weights.traitPullYears
+    : 0;
+}
+
 /** The claim age in months, inside the law's bounds. */
 export function retirementClaimAgeMonths(
   context: ClaimContext,

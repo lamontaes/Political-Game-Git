@@ -86,7 +86,8 @@
       "identity": "finance.customer-identity",
       "visit": "finance.customer-visit-agreement",
       "market": "finance.customer-market",
-      "customerBudget": "finance.customer-owner-budget"
+      "customerBudget": "finance.customer-owner-budget",
+      "wageFlow": "finance.residents-wage-flow"
     },
     "financeReceiptPrefix": "finance:",
     "creditReceiptPrefix": "credit:",
@@ -142,6 +143,7 @@
       }
     ],
     "standaloneDrawRequestPrefix": "finance-standalone-draw:",
+    "wageFlowDrawRequestPrefix": "finance-wage-flow-draw:",
     "visitorLodging": {
       "identityMetadataPrefix": "openingCustomers.evidence:",
       "visitMetadataPrefix": "openingCustomers.evidence:",

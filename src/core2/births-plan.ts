@@ -11,9 +11,13 @@ import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { decisionKinds } from "./trait-decisions";
+import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
+import { webFactorFor } from "./outcome-web-reach";
 import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
 
 export const BIRTHS_STOPGAP = "SG-M1-births-circumstances";
+/** The housing engine's module id (read by name: it does not import this one). */
+const HOUSING_MODULE = "housing";
 export interface BirthCouple {
   id: string;
   motherId: string;
@@ -76,6 +80,21 @@ export function partnershipStart(
         Math.round(p("renewalUnionAgeYears") * p("daysPerMeanYear")),
       );
   return estimate < couple.startedAt ? estimate : couple.startedAt;
+}
+
+/** Whether the household rents or owns its dwelling, from the housing record (absent where none is kept). */
+function tenureOf(
+  api: CoreAPI,
+  householdId: string,
+): "rent" | "own" | undefined {
+  if (!api.state.modules.has(HOUSING_MODULE)) return undefined;
+  const tenure = (
+    api
+      .moduleState(HOUSING_MODULE)
+      .table("dwellings")
+      .get(`dwelling:${householdId}`) as { tenure?: string } | undefined
+  )?.tenure;
+  return tenure === "rent" || tenure === "own" ? tenure : undefined;
 }
 
 /**
@@ -159,7 +178,6 @@ export function birthCircumstances(
   const conditions = conditionsOf(api, mother.id);
   const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
   // SG-M1-births-circumstances: record proxies explicitly; no missing medical fact means permission.
-  // stopgapId: SG-WEB-births-full-tier (the outcome web's birth links that full couples' own records do not carry)
   return {
     age:
       p("renewalAgeWeight") *
@@ -184,9 +202,12 @@ export function birthCircumstances(
     work: p("renewalJobWeight") * (employed - p("one")),
     room: (-p("renewalRoomWeight") * room) / (annual + room + p("one")),
     housing: (-p("renewalHousingWeight") * costs) / (income + costs + p("one")),
+    // Centered on a cushion equal to the buffer days of costs: a couple with
+    // none weighs against, a couple with more weighs for, never always for.
     savings:
-      (p("renewalHousingWeight") * cash) /
-      (cash + costs * p("moneyBufferDays") + p("one")),
+      p("renewalHousingWeight") *
+      ((p("two") * cash) / (cash + costs * p("moneyBufferDays") + p("one")) -
+        p("one")),
     health:
       -p("renewalHealthWeight") *
         Math.max(p("zero"), actor.affect.stress - actor.affect.mood) -
@@ -198,9 +219,24 @@ export function birthCircumstances(
           ? currentCloseness(api.state, relationship)
           : p("renewalUnknownCloseness")) -
         p("one")),
+    // The place's own conditions (unemployment, home prices, the law on
+    // abortion) have moved its birth rate; a couple weighs the factor that
+    // lands on the mother's own age and home, the one a counted woman of that
+    // age and home is scaled by (one model, two tiers).
+    web: api.state.modules.has(OUTCOME_WEB_MODULE_ID)
+      ? p("renewalWebWeight") *
+        (webFactorFor(api, mother.placeId, "births.rate", {
+          age,
+          sex: "female",
+          tenure: tenureOf(api, mother.householdId),
+        }) -
+          p("one"))
+      : p("zero"),
+    // Centered on a couple who share a home, the only couples the review
+    // reads: sharing adds nothing to every plan, living apart weighs against.
     partnership:
       mother.householdId === partner.householdId
-        ? p("one")
+        ? p("zero")
         : -p("renewalWaitPull"),
   };
 }

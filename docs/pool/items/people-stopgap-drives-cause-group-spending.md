@@ -4,7 +4,7 @@ title: "Stopgaps in drives (cause-group-spending): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: A cause group spends its money only on ad time, bought through the campaigns engine's ad purchase; it holds no events, sends no mailers and pays none of a cause's own costs.
 
 Oct 20 (pool feeder): spec written; the buying functions already exist in campaigns.ts but take a campaign's filingId; the builder generalizes them to take a buyer id, so a campaign and a group buy the same way. The first row's fix is a small signature change, not a new engine.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

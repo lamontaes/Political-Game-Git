@@ -37,8 +37,11 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
 import { keepsWhy } from "../why-kept";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYes,
+} from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
@@ -47,7 +50,11 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
 import { startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
-import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
+import {
+  postPayCapDaily,
+  publicPayRoom,
+  treasuryParameter,
+} from "../budgets-treasury";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -95,14 +102,18 @@ export interface StafferRow {
     readonly missed: number;
   };
   /** Why the official let the aide go: the share of scheduled days missed since the last look and the reasons weighed. */
-  readonly dismissed?: {
-    readonly on: string;
-    readonly absentShare: number;
-    readonly lean: number;
-    readonly workedDays: number;
-    readonly missedDays: number;
-    readonly jobId: string;
-  };
+  readonly dismissed?: Dismissal;
+  /** The official's decision to let the aide go, made after the aide's day's work; the post's job ends before their next. */
+  readonly dismissing?: Dismissal;
+}
+
+export interface Dismissal {
+  readonly on: string;
+  readonly absentShare: number;
+  readonly lean: number;
+  readonly workedDays: number;
+  readonly missedDays: number;
+  readonly jobId: string;
 }
 
 export interface WorkRecord {
@@ -129,7 +140,10 @@ export const STAFF_MODULE: CoreModule = {
       work: { indexes: { byStaffer: { fields: ["stafferId"] } } },
     },
   },
-  onCalendarWork: (api, work) => staffReview(api, work),
+  onCalendarWork: (api, work) => {
+    if (work.kind === "staff-dismiss") dismissDue(api, work);
+    else staffReview(api, work);
+  },
 };
 
 export function openStaff(core: CoreState): void {
@@ -698,6 +712,11 @@ export function hireStaff(
   // On the payroll of the government the official serves, at the post's
   // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
+  // Paid what the post's budget line can still carry, as a town's department
+  // heads are (executive.ts): an aide's pay draws on the same line.
+  const maxDailyMinor = employer
+    ? postPayCapDaily(api, employer, `staff:${input.officialId}`, 1)
+    : undefined;
   const jobId = employer
     ? startPublicJob(api, {
         personId: input.personId,
@@ -705,6 +724,7 @@ export function hireStaff(
         post: `staff:${input.officialId}`,
         title: input.role,
         hourlyMinor: campaignParameter("staffHourlyMinor"),
+        ...(maxDailyMinor !== undefined ? { maxDailyMinor } : {}),
         // A state or federal office with no staff schedule of its own follows the town's.
         scheduleFromPlaceId: lawChain(api).townPlaceId,
         citation: `Hired as ${input.role} to ${input.officialId}`,
@@ -765,7 +785,8 @@ function budgetLean(api: CoreAPI, officialId: string): number {
 }
 
 /** The treasury of the government whose seat the official holds. */
-function employerOf(api: CoreAPI, officialId: string): string | null {
+/** The government an official's staff are on the payroll of: the one whose seat they hold. */
+export function employerOf(api: CoreAPI, officialId: string): string | null {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
   const seat = townSeats(api).find((s) => s.holder?.personId === officialId);
   if (!seat) return null;
@@ -875,7 +896,7 @@ function record(
     result,
   };
   // The row says why this work was good or poor; it is kept for the people
-  // the player deals with (everyone's when bookkeeping is on). The count of
+  // the player deals with (everyone's under the keep-everyone's-why switch). The count of
   // tasks stays on the staffer for everyone.
   if (keepsWhy(api.state as CoreState, staffer.officialId, staffer.personId))
     table(api, "work").put(work as unknown as ModuleRow);
@@ -990,6 +1011,7 @@ export function adviseOnBudget(
 export function staffDecision(
   api: CoreAPI,
   officialId: string,
+  told: "help" | "decline" = "help",
 ): { stafferId: string; help: boolean; work: WorkRecord } | null {
   const staffer = [...servingStaffOf(api, officialId)].sort(
     (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
@@ -1000,16 +1022,15 @@ export function staffDecision(
   // every trait they have.
   const person = api.state.people.get(staffer.personId)!;
   const help =
-    q.quality +
-      parameter("traitDecisionWeight") *
-        decisionLean(
-          api.state,
-          person,
-          "staff.follow-through",
-          "follow-through",
-          "decline",
-        ) >=
-    campaignParameter("staffCaseFollowThrough");
+    told === "help" &&
+    leanedYes(
+      api.state,
+      person,
+      "staff.follow-through",
+      "follow-through",
+      "decline",
+      q.quality - campaignParameter("staffCaseFollowThrough"),
+    );
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
 }
@@ -1047,10 +1068,11 @@ function reviewAttendance(
   api: CoreAPI,
   officialId: string,
   official: Readonly<PersonState>,
+  source: ModuleCalendarWork["source"],
 ): void {
   const state = api.state as CoreState;
   for (const row of servingStaffOf(api, officialId)) {
-    if (!row.jobId) continue;
+    if (!row.jobId || row.dismissing) continue;
     const totals = state.work.totalsByJob.get(row.jobId);
     const worked = totals?.workedDays ?? 0;
     const missed = totals?.missedDays ?? 0;
@@ -1071,29 +1093,79 @@ function reviewAttendance(
       scheduled > 0 &&
       absentShare >
         campaignParameter("staffAbsenceTolerance") *
-          (1 - parameter("traitDecisionWeight") * lean)
+          (1 - decisionTraitWeight(api.state, "staff.dismiss") * lean)
     ) {
-      api.endJob(
-        row.jobId,
-        `staff:dismissed-absent:${row.id}:${api.state.date}`,
-      );
-      table(api, "staff").put({
-        ...row,
-        dismissed: {
-          on: api.state.date,
-          absentShare,
-          lean,
-          workedDays: worked - since.worked,
-          missedDays: missed - since.missed,
-          jobId: row.jobId,
-        },
-      } as unknown as ModuleRow);
+      const decision: Dismissal = {
+        on: api.state.date,
+        absentShare,
+        lean,
+        workedDays: worked - since.worked,
+        missedDays: missed - since.missed,
+        jobId: row.jobId,
+      };
+      if (workedToday(state, { jobId: row.jobId }))
+        awaitDismissal(api, { ...row, dismissing: decision }, source);
+      else dismiss(api, row, decision);
     } else
       table(api, "staff").put({
         ...row,
         reviewed: { on: api.state.date, worked, missed },
       } as unknown as ModuleRow);
   }
+}
+
+function settle(api: CoreAPI, row: StafferRow, decision: Dismissal): void {
+  const settled: { -readonly [K in keyof StafferRow]: StafferRow[K] } = {
+    ...row,
+    dismissed: decision,
+  };
+  delete settled.dismissing;
+  table(api, "staff").put(settled as unknown as ModuleRow);
+}
+
+function dismiss(api: CoreAPI, row: StafferRow, decision: Dismissal): void {
+  api.endJob(decision.jobId, `staff:dismissed-absent:${row.id}:${decision.on}`);
+  settle(api, row, decision);
+}
+
+/**
+ * An aide let go after their day's work (the controlled character plays their
+ * day before the calendar runs) has the post's job end in the next day's
+ * calendar work, which runs before that day's work; until then it is not the
+ * job they work, so no shift is offered.
+ */
+function awaitDismissal(
+  api: CoreAPI,
+  row: StafferRow,
+  source: ModuleCalendarWork["source"],
+): void {
+  table(api, "staff").put(row as unknown as ModuleRow);
+  if (api.state.people.get(row.personId)?.jobId === row.dismissing!.jobId)
+    api.updatePerson(row.personId, { jobId: undefined });
+  const date = addDays(makeIsoDate(api.state.date), 1);
+  api.moduleCalendar(STAFF_MODULE_ID).schedule({
+    key: `staff-dismiss:${row.id}:${date}`,
+    date,
+    kind: "staff-dismiss",
+    source,
+    sourceRecordIds: [row.id],
+  });
+}
+
+function dismissDue(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const row = table(api, "staff").get(work.sourceRecordIds[0]!) as unknown as
+    StafferRow | undefined;
+  if (!row?.dismissing) return;
+  const decision = row.dismissing;
+  const state = api.state as CoreState;
+  if (state.jobs.get(decision.jobId)?.endsAt !== undefined) {
+    // The post ended another way first (a death, another job): the decision stands on record.
+    settle(api, row, decision);
+    return;
+  }
+  if (workedToday(state, { jobId: decision.jobId }))
+    awaitDismissal(api, row, work.source);
+  else dismiss(api, row, decision);
 }
 
 /**
@@ -1133,18 +1205,21 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   for (const officialId of officials) {
     const official = api.state.people.get(officialId);
     if (!official?.alive) continue;
-    reviewAttendance(api, officialId, official);
+    reviewAttendance(api, officialId, official, work.source);
     if (
       servingStaffOf(api, officialId).length >=
       campaignParameter("staffPerOfficial")
     )
       continue;
     if (
-      campaignParameter("staffHireBase") +
-        parameter("traitDecisionWeight") *
-          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") +
-        budgetLean(api, officialId) <=
-      0
+      !leanedYes(
+        api.state,
+        official,
+        "staff.hire",
+        "hire",
+        "do-alone",
+        campaignParameter("staffHireBase") + budgetLean(api, officialId),
+      )
     )
       continue;
     // Anyone the post pays more than they earn now would apply, an employed

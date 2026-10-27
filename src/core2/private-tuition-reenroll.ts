@@ -9,17 +9,34 @@
  * one, and one whose children count changed pays the new amount. The share
  * checks the town's total; it never picks a family.
  *
- * Counted families keep their opening enrollment (stopgap
- * SG-CORE-private-tuition-counted-reenroll).
+ * Counted families are ranked with them, each record times the households it
+ * stands for, and their tuition is the household's part of the school's
+ * merged purchase flow (modules/residents.ts); filling a family in turns the
+ * part into its own living-plan seller.
  */
 import data from "./data/opening-private-tuition.json" with { type: "json" };
+import { bookkeeping } from "./bookkeeping";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import type { FinanceContractInput } from "./finance-types";
 import { setEverydayPurchase } from "./cost-of-living";
+import {
+  countedSchoolFamilies,
+  countedTuitionPlans,
+  setCountedTuition,
+} from "./modules/residents";
 import { privateShareOf } from "./opening-private-tuition";
 import type { CoreAPI, CoreState, Source } from "./types";
 
-export const REENROLL_STOPGAP = "SG-CORE-private-tuition-counted-reenroll";
+/** The list the last August ranking used, kept only while bookkeeping is on (tests and the bench read it). */
+const rankingUsed = new WeakMap<
+  CoreState,
+  { id: string; placeId: string; cashPerChild: number; counted: boolean }[]
+>();
+
+/** The families the last August ranking ordered, with the cash per child it read; undefined unless bookkeeping was on. */
+export function lastTuitionRanking(core: CoreState) {
+  return rankingUsed.get(core);
+}
 
 /** Each household's tuition now: the private school its everyday-living plan pays and the monthly amount. */
 export function tuitionPlans(
@@ -59,6 +76,9 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       children: number;
       adults: string[];
       cashPerChild: number;
+      /** Real households the record stands for (a counted record's weight). */
+      weight: number;
+      counted?: boolean;
     }[]
   >();
   for (const home of core.households.values()) {
@@ -84,19 +104,53 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       adults,
       cashPerChild:
         members.reduce((sum, row) => sum + row!.liquidMinor, 0) / children,
+      weight: 1,
     });
     families.set(home.placeId, list);
   }
+  // Counted families are ranked with them: same rule, each record times the
+  // households it stands for.
+  const firstAge = p("openingSchoolAgeFirst"),
+    lastAge = p("openingSchoolAgeLast");
+  for (const family of countedSchoolFamilies(core, towns, firstAge, lastAge)) {
+    const list = families.get(family.placeId) ?? [];
+    list.push({
+      id: family.householdId,
+      children: family.children,
+      adults: [],
+      cashPerChild: family.cashPerChild,
+      weight: family.weight,
+      counted: true,
+    });
+    families.set(family.placeId, list);
+  }
+  if (bookkeeping())
+    rankingUsed.set(
+      core,
+      [...families].flatMap(([placeId, list]) =>
+        list.map((row) => ({
+          id: row.id,
+          placeId,
+          cashPerChild: row.cashPerChild,
+          counted: row.counted === true,
+        })),
+      ),
+    );
   const now = tuitionPlans(core);
+  const countedNow = countedTuitionPlans(
+    core,
+    new Set(schools.map((row) => row.id)),
+    data.contractKind,
+  );
   const wanted = new Map<
     string,
-    { children: number; adults: string[]; schoolId: string }
+    { children: number; adults: string[]; schoolId: string; counted?: boolean }
   >();
   const enrolled = new Map<string, number>();
   for (const [placeId, list] of [...families].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
-    const total = list.reduce((sum, row) => sum + row.children, 0);
+    const total = list.reduce((sum, row) => sum + row.children * row.weight, 0);
     const quota = Math.max(
       1,
       Math.round(total * privateShareOf(placeId, core.placeMetadata?.placeKey)),
@@ -107,9 +161,12 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       (a, b) => b.cashPerChild - a.cashPerChild || a.id.localeCompare(b.id),
     )) {
       if (taken >= quota) break;
-      taken += family.children;
+      taken += family.children * family.weight;
       // A family already enrolled keeps its school; a new one goes where the fewest are.
-      const kept = local.find((row) => row.id === now.get(family.id)?.schoolId);
+      const current = family.counted
+        ? countedNow.get(family.id)
+        : now.get(family.id);
+      const kept = local.find((row) => row.id === current?.schoolId);
       const school =
         kept ??
         local.reduce((fewest, row) =>
@@ -117,11 +174,12 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
             ? row
             : fewest,
         );
-      enrolled.set(school.id, (enrolled.get(school.id) ?? 0) + 1);
+      enrolled.set(school.id, (enrolled.get(school.id) ?? 0) + family.weight);
       wanted.set(family.id, {
         children: family.children,
         adults: family.adults,
         schoolId: school.id,
+        ...(family.counted ? { counted: true } : {}),
       });
     }
   }
@@ -139,8 +197,36 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       want ? want.children * perChildMonthly : 0,
     );
   }
+  // A counted family's tuition is its part of the school's merged flow.
+  const countedSource: Source = {
+    tag: "ESTIMATED",
+    asOf: date,
+    citation: data.citation,
+    estimatedFrom: `Counted families with children aged ${firstAge}–${lastAge} at average tuition $${p("openingPrivateTuitionAnnualUsd")} a year, ranked by cash per child with the full families until the private share of its state's school-age children (${privateShareOf(schools[0]?.placeId, core.placeMetadata?.placeKey)}) is reached.`,
+  };
+  const schoolOf = new Map(schools.map((row) => [row.id, row]));
+  for (const [householdId, current] of countedNow) {
+    const want = wanted.get(householdId);
+    setCountedTuition(
+      core,
+      householdId,
+      schoolOf.get(current.schoolId)!,
+      want ? want.children * perChildMonthly : 0,
+      { financeKind: data.contractKind, source: countedSource },
+    );
+  }
   for (const [householdId, want] of wanted) {
-    if (now.has(householdId)) continue;
+    if (!want.counted || countedNow.has(householdId)) continue;
+    setCountedTuition(
+      core,
+      householdId,
+      schoolOf.get(want.schoolId)!,
+      want.children * perChildMonthly,
+      { financeKind: data.contractKind, source: countedSource },
+    );
+  }
+  for (const [householdId, want] of wanted) {
+    if (want.counted || now.has(householdId)) continue;
     const monthlyMinor = want.children * perChildMonthly;
     // A household with a living plan takes the school as a seller; one without opens its plan with it.
     if (setEverydayPurchase(core, householdId, want.schoolId, monthlyMinor))
@@ -168,5 +254,4 @@ export function reenrollPrivateTuition(api: CoreAPI): void {
       source,
     } as FinanceContractInput);
   }
-  api.stopgap(REENROLL_STOPGAP);
 }

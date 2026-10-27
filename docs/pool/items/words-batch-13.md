@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #4459
 blocked-on:
@@ -40,3 +40,5 @@ Sent back 2026-10-17 from PR #4459 (branch words/scene-talk): The gate line and 
 
 Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): Merge main conflicts require author resolution: data/english/parts/scene-words.json, scripts/dialogue-batch/coverage-table.test.ts; finish on that branch, merge main into it first.
 Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): merge conflicts in data/english and scripts/english-corpus/moves.json; finish on that branch, merge main into it first.
+
+Found on main at 2a524c1757 by the Oct 25 audit: PR #4459 merged Oct 23; docs/grading/words-batch-13.md is on main.

@@ -3,7 +3,7 @@ id: gov-service-charges-by-use
 title: "Government charges and fees are paid by the people who use each service, not spread over living costs"
 area: gov
 kind: stopgap
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/budgets-service-charges.ts, src/core2/budgets-service-charges.test.ts, src/core2/modules/school.ts, src/core2/modules/housing.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-service-charges-by-living-cost, which had no live pool item. See also open PR #5425 (notes on the ten service-charge gaps against Table 1).
+
+Deferred Oct 25: nothing on screen reads it yet.

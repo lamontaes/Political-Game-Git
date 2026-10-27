@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/term-start-history.test.ts, vite.config.ts
 
 **Notes.** Found Oct 23 by research-offices-sourced-parameters (branch claude/dreamy-tesla-bgi3ui-offices).
+
+Folded into tests-world-tests-outgrow-worker-heap (Oct 25 audit).

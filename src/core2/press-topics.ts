@@ -120,6 +120,11 @@ export function wireItem(
     facts: { ...facts },
   };
   switch (event.kind) {
+    // Who or what entered the world is the trace's record of the two-level
+    // population filling in, not news: no paper prints it.
+    case "person.recorded":
+    case "organization.recorded":
+      return null;
     case "law-took-effect": {
       const topic = facts.series ?? event.kind;
       // A policy law at 0, or an amount set to nothing, ends what stood.
@@ -144,6 +149,7 @@ export function wireItem(
       };
     case "legislative-vote":
     case "executive-action":
+    case "committee-hearing":
     case "public-comment": {
       // A bill's vote or hearing is about what the bill changes.
       const bill =
@@ -159,7 +165,7 @@ export function wireItem(
           (first.line ? `budget-line:${first.line}` : first.series))
         : undefined;
       const passed =
-        event.kind === "legislative-vote"
+        event.kind === "legislative-vote" || event.kind === "committee-hearing"
           ? Number(facts.yes) > Number(facts.no)
           : event.kind === "executive-action"
             ? facts.action !== "vetoed"

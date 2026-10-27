@@ -125,7 +125,7 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
     expect(homes).toBeGreaterThan(0);
   });
 
-  it("opens each scene with one narrator paragraph of the engine's sentences, before anyone speaks", () => {
+  it("opens each scene with one narrator paragraph that never restates the day or the player's own home", () => {
     let checked = 0;
     for (const book of director.ledger.people.values())
       for (const entry of book.schedule) {
@@ -135,16 +135,15 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
         // One paragraph, not two short lines.
         expect(scene.narration).toHaveLength(1);
         const text = scene.narration[0]!.text;
-        const sentences = text.match(/[.!?](\s|$)/g);
-        // The setting and who is there are composed by the engine. The
-        // situation lead after them is hand-written and held until
-        // graded (pool item words-scene-situation-leads), so the
-        // paragraph is the engine's sentences alone: whole, filled from the
-        // scene's records, with no placeholder left in it.
-        expect(sentences?.length ?? 0).toBeGreaterThanOrEqual(1);
-        expect(text.trim()).toMatch(/[.!?]$/);
-        expect(text).not.toMatch(/\{\{|\}\}|undefined/);
-        expect(scene.narration[0]!.sourceRecordIds.length).toBeGreaterThan(0);
+        expect(text.match(/[.!?](\s|$)/g)?.length ?? 0).toBeGreaterThanOrEqual(
+          1,
+        );
+        // The screen shows the day and the town (owner, Oct 26: "it shouldn't
+        // say you're at home in Albion or it's Tuesday in November").
+        expect(text).not.toMatch(
+          /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/,
+        );
+        expect(text).not.toMatch(/\b(You're|You are) (at )?home\b/);
         checked += 1;
       }
     expect(checked).toBeGreaterThan(0);

@@ -7,6 +7,7 @@ import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
+import { setTraitProbe, traitProbe } from "../trait-probe";
 import { bookkeeping } from "../bookkeeping";
 import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
@@ -33,6 +34,7 @@ import type {
   IsoDate,
   PersonId,
   PersonState,
+  ReasonBinding,
 } from "../types";
 
 /**
@@ -88,6 +90,12 @@ export interface DrivesData {
     responses: readonly string[];
     /** The impact used when the event's record holds no appraised impulse. */
     impulseParameter?: string;
+    /**
+     * How much harder this kind of event pushes toward a lasting drive than
+     * the responses' own fits say (a multiple of each drive response's fit,
+     * one when absent). Carrying on is not scaled.
+     */
+    fitScaleParameter?: string;
   }[];
   actions: readonly ActionDefinition[];
   gaps: readonly string[];
@@ -109,6 +117,7 @@ type EventKindKey =
   | "strengthened";
 type FactKey =
   | "responsible"
+  | "decidedBy"
   | "drive"
   | "origin"
   | "condition"
@@ -209,6 +218,12 @@ export interface HeldDrive {
   told: Set<PersonId>;
 }
 
+/** A fading total: its amount on the date it was last added to. */
+interface Given {
+  amount: number;
+  date: string;
+}
+
 interface DrivesRuntime {
   drives: Map<string, HeldDrive>;
   byPerson: Map<PersonId, Map<string, HeldDrive>>;
@@ -219,6 +234,12 @@ interface DrivesRuntime {
    */
   countedByPerson: Map<PersonId, Map<string, HeldDrive>>;
   groupsByTopic: Map<string, Set<string>>;
+  /**
+   * What each person has lately given to their causes, by kind of act: one
+   * for each act, fading with the days (causeGivenDays). The more they gave
+   * lately, the less a further act of the same kind pulls.
+   */
+  given: Map<PersonId, Map<string, Given>>;
   groupFounder: Map<string, PersonId>;
   /** The change each cause group was founded to win (its founder's drive). */
   groupChange: Map<string, string>;
@@ -226,6 +247,12 @@ interface DrivesRuntime {
   /** The same count for drives formed in the wider population. */
   countedFormedByYearKind: Map<string, number>;
   responsesByRule: Map<string, number>;
+  /**
+   * The same count by the role the person held toward the event and whether
+   * they are old enough to form a drive of their own (agency at least half
+   * an adult's, from `responseAgencyTurnAge` on): rule:role:grown|young:response.
+   */
+  responsesByRole: Map<string, number>;
   perceived: number;
   decisions: FormationTrace[];
   /** Today's scored choice for each drive holder, matched against the act recorded. */
@@ -260,11 +287,13 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       byPerson: new Map(),
       countedByPerson: new Map(),
       groupsByTopic: new Map(),
+      given: new Map(),
       groupFounder: new Map(),
       groupChange: new Map(),
       formedByYearKind: new Map(),
       countedFormedByYearKind: new Map(),
       responsesByRule: new Map(),
+      responsesByRole: new Map(),
       perceived: zero,
       decisions: [],
       predicted: new Map(),
@@ -391,9 +420,19 @@ type RequirementTest = (
   event: CoreEventInput,
 ) => boolean;
 
-function responsibleId(data: DrivesData, event: CoreEventInput) {
+/** Who an event holds responsible for a harm: a person or institution its record names. */
+export function responsibleId(
+  data: DrivesData,
+  event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
+) {
   const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
   if (named) return named;
+  // The person the record names as deciding the harm (the owner or manager
+  // who decided a layoff), when they are a living full person: a grudge can
+  // then be held against someone, not only the institution.
+  const decider = event.facts?.[data.factKeys.decidedBy];
+  if (decider && people.get(decider)?.alive) return decider;
   // Some engines name the responsible party as the event's topic (the
   // employer behind a layoff, the landlord behind an eviction).
   if (data.responsibleInTopic?.includes(event.kind) && event.topic)
@@ -411,7 +450,7 @@ const requirementOperations: Readonly<Record<string, RequirementTest>> = {
   "event-topic": (_api, _data, _actor, event) =>
     !!event.topic && !!event.desiredChange,
   "event-responsible": (api, data, actor, event) => {
-    const id = responsibleId(data, event);
+    const id = responsibleId(data, event, api.state.people);
     return (
       !!id &&
       id !== actor.id &&
@@ -496,8 +535,9 @@ function driveIdentity(
   kind: DriveKindRow,
   actor: Readonly<PersonState>,
   event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
 ) {
-  const responsible = responsibleId(data, event);
+  const responsible = responsibleId(data, event, people);
   const topic =
     kind.shareable && event.topic
       ? event.topic
@@ -670,6 +710,9 @@ export function respond(
         : p(rule.impulseParameter) *
           (p("lifeEventMoodScale") + p("lifeEventStressScale"));
     const pressure = seen.attention * magnitude;
+    const fitScale = rule.fitScaleParameter
+      ? p(rule.fitScaleParameter)
+      : p("one");
     // Agency to form a lasting drive of one's own rises smoothly through adolescence.
     const age =
       daysBetweenText(actor.birthDate, api.state.date) / p("daysPerMeanYear");
@@ -711,7 +754,7 @@ export function respond(
       const alone = chooseAct(core(api), actor.id, [offer]);
       const lean =
         (alone.selectedReasons?.trait ?? p("zero")) / p("traitWeight");
-      const fit = p(row.fitParameter);
+      const fit = p(row.fitParameter) * (row.driveKind ? fitScale : p("one"));
       return {
         responseId: row.id,
         fit,
@@ -743,12 +786,63 @@ export function respond(
     const decision = chooseAct(core(api), actor.id, decided, context);
     const chosen = scored(decision);
     if (!chosen) continue;
+    // A debug switch, off in play: would the same person, with the same event
+    // and no trait lean, have answered differently? (the trait-wiring audit)
+    const probe = traitProbe();
+    if (probe?.formula) {
+      setTraitProbe(undefined);
+      const flat = scored(
+        chooseAct(
+          core(api),
+          actor.id,
+          decided,
+          chooserContext(
+            actor,
+            rows.map((row, position) => {
+              const entry = considered[position]!;
+              const [goalKind] = row.goalKinds;
+              const leaned = Math.max(
+                p("zero"),
+                entry.fit + p("responseTraitLeanGain") * entry.lean,
+              );
+              return {
+                id: goalKind!,
+                kind: goalKind!,
+                urgency:
+                  entry.urgency -
+                  pressure *
+                    (row.driveKind ? agency : p("one")) *
+                    (leaned - Math.max(p("zero"), entry.fit)),
+              };
+            }),
+          ),
+          false,
+          false,
+        ),
+      );
+      setTraitProbe(probe);
+      probe.formula({
+        decisionId: "drives.respond",
+        actorId: actor.id,
+        lean: considered.find(
+          (entry) => entry.responseId === chosen.responseId,
+        )!.lean,
+        bare: flat?.score ?? p("zero"),
+        yes:
+          rows.find((row) => row.id === chosen.responseId)!.driveKind !==
+          undefined,
+        turned: flat?.responseId !== chosen.responseId,
+      });
+    }
+    // The runner-up is a second look at the same choice, not a choice of its own.
     const runnerUp = scored(
       chooseAct(
         core(api),
         actor.id,
         decided.filter((offer) => offer !== decision.selected),
         context,
+        false,
+        false,
       ),
     );
     const row = rows.find((response) => response.id === chosen.responseId)!;
@@ -782,6 +876,11 @@ export function respond(
     };
     const runtime = runtimeFor(api.state);
     bump(runtime.responsesByRule, `${rule.id}:${row.id}`, api);
+    bump(
+      runtime.responsesByRole,
+      `${rule.id}:${seen.role}:${agency >= p("one") / p("two") ? "grown" : "young"}:${row.id}`,
+      api,
+    );
     runtime.perceived += p("one");
     const kind = row.driveKind
       ? data.driveKinds.find((entry) => entry.id === row.driveKind)
@@ -792,7 +891,13 @@ export function respond(
       const urgency = considered.find(
         (entry) => entry.responseId === row.id,
       )!.urgency;
-      const identity = driveIdentity(data, kind, actor, event);
+      const identity = driveIdentity(
+        data,
+        kind,
+        actor,
+        event,
+        api.state.people,
+      );
       trace.driveId = identity.id;
       const holders = counted ? runtime.countedByPerson : runtime.byPerson;
       let mine = holders.get(actor.id);
@@ -902,6 +1007,15 @@ function servingDrives(
     .map((row) => row.drive);
 }
 
+/** A grudge's confrontation weighs how recently the holder last had it out with the person. */
+const CONFRONT_RECENCY: readonly ReasonBinding[] = [
+  {
+    id: "confront-recency",
+    provider: "drives:confront-recency",
+    weightParameter: "grudgeConfrontRecencyWeight",
+  },
+];
+
 function driveOffer(
   api: CoreAPI,
   action: ActionDefinition,
@@ -945,10 +1059,53 @@ function drivesOf(api: CoreAPI, actorId: PersonId, offer: ActOffer) {
   return drive;
 }
 
+const CAUSE_GIVEN = "drives:cause-given";
+
+/**
+ * The days over which what was given of an act fades, from the act's own
+ * binding (a membership is remembered longer than a session).
+ */
+function givenFadeDays(
+  api: CoreAPI,
+  binding: Readonly<ReasonBinding> | undefined,
+) {
+  return api.parameter(
+    binding?.arguments?.fadeDaysParameter ?? "causeGivenDays",
+  );
+}
+
+/** What is left today of a fading total. */
+function givenNow(
+  api: CoreAPI,
+  given: Readonly<Given> | undefined,
+  fadeDays: number,
+  date: string = api.state.date,
+) {
+  return given
+    ? given.amount * Math.exp(-daysBetweenText(given.date, date) / fadeDays)
+    : api.parameter("zero");
+}
+
 function recordAct(api: CoreAPI, drive: HeldDrive, row: DriveActTrace) {
   drive.actCount += api.parameter("one");
   drive.lastTracedAct = `${row.date}:${row.actionId}`;
   retain(api, drive.acts, row);
+  // The act adds one to what the person has lately given of its kind.
+  const given = runtimeFor(api.state).given;
+  const mine = given.get(drive.personId) ?? new Map<string, Given>();
+  given.set(drive.personId, mine);
+  const fadeDays = givenFadeDays(
+    api,
+    api.state.data.actions
+      .find((action) => action.id === row.actionId)
+      ?.reasonBindings?.find((binding) => binding.provider === CAUSE_GIVEN),
+  );
+  mine.set(row.actionId, {
+    amount:
+      givenNow(api, mine.get(row.actionId), fadeDays, row.date) +
+      api.parameter("one"),
+    date: row.date,
+  });
   reinforce(
     api,
     drive,
@@ -989,13 +1146,24 @@ function predict(
 ): PredictedChoice {
   refresh(actor as PersonState);
   const offers = availableActs(core(api), actor.id);
-  const decision = chooseAct(core(api), actor.id, offers);
+  // A prediction of the day's act, not a choice: nothing is kept.
+  const decision = chooseAct(
+    core(api),
+    actor.id,
+    offers,
+    undefined,
+    false,
+    false,
+  );
   const selected = decision.selected;
   const runner = selected
     ? chooseAct(
         core(api),
         actor.id,
         offers.filter((offer) => offer !== selected),
+        undefined,
+        false,
+        false,
       )
     : undefined;
   const total = (reasons: DecisionReason | undefined) =>
@@ -1354,6 +1522,43 @@ export function createDrivesModule(
         );
       },
     },
+    reasonProviders: {
+      // What the person gave lately to their causes weighs against giving
+      // more of the same, fading as the days pass: no cap, no cooldown.
+      [CAUSE_GIVEN]: (api, actor, offer, binding) => {
+        const given = runtimeFor(api.state)
+          .given.get(actor.id)
+          ?.get(offer.definition.id);
+        if (!given) return;
+        return {
+          value: -givenNow(api, given, givenFadeDays(api, binding)),
+          ...(offer.driveId ? { sourceIds: [offer.driveId] } : {}),
+        };
+      },
+      // Having just had it out with someone weighs against doing it again,
+      // fading as the days pass: no cooldown, no cutoff.
+      [CONFRONT_RECENCY[0]!.provider]: (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        if (!drive) return;
+        // The latest confrontation among the drive's kept act traces.
+        let last: string | undefined;
+        for (const act of drive.acts)
+          if (
+            act.actionId === offer.definition.id &&
+            act.basis === "scored" &&
+            (!last || act.date > last)
+          )
+            last = act.date;
+        if (!last) return;
+        const days = daysBetweenText(last, api.state.date);
+        return {
+          value: -Math.exp(-days / api.parameter("grudgeConfrontRecencyDays")),
+          sourceIds: [drive.id],
+        };
+      },
+    },
     // Only the events a rule answers or a drive act emits reach this module.
     eventKinds: [
       ...new Set([
@@ -1384,6 +1589,7 @@ export function createDrivesModule(
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
           runtime.byPerson.delete(personId);
+          runtime.given.delete(personId);
           continue;
         }
         const actor = api.state.people.get(personId)!;
@@ -1583,7 +1789,10 @@ export function createDrivesModule(
             (drive) =>
               drive.targetId && api.state.people.get(drive.targetId)?.alive,
           )
-          .map((drive) => driveOffer(api, action, drive.targetId!, drive)),
+          .map((drive) => ({
+            ...driveOffer(api, action, drive.targetId!, drive),
+            reasonBindings: CONFRONT_RECENCY,
+          })),
       "known-public-figure": (api, actor, action) => {
         const out: ActOffer[] = [];
         for (const drive of servingDrives(api, actor, action))
@@ -1893,6 +2102,7 @@ export function drivesReport(core: Readonly<CoreState>) {
       runtime?.countedFormedByYearKind ?? [],
     ),
     responsesByRule: Object.fromEntries(runtime?.responsesByRule ?? []),
+    responsesByRole: Object.fromEntries(runtime?.responsesByRole ?? []),
     perceived: runtime?.perceived,
     decisions: runtime?.decisions ?? [],
     groups: runtime

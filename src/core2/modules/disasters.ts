@@ -386,6 +386,12 @@ export function townDisasters(api: CoreAPI): readonly Disaster[] {
   return [...rt.byDeclared.values()].flat();
 }
 
+/** The declarations whose FEMA figures show damaged homes in this world's town, for tests and screens. */
+export function townDisastersWithDamage(api: CoreAPI): readonly Disaster[] {
+  const rt = runtime(api);
+  return townDisasters(api).filter((d) => (townRow(rt, d)?.[2] ?? 0) > 0);
+}
+
 /** Federal assistance this world has paid, for tests and screens. */
 export function disasterAssistancePaid(
   api: CoreAPI,

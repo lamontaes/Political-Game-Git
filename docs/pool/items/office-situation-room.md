@@ -5,7 +5,7 @@ area: office
 kind: feature
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/office-day-federal-president.ts, src/core2/modules/executive.ts
 
 **Notes.** TODO
+
+Found on main at 2a524c1757 by the Oct 25 audit: crisesToday in src/core2/office-day-federal-president.ts reads FEMA disaster records and the daily brief observes each crisis (PR #5124, merged Oct 20).

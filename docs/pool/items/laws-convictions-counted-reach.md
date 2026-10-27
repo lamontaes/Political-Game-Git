@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: the same bar, applied to a group's convicted count, as to a full person. Real rates check totals and never pick one person's outcome. One rule, all 56 places.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) the counted electorate's barred count comes from the groups' conviction counts and the restoration law in force, shown by group ids, and its total lands within the state's real share's spread; SG-GOV-REACH-A-convictions is resolved and the test in src/core2/law-reach-group-a.test.ts passes.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) the counted electorate's barred count comes from the groups' conviction counts and the restoration law in force, shown by group ids, and its total lands within the state's real share's spread; SG-GOV-REACH-A-convictions is resolved and the test in src/core2/law-reach-group-a.test.ts passes. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/justice.ts, src/core2/counted-groups.ts, src/core2/data/elections/felony-disenfranchisement.json
 

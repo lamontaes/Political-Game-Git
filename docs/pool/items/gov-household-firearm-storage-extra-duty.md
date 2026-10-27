@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T11:21:11.557Z
 
 **Rules.** One rule, all 56 places: fix eligibility from household and law records in every drawn place without a place-specific exception. One model, two tiers: full people and counted households follow the same effective-date age, alive and firearm-ownership rules. Never skip or loosen the exact set assertion to hide the mismatch.
 
-**Done when.** The focused household-firearms test passes with the reported seed and a fresh drawn world, with the storage-duty targets justified by effective-date household, alive, age and ownership records; changed-file checks pass.
+**Done when.** The focused household-firearms test passes with the reported seed and a fresh drawn world, with the storage-duty targets justified by effective-date household, alive, age and ownership records; changed-file checks pass. **On screen.** Nothing yet: it would show on a person's card in the People web, and nothing there reads it.
 
 **Files.** src/core2/household-firearms.test.ts, src/core2/law-reach/group-a-records.ts, src/core2/modules/laws.ts
 
