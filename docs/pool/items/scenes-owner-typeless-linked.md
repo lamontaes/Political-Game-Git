@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: finisher/owner-scenes-typed
-pr:
+pr: 6362
 blocked-on:
 source: "finisher brief, Oct 27: the owner's 15 typeless scenes in docs/reports/scene-web.md"
 lead: words
@@ -17,7 +17,7 @@ claimed-at: 2026-10-27
 
 **What.** The scene web listed 15 of the owner's 64 scene requests with no situation type. Seven of them are already played by a type on main (a payoff offered for a vote, the morning after a race, a household member bringing a lost job home, working with other officials, the people who offer to work for the campaign, a scandal, the election-morning canvass before the polling place); the report's map of owner requests did not name those types. This links them, each with why the type covers it and what part still has no record. The other eight get a type or an engine item in their own PRs.
 
-**Rules.** Serves `scene-standard`: a requested scene counts only when a type fires it from a record, and nothing is linked to a type that does not play that circumstance. Serves `one-rule-all-places`: the report is regenerated from a drawn place with its seed named.
+**Rules.** Ask why: each link says by record what the type plays and what part of the owner's scene still has no record. One rule, all 56 places: the report is regenerated from a drawn place with its seed named, never a chosen one. Serves `scene-standard`: a requested scene counts only when a type fires it from a record.
 
 **Done when.** `scripts/scene-web/owner-examples.json` names a type for the seven, each with a why that says what the type plays and what still has no record; `npm run scene-web` on a drawn place shows 8 of 64 owner scenes with no type; `english-parts-banks` passes.
 
