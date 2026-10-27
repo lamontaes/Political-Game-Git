@@ -6,6 +6,14 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 27, 5:40 to 6:15 PM Eastern: the v0.59.0 screenshots (owner, to the CTO)
+
+- **Menu subtitles are removed, never replaced (owner: "REMOVE. THE. MENU. SUBTITLES. DO NOT REPLACE THEM").** Continue, Saved games and Patch notes show only their names; the Oct 24 line "every dimmed entry says why" is withdrawn. PR #6436.
+- **Realistic, not real, for every statistic unless it is in law (owner: "THE 4.1% IS STILL HARDCODED. I SAID NO REAL DATA. EACH START SHOULD BE DIFFERENT BASED ON THE SIMULATION. REALISTIC NOT REAL"; "IT GOES FOR EVERY STATISTIC UNLESS IT IS IN LAW. USE A HELPER").** Every real-world statistic that reaches play starts from its real value as the center of a per-world spread drawn at Start and then moves with the simulation; laws in force stay as the real starting law. A dedicated Opus session audits every such number, fixes each source, and adds a two-seed guard.
+- **Every painting in the set is used (owner: "WHY IS THIS THE ONLY STOREFRONT SCENE USED? YOU HAVE ACCESS TO HUNDREDS").** 922 backdrops by place type and time of day; a scene draws from the whole set for its place type, time and weather, seeded by the place. The people-in-rooms builder has it first.
+- **History is simulated before the start date, no hotfix (owner: "fix history not simulating before 2025! no hotfix! i keep getting told it's fixed and it isn't").** The engines run the years before Start; the generated-history proxy (`buildDeepPast`, SG-P8-deep-past) is deleted once every reader reads simulated records; the owner's test is the Journal of a 35-year-old in two seeds. A dedicated Opus session owns it; nobody reports it fixed, they show the two Journals.
+- **A scene's place comes from its purpose and its people**, never from the last backdrop: "waiting for you to get home" fired on Main Street at midnight (integrator).
+
 ## Oct 27, 5 PM Eastern: the owner's answers to the CTO's question list (owner, to the CTO)
 
 - **Look first is every session's duty, as a skill every skill names (owner: "Not just the CTO, but every session. Every skill needs to have it, or it needs to be a separate skill that's referenced by every skill, because I'm sick of seeing stuff fixed or asked that I've already done"; "Look at previous decisions. Search the drive. Search logs... I've talked about businesses and towns before. Find it").** The `look-first` skill, referenced from every skill and AGENTS.md. The CTO's question list of Oct 27 asked four things already ruled (businesses, real data, the inaugural varying, scenes as the game); recorded here as the lesson.
