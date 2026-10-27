@@ -6,12 +6,12 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/law-wiring-rights-env
 pr: "#5669"
 blocked-on:
 source: laws-effects lead, Oct 26 (Merger 1's send-back on #5669)
-claimed-at:
+claimed-at: 2026-10-27T01:22:24.746Z
 ---
 
 **What.** A bounded part of laws-nine-links-rights-env, as Merger 1 asked when PR #5669 could not meet the thirteen-law family item. Six laws grade wired on all nine links on main's checker, which since #6173 grades an outcome no engine reads as a stopgap: budget-line:highways, shift-highway-funds-to-transit, ban-discrimination-in-housing-and-work, restrict-abortion, restrict-government-facial-recognition and consumer-data-privacy-law. The two parks laws (dedicated-parks-funding and budget-line:parks) move only parks.access-to-exercise, which no engine reads, so they leave laws-nine-links-rights-eight's claim. Clean air, groundwater, farmland, natural resources and social media age checks stay on the family item.

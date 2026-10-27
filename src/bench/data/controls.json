@@ -29,8 +29,6 @@
     "about": "about"
   },
   "endedBy": {
-    "start": "Shift starts",
-    "end": "Shift ends",
     "moment": "Something needs you",
     "job-offered": "A job offer",
     "results": "Election results",
@@ -375,7 +373,12 @@
     "paidOut": "Paid out",
     "cashOnHand": "Cash on hand",
     "overBudget": "Paid out more than this year's budget",
-    "noBooks": "The treasury has paid nothing in or out yet"
+    "noBooks": "The treasury has paid nothing in or out yet",
+    "seriesNames": {
+      "income-tax": "Income tax rate",
+      "sales-tax": "Sales tax rate"
+    },
+    "noneHere": "None here"
   },
   "results": {
     "cast": "Ballots cast",
@@ -420,5 +423,12 @@
     "jobsLost": "Jobs lost",
     "sales": "Sales",
     "costs": "Costs"
+  },
+  "localRaces": {
+    "title": "Local races on the ballot",
+    "unopposed": "Unopposed",
+    "noFilers": "No one has filed",
+    "filingCloses": "Filing closes",
+    "noBallot": "No local election is on the calendar"
   }
 }
