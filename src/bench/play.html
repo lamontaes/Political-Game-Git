@@ -31,10 +31,13 @@
         <div id="opening-point-name" class="name"></div>
         <div id="opening-point-role" class="role"></div>
       </div>
-      <button id="news-surface" class="panel" type="button" hidden>
-        <span id="news-surface-label" class="label"></span>
-        <span id="news-surface-headline" class="prose"></span>
-      </button>
+      <div id="news-surface" class="panel toast" hidden>
+        <button id="news-surface-open" type="button">
+          <span id="news-surface-label" class="label"></span>
+          <span id="news-surface-headline" class="prose"></span>
+        </button>
+        <span data-close="news-surface-close"></span>
+      </div>
       <!-- Election day at the polls: the ballot, from the elections engine's records. -->
       <section id="ballot" class="panel" hidden>
         <div id="ballot-races"></div>
@@ -74,6 +77,10 @@
       </section>
       <section id="news-reader" class="panel" hidden>
         <div class="news-reader-main">
+          <header class="paper-masthead">
+            <h2 id="news-reader-masthead"></h2>
+            <span id="news-reader-date" class="paper-date"></span>
+          </header>
           <h2 id="news-reader-headline" class="heading"></h2>
           <div id="news-reader-body"></div>
           <div id="news-reader-pager" class="acts" data-pager hidden></div>
@@ -106,7 +113,14 @@
             data-testid="continue"
             disabled
           >
-            <b>Continue</b><small id="front-continue-life"></small>
+            <span
+              id="front-continue-bust"
+              class="bust"
+              data-testid="continue-face"
+            ></span
+            ><span class="continue-text"
+              ><b>Continue</b><small id="front-continue-life"></small
+            ></span>
           </button>
           <button
             id="front-saves"
@@ -621,9 +635,12 @@
         </div>
       </section>
 
-      <section id="journal-note" class="panel journal" hidden>
-        <p class="label">Journal</p>
-        <p id="journal-line" class="prose"></p>
+      <section id="journal-note" class="panel journal toast" hidden>
+        <div>
+          <p class="label">Journal</p>
+          <p id="journal-line" class="prose"></p>
+        </div>
+        <span data-close="journal-note-close"></span>
       </section>
 
       <!-- The menu icons stand on the card: one column, so the card never grows into them. -->

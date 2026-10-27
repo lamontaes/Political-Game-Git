@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { pickLook, wholeFigureFor } from "./whole-figures";
+import { colorsFor, pickLook, wholeFigureFor } from "./whole-figures";
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { backdropStaging } from "./staging";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
@@ -128,28 +128,39 @@ describe("choosing each person's look", () => {
     }
   });
 
-  it("gives no two people in a scene the same look", () => {
-    const taken = new Set<string>();
-    for (let n = 0; n < 4; n++) {
-      const look = pickLook(
-        core,
-        { ...person, id: `person:crowd-${n}`, gender: "female" },
-        place,
-        taken,
-      )!;
-      expect(taken.has(look.look)).toBe(false);
-      taken.add(look.look);
+  it("draws a person the same wherever they stand, whoever else is there", () => {
+    const who = { ...person, id: "person:steady", gender: "male" };
+    const here = pickLook(core, who, place)!;
+    for (let n = 0; n < 5; n++) expect(pickLook(core, who, place)).toBe(here);
+    expect(colorsFor(who)).toEqual(colorsFor({ ...who }));
+  });
+
+  it("gives neighbors their own skin and clothes colors from their own records", () => {
+    const seen = new Set<string>();
+    const skins = new Set<string>();
+    for (let n = 0; n < 40; n++) {
+      const c = colorsFor({ ...person, id: `person:street-${n}` });
+      seen.add(`${c.skin}:${c.clothes}`);
+      skins.add(c.skin);
     }
-    // Four outfits of this sex exhaust the painted distinct looks. Another
-    // person stays unplaced rather than silently reusing a look.
+    expect(seen.size).toBeGreaterThan(20);
+    expect(skins.size).toBeGreaterThan(3);
+    // A record's own seed decides, not the id; a creator's choice wins.
+    expect(colorsFor({ ...person, id: "a", seed: "s1" })).toEqual(
+      colorsFor({ ...person, id: "b", seed: "s1" }),
+    );
     expect(
-      pickLook(
-        core,
-        { ...person, id: "person:crowd-overflow", gender: "female" },
-        place,
-        taken,
-      ),
-    ).toBeNull();
+      colorsFor({
+        ...person,
+        look: {
+          sex: "male",
+          build: "slim",
+          outfit: "base",
+          skin: "ebony",
+          clothes: "red",
+        },
+      }),
+    ).toEqual({ skin: "ebony", clothes: "red" });
   });
 });
 

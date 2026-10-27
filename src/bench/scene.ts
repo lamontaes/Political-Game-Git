@@ -17,6 +17,7 @@ import figureRules from "./data/whole-figures.json" with { type: "json" };
 import {
   ageBandOf,
   figureOn,
+  colorsFor,
   pickLook,
   type Figure,
   type FigurePerson,
@@ -513,6 +514,8 @@ interface Looks {
   id: string;
   birthDate: string;
   gender?: string;
+  /** The seed of the person's appearance record, when it holds one. */
+  seed?: string;
   /** The look chosen in the creator (the player), when there is one. */
   look?: FigurePerson["look"];
 }
@@ -548,6 +551,9 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       id: person.id,
       birthDate: person.birthDate,
       ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
+      ...(person.looks?.appearanceSeed
+        ? { seed: person.looks.appearanceSeed }
+        : {}),
       ...(look ? { look } : {}),
     };
   }
@@ -581,22 +587,31 @@ export function stagePeople(
   core: CoreState,
   place: string,
   ids: readonly { id: string; name: string; reason: StageReason }[],
+  /** Whose speech it is: at the picture's podium, where it has one, in the lectern pose. */
+  speaker?: string,
 ): { people: BenchScenePerson[]; unplaced: BenchScene["unplaced"] } {
   const stage = backdropStaging(place);
   const people: BenchScenePerson[] = [];
   const unplaced: BenchScene["unplaced"] = [];
   if (!stage) return { people, unplaced };
   const hero = stage.spots.find((spot) => spot.hero) ?? stage.spots[0]!;
+  // With a speaker at the podium, the others stand and sit nearest it (the
+  // rostrum behind a President), not at the hero spot in front of the room.
+  const podiumSpot = stage.spots.find((spot) => spot.pose === "podium");
+  const lead =
+    speaker && podiumSpot && ids.some((row) => row.id === speaker)
+      ? podiumSpot
+      : hero;
   // People who are together stand together: the nearest spots to the lead
   // first. A spot in front of the lead counts as farther, so the lead stays
   // in front and unhidden.
   const reach = (spot: StagingSpot) =>
-    Math.hypot(spot.x - hero.x, (spot.y - hero.y) * 2) +
-    (spot.y > hero.y + IN_FRONT ? FRONT_PENALTY : 0);
+    Math.hypot(spot.x - lead.x, (spot.y - lead.y) * 2) +
+    (spot.y > lead.y + IN_FRONT ? FRONT_PENALTY : 0);
   const rest = stage.spots
-    .filter((spot) => spot !== hero && spot.pose !== "podium")
+    .filter((spot) => spot !== lead && spot.pose !== "podium")
     .sort((a, b) => reach(a) - reach(b));
-  const free: StagingSpot[] = [hero, ...rest];
+  const free: StagingSpot[] = lead === hero ? [hero, ...rest] : rest;
   const placed: {
     id: string;
     name: string;
@@ -606,8 +621,6 @@ export function stagePeople(
     band: Parameters<typeof figureOn>[1];
     spot: StagingSpot;
   }[] = [];
-  // No twins: each look is worn by one person in the scene, the lead first.
-  const taken = new Set<string>();
   for (const { id, name, reason } of ids) {
     if (!reason) {
       unplaced.push({ personId: id, reason: "no-reason" });
@@ -623,9 +636,10 @@ export function stagePeople(
       birthDate: looks.birthDate,
       ...(looks.gender ? { gender: looks.gender } : {}),
       official: isOfficial(core, id),
+      ...(looks.seed ? { seed: looks.seed } : {}),
       ...(looks.look ? { look: looks.look } : {}),
     };
-    const look = pickLook(core, who, place, taken);
+    const look = pickLook(core, who, place);
     if (!look) {
       unplaced.push({ personId: id, reason: "no-whole-figure" });
       continue;
@@ -637,6 +651,25 @@ export function stagePeople(
       figureOn(look, band, place, stage, spot) !== null;
     const clear = (spot: StagingSpot) =>
       placed.every((row) => !hides(stage, spot, row.spot));
+    // The speaker takes the podium, when the picture has one they fit.
+    const podium = stage.spots.find((spot) => spot.pose === "podium");
+    if (
+      id === speaker &&
+      podium &&
+      !placed.some((row) => row.spot === podium) &&
+      fits(podium)
+    ) {
+      placed.push({
+        id,
+        name,
+        reason,
+        look,
+        colors: new URLSearchParams(colorsFor(who)).toString(),
+        band,
+        spot: podium,
+      });
+      continue;
+    }
     let index = free.findIndex((spot) => clear(spot) && fits(spot));
     if (index < 0) index = free.findIndex(fits);
     if (index < 0) {
@@ -646,11 +679,7 @@ export function stagePeople(
       });
       continue;
     }
-    taken.add(look.look);
-    const colors = new URLSearchParams({
-      ...(looks.look?.skin ? { skin: looks.look.skin } : {}),
-      ...(looks.look?.clothes ? { clothes: looks.look.clothes } : {}),
-    }).toString();
+    const colors = new URLSearchParams(colorsFor(who)).toString();
     placed.push({
       id,
       name,
