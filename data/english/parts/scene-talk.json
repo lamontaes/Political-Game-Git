@@ -21301,10 +21301,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.deceased-had-one-more-fight-left-at-the-council-and-never-got-to-it-so",
+      "key": "scene-talk.state-request.deceased-left-something-unfinished-somebody-has-to-carry-it-and-i-d-like-it-to-be-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{deceased} had one more fight left at the council and never got to it. Somebody has to finish it. I'd like it to be you.",
+      "text": "{deceased} left something unfinished. Somebody has to carry it, and I'd like it to be you.",
       "uses": [
         {
           "subject": "scene",
@@ -21326,10 +21326,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.tell-me-what-it-was-and-i-ll-put-it-on-the-agenda-myself-i-can-t-promi",
+      "key": "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Tell me what it was, and I'll put it on the agenda myself. I can't promise it passes. I can promise it gets a vote with {deceased}'s name on it.",
+      "text": "Tell me what it was. I can't promise how it ends, but I'll take it up in {deceased}'s name.",
       "uses": [
         {
           "subject": "scene",
@@ -21351,10 +21351,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-call-my-office-monday-and-we-ll-tal",
+      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-about-it-properly",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not today. Let me get through today. Call my office Monday, and we'll talk about it properly.",
+      "text": "Not today. Let me get through today. Come find me next week, and we'll talk about it properly.",
       "uses": [
         {
           "subject": "scene",
@@ -21426,10 +21426,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.every-spring-deceased-called-the-council-about-the-same-thing-and-ever",
+      "key": "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Every spring {deceased} called the council about the same thing, and every spring somebody said next year.",
+      "text": "{deceased} kept asking for the same thing, year after year, and kept being told next year.",
       "uses": [
         {
           "subject": "scene",
@@ -21452,10 +21452,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.then-it-goes-on-the-agenda-this-spring-i-ll-call-you-when-it-s-schedul",
+      "key": "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Then it goes on the agenda this spring. I'll call you when it's scheduled.",
+      "text": "Then I'll take it up. I'll tell you what comes of it.",
       "uses": [
         {
           "subject": "scene",
@@ -21478,10 +21478,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-s-the-state-s-road-i-can-carry-it-to-them-i-can-t-make-them-say-y",
+      "key": "scene-talk.reply-decline.i-can-carry-it-to-the-people-who-decide-i-can-t-make-them-say-yes",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That's the state's road. I can carry it to them. I can't make them say yes.",
+      "text": "I can carry it to the people who decide. I can't make them say yes.",
       "uses": [
         {
           "subject": "scene",
@@ -21554,10 +21554,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.monday-then",
+      "key": "scene-talk.follow-accept.next-week-then",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Monday, then.",
+      "text": "Next week, then.",
       "uses": [
         {
           "subject": "scene",
@@ -21580,10 +21580,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.if-not-here-when-nobody-returns-my-calls",
+      "key": "scene-talk.follow-press.if-not-here-when-i-ve-waited-long-enough",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "If not here, when? Nobody returns my calls.",
+      "text": "If not here, when? I've waited long enough.",
       "uses": [
         {
           "subject": "scene",
@@ -23256,10 +23256,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-at-a-folding-table-outside-the-grocery-store-with-a-clipboard-",
+      "key": "scene-talk.narrate-narrate.name-is-at-a-folding-table-with-a-clipboard-and-a-stack-of-petitions-you-d-have-to-walk-right-past",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is at a folding table outside the grocery store with a clipboard and a stack of petitions. You'd have to walk right past.",
+      "text": "{name} is at a folding table with a clipboard and a stack of petitions. You'd have to walk right past.",
       "uses": [
         {
           "subject": "scene",
@@ -23306,10 +23306,10 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.we-re-collecting-signatures-to-recall-you-you-voted-for-bill-and-peopl",
+      "key": "scene-talk.state-confront.we-re-collecting-signatures-to-recall-you-you-voted-for-bill-that-s-why",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "We're collecting signatures to recall you. You voted for {bill}, and people here are paying for it.",
+      "text": "We're collecting signatures to recall you. You voted for {bill}. That's why.",
       "uses": [
         {
           "subject": "scene",
@@ -48804,10 +48804,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.a-card-table-has-gone-up-by-the-post-office-doors-name-is-behind-it-wi",
+      "key": "scene-talk.narrate-narrate.a-card-table-has-gone-up-on-your-way-through-town-name-is-behind-it-with-petitions",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A card table has gone up by the post office doors. {name} is behind it with petitions and a jar of pens.",
+      "text": "A card table has gone up on your way through town. {name} is behind it with petitions.",
       "uses": [
         {
           "subject": "scene",
@@ -88797,6 +88797,415 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-one-night-a-week-stays-ours-promise-me-that-part-too",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then one night a week stays ours. Promise me that part too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-long-until-it-really-settles-down",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How long until it really settles down?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-everyone-who-knocked-doors-not-just-me-they-earned-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank everyone who knocked doors, not just me. They earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.say-that-again-in-a-month-when-you-re-never-home",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Say that again in a month, when you're never home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-told-me-now-tell-me-what-it-s-going-to-cost-us",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You told me. Now tell me what it's going to cost us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "boast"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.are-you-scared-at-all",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Are you scared at all?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.does-it-feel-real-yet",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Does it feel real yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-going-to-remember-you-said-that",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm going to remember you said that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.we-ll-see-how-you-handle-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "We'll see how you handle it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "boast"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-coming-it-would-have-meant-something-to-deceased",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for coming. It would have meant something to {deceased}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-you-came-i-wasn-t-sure-you-would",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad you came. I wasn't sure you would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased} always said you'd understand what was left undone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-know-who-else-to-ask-deceased-trusted-you-with-things",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't know who else to ask. {deceased} trusted you with things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits until the room thins out, then comes over to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-and-the-race-for-office-is-yours-name-hears-it-before-you-can-say-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in, and the race for {office} is yours. {name} hears it before you can say it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-win",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-race-for-office-went-the-other-way-name-waited-up-anyway",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The race for {office} went the other way. {name} waited up anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
       }
     },
     {
