@@ -119,14 +119,19 @@ describe("M4-06 the record follows you", () => {
           .table("contests")
           .rows() as unknown as ContestRow[]
       ).find((c) => held.has(c.seatId) && c.incumbentTermId);
+      // An incumbent who decides not to run leaves no record on the ballot
+      // to weigh: draw again.
+      if (contest) {
+        fileStandingCandidates(api, contest.id);
+        if (!ballot(api, contest.id).length) contest = undefined;
+      }
       place = key;
     }
     expect(
       contest,
-      "no town with a resident-held local seat up for election",
+      "no town with a resident-held local seat up for election whose incumbent runs",
     ).toBeDefined();
     const api = coreAPI(core!);
-    fileStandingCandidates(api, contest!.id);
     const incumbentFiling = ballot(api, contest!.id)[0]!;
     const incumbent = core!.people.get(incumbentFiling.personId)!;
     // A challenger from town files (by fee or signatures).
