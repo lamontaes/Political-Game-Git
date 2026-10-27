@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: words/helper-b-concession-call-received
 pr: #6260
 blocked-on:
