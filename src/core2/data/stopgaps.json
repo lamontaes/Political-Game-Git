@@ -2388,7 +2388,7 @@
     "kind": "estimated-calibration",
     "file": "src/core2/data/health.json",
     "line": 15,
-    "whatItFakes": "One base-rate scale (0.106) for every place, solved from two generated towns so expected yearly deaths match the SSA 2023 life table; the chronic-condition weights were calibrated for the old shared threshold and are not refit.",
+    "whatItFakes": "One base-rate scale (0.097, refit Oct 27, 2026 over twenty-four generated towns: 450 deaths against 446.0 expected) for every place; the chronic-condition weights were calibrated for the old shared threshold and are not refit, and single towns range from 0.3 to 1.9 of the table's count.",
     "why": "The owner replaced the shared threshold with personal resilience lines; totals must stay on the life table and a full recalibration of the condition pack has not been done.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
@@ -2659,6 +2659,32 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Fill-in at the moment a counted person meets an employer (OPUS-CORE's fillInPerson), or an aggregate chooser for counted groups agreed with OPUS-CORE.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "counted workers retire, quit, look around, stay, start looking, stop looking and apply by the same offers and the same chooser as full people (workerOffers, reviewCountedWorkers, reviewCountedEntry and the shared weekly consider in modules/jobs.ts), each record deciding for the household weight it stands for. Their record holds no needs, so strain is the neutral zero; age, savings, traits and tenure are read from it, and a decision's recorded reasons are kept on the change or seeker row. Looking and waiting are weighed again each month by one shared rule (settleEntryChoice) for any full or counted person whose search began as their own choice to look (the opening's jobless and those who started looking): waiting wins ends the seeker row and the claim in both tiers; a search that began with a lost job is ended by being hired. The acceptance of an offer by an employed counted worker stays acceptScore, which full people also use."
+  },
+  {
+    "id": "SG-WORLD-jobs-quit-rate-uncalibrated",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1458,
+    "whatItFakes": "Quitting and looking around while employed are now decided by the shared chooser for full and counted workers alike, and win only on a large pay gap, so a played year has far fewer quits than JOLTS reports; the old summed-pull churn that matched JOLTS quit rates is gone.",
+    "why": "One rule for both tiers replaced the counted summed pulls; the leave and look terms were retuned for retirement and entry, not yet for quits.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-20",
+    "replacement": "The leave and look terms (quitScore, jobsLookBaseline, jobsPayGapWeight) calibrated so a played year's quits per worker match JOLTS total private quits by month, measured in drawn places.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-owner-pulls",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 2067,
+    "whatItFakes": "Counted owners who found a business, close one or borrow, and a firm with no recorded owner run by counted people, act by summed pulls (strongestPulls) rather than the shared chooser.",
+    "why": "The shared chooser decides for one actor; these decisions are made for a whole counted group at once.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-20",
+    "replacement": "Each counted owner decides through the shared chooser from the counted record, times the household's weight, as counted workers now do.",
     "status": "open"
   },
   {
@@ -4599,8 +4625,8 @@
     "why": "World building draws the player's past during New game, before the creator runs, and there is no step to redraw it for a chosen age.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age.",
-    "status": "open"
+    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age. Resolved Oct 27, 2026: the chosen birthday goes into the world build (buildBenchWorld's playerBirthDate), which holds a resident of that age and makes the player the resident born nearest it, so the household, kin, schooling, work and money drawn for them fit the age; the identity call then sets the name, exact birth date and looks.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-town-count-estimate",
@@ -6627,6 +6653,30 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-housing-lease-anniversary",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 409,
+    "whatItFakes": "Every lease that exists when the housing records open has its yearly renewal in one of the twelve months after the first review, the month fixed by the hash of the lease id, evenly across the year. No data says when each opening lease was signed.",
+    "why": "Without it every opening lease renewed on the same review, a year after the opening, so a rent law could reach no tenant in the first year and rents stepped once a year. Leases are signed through the year; the Census table of renters by year moved in (ACS B25038) would give the true spread but is not in the data yet.",
+    "addedBy": "claude/laws-nine-links-housing-credit",
+    "addedAt": "2026-10-24",
+    "replacement": "Each opening lease's anniversary drawn from the place's renters by year moved in (ACS B25038), by the same lease-id hash.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-credit-rate-cap-no-small-lender",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/credit.ts",
+    "line": 1162,
+    "whatItFakes": "The cap-consumer-loan-rates law applies only to the bank's consumer loan, which sits near 13 percent against a 36 percent ceiling and never reaches it in an ordinary rate year, so no borrower's rate changes and the law moves no dollar. The game has no lender the cap could bind.",
+    "why": "The owner ruled on Oct 24 that small-dollar lenders are simulated in the background: payday and small-dollar lenders exist where state law allows them, with rates and volumes from sourced data, read by the consumer-loan rate cap and by households that borrow (docs/coordination/OWNER-DECISIONS.md, Oct 24, \"Small-dollar lenders\"). Until world-small-dollar-lenders builds them, the law is read at every quote and records each household it governed (credit.ts), and its outcome-web link moves lender counts, but no loan is repriced.",
+    "addedBy": "claude/laws-nine-links-housing-credit",
+    "addedAt": "2026-10-24",
+    "replacement": "world-small-dollar-lenders: payday and small-dollar lenders where the place's law allows them, their rates and volumes from CFPB and state regulator data, whose rate and fees the cap binds, with the cap's ceiling read from the law in force.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-housing-eviction-day-counting",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
@@ -6942,6 +6992,18 @@
     "status": "open"
   },
   {
+    "id": "SG-CAMPAIGN-offer-full-people-only",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 1217,
+    "whatItFakes": "Only full people who know a candidate offer to help once word of the filing reaches them; the counted population never offers, so a candidate's volunteers from the wider town come only from the campaign's own asks.",
+    "why": "Volunteers are kept as person ids on the campaign row and an offer is a scene with a person; a counted group has no one to stage. The ask to volunteer has the same limit.",
+    "addedBy": "words-campaign-season-scenes-fill-the-months",
+    "addedAt": "2026-10-26",
+    "replacement": "Counted groups who hear of a filing offer by the same volunteerReason times their count, filled in as full people when one offers to the player.",
+    "status": "open"
+  },
+  {
     "id": "SG-P15-party-ask-after-player",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/candidacy.ts",
@@ -7011,6 +7073,78 @@
     "addedBy": "fixer, Merger 2's send-back of PR 5792",
     "addedAt": "2026-10-27",
     "replacement": "Correct the counted renters' income to the place's sourced ratio (world-counted-renter-income-puerto-rico-third), then remove the pin so the case meets the HUD bound.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-rent-help-population-share",
+    "kind": "faked-mechanic",
+    "file": "src/core2/housing-assistance.ts",
+    "line": 51,
+    "whatItFakes": "A state's or county's rent-help line is paid to the played town by the town's share of the government's population, as though renter households were spread the same way as people.",
+    "why": "Renter households are not recorded for the whole government, only for the played town, so the town's slice of a larger government's line cannot be read from renters; the population share is the nearest record that exists.",
+    "addedBy": "fixer, Merger 4's send-back of PR 6219",
+    "addedAt": "2026-10-27",
+    "replacement": "Record renter households per government (counted, as the town's are) and pay each line by the town's share of them; the stopgap clears when the share reads renters.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-figure-color-masks-from-picture",
+    "kind": "faked-mechanic",
+    "file": "src/bench/figure-colors.ts",
+    "line": 61,
+    "whatItFakes": "A figure's skin and clothing regions are guessed from pixel colors (warm saturated pixels are skin, unsaturated mid-gray pixels are clothing) instead of read from a painted mask, so the gray shoes follow the clothes color and a very dark skin tone loses some facial shading.",
+    "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
+    "addedBy": "claude/play-stop-34",
+    "addedAt": "2026-10-27",
+    "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-people-skin-tone-weights",
+    "kind": "estimated-data",
+    "file": "src/bench/whole-figures.ts",
+    "line": 236,
+    "whatItFakes": "The skin tone of a person other than the player is drawn from one national spread of eight tones, the same in every place, not from the place's own people.",
+    "why": "The people records hold no skin tone; the figures need one to differ from their neighbors. The weights are a rough estimate of the national spread (Census race and ethnicity counts folded into eight tones), about five points a tone.",
+    "addedBy": "claude/play-stop-35",
+    "addedAt": "2026-10-27",
+    "replacement": "A skin tone set from the place's own demographics when the person is made, stored on their appearance record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-hardship-stress",
+    "kind": "partial-model",
+    "file": "src/core2/trait-decisions.ts",
+    "line": 472,
+    "whatItFakes": "The stress a layoff, an eviction or a missed payment leaves is read by the loan and move decisions for full people only; a counted person's decision reads none, because the wider population stores no stress (a counted worker laid off feels the layoff's appraisal for the day of their claim only).",
+    "why": "A counted person's stress impulses are appraised when the event reaches them (drives.ts) and not kept, and their resting stress is recomputed from their situation each time their group decides; there is no stored stress above rest to read a month later.",
+    "addedBy": "traits-outcome-hardship-coping",
+    "addedAt": "2026-10-24",
+    "replacement": "Keep a counted person's appraised hardship impulse with the date it landed (a row beside the counted record, written where drives.ts appraises it) and read it, decayed by emotion.ts, in hardshipStress; a person filled in from a group would take it into their affect.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-opening-venue-has-no-inauguration-record",
+    "kind": "missing-record",
+    "file": "src/bench/data/opening-pictures.json",
+    "line": 1,
+    "whatItFakes": "An inauguration's address is staged at the House rostrum, in every world, because that is the one national picture with a podium and seats behind it.",
+    "why": "The inauguration record (inauguration:2025-01-20) carries no venue, and the Capitol steps have no podium in the painted pictures, so the President could not be drawn at a lectern with the Vice President and others behind him at the White House.",
+    "addedBy": "play-first lane agent 4",
+    "addedAt": "2026-10-27",
+    "replacement": "The inauguration record carries its venue, and the Capitol steps picture gets a podium spot; the setting reads the record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-pay-growth-by-performance",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1291,
+    "whatItFakes": "A worker's pay is the rate their job was posted at, so temperament changes earnings only through who is hired first and who is let go last; nobody's pay grows with their tenure or how they work.",
+    "why": "Real pay grows with tenure and performance (Gensowski 2018: about 16.7 percent of lifetime earnings per standard deviation of conscientiousness). The owner ruled on Oct 24 that it is built, not asked: pay moves with tenure and the worker's record at the employer, calibrated from BLS/ECI tenure-wage research, no fixed step (OWNER-DECISIONS.md, Oct 24).",
+    "addedBy": "claude/traits-outcome-job-performance",
+    "addedAt": "2026-10-24",
+    "replacement": "Pay growth by tenure and the worker's record, built by owner-pay-growth-by-performance; this row resolves when it lands.",
     "status": "open"
   }
 ]
