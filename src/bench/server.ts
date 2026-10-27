@@ -16,7 +16,7 @@ const assets = new Map([
 // The approved Kit 12/13 fonts and controls, served from public/.
 const PUBLIC = new URL("../../public/", import.meta.url);
 const publicFile =
-  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg)$/;
+  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg|ui\/kit13\/calendar-[a-z]+\.png)$/;
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url ?? "/", "http://bench");
@@ -29,7 +29,14 @@ const server = createServer(async (request, response) => {
     response.end(serialize(value));
   };
   try {
-    const asset = assets.get(url.pathname);
+    // The play screen's shared parts (src/bench/ui/<part>.mjs).
+    const part = /^\/ui\/([a-z-]+\.mjs)$/.exec(url.pathname);
+    const asset =
+      assets.get(url.pathname) ??
+      (part && {
+        file: `ui/${part[1]}`,
+        type: "text/javascript; charset=utf-8",
+      });
     if (method === "GET" && asset) {
       const content = await readFile(new URL(asset.file, import.meta.url));
       response.writeHead(200, { "Content-Type": asset.type });
@@ -56,7 +63,9 @@ const server = createServer(async (request, response) => {
       response.writeHead(200, {
         "Content-Type": shared[1]!.endsWith(".svg")
           ? "image/svg+xml"
-          : "font/ttf",
+          : shared[1]!.endsWith(".png")
+            ? "image/png"
+            : "font/ttf",
         "Cache-Control": "max-age=3600",
       });
       response.end(content);

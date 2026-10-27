@@ -462,11 +462,14 @@ export interface FinanceCashPolicy {
     visit: string;
     market: string;
     customerBudget: string;
+    /** A residents wage flow an employer's credit line paid on a short payday. */
+    wageFlow: string;
   };
   financeReceiptPrefix: string;
   creditReceiptPrefix: string;
   interestContractPrefix: string;
   standaloneDrawRequestPrefix: string;
+  wageFlowDrawRequestPrefix: string;
   externalInflowKinds: readonly string[];
   externalInflowContracts: readonly {
     inflowKind: string;

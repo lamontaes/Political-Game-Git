@@ -2,8 +2,10 @@
  * What a death was. One rule for both tiers: a full person's death
  * (modules/health.ts) and a counted person's (births-counted.ts) take a cause
  * from the same sourced shares by age (data/health/death-causes.json), and
- * the outcome web's factor for each cause multiplies that cause's share, so
- * the death hazard rises by the share the web moved.
+ * the outcome web's factor for each cause (every web outcome the cause reads:
+ * firearm homicide reads the youth firearm deaths and the crime outcome of the
+ * stand-your-ground and permit laws) multiplies that cause's share, so the
+ * death hazard rises by the share the web moved.
  *
  * The cause is assigned, never rolled: every death adds each cause's share
  * to the place's carry for the age band, and the death takes the cause the
@@ -31,10 +33,14 @@ interface Band {
   readonly deaths?: number;
   readonly ratePer100000?: number;
 }
+/** A web outcome a cause reads, and the ages it lands on (every age where null). */
+interface CauseRead {
+  readonly measure: string;
+  readonly ages: { readonly min: number; readonly max: number } | null;
+}
 interface CauseRow {
   readonly id: string;
-  readonly measure: string;
-  readonly webAges: { readonly min: number; readonly max: number } | null;
+  readonly reads: readonly CauseRead[];
   readonly method: string;
   readonly scaleToTotal?: number;
   readonly bands: readonly Band[];
@@ -179,16 +185,17 @@ export function causeMix(
   let recordId: string | null = null;
   let factor = 1;
   for (const cause of CAUSES) {
-    const inWindow =
-      !cause.webAges ||
-      (whole >= cause.webAges.min && whole < cause.webAges.max);
-    const reach = inWindow
-      ? webReach(api, placeId, cause.measure, subject)
-      : undefined;
-    causeFactors[cause.id] = reach?.factor ?? 1;
-    if (reach?.factor !== undefined && reach.factor !== 1)
-      recordId ??= reach.recordId;
-    factor += base[cause.id]! * (causeFactors[cause.id]! - 1);
+    // Each outcome the cause reads moves it at its ages; the factors multiply.
+    let moved = 1;
+    for (const read of cause.reads) {
+      if (read.ages && (whole < read.ages.min || whole >= read.ages.max))
+        continue;
+      const reach = webReach(api, placeId, read.measure, subject);
+      moved *= reach.factor;
+      if (reach.factor !== 1) recordId ??= reach.recordId;
+    }
+    causeFactors[cause.id] = moved;
+    factor += base[cause.id]! * (moved - 1);
   }
   const shares: Record<string, number> = {
     [OTHER_CAUSE]: base[OTHER_CAUSE]! / factor,

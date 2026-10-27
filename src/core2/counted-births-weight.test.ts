@@ -18,6 +18,9 @@ import { lawChain } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 
+// GOLDEN_PATH_SEED replays a run: each attempt's town is drawn from it.
+const RUN_SEED =
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const SCALE = 3;
 const DAYS = 180;
 const RATE_BAND = 0.2;
@@ -31,7 +34,8 @@ interface CountRow {
 }
 
 function play(seed: string, key: string, countScale?: number) {
-  setBookkeeping(false);
+  // The monthly counted record read below is kept only under bookkeeping.
+  setBookkeeping(true);
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
@@ -69,8 +73,10 @@ function play(seed: string, key: string, countScale?: number) {
 
 it("expects and books births and deaths for the real people a counted household stands for", () => {
   for (let attempt = 0; attempt < 6; attempt++) {
-    const draw = drawPlace(randomBytes(32).toString("hex"), "births-weight");
-    const where = `place ${draw.key}, seed ${draw.seed}`;
+    const draw = drawPlace(`${RUN_SEED}:${attempt}`, "births-weight");
+    const where = `place ${draw.key}, seed ${draw.seed} (GOLDEN_PATH_SEED=${RUN_SEED}, attempt ${attempt})`;
+    // Named before the town is built, so a run that dies can be replayed.
+    process.stdout.write(`births weight: drawn ${draw.name} (${where})\n`);
     const base = play(draw.seed, draw.key);
     if (base.start < MINIMUM_PEOPLE || base.expected.births < 3) continue;
     const scaled = play(draw.seed, draw.key, SCALE);
@@ -93,6 +99,9 @@ it("expects and books births and deaths for the real people a counted household 
       `${where}: booked ${scaled.booked} against expected ${scaled.expected.births}`,
     ).toBeLessThanOrEqual(
       scaled.heaviest + WEIGHT_DRIFT * scaled.expected.births,
+    );
+    process.stdout.write(
+      `births weight: ${draw.name} (${where}): ${base.start} and ${scaled.start} people, births expected ${base.expected.births.toFixed(1)} and ${scaled.expected.births.toFixed(1)}, booked ${scaled.booked}\n`,
     );
     return;
   }

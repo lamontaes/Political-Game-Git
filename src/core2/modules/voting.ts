@@ -33,7 +33,9 @@ import {
   type SampleVoter,
 } from "../electorate";
 import {
+  applyElectionLaws,
   barredFromVoting,
+  recordRedistricting,
   electionLawTurnoutCost,
 } from "../law-reach/group-a-voting";
 import { breakElectionTie } from "../election-ties";
@@ -51,8 +53,13 @@ import {
 } from "../turnout";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
-import { parameter } from "../parameters";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYes,
+  reportOutcome,
+} from "../trait-decisions";
+import { standsAgain } from "../stand-again";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -69,6 +76,7 @@ import {
   specialContestFor,
   ELECTIONS_MODULE_ID,
   ballot,
+  registerWardResidency,
   type ContestRow,
   type FilingRow,
 } from "./elections";
@@ -92,13 +100,14 @@ import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
-import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
+import { PARTIES_MODULE_ID, joinParty, partiesHere, partyTie } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { nationalParty, partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
 import {
   agreementWith,
+  countedStanceProfile,
   VIEWS_DATA,
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
@@ -179,6 +188,13 @@ export interface BallotRow {
   readonly lean?: number;
   /** What they told the exit pollster. */
   readonly toldPollster: string | null;
+  /** Why they told or declined: how closely they follow politics and how much the day's races mattered to them. */
+  readonly pollsterReasons?: {
+    readonly engagement: number;
+    readonly interest: number;
+    /** Their trait lean toward telling, before the decision's weight. */
+    readonly lean: number;
+  };
   /** Each incumbent's record as this voter weighed it, by candidate. */
   readonly recordReasons?: Readonly<Record<string, readonly RecordReason[]>>;
 }
@@ -235,6 +251,9 @@ interface CountedBallotsRow {
   readonly cost: readonly number[];
   /** Real voters each kept ballot stands for (absent on rows kept before the Census weight; one). */
   readonly weight?: readonly number[];
+  /** Each voter's faith and degree against their age band's average (null where none is recorded; absent on rows kept before the loadings). */
+  readonly faith?: readonly (number | null)[];
+  readonly college?: readonly (number | null)[];
 }
 
 /** One voter's turnout on a ballot: its parts and the propensity they came to. */
@@ -306,10 +325,13 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 
+export { standAgainReason } from "../stand-again";
+
 /** Put every contest's election day and the winner's first day on the calendar. */
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
+  registerWardResidency(candidateInWard);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // A vacancy's special election runs as a real race.
@@ -514,6 +536,10 @@ function appealFor(
     incumbentLean: incumbentLeanOf(api, voter),
     // The form of the ballot their own precinct prints.
     ballotForm: precinctIndexOf(api, voter),
+    // Their faith and degree, where the views engine runs in this world.
+    profile: api.state.modules.has(VIEWS_MODULE_ID)
+      ? viewOf(api, voter.id)
+      : undefined,
   });
   const tie = partyTie(api, voter.id);
   let heardPlatform = false;
@@ -721,6 +747,11 @@ function contestView(
       recognition: townShareKnowing(api, named.length, heard, f.id),
       platform: facts.platform,
       ballotCues: cues.get(f.personId) ?? [],
+      // The race's standing carries the average incumbency advantage: the
+      // town's average incumbent lean is what each voter's own is read against.
+      ...(standing && facts.isIncumbent
+        ? { incumbentLeanCenter: townIncumbentLean(api) }
+        : {}),
       // A reported scandal as far as its story reached the town's people.
       scandal: scandalAppeal(api, f.personId, named),
     };
@@ -874,13 +905,36 @@ const adultsByDay = new WeakMap<
   { date: string; size: number; rows: readonly PersonState[] }
 >();
 
+const incumbentLeanByDay = new WeakMap<
+  object,
+  { readonly date: string; readonly mean: number }
+>();
+
+/** The town's adults' average incumbent side of their traits, each counted record weighed by the people it stands for. */
+function townIncumbentLean(api: CoreAPI): number {
+  const held = incumbentLeanByDay.get(api.state);
+  if (held?.date === api.state.date) return held.mean;
+  const { townPlaceId } = town(api);
+  let sum = 0,
+    weight = 0;
+  for (const voter of countedResidents(api.state as CoreState)) {
+    if (voter.placeId !== townPlaceId || ageOn(voter, api.state.date) < 18)
+      continue;
+    sum += incumbentLeanOf(api, voter) * voter.weight;
+    weight += voter.weight;
+  }
+  const mean = weight > 0 ? sum / weight : 0;
+  incumbentLeanByDay.set(api.state, { date: api.state.date, mean });
+  return mean;
+}
+
 /** The incumbent's side of a voter's traits: stay with the known or try someone new. */
-function incumbentLeanOf(
+export function incumbentLeanOf(
   api: CoreAPI,
   voter: Readonly<Pick<PersonState, "id" | "traits">>,
 ): number {
   return (
-    parameter("traitDecisionWeight") *
+    decisionTraitWeight(api.state, "voting.back-incumbent") *
     decisionLean(
       api.state,
       voter,
@@ -891,10 +945,62 @@ function incumbentLeanOf(
   );
 }
 
+/** A named person's scheduled weekly work, from their commitments. */
+function weeklyWorkOf(state: CoreState, personId: string): number {
+  return [...(state.work.commitmentsByPerson.get(personId) ?? [])].reduce(
+    (sum, id) =>
+      sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
+    0,
+  );
+}
+
+/** One voter on the roll the election laws are applied to: a named person, or a counted group. */
+export interface RollVoter {
+  readonly id: string;
+  readonly target: "person" | "group";
+  /** The people it stands for (a counted group's weight times its citizen scale). */
+  readonly count: number;
+  readonly birthDate: string;
+  readonly traits: Readonly<Record<string, number>>;
+  readonly weeklyMinutes: number;
+}
+
 /**
- * A voter's reasons to vote apart from the race: their own sense of duty and
- * reliability, every trait's lean between voting and staying home, how
- * closely they follow politics (where PEOPLE's views engine runs; younger
+ * The town's adults the election laws apply to today: its named adults the
+ * state does not bar, and its counted adults, each standing for the people
+ * like them who are citizens and not barred.
+ */
+export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
+  const state = api.state as CoreState;
+  const { townPlaceId } = town(api);
+  const date = state.date;
+  const rows: RollVoter[] = townAdults(api).map((p) => ({
+    id: p.id,
+    target: "person",
+    count: 1,
+    birthDate: p.birthDate,
+    traits: p.traits,
+    weeklyMinutes: weeklyWorkOf(state, p.id),
+  }));
+  const scale = countedScale(api);
+  for (const v of countedResidents(state))
+    if (v.placeId === townPlaceId && ageOn(v, date) >= 18)
+      rows.push({
+        id: v.id,
+        target: "group",
+        count: v.weight * scale,
+        birthDate: v.birthDate,
+        traits: v.traits,
+        weeklyMinutes: v.weeklyMinutes,
+      });
+  return rows;
+}
+
+/**
+ * A voter's reasons to vote apart from the race: every trait's lean between
+ * voting and staying home (one term, weighted from the personality and civic
+ * engagement study: duty and reliability reach it through the same lean),
+ * how closely they follow politics (where PEOPLE's views engine runs; younger
  * people follow less, CES 2024), against what voting costs them that day
  * (their work hours, the election laws in force, a custom world's turnout
  * setting, and what the election adds: a midterm's, an off-cycle date's or a
@@ -907,31 +1013,36 @@ export function turnoutReasons(
   recordedWeeklyMinutes?: number,
   /** What this election adds to the cost of voting. */
   extraCost = 0,
-): { readonly duty: number; readonly cost: number } {
+): {
+  readonly duty: number;
+  readonly cost: number;
+  /** The trait term inside the duty (the decision's weight times the lean), and the lean. */
+  readonly trait: number;
+  readonly lean: number;
+} {
   const engagement = engagementOf(api.state as CoreState, voter);
+  const lean = decisionLean(
+    api.state,
+    voter,
+    "voting.turnout",
+    "vote",
+    "stay-home",
+  );
+  const trait = decisionTraitWeight(api.state, "voting.turnout") * lean;
   const duty =
-    (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
-    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2 +
-    parameter("traitDecisionWeight") *
-      decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home") +
+    trait +
     (engagement === null
       ? 0
       : campaignParameter("turnoutEngagementWeight") *
         (engagement - NATIONAL_ENGAGEMENT));
   const state = api.state as CoreState;
-  const weeklyWork =
-    recordedWeeklyMinutes ??
-    [...(state.work.commitmentsByPerson.get(voter.id) ?? [])].reduce(
-      (sum, id) =>
-        sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
-      0,
-    );
+  const weeklyWork = recordedWeeklyMinutes ?? weeklyWorkOf(state, voter.id);
   const cost =
     (weeklyWork / campaignParameter("turnoutWorkWeekMinutes") +
       electionLawTurnoutCost(api, voter, weeklyWork)) /
       customPolitics(state).turnout +
     extraCost;
-  return { duty, cost };
+  return { duty, cost, trait, lean };
 }
 
 /** One voter's turnout on one day: its parts, the propensity, and (a named voter) the act. */
@@ -983,7 +1094,7 @@ function decideTurnout(
   const hit = map.get(key);
   if (hit) return hit;
   const named = api.state.people.has(voter.id);
-  const { duty, cost } = turnoutReasons(
+  const { duty, cost, trait, lean } = turnoutReasons(
     api,
     voter,
     input.recordedWeeklyMinutes,
@@ -1014,6 +1125,16 @@ function decideTurnout(
       ? turnoutWeb(api, who.placeId, ageOnElection(who.birthDate, input.date))
       : null;
   const propensity = Math.min(1, propensityOf(parts) * (web ? web.factor : 1));
+  // The audit's probe (off in play) sees the propensity with and without the trait term.
+  reportOutcome("voting.turnout", voter.id, lean, "probability", (withTerm) =>
+    withTerm
+      ? propensity
+      : Math.min(
+          1,
+          propensityOf({ ...parts, duty: parts.duty - trait }) *
+            (web ? web.factor : 1),
+        ),
+  );
   let votes = false;
   if (named) {
     const act = namedTurnout(record?.carry ?? OPENING_CARRY, propensity);
@@ -1052,7 +1173,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  if (api.state.modules.has("candidacy")) return;
+  const candidacy = api.state.modules.has("candidacy");
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
   // Whoever holds the seat when filing closes stands as its incumbent: an
@@ -1102,6 +1223,50 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     filings.put(filing as unknown as ModuleRow);
     announce(api, filing, contest);
   };
+  if (candidacy) {
+    // Who runs is candidacy's, from people's own records. A statewide
+    // partisan race (no district) still draws each major party's nominee
+    // where no one of that side filed: parties field statewide tickets.
+    const partisan =
+      incumbent?.party ??
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("seats")
+          .get(contest.seatId) as unknown as
+          { party?: string | null } | undefined
+      )?.party;
+    if (
+      (contest.level === "federal" || contest.level === "state") &&
+      !contest.district &&
+      partisan
+    )
+      for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
+        if (
+          !ballot(api, contestId).some(
+            (f) =>
+              f.status === "on-ballot" &&
+              partySide(f.party ?? null) === partySide(party),
+          )
+        ) {
+          const nominee =
+            officialCandidate(api, contest, party) ??
+            officialCandidateId(`nominee:${party}:${contest.id}`);
+          // The party's nominee is its member: a person filled in to run
+          // for it joins it the day they file.
+          const partyHere = api.state.modules.has(PARTIES_MODULE_ID)
+            ? partiesHere(api).find((row) => row.name === party)
+            : undefined;
+          if (
+            partyHere &&
+            api.state.people.has(nominee) &&
+            !partyTie(api, nominee)
+          )
+            joinParty(api, nominee, partyHere.id);
+          put(nominee, party, "party nominee");
+        }
+    return;
+  }
   const alive =
     incumbent &&
     incumbent.status === "serving" &&
@@ -1116,17 +1281,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     : undefined;
   // A full person stands from their own traits; a placeholder incumbent
   // keeps the standing rule.
-  const stands =
-    !incumbentPerson ||
-    campaignParameter("votingStandAgainBase") +
-      decisionLean(
-        api.state,
-        incumbentPerson,
-        "voting.stand-again",
-        "stand",
-        "retire",
-      ) >
-      0;
+  const stands = !incumbentPerson || standsAgain(api, incumbentPerson);
   if (
     incumbent &&
     alive &&
@@ -1407,6 +1562,7 @@ export function holdPrimary(
         trust: trustWeight(api, leanOf.get(voter.id) ?? 0),
         // The town's people hold each form of a rotated ballot in turn.
         ballotForm: form,
+        profile: countedStanceProfile(api, voter),
       });
       // Each counted voter stands for the town's people like them: their
       // vote counts at the share of them who turn out.
@@ -1664,6 +1820,39 @@ const townReach = new WeakMap<object, { key: string; contacts: number }>();
  * leave it blank), how often the campaigns reached them, their own record and
  * what voting costs them that day.
  */
+/**
+ * A voter's reasons to tell the exit pollster how they voted, before
+ * temperament: a base reluctance to stop for a stranger's questionnaire, more
+ * readiness the more closely they follow politics (engaged people are the
+ * ones surveys over-reach, Pew Research Center 2017) and the more the day's
+ * races mattered to them (their own gap between the candidates).
+ */
+function pollsterCase(
+  api: CoreAPI,
+  voter: {
+    readonly id: string;
+    readonly birthDate?: string;
+    readonly placeId?: string;
+  },
+  interest: number,
+): {
+  readonly case: number;
+  readonly engagement: number;
+  readonly interest: number;
+} {
+  const engagement =
+    engagementOf(api.state as CoreState, voter) ?? NATIONAL_ENGAGEMENT;
+  return {
+    case:
+      electionsParameter("exitPollBase") +
+      electionsParameter("exitPollEngagementWeight") *
+        (engagement - NATIONAL_ENGAGEMENT) +
+      electionsParameter("exitPollInterestWeight") * interest,
+    engagement,
+    interest,
+  };
+}
+
 function atThePolls(
   api: CoreAPI,
   voter: Readonly<Pick<PersonState, "id" | "traits">> & {
@@ -1714,7 +1903,7 @@ function atThePolls(
 }
 
 /** A second election between the tied candidates, a tunable number of weeks on. */
-function secondElection(
+export function secondElection(
   api: CoreAPI,
   contest: ContestRow,
   tied: readonly string[],
@@ -1787,6 +1976,9 @@ const PLACES_SOURCE =
  * voters need at the national count of voters per voting location, each in
  * the town government's building where the records hold one.
  */
+/** The classification a town's own government is recorded under. */
+const MUNICIPAL_GOVERNMENT = "service:municipal-government";
+
 export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
   const rows = table(api, "pollingPlaces");
   if (rows.size)
@@ -1801,16 +1993,14 @@ export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
     Math.ceil(voters / electionsParameter("votersPerVotingLocation")),
   );
   const core = api.state as CoreState;
+  // The town's own government, recorded as the disasters engine and the law
+  // reach read it; a place with none on record has no building yet.
   const building =
     [...core.organizations.values()]
       .filter(
         (o) =>
           o.placeId === townPlaceId &&
-          ((o as { classification?: string }).classification?.startsWith(
-            "government:",
-          ) ||
-            o.kind === "government" ||
-            o.kind === "local-government"),
+          o.classification === MUNICIPAL_GOVERNMENT,
       )
       .map((o) => o.id)
       .sort()[0] ?? null;
@@ -1912,6 +2102,30 @@ function inWard(
   return (map.get(home) ?? 1) === ward;
 }
 
+/**
+ * The ward a contest's seat represents and the ward a would-be candidate's
+ * household lives in; null for an at-large seat, or for a person whose
+ * household the town's wards do not place.
+ */
+function candidateInWard(
+  api: CoreAPI,
+  contest: ContestRow,
+  person: Readonly<PersonState>,
+): { readonly seatWard: number; readonly homeWard: number } | null {
+  const wards = wardsOf(api, contest);
+  if (!wards) return null;
+  const home = (person as { householdId?: string }).householdId ?? person.id;
+  const memo = wardMemo.get(api.state);
+  const map =
+    memo?.date === api.state.date && memo.wards === wards
+      ? memo.map
+      : wardMap(api, wards);
+  const ward = map.get(home);
+  return ward === undefined
+    ? null
+    : { seatWard: Number(contest.district), homeWard: ward };
+}
+
 /** Every town household's ward, once a day. */
 function wardMap(api: CoreAPI, wards: number): Map<string, number> {
   const adults = new Map<string, number>();
@@ -1934,6 +2148,7 @@ function wardMap(api: CoreAPI, wards: number): Map<string, number> {
     before += n;
   }
   wardMemo.set(api.state, { date: api.state.date, wards, map });
+  recordRedistricting(api, wards);
   return map;
 }
 const wardMemo = new WeakMap<
@@ -2096,17 +2311,20 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         : filings.some((f) => f.personId === voter.id)
           ? voter.id
           : countedChoice(appeal);
+    const pollster =
+      t.votes && choice !== null ? pollsterCase(api, voter, t.interest) : null;
     const told = !t.votes
       ? null
       : choice === null
         ? "left-blank"
-        : decisionLean(
+        : !leanedYes(
               api.state,
               voter,
               "voting.exit-poll",
               "tell",
               "decline",
-            ) < 0
+              pollster!.case,
+            )
           ? "declined"
           : choice;
     if (t.votes) {
@@ -2115,8 +2333,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     }
     if (choice) namedVotes[choice] = (namedVotes[choice] ?? 0) + 1;
     // The reasons behind a ballot (each candidate's appeal terms, the record
-    // reasons, why they turned out) are kept for the player's circle and when
-    // bookkeeping is on; everyone else's ballot keeps who voted and the choice,
+    // reasons, why they turned out) are kept for the player's circle (and
+    // everyone's under the keep-everyone's-why switch); everyone else's ballot
+    // keeps who voted and the choice,
     // which is all the turnout and results reads take.
     const why = keepsWhy(api.state as CoreState, voter.id);
     table(api, "ballots").put({
@@ -2134,6 +2353,21 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
             basis,
             lean,
             recordReasons,
+            ...(pollster
+              ? {
+                  pollsterReasons: {
+                    engagement: pollster.engagement,
+                    interest: pollster.interest,
+                    lean: decisionLean(
+                      api.state,
+                      voter,
+                      "voting.exit-poll",
+                      "tell",
+                      "decline",
+                    ),
+                  },
+                }
+              : {}),
           }
         : {}),
     } as unknown as ModuleRow);
@@ -2160,6 +2394,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     interest: [] as number[],
     cost: [] as number[],
     weight: [] as number[],
+    faith: [] as (number | null)[],
+    college: [] as (number | null)[],
   };
   const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
   let countedAdultIndex = 0;
@@ -2189,6 +2425,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       trust: trustWeight(api, lean),
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: kept.voterIds.length,
+      profile: countedStanceProfile(api, voter),
     });
     const t = atThePolls(
       api,
@@ -2208,6 +2445,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.interest.push(t.interest);
     kept.cost.push(t.cost);
     kept.weight.push(voter.weight);
+    const profile = countedStanceProfile(api, voter);
+    // Module data holds JSON: a missing distance is kept as null.
+    kept.faith.push(profile.faithFromAverage ?? null);
+    kept.college.push(profile.collegeFromAverage ?? null);
     countedVoted += t.propensity * voter.weight;
     if (choice)
       countedVotes[choice] =
@@ -2317,6 +2558,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     ...(wider ? { placesCast: wider.cast } : {}),
   };
   table(api, "results").put(result as unknown as ModuleRow);
+  // The election laws in force were applied to this electorate: who was
+  // mailed a ballot, who registered at the polls, and what the election's
+  // administration cost the government that ran it.
+  applyElectionLaws(api, "vote", electorateRoll(api), contestId);
   api.emit({
     id: `election-result:${contestId}`,
     date,
@@ -2418,8 +2663,18 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput;
+  // A holdover needs someone to hold over: a seat no one holds (an office
+  // its law created since the last election) is vacant.
+  const method =
+    row.method === "holdover" &&
+    !api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [contest.seatId, "serving"]).length
+      ? "vacancy"
+      : row.method;
   const vacancy =
-    row.method === "vacancy"
+    method === "vacancy"
       ? unfilledTerm(
           api,
           contest.seatId,
@@ -2438,6 +2693,7 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
       : null;
   table(api, "emptyRaces").put({
     ...row,
+    method,
     status: "resolved",
     resolvedOn: api.state.date,
     vacancyId: vacancy?.id ?? repeated?.id ?? null,
@@ -2960,6 +3216,15 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       incumbentLean: row.incumbentLean[i]!,
       trust: row.trust?.[i] ?? 1,
       ballotForm: i,
+      profile:
+        row.faith && row.college && Number.isFinite(row.faith[i])
+          ? {
+              faithFromAverage: row.faith[i]!,
+              ...(Number.isFinite(row.college[i])
+                ? { collegeFromAverage: row.college[i]! }
+                : {}),
+            }
+          : null,
     }),
     basis: "party-name-incumbency",
     lean: row.lean[i]!,

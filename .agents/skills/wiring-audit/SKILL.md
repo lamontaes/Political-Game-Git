@@ -10,7 +10,11 @@ description: >
 
 # Wiring audit
 
-"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Each per-family fix PR and each row's `Needs` line is SMART with a time box. Laws and effects share one checker and one matrix; traits rows live in the effects matrix.
+
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 20: Opus leads with Sonnet helpers; owner, Oct 24: at most two helpers per lead, status on the channel every two hours; the lead role itself is `lead-session`)
+
+"Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. **Wired is not seen:** the links below are measured headless. Never tell the owner a law or link is wired without also saying whether a player can see it in play, on which screen or scene, by screenshot with place and seed (Oct 26: the matrix read 55 of 89 laws wired while a player's own bill never got a vote all year and News reported no law). This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
 
 ## 1. Define wired, point by point
 
@@ -32,11 +36,11 @@ Reuse them; don't build a parallel one.
 
 ## 3. The matrix
 
-Commit `docs/reports/<job>-<date>.md` plus a machine-readable matrix: one row per item, each point's status, its evidence (record id or `file:line`), and why each miss happened. Typical reasons: no handler, a handler that only records, wrong key, no money flow, no measure, the engine never reads it, counted twice. Open it as its own PR early. Report counts from the matrix file, never from memory.
+Commit `docs/reports/<job>-<date>.md` plus a machine-readable matrix: one row per item, each point's status, its evidence (record id or `file:line`), and why each miss happened. The counts in your channel block come from this file. Typical reasons: no handler, a handler that only records, wrong key, no money flow, no measure, the engine never reads it, counted twice. Open it as its own PR early. Report counts from the matrix file, never from memory.
 
 ## 4. Fix by family
 
-One family per helper (Sonnet), each with its own paths, branch and check. The lead (Opus) reviews every diff before it becomes a PR and sends back:
+One family per helper (Sonnet, at most two per lead), each with its own paths, branch and check. The lead (Opus) reviews every diff before it becomes a PR and sends back:
 
 - narrowed, skipped or early-returning tests, `>= 0`, or loops over sets that can be empty;
 - unexplained timeouts;

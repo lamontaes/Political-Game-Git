@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/grangeville-broke
-pr: #5080
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T15:48:09.162Z
@@ -17,10 +17,12 @@ claimed-at: 2026-10-20T15:48:09.162Z
 
 **Rules.** Wire to the world: one dollar followed from the household to the payee by journal record id. No dice. One rule, all 56 places: no place named in the fix. Estimate, never UNKNOWN.
 
-**Done when.** The command above passes, and the same test passes in three other random places with seeds named in the PR body.
+**Done when.** The command above passes, and the same test passes in three other random places with seeds named in the PR body. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/player-money-year.test.ts, src/core2/opening-finance.ts, src/core2/starting-cash.ts
 
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
+
+Set open by the Oct 25 audit: PR #5080 merged as world-counted-reads-six-engines, not as this item; reproduce on main before building.

@@ -14,7 +14,7 @@ import {
 import { officialOf } from "../core2/modules/officials";
 import { stancesOf } from "../core2/modules/views";
 import { coreAPI } from "../core2/state";
-import type { CoreState } from "../core2/types";
+import type { CoreAPI, CoreState } from "../core2/types";
 import {
   chooseOfficeScene,
   composeOfficeScene,
@@ -44,36 +44,39 @@ const captured: Record<"state" | "federal", Captured | null> = {
 };
 let armed = false;
 
+// Not a committee-stage hook, so it runs on the floor day, just before the vote.
 registerLegislatureHooks({
-  beforeVote(api, billId) {
-    if (!armed) return;
-    const bill = billOf(api, billId);
-    if (!bill || bill.status !== "drafted") return;
-    const level = bill.bodyOfficeId.includes(":legislature-")
-      ? "state"
-      : bill.bodyOfficeId.includes("us-") ||
-          bill.bodyOfficeId.includes("congress") ||
-          bill.bodyOfficeId.includes("house") ||
-          bill.bodyOfficeId.includes("senate")
-        ? "federal"
-        : null;
-    if (!level || captured[level]) return;
-    const core = api.state as CoreState;
-    const sponsor = bill.sponsorId;
-    if (
-      !core.people.get(sponsor)?.alive ||
-      !officialOf(api, sponsor) ||
-      !members(api, bill.bodyOfficeId).some((t) => memberKey(t) === sponsor)
-    )
-      return;
-    const scene = composeOfficeScene(core, sponsor, billId);
-    if (!scene || !scene.choices.some((c) => c.key === "make-case")) return;
-    captured[level] = {
-      scene,
-      result: chooseOfficeScene(core, scene, "make-case"),
-    };
-  },
+  beforeVote: { name: "office-scene-levels-test", run: openScene },
 });
+
+function openScene(api: CoreAPI, billId: string): void {
+  if (!armed) return;
+  const bill = billOf(api, billId);
+  if (!bill || bill.status !== "drafted") return;
+  const level = bill.bodyOfficeId.includes(":legislature-")
+    ? "state"
+    : bill.bodyOfficeId.includes("us-") ||
+        bill.bodyOfficeId.includes("congress") ||
+        bill.bodyOfficeId.includes("house") ||
+        bill.bodyOfficeId.includes("senate")
+      ? "federal"
+      : null;
+  if (!level || captured[level]) return;
+  const core = api.state as CoreState;
+  const sponsor = bill.sponsorId;
+  if (
+    !core.people.get(sponsor)?.alive ||
+    !officialOf(api, sponsor) ||
+    !members(api, bill.bodyOfficeId).some((t) => memberKey(t) === sponsor)
+  )
+    return;
+  const scene = composeOfficeScene(core, sponsor, billId);
+  if (!scene || !scene.choices.some((c) => c.key === "make-case")) return;
+  captured[level] = {
+    scene,
+    result: chooseOfficeScene(core, scene, "make-case"),
+  };
+}
 
 const addDay = (date: string) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)

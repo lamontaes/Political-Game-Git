@@ -1,7 +1,7 @@
 {
   "source": {
     "tag": "ESTIMATED",
-    "citation": "12 CFR 1024.41(f)(1) (Regulation X, 120 days before a first filing); each place's foreclosure process, notices and redemption from data/research/housing/foreclosure-steps-2026.json (secondary summaries, not yet statute text); ATTOM average days to complete a foreclosure, Q2 2026 (563 days nationally; 14 places with their own average).",
+    "citation": "12 CFR 1024.41(f)(1) (Regulation X, 120 days before a first filing); each place's foreclosure process, notices and redemption from data/research/housing/foreclosure-steps-2026.json (secondary summaries), with Texas's steps and the Minnesota, Montana and Rhode Island sale notices read from statute text on Oct 23 (data/research/world/foreclosure-reads-2026.json); ATTOM average days to complete a foreclosure (563 days nationally in Q2 2026; 14 places with their own average from the Q2 2025, Q3 2025 and Q2 2026 releases).",
     "asOf": "2026-10-14",
     "estimatedFrom": "secondary summaries of state foreclosure law"
   },
@@ -218,10 +218,10 @@
     "MN": {
       "process": "nonjudicial",
       "noticeOfDefaultDays": null,
-      "saleNoticeDays": 28,
+      "saleNoticeDays": 42,
       "typicalDaysToComplete": 162,
       "redemptionDaysAfterSale": 180,
-      "statute": "Minn. Stat. 580.04 to 580.06 (4 weeks publication); 580.23 (6-month redemption); 582.039",
+      "statute": "Minn. Stat. 580.03 (six weeks' published notice); 580.23 (6-month redemption); 582.039",
       "confidence": "medium"
     },
     "MS": {
@@ -402,7 +402,7 @@
       "typicalDaysToComplete": 155,
       "redemptionDaysAfterSale": 0,
       "statute": "Tex. Prop. Code 51.002 (20-day default notice; 21 days notice of sale)",
-      "confidence": "medium"
+      "confidence": "high"
     },
     "UT": {
       "process": "nonjudicial",

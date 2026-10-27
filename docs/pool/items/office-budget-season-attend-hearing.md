@@ -8,7 +8,7 @@ size: L
 status: blocked
 claimed-by: claude/budget-hearing-agenda
 pr:
-blocked-on: PR #5533 (the budget hearing before the vote) is not merged; the hearing is a calendar work, not a meeting, and the vote on the heard bill is at the year's start, so attending needs a stop at the hearing that does not call holdVote on the budget bill (adjourn would). Build on #5533 once merged.
+blocked-on: office-the-budget-season
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:41:35.954Z
 ---
@@ -17,8 +17,10 @@ claimed-at: 2026-10-20T06:41:35.954Z
 
 **Rules.** Replace, never layer: the one-call draft-and-vote path is deleted; No dice; One rule, all 56 places: the meeting day comes from the body's own rule; No hand-written player text: hearing wording waits on words-budget-hearing-speakers.
 
-**Done when.** In a drawn place and seed (named in the PR body) a seated player holding the every-meeting stop is stopped at the meeting that votes the budget, speaks on it, and the adopted budget id and the kept act id are named; office-day-budget-season.test.ts still passes.
+**Done when.** In a drawn place and seed (named in the PR body) a seated player holding the every-meeting stop is stopped at the meeting that votes the budget, speaks on it, and the adopted budget id and the kept act id are named; office-day-budget-season.test.ts still passes. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/modules/office-day.ts
 
 **Notes.** TODO
+
+Oct 25 audit: blocked-on now names the item that carries PR #5533 (office-the-budget-season).

@@ -14,6 +14,7 @@ import { coreAPI } from "./state";
 import { openOffices } from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
+  checkEligibility,
   fileCandidacy,
   openContests,
   openElections,
@@ -141,6 +142,7 @@ describe("council election method", () => {
     const api = coreAPI(core);
     openCampaigns(core);
     openParties(core);
+    openVoting(core);
     const adults = [...core.people.values()]
       .filter(
         (p) =>
@@ -149,8 +151,21 @@ describe("council election method", () => {
       .sort(
         (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
       );
+    // A resident outside the ward is refused for the seat for its recorded
+    // reason; two residents inside it file and are on the ballot.
+    const unmetBy = (personId: string) =>
+      checkEligibility(api, personId, contest.id, null)
+        .filter((row) => !row.met)
+        .map((row) => row.rule);
+    let outside: string | undefined;
     let on = 0;
     for (const person of adults) {
+      const unmet = unmetBy(person.id);
+      if (unmet.length === 1 && unmet[0] === "district-residency") {
+        outside ??= person.id;
+        continue;
+      }
+      if (unmet.length) continue;
       const filed = fileCandidacy(api, {
         personId: person.id,
         contestId: contest.id,
@@ -158,10 +173,33 @@ describe("council election method", () => {
       });
       if (filed.status !== "refused" && filed.filing.status === "on-ballot")
         on += 1;
-      if (on === 2) break;
+      if (on === 2 && outside) break;
     }
-    expect(on, `${key}: two residents could file for ${contest.id}`).toBe(2);
-    openVoting(core);
+    expect(
+      on,
+      `${key}: two residents of the ward filed for ${contest.id}`,
+    ).toBe(2);
+    expect(
+      outside,
+      `${key}: a resident of another ward for ${contest.id}`,
+    ).toBeDefined();
+    const refused = fileCandidacy(api, {
+      personId: outside!,
+      contestId: contest.id,
+      platform: [],
+    });
+    expect(refused.status, `${key}: ${outside}`).toBe("refused");
+    if (refused.status === "refused") {
+      expect(
+        refused.unmet.map((row) => row.rule),
+        `${key}: ${outside}`,
+      ).toContain("district-residency");
+      // The refusal carries the two wards as record data, not worded text.
+      const row = refused.unmet.find((r) => r.rule === "district-residency")!;
+      expect(row.required, key).toBe(String(contest.district));
+      expect(row.actual, key).toMatch(/^\d+$/);
+      expect(row.actual, key).not.toBe(row.required);
+    }
     const after = new Date(
       Date.parse(`${contest.electionDate}T00:00:00Z`) + 86_400_000,
     )

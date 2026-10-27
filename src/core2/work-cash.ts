@@ -1,6 +1,6 @@
 import { bookkeeping } from "./bookkeeping";
 /** The recorded work owner composes the act, wage, credit and time in one journal. */
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";
@@ -923,11 +923,7 @@ export function settleLegacyWorkResultJournal(
     (r.field(job, "endsAt") !== undefined && job.endsAt! <= core.date) ||
     input.date !== core.date ||
     !Number.isSafeInteger(input.days) ||
-    input.days !==
-      daysBetween(
-        makeIsoDate(r.field(actor, "lastActDate")),
-        makeIsoDate(input.date),
-      ) ||
+    input.days !== daysBetweenText(r.field(actor, "lastActDate"), input.date) ||
     input.days <= s.zero ||
     input.offer.definition.effect !== "paid-work"
   )

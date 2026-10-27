@@ -152,12 +152,11 @@ function boundary(core: ReturnType<typeof fresh>) {
 describe("controlled player clock contracts", () => {
   it("returns the original unanswered packet and rejects foreign offers without advancing", () => {
     const core = fresh();
-    let packet = advancePlayerV1(core, {
+    const packet = advancePlayerV1(core, {
       controlledPersonId: "worker",
       through: minute("2021-01-02", 120),
     });
-    expect(packet.kind).toBe("stop");
-    packet = answer(core, packet);
+    // The shift's own choice comes first; its start is not a stop.
     expect(packet.kind).toBe("choice");
     if (packet.kind !== "choice") throw new Error("Expected choice");
     const before = boundary(core);
@@ -193,21 +192,21 @@ describe("controlled player clock contracts", () => {
       controlledPersonId: "worker",
       through: minute("2021-01-02", 120),
     });
-    expect(initial?.at).toEqual(minute("2021-01-02", 0));
+    // The only stop is the module's interrupt: a shift never stops the clock.
+    expect(initial?.at).toEqual(minute("2021-01-02", 30.25));
     expect(core.date).toBe("2021-01-01");
     let packet = advancePlayerV1(core, {
       controlledPersonId: "worker",
       through: minute("2021-01-02", 120),
     });
     packet = answer(core, packet);
-    packet = answer(core, packet);
     expect(packet.kind).toBe("stop");
     expect(packet.at).toEqual(minute("2021-01-02", 30.25));
     expect(core.work.totalsByJob.get("job")?.earnedMinor ?? 0).toBe(0);
     expect(core.work.lastAttendanceByJob.size).toBe(0);
     packet = answer(core, packet);
-    expect(packet.kind).toBe("stop");
-    expect(packet.at).toEqual(minute("2021-01-02", 60.5));
+    // The shift's end passes without a stop; its attendance is posted.
+    expect(packet.kind).not.toBe("stop");
     expect(core.work.lastAttendanceByJob.get("job")?.attendedMinutes).toBe(
       60.5,
     );
@@ -351,7 +350,6 @@ describe("controlled player clock contracts", () => {
       controlledPersonId: "worker",
       through: minute("2021-01-02", 30),
     });
-    packet = answer(core, packet);
     if (packet.kind !== "choice") throw new Error("Expected work choice");
     const absence = packet.offers.find(
       (o) => o.actionId === "decline-scheduled-work-date-segment",
@@ -368,7 +366,8 @@ describe("controlled player clock contracts", () => {
       controlledPersonId: "worker",
       through: minute("2021-01-02", 60),
     });
-    expect(packet.kind).toBe("stop");
+    // The window's end is not a stop either; the absence is posted.
+    expect(packet.kind).toBe("complete");
     expect(core.work.lastAttendanceByJob.get("job")?.absentMinutes).toBe(60);
   });
   it("cites and guards the actual discretionary duration override instead of the longer action default", () => {
@@ -377,8 +376,6 @@ describe("controlled player clock contracts", () => {
       controlledPersonId: "worker",
       through: minute("2021-01-02", 120),
     });
-    packet = answer(core, packet);
-    packet = answer(core, packet);
     packet = answer(core, packet);
     expect(packet.kind).toBe("choice");
     if (packet.kind !== "choice")
@@ -402,6 +399,22 @@ describe("controlled player clock contracts", () => {
     } finally {
       actual.value = previous;
     }
+  });
+  it("runs a week of shifts with no stop at a shift's start or end (owner, Oct 26)", () => {
+    const core = fresh();
+    let packet = advancePlayerV1(core, {
+      controlledPersonId: "worker",
+      through: minute("2021-01-09", 0),
+    });
+    let stops = 0;
+    for (let guard = 0; packet.kind !== "complete" && guard < 200; guard++) {
+      if (packet.kind === "stop") stops += 1;
+      packet = answer(core, packet);
+    }
+    expect(packet.kind).toBe("complete");
+    expect(stops).toBe(0);
+    expect(packet.at).toEqual(minute("2021-01-09", 0));
+    expect(core.work.lastAttendanceByJob.get("job")?.date).toBe("2021-01-08");
   });
   it("rejects request reflection that tries to reenter the public clock without changing records", () => {
     const core = fresh(),

@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-7xkkii
-pr: #5196
+pr:
 blocked-on:
 source: "split from gov-next, Oct 16"
 claimed-at: 2026-10-19T21:58:19.907Z
@@ -17,8 +17,8 @@ claimed-at: 2026-10-19T21:58:19.907Z
 
 **Rules.** No hand-written player text: words come from the banks in data/english/parts through the engine, with origin and author on any authored piece. Ask why: each part's words cite the record ids it rests on. Speeches are built as the player gives them: short openers and closers, longer body parts on different subjects.
 
-**Done when.** In a drawn place and seed (named in the PR body) a candidate's four offered parts at each of the three steps all come back as words, each citing its record ids, a finished speech reads as one speech through the address register, and the test beside src/director/speech-builder.test.ts and the english bank tests pass.
+**Done when.** In a drawn place and seed (named in the PR body) a candidate's four offered parts at each of the three steps all come back as words, each citing its record ids, a finished speech reads as one speech through the address register, and the test beside src/director/speech-builder.test.ts and the english bank tests pass. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/english/english-composition.ts, src/director/speech-builder.ts, data/english/parts/address.json
 
-**Notes.** Split from gov-next. The owner's rally choice set (batch 11) is the shape to build on.
+**Notes.** Split from gov-next. The owner's rally choice set (batch 11) is the shape to build on. Released from idle draft #5196 by the CTO, Oct 26.

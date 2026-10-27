@@ -12,7 +12,7 @@
   ],
   "ownOffices": {
     "own-us-senator": ["us-senate"],
-    "own-us-representative": ["us-house"],
+    "own-us-representative": ["us-house", "us-house-delegate"],
     "own-state-legislator": [
       "legislature-lower",
       "legislature-upper",

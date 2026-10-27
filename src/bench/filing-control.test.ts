@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { FILING_VISIT_WORDS } from "../director/filing-visit";
+import { FILING_VISIT_WORDS } from "../english/filing-visit-words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // Filing is a control of its own: its name is never one of the clerk-visit

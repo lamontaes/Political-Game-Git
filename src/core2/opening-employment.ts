@@ -8,13 +8,11 @@ import {
   isoDateFromParts,
 } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";
-import { organizationProfileAt } from "../simulation/life-queries";
+import { openingOrganizationProfiles } from "./opening-org-profiles";
 import {
   activeWorkers,
   laborStatus,
-  townEmploymentMix,
   townResidents,
-  townWorkplaceWeights,
 } from "../simulation/living-world/town-employment";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
@@ -25,7 +23,8 @@ import {
   type Role,
   type Workplace,
 } from "./town-workplaces";
-import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
+import { townEmploymentMix, townWorkplaceWeights } from "./town-employment-mix";
+import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,
@@ -132,6 +131,7 @@ function expandCountyCounts(): ResidentEmploymentData["countyCounts"] {
 export const DEFAULT_RESIDENT_EMPLOYMENT: ResidentEmploymentData = {
   ...residentData,
   countySource: countyEmployment.source,
+  countySources: countyEmployment.sources,
   countyCounts: {
     ...residentData.countyCounts,
     ...expandCountyCounts(),
@@ -363,8 +363,9 @@ export function openingEmploymentFromRecordedRoles(
     EntityId,
     { organization: Organization; workplace: Workplace }
   >();
+  const profiles = openingOrganizationProfiles(world);
   for (const organization of world.history.organizations) {
-    const profile = organizationProfileAt(world, organization.id);
+    const profile = profiles.get(organization.id);
     if (!profile || profile.closed || profile.locationJurisdictionId !== town)
       continue;
     const workplace = townWorkplaceFor(
