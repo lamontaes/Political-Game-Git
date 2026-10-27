@@ -5,12 +5,13 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-zero-income
 pr:
 blocked-on:
 after:
 source: added by EFFECT-WEB-WIRING
+claimed-at: 2026-10-27T23:20:11.881Z
 ---
 
 **What.** In a bench world for Warm Springs, Arkansas (seed 0659930dc1c80953, `buildBenchWorld`, two-level, 100 days), `householdPoverty` gives every counted household in one coarse place (jurisdiction_8acca737ebc52bd4) an income of 0. All 202 of its people are poor. A second coarse place (jurisdiction_110a270fc5744cc7) has 129 of 145 poor with mostly zero incomes. The town itself (45 full households, 96 people) has none below the line. Real places sit near the national 11%, so either counted households outside the player's town are never given wages, or `householdPoverty` reads a wage field that is never filled for them.

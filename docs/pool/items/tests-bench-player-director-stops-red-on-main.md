@@ -1,6 +1,7 @@
 ---
 id: tests-bench-player-director-stops-red-on-main
 title: "src/bench/player.test.ts fails three cases on main: director stops come where the week or the jump expected none"
+lead: play-first
 area: play
 kind: bug
 priority: 1
