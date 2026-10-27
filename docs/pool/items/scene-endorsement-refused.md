@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6301
 blocked-on:
 source: "Helper B, Oct 27, docs/design/scenes/from-life/endorsement-refused.md"
 lead: director
