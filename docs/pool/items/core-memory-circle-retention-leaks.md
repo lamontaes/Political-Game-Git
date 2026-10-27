@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/committee-heap
 pr: #6067
 blocked-on:

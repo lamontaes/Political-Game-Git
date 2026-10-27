@@ -7,9 +7,10 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6059
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The player card covers part of the filing story reply row after a campaign outing. Merger 3 reproduced it in Cacao, Puerto Rico, seed b32f52ab-ec06-46ae-8e53-7482696bb81a, while reviewing PR 6059 at code 840e09f4e3 and viewport 1440x900. The clock browser check passes, but the native held-state screenshot shows response controls obscured beneath the card. Preserve the clock repair while making every story response readable and reachable.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/play.css, src/bench/play.html, src/bench/play.mjs, src/bench/clock.browser.mjs
 
 **Notes.** Merger 3, October 26: native failure image committed on PR 6059 at f36614b92ee9d833e846e935952fd14c9dbe6ab5, docs/reports/day-morning-2026-10-26/merger3-held-1440x900.png; exact filing story record is in the PR review evidence.
+
+Sent back 2026-10-26 from PR #6059 (branch claude/quirky-ride-vrwwz4-play-stop-07): The overlap is fixed, but Mark gap and Say nothing remain visibly enabled and inert in the real held filing story with both pointer and Enter (zero requests, unchanged state); play.mjs handlers return when talk is unset, while clock.browser.mjs only Tab-walks those controls, so the every-response activation acceptance is unmet; finish on that branch, merge main into it first.
