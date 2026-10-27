@@ -1,4 +1,5 @@
 import { jobsView, answerJobOffer } from "./jobs";
+import { recolorFigure } from "./figure-colors";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
@@ -65,6 +66,7 @@ import {
   ageAtStart,
   applyChosenPerson,
   birthYears,
+  chosenBirthDate,
   creatorStates,
   creatorTowns,
   drawBirthday,
@@ -77,6 +79,7 @@ import {
   moveAppearance,
   portraitPng,
   readRecipe,
+  setColor,
 } from "./appearance";
 import { pollingScene } from "./polling";
 import {
@@ -98,6 +101,7 @@ import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
+import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
@@ -265,12 +269,18 @@ export async function benchRequest(
           // The whole town, two-level (OPUS-CORE): full people for the
           // player's circle and officials, counts for everyone else.
           buildProgress = { stage: "people", done: 0, total: 0 };
+          // The person chosen in the creator, read before the build: the
+          // player is the resident born nearest the chosen birthday.
+          const chosen = url.searchParams.get("person")
+            ? readChosenPerson(url.searchParams.get("person")!)
+            : undefined;
           // Every game opens on the one start date (owner, Oct 14, 2026).
           const world = await buildBenchWorldInStages(
             url.searchParams.get("seed") ?? "",
             gameStartDate(),
             {
               twoLevel: true,
+              ...(chosen ? { playerBirthDate: chosenBirthDate(chosen) } : {}),
               ...(url.searchParams.get("settings")
                 ? { settings: JSON.parse(url.searchParams.get("settings")!) }
                 : {}),
@@ -290,12 +300,7 @@ export async function benchRequest(
           placeName = world.place.displayName;
           const entrant = { personId: world.playerId! };
           // The person chosen in the creator becomes the player.
-          if (url.searchParams.get("person"))
-            applyChosenPerson(
-              world.core,
-              entrant.personId,
-              readChosenPerson(url.searchParams.get("person")!),
-            );
+          if (chosen) applyChosenPerson(world.core, entrant.personId, chosen);
           player.select(entrant.personId);
           // The opening is prepared during loading; its whole figures are files.
           opening = world.director.ledger.opening
@@ -325,11 +330,15 @@ export async function benchRequest(
         // Standing people: the v2 figures, served as they are. The folder is
         // written out so the desktop build copies it (it reads the fixed part
         // of this path, desktop/scripts/build-play-api.mjs).
-        const content = await readFile(
-          new URL(
-            `../../art/people-engine/v2/figures/${url.pathname.split("/").at(-1)}`,
-            import.meta.url,
+        const content = recolorFigure(
+          await readFile(
+            new URL(
+              `../../art/people-engine/v2/figures/${url.pathname.split("/").at(-1)}`,
+              import.meta.url,
+            ),
           ),
+          url.searchParams.get("skin") ?? undefined,
+          url.searchParams.get("clothes") ?? undefined,
         );
         response.writeHead(200, {
           "Content-Type": "image/png",
@@ -470,12 +479,18 @@ export async function benchRequest(
         else if (route === "appearance") {
           const recipe = q.get("recipe")
             ? request.method === "POST"
-              ? moveAppearance(
-                  readRecipe(q.get("recipe")!),
-                  gender,
-                  q.get("row") ?? "",
-                  Number(q.get("by") ?? 1),
-                )
+              ? q.get("value")
+                ? setColor(
+                    readRecipe(q.get("recipe")!),
+                    q.get("row") ?? "",
+                    q.get("value")!,
+                  )
+                : moveAppearance(
+                    readRecipe(q.get("recipe")!),
+                    gender,
+                    q.get("row") ?? "",
+                    Number(q.get("by") ?? 1),
+                  )
               : readRecipe(q.get("recipe")!)
             : drawnAppearance(gender, seed, draw);
           send(200, { recipe, rows: appearanceRows(recipe, gender) });
@@ -573,6 +588,13 @@ export async function benchRequest(
             Number(url.searchParams.get("change")) || 0,
           ),
         );
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/advanced/officeholders"
+      ) {
+        send(200, officeholders(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/goto") {

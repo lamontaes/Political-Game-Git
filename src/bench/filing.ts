@@ -11,7 +11,7 @@ import {
   partiesHere,
   partyTie,
 } from "../core2/modules/parties";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
 import {
   openFilingVisit,
@@ -77,6 +77,7 @@ export interface FilingOverlay {
   title: string;
   filingDeadline: string;
   checks: readonly RequirementCheck[];
+  /** The positions the seat's own government decides (`contestPositions`); none where it decides none. */
   questions: readonly string[];
   /** The ballot labels of the parties here. */
   parties: readonly string[];
@@ -101,7 +102,7 @@ function overlayFor(
       : contest.title,
     filingDeadline: contest.filingDeadline,
     checks: checkEligibility(api, playerId, contestId),
-    questions: PLATFORM_QUESTIONS,
+    questions: contestPositions(api, contest),
     parties: parties.map((row) => row.name),
     party: parties.find((row) => row.id === tie?.partyId)?.name ?? null,
   };
