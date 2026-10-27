@@ -34,7 +34,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
-import { seatAct, seatView } from "./legislature";
+import { billPaper, seatAct, seatView } from "./legislature";
 import {
   deskDecide,
   deskView,
@@ -712,6 +712,14 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/seat") {
         send(200, seatView(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      // A bill as one paper document, read from its own records.
+      if (request.method === "GET" && url.pathname === "/api/bill") {
+        send(
+          200,
+          billPaper(requireCore(), url.searchParams.get("billId") ?? ""),
+        );
         return;
       }
       // The officeholder's day (OFFICE-LOCAL): the meeting scene, the desk and the stops.
