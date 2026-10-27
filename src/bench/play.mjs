@@ -4909,8 +4909,13 @@ function chosenAge() {
   )?.[1];
 }
 function derivedAge() {
+  const age = chosenAge();
   $("cr-derived-age").textContent =
-    `${chosenAge() ?? ""} · ${setup.start ? proseDate(setup.start) : ""}`;
+    age && setup.start
+      ? (controls.creator?.ageLine ?? "")
+          .replace("{age}", age)
+          .replace("{date}", proseDate(setup.start))
+      : "";
 }
 $("cr-month").addEventListener("change", async () => {
   fillDays();

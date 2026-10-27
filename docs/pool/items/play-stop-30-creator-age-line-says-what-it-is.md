@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-30-creator-age-line-says-what-it-is
 pr: #6242
 blocked-on:
