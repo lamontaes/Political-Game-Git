@@ -17,6 +17,7 @@ import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI, registerModule } from "./state";
 import { openOffices, townSeats } from "./modules/offices";
+import { openLaws } from "./modules/laws";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -83,6 +84,7 @@ describe("M4-06 the record follows you", () => {
           minimumPeople: 300,
         }),
       );
+      openLaws(core);
       openOffices(core, seed);
       openElections(core);
       openCampaigns(core);
