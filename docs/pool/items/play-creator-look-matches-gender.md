@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/creator-look-matches-gender
-pr:
+pr: #6430
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T22:28:18.514Z
