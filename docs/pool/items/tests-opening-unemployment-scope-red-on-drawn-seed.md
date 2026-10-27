@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/unemployment-scope
-pr:
+pr: #6306
 blocked-on:
 source: "Merger 7, Oct 27 12:00 UTC, while rechecking lane PRs"
 lead: words
