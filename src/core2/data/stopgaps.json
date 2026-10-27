@@ -6031,7 +6031,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
     "line": 518,
-    "whatItFakes": "grocery-exemption-to-food-insecurity moves household.food-insecurity only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "whatItFakes": "grocery-exemption-to-food-insecurity, snap-maximum-to-food-insecurity move household.food-insecurity only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
@@ -6462,13 +6462,13 @@
     "id": "SG-WEB-unread-school-college-completion-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 554,
-    "whatItFakes": "tuition-freeze-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
-    "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research finds no effect (about zero), so an engine would multiply by one",
+    "line": 638,
+    "whatItFakes": "higher-education-spending-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-SCHOOL-links-not-running: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns school.college-completion-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"school.college-completion-pct\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-government-member-market-returns",
@@ -6916,5 +6916,29 @@
     "addedAt": "2026-10-26",
     "replacement": "A post whose line carries less than a full-time week takes a part-time schedule sized to the stipend at the going rate (Census ASPEP part-time municipal payroll), so its hours and hourly rate both match the source.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-party-ask-after-player",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1128,
+    "whatItFakes": "A party's asks for a seat stop at the player: when the player says no or not now in the ask's scene, the party asks none of its other members for that seat.",
+    "why": "The party asks on the day filing opens, and the player's answer comes later, from the scene; nothing returns the party to its list once the player has answered.",
+    "addedBy": "words/party-asks-you-to-run",
+    "addedAt": "2026-10-26",
+    "replacement": "The candidacy engine reads the player's no or not-now reply (a scene.reply naming the party-asked record) and asks the party's next member for the seat while filing is open.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-party-ask-order",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1065,
+    "whatItFakes": "The order a party's chair asks its members to run: those the chair is closest to first, then those the most people know. A new 18-year-old member is rarely first unless they are close to the chair or the party has few members.",
+    "why": "Decided by the owner's rulings, not a question: \"The party asks someone to run only with some inroads on record\" (OWNER-DECISIONS, Oct 15, night, batch 13 review) and \"a player with a high-standing job may be propositioned to run for a seat someone needs filled\" (OWNER-DECISIONS, Oct 14, CTO from standing rules); recorded as an acting-lead ruling, Oct 26. Read: OWNER-DECISIONS (Oct 26, evening), DECISION-REGISTER, prior-rulings/elections.md and prior-rulings/words.md, LAW; searched: party asks, propositioned, recruit, Pendergast.",
+    "addedBy": "words/party-asks-you-to-run",
+    "addedAt": "2026-10-26",
+    "replacement": "Resolved: the chair asks members with inroads first (closeness to the chair), then those the most people know (standing), per the rulings quoted in why.",
+    "status": "resolved"
   }
 ]

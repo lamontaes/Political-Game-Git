@@ -525,7 +525,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         named(
           "fund-pensions-to-schedule",
           govRows(PENSIONS),
-          (row) => `${row.targetId}:retirementContributions`,
+          (row) => `${row.targetId}:budget-line:retirementContributions`,
         );
         named(
           "balanced-operating-budget",
