@@ -78,34 +78,58 @@ try {
   for (let week = 0; week < 60 && taken < want; week += 1) {
     const talk = page.locator("#talk:not([hidden])");
     if (await talk.isVisible().catch(() => false)) {
-      const text = await page.locator("#talk").innerText();
-      const when = await page
-        .locator("#card-place")
-        .innerText()
-        .catch(() => "");
-      taken += 1;
-      console.log(`SCENE ${taken} (${when.replace(/\n/g, " · ")}):\n${text}\n`);
-      if (shots)
-        await page.screenshot({ path: `${shots}/season-scene-${taken}.png` });
-      // Answer with the first reply, then leave the talk.
       await page
         .locator("#talk-choices button")
         .first()
-        .click()
+        .waitFor({ timeout: 15000 })
         .catch(() => {});
-      await page.waitForTimeout(800);
-      await page
-        .locator("#talk-leave")
-        .click()
-        .catch(() => {});
-      await page.waitForTimeout(800);
+      const text = await page.locator("#talk").innerText();
+      const when = await page
+        .locator("#card-date, #card-place")
+        .allInnerTexts();
+      taken += 1;
+      console.log(`SCENE ${taken} (${when.join(" · ")}):\n${text}\n`);
+      if (shots)
+        await page.screenshot({ path: `${shots}/season-scene-${taken}.png` });
+      // Open the exchange (Talk), read and photograph it, then answer with
+      // the first reply until the talk closes.
+      for (let turn = 0; turn < 5; turn += 1) {
+        const reply = page.locator("#talk-choices button").first();
+        if (!(await reply.isVisible().catch(() => false))) break;
+        await reply.click();
+        await page.waitForTimeout(900);
+        if (turn === 0) {
+          console.log(
+            `EXCHANGE ${taken}:\n${await page.locator("#talk").innerText()}\n`,
+          );
+          if (shots)
+            await page.screenshot({
+              path: `${shots}/season-scene-${taken}-talk.png`,
+            });
+        }
+      }
+      if (await talk.isVisible().catch(() => false))
+        await page
+          .locator("#talk-leave")
+          .click()
+          .catch(() => {});
+      await page.waitForTimeout(700);
       continue;
     }
-    const advanced = page.waitForResponse((r) =>
-      r.url().includes("/api/advance"),
-    );
-    await page.locator("#week").click();
-    await advanced;
+    const advanced = page
+      .waitForResponse((r) => /\/api\/(advance|resume|play)\b/.test(r.url()), {
+        timeout: 60000,
+      })
+      .catch(() => null);
+    // A stop that is not a scene (the day's other business) is continued
+    // past, as the player would; otherwise a week goes by.
+    const resume = page.locator("#continue:not([hidden])");
+    if (await resume.isVisible().catch(() => false)) await resume.click();
+    else await page.locator("#week").click();
+    if (!(await advanced)) {
+      if (shots) await page.screenshot({ path: `${shots}/stuck-${week}.png` });
+      throw new Error(`Week did not advance (week ${week})`);
+    }
     await page.waitForTimeout(1000);
   }
   assert.ok(taken > 0, "no scene in sixty weeks");

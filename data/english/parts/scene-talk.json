@@ -32,7 +32,8 @@
     "title": "How the person is addressed (their office), from their term.",
     "issue": "The bill's question, named as the bill catalog records it.",
     "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
-    "reporter": "The reporter who wrote a story, by name, from the press record."
+    "reporter": "The reporter who wrote a story, by name, from the press record.",
+    "first": "The asked person's first name, from their record (said by someone who knows them)."
   },
   "maxWords": 70,
   "parts": [
@@ -3125,6 +3126,14 @@
           "role": "asked",
           "purpose": "confirm-vote",
           "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
         }
       ],
       "bearing": "glad",
@@ -27842,6 +27851,14 @@
           "role": "asker",
           "purpose": "*",
           "key": "news-received"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
         }
       ],
       "bearing": "curious",
@@ -31993,6 +32010,14 @@
           "purpose": "first-day-ropes",
           "key": "arrival",
           "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
         }
       ],
       "bearing": "glad",
@@ -84583,6 +84608,14 @@
           "purpose": "staff-news",
           "key": "news-received",
           "requiresFacts": ["press-story"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked"
         }
       ],
       "bearing": "calm",
@@ -85195,10 +85228,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.readers-will-notice-if-you-re-not-in-the-piece",
+      "key": "scene-talk.follow-press.readers-will-notice-if-you-re-not-in-the-story",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Readers will notice if you're not in the piece.",
+      "text": "Readers will notice if you're not in the story.",
       "uses": [
         {
           "subject": "scene",
@@ -85370,10 +85403,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.we-ll-run-the-piece-either-way",
+      "key": "scene-talk.close-warn.we-ll-run-the-story-either-way",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "We'll run the piece either way.",
+      "text": "We'll run the story either way.",
       "uses": [
         {
           "subject": "scene",
@@ -85670,30 +85703,6 @@
       "date": "2026-10-26",
       "tag": {
         "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.count-me-in-invite-debate",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Count me in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "invite-debate",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "agree",
         "key": "favor-asked"
       }
     },
@@ -86228,6 +86237,14 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
         }
       ],
       "shippable": true,
@@ -86249,6 +86266,14 @@
           "subject": "scene",
           "purpose": "offer-help",
           "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
           "step": "open",
           "move": "greet",
           "role": "asker"
@@ -86498,30 +86523,6 @@
       "move": "reply-agree",
       "kind": "spoken",
       "text": "Yes. I could use you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.welcome-aboard",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Welcome aboard.",
       "uses": [
         {
           "subject": "scene",
@@ -87054,55 +87055,6 @@
       "date": "2026-10-26",
       "tag": {
         "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.there-s-a-knock-at-the-door-it-s-name-rival-word",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "There's a knock at the door. It's {name}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.hey-first-rival-word",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Hey, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "greet",
         "key": "news-received"
       }
     },
@@ -87903,31 +87855,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.did-you-hear-rival-filed",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Did you hear?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-filed",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker"
-        }
-      ],
-      "bearing": "nervous",
-      "shippable": true,
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.first-sit-down-a-second",
       "move": "open-greet",
       "kind": "spoken",
@@ -88198,30 +88125,6 @@
       "date": "2026-10-26",
       "tag": {
         "move": "deflect",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.thanks-for-telling-me-rival-filed",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thanks for telling me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-filed",
-          "key": "news-received",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "thank",
         "key": "news-received"
       }
     },
