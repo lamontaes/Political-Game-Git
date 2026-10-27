@@ -43,7 +43,10 @@
     "when": "The election's date, from the contest record.",
     "issue": "A policy question, by its name.",
     "incident": "The kind of disaster, from the declaration record.",
-    "area": "The region a rate is measured for (a metro area, or the state), by name."
+    "area": "The region a rate is measured for (a metro area, or the state), by name.",
+    "unemployment_rate": "The country's unemployment rate, as a number of percent, from the macro month record.",
+    "wage_growth": "How much average hourly pay grew over the year, as a number of percent, from two macro month records.",
+    "quote": "One sentence of an address, as the record quotes it."
   },
   "maxWords": 14,
   "mining": {
@@ -3980,10 +3983,10 @@
       }
     },
     {
-      "key": "news.address.name-gave-the-inaugural-address-on-date",
+      "key": "news.address.name-was-sworn-in-as-president-on-date",
       "move": "address",
       "kind": "written",
-      "text": "{name} gave the inaugural address on {date}.",
+      "text": "{name} was sworn in as president on {date} and gave the inaugural address.",
       "uses": [
         {
           "move": "address",
@@ -4012,12 +4015,197 @@
           "move": "address",
           "subject": "news",
           "role": "address",
-          "choice": "lede"
+          "choice": "lede",
+          "requiresFacts": ["joint-session"]
         }
       ],
       "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.name-took-the-oath-of-office-on-date",
+      "move": "address",
+      "kind": "written",
+      "text": "{name} took the oath of office on {date} and addressed the country as president.",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address",
+          "choice": "lede",
+          "requiresFacts": ["inaugural"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.name-gave-the-address-to-congress-on-date",
+      "move": "address",
+      "kind": "written",
+      "text": "{name} spoke to a joint session of Congress on {date}.",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address",
+          "choice": "lede",
+          "requiresFacts": ["joint-session"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.unemployment-unemployment-stands-at",
+      "move": "address",
+      "kind": "written",
+      "text": "Unemployment across the country stands at {unemployment_rate} percent.",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address-unemployment",
+          "choice": "context",
+          "requiresFacts": ["unemployment-rate"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.unemployment-the-jobless-rate-is",
+      "move": "address",
+      "kind": "written",
+      "text": "The national jobless rate is {unemployment_rate} percent.",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address-unemployment",
+          "choice": "context",
+          "requiresFacts": ["unemployment-rate"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.wages-pay-is-up-from-a-year-ago",
+      "move": "address",
+      "kind": "written",
+      "text": "Average pay is up {wage_growth} percent from a year ago.",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address-wages",
+          "choice": "context",
+          "requiresFacts": ["wage-growth"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.wages-hourly-earnings-rose",
+      "move": "address",
+      "kind": "written",
+      "text": "Hourly earnings rose {wage_growth} percent over the past year.",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address-wages",
+          "choice": "context",
+          "requiresFacts": ["wage-growth"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.quote-name-told-the-country",
+      "move": "address",
+      "kind": "written",
+      "text": "{name} told the country: \"{quote}\"",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address-quote",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.quote-in-the-address-name-said",
+      "move": "address",
+      "kind": "written",
+      "text": "In the address, {name} said: \"{quote}\"",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address-quote",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-news-inauguration-story-reads-as-news)",
       "date": "2026-10-27",
       "tag": {
         "move": "deliver-news",
