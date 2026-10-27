@@ -5,11 +5,12 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-producer-election-result
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T16:17:17.615Z
 ---
 
 **What.** The scene web counts two rows waiting on the election-result producer: news-arrives, where someone tells the player how a race went, and celebration, a party for the one who won. The election module already writes an election-result record naming every candidate who filed, and no director row reads it for anyone but the player. A candidate the player knows (a relative, a neighbor, a colleague) should tell them how their race went. The player's own win is already celebrated by the race-won scene the night of the count, so the second row is a duplicate of it.
