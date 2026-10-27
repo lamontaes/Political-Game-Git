@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/renewal-player-home
-pr:
+pr: #6270
 blocked-on:
 source: laws-and-effects lead, Oct 27 (PR #5669's gate, replayed on main)
 claimed-at: 2026-10-27T08:58:50.160Z
