@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/corruption-weston
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T11:12:17.104Z
 ---
 
 **What.** The golden-path run on PR 6097's head d890c67d3a drew Weston, Missouri (place 2978856, seed 1512c792766b67c4084e842b0841c4d520930ce6eef442caaf31fdb6940a78ba) for M3-09 (src/core2/corruption.test.ts) and it failed; the PR changes only bench screens. The next draw on the PR passed. Earlier place-dependent M3-09 failures were fixed under tests-corruption-dulac-no-offer-answer and gov-corruption-test-two-taken-bribes.
