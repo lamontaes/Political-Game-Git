@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/backdrops-from-the-set
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T23:19:20.480Z
 ---
 
 **What.** The owner, Oct 27, on a street scene in Berry, Kentucky at midnight: why is this the only storefront scene used? A scene's place lists take the first painted picture, and a business's workplace takes the first painting with its tag, so every town draws the same Main Street, store and cafe. This item groups the paintings of one kind of place into families, draws a scene's picture from the whole family chosen by the town and the business or situation so the same place looks the same every visit and towns differ, and at night prefers a member painted at night.
