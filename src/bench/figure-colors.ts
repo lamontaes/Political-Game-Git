@@ -150,6 +150,20 @@ function garmentMap(name: string): PNG | null {
   return maps.get(name)!;
 }
 
+/** Whether the art session has painted a garment map for this figure file (`figures/v2-…png`). */
+export function hasGarmentMap(file: string): boolean {
+  const name = file
+    .split("/")
+    .pop()!
+    .replace(/\.png$/, "");
+  return existsSync(
+    new URL(
+      `../../art/people-engine/v2/garments/${name}-garments.png`,
+      import.meta.url,
+    ),
+  );
+}
+
 function garmentAt(map: PNG, i: number): Garment | null {
   const [r, g, b] = [map.data[i]!, map.data[i + 1]!, map.data[i + 2]!];
   for (const garment of GARMENTS) {
