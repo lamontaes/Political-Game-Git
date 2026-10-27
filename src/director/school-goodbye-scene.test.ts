@@ -29,6 +29,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 4;
 const DAYS = 200;
 const LABEL = "circumstance:school-last-day";
+const TYPE_KEY = "last-day";
 const KEY = "school-goodbye";
 const TYPE = SITUATION_LIBRARY.types.find(
   (row) => row.key === "last-day",
@@ -53,16 +54,21 @@ function lastDay(
   director.watch(core, personId);
   const book = director.ledger.people.get(personId)!;
   let found: { entry: ScheduleEntry; moment: Moment } | null = null;
-  const open = (momentId: string) => {
-    const entry = book.schedule.find((row) => row.momentId === momentId);
-    const moment = book.momentsById.get(momentId);
-    if (
-      !found &&
-      entry &&
-      moment?.label === LABEL &&
-      entry.bindings.some((row) => row.typeKey === "last-day")
-    )
-      found = { entry, moment };
+  // The scene is read from the director's schedule as the day it plays
+  // closes: a scene from circumstance is staged whether or not it stops the
+  // clock.
+  const open = () => {
+    if (found) return;
+    for (const entry of book.schedule) {
+      const moment = book.momentsById.get(entry.momentId);
+      if (
+        moment?.label === LABEL &&
+        entry.bindings.some((row) => row.typeKey === TYPE_KEY)
+      ) {
+        found = { entry, moment };
+        return;
+      }
+    }
   };
   let packet = advancePlayerV1(core, {
     controlledPersonId: personId,
@@ -78,8 +84,8 @@ function lastDay(
           stop.recordId.startsWith(`${item.id}:`),
         );
         if (offer) answerJobOffer(core, personId, offer.id, "accept");
-        open(stop.recordId);
       }
+      open();
       if (found) break;
       packet = resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId });
     } else
@@ -89,6 +95,7 @@ function lastDay(
         offerId: packet.offers[P.zero]!.offerId,
       });
   }
+  open();
   return found;
 }
 
