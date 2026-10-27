@@ -384,7 +384,7 @@ function householdMoments(
         const org = core.organizations.get(job.organizationId);
         moments.push({
           ...base,
-          id: `${fact.id}:${String(at).padStart(2, "0")}:${id}`,
+          id: `${fact.id}:${at}:${id}`,
           causeId: job.id,
           causeKind: "household:livelihood",
           counterpartIds: [earner.id],
