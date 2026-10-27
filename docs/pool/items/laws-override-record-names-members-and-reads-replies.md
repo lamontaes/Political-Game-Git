@@ -5,12 +5,13 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-override-record
 pr:
 blocked-on:
 lead: laws-effects
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T16:23:29.204Z
 ---
 
 **What.** The veto-override record (legislature.ts, executiveDecision) lists only the sponsor and the executive and carries no chamber fact, so a scene cannot be staged in the chamber or cast the members who decided the override. Add a chamber fact and the member keys of the override vote rows that were no or abstain, nearest zero first. Also have a member's later position on the sponsor's bill (positionOn) read a scene.reply of type veto-override as one recorded reason: a favor owed raises it, a strain lowers it, both citing the reply id.
