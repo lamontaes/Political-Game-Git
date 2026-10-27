@@ -28,9 +28,9 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 /**
  * Places drawn at most, until one has a conflict the press reached and ran.
  * A conflict needs a member of a government's body who owns a firm (or has
- * kin who do) that then wins a line by the body's vote, which a drawn place
- * has about one time in eight; a place with no such member is passed over
- * before its year is played.
+ * kin who do) that then wins a line by the body's vote, which measured about
+ * one drawn place in eight to one in four; a place with no such member is
+ * passed over before its year is played.
  */
 const ATTEMPTS = 24;
 /** Days for the opening's owners to be recorded before members are checked. */
