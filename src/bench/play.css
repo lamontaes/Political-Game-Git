@@ -2456,6 +2456,20 @@ body.dev .dev-ring {
   font-size: clamp(18px, 2vw, 30px);
   overflow-wrap: anywhere;
 }
+/* What the treasury actually took in and paid out, under the plan. */
+/* The plan's three figures, then what the treasury actually took in, paid out and holds. */
+.budget-summary.with-books {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
+}
+.budget-summary.with-books .record-total {
+  font-size: clamp(16px, 1.6vw, 24px);
+}
+.budget-warning {
+  color: var(--red);
+  font: 600 14px var(--ui);
+  margin: 0 0 8px;
+}
 .budget-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;

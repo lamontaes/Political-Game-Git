@@ -3215,18 +3215,35 @@ const sheets = {
       if (!gov?.latest) return;
       const latest = gov.latest;
       const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
+      // What the treasury actually took in and paid out, from its journal,
+      // beside the plan: a treasury gone wrong shows here.
+      const books = gov.books;
       content.append(
         el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
         el("p", {
           className: "label",
-          textContent: `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+          textContent: [
+            `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+            books
+              ? `${labels.booksSince} ${proseDate(books.since)}`
+              : labels.noBooks,
+          ].join(" · "),
         }),
       );
-      const summary = el("div", { className: "budget-summary" });
+      const summary = el("div", {
+        className: `budget-summary${books ? " with-books" : ""}`,
+      });
       for (const [label, value] of [
         [labels.revenue, total(latest.revenue)],
         [labels.spending, total(latest.spending)],
         [labels.balance, total(latest.revenue) - total(latest.spending)],
+        ...(books
+          ? [
+              [labels.takenIn, books.takenInMinor],
+              [labels.paidOut, books.paidOutMinor],
+              [labels.cashOnHand, books.cashMinor],
+            ]
+          : []),
       ])
         summary.append(
           el(
@@ -3240,6 +3257,13 @@ const sheets = {
           ),
         );
       content.append(summary);
+      if (books && books.paidOutMinor > total(latest.spending))
+        content.append(
+          el("p", {
+            className: "budget-warning",
+            textContent: labels.overBudget,
+          }),
+        );
       const columns = el("div", { className: "budget-columns" });
       for (const [label, lines] of [
         [labels.revenue, latest.revenue],
@@ -3291,6 +3315,13 @@ const sheets = {
       }
       content.append(columns);
     };
+    // The town's own books open first; a place with no city government opens
+    // on the county's, the local government that serves it.
+    const local = ["city", "county"].map((level) =>
+      view.governments.find((g) => g.level === level && g.latest),
+    );
+    const town = local.find(Boolean);
+    if (town) select.value = town.id;
     select.addEventListener("change", draw);
     draw();
     return [select, content];

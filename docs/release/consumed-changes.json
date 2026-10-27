@@ -1,6 +1,22 @@
 {
   "entries": [
     {
+      "version": "0.44.0",
+      "releasedOn": "2026-10-26",
+      "revision": "8d16b0d5221c881a03efb5f2f7891592512787de",
+      "changeIds": ["law-wiring-rights-env", "play-city-books-on-screen"]
+    },
+    {
+      "version": "0.43.0",
+      "releasedOn": "2026-10-26",
+      "revision": "17aa4c36ebac55bf96979769b29128d645ed939f",
+      "changeIds": [
+        "play-shifts-never-stop-player",
+        "release-smoke-title-lincoln",
+        "roadmap-m1-02-no-bank-line-witness"
+      ]
+    },
+    {
       "version": "0.42.0",
       "releasedOn": "2026-10-26",
       "revision": "950bc375d4413bbd9b496d7d4d34aafe933dbe46",

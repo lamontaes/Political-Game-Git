@@ -339,6 +339,9 @@ const MEASURES: Readonly<Record<string, readonly string[]>> = {
   "budget-line:schools": ["budget.schools-added-pct"],
   "snap-maximum": ["program.snap-maximum-change-pct"],
   "budget-line:highways": ["roads.condition", "roads.poor-condition-pct"],
+  "us-policy-positions:civil-family-community.dedicated-parks-funding": [
+    "budget.parks-added-pct",
+  ],
   "budget-line:corrections": ["justice.incarcerated-per-100k"],
   "property-tax": ["tax.property-rate"],
   "corporate-income-tax": ["tax.state-corporate-rate"],

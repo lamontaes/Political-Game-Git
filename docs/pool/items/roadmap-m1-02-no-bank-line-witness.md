@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #6203
 blocked-on:
@@ -18,6 +18,8 @@ claimed-at:
 **Rules.** Wire to the world: preserve a positive generated-world rate-decision to town loan-cost read by record id; never skip the repricing assertion or accept zero witness rows. One rule, all 56 places: keep drawn places and report every attempted seed.
 
 **Done when.** The registered M1-02 command obtains and verifies a positive loan repricing chain in an ordinary generated world, names the drawn place, seed, decision and facility records, retains the zero-line Swanton regression, and still fails when the rate reader is removed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/tooling/m1-02-check.ts, src/core2/modules/macro.ts, docs/roadmap/features.json
 

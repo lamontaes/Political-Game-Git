@@ -296,6 +296,52 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.44.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **Budgets shows what your town has actually taken in, paid out and holds.**
+  Politics → Budgets now opens on your town's own budget. Beside the adopted
+  plan it shows what the town's treasury has actually taken in, what it has paid
+  out and the cash it holds, all read from its books. If the town has paid out
+  more than its whole year's budget, the screen says so.
+
+### Improved
+
+- **Rights, privacy, environment, farm, park and road laws now reach people and
+  money** When a council or legislature passes a clean air plan, a groundwater
+  limit, an age check for social media, a facial recognition limit, dedicated
+  park money or a shift of highway money to transit, the town's books now show
+  it. Factories pay for the clean air plan, farms sell less under a groundwater
+  cap, online platforms pay to check ages (whether or not they employ anyone in
+  town), the police and parks budgets rise, and the transit line gets the moved
+  highway money. A ban on discrimination keeps small employers from marking down
+  older applicants, and a restriction on abortion raises the births the town
+  counts. Repeal each and the effects stop. A law that sets a budget line, such
+  as dedicated park money or the highway shift, is read again by the treasury
+  each month and each new budget year, so it keeps its effect past the year it
+  passed, and more highway spending lowers the share of roads in poor condition
+  over time.
+
+## PRE-ALPHA 0.43.0
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The desktop build checks itself again** The desktop build checks itself
+  again: its title check now accepts the Lincoln Memorial at night, which the
+  title's rotation added on Oct 26, so Mac and Windows packages publish.
+
+### Changed
+
+- **Work shifts no longer stop your day** Your character goes to work, works the
+  shift and gets paid on their own, and the start or end of a shift no longer
+  stops Day or Week with "Something needs you". Only a scene, a deadline you
+  must answer, or your own meeting or desk stops time now.
+
 ## PRE-ALPHA 0.42.0
 
 _Released October 26, 2026._

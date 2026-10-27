@@ -9,8 +9,13 @@ import {
   type BirthCouple,
 } from "../births-plan";
 import { buildNewborn } from "../births-people";
-import { decideUnplanned, unplannedExposure } from "../births-unplanned";
+import {
+  ABORTION_LAW_SERIES,
+  decideUnplanned,
+  unplannedExposure,
+} from "../births-unplanned";
 import { transferCash } from "../world-transfer";
+import { lawApplied } from "../law-reach/applied";
 import { applyCountedFlows, partnerByAge } from "../births-counted";
 import { nextMonthDay } from "../residents";
 import type { CoreAPI, CoreModule, Source } from "../types";
@@ -275,6 +280,19 @@ function conceiveUnplanned(
           planSource,
         );
       }
+    // The law's part of the trip is the restriction applied to her household:
+    // the miles it added, paid out of the household's cash.
+    const lawPaid = Math.round(paidMinor * decision.lawShare);
+    if (decision.lawId && lawPaid > 0)
+      lawApplied(api, {
+        key: ABORTION_LAW_SERIES,
+        lawId: decision.lawId,
+        targetId: api.state.people.get(row.motherId)!.householdId,
+        target: "household",
+        engine: RENEWAL_MODULE_ID,
+        what: "trip-lengthened-by-restriction",
+        amountMinor: -lawPaid,
+      });
     table(api, "pregnancies").put({
       id: pregnancyId,
       planId,

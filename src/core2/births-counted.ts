@@ -38,7 +38,7 @@ import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
 import { weighUnplanned } from "./births-unplanned";
-import { countedPayment } from "./counted-money";
+import { countedGroupIdOf, countedPayment } from "./counted-money";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { inheritedTemperament } from "./opening-personality";
 import {
@@ -60,6 +60,8 @@ import {
   outcomeWebFactor,
   placeOutcome,
 } from "./modules/outcome-web";
+import { lawApplied } from "./law-reach/applied";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
 
@@ -69,6 +71,7 @@ const PER_THOUSAND = 1000,
   MS_PER_DAY = 86_400_000,
   /** The month the first run steps back by to find the illnesses already under way. */
   DAYS_PER_COUNT_MONTH = 30;
+const RENEWAL_ID = "core2-renewal-v1";
 /** The youngest age at which anybody becomes a parent. */
 const YOUNGEST_PARENT_AGE = parameter("minimumParentAgeAtBirth");
 
@@ -329,7 +332,7 @@ export function applyCountedFlows(
     month = date.slice(0, 7);
   const p = (key: string) => renewalParameter(api, key);
   const months = p("monthsPerYear");
-  const store = api.moduleState("core2-renewal-v1");
+  const store = api.moduleState(RENEWAL_ID);
   for (const [placeId, households] of countedHouseholdsByPlace(core)) {
     const state = stateOf(api, placeId);
     const rates = birthRates(state.name);
@@ -679,6 +682,8 @@ export function applyCountedFlows(
     const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const spacing = p("renewalCountedBirthSpacingDays");
     const today = Date.parse(date);
+    /** The real women of childbearing age the counted women stand for. */
+    let bearing = 0;
     const rateList = [...rates];
     /** One more bedroom, a year, at the place's fair market rents. */
     const roomCostOf = (record: ResidentHouseholdRecord) => {
@@ -762,6 +767,7 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
+        bearing += weightOfPerson(woman);
         // The web's links land on each woman by her own age and home (a
         // recession delays births most among women in their early twenties;
         // dearer homes raise owners' births and lower renters').
@@ -791,6 +797,7 @@ export function applyCountedFlows(
     mothers.sort(
       (a, b) => b.standing - a.standing || compare(a.woman.id, b.woman.id),
     );
+    recordAbortionRestriction(api, placeId, bearing);
     carry.births += row.expected.births;
     const birthMothers = new Set<string>();
     for (const { record, woman } of mothers) {
@@ -898,6 +905,7 @@ export function applyCountedFlows(
         lawId: decision.lawId,
         miles: decision.miles,
         travelMinor: decision.travelMinor,
+        lawShare: decision.lawShare,
         scores: decision.scores,
         reasons: decision.reasons,
         status: decision.continues ? "pregnant" : "ended",
@@ -913,8 +921,8 @@ export function applyCountedFlows(
         const payee = [...api.state.organizations.values()].find(
           (org) => org.placeId === placeId && org.outsideFlow !== undefined,
         )?.id;
-        if (payee)
-          countedPayment(api, {
+        if (payee) {
+          const moved = countedPayment(api, {
             id: `${woman.id}:unplanned:${date}:trip`,
             placeId,
             householdId: record.household.id,
@@ -928,6 +936,23 @@ export function applyCountedFlows(
               estimatedFrom: "renewalTravelCostPerMileMinor",
             },
           });
+          // The miles a restriction added are money the households paid under
+          // it, recorded on their counted group by its own id, times the
+          // households the record stands for (a full household's is in renewal.ts).
+          const group = countedGroupIdOf(api, record.household.id);
+          const lawPaid = Math.round(moved * stands * decision.lawShare);
+          if (decision.lawId && group && lawPaid > 0)
+            lawApplied(api, {
+              key: ABORTION_KEY,
+              lawId: decision.lawId,
+              targetId: group,
+              target: "group",
+              engine: RENEWAL_ID,
+              what: "trip-lengthened-by-restriction",
+              count: stands,
+              amountMinor: -lawPaid,
+            });
+        }
       }
     }
     // The month's record is bookkeeping: nothing in play reads it, only
@@ -941,6 +966,36 @@ export function applyCountedFlows(
     store.table(carryTable).put({ id: placeId, ...carry });
     notifyCountedDeaths(api, row);
   }
+}
+
+const ABORTION_KEY =
+  "us-policy-positions:civil-family-community.restrict-abortion";
+
+/**
+ * Where a restriction on abortion is law, the births the web counts rise by
+ * its researched effect (the web's factor on the birth rate carries it, after
+ * its lag): record the counted women of childbearing age the month's births
+ * were counted for, citing the law row in force.
+ */
+function recordAbortionRestriction(
+  api: CoreAPI,
+  placeId: string,
+  women: number,
+): void {
+  if (!api.state.modules.has(LAWS_MODULE_ID) || women <= 0) return;
+  // The law in force is the town's; other places are not read against it.
+  if (placeId !== lawChain(api).townPlaceId) return;
+  const law = lawInForce(api, ABORTION_KEY);
+  if (law.value !== 1 || !law.governing) return;
+  lawApplied(api, {
+    key: ABORTION_KEY,
+    lawId: law.governing.id,
+    targetId: `women-bearing:${placeId}`,
+    target: "group",
+    engine: RENEWAL_ID,
+    what: "birth-rate-under-restriction",
+    count: Math.round(women),
+  });
 }
 
 /**
