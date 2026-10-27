@@ -17,9 +17,12 @@ const errors = [];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
 let government = null;
+let budget = null;
 page.on("response", async (r) => {
-  if (new URL(r.url()).pathname === "/api/government")
+  const path = new URL(r.url()).pathname;
+  if (path === "/api/government")
     government = await r.json().catch(() => government);
+  if (path === "/api/budget") budget = await r.json().catch(() => budget);
 });
 const politicsTabs = async () => {
   government = null;
@@ -133,6 +136,25 @@ try {
     .getByRole("button", { name: /^budgets$/i })
     .click();
   await page.locator(".budget-summary strong").first().waitFor();
+  // Budgets opens on the town's own books: its city government, or the county
+  // that serves it where the place has no city, never the federal default.
+  assert.ok(budget, "the budget view did not load");
+  const local = ["city", "county"]
+    .map((level) =>
+      budget.governments.find((g) => g.level === level && g.latest),
+    )
+    .find(Boolean);
+  const levels = budget.governments.map((g) => g.level).join(", ");
+  assert.ok(local, `no local budget to open on: ${levels}`);
+  assert.equal(
+    await page.locator(".budget-content").evaluate((e) => {
+      const select = e.parentElement.querySelector("select");
+      return select.value;
+    }),
+    local.id,
+    `Budgets did not open on the local books (${local.level}) of ${levels}`,
+  );
+  console.log(`PASS Budgets opens on the ${local.level} books of ${levels}`);
   const sums = await page
     .locator(
       ".budget-summary strong, .budget-columns .record-chart-line strong",

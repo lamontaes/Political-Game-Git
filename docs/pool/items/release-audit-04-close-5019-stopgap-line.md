@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
-pr: #5076
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:20:56.076Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T04:20:56.076Z
 
 **Files.** src/core2/data/stopgaps.json
 
-**Notes.** Item 4 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+**Notes.** Item 4 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5076 by the CTO, Oct 26.

@@ -112,9 +112,7 @@ setTraitProbe(undefined);
 const core = world.core;
 /** The first ids of each kind of record the build left (the opening's appointments, for one). */
 const openingRecords: Record<string, string[]> = {};
-const builtRecordIds = new Set<string>();
 for (const record of core.durableLog.values()) {
-  builtRecordIds.add(record.id);
   const kept = (openingRecords[record.kind] ??= []);
   if (kept.length < EXAMPLES_PER_SITE) kept.push(record.id);
 }
@@ -185,8 +183,6 @@ interface Example {
   date: string;
   /** The option picked (chooser sites) or whether the outcome was yes (formula decisions), when known. */
   result?: string | boolean;
-  /** Records the played year left for the actor on the call's day (a decision read without a weighed record of its own names what it led to). */
-  recordIds?: string[];
 }
 const chooserExamples = new Map<string, Example[]>();
 const formulaExamples = new Map<string, Example[]>();
@@ -383,27 +379,51 @@ function terciles(by: Record<string, { lean: number; picked: boolean }[]>) {
   );
 }
 
+/** What the money decisions wrote in the year, by record id: foundings, purchases, rent settled, owners' draws. */
+function recordsOfYear(core: CoreState) {
+  const api = coreAPI(core);
+  const rows = (moduleId: string, table: string) => {
+    // A table an older build does not have reads as empty.
+    try {
+      return core.modules.has(moduleId)
+        ? (api.moduleState(moduleId).table(table).rows() as unknown as {
+            id: string;
+            share?: number;
+          }[])
+        : [];
+    } catch {
+      return [];
+    }
+  };
+  const ids = (list: { id: string }[]) => ({
+    count: list.length,
+    first: list.slice(0, 3).map((row) => row.id),
+  });
+  const founded = [...core.organizations.keys()]
+    .filter(
+      (id) =>
+        id.startsWith("organization:founded:") ||
+        id.startsWith("organization:location:"),
+    )
+    .map((id) => ({ id }));
+  return {
+    founded: ids(founded),
+    purchases: ids(rows("housing", "purchases")),
+    settlements: ids(rows("housing", "settlements")),
+    settlementsPaid: ids(
+      rows("housing", "settlements").filter(
+        (row) => (row as unknown as { paidMinor: number }).paidMinor > 0,
+      ),
+    ),
+    ownerDraws: ids(rows("business", "draws").filter((row) => row.share! > 0)),
+    ownerDrawMonths: rows("business", "draws").length,
+  };
+}
+
 const events: Record<string, number> = {};
 for (const id of core.eventIds) {
   const kind = id.split(":")[1] ?? id;
   events[kind] = (events[kind] ?? 0) + 1;
-}
-/** Each kept example's records: what the log holds for its actor on its day, from the played year. */
-const wanted = new Map<string, Example[]>();
-for (const list of [...chooserExamples.values(), ...formulaExamples.values()])
-  for (const example of list)
-    if (example.actorId) {
-      const key = `${example.date}|${example.actorId}`;
-      wanted.set(key, [...(wanted.get(key) ?? []), example]);
-    }
-for (const record of core.durableLog.values()) {
-  if (builtRecordIds.has(record.id)) continue;
-  for (const personId of record.personIds ?? []) {
-    for (const example of wanted.get(`${record.date}|${personId}`) ?? []) {
-      const ids = (example.recordIds ??= []);
-      if (ids.length < EXAMPLES_PER_SITE) ids.push(record.id);
-    }
-  }
 }
 /** The first ids of each kind of record the log kept, so a decision weighed only for the counted population can name the record it fed. */
 const eventExamples: Record<string, string[]> = {};
@@ -446,6 +466,7 @@ writeFileSync(
     ),
     formula: Object.fromEntries(formula),
     events,
+    records: recordsOfYear(core),
     examples: {
       chooser: Object.fromEntries(chooserExamples),
       formula: Object.fromEntries(formulaExamples),

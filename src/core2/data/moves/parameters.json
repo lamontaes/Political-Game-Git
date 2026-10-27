@@ -39,7 +39,7 @@
   "movesKinHold": {
     "value": 0.15,
     "tag": "TUNABLE",
-    "citation": "How much each close relative living in town holds a person there, up to movesKinHoldCap relatives; the size is a starting value. The published effect converts to 0.30 per relative: having a sibling or extended relative within a mile cuts the odds of moving out of the neighborhood to 0.741 (parents 0.530, children 0.644; Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304, Table 4, Model 2, https://pmc.ncbi.nlm.nih.gov/articles/PMC5734642/); ln(1/0.741) = 0.30 (data/research/core/spring-2017-kin-proximity.json, checked by scripts/research/core-parameters-check.ts). The study measures leaving the tract within a metro area, not the town. The value stays at the starting 0.15, below the band, because the converted holds move src/core2/moves.test.ts past its departure band while the engine already sends more adults away than the ACS rate; world-town-net-moving-negative applies 0.30 once the departure rate is right.",
+    "citation": "How much each close relative living in town holds a person there, each further relative counting movesKinHoldDecay of the one before; the size is a starting value. The published effect converts to 0.30 per relative: having a sibling or extended relative within a mile cuts the odds of moving out of the neighborhood to 0.741 (parents 0.530, children 0.644; Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304, Table 4, Model 2, https://pmc.ncbi.nlm.nih.gov/articles/PMC5734642/); ln(1/0.741) = 0.30 (data/research/core/spring-2017-kin-proximity.json, checked by scripts/research/core-parameters-check.ts). The study measures leaving the tract within a metro area, not the town. The value stays at the starting 0.15, below the band, because the converted holds move src/core2/moves.test.ts past its departure band while the engine already sends more adults away than the ACS rate; world-town-net-moving-negative applies 0.30 once the departure rate is right.",
     "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.24,
@@ -47,18 +47,6 @@
       "unit": "log odds per relative in town",
       "citation": "Sourced outcome band, Spring et al. 2017 Table 4, 95 percent bounds from the printed standard errors: siblings or extended kin ln(1/0.786) = 0.24 to parents ln(1/0.489) = 0.72 (data/research/core/spring-2017-kin-proximity.json)."
     }
-  },
-  "movesKinHoldCap": {
-    "value": 4,
-    "tag": "TUNABLE",
-    "citation": "How many relatives in town count toward holding a person there.",
-    "spread": {
-      "low": 2,
-      "high": 6,
-      "unit": "relatives",
-      "citation": "Checked range, not a measure. A cap: core-moves-caps-and-minimum-age-as-cause replaces it with a sliding hold."
-    },
-    "stopgapId": "SG-P15-moves-weights"
   },
   "movesJobHold": {
     "value": 0.48,
@@ -133,12 +121,6 @@
     },
     "stopgapId": "SG-P15-moves-weights"
   },
-  "movesMinimumAge": {
-    "value": 18,
-    "tag": "SOURCED",
-    "citation": "The youngest age band in the American Community Survey 2024 departure rates this engine reads (18 and 19); younger people move with their household.",
-    "stopgapId": "SG-P15-moves-weights"
-  },
   "movesRiskWeight": {
     "value": 0.3,
     "tag": "TUNABLE",
@@ -157,26 +139,14 @@
     "citation": "Days in a calendar year: a job's daily wage times this, over the months in a year, is the household's monthly pay that its rent or mortgage is weighed against."
   },
   "movesHousingCostWeight": {
-    "value": 0.8,
+    "value": 1.04,
     "tag": "TUNABLE",
-    "citation": "How much what a home costs, as a share of the household's income, pushes a person toward leaving town (at a share of 0.3 the push is 0.24 on the scale of the holds; at the cap it is 0.8). Renters paying more of their income for housing move more, and 'wanted cheaper housing' is one of the housing reasons movers give (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
+    "citation": "How much what a home costs, against what the household has to pay it with, pushes a person toward leaving town: the push is this times the home's cost over that cost plus the household's means, so at a cost of 0.3 of income the push is 0.24 on the scale of the holds, and a household with no income and no savings reads 1.04. Renters paying more of their income for housing move more, and 'wanted cheaper housing' is one of the housing reasons movers give (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
     "spread": {
       "low": 0.3,
       "high": 1.5,
       "unit": "log scale of the holds per share of income",
       "citation": "TUNABLE starting value; no published effect converts to it; the year run reports leavers with a housing-cost push against the CPS intercounty 'cheaper housing' share (7.3%, data/research/core/cps-asec-2023-mobility.json)."
-    },
-    "stopgapId": "SG-P15-moves-weights"
-  },
-  "movesHousingCostShareCap": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The largest share of income a home's cost counts as when it pushes toward leaving; a household with no income at all reads as this share.",
-    "spread": {
-      "low": 0.6,
-      "high": 1.5,
-      "unit": "share of household income",
-      "citation": "Checked range, not a measure. A cap: core-moves-caps-and-minimum-age-as-cause replaces it with a sliding push."
     },
     "stopgapId": "SG-P15-moves-weights"
   },
@@ -195,7 +165,7 @@
   "movesCloseElsewherePull": {
     "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The push toward leaving from a partner, parent or child living elsewhere, times how close the person is to them now (0 to 1 each, faded since their last contact; up to movesKinHoldCap of closeness). People move toward close kin (Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304), and family reasons are the largest group of movers' reasons (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
+    "citation": "The push toward leaving from a partner, parent or child living elsewhere, times how close the person is to them now (0 to 1 each, faded since their last contact; each further unit counting movesKinHoldDecay of the one before). People move toward close kin (Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304), and family reasons are the largest group of movers' reasons (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
     "spread": {
       "low": 0.2,
       "high": 1,
@@ -226,6 +196,30 @@
       "high": 0.09,
       "unit": "log change in the leaving rate per point of relative unemployment",
       "citation": "Dao, Furceri and Loungani 2017 put the migration response at a quarter to a half of a local shock, against Blanchard and Katz 1992 (as the starting value states); not reopened in this research."
+    },
+    "stopgapId": "SG-P15-moves-weights"
+  },
+  "movesKinHoldDecay": {
+    "value": 0.9,
+    "tag": "TUNABLE",
+    "citation": "How much each further relative in town, or each further unit of closeness to kin elsewhere, counts against the one before: the first counts in full, the next 0.9 of it, and so on, so a large family holds more than a small one without stopping at a count.",
+    "spread": {
+      "low": 0.75,
+      "high": 0.95,
+      "unit": "share of the one before",
+      "citation": "Checked range, not a measure: at 0.9 four relatives count as 3.4, near the four the old cap allowed, and a fifth adds 0.66."
+    },
+    "stopgapId": "SG-P15-moves-weights"
+  },
+  "movesHousingSavingsMonths": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Over how many months a household's own cash, net of what it owes on credit lines, counts toward paying for its home, beside its income, when what the home costs pushes toward leaving.",
+    "spread": {
+      "low": 6,
+      "high": 24,
+      "unit": "months",
+      "citation": "Checked range, not a measure: from half a year to two years of savings drawn down."
     },
     "stopgapId": "SG-P15-moves-weights"
   }

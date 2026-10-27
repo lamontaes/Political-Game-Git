@@ -3,6 +3,7 @@ import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
 import { lineName } from "./budget";
+import type { ownRace } from "./results";
 import { policyNames } from "./words";
 
 /** A story as the news engine keeps it. */
@@ -116,13 +117,27 @@ export function wordArchiveStory(
       date: fact(sayDate(story.date)),
     };
   } else return null;
+  return worded(core, story.id, kind, speaker, facts, options);
+}
+
+type StoryFact = { text: string; sourceRecordIds: EntityId[] };
+
+/** One story worded by the English engine from its record's facts. */
+function worded(
+  core: CoreState,
+  storyId: string,
+  kind: StoryKind,
+  speaker: string,
+  facts: Record<string, StoryFact>,
+  options: { heldFirst?: boolean } = {},
+): WordedStory | null {
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",
-    momentKey: `archive-news:${story.id}`,
+    momentKey: `archive-news:${storyId}`,
     worldSeed: core.seed,
     bankVersion: "words-newscast-v1",
     stage: "default",
-    sourceRecordIds: ids,
+    sourceRecordIds: [storyId as EntityId],
     facts,
     speaker: { personId: speaker as EntityId, traits: {} },
     knowledge: Object.entries(facts).map(([factKey, row]) => ({
@@ -138,4 +153,49 @@ export function wordArchiveStory(
     ...(composed.lede ? { lede: composed.lede } : {}),
     sourceRecordIds: composed.sourceRecordIds,
   };
+}
+
+/**
+ * The person's own newest race as the paper tells it, from the count's public
+ * record: who won or lost the race for which office, and against whom.
+ */
+export function wordOwnResult(
+  core: CoreState,
+  race: NonNullable<ReturnType<typeof ownRace>>,
+  personId: string,
+) {
+  const record = core.durableLog.get(race.recordId as EntityId);
+  const person = core.people.get(personId);
+  if (!record || !person) return null;
+  const office = (record as { facts?: Record<string, unknown> }).facts?.office;
+  const ids = [record.id] as EntityId[];
+  const facts: Record<string, StoryFact> = {
+    name: {
+      text: `${person.givenName} ${person.familyName}`,
+      sourceRecordIds: [...ids, person.id as EntityId],
+    },
+    [race.won ? "won" : "lost"]: { text: "yes", sourceRecordIds: ids },
+    ...(typeof office === "string"
+      ? { office: { text: office, sourceRecordIds: ids } }
+      : {}),
+    ...(race.rival
+      ? {
+          opponent: {
+            text: race.rival.name,
+            sourceRecordIds: [...ids, race.rival.id as EntityId],
+          },
+        }
+      : {}),
+  };
+  const story = worded(core, record.id, "election", personId, facts);
+  return (
+    story && {
+      id: record.id,
+      date: record.date,
+      kind: record.kind,
+      facts: (record as { facts?: Record<string, unknown> }).facts ?? {},
+      contestId: race.contestId,
+      ...story,
+    }
+  );
 }

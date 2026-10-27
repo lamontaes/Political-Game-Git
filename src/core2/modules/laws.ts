@@ -23,6 +23,7 @@ import { POLICY_QUESTIONS } from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
 import {
   holdPublicPay,
+  holdTeacherPay,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_REVIEW,
 } from "../public-pay-floor";
@@ -48,6 +49,8 @@ import {
 
 export const LAWS_MODULE_ID = "core2-laws-v1";
 const CHAIN_ID = "chain";
+/** The count of laws enacted in play, across every series: their order. */
+const ORDER_ID = "enactment-order";
 /** The calibration date the starting policy answers are read as of. */
 const ANSWERS_AS_OF = "2024-07-01";
 
@@ -110,7 +113,7 @@ export const LAWS_MODULE: PreStartModule = {
   },
   onCalendarWork: (api, work) => {
     lawTookEffect(api, work);
-    // A public pay floor in force holds later public hires to it, monthly.
+    // A public pay floor or a teacher minimum salary in force holds later hires to it, monthly.
     if (work.kind === PUBLIC_PAY_REVIEW) recordPublicPay(api, work.source);
   },
 };
@@ -516,6 +519,16 @@ export function enactLaw(
   )
     id = `${baseId}:${n}`;
   const replaced = lawsTable.get(id) !== undefined;
+  // The order it was enacted in, so of two state laws on one power taking
+  // effect the same day the later governs, whichever table holds it.
+  const chainTable = api.moduleState(LAWS_MODULE_ID).table("chain");
+  const enactedSequence =
+    ((chainTable.get(ORDER_ID) as unknown as { next?: number } | undefined)
+      ?.next ?? 0) + 1;
+  chainTable.put({
+    id: ORDER_ID,
+    next: enactedSequence,
+  } as unknown as ModuleRow);
   const row: LawRowInput = {
     id,
     jurisdiction: input.jurisdiction,
@@ -529,7 +542,11 @@ export function enactLaw(
     retrieved: api.state.date,
     estimate: input.estimate === true,
     ...(input.unit ? { unit: input.unit } : {}),
-    terms: { ...(input.terms ?? {}), enactedBy: input.measureId },
+    terms: {
+      ...(input.terms ?? {}),
+      enactedBy: input.measureId,
+      enactedSequence,
+    },
   };
   api
     .moduleState(LAWS_MODULE_ID)
@@ -641,19 +658,28 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 }
 
 /**
- * The public pay floor's raises, each on the worker's record like a minimum
- * wage raise. stopgapId: SG-GOV-public-pay-floor-owner
+ * The public pay floor's and the teacher minimum salary's raises, each on the
+ * worker's record like a minimum wage raise. stopgapId:
+ * SG-GOV-public-pay-floor-owner
  */
-function recordPublicPay(api: CoreAPI, source: Source): void {
+export function recordPublicPay(api: CoreAPI, source: Source): void {
   const raises = api.moduleState(LAWS_MODULE_ID).table("raises");
-  for (const r of holdPublicPay(api, source))
+  for (const r of [
+    ...holdPublicPay(api, source),
+    ...holdTeacherPay(api, source),
+  ]) {
+    const id = `raise:${r.jobId}:${api.state.date}`;
+    // Two floors raising one job the same day are one raise on the record.
+    const earlier = raises.get(id) as unknown as
+      { fromMinor: number } | undefined;
     raises.put({
-      id: `raise:${r.jobId}:${api.state.date}`,
+      id,
       personId: r.personId,
       jobId: r.jobId,
       date: api.state.date,
-      fromMinor: r.fromMinor,
+      fromMinor: earlier?.fromMinor ?? r.fromMinor,
       toMinor: r.toMinor,
       lawId: r.lawId,
     });
+  }
 }

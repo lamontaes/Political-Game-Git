@@ -42,8 +42,15 @@ import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
+import { schoolsLineAboveBase } from "../school-budget-line";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
-import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
+import {
+  budgetLineAddedPct,
+  GOV_MEASURES,
+  govMeasure,
+  govMeasureRecord,
+  snapMaximumChangePct,
+} from "../gov-measures";
 import { monthEvent } from "../outcome-news";
 
 /** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
@@ -197,6 +204,24 @@ const ENGINE_READERS: Readonly<
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
   },
+  // A budget line above its Census base (gov-measures keeps the readings).
+  "parks-added-pct": (api) => lineAddedPct(api, "budget.parks-added-pct"),
+  "highways-added-pct": (api) => lineAddedPct(api, "budget.highways-added-pct"),
+  // The SNAP maximum and the budget lines the health, assistance and schools
+  // laws set, as the town's treasuries and law rows record them.
+  "snap-maximum-change": (api) => snapMaximumChangePct(api),
+  ...Object.fromEntries(
+    ["healthAndHospitals", "welfareAndMedicaid", "higherEducation"].map(
+      (line) => [
+        `budget-line-added:${line}`,
+        (api: CoreAPI) => budgetLineAddedPct(api, line),
+      ],
+    ),
+  ),
+  "schools-line-above-base": (api, placeId) => {
+    const line = schoolsLineAboveBase(api, placeId);
+    return line ? { value: line.pct, recordId: line.recordId } : null;
+  },
   // The corporate rate in force is the town's state law; other places keep
   // their own. A state with no corporate income tax reads zero.
   "state-corporate-rate": (api, placeId) => {
@@ -241,6 +266,16 @@ function readsTownLaw(api: CoreAPI, placeId: string): boolean {
     api.state.placeMetadata?.housingTown === placeId &&
     (api.state as CoreState).modules.has(LAWS_MODULE_ID)
   );
+}
+
+function lineAddedPct(
+  api: CoreAPI,
+  measure: string,
+): { value: number; recordId: string | null } | null {
+  const value = govMeasure(api, measure);
+  return value === null
+    ? null
+    : { value, recordId: govMeasureRecord(api, measure) };
 }
 
 /** An engine's record for a measure in a place today, or null where it keeps none. */
@@ -292,7 +327,12 @@ const GOV_CAUSES = [
     WEB_LINKS.flatMap((link) => [link.from, link.moderator?.measure ?? ""]),
   ),
 ]
-  .filter((measure) => (GOV_MEASURES as readonly string[]).includes(measure))
+  .filter(
+    (measure) =>
+      (GOV_MEASURES as readonly string[]).includes(measure) &&
+      // One that is also an engine measure is read as one (ENGINE_READERS).
+      !engineMeasure(measure),
+  )
   .sort();
 const LAW_CAUSES = [
   ...new Set(
@@ -309,6 +349,8 @@ interface Reading {
   readonly index: number;
   readonly openingIndex: number;
   readonly values: Record<string, number>;
+  /** Each engine cause as first read at the opening (the baselines row). */
+  readonly first: Readonly<Record<string, number>>;
 }
 
 /** The place's record for a month, or the nearest earlier one back to the opening. */
@@ -352,7 +394,12 @@ function causeAt(r: Reading, measure: string, index: number): number | null {
       ? null
       : (value / base - 1) * SETTINGS.indexStart;
   }
-  // An engine record before the web opened reads as it stood at the opening.
+  // An engine record before the web opened reads as it was first read at the
+  // opening. The opening month's row is rewritten when a law or a budget
+  // change takes effect that month, and reading that row back would carry the
+  // change into every earlier month a phased link averages.
+  if (index < r.openingIndex && r.first[measure] !== undefined)
+    return r.first[measure];
   return (
     (row ?? rowAt(r, r.openingIndex))?.values[measure] ??
     r.values[measure] ??
@@ -431,6 +478,10 @@ function effectOf(r: Reading, link: WebLink): number | null {
 function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   const date = api.state.date;
   const month = date.slice(0, "YYYY-MM".length);
+  const baselines = store(api).table("baselines");
+  const opening = baselines.get(placeId) as unknown as
+    { id: string; date: string; values: Record<string, number> } | undefined;
+  const bases: Record<string, number> = { ...opening?.values };
   const r: Reading = {
     api,
     placeId,
@@ -438,11 +489,8 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     index: monthIndex(month),
     openingIndex: monthIndex(state.openingMonth),
     values: {},
+    first: bases,
   };
-  const baselines = store(api).table("baselines");
-  const opening = baselines.get(placeId) as unknown as
-    { id: string; date: string; values: Record<string, number> } | undefined;
-  const bases: Record<string, number> = { ...opening?.values };
   const engineSources: Record<string, string | null> = {};
   let newBaseline = false;
   for (const measure of ENGINE_CAUSES) {

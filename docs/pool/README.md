@@ -54,9 +54,11 @@ source: overnight order Session A; stopgap SG-GOV-REACH-A-cannabis
 
 **What.** One paragraph: what to build or fix, in plain words.
 
+**Time box.** Hours for one session, sized for the model named in `lead:` or the claimer (owner, Oct 26: every assignment is SMART, `.agents/rules/smart-and-look-first.md`). When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
 **Rules.** The owner rulings and AGENTS.md rules that bind this item, by name (no dice; an effect is a read; one rule, all 56 places; the chain is the acceptance).
 
-**Done when.** The check: what a played-world year in a drawn place must show, by record, and which test or guard proves it. "The owner plays it:" one sentence.
+**Done when.** The check: what a played-world year in a drawn place must show, by record, and which test or guard proves it. "The owner plays it:" one sentence. An item that asks the owner anything carries the reading line (`Read: OWNER-DECISIONS (...), DECISION-REGISTER, prior-rulings/..., LAW; searched: ...`).
 
 **Files.** The engine files it touches.
 
