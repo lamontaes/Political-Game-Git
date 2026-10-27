@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/live-news-worded
 pr:
 blocked-on:
 source: "words-and-scenes work order, deliverable 4 (docs/work-orders/lead-words-scenes-2026-10-26.md), from the owner's Oct 26 playtest"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T01:34:57.953Z
 ---
 
 **What.** News words only stories the press archived before day one (`wordArchiveStory` in `src/bench/archive-words.ts`). Every story printed during play (`press.printed`) reaches News with no headline or lede, so it falls into the public-records box as a record kind and a list of labeled fields. In a year of Red Hook, U.S. Virgin Islands (seed `news-a`), the press printed 33 kinds of story: laws taking effect, signed bills, jobs reports, closings, charges, filings, debates and more. None of them had words. The trace audit's "entered the world" records (`person.recorded`, `organization.recorded`) were also printed as news, so the two-level population's fill-in showed up as a story.
