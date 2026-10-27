@@ -65,6 +65,8 @@ Batch-style line grading is not how the owner grades. He plays or watches a scen
 - Knowing is a read: a person cites a law, a vote or an act only through a record of how they learned of it (news received, a talk, a notice), and the stance cites that source.
 - No feeling words unless a record carries the feeling; grief has a cause record.
 
+- **Scene PRs collide on four shared files; land on fresh main.** Every scene edits `data/english/parts/scene-talk.json`, `src/director/data/situation-types.json`, `src/director/purpose-scene.ts` and the situation-type count in `src/director/director.test.ts`, and mergers never hand-merge a bank. Right before marking ready, `git fetch origin main`, merge it, re-add your pieces by piece key and your count bump on main's files, and push within minutes; a PR that is stacked or held waits for its base to merge, then redoes this. Oct 27: #6201, #6296, #6298 (twice), #6303 and #6309 were each sent back for this one conflict.
+
 ## The checks a Words session runs
 
 In-session, on changed files only: typecheck, eslint, prettier, the bank's own test (`scripts/english-corpus/<bank>-bank.test.ts`), the director's tests for changed files (`src/director/*.test.ts`), `npm run spelling` (American English; `tests/american-english-sweep.test.ts`), `npm run zero-dice`, `release:check --mode pr` with a declaration in `docs/release/changes/`. The played-world proof is the batch itself: a year in a drawn place with the record ids that fired each scene. One line at the top of the PR body with the result; the first lines of the PR body say what the owner can play now.
