@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-plates-second
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T22:40:24.724Z
 ---
 
 **What.** The owner's art session delivered tagged mannequin plates for twelve more rooms (the governor's office, the living room, the bedroom and the workforce office of the opening; the Senate floor, White House and Capitol grounds, convention floor and stage, rally stage, courthouse rally and debate stage of the main menu) and redid the Oval Office with the couch sitters apart. It also painted standing figures seen from behind, which crowds facing away need. This item imports every plate's spots in place of the hand-typed ones, adds the back figures to the set, and seats the governor at the desk the plate tags for the governor.
