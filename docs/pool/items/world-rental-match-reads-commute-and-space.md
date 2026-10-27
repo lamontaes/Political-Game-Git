@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: world-dwelling-locations
+after: world-dwelling-position
 source: added with npm run pool -- add
 ---
 

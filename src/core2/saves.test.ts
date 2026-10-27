@@ -91,6 +91,95 @@ function sealGaps(
   return result;
 }
 
+/**
+ * The whole played world against the restored one, with no depth limit and
+ * cycles tracked: every object, list, Map and Set of the played world must
+ * exist in the restored one as the same kind, and one frozen in play must be
+ * frozen after the restore. Frozen records the opening lacks are counted.
+ */
+function restoredFrozenGaps(
+  opening: unknown,
+  played: unknown,
+  restored: unknown,
+): {
+  visited: number;
+  frozenCreated: number;
+  unfrozen: string[];
+  missing: string[];
+} {
+  const result = {
+    visited: 0,
+    frozenCreated: 0,
+    unfrozen: [] as string[],
+    missing: [] as string[],
+  };
+  const NOT_COMPARABLE = Symbol("not comparable");
+  const kind = (value: object) =>
+    value instanceof Map
+      ? "map"
+      : value instanceof Set
+        ? "set"
+        : Array.isArray(value)
+          ? "list"
+          : "object";
+  const seen = new Set<object>();
+  const stack: [unknown, object, unknown, string][] = [
+    [opening, played as object, restored, "core"],
+  ];
+  while (stack.length) {
+    const [o, p, r, path] = stack.pop()!;
+    if (seen.has(p)) continue;
+    seen.add(p);
+    result.visited += 1;
+    if (!r || typeof r !== "object" || kind(r) !== kind(p)) {
+      result.missing.push(path);
+      continue;
+    }
+    if (Object.isFrozen(p)) {
+      if (o === undefined) result.frozenCreated += 1;
+      if (!Object.isFrozen(r)) result.unfrozen.push(path);
+    }
+    const child = (po: unknown, pv: unknown, rv: unknown, at: string) => {
+      // Engine definitions are rebuilt from the recipe, not saved, and the
+      // journal's cash writers install on first use (life.ts), so a restored
+      // world has them only once they run.
+      if (at === "core.modules") return;
+      if (pv && typeof pv === "object") stack.push([po, pv, rv, at]);
+    };
+    const comparable = !!o && typeof o === "object";
+    if (p instanceof Map)
+      for (const [key, value] of p)
+        child(
+          o === NOT_COMPARABLE
+            ? NOT_COMPARABLE
+            : o instanceof Map
+              ? o.get(key)
+              : undefined,
+          value,
+          (r as Map<unknown, unknown>).get(key),
+          `${path}[${String(key)}]`,
+        );
+    else if (p instanceof Set) {
+      const back = [...(r as Set<unknown>)];
+      [...p].forEach((value, i) =>
+        child(NOT_COMPARABLE, value, back[i], `${path}{${i}}`),
+      );
+    } else
+      for (const key of Object.keys(p))
+        child(
+          o === NOT_COMPARABLE
+            ? NOT_COMPARABLE
+            : comparable
+              ? (o as Record<string, unknown>)[key]
+              : undefined,
+          (p as Record<string, unknown>)[key],
+          (r as Record<string, unknown>)[key],
+          `${path}.${key}`,
+        );
+  }
+  return result;
+}
+
 describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
   it("loads to the same world after commands and a JSON round trip", () => {
     const recipe = {
@@ -222,5 +311,42 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
       gaps.paths,
       `${gaps.unfrozen} of ${gaps.changedFrozen} changed frozen records came back unfrozen`,
     ).toEqual([]);
+    // Every record of the played world, however deep, comes back as an
+    // object of the same kind, frozen when it was frozen. Records made since
+    // the opening (pay ledgers, earned periods) have nothing to compare with
+    // in the opening, so they are counted and required to exist.
+    const all = restoredFrozenGaps(opening.core, game.core, loaded.core);
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    expect(
+      all.missing,
+      `${where}: ${all.missing.length} records of the played world are missing or another kind after the restore (of ${all.visited} visited)`,
+    ).toEqual([]);
+    expect(
+      all.unfrozen,
+      `${where}: ${all.unfrozen.length} frozen records came back unfrozen (of ${all.visited} visited)`,
+    ).toEqual([]);
+    expect(
+      all.frozenCreated,
+      `${where}: frozen records made since the opening`,
+    ).toBeGreaterThan(0);
+    // The named case: a pay ledger made since the opening is in the restored
+    // world and frozen.
+    const opened = opening.core.work.payrollLedgerByCommitment;
+    const madeSince = [...game.core.work.payrollLedgerByCommitment].find(
+      ([id, ledger]) => !opened.has(id) && Object.isFrozen(ledger),
+    );
+    expect(
+      madeSince,
+      `${where}: a frozen pay ledger made since the opening`,
+    ).toBeDefined();
+    const back = loaded.core.work.payrollLedgerByCommitment.get(madeSince![0]);
+    expect(
+      back,
+      `${where}: pay ledger ${madeSince![0]} restored`,
+    ).toBeDefined();
+    expect(
+      Object.isFrozen(back),
+      `${where}: pay ledger ${madeSince![0]} frozen`,
+    ).toBe(true);
   }, 600_000);
 });

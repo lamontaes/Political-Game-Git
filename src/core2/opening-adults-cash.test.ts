@@ -6,6 +6,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { depositsHeld } from "./accounts";
 import { gameStartDate } from "./game-start";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
 
@@ -41,12 +42,18 @@ it(`every adult with no cash is a survey-sized share of residents or an explaine
   const api = coreAPI(core);
   const accounts = api.accounts();
   const town = lawChain(api).townPlaceId;
-  const year = Number(core.date.slice(0, 4));
   const groups = new Map<string, string[]>();
   let residents = 0;
   let residentsWithNothing = 0;
   for (const person of core.people.values()) {
-    if (!person.alive || year - Number(person.birthDate.slice(0, 4)) < 18)
+    // Adults on the opening day: someone born late in 2007 is still 17 and
+    // holds nothing of their own in their parents' home (Malaeimi, American
+    // Samoa, seed b46fc844a2e79fa2: 17 of its 34 adults with nothing by birth
+    // year alone).
+    if (
+      !person.alive ||
+      ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) < 18
+    )
       continue;
     const holds =
       person.liquidMinor > 0 ||

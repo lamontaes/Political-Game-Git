@@ -178,6 +178,9 @@
       "effect": "approach",
       "prerequisites": [
         {
+          "operation": "office-staffed"
+        },
+        {
           "operation": "has-drive"
         },
         {
@@ -261,6 +264,11 @@
       "oneSided": true,
       "stopgapId": "SG-P8-emotion-model"
     }
+  ],
+  "hardshipEventKinds": [
+    "work.job-lost",
+    "housing.eviction",
+    "credit.payment-missed"
   ],
   "openingVintageStopgap": "SG-P8-opening-vintage",
   "openingTier": "weekly",

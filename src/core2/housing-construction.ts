@@ -23,6 +23,7 @@ import { stableHash } from "./kernel/ids";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import { lawApplied } from "./law-reach/applied";
+import { townOutsideOf } from "./opening-outside-market";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** The policy keys the builders' decision reads, and the law row each was governed by this month. */
@@ -321,9 +322,8 @@ export function buildMonth(
         c.organizations.get(b[0])!.liquidMinor -
           c.organizations.get(a[0])!.liquidMinor || a[0].localeCompare(b[0]),
     )[0]?.[0];
-  const outside = [...c.organizations.values()].find(
-    (org) => org.placeId === input.placeId && org.outsideFlow !== undefined,
-  )?.id;
+  // The place's outside market, never a public payer that also carries an outside flow.
+  const outside = townOutsideOf(c.organizations.values(), input.placeId)?.id;
   let carrySingle = row.carrySingle + single,
     carryMulti = row.carryMulti + multi;
   const start = (
@@ -372,7 +372,12 @@ export function buildMonth(
       const affordableUnits =
         kind === "multi" ? Math.floor(units * z.inclusionaryShare) : 0;
       if (kind === "multi") {
-        applyRule("multifamily", payerId);
+        // The outcome web's factor on large buildings is this law's alone (the by-right link is the only one into that measure): the share of this building the factor added is the building cost the law moved.
+        applyRule(
+          "multifamily",
+          payerId,
+          largeBuildings > 1 ? costMinor * (1 - 1 / largeBuildings) : 0,
+        );
         // The rent the set-aside units give up over a year, against the asking rent.
         if (affordableUnits > 0)
           applyRule(

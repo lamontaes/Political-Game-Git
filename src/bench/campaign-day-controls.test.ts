@@ -232,13 +232,20 @@ function play(
     if (eventControl().available) break;
     if (!outing("doors").available) break;
     const knocked = doorCauseIds(api, personId);
+    const households = doorsKnockedOf(api, filing.id).length;
     const doors = campaignDay(core, personId, {
       filingId: filing.id,
       kind: "canvass",
     });
     if (checkCanvass(core, api, personId, knocked, doors, where))
       answered = true;
-    if (calls.raisedMinor === 0 && doors.doorsKnocked === 0) break;
+    // Every door knocked, the canvass goes round again, so a doors day that
+    // moves nothing is one that reaches no household not knocked before.
+    if (
+      calls.raisedMinor === 0 &&
+      doorsKnockedOf(api, filing.id).length === households
+    )
+      break;
   }
   // What the donors left short of the venue, the candidate chooses to put
   // in from their own money (the player's own choice, by its control).

@@ -23,6 +23,7 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const response = await life;
     assert.equal(response.status(), 200);
@@ -68,6 +69,31 @@ try {
   );
   const text = await page.locator("#person").innerText();
   assert.ok(!text.includes("undefined"));
+  // No heading with nothing under it, no date without a label, a capitalized
+  // relation, and where the person lives (owner, Oct 26).
+  const read = await page.evaluate(() => ({
+    role: document.getElementById("person-role").textContent,
+    empty: [...document.querySelectorAll("#person-facts .label")]
+      .filter((label) => {
+        const next = label.nextElementSibling;
+        return !next || !next.textContent.trim();
+      })
+      .map((label) => label.textContent),
+    home: [...document.querySelectorAll("#person-facts .label")].some((label) =>
+      label.nextElementSibling?.textContent.trim(),
+    ),
+    values: [...document.querySelectorAll("#person-facts .record-value")].map(
+      (value) => ({
+        value: value.textContent.trim(),
+        label: value.previousElementSibling?.textContent.trim() ?? "",
+      }),
+    ),
+  }));
+  assert.deepEqual(read.empty, [], "a heading with nothing under it");
+  assert.match(read.role, /^\p{Lu}/u, `relation not capitalized: ${read.role}`);
+  assert.ok(read.home, "the card shows nothing about the person's life");
+  for (const { value, label } of read.values)
+    assert.ok(label, `a value with no label: ${value}`);
   if (card.tie?.lastContactDate)
     assert.ok(!text.includes(card.tie.lastContactDate));
   await page.waitForFunction(

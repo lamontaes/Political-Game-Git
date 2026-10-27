@@ -5,22 +5,24 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { composeJournal, JOURNAL_DATA } from "./journal";
+import { composeJournal } from "./journal";
+import { JOURNAL_WORDS } from "../english/journal-words";
 
-// The journal as a memoir with hindsight (pool item words-main-line): an entry
-// told as small that a later record of the same person grew is looked back
-// on in the later entry, and only then. In a year of the played world in a
-// drawn place, every revising entry names the earlier entry it revises, the
-// earlier moment weighed little then and more now, and the later moment's own
-// echo points at it. No entry says a revision without one.
+// The journal as a memoir with hindsight (pool item words-main-line): a moment
+// that weighed little then, told or not, that a later record of the same
+// person grew is looked back on in the later entry, and only then. In a year
+// of the played world in a drawn place, every revising entry names the
+// earlier moment it revises, the earlier moment weighed little then and more
+// now, and the later moment's own echo points at it. No entry says a revision
+// without one.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const interrupt =
   DEFAULT_DIRECTOR_DATA.parameters.directorInterruptImpact!.value;
 const revisions = new Set(
-  (JOURNAL_DATA.memoir?.revise ?? []).map((row) => row.text),
+  (JOURNAL_WORDS.memoir?.revise ?? []).map((row) => row.text),
 );
 
 it(`a journal revises an early entry only when a later record changed what it meant (seed ${seed})`, () => {
@@ -34,6 +36,8 @@ it(`a journal revises an early entry only when a later record changed what it me
       placeKey: place.key,
     });
     const { core, director } = world;
+    // An eighth of a year, as the journal reads it.
+    const monthSpan = core.data.parameters.yearSpanDays!.value / 8;
     for (const person of core.people.values())
       if (person.alive && person.id.startsWith("person_"))
         director.watch(core, person.id);
@@ -76,14 +80,12 @@ it(`a journal revises an early entry only when a later record changed what it me
             ),
             where,
           ).toBe(true);
-          // The earlier entry was told before, and the revision cites both records.
+          // The earlier moment is the person's own, from an eighth of a year
+          // before at least, and the revision cites both records.
           expect(
-            lines.some(
-              (row) =>
-                row.momentIds.includes(earlierId) && row.date < line.date,
-            ),
+            daysBetween(makeIsoDate(earlier.date), makeIsoDate(later.date)),
             where,
-          ).toBe(true);
+          ).toBeGreaterThanOrEqual(monthSpan);
           expect(line.sourceRecordIds, where).toContain(earlier.causeId);
           expect(line.sourceRecordIds, where).toContain(later.causeId);
         }

@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: a quit follows from the worker's own reasons (pay gap, tenure, strain, savings, scarcity), never a monthly rate applied to one person. Research before building: JOLTS quits calibrate the town's total, fetched with a quote. One model, two tiers: the same terms for full and counted workers.
 
-**Done when.** In one-year runs of the played world (buildBenchWorld, at least six places drawn from all 56, seeds named in the PR body) the pooled monthly quit rate per employed worker falls within the JOLTS total private quits band quoted from a fetched page, shown by job-change record ids, the jobs tests pass, and the tripwire test shows SG-WORLD-jobs-quit-rate-uncalibrated resolved.
+**Done when.** In one-year runs of the played world (buildBenchWorld, at least six places drawn from all 56, seeds named in the PR body) the pooled monthly quit rate per employed worker falls within the JOLTS total private quits band quoted from a fetched page, shown by job-change record ids, the jobs tests pass, and the tripwire test shows SG-WORLD-jobs-quit-rate-uncalibrated resolved. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/parameters.json, src/core2/data/stopgaps.json
 

@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T06:33:29.793Z
 
 **Rules.** Replace, never layer: the cloned unplaced flow, `returnUnplacedPay` and the SG-CORE-filled-unplaced-income marker are deleted in the same change, and nothing is added to src/simulation. Every dollar must balance: the outside account's pay authority posts each wage against an exact due record, so the money test keeps its original tolerance. One model, two tiers: a filled-in commuter is a consistent member of the counted group it came from, with the same pay.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56 and a seed the builder did not choose, both named in the PR body), a filled-in jobless adult takes an outside job by record id, is paid on schedule from the outside account with withholding posted to the treasuries, and the household's journal reads it; the counted-weight-money test passes at its original tolerance, and any timeout change carries its measured reason.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56 and a seed the builder did not choose, both named in the PR body), a filled-in jobless adult takes an outside job by record id, is paid on schedule from the outside account with withholding posted to the treasuries, and the household's journal reads it; the counted-weight-money test passes at its original tolerance, and any timeout change carries its measured reason. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/opening-outside-market.ts, src/core2/public-work-pay.ts, src/core2/modules/residents.ts, src/core2/modules/counted-demotion.ts, src/core2/counted-weight-money.test.ts, src/core2/data/stopgaps.json
 

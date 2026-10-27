@@ -7,8 +7,10 @@
  * mortgage ends, the home is no longer the household's, and the sale is a
  * record the housing ledger keeps.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
+import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -62,12 +64,7 @@ export function sellHome(
   const price = Math.round(dwelling.valueMinor ?? 0);
   const owed = mortgages.reduce((sum, row) => sum + row.balanceMinor, 0);
   // The town's outside market stands for the buyer.
-  const buyer = [...c.organizations.values()]
-    .filter(
-      (org) =>
-        org.outsideFlow !== undefined && org.placeId === household.placeId,
-    )
-    .sort((a, b) => a.id.localeCompare(b.id))[0];
+  const buyer = townOutsideOf(c.organizations.values(), household.placeId);
   if (!buyer || price <= 0) return undefined;
   const source = {
     tag: "ESTIMATED" as const,
@@ -122,14 +119,15 @@ export function sellHome(
     )
       api.endStandingContract(mortgage.id);
   }
-  table(api, "dwellings").put({
-    id: `dwelling:${householdId}`,
-    householdId,
-    tenure: "sold",
-    kind: dwelling.kind ?? "house",
-    since: c.date,
-    basis: "sale",
-  });
+  table(api, "dwellings").put(
+    formerHome(dwelling, {
+      householdId,
+      tenure: "sold",
+      basis: "sale",
+      date: c.date,
+      soldForMinor: price,
+    }) as unknown as ModuleRow,
+  );
   const sale: HomeSale = {
     id: `home-sale:${stamp}`,
     householdId,

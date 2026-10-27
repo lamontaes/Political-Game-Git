@@ -27,7 +27,12 @@ describe("the pool flips to done when a pull request merges", () => {
     expect(workflow).toContain("contents: write");
     expect(workflow).toContain("ref: main");
     expect(workflow).toContain("scripts/pool/done-on-merge.ts");
-    // One writer at a time, so two merges never race for main.
+    // A group per pull request: a shared group let each newer merge cancel the
+    // run still waiting, so a burst of merges left most items in-pr. The pool
+    // command's fetch-and-retry on the push is what settles two writers.
+    expect(workflow).toContain(
+      "group: pool-done-on-merge-${{ github.event.pull_request.number }}",
+    );
     expect(workflow).toContain("cancel-in-progress: false");
   });
 

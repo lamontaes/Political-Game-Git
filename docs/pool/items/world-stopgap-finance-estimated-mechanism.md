@@ -4,7 +4,7 @@ title: "Stopgaps in finance (estimated-mechanism): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Monthly standing household budgets, modeled within-day work pay before household purchases, conservative finite recorded credit, interest accounting and immediate closure after an actual unfunded obligation when cash and
 
 Oct 20 (pool feeder): spec written; research for the buffer is in data/research/stopgaps-oct19/B-people-behavior-2.json (JPMC 27 days, IQR 13 to 62; household 30-day late period is an estimate). Household side not split out: world-housing-counted-rent-arrears and world-fill-in-arrears-from-household already carry arrears for households. Related ruling: money is time, freedom and pressure (OWNER-DECISIONS.md, Oct 20). Needs core-closures calibration to stay near the Census exit rate (world-census-scale-closures-rise).
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

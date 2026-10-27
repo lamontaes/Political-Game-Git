@@ -1,0 +1,42 @@
+{
+  "id": "apnorc-2014-news-frequency",
+  "publisher": "The Media Insight Project (American Press Institute and the Associated Press-NORC Center for Public Affairs Research)",
+  "vintage": "January 9 to February 16, 2014",
+  "table": "How often adults watch, read or hear the news (section 1 of the report)",
+  "title": "The Personal News Cycle: How Americans Choose to Get Their News",
+  "universe": "U.S. adults (nationally representative telephone survey of 1,492 adults)",
+  "geography": "United States",
+  "sourceUrl": "https://apnorc.org/wp-content/uploads/2020/02/The_Personal_News_Cycle_Final.pdf",
+  "retrievedOn": "2026-10-23",
+  "limits": "National only, no figure by state or town, and from 2014. It asks how often a person gets any news, not how soon a given local story reaches them; the delay is read from the frequency (someone who gets news daily sees a story printed today by tomorrow). It is the newest nationally representative split of news frequency this research could open as a page with its figures; newer Pew and Reuters Institute frequency tables were not found in that form.",
+  "surveyQuote": "These are some of the findings of the nationally representative telephone survey of 1,492 adults conducted from January 9 through February 16, 2014.",
+  "frequency": [
+    {
+      "label": "Daily",
+      "share": 0.76,
+      "intervalDays": 1,
+      "quote": "Fully 76 percent of Americans report watching, reading, or hearing the news on a daily basis"
+    },
+    {
+      "label": "Several times per week",
+      "share": 0.14,
+      "intervalDays": 2,
+      "quote": "another 14 percent report watching, reading, or hearing the news several times per week"
+    },
+    {
+      "label": "Weekly or less",
+      "share": 0.1,
+      "intervalDays": 7,
+      "quote": "and only 10 percent say weekly or less."
+    }
+  ],
+  "intervalNote": "intervalDays is the research's reading of each band as days between looks at the news: daily is 1, several times per week (three or four times) is about every second day, weekly or less is 7 or more.",
+  "delayEstimate": {
+    "parameter": "src/core2/data/news/parameters.json newsOutletDelayDays",
+    "value": 1,
+    "low": 1,
+    "high": 2,
+    "unit": "days",
+    "method": "The news engine's reference reader follows public affairs most of the time (engagement 1, the CES newsint top answer) and trusts the media as much as the average adult. Pew's 2022 share who follow the news all or most of the time (38%, data/research/news/pew-2024-2025-news-habits.json) is half the share who get news daily (76%), so that reader is among the daily readers and sees a story printed today the next day: 1 day. The spread is the interval of the two most frequent bands a close follower can sit in: daily (1 day) to several times per week (2 days)."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "terracciano-blsa-neo-facets-2005",
+  "publisher": "Psychology and Aging (American Psychological Association); NIH author manuscript",
+  "vintage": "Baltimore Longitudinal Study of Aging, repeated NEO-PI-R administrations analyzed in the 2005 article",
+  "table": "Table 2, HLM Coefficients and Variance Estimates of Intercept, Linear, and Quadratic Equations",
+  "title": "Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging",
+  "authors": "Terracciano, McCrae, Brant and Costa (2005), Psychology and Aging 20(3):493-506, doi 10.1037/0882-7974.20.3.493",
+  "universe": "1,944 adults with repeated NEO-PI-R scores",
+  "geography": "United States",
+  "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/",
+  "retrievedOn": "2026-10-24",
+  "limits": "T scores (mean 50, SD 10); coefficients apply to age minus the mean age, in decades. A facet with no quadratic coefficient was fit as a straight line: the quadratic term is reported only where it fit better than the linear model.",
+  "quadraticRule": "The quadratic terms are presented only when the quadratic model fit the data better than the linear model.",
+  "facets": [
+    {
+      "facet": "E2 Gregariousness",
+      "linear": -0.211,
+      "quadratic": -0.154
+    },
+    {
+      "facet": "E5 Excitement-Seeking",
+      "linear": -1.361,
+      "quadratic": 0.193
+    },
+    {
+      "facet": "A4 Compliance",
+      "linear": 1.324,
+      "quadratic": null,
+      "row": "A4: Compliance | 25.30 | 45.3 (.66)** | 4.05 (.42)** | | 69.70** | 1.324 (.11) | 0.28** | |"
+    },
+    {
+      "facet": "C3 Dutifulness",
+      "linear": 0.239,
+      "quadratic": -0.347
+    },
+    {
+      "facet": "C6 Deliberation",
+      "linear": 1.697,
+      "quadratic": -0.219
+    }
+  ],
+  "use": "SG-P15-personality-mapping: the age curves in src/core2/data/opening-kin.json; A4 has no quadratic term in the table, so zero is the source's own straight line."
+}

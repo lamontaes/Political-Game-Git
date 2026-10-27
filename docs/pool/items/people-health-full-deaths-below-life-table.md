@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T03:08:38.742Z
 
 **Rules.** No dice: a death follows strain against the person's own line, never a roll. Totals only: the life table checks the year's deaths, it never picks who dies. One rule, all 56 places. Every dollar balances.
 
-**Done when.** In six or more drawn places (names and seeds in the PR body) scripts/health/mortality-band.ts reports the pooled ratio of full people's deaths to the table's expected within 0.8 to 1.2 over one year and over three, and the health and mortality tests pass.
+**Done when.** In six or more drawn places (names and seeds in the PR body) scripts/health/mortality-band.ts reports the pooled ratio of full people's deaths to the table's expected within 0.8 to 1.2 over one year and over three, and the health and mortality tests pass. **On screen.** Nothing yet: it would show on the People web and the Journal, and nothing there reads it.
 
 **Files.** src/core2/modules/health.ts,src/core2/data/parameters.json,scripts/health/mortality-band.ts
 

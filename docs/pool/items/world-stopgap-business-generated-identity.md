@@ -4,7 +4,7 @@ title: "Stopgaps in business (generated-identity): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: The opening's largest businesses (by staff, up to the state's estimated share of jobs in multi-establishment firms) belong to firms based outside the town; every other is owned by its highest-paid current worker, as owne
 
 Oct 20 (pool feeder): spec written; the replacement named in the row ('owners from the opening's history, M1-14') is exactly this; the outside-firm half already exists. Related: world-business-owner-seam (done) built the owner decisions this reads.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.
