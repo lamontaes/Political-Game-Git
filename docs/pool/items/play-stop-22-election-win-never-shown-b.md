@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
 pr: #6147
 blocked-on:
@@ -33,3 +33,4 @@ claimed-at:
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-22-election-win-never-shown (Oct 24, lane). Journal and news words are the Words lead's (`needs-from: words`). Read PR #5914 (household scenes on a win or loss). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
 
 Sent back 2026-10-26 from PR #6147 (branch play-first/play-stop-22-election-win-never-shown-b): Main integration conflicts in src/bench/play.css and src/english/mined/journal-bank.ts; resolve on this branch while preserving newer main own-race/margin work. Merge aborted, no own runtime/browser pass claimed.; finish on that branch, merge main into it first.
+Sent back 2026-10-26 from PR #6147 (branch play-first/play-stop-22-election-win-never-shown-b): merge of main conflicts in handler.ts, play.css, results.ts, journal-bank.ts; finish on that branch, merge main into it first.

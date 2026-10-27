@@ -241,7 +241,7 @@ function researchBlocker(
 }
 
 function reaches(link: WebLink & { carriedBy?: string }): Point {
-  const point = reachPoint(link);
+  const point = unrun(link, reachPoint(link));
   if (point.status === "pass") return point;
   // An engine that reads the same cause by its own mechanic does not carry
   // this row's size and lag; the link stays unwired and says so.
@@ -252,6 +252,29 @@ function reaches(link: WebLink & { carriedBy?: string }): Point {
       `an engine reads the cause its own way: ${link.engineGap}`,
   ].filter(Boolean);
   return { ...point, why: why.join("; ") };
+}
+
+/**
+ * A link the web does not run moves nothing, however many engines read its
+ * outcome: it fails, waiting on what its coverage row names. A carried link
+ * is read by its engine instead.
+ */
+function unrun(link: WebLink & { carriedBy?: string }, point: Point): Point {
+  const coverage = linkCoverage(link);
+  if (point.status !== "pass" || link.carriedBy || coverage.wired) return point;
+  const waits = [
+    ...(coverage.waitingOn.length
+      ? [`it waits on ${coverage.waitingOn.join(", ")}`]
+      : []),
+    ...("needsSize" in coverage && coverage.needsSize
+      ? ["it has no researched size"]
+      : []),
+  ];
+  return {
+    status: "fail",
+    evidence: `outcome read by ${point.evidence}`,
+    why: `the web does not run it: ${waits.join(", and ")}`,
+  };
 }
 
 function reachPoint(
@@ -512,6 +535,52 @@ export function matrix(): {
   return { links, measures };
 }
 
+/**
+ * The trait decisions, carried from the trait-wiring matrix so the effects
+ * matrix is the one place every engine's reach is read (owner, Oct 26): each
+ * decision personality weighs, with its calls in the played year and whether
+ * it ran. Built by scripts/traits/trait-wiring-matrix.ts from its three twin
+ * runs; this reads it, it does not play.
+ */
+const TRAIT_MATRIX = "docs/reports/trait-wiring-2026-10-20.json";
+interface TraitRow {
+  readonly id: string;
+  readonly kind: string;
+  readonly route: string;
+  readonly site: string;
+  readonly callsInYear: number;
+  readonly turnedShare: number | null;
+  readonly status: string;
+  readonly gap: unknown;
+  readonly weightTag: string;
+}
+function traits() {
+  if (!existsSync(TRAIT_MATRIX)) return null;
+  const t = JSON.parse(readFileSync(TRAIT_MATRIX, "utf8")) as {
+    readonly place: string;
+    readonly seed: string;
+    readonly span: readonly string[];
+    readonly rows: readonly TraitRow[];
+  };
+  const decisions = t.rows.filter((row) => row.kind === "decision");
+  return {
+    source: TRAIT_MATRIX,
+    place: t.place,
+    seed: t.seed,
+    span: t.span,
+    decisions: decisions.map((row) => ({
+      id: row.id,
+      route: row.route,
+      site: row.site,
+      callsInYear: row.callsInYear,
+      turnedShare: row.turnedShare,
+      status: row.status,
+      weightTag: row.weightTag,
+      gap: row.gap,
+    })),
+  };
+}
+
 function summary(rows: readonly MatrixRow[]) {
   const all = (row: MatrixRow) => row.wiredPoints === 8;
   const by = (filter: (row: MatrixRow) => boolean) =>
@@ -556,10 +625,22 @@ if (process.argv[1]?.endsWith("effect-matrix.ts")) {
   } catch {
     twins = undefined;
   }
+  const trait = traits();
   const result = {
     generatedBy: "scripts/outcome-web/effect-matrix.ts",
-    summary: summary(table.links),
+    summary: {
+      ...summary(table.links),
+      ...(trait
+        ? {
+            traitDecisions: trait.decisions.length,
+            traitDecisionsRan: trait.decisions.filter(
+              (row) => row.status === "ran",
+            ).length,
+          }
+        : {}),
+    },
     ...table,
+    ...(trait ? { traits: trait } : {}),
     ...(twins ? { twins } : {}),
   };
   writeFileSync(out, `${JSON.stringify(result, null, 2)}\n`);

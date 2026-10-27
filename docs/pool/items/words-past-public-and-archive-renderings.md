@@ -28,3 +28,4 @@ Sent back 2026-10-20 from PR #5216 (branch claude/words-past-public-archive): au
 Claim released by the Oct 25 audit: no push in 72 hours (branch claude/political-game-pool-yucp92-bn last pushed Oct 20; PR #5704 stays open for the next builder).
 
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
+Stale 2026-10-26: PR #5704 closed (no push since Oct 20, conflicts with main in src/english/mined/public-bank.ts); the work is on branch claude/political-game-pool-yucp92-bn; claim the item and merge main into that branch.

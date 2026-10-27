@@ -25,6 +25,7 @@ import { stopgap } from "../stopgaps";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
+import { COUNTED_PLACE_PREFIX } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
@@ -311,8 +312,20 @@ function townOf(input: CoreInput): Town | undefined {
       : [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   const usps = place?.stateJurisdictionKey?.slice("US-".length);
   if (!placeId || !usps) return undefined;
-  // A place no county table covers (the island areas) uses the nation's figures, estimated.
-  return { geoid, county: county || `${NATION}:${usps}`, usps, placeId };
+  // A place the county shares leave out reads its state's counties as a
+  // whole (the state's FIPS code with county 000: no county has that code,
+  // so the county fallbacks give the state's household-weighted figures);
+  // a place in no state the county tables cover (the island areas) uses its
+  // own island area's row, else the nation's figures, estimated.
+  const state = geoid.slice(0, 2);
+  const wholeState =
+    geoid.length >= 2 && STATE_TENURE.has(state) ? `${state}000` : undefined;
+  return {
+    geoid,
+    county: county || wholeState || `${NATION}:${usps}`,
+    usps,
+    placeId,
+  };
 }
 
 const UNITS = housingData.unitsInStructure as unknown as {
@@ -1821,8 +1834,12 @@ function countedCaseWeight(api: CoreAPI, householdId: string): number {
 }
 
 /** The funding government pays the legal services provider for the case, through the ledger. */
-function payCounsel(api: CoreAPI, caseId: string, placeId: string) {
+function payCounsel(api: CoreAPI, caseId: string, caseSite: string) {
   const c = core(api);
+  // A counted household's place is the town's counted tier (`counted:<town>`); its case is the town's like a full household's.
+  const placeId = caseSite.startsWith(COUNTED_PLACE_PREFIX)
+    ? caseSite.slice(COUNTED_PLACE_PREFIX.length)
+    : caseSite;
   const row = store(api).table("counsel").get(placeId) as
     { inForce?: boolean; fundedById?: string } | undefined;
   const statute =

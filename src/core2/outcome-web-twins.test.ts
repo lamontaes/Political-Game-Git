@@ -64,11 +64,17 @@ const shiftOf = (measure: string): Shift =>
 const moveBy = (cause: Shift, value: number) =>
   cause.by ?? value * (cause.relative ?? 0);
 const CHOSEN = process.env.EFFECT_TWINS_CAUSES?.split(",").filter(Boolean);
-/** Causes read through a named reader (a law value) have no record row to shift. */
+/**
+ * Causes read through a named reader (a law value) have no record row to
+ * shift, nor do the government's measures, which its engine computes from the
+ * budgets, races and wage floor on the day the web asks; a budget or law test
+ * moves those records themselves.
+ */
 const CAUSES = (CHOSEN ?? RUNNING_FROM)
   .filter(
     (measure) =>
-      !(engineMeasure(measure) as { reader?: string } | undefined)?.reader,
+      !(engineMeasure(measure) as { reader?: string } | undefined)?.reader &&
+      !(GOV_MEASURES as readonly string[]).includes(measure),
   )
   .map(shiftOf);
 const MONTHS = Number(process.env.EFFECT_TWINS_MONTHS || 4);

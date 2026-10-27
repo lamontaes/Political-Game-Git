@@ -9,7 +9,9 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
+import unwiredLinks from "../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
 import { ownLeast, pickOwn, type OwnPair } from "./own-payments";
+import { splitByReader } from "./unread-links";
 import {
   allLaws,
   changeInData,
@@ -537,8 +539,15 @@ function webLink(
           evidence: "data/research/outcome-web/links.json",
           why: "no researched outcome-web link starts from this law",
         };
-  const fired = runs.flatMap(({ place, r }) =>
+  const allFired = runs.flatMap(({ place, r }) =>
     (r.web?.fired ?? []).map((f) => ({ place, f })),
+  );
+  // A fired ledger row whose factor no engine reads (unwired.json, open
+  // stopgap) is a record, not wiring.
+  const { read: fired, unread } = splitByReader(
+    allFired,
+    unwiredLinks.links,
+    (id) => stopgapOf(id)?.open ?? false,
   );
   // A link the research puts at about zero is a researched result, not a
   // gap: there is nothing for the web to move (links.json, status about-zero).
@@ -558,6 +567,18 @@ function webLink(
         .join("; "),
       why: "",
     };
+  if (!fired.length && unread.length)
+    return {
+      status: "stopgap",
+      evidence: unread
+        .slice(0, 3)
+        .map(
+          ({ item: { place, f } }) =>
+            `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)} (ledger row only)`,
+        )
+        .join("; "),
+      why: `no production reader: ${[...new Set(unread.map((u) => `${u.item.f.link} (${u.stopgapId})`))].join(", ")} move only the web's ledger`,
+    };
   if (fired.length) {
     const ev = fired
       .slice(0, 3)
@@ -565,11 +586,17 @@ function webLink(
         ({ place, f }) => `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}`,
       )
       .join("; ");
-    return notBuilt.length
+    const missing = [
+      ...notBuilt.map((l) => `${l.key} (${l.status})`),
+      ...new Set(
+        unread.map((u) => `${u.item.f.link} (no reader, ${u.stopgapId})`),
+      ),
+    ];
+    return missing.length
       ? {
           status: "partial",
           evidence: ev,
-          why: `links not built: ${notBuilt.map((l) => `${l.key} (${l.status})`).join(", ")}`,
+          why: `links not built or not read: ${missing.join(", ")}`,
         }
       : { status: "wired", evidence: ev, why: "" };
   }
@@ -732,19 +759,20 @@ function table(
     family: string;
     overall: string;
     links: Record<string, Link>;
+    screens: readonly { screen: string }[];
   }[],
 ): string {
   const lines = [
     "# Law wiring table",
     "",
-    "Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id.",
+    "Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).",
     "",
-    "| Law | Family | " + LINKS.join(" | ") + " | Overall |",
-    "| --- | --- | " + LINKS.map(() => "---").join(" | ") + " | --- |",
+    "| Law | Family | " + LINKS.join(" | ") + " | Overall | Seen on |",
+    "| --- | --- | " + LINKS.map(() => "---").join(" | ") + " | --- | --- |",
   ];
   for (const r of rows)
     lines.push(
-      `| ${r.name} | ${r.family} | ${LINKS.map((k) => MARK[r.links[k]!.status]).join(" | ")} | ${r.overall} |`,
+      `| ${r.name} | ${r.family} | ${LINKS.map((k) => MARK[r.links[k]!.status]).join(" | ")} | ${r.overall} | ${r.screens.map((s) => s.screen.replace("Politics → ", "")).join(", ") || "none"} |`,
     );
   lines.push("", "## Why each link is missing", "");
   for (const r of rows) {
@@ -757,6 +785,24 @@ function table(
   }
   return `${lines.join("\n")}\n`;
 }
+
+/**
+ * Where a player sees each law (wiring-audit: "wired is not seen"): the
+ * screens scripts/law-wiring/screens.ts read each law on in a played world.
+ */
+const SCREENS_FILE = "docs/reports/law-wiring-screens.json";
+interface ScreensFile {
+  places: {
+    place: { key: string; name: string };
+    runSeed: string;
+    from: string;
+    through: string;
+  }[];
+  laws: Record<string, { screen: string; evidence: string }[]>;
+}
+const screensRun: ScreensFile | null = existsSync(SCREENS_FILE)
+  ? (JSON.parse(readFileSync(SCREENS_FILE, "utf8")) as ScreensFile)
+  : null;
 
 function main(): void {
   const files = process.argv.slice(2);
@@ -901,6 +947,7 @@ function main(): void {
       mechanic: data.mechanic,
       overall,
       links,
+      screens: screensRun?.laws[law.key] ?? [],
       runs: rs.map(({ place, r }) => ({
         place,
         change: r.change,
@@ -922,6 +969,15 @@ function main(): void {
       wired: rows.filter((r) => r.overall === "wired").length,
       partly: rows.filter((r) => r.overall === "partly").length,
       stopgapped: rows.filter((r) => r.overall === "stopgapped").length,
+      // Laws a player sees on at least one screen, and where that was read.
+      shownOnAScreen: rows.filter((r) => r.screens.length).length,
+      screensRead:
+        screensRun?.places.map((p) => ({
+          place: `${p.place.name} (${p.place.key})`,
+          runSeed: p.runSeed,
+          from: p.from,
+          through: p.through,
+        })) ?? [],
       byLink: Object.fromEntries(
         [
           "exists",

@@ -7,11 +7,16 @@
  * way the teacher minimum salary raises teachers (through `rerateJob`). Each
  * worker the floor raises or holds is recorded as its reach (`lawApplied`):
  * a full person by name, the counted workers of each employer as a group.
+ *
+ * The teacher minimum salary question is held the same way for the town's
+ * public school teachers (`holdTeacherPay`, and the hiring floor in
+ * `publicPayFloorHourly`): the district's teachers, named and counted, are
+ * raised to the floor and recorded as its reach.
  */
 import data from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
-import { jobsAt } from "./law-reach/group-b-money";
+import { jobsAt, questionRow } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
@@ -28,6 +33,32 @@ const EMPLOYER_LEVELS = data.employerLevels as Readonly<
 export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
+
+/** The teacher minimum salary question, and the jobs and employers it covers. */
+export const TEACHER_FLOOR =
+  "us-policy-positions:education.raise-teacher-minimum-salary";
+const TEACHERS = "profession:teacher";
+const DISTRICTS: readonly string[] = ["service:school"];
+
+/** The teacher minimum salary in force for the town, with the law row that sets it (null while it is not law). */
+function teacherFloor(api: CoreAPI): { dollars: number; lawId: string } | null {
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return null;
+  const row = questionRow(api, TEACHER_FLOOR);
+  return row
+    ? { dollars: reachParameter("teacherMinimumSalaryDollars"), lawId: row.id }
+    : null;
+}
+
+/** The hourly pay at which a job's daily wage meets a yearly floor, at its own hours. */
+function hourlyAtFloor(
+  floorDollars: number,
+  job: { readonly hourlyMinor?: number; readonly wageDailyMinor: number },
+): number {
+  const floorDaily =
+    (floorDollars * reachParameter("centsPerDollar")) /
+    reachParameter("daysPerYear");
+  return ((job.hourlyMinor ?? 0) * floorDaily) / job.wageDailyMinor;
+}
 
 /**
  * The level of government a public employer belongs to: by its class, or, for
@@ -89,19 +120,31 @@ function floorsByLevel(api: CoreAPI) {
 export function publicPayFloorHourly(
   api: CoreAPI,
   organizationId: string,
-  job: { readonly hourlyMinor?: number; readonly wageDailyMinor: number },
+  job: {
+    readonly hourlyMinor?: number;
+    readonly wageDailyMinor: number;
+    readonly occupationClassification?: string;
+  },
 ): number {
   // A world without the law engine has no floor to hold a hire to.
   if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return 0;
-  const level = levelOf(api, organizationId);
-  if (!level) return 0;
-  const floor = floorsByLevel(api).get(level);
   const hourly = job.hourlyMinor ?? 0;
-  if (!floor || hourly <= 0 || job.wageDailyMinor <= 0) return 0;
-  const floorDaily =
-    (floor.dollars * reachParameter("centsPerDollar")) /
-    reachParameter("daysPerYear");
-  return Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
+  if (hourly <= 0 || job.wageDailyMinor <= 0) return 0;
+  const level = levelOf(api, organizationId);
+  const floor = level ? floorsByLevel(api).get(level) : undefined;
+  let to = floor ? hourlyAtFloor(floor.dollars, job) : 0;
+  // A teacher at the town's district is also held to the teacher minimum.
+  if (
+    job.occupationClassification === TEACHERS &&
+    DISTRICTS.includes(
+      (api.state as CoreState).organizations.get(organizationId)
+        ?.classification ?? "",
+    )
+  ) {
+    const teachers = teacherFloor(api);
+    if (teachers) to = Math.max(to, hourlyAtFloor(teachers.dollars, job));
+  }
+  return to > 0 ? Math.ceil(to) : 0;
 }
 
 /**
@@ -200,6 +243,100 @@ export function holdPublicPay(
     kind: PUBLIC_PAY_REVIEW,
     source: { ...source, asOf: core.date },
     sourceRecordIds: [...new Set([...floors.values()].map((f) => f.lawId))],
+  });
+  return raised;
+}
+
+/**
+ * Raise every public school teacher in town paid under the teacher minimum
+ * salary; returns the raises. Every covered teacher is the law's reach (the
+ * minimum binds them all, whether it raised their pay, held it or found it
+ * above): a full teacher by name, each district's counted teachers as one
+ * group; a teacher it no longer covers (left, or the law repealed) leaves it.
+ * Schedules the next monthly review while the question is law.
+ */
+export function holdTeacherPay(
+  api: CoreAPI,
+  source: Source,
+): {
+  jobId: string;
+  personId: string;
+  fromMinor: number;
+  toMinor: number;
+  lawId: string;
+}[] {
+  const floor = teacherFloor(api);
+  const core = api.state as CoreState;
+  const raised = [];
+  const held = new Set<string>();
+  const counted = new Map<string, { count: number; lawId: string }>();
+  for (const job of floor ? jobsAt(api, DISTRICTS, TEACHERS) : []) {
+    const hourly = job.hourlyMinor ?? 0;
+    if (!floor || hourly <= 0 || job.wageDailyMinor <= 0) continue;
+    // A job within a cent an hour of the floor is held at it; one a cent or
+    // more under it is raised; one above it is left as it is.
+    const exact = hourlyAtFloor(floor.dollars, job);
+    const to = exact >= hourly + 1 ? Math.ceil(exact) : hourly;
+    if (to > hourly) {
+      api.rerateJob(job.id, to, { ...source, asOf: core.date });
+      raised.push({
+        jobId: job.id,
+        personId: job.personId,
+        fromMinor: hourly,
+        toMinor: to,
+        lawId: floor.lawId,
+      });
+    }
+    if (core.jobs.has(job.id)) {
+      held.add(job.personId);
+      lawApplied(api, {
+        key: TEACHER_FLOOR,
+        lawId: floor.lawId,
+        targetId: job.personId,
+        target: "person",
+        engine: LAWS_MODULE_ID,
+        what:
+          to > hourly
+            ? "raised-to-teacher-minimum"
+            : exact > hourly - 1
+              ? "held-at-teacher-minimum"
+              : "paid-above-teacher-minimum",
+      });
+    } else {
+      const group = `${job.organizationId}:counted-teachers`;
+      const at = counted.get(group);
+      counted.set(group, { count: (at?.count ?? 0) + 1, lawId: floor.lawId });
+    }
+  }
+  for (const [group, at] of counted) {
+    held.add(group);
+    lawApplied(api, {
+      key: TEACHER_FLOOR,
+      lawId: at.lawId,
+      targetId: group,
+      target: "group",
+      engine: LAWS_MODULE_ID,
+      what: "held-at-teacher-minimum",
+      count: at.count,
+    });
+  }
+  for (const row of appliedOn(api, TEACHER_FLOOR))
+    if (!held.has(row.targetId))
+      lawNoLongerApplies(api, TEACHER_FLOOR, row.targetId);
+  if (!floor) return raised;
+  const next = new Date(`${core.date}T00:00:00Z`);
+  next.setUTCMonth(next.getUTCMonth() + 1);
+  const date = makeIsoDate(next.toISOString().slice(0, 10));
+  const calendar = api.moduleCalendar("core2-laws-v1");
+  const key = `${PUBLIC_PAY_REVIEW}:${date}`;
+  // The public pay floor's review, when one is set, is the same review.
+  if (calendar.get(key)) return raised;
+  calendar.schedule({
+    key,
+    date: date > core.date ? date : addDays(makeIsoDate(core.date), 1),
+    kind: PUBLIC_PAY_REVIEW,
+    source: { ...source, asOf: core.date },
+    sourceRecordIds: [floor.lawId],
   });
   return raised;
 }

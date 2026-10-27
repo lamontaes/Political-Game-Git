@@ -6,10 +6,10 @@ lead: laws-effects
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: laws-matrix-unread-outcome-grades-wired
 source: laws-effects lead, Oct 26 (Merger 2's send-back on #6026)
 ---
 
@@ -17,10 +17,14 @@ source: laws-effects lead, Oct 26 (Merger 2's send-back on #6026)
 
 **Rules.** An effect is a read, not a record (owner, Oct 13): a web cell is wired only when a different engine reads the outcome at the moment it decides or pays. One checker for laws and effects (owner, Oct 26): the law matrix reads the effect matrix's own verdict, unwired.json, instead of judging reach a second way.
 
-**Done when.** In scripts/law-wiring/matrix.ts, a fired or lagged web link whose link id is listed in src/core2/data/outcome-web/unwired.json no longer counts toward a wired web cell; a law whose every such link is listed grades its web cell stopgap, naming the listed stopgap id. A test in scripts/law-wiring (own-payments.test.ts or a new matrix test) fails without the change on a synthetic run where only an unread link fired. The matrix regenerated on main with node --import tsx scripts/law-wiring/matrix.ts docs/reports/law-wiring/US-*.json docs/reports/law-wiring/families/*.json lists, in the PR body, every law whose overall grade changed and the new count of laws wired of 89.
+**Done when.** In scripts/law-wiring/matrix.ts, a fired or lagged web link whose link id is listed in src/core2/data/outcome-web/unwired.json no longer counts toward a wired web cell; a law whose every such link is listed grades its web cell stopgap, naming the listed stopgap id. A test in scripts/law-wiring (own-payments.test.ts or a new matrix test) fails without the change on a synthetic run where only an unread link fired. The matrix regenerated on main with node --import tsx scripts/law-wiring/matrix.ts docs/reports/law-wiring/US-_.json docs/reports/law-wiring/families/_.json lists, in the PR body, every law whose overall grade changed and the new count of laws wired of 89.
 
 **Time box.** 3 hours, Sonnet, no helpers; it builds against nothing and waits only for #6011 to merge.
 
 **Files.** scripts/law-wiring/matrix.ts, src/core2/data/outcome-web/unwired.json, docs/reports/law-wiring-matrix.json, docs/reports/law-wiring-table.md
 
 **Notes.** Laws-effects lead, Oct 26. Built after the four laws family PRs (#5986, #6026, #5669, #6011) are on main, so it regrades every family once.
+
+Laws-effects lead, Oct 26 19:05 UTC: a duplicate of laws-matrix-unread-outcome-grades-wired (PR #6173), filed the same hour by another session. Blocked on it; the CTO may drop this one.
+
+Dropped by the CTO, Oct 26: duplicate of the item #6173 carries.

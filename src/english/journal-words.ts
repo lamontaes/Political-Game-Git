@@ -85,6 +85,7 @@ export interface RowShape {
 export interface JournalRows {
   version: string;
   relationWords: JournalWords["relationWords"];
+  kinAddress?: JournalWords["kinAddress"];
   possessive: JournalWords["possessive"];
   possessivePronoun: JournalWords["possessivePronoun"];
   countWords: JournalWords["countWords"];
@@ -103,6 +104,10 @@ export interface JournalRows {
 export interface JournalWords {
   version: string;
   relationWords: Readonly<Record<string, Readonly<Record<string, string>>>>;
+  /** How two relatives speak of a relative they share ("Dad"), by relation and gender. */
+  kinAddress?: Readonly<
+    Record<string, string | Readonly<Record<string, string>>>
+  >;
   /** The possessive each surface names relatives with ("my", "your"). */
   possessive: Readonly<Record<string, string>>;
   /** The possessive for someone by their recorded gender ("his", "her", "their"). */
@@ -201,6 +206,20 @@ export function relationPhrase(
   const forms = words.relationWords[relation];
   const word = forms?.[gender] ?? forms?.other;
   return word ? `${words.possessive[surface]} ${word}` : undefined;
+}
+
+/**
+ * How two relatives speak of a relative they share: "Dad" when he is father
+ * to both. Their shared sibling goes by first name (undefined here); a
+ * relation or gender the words hold no address for, undefined as well.
+ */
+export function kinAddress(
+  relation: string,
+  gender: string,
+  words: JournalWords = JOURNAL_WORDS,
+): string | undefined {
+  const forms = words.kinAddress?.[relation];
+  return typeof forms === "object" ? forms[gender] : undefined;
 }
 
 /** Every relation word, so a sentence naming one fits only that relative. */
