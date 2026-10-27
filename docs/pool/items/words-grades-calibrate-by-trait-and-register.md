@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/grade-reach
-pr:
+pr: #6223
 blocked-on:
 source: "owner, Oct 27, to the CTO"
 lead: words

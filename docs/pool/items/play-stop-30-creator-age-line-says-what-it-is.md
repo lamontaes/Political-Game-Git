@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-30-creator-age-line-says-what-it-is
+pr: #6242
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:18:39.756Z
 ---
 
 **What.** Under the birthday the creator prints a bare line, "35 · January 20, 2025", and a player cannot tell what the two numbers are. The owner: "it says 35, January 20th, 2025. Is that your age? ... It doesn't tell you that it starts on January 2025. It needs to explain that a little bit." This item makes the line say, in words, the age the character will be on the day the life begins and that day's date, and sets it in the row with the birthday instead of floating under it. The words are control names from controls.json, not new prose.
