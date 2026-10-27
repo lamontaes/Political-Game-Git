@@ -336,7 +336,8 @@ const MEASURES: Readonly<Record<string, readonly string[]>> = {
   // The series the authority question writes: the same wage it lets a town set.
   "local-minimum-wage-authority": ["labor.minimum-wage-change-pct"],
   "budget-line:police": ["police.officers-per-1000"],
-  "budget-line:schools": ["school.spending-per-student"],
+  "budget-line:schools": ["budget.schools-added-pct"],
+  "snap-maximum": ["program.snap-maximum-change-pct"],
   "budget-line:highways": ["roads.condition", "roads.poor-condition-pct"],
   "us-policy-positions:civil-family-community.dedicated-parks-funding": [
     "budget.parks-added-pct",

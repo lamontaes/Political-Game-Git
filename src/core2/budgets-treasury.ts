@@ -1186,7 +1186,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       const raised = raisedBy(api, gov, line, budget.spendingMinor[line] ?? 0);
       lineLawKeys.add(`budget-line:${line}`);
       if (winner) {
-        const id = `treasury:${gov.id}:${line}:${winner.organizationId}:${date}`;
+        const id = `treasury:${gov.id}:budget-line:${line}:${winner.organizationId}:${date}`;
         const out = payOut(
           id,
           accounts.main(winner.organizationId),
@@ -1244,7 +1244,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         );
         groups.forEach(([payeeId], i) => {
           const payee = PAYEES.payees[payeeId]!;
-          const id = `${PAYEE_PREFIX[payee.kind]}:${payeeId}:${gov.id}:${line}:${date}`;
+          const id = `${PAYEE_PREFIX[payee.kind]}:${payeeId}:${gov.id}:budget-line:${line}:${date}`;
           const out = payOut(
             id,
             accounts.main(outside),

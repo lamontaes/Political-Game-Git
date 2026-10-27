@@ -45,28 +45,7 @@ declare const data: {
       ceiling: number;
     };
   };
-  baselines: {
-    "labor.unemployment-pct": {
-      value: number;
-      note: string;
-    };
-    "labor.minimum-wage-to-median": {
-      value: number;
-      note: string;
-    };
-    "budget.parks-added-pct": {
-      value: number;
-      note: string;
-    };
-    "budget.highways-added-pct": {
-      value: number;
-      note: string;
-    };
-    "budget.schools-added-pct": {
-      value: number;
-      note: string;
-    };
-  };
+  baselines: Record<string, { value: number; note: string }>;
   links: Array<{
     key: string;
     status: string;
@@ -75,6 +54,7 @@ declare const data: {
     strength: string;
     shape: {
       kind: string;
+      scale?: number;
       halfLifeDays?: number;
       at?: number;
       steeperAt?: number;

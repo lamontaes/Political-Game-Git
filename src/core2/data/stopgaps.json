@@ -6031,7 +6031,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
     "line": 512,
-    "whatItFakes": "grocery-exemption-to-food-insecurity moves household.food-insecurity only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "whatItFakes": "grocery-exemption-to-food-insecurity, snap-maximum-to-food-insecurity move household.food-insecurity only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
@@ -6462,13 +6462,13 @@
     "id": "SG-WEB-unread-school-college-completion-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 548,
-    "whatItFakes": "tuition-freeze-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
-    "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research finds no effect (about zero), so an engine would multiply by one",
+    "line": 632,
+    "whatItFakes": "higher-education-spending-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-SCHOOL-links-not-running: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns school.college-completion-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"school.college-completion-pct\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-government-member-market-returns",
