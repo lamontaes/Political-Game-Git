@@ -305,7 +305,7 @@ function play(where: string, core: CoreState): Attempt {
       run(core, Math.min(30, 170 - day));
       // A quarter in which an owned business made a profit is one the law could tax.
       for (const [id, minor] of corporateProfits(api, core)) {
-        if (minor > (lastProfit.get(id) ?? minor)) profited = true;
+        if (minor > (lastProfit.get(id) ?? Infinity)) profited = true;
         lastProfit.set(id, minor);
       }
     }
@@ -337,13 +337,13 @@ function corporateProfits(api: CoreAPI, core: CoreState): Map<string, number> {
   const out = new Map<string, number>();
   if (!core.modules.has(EMPLOYER_TAXES_MODULE_ID)) return out;
   const quarters = api.moduleState(EMPLOYER_TAXES_MODULE_ID).table("quarters");
-  for (const [id, books] of core.finance.businesses)
-    if (!books.closedAt && core.organizations.has(ownerOf(api, id) ?? ""))
-      out.set(
-        id,
-        (quarters.get(id) as unknown as { minor: number } | undefined)?.minor ??
-          0,
-      );
+  for (const [id, books] of core.finance.businesses) {
+    if (books.closedAt || !core.organizations.has(ownerOf(api, id) ?? ""))
+      continue;
+    // A business the profit tax has not read yet has no profit to compare.
+    const row = quarters.get(id) as unknown as { minor: number } | undefined;
+    if (row) out.set(id, row.minor);
+  }
   return out;
 }
 
