@@ -57,9 +57,16 @@ function pageIn(box, pager, keepPage = false) {
   // Measure with every row showing; a page then hides the rows that are not its own.
   for (const hidden of box.querySelectorAll(".paged-out"))
     hidden.classList.remove("paged-out");
-  const rows = [
-    ...box.querySelectorAll(":scope > *:not(.flow), :scope > .flow > *"),
-  ];
+  // A block taller than the box (a grid of cards, a long screen) would be one page of its own
+  // and hide behind a Continue; its children are the rows instead, so page 0 shows the first of them.
+  const rowsIn = (parent) =>
+    [...parent.children].flatMap((kid) =>
+      kid.classList.contains("flow") ||
+      (kid.offsetHeight > box.clientHeight && kid.children.length > 1)
+        ? rowsIn(kid)
+        : [kid],
+    );
+  const rows = rowsIn(box);
   const tops = rows.map((row) => row.offsetTop);
   const stops = [0];
   let sideways = false;
@@ -72,7 +79,12 @@ function pageIn(box, pager, keepPage = false) {
     } else if (box.scrollHeight > box.clientHeight + 2) {
       let top = 0;
       rows.forEach((kid, index) => {
-        if (tops[index] + kid.offsetHeight - top > box.clientHeight) {
+        // A row taller than the box starts no page of its own at the top: a second stop at
+        // 0 would make page 0 empty and hide every row.
+        if (
+          tops[index] > top &&
+          tops[index] + kid.offsetHeight - top > box.clientHeight
+        ) {
           top = tops[index];
           stops.push(top);
         }
