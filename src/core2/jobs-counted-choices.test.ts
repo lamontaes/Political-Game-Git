@@ -179,6 +179,9 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
           (row) =>
             !row.employed &&
             byChoice.has(row.reasonKey) &&
+            // The review weighs only someone with no job (an appointee who
+            // took a post keeps a stale search row it does not touch).
+            world.core.people.get(row.personId)?.jobId === undefined &&
             world.core.people.has(row.personId),
         );
         counted ??= (
