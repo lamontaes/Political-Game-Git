@@ -5,9 +5,9 @@ area: words
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/helper-d-record-gaps
-pr:
+pr: #6253
 blocked-on:
 source: owner, Oct 27 (executive scenes, every level); scenes-from-life step 3 (ask the engine)
 lead: words

@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/grade-reach
 pr: #6223
 blocked-on:

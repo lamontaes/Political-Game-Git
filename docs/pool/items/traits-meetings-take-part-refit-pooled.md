@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/traits-meetings-take-part-refit
-pr:
+pr: #6254
 blocked-on:
 source: laws-and-effects lead, Oct 27 (follow-up to PR #6143, merged at 05:28 with the five-town weight)
 claimed-at: 2026-10-27T06:53:24.180Z
