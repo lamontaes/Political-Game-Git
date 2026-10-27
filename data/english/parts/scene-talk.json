@@ -116141,6 +116141,366 @@
         "move": "warn",
         "key": "race-heard"
       }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-m-glad-i-caught-you-it-s-about-the-race",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, I'm glad I caught you. It's about the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-thought-you-d-want-to-know-before-you-heard-it-anywhere-else",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I thought you'd want to know before you heard it anywhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-you-ll-want-to-hear-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}. You'll want to hear this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-keep-this-short-the-count-s-done",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll keep this short. The count's done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-s-winner-first-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It's {winner}, {first}. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-know-it-matters-to-you-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I know it matters to you. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.winner-took-the-office-race-that-s-the-count",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{winner} took the {office} race. That's the count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.for-what-it-s-worth-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "For what it's worth, {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-count-s-in-i-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The count's in. I won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-won-the-office-race-now-the-work-starts",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I won the {office} race. Now the work starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-lost-first-winner-won-the-office-race-and-i-wanted-to-tell-you-myself",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I lost, {first}. {winner} won the {office} race, and I wanted to tell you myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost", "winner", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.winner-beat-me-for-office-that-s-how-it-went",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{winner} beat me for {office}. That's how it went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost", "winner", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-won-t-like-this-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You won't like this. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran", "winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-wasn-t-your-night-winner-won-the-office-race-but-you-ran-a-race-people-will-remember",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It wasn't your night. {winner} won the {office} race, but you ran a race people will remember.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran", "winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
     }
   ]
 }
