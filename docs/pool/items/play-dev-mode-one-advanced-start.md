@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-dev-mode-one-advanced-start
-pr:
+pr: #6232
 blocked-on:
 source: "owner, Oct 26 evening and Oct 27 (OWNER-DECISIONS), added by lane agent 5"
 lead: play-first
@@ -30,3 +30,4 @@ claimed-at: 2026-10-27T05:41:05.100Z
 **Files.** src/bench/play.html, src/bench/play.mjs, src/bench/handler.ts, src/bench/officeholders.ts, src/bench/advanced.browser.mjs, src/bench/data/controls.json
 
 **Notes.** Supersedes the Custom world and New world buttons (replace, never layer). Officials whose term names no person yet (statewide and federal officials not filled in) are not listed until the engine fills them in; that is a core item for the laws and effects lead (`needs-from: laws-effects`). Place choice stays with the seed's draw. Lead: play-first (lane agent 5, Oct 27; docs/play-first/ORDER.md).
+Merged Oct 27 in PR #6232; awaiting the owner's installed-build check

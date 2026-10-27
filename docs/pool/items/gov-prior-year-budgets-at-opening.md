@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/prior-year-budgets
-pr:
+pr: #6231
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T05:35:49.658Z
