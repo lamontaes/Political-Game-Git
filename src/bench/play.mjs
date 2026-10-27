@@ -842,8 +842,16 @@ function jobOfferStop(value) {
 }
 const voteWords = () => controls.meeting ?? {};
 /** One agenda item or desk bill: number, sponsor, terms, who spoke and how each member voted. */
-function billBlock(item, buttons) {
+function billBlock(item, buttons, onPaper) {
   const words = voteWords();
+  const paperButton = () => {
+    const open = makeButton({
+      className: "action",
+      textContent: controls.bill?.open ?? "",
+    });
+    open.addEventListener("click", () => onPaper(item.billId));
+    return open;
+  };
   return el(
     "div",
     { className: "race" },
@@ -878,7 +886,14 @@ function billBlock(item, buttons) {
             .join(" · "),
         })
       : "",
-    buttons.length ? el("div", { className: "acts" }, ...buttons) : "",
+    onPaper || buttons.length
+      ? el(
+          "div",
+          { className: "acts" },
+          ...(onPaper ? [paperButton()] : []),
+          ...buttons,
+        )
+      : "",
   );
 }
 function inMeeting() {
@@ -928,6 +943,13 @@ function inMeeting() {
                     return b;
                   }),
                 ],
+            (billId) =>
+              openBillPaper(
+                billId,
+                (...nodes) => $("meeting-items").replaceChildren(...nodes),
+                () => api("/api/meeting").then(draw),
+                controls.bill?.backMeeting,
+              ),
           ),
         ),
       );
@@ -972,6 +994,13 @@ function atDesk() {
               );
               return b;
             }),
+            (billId) =>
+              openBillPaper(
+                billId,
+                (...nodes) => $("desk-items").replaceChildren(...nodes),
+                () => api("/api/desk").then(draw),
+                controls.bill?.backDesk,
+              ),
           ),
         ),
       );
@@ -2301,6 +2330,157 @@ async function officeRows() {
   ];
 }
 
+// ---- The bill on paper: one document, every section clickable ----
+/** The simulation's estimate beside a clicked section, every figure a record
+ * the server read: the statute it amends with the values before and after,
+ * the budget line and its amount, and the bill's own cost estimate. */
+function billEstimateRows(paper, section) {
+  const words = controls.bill ?? {};
+  const est = section.estimate;
+  const rows = [
+    el("p", {
+      className: "prose",
+      textContent: section.text ?? paper.title,
+    }),
+  ];
+  const webCite =
+    typeof est.statute === "string" && /^https?:\/\//.test(est.statute);
+  if (est.statute && !webCite)
+    rows.push(
+      el("div", { textContent: `${words.amends ?? ""} ${est.statute}` }),
+    );
+  // A question answered yes or no has no numeric scale: its clause says
+  // what it does, so bare 0/1 values stay off the screen.
+  const scaled = est.beforeUnit != null || est.afterUnit != null;
+  const before =
+    scaled && est.beforeValue != null
+      ? amount(est.beforeValue, est.beforeUnit)
+      : null;
+  const after =
+    scaled && est.afterValue != null
+      ? amount(est.afterValue, est.afterUnit)
+      : null;
+  if (before && after && !est.statute)
+    rows.push(el("div", { textContent: `${before} → ${after}` }));
+  else if (before && after)
+    rows.push(
+      el("div", {
+        textContent: webCite
+          ? `${words.amends ?? ""} ${words.lawInForce ?? ""}: ${words.from ?? ""} ${before} ${words.to ?? ""} ${after}`
+          : `${before} ${words.from ?? ""} ${after}`,
+      }),
+    );
+  else if (after)
+    rows.push(el("div", { textContent: `${words.to ?? ""} ${after}` }));
+  if (est.line)
+    rows.push(
+      el("div", {
+        textContent: [
+          `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
+          est.lineAmountMinor != null ? dollars(est.lineAmountMinor) : null,
+          est.ofMinor != null
+            ? `${words.from ?? ""} ${dollars(est.ofMinor)}`
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      }),
+    );
+  rows.push(
+    el("div", {
+      textContent: [
+        paper.estimate.workers > 0
+          ? `${paper.estimate.workers} ${words.workers ?? ""}`
+          : null,
+        paper.estimate.payMinor > 0 ? dollars(paper.estimate.payMinor) : null,
+        paper.estimate.note,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    }),
+  );
+  return rows;
+}
+/**
+ * Open a bill as one paper document: designation, title, sponsor, each
+ * section in plain words, the floor date and whip, and the vote and signature
+ * records when the body has made them. Clicking a section shows its estimate
+ * beside it. `show` draws the nodes, `back` returns to the rows.
+ */
+async function openBillPaper(billId, show, back, backLabel) {
+  const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
+  const words = controls.bill ?? {};
+  const floor = controls.floor ?? {};
+  const meet = controls.meeting ?? {};
+  const backButton = makeButton({
+    className: "action",
+    textContent: backLabel ?? words.back ?? "",
+  });
+  backButton.addEventListener("click", back);
+  const aside = makeCard(
+    "bill-estimate",
+    {},
+    el("b", { textContent: words.estimate ?? "" }),
+    ...billEstimateRows(paper, paper.sections[0] ?? { estimate: {} }),
+  );
+  const doc = el(
+    "div",
+    { className: "bill-doc" },
+    el("h2", { className: "heading", textContent: paper.spoken }),
+    el("p", { className: "prose", textContent: paper.title }),
+    el("div", {
+      textContent: `${words.sponsor ?? ""} ${paper.sponsor}`,
+    }),
+    el("b", { textContent: words.sections ?? "" }),
+    ...paper.sections.map((section) => {
+      const open = makeButton({
+        className: "action bill-section",
+        textContent: section.text ?? paper.title,
+      });
+      open.addEventListener("click", () =>
+        aside.replaceChildren(
+          el("b", { textContent: words.estimate ?? "" }),
+          ...billEstimateRows(paper, section),
+        ),
+      );
+      return open;
+    }),
+    ...(paper.effective ? [el("div", { textContent: paper.effective })] : []),
+    ...(paper.floorDate
+      ? [
+          el("div", {
+            textContent: `${floor.takenUp ?? ""} ${proseDate(paper.floorDate)}`,
+          }),
+        ]
+      : []),
+    ...paper.whip.map((count) =>
+      el("div", {
+        textContent: `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
+      }),
+    ),
+    ...(paper.votes.length
+      ? [
+          el("div", {
+            textContent: `${floor.voted ?? ""}: ${paper.votes.filter((x) => x.vote === "yes").length} ${floor.yes ?? ""}, ${paper.votes.filter((x) => x.vote === "no").length} ${floor.no ?? ""}`,
+          }),
+          el("div", {
+            textContent: paper.votes
+              .map((x) => `${x.name} · ${meet[x.vote] ?? x.vote}`)
+              .join(" · "),
+          }),
+        ]
+      : []),
+    ...(paper.decision
+      ? [
+          el("div", {
+            textContent: `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${proseDate(paper.decision.passedOn)}` : ""}`,
+          }),
+        ]
+      : []),
+  );
+  show(backButton, el("div", { className: "bill-paper" }, doc, aside));
+}
+
 // ---- From your seat (steps 6 to 9): draft; the vote is at the meeting ----
 // Asking colleagues and the vote itself are acts in the day and the meeting
 // scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
@@ -2432,24 +2612,22 @@ async function seatRows() {
               }),
             ]
           : []),
-        // The title's subjects name each section (record keys, then words).
-        bill.provisions
-          .map((p, at) => {
-            const key = bill.title?.subjects[at]?.key ?? "";
-            const name = key.startsWith("budget-line:")
-              ? key.slice("budget-line:".length)
-              : (p.series ?? (p.question && policyLabel(p.question)) ?? p.line);
-            return `${name} ${p.value}`;
-          })
-          .join("; "),
-        bill.costEstimate
-          ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
-          : "",
-        votes.length
-          ? el("div", {
-              textContent: votes.map((x) => `${x.name} ${x.vote}`).join(" · "),
-            })
-          : "",
+        // The paper holds the sections, the estimate and the votes: the row
+        // opens it instead of repeating them.
+        (() => {
+          const open = makeButton({
+            className: "action",
+            textContent: controls.bill?.open ?? "",
+          });
+          open.addEventListener("click", () =>
+            openBillPaper(
+              bill.id,
+              (...nodes) => $("sheet-body").replaceChildren(...nodes),
+              () => openSheet("office"),
+            ),
+          );
+          return open;
+        })(),
       ),
     );
   for (const left of v.incompatibilities ?? [])
