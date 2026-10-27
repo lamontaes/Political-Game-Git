@@ -18,6 +18,7 @@ import {
 } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { crimeChange } from "./modules/crime";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
 import type { CoreAPI, PersonState } from "./types";
@@ -311,11 +312,12 @@ export function raceConditions(
 }
 
 /**
- * The town's unemployment (points) and crime (share above base) against the
- * outcome web's base, as the town has heard of them: a measure counts only
- * once a story carrying it has reached someone who lives there (the story is
- * cited), since nobody attributes a change they have not learned of. Where
- * the world keeps no news, nothing is heard and no change reaches the vote.
+ * The town's unemployment (points) against the outcome web's base, and crime
+ * (share above its first month) from the victimization records, as the town
+ * has heard of them: a measure counts only once a story carrying it has
+ * reached someone who lives there (the story is cited), since nobody
+ * attributes a change they have not learned of. Where the world keeps no
+ * news, nothing is heard and no change reaches the vote.
  */
 function townConditions(api: CoreAPI, placeId: string) {
   if (!api.state.modules.has(OUTCOME_WEB_MODULE_ID))
@@ -324,20 +326,12 @@ function townConditions(api: CoreAPI, placeId: string) {
   const jobs = jobsStory
     ? placeOutcome(api, placeId, "labor.unemployment-pct")
     : undefined;
-  let crime = 0,
-    counted = 0;
-  for (const measure of [
+  const crimeHeard = [
     "crime.burglary",
     "crime.robbery",
     "crime.assault",
     "crime.vandalism",
-  ]) {
-    if (!storyDelivered(api, placeId, measure)) continue;
-    const row = placeOutcome(api, placeId, measure);
-    if (!row?.base) continue;
-    crime += row.value / row.base - 1;
-    counted += 1;
-  }
+  ].some((measure) => storyDelivered(api, placeId, measure));
   return {
     unemploymentChange:
       jobs && jobs.base !== undefined ? jobs.value - jobs.base : 0,
@@ -353,7 +347,8 @@ function townConditions(api: CoreAPI, placeId: string) {
           },
         }
       : {}),
-    crimeChange: counted ? crime / counted : 0,
+    // The crimes that happened to the town's households, from the victimization records.
+    crimeChange: crimeHeard ? crimeChange(api, placeId) : 0,
   };
 }
 

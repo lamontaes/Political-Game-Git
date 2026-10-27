@@ -30,7 +30,7 @@ import { organizationProfileAt } from "../life-queries";
 import {
   recordedStudyPeriodTuitionPrice,
   recordedTuitionFreezePrice,
-} from "../../education/tuition-prices";
+} from "../tuition-prices";
 import {
   TUITION_FREEZE_ROW,
   TUITION_COVERAGE_PREDICATE,

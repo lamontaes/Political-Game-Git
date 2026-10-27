@@ -1,6 +1,6 @@
 {
   "id": "statewide-executive-parties-2026",
-  "about": "Party of each non-governor statewide executive officeholder as of January 2026, and whether the general election carries party labels. Verified on 2026-10-13 against live Wikipedia pages: lieutenant governor, attorney general, secretary of state, treasurer, auditor, comptroller or controller (where listed there) and agriculture commissioner rows for the 50 states. Verified rows cite the Wikipedia source and carry no estimated flag; partisan-ballot status was taken from each page's elected-office listing. Superintendent, insurance, labor and land commissioner, mine inspector, utility and railroad commission, board, mayor, D.C. and territory rows, and the Arizona and New Jersey lieutenant governor rows, could not be checked against a live source (Ballotpedia, NASS and per-office pages failed or returned nothing) and carry an estimated note. Joint-ticket lieutenant governors are marked partisan.",
+  "about": "Party of each non-governor statewide executive officeholder as of January 2026, and whether the general election carries party labels. Verified on 2026-10-13 against live Wikipedia pages: lieutenant governor, attorney general, secretary of state, treasurer, auditor, comptroller or controller (where listed there) and agriculture commissioner rows for the 50 states. Verified rows cite the Wikipedia source and carry no estimated flag; partisan-ballot status was taken from each page's elected-office listing. Superintendent, insurance, labor and land commissioner, mine inspector, utility and railroad commission, board, mayor, D.C. and territory rows, and the Arizona and New Jersey lieutenant governor rows, could not be checked against a live source (Ballotpedia, NASS and per-office pages failed or returned nothing) and carry an estimated note. Joint-ticket lieutenant governors are marked partisan. On 2026-10-23 the 60 rows not checked on 2026-10-13 were each checked against a fetched page (sourceId checked-2026-10-23, with the page and a quote on the row); their party is the holder's on the opening day, January 20, 2025, and each row also names the holder on January 1, 2026.",
   "asOf": "2026-01",
   "sources": [
     {
@@ -50,6 +50,12 @@
       "title": "Wikipedia, State treasurer",
       "url": "https://en.wikipedia.org/wiki/State_treasurer",
       "retrieved": "2026-10-13"
+    },
+    {
+      "id": "checked-2026-10-23",
+      "title": "Each office's Ballotpedia page, or the state's or territory's official site where Ballotpedia has no roster (Wikipedia once, for the U.S. Virgin Islands Board of Education members); the row carries the page and a quote",
+      "url": "https://ballotpedia.org/Partisan_composition_of_state_executive_offices",
+      "retrieved": "2026-10-23"
     }
   ],
   "places": {
@@ -87,7 +93,23 @@
       "public-service-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Alabama_Public_Service_Commission",
+        "quote": "Office Type: Partisan ... Alabama Public Service Commission President | Cynthia Almond | Republican",
+        "holderOnOpening": "Twinkle Andress Cavanaugh (R, president), Jeremy Oden (R), Chris Beeker III (R)",
+        "holderJan2026": "Cynthia Almond (R, president), Jeremy Oden (R), Chris Beeker III (R)",
+        "bodyCounts": {
+          "seats": 3,
+          "onOpening": {
+            "Republican": 3
+          },
+          "jan2026": {
+            "Republican": 3
+          },
+          "majorityOnOpening": "Republican",
+          "majorityJan2026": "Republican"
+        },
+        "note": "Cavanaugh page: \"was the Alabama Public Service Commission President. She assumed office in 2010. She left office on June 1, 2025.\" Almond assumed office June 16, 2025 (Ivey appointment); Oden since 2012, Beeker since Sept 24, 2024. All Republican on both dates."
       }
     },
     "US-AK": {
@@ -100,9 +122,13 @@
     "US-AZ": {
       "lieutenant-governor": {
         "party": null,
-        "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "Wikipedia lists no lieutenant governor for this state; not verified against a live source"
+        "partisanElection": true,
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Lieutenant_Governor_of_Arizona",
+        "quote": "Arizona is holding its first election for lieutenant governor in 2026 ... scheduled to take office on January 4, 2027. Until that date, the office is empty.",
+        "holderOnOpening": null,
+        "holderJan2026": null,
+        "note": "No officeholder on either date, so null party is right. But the office is filled by a partisan joint-ticket general election (2026 ballot: \"Andy Biggs (R) / Sine Kerr (R)\", \"Katie Hobbs (D) / John Giles (No party preference)\"), so partisanElection should be true, not false."
       },
       "secretary-of-state": {
         "party": "Democratic",
@@ -122,17 +148,43 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Arizona_Superintendent_of_Public_Instruction",
+        "quote": "The current Arizona Superintendent of Public Instruction is Thomas C. Horne (R). Horne assumed office in 2023.",
+        "holderOnOpening": "Tom Horne (Thomas C. Horne)",
+        "holderJan2026": "Tom Horne (Thomas C. Horne)",
+        "note": "Infobox: Office Type: Partisan; assumed office January 2, 2023."
       },
       "state-mine-inspector": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Arizona_Mine_Inspector",
+        "quote": "The current Arizona State Mine Inspector is Les Presmyk (R). Presmyk assumed office in 2025.",
+        "holderOnOpening": "Paul Marsh",
+        "holderJan2026": "Les Presmyk",
+        "note": "Paul Marsh page (https://ballotpedia.org/Paul_Marsh_(Arizona)): \"Paul Marsh (Republican Party) was the Arizona State Mine Inspector. He assumed office on October 31, 2021. He left office on August 15, 2025.\" Presmyk appointed, assumed office September 12, 2025. Republican on both dates."
       },
       "corporation-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Arizona_Corporation_Commission",
+        "quote": "The current officeholders are: Rene Lopez (R) Lea Marquez Peterson (R) Nick Myers (R) Kevin Thompson (R) Rachel Walden (R)",
+        "holderOnOpening": "Rene Lopez (R), Lea Marquez Peterson (R), Nick Myers (R), Kevin Thompson (R), Rachel Walden (R)",
+        "holderJan2026": "Rene Lopez (R), Lea Marquez Peterson (R), Nick Myers (R), Kevin Thompson (R), Rachel Walden (R)",
+        "bodyCounts": {
+          "seats": 5,
+          "onOpening": {
+            "Republican": 5
+          },
+          "jan2026": {
+            "Republican": 5
+          },
+          "majorityOnOpening": "Republican",
+          "majorityJan2026": "Republican"
+        },
+        "note": "Lopez and Walden assumed office January 6, 2025; Anna Tovar (D) \"left office on January 6, 2025\". So the body was 5-0 Republican on both dates."
       }
     },
     "US-AR": {
@@ -164,7 +216,11 @@
       "land-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Arkansas_Commissioner_of_State_Lands",
+        "quote": "The current Arkansas Commissioner of State Lands is Tommy Land (R). Land assumed office in 2019.",
+        "holderOnOpening": "Tommy Land",
+        "holderJan2026": "Tommy Land"
       }
     },
     "US-CA": {
@@ -196,12 +252,21 @@
       "insurance-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/California_Insurance_Commissioner",
+        "quote": "The current California Commissioner of Insurance is Ricardo Lara (D). Lara assumed office in 2019.",
+        "holderOnOpening": "Ricardo Lara",
+        "holderJan2026": "Ricardo Lara"
       },
       "superintendent": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/California_Superintendent_of_Public_Instruction",
+        "quote": "The current California Superintendent of Public Instruction is Tony Thurmond (nonpartisan). Thurmond assumed office in 2019.",
+        "holderOnOpening": "Tony Thurmond",
+        "holderJan2026": "Tony Thurmond",
+        "note": "Infobox: Office Type: Nonpartisan."
       }
     },
     "US-CO": {
@@ -277,7 +342,11 @@
       "insurance-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Delaware_Insurance_Commissioner",
+        "quote": "The current Delaware Insurance Commissioner is Trinidad Navarro (D). Navarro assumed office in 2017.",
+        "holderOnOpening": "Trinidad Navarro",
+        "holderJan2026": "Trinidad Navarro"
       }
     },
     "US-FL": {
@@ -321,7 +390,11 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Georgia_Superintendent_of_Schools",
+        "quote": "The current Georgia State Superintendent of Schools is Richard Woods (R). Woods assumed office in 2015.",
+        "holderOnOpening": "Richard Woods",
+        "holderJan2026": "Richard Woods"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -331,18 +404,43 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Georgia_Commissioner_of_Insurance",
+        "quote": "The current Georgia Insurance and Safety Fire Commissioner is John King (R). King assumed office in 2019.",
+        "holderOnOpening": "John King",
+        "holderJan2026": "John King"
       },
       "labor-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://dol.georgia.gov/node/18116",
+        "quote": "GDOL Interim Successor Louis DeBroux issued the following statement today regarding Governor Brian Kemp's appointment of Bárbara Rivera Holmes as Georgia's eleventh Labor Commissioner, following the passing of former Commissioner Bruce Thompson last November",
+        "holderOnOpening": "Vacant (Louis DeBroux, GDOL chief of staff, serving as interim successor)",
+        "holderJan2026": "Bárbara Rivera Holmes",
+        "note": "Vacant on January 20, 2025 after Commissioner Bruce Thompson (Republican) died on November 24, 2024; a staff member served as interim successor until the governor appointed Barbara Rivera Holmes (Republican) in March 2025. The seat keeps its last elected holder's party."
       },
       "public-service-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "Ballotpedia: 3 Republicans and 2 Democrats, so the majority party; the single party field records the majority"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Georgia_Public_Service_Commission",
+        "quote": "Georgia Public Service Commission District 2 | Alicia Johnson | Democratic ... District 3 | Peter Hubbard | Democratic",
+        "holderOnOpening": "Jason Shaw (R), Tim Echols (R), Fitz Johnson (R), Lauren \"Bubba\" McDonald Jr. (R), Tricia Pridemore (R)",
+        "holderJan2026": "Jason Shaw (R), Alicia Johnson (D), Peter Hubbard (D), Lauren \"Bubba\" McDonald Jr. (R), Tricia Pridemore (R)",
+        "bodyCounts": {
+          "seats": 5,
+          "onOpening": {
+            "Republican": 5
+          },
+          "jan2026": {
+            "Republican": 3,
+            "Democratic": 2
+          },
+          "majorityOnOpening": "Republican",
+          "majorityJan2026": "Republican"
+        },
+        "note": "Member pages: Echols \"left office on December 31, 2025\"; Fitz Johnson \"left office on December 31, 2025\"; Alicia Johnson and Hubbard \"assumed office on January 1, 2026\"; Pridemore served to September 4, 2026 (Stan Wise, R, since September 5, 2026). So 5-0 Republican on opening day and 3-2 Republican on January 1, 2026. The repo note (3 R, 2 D) describes January 2026, not opening day; the majority party is Republican on both dates."
       }
     },
     "US-HI": {
@@ -354,8 +452,23 @@
       "office-of-hawaiian-affairs-trustees": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Office_of_Hawaiian_Affairs",
+        "quote": "Office Type: Nonpartisan ... Office of Hawaiian Affairs At-large Trustee | Keli'i Akina | Nonpartisan",
+        "holderOnOpening": "Keli'i Akina, Brickwood Galuteria, Keoni Souza, John Waihee IV, Kaiali'i Kahele, Dan Ahuna, Carmen Hulu Lindsey, Luana Alapa, Kalei Akaka (all nonpartisan)",
+        "holderJan2026": "Same nine trustees (all nonpartisan)",
+        "bodyCounts": {
+          "seats": 9,
+          "onOpening": {
+            "Nonpartisan": 9
+          },
+          "jan2026": {
+            "Nonpartisan": 9
+          },
+          "majorityOnOpening": null,
+          "majorityJan2026": null
+        },
+        "note": "Each trustee page gives a start date before January 20, 2025 (latest: Kahele, November 5, 2024), so the board was the same on both dates."
       }
     },
     "US-ID": {
@@ -387,7 +500,11 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Idaho_Superintendent_of_Public_Instruction",
+        "quote": "The current Idaho Superintendent of Public Instruction is Debbie Critchfield (R). Critchfield assumed office in 2023.",
+        "holderOnOpening": "Debbie Critchfield",
+        "holderJan2026": "Debbie Critchfield"
       }
     },
     "US-IL": {
@@ -500,7 +617,11 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Kansas_Insurance_Commissioner",
+        "quote": "The current Kansas Commissioner of Insurance is Vicki Schmidt (R). Schmidt assumed office in 2019.",
+        "holderOnOpening": "Vicki Schmidt",
+        "holderJan2026": "Vicki Schmidt"
       }
     },
     "US-KY": {
@@ -564,7 +685,12 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Louisiana_Commissioner_of_Insurance",
+        "quote": "The current Louisiana Commissioner of Insurance is Tim Temple (R). Temple assumed office in 2024.",
+        "holderOnOpening": "Tim Temple",
+        "holderJan2026": "Tim Temple",
+        "note": "Infobox: Office Type: Partisan; assumed office January 8, 2024."
       }
     },
     "US-MD": {
@@ -630,12 +756,65 @@
       "state-board-of-education": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Michigan_State_Board_of_Education",
+        "quote": "Each party is allowed to nominate up to two candidates in each election ... Marshall Bullock | Democratic ... Tom McMillin | Republican",
+        "holderOnOpening": "Marshall Bullock (D), Ellen Lipton (D), Tom McMillin (R), Judith Pritchett (D), Pamela Pugh (D), Mitchell Robinson (D), Nikki Snyder (R), Tiffany Tilley (D)",
+        "holderJan2026": "Same eight members",
+        "bodyCounts": {
+          "seats": 8,
+          "onOpening": {
+            "Democratic": 6,
+            "Republican": 2
+          },
+          "jan2026": {
+            "Democratic": 6,
+            "Republican": 2
+          },
+          "majorityOnOpening": "Democratic",
+          "majorityJan2026": "Democratic"
+        },
+        "note": "All eight member pages give start dates before January 20, 2025, so 6 D and 2 R on both dates."
       },
       "university-boards": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Michigan_State_University_Board_of_Trustees",
+        "quote": "University of Michigan Board of Regents | Jordan Acker | Democratic ... Michigan State University Board of Trustees | Mike Balow | Republican ... Wayne State University Board of Governors | Terri Lynn Land | Republican",
+        "holderOnOpening": "UM Regents 6 D, 2 R; MSU Trustees 6 D, 1 R, 1 party not given (Sandy Pierce, appointed 2022); WSU Governors 5 D, 3 R",
+        "holderJan2026": "Same 24 members",
+        "bodyCounts": {
+          "seats": 24,
+          "onOpening": {
+            "Democratic": 17,
+            "Republican": 6,
+            "not stated": 1
+          },
+          "jan2026": {
+            "Democratic": 17,
+            "Republican": 6,
+            "not stated": 1
+          },
+          "majorityOnOpening": "Democratic",
+          "majorityJan2026": "Democratic",
+          "byBoard": {
+            "UM Regents": {
+              "Democratic": 6,
+              "Republican": 2
+            },
+            "MSU Trustees": {
+              "Democratic": 6,
+              "Republican": 1,
+              "not stated": 1
+            },
+            "WSU Governors": {
+              "Democratic": 5,
+              "Republican": 3
+            }
+          }
+        },
+        "note": "The URL serves the combined Ballotpedia page titled \"Michigan State Board of Regents\". Members elected in 2024 (Meyers, Bahar-Cook, Balow, Reddy) assumed office January 1, 2025; every other member started earlier, so composition was the same on both dates. Democrats hold the majority on each of the three boards."
       }
     },
     "US-MN": {
@@ -694,7 +873,11 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Mississippi_Commissioner_of_Insurance",
+        "quote": "The current Mississippi Commissioner of Insurance is Mike Chaney (R). Chaney assumed office in 2008.",
+        "holderOnOpening": "Mike Chaney",
+        "holderJan2026": "Mike Chaney"
       }
     },
     "US-MO": {
@@ -748,7 +931,12 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Montana_Superintendent_of_Public_Instruction",
+        "quote": "The current Montana Superintendent of Public Instruction is Susie Hedalen (R). Hedalen assumed office in 2025.",
+        "holderOnOpening": "Susie Hedalen",
+        "holderJan2026": "Susie Hedalen",
+        "note": "Infobox: assumed office January 6, 2025, before the opening day."
       }
     },
     "US-NE": {
@@ -809,8 +997,12 @@
       "lieutenant-governor": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "Wikipedia shows the office vacant with a Democratic acting officeholder; not verified against a live source"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Lieutenant_Governor_of_New_Jersey",
+        "quote": "Tahesha Way | 2023 - 2026 | Democratic | 4 | Dale Caldwell | 2026 - Present | Democratic",
+        "holderOnOpening": "Tahesha Way",
+        "holderJan2026": "Tahesha Way",
+        "note": "Tahesha_Way page: \"assumed office on September 8, 2023. She left office on January 20, 2026.\" Dale Caldwell (D) served January 20, 2026 to September 25, 2026; the office is vacant now (October 2026). Democratic on both game dates."
       }
     },
     "US-NM": {
@@ -842,7 +1034,11 @@
       "land-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/New_Mexico_Commissioner_of_Public_Lands",
+        "quote": "The current New Mexico Commissioner of Public Lands is Stephanie Garcia Richard (D). Richard assumed office in 2019.",
+        "holderOnOpening": "Stephanie Garcia Richard",
+        "holderJan2026": "Stephanie Garcia Richard"
       }
     },
     "US-NY": {
@@ -891,7 +1087,12 @@
       "superintendent": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/North_Carolina_Superintendent_of_Public_Instruction",
+        "quote": "The current North Carolina Superintendent of Public Instruction is Mo Green (D). Green assumed office in 2025.",
+        "holderOnOpening": "Mo Green",
+        "holderJan2026": "Mo Green",
+        "note": "Infobox: assumed office January 1, 2025."
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -901,12 +1102,21 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/North_Carolina_Insurance_Commissioner",
+        "quote": "The current North Carolina Commissioner of Insurance is Mike Causey (R). Causey assumed office in 2017.",
+        "holderOnOpening": "Mike Causey",
+        "holderJan2026": "Mike Causey"
       },
       "labor-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/North_Carolina_Commissioner_of_Labor",
+        "quote": "The current North Carolina Commissioner of Labor is Luke Farley (R). Farley assumed office in 2025.",
+        "holderOnOpening": "Luke Farley",
+        "holderJan2026": "Luke Farley",
+        "note": "Infobox: assumed office January 1, 2025."
       }
     },
     "US-ND": {
@@ -938,7 +1148,12 @@
       "superintendent": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/North_Dakota_Superintendent_of_Public_Instruction",
+        "quote": "The current North Dakota Superintendent of Public Instruction is Levi Bachmeier (nonpartisan). Bachmeier assumed office in 2025.",
+        "holderOnOpening": "Kirsten Baesler",
+        "holderJan2026": "Levi Bachmeier",
+        "note": "Bachmeier assumed office November 24, 2025. Kirsten_Baesler page: \"North Dakota Superintendent of Public Instruction Years in office: 2013 - 2025 Successor: Levi Bachmeier (Nonpartisan)\"; she became U.S. Assistant Secretary on October 7, 2025. Nonpartisan office on both dates."
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -948,17 +1163,41 @@
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/North_Dakota_Insurance_Commissioner",
+        "quote": "The current North Dakota Commissioner of Insurance is Jon Godfread (R). Godfread assumed office in 2017.",
+        "holderOnOpening": "Jon Godfread",
+        "holderJan2026": "Jon Godfread"
       },
       "tax-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/North_Dakota_Tax_Commissioner",
+        "quote": "The current North Dakota Tax Commissioner is Brian Kroshus (R). Kroshus assumed office in 2022.",
+        "holderOnOpening": "Brian Kroshus",
+        "holderJan2026": "Brian Kroshus"
       },
       "public-service-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/North_Dakota_Public_Service_Commission",
+        "quote": "North Dakota Public Service Commission | Randel Christmann | Republican ... Sheri Haugen-Hoffart | Republican ... Jill Kringstad | Republican",
+        "holderOnOpening": "Randel Christmann (R), Sheri Haugen-Hoffart (R), Jill Kringstad (R)",
+        "holderJan2026": "Same three members",
+        "bodyCounts": {
+          "seats": 3,
+          "onOpening": {
+            "Republican": 3
+          },
+          "jan2026": {
+            "Republican": 3
+          },
+          "majorityOnOpening": "Republican",
+          "majorityJan2026": "Republican"
+        },
+        "note": "Start dates: Christmann January 15, 2013; Haugen-Hoffart February 11, 2022; Kringstad January 6, 2025. All three were seated on both dates."
       }
     },
     "US-OH": {
@@ -1012,22 +1251,51 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Oklahoma_Superintendent_of_Public_Instruction",
+        "quote": "The current Oklahoma Superintendent of Public Instruction is Lindel Fields (R). Fields assumed office in 2025.",
+        "holderOnOpening": "Ryan Walters",
+        "holderJan2026": "Lindel Fields",
+        "note": "Ryan_Walters page: \"Ryan Walters (Republican Party) was the Oklahoma Superintendent of Public Instruction. He assumed office on January 9, 2023. He left office on September 30, 2025.\" Fields assumed office October 7, 2025. Republican on both dates."
       },
       "labor-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Oklahoma_Labor_Commissioner",
+        "quote": "The current Oklahoma Commissioner of Labor is Leslie Osborn (R). Osborn assumed office in 2019.",
+        "holderOnOpening": "Leslie Osborn",
+        "holderJan2026": "Leslie Osborn"
       },
       "insurance-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Oklahoma_Commissioner_of_Insurance",
+        "quote": "The current Oklahoma Commissioner of Insurance is Glen Mulready (R). Mulready assumed office in 2019.",
+        "holderOnOpening": "Glen Mulready",
+        "holderJan2026": "Glen Mulready"
       },
       "corporation-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Oklahoma_Corporation_Commission",
+        "quote": "Oklahoma Corporation Commissioner | Brian Bingman | Republican ... Kim David | Republican ... Todd Hiett | Republican",
+        "holderOnOpening": "Brian Bingman (R), Kim David (R), Todd Hiett (R)",
+        "holderJan2026": "Same three members",
+        "bodyCounts": {
+          "seats": 3,
+          "onOpening": {
+            "Republican": 3
+          },
+          "jan2026": {
+            "Republican": 3
+          },
+          "majorityOnOpening": "Republican",
+          "majorityJan2026": "Republican"
+        },
+        "note": "Start dates: Bingman January 13, 2025; David January 9, 2023; Hiett 2015. All seated on both dates."
       }
     },
     "US-OR": {
@@ -1049,7 +1317,12 @@
       "labor-commissioner": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Oregon_Commissioner_of_Labor_and_Industries",
+        "quote": "The current Oregon Commissioner of Labor and Industries is Christina Stephenson (nonpartisan). Stephenson assumed office in 2023.",
+        "holderOnOpening": "Christina Stephenson",
+        "holderJan2026": "Christina Stephenson",
+        "note": "Infobox: Office Type: Nonpartisan."
       }
     },
     "US-PA": {
@@ -1125,7 +1398,11 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/South_Carolina_Superintendent_of_Education",
+        "quote": "The current South Carolina Superintendent of Education is Ellen Weaver (R). Weaver assumed office in 2023.",
+        "holderOnOpening": "Ellen Weaver",
+        "holderJan2026": "Ellen Weaver"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -1162,12 +1439,32 @@
       "land-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/South_Dakota_Commissioner_of_School_and_Public_Lands",
+        "quote": "The current South Dakota Commissioner of School and Public Lands is Brock Greenfield (R). Greenfield assumed office in 2023.",
+        "holderOnOpening": "Brock Greenfield",
+        "holderJan2026": "Brock Greenfield"
       },
       "public-utilities-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/South_Dakota_Public_Utilities_Commission",
+        "quote": "South Dakota Public Utilities Commission | Kristie Fiegen | Republican ... Gary Hanson | Republican ... Chris Nelson | Republican",
+        "holderOnOpening": "Kristie Fiegen (R), Gary Hanson (R), Chris Nelson (R)",
+        "holderJan2026": "Same three members",
+        "bodyCounts": {
+          "seats": 3,
+          "onOpening": {
+            "Republican": 3
+          },
+          "jan2026": {
+            "Republican": 3
+          },
+          "majorityOnOpening": "Republican",
+          "majorityJan2026": "Republican"
+        },
+        "note": "Start dates: Fiegen August 9, 2011; Hanson 2003; Nelson January 8, 2011. All seated on both dates."
       }
     },
     "US-TX": {
@@ -1189,7 +1486,11 @@
       "land-commissioner": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Texas_Land_Commissioner",
+        "quote": "The current Texas Land Commissioner is Dawn Buckingham (R). Buckingham assumed office in 2023.",
+        "holderOnOpening": "Dawn Buckingham",
+        "holderJan2026": "Dawn Buckingham"
       },
       "agriculture-commissioner": {
         "party": "Republican",
@@ -1199,7 +1500,23 @@
       "railroad-commission": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Texas_Railroad_Commission",
+        "quote": "Texas Railroad Commission | Wayne Christian | Republican ... Christi Craddick | Republican ... James Wright | Republican",
+        "holderOnOpening": "Wayne Christian (R), Christi Craddick (R), Jim Wright (R)",
+        "holderJan2026": "Same three members",
+        "bodyCounts": {
+          "seats": 3,
+          "onOpening": {
+            "Republican": 3
+          },
+          "jan2026": {
+            "Republican": 3
+          },
+          "majorityOnOpening": "Republican",
+          "majorityJan2026": "Republican"
+        },
+        "note": "Start dates: Christian January 1, 2017; Craddick December 17, 2012; Wright January 1, 2021. All seated on both dates."
       }
     },
     "US-UT": {
@@ -1292,17 +1609,32 @@
       "land-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Washington_Commissioner_of_Public_Lands",
+        "quote": "The current Washington Commissioner of Public Lands is Dave Upthegrove (D). Upthegrove assumed office in 2025.",
+        "holderOnOpening": "Dave Upthegrove",
+        "holderJan2026": "Dave Upthegrove",
+        "note": "Infobox: assumed office January 13, 2025."
       },
       "superintendent": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Washington_Superintendent_of_Public_Instruction",
+        "quote": "The current Washington Superintendent of Public Instruction is Chris Reykdal (nonpartisan). Reykdal assumed office in 2017.",
+        "holderOnOpening": "Chris Reykdal",
+        "holderJan2026": "Chris Reykdal",
+        "note": "Infobox: Office Type: Nonpartisan."
       },
       "insurance-commissioner": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Washington_Insurance_Commissioner",
+        "quote": "The current Washington Commissioner of Insurance is Patricia Kuderer (D). Kuderer assumed office in 2025.",
+        "holderOnOpening": "Patty Kuderer (Patricia Kuderer)",
+        "holderJan2026": "Patty Kuderer (Patricia Kuderer)",
+        "note": "Infobox: assumed office January 15, 2025."
       }
     },
     "US-WV": {
@@ -1356,7 +1688,12 @@
       "superintendent": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Wisconsin_Superintendent_of_Public_Instruction",
+        "quote": "The current Wisconsin Superintendent of Public Instruction is Jill Underly (nonpartisan). Underly assumed office in 2021.",
+        "holderOnOpening": "Jill Underly",
+        "holderJan2026": "Jill Underly",
+        "note": "Infobox: Office Type: Nonpartisan."
       }
     },
     "US-WY": {
@@ -1378,95 +1715,217 @@
       "superintendent": {
         "party": "Republican",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Wyoming_Superintendent_of_Public_Instruction",
+        "quote": "The current Wyoming Superintendent of Public Instruction is Megan Degenfelder (R). Degenfelder assumed office in 2023.",
+        "holderOnOpening": "Megan Degenfelder",
+        "holderJan2026": "Megan Degenfelder"
       }
     },
     "US-DC": {
       "mayor": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Muriel_Bowser",
+        "quote": "Muriel Bowser (Democratic Party) is the mayor of Washington D.C., District of Columbia. She assumed office on January 2, 2015.",
+        "holderOnOpening": "Muriel Bowser",
+        "holderJan2026": "Muriel Bowser",
+        "note": "Party primaries (\"Incumbent Muriel Bowser defeated Robert White, Trayon White, and James Butler in the Democratic primary for Mayor of Washington D.C. on June 21, 2022.\") show a partisan election."
       },
       "attorney-general": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Brian_Schwalb",
+        "quote": "Brian Schwalb (Democratic Party) is the Attorney General of Washington D.C.. He assumed office on January 2, 2023.",
+        "holderOnOpening": "Brian Schwalb",
+        "holderJan2026": "Brian Schwalb",
+        "note": "Partisan primary: \"Brian Schwalb defeated Bruce Spiva and Ryan Jones in the Democratic primary for Attorney General of Washington D.C. on June 21, 2022.\""
       },
       "council-chair": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Phil_Mendelson",
+        "quote": "Phil Mendelson (Democratic Party) is the Chairman of the Washington D.C. City Council in District of Columbia. He assumed office in 2012.",
+        "holderOnOpening": "Phil Mendelson",
+        "holderJan2026": "Phil Mendelson",
+        "note": "Partisan primary: \"Incumbent Phil Mendelson defeated Erin Palmer in the Democratic primary for Washington D.C. City Council Chairman on June 21, 2022.\""
       },
       "state-board-of-education-president": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://sboe.dc.gov/sites/default/files/dc/sites/sboe/documents/2025%20Annual%20Report_Final.pdf",
+        "quote": "In 2025, these testimonies were delivered by State Board President Jacque Patterson on behalf of the State Board",
+        "holderOnOpening": "Jacque Patterson (2025 president; see note)",
+        "holderJan2026": "Jacque Patterson",
+        "note": "Members are nonpartisan (https://ballotpedia.org/District_of_Columbia_State_Board_of_Education: \"Office Type: Nonpartisan\"; \"Jacque Patterson | Nonpartisan | January 2, 2021\"). The board elects its president \"at its first public meeting each calendar year\" (https://sboe.dc.gov/node/1639091), so Patterson was still the 2025 president on January 1, 2026, and https://sboe.dc.gov/node/1565381 lists \"Jacque Patterson President, At-Large\". The exact January 2025 meeting date was not found, so opening day could fall just before his election."
       }
     },
     "US-GU": {
       "lieutenant-governor": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Lieutenant_Governor_of_Guam",
+        "quote": "The current Lieutenant Governor of Guam is Josh Tenorio (D). Tenorio assumed office in 2019.",
+        "holderOnOpening": "Josh Tenorio",
+        "holderJan2026": "Josh Tenorio",
+        "note": "Infobox: Office Type: Partisan; assumed office January 7, 2019."
       },
       "attorney-general": {
-        "party": "Republican",
-        "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Attorney_General_of_Guam",
+        "quote": "The current Attorney General of Guam is Douglas Moylan (nonpartisan). Moylan assumed office in 2023.",
+        "holderOnOpening": "Douglas Moylan",
+        "holderJan2026": "Douglas Moylan",
+        "note": "Repo records Republican and partisan; the office is nonpartisan. Infobox \"Office Type: Nonpartisan\"; 2026 ballot lists every candidate as \"(Nonpartisan)\". Guam Daily Post (https://www.postguam.com/news/local/doug-moylans-attendance-at-gop-hq-questioned/article_854fd1da-6093-11ed-9f94-e79b5096ffa5.html): \"Local law provides candidates for the position \"shall declare no party affiliation.\"\" Moylan assumed office January 2, 2023 and held it on both dates."
       },
       "public-auditor": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Guam_Public_Auditor",
+        "quote": "The current Public Auditor of Guam is Benjamin Cruz (nonpartisan). Cruz assumed office in 2018.",
+        "holderOnOpening": "Benjamin Cruz",
+        "holderJan2026": "Benjamin Cruz",
+        "note": "Infobox: Office Type: Nonpartisan; 2024 result lists \"Benjamin Cruz (Nonpartisan)\"."
       },
       "consolidated-commission-on-utilities": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Guam_Consolidated_Commission_on_Utilities",
+        "quote": "Office Type: Nonpartisan ... Guam Consolidated Commission on Utilities | Melvin Duenas | Nonpartisan | January 1, 2025",
+        "holderOnOpening": "Melvin Duenas, Michael Limtiaco, Pedro Martinez, Simon Sanchez, Francis Santos (all nonpartisan)",
+        "holderJan2026": "Same five members",
+        "bodyCounts": {
+          "seats": 5,
+          "onOpening": {
+            "Nonpartisan": 5
+          },
+          "jan2026": {
+            "Nonpartisan": 5
+          },
+          "majorityOnOpening": null,
+          "majorityJan2026": null
+        },
+        "note": "Start dates in the table: Duenas January 1, 2025; Limtiaco January 1, 2019; Martinez March 22, 2021; Sanchez January 1, 2003; Santos January 1, 2015."
       }
     },
     "US-VI": {
       "lieutenant-governor": {
         "party": "Democratic",
         "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Lieutenant_Governor_of_the_U.S._Virgin_Islands",
+        "quote": "The current Lieutenant Governor of the U.S. Virgin Islands is Tregenza Roach (D). Roach assumed office in 2019.",
+        "holderOnOpening": "Tregenza Roach",
+        "holderJan2026": "Tregenza Roach",
+        "note": "Infobox: Office Type: Partisan; assumed office January 7, 2019."
       },
       "board-of-education": {
-        "party": null,
-        "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "checked-2026-10-23",
+        "url": "https://vivote.gov/wp-content/uploads/2024/11/Territorial-Election-Summary-1.pdf",
+        "quote": "BOARD OF EDUCATION ST. CROIX ... IND Mary \"Peggy\" Moorhead 2,939 ... DEM Emmanuella Perez 2,725",
+        "holderOnOpening": "Abigail Hendricks Cagan (I), Winona Hendricks (D), Terrence Joseph (D), Mary Moorhead (I), Emmanuella Perez-Cassius (D), Kyza Callwood (D, chair), Judy Gomez (D), Arah Lockhart (D), Nandi Sekou (D)",
+        "holderJan2026": "Same nine members",
+        "bodyCounts": {
+          "seats": 9,
+          "onOpening": {
+            "Democratic": 7,
+            "Independent": 2
+          },
+          "jan2026": {
+            "Democratic": 7,
+            "Independent": 2
+          },
+          "majorityOnOpening": "Democratic",
+          "majorityJan2026": "Democratic"
+        },
+        "note": "Repo records null party and nonpartisan. The official 2024 Election System summary prints party labels on board candidates (St. Thomas/St. John: \"DEM Kyza A. Callwood, PhD\", \"REP Sophia del Rosario\"). Members and parties come from Wikipedia as a fallback (https://en.wikipedia.org/wiki/Virgin_Islands_Department_of_Education); every start date there is January 6, 2025 or earlier, so 7 D and 2 I on both dates. Conflict: that Wikipedia page says \"Elections are formally nonpartisan\", while the official summary prints the labels. The owner or lead should decide which one the game follows."
       },
       "board-of-elections": {
         "party": null,
-        "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "partisanElection": true,
+        "sourceId": "checked-2026-10-23",
+        "url": "https://vivote.gov/wp-content/uploads/2024/11/Territorial-Election-Summary-1.pdf",
+        "quote": "BOARD OF ELECTIONS ST. CROIX Vote For 4 ... REP Liliana Belardo-Oneal 2,865 ... DEM C. Jason JnBaptiste 2,081",
+        "holderOnOpening": null,
+        "holderJan2026": null,
+        "bodyCounts": {
+          "seats": null,
+          "onOpening": null,
+          "jan2026": null,
+          "majorityOnOpening": null,
+          "majorityJan2026": null,
+          "seatedFrom2024Election": {
+            "Republican": 4,
+            "Democratic": 3
+          }
+        },
+        "note": "No party holds a majority: the 2024 official summary elected 4 Republicans and 3 Democrats, and the 2022 summary (https://www.vivote.gov/sites/default/files/unofficialresults/Territorial%20Summary%2020221114.pdf) elected 2 Democrats and 1 Republican in St. Thomas and St. John and 3 members without a party label in St. Croix."
       }
     },
     "US-AS": {
       "lieutenant-governor": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Lieutenant_Governor_of_American_Samoa",
+        "quote": "The current Lieutenant Governor of American Samoa is Pulu Ae Ae (nonpartisan). Ae Ae assumed office in 2025.",
+        "holderOnOpening": "Pulu Ae Ae",
+        "holderJan2026": "Pulu Ae Ae",
+        "note": "Pulu_Ae_Ae page: \"assumed office on January 3, 2025\"; he defeated incumbent Laapui Talauega Eleasalo Vaalele Ale in the November 19, 2024 runoff. Infobox: Office Type: Nonpartisan."
       }
     },
     "US-MP": {
       "lieutenant-governor": {
-        "party": "Republican",
-        "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "party": "Independent",
+        "partisanElection": true,
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Lieutenant_Governor_of_the_Northern_Mariana_Islands",
+        "quote": "The current Lieutenant Governor of the Northern Mariana Islands is Dennis C. Mendiola (R). Mendiola assumed office in 2025.",
+        "holderOnOpening": "David Apatang",
+        "holderJan2026": "Dennis C. Mendiola",
+        "note": "Repo records Republican and partisanElection false. Opening day: David Apatang (Independent), who won the 2022 runoff as \"David Apatang (Independent) defeated Vinnie F. Sablan (R)\". Mendiola (R) was elevated July 24, 2025 after Gov. Arnold Palacios died and Apatang became governor (https://ballotpedia.org/Dennis_C._Mendiola). Infobox \"Office Type: Partisan\", and the results carry party labels, so partisanElection should be true. January 2026 party matches the repo (Republican); opening-day party and the partisan flag do not."
       },
       "attorney-general": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Attorney_General_of_the_Northern_Mariana_Islands",
+        "quote": "The current Attorney General of the Northern Mariana Islands is Edward Manibusan (nonpartisan). Manibusan assumed office in 2015.",
+        "holderOnOpening": "Edward Manibusan",
+        "holderJan2026": "Edward Manibusan",
+        "note": "Infobox: Office Type: Nonpartisan; assumed office January 12, 2015. Elected, not appointed."
       },
       "board-of-education": {
         "party": null,
         "partisanElection": false,
-        "sourceId": "ballotpedia-state-executives"
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Northern_Mariana_Islands_Board_of_Education",
+        "quote": "Office Type: Nonpartisan ... Northern Mariana Islands Board of Education District 1 | Anthony Barcinas | Nonpartisan",
+        "holderOnOpening": "Dora Miura, Ryan Nuera, Ronald Snyder, Anthony Barcinas, Antonio Borja, Aschumar Ogumoro-Uludong, Andrew L. Orsini, Maisie B. Tenorio (all nonpartisan; current list)",
+        "holderJan2026": "Same list (all nonpartisan)",
+        "bodyCounts": {
+          "seats": 8,
+          "onOpening": {
+            "Nonpartisan": "all"
+          },
+          "jan2026": {
+            "Nonpartisan": "all"
+          },
+          "majorityOnOpening": null,
+          "majorityJan2026": null
+        },
+        "note": "The Ballotpedia list is current (October 2026) and gives no start dates, so the exact roster on each date was not checked. Every listed member is nonpartisan, so the null party and nonpartisan flag hold either way."
       }
     }
   }

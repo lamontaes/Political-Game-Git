@@ -3,7 +3,7 @@ id: laws-remaining-families
 title: "Wire the remaining law families to the engines that pay or decide"
 area: laws
 kind: wiring
-priority: 1
+priority: 3
 size: L
 status: open
 claimed-by:

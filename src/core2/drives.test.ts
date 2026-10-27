@@ -10,7 +10,17 @@ import {
   withDrives,
   type DrivesData,
 } from "./modules/drives";
-import { createHealthModule, healthReport } from "./modules/health";
+import {
+  DEFAULT_HEALTH_DATA,
+  createHealthModule,
+  healthReport,
+  severityImpulse,
+} from "./modules/health";
+import { openingTemperaments } from "./opening-personality";
+import firings from "../../data/research/people/nelp-yougov-firings-2022.json" with { type: "json" };
+import forgiveness from "../../data/research/people/fehr-forgiveness-correlates-2010.json" with { type: "json" };
+import termination from "../../data/research/people/termination-claims-1998.json" with { type: "json" };
+import trajectories from "../../data/research/people/trauma-trajectories-2018.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { coreAPI } from "./state";
 import type {
@@ -409,6 +419,22 @@ describe("P10 drives and causes", () => {
     expect(heard.every((row) => row.ruleId === "cause-shared")).toBe(true);
   });
 
+  it("what a person gave lately to a cause pulls against giving more of the same", () => {
+    const core = bereavedCore();
+    advanceCore(core, "2021-07-01");
+    const shares = drivesReport(core)
+      .drives.filter((row) => row.personId === carerId)
+      .flatMap((row) => row.acts)
+      .filter((act) => act.actionId === "share-cause" && act.basis === "scored")
+      .sort((a, b) => a.date.localeCompare(b.date));
+    expect(shares.length).toBeGreaterThan(p("one"));
+    // The first share had nothing given before it; each later one weighs
+    // what was given since, fading with the days between.
+    expect(shares[p("zero")]!.reasons!.module).toBe(p("zero"));
+    for (const act of shares.slice(p("one")))
+      expect(act.reasons!.module!).toBeLessThan(p("zero"));
+  });
+
   it("a donation moves the donor's money to the group through the cash journal", () => {
     const core = bereavedCore();
     const api = coreAPI(core);
@@ -557,5 +583,215 @@ describe("P10 health producer", () => {
     );
     expect(heard.length).toBeGreaterThan(p("zero"));
     expect(heard.every((row) => row.role === "family")).toBe(true);
+  });
+});
+
+/**
+ * A fixed fixture of perceived losses: a thousand adults whose temperaments
+ * come from the opening generator (one fixed seed), each of whom loses a
+ * close relative, or each of whom is laid off by the same owner. The town's
+ * share is checked against the research; nobody's answer is rolled.
+ */
+describe("drive responses against the research bands", () => {
+  const ownerId = "person:band-owner";
+  const firm = "organization:band-firm";
+  const subjects = Array.from({ length: 1000 }, (_, index) => ({
+    id: `person:band-${index}`,
+    birthDate: `${1951 + ((index * 7) % 50)}-0${1 + (index % 9)}-15`,
+    gender: index % 2 ? "female" : "male",
+    parents: [] as string[],
+  }));
+  const temperaments = openingTemperaments(subjects, {
+    seed: "p10-drives-bands",
+    startedAt,
+  });
+  const resilience = trajectories.trajectories.find(
+    (row) => row.id === "resilience",
+  )!;
+
+  function fixture(
+    extra: readonly PersonInput[],
+    familyOf: (index: number) => readonly string[],
+    scale?: number,
+  ) {
+    const people = [
+      ...extra,
+      ...subjects.map((row, index) =>
+        person(row.id, {
+          birthDate: row.birthDate,
+          familyIds: familyOf(index),
+          traits: temperaments.get(row.id)!,
+          looks: { gender: row.gender },
+        }),
+      ),
+    ];
+    const data =
+      scale === undefined
+        ? DEFAULT_DATA
+        : {
+            ...DEFAULT_DATA,
+            parameters: {
+              ...DEFAULT_DATA.parameters,
+              responseBereavementFitScale: {
+                ...DEFAULT_DATA.parameters.responseBereavementFitScale!,
+                value: scale,
+              },
+            },
+          };
+    return createLifeCore(
+      {
+        seed: "p10-drives-bands",
+        startedAt,
+        people,
+        households: people.map((row) => ({
+          id: row.householdId,
+          placeId: row.placeId,
+          memberIds: [row.id],
+          source,
+        })),
+        jobs: [],
+        organizations: [
+          {
+            id: firm,
+            placeId: home,
+            name: "Recorded fixture firm",
+            kind: "firm",
+            liquidMinor: p("minorPerDollar") * p("percent"),
+            source,
+          },
+        ],
+        focusPersonIds: [],
+        focusPlaceIds: [],
+        calendarDates: [],
+        gaps: [],
+      },
+      {
+        data: withDrives(data, DEFAULT_DRIVES_DATA),
+        modules: [createDrivesModule(DEFAULT_DRIVES_DATA)],
+      },
+    );
+  }
+
+  /** Every adult loses the same close relative, whose other relative they have living. */
+  function bereaved(scale?: number) {
+    const core = fixture(
+      [person(deceasedId, { birthDate: "1940-01-01" })],
+      (index) => [deceasedId, subjects[(index + 1) % subjects.length]!.id],
+      scale,
+    );
+    const api = coreAPI(core);
+    api.updatePerson(deceasedId, { alive: false });
+    api.emit({
+      ...death(core, DEFAULT_DRIVES_DATA),
+      witnessIds: subjects.map((row) => row.id),
+    });
+    return core;
+  }
+
+  /** Every adult is let go by the same living owner of the same firm. */
+  function laidOff() {
+    const core = fixture(
+      [person(ownerId, { birthDate: "1965-01-01" })],
+      (index) => [subjects[(index + 1) % subjects.length]!.id],
+    );
+    const api = coreAPI(core);
+    const severity = severityImpulse(api, DEFAULT_HEALTH_DATA.jobLossSeverity);
+    for (const row of subjects)
+      api.emit({
+        id: `event:work.job-lost:${core.date}:job:${row.id}`,
+        date: core.date,
+        kind: "work.job-lost",
+        personIds: [row.id],
+        placeId: home,
+        publicRecord: false,
+        topic: firm,
+        ...severity,
+        source,
+        facts: { decidedBy: ownerId, organizationId: firm },
+      });
+    return core;
+  }
+
+  /** The percent of one rule's responses that were this response. */
+  const share = (core: CoreState, rule: string, response: string) => {
+    const counts = drivesReport(core).responsesByRule;
+    const mine = Object.entries(counts).filter(([key]) =>
+      key.startsWith(`${rule}:`),
+    );
+    const total = mine.reduce((sum, [, count]) => sum + count, p("zero"));
+    return (100 * (counts[`${rule}:${response}`] ?? p("zero"))) / total;
+  };
+
+  it("the share of the bereaved who carry on is inside the trajectory meta-analysis's interval", () => {
+    const core = bereaved();
+    const carryOn = share(core, "bereavement", "carry-on");
+    expect(carryOn).toBeGreaterThanOrEqual(resilience.low);
+    expect(carryOn).toBeLessThanOrEqual(resilience.high);
+    // Every decision names its event and the traits and ties that weighed it.
+    const rows = drivesReport(core).decisions.filter(
+      (row) => row.ruleId === "bereavement",
+    );
+    expect(rows).toHaveLength(subjects.length);
+    for (const row of rows) {
+      expect(row.eventId).toBe(`life.death:${deceasedId}:${core.date}`);
+      expect(row.role).toBe("family");
+      expect(row.traitTerms.length).toBeGreaterThan(p("zero"));
+    }
+  });
+
+  it("the bereavement scale is what moves the bereaved off carrying on", () => {
+    expect(
+      share(bereaved(p("one")), "bereavement", "carry-on"),
+    ).toBeGreaterThan(resilience.high);
+  });
+
+  it("a layoff's grudge is held by some, against the owner, at the rate laid-off workers act on one", () => {
+    const core = laidOff();
+    const grudge = share(core, "job-loss", "hold-grudge");
+    expect(grudge).toBeGreaterThanOrEqual(termination.bandPercent.low);
+    expect(grudge).toBeLessThanOrEqual(termination.bandPercent.high);
+    const ceiling = firings.ofThoseFired.find(
+      (row) => row.id === "no-reason-or-unfair-reason",
+    )!.percent;
+    expect(grudge).toBeLessThan(ceiling);
+    const grudges = drivesReport(core).drives.filter(
+      (row) => row.kind === "grudge",
+    );
+    expect(grudges.length).toBeGreaterThan(p("zero"));
+    for (const drive of grudges) {
+      expect(drive.targetId).toBe(ownerId);
+      expect(drive.sourceEventId).toBe(
+        `event:work.job-lost:${core.date}:job:${drive.personId}`,
+      );
+    }
+  });
+
+  it("low agreeableness leans toward the grudge and high toward carrying on, as the forgiveness meta-analysis has it", () => {
+    expect(
+      forgiveness.dispositional.find((row) => row.id === "agreeableness")!
+        .weightedMeanR,
+    ).toBeGreaterThan(p("zero"));
+    const core = laidOff();
+    const rows = drivesReport(core).decisions.filter(
+      (row) => row.ruleId === "job-loss",
+    );
+    // The conflict trait is agreeableness compliance reversed.
+    const conflict = (personId: string) =>
+      core.people.get(personId)!.traits["people-mind-v1:conflict"] ?? p("zero");
+    const sorted = [...rows].sort(
+      (a, b) => conflict(a.personId) - conflict(b.personId),
+    );
+    const third = Math.floor(sorted.length / 3);
+    const rate = (part: typeof rows, response: string) =>
+      part.filter((row) => row.chosen.responseId === response).length /
+      part.length;
+    const agreeable = sorted.slice(p("zero"), third);
+    const disagreeable = sorted.slice(sorted.length - third);
+    expect(rate(disagreeable, "hold-grudge")).toBeGreaterThan(
+      rate(agreeable, "hold-grudge"),
+    );
+    expect(rate(agreeable, "carry-on")).toBeGreaterThan(
+      rate(disagreeable, "carry-on"),
+    );
   });
 });

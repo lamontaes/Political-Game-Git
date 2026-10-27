@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #5770
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -22,3 +22,7 @@ claimed-at:
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach-group-b.test.ts
 
 **Notes.** Found by the fixer while resolving #5517 (whose merged tree equals main).
+
+Sent back 2026-10-23 from PR #5770 (branch claude/medicaid-ainaloa): New standing reserve can make have negative but borrowing clips it to zero, underpaying due budget lines; cover the full shortfall and test reserve plus actual payments and debt; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5768 (branch claude/medicaid-counted-unpaid): this is a useful diagnosis-only delivery, but its Done-when table explicitly marks the bug acceptance Not met; route the completed reporting scope to bounded acceptance/evidence and preserve the unpaid-coverage fix as open; finish on that branch, merge main into it first.

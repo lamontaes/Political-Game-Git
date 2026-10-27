@@ -23,10 +23,12 @@ import {
   members,
   openLegislature,
 } from "./modules/legislature";
+import { ageOnDate } from "./kernel/dates";
 import {
   appoint,
-  experienceFromAge,
+  appointmentQualification,
   appointmentsIn,
+  headCandidates,
   issueOrder,
   openExecutive,
   orderableBy,
@@ -116,6 +118,11 @@ describe("the executive's desk", () => {
     for (const row of heads) {
       // A resident of the town, chosen for recorded reasons.
       expect(core.people.get(row.holderId)?.placeId, where).toBe(town);
+      // Grown by their birthday on the day they were appointed.
+      expect(
+        ageOnDate(core.people.get(row.holderId)!.birthDate, row.since),
+        `${where} ${row.title}`,
+      ).toBeGreaterThanOrEqual(18);
       expect(row.reasons[0]!.candidateId).toBe(row.holderId);
       if (row.confirmation)
         expect(row.confirmation.yes).toBeGreaterThan(row.confirmation.no);
@@ -243,24 +250,73 @@ describe("the executive's desk", () => {
     expect(answerIn(api, state, question), where).toBe(-1);
   }, 300_000);
 
-  it("appointment qualification rises smoothly with adult years, so a young adult is eligible but rarely preferred", () => {
-    const date = "2026-06-01";
-    const born = (age: number) => ({ birthDate: `${2026 - age}-01-01` });
-    let previous = experienceFromAge(born(18), date);
-    expect(previous).toBe(0);
+  it("weighs only residents who have turned 18 by their birthday, not by their year of birth (play-stop-20)", () => {
+    // A town with a resident who is 17 on the day, though the year they were
+    // born says 18 (the first of a few draws that has one).
+    const teensOf = ({ core, api }: ReturnType<typeof world>) =>
+      [...core.people.values()].filter(
+        (p) =>
+          p.alive &&
+          p.placeId === lawChain(api).townPlaceId &&
+          ageOnDate(p.birthDate, core.date) === 17 &&
+          Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) ===
+            18,
+      );
+    let drawn = world(all, "adults:0");
+    for (let n = 1; n < 4 && !teensOf(drawn).length; n += 1)
+      drawn = world(all, `adults:${n}`);
+    const { core, api, where } = drawn;
+    const form = townForm(api);
+    const teens = teensOf(drawn);
+    expect(teens.length, where).toBeGreaterThan(0);
+    const posts = ["police-chief", "city-manager", "public-works"];
+    const weighed = new Set(
+      posts.flatMap((post) =>
+        headCandidates(api, post).map((row) => row.candidateId),
+      ),
+    );
+    expect(weighed.size, `${where} (${form})`).toBeGreaterThan(0);
+    for (const teen of teens)
+      expect(
+        weighed.has(teen.id),
+        `${where}: ${teen.id} born ${teen.birthDate}`,
+      ).toBe(false);
+    for (const id of weighed)
+      expect(
+        ageOnDate(core.people.get(id)!.birthDate, core.date),
+        `${where}: ${id}`,
+      ).toBeGreaterThanOrEqual(18);
+  }, 300_000);
+
+  it("appointment qualification rises smoothly with recorded related work, other work and schooling, never with age alone", () => {
+    const person = { traits: {} } as never;
+    const score = (
+      relatedYears: number,
+      workYears: number,
+      schooling?: string,
+    ) =>
+      appointmentQualification(person, {
+        relatedYears,
+        workYears: Math.max(workYears, relatedYears),
+        schooling,
+        recordIds: [],
+      });
+    // No record at all: the base, whatever the person's age.
+    const none = score(0, 0, "no-college");
+    let previous = none;
     let biggestStep = 0;
-    for (let age = 19; age <= 90; age += 1) {
-      const now = experienceFromAge(born(age), date);
+    for (let years = 1; years <= 40; years += 1) {
+      const now = score(years, years, "no-college");
       expect(now).toBeGreaterThan(previous);
       biggestStep = Math.max(biggestStep, now - previous);
       previous = now;
     }
-    // No jump at 25 or anywhere else: the largest one-year gain is small.
-    expect(biggestStep).toBeLessThan(0.02);
-    // A 22-year-old counts (more than zero) but trails a 45-year-old.
-    expect(experienceFromAge(born(22), date)).toBeGreaterThan(0);
-    expect(experienceFromAge(born(22), date)).toBeLessThan(
-      experienceFromAge(born(45), date),
-    );
+    // A sliding scale: no year of work switches the score on.
+    expect(biggestStep).toBeLessThan(0.1);
+    // Years in the field count for more than the same years elsewhere.
+    expect(score(5, 5)).toBeGreaterThan(score(0, 5));
+    // A degree counts for more than some college, which counts for more than none.
+    expect(score(0, 0, "college")).toBeGreaterThan(score(0, 0, "some-college"));
+    expect(score(0, 0, "some-college")).toBeGreaterThan(none);
   });
 });

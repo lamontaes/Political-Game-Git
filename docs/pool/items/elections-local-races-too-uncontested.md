@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #5592
+pr: #5804
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: who runs follows each resident's own reasons (drives, money, traits, standing, the seat), never a fixed share; the real share checks the town's total and never decides one person. One rule, all 56 places: the check draws its places from all 56 and names each place and seed. Sliding scales and causes: nothing flips at a cutoff. Research before building: the Ballotpedia counts are the check and carry their year and URL.
 
-**Done when.** In a played world (buildBenchWorld) in at least six places drawn from all 56, named with their seeds, the share of local contests with no more candidates than seats falls between 50 and 80 percent across the places taken together, shown by contest record ids and a count of filings per contest, with each filing tracing to a candidacy decision; a test in src/core2/who-runs.test.ts or a new calibration test reports the share and the places.
+**Done when.** In a played world (buildBenchWorld) in at least six places drawn from all 56, named with their seeds, the share of local contests with no more candidates than seats falls between 50 and 80 percent across the places taken together, shown by contest record ids and a count of filings per contest, with each filing tracing to a candidacy decision; a test in src/core2/who-runs.test.ts or a new calibration test reports the share and the places. **On screen.** Nothing yet: filed play-local-races-on-screen, which puts it on Politics → Campaigns.
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json, src/core2/who-runs.test.ts
 
@@ -26,3 +26,11 @@ claimed-at:
 Sent back 2026-10-20 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): the calibration test uses twelve hand-picked fixed seeds whose pooled share happens to land in the band (the first six give 94 percent), so it does not test the engine on a random draw, and it counts multi-seat contests by candidates not seats; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): The random draws address the earlier fixed-seed feedback, but the item Done when still requires the observed pooled share between 50 and 80 percent, with contest ids, filing counts and decision traces. The latest proof reports 42 of 46 uncontested (91 percent), and the new test passes that by requiring only the 99-percent interval to overlap a wider band. That does not establish the named acceptance. Finish the causal calibration and named contest/filing proof, or separate the completed measurement work from the still-open calibration item; also update the stale body/title claims about twelve places and a 50-80-percent observed share.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): the body claims measurement only/no engine change, but the diff also changes housing-homeless.ts and adds a rehousing test/declaration; no bounded measurement item or Done-when evidence table is supplied; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5804 (branch claude/local-races-closeout): The calibration test omits contest IDs, filing counts and candidacy-decision traces, permits 85 percent versus the required 80-percent ceiling, and lacks a row-per-acceptance evidence table; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): unrelated housing scope removed, but pooled calibration share and contest-to-filing decision proof remain explicitly NOT MET; finish acceptance or supply a valid bounded reporting specification; finish on that branch, merge main into it first.
+
+Oct 25 audit: From the dropped elections-local-races-share-above-band: pooled 94 of 111 local seats uncontested (85 percent) on Oct 20; try the staying-out pull at 3.8.

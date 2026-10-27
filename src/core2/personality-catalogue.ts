@@ -237,10 +237,17 @@ const CATALOGUE_EFFECTS: TraitPack["effects"] = [
   ...personalityTraitEffects(),
 ];
 
-export function personalityCataloguePack(): TraitPack {
+/** The personality traits as a pack; the decisions that lean on them are added by the build that declares those decisions. */
+export function personalityTraitPack(
+  effects: TraitPack["effects"] = [],
+): TraitPack {
   return {
     pack: PERSONALITY_PACK,
     traits: CATALOGUE_SCALES.map(declarationFor),
-    effects: CATALOGUE_EFFECTS,
+    effects,
   };
+}
+
+export function personalityCataloguePack(): TraitPack {
+  return personalityTraitPack(CATALOGUE_EFFECTS);
 }

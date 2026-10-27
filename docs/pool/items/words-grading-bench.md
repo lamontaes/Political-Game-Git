@@ -3,7 +3,7 @@ id: words-grading-bench
 title: "Order 2: the grading bench, every line a data point"
 area: words
 kind: feature
-priority: 1
+priority: 2
 size: L
 status: open
 claimed-by:

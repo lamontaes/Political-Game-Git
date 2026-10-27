@@ -1,0 +1,47 @@
+{
+  "id": "bls-2025-union-public-sector",
+  "publisher": "U.S. Bureau of Labor Statistics",
+  "vintage": "2025 annual average (11 months, October not collected)",
+  "table": "Union Members -- 2025 (news release USDL, February 18, 2026), summary",
+  "title": "Union Members Summary, 2025",
+  "universe": "Employed wage and salary workers",
+  "geography": "United States",
+  "sourceUrl": "https://www.bls.gov/news.release/union2.nr0.htm",
+  "retrievedOn": "2026-10-23",
+  "limits": [
+    "National only; state membership rates for all workers are already in data/research/business/bls-union-2025.json (Table 5). BLS does not publish public-sector rates by state in this release.",
+    "The release says 2025 estimates exclude October and are not strictly comparable with earlier years; the 2024 rate is the 2025 rate less the stated change.",
+    "Read through cloud WebFetch (the page answers curl with 403); quotes are the page's sentences."
+  ],
+  "rows": {
+    "publicSectorMembersPct": {
+      "value": 32.9,
+      "low": 32.2,
+      "high": 32.9,
+      "unit": "percent of employed",
+      "quote": "The public-sector union membership rate, at 32.9 percent, increased by 0.7 percentage point over the year."
+    },
+    "privateSectorMembersPct": {
+      "value": 5.9,
+      "low": 5.9,
+      "high": 5.9,
+      "unit": "percent of employed",
+      "quote": "The union membership rate in the private sector, at 5.9 percent, was unchanged over the year."
+    },
+    "allMembersPct": {
+      "value": 10.0,
+      "unit": "percent of employed",
+      "quote": "The union membership rate ... was 10.0 percent in 2025, little changed from the prior year"
+    },
+    "medianWeeklyUnionMembers": {
+      "value": 1404,
+      "unit": "USD/week",
+      "quote": "union members had median usual weekly earnings of $1,404 in 2025"
+    },
+    "medianWeeklyNonunion": {
+      "value": 1174,
+      "unit": "USD/week",
+      "quote": "nonunion workers had median usual weekly earnings of $1,174."
+    }
+  }
+}

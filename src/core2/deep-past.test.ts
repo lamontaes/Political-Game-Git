@@ -3,6 +3,7 @@ import { corePlaceStateIdentities } from "./place-lookup";
 import { SeededRng } from "./kernel/rng";
 import {
   buildDeepPast,
+  campusSpokenName,
   DEFAULT_DEEP_PAST_DATA,
   type DeepPastFieldSource,
 } from "./deep-past";
@@ -433,6 +434,45 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     ).length;
     expect(faithGaps[p("zero")]).toContain(`faith: ${unresolvedCount} people`);
     expect(buildDeepPast(second)).toEqual(second);
+  });
+
+  it("dates a teen's high school after the deep past's boundary when it began before the opening", () => {
+    // The playtest's sibling: born February 10, 2007, met at a January 2025 opening.
+    const opening = "2025-01-20";
+    const boundary = DEFAULT_DEEP_PAST_DATA.throughExclusive;
+    const before = {
+      ...input(),
+      startedAt: opening,
+      people: [person("person:senior", "2007-02-10")],
+    };
+    const senior = buildDeepPast(before).people[p("zero")]!;
+    const schools = senior.pastFacts!.filter(
+      (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.schools.kind,
+    ) as PastFact[];
+    const high = schools.find((fact) => fact.facts?.stage === "high")!;
+    expect(high.date >= boundary && high.date < opening).toBe(true);
+    expect(high.facts?.cohortYear).toBe("2021");
+    // Only school cohorts cross the boundary; eras and the rest stop there.
+    for (const fact of senior.pastFacts!)
+      if (fact.kind !== DEFAULT_DEEP_PAST_DATA.schools.kind)
+        expect(fact.date < boundary).toBe(true);
+  });
+
+  it("writes the directory's shortened campus names out, from the end backward", () => {
+    const spoken = (name: string) =>
+      campusSpokenName(name, DEFAULT_DEEP_PAST_DATA.schools);
+    expect(spoken("ANSON H S")).toBe("ANSON HIGH SCHOOL");
+    expect(spoken("ANSON EL")).toBe("ANSON ELEMENTARY SCHOOL");
+    expect(spoken("ANSON MIDDLE")).toBe("ANSON MIDDLE SCHOOL");
+    expect(spoken("Wexford El Sch")).toBe("Wexford Elementary School");
+    expect(spoken("HELENA ELEM.")).toBe("HELENA ELEMENTARY SCHOOL");
+    expect(spoken("RICE JH")).toBe("RICE JUNIOR HIGH SCHOOL");
+    expect(spoken("Eastern MS")).toBe("Eastern Middle School");
+    // A middle initial is a name, not an ending.
+    expect(spoken("James H Bean School")).toBe("James H Bean School");
+    expect(spoken("Helen S Dunn Elementary School")).toBe(
+      "Helen S Dunn Elementary School",
+    );
   });
 
   it("adapts heterogeneous era facts without undefined values or weakened source tags", () => {

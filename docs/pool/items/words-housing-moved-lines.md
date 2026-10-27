@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr: #5708
-blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -26,3 +26,9 @@ claimed-at:
 Sent back 2026-10-20 from PR #5178 (branch claude/political-game-pool-khi2o3): edits src/director by a session that is not the Words session; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5708 (branch claude/political-game-pool-yucp92-bp): src/director/data/situation-types.json:133 is a Words-owned path, and the body explicitly identifies this as a non-Words pool-session edit. The merger morning check refuses it. The body also says the required departure scene in an ordinary drawn played world was not proven, and the move-into-home words remain unbuilt. Route the change through Words and provide the named proof.; finish on that branch, merge main into it first.
+
+Looked at Oct 21 (claude, Sonnet, non-Words session): not taken. The two send-backs (PRs #5178 and #5708) both refused edits to Words-owned paths (`src/director/`, `data/english/parts/`) from a non-Words session, so this belongs to the Words line. Claim released.
+
+Claim released by the Oct 25 audit: no push in 72 hours (branch claude/political-game-pool-yucp92-bp last pushed Oct 20; PR #5708 stays open for the next builder).
+
+Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).

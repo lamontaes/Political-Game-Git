@@ -4,6 +4,13 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { corePlaceByKey } from "./place-lookup";
 import { withHousing } from "./modules/housing";
+import housingData from "./data/housing/housing.json" with { type: "json" };
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
+import { residentsRuntime } from "./modules/residents";
+import type { CoreState } from "./types";
 
 type DrawnPlace = ReturnType<typeof drawPlace>;
 import type { CoreInput, Source } from "./types";
@@ -17,13 +24,16 @@ const src: Source = {
   estimatedFrom: "Housing opening fixture only.",
 };
 
-function input(place: DrawnPlace): CoreInput {
+function input(place: DrawnPlace, townHomes = 12): CoreInput {
   const town = corePlaceByKey(place.key)!.context.jurisdiction.id;
   // The opening also generates the county, with more households than the town.
   const county = "place:county-fixture";
   const homes = [
-    ...Array.from({ length: 12 }, (_, i) => ({ i, placeId: town })),
-    ...Array.from({ length: 40 }, (_, i) => ({ i: i + 12, placeId: county })),
+    ...Array.from({ length: townHomes }, (_, i) => ({ i, placeId: town })),
+    ...Array.from({ length: 40 }, (_, i) => ({
+      i: i + townHomes,
+      placeId: county,
+    })),
   ];
   return {
     seed: "housing-opening-fixture",
@@ -133,4 +143,69 @@ describe(`opening homes in ${place.name} (seed ${seed})`, () => {
     );
     expect(leases.every((row) => row.amountMinor > 0)).toBe(true);
   });
+});
+
+describe(`a place whose survey reads all owners (seed ${seed})`, () => {
+  it("still has renters, the share pulled toward its county's by sample size", () => {
+    const geoids = new Set<string>(
+      Object.entries(housingData.placeTenure as Record<string, number[]>)
+        .filter(([, [homes, owned]]) => homes >= 100 && owned === homes)
+        .map(([geoid]) => geoid),
+    );
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 400; attempt++) {
+      const drawn = drawPlace(seed, `core2-housing-allowned-${attempt}`);
+      const geoid = corePlaceByKey(drawn.key)?.sourceGeoid;
+      if (!tried.includes(drawn.key)) tried.push(drawn.key);
+      if (!geoid || !geoids.has(geoid)) continue;
+      const dwellings = dwellingsOf(withHousing(input(drawn, 100)));
+      expect(
+        dwellings.some((row) => row[1] === "rent"),
+        `${drawn.name} (${drawn.key}) has no renters, seed ${seed}`,
+      ).toBe(true);
+      return;
+    }
+    throw new Error(
+      `no drawn place reads all owned in 400 draws; places tried: ${tried.join(", ")} (seed ${seed})`,
+    );
+  });
+});
+
+describe(`the played bench world of a place whose survey reads all owned (seed ${seed})`, () => {
+  it("has counted renters whose rent flows are settled in the first weeks", () => {
+    const geoids = new Set<string>(
+      Object.entries(housingData.placeTenure as Record<string, number[]>)
+        .filter(([, [homes, owned]]) => homes >= 100 && owned === homes)
+        .map(([geoid]) => geoid),
+    );
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 400; attempt++) {
+      const drawn = drawPlace(seed, `core2-housing-allowned-world-${attempt}`);
+      const geoid = corePlaceByKey(drawn.key)?.sourceGeoid;
+      if (!tried.includes(drawn.key)) tried.push(drawn.key);
+      if (!geoid || !geoids.has(geoid)) continue;
+      const world = buildBenchWorld(drawn.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: drawn.key,
+      });
+      const core = world.core as unknown as CoreState;
+      advanceCore(core, addDays(makeIsoDate(core.date), 40));
+      const rt = residentsRuntime(core)!;
+      const rents = [...rt.flows.values()].filter(
+        (flow) =>
+          flow.id.startsWith("rent:") && rt.households.has(flow.id.slice(5)),
+      );
+      const where = `${drawn.name} (${drawn.key}), place seed ${drawn.seed}, test seed ${seed}`;
+      expect(rents.length, `counted rent flows in ${where}`).toBeGreaterThan(0);
+      const paid = rents.filter((flow) => (flow.lastPaidMinor ?? 0) > 0);
+      expect(
+        paid.length,
+        `counted rent flows settled in ${where}: first is ${rents[0]!.id}`,
+      ).toBeGreaterThan(0);
+      return;
+    }
+    throw new Error(
+      `no drawn place reads all owned in 400 draws; places tried: ${tried.join(", ")} (seed ${seed})`,
+    );
+  }, 600_000);
 });

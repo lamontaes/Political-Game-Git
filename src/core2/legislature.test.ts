@@ -58,6 +58,8 @@ import {
   votesOn,
   authorityFor,
   askToCarry,
+  answerCarryAsk,
+  carryAsksAwaiting,
   executiveOf,
   proposalRight,
   proposeAsExecutive,
@@ -362,7 +364,7 @@ describe(
         )
         .sort();
       const tried: string[] = [];
-      for (let attempt = 0; attempt < 6; attempt += 1) {
+      for (let attempt = 0; attempt < 30; attempt += 1) {
         const { api, key } = town(
           states,
           `project:${attempt}`,
@@ -386,9 +388,19 @@ describe(
               amountMinor: 10_000,
             }),
           );
+        // An appropriations bill is carried by the chamber's majority: a
+        // minority member's bill dies in a committee the majority chairs, by
+        // their recorded party positions. The sponsor is the first member on
+        // the majority side.
+        const seats = members(api, body);
+        const majority = Math.sign(
+          seats.reduce((sum, t) => sum + partySide(t.party), 0),
+        );
+        const sponsorTerm =
+          seats.find((t) => partySide(t.party) === majority) ?? seats[0]!;
         const bill = appropriationsWithProjects(api, {
           bodyOfficeId: body,
-          sponsorId: memberKey(members(api, body)[0]!),
+          sponsorId: memberKey(sponsorTerm),
         });
         const after = requests.map((r) => projectRequestOf(api, r.id)!);
         // Every request is settled on standing, with its reasons kept.
@@ -404,6 +416,22 @@ describe(
         const included = after.filter((r) => r.status === "included");
         if (!bill || !included.length) {
           tried.push(`${key}: none included`);
+          continue;
+        }
+        // The vote follows the members' recorded positions: a chamber whose
+        // members mostly stand against a spending bill buries it in committee
+        // (the chair's own position decides whether it is heard), so a town is
+        // a place to prove the grant in only where more members stand for the
+        // bill than against it. The others are named, with their count.
+        const stand = bill
+          ? members(api, body).filter(
+              (t) => memberPosition(api, bill.id, memberKey(t)).total > 0,
+            ).length
+          : 0;
+        if (bill && stand * 2 <= members(api, body).length) {
+          tried.push(
+            `${key}: ${stand} of ${members(api, body).length} members stand for it`,
+          );
           continue;
         }
         const lines = bill.provisions.filter((p) => p.recipientId === city.id);
@@ -1084,6 +1112,58 @@ describe("asking a member to carry a bill", () => {
       api.state.relationships.get([asker.id, member].sort().join(":"))?.level ??
         0,
     ).toBeGreaterThan(before);
+  });
+
+  it("an ask to the player waits for their answer: agreeing files the bill, declining files nothing", () => {
+    const states = Object.keys(authority).sort();
+    const { core, api, council } = town(states, "carry-player", withProvision);
+    const player = council[0]!.holder!.personId!;
+    (core as unknown as { playerId: string }).playerId = player;
+    const seated = new Set(council.map((s) => s.holder?.personId));
+    const askers = [...core.people.values()]
+      .filter((p) => p.alive && !seated.has(p.id) && p.tier !== "husk")
+      .sort(
+        (a, b) => b.knownIds.size - a.knownIds.size || a.id.localeCompare(b.id),
+      )
+      .slice(0, 2);
+    const provision = PLATFORM_QUESTIONS.map((question): Provision => ({
+      kind: "policy-question",
+      question,
+      value: 1,
+    })).find((p) => authorityFor(api, p).allowed)!;
+    const bills = () =>
+      api.moduleState(LEGISLATURE_MODULE_ID).table("bills").size;
+    const before = bills();
+    const [yes, no] = askers.map((asker) =>
+      askToCarry(api, {
+        askerId: asker.id,
+        memberId: player,
+        bodyOfficeId: council[0]!.office.id,
+        provisions: [provision],
+      }),
+    ) as [ReturnType<typeof askToCarry>, ReturnType<typeof askToCarry>];
+    // The engine made no choice for the player: nothing filed, both waiting.
+    expect(yes.awaitingPlayer, yes.id).toBe(true);
+    expect(yes.billId, yes.id).toBeNull();
+    expect(bills(), "bills filed before the player answers").toBe(before);
+    expect(carryAsksAwaiting(api).map((r) => r.id)).toEqual(
+      [yes.id, no.id].sort(),
+    );
+    // Agreeing files the bill with the player as sponsor and the asker as requestedBy.
+    const agreed = answerCarryAsk(api, yes.id, true);
+    const bill = billOf(api, agreed.billId!) as ReturnType<typeof billOf> & {
+      requestedBy?: string;
+    };
+    expect(bill.sponsorId, agreed.id).toBe(player);
+    expect(bill.requestedBy, agreed.id).toBe(yes.askerId);
+    expect(bills()).toBe(before + 1);
+    // Declining files nothing, and closes the ask.
+    const declined = answerCarryAsk(api, no.id, false);
+    expect(declined.billId, declined.id).toBeNull();
+    expect(declined.carried).toBe(false);
+    expect(bills()).toBe(before + 1);
+    expect(carryAsksAwaiting(api)).toEqual([]);
+    expect(() => answerCarryAsk(api, yes.id, true)).toThrow();
   });
 
   it("the executive brings a bill through the member most inclined to carry it", () => {

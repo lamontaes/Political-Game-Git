@@ -27,6 +27,7 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { GovernmentRow } from "./budgets";
 import { ownerOf } from "./business";
+import { CORRUPTION_MODULE_ID, considerBribe } from "./corruption";
 import { governingMembers, memberKey } from "./legislature";
 
 export const CONTRACTS_MODULE_ID = "contracts";
@@ -53,6 +54,17 @@ export interface ContractAwardRow {
   /** Each member's first choice, by member key. */
   readonly votes: Readonly<Record<string, string>>;
   readonly tally: Readonly<Record<string, number>>;
+  /** Bribes a bidder offered a member for this award, taken or refused (corruption.ts crime ids). */
+  readonly bribes: readonly {
+    readonly crimeId: string;
+    readonly memberId: string;
+    readonly organizationId: string;
+    readonly taken: boolean;
+  }[];
+  /** Taken bribes whose member then ranked the briber's firm first: the votes a bribe took part in. */
+  readonly boughtVotes: readonly string[];
+  /** The firm the body would have chosen had no bribe been taken; absent when none was. */
+  readonly withoutBribes?: string;
   readonly paidMinor: number;
   readonly paymentIds: readonly string[];
 }
@@ -119,57 +131,108 @@ function award(
   const owners = new Map(
     firms.map((f) => [f.organizationId, ownerOf(api, f.organizationId)]),
   );
-  const totals = new Map(firms.map((f) => [f.organizationId, 0]));
-  const tally = new Map(firms.map((f) => [f.organizationId, 0]));
-  const votes: Record<string, string> = {};
+  const bribes: ContractAwardRow["bribes"][number][] = [];
+  // A bidder's owner may offer a member a bribe for the award, and the member
+  // decides whether to take it (corruption.ts, each by their own traits,
+  // money and tie). The favor is worth a year of the work.
+  const given = new Map<string, number>();
+  if (api.state.modules.has(CORRUPTION_MODULE_ID)) {
+    const accounts = state.cashJournal.residualAccountByOwner;
+    for (const member of members) {
+      const person = member.personId
+        ? state.people.get(member.personId)
+        : undefined;
+      if (!person || !accounts.has(person.id)) continue;
+      for (const firm of firms) {
+        const ownerId = owners.get(firm.organizationId);
+        if (!ownerId || ownerId === person.id || !accounts.has(ownerId))
+          continue;
+        const crime = considerBribe(api, {
+          offererId: ownerId,
+          officialId: person.id,
+          stakeMinor: input.monthlyMinor * 12,
+          subjectId: `contract:${gov.id}:${line}:${api.state.date}`,
+        });
+        if (!crime?.offered) continue;
+        bribes.push({
+          crimeId: crime.id,
+          memberId: person.id,
+          organizationId: firm.organizationId,
+          taken: crime.taken,
+        });
+        if (crime.taken)
+          given.set(
+            `${person.id}|${firm.organizationId}`,
+            Math.log1p(
+              crime.amountMinor / (person.livingCostDailyMinor * 30 + 1),
+            ),
+          );
+      }
+    }
+  }
   // With no one seated the body's rules alone decide: price and workforce.
   const voters = members.length ? members : [null];
   const traitWeight = decisionTraitWeight(state, DECISION);
-  for (const member of voters) {
-    const person = member?.personId
-      ? state.people.get(member.personId)
-      : undefined;
-    const lean = person
-      ? decisionLean(
-          state,
-          person,
-          DECISION,
-          "award-known-firm",
-          "award-lowest-bid",
+  const count = (withBribes: boolean) => {
+    const totals = new Map(firms.map((f) => [f.organizationId, 0]));
+    const tally = new Map(firms.map((f) => [f.organizationId, 0]));
+    const votes: Record<string, string> = {};
+    for (const member of voters) {
+      const person = member?.personId
+        ? state.people.get(member.personId)
+        : undefined;
+      const lean = person
+        ? decisionLean(
+            state,
+            person,
+            DECISION,
+            "award-known-firm",
+            "award-lowest-bid",
+          )
+        : 0;
+      let best: { id: string; score: number } | undefined;
+      for (const firm of firms) {
+        const price = Math.log(mean.wage / Math.max(firm.wageDailyMinor, 1));
+        const capacity = Math.log(firm.staff / mean.staff);
+        const ownerId = owners.get(firm.organizationId);
+        const tie =
+          person && ownerId && ownerId !== person.id
+            ? closenessBetween(state, person.id, ownerId)
+            : 0;
+        const score =
+          c("contractPriceWeight") * (1 - traitWeight * lean) * price +
+          c("contractCapacityWeight") * capacity +
+          c("contractTieWeight") * (1 + traitWeight * lean) * tie +
+          (withBribes && person
+            ? c("contractBribeWeight") *
+              (given.get(`${person.id}|${firm.organizationId}`) ?? 0)
+            : 0);
+        totals.set(
+          firm.organizationId,
+          totals.get(firm.organizationId)! + score,
+        );
+        if (
+          !best ||
+          score > best.score ||
+          (score === best.score && firm.organizationId < best.id)
         )
-      : 0;
-    let best: { id: string; score: number } | undefined;
-    for (const firm of firms) {
-      const price = Math.log(mean.wage / Math.max(firm.wageDailyMinor, 1));
-      const capacity = Math.log(firm.staff / mean.staff);
-      const ownerId = owners.get(firm.organizationId);
-      const tie =
-        person && ownerId && ownerId !== person.id
-          ? closenessBetween(state, person.id, ownerId)
-          : 0;
-      const score =
-        c("contractPriceWeight") * (1 - traitWeight * lean) * price +
-        c("contractCapacityWeight") * capacity +
-        c("contractTieWeight") * (1 + traitWeight * lean) * tie;
-      totals.set(firm.organizationId, totals.get(firm.organizationId)! + score);
-      if (
-        !best ||
-        score > best.score ||
-        (score === best.score && firm.organizationId < best.id)
-      )
-        best = { id: firm.organizationId, score };
+          best = { id: firm.organizationId, score };
+      }
+      tally.set(best!.id, tally.get(best!.id)! + 1);
+      if (member) votes[memberKey(member)] = best!.id;
     }
-    tally.set(best!.id, tally.get(best!.id)! + 1);
-    if (member) votes[memberKey(member)] = best!.id;
-  }
-  const winner = firms
-    .map((f) => f.organizationId)
-    .sort(
-      (a, b) =>
-        tally.get(b)! - tally.get(a)! ||
-        totals.get(b)! - totals.get(a)! ||
-        a.localeCompare(b),
-    )[0]!;
+    const winner = firms
+      .map((f) => f.organizationId)
+      .sort(
+        (a, b) =>
+          tally.get(b)! - tally.get(a)! ||
+          totals.get(b)! - totals.get(a)! ||
+          a.localeCompare(b),
+      )[0]!;
+    return { winner, tally, votes };
+  };
+  const { winner, tally, votes } = count(true);
+  const without = given.size ? count(false).winner : winner;
   const row: ContractAwardRow = {
     id: `contract:${gov.id}:${line}:${api.state.date}`,
     governmentId: gov.id,
@@ -185,6 +248,11 @@ function award(
     })),
     votes,
     tally: Object.fromEntries(tally),
+    bribes,
+    boughtVotes: bribes
+      .filter((b) => b.taken && votes[b.memberId] === b.organizationId)
+      .map((b) => b.crimeId),
+    ...(without !== winner ? { withoutBribes: without } : {}),
     paidMinor: 0,
     paymentIds: [],
   };

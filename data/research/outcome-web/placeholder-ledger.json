@@ -25,6 +25,18 @@
       "estimatedFrom": "ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 6.365 unlinked passenger trips per resident a year, the median of the 52 recorded 2024 state, D.C. and Puerto Rico rates. Source: FTA National Transit Database 2024 (https://data.transportation.gov/d/ekg5-frzt); use the recorded rates because matching 2024 population denominators for these four territories are absent from this calibration."
     },
     {
+      "key": "traffic.vehicle-miles-territory-median",
+      "sourceFile": "data/research/outcome-web/place-outcome-bases-2024.json",
+      "measure": "traffic.vehicle-miles",
+      "jurisdictionKeys": ["US-AS", "US-GU", "US-MP", "US-VI"],
+      "gap": "FHWA Highway Statistics 2024 Table VM-2 and the Census Bureau's Vintage 2024 state population table report no vehicle miles or resident count for American Samoa, Guam, the Northern Mariana Islands or the U.S. Virgin Islands.",
+      "value": 10130,
+      "unit": "vehicle miles traveled a year per resident",
+      "recordedPlaceCount": 52,
+      "estimate": "Use the median of the 52 recorded starting rates; these are estimated territory rates, not measured driving.",
+      "estimatedFrom": "ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 10,130 vehicle miles traveled per resident a year, the median of the 52 recorded 2024 state, D.C. and Puerto Rico rates. Source: FHWA Highway Statistics 2024 Table VM-2 (https://www.fhwa.dot.gov/policyinformation/statistics/2024/vm2.cfm) over Census Bureau Vintage 2024 July 1 estimates (NST-EST2024-ALLDATA); the four island areas are absent from both."
+    },
+    {
       "key": "firearm-homicide-resident-context-estimate",
       "sourceFile": "data/research/outcome-web/landing-plan.json",
       "linkKeys": [

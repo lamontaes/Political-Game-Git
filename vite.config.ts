@@ -3,7 +3,6 @@ import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
 import { renameSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
-import react from "@vitejs/plugin-react";
 import { configDefaults, defineConfig, type Plugin } from "vitest/config";
 import {
   buildIdentityDefines,
@@ -49,7 +48,6 @@ export default defineConfig({
     playIsIndex(),
     runtimeArtBuild(),
     runtimeContentOrigin(),
-    react(),
     sites(),
     identifiedBuild(),
   ],
@@ -61,13 +59,6 @@ export default defineConfig({
   optimizeDeps: {
     noDiscovery: true,
     holdUntilCrawlEnd: false,
-    include: [
-      "react",
-      "react-dom",
-      "react-dom/client",
-      "react/jsx-runtime",
-      "react/jsx-dev-runtime",
-    ],
   },
   build: {
     outDir: "dist/client",
@@ -96,9 +87,8 @@ export default defineConfig({
       // Immutable private pack authoring snapshots also use node:test.
       // Their original validators run with Node, not through Vitest discovery.
       "art/authoring/**",
-      // These four use `node:test` and run with `node --test` (see package.json
+      // These three use `node:test` and run with `node --test` (see package.json
       // and the workflows), so Vitest finds no suite in them.
-      "scripts/law-consequence-modules/generate-manifest.test.mjs",
       "scripts/secrets/scan-tracked-secrets.test.mjs",
       "scripts/trait-effects/generate-manifest.test.mjs",
       "src/bench/place-selection.test.mjs",

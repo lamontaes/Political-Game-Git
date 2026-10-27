@@ -1,4 +1,4 @@
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { addDays } from "../kernel/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
@@ -282,10 +282,7 @@ export const LIFE_MODULE: CoreModule = {
       api.stopgap("SG-P8-household-shared-time-contact");
       const horizon = definition.parameters.horizon;
       if (!horizon) throw new Error("Company need requires a tagged horizon.");
-      const elapsed = daysBetween(
-        makeIsoDate(actor.lastContactDate),
-        makeIsoDate(api.state.date),
-      );
+      const elapsed = daysBetweenText(actor.lastContactDate, api.state.date);
       return Math.min(p(api, "one"), positive(api, elapsed / p(api, horizon)));
     },
     "stress-pressure": (api, actor) => positive(api, actor.affect.stress),
@@ -299,7 +296,6 @@ export const LIFE_MODULE: CoreModule = {
     },
     self: (api, actor, action) => [offer(api, actor, action, actor.id)],
     "known-person": (api, actor, action) => {
-      api.stopgap("SG-P8-school-acquaintance-contact-frequency");
       return [...actor.knownIds]
         .filter((id) => api.state.people.get(id)?.alive)
         .map((id) => offer(api, actor, action, id));
@@ -310,12 +306,7 @@ export const LIFE_MODULE: CoreModule = {
         .map((id) => offer(api, actor, action, id)),
     "known-group": knownPublicTargets,
     "public-meeting-place": knownPublicTargets,
-    "known-office": (api, actor, action) =>
-      knownPublicTargets(api, actor, action).filter(
-        (chosen) =>
-          (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
-            zero(api)) > zero(api),
-      ),
+    "known-office": knownPublicTargets,
     "public-directory": (api, actor, action) => {
       api.stopgap("SG-P8-directory-company-substitution");
       const out: ActOffer[] = [];
@@ -331,6 +322,12 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   eligibilityRules: {
+    // Someone holds a staff job at the office to receive the visit, on the day
+    // it is offered and again on a planned day: an office's staff follow its
+    // jobs, so the clerk can leave between the plan and the visit.
+    "office-staffed": (api, _actor, chosen) =>
+      (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
+        zero(api)) > zero(api),
     "not-member": (api, actor, chosen) =>
       !api.state.memberships.has(`${actor.id}:${chosen.targetId}`),
     "has-drive": (_api, actor, chosen) =>

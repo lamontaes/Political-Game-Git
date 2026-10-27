@@ -7,7 +7,8 @@ import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent } from "../core2/state";
 import { createDirector } from "./ledger";
-import { composeScene, SCENE_WORDS } from "./scene";
+import { composeScene } from "./scene";
+import { SCENE_WORDS } from "../english/scene-words";
 
 // Owner, Oct 15 evening: the narrator sets the scene in a few sentences. The
 // sentence about what is happening comes from the staged situation's type,

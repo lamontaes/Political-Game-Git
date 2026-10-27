@@ -1,0 +1,31 @@
+{
+  "id": "nchs-db240-interpregnancy-2014",
+  "publisher": "National Center for Health Statistics, CDC",
+  "vintage": "2014 births",
+  "table": "NCHS Data Brief No. 240 (April 2016)",
+  "title": "Short Interpregnancy Intervals in 2014: Differences by Maternal Demographic Characteristics",
+  "authors": "Marie E. Thoma, Casey E. Copen and Sharon E. Kirmeyer",
+  "universe": "Second and higher-order singleton births in 2014 to residents of the 47 states and the District of Columbia that used the 2003 revision of the birth certificate (about 96% of U.S. births)",
+  "geography": "United States (47 states and DC)",
+  "sourceUrl": "https://www.cdc.gov/nchs/products/databriefs/db240.htm",
+  "retrievedOn": "2026-10-24",
+  "limits": "The interpregnancy interval runs from the previous live birth to the conception of this one. The median is published only as a band of months, not a point. National only: no state figures. Read through the fetch tool; a plain download from the cloud returns Access Denied.",
+  "medianInterval": {
+    "lowMonths": 24,
+    "highMonths": 29,
+    "quote": "The median interpregnancy interval was 24–29 months, or 2–2.5 years."
+  },
+  "shortIntervals": [
+    {
+      "label": "Under 18 months",
+      "percent": 28.9,
+      "quote": "Overall, 28.9% of U.S. mothers who had a second or higher-order birth in 2014 had a short interval of less than 18 months."
+    },
+    {
+      "label": "12 to 17 months",
+      "percent": 13.4,
+      "quote": "Interpregnancy intervals of 12–17 months (13.4%) were the most common of all short interval categories."
+    }
+  ],
+  "use": "renewalTimingPeakYears: the timing pull peaks at the middle of the median band, 24 up to 30 months, so 27 months or 2.25 years; the band's own 2 to 2.5 years is the spread. The share under 18 months is the band the year run checks the town's births against (scripts/research/people-year.ts)."
+}

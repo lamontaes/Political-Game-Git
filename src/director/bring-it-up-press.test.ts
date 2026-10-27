@@ -8,7 +8,7 @@ import { storyOfReadEvent } from "../core2/modules/news";
 import { printedStoryOf } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import { bringItUp, changesKnownTo } from "./bring-it-up";
-import { questionTopic } from "./question-names";
+import { questionTopic } from "../english/policy-names";
 import { properName } from "./words";
 
 // A neighbor says aloud what they read in the paper (pool item

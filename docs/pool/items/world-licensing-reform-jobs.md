@@ -7,6 +7,8 @@ priority: 3
 size: M
 status: open
 source: effect-web-poverty; stopgap SG-WEB-poverty-licensing-no-engine
+claimed-by:
+claimed-at:
 ---
 
 **What.** The jobs engine matches seekers to jobs without any licensing requirement, so the law "reduce occupational licensing" reaches no one's pay. Give licensed occupations a requirement row in the jobs data, and let the match read the law row in force: where the license is repealed, seekers without it are matched to those jobs and their pay enters household income. The poverty measure (world-metrics povertyShare) then moves from incomes with no web link.
@@ -18,3 +20,5 @@ source: effect-web-poverty; stopgap SG-WEB-poverty-licensing-no-engine
 **Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/.
 
 **Notes.** From the poverty family of the effect web. The link licensing-reform-to-poverty no longer runs on the ledger.
+
+Looked at Oct 21 (claude): not built. `src/core2/modules/jobs.ts` and `src/core2/data/jobs/` hold no licensing field at all, and no person record carries a license (nobody "has" or "lacks" one), so a repeal has nothing to change in a match today: "seekers without it are matched" needs a held-license fact first. The order is (1) a sourced per-occupation licensing table (share of workers licensed by occupation and by state, from the BLS/CareerOneStop licensing data and Kleiner and Soltas), as a research item; (2) a license held or not on each worker, derived from their schooling and job history so it is one model for both tiers; (3) the match reading the law row in force. Filing (1) and (2) as their own items would let this one follow. Claim released.
