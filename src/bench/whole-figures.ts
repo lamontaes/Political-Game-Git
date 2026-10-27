@@ -379,7 +379,7 @@ export function figureOn(
   const widthPercent =
     (heightPercent * (chosen.width / chosen.height)) / BACKDROP_ASPECT;
   const mirrored = flips(chosen, towardOf(spot, turn));
-  const leftPercent = spot.x - widthPercent / 2;
+  const leftPercent = inFrame(spot.x - widthPercent / 2, widthPercent);
   // The shadow sits on the foot point, under the feet as drawn (mirrored
   // with the figure), unless a desk or counter hides the feet.
   const stance = stanceOf(chosen);
@@ -433,8 +433,18 @@ function personPercent(
     (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
     stage.metersPercent;
   const horizonY = spot.floorHorizonY ?? stage.horizonY;
-  return rules.heightMeters[band] * meters * (spot.y - horizonY);
+  // The one framing rule: a close-up room never puts the head above the frame.
+  return Math.min(
+    rules.heightMeters[band] * meters * (spot.y - horizonY),
+    spot.y - HEADROOM,
+  );
 }
+
+/** Percent of the picture kept above a standing head (presentation, TUNABLE by eye). */
+const HEADROOM = 2;
+/** A figure's left edge, moved in from the picture's sides where its spot would cut it. */
+const inFrame = (left: number, width: number) =>
+  Math.max(0, Math.min(left, 100 - width));
 
 /** Turned toward who they're with; alone, the spot's own facing, else the middle. */
 function towardOf(spot: StagingSpot, turn: Turn): "left" | "right" {
@@ -468,7 +478,7 @@ export function placeSeated(
   const widthPercent =
     (heightPercent * (seated.width / seated.height)) / BACKDROP_ASPECT;
   const hip = seated.seatY ?? seated.height * SEATED_HIP;
-  const leftPercent = spot.x - widthPercent / 2;
+  const leftPercent = inFrame(spot.x - widthPercent / 2, widthPercent);
   const shadowWidth = widthPercent * SEATED_SHADOW;
   const shadowHeight = shadowWidth * SHADOW_FLATNESS * BACKDROP_ASPECT;
   const hidden =
@@ -490,7 +500,7 @@ export function placeSeated(
       shadow: hidden
         ? null
         : {
-            leftPercent: spot.x - shadowWidth / 2,
+            leftPercent: leftPercent + widthPercent / 2 - shadowWidth / 2,
             topPercent: spot.y - shadowHeight / 2,
             widthPercent: shadowWidth,
             heightPercent: shadowHeight,

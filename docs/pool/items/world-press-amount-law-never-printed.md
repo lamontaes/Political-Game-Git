@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/press-amount-law
-pr:
+pr: #6247
 blocked-on:
 source: "found by the words-and-scenes lead, Oct 27, building words-live-news-worded (the owner's Oct 26 playtest: Ohio's minimum wage went from $10.70 to $7.25 with no news)"
 lead: effects

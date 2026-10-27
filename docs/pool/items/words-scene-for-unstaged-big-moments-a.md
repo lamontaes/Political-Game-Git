@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: words/unstaged-big-moments
-pr: "#6136"
+pr: #6136
 blocked-on:
 source: "split from words-scene-for-unstaged-big-moments by the words-and-scenes lead, Oct 26, answering Merger 1's send-back on #6136"
 lead: words

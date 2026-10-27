@@ -699,7 +699,11 @@ function outline(stage: PlaceStaging, spot: StagingSpot) {
     left: spot.x - width / 2,
     right: spot.x + width / 2,
     top: spot.y - height,
-    bottom: spot.y,
+    // Behind a counter or desk, only what shows above its front can be covered.
+    bottom:
+      spot.clipBelowY !== undefined
+        ? Math.min(spot.y, spot.clipBelowY)
+        : spot.y,
   };
 }
 /** Whether two people on these spots would cover much of one another. */
@@ -732,9 +736,11 @@ const FRONT_PENALTY = 25;
 const SIDE_BY_SIDE = 6;
 const ON_THE_LINE = 3;
 // An adult's height for the outline, a body's width as a share of its
-// height, and how much of a person may be covered before a spot is passed over.
+// height (measured on the v2 figures: arms and stance make a standing figure
+// about 0.4 as wide as it is tall, as the picture shows), and how much of a
+// person may be covered before a spot is passed over.
 const ADULT_METERS = 1.72;
-const BODY_WIDTH = 0.3;
+const BODY_WIDTH = 0.4;
 const HIDDEN_SHARE = 0.25;
 
 /**
