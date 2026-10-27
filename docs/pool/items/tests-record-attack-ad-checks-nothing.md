@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/record-attack-ad
-pr:
+pr: #6297
 blocked-on:
 source: laws-and-effects lead's helper, Oct 27 (release-red-record-broken-promise-voters)
 claimed-at: 2026-10-27T11:26:16.333Z

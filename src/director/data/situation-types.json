@@ -3180,6 +3180,59 @@
       }
     },
     {
+      "key": "bribe-offer",
+      "purpose": "bribe-offer",
+      "asker": "offerer",
+      "asked": "you",
+      "stakes": ["money", "favor", "record"],
+      "roles": [
+        {
+          "key": "offerer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "request",
+            "press",
+            "plea",
+            "threaten",
+            "deflect",
+            "accept",
+            "thank",
+            "confront"
+          ],
+          "wants": ["self-interest"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["accept", "refuse", "confront", "stall", "lie", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "bribe-offer",
+          "causeEngine": "corruption",
+          "causeRecord": "corruption.bribe-offered",
+          "bind": {
+            "offerer": "counterpart",
+            "you": "subject"
+          },
+          "opener": "offerer"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "party-ask",
       "purpose": "party-ask",
       "asker": "chair",

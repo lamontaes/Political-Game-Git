@@ -523,7 +523,7 @@ describe("story director on the new core", () => {
     // (a new baby, a cause shared), plus an
     // officeholder's own address, plus the party's ask that a member run, plus
     // the candidate who comes over after a speech that moved a listener in the
-    // room.
+    // room, plus the offer an official finds left for them (scenes from life).
     expect(types).toHaveLength(69);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
