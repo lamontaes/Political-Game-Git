@@ -5,6 +5,8 @@ description: Makes every change to how an Our Civic Duty screen looks follow the
 
 # Screens follow the mock, through shared parts
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 The owner's mocks are `docs/ui/mocks/screens-2026-10-14/README.md` (cited as MOCKS:NN) and `docs/play-first/LAW.md` section 1. Owner, Oct 26: "I've given a billion UI samples. Why the hell is this still a jumbled mess?" and "There's a bunch of independent UI things... This all needs to be unified... there's too much duplication."
 
 ## Rules
