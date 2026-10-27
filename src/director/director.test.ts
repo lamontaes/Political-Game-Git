@@ -527,9 +527,7 @@ describe("story director on the new core", () => {
     // question at a town hall, plus the winner's call from the runner-up after
     // the count (`concession-received`) (scenes from life), plus the campaign
     // season's five (an interview and a debate invitation, an offer to help, a
-    // rival's filing, word of a rival's campaign; owner, Oct 26), plus the
-    // department head who argues a cut. The count is read from the catalog
-    // file itself, so a scene that adds a type does not collide here.
+    // rival's filing, word of a rival's campaign; owner, Oct 26).
     expect(types).toHaveLength(
       (
         JSON.parse(
