@@ -519,12 +519,12 @@
       </nav>
 
       <section id="sheet" class="panel" data-testid="sheet" hidden>
-        <header class="sheet-head">
-          <h2 id="sheet-title" class="heading"></h2>
-          <div class="acts">
-            <span data-close="sheet-close" data-testid="sheet-close"></span>
-          </div>
-        </header>
+        <span
+          data-panel-head
+          data-title-id="sheet-title"
+          data-close-id="sheet-close"
+          data-testid="sheet-close"
+        ></span>
         <nav id="sheet-tabs" class="tabs"></nav>
         <div id="sheet-media" hidden></div>
         <div id="sheet-body"></div>
@@ -567,6 +567,10 @@
         </div>
       </section>
 
+      <section id="race-menu" class="panel" hidden>
+        <span data-panel-head data-close-id="race-menu-close"></span>
+        <div data-menu-rows></div>
+      </section>
       <section id="filing-overlay" class="panel" hidden>
         <h2 id="filing-title" class="name"></h2>
         <div id="filing-checks"></div>

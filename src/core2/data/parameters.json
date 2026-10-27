@@ -6215,12 +6215,14 @@
     }
   },
   "traitWeightPressFollowNews": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the press.follow-news decision. How much a person keeps up with the news is their political engagement plus their lean toward following over skipping. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt and others 2021 (rows press.follow-news in data/research/trait-effect-sizes.json): extraversion correlates 0.16 with the number of news sources a German adult follows (openness 0.12, neuroticism -0.09). A person's habit is their political engagement plus the weighted lean, and each kind of news (local paper, television, radio, and the national kinds) takes the top of each age band by habit at its researched share, so the weight is set so the lean correlates 0.16 with the number of kinds a person follows. Fitted by rebuilding the audiences at each weight over every adult of two played towns (buildBenchWorld, every module): Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, 57 adults) reaches 0.16 at about 0.02 and Jagual, Puerto Rico (7237166, seed d29d296abf1f, 112 adults) at about 0.11; pooled, 0.08.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.02,
+      "high": 0.11,
+      "unit": "weight",
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightPressAcceptInterview": {
@@ -6264,14 +6266,14 @@
     }
   },
   "traitWeightMeetingsTakePart": {
-    "value": 0.32,
+    "value": 0.26,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES; the trait's spread is 0.26 of its range, Table 1), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward taking part, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found in played years, on every meeting's whole pool of residents (each one's feeling about the question and their lean, and the room's size), so the room can be refilled at any weight: who took part at a bill's public comment and in a town hall's room, by thirds of lean over every resident weighed, net of the room filled with temperament left out. In five drawn places' election windows (seed poolfit1: Heron, Montana; Days Creek, Oregon; Everett, Georgia; Losantville, Indiana; Jennette, Arkansas; 88 meetings, 12,038 residents weighed) the net log odds at 0.32 are 1.29, 0.91, 1.19, 0.98 and 1.15 (geometric mean 1.093; every town within a factor of 1.5 of the study's odds), against 1.94 at 0.5 and 0.67 at 0.2. A fifth to a third of residents feel as strongly as anyone can about a question, and among them temperament alone sets who fills the room, which is why the weight sits below the 0.5 that two towns' audit years first gave (Halfway, Missouri and Marblehead, Ohio: net odds 2.01 and 4.16 at 0.5, 1.62 and 2.95 at 0.35).",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES; the trait's spread is 0.26 of its range, Table 1), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward taking part, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found in played years, on every meeting's whole pool of residents (each one's feeling about the question and their lean, and the room's size), so the room can be refilled at any weight: who took part at a bill's public comment and in a town hall's room, by thirds of lean over every resident weighed, net of the room filled with temperament left out. Refilled at 0.32, 0.285 and 0.26 in twenty drawn places' election windows on fresh random seeds (Oct 27, 2026, at #6143's head 99fc0b1579, one seed per place, each with its run seed, attempt and the different residents weighed): Jeromesville, Ohio (4565776ec6bbd777753e60793e3adb75d8170e85:meetings:0, 390 residents); Calumet, Oklahoma (4a3b742ed67a678280bb52c5e07946e6e056e99a:meetings:2, 388 residents); Loa, Utah (5b9f5133d4f09b48c17a1400ad9997c407f6a142:meetings:2, 386 residents); Grantsville, West Virginia (d85ba81c178988779216ba453c4d543af4d73826:meetings:0, 380 residents); Coopers Plains, New York (346297ca0c6347ebfe6283a726b7412fed002820:meetings:3, 359 residents); Richfield, Idaho (bf0c8cccea59d47b0486b8429ab231660fa1e2cf:meetings:0, 354 residents); Giltner, Nebraska (4171548db447be0cfb2f201f22f696e0cc6ad026:meetings:1, 335 residents); Pine Valley, Utah (290e684e1f4554f4ad97658260426b08a21bb8ce:meetings:4, 333 residents); Wyoming, Rhode Island (2e0a45586bc2a827a0ef4372ab71387d6e507c8c:meetings:0, 302 residents); Swan Valley, Idaho (2f234763e0a847d5c8cd10891133cf5d6b01b22e:meetings:0, 284 residents); Bruce Crossing, Michigan (80299d07892cb4e564190c33540ba3a9b18da828:meetings:0, 222 residents); Candlewood Lake Club, Connecticut (4f9c09e5328fcba61e895d18e33cd25308834fb3:meetings:1, 220 residents); Harrison, Idaho (22bb62bc23a274d0b1d405e6b0c7705d455c1077:meetings:1, 220 residents); Nikep, Maryland (32a42565139ff132b9992b2c0147d78c7875c620:meetings:2, 205 residents); Henry, Nebraska (6ac4606bddc97bbafb62c8157cf9ae99e1d60582:meetings:0, 141 residents); Garvin, Oklahoma (9cf6b1d5763b91a28c6b92e45d99332f2878e938:meetings:4, 138 residents); Leadore, Idaho (7bdcc2cf53d4d7f38de0cdacbbe82137ad6725d5:meetings:1, 75 residents); Whitney, Nebraska (5b9f5133d4f09b48c17a1400ad9997c407f6a142:meetings:1, 59 residents); Antelope Hills, Wyoming (c2ef691f6254c1bafe3eab93d9fd2b7522e5a6a1:meetings:0, 54 residents); Solen, North Dakota (7edd8f59102f8f866da350644620baf5e6ca3e0f:meetings:1, 50 residents). A refill matched the played run to within 0.08 in seven real runs at 0.285 and 0.26. In the 16 places with 100 or more different residents weighed the net log odds at 0.26 have geometric mean 1.077 against the study's 1.088 (0.52 to 2.04 singly; 1.410 at 0.32, 1.229 at 0.285), and all 20 together 0.961 (1.206 at 0.32). Antelope Hills and Whitney stay flat (0.31 and 0.35 at any weight below 0.4, and 0.306 and 0.329 at 0.26): their rooms of 40 fill from about 55 residents driven, the same people at every town hall, so temperament has almost nobody to turn away and the 418 and 1,068 weighings are 54 and 59 different residents; they would need weights of 0.445 and 0.785 to reach 1.088, which put 8 of the first 17 places over the band at 0.45. One town's thirds still swing from about 0.5 to 2.4 around the study's 1.088, nearly the width of the test's band, which is why the meetings test pools two towns. A fifth to a third of residents feel as strongly as anyone can about a question, and among them temperament alone sets who fills the room, which is why the weight sits below the 0.5 that two towns' audit years first gave (Halfway, Missouri and Marblehead, Ohio: net odds 2.01 and 4.16 at 0.5, 1.62 and 2.95 at 0.35).",
     "spread": {
-      "low": 0.199,
-      "high": 0.441,
+      "low": 0.15,
+      "high": 0.45,
       "unit": "weight",
-      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 1.195 to 2.645."
+      "citation": "The 10th to 90th percentile (0.152 to 0.447) of the weights at which each of the twenty drawn places' own net first reaches the study's 1.088 (the places' weights ran 0.06 to 0.785, median 0.278); the study's own 95% interval for the extraversion coefficient, 1.195 to 2.645, scales to 0.16 to 0.36 at this weight."
     }
   },
   "traitWeightSchoolAttend": {
@@ -6624,23 +6626,25 @@
     }
   },
   "traitWeightViewsPersuasion": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the views.persuasion outcome: the hearer's traits toward yielding (openness and agreeableness) scale how far an argument or a story moves their view. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
-    "stopgapId": "SG-TRAITS-persuasion-size",
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "Hibbing, Ritchie and Anderson 2011 (rows views.persuasion in data/research/trait-effect-sizes.json): openness raises the log odds of being moved toward a discussion partner's view by 0.66 across the trait's range (trait sd 0.22), an odds ratio of 1.37 between the thirds. A move is a size, so the weight is set so the most yielding third's mean move over the least yielding third's, net of the same ratio without the trait term, is 1.37. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). At 0.3 the ratio is 1.36 in Lookeba and 1.35 in Jagual.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "weight",
+      "citation": "The fit's neighbors: 0.2 gives 1.22 to 1.23 and 0.4 gives 1.49 to 1.51."
     }
   },
   "traitWeightViewsTrust": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the views.trust outcome: the hearer's traits toward trusting (agreeableness) scale how far they trust a speaker. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
-    "stopgapId": "SG-TRAITS-persuasion-size",
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt and others 2021 (row views.trust in data/research/trait-effect-sizes.json): agreeableness correlates 0.20 with the Interpersonal Trust Scale among German adults (neuroticism -0.17; Thielmann et al. 2020 give 0.09 to 0.11 for trust-game sending). The weight is set so the hearer's lean correlates 0.20 with how far they trust a speaker. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). Pooled over 29,256 trust readings, 0.25 gives 0.203 (0.119 in Lookeba, 0.302 in Jagual: how far near ties already track the lean differs by town).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.15,
+      "high": 0.35,
+      "unit": "weight",
+      "citation": "The pooled fit's neighbors: 0.15 gives 0.141 and 0.35 gives 0.256."
     }
   },
   "workAbsenceIllnessWeight": {
