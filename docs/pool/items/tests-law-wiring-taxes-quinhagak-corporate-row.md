@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quinhagak-corp
-pr:
+pr: #6372
 blocked-on:
 source: Merger 3 paired clean-main check on PR #6207, October 27
 claimed-at: 2026-10-27T17:59:34.951Z

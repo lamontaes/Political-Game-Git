@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: blocked
 claimed-by:
-pr: 5968
+pr:
 blocked-on: words-law-effect-learned-journal
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at:
@@ -30,3 +30,5 @@ Laws lead, Oct 24 20:25: blocked. Merger 0's send-back (18:51) is right: the pro
 Sent back 2026-10-24 from PR #5968 (branch claude/laws-end-to-end-proof): the screenshot Done-when row is explicitly Not met and still in this item without an accepted bounded split, and laws-lead edits touch Words-owned journal banks/director data; finish on that branch, merge main into it first, reconcile acceptance and let Words own that slice.
 
 Oct 25 (CTO ruling): the screenshot split is accepted; the screenshots live in `laws-end-to-end-screenshots` (lead play-first, p1). This item's done-when is met on records (the test, the record ids, the journal row by id); the screenshot line is struck from it.
+
+Oct 27, laws-and-effects lead: the draft #5968 is closed and split by the per-unit rule. Its engine units are #6371 (learning on the day a story is heard) and #6374 (the held bill keeps the chair's reasons); main already has the journal lines. The proof test is redone on main once both merge.
