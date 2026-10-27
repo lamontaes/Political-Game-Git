@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/public-pay-nonvacuous
-pr:
+pr: #6341
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2

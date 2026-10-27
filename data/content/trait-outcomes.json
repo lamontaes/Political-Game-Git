@@ -70,17 +70,17 @@
       "id": "outcome.job-performance",
       "title": "An ordinary worker's performance at work",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": "partly",
-      "why": "An ordinary worker has no performance record once hired: nothing reads conscientiousness for output, discipline or promotion (Barrick & Mount 1991, rho 0.22).",
-      "evidence": "src/core2/modules/jobs.ts:1679 employers rank applicants by fit, which reads the applicant's reliability (jobsFitReliabilityWeight)"
+      "wired": true,
+      "evidence": "src/core2/modules/jobs.ts:1314 howTheyWork: a business values a worker by their lean toward diligence (jobs.value-worker, traitWeightJobsValueWorker sized from Barrick & Mount 1991, r 0.22) when it ranks applicants (jobs.ts:1908) and when it lets a worker go (jobs.ts:1363). Played: Oak Grove, Oregon (4153900), seed 427e8d601b48ca1ab600d7c7efb7407962876546823fbe28f7f06a1e304432fa, layoff job-change:2025-03-01:work-relationship_129ba20d7adbab65:layoff let person_43cf7cae695a94c6 go for how they work while a worker with less tenure was kept."
     },
     {
       "id": "outcome.earnings",
       "title": "Promotion and pay by temperament",
       "engine": "src/core2/modules/jobs.ts",
       "wired": "partly",
-      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:2679); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
-      "evidence": "Through hiring: reliability raises an applicant's fit (src/core2/modules/jobs.ts:1679), so reliable people are hired sooner"
+      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:1247, stopgap SG-TRAITS-pay-growth-by-performance); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
+      "evidence": "Through hiring and layoffs: how a person works raises their value to an employer (src/core2/modules/jobs.ts:1314), so diligent people are hired sooner and let go later",
+      "item": "owner-pay-growth-by-performance"
     },
     {
       "id": "outcome.health-behaviors",
