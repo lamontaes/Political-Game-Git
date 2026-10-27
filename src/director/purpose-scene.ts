@@ -36,7 +36,11 @@ import {
 import { dollars } from "../english/bill-sections";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import {
+  SITUATION_LIBRARY,
+  type ScheduleEntry,
+  type SituationType,
+} from "./scheduling";
 import type { Moment } from "./types";
 import {
   composeSceneTalk,
@@ -122,6 +126,17 @@ export function purposeScene(
   return skipped;
 }
 
+/**
+ * The type as its cause plays it: a cause may name its own `sceneKey`, which
+ * tags the exchange's pieces in place of the type's key, so one purpose speaks
+ * for each cause's own reason (the cause is matched by the moment's label).
+ */
+export function typeForCause(type: PurposeType, label: string): PurposeType {
+  const causes = (type as { causes?: SituationType["causes"] }).causes;
+  const sceneKey = causes?.find((row) => row.match?.label === label)?.sceneKey;
+  return sceneKey ? { ...type, tag: { ...type.tag, key: sceneKey } } : type;
+}
+
 /** One purpose scene of a moment, worded from its records. */
 function composeBinding(
   core: Readonly<CoreState>,
@@ -131,7 +146,10 @@ function composeBinding(
   binding: ScheduleEntry["bindings"][number],
   options: { includeHeld?: boolean },
 ): PurposeSceneResult {
-  const type = TYPES.get(binding.typeKey) as PurposeType;
+  const type = typeForCause(
+    TYPES.get(binding.typeKey) as PurposeType,
+    moment.label,
+  );
   const cast = (role: string | undefined) =>
     binding.roles.find((row) => row.role === role)?.personIds[P.zero];
   const askerId = cast(type.asker);

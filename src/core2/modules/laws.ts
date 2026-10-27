@@ -178,16 +178,26 @@ export function openLaws(core: CoreState): LawChain {
   const federal = chain.levels.find((l) => l.level === "federal");
   for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
     // A question about federal law is answered for the nation, at the
-    // federal level; every other question is answered for the state.
+    // federal level; every other question is answered for the state, or, where
+    // the state gives no answer and the research answers it for the nation
+    // ("US": a federal statute the research says applies in every place), at
+    // the federal level.
     const isFederal = question.startsWith(FEDERAL_QUESTION_PREFIX);
-    const level = isFederal ? federal : { jurisdiction: chain.stateKey };
-    if (!level) continue;
-    const answer = entry.answers[level.jurisdiction];
-    if (answer?.answer !== "yes" && answer?.answer !== "no") continue;
+    const known = (jurisdiction: string) => {
+      const answer = entry.answers[jurisdiction]?.answer;
+      return answer === "yes" || answer === "no";
+    };
+    const nationLevel =
+      federal && (isFederal || !known(chain.stateKey)) ? federal : undefined;
+    const level =
+      isFederal || nationLevel ? nationLevel : { jurisdiction: chain.stateKey };
+    if (!level || !known(level.jurisdiction)) continue;
+    const answer = entry.answers[level.jurisdiction]!;
+    const atFederal = level === federal;
     const row: LawRowInput = {
-      id: `law:${level.jurisdiction}:${isFederal ? "federal" : "state"}:${question}:general:starting`,
+      id: `law:${level.jurisdiction}:${atFederal ? "federal" : "state"}:${question}:general:starting`,
       jurisdiction: level.jurisdiction,
-      level: isFederal ? "federal" : "state",
+      level: atFederal ? "federal" : "state",
       series: question,
       tier: "general",
       value: answer.answer === "yes" ? 1 : 0,
