@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-28-title-panel-header-separated
+pr: #6205
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T01:22:41.165Z
 ---
 
 **What.** On the title and New game panels the gold game name sits directly on top of the first menu entry, and only the change in font tells the header from the buttons. The header and the buttons read as one block. The owner: "I don't like just the gold Our Civic Duty with like no delineation between that and the menu other than the change in the font." This item puts a visible break between the name and the menu, drawn from the Kit 13 pieces (a thin gold rule or plate with room above and below), on the title menu, the New game choice and the creator's panel header.

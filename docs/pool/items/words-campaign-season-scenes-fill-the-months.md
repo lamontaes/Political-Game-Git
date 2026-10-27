@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: words/campaign-season-scenes
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
 milestone: play-first
-claimed-at: 2026-10-26T22:20:03.008Z
+claimed-at:
 ---
 
 **What.** After the one family scene on January 22, 2025, two days after the player filed, the game ran week by week to May 6 and nothing happened: no scene, no toast, no news item, no campaign event; the March 11 filing deadline and two family birthdays passed unmarked. The owner: "See, there's nothing happening. This is where scenes should be happening. You know, getting ready for the election, having interviews, a debate, assembling, you know, an election team, meeting people, having moments that, you know, change your life, working with other candidates, working with current elected officials, holding rallies, etc. That maybe, you know, participating in corruption if it comes up, etc. This is where the scenes need to come in." This item makes the director fire scenes and the press print stories about the player's own race through the season, drawn from the owner's list as the records support each: an outlet asking for an interview, a volunteer or relative offering to join the team, a debate invitation, a rally, a meeting with another candidate or an incumbent, and corruption where a record shows it.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-26T22:20:03.008Z
 **Files.** src/director/scheduling.ts, src/director/scene.ts, src/director/purpose-scene.ts, src/director/ledger.ts, data/english/parts/scene-talk.json, src/bench/story.ts
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "This is where the scenes need to come in." New owner instruction in playtest; CTO to record in OWNER-DECISIONS.md. His list of scene kinds extends OD:360 (a volunteer or opponent at a rally, a donor or party chair asking for something). The scene kinds already in the pool: words-debate-opponent-scene, words-donor-ask-scene (PR open), words-scene-party-asks-you-to-run (sent back), words-scene-for-unstaged-big-moments, play-stop-11-campaign-actions-do-nothing-visible-b and the larger words-scenes-like-wildermyth; this item is the cadence and the first diagnosis (why no moment fired for a filed candidate in Albion, Pennsylvania from January 20 to May 6), and takes whichever of those kinds are merged. The Week press also slowed from 3 to 5 seconds before filing to 6 to 10 seconds after, the campaign-season cost in core-speed-campaign-season-kept-whys. Lead: words (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+
+Split Oct 27 (words-and-scenes lead): the producers (a rival's filing, offers to help, word of a rival's campaign, interview and debate invitations) and the first 28 days moved to `words-campaign-season-scenes-fill-the-months-a` (branch words/campaign-season-scenes). What stays here: no 28-day stretch without a beat through the middle of a quiet season. In North Lynbrook, New York (run seed season-a of src/director/campaign-season.test.ts) nothing on record happens from May 9 to September 3. Next causes: the player's own campaign acts as porch scenes (Oct 8 montage ruling), donors (#6002), endorsements and community invitations. Time box: 6 hours.

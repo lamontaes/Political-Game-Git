@@ -11,6 +11,7 @@
     <main id="game">
       <div id="stage">
         <img id="backdrop" alt="" />
+        <img id="backdrop-next" alt="" />
         <div id="people"></div>
       </div>
 
@@ -87,6 +88,7 @@
 
       <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
+        <hr class="title-rule" />
         <!-- The title menu as the Oct 12 title had it (TitleScreen.tsx, 29be9982f5^). -->
         <div id="front-main">
           <button
@@ -501,46 +503,7 @@
 
       <nav id="menu" class="panel" hidden>
         <h2 class="menu-title">Menu</h2>
-        <button type="button" class="nav-item" data-tab="calendar">
-          <span class="nl">Calendar</span
-          ><span class="nd">Today, what is next, and your time</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="people">
-          <span class="nl">People</span
-          ><span class="nd">Who you know, and how</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="politics">
-          <span class="nl">Politics</span
-          ><span class="nd">Who governs where you are, at every level</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="news">
-          <span class="nl">News</span
-          ><span class="nd">Published public records</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="journal">
-          <span class="nl">Journal</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="who">
-          <span class="nl">Who you are</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="money">
-          <span class="nl">Money and property</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="jobs">
-          <span class="nl">Jobs and study</span
-          ><span class="nd">Work, school and training</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="travel">
-          <span class="nl">Travel</span
-          ><span class="nd">Where you are, where you can go</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="guide">
-          <span class="nl">Guide</span
-          ><span class="nd">What the words on the other screens mean</span>
-        </button>
-        <button type="button" class="nav-item" data-tab="options">
-          <span class="nl">Options</span>
-        </button>
+        <span data-menu-items></span>
         <button
           id="dev-mode"
           type="button"
@@ -644,82 +607,7 @@
 
       <!-- The menu icons stand on the card: one column, so the card never grows into them. -->
       <div id="dock">
-        <nav id="rings" hidden>
-          <button
-            type="button"
-            class="ring"
-            data-tab="journal"
-            aria-label="Journal"
-          >
-            <svg viewBox="0 0 24 24">
-              <path d="M4 5h16v11H9l-5 4z" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="ring"
-            data-tab="calendar"
-            aria-label="Calendar"
-          >
-            <svg viewBox="0 0 24 24">
-              <rect x="3.5" y="5" width="17" height="15" rx="1.2" />
-              <path
-                d="M3.5 9.5h17M8 3v4M16 3v4M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 16.5h.01M12 16.5h.01M16.5 16.5h.01"
-              />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="ring"
-            data-tab="money"
-            aria-label="Money and property"
-          >
-            <svg viewBox="0 0 24 24">
-              <ellipse cx="12" cy="6.5" rx="6" ry="2.6" />
-              <path
-                d="M6 6.5v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6V6.5M6 10.1v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6M6 13.7v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6"
-              />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="ring"
-            data-tab="politics"
-            aria-label="Politics"
-          >
-            <svg viewBox="0 0 24 24">
-              <path d="M12 4.2v14.8M8 19h8M4.6 6.8h14.8" />
-              <path d="M4.6 6.8l-2.3 5.1h4.6zM19.4 6.8l-2.3 5.1h4.6z" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="ring"
-            data-tab="people"
-            aria-label="People"
-          >
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="7.5" r="3.2" />
-              <circle cx="5.8" cy="9.5" r="2.3" />
-              <circle cx="18.2" cy="9.5" r="2.3" />
-              <path
-                d="M6.5 19c.5-3.6 2.6-5.4 5.5-5.4s5 1.8 5.5 5.4zM1.8 17c.3-2.4 1.7-3.8 4-4M22.2 17c-.3-2.4-1.7-3.8-4-4"
-              />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="ring"
-            data-tab="travel"
-            aria-label="Travel"
-          >
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M3.5 6.5l5-2 7 2 5-2v13l-5 2-7-2-5 2zM8.5 4.5v13M15.5 6.5v13"
-              />
-            </svg>
-          </button>
-        </nav>
+        <nav id="rings" hidden></nav>
         <section id="card" class="panel me" hidden>
           <div id="card-bust" class="bust"></div>
           <div>
