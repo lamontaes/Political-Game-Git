@@ -46,7 +46,8 @@ const DRAWS = 2;
  * The families of circumstance (owner, Oct 27) that every drawn year
  * carries, and the rows of each. A price change (price-moved-street,
  * rent-news-street), a death known to the player (death-known-street), a hire
- * (new-coworker) and a rival's message (rival-message) are counted and
+ * (new-coworker), a rival's message (rival-message) and a lobbyist after a
+ * lobbying visit to the player (lobbyist-hallway) are counted and
  * printed, not asserted: a year in one town carries one or none, so whether
  * any comes is the draw's, not the producer's
  * (director-circumstance-rare-families-asserted).
