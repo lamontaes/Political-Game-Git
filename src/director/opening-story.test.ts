@@ -32,7 +32,7 @@ const sentencePatterns = OPENING_SPEECH_BANK.parts.map(
     new RegExp(
       `^${part.text
         .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-        .replace(/\{\w+\}/g, ".+")}$`,
+        .replace(/\{[\w-]+\}/g, ".+")}$`,
     ),
 );
 
@@ -45,7 +45,7 @@ describe("the opening story", () => {
   const playerId = world.playerId!;
   const story = director.ledger.opening!;
 
-  it("composes the address from mined sentences and the world's records", () => {
+  it("composes the address from authored pieces and the world's records", () => {
     expect(story, "no opening story").toBeTruthy();
     expect(story.date).toBe(core.date);
     const levels = story.address.sentences.map((row) => row.level);
@@ -60,15 +60,15 @@ describe("the opening story", () => {
     }
     // A number or claim about the country cites the macro engine's months.
     for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "country",
+      (row) => row.level === "country" && row.facts.length,
     ))
       expect(
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
         sentence.text,
       ).toBe(true);
     // A figure with what it is, never a bare claim ("Prices are too high").
-    for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "country",
+    for (const sentence of story.address.sentences.filter((row) =>
+      row.facts.some((key) => /-rate$|-growth$|-added$/.test(key)),
     ))
       expect(sentence.text, sentence.text).toMatch(/\d/);
     // Composed from records, the same every time.

@@ -1,6 +1,6 @@
 {
-  "version": "opening-address-v1",
-  "about": "How the President's own record shapes the address: which of the country's numbers each of the President's goals bears on, by the bill catalog's subject of that goal; how many numbers the address cites; and whether the numbers or the occasion come first on the President's own stage. A President whose first goal bears on a number opens with the numbers, right after the salutation, and cites one more for each of their leading goals that bears on one; any other President opens with the occasion. The camera's order of stages never changes. It holds no sentences: the words are the opening-speech bank's.",
+  "version": "opening-address-v2",
+  "about": "How the President's own record shapes the address (owner, Oct 27, 2026: 'it needs to flow like a real speech ... if there are 58 laws, there are 58 choices they have in the speech'). Any policy question in the bill catalog can be a priority: the President's recorded stance on each (`ownStance`) picks the few they lead with and the one line they will not cross, and the laws engine's answer in force for the question (the nation's for a federal question, the player's state's for any other) is what the address says about it. `numbersBySubject` says which of the country's numbers bear on a catalog subject, so a priority can be argued from one. It holds no sentence: the words are the opening-speech bank's.",
   "numbersBySubject": {
     "labor": ["wages", "jobs"],
     "housing": ["mortgage"],
@@ -8,19 +8,38 @@
     "business": ["growth", "jobs"],
     "energy-environment": ["inflation"]
   },
-  "otherNumbers": ["inflation", "growth", "wages", "mortgage", "jobs"],
+  "mannerTraits": {
+    "about": "The recorded traits that make a President's address plain-spoken or polished: the manner is whichever side the President's traits sum higher on, polished when they tie.",
+    "plain": [
+      "personality-v1:facet-informal",
+      "personality-v1:facet-blunt",
+      "personality-v1:facet-practical"
+    ],
+    "polished": [
+      "personality-v1:facet-polite",
+      "personality-v1:facet-tactful",
+      "personality-v1:facet-studious",
+      "personality-v1:facet-analytical"
+    ]
+  },
   "parameters": {
-    "addressNumbersAtLeast": {
+    "prioritiesMax": {
       "value": 3,
       "tag": "TUNABLE",
       "spread": "2 to 4",
-      "note": "How many of the country's numbers besides unemployment every address cites, before the President's own goals add more (play-first-09: at least three)."
+      "note": "The most priorities the address leads with, each a stake, a law and an ask (real inaugural addresses name two to four)."
     },
-    "addressGoalsRead": {
-      "value": 3,
+    "priorityStanceShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.3 to 0.7",
+      "note": "A supported question is a priority while the President's stance on it is at least this share of their strongest stance; the address is as long as the President's convictions are many."
+    },
+    "storyFigures": {
+      "value": 1,
       "tag": "TUNABLE",
       "spread": "1 to 3",
-      "note": "How many of the President's goals, most wanted first, the address reads for the numbers they bear on: the three it asks for (Congress, the governors, the occasion)."
+      "note": "How many of the country's numbers the story of the country cites besides the nation's unemployment rate, always told under its scope: those that moved most over the year, apart from the ones the priorities argue from."
     }
   }
 }
