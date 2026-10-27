@@ -25,3 +25,4 @@ claimed-at:
 **Files.** src/core2/housing-assistance.ts, src/core2/law-wiring-housing.test.ts
 
 **Notes.** Laws-effects lead, Oct 26. Found by the housing helper while fixing #6011's family test; not fixed there.
+Sent back 2026-10-27 from PR #6219 (branch claude/rent-help-town-share): the population-share stand-in for renter share has no stopgap row or code marker; finish on that branch, merge main into it first.
