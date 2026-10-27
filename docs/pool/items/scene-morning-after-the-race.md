@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/director-morning-after-the-race
-pr:
+pr: #6342
 blocked-on:
 source: 'owner''s "Morning after" request (docs/design/scenes/owner-scene-examples.md); words-and-scenes lead, Oct 27, scene web election-day pass'
 lead: director
