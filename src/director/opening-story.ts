@@ -43,6 +43,7 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
 import type { LawRowInput } from "../core2/laws-starting";
 import type { CoreAPI, CoreState, PersonId, PersonState } from "../core2/types";
 import type { EntityId } from "../core2/kernel/brands";
@@ -359,12 +360,14 @@ function countryFacts(core: CoreState, kind: OpeningSpeechKind): Country {
   return { facts, movement };
 }
 
-/** One policy question the President has a view on, with the law in force on it. */
+/** One policy question the President has a view on, at a level that may act on it, with the law in force there. */
 interface Stand {
   readonly question: string;
   /** Positive for a President who wants it, negative for one who does not. */
   readonly stance: number;
   readonly signature: boolean;
+  /** The powers record that lets this level answer the question. */
+  readonly power: string;
   readonly law: {
     readonly id: string;
     readonly inForce: boolean;
@@ -373,23 +376,13 @@ interface Stand {
   };
 }
 
-/** Questions on federal law are answered for the nation, every other for the state. */
-const FEDERAL_QUESTIONS = "us-federal-positions:";
-
-/**
- * The law on a question that applies to the speech: the nation's for a
- * federal question, the player's state's for any other, from the laws
- * engine's own rows.
- */
+/** The law in force on a question in one jurisdiction, from the laws engine's own rows. */
 function lawOn(
   api: CoreAPI,
   question: string,
-  townState: string | null,
+  jurisdiction: string,
 ): Stand["law"] | null {
-  const jurisdiction = question.startsWith(FEDERAL_QUESTIONS)
-    ? "US"
-    : townState;
-  if (!jurisdiction || !api.state.modules.has(LAWS_MODULE_ID)) return null;
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return null;
   const row = (
     api
       .moduleState(LAWS_MODULE_ID)
@@ -404,40 +397,58 @@ function lawOn(
 }
 
 /**
- * Every question the President holds a view on and the world has a law for:
- * the ones they want, their own signature issues first, then by how strongly
- * they hold them; and the ones they oppose, strongest first. Any question in
- * the bill catalog can be here, so two Presidents with different views, or
- * two worlds with different laws, say different things.
+ * Every question the President holds a view on, at each level the powers
+ * catalog lets answer it and the world has a law for: Congress for a question
+ * federal law can answer, the player's state for one the state can. Any
+ * question in the bill catalog can be here, so two Presidents with different
+ * views, or two worlds with different laws, say different things.
  */
 function presidentStands(
   api: CoreAPI,
   official: OfficialRow,
   townState: string | null,
-): { wanted: Stand[]; opposed: Stand[] } {
+): { federal: Stand[]; state: Stand[] } {
   const own = new Set(official.signature.map((row) => row.question));
-  const stands = NAMED_QUESTIONS.flatMap((question): Stand[] => {
-    const stance = ownStance(official.ideal, official.signature, question);
-    const law = lawOn(api, question, townState);
-    return stance !== P.zero && law
-      ? [{ question, stance, signature: own.has(question), law }]
-      : [];
-  });
-  return {
-    wanted: stands
-      .filter((row) => row.stance > P.zero)
-      .sort(
-        (a, b) =>
-          Number(b.signature) - Number(a.signature) ||
-          b.stance - a.stance ||
-          a.question.localeCompare(b.question),
-      ),
-    opposed: stands
-      .filter((row) => row.stance < P.zero)
-      .sort(
-        (a, b) => a.stance - b.stance || a.question.localeCompare(b.question),
-      ),
-  };
+  const at = (level: PolicyLevel, jurisdiction: string | null) =>
+    NAMED_QUESTIONS.flatMap((question): Stand[] => {
+      const stance = ownStance(official.ideal, official.signature, question);
+      if (stance === P.zero || !jurisdiction) return [];
+      const power = policyAuthority(api, question, level);
+      const law = power.allowed ? lawOn(api, question, jurisdiction) : null;
+      return law
+        ? [
+            {
+              question,
+              stance,
+              signature: own.has(question),
+              power: power.source,
+              law,
+            },
+          ]
+        : [];
+    });
+  return { federal: at("federal", "US"), state: at("state", townState) };
+}
+
+/** The ones they want: their own signature issues first, then by how strongly they hold them. */
+function wantedOf(stands: readonly Stand[]): Stand[] {
+  return stands
+    .filter((row) => row.stance > P.zero)
+    .sort(
+      (a, b) =>
+        Number(b.signature) - Number(a.signature) ||
+        b.stance - a.stance ||
+        a.question.localeCompare(b.question),
+    );
+}
+
+/** The ones they oppose, strongest first. */
+function opposedOf(stands: readonly Stand[]): Stand[] {
+  return stands
+    .filter((row) => row.stance < P.zero)
+    .sort(
+      (a, b) => a.stance - b.stance || a.question.localeCompare(b.question),
+    );
 }
 
 /** The facts a stand is spoken with: its names, the President's side and the law. */
@@ -447,7 +458,13 @@ function standFacts(
   stateName: string | null,
   rank: string,
 ): Facts {
-  const asked = [official.id, `question:${stand.question}`];
+  // The ask cites the powers record and the law it read (ask why).
+  const asked = [
+    official.id,
+    `question:${stand.question}`,
+    stand.power,
+    stand.law.id,
+  ];
   const state = stand.law.jurisdiction !== "US";
   return {
     about: fact(questionAbout(stand.question)!, ...asked),
@@ -545,11 +562,19 @@ function planAddress(
   const stateName = townState
     ? coreStateName(townState.replace(/^US-/, ""))
     : null;
-  const { wanted, opposed } = presidentStands(api, official, townState);
+  const stands = presidentStands(api, official, townState);
+  // Congress hears only what it may answer and federal law does not have yet.
+  const open = stands.federal.filter((row) => !row.law.inForce);
+  const wanted = wantedOf(open);
+  const opposed = opposedOf(open);
   const par = SHAPE.parameters;
 
-  // The priorities: the questions they want, while the conviction holds.
-  const strongest = Math.max(P.zero, ...wanted.map((row) => row.stance));
+  // The priorities: the questions they want, while the conviction holds,
+  // measured against the strongest want any level may answer.
+  const strongest = Math.max(
+    P.zero,
+    ...[...stands.federal, ...stands.state].map((row) => row.stance),
+  );
   const priorities = wanted
     .filter(
       (row, at) =>
@@ -664,17 +689,20 @@ function planAddress(
   blocks.push(...priorityBlocks, ...(lineBlock ? [lineBlock] : []));
 
   // The governors hear the state law that differs from the President's view:
-  // the strongest conviction, wanted or opposed, the player's state answers the other way.
-  const atOdds = [...wanted, ...opposed]
+  // the strongest conviction, wanted or opposed, the player's state answers
+  // the other way. Beside priorities put to Congress it must hold up against
+  // them; with none, it is the address's ask.
+  const asked = new Set([...used].map((row) => row.question));
+  const atOdds = stands.state
     .filter(
       (row) =>
-        row.law.jurisdiction !== "US" &&
         (row.stance > P.zero ? !row.law.inForce : row.law.inForce) &&
-        Math.abs(row.stance) >= par.priorityStanceShare.value * strongest,
+        (!priorities.length ||
+          Math.abs(row.stance) >= par.priorityStanceShare.value * strongest),
     )
     .sort(
       (a, b) =>
-        Number(used.has(a)) - Number(used.has(b)) ||
+        Number(asked.has(a.question)) - Number(asked.has(b.question)) ||
         Math.abs(b.stance) - Math.abs(a.stance) ||
         a.question.localeCompare(b.question),
     )[P.zero];

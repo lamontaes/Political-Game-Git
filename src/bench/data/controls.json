@@ -224,6 +224,26 @@
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
   },
+  "floor": {
+    "status": {
+      "drafted": "Drafted",
+      "passed": "Passed",
+      "failed": "Failed",
+      "signed": "Signed",
+      "vetoed": "Vetoed",
+      "overridden": "Veto overridden",
+      "enacted": "Enacted",
+      "blocked": "Blocked",
+      "awaiting-signature": "Waiting for your signature"
+    },
+    "takenUp": "The floor takes it up on",
+    "for": "for",
+    "against": "against",
+    "undecided": "undecided",
+    "voted": "Voted",
+    "yes": "yes",
+    "no": "no"
+  },
   "advanced": {
     "none": "No one holds an office that matches"
   },

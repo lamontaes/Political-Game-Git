@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/unemployment-scope
+pr: #6306
 blocked-on:
 source: "Merger 7, Oct 27 12:00 UTC, while rechecking lane PRs"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T11:41:05.810Z
 ---
 
 **What.** On clean main at 11:00 UTC Oct 27, `opening-unemployment-scope.test.ts` fails on a drawn seed (Merger 7's recheck of #6260). The test checks that every unemployment rate the opening names says where it applies. Either the opening address rebuilt from records (#6235) names a rate without its place in some worlds, or the test's expectation is stale against the new address. Find which on the failing seed and fix the one that is wrong; a rate a player sees always names its place (play-stop-10, done).
