@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/m1-02-bank-line-witness
-pr:
+pr: #6203
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T00:03:37.097Z
