@@ -1,5 +1,5 @@
 import { coreAPI } from "../core2/state";
-import { lawHere } from "../core2/modules/laws";
+import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
 import {
   billForm,
@@ -140,7 +140,7 @@ export function seatView(core: CoreState, personId: string) {
     bodies,
     // Seats the law made them leave on taking another (offices engine).
     incompatibilities: incompatibilitiesOf(core, personId),
-    amounts: lawHere(api).map((row) => ({
+    amounts: lawHere(api, undefined, AMOUNT_SERIES).map((row) => ({
       series: row.series,
       unit: row.unit,
       current: currentAmount(api, row.series),
@@ -190,8 +190,9 @@ export function seatAct(
           series: input.series,
           value: input.value ?? 0,
           unit:
-            lawHere(api).find((row) => row.series === input.series)?.unit ??
-            undefined,
+            lawHere(api, undefined, [input.series]).find(
+              (row) => row.series === input.series,
+            )?.unit ?? undefined,
         }
       : {
           kind: "policy-question",

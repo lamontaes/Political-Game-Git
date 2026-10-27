@@ -4524,6 +4524,15 @@ const sheets = {
     });
     search.setAttribute("aria-label", labels.searchIssues);
     const list = el("div", { className: "issues-content" });
+    // A policy question's law reads yes or no; every other law, its amount.
+    const lawText = (law, value, unit) =>
+      law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
+    const dateWords = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
     const draw = () =>
       list.replaceChildren(
         menuPages(
@@ -4543,7 +4552,7 @@ const sheets = {
                   el("h3", { textContent: policyLabel(law.series) }),
                   el("strong", {
                     className: "law-value",
-                    textContent: law.text ?? amount(law.value, law.unit),
+                    textContent: law.text ?? lawText(law, law.value, law.unit),
                   }),
                 ),
               );
@@ -4551,14 +4560,14 @@ const sheets = {
                 detail.append(
                   row(
                     lawLevelLabel(law, level),
-                    `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
+                    `${lawText(law, level.row.value, level.row.unit)} · ${dateWords(level.row.effectiveDate)}`,
                   ),
                 );
               for (const pending of law.pending)
                 detail.append(
                   row(
-                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${pending.effectiveDate}`,
-                    amount(pending.value, pending.unit),
+                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
+                    lawText(law, pending.value, pending.unit),
                   ),
                 );
               for (const change of [...changes.took, ...changes.ahead].filter(
@@ -4566,7 +4575,7 @@ const sheets = {
               ))
                 detail.append(
                   row(
-                    change.date,
+                    dateWords(change.date),
                     [change.measure, change.jurisdiction, change.what]
                       .filter(Boolean)
                       .join(" · "),

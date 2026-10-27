@@ -75,7 +75,8 @@ try {
     });
   // Every card on every page, by its heading.
   const cards = new Map();
-  for (let p = 0; p < 10; p++) {
+  // Every law in force here, amounts and policy questions: up to 30 pages of 4.
+  for (let p = 0; p < 30; p++) {
     for (const card of await page.locator(".law-card summary").all()) {
       const name = await card.locator("h3").innerText();
       cards.set(
