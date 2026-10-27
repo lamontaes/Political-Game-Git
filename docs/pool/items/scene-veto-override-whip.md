@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/director-veto-override-whip
-pr:
+pr: #6421
 blocked-on:
 lead: director
 source: added with npm run pool -- add

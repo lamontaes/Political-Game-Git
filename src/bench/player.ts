@@ -1,3 +1,4 @@
+import { comingOfAgeOn } from "../director/coming-of-age";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   advancePlayerV1,
@@ -56,6 +57,8 @@ export class BenchPlayer {
   personId?: string;
   /** True once the core's player clock is bound to `personId`. */
   private clockBound = false;
+  /** The character whose coming-of-age day has stopped an advance. */
+  private comingOfAgeShownFor?: string;
   private destination?: { through: PlayerMomentV1; mode: string };
   readonly selfChosen: SelfChosenAnswer[] = [];
   /**
@@ -216,10 +219,18 @@ export class BenchPlayer {
    */
   private run(start: PlayerPacketV1 | undefined, from: PlayerMomentV1) {
     const { through } = this.destination!;
+    // Coming of voting age is golden-path step one: an advance that reaches
+    // that day stops on it, so the player sees the day it happens.
+    // The first advance of a new life starts on the day after the clock shows,
+    // so a birthday on the first day is reached from inside the run.
+    const began = from.date;
+    const person = this.core.people.get(this.personId!);
+    const comesOfAge = person ? comingOfAgeOn(person.birthDate) : undefined;
     let packet = start;
     while (true) {
       if (!packet || packet.kind === "complete") {
         if (packet) from = packet.at;
+        if (packet && this.comesOfAgeStop(comesOfAge, began, from.date)) break;
         if (compareMoments(from, through) >= 0) break;
         const next = {
           date: addDays(makeIsoDate(from.date), 1),
@@ -259,6 +270,7 @@ export class BenchPlayer {
         this.clockBound = true;
         continue;
       }
+      if (this.comesOfAgeStop(comesOfAge, began, packet.at.date)) break;
       // Day never opens a choice list (owner, Oct 14, 2026): the character
       // answers its own choices with the core's selection, and only a stop
       // (a director scene, a fixed commitment or a deadline) ends the advance.
@@ -269,6 +281,21 @@ export class BenchPlayer {
       break;
     }
     if (packet) this.packet = packet;
+  }
+
+  /**
+   * True once, on the first moment of the day the character comes of voting
+   * age, unless the character began that advance already past it.
+   */
+  private comesOfAgeStop(
+    comesOfAge: string | undefined,
+    began: string,
+    reached: string,
+  ) {
+    if (!comesOfAge || this.comingOfAgeShownFor === this.personId) return false;
+    if (began > comesOfAge || reached < comesOfAge) return false;
+    this.comingOfAgeShownFor = this.personId;
+    return true;
   }
 
   /** The player's answer, then onward to the same destination. */
