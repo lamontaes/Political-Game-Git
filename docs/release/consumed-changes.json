@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.44.0",
+      "releasedOn": "2026-10-26",
+      "revision": "8d16b0d5221c881a03efb5f2f7891592512787de",
+      "changeIds": ["law-wiring-rights-env", "play-city-books-on-screen"]
+    },
+    {
       "version": "0.43.0",
       "releasedOn": "2026-10-26",
       "revision": "17aa4c36ebac55bf96979769b29128d645ed939f",
