@@ -54,7 +54,6 @@ import {
   type OpeningSpeechKind,
 } from "../english/english-opening-speech";
 import {
-  composeLeadIn,
   composeNewsStory,
   NEWSCAST_BANK,
   type StoryKind,
@@ -123,15 +122,6 @@ export interface OpeningStory {
     readonly text: string;
     readonly sourceRecordIds: readonly string[];
   };
-  /**
-   * What the player is watching, said first: the anchor's lead into the
-   * address by its title, on the news the household has on at home.
-   */
-  readonly lead: readonly {
-    readonly speaker: "anchor";
-    readonly text: string;
-    readonly sourceRecordIds: readonly string[];
-  }[];
   /** That evening's news: the address, then the town's own lead story. */
   readonly newscast: readonly OpeningNewsStory[];
   /**
@@ -827,20 +817,6 @@ export function composeOpeningStory(
       text: sentences.map((row) => row.text).join(" "),
       sourceRecordIds: allIds,
     },
-    lead: composeLeadIn({
-      ...packet(
-        `opening-lead:${core.date}`,
-        core.seed,
-        id,
-        "default",
-        {
-          evening: fact("yes", id),
-          topic: fact(DATA.speechTitles[kind], id),
-        },
-        [id],
-      ),
-      bankVersion: "words-newscast-v1",
-    }),
     newscast: program,
     sequence,
     home: {
