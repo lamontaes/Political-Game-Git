@@ -247,7 +247,7 @@ ol {
   flex: none;
   width: 62px;
   height: 62px;
-  background: 50% 3% / 230% auto no-repeat;
+  background: 50% 0 / 150% auto no-repeat;
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
 }
@@ -757,6 +757,71 @@ input[type="range"]::-moz-range-thumb {
 .field input {
   width: 170px;
 }
+/* The creator: one label column and one field column; headings, labels and the
+   fields' left edge are the same on every row. */
+#cr-character {
+  --label-col: 100px;
+}
+#cr-character .field,
+#cr-character .group.row {
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  align-items: center;
+  column-gap: 12px;
+}
+#cr-character .field input {
+  width: 100%;
+}
+#cr-character .group.row > .label {
+  line-height: 1.3;
+}
+#cr-character .choices {
+  margin-top: 0;
+  gap: 8px;
+}
+#cr-character .choices .action {
+  min-width: 0;
+  margin: 0;
+  padding: 6px 10px;
+  flex: 1 1 auto;
+}
+#cr-character .date-row {
+  margin: 0;
+  grid-template-columns: 5fr 3fr 6fr;
+  gap: 6px;
+}
+#cr-character .date-row select {
+  padding-inline: 6px;
+  font-size: 13px;
+}
+#cr-character .group.row > :not(.label):not(.date-row):not(.choices) {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+#cr-character .date-row .field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+#cr-character .choices .action {
+  white-space: nowrap;
+  padding: 6px 6px;
+}
+/* A picked button keeps its box: the brass corner shows, nothing resizes. */
+.action[aria-pressed="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
+  pointer-events: none;
+}
+.action[aria-pressed="true"] {
+  border-color: var(--gold);
+}
 /* The creator's fields always show their box, empty or filled. */
 #cr-character .field input,
 #cr-character .field select {
@@ -931,6 +996,38 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   gap: 6px;
   justify-content: center;
+}
+.swatch-row {
+  grid-template-columns: 110px 1fr;
+  row-gap: 2px;
+}
+.swatch-row .look-value {
+  grid-column: 2;
+  justify-content: flex-start;
+  color: var(--text-2);
+  font: 500 12px var(--ui);
+}
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.swatch-button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--brass);
+  cursor: pointer;
+}
+.swatch-button[aria-pressed="true"] {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+.swatch-button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
 }
 .swatch {
   width: 12px;
@@ -2743,4 +2840,16 @@ body.dev .dev-ring {
 .people-selection .circle-why,
 .people-selection .circle-none {
   color: var(--gold);
+}
+
+/* Advanced: the officeholders to play as, a button each. */
+.pick-list {
+  display: grid;
+  gap: 8px;
+  max-height: 46vh;
+  overflow-y: auto;
+  margin: 12px 0;
+}
+.pick-list button {
+  text-align: left;
 }

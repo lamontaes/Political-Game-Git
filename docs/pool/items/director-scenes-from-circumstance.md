@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/director-scenes-from-circumstance
-pr:
+pr: #6263
 blocked-on:
 lead: director
 source: director lead work order docs/work-orders/lead-director-2026-10-27.md, deliverable 1; owner Oct 27 01:30 ruling

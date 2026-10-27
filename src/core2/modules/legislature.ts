@@ -4642,24 +4642,79 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
   return sitting.date;
 }
 
+let weeklyFloorReader:
+  ((api: CoreAPI, date: string) => readonly string[]) | null = null;
+/** The engine that runs the legislatures' sessions says which bills a floor week ahead takes up. */
+export function registerWeeklyFloorReader(
+  reader: (api: CoreAPI, date: string) => readonly string[],
+): void {
+  weeklyFloorReader = reader;
+}
+
 /**
  * The floor's agenda for a date: the drafted bills whose vote is scheduled
- * for it, in id order. A member reads what the floor takes up ahead of the
- * vote here, not from the calendar's keys.
+ * for it, and those a legislature's weekly floor takes up that day, in id
+ * order. A member reads what the floor takes up ahead of the vote here, not
+ * from the calendar's keys.
  */
 export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
   const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
+  const weekly = new Set(weeklyFloorReader?.(api, date) ?? []);
   return (table(api, "bills").rows() as unknown as BillRow[])
     .filter(
       (b) =>
         b.status === "drafted" &&
-        calendar.get(`meeting:${b.id}`)?.date === date,
+        (weekly.has(b.id) || calendar.get(`meeting:${b.id}`)?.date === date),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {
   return table(api, "bills").get(billId) as unknown as BillRow;
+}
+
+/**
+ * The whip count before a bill's floor vote: in each chamber it goes
+ * through, the members whose own positions lean for it, against it or
+ * neither today (`positionOn`, the reasons `chamberVote` casts), so the
+ * count moves as views, deals and the whip's asks do. A member who chose
+ * their vote counts as they chose; the player who has not is undecided.
+ */
+export function whipCount(
+  api: CoreAPI,
+  billId: string,
+): readonly {
+  chamber: string;
+  yes: readonly string[];
+  no: readonly string[];
+  undecided: readonly string[];
+}[] {
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  const player =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  return chambersOf(api, bill).map((chamber) => {
+    const count = { chamber, yes: [] as string[], no: [] as string[] };
+    const undecided: string[] = [];
+    for (const member of members(api, chamber)) {
+      const key = memberKey(member);
+      const chosen = (
+        table(api, "choices").get(`${bill.id}|${key}`) as unknown as
+          { vote: "yes" | "no" | "abstain" } | undefined
+      )?.vote;
+      const lean = chosen
+        ? chosen === "yes"
+          ? 1
+          : chosen === "no"
+            ? -1
+            : 0
+        : key === player
+          ? 0
+          : positionOn(api, bill, key).total;
+      (lean > 0 ? count.yes : lean < 0 ? count.no : undecided).push(key);
+    }
+    return { ...count, undecided };
+  });
 }
 
 export function votesOn(
