@@ -286,7 +286,7 @@ function play(where: string, core: CoreState): Attempt {
     });
   });
   try {
-    for (let day = 0; day < 170; day += 30) {
+    const putBack = () => {
       const back = QUESTIONS.filter((key) => lawInForce(api, key).value !== 1);
       for (const key of back)
         setQuestion(api, key, 1, key === CAP ? undefined : "state");
@@ -294,8 +294,17 @@ function play(where: string, core: CoreState): Attempt {
         run(core, 2);
         ids.income = scaleAmount(api, "income-tax", 1.1);
       }
+      return back.length;
+    };
+    for (let day = 0; day < 170; day += 30) {
+      putBack();
       run(core, Math.min(30, 170 - day));
     }
+    // A body in play can repeal an act in the last stretch (Greenville, Rhode
+    // Island, seed m3-wh1: H 14 repealed the pension schedule on 2025-07-01,
+    // nine days before the run ended); put it back so every read after play
+    // sees the law in force.
+    if (putBack()) run(core, 3);
   } finally {
     setJournalTrace(null);
   }
