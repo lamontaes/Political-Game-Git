@@ -25,12 +25,13 @@ import {
 import type { SpeechBuild } from "../director/speech-builder";
 import { storyReply, storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
+import { electionResults, ownRace } from "./results";
 import {
-  electionResults,
-  governorRacesTonight,
-  ownRace,
-  resultsScene,
-} from "./results";
+  canvassedLine,
+  electionDay,
+  electionNight,
+  stayedHomeLine,
+} from "./election-night";
 import { wordOwnResult } from "./archive-words";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -112,6 +113,9 @@ let placeName = "";
 let titleVisits = 0;
 let conversation: Conversation | undefined;
 let filingVisit: BenchFilingVisit | undefined;
+/** The election nights each player has watched, and the mornings they canvassed. */
+const nightsWatched = new Set<string>();
+const canvassedOn = new Set<string>();
 /** The speech the player is building, one part at a time. */
 let speechBuild: SpeechBuild | undefined;
 // Where the build is, for the loading screen's polls.
@@ -838,15 +842,27 @@ export async function benchRequest(
         );
         return;
       }
-      if (request.method === "GET" && url.pathname === "/api/results/nation") {
-        send(200, governorRacesTonight(requireCore()));
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/results/scene") {
+      // Election night: the newest night's race, its returns place by place
+      // and the call, once per race until the player has watched it.
+      if (request.method === "GET" && url.pathname === "/api/election-night") {
+        const id = url.searchParams.get("id") ?? "";
+        const night = id ? electionNight(requireCore(), id) : null;
         send(
           200,
-          resultsScene(requireCore(), url.searchParams.get("id") ?? ""),
+          night && !nightsWatched.has(`${id}|${night.contestId}`)
+            ? night
+            : null,
         );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/election-night/watched"
+      ) {
+        nightsWatched.add(
+          `${url.searchParams.get("id") ?? ""}|${url.searchParams.get("contestId") ?? ""}`,
+        );
+        send(200, { ok: true });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/economy") {
@@ -1185,6 +1201,51 @@ export async function benchRequest(
         });
         return;
       }
+      // Election morning: what the day holds, the canvass for a candidate,
+      // and the choice to vote.
+      if (request.method === "GET" && url.pathname === "/api/election-day") {
+        const visit = player?.pollingPlace;
+        send(
+          200,
+          visit && player?.personId
+            ? electionDay(
+                requireCore(),
+                player.personId,
+                visit,
+                canvassedOn.has(
+                  `${player.personId}|${visit.record.electionDate}`,
+                ),
+              )
+            : null,
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/election-day/canvass"
+      ) {
+        const visit = player?.pollingPlace;
+        if (!visit || !player?.personId)
+          throw new Error("There is no election today.");
+        const day = electionDay(requireCore(), player.personId, visit, false);
+        if (!day.canvass) throw new Error("You aren't on the ballot today.");
+        const result = campaignDay(requireCore(), player.personId, {
+          filingId: day.canvass.filingId,
+          kind: "canvass",
+        });
+        canvassedOn.add(`${player.personId}|${visit.record.electionDate}`);
+        send(200, {
+          line: canvassedLine(
+            requireCore(),
+            player.personId,
+            visit.record.electionDate,
+            day.canvass.filingId,
+            result,
+          ),
+          scene: result.scene ?? null,
+        });
+        return;
+      }
       // Election day at the polls: the ballot, marked race by race, or left.
       if (request.method === "GET" && url.pathname === "/api/polling-place") {
         send(
@@ -1217,7 +1278,22 @@ export async function benchRequest(
         url.pathname === "/api/polling-place/leave"
       ) {
         if (!player) throw new Error("Generate a town first.");
-        send(200, { record: player.leavePolls(), pollingPlace: null });
+        const date = player.pollingPlace?.record.electionDate;
+        const record = player.leavePolls();
+        send(200, {
+          record,
+          pollingPlace: null,
+          // Staying home without marking anything: no ballot is cast.
+          line:
+            date && player.personId && !Object.keys(record.marked).length
+              ? stayedHomeLine(
+                  requireCore(),
+                  player.personId,
+                  date,
+                  record.contestIds,
+                )
+              : null,
+        });
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/resume") {

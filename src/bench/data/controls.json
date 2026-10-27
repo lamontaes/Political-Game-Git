@@ -31,7 +31,6 @@
   "endedBy": {
     "moment": "Something needs you",
     "job-offered": "A job offer",
-    "results": "Election results",
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
@@ -381,19 +380,24 @@
     "noneHere": "None here"
   },
   "results": {
-    "cast": "Ballots cast",
-    "exitPoll": "Exit poll",
-    "wonIn": "Where it was won",
     "you": "You",
     "yourRace": "Your race",
     "won": "Won",
-    "lost": "Lost",
-    "unopposed": "Unopposed",
-    "abstained": "—",
-    "nation": "Governor races across the country",
+    "lost": "Lost"
+  },
+  "electionDay": {
+    "canvass": "Go canvassing",
+    "skipCanvass": "Not today",
+    "vote": "Go vote",
+    "stayHome": "Stay home",
+    "go": "Continue"
+  },
+  "returns": {
+    "next": "Next returns",
+    "close": "Close",
+    "votes": "votes",
     "marginBy": "by",
-    "points": "points",
-    "noNation": "No governor races have been counted yet"
+    "points": "points"
   },
   "money": {
     "cash": "Cash available",

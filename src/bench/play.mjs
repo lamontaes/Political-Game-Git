@@ -17,7 +17,6 @@ let packet;
 let talk;
 let openTab;
 let busy = false;
-let seenResults = 0;
 
 async function api(path, method = "GET") {
   const response = await fetch(path, { method });
@@ -646,19 +645,12 @@ async function refresh() {
     await openSheet("handoff");
     return;
   }
-  // Election night: new results open their sheet.
-  const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
-  if (races.length > seenResults) {
-    seenResults = races.length;
-    // Seen where you watched the returns: the party if you ran, else the polls.
-    const night = await api(
-      `/api/results/scene?id=${encodeURIComponent(me.id)}`,
-    );
-    if (night) {
-      $("backdrop").src = night.backdrop.url;
-      drawPeople(night.people);
-    }
-    await openSheet("results");
+  // Election night: the returns for the player's race, once.
+  const night = await api(
+    `/api/election-night?id=${encodeURIComponent(me.id)}`,
+  );
+  if (night) {
+    await electionNight(night);
     return;
   }
   // A law that took effect: what changed in town.
@@ -673,16 +665,16 @@ async function act(path) {
   busy = true;
   renderPacket();
   try {
-    // Polls still open (the page reloaded at the polls): vote first.
+    // Election morning still open (the page reloaded on it): the day first.
     const polls = await api("/api/polling-place");
-    if (polls) await atThePolls(polls);
+    if (polls) await electionMorning(polls);
     const result = await post(path);
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
     if (result.pollingPlace) {
-      // The day stopped at the polls: vote, then the day goes on.
-      await atThePolls(result.pollingPlace);
+      // Election morning: canvass if you're running, then vote or stay home.
+      await electionMorning(result.pollingPlace);
       busy = false;
       return act(path);
     }
@@ -879,6 +871,145 @@ function atDesk() {
     };
     show("desk", true);
     api("/api/desk").then(draw);
+  });
+}
+
+// ---- Election morning (owner, Oct 26, 2026: going to vote is a choice) ----
+// The narrator's morning from the election-day bank, a canvass for a
+// candidate before the polls close, then Go vote (the ballot at the polls)
+// or Stay home (no ballot cast). Buttons are control names.
+function electionMorning(scene) {
+  return new Promise((resolve) => {
+    const labels = controls.electionDay ?? {};
+    const say = (lines) =>
+      $("election-day-lines").append(
+        ...lines.map((line) =>
+          el("p", { className: "prose", textContent: line.text }),
+        ),
+      );
+    const buttons = (...rows) =>
+      $("election-day-acts").replaceChildren(
+        ...rows.map(([text, fn]) => {
+          const node = makeButton({ className: "action", textContent: text });
+          node.addEventListener("click", fn);
+          return node;
+        }),
+      );
+    const finish = () => {
+      show("election-day", false);
+      $("game").classList.remove("cinema");
+      resolve();
+    };
+    const ask = (day) => {
+      say(day.ask);
+      buttons(
+        [
+          labels.vote,
+          async () => {
+            show("election-day", false);
+            await atThePolls(scene);
+            finish();
+          },
+        ],
+        [
+          labels.stayHome,
+          async () => {
+            const left = await post("/api/polling-place/leave");
+            if (left.line) {
+              say([left.line]);
+              buttons([labels.go, finish]);
+            } else finish();
+          },
+        ],
+      );
+    };
+    api("/api/election-day").then((day) => {
+      if (!day) return atThePolls(scene).then(resolve);
+      $("backdrop").src = scene.backdrop.url;
+      drawPeople(scene.people);
+      $("election-day-lines").replaceChildren();
+      say(day.lines);
+      if (day.canvass)
+        buttons(
+          [
+            labels.canvass,
+            async () => {
+              const done = await post("/api/election-day/canvass");
+              if (done.scene) {
+                $("backdrop").src = done.scene.backdrop.url;
+                drawPeople(done.scene.people);
+              }
+              if (done.line) say([done.line]);
+              ask(day);
+            },
+          ],
+          [labels.skipCanvass, () => ask(day)],
+        );
+      else ask(day);
+      $("game").classList.add("cinema");
+      show("election-day", true);
+    });
+  });
+}
+
+// ---- Election night (owner, Oct 26, 2026: its own pop-up) ----
+// The returns for the player's race as each place reports, smallest first,
+// with the running count; Next returns steps through them; the call ends it,
+// with the governor races elsewhere that night. Numbers and names are the
+// count's record data; the narrator's lines come from the election-day bank.
+function electionNight(night) {
+  return new Promise((resolve) => {
+    const labels = controls.returns ?? {};
+    if (night.scene) {
+      $("backdrop").src = night.scene.backdrop.url;
+      drawPeople(night.scene.people);
+    }
+    let at = 0;
+    const draw = () => {
+      const step = night.steps[at];
+      const last = at === night.steps.length - 1;
+      $("returns-title").textContent = night.title;
+      $("returns-lines").replaceChildren(
+        ...step.lines.map((line) =>
+          el("p", { className: "prose", textContent: line.text }),
+        ),
+      );
+      $("returns-count").replaceChildren(
+        ...step.totals.map((row) =>
+          row(row.name, `${row.votes.toLocaleString("en-US")} ${labels.votes}`),
+        ),
+        ...(last && night.nation.races.length
+          ? [
+              ...night.nation.lines.map((line) =>
+                el("p", { className: "prose", textContent: line.text }),
+              ),
+              ...night.nation.races.map((race) =>
+                row(
+                  race.state,
+                  `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
+                ),
+              ),
+            ]
+          : []),
+      );
+      $("returns-next").textContent = last ? labels.close : labels.next;
+    };
+    $("returns-next").onclick = async () => {
+      if (at < night.steps.length - 1) {
+        at += 1;
+        draw();
+        return;
+      }
+      await post(
+        `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
+      );
+      show("returns", false);
+      $("game").classList.remove("cinema");
+      resolve();
+    };
+    $("game").classList.add("cinema");
+    draw();
+    show("returns", true);
   });
 }
 
@@ -3009,104 +3140,6 @@ const sheets = {
       ),
     );
   },
-  async results() {
-    const [races, nation] = await Promise.all([
-      api(`/api/results?id=${encodeURIComponent(me.id)}`),
-      api("/api/results/nation"),
-    ]);
-    await controlsReady;
-    const labels = controls.results;
-    seenResults = races.length;
-    const number = (n) => n.toLocaleString("en-US");
-    // The newest night in full, your own race first; earlier nights' races after.
-    const night = races.filter((race) => race.date === races[0]?.date);
-    const earlier = races.slice(night.length, night.length + 8);
-    // After your own night's races, every other state's governor race that
-    // night, from the world's race records: who won and by how much.
-    const nationBlock = listRow(
-      "race nation",
-      {},
-      el("b", { textContent: labels.nation }),
-      nation.length
-        ? el(
-            "div",
-            { className: "nation-grid" },
-            ...nation.map((race) => {
-              const line = row(
-                race.state,
-                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints.toFixed(1)} ${labels.points}`,
-              );
-              line.classList.add("nation-race");
-              line.dataset.race = race.id;
-              return line;
-            }),
-          )
-        : el("div", { className: "label", textContent: labels.noNation }),
-    );
-    const rows = [...night, ...earlier].map((race) =>
-      listRow(
-        `race${race.mine ? " own" : ""}`,
-        {},
-        race.mine
-          ? el(
-              "div",
-              { className: "mine" },
-              el("b", { textContent: `${labels.yourRace} ` }),
-              race.mine.won ? labels.won : labels.lost,
-            )
-          : "",
-        el("b", {
-          textContent: `${race.title} · ${proseDate(race.date)}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
-        }),
-        ...race.candidates.map((c) =>
-          el("div", {
-            className: c.name === race.winner ? "winner" : "",
-            textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
-          }),
-        ),
-        // One total for the race: every ballot cast in it, the town's and
-        // the rest of the electorate's.
-        el(
-          "div",
-          {},
-          el("b", { textContent: `${labels.cast} ` }),
-          number(race.electorate),
-        ),
-        el(
-          "div",
-          {},
-          el("b", { textContent: `${labels.exitPoll} ` }),
-          Object.entries(race.exitPoll)
-            .map(([k, n]) => `${k} ${n}`)
-            .join(" · "),
-        ),
-        race.places.length
-          ? el(
-              "div",
-              {},
-              el("b", { textContent: `${labels.wonIn} ` }),
-              race.places
-                .slice(0, 6)
-                .map((p) => `${p.name} ${p.leader ?? ""}`)
-                .join(" · "),
-            )
-          : "",
-        race.ballot
-          ? el(
-              "div",
-              { className: "mine" },
-              el("b", { textContent: `${labels.you} ` }),
-              race.ballot.voted ? (race.ballot.choice ?? "") : labels.abstained,
-            )
-          : "",
-      ),
-    );
-    return [
-      ...rows.slice(0, night.length),
-      nationBlock,
-      ...rows.slice(night.length),
-    ];
-  },
   async map() {
     const m = await api("/api/map");
     if (!m) return [];
@@ -4101,7 +4134,6 @@ const sheets = {
           f.filedWith,
         ),
       ),
-      ...(await sheets.results()),
     ];
   },
   async government() {
@@ -4494,7 +4526,6 @@ const titles = {
   parties: "Parties",
   issues: "Issues",
   calendar: "Calendar",
-  results: "Election night",
   budgets: "Budgets",
   family: "Family",
   travel: "Travel",
@@ -4540,7 +4571,6 @@ async function openSheet(tab) {
     ...(groups[group] ?? [])
       .filter(
         (name) =>
-          (name !== "results" || seenResults > 0) &&
           (name !== "office" || holdsOffice) &&
           // Budgets wait until they are the player's business: an office, a
           // filing, or the age to vote.

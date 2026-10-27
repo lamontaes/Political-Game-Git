@@ -1296,40 +1296,21 @@ body.dev .dev-ring {
   font: 500 15px/1.4 var(--speech);
 }
 #sheet-body .narrative > b:first-child,
-#sheet-body .campaign > b:first-child,
-#sheet-body .race > b:first-child {
+#sheet-body .campaign > b:first-child {
   display: block;
   max-width: none;
   margin-bottom: 3px;
 }
-#sheet-body .campaign,
-#sheet-body .race {
+#sheet-body .campaign {
   display: block;
   column-span: all;
 }
-#sheet-body .campaign > div,
-#sheet-body .race > div {
+#sheet-body .campaign > div {
   margin-top: 4px;
 }
 #sheet-body .campaign select,
 #sheet-body .campaign input {
   margin-right: 12px;
-}
-/* Every other state's governor race that night, three to a line. */
-#sheet-body .nation-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 32px;
-}
-#sheet-body .nation-grid .row {
-  padding: 3px 0;
-}
-.race .winner {
-  color: var(--gold);
-  font-weight: 600;
-}
-.race .mine {
-  color: var(--text-2);
 }
 #sheet-body details summary {
   cursor: pointer;
@@ -1808,6 +1789,8 @@ body.dev .dev-ring {
    Election day's ballot over the polling place's picture: kit12's panel,
    heading and actions; positions only. */
 #ballot,
+#election-day,
+#returns,
 #meeting,
 #desk,
 #job-offer {
@@ -1831,9 +1814,26 @@ body.dev .dev-ring {
   min-height: 18px;
   margin: 12px 0 0;
 }
-#ballot {
+#ballot,
+#election-day,
+#returns {
   display: flex;
   flex-direction: column;
+}
+#election-day-lines,
+#returns-lines {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+#election-day .acts,
+#returns .acts {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+#returns-count {
+  margin-top: 12px;
 }
 #ballot-races {
   flex: 1;

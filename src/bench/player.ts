@@ -216,9 +216,10 @@ export class BenchPlayer {
           date: addDays(makeIsoDate(from.date), 1),
           minuteOfDay: from.minuteOfDay,
         };
-        // Election day is a scene (owner, Oct 14, 2026): the count opens the
-        // day, so the character's day stops at the polls before the core
-        // enters it. The clock's midnight is the start of the core's next day.
+        // Election day is a scene (owner, Oct 14 and 26, 2026): the count
+        // opens the day, so election morning, with the choice to go vote,
+        // comes before the core enters it. The clock's midnight is the start
+        // of the core's next day.
         const polls = pollingVisitDue(
           this.core,
           this.director.ledger,
