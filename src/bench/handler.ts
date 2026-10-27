@@ -53,10 +53,11 @@ import { familyView } from "./family";
 import { governmentMap } from "./map";
 import {
   chooseAtCounter,
+  officePlace,
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
-import { backdropPath, benchScene } from "./scene";
+import { backdropFile, backdropPath, benchScene } from "./scene";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -583,6 +584,19 @@ export async function benchRequest(
             player?.packet,
           ),
         );
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/goto/counter-picture"
+      ) {
+        // The picture of the office that takes a contest's filings.
+        send(200, {
+          url: backdropFile(
+            officePlace(url.searchParams.get("filedWith") ?? ""),
+            player?.packet?.at.minuteOfDay ?? 12 * 60,
+          ).url,
+        });
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/goto/visit") {
