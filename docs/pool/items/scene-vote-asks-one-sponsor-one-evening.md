@@ -21,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/data/situation-types.json, src/director/ledger.ts, src/core2/modules/legislature.ts
 
-**Notes.** Found Oct 28 00:20 by the laws-and-effects lead while proving the ask in the bench.
+**Notes.** Found Oct 27 23:45 by the laws-and-effects lead while proving the ask in the bench.
