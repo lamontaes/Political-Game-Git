@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/contest-positions-race-closed
-pr:
+pr: #6361
 blocked-on:
 source: "Merger 7 on #6322, Oct 27; split from tests-contest-positions-cases-fail-on-drawn-places by the per-unit rule (owner, Oct 27)"
 claimed-at: 2026-10-27T16:55:47.000Z

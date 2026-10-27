@@ -5,6 +5,7 @@ import { declarationText, makeFixture } from "./fixtures";
 
 const workflow = readFileSync(".github/workflows/release.yml", "utf8");
 const validate = readFileSync(".github/workflows/validate.yml", "utf8");
+const packaging = readFileSync(".github/workflows/release-package.yml", "utf8");
 
 function stepIndex(name: string): number {
   const at = workflow.indexOf(`- name: ${name}`);
@@ -51,15 +52,33 @@ describe("the release event", () => {
       expect(row).toContain("group: release-main-validate");
       expect(row).toContain("cancel-in-progress: false");
     }
-    for (const [name, next] of [
-      ["publish_candidate", "desktop_package"],
-      ["desktop_package", "desktop_publish"],
-      ["desktop_publish", undefined],
-    ] as const) {
-      const row = job(name, next);
-      expect(row).toContain("group: release-main-publish");
-      expect(row).toContain("cancel-in-progress: false");
-    }
+    const publish = job("publish_candidate");
+    expect(publish).toContain("group: release-main-publish");
+    expect(publish).toContain("cancel-in-progress: false");
+  });
+
+  it("packages on a clock or on request, never on a push to main", () => {
+    // Owner, Oct 27, 2026: merges starved the package for five hours.
+    expect(workflow).not.toContain("desktop_package");
+    expect(workflow).not.toContain("desktop_publish");
+    expect(workflow).toContain("name: Record the published candidate");
+    expect(packaging).toMatch(
+      /on:\n {2}schedule:\n {4}- cron: "\d+ \*\/2 \* \* \*"\n {2}workflow_dispatch:/,
+    );
+    expect(packaging).not.toContain("push:");
+    expect(packaging).not.toContain("pull_request");
+    // One group for the whole workflow; a running package is never cancelled.
+    expect(packaging).toMatch(
+      /^concurrency:\n {2}group: release-package\n {2}cancel-in-progress: false/m,
+    );
+    expect(packaging).not.toContain("cancel-in-progress: true");
+    // It packages the ledger's published commit, never a newer main.
+    expect(packaging).toContain("artifacts?name=publish-record");
+    expect(packaging).toContain(
+      "ref: ${{ needs.find_candidate.outputs.published_sha }}",
+    );
+    expect(packaging).not.toContain("ref: main");
+    expect(packaging).toContain("already has a GitHub release");
   });
 
   it("cannot recursively release its own commit", () => {
@@ -73,8 +92,10 @@ describe("the release event", () => {
 describe("privilege separation", () => {
   const builder = job("build_candidate", "validate_candidate");
   const validator = job("validate_candidate", "publish_candidate");
-  const publisher = job("publish_candidate", "desktop_package");
-  const desktopPublisher = job("desktop_publish");
+  const publisher = job("publish_candidate");
+  const desktopPublisher = packaging.slice(
+    packaging.indexOf("  desktop_publish:"),
+  );
 
   it("keeps dependency and repository-code execution in read-only jobs", () => {
     expect(builder).toContain("permissions:\n      contents: read");
@@ -126,7 +147,8 @@ describe("privilege separation", () => {
   it("gives write authority only to the minimal publisher", () => {
     // The candidate's publisher and the desktop release's; neither runs
     // repository code.
-    expect(workflow.match(/contents: write/g)).toHaveLength(2);
+    expect(workflow.match(/contents: write/g)).toHaveLength(1);
+    expect(packaging.match(/contents: write/g)).toHaveLength(1);
     expect(publisher).toContain("contents: write");
     expect(desktopPublisher).toContain("contents: write");
     expect(desktopPublisher).not.toContain("actions/checkout");
