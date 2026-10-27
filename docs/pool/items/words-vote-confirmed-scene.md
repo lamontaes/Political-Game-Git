@@ -5,8 +5,8 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: finisher/words-vote-confirmed-scene
 pr: #5977
 blocked-on:
 source: added with npm run pool -- add
