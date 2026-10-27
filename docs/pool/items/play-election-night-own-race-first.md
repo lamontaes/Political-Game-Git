@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-play-stop-22
 pr: #6041
 blocked-on:

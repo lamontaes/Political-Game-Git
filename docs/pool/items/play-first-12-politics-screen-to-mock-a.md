@@ -29,4 +29,4 @@ milestone: play-first
 
 **Files.** src/bench/government.ts, src/bench/play.mjs, src/bench/play.css
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Ruled (owner, Oct 24, "go ahead"): the Politics screens follow the mocks; Issues (the -b item) is law cards, not a list (OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Ruled (owner, Oct 24, "go ahead"): the Politics screens follow the mocks; Issues (the -b item) is law cards, not a list (OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Owner: "Why is everything being printed on the menu like a spreadsheet? Why is everything not in the UI?" The item waits on 05-b, which waits on 05-a: ungate it.

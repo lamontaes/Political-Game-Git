@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Research before building: the population-change range is SOURCED from Census population estimates for places of that size in that state (see research-regional-population-change-range), and real rates check the town's totals, never one person's outcome. A slow check is a script under src/core2/tooling/, not a unit test; never edit moves.test.ts.
 
-**Done when.** A script plays one year of buildBenchWorld (two-level, every module) in the runner's drawn place and checks births against the state's rates, departures against the state's county-leaving rates by age, and the town's population change against the sourced range, naming place, key, full seed and record ids, and exiting nonzero on each failed clause; M1-09's command runs it after moves.test.ts; it fails when births are switched off.
+**Done when.** A script plays one year of buildBenchWorld (two-level, every module) in the runner's drawn place and checks births against the state's rates, departures against the state's county-leaving rates by age, and the town's population change against the sourced range, naming place, key, full seed and record ids, and exiting nonzero on each failed clause; M1-09's command runs it after moves.test.ts; it fails when births are switched off. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/tooling/, docs/roadmap/features.json
 

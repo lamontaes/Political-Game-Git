@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Estimate, never UNKNOWN: the share of households with no income starts from the ACS figure for the place with its source and spread, and is checked against it. No dice: a household's benefits follow the law in force and its members' records. One rule, all 56 places.
 
-**Done when.** In the played world (`buildBenchWorld`, the drawn places Murphy, Timberwood Park and Bay Pines with seeds n1 to n3, and one random place) the share of full households with no income in 90 days is printed against the ACS share for that place, and a test in `src/core2/` states the comparison and names the place and seed; any household of people 65 or older with no award is listed by id with the reason.
+**Done when.** In the played world (`buildBenchWorld`, the drawn places Murphy, Timberwood Park and Bay Pines with seeds n1 to n3, and one random place) the share of full households with no income in 90 days is printed against the ACS share for that place, and a test in `src/core2/` states the comparison and names the place and seed; any household of people 65 or older with no award is listed by id with the reason. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/residents.ts, src/core2/modules/law-reach, src/core2/data/
 

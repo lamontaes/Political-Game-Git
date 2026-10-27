@@ -34,6 +34,7 @@ import { stableHash } from "../core2/kernel/ids";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
@@ -51,6 +52,8 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
+import { officialsIn } from "../core2/modules/officials";
+import { partySide } from "../core2/appointments";
 import {
   asksQuestion,
   conversationHas,
@@ -64,9 +67,9 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { relationPhrase } from "../english/journal-words";
+import { kinAddress, relationPhrase } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
-import { properName, spoken, spokenMonth, spokenWhen } from "./words";
+import { properName, spoken, spokenWhen } from "./words";
 
 const zero = P.zero;
 const one = P.one;
@@ -246,6 +249,23 @@ function schoolStage(core: Readonly<CoreState>, person: Readonly<PersonState>) {
     P.benchmarkAdultMinimumAge
     ? "graduated"
     : "enrolled";
+}
+
+/**
+ * How long someone has held their job, in completed years, counted to the
+ * anniversary of the day they started: what people say ("for seven years"),
+ * never the month they started. Nobody says a date in speech. Under two
+ * years there is no count to say.
+ */
+export function tenureYears(
+  started: { date: string; factId: string } | null,
+  today: string,
+): { text: string; sourceRecordIds: readonly string[] } | undefined {
+  if (!started) return undefined;
+  const years = ageOnDate(started.date, today);
+  return years > one
+    ? { text: String(years), sourceRecordIds: [started.factId] }
+    : undefined;
 }
 
 /** When the person started their current job, from their own record. */
@@ -501,6 +521,48 @@ function evictionSubjects(
   return out;
 }
 
+const VICTIMIZED_LABEL = `feeling:event:${CRIME_EVENT}`;
+
+/**
+ * The speaker's latest victimization as they can tell it, from the crime
+ * engine's record: what happened (the crime's kind, the stage the line is
+ * worded for) and when. Only the speaker's own moment counts: the record
+ * names whom it happened to (every member for a crime against the household,
+ * only the victim for a robbery or an assault), and the lines are told in the
+ * first person.
+ */
+function victimizationSubjects(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  speakerId: PersonId,
+): Subject[] {
+  if (!core.modules.has(CRIME_MODULE_ID)) return [];
+  const moment = recentMoments(core, director, speakerId).find(
+    (row) =>
+      row.label === VICTIMIZED_LABEL &&
+      row.causeId.startsWith(`${CRIME_EVENT}:`),
+  );
+  if (!moment) return [];
+  // The record's id is the crime's kind, the household and the day.
+  const [type] = moment.causeId.slice(CRIME_EVENT.length + one).split(":");
+  if (!type) return [];
+  return [
+    {
+      id: `victimization:${moment.causeId}`,
+      kind: "victimization",
+      aboutId: moment.causeId,
+      stage: type,
+      facts: {
+        victimized: { text: "", sourceRecordIds: [moment.causeId] },
+        when: {
+          text: spokenWhen(moment.date, core.date),
+          sourceRecordIds: [moment.causeId],
+        },
+      },
+    },
+  ];
+}
+
 /**
  * The justice engine's events a person can talk about, by the ledger label
  * of the moment they made and the subject each is told as.
@@ -728,6 +790,7 @@ export function subjectsBetween(
     });
   }
   out.push(...evictionSubjects(core, director, speakerId, listenerId));
+  out.push(...victimizationSubjects(core, director, speakerId));
   out.push(...justiceSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
@@ -827,7 +890,8 @@ export function subjectsBetween(
       },
     });
   }
-  // The speaker's relatives the listener has not met, named by relation.
+  // The speaker's relatives the listener has not met, named by relation. A
+  // relative the two share is never introduced; they ask after them below.
   const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
@@ -836,6 +900,7 @@ export function subjectsBetween(
       !relative?.alive ||
       !row ||
       listener.knownIds.has(id) ||
+      listener.familyIds.has(id) ||
       id === listenerId
     )
       continue;
@@ -858,28 +923,42 @@ export function subjectsBetween(
       },
     });
   }
-  // The speaker's relatives the listener knows, asked after by name.
+  // The speaker's relatives the listener knows, asked after by name. One the
+  // two share is asked after as they call them ("How's Dad?"): a parent or
+  // grandparent to both by the kin address, a shared sibling by first name,
+  // and only by someone who does not live with them.
+  const listenerRelation = relationsOf(listener);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
     if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
     if (id === listenerId || !happened(id)) continue;
-    const phrase = relationPhrase(
-      row.relation,
-      relative.looks?.gender ?? "other",
-      "scene",
-    );
+    const gender = relative.looks?.gender ?? "other";
+    let phrase: string | undefined;
+    let sourceRecordIds = [row.factId];
+    if (listener.familyIds.has(id)) {
+      const theirs = listenerRelation.get(id);
+      if (
+        !theirs ||
+        theirs.relation !== row.relation ||
+        relative.householdId === listener.householdId
+      )
+        continue;
+      phrase =
+        kinAddress(row.relation, gender) ??
+        (row.relation === "sibling" ? relative.givenName : undefined);
+      sourceRecordIds = [row.factId, theirs.factId];
+    } else phrase = relationPhrase(row.relation, gender, "scene");
     if (!phrase) continue;
+    const shared = listener.familyIds.has(id);
     out.push({
       id: `family:${id}`,
       kind: "family",
       aboutId: id,
       facts: {
-        relation: {
-          text: phrase,
-          sourceRecordIds: [row.factId],
-        },
-        name: { text: relative.givenName, sourceRecordIds: [row.factId] },
+        relation: { text: phrase, sourceRecordIds },
+        // "I'll tell Dad you asked": a shared relative goes by what both call them.
+        name: { text: shared ? phrase : relative.givenName, sourceRecordIds },
       },
     });
   }
@@ -890,7 +969,8 @@ export function subjectsBetween(
     const relative = core.people.get(id);
     const row = theirRelation.get(id);
     if (!relative?.alive || !row || !speaker.knownIds.has(id)) continue;
-    if (id === speakerId || !happened(id)) continue;
+    if (id === speakerId || speaker.familyIds.has(id) || !happened(id))
+      continue;
     const phrase = relationPhrase(
       row.relation,
       relative.looks?.gender ?? "other",
@@ -952,11 +1032,16 @@ export function subjectsBetween(
     });
   // The President's address, once the speaker saw it or heard of it: its
   // remembered line is theirs to quote. Last, so it never takes the place of
-  // a subject the banks can word.
+  // a subject the banks can word. It is the day's news only while it is
+  // recent, as a recorded moment is.
   const known = core.knowledgeByPerson.get(speakerId);
   const address = known?.get(ADDRESS_FACT.event);
   const quote = known?.get(ADDRESS_FACT.remembered);
-  if (address && quote)
+  if (
+    address &&
+    quote &&
+    address.learnedAt > addDays(makeIsoDate(core.date), -recentDays())
+  ) {
     out.push({
       id: `address:${address.value}`,
       kind: "address",
@@ -968,12 +1053,46 @@ export function subjectsBetween(
         },
       },
     });
+    // What the speaker made of it: their own lean against the President's
+    // party, both on record.
+    const take = addressTake(core, speakerId, address.value);
+    if (take)
+      out.push({
+        id: `address-view:${address.value}`,
+        kind: "address-view",
+        aboutId: address.value,
+        stage: take.stage,
+        facts: { take: take.fact },
+      });
+  }
   // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
     return out.filter(
       (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
     );
   return out;
+}
+
+/**
+ * What someone made of the President's address: for it when their own lean
+ * is on the side of the President's party, against it when it is on the other
+ * side; none when either is even. The views engine's lean and the officials
+ * engine's party are the records it stands on.
+ */
+function addressTake(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  eventId: string,
+): { stage: "for" | "against"; fact: Fact } | null {
+  const api = coreAPI(core as CoreState);
+  const president = officialsIn(api, "US:president")[zero];
+  const side = partySide(president?.party);
+  const lean = viewOf(api, personId)?.lean ?? zero;
+  if (!president || side === zero || lean === zero) return null;
+  return {
+    stage: Math.sign(lean) === Math.sign(side) ? "for" : "against",
+    fact: { text: "", sourceRecordIds: [eventId, president.id, personId] },
+  };
 }
 
 /** The facts the listener answers a raised subject with, from their own records. */
@@ -1015,18 +1134,8 @@ function replyFacts(
         : { facts: {}, stage: "none" };
     }
     case "their-tenure": {
-      const started = startedOf(listener);
-      return started
-        ? {
-            facts: {
-              since: {
-                text: spokenMonth(started.date),
-                sourceRecordIds: [started.factId],
-              },
-            },
-            stage: "default",
-          }
-        : null;
+      const years = tenureYears(startedOf(listener), core.date);
+      return years ? { facts: { years }, stage: "default" } : null;
     }
     case "shared-work": {
       const theirs = jobOf(core, listener);
@@ -1086,6 +1195,11 @@ function replyFacts(
           ? "heard"
           : "not-heard",
       };
+    case "address": {
+      // Asked what they made of the address, the listener says their own take.
+      const take = addressTake(core, listenerId, subject.aboutId!);
+      return take ? { facts: { take: take.fact }, stage: take.stage } : null;
+    }
     default:
       return { facts: subject.facts, stage: "default" };
   }
@@ -1105,14 +1219,11 @@ function playerFacts(
       text: properName(mine.org.name),
       sourceRecordIds: [mine.job.id, mine.org.id],
     };
-  const started = startedOf(player);
-  if (started) {
-    facts.since = {
-      text: spokenMonth(started.date),
-      sourceRecordIds: [started.factId],
-    };
-    facts["my-since"] = facts.since;
-  }
+  // How long the player has worked there; a home answer counts its own years.
+  const tenure = last.kind.startsWith("home")
+    ? undefined
+    : tenureYears(startedOf(player), core.date);
+  if (tenure) facts.years = tenure;
   const place = corePlaceByJurisdictionId(player.placeId as never);
   if (place)
     facts["my-place"] = {
@@ -1424,8 +1535,19 @@ function otherRaises(
   return false;
 }
 
-/** What the place and the occasion open with when no recorded event leads: what they share, then the player's work or home. */
-const OPENING_ORDER = ["shared-school", "shared-work", "own-work", "home"];
+/**
+ * What the place and the occasion open with when no recorded event leads:
+ * what they share, then the player's work or home, then the day's news, the
+ * President's address while it is recent (at home, where relatives don't
+ * talk about work or home, the address is what the evening gives).
+ */
+const OPENING_ORDER = [
+  "shared-school",
+  "shared-work",
+  "own-work",
+  "home",
+  "address",
+];
 
 /** The subjects that are the two speakers' relationship: what they share. */
 const SHARED_KINDS = ["shared-school", "shared-work"];
@@ -1441,6 +1563,7 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "eviction",
   "eviction-cause",
   "eviction-where",
+  "victimization",
   "death-news",
   "illness-news",
   "prison-news",

@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Replace, never layer; the allowance names the file and the words it covers; American English everywhere (tests/american-english-sweep.test.ts).
 
-**Done when.** tests/american-english.test.ts and tests/american-english-sweep.test.ts pass on a branch from current main and npm run spelling lists nothing; the PR body names the changed files and the three hits by file and line.
+**Done when.** tests/american-english.test.ts and tests/american-english-sweep.test.ts pass on a branch from current main and npm run spelling lists nothing; the PR body names the changed files and the three hits by file and line. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** tests/american-english.test.ts, tests/american-english-sweep.test.ts, scripts/prose-eval/spelling.ts, data/research/stopgaps-oct19/C-government-law.json
 

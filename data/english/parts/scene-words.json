@@ -299,137 +299,6 @@
       }
     },
     {
-      "key": "scene-words.present-one-one.who-is-here",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is here.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 108,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 7,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 2,
-        "crec": 1,
-        "dcpd": 89,
-        "hearings": 5,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
-        "date": "2026-08-19",
-        "granule": "DCPD-202600547",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-is-there",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is there.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 22,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 2,
-        "crec": 2,
-        "dcpd": 8,
-        "hearings": 2,
-        "nasa": 2,
-        "nasa2": 2,
-        "nps": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks and an Exchange With Reporters Upon Arrival in Morristown, New Jersey",
-        "date": "2025-09-14",
-        "granule": "DCPD-202500914",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500914/html/DCPD-202500914.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-is-with-you",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is with you.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on the National Day of Prayer",
-        "date": "2025-05-01",
-        "granule": "DCPD-202500543",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500543/html/DCPD-202500543.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-many-many.who-many-are-here",
-      "move": "present-many-many",
-      "kind": "spoken",
-      "text": "{who_many} are here.",
-      "uses": [
-        {
-          "move": "present-many-many",
-          "subject": "present",
-          "role": "many",
-          "choice": "many"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at a State Dinner With Amir Tamim bin Hamad Al Thani of Qatar in Doha, Qatar",
-        "date": "2025-05-14",
-        "granule": "DCPD-202500603",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500603/html/DCPD-202500603.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.cause-home:moved-moved.you-moved",
       "move": "cause-home:moved-moved",
       "kind": "spoken",
@@ -2906,27 +2775,6 @@
       }
     },
     {
-      "key": "scene-words.present-one-one.who-is-waiting-for-you",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is waiting for you.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.cause-birth-self.you-have-a-new-baby",
       "move": "cause-birth-self",
       "text": "You have a new baby.",
@@ -3090,6 +2938,48 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-recruit-other.other-has-come-by-about-the-election",
+      "move": "lead-party-recruit-other",
+      "kind": "spoken",
+      "text": "{other} has come by about the election.",
+      "uses": [
+        {
+          "move": "lead-party-recruit-other",
+          "subject": "lead",
+          "role": "party-recruit",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-recruit-alone.a-party-officer-has-come-by-to-see-you",
+      "move": "lead-party-recruit-alone",
+      "kind": "spoken",
+      "text": "A party officer has come by to see you.",
+      "uses": [
+        {
+          "move": "lead-party-recruit-alone",
+          "subject": "lead",
+          "role": "party-recruit",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
       "tag": {
         "move": "narrate"
       }

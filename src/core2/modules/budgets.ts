@@ -54,6 +54,7 @@ import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
+import { recordIncomeTaxApplied } from "../tax-applied";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
@@ -65,6 +66,8 @@ import {
   stateJurisdictionId,
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
+
+export { townShareOf } from "../budgets-treasury";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 
@@ -250,6 +253,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       priorities: {},
       /** Each government's spending changes from every budget bill it enacted. */
       enacted: {},
+      /** The measure that last changed each government's spending line (a bill, an ordinance, an adoption), for the engines that serve from the line. */
+      lineChanges: {},
       yearToDate: {},
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -301,7 +306,18 @@ export const BUDGETS_MODULE: PreStartModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
-    if (event.kind === "budget-line-changed") syncServiceCharges(api);
+    if (event.kind === "budget-line-changed") {
+      syncServiceCharges(api);
+      const f = event.facts ?? {};
+      if (f.governmentId && f.line)
+        table(api, "lineChanges").put({
+          id: `${f.governmentId}:${f.line}`,
+          governmentId: f.governmentId,
+          line: f.line,
+          measureId: f.measureId ?? event.id,
+          date: event.date,
+        } as unknown as ModuleRow);
+    }
     // A change to the federal Social Security line reaches the next payment.
     if (
       event.kind === "budget-line-changed" &&
@@ -437,6 +453,7 @@ function government(
       placeId: lawChain(api).townPlaceId,
       name: `${row.name} treasury`,
       kind: "government-treasury",
+      // stopgapId: SG-WORLD-government-opening-fund-balance
       liquidMinor: 0,
       source: {
         tag: "SOURCED",
@@ -533,7 +550,7 @@ function budgetFor(
 }
 
 /** The fiscal year a date falls in, named by the year it starts. */
-function fiscalYearOf(date: string, start: string): number {
+export function fiscalYearOf(date: string, start: string): number {
   const year = Number(date.slice(0, 4));
   return date.slice(5) >= start ? year : year - 1;
 }
@@ -706,6 +723,17 @@ function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
 }
 
 /**
+ * Laws that set a budget line's level (a dedicated levy, a share of one line
+ * moved to another) are read by the treasury each month it closes and each
+ * year a budget is adopted, so the line it pays is the line the law in force
+ * sets. Law reach registers what runs them.
+ */
+let standingLineLaws: ((api: CoreAPI) => void) | null = null;
+export function registerStandingLineLaws(run: (api: CoreAPI) => void): void {
+  standingLineLaws = run;
+}
+
+/**
  * Each month: the tax collector passes property tax on, then every treasury
  * receives its revenue from outside the town's flows and pays a twelfth of
  * each budget line (`budgets-treasury.ts`). Counted workers' taxes are
@@ -714,6 +742,7 @@ function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
 function closeMonth(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "outside-revenue") return;
   remitPropertyTax(api, work.source);
+  standingLineLaws?.(api);
   // stopgapId: SG-GOV-outside-revenue-monthly
   api.stopgap("SG-GOV-outside-revenue-monthly");
   closeTreasuries(api, work.source);
@@ -1004,6 +1033,20 @@ export function budgetPriorities(
   );
 }
 
+/** The measure that last carried a change into a government's spending line (an ordinance or act that amended it), if one did. */
+export function carriedMeasureOf(
+  api: CoreAPI,
+  governmentId: string,
+  line: string,
+): string | null {
+  return (
+    (
+      table(api, "enacted").get(governmentId) as unknown as
+        { measures?: Record<string, string> } | undefined
+    )?.measures?.[line] ?? null
+  );
+}
+
 /** The spending changes every budget bill a government enacted has made, by line. */
 export function enactedBudgetChanges(
   api: CoreAPI,
@@ -1088,6 +1131,7 @@ export function enactBudget(
     | {
         changes: Record<string, number>;
         byYear?: Record<string, Record<string, number>>;
+        measures?: Record<string, string>;
       }
     | undefined;
   const enacted = { ...(prior?.changes ?? {}) };
@@ -1100,6 +1144,7 @@ export function enactBudget(
     id: gov.id,
     changes: enacted,
     byYear: { ...(prior?.byYear ?? {}), [String(fy)]: year },
+    ...(prior?.measures ? { measures: prior.measures } : {}),
   } as unknown as ModuleRow);
   const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
   putBudget(api, budget);
@@ -1221,6 +1266,8 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       "carried forward by the budget rule until the council or legislature votes it",
     );
   }
+  // The year's budget carries what the laws that set a line's level say.
+  standingLineLaws?.(api);
   // The notice names who adopted it: the body's vote, or the carry-forward rule.
   api.emit({
     id: `budget-adopted:${budget.id}`,
@@ -1510,16 +1557,23 @@ function postWithholding(
       accountFor(api, line.jurisdiction) ??
       `cash:${outsideGovernment(api, line.jurisdiction)}:residual`;
     kept.push(line);
-    // The posting names its tax, so every paycheck's journal entry says what
-    // it withheld; the table keeps the full record only for the player's circle.
+    // The posting names its tax and the law row it took, so every paycheck's
+    // journal entry says what it withheld and under which law; the table keeps
+    // the full record only for the player's circle.
     postings.push({
-      id: `${input.id}:tax:${index}:${line.level}:${line.tax}`,
+      id: `${input.id}:tax:${index}:${line.level}:${line.tax}:${line.lawId}`,
       accountId: account,
       deltaMinor: line.minor,
     });
     total += line.minor;
   }
   if (!total) return null;
+  recordIncomeTaxApplied(api, {
+    targetId: input.payerId,
+    target: "person",
+    count: 1,
+    lines: kept,
+  });
   postings.unshift({
     id: `${input.id}:tax:out`,
     accountId: `cash:${input.payerId}:residual`,
@@ -1615,6 +1669,7 @@ export function amendBudget(
       | {
           changes: Record<string, number>;
           byYear?: Record<string, Record<string, number>>;
+          measures?: Record<string, string>;
         }
       | undefined;
     const changes = { ...(prior?.changes ?? {}) };
@@ -1625,6 +1680,8 @@ export function amendBudget(
       id: gov.id,
       changes,
       byYear: { ...(prior?.byYear ?? {}), [String(fy)]: year },
+      // The measure that last carried a change into the line, for the engines that pay from it.
+      measures: { ...(prior?.measures ?? {}), [input.line]: input.measureId },
     } as unknown as ModuleRow);
   }
   const amended: BudgetRow = {
@@ -1663,6 +1720,22 @@ export function amendBudget(
     },
   });
   return amended;
+}
+
+/**
+ * The measure that last changed a government's spending line: the bill,
+ * ordinance, act or adoption whose amendment the budget now stands on, with
+ * the day it changed. Null while the line is as the world opened it.
+ */
+export function lineChangedBy(
+  api: CoreAPI,
+  governmentId: string,
+  line: string,
+): { readonly measureId: string; readonly date: string } | null {
+  const row = table(api, "lineChanges").get(
+    `${governmentId}:${line}`,
+  ) as unknown as { measureId: string; date: string } | undefined;
+  return row ? { measureId: row.measureId, date: row.date } : null;
 }
 
 /** What a government's treasury has received from outside the town's flows. */
