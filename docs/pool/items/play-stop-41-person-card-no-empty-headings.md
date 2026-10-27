@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-41-person-card-no-empty-headings
+pr: #6246
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:20:38.969Z
 ---
 
 **What.** Kendall Roberts's person card in v0.34.0 reads "parent · Age 47" in lowercase, shows a FAMILY heading with nothing under it, a lone date "January 20, 2025" floating at the right, and one action, Talk. Leo Roberts's card, "brother · Age 21", is the same. The approved person card is a small header (name, office, age, street, chips) with facts below it. This item removes every heading that has nothing under it, labels or drops the floating date, capitalizes the relation, and fills the facts the records already give: where they live and their work or school, and how the player knows them.
@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/card.ts, src/bench/play.mjs, src/bench/play.css, src/bench/person-card.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). No owner words on the card in this sitting; these are the CTO's observations. The relation word itself (mother or father, not "parent") is words-parent-named-mother-or-father. The card was see-through at v0.34.0; the opaque panel (play-stop-17) merged after that build. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+- Merged Oct 27 in PR #6246; awaiting the owner's installed-build check. Open: the browser check opens only the first person in the room, not every household member; one after screenshot.

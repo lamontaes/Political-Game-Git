@@ -39,6 +39,7 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const r = await response;
     assert.equal(r.status(), 200);
@@ -109,9 +110,17 @@ try {
       !shown.includes("term:seat:"),
       `Politics (${level}) shows no raw term id`,
     );
+    // Dates read as a person says them ("January 1, 2010"), never ISO (player-screen-text).
+    const started = new Date(
+      `${first.holder.serviceStart}T12:00:00`,
+    ).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
     assert.ok(
-      shown.includes(first.holder.serviceStart),
-      `Politics (${level}) shows the service start ${first.holder.serviceStart}`,
+      shown.includes(started),
+      `Politics (${level}) shows the service start ${started}`,
     );
     console.log(
       "History on screen:",

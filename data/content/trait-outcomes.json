@@ -70,17 +70,15 @@
       "id": "outcome.job-performance",
       "title": "An ordinary worker's performance at work",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": "partly",
-      "why": "An ordinary worker has no performance record once hired: nothing reads conscientiousness for output, discipline or promotion (Barrick & Mount 1991, rho 0.22).",
-      "evidence": "src/core2/modules/jobs.ts:1679 employers rank applicants by fit, which reads the applicant's reliability (jobsFitReliabilityWeight)"
+      "wired": true,
+      "evidence": "src/core2/modules/jobs.ts:1319 howTheyWork: a business values a worker by their lean toward diligence (jobs.value-worker, traitWeightJobsValueWorker sized from Barrick & Mount 1991, r 0.22) when it ranks applicants (jobs.ts:2056) and when it lets a worker go (jobs.ts:1366). Played: Oak Grove, Oregon (4153900), seed 427e8d601b48ca1ab600d7c7efb7407962876546823fbe28f7f06a1e304432fa, layoff job-change:2025-03-01:work-relationship_129ba20d7adbab65:layoff let person_43cf7cae695a94c6 go for how they work while a worker with less tenure was kept."
     },
     {
       "id": "outcome.earnings",
       "title": "Promotion and pay by temperament",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": "partly",
-      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:2679); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
-      "evidence": "Through hiring: reliability raises an applicant's fit (src/core2/modules/jobs.ts:1679), so reliable people are hired sooner"
+      "wired": true,
+      "evidence": "src/core2/modules/jobs.ts:1758 raisePay: on each job's yearly review a business adds to the market's move the return to the worker's tenure and how it reads their work (withinJobRaise, jobs.ts:1676; the work read is howTheyWork, jobs.ts:1319, through jobs.value-worker), sized from the tenure-wage and merit-raise research (jobsTenureReturnFull, jobsTenureReturnYears, jobsRaisePerWorkYear), in the share the business's memory of losses leaves it; the payroll pays the raised rate. Earlier channels stay: diligent people are hired sooner and let go later. Played: Aiea, Hawaii (1500550), seed 125c9f1ddf75bae0921d924b509a850dede48872f2fec473eaf9a3e8bdba0102, both raised in full at 0.948 years' tenure: pay-change:2026-01-01:work-relationship_b6c2f155e9938148 raised person_4d08aadd62909039 (how they work 4.400) from 1798 to 1915 cents an hour, pay-change:2026-01-01:work-relationship_224945d30e8f1354 raised person_dea9c6e0ad2bbce0 (-3.617) from 2192 to 2305, against a market move of 3.1 percent each (test src/core2/jobs-pay-growth.traits.test.ts)."
     },
     {
       "id": "outcome.health-behaviors",
@@ -130,31 +128,31 @@
       "id": "outcome.trust-generalized",
       "title": "How much a person trusts others",
       "engine": "src/core2/modules/views.ts",
-      "wired": false,
-      "why": "Views form from the CES cell and the seed; no trait read."
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:409 (the hearer's lean toward trusting scales how far they trust a speaker in standingWith)",
+      "size": "0.25 (ESTIMATED): the hearer's lean correlates 0.20 with their trust, as agreeableness does with the Interpersonal Trust Scale (Sindermann et al. 2021)."
     },
     {
       "id": "outcome.persuasion",
       "title": "How easily a person's view moves when they hear an argument",
       "engine": "src/core2/modules/views.ts",
-      "wired": false,
-      "why": "View updates read the message and the source, not the hearer's traits."
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:619 (the hearer's lean toward yielding scales the stance change an argument or story makes)",
+      "size": "0.3 (ESTIMATED): the most yielding third is moved 1.37 times as far as the least, as openness raises the odds of being moved (Hibbing, Ritchie and Anderson 2011)."
     },
     {
       "id": "outcome.news-reaction",
       "title": "How strongly a person reacts to news",
       "engine": "src/core2/modules/news.ts",
-      "wired": "partly",
-      "evidence": "news.pass-on reads the lean for telling others",
-      "why": "How much a story moves the hearer's view or mood reads no trait."
+      "wired": true,
+      "evidence": "src/core2/modules/views.ts:619 (a printed story reaches readers as a news.read event through the same stance change); the mood side reads the event-felt trait term already wired"
     },
     {
       "id": "outcome.hardship-coping",
       "title": "How a person copes with hardship (job loss, debt, eviction)",
       "engine": "src/core2/emotion.ts",
-      "wired": "partly",
-      "evidence": "src/core2/modules/jobs.ts:1247 and src/core2/modules/housing.ts:1764 give a layoff and an eviction a stress impulse from Holmes and Rahe units; src/core2/emotion.ts scales it by the person (weights from Bolger and Schilling 1991)",
-      "why": "The impulse is now scaled by traits; coping after the event (seeking help, cutting back, drinking) is still not a read, and debt has no event."
+      "wired": true,
+      "evidence": "src/core2/emotion.ts:257 marks the part of a layoff's, an eviction's or a missed payment's stress that a hardship put there (Affect.hardship; kinds in content.json hardshipEventKinds), and src/core2/modules/credit.ts:1115 gives a missed loan payment the layoff's Holmes and Rahe size; src/core2/trait-decisions.ts:466 hardshipStress reads it, decayed to the day, for the three coping decisions: src/core2/jobs-benefits.ts:221 filingDecision (jobs-benefits.file-claim, weight 1.0 from Whittaker et al. 2010), src/core2/modules/credit.ts:859 personalBorrowingDecision (credit.borrow, 0.8 from Sullivan 2008 and the move and claim sizes) and src/core2/modules/moves.ts:470 pushesOf (moves.move-away, 0.6 from Huttunen, Moen and Salvanes 2018); rows outcome.hardship-coping in data/research/trait-effect-sizes.json, tests src/core2/hardship-coping.traits.test.ts. Played year on the merged head (buildBenchWorld, twoLevel, every module, 2025-01-20 to 2026-01-20), University of California-Davis, California (place key 0681302, world seed 19d99c854e45d0d7a1cf22f1a75d760532568cd88f13bd6813a7c2d08845a6d6): person_724c78e06c1255b2 lost a job on 2025-06-01 (event:work.job-lost:2025-06-01:work-relationship_b9a5a6ad766e7575), filed claim:person_724c78e06c1255b2:2025-06-01 whose reasons name hardshipStress 0.323, and left town the next day, person.moved-away:person_724c78e06c1255b2:2025-06-02, whose reasons name push:hardshipStress 0.194 beside push:housingCost 0.875 (lean toward moving +0.744). In the same month person_029993064024f0e8, evicted 2025-05-24 (event:housing.eviction:eviction:rent:household_2b191d1ce1a15f48:2025-05-06) and leaning as far as a lean goes toward staying (-1.00), stayed through the year: pulls row person_029993064024f0e8 on 2025-06-02 names push hardshipStress 0.228. A counted person reads it at the day of their layoff claim only (SG-TRAITS-counted-hardship-stress)."
     },
     {
       "id": "outcome.known-traits",

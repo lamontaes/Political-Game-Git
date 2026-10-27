@@ -25,6 +25,7 @@ import { stopgap } from "../stopgaps";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
+import { COUNTED_PLACE_PREFIX } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
@@ -311,8 +312,20 @@ function townOf(input: CoreInput): Town | undefined {
       : [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   const usps = place?.stateJurisdictionKey?.slice("US-".length);
   if (!placeId || !usps) return undefined;
-  // A place no county table covers (the island areas) uses the nation's figures, estimated.
-  return { geoid, county: county || `${NATION}:${usps}`, usps, placeId };
+  // A place the county shares leave out reads its state's counties as a
+  // whole (the state's FIPS code with county 000: no county has that code,
+  // so the county fallbacks give the state's household-weighted figures);
+  // a place in no state the county tables cover (the island areas) uses its
+  // own island area's row, else the nation's figures, estimated.
+  const state = geoid.slice(0, 2);
+  const wholeState =
+    geoid.length >= 2 && STATE_TENURE.has(state) ? `${state}000` : undefined;
+  return {
+    geoid,
+    county: county || wholeState || `${NATION}:${usps}`,
+    usps,
+    placeId,
+  };
 }
 
 const UNITS = housingData.unitsInStructure as unknown as {
@@ -409,24 +422,50 @@ function householdIncome(
  * (owning rises with age and income in the ACS). Renters' rent is the
  * county's median gross rent, scaled by income.
  */
-export function withHousing(input: CoreInput): CoreInput {
-  const town = townOf(input);
-  if (!town) return input;
+/** The town's owned-home share [homes, owned]: its survey share shrunk toward its county's by sample size. */
+function tenureOfTown(town: {
+  geoid: string;
+  county: string;
+}): [number, number] | undefined {
   const placeTenure = PLACE_TENURE[town.geoid];
   const countyTenure =
     COUNTY_TENURE[town.county] ??
     nationTenure(town) ??
     fallbackTenure(town.county);
-  // A small place's survey share is shrunk toward its county's by sample size.
-  const tenure: [number, number] | undefined =
-    placeTenure && countyTenure
-      ? [
-          placeTenure[0] + pv("housingTenureShrinkHomes"),
-          placeTenure[1] +
-            (pv("housingTenureShrinkHomes") * countyTenure[1]) /
-              countyTenure[0],
-        ]
-      : (placeTenure ?? countyTenure);
+  return placeTenure && countyTenure
+    ? [
+        placeTenure[0] + pv("housingTenureShrinkHomes"),
+        placeTenure[1] +
+          (pv("housingTenureShrinkHomes") * countyTenure[1]) / countyTenure[0],
+      ]
+    : (placeTenure ?? countyTenure);
+}
+
+/**
+ * The renter households the place's housing records expect among `homes`
+ * (household ids of the town's dwellings): the homes less the owners its
+ * owner share gives them, as `withHousing` seeds them. Zero where a median
+ * rent is missing (no rents are seeded) or the share leaves every home owned.
+ */
+export function expectedRenterHouseholds(
+  c: CoreState,
+  homes: readonly string[],
+): number {
+  const full = homes.flatMap((id) => c.households.get(id) ?? []);
+  const town = townOf({
+    placeMetadata: c.placeMetadata,
+    households: full,
+  } as unknown as CoreInput);
+  if (!town) return 0;
+  const tenure = tenureOfTown(town);
+  if (!tenure || !rentValueOf(town.county)[0]) return 0;
+  return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
+}
+
+export function withHousing(input: CoreInput): CoreInput {
+  const town = townOf(input);
+  if (!town) return input;
+  const tenure = tenureOfTown(town);
   const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
@@ -1832,8 +1871,12 @@ function countedCaseWeight(api: CoreAPI, householdId: string): number {
 }
 
 /** The funding government pays the legal services provider for the case, through the ledger. */
-function payCounsel(api: CoreAPI, caseId: string, placeId: string) {
+function payCounsel(api: CoreAPI, caseId: string, caseSite: string) {
   const c = core(api);
+  // A counted household's place is the town's counted tier (`counted:<town>`); its case is the town's like a full household's.
+  const placeId = caseSite.startsWith(COUNTED_PLACE_PREFIX)
+    ? caseSite.slice(COUNTED_PLACE_PREFIX.length)
+    : caseSite;
   const row = store(api).table("counsel").get(placeId) as
     { inForce?: boolean; fundedById?: string } | undefined;
   const statute =
