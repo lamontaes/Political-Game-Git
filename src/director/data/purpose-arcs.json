@@ -1019,6 +1019,61 @@
         }
       ]
     },
+    "cut-argument": {
+      "state": "deliver-news",
+      "replies": ["agree", "refuse", "bargain", "ask"],
+      "follow": {
+        "agree": ["thank"],
+        "bargain": ["accept", "press"],
+        "ask": ["answer"]
+      },
+      "again": {
+        "answer": ["agree", "refuse", "bargain", "leave"]
+      },
+      "endings": [
+        {
+          "id": "half-back",
+          "opens": "office",
+          "label": "Half of it back",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "amendment",
+          "opens": "office",
+          "label": "An amendment to the council",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "cut-stands",
+          "label": "The cut stands",
+          "keeps": "none",
+          "when": {
+            "reply": ["refuse", "decline", "confront"]
+          }
+        },
+        {
+          "id": "numbers-first",
+          "label": "Numbers first",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave", "bargain", "ask"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "section-bargain": {
       "state": "bargain",
       "replies": ["agree", "refuse", "bargain", "stall"],
@@ -1568,6 +1623,47 @@
           "when": {
             "reply": ["accept", "press"]
           }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "morning-after": {
+      "state": "ask",
+      "replies": ["thank", "promise", "deflect", "tell"],
+      "follow": {
+        "thank": ["accept"],
+        "promise": ["thank", "press"],
+        "deflect": ["press"],
+        "tell": ["accept", "disagree"]
+      },
+      "again": {
+        "press": ["promise", "tell", "leave"],
+        "disagree": ["tell", "promise", "leave"],
+        "accept": ["promise", "thank"]
+      },
+      "endings": [
+        {
+          "id": "next-run-promised",
+          "label": "You said you'd run again",
+          "keeps": "promise",
+          "when": { "anyReply": ["promise"] }
+        },
+        {
+          "id": "thanked",
+          "label": "You thanked them for the work",
+          "keeps": "none",
+          "when": { "anyReply": ["thank"] }
+        },
+        {
+          "id": "put-off",
+          "label": "You put them off",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["leave"] }
         },
         {
           "id": "left-there",
