@@ -100,20 +100,25 @@ export function purposeScene(
   director: Director,
   personId: PersonId,
   entry: ScheduleEntry,
-  options: { includeHeld?: boolean; typeKey?: string } = {},
+  options: {
+    includeHeld?: boolean;
+    typeKey?: string;
+    /** The moment's next scene: the first the player has not answered. */
+    next?: boolean;
+  } = {},
 ): PurposeSceneResult | null {
   const moment = director.ledger.people
     .get(personId)
     ?.momentsById.get(entry.momentId);
   if (!moment) return null;
-  // Named, that scene; otherwise the first the player has not answered, so
-  // a record that stages several plays each in turn.
+  // Named, that scene; as the moment's next, the first the player has not
+  // answered, so a record that stages several plays each in turn.
   const bindings = entry.bindings.filter(
     (row) =>
       (TYPES.get(row.typeKey) as PurposeType | undefined)?.purpose &&
       (options.typeKey
         ? row.typeKey === options.typeKey
-        : !entry.answered?.includes(row.typeKey)),
+        : !options.next || !entry.answered?.includes(row.typeKey)),
   );
   let skipped: PurposeSceneResult | null = null;
   for (const binding of bindings) {

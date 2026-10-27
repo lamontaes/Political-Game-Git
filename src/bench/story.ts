@@ -79,13 +79,10 @@ export function storyScene(
   // A scene with a purpose plays as its exchange: the asker's open and
   // statement, the replies the player taps, the answers, to its close. Its
   // situation is the one staged (a filing's household at home, not the clerk).
-  const purpose = purposeScene(
-    core,
-    director,
-    personId as PersonId,
-    entry,
-    options.held ? { includeHeld: true } : {},
-  );
+  const purpose = purposeScene(core, director, personId as PersonId, entry, {
+    ...(options.held ? { includeHeld: true } : {}),
+    next: true,
+  });
   const lead =
     purpose?.kind === "composed"
       ? entry.bindings.find((row) => row.typeKey === purpose.scene.typeKey)
