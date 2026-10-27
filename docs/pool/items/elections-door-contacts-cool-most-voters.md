@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/door-contacts-warmth
 pr: #6211
 blocked-on:
