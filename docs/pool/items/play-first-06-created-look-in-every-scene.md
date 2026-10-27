@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: play-first-05-v1-figures-removed,play-stop-03-player-drawn-as-strangers
+after:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
@@ -30,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/appearance.ts, src/bench/card.ts, src/bench/opening.ts, src/bench/title.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+CTO, Oct 27: the `after:` lines (play-first-05, play-stop-03) are cleared; both landed in #5898 and wait only on the owner's installed-build check, which does not block building on them.
