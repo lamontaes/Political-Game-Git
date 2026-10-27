@@ -1944,10 +1944,14 @@ function knowsTruth(
         (row) => row.kind === "campaign",
       )
     );
-  // Where someone lives and went to school: their household and family know.
+  // Where someone lives and went to school: their household and family
+  // know, and so does anyone who has worked their campaign with them.
   return (
     knower.householdId === core.people.get(subjectId)?.householdId ||
-    knower.familyIds.has(subjectId)
+    knower.familyIds.has(subjectId) ||
+    sharedHistory(core, knowerId, subjectId).some(
+      (row) => row.kind === "campaign",
+    )
   );
 }
 
