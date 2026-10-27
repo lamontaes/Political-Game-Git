@@ -1835,6 +1835,10 @@ body.dev .dev-ring {
 #returns-count {
   margin-top: 12px;
 }
+#election-day-lines p,
+#returns-lines p {
+  margin: 0 0 10px;
+}
 #ballot-races {
   flex: 1;
   min-height: 0;

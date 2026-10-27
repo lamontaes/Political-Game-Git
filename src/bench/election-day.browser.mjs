@@ -89,6 +89,7 @@ try {
     if (body.packet?.kind === "stop") {
       await page.request.post(
         `${base}/api/resume?${new URLSearchParams({ pauseId: body.packet.pauseId })}`,
+        { timeout: 600000 },
       );
       continue;
     }
@@ -114,7 +115,9 @@ try {
   await page.evaluate(() => document.fonts.ready);
   console.log("MORNING:", await page.locator("#election-day").innerText());
   await shot("eday-1-morning");
-  await page.getByRole("button", { name: "Go canvassing", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Go canvassing", exact: true })
+    .click();
   await page.waitForFunction(
     () =>
       document.querySelectorAll("#election-day-lines p").length > 3 ||
@@ -127,16 +130,57 @@ try {
   await page.getByRole("button", { name: "Go vote", exact: true }).click();
   await page.locator("#ballot:not([hidden])").waitFor();
   await shot("eday-3-ballot");
-  // Mark each race for its first candidate, as a voter might.
-  for (let i = 0; i < 12; i += 1) {
+  // Mark each race for its first candidate, as a voter might; a race below
+  // the panel's fold is marked the same way.
+  for (let i = 0; i < 40; i += 1) {
     if (!(await page.locator("#ballot:not([hidden])").isVisible())) break;
-    const open = page.locator("#ballot-races .acts button:not([disabled])");
-    if (!(await open.count())) break;
-    await open.first().click();
-    await page.waitForTimeout(600);
+    const marked = await page.evaluate(() => {
+      const open = document.querySelector(
+        "#ballot-races .acts button:not([disabled])",
+      );
+      if (open) {
+        open.click();
+        return true;
+      }
+      // The page's races are marked: the ballot's next page.
+      const next = [...document.querySelectorAll("#ballot-pager button")].find(
+        (b) => !b.hidden && !b.disabled && b.offsetParent,
+      );
+      if (!next) return false;
+      next.click();
+      return true;
+    });
+    if (!marked) break;
+    await page.waitForTimeout(800);
   }
+  if (await page.locator("#ballot:not([hidden])").isVisible())
+    await page.locator("#ballot-leave").click();
   // Election night: the returns pop-up, step by step to the call.
   const returns = page.locator("#returns:not([hidden])");
+  for (let i = 0; i < 12; i += 1) {
+    if (await returns.isVisible().catch(() => false)) break;
+    // A job offer that holds the clock waits, as a player might let it.
+    const later = page.getByRole("button", { name: "Not now", exact: true });
+    if (await later.isVisible().catch(() => false)) {
+      await later.click();
+      await page.waitForTimeout(2000);
+      continue;
+    }
+    const talk = page.locator("#talk-leave");
+    if (await talk.isVisible().catch(() => false)) await talk.click();
+    else {
+      const resume = page.locator("#continue:not([hidden])");
+      if (await resume.isVisible().catch(() => false)) await resume.click();
+      else if (
+        await page
+          .locator("#day")
+          .isVisible()
+          .catch(() => false)
+      )
+        await page.locator("#day").click();
+    }
+    await page.waitForTimeout(3000);
+  }
   await returns.waitFor({ timeout: 300000 });
   console.log("RETURNS 1:", await page.locator("#returns").innerText());
   await shot("eday-4-returns-first");

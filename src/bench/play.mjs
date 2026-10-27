@@ -975,8 +975,11 @@ function electionNight(night) {
         ),
       );
       $("returns-count").replaceChildren(
-        ...step.totals.map((row) =>
-          row(row.name, `${row.votes.toLocaleString("en-US")} ${labels.votes}`),
+        ...step.totals.map((entry) =>
+          row(
+            entry.name,
+            `${entry.votes.toLocaleString("en-US")} ${labels.votes}`,
+          ),
         ),
         ...(last && night.nation.races.length
           ? [
