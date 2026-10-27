@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/food-aid-household
-pr:
+pr: #6267
 blocked-on:
 source: laws-and-effects lead, Oct 27 (PR #6011's gate, replayed on main)
 claimed-at: 2026-10-27T08:35:36.221Z
