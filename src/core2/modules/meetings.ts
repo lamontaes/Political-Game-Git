@@ -175,7 +175,12 @@ function driveOf(
  * nothing there and the probe sees none of it.
  */
 function takePart<
-  T extends { p: PersonState; base: number; drive: number; lean: number },
+  T extends {
+    p: Readonly<Pick<PersonState, "id" | "traits">>;
+    base: number;
+    drive: number;
+    lean: number;
+  },
 >(rows: readonly T[], room: number): readonly T[] {
   const chosen = rows.slice(0, room);
   const taken = new Set(chosen.map((row) => row.p.id));
@@ -343,7 +348,7 @@ export function commentSpeakers(
     remarksOn(api, bill.id).map((r) => r.personId),
   ),
 ): readonly {
-  p: PersonState;
+  p: Readonly<Pick<PersonState, "id" | "traits">>;
   view: number;
   base: number;
   drive: number;
@@ -384,6 +389,7 @@ function publicComment(api: CoreAPI, billId: string): void {
   const bill = billOf(api, billId);
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
+  const core = api.state as CoreState;
   const speakers = takePart(
     commentSpeakers(api, bill, stance),
     meetingParameter("publicCommentSpeakers"),
