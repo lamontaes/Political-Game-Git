@@ -61,7 +61,10 @@ it("lists how an official reached their seat before the start, by record id", ()
   const adopted = preStartHistory(core, { kind: "budget.adopted" });
   expect(adopted.length, label).toBeGreaterThan(0);
   for (const row of adopted) {
-    expect(budgets.get(String(row.facts.budgetId)), row.id).toBeDefined();
+    // A prior year's budget is an estimate from the opening one, which is the
+    // record it names; only the opening budget is a row of its own.
+    const recorded = row.facts.openingBudgetId ?? row.facts.budgetId;
+    expect(budgets.get(String(recorded)), row.id).toBeDefined();
     expect(row.date < core.startedAt, row.id).toBe(true);
   }
 }, 600_000);

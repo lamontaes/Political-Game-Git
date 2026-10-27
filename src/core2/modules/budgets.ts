@@ -24,6 +24,7 @@ import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
+import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
@@ -205,16 +206,30 @@ function withholdingSlot(
   return slot;
 }
 
+/** Prior fiscal years the history shows before the opening budget. */
+const PRIOR_BUDGET_YEARS = 2;
+
+/** The same month and day `years` earlier (29 February falls back to the 28th). */
+function yearsEarlier(date: string, years: number): string {
+  const day = date.slice(5) === "02-29" ? "02-28" : date.slice(5);
+  return `${Number(date.slice(0, 4)) - years}-${day}`;
+}
+
 /**
  * Pre-start government pass (M1-14): a budget adopted between the window's
- * start and day one is entered in the history, from the budget's own record.
- * Nothing is generated.
+ * start and day one is entered in the history, from the budget's own record,
+ * and so are its prior years' budgets, each the opening budget's lines taken
+ * back by the level's published spending growth (prior-year-growth.json, an
+ * estimate with its spread; the record names the growth and its source).
  */
 function budgetHistory(
   api: CoreAPI,
   window: PreStartWindow,
   history: HistoryWriter,
 ): void {
+  const governmentsById = new Map(
+    governments(api).map((gov) => [gov.id, gov] as const),
+  );
   for (const row of table(api, "budgets").rows()) {
     const budget = row as unknown as BudgetRow;
     if (budget.adoptedOn < window.from || budget.adoptedOn > window.through)
@@ -238,6 +253,54 @@ function budgetHistory(
           "The opening's carried budget and its adoption date, as the world recorded them.",
       },
     });
+    const gov = governmentsById.get(budget.governmentId);
+    if (!gov) continue;
+    const growth =
+      gov.level === "federal"
+        ? priorGrowth.levels.federal
+        : priorGrowth.levels["state-and-local"];
+    for (let back = 1; back <= PRIOR_BUDGET_YEARS; back += 1) {
+      const adoptedOn = yearsEarlier(budget.adoptedOn, back);
+      if (adoptedOn < window.from) break;
+      const divisor = (1 + growth.annualGrowth) ** back;
+      // Each line as a fact of its own (`spending.schools`), taken back.
+      const scale = (
+        kind: "spending" | "revenue",
+        lines: Readonly<Record<string, number>>,
+      ) =>
+        Object.fromEntries(
+          Object.entries(lines).map(([line, minor]) => [
+            `${kind}.${line}`,
+            Math.round(minor / divisor),
+          ]),
+        );
+      const fiscalYear = budget.fiscalYear - back;
+      history.record({
+        id: `budget-adopted:budget:${budget.governmentId}:${fiscalYear}`,
+        date: makeIsoDate(adoptedOn),
+        kind: "budget.adopted",
+        facts: {
+          budgetId: `budget:${budget.governmentId}:${fiscalYear}`,
+          governmentId: budget.governmentId,
+          fiscalYear,
+          adoptedBy: budget.adoptedBy,
+          openingBudgetId: budget.id,
+          yearsBack: back,
+          annualGrowth: growth.annualGrowth,
+          growthLow: growth.spread.low,
+          growthHigh: growth.spread.high,
+          ...scale("spending", budget.spendingMinor),
+          ...scale("revenue", budget.revenueMinor),
+        },
+        publicRecord: true,
+        source: {
+          tag: "ESTIMATED",
+          asOf: api.state.date,
+          citation: growth.citation,
+          estimatedFrom: `The opening budget ${budget.id} taken back ${back} year${back === 1 ? "" : "s"} at ${(growth.annualGrowth * 100).toFixed(1)} percent growth a year (single years ran ${(growth.spread.low * 100).toFixed(1)} to ${(growth.spread.high * 100).toFixed(1)} percent).`,
+        },
+      });
+    }
   }
 }
 
