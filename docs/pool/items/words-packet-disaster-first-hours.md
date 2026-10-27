@@ -5,9 +5,9 @@ area: words
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/helper-d-disaster
-pr:
+pr: #6258
 blocked-on:
 source: scene researcher Helper D, Oct 27; scenes-from-life episode disaster-first-hours
 lead: words
