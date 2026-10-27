@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/director-tie-turn-scenes
-pr:
+pr: 6335
 blocked-on:
 source: "words-and-scenes lead, Oct 27: the scene web's meeting-people pass"
 lead: director
