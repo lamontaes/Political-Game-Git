@@ -64,7 +64,7 @@ describe("foodAidDollars", () => {
 });
 
 describe("the baseline benefit in a played year", () => {
-  const seed = randomBytes(32).toString("hex");
+  const seed = process.env.FOOD_AID_SEED ?? randomBytes(32).toString("hex");
   const DRAWS = 8;
   /**
    * One drawn place for two months: where no SNAP law is in force (a territory
