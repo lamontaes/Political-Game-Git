@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-ratios-st-paul
-pr:
+pr: #6261
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T06:57:43.136Z
