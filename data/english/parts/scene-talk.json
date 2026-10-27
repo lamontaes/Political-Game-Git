@@ -32,7 +32,8 @@
     "title": "How the person is addressed (their office), from their term.",
     "issue": "The bill's question, named as the bill catalog records it.",
     "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
-    "reporter": "The reporter who wrote a story, by name, from the press record."
+    "reporter": "The reporter who wrote a story, by name, from the press record.",
+    "chair": "The committee's chair, by name, from the committee's hold record."
   },
   "maxWords": 70,
   "parts": [
@@ -883,6 +884,22 @@
           "move": "greet",
           "role": "asker",
           "purpose": "constituent-help",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-push",
           "key": "favor-asked"
         }
       ],
@@ -4212,6 +4229,22 @@
           "role": "asked",
           "purpose": "party-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
         }
       ],
       "bearing": "tender",
@@ -4283,6 +4316,22 @@
           "purpose": "party-ask",
           "key": "favor-asked",
           "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
         }
       ],
       "bearing": "braced",
@@ -6281,6 +6330,22 @@
           "role": "asker",
           "purpose": "party-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
         }
       ],
       "bearing": "glad",
@@ -6783,6 +6848,22 @@
           "role": "asker",
           "purpose": "party-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -7043,6 +7124,22 @@
           "purpose": "party-ask",
           "key": "favor-asked",
           "after": "bargain"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -9001,6 +9098,22 @@
           "purpose": "party-ask",
           "key": "favor-asked",
           "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
         }
       ],
       "bearing": "braced",
@@ -85428,6 +85541,2096 @@
       "tag": {
         "move": "blame",
         "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-outside-your-office-when-the-committee-breaks-bill-is-not-on-next-week-s-agenda",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting outside your office when the committee breaks. {bill} is not on next week's agenda.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-read-the-agenda-this-morning-bill-isn-t-on-it-and-now-name-is-in-your-doorway",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} read the agenda this morning. {bill} isn't on it, and now {name} is in your doorway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-committee-posted-its-calendar-an-hour-ago-name-has-come-to-ask-you-about-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The committee posted its calendar an hour ago. {name} has come to ask you about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-you-in-the-hallway-after-the-session-chair-still-hasn-t-put-bill-on-the-calendar",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches you in the hallway after the session. {chair} still hasn't put {bill} on the calendar.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-committee-won-t-hear-bill-name-has-come-to-you-because-you-sit-close-to-chair",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The committee won't hear {bill}. {name} has come to you because you sit close to {chair}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-to-see-chair-twice-about-bill-now-name-is-standing-by-your-desk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been to see {chair} twice about {bill}. Now {name} is standing by your desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.sorry-to-catch-you-between-meetings",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sorry to catch you between meetings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-about-the-calendar",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk about the calendar.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-looked-at-the-agenda",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I looked at the agenda.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.can-i-borrow-you-for-five-minutes",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can I borrow you for five minutes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-isn-t-on-the-calendar-i-m-asking-for-one-hearing-even-a-short-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} isn't on the calendar. I'm asking for one hearing, even a short one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.let-people-come-and-say-what-they-think-of-bill-that-s-all-i-m-asking",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Let people come and say what they think of {bill}. That's all I'm asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-have-people-waiting-on-bill-can-you-put-it-on-the-agenda",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I have people waiting on {bill}. Can you put it on the agenda?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.if-you-won-t-vote-for-bill-vote-against-it-in-the-open-don-t-let-it-sit",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If you won't vote for {bill}, vote against it in the open. Don't let it sit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.give-bill-one-day-on-the-calendar-and-i-ll-make-it-worth-the-committee-s-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Give {bill} one day on the calendar and I'll make it worth the committee's time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.chair-is-sitting-on-bill-would-you-talk-to-chair-for-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{chair} is sitting on {bill}. Would you talk to {chair} for me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-can-t-get-a-hearing-on-bill-chair-listens-to-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can't get a hearing on {bill}. {chair} listens to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.one-word-from-you-and-chair-might-put-bill-on-the-calendar",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "One word from you and {chair} might put {bill} on the calendar.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.if-bill-dies-without-a-hearing-nobody-ever-has-to-vote-on-it-help-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If {bill} dies without a hearing, nobody ever has to vote on it. Help me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. I'll put {bill} on the next agenda.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.one-hearing-i-m-not-promising-it-goes-anywhere-after-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "One hearing. I'm not promising it goes anywhere after that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-been-fair-with-me-i-ll-set-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've been fair with me. I'll set it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.bill-isn-t-going-on-my-calendar-this-session",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "{bill} isn't going on my calendar this session.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-schedule-it-that-s-my-call-and-it-s-made",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't schedule it. That's my call, and it's made.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-read-it-it-doesn-t-get-a-hearing-from-me",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've read it. It doesn't get a hearing from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-d-hear-it-if-you-narrowed-it-bring-me-a-version-i-can-defend",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'd hear it if you narrowed it. Bring me a version I can defend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.back-my-bill-on-the-floor-and-we-ll-see-about-yours",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Back my bill on the floor and we'll see about yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.cut-it-down-to-the-part-everyone-can-live-with-and-i-ll-find-the-time",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Cut it down to the part everyone can live with and I'll find the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.the-calendar-is-full-for-the-rest-of-the-session-ask-me-again-next-session",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "The calendar is full for the rest of the session. Ask me again next session.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-staff-go-through-it-first-then-we-ll-see",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let staff go through it first. Then we'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-haven-t-made-up-my-mind-about-bill-give-me-time",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I haven't made up my mind about {bill}. Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-talk-to-chair-this-week",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll talk to {chair} this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-i-ll-raise-it-with-chair-before-the-next-meeting",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. I'll raise it with {chair} before the next meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.for-you-i-ll-go-and-see-chair-today",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "For you, I'll go and see {chair} today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-have-to-work-with-chair-all-year-i-can-t-push-on-this",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I have to work with {chair} all year. I can't push on this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-between-you-and-chair",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's between you and {chair}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-like-to-help-but-it-isn-t-mine-to-push",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd like to help, but it isn't mine to push.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-speak-to-chair-if-you-back-my-amendment-on-the-floor",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll speak to {chair} if you back my amendment on the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-will-if-you-ll-do-the-same-for-me-some-day",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I will, if you'll do the same for me some day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-push-but-i-m-going-to-need-your-vote-on-something-of-mine",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll push, but I'm going to need your vote on something of mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-see-where-chair-stands-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me see where {chair} stands first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-ll-sound-chair-out-but-i-m-not-promising-anything",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'll sound {chair} out, but I'm not promising anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-this-isn-t-a-good-week-to-ask-chair-for-anything",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days. This isn't a good week to ask {chair} for anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-you-ve-made-your-case",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "All right. You've made your case.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-i-ll-do-it-but-don-t-make-a-habit-of-this",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. I'll do it, but don't make a habit of this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.my-answer-won-t-change",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "My answer won't change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-get-to-the-floor",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to get to the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-late-for-a-meeting-we-ll-pick-this-up-another-time",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm late for a meeting. We'll pick this up another time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.are-you-telling-me-how-to-run-my-committee",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Are you telling me how to run my committee?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-and-you-know-why",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't, and you know why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-bring-me-the-changes-and-i-ll-set-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. Bring me the changes and I'll set it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-i-ll-go-and-see-chair-then",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. I'll go and see {chair}, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-you-won-t-regret-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. You won't regret it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-hold-you-to-the-date",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll hold you to the date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.people-are-counting-on-this-i-can-t-go-home-with-nothing",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "People are counting on this. I can't go home with nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "At least tell me what would change your mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.it-s-one-hearing-it-costs-you-an-afternoon",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "It's one hearing. It costs you an afternoon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.give-me-a-date-then",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Give me a date, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-yes-or-a-no-not-later",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A yes or a no. Not \"later.\"",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-can-t-leave-it-on-the-shelf-forever",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You can't leave it on the shelf forever.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.every-member-will-want-to-know-why-it-died-without-a-vote",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Every member will want to know why it died without a vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.the-paper-will-ask-where-bill-went",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "The paper will ask where {bill} went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.it-would-be-a-shame-if-your-next-bill-had-to-wait-too",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "It would be a shame if your next bill had to wait too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-come-back-with-a-better-draft",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I'll come back with a better draft.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.suit-yourself-i-ll-remember-you-said-that",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Suit yourself. I'll remember you said that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.what-would-that-take",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "What would that take?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-ll-see-what-i-can-change",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I'll see what I can change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-can-t-promise-that",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I can't promise that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.that-s-not-something-i-can-give",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "That's not something I can give.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-have-the-changes-to-you-by-friday",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll have the changes to you by Friday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.you-ll-have-my-vote-when-your-time-comes",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "You'll have my vote when your time comes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.remember-this-when-you-need-a-hearing-of-your-own",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Remember this when you need a hearing of your own.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-be-asking-the-whole-committee-then",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll be asking the whole committee, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-check-the-calendar-again-on-monday",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll check the calendar again on Monday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
       }
     }
   ]

@@ -59,6 +59,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "poll-workers",
   "chair",
   "members",
+  "bill-sponsor",
   "executive",
   "appointer",
   "press",
@@ -74,6 +75,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
 interface BillRow {
   readonly id: string;
   readonly bodyOfficeId: string;
+  readonly sponsorId: string;
 }
 interface OutletRow {
   readonly id: string;
@@ -307,6 +309,13 @@ export function civicFill(
         ]) as unknown as TermRow[];
       const president = term?.personId;
       return free(living(core, [president ?? null]));
+    }
+    case "bill-sponsor": {
+      // The member who carried the bill the cause's record names (a committee
+      // that held it), when they are a living full person.
+      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+      const sponsor = billOf(api, moment)?.sponsorId;
+      return free(living(core, sponsor ? [sponsor] : []));
     }
     case "chair":
     case "members": {

@@ -21,7 +21,8 @@
     "staff": "A person the subject's office record employs.",
     "constituent": "A resident of the subject's district with a recorded problem (a lost job, an eviction, a serious illness).",
     "opponent": "The other candidate the subject's contest record names.",
-    "volunteer": "A person the subject's campaign record lists as a volunteer."
+    "volunteer": "A person the subject's campaign record lists as a volunteer.",
+    "bill-sponsor": "The member who sponsored the bill the cause's record names."
   },
   "settings": {
     "home": "The subject's household home.",
@@ -3679,6 +3680,112 @@
       ],
       "tag": {
         "key": "vote-wanted",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "bill-held-chair",
+      "purpose": "hearing-ask",
+      "asker": "sponsor",
+      "asked": "you",
+      "stakes": ["bill", "asker-position", "tie"],
+      "roles": [
+        {
+          "key": "sponsor",
+          "fill": "bill-sponsor",
+          "count": "one",
+          "moves": ["request", "plea", "press", "threaten", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-held-in-committee",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "chair",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-held-in-committee",
+          "bind": {
+            "sponsor": "bill-sponsor",
+            "you": "subject"
+          },
+          "opener": "sponsor"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "bill-held-member",
+      "purpose": "hearing-push",
+      "asker": "sponsor",
+      "asked": "you",
+      "stakes": ["bill", "asker-position", "tie"],
+      "roles": [
+        {
+          "key": "sponsor",
+          "fill": "bill-sponsor",
+          "count": "one",
+          "moves": ["request", "plea", "press", "bargain", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "decline", "bargain", "stall", "relent"],
+          "wants": ["play-safe"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-held-in-committee",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "chair",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-held-in-committee",
+          "bind": {
+            "sponsor": "bill-sponsor",
+            "you": "subject"
+          },
+          "opener": "sponsor"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
         "endpoint": "bill",
         "registers": ["scene-talk", "scene-words"]
       }

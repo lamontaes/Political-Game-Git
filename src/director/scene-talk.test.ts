@@ -61,6 +61,7 @@ const facts: Record<string, Fact> = {
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
   section: fact("2"),
+  chair: fact("Lee Ortiz"),
   office: fact("county commissioner"),
   place: fact("the town"),
   money: fact("$500"),

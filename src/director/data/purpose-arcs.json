@@ -1100,6 +1100,98 @@
         }
       ]
     },
+    "hearing-ask": {
+      "state": "request",
+      "replies": ["agree", "refuse", "bargain", "stall"],
+      "endings": [
+        {
+          "id": "hearing-set",
+          "opens": "meeting",
+          "label": "A hearing is set",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "hearing-for-changes",
+          "label": "A hearing, with changes",
+          "keeps": "favor-owed",
+          "when": {
+            "anyReply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "held",
+          "label": "Held in committee",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["refuse", "withdraw"]
+          }
+        },
+        {
+          "id": "study",
+          "label": "Sent to study",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "hearing-push": {
+      "state": "request",
+      "replies": ["agree", "decline", "bargain", "stall"],
+      "endings": [
+        {
+          "id": "chair-pressed",
+          "opens": "meeting",
+          "label": "You'll press the chair",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "help-for-a-price",
+          "label": "Your help has a price",
+          "keeps": "favor-owed",
+          "when": {
+            "anyReply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "not-yours-to-push",
+          "label": "Not yours to push",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "withdraw"]
+          }
+        },
+        {
+          "id": "waiting-on-the-chair",
+          "label": "Waiting to hear from the chair",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "funeral-cause": {
       "state": "request",
       "replies": ["promise", "decline", "ask", "deflect"],
