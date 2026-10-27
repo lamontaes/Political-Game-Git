@@ -296,6 +296,37 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.54.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **An official can be left an offer, with five ways to answer it** When someone
+  who wants a vote or a contract leaves something for an official, the official
+  now has a scene to play: five different answers (take it, hand it back, say it
+  will be reported, put it off, or play along), the offerer pressing, pleading
+  or threatening in reply, and an ending for each. The scene waits for the
+  corruption engine to record offers as events, so it does not appear in play
+  yet.
+
+### Fixed
+
+- **The President asks Congress only for what Congress can do** The opening
+  address no longer asks Congress to change a state's law, or to keep a law your
+  state already has. Each ask now goes to the level that can answer it: Congress
+  for a federal question federal law does not yet answer, and the governors for
+  a state law your state answers the other way from the President.
+
+### Changed
+
+- **A town hall now plays as a resident's question and the answer they got**
+  When a local official holds a town hall, the resident who stood up with a
+  question now has a scene about that question: the issue they asked about, and
+  whether the official's answer agreed with their own view, opposed it, or was
+  not given. Before, the same meeting played as office hours, with a resident
+  who had lost a job or faced eviction and said nothing about the meeting.
+
 ## PRE-ALPHA 0.53.0
 
 _Released October 27, 2026._
