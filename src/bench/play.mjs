@@ -3,7 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
-import { mountMenu, fillChoiceMenu } from "./ui/menu.mjs";
+import { fillChoiceMenu } from "./ui/menu.mjs";
 import {
   talkLine,
   talkReply,
@@ -527,7 +527,9 @@ document.addEventListener("keydown", (event) => {
 async function renderScene() {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   $("backdrop").src = scene.backdrop.url;
-  drawPeople(scene.people, showPerson);
+  // A person in the room is talked to by clicking them; their name in the talk
+  // box opens their card (owner, Oct 27: the card has no Talk button).
+  drawPeople(scene.people, (p) => talkTo(p.personId));
   me.scene = scene;
   // The look chosen in the creator is the player's own portrait.
   setBust(
@@ -1298,7 +1300,9 @@ $("continue").addEventListener("click", () => {
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
 /** Who you are talking to: their bust, name and what you know of their work. */
+let talkPersonId;
 async function setWho(personId, name) {
+  talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
   $("talk-role").textContent = "";
   const staged = [...(me.scene?.people ?? []), ...(filing?.people ?? [])].find(
@@ -1312,9 +1316,7 @@ async function setWho(personId, name) {
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   if (!staged?.figureUrl) setBust("talk-bust", c.figureUrl);
-  $("talk-role").textContent = [c.work?.title, c.work?.employer, c.relation]
-    .filter(Boolean)
-    .join(" · ");
+  $("talk-role").textContent = c.who ?? "";
 }
 /** The newest lines: yours, dim, then what was said back to you. */
 function spokenLines(lines, speakerOf) {
@@ -2082,18 +2084,25 @@ async function showPerson(person) {
         : []),
     ].filter(Boolean),
   );
-  $("person-talk").textContent = labels.talk;
   for (const button of document.querySelectorAll("[data-person-label]"))
     button.textContent = labels[button.dataset.personLabel];
-  $("person-talk").onclick = () => {
-    closePerson();
-    talkTo(person.personId);
-  };
   show("person", true);
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
 $("person-close").addEventListener("click", closePerson);
+// The name over a talk opens that person's card, by pointer or key.
+$("talk-name").setAttribute("role", "button");
+$("talk-name").tabIndex = 0;
+$("talk-name").addEventListener("click", () => {
+  if (talkPersonId && talkPersonId !== me?.id)
+    showPerson({ personId: talkPersonId });
+});
+$("talk-name").addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  $("talk-name").click();
+});
 pageWhenChanged($("person-facts"), $("person-pager"));
 window.addEventListener("resize", () => {
   if (!$("person").hidden) pageIn($("person-facts"), $("person-pager"));
@@ -2108,7 +2117,7 @@ async function visit(organizationId) {
   );
   me.names = { ...me.names, ...v.names };
   $("backdrop").src = v.backdrop.url;
-  drawPeople(v.people, showPerson);
+  drawPeople(v.people, (p) => talkTo(p.personId));
   $("card-place").textContent = v.name;
 }
 
@@ -4137,6 +4146,16 @@ const sheets = {
       });
       actions.append(skip);
     }
+    const guide = makeButton({ textContent: labels.guide });
+    guide.addEventListener("click", () => openSheet("guide"));
+    actions.append(guide);
+    // Dev mode, for a developer's session only.
+    const dev = makeButton({
+      className: "dev-only",
+      textContent: labels.devMode,
+    });
+    dev.addEventListener("click", () => window.open("/dev"));
+    actions.append(dev);
     const quit = makeButton({
       textContent: labels.quitToTitle,
     });
@@ -4404,21 +4423,35 @@ const sheets = {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                const history = listRow("", {
+                // The term as a voter would say it: when it ends, and how the
+                // holder won it where the world ran the race.
+                const monthYear = (iso) =>
+                  new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                  });
+                const history = el("span", {
+                  className: "person-row-note",
                   textContent: [
-                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
-                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
                     won
-                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      ? labels.electedWith
+                          .replace("{date}", monthYear(won.date))
+                          .replace("{share}", `${Math.round(won.share * 100)}%`)
+                      : null,
+                    s.holder.endDate
+                      ? labels.termEnds.replace(
+                          "{date}",
+                          monthYear(s.holder.endDate),
+                        )
                       : null,
                   ]
                     .filter(Boolean)
-                    .join(" · "),
+                    .join(". "),
                 });
                 // The record the line reads, for the specs; never shown as text.
                 history.dataset.term = s.holder.termId;
                 if (won) history.dataset.election = won.termId;
-                line.append(history);
+                if (history.textContent) line.append(history);
               }
               // Elected and not yet seated: who won the seat, and when they take office.
               if (s.elect) {
@@ -4716,6 +4749,7 @@ const groups = {
     "budgets",
   ],
   people: ["people", "family"],
+  who: ["who", "jobs"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -4781,33 +4815,26 @@ async function openSheet(tab) {
     tab !== "who" && tab !== "calendar" && body.length > 12,
   );
   show("sheet", true);
-  show("menu", Boolean(me));
   $("game").classList.add("sheet-open");
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
-// The Menu list: the screens by name, in this order, nothing under the names.
-// The rail over the player card: a column of round icons, News among them.
+// The rail over the player card: a column of round icons, News among them; it is
+// the one menu. The player's portrait opens Who you are (owner, Oct 20 and 27).
 mountRail(
   $("rings"),
   ["journal", "calendar", "money", "politics", "news", "people", "travel"],
   titles,
 );
-mountMenu(
-  [
-    "calendar",
-    "people",
-    "politics",
-    "news",
-    "journal",
-    "who",
-    "money",
-    "jobs",
-    "travel",
-    "guide",
-    "options",
-  ].map((key) => ({ key, label: titles[key] })),
-);
+// The portrait is the way to Who you are: named from the screen's title, and a
+// key opens it as a click does.
+$("card-bust").title = titles.who;
+$("card-bust").setAttribute("aria-label", titles.who);
+$("card-bust").addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  $("card-bust").click();
+});
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
@@ -4820,7 +4847,6 @@ function closeSheet() {
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.remove("active");
   show("sheet", false);
-  show("menu", false);
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);

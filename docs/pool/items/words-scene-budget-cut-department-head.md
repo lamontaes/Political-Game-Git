@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/helper-d-budget-cut
-pr: #6233
+pr: #6296
 blocked-on:
 source: owner, Oct 27 (executive scenes, every level); scenes-from-life episode budget-cut-department-head
 lead: words
