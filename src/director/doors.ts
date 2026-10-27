@@ -7,6 +7,7 @@
  * owner's porch scene in a day of door knocking (Oct 8).
  */
 import { CAMPAIGNS_MODULE_ID, type CauseRow } from "../core2/modules/campaigns";
+import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { QueuedRecord } from "./circumstance";
@@ -24,10 +25,12 @@ export function doorsKnocked(
   const today = (
     causes.query("byCandidate", [personId]) as unknown as CauseRow[]
   ).filter((row) => door(row) && row.date === core.date);
-  const strength = (row: CauseRow) => Math.abs(row.agreement ?? 0);
+  const strength = (row: CauseRow) => Math.abs(row.agreement ?? P.zero);
   const most = today
     .filter((row) => row.agreement !== null)
-    .sort((a, b) => strength(b) - strength(a) || a.id.localeCompare(b.id))[0];
+    .sort((a, b) => strength(b) - strength(a) || a.id.localeCompare(b.id))[
+    P.zero
+  ];
   return today.map((row) => {
     // A door the candidate knocked on an earlier day is a return visit.
     const before = (
