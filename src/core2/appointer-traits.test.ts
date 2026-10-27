@@ -4,6 +4,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { appointerWeighing, nominateAndConfirm } from "./appointments";
 import { setBookkeeping } from "./bookkeeping";
+import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import { gameStartDate } from "./game-start";
 
 // An appointer's own traits tilt how they weigh a nominee between loyalty
@@ -29,6 +30,18 @@ it(`appointers with different traits rank the same pool differently in ${place.n
   const merit = weighed[0]!;
   const loyal = weighed.at(-1)!;
   expect(loyal.weighing.loyalty, where).toBeGreaterThan(merit.weighing.loyalty);
+  // The tilt is the decision's lean at its weight, once.
+  for (const row of [merit, loyal])
+    expect(row.weighing.loyalty - 1, where).toBeCloseTo(
+      decisionLean(
+        core,
+        core.people.get(row.id)!,
+        "appointments.weigh",
+        "appoint-loyalty",
+        "appoint-merit",
+      ) * decisionTraitWeight(core, "appointments.weigh"),
+      10,
+    );
   // Weights slide around one and never reach zero.
   for (const row of [merit, loyal]) {
     expect(row.weighing.loyalty + row.weighing.merit, where).toBeCloseTo(2, 10);

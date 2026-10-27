@@ -11,7 +11,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the justice family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): budget-line:police, civilian-oversight-of-police, partner-with-federal-immigration-enforcement, end-cash-bail, budget-line:corrections, restore-voting-after-sentence, raise-juvenile-court-age, child-access-prevention, permit-to-carry-concealed, raise-handgun-purchase-age, stand-your-ground and budget-line:fire.
@@ -27,3 +27,5 @@ claimed-at:
 Laws lead, Oct 25 10:20: PR #6012 opened at 681395e90d. 10 of 12 wired over a year in both audit towns (jail line's money untraced). Police line's low-level-arrests link waits on justice-low-level-offenses; restore voting waits on laws-checker-enacts-where-no-power. Merge after #5582.
 
 Laws lead, Oct 25 22:00: PR #6012 now lands the nine laws that are wired as `laws-nine-links-justice-nine`. This item stays open for three: the police line (its low-level arrests link, #6056), the corrections line (money untraced, `laws-checker-follows-line-transfers`) and restore-voting-after-sentence (its turnout link, `SG-GOV-REACH-A-convictions`).
+
+Sent back 2026-10-25 from PR #6012 (branch claude/laws-nine-links-justice): only 10 of 12 laws meet the family table, and corrections money remains untraced while police/fire have gross treatment posts without control deltas; provide every required link or a completed bounded slice and causal law-linked money evidence, keeping the family open; finish on that branch, merge main into it first. The prior government-family ordering hold is cleared.

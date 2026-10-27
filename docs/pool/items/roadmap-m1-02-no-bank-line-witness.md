@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/m1-02-bank-line-witness
+pr: #6203
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T00:03:37.097Z
 ---
 
 **What.** The registered M1-02 command exits one in independently drawn Swanton, Nebraska, because no town bank line exists during any policy rate change. All 46 national bands and five rate decisions pass, but the required town loan-cost witness is absent. Clean main 143df7a4fd and PR 5875 return identical output, so this is a main acceptance gap rather than a regression from the roadmap flags.

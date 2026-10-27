@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/roster-district-names
+status: open
+claimed-by:
 pr: #6116
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T22:03:41.628Z
+claimed-at:
 ---
 
 **What.** stateOffices in src/core2/offices-state.ts matches each Census legislative district to the Open States roster by name, and when the names differ it seats the Census district with no member (party unknown) and then seats the roster's members again under the roster name. One state's House gets 150 seats for 141 members (a Census 'State Legislative Subdistrict 1A' against the roster's '1A', and Census codes with a leading zero), one Senate 48 for 40 (hyphenated Census names against the roster's 'X, Y and Z'), and two more chambers one extra seat each ('South East' against 'Southeast'); run stateOffices over all 56 places and compare each chamber's seat count with its legal size to list them. Each phantom seat votes in its chamber with a party the officials engine can only estimate (SG-OFFICIALS-unrecorded-party), found by research-gov-sourced-parameters.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T22:03:41.628Z
 **Files.** src/core2/offices-state.ts, data/research/offices/legislature-party-counts-2026.json, data/research/offices/state-offices.json
 
 **Notes.** TODO
+
+Merger 0: Sent back 2026-10-26 from PR #6116 (branch claude/roster-district-names): legal-size assertions skip four unresolved chambers despite the all-chambers acceptance; complete the proof or assign an accurate bounded item and retain the broad item open; finish on that branch, merge main into it first.

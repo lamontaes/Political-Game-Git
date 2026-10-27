@@ -26,6 +26,7 @@ import { payrollReserve, treasuryParameter } from "./budgets-treasury";
 import { governments } from "./modules/budgets";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState, JobInput } from "./types";
+import { publicPayTreasuries } from "./public-work-pay";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
@@ -189,14 +190,25 @@ it(`a counted job's heads size its treasury's payroll reserve (base ${base})`, (
     const { core, where } = world(100 + i);
     const api = coreAPI(core);
     const rt = residentsRuntime(core)!;
-    // A counted job at an employer a treasury pays (a town department).
+    // A counted job at an employer a modeled treasury pays (a town department):
+    // its pay authority is linked to the treasury of a government in the world,
+    // read from the opening before any cut.
+    const links = publicPayTreasuries(core);
+    const treasuries = new Set(
+      governments(api).map((gov) => gov.organizationId),
+    );
     const job = [...core.organizations.values()]
-      .filter((org) => org.publicPayAuthority)
+      .filter((org) => {
+        const link = links.get(org.publicPayAuthority?.id ?? "");
+        return link !== undefined && treasuries.has(link.treasuryId);
+      })
       .sort((a, b) => a.id.localeCompare(b.id))
       .flatMap((org) => countedJobsOf(core, org.id))
       .find((row) => countedJobHeads(core, row) >= 2);
     if (!job) {
-      tried.push(`${where}: no counted job at a publicly paid employer`);
+      tried.push(
+        `${where}: no counted job at an employer a modeled treasury pays`,
+      );
       continue;
     }
     const before = new Map(
@@ -224,6 +236,6 @@ it(`a counted job's heads size its treasury's payroll reserve (base ${base})`, (
     return;
   }
   throw new Error(
-    `no drawn place had a counted job at a publicly paid employer: ${tried.join("; ")}`,
+    `no drawn place had a counted job at an employer a modeled treasury pays: ${tried.join("; ")}`,
   );
 }, 900_000);
