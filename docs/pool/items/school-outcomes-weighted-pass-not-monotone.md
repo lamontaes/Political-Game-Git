@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/school-pass-monotone
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T01:40:48.683Z
 ---
 
 **What.** src/core2/school-outcomes.ts gives each income fifth an expected share and walks its students by standing; a student clears only if the owed share left covers their whole weight (a counted senior stands for their household's weight). That greedy pass is not monotone: with owed 1 and weights [2, 1] the second student clears, with owed 2 the first clears and the second fails. In school-outcomes-spending-web.test.ts (seed 020184272677dc2b) a senior who graduated in the base world, school.graduation-pct:person_120aee2b3081f3c7:2024, failed in the world with the schools line raised eight times over, though their factor rose.
