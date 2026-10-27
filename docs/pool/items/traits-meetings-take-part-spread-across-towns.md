@@ -23,4 +23,4 @@ source: laws-and-effects lead, Oct 27 (recheck of #6143)
 
 **Files.** src/core2/modules/meetings.ts, src/core2/modules/meetings.traits.test.ts, data/research/trait-effect-sizes.json, src/core2/data/parameters.json
 
-**Notes.** Filed by the laws-and-effects lead, Oct 27, from the recheck of PR #6143 on its merged head.
+**Notes.** Filed by the laws-and-effects lead, Oct 27, from the recheck of PR #6143 on its merged head. Read with meetings-town-hall-evening-cost, whose fix may narrow the spread. CI on 99fc0b1579 drew a town at 2.320 (job 121947722002); a helper is refitting the weight on #6143's branch (Oct 27).

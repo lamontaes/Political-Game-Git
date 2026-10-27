@@ -622,9 +622,6 @@ function renderPacket(value) {
 function endedBy(value) {
   const words = controls.endedBy ?? {};
   if (value?.kind !== "stop") return "";
-  const work = value.stop.work?.reasons?.[0];
-  if (work)
-    return `${words[work.boundary] ?? ""} · ${me.names?.[work.owner.organizationId] ?? ""}`;
   const module = value.stop.modules[0];
   return module ? (words[module.reasonKey] ?? words.moment ?? "") : "";
 }
