@@ -3698,6 +3698,14 @@
           "bind": { "opponent": "counterpart", "you": "subject" },
           "opener": "opponent",
           "setting": ["public"]
+        },
+        {
+          "match": { "label": "cause:event:debate", "selfNamed": true },
+          "causeEngine": "meetings",
+          "causeRecord": "debate",
+          "bind": { "opponent": "counterpart", "you": "subject" },
+          "opener": "opponent",
+          "setting": ["venue", "public"]
         }
       ],
       "tag": {
