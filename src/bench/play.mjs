@@ -15,6 +15,7 @@ import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
+import { townRow } from "./ui/town-row.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -414,6 +415,25 @@ function showNewsSurface(news) {
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
+  // The story opens as the paper's front page: its masthead and layout.
+  const outlet = news.outlet ?? {
+    name: controls.news.title,
+    layout: "broadsheet",
+  };
+  $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
+  $("news-reader-date").textContent = new Date(
+    `${me.date}T12:00:00`,
+  ).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  $("news-reader").className = `panel paper paper-${
+    ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
+      ? outlet.layout
+      : "broadsheet"
+  }`;
   $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
     ...lead.broadcast.map((line) =>
@@ -1251,7 +1271,17 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  fillTalk({ lines: spokenLines(lines, (line) => line.text) });
+  // The narrator sets the counter up before the clerk speaks (the opening call only).
+  fillTalk({
+    lines: [
+      ...(lines.length <= 1
+        ? (value.intro ?? []).map((line) =>
+            el("li", { className: "speech narration", textContent: line.text }),
+          )
+        : []),
+      ...spokenLines(lines, (line) => line.text),
+    ],
+  });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
@@ -2482,8 +2512,8 @@ const sheets = {
             { className: "people-center" },
             portrait({
               name: me.card.name,
-              figureUrl: me.scene?.people?.find((p) => p.personId === me.id)
-                ?.figureUrl,
+              // The saved look, as the card and Who you are read it: not whatever room's figure.
+              figureUrl: portraitUrl(),
             }),
             el("b", { textContent: me.card.name }),
           ),
@@ -4789,6 +4819,13 @@ api("/api/title").then((title) => {
   $("front-continue-life").textContent = titleLife
     ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
     : "";
+  // The life's own face: the look the creator saved, as every other view of the player reads it.
+  setBust(
+    "front-continue-bust",
+    titleLife?.portrait
+      ? `/api/portrait?id=${encodeURIComponent(titleLife.personId)}`
+      : "",
+  );
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));
@@ -5095,23 +5132,17 @@ async function listTowns() {
   const count = new Intl.NumberFormat("en-US");
   const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
-    ...towns.map((t) => {
-      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
-      const b = el(
-        "button",
-        // In the state buttons' font, name and count alike.
-        { type: "button", className: "item town" },
-        el("span", { textContent: t.name }),
-        el("small", {
-          textContent: t.county ? `${t.county}, ${size}` : size,
-        }),
-      );
-      b.addEventListener("click", () => {
-        setup.town = t;
-        void openLook();
-      });
-      return b;
-    }),
+    ...towns.map((t) =>
+      townRow(
+        t,
+        words,
+        (n) => count.format(n),
+        (town) => {
+          setup.town = town;
+          void openLook();
+        },
+      ),
+    ),
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());

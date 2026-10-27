@@ -7,11 +7,12 @@ milestone: play-first
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-legislature-floor-date-and-whip
+pr: #6285
 blocked-on:
 source: The screen half of laws-player-bill-reaches-the-floor (laws-and-effects lead, Oct 27; the owner's Oct 26 playtest, relayed by the CTO)
+claimed-at: 2026-10-27T10:49:47.630Z
 ---
 
 **What.** In the owner's Oct 26 playtest his H.R. 1 sat drafted a year. `seatAct` in `src/bench/legislature.ts` (around lines 215-219) gives a bill an agenda date only when its body has a regular meeting, so a chamber's bill shows no date. Once laws-floor-takes-every-chamber-bill is on main, the screen reads `floorDateOf(api, billId)` for the floor date, `whipCount(api, billId)` for each chamber's members for, against and undecided, and the bill's status and `votesOn` after the vote. The drafted-only branch goes.
