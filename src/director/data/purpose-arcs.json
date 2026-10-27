@@ -1779,6 +1779,68 @@
         }
       ]
     },
+    "hallway-word": {
+      "state": "ask",
+      "replies": ["tell", "ask", "promise", "refuse"],
+      "follow": {
+        "tell": ["thank", "press"],
+        "ask": ["answer"],
+        "promise": ["thank", "press"],
+        "refuse": ["accept", "press"]
+      },
+      "again": {
+        "press": ["tell", "refuse", "leave"],
+        "answer": ["tell", "promise", "refuse", "leave"]
+      },
+      "endings": [
+        {
+          "id": "gave-word",
+          "label": "You gave your word",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "said-where",
+          "label": "You said where you stand",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell"]
+          }
+        },
+        {
+          "id": "turned-down",
+          "label": "You turned them down",
+          "keeps": "none",
+          "when": {
+            "reply": ["refuse"]
+          }
+        },
+        {
+          "id": "cut-short",
+          "label": "You cut it short",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
+          }
+        },
+        {
+          "id": "asked-first",
+          "label": "You asked what they were after",
+          "keeps": "none",
+          "when": {
+            "reply": ["ask"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "conflict-accuse": {
       "state": "confront",
       "replies": ["tell", "deny", "confront", "offer", "lie"],
@@ -3519,6 +3581,69 @@
           "when": {
             "reply": ["deflect", "leave"]
           }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "housemate-arrives": {
+      "state": "ask",
+      "replies": ["offer", "bargain", "ask", "decline"],
+      "follow": {
+        "offer": ["thank", "promise"],
+        "bargain": ["accept", "bargain"],
+        "ask": ["answer"],
+        "decline": ["plea", "warn"],
+        "thank": ["accept"],
+        "agree": ["thank"],
+        "relent": ["thank"]
+      },
+      "again": {
+        "promise": ["thank", "leave"],
+        "answer": ["thank", "agree", "leave"],
+        "bargain": ["agree", "leave"],
+        "plea": ["relent", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "later",
+          "label": "Left it for later",
+          "keeps": "none",
+          "when": { "reply": ["leave"] }
+        },
+        {
+          "id": "house-rules",
+          "label": "House rules agreed",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["bargain", "agree"],
+            "asker": ["accept", "thank"]
+          }
+        },
+        {
+          "id": "staying",
+          "label": "They're staying",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["offer", "relent"],
+            "asker": ["thank", "accept", "promise"]
+          }
+        },
+        {
+          "id": "heard-out",
+          "label": "You heard them out",
+          "keeps": "none",
+          "when": { "anyReply": ["ask"], "reply": ["thank"] }
+        },
+        {
+          "id": "said-no",
+          "label": "You said no",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["decline"] }
         },
         {
           "id": "left-there",
