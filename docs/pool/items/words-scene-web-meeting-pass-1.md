@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: claimed
 claimed-by: words/web-meeting
-pr: 6317
+pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: first pass of words-scene-web-meeting-people-and-places"
 lead: words
