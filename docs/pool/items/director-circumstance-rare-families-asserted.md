@@ -22,3 +22,5 @@ source: director lead, #6263 CI, Oct 27
 **Files.** src/director/circumstance.test.ts, src/director/data/circumstances.json
 
 **Notes.** Counted and printed by the test meanwhile; each was shown by record id in #6263's played years.
+
+Oct 27, 14:05 (director lead): the lobbyist after a lobbying visit to the player (lobbyist-hallway, #6269) joins the four: 0 scenes on seed adf2b240b2d518b4f73a5c107884f60b75c71249, 1 on 28a43cad632afa618a63b16b1fc951c92738e133 and 1 on director-circ-1, so it is counted, not asserted, too.
