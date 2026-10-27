@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/treasury-cut
-pr:
+pr: #6330
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T13:50:59.399Z
