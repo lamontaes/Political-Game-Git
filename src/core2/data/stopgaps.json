@@ -2315,7 +2315,9 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "An association engine with formation steps, registration law per place and membership rules.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "Founding stays one act on a recorded drive (the found-cause-group act in src/core2/data/drives.json): the standing rule 'This is a game, not a spreadsheet' in AGENTS.md admits no charter, registration or dues step the golden path does not need and The Political Process does not have. The group's depth is where it reacts: the members who join and what the interest-groups engine does with it."
   },
   {
     "id": "SG-P10-testify-unbuilt",
@@ -2428,7 +2430,7 @@
     "why": "Speeches (M4-04) need a first reception model; persuasion research gives directions and small averages, not these coefficients.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse, speechRetellWeight, speechSociabilityWeight or speechKeepPull, so they stay TUNABLE.",
+    "replacement": "Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse or speechRetellWeight, so they stay TUNABLE. Oct 25, 2026 (traits-retell-circumstances): speechKeepPull and the two engagement weights of the retelling case are ESTIMATED from ANES 2020 talk at home by interest, and the retelling weighs who is at home to hear it.",
     "status": "open"
   },
   {
@@ -7136,15 +7138,27 @@
     "status": "open"
   },
   {
-    "id": "SG-TRAITS-pay-growth-by-performance",
+    "id": "SG-WORLD-jobs-public-pay-growth",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 1291,
-    "whatItFakes": "A worker's pay is the rate their job was posted at, so temperament changes earnings only through who is hired first and who is let go last; nobody's pay grows with their tenure or how they work.",
-    "why": "Real pay grows with tenure and performance (Gensowski 2018: about 16.7 percent of lifetime earnings per standard deviation of conscientiousness). The owner ruled on Oct 24 that it is built, not asked: pay moves with tenure and the worker's record at the employer, calibrated from BLS/ECI tenure-wage research, no fixed step (OWNER-DECISIONS.md, Oct 24).",
-    "addedBy": "claude/traits-outcome-job-performance",
-    "addedAt": "2026-10-24",
-    "replacement": "Pay growth by tenure and the worker's record, built by owner-pay-growth-by-performance; this row resolves when it lands.",
+    "line": 1745,
+    "whatItFakes": "A worker at an employer with no business books (a town, county or state government, or another public body) gets the yearly move with the place's pay level but no raise for tenure or how they work, so a public employee's pay does not grow within the job as a private worker's does.",
+    "why": "A business's raises are held to the room its own trading month leaves; a public employer has no trading month, and its pay follows its budget line and the public pay floor (public-pay-floor.ts, the bargaining law). Public step schedules and the budget room they would read are not modeled yet.",
+    "addedBy": "claude/traits-pay-growth",
+    "addedAt": "2026-10-25",
+    "replacement": "Within-job raises for public workers by the same withinJobRaise rule, held to the room in the government's personnel budget line (the budgets engine) or set by the step schedule a bargaining or pay law records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-opening-tenure",
+    "kind": "missing-data",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1750,
+    "whatItFakes": "Every job held at the opening counts its tenure from the game's start, so each opening worker's first yearly raise reads the steepest year of the tenure profile (about 2.6 points over the market's move) instead of the year their real tenure would put them in (about 1.0 point at the BLS median of 3.9 years).",
+    "why": "The opening records no start date for anyone's job (src/core2/deep-past.ts keeps only a supplied start and assigns no median to a missing job history), so tenure within a firm spans a few days at the start; the same gap is why traitWeightJobsValueWorker is sized against real tenure rather than the played world's.",
+    "addedBy": "claude/traits-pay-growth",
+    "addedAt": "2026-10-25",
+    "replacement": "An opening start date for each job held at the opening, generated from the BLS Employee Tenure tables by age and industry when the world is generated (who exists may be seeded), read by tenureYears for raises and layoffs alike.",
     "status": "open"
   }
 ]
