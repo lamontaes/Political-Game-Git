@@ -5,14 +5,15 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/staff-bad-news
 pr:
 blocked-on:
 after:
 source: added by the acting CTO, Oct 25 (owner ruling)
 lead: words
 milestone: play-first
+claimed-at: 2026-10-26T07:20:24.853Z
 ---
 
 **What.** The owner ruled Oct 25 that staff bringing bad news is a scene when a press record names the player or their bill. Today a story that names the player sits in the news box and no one in the player's office reacts. The scene reads the press record (an outlet's story whose subjects include the player or a bill they sponsored) and, where the player has staff, stages a staffer bringing the story in: who ran it, what it says, what it moved, with the player's reply from controls (respond, ignore, call the outlet) recorded as an event the press and views engines read. A player with no staff hears it through the news box as today; a story that names neither the player nor their bill produces no scene.

@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { pickLook, wholeFigureFor } from "./whole-figures";
+import { colorsFor, pickLook, viewOf, wholeFigureFor } from "./whole-figures";
+import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { backdropStaging } from "./staging";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
@@ -36,9 +37,12 @@ describe("the look chosen in the creator", () => {
       "heavy",
       "base",
     ]);
-    // Drawn on a standing spot in the room, the same figure.
+    // Drawn on a standing spot in the room turned to one side, the same figure.
     const stage = backdropStaging(place)!;
-    const spot = stage.spots.find((row) => (row.pose ?? "stand") === "stand")!;
+    const spot = {
+      ...stage.spots.find((row) => (row.pose ?? "stand") === "stand")!,
+      facing: "left" as const,
+    };
     expect(
       wholeFigureFor(core, { ...person, look: chosen }, place, stage, spot)!
         .url,
@@ -56,7 +60,7 @@ describe(`contact shadows at ${place}`, () => {
     for (const spot of standing) {
       const whole = wholeFigureFor(core, person, place, stage, spot)!;
       const { figure } = whole;
-      if (spot.clipBelowY !== undefined && spot.clipBandEndY === undefined) {
+      if (spot.behindY !== undefined) {
         expect(figure.shadow).toBeNull();
         continue;
       }
@@ -79,7 +83,7 @@ describe(`contact shadows at ${place}`, () => {
   });
 
   it("draws no shadow where a counter or desk hides the feet", () => {
-    const spot = { ...standing[0]!, clipBelowY: standing[0]!.y - 5 };
+    const spot = { ...standing[0]!, behindY: standing[0]!.y - 5 };
     expect(
       wholeFigureFor(core, person, place, stage, spot)!.figure.shadow,
     ).toBeNull();
@@ -128,28 +132,39 @@ describe("choosing each person's look", () => {
     }
   });
 
-  it("gives no two people in a scene the same look", () => {
-    const taken = new Set<string>();
-    for (let n = 0; n < 4; n++) {
-      const look = pickLook(
-        core,
-        { ...person, id: `person:crowd-${n}`, gender: "female" },
-        place,
-        taken,
-      )!;
-      expect(taken.has(look.look)).toBe(false);
-      taken.add(look.look);
+  it("draws a person the same wherever they stand, whoever else is there", () => {
+    const who = { ...person, id: "person:steady", gender: "male" };
+    const here = pickLook(core, who, place)!;
+    for (let n = 0; n < 5; n++) expect(pickLook(core, who, place)).toBe(here);
+    expect(colorsFor(who)).toEqual(colorsFor({ ...who }));
+  });
+
+  it("gives neighbors their own skin and clothes colors from their own records", () => {
+    const seen = new Set<string>();
+    const skins = new Set<string>();
+    for (let n = 0; n < 40; n++) {
+      const c = colorsFor({ ...person, id: `person:street-${n}` });
+      seen.add(`${c.skin}:${c.clothes}`);
+      skins.add(c.skin);
     }
-    // Four outfits of this sex exhaust the painted distinct looks. Another
-    // person stays unplaced rather than silently reusing a look.
+    expect(seen.size).toBeGreaterThan(20);
+    expect(skins.size).toBeGreaterThan(3);
+    // A record's own seed decides, not the id; a creator's choice wins.
+    expect(colorsFor({ ...person, id: "a", seed: "s1" })).toEqual(
+      colorsFor({ ...person, id: "b", seed: "s1" }),
+    );
     expect(
-      pickLook(
-        core,
-        { ...person, id: "person:crowd-overflow", gender: "female" },
-        place,
-        taken,
-      ),
-    ).toBeNull();
+      colorsFor({
+        ...person,
+        look: {
+          sex: "male",
+          build: "slim",
+          outfit: "base",
+          skin: "ebony",
+          clothes: "red",
+        },
+      }),
+    ).toEqual({ skin: "ebony", clothes: "red" });
   });
 });
 
@@ -165,5 +180,54 @@ describe("the people the game draws", () => {
       expect(readFileSync(new URL(file, here), "utf8"), file).not.toContain(
         old,
       );
+  });
+});
+
+describe(`the angle each spot asks for at ${place}`, () => {
+  const stage = backdropStaging(place)!;
+  type Row = {
+    file: string;
+    angle: string;
+    pose: string;
+    outfit: string;
+    sex: string;
+    build: string;
+    prop: string;
+    flag?: string;
+  };
+  const rows = new Map(
+    (index.figures as Row[]).map((row) => [row.file.split("/").pop()!, row]),
+  );
+
+  it("draws a back where the spot faces away, a face where it faces the viewer, else the three-quarter view", () => {
+    for (const spot of stage.spots) {
+      if (spot.pose === "podium") continue;
+      const whole = wholeFigureFor(core, person, place, stage, spot);
+      if (!whole) continue;
+      const drawn = rows.get(whole.file.split("/").pop()!)!;
+      const wanted = viewOf(spot);
+      // Where the set paints no such view of this look (it has no standing
+      // back view, and not every look seated from behind), the three-quarter
+      // view, turned.
+      const painted = [...rows.values()].some(
+        (row) =>
+          row.outfit === drawn.outfit &&
+          row.sex === drawn.sex &&
+          row.build === drawn.build &&
+          row.pose === drawn.pose &&
+          row.angle === wanted &&
+          row.prop === "none" &&
+          !row.flag,
+      );
+      expect(drawn.angle).toBe(painted ? wanted : "three-quarter");
+    }
+  });
+
+  it("reads the facing as the angle", () => {
+    const spot = stage.spots[0]!;
+    expect(viewOf({ ...spot, facing: "away" })).toBe("back");
+    expect(viewOf({ ...spot, facing: "viewer" })).toBe("front");
+    expect(viewOf({ ...spot, facing: "left" })).toBe("three-quarter");
+    expect(viewOf({ ...spot, facing: "right" })).toBe("three-quarter");
   });
 });

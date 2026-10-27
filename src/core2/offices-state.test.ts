@@ -9,7 +9,9 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
+import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -193,6 +195,131 @@ it(`keeps an office's generated history from its first term on, when the game op
     }
     console.info(
       `office-later ${where}: ${terms.map((t) => `${t.id} from ${t.startDate} (service ${t.serviceStart})`).join("; ")}`,
+    );
+  }
+}, 600_000);
+
+interface Chamber {
+  readonly chamber: string;
+  readonly seats?: number;
+}
+const legislatures = (
+  stateOfficeResearch as unknown as {
+    places: Record<string, { legislature?: { chambers?: Chamber[] } }>;
+  }
+).places;
+const rosters = (
+  partyCounts as unknown as {
+    places: Record<
+      string,
+      Record<string, { seatParties: Record<string, string[]> }>
+    >;
+  }
+).places;
+
+/**
+ * A chamber's seats against its legal size and its roster: every roster
+ * member sits in exactly one seat, a district with no member on the roster
+ * is one empty seat, and where the roster seats the legal size the chamber
+ * has exactly that many seats (no district seated twice under two names).
+ */
+function chamberCheck(
+  stateKey: string,
+  kind: string,
+  seats: readonly SeatLike[],
+) {
+  const key = kind.replace("legislature-", "");
+  const chambers = legislatures[stateKey]?.legislature?.chambers ?? [];
+  const legal = (
+    key === "unicameral" ? chambers[0] : chambers.find((c) => c.chamber === key)
+  )?.seats;
+  const roster =
+    rosters[stateKey]?.[key === "unicameral" ? "legislature" : key]
+      ?.seatParties ?? {};
+  const members = Object.values(roster).reduce((n, m) => n + m.length, 0);
+  const empty = seats.filter(
+    (s) => s.party === null && !Object.hasOwn(roster, s.district),
+  );
+  return { legal, members, seats: seats.length, empty: empty.length };
+}
+interface SeatLike {
+  readonly id: string;
+  readonly district: string;
+  readonly party?: string | null;
+}
+
+it("seats each chamber at its legal size, every roster member once, in all 56 places", () => {
+  const disagree: string[] = [];
+  let checked = 0;
+  for (const stateKey of placeStateKeys()) {
+    for (const { office, seats } of stateOffices(
+      stateKey,
+      "",
+      gameStartDate(),
+    )) {
+      if (!office.kind.startsWith("legislature-")) continue;
+      const c = chamberCheck(stateKey, office.kind, seats);
+      // Every member the roster seats is in one seat, no more.
+      expect(c.seats - c.empty, `${office.id}: roster members`).toBe(c.members);
+      if (c.legal === undefined) continue;
+      // A chamber with no roster (a territory's) seats its legal size empty.
+      const consistent =
+        !c.members || c.members + c.empty === c.legal || c.members === c.legal;
+      if (consistent) {
+        expect(c.seats, `${office.id}: legal size`).toBe(c.legal);
+        checked += 1;
+      } else {
+        // Where the roster itself holds a different number of members than
+        // the legal size, the data disagree (gov-legislature-roster-size-data).
+        disagree.push(`${office.id} ${c.seats}/${c.legal}`);
+      }
+    }
+  }
+  process.stdout.write(
+    `chambers checked against their legal size: ${checked}; whose roster disagrees with it: ${disagree.length} (${disagree.join(", ")})\n`,
+  );
+  // The check ran on chambers; it is not vacuous.
+  expect(checked, "chambers checked").toBeGreaterThan(0);
+  // The four chambers whose roster data still disagree with the legal size
+  // (gov-legislature-roster-size-data): a new disagreement fails here, and
+  // fixing one of these in the data takes it off this list.
+  expect(disagree, "rosters that disagree with the legal size").toEqual([
+    "office:US-ME:legislature-lower 153/151",
+    "office:US-NH:legislature-lower 386/400",
+    "office:US-PR:legislature-upper 28/27",
+    "office:US-PR:legislature-lower 53/51",
+  ]);
+});
+
+it(`a played world seats its state's legislature by the same rule (seed ${seed})`, () => {
+  const place = drawPlace(seed, "legislature-seats");
+  const where = `${place.name} (${place.key}), seed ${seed}`;
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const offices = coreAPI(core).moduleState(OFFICES_MODULE_ID);
+  const chambers = (
+    offices.table("offices").rows() as unknown as {
+      id: string;
+      jurisdiction: string;
+      kind: string;
+    }[]
+  ).filter((o) => o.kind.startsWith("legislature-"));
+  expect(chambers.length, where).toBeGreaterThan(0);
+  for (const chamber of chambers) {
+    const seats = offices
+      .table("seats")
+      .query("byOffice", [chamber.id]) as unknown as SeatLike[];
+    const c = chamberCheck(chamber.jurisdiction, chamber.kind, seats);
+
+    expect(c.seats - c.empty, `${where}: ${chamber.id}`).toBe(c.members);
+    // A chamber with no roster (a territory's) seats its legal size empty.
+    if (!c.members || c.members + c.empty === c.legal || c.members === c.legal)
+      expect(c.seats, `${where}: ${chamber.id}`).toBe(c.legal);
+    console.info(
+      `legislature seats: ${where}: ${chamber.id} ${c.seats} of ${c.legal}, e.g. ${seats[0]?.id}`,
     );
   }
 }, 600_000);

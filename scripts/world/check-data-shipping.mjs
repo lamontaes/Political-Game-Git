@@ -2,8 +2,8 @@
 import { createHash } from "node:crypto";
 import process from "node:process";
 import console from "node:console";
-import { readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { resolve, relative } from "node:path";
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { dirname, resolve, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
@@ -224,11 +224,12 @@ if (
 ) {
   const directory = resolve(process.argv[2] ?? "dist");
   const result = scanShippingDirectory(directory, shippingPolicy());
-  if (process.argv[3])
-    writeFileSync(
-      resolve(process.argv[3]),
-      JSON.stringify(result, null, 2) + "\n",
-    );
+  if (process.argv[3]) {
+    // test-results/ is gitignored, so a fresh checkout (CI packaging job) lacks it.
+    const out = resolve(process.argv[3]);
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, JSON.stringify(result, null, 2) + "\n");
+  }
   console.log(JSON.stringify({ ...result, inventory: undefined }));
   if (result.violations.length) process.exitCode = 1;
 }

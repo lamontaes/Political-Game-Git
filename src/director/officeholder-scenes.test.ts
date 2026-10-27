@@ -42,15 +42,17 @@ const staged = (typeKey: string, personId: string, action: string) =>
     );
 
 describe("an officeholder's desk record stages scenes", () => {
-  it("a signing reaches the signer's press and desk and the sponsor's signing scene", () => {
+  it("a signing reaches the signer's press and the sponsor's signing scene", () => {
     expect(staged("press-interview", executive, "signed")).toBe(true);
-    expect(staged("desk-bill", executive, "signed")).toBe(true);
+    // The desk scene comes when the bill is presented, not when it is signed
+    // (desk-scene.test.ts plays it from the bill-presented record).
+    expect(staged("desk-bill", executive, "signed")).toBe(false);
     expect(staged("bill-signed", sponsor, "signed")).toBe(true);
     // The signer is not told their own signing, and a signing is no veto.
     expect(staged("bill-signed", executive, "signed")).toBe(false);
     expect(staged("veto", sponsor, "signed")).toBe(false);
   });
-  it("a town hall reaches its host as office hours with the residents who asked", () => {
+  it("a town hall reaches its host as a resident's question, not as office hours", () => {
     const core = {
       durableLog: new Map([
         [
@@ -69,14 +71,20 @@ describe("an officeholder's desk record stages scenes", () => {
         label: "cause:event:town-hall",
         causeId: "town-hall:1",
       }) as Moment;
-    const hours = SITUATION_LIBRARY.types.find(
-      (type) => type.key === "office-hours",
-    )!;
+    const of = (key: string) =>
+      SITUATION_LIBRARY.types.find((type) => type.key === key)!;
+    const question = of("town-hall-question");
     expect(
-      hours.causes.some((c) => causeMatches(c, book, at(executive), core)),
+      question.causes.some((c) => causeMatches(c, book, at(executive), core)),
     ).toBe(true);
     expect(
-      hours.causes.some((c) => causeMatches(c, book, at(sponsor), core)),
+      question.causes.some((c) => causeMatches(c, book, at(sponsor), core)),
+    ).toBe(false);
+    // Replaced, not layered: office hours no longer takes the town hall.
+    expect(
+      of("office-hours").causes.some((c) =>
+        causeMatches(c, book, at(executive), core),
+      ),
     ).toBe(false);
   });
   it("a veto reaches the sponsor as a veto", () => {

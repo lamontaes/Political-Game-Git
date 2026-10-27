@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/web-reach-schools
 pr: #5934
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-26T01:43:52.937Z
+claimed-at: 2026-10-26T20:29:43.140Z
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the school outcomes family: 15 unwired links, 2 where the owning engine does not read the factor and 13 where nothing keeps the outcome. Their outcomes: school.test-scores, school.graduation, school.absence, school.learning, school.years-completed, school.college-completion-pct and the rest. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
@@ -30,3 +30,5 @@ Sent back 2026-10-25 UTC from PR #5934 (branch claude/web-reach-schools): at0a9b
 Sent back 2026-10-25 UTC from PR #5934 (branch claude/web-reach-schools), checked 896e4c3a1a: the new 144-month spending exposure reads mutable opening-month values as pre-opening history (modules/outcome-web.ts309-313); controlled Westerly RI root37ee85ff132ea714/world a8a96cd3e4929d2de0707c16ae13d4dbf596da616c7f2d7a472b97e31327c58e, real schools-budget raise10% and two same-date web refreshes on2025-01-21 change effect .0007708333331 to .1109999999620 (144x), baseline still0; preserve historical opening observations and add repeated-refresh regression. Haledon carrier repair passes own2074.846s (all3 carriers5/5 fifths,135/135/3 student results), keep it and full365-day boundaries; fresh spending worker exited unexpectedly with no result, not cited as an assertion failure. Finish on that branch, merge main into it first.
 
 Merger 2: Sent back 2026-10-26 from PR #5934 (branch claude/web-reach-schools), checked04210d8360217ff244350a5800f877c509a56b4b: spending test src/core2/school-outcomes-spending-web.test.ts143-149 skips after45 days if web cause output is absent, and179-188 redraws after a full year if school graduation groups are absent. Screen eligibility from opening budget/fiscal dates and senior input population, then fail missing producer output in that eligible world; retain a drawn positive case and producer-break proof without redrawing. Immutable opening-history repair is confirmed by same Westerly37ee controlled edge: both January21 refreshes now .0007708333330695821, ratio1 vs old144. Keep that repair, Haledon carrier correction and365-day boundaries. Type368.59s/lint/format pass; annual gate stopped unfinished after source blocker, no new annual result claimed. Finish on that branch with main merged first. Exact return: https://github.com/lamontaes/Political-Game-Git/pull/5934#issuecomment-6406305204.
+
+Merger 2: Sent back 2026-10-26 from PR #5934 (branch claude/web-reach-schools), checked a1b4be5788d8e8f8555ba78b0b7b6371fc70bd53: school-outcomes-carriers-web.test.ts269 full-year carrier check failed to complete its declared3600-second limit; required isolated same-root535166c84bebb611/default-bookkeeping/maxWorkers1/heap5120 rerun was stopped after4112.51s with no carrier records or completed assertions (exit1 at4123.46s). Final worker-exit error follows deliberate termination, not a proved school assertion failure; no new OOM in isolation. Make the check finish in the supported environment without dropping365-day worlds/carriers/assertions or merely raising timeout/turning off guards. Preserve opening-input eligibility, immutable opening-history and read-time carrier fixes; own14 other cases/type/lint/format/dice/release/import checks PASS, pool byte-identical main. Finish on this branch with main merged first. Exact return: https://github.com/lamontaes/Political-Game-Git/pull/5934#issuecomment-6411018743.

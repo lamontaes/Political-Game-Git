@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** data/english/parts/filing-visit.json, src/director/mined/filing-bank.ts, src/director/filing-visit.ts, src/bench/filing.ts
 
-**Notes.** TODO
+**Notes.** TODO Playtest Oct 26 sitting 1 (installed v0.34.0): After "Okay, thank you." the clerk said "on-ballot".

@@ -34,7 +34,6 @@ import {
 import {
   campaignParameter,
   personLean,
-  PLATFORM_QUESTIONS,
   questionAxis,
   type Stance,
 } from "./campaign-views";
@@ -262,19 +261,23 @@ export function candidateLean(
 }
 
 /**
- * A candidate's platform: the questions they feel most strongly about, each
- * at its own position. Empty for a candidate with neither a view nor a party.
+ * A candidate's platform: of the questions the contest's seat takes up (its
+ * positions, `contestPositions`), the ones they feel most strongly about, each
+ * at its own position. Empty for a candidate with neither a view nor a party,
+ * and for a seat that takes up no question.
  */
 export function candidatePlatform(
   api: CoreAPI,
   personId: string,
   party: string | null | undefined,
+  positions: readonly string[],
   count = campaignParameter("candidatePlatformQuestions"),
 ): readonly Stance[] {
-  return PLATFORM_QUESTIONS.map((question) => ({
-    question,
-    position: candidateStance(api, personId, party, question),
-  }))
+  return positions
+    .map((question) => ({
+      question,
+      position: candidateStance(api, personId, party, question),
+    }))
     .filter((s): s is Stance => s.position !== null && s.position !== 0)
     .sort(
       (a, b) =>

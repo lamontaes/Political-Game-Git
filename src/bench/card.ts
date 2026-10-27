@@ -7,6 +7,9 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
+import { screenLine } from "../english/screen-words";
+import { circleChanges } from "./circle";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
 import {
@@ -151,6 +154,8 @@ export function personCard(core: CoreState, personId: string) {
     affect: person.affect,
     needs: person.needs,
     ties,
+    // Who joined or left their five closest this year, from the tie records.
+    circle: circleChanges(core, personId),
     drives,
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
@@ -180,6 +185,64 @@ export function personCard(core: CoreState, personId: string) {
  * how they're related, the tie between you, and, for family and coworkers,
  * where they work. Nothing private (money, mood, drives) shows.
  */
+const OFFICES = "core2-offices-v1";
+
+/** The offices a person serves in now, by title. */
+function servingOffices(core: CoreState, personId: string): string[] {
+  if (!core.modules.has(OFFICES)) return [];
+  const offices = coreAPI(core).moduleState(OFFICES);
+  return (
+    offices.table("terms").query("byPerson", [personId]) as unknown as {
+      status: string;
+      officeId: string;
+    }[]
+  )
+    .filter((term) => term.status === "serving")
+    .flatMap((term) => {
+      const office = offices.table("offices").get(term.officeId) as
+        { title?: string } | undefined;
+      return office?.title ? [office.title] : [];
+    });
+}
+
+/**
+ * An officeholder's colleagues: their ties to others serving in office,
+ * closest first, each with that person's office and the tie's record. Null
+ * for someone who holds no office.
+ */
+function colleaguesOf(core: CoreState, personId: string) {
+  if (!servingOffices(core, personId).length) return null;
+  return [...(core.relationshipsByPerson.get(personId) ?? [])]
+    .map((id) => core.relationships.get(id))
+    .filter((row) => row !== undefined)
+    .flatMap((row) => {
+      const otherId = row.actorId === personId ? row.otherId : row.actorId;
+      const other = core.people.get(otherId);
+      const offices = other?.alive ? servingOffices(core, otherId) : [];
+      if (!other || !offices.length) return [];
+      return [
+        {
+          personId: otherId,
+          name: `${other.givenName} ${other.familyName}`,
+          office: offices[0]!,
+          kind: row.kind,
+          level: currentCloseness(core, row),
+          recordId: row.id,
+        },
+      ];
+    })
+    .sort((a, b) => b.level - a.level || a.recordId.localeCompare(b.recordId))
+    .slice(0, CLOSEST);
+}
+
+/** "Quinn Supply Company" said as people say it: "Quinn Supply". */
+function shortEmployer(name: string): string {
+  return name.replace(
+    /,?\s+(Company|Co\.|Inc\.?|LLC|Corporation|Corp\.?)$/i,
+    "",
+  );
+}
+
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const viewer = core.people.get(viewerId);
   const other = core.people.get(otherId);
@@ -203,16 +266,62 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         ((row.actorId === viewerId && row.otherId === otherId) ||
           (row.otherId === viewerId && row.actorId === otherId)),
     );
+  const relation = relationWord(
+    core,
+    otherId,
+    kin?.kind.slice("family:".length),
+  );
+  const employer = job
+    ? core.organizations.get(job.organizationId)?.name
+    : undefined;
+  const school =
+    (family || housemate) &&
+    ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
+      coreAPI(core).parameter("benchmarkAdultMinimumAge")
+      ? (schoolsOf(core, otherId)
+          .filter((row) => row.date <= core.date)
+          .at(-1) ?? null)
+      : null;
+  const shownWork = (family || housemate || coworker) && job && employer;
   return {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
-    relation: relationWord(core, otherId, kin?.kind.slice("family:".length)),
+    relation,
+    // Who this is to the viewer, said as a person would ("Your partner. Works
+    // at Quinn Supply."), from the kin, job and school records (owner, Oct 27).
+    who: [
+      relation
+        ? screenLine("talk-who", "talk-who.relation.1", { relation })
+        : null,
+      shownWork
+        ? relation
+          ? screenLine("talk-who", "talk-who.work.known", {
+              employer: shortEmployer(employer),
+            })
+          : screenLine("talk-who", "talk-who.work.title", {
+              title: job.title,
+              employer: shortEmployer(employer),
+            })
+        : school
+          ? screenLine("talk-who", "talk-who.school.1", { school: school.name })
+          : null,
+    ]
+      .filter(Boolean)
+      .join(" "),
     // Family and housemates know each other's ages; others are known by sight.
     age:
       family || housemate
         ? ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date))
         : null,
     alive: other.alive,
+    // Where family, housemates and coworkers live, by their record.
+    placeName:
+      (family || housemate || coworker) &&
+      corePlaceByJurisdictionId(other.placeId as never)
+        ? corePlaceByJurisdictionId(other.placeId as never)!.displayName
+        : null,
+    // The school a child or teen is at now, from the school their past records.
+    school,
     work:
       (family || housemate || coworker) && job
         ? {
@@ -228,6 +337,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
+    // An officeholder's colleagues in office, by their tie records.
+    colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the
     // past module's public tier); null for anyone else.
     publicKnowledge: core.modules.has(PAST_MODULE_ID)

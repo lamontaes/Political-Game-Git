@@ -18,7 +18,11 @@
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
     "first": "The given name of someone both people know, from the person's record.",
-    "year": "A year from a dated record."
+    "year": "A year from a dated record.",
+    "headline": "A printed or broadcast story's headline, as the paper screen words it.",
+    "outlet": "The outlet's name as recorded.",
+    "weekday": "The day of the week, from the calendar.",
+    "last-together": "When two people last spent time together, as spoken."
   },
   "maxWords": 10,
   "mining": {
@@ -8901,112 +8905,6 @@
       }
     },
     {
-      "key": "conversation.news-raise-heard.did-you-hear",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you hear?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 2,
-        "hearings": 1,
-        "house": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on the 11th Anniversary of the Enactment of the Patient Protection and Affordable Care Act in Columbus, Ohio",
-        "date": "2021-03-23",
-        "granule": "DCPD-202100249",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202100249/html/DCPD-202100249.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-raise-heard.have-you-heard",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Have you heard?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 2,
-        "nasa": 1,
-        "nps": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Press Briefing by Press Secretary Jen Psaki, October 1, 2021",
-        "date": "2021-10-01",
-        "granule": "WH-2021-10-01-press-briefing-by-press-secretary-jen-psaki-october-1-2021",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2021/10/01/press-briefing-by-press-secretary-jen-psaki-october-1-2021/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-raise-heard.did-you-see-that",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you see that?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 35,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "crec": 1,
-        "dcpd": 21,
-        "hearings": 2,
-        "house": 1,
-        "nasa": 1,
-        "nasa2": 1,
-        "nps": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks and an Exchange With Reporters Upon Arrival in Orly, France",
-        "date": "2026-06-17",
-        "granule": "DCPD-202600411",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600411/html/DCPD-202600411.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.news-raise-heard.did-you-read-about-topic",
       "move": "news-raise-heard",
       "kind": "spoken",
@@ -9036,73 +8934,6 @@
         "move": "deliver-news",
         "key": "news-received"
       }
-    },
-    {
-      "key": "conversation.news-raise-heard.do-you-know-what-happened",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Do you know what happened?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "crec": 6,
-        "nasa2": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Congressional Record, Senate section, 2025-04-30",
-        "date": "2025-04-30",
-        "granule": "CREC-2025-04-30-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-04-30",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-raise-heard.guess-what",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Guess what.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 58,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "crec": 47,
-        "hearings": 4,
-        "nasa": 2,
-        "nasa2": 4
-      },
-      "shippable": true,
-      "source": {
-        "document": "FRAUD IN FOCUS: EXPOSING FINANCIAL THREATS TO AMERICAN FAMILIES",
-        "date": "2025-09-18",
-        "granule": "CHRG-119hhrg63431",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63431/html/CHRG-119hhrg63431.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
     },
     {
       "key": "conversation.news-answer-yes.i-heard",
@@ -13907,37 +13738,6 @@
         "move": "deliver-news",
         "key": "loss"
       }
-    },
-    {
-      "key": "conversation.news-raise-heard.guess-what-happened",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Guess what happened.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history interview with Robert L. Gibson",
-        "date": "2016-01-22",
-        "granule": "gibsonrl-1-22-16",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-1-22-16.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
     },
     {
       "key": "conversation.farewell-leave-bye.tell-name-i-said-hello",
@@ -19847,6 +19647,1957 @@
         "move": "comfort",
         "key": "loss"
       }
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-see-the-president-s-speech",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you see the President's speech?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-watch-the-president-s-speech",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you watch the President's speech?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-catch-the-president-s-speech",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you catch the President's speech?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-agree.i-thought-it-was-a-good-speech",
+      "move": "address-answer-agree",
+      "kind": "spoken",
+      "text": "I thought it was a good speech.",
+      "uses": [
+        {
+          "move": "address-answer-agree",
+          "subject": "address",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-agree.i-liked-what-the-president-said",
+      "move": "address-answer-agree",
+      "kind": "spoken",
+      "text": "I liked what the President said.",
+      "uses": [
+        {
+          "move": "address-answer-agree",
+          "subject": "address",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-doubt.i-m-not-sure-i-believe-any-of-it",
+      "move": "address-answer-doubt",
+      "kind": "spoken",
+      "text": "I'm not sure I believe any of it.",
+      "uses": [
+        {
+          "move": "address-answer-doubt",
+          "subject": "address",
+          "role": "answer",
+          "choice": "doubt"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-doubt.i-ve-heard-all-of-that-before",
+      "move": "address-answer-doubt",
+      "kind": "spoken",
+      "text": "I've heard all of that before.",
+      "uses": [
+        {
+          "move": "address-answer-doubt",
+          "subject": "address",
+          "role": "answer",
+          "choice": "doubt"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-hope.i-hope-some-of-it-actually-happens",
+      "move": "address-answer-hope",
+      "kind": "spoken",
+      "text": "I hope some of it actually happens.",
+      "uses": [
+        {
+          "move": "address-answer-hope",
+          "subject": "address",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-hope.i-hope-it-means-something-for-us-here",
+      "move": "address-answer-hope",
+      "kind": "spoken",
+      "text": "I hope it means something for us here.",
+      "uses": [
+        {
+          "move": "address-answer-hope",
+          "subject": "address",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-think.what-did-you-make-of-it",
+      "move": "address-answer-think",
+      "kind": "spoken",
+      "text": "What did you make of it?",
+      "uses": [
+        {
+          "move": "address-answer-think",
+          "subject": "address",
+          "role": "answer",
+          "choice": "think",
+          "raises": "address"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-answer-think.what-did-you-think-of-it",
+      "move": "address-answer-think",
+      "kind": "spoken",
+      "text": "What did you think of it?",
+      "uses": [
+        {
+          "move": "address-answer-think",
+          "subject": "address",
+          "role": "answer",
+          "choice": "think",
+          "raises": "address"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-raise-for.i-thought-the-president-made-a-lot-of-sense",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "I thought the President made a lot of sense.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-raise-for.i-liked-what-the-president-had-to-say",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "I liked what the President had to say.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-raise-against.i-didn-t-believe-a-word-the-president-said",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "I didn't believe a word the President said.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-raise-against.i-ve-heard-those-promises-too-many-times",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "I've heard those promises too many times.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-agree.i-m-with-you-on-that",
+      "move": "address-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'm with you on that.",
+      "uses": [
+        {
+          "move": "address-view-answer-agree",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-agree.you-and-me-both",
+      "move": "address-view-answer-agree",
+      "kind": "spoken",
+      "text": "You and me both.",
+      "uses": [
+        {
+          "move": "address-view-answer-agree",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-disagree.i-saw-it-differently",
+      "move": "address-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I saw it differently.",
+      "uses": [
+        {
+          "move": "address-view-answer-disagree",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-disagree.i-don-t-see-it-that-way",
+      "move": "address-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I don't see it that way.",
+      "uses": [
+        {
+          "move": "address-view-answer-disagree",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-wait.we-ll-see-what-they-actually-do",
+      "move": "address-view-answer-wait",
+      "kind": "spoken",
+      "text": "We'll see what they actually do.",
+      "uses": [
+        {
+          "move": "address-view-answer-wait",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "wait"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-wait.i-ll-believe-it-when-i-see-it",
+      "move": "address-view-answer-wait",
+      "kind": "spoken",
+      "text": "I'll believe it when I see it.",
+      "uses": [
+        {
+          "move": "address-view-answer-wait",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "wait"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-local.the-question-is-what-it-means-here",
+      "move": "address-view-answer-local",
+      "kind": "spoken",
+      "text": "The question is what it means here.",
+      "uses": [
+        {
+          "move": "address-view-answer-local",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "local"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.address-view-answer-local.what-i-want-to-know-is-what-it-means-here",
+      "move": "address-view-answer-local",
+      "kind": "spoken",
+      "text": "What I want to know is what it means here.",
+      "uses": [
+        {
+          "move": "address-view-answer-local",
+          "subject": "address-view",
+          "role": "answer",
+          "choice": "local"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.news-answer-opinion.good-that-s-been-a-long-time-coming",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "Good. That's been a long time coming.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "conversation.news-answer-opinion.that-worries-me-somebody-here-is-going-to-feel-it",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "That worries me. Somebody here is going to feel it.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-d-want-more-than-a-headline-before-i-decide",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I'd want more than a headline before I decide.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.news-answer-opinion.what-does-that-mean-for-us-though",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "What does that mean for us, though?",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-don-t-like-the-sound-of-that",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I don't like the sound of that.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "nervous"
+    },
+    {
+      "key": "conversation.news-answer-opinion.could-be-good-we-ll-find-out-soon-enough",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "Could be good. We'll find out soon enough.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.farewell-leave-home.i-ll-be-in-the-kitchen",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "I'll be in the kitchen.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "farewell",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.farewell-leave-home.glad-we-talked",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "Glad we talked.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "farewell",
+        "key": "household"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "conversation.farewell-leave-home.let-s-talk-more-tomorrow-okay",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "Let's talk more tomorrow, okay?",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "farewell",
+        "key": "household"
+      },
+      "bearing": "nervous"
+    },
+    {
+      "key": "conversation.ack-reply-right.fair-enough",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Fair enough.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "acknowledge",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.ack-reply-right.if-you-say-so",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "If you say so.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "acknowledge",
+        "key": "household"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.ack-reply-right.that-s-what-i-thought-too",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "That's what I thought too.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "acknowledge",
+        "key": "household"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-see-the-outlet-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you see the {outlet}? {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "paper"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.i-saw-it-in-the-outlet-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "I saw it in the {outlet}: {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "paper"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.headline-it-was-in-the-outlet",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "{headline}. It was in the {outlet}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "paper"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.outlet-had-it-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "{outlet} had it: {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "broadcast"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.i-heard-it-on-outlet-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "I heard it on {outlet}: {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "broadcast"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.have-you-seen-this-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Have you seen this? {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.ack-reply-right.i-know-love",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "I know, love.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "acknowledge",
+        "key": "household"
+      },
+      "bearing": "tender"
+    },
+    {
+      "key": "conversation.quiet-raise-day.it-s-been-a-quiet-weekday",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "It's been a quiet {weekday}.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.haven-t-seen-much-of-you-since-lasttogether",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Haven't seen much of you since {last-together}.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["last-together"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.there-you-are",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "There you are.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.busy-one-at-work-today",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Busy one at work today?",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.you-were-up-early",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "You were up early.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.another-work-day-huh",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Another work day, huh?",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.i-m-beat-just-glad-to-be-home",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "I'm beat. Just glad to be home.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "tender"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.long-i-don-t-want-to-get-into-it",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "Long. I don't want to get into it.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.quiet-answer-fine.fine-nothing-worth-telling",
+      "move": "quiet-answer-fine",
+      "kind": "spoken",
+      "text": "Fine. Nothing worth telling.",
+      "uses": [
+        {
+          "move": "quiet-answer-fine",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "fine"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-answer-fine.pretty-good-actually",
+      "move": "quiet-answer-fine",
+      "kind": "spoken",
+      "text": "Pretty good, actually.",
+      "uses": [
+        {
+          "move": "quiet-answer-fine",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "fine"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "conversation.quiet-answer-talk.sit-with-me-a-minute",
+      "move": "quiet-answer-talk",
+      "kind": "spoken",
+      "text": "Sit with me a minute?",
+      "uses": [
+        {
+          "move": "quiet-answer-talk",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "talk"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "conversation.quiet-answer-talk.i-missed-you-today",
+      "move": "quiet-answer-talk",
+      "kind": "spoken",
+      "text": "I missed you today.",
+      "uses": [
+        {
+          "move": "quiet-answer-talk",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "talk"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "tender"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.i-just-need-some-quiet-right-now",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "I just need some quiet right now.",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.can-we-not-do-this-right-now",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "Can we not do this right now?",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.job-lost-raise.i-got-let-go",
+      "move": "job-lost-raise",
+      "kind": "spoken",
+      "text": "I got let go.",
+      "uses": [
+        {
+          "move": "job-lost-raise",
+          "subject": "job-lost",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300667",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.job-lost-raise.they-let-me-go-at-work",
+      "move": "job-lost-raise",
+      "kind": "spoken",
+      "text": "They let me go at work.",
+      "uses": [
+        {
+          "move": "job-lost-raise",
+          "subject": "job-lost",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300667",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.job-lost-raise.i-need-to-tell-you-something-i-lost-my-job",
+      "move": "job-lost-raise",
+      "kind": "spoken",
+      "text": "I need to tell you something. I lost my job.",
+      "uses": [
+        {
+          "move": "job-lost-raise",
+          "subject": "job-lost",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300667",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.news-answer-no.did-they-say-why",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "Did they say why?",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        },
+        {
+          "move": "job-lost-reply-answer-ask",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "eviction-reply-answer-ask",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "prison-news-reply-answer-ask",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "victimization-reply-answer-ask",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 243,
+      "bySource": {
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "National Archives History Office oral history project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 9,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
+        "U.S. Senate Historical Office oral history": 16,
+        "briefing": 22,
+        "crec": 20,
+        "dcpd": 78,
+        "hearings": 27,
+        "house": 4,
+        "nasa": 16,
+        "nasa2": 6,
+        "nih": 2,
+        "nps": 23,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600590",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      },
+      "bearing": "curious",
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.news-answer-react.we-ll-manage-we-always-do",
+      "move": "news-answer-react",
+      "kind": "spoken",
+      "text": "We'll manage. We always do.",
+      "uses": [
+        {
+          "move": "news-answer-react",
+          "subject": "news",
+          "role": "answer",
+          "choice": "react"
+        },
+        {
+          "move": "other-work-answer-ack-none",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "ack-none",
+          "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 249,
+      "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 5,
+        "National Archives History Office oral history project": 6,
+        "National Archives History Office oral history project (brooks-oral-histories)": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 3,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 19,
+        "U.S. Senate Historical Office oral history": 23,
+        "briefing": 12,
+        "crec": 10,
+        "dcpd": 32,
+        "hearings": 18,
+        "house": 14,
+        "nasa": 23,
+        "nasa2": 27,
+        "nih": 2,
+        "nps": 48,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Pennsylvania Defense and Innovation Summit in Carlisle, Pennsylvania",
+        "date": "2026-07-15",
+        "granule": "DCPD-202600465",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600465/html/DCPD-202600465.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.job-lost-reply-answer-brief.okay-sit-down-tell-me",
+      "move": "job-lost-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Okay. Sit down. Tell me.",
+      "uses": [
+        {
+          "move": "job-lost-reply-answer-brief",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.death-news-raise-raise.sit-down-a-minute-relation-died",
+      "move": "death-news-raise-raise",
+      "kind": "spoken",
+      "text": "Sit down a minute. {relation} died.",
+      "uses": [
+        {
+          "move": "death-news-raise-raise",
+          "subject": "death-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-raise-raise.i-don-t-know-how-to-say-this-relation-is-gone",
+      "move": "death-news-raise-raise",
+      "kind": "spoken",
+      "text": "I don't know how to say this. {relation} is gone.",
+      "uses": [
+        {
+          "move": "death-news-raise-raise",
+          "subject": "death-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-help.tell-me-what-needs-doing-and-i-ll-do-it",
+      "move": "job-hope-reply-answer-help",
+      "kind": "spoken",
+      "text": "Tell me what needs doing, and I'll do it.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-help",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-where-reply-answer-help",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "death-news-reply-answer-help",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-reply-answer-help",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "chrg": 1,
+        "house-oral": 3,
+        "nasa-oral": 10,
+        "senate-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "SCREENTIME IN SCHOOLS . Tuesday, June 10, 2025",
+        "date": "2025-06-10",
+        "granule": "CHRG-119hhrg62534",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62534/html/CHRG-119hhrg62534.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.death-news-reply-answer-brief.oh-come-here",
+      "move": "death-news-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh. Come here.",
+      "uses": [
+        {
+          "move": "death-news-reply-answer-brief",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-raise-raise.i-got-a-call-about-relation-it-s-serious",
+      "move": "illness-news-raise-raise",
+      "kind": "spoken",
+      "text": "I got a call about {relation}. It's serious.",
+      "uses": [
+        {
+          "move": "illness-news-raise-raise",
+          "subject": "illness-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-raise-raise.relation-is-in-a-bad-way",
+      "move": "illness-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} is in a bad way.",
+      "uses": [
+        {
+          "move": "illness-news-raise-raise",
+          "subject": "illness-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-ask.have-you-talked-to-them",
+      "move": "illness-news-reply-answer-ask",
+      "kind": "spoken",
+      "text": "Have you talked to them?",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-ask",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "curious",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-comfort.i-m-sorry-that-s-a-lot-to-carry",
+      "move": "illness-news-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry. That's a lot to carry.",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-comfort",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-raise-raise.relation-got-sentenced-it-s-prison",
+      "move": "prison-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} got sentenced. It's prison.",
+      "uses": [
+        {
+          "move": "prison-news-raise-raise",
+          "subject": "prison-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-raise-raise.it-s-done-relation-is-going-away",
+      "move": "prison-news-raise-raise",
+      "kind": "spoken",
+      "text": "It's done. {relation} is going away.",
+      "uses": [
+        {
+          "move": "prison-news-raise-raise",
+          "subject": "prison-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-ack-none.i-m-so-sorry-that-s-family",
+      "move": "other-work-answer-ack-none",
+      "kind": "spoken",
+      "text": "I'm so sorry. That's family.",
+      "uses": [
+        {
+          "move": "other-work-answer-ack-none",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "ack-none",
+          "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "prison-news-reply-answer-comfort",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 622,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
+        "National Archives History Office oral history project": 8,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 8,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 27,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
+        "U.S. Senate Historical Office oral history": 4,
+        "briefing": 168,
+        "dcpd": 129,
+        "hearings": 152,
+        "house": 13,
+        "nasa": 20,
+        "nasa2": 13,
+        "nih": 3,
+        "nps": 67
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in a Roundtable Discussion on the Ratepayer Protection Pledge",
+        "date": "2026-07-23",
+        "granule": "DCPD-202600486",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600486/html/DCPD-202600486.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "condole",
+        "key": "loss"
+      },
+      "bearing": "tender",
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.news-answer-no.did-they-say-when-you-can-see-them",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "Did they say when you can see them?",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        },
+        {
+          "move": "job-lost-reply-answer-ask",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "eviction-reply-answer-ask",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "prison-news-reply-answer-ask",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "victimization-reply-answer-ask",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 243,
+      "bySource": {
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "National Archives History Office oral history project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 9,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
+        "U.S. Senate Historical Office oral history": 16,
+        "briefing": 22,
+        "crec": 20,
+        "dcpd": 78,
+        "hearings": 27,
+        "house": 4,
+        "nasa": 16,
+        "nasa2": 6,
+        "nih": 2,
+        "nps": 23,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600590",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      },
+      "bearing": "curious",
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
     }
   ]
 }
