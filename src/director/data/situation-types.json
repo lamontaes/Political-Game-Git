@@ -2982,6 +2982,7 @@
       "stakes": ["home", "rent"]
     },
     {
+      "repeatsBy": "bill",
       "key": "vote-asked",
       "purpose": "ask-vote",
       "asker": "colleague",
@@ -3013,8 +3014,14 @@
             "label": "cause:event:bill-amendment",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "kind", "equals": ["trade-amendment"] },
-              { "key": "movedBy", "is": "subject" }
+              {
+                "key": "kind",
+                "equals": ["trade-amendment"]
+              },
+              {
+                "key": "movedBy",
+                "is": "subject"
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -3173,6 +3180,59 @@
       }
     },
     {
+      "key": "bribe-offer",
+      "purpose": "bribe-offer",
+      "asker": "offerer",
+      "asked": "you",
+      "stakes": ["money", "favor", "record"],
+      "roles": [
+        {
+          "key": "offerer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "request",
+            "press",
+            "plea",
+            "threaten",
+            "deflect",
+            "accept",
+            "thank",
+            "confront"
+          ],
+          "wants": ["self-interest"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["accept", "refuse", "confront", "stall", "lie", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "bribe-offer",
+          "causeEngine": "corruption",
+          "causeRecord": "corruption.bribe-offered",
+          "bind": {
+            "offerer": "counterpart",
+            "you": "subject"
+          },
+          "opener": "offerer"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "party-ask",
       "purpose": "party-ask",
       "asker": "chair",
@@ -3311,7 +3371,12 @@
           "match": {
             "label": "cause:event:office.approached",
             "selfNamed": true,
-            "causeFacts": [{ "key": "officialId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "officialId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "constituent-cases",
           "causeRecord": "office.approached",
@@ -3321,16 +3386,6 @@
           },
           "opener": "constituent",
           "setting": ["office"]
-        },
-        {
-          "match": {
-            "label": "cause:event:town-hall",
-            "causeFacts": [{ "key": "hostId", "is": "subject" }]
-          },
-          "causeEngine": "meetings",
-          "causeRecord": "town-hall",
-          "bind": { "constituent": "town-hall-askers", "you": "subject" },
-          "opener": "constituent"
         }
       ],
       "tag": {
@@ -3367,7 +3422,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:candidate-filed" },
+          "match": {
+            "label": "cause:event:candidate-filed"
+          },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -3413,7 +3470,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFacts": [{ "key": "winnerId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -3460,7 +3522,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFacts": [{ "key": "winnerId", "is": "other" }]
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -3596,7 +3663,12 @@
           "match": {
             "label": "cause:event:bill-presented",
             "selfNamed": true,
-            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-presented",
@@ -3610,7 +3682,12 @@
           "match": {
             "label": "cause:event:bill-presented",
             "selfNamed": true,
-            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-presented",
@@ -3659,13 +3736,22 @@
             "label": "cause:event:press-story",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "sponsorId", "is": "subject" },
-              { "key": "billFraming", "equals": ["against"] }
+              {
+                "key": "sponsorId",
+                "is": "subject"
+              },
+              {
+                "key": "billFraming",
+                "equals": ["against"]
+              }
             ]
           },
           "causeEngine": "press",
           "causeRecord": "press-story",
-          "bind": { "aide": "staff", "you": "subject" },
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
           "opener": "aide"
         },
         {
@@ -3673,13 +3759,22 @@
             "label": "cause:event:press-story",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "subjectId", "is": "subject" },
-              { "key": "subjectFraming", "equals": ["against"] }
+              {
+                "key": "subjectId",
+                "is": "subject"
+              },
+              {
+                "key": "subjectFraming",
+                "equals": ["against"]
+              }
             ]
           },
           "causeEngine": "press",
           "causeRecord": "press-story",
-          "bind": { "aide": "staff", "you": "subject" },
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
           "opener": "aide"
         },
         {
@@ -3700,6 +3795,7 @@
       }
     },
     {
+      "repeatsBy": "bill",
       "key": "section-bargain",
       "purpose": "section-bargain",
       "asker": "member",
@@ -3731,8 +3827,14 @@
             "label": "cause:event:bill-amendment",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "kind", "equals": ["trade-amendment"] },
-              { "key": "movedBy", "is": "other" }
+              {
+                "key": "kind",
+                "equals": ["trade-amendment"]
+              },
+              {
+                "key": "movedBy",
+                "is": "other"
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -3844,6 +3946,58 @@
       "asker": "recruiter",
       "asked": "invited",
       "stakes": ["cause"]
+    },
+    {
+      "key": "town-hall-question",
+      "purpose": "town-hall-question",
+      "asker": "resident",
+      "asked": "you",
+      "stakes": ["issue", "answer", "town"],
+      "roles": [
+        {
+          "key": "resident",
+          "fill": "town-hall-askers",
+          "count": "one",
+          "moves": ["ask", "press", "plea", "disagree", "thank", "accept"],
+          "wants": ["change"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:town-hall",
+            "causeFacts": [
+              {
+                "key": "hostId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "meetings",
+          "causeRecord": "town-hall",
+          "bind": {
+            "resident": "town-hall-askers",
+            "you": "subject"
+          },
+          "opener": "resident"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
     }
   ]
 }

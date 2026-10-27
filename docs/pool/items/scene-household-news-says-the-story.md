@@ -5,14 +5,14 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/director-household-news-headline
+pr: #6307
 blocked-on:
 source: "words-and-scenes lead, Oct 27, probing the Oct 26 home talks (deliverable 7 of docs/work-orders/lead-words-scenes-2026-10-26.md)"
 lead: director
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T11:52:39.863Z
 ---
 
 **What.** In Fananganan, Northern Mariana Islands (seed `home-a:0`, `openConversation` with the player and two household members on March 21 and June 19, 2025), a talk about the news opens "What do you think?" and never says what the news was. The news subject (`src/director/conversation.ts`, near `changesKnownTo`) carries one fact, `topic`, which is an institution's proper name, so even the mined raise could only say "Did you hear about Hart County Board of Commissioners?". The talk then ends on "I see." or "Sure." Every printed story now has its own words (`wordPrintedStory` in `src/bench/archive-words.ts`, #6213), but the talk does not read them.
