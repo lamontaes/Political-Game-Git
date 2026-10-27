@@ -11,12 +11,6 @@
     "citation": "Weight on how far the speech moved the listener's stance when deciding whether to retell it; people talk about what affected them (Berger 2014, Journal of Consumer Psychology 24(4):586-607, on word of mouth). Spread 3 to 10.",
     "stopgapId": "SG-P15-speech-reception"
   },
-  "speechSociabilityWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Weight on the listener's trait lean toward retelling over keeping it (every trait through the shared trait table, about -1 to 1; OPUS-TRAITS, Oct 12, 2026) in deciding whether to retell. Doubled from 0.5 on sociability alone (-2 to 2) so the term keeps its range. Spread 0.5 to 2.",
-    "stopgapId": "SG-P15-speech-reception"
-  },
   "speechKeepPull": {
     "value": 0.6,
     "tag": "TUNABLE",
