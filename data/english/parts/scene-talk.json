@@ -101706,10 +101706,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-that-s-all-i-wanted",
+      "key": "scene-talk.close-thank.thank-you-that-s-what-i-came-for",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you. That's all I wanted.",
+      "text": "Thank you. That's what I came for.",
       "uses": [
         {
           "subject": "scene",

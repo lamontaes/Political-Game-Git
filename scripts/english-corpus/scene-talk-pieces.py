@@ -3233,7 +3233,7 @@ L('reply','deflect',Y,T,[("I want to hear from others too. Next question.","guar
 L('reply','lie',Y,T,[("I'm already working on it.","calm"),("I'm on your side on this.","calm")])
 L('follow','press',A,T,[("That isn't an answer I can take home.","braced"),("Easy to say from up there.","braced")],after='answer')
 L('follow','accept',A,T,[("Then at least I know where you stand.","guarded"),("All right. I'll remember you said it.","guarded")],after='answer')
-L('follow','thank',A,T,[("Thank you. That's all I wanted.","calm"),("I appreciate you saying so.","calm")],after='relent')
+L('follow','thank',A,T,[("Thank you. That's what I came for.","calm"),("I appreciate you saying so.","calm")],after='relent')
 L('follow','thank',A,T,[("I'll stay. Thank you.","calm")],after='offer')
 L('follow','press',A,T,[("You'll really see me?","nervous")],after='offer')
 L('follow','press',A,T,[("Don't skip me. People here are waiting.","braced")],after='deflect')
