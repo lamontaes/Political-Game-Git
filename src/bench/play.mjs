@@ -3928,7 +3928,13 @@ const sheets = {
         ...(next
           ? [
               row(labels.race, next.title),
-              row(labels.filesWith, next.filedWith),
+              row(
+                labels.filesWith,
+                next.filedWith.replace(
+                  /\s*\(counter: ([^)]*)\)/,
+                  `, ${labels.atTheDeskOf} $1`,
+                ),
+              ),
               row(labels.filingOpens, proseDate(next.filingOpens)),
               row(labels.filingDeadline, proseDate(next.filingDeadline)),
               ...(deadlineTerm
