@@ -141,6 +141,8 @@
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
     "skipOpening": "Skip opening",
+    "guide": "Guide",
+    "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
   },
   "polling": {

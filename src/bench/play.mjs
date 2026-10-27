@@ -3,7 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
-import { mountMenu, fillChoiceMenu } from "./ui/menu.mjs";
+import { fillChoiceMenu } from "./ui/menu.mjs";
 import {
   talkLine,
   talkReply,
@@ -4146,6 +4146,16 @@ const sheets = {
       });
       actions.append(skip);
     }
+    const guide = makeButton({ textContent: labels.guide });
+    guide.addEventListener("click", () => openSheet("guide"));
+    actions.append(guide);
+    // Dev mode, for a developer's session only.
+    const dev = makeButton({
+      className: "dev-only",
+      textContent: labels.devMode,
+    });
+    dev.addEventListener("click", () => window.open("/dev"));
+    actions.append(dev);
     const quit = makeButton({
       textContent: labels.quitToTitle,
     });
@@ -4725,6 +4735,7 @@ const groups = {
     "budgets",
   ],
   people: ["people", "family"],
+  who: ["who", "jobs"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -4790,33 +4801,26 @@ async function openSheet(tab) {
     tab !== "who" && tab !== "calendar" && body.length > 12,
   );
   show("sheet", true);
-  show("menu", Boolean(me));
   $("game").classList.add("sheet-open");
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
-// The Menu list: the screens by name, in this order, nothing under the names.
-// The rail over the player card: a column of round icons, News among them.
+// The rail over the player card: a column of round icons, News among them; it is
+// the one menu. The player's portrait opens Who you are (owner, Oct 20 and 27).
 mountRail(
   $("rings"),
   ["journal", "calendar", "money", "politics", "news", "people", "travel"],
   titles,
 );
-mountMenu(
-  [
-    "calendar",
-    "people",
-    "politics",
-    "news",
-    "journal",
-    "who",
-    "money",
-    "jobs",
-    "travel",
-    "guide",
-    "options",
-  ].map((key) => ({ key, label: titles[key] })),
-);
+// The portrait is the way to Who you are: named from the screen's title, and a
+// key opens it as a click does.
+$("card-bust").title = titles.who;
+$("card-bust").setAttribute("aria-label", titles.who);
+$("card-bust").addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  $("card-bust").click();
+});
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
@@ -4829,7 +4833,6 @@ function closeSheet() {
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.remove("active");
   show("sheet", false);
-  show("menu", false);
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);
