@@ -37,6 +37,7 @@ import {
   spacingAllows,
   type QueuedRecord,
 } from "./circumstance";
+import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
@@ -1404,10 +1405,12 @@ export function createDirector(
   function produceCircumstances(core: Readonly<CoreState>): void {
     // Records held for a later row come on their day; a day's records are
     // written as it closes, so one may already be due when it is recorded.
+    // One whose day passed unplayed (the clock jumped over it) is dropped:
+    // the morning after comes on that morning or not at all.
     const due: QueuedRecord[] = [];
     for (const [day, held] of circumstanceLater)
       if (day <= core.date) {
-        due.push(...held);
+        if (day === core.date) due.push(...held);
         circumstanceLater.delete(day);
       }
     const queue = [...circumstanceQueue.splice(zero), ...due];
@@ -1417,18 +1420,39 @@ export function createDirector(
         ...queue,
         ...newCoworkers(core, book.personId),
         ...newHousemates(core, book.personId),
+        ...schoolFinished(core, book.personId),
       ];
+      // A record read directly today (a school year's end) is held for the
+      // rows that come days after it, as a logged event is when recorded.
+      for (const record of records)
+        if (record.direct && !record.later)
+          for (const days of laterDays.get(record.kind) ?? []) {
+            const due = addDays(makeIsoDate(core.date), days);
+            circumstanceLater.set(due, [
+              ...(circumstanceLater.get(due) ?? []),
+              { ...record, later: true, dueOn: due },
+            ]);
+          }
       if (!records.length) continue;
       const date = makeIsoDate(core.date);
       const lastAny = ledger.circumstanceLast.get(`${book.personId}|*`);
       // The week between scenes from circumstance; a row that follows one
-      // thing the player lived through (the morning after) is not held to it.
+      // thing the player lived through (the morning after, their school
+      // year's end) is not held to it.
       const weekPassed = spacingAllows(
         lastAny,
         param("directorCircumstanceEveryDays"),
         date,
       );
-      if (!weekPassed && !records.some((record) => record.later)) continue;
+      if (
+        !weekPassed &&
+        !records.some(
+          (record) =>
+            record.later ||
+            circumstanceRows.get(record.kind)?.some((row) => row.lived),
+        )
+      )
+        continue;
       // A record that already staged a scene for this person today is met
       // the ordinary way: one cause stages one scene.
       const staged = new Set<string>();
@@ -1461,7 +1485,7 @@ export function createDirector(
           },
           staged,
           due: (row) =>
-            (weekPassed || !!row.afterDays) &&
+            (weekPassed || !!row.afterDays || !!row.lived) &&
             spacingAllows(
               ledger.circumstanceLast.get(`${book.personId}|${row.id}`),
               param(row.everyParameter),

@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/rent-band
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T20:49:48.773Z
 ---
 
 **What.** The new M1-05 checker drew Milo, Maine (2345985) at seed4f083fd757f4e0cd8e839662d5bbf67146747d0a7d8bbcaf5b35b19b9b8fae26 and measured median rent539.36 dollars at both start and end of its played year. The state county-median band is783 to1589 dollars and the recorded county median is837, while the town home values and yearly value change fall inside their stated bands. This is not the territory-to-national fallback: determine whether the rent generation is miscalibrated or the check mixes contract rent, gross rent or another incompatible measure before changing a value.
