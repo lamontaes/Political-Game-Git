@@ -481,7 +481,7 @@
     "directorElectionResultImpact": {
       "value": 0.28,
       "tag": "ESTIMATED",
-      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses; the owner rules that running, winning and losing are journal entries (Oct 14).",
+      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses, and giving an inaugural address; the owner rules that running, winning and losing are journal entries (Oct 14).",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
     },
     "directorChoicesPerTurn": {
@@ -1038,8 +1038,44 @@
     "directorOfficeActImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
-      "citation": "An officeholder introducing a bill or casting a vote on one. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like hearing back from a town office (0.15), below filing to run (0.28), so it reaches the member's journal without interrupting play (interrupt line 0.5). Checked by the vote and the introduction appearing as journal lines in a played year.",
+      "citation": "An officeholder introducing a bill, casting a vote on one, or signing or vetoing one, the sponsor whose bill was signed or vetoed, and an officeholder holding a town hall. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like hearing back from a town office (0.15), below filing to run (0.28), so it reaches the member's journal without interrupting play (interrupt line 0.5). Checked by the vote and the introduction appearing as journal lines in a played year.",
       "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
+    },
+    "directorVictimizedImpact": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "citation": "A crime against one's household or oneself, sized as the Social Readjustment Rating Scale's 'Change in living conditions', 25 life-change units divided by 100, up to 'Personal injury or illness', 53, for a robbery or an assault (Holmes and Rahe 1967, J Psychosom Res 11(2):213-8; the scale has no crime item). It reaches the people the crime engine's record names.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.25 to 0.53"
+    },
+    "journalRaceCloseMargin": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "citation": "Words judgment: a winner's lead over the runner-up of five points or fewer of the votes cast is a close race in a journal.",
+      "stopgapId": "SG-WORDS-param-journalRaceCloseMargin",
+      "checkRange": {
+        "ref": "WORDS-RACE-MARGIN-BAND"
+      },
+      "spread": {
+        "low": 0.005,
+        "high": 0.1,
+        "unit": "lead over the runner-up, as a share of votes cast",
+        "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
+      }
+    },
+    "journalRaceWideMargin": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Words judgment: a winner's lead over the runner-up of fifteen points or more of the votes cast is a race that was not close in a journal.",
+      "stopgapId": "SG-WORDS-param-journalRaceWideMargin",
+      "checkRange": {
+        "ref": "WORDS-RACE-MARGIN-BAND"
+      },
+      "spread": {
+        "low": 0.1,
+        "high": 0.25,
+        "unit": "lead over the runner-up, as a share of votes cast",
+        "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
+      }
     }
   },
   "channels": [
@@ -1207,6 +1243,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "party-asked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "veto-override",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact",
@@ -1254,6 +1295,21 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "bill-amendment",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "bill-presented",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "office.approached",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "executive-action",
       "channel": "cause",
       "impactParameter": "directorExecutiveActionImpact"
@@ -1269,6 +1325,26 @@
       "impactParameter": "directorPublicCommentImpact"
     },
     {
+      "eventKind": "president.address",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "town-hall",
+      "channel": "cause",
+      "impactParameter": "directorOfficeActImpact"
+    },
+    {
+      "eventKind": "official-appointed",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "executive-action",
+      "channel": "cause",
+      "impactParameter": "directorOfficeActImpact"
+    },
+    {
       "eventKind": "office.voted",
       "channel": "cause",
       "impactParameter": "directorOfficeActImpact"
@@ -1282,6 +1358,11 @@
       "eventKind": "housing.eviction",
       "channel": "feeling",
       "impactParameter": "directorEvictionImpact"
+    },
+    {
+      "eventKind": "crime.victimized",
+      "channel": "feeling",
+      "impactParameter": "directorVictimizedImpact"
     },
     {
       "eventKind": "housing.status-changed",
@@ -1331,6 +1412,11 @@
     },
     {
       "eventKind": "interview-published",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "press-story",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
     },

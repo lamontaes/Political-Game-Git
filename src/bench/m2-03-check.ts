@@ -118,13 +118,38 @@ else {
 }
 
 // 2. At 18: file once, with a platform, at the real office; on the ballot.
+// Where the place's records open no contest at 18 (every contest's age rule
+// is still unmet), the player files on the day the youngest rule lets them:
+// in the U.S. Virgin Islands every office starts at 21. A contest open at 18
+// that the player still cannot enter fails here as before.
 const born = w.core.people.get(me)!.birthDate;
 const eighteenth = `${Number(born.slice(0, 4)) + 18}${born.slice(4)}`;
 if (w.core.date <= eighteenth) liveUntil(addDays(makeIsoDate(eighteenth), 1));
-const gov = governmentView(w.core, me);
+let gov = governmentView(w.core, me);
+const tooYoung = (c: (typeof gov.contests)[number]) =>
+  c.checks.some((k) => k.rule === "minimum-age" && !k.met);
+if (gov.contests.length && gov.contests.every(tooYoung)) {
+  const youngest = gov.contests
+    .flatMap((c) => c.checks.filter((k) => k.rule === "minimum-age" && k.metOn))
+    .sort((a, b) => a.metOn!.localeCompare(b.metOn!))[0];
+  report.youngestFiling = {
+    reason: "no contest in the place's records is open at 18",
+    required: youngest?.required,
+    metOn: youngest?.metOn,
+    source: youngest?.source,
+  };
+  if (youngest?.metOn) {
+    liveUntil(addDays(makeIsoDate(youngest.metOn), 1));
+    gov = governmentView(w.core, me);
+  }
+}
 const enterable = gov.contests.find((c) => c.checks.every((k) => k.met));
 if (!enterable)
-  failures.push(`${where}: at 18 there is no contest the player can enter`);
+  failures.push(
+    report.youngestFiling
+      ? `${where}: at the youngest age the records allow there is no contest the player can enter`
+      : `${where}: at 18 there is no contest the player can enter`,
+  );
 else {
   const counter = visitCounter(
     enterable.contest.id,
@@ -150,7 +175,7 @@ else {
   };
   check(
     counter.offeredFile,
-    `${where}: an eligible 18-year-old was offered no way to file`,
+    `${where}: an eligible player was offered no way to file`,
   );
   check(
     (result?.filing?.platform.length ?? 0) > 0,

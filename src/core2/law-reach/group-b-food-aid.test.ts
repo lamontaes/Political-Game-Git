@@ -97,6 +97,10 @@ describe("the baseline benefit in a played year", () => {
       );
     advanceCore(core, nextMonth(core.date));
     advanceCore(core, nextMonth(core.date));
+    // The benefit is decided at the monthly budget close, on the 1st, so the
+    // households are read the day after one (a job a household found since
+    // would otherwise end its benefit only at the next close).
+    advanceCore(core, dayAfterClose(core.date));
     const rows = open();
     if (!lawInForce(api, "snap-maximum").value) {
       expect(rows, `${where}: paid with no SNAP law`).toEqual([]);
@@ -155,5 +159,11 @@ describe("the baseline benefit in a played year", () => {
 function nextMonth(date: string): never {
   const d = new Date(`${date}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + 35);
+  return d.toISOString().slice(0, 10) as never;
+}
+
+function dayAfterClose(date: string): never {
+  const d = new Date(`${date}T00:00:00Z`);
+  d.setUTCMonth(d.getUTCMonth() + 1, 2);
   return d.toISOString().slice(0, 10) as never;
 }

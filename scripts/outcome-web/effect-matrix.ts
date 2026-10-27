@@ -11,8 +11,14 @@
  * how unevenly) come from src/core2/outcome-web-twins.test.ts, which writes
  * its findings to the same matrix under `twins`.
  */
-import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join, relative } from "node:path";
+import {
+  existsSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { dirname, join, relative } from "node:path";
 import {
   causeAvailable,
   derivedOf,
@@ -26,6 +32,7 @@ import {
 // The web module first: gov-measures reaches it through a cycle.
 import "../../src/core2/modules/outcome-web";
 import { GOV_MEASURES } from "../../src/core2/gov-measures";
+import { WORLD_METRICS_MODULE_ID } from "../../src/core2/modules/world-metrics";
 
 type Status = "pass" | "partial" | "fail" | "n/a";
 interface Point {
@@ -47,7 +54,7 @@ const WEB_FILES = new Set([
 /** Readers that turn an outcome into what people notice and how they vote. */
 const KNOWING = /electorate-inputs|views|news|press|director|english/;
 const ACCESSORS =
-  /outcomeWebFactor|placeOutcome|personWebFactor|webFactorFor|webEffectFor/;
+  /outcomeWebFactor|placeOutcome|webReach|webFactorFor|webLevel|turnoutWeb|deathWebFactor/;
 
 function files(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -64,8 +71,14 @@ function readers(): Map<string, { file: string; line: number }[]> {
   for (const path of SRC_DIRS.flatMap(files)) {
     const file = relative(ROOT, path);
     if (WEB_FILES.has(file)) continue;
-    const text = readFileSync(path, "utf8");
-    if (!ACCESSORS.test(text)) continue;
+    const own = readFileSync(path, "utf8");
+    if (!ACCESSORS.test(own)) continue;
+    // An engine may name the measures it reads in a data file it imports.
+    const imported = [...own.matchAll(/from "(\.[^"]+\.json)"/g)]
+      .map((m) => join(dirname(path), m[1]!))
+      .filter((file) => existsSync(file))
+      .map((file) => readFileSync(file, "utf8"));
+    const text = [own, ...imported].join("\n");
     text.split("\n").forEach((line, at) => {
       for (const match of line.matchAll(/"([a-z][a-z0-9-]*\.[a-z0-9.:-]+)"/g)) {
         const measure = match[1]!;
@@ -90,6 +103,18 @@ const linksPath = "data/research/outcome-web/links.json";
 const linksText = readFileSync(join(ROOT, linksPath), "utf8").split("\n");
 const lineOf = (key: string) =>
   linksText.findIndex((line) => line.includes(`"key": "${key}"`)) + 1;
+
+/**
+ * Where an engine measure's value comes from, as the web's `readEngine` reads
+ * it: a named reader of the engine's own record, or a month row of the engine
+ * that keeps it (the economy's world-metrics rows by default).
+ */
+function engineSource(measure: string): string {
+  const definition = engineMeasure(measure)!;
+  return definition.reader
+    ? `the ${definition.reader} reader (ENGINE_READERS, src/core2/modules/outcome-web.ts)`
+    : `${definition.module ?? WORLD_METRICS_MODULE_ID} ${definition.table ?? "months"}.${definition.field}`;
+}
 
 /** How a link's cause is read today. */
 function causeKind(measure: string): string {
@@ -118,7 +143,7 @@ function cause(link: WebLink): Point {
     case "engine":
       return {
         status: "pass",
-        evidence: `world-metrics months.${engineMeasure(link.from)!.field}, lagged by causeAt (src/core2/modules/outcome-web.ts)`,
+        evidence: `${engineSource(link.from)}, lagged by causeAt (src/core2/modules/outcome-web.ts)`,
       };
     case "gov":
       return {
@@ -168,9 +193,114 @@ function size(link: WebLink & { range?: number[]; anchor?: string }): Point {
   };
 }
 
-function reaches(link: WebLink): Point {
+/** Open stopgap rows, by the link keys their text names. */
+const STOPGAPS = (
+  JSON.parse(
+    readFileSync(join(ROOT, "src/core2/data/stopgaps.json"), "utf8"),
+  ) as {
+    id: string;
+    status?: string;
+    whatItFakes?: string;
+    why?: string;
+    replacement?: string;
+  }[]
+).filter((row) => row.status !== "resolved" && row.status !== "closed");
+function stopgapFor(key: string): string | undefined {
+  const pattern = new RegExp(
+    `(^|[^a-z0-9-])${key.replace(/[-]/g, "\\-")}([^a-z0-9-]|$)`,
+  );
+  return STOPGAPS.find((row) =>
+    pattern.test(
+      `${row.whatItFakes ?? ""} ${row.why ?? ""} ${row.replacement ?? ""}`,
+    ),
+  )?.id;
+}
+
+/**
+ * What the link's own research record says stands in its way, in words: a
+ * failing reach names it after the engine's gap, so each unwired link carries
+ * its specific reason (data/research/outcome-web/links.json `status`).
+ */
+function researchBlocker(
+  link: WebLink & { status?: string; notes?: string },
+): string | undefined {
+  switch (link.status) {
+    case "size-not-set":
+      return "its research gives no size the game can apply, so the web does not run it";
+    case "about-zero":
+      return "its research finds no effect (about zero), so an engine would multiply by one";
+    case "cause-not-recorded":
+      return `nothing in the core records its cause, ${link.from}`;
+    case "outcome-not-produced":
+      return `no engine produces ${link.to}`;
+    case "person-level":
+      return "it needs each person's own exposure record, which no engine keeps";
+    default:
+      return undefined;
+  }
+}
+
+function reaches(link: WebLink & { carriedBy?: string }): Point {
+  const point = unrun(link, reachPoint(link));
+  if (point.status === "pass") return point;
+  // An engine that reads the same cause by its own mechanic does not carry
+  // this row's size and lag; the link stays unwired and says so.
+  const why = [
+    point.why,
+    researchBlocker(link),
+    link.engineGap &&
+      `an engine reads the cause its own way: ${link.engineGap}`,
+  ].filter(Boolean);
+  return { ...point, why: why.join("; ") };
+}
+
+/**
+ * A link the web does not run moves nothing, however many engines read its
+ * outcome: it fails, waiting on what its coverage row names. A carried link
+ * is read by its engine instead.
+ */
+function unrun(link: WebLink & { carriedBy?: string }, point: Point): Point {
+  const coverage = linkCoverage(link);
+  if (point.status !== "pass" || link.carriedBy || coverage.wired) return point;
+  const waits = [
+    ...(coverage.waitingOn.length
+      ? [`it waits on ${coverage.waitingOn.join(", ")}`]
+      : []),
+    ...("needsSize" in coverage && coverage.needsSize
+      ? ["it has no researched size"]
+      : []),
+  ];
+  return {
+    status: "fail",
+    evidence: `outcome read by ${point.evidence}`,
+    why: `the web does not run it: ${waits.join(", and ")}`,
+  };
+}
+
+function reachPoint(
+  link: WebLink & { carriedBy?: string },
+  seen: ReadonlySet<string> = new Set(),
+): Point {
+  if (link.carriedBy)
+    return {
+      status: "pass",
+      evidence: `carried by an engine, not the web: ${link.carriedBy}`,
+    };
   const engine = engineReaders(link.to);
   if (engine.length) return { status: "pass", evidence: where(engine) };
+  // A kept outcome no engine reads still reaches people when a running link
+  // starts from it and that link reaches: the web carries it on the next month.
+  if (keptOutcome(link.to))
+    for (const next of FROM.get(link.to) ?? []) {
+      if (seen.has(next.key) || next.key === link.key) continue;
+      if (!linkCoverage(next).wired) continue;
+      const through = reachPoint(next, new Set([...seen, link.key]));
+      if (through.status === "pass")
+        return {
+          status: "pass",
+          evidence: `through ${next.key}: ${through.evidence}`,
+        };
+    }
   if (
     engineMeasure(link.to) ||
     (GOV_MEASURES as readonly string[]).includes(link.to)
@@ -178,7 +308,7 @@ function reaches(link: WebLink): Point {
     return {
       status: "fail",
       evidence: engineMeasure(link.to)
-        ? `world-metrics months.${engineMeasure(link.to)!.field}`
+        ? engineSource(link.to)
         : "src/core2/gov-measures.ts",
       why: `engine doesn't read the factor: an engine records ${link.to}, but nothing multiplies its rates by the link's effect`,
     };
@@ -255,7 +385,22 @@ function timing(
   };
 }
 
+/** Outcomes voters read from an engine's records rather than by name. */
+const ELECTORATE = readFileSync(
+  join(ROOT, "src/core2/electorate-inputs.ts"),
+  "utf8",
+);
+const VOTERS_READ_RECORDS = /modules\/crime/.test(ELECTORATE)
+  ? ["crime.burglary", "crime.robbery", "crime.assault", "crime.property"]
+  : [];
+
 function knowing(link: WebLink): Point {
+  if (VOTERS_READ_RECORDS.includes(link.to))
+    return {
+      status: "pass",
+      evidence:
+        "src/core2/electorate-inputs.ts townConditions reads the victimization records voters lived through",
+    };
   const rows = knowingReaders(link.to);
   if (rows.length && engineReaders(link.to).length)
     return { status: "pass", evidence: where(rows) };
@@ -295,6 +440,8 @@ export interface MatrixRow {
   readonly webCoverage: "wired" | "waiting";
   readonly points: Record<string, Point>;
   readonly wiredPoints: number;
+  /** An open stopgap row that names this link, with its reason. */
+  readonly stopgap: string | null;
 }
 
 export function matrix(): {
@@ -325,6 +472,7 @@ export function matrix(): {
       wiredPoints: Object.values(points).filter(
         (p) => p.status === "pass" || p.status === "n/a",
       ).length,
+      stopgap: stopgapFor(link.key) ?? null,
     };
   });
   // One row per wanted measure: every cause or outcome a link names.
@@ -364,7 +512,7 @@ export function matrix(): {
         status,
         evidence: recorded
           ? engineMeasure(measure)
-            ? `world-metrics months.${engineMeasure(measure)!.field}`
+            ? engineSource(measure)
             : "src/core2/gov-measures.ts"
           : engine.length
             ? where(engine)
@@ -397,6 +545,11 @@ function summary(rows: readonly MatrixRow[]) {
     lawLinks: by((row) => row.lawLink),
     webCoverageWired: by((row) => row.webCoverage === "wired"),
     allEightPoints: by(all),
+    reachesOrCarried: by((row) => row.points.reaches!.status === "pass"),
+    namedInAStopgap: by((row) => row.stopgap !== null),
+    notReachingAndNoStopgap: by(
+      (row) => row.points.reaches!.status !== "pass" && row.stopgap === null,
+    ),
     reachesTheWorld: by((row) => row.points.reaches!.status === "pass"),
     withAnyModerator: by((row) => row.points.varied!.status !== "fail"),
     byPoint: Object.fromEntries(

@@ -24,10 +24,13 @@
     "speak": "Spoke",
     "state-of-the-city": "State of the city"
   },
+  "creator": {
+    "people": "people",
+    "about": "about"
+  },
   "endedBy": {
-    "start": "Shift starts",
-    "end": "Shift ends",
     "moment": "Something needs you",
+    "job-offered": "A job offer",
     "results": "Election results",
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
@@ -71,6 +74,17 @@
     "interview": "Ask for an interview",
     "hours": "hours"
   },
+  "campaignUnavailable": {
+    "noHouseholds": "No households in town",
+    "noPlatform": "Choose your platform first",
+    "eventMoney": "Hall {price} · campaign {cash}",
+    "noOutlet": "No paper or station here",
+    "interviewed": "Every outlet here has interviewed you",
+    "outletsFull": "No outlet has room this week",
+    "notKnown": "Not known enough for television yet",
+    "nobodyReached": "Nobody you can reach yet",
+    "allGave": "Everyone you can reach has given"
+  },
   "campaignContribute": {
     "give": "Put in your own money",
     "dollars": "dollars"
@@ -106,7 +120,16 @@
     "place": "Home",
     "talk": "Talk",
     "back": "Back",
-    "continue": "Continue"
+    "continue": "Continue",
+    "knows": "Knows",
+    "noColleagues": "Knows no one in office yet",
+    "tieWords": {
+      "coworker": "Works with",
+      "contact": "Knows",
+      "group": "In a group with",
+      "family": "Family"
+    },
+    "rival": "Rival"
   },
   "options": {
     "version": "Version",
@@ -134,7 +157,25 @@
     "speakAgainst": "Speak against"
   },
   "filing": {
-    "file": "File for this office"
+    "file": "File for this office",
+    "metOn": "From",
+    "status": {
+      "on-ballot": "You are on the ballot",
+      "withdrawn": "Withdrawn",
+      "refused": "Not accepted"
+    },
+    "rules": {
+      "filing-deadline": "Filing deadline",
+      "already-filed": "Filed before",
+      "minimum-age": "Age",
+      "residency": "Residency",
+      "district-residency": "District residency",
+      "party-member": "Party membership",
+      "term-limit": "Term limit"
+    },
+    "seat": "Seat",
+    "heldBy": "Held by",
+    "openSeat": "No one holds it now"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
@@ -205,7 +246,13 @@
   "party": {
     "join": "Join",
     "member": "Your party",
-    "agreement": "Views fit"
+    "agreement": "Views fit",
+    "fit": [
+      { "atLeast": 0.6, "label": "Close" },
+      { "atLeast": 0.2, "label": "Mostly" },
+      { "atLeast": -0.2, "label": "Mixed" },
+      { "atLeast": -1, "label": "Far apart" }
+    ]
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
@@ -240,11 +287,38 @@
     "card": "View person",
     "talk": "Talk",
     "back": "Back",
-    "next": "Continue"
+    "next": "Continue",
+    "joined": "Closer this year",
+    "left": "Drifted away",
+    "noChange": "Your five closest are the same as a year ago",
+    "causes": {
+      "person.moved-away": "Moved away",
+      "life.death": "Died",
+      "no-time-together": "No time together lately",
+      "chosen-act": "Time together"
+    }
   },
   "news": {
     "title": "News",
     "records": "Public record",
+    "economy": {
+      "nation": "Nation",
+      "region": "Region",
+      "jobsHere": "Jobs here",
+      "unemployment": "Unemployment",
+      "inflation": "Inflation",
+      "policyRate": "Policy rate",
+      "mortgage": "Mortgage",
+      "employed": "employed",
+      "looking": "looking",
+      "open": "open",
+      "series": {
+        "unemploymentPct": { "label": "Unemployment", "unit": "percent" },
+        "jobsThousands": { "label": "Jobs", "unit": "thousands" },
+        "hourlyEarnings": { "label": "Hourly pay", "unit": "dollars" },
+        "priceLevelPct": { "label": "Price level", "unit": "index" }
+      }
+    },
     "back": "Back to front page",
     "previous": "Back",
     "next": "Continue"
@@ -260,17 +334,29 @@
     "deadline": "Answer by",
     "accept": "Take it",
     "decline": "Turn it down",
+    "notNow": "Not now",
     "noJob": "No current job",
     "unavailable": "Offer no longer available",
     "failed": "Could not send your answer. Try again."
   },
   "politics": {
     "seats": "Seats",
+    "yourMembers": "Your members",
+    "leaders": "Leaders",
     "notChosenHere": "Not chosen by this place's voters",
     "votes": "Votes",
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
+    "reached": {
+      "in office at the opening": "Serving when your story began",
+      "elected": "Elected"
+    },
+    "electedOn": "Elected",
+    "ofVote": "of the vote",
+    "adopted": "Adopted",
+    "elected": "Elected",
+    "takesOffice": "Takes office",
     "searchIssues": "Search issues",
     "back": "Back",
     "next": "Continue",
@@ -281,15 +367,33 @@
     "increase": "Increase",
     "decrease": "Decrease",
     "stateFilter": "State",
-    "ownState": "Your state"
+    "ownState": "Your state",
+    "booksSince": "Actually taken in and paid out since",
+    "takenIn": "Taken in",
+    "paidOut": "Paid out",
+    "cashOnHand": "Cash on hand",
+    "overBudget": "Paid out more than this year's budget",
+    "noBooks": "The treasury has paid nothing in or out yet",
+    "seriesNames": {
+      "income-tax": "Income tax rate",
+      "sales-tax": "Sales tax rate"
+    },
+    "noneHere": "None here"
   },
   "results": {
-    "turnout": "Turnout",
+    "cast": "Ballots cast",
     "exitPoll": "Exit poll",
     "wonIn": "Where it was won",
     "you": "You",
+    "yourRace": "Your race",
+    "won": "Won",
+    "lost": "Lost",
     "unopposed": "Unopposed",
-    "abstained": "—"
+    "abstained": "—",
+    "nation": "Governor races across the country",
+    "marginBy": "by",
+    "points": "points",
+    "noNation": "No governor races have been counted yet"
   },
   "money": {
     "cash": "Cash available",
@@ -319,5 +423,12 @@
     "jobsLost": "Jobs lost",
     "sales": "Sales",
     "costs": "Costs"
+  },
+  "localRaces": {
+    "title": "Local races on the ballot",
+    "unopposed": "Unopposed",
+    "noFilers": "No one has filed",
+    "filingCloses": "Filing closes",
+    "noBallot": "No local election is on the calendar"
   }
 }

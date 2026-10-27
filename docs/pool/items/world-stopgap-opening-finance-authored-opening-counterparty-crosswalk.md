@@ -4,7 +4,7 @@ title: "Stopgaps in opening-finance (authored-opening-counterparty-crosswalk): 1
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Opening household/firm standing purchase-budget counterparties from real existing organizations and broad source category/classification crosswalks, with projected payroll-capacity shares. Household positive-cost members
 
 Oct 20 (pool feeder): spec written; research note in data/research/stopgaps-oct19/B-people-behavior-2.json: keep the CEX splits, weight suppliers by capacity times distance decay, tag the decay ESTIMATED. The ruling 'money is time, freedom and pressure' says household budgeting needs no great depth, so this stays a background split, never a player-facing budgeting screen.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr: #5663
-blocked-on: owner-decision-may-player-old-decisions-be-compacted
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -36,3 +36,5 @@ Sent back 2026-10-20 from PR #5623 (branch claude/memory-player-decisions): owne
 Sent back 2026-10-21 from PR #5645 (branch claude/memory-transfer-ids): docs/pool/items/core-memory-election-log-growth.md:20 requires the named 36-month run at or under 5 MiB per month. This PR reports 8.8 MB per month and explicitly says the goal is not met; the item is also currently attached to #5663. The source-note repair is present, but the transfer-id retention slice needs its own bounded tracking item and duplicate-write/retention proof, leaving the broader memory goal and its current PR open. Do not complete the shared memory item for this partial optimization. No local gate pass is claimed.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-21 from PR #5635 (branch claude/memory-drive-acts): docs/pool/items/core-memory-election-log-growth.md:20 requires the named 36-month run at or under 5 MiB per month. This PR reports 8.7 MB per month and explicitly says the goal is not met, while the shared item is attached to another PR. The owner/date and optional-id repairs are present, but the drive-trace slice needs a bounded tracking item and its own retention/count proof before it can be completed independently. Leave the broader memory target open. No local gate pass is claimed.; finish on that branch, merge main into it first.
+
+Oct 25 audit: cleared the block on an owner-decision id that was never filed; the owner's Oct 20 memory ruling (quoted in What) answers it.

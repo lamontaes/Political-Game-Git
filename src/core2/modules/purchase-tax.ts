@@ -18,7 +18,7 @@ import type {
   Source,
 } from "../types";
 import { registerWorldMapPart } from "../snapshot";
-import { lawApplied } from "../law-reach/applied";
+import { appliedOn, lawApplied } from "../law-reach/applied";
 import { residentsRuntime } from "./residents";
 
 export const PURCHASE_TAX_MODULE_ID = "core2-purchase-tax-v1";
@@ -162,22 +162,24 @@ function note(
   else day.set(id, { ...input, amountMinor: minor });
 }
 
-/** Record the day's sums as applied rows; a counted group stands for its place's weighted counted people. */
+/**
+ * Record the day's sums as applied rows. A counted household buyer stands for
+ * the people its own record counts; the place's residents account (the payer
+ * of a flow no household owns) stands for the place's counted people the law's
+ * household rows do not already stand for, so a law's counted reach adds up to
+ * no more than the town's counted people, once.
+ */
 function flushApplied(api: CoreAPI): void {
   const day = pending.get(api.state);
   if (!day?.size) return;
-  const people = new Map<string, number>();
-  for (const row of day.values()) {
-    let count: number | undefined;
-    if (row.target === "group") {
-      count = people.get(row.countedIn!);
-      if (count === undefined) {
-        count =
-          residentsRuntime(api.state)?.store.weightedPeople(row.countedIn!) ??
-          1;
-        people.set(row.countedIn!, count);
-      }
-    }
+  const store = residentsRuntime(api.state)?.store;
+  const householdCount = (targetId: string): number | undefined => {
+    const index = store?.householdOf.get(targetId);
+    const household =
+      index === undefined ? undefined : store!.households[index];
+    return household ? store!.weightedCount(household) : undefined;
+  };
+  const record = (row: Pending, count: number | undefined) =>
     lawApplied(api, {
       key: row.key,
       lawId: row.lawId,
@@ -188,11 +190,33 @@ function flushApplied(api: CoreAPI): void {
       what: row.what,
       amountMinor: row.amountMinor,
     });
+  const accounts: Pending[] = [];
+  for (const row of day.values()) {
+    if (row.target !== "group") record(row, undefined);
+    else if (householdCount(row.targetId) === undefined) accounts.push(row);
+    else record(row, householdCount(row.targetId));
+  }
+  for (const row of accounts) {
+    const whole = store?.weightedPeople(row.countedIn!) ?? 1;
+    const covered = appliedOn(api, row.key)
+      .filter(
+        (r) =>
+          r.lawId === row.lawId &&
+          r.target === "group" &&
+          r.targetId !== row.targetId,
+      )
+      .reduce((n, r) => n + r.count, 0);
+    record(row, whole - covered);
   }
   day.clear();
 }
 
-/** A sale's buyers and seller, noted under a law: money is the buyers' (positive: tax paid; negative: tax spared). */
+/**
+ * A sale's buyers and seller, noted under a law. The buyers' money is the tax
+ * inside the price they paid (positive); the seller's is what it remitted
+ * (positive) or kept of the remittance under an exemption (negative). A
+ * buyer's cash is the same either way, so an exemption notes the buyers with 0.
+ */
 function noteSale(
   core: CoreState,
   sale: SalesReceiptNotice,
@@ -247,7 +271,8 @@ function collect(api: CoreAPI, sale: SalesReceiptNotice): void {
           sale,
           { key: exempt.lawKey, lawId: exempt.lawId },
           "sales-tax-exempt",
-          -spared,
+          // Prices are tax-inclusive: the buyers pay the same, the seller remits less.
+          0,
           -spared,
         );
     }

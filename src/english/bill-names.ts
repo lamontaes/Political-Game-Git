@@ -10,6 +10,8 @@
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 
 export interface BillNameBook {
+  /** The article a sentence says a short title with: "the Fair Wage Act". */
+  readonly article: string;
   readonly forms: Readonly<Record<string, string>>;
   readonly list: { readonly conjunction: string };
   /** A budget bill's name and purpose: it sets amounts for spending lines, with no direction. */
@@ -44,6 +46,18 @@ export interface BillName {
   readonly purpose: string;
   /** Whether the bill undoes or lessens its policy (a repeal, a cut). */
   readonly reverses: boolean;
+}
+
+/**
+ * A bill's short title as a sentence says it, with the book's article: "I
+ * voted for the Fair Wage Act." A title is always a name and its form word,
+ * so it takes the article as any named act or ordinance does.
+ */
+export function billTitleSaid(
+  title: string,
+  book: BillNameBook = billNames as BillNameBook,
+): string {
+  return `${book.article} ${title}`;
 }
 
 /**
@@ -169,4 +183,21 @@ export function billTitleOf(
     ),
     sections,
   };
+}
+
+/**
+ * How a bill's designation is said aloud. A designation that carries its own
+ * letters ("S 9", "H.R. 25", "LB 12") is said as it is; a bare number
+ * ("2025-12", a town's ordinance) takes its form's word first, as a clerk
+ * reads it ("Ordinance 2025-12").
+ */
+export function spokenDesignation(
+  designation: string,
+  formKind: string,
+  book: BillNameBook = billNames as BillNameBook,
+): string {
+  const form = book.forms[formKind];
+  return form && !/[A-Za-z]/.test(designation)
+    ? `${form} ${designation}`
+    : designation;
 }

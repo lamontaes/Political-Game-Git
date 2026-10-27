@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/web-reach-crime-justice
 pr: #5892
 blocked-on:
 source: CTO weekend leads, Oct 24; copied unchanged from cto/leads-2026-10-24 at 7eabe893e2b27151c39c5d853a7c74ed33bafca6
-claimed-at: 2026-10-24T06:38:22.118Z
+claimed-at: 2026-10-24T16:29:40.927Z
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the crime and justice family: 17 unwired links, 7 where the owning engine does not read the factor and 10 where nothing keeps the outcome. Their outcomes: crime.all, crime.larceny, crime.vandalism, crime.firearm-homicide, crime.reoffense, crime.rate-index, justice.conviction, justice.low-level-arrests, justice.pretrial-detained, justice.incarcerated-per-100k and the rest. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-24T06:38:22.118Z
 **Notes.** Split Oct 24 by the CTO from the effect-web audit (order `docs/work-orders/lead-effects-2026-10-24.md`). Counts from the capstone branch's unwired list on Oct 23 (effect-web-integration). Monthly victimization records exist (effect-web-crime merged) and the justice law family added arrests, courts and jail; read the web factor there, never in a second crime engine. A PR names this item on line 1 and `Lead: effects` in its body.
 
 Sent back 2026-10-24 from PR #5892 (branch claude/web-reach-crime-justice): the Done-when played-year effect-matrix row explicitly says its twins were not run here and defers them to the capstone; supply the played-year grades and per-link external record IDs on this branch; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5892 (branch claude/web-reach-crime-justice): the integrated matrix still records three months (Paris AR0553480, seed ew20oct26) while the body cites four months, not the required annual family matrix; the actual diff also deletes SG-WEB-unread-justice-pretrial-detained instead of retaining it resolved; publish annual per-link evidence and preserve canonical registry history; finish on that branch, merge main into it first.

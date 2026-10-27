@@ -5,9 +5,13 @@
  * flow (rent, a loan payment, spending that leaves town) at runtime.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { ownMap, residentsRuntime } from "./modules/residents";
+import {
+  countedHouseholdJobChanged,
+  ownMap,
+  residentsRuntime,
+} from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
-import type { CoreState, JobInput } from "./types";
+import type { CoreState, JobInput, WorkCommitmentInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 
 type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
@@ -46,9 +50,11 @@ export function endCountedJob(
     half.jobIds = (half.jobIds ?? []).filter((id) => id !== jobId);
     recompute(half);
   }
+  // Its heads stay on record: the leaver's opening replaces the jobs it held.
   rt.wageFlowByJob.delete(jobId);
   const ended = { ...job, endsAt: makeIsoDate(core.date) };
   rt.jobs.set(jobId, ended);
+  countedHouseholdJobChanged(core, ended);
   return ended;
 }
 
@@ -61,6 +67,8 @@ export function addCountedJob(
   core: CoreState,
   job: JobInput,
   templateJobId?: string,
+  /** The hire's schedule and payday, kept with the household for the day they are met. */
+  commitment?: WorkCommitmentInput,
 ): boolean {
   const rt = residentsRuntime(core);
   if (!rt || (rt.jobs.has(job.id) && rt.jobs.get(job.id)!.endsAt === undefined))
@@ -89,6 +97,15 @@ export function addCountedJob(
     const account =
       rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
       template.payeeId;
+    // A public employer's wages come from the treasury that owns its pay
+    // authority, as its named staff's do (and a school district's counted
+    // staff's at the opening); any other employer pays its own.
+    const authorityOwner = core.organizations.get(job.organizationId)
+      ?.publicPayAuthority?.ownerId;
+    const payerId =
+      authorityOwner && core.organizations.has(authorityOwner)
+        ? authorityOwner
+        : job.organizationId;
     // A twice-monthly payroll starts as both paydays.
     const paydays = wageHalves(rt, template),
       base = `residents:wages:${job.organizationId}:${core.date}`,
@@ -100,7 +117,7 @@ export function addCountedJob(
         id: ids[index]!,
         kind: "wages",
         financeKind: payday.financeKind,
-        payerId: job.organizationId,
+        payerId,
         payeeId: account,
         residentsId: account,
         placeId: placeId ?? payday.placeId,
@@ -134,6 +151,7 @@ export function addCountedJob(
   }
   rt.jobs.set(job.id, job);
   rt.wageFlowByJob.set(job.id, flow);
+  countedHouseholdJobChanged(core, job, commitment);
   const index = jobIndexes.get(core);
   if (index?.date === core.date) {
     const set = index.byOrg.get(job.organizationId) ?? new Set<string>();
@@ -192,8 +210,7 @@ export function countedJobsOf(
 
 /**
  * How many real jobs an employer's counted workers stand for: each counted
- * job is worth the weight of its worker's household (one unless the opening
- * gave households a weight). Readers that count heads read this; readers that
+ * job is worth the heads its employer's staffing set (`countedJobHeads`). Readers that count heads read this; readers that
  * pick one worker keep the record from `countedJobsOf`.
  */
 export function countedHeadcountOf(
@@ -203,7 +220,7 @@ export function countedHeadcountOf(
   if (!residentsRuntime(core)?.store) return 0;
   let heads = 0;
   for (const job of countedJobsOf(core, organizationId))
-    heads += countedHeadsOf(core, job.personId);
+    heads += countedJobHeads(core, job);
   return heads;
 }
 
@@ -222,10 +239,26 @@ export function weightedPayrollMinor(
   let payroll = annualPayrollMinor;
   for (const job of countedJobsOf(core, organizationId))
     payroll +=
-      (countedHeadsOf(core, job.personId) - 1) *
-      job.wageDailyMinor *
-      daysPerYear;
+      (countedJobHeads(core, job) - 1) * job.wageDailyMinor * daysPerYear;
   return payroll;
+}
+
+/**
+ * How many real jobs one counted job stands for: its worker's household
+ * weight, unless its employer's staffing set it otherwise (`CountedStore.
+ * headsOfJob`); one where the counts no longer hold the worker.
+ */
+export function countedJobHeads(
+  core: CoreState,
+  job: Pick<JobInput, "id" | "personId">,
+): number {
+  const store = residentsRuntime(core)?.store;
+  const m = store?.countedMember(job.personId);
+  const home =
+    store && m !== undefined
+      ? store.households[store.household[m]!]
+      : undefined;
+  return store && home ? store.headsOfJob(home, job.id) : 1;
 }
 
 /** How many people one counted person's record stands for: their household's weight (one where the counts no longer hold them). */
@@ -471,6 +504,29 @@ export function limitOutsideSales(
 }
 
 /**
+ * What a business's operating limit costs it in outside sales a year: each
+ * outside buyers' flow at the amount it would pay without the limit, less
+ * what it pays now.
+ */
+export function outputLostPerYear(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = residentsRuntime(core);
+  const limit = limitOf(core, organizationId);
+  if (!rt || !(limit > 0) || limit >= 1) return 0;
+  let lost = 0;
+  for (const flow of rt.flows.values())
+    if (
+      flow.kind === "outside-sales" &&
+      !flow.endedAt &&
+      flow.payeeId === organizationId
+    )
+      lost += perYear(flow, (flow.amountMinor * (1 - limit)) / limit);
+  return Math.round(lost);
+}
+
+/**
  * New hourly pay for many counted workers at once: each employer's wage flow
  * is recomputed once, not once per worker; the flow is found by job from an
  * index, never by scanning every flow. The core's one seam for a counted
@@ -499,11 +555,13 @@ export function rerateCountedJobs(
       }
       (half.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
     }
-    rt.jobs.set(jobId, {
+    const rerated = {
       ...job,
       hourlyMinor,
       wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
-    });
+    };
+    rt.jobs.set(jobId, rerated);
+    countedHouseholdJobChanged(core, rerated);
     changed += 1;
   }
   for (const flow of touched) recompute(flow);

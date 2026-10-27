@@ -23,6 +23,7 @@
 import data from "../data/crime/victimization.json" with { type: "json" };
 import { registerModule } from "../state";
 import { residentsRuntime, incomeBandOf } from "./residents";
+import { fullHouseholdIncomes } from "../counted-income-fifth";
 import { webReach, type WebPart } from "../outcome-web-reach";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web";
 import type { ModuleRow } from "../module-data";
@@ -46,7 +47,8 @@ const TYPES = data.types as Record<
 >;
 const PER_THOUSAND = 1000;
 /** The crimes that are violent (a person's), as opposed to a household's. */
-const VIOLENT: readonly CrimeType[] = ["robbery", "assault"];
+/** The offenses the violent index counts. */
+export const VIOLENT: readonly CrimeType[] = ["robbery", "assault"];
 const PROPERTY: readonly CrimeType[] = ["burglary", "other-property"];
 
 export interface TypeMonth {
@@ -137,37 +139,12 @@ interface Unit {
   victimId?: string;
 }
 
-/** Each full household's yearly income, from members' jobs and recorded income awards. */
-function fullIncomes(c: CoreState): Map<string, number> {
-  const income = new Map<string, number>();
-  const daysPerYear = 365;
-  for (const job of c.jobs.values()) {
-    if (job.endsAt !== undefined) continue;
-    const home = c.people.get(job.personId)?.householdId;
-    if (home)
-      income.set(
-        home,
-        (income.get(home) ?? 0) + job.wageDailyMinor * daysPerYear,
-      );
-  }
-  for (const contract of c.finance.contracts.values()) {
-    const award = contract.recipientIncome;
-    if (!award || contract.endedAt) continue;
-    income.set(
-      award.householdId,
-      (income.get(award.householdId) ?? 0) +
-        (contract.amountMinor * 12) / contract.periodMonths,
-    );
-  }
-  return income;
-}
-
 function fullUnits(
   api: CoreAPI,
   wanted: ReadonlySet<string>,
 ): Map<string, Unit[]> {
   const c = core(api);
-  const incomes = fullIncomes(c);
+  const incomes = fullHouseholdIncomes(c);
   const dwellings = api.moduleState("housing");
   const hasHousing = c.modules.has("housing");
   const out = new Map<string, Unit[]>();
@@ -495,8 +472,6 @@ function run(api: CoreAPI): void {
   api.stopgap("SG-CORE-crime-arrests");
   // stopgapId: SG-CORE-crime-vandalism
   api.stopgap("SG-CORE-crime-vandalism");
-  // stopgapId: SG-CORE-crime-firearm-homicide
-  api.stopgap("SG-CORE-crime-firearm-homicide");
   // The places the web has a month for; the rest have no factor to read.
   const places = new Set<string>();
   const web = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
