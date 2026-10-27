@@ -1,5 +1,5 @@
 ---
-id: traits-meetings-take-part-measured
+id: traits-meetings-take-part-refit
 impact: patch
 section: Changed
 title: Who speaks at public comment and fills a town hall follows temperament at the size a study finds
