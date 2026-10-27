@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** The screens lead finished the twelve shared parts in src/bench/ui/ (panel, button, list-row, card, tab, menu, rail, talk-box, toast, dom) and every play-screen control builds from them, except four: the player dossier, the opening box, the debate panel and the speech panel still draw themselves with their own markup and styles. The owner ruled one UI system (OWNER-DECISIONS, Oct 26 evening: one UI, one scene system). Move each of the four onto the shared parts and delete its own drawing code and styles in the same change, replace never layer. Time box: 4 hours, one PR per screen allowed, all four in the box.
