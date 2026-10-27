@@ -210,6 +210,19 @@
         "citation": "Fewest days between any two scenes from circumstance for one player: at most about one a week, so a played year keeps quiet stretches between clusters (owner, Oct 26: Wildermyth pacing); checked by a played year in a drawn place (src/director/circumstance.test.ts), where a sitting member's year carried a hallway nearly every week at 4 days."
       }
     },
+    "directorCircumstanceDoorEveryDays": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Every campaign act is a scene (owner, Oct 27, 2026, 5 PM Eastern: door knocking is \"a short scene at 1 or 2 doors, maybe sometimes it's uneventful\"; OWNER-DECISIONS). A pacing weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 1,
+        "high": 7,
+        "unit": "days",
+        "citation": "Fewest days between two porch scenes: one each day the player knocks doors."
+      }
+    },
     "directorCircumstanceStreetEveryDays": {
       "value": 14,
       "tag": "TUNABLE",

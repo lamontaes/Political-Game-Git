@@ -383,7 +383,7 @@
       "typeKey": "first-meeting",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceDoorImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
+      "everyParameter": "directorCircumstanceDoorEveryDays"
     },
     {
       "id": "door-again",
@@ -398,7 +398,7 @@
       "typeKey": "visit",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceDoorImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
+      "everyParameter": "directorCircumstanceDoorEveryDays"
     }
   ]
 }
