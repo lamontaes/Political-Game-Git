@@ -19,6 +19,7 @@ import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
+import { attendedSchool } from "./school";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -558,8 +559,13 @@ function resolveSetting(
         ? { kind, recordId: chamber }
         : undefined;
     }
+    case "school": {
+      // The school the subject attended, from the school engine's record.
+      const school = attendedSchool(core, subject.id)?.schoolId;
+      return school ? { kind, recordId: school } : undefined;
+    }
     default:
-      // School and letter need records the new core does not keep yet.
+      // A letter needs records the new core does not keep yet.
       return undefined;
   }
 }
