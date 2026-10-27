@@ -67,6 +67,7 @@
     "campaign-stop",
     "address",
     "hearing",
-    "verdict"
+    "verdict",
+    "party-recruit"
   ]
 }

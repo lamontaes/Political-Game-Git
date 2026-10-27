@@ -15,6 +15,10 @@ import {
 import { buildPopulation } from "./population";
 import { realLocalities } from "./places";
 import { applyCoreEvent, coreAPI } from "./state";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads a listener's stance causes for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 // M1-10, first version: in two places drawn from all 56, each town's views
 // sit inside its state's real spread (CES 2024), so conservatives in two

@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: blocked
+status: open
 claimed-by: claude/words-journal-office-lines
 pr:
-blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is not merged: until it holds the authored parts, main still ships them and the slot is not empty; the replacement lines then need the civic-prose editorial review or a rebuilt mining corpus (46,191 documents, outside the repo)
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:05:11.595Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T11:05:11.595Z
 **Files.** data/english/parts/journal.json, src/director/journal.ts, src/director/journal-office.test.ts
 
 **Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts.
+
+Oct 25 audit: unblocked; PR #5647 (the held hand-written parts) merged Oct 23, so the slot is empty on main and waits for the engine's line.

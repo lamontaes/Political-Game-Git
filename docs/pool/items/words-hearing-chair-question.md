@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-7xkkii
-pr: #5196
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:13:49.604Z
@@ -17,10 +17,10 @@ claimed-at: 2026-10-20T07:13:49.604Z
 
 **Rules.** No hand-written player text: every line comes from the bank. Research before building: questions are mined from public hearing transcripts and tagged SOURCED. No dice: which question follows the bill's sections and the witness's side, not a roll. One rule, all 56 places: the lines name no place.
 
-**Done when.** In a drawn state (name and seed in the PR body) a committee-day hearing record id from committeeSitting has a chair question and a witness reply worded from hearing.json parts, shown in the state day result, with a test in src/core2/office-day-state.test.ts.
+**Done when.** In a drawn state (name and seed in the PR body) a committee-day hearing record id from committeeSitting has a chair question and a witness reply worded from hearing.json parts, shown in the state day result, with a test in src/core2/office-day-state.test.ts. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** data/english/parts/hearing.json, scripts/english-mining/mine-hearings.py, src/director/office-scene.ts, src/core2/office-day-state.ts
 
-**Notes.** Split from office-committee-assignments-and-hearings-as-stops-and, which waits on it.
+**Notes.** Split from office-committee-assignments-and-hearings-as-stops-and, which waits on it. Released from idle draft #5196 by the CTO, Oct 26.
 
 Sent back 2026-10-20 from PR #5572 (branch claude/hearing-chair-question): six authored hearing question parts are shippable and the new hearing test catches all build/advance exceptions then redraws; hold authored lines non-shippable or source them, and diagnose failures instead of swallowing them; finish on that branch, merge main into it first.

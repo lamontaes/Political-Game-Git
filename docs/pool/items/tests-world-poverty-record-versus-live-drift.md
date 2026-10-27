@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/poverty-record-date
-pr:
+pr: #6110
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T21:01:54.133Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T21:01:54.133Z
 
 **Rules.** Never weaken the check: the engine's record must still equal live poverty on the day it was recorded. Ask why: read the record's own date, not a later day.
 
-**Done when.** src/core2/world-poverty.test.ts compares the monthly record with povertyByPlace on the record's own date (or the record taken the day the test reads it), passes on WEB_POVERTY_SEED=cbf93743a0a0ec90 and on two fresh draws named in the PR, and still fails when the record is not the engine's poverty share.
+**Done when.** src/core2/world-poverty.test.ts compares the monthly record with povertyByPlace on the record's own date (or the record taken the day the test reads it), passes on WEB_POVERTY_SEED=cbf93743a0a0ec90 and on two fresh draws named in the PR, and still fails when the record is not the engine's poverty share. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/world-poverty.test.ts
 

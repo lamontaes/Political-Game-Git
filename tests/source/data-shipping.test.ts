@@ -1,5 +1,7 @@
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
+  mkdirSync,
   mkdtempSync,
   readdirSync,
   readFileSync,
@@ -8,6 +10,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
   inspectShippingBytes,
@@ -146,6 +149,34 @@ describe("shipped data regression check", () => {
       expect(result.violations).toHaveLength(1);
     } finally {
       rmSync(dir, { recursive: true });
+    }
+  });
+});
+
+describe("shipping scan report path", () => {
+  it("creates the report's folder on a fresh checkout (release run on main failed with ENOENT)", () => {
+    const root = mkdtempSync(join(tmpdir(), "ship-scan-"));
+    try {
+      mkdirSync(join(root, "dist"));
+      writeFileSync(join(root, "dist", "index.html"), "<p>ok</p>");
+      const report = join(root, "test-results", "data-shipping-scan.json");
+      execFileSync(
+        process.execPath,
+        [
+          fileURLToPath(
+            new URL(
+              "../../scripts/world/check-data-shipping.mjs",
+              import.meta.url,
+            ),
+          ),
+          join(root, "dist"),
+          report,
+        ],
+        { stdio: "pipe" },
+      );
+      expect(JSON.parse(readFileSync(report, "utf8")).filesChecked).toBe(1);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
     }
   });
 });

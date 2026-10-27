@@ -349,6 +349,12 @@
       "source": "How many of the people a bill touches most testify at its hearing; hearings commonly seat a few public witnesses per panel.",
       "spread": [1, 8]
     },
+    "wholeStateCityShare": {
+      "value": 0.9,
+      "tag": "TUNABLE",
+      "source": "The share of a state's residents a city must hold to be the whole state for budget purposes: a city with no council of its own that holds this much of its state's residents is governed by the state's legislature, which votes its budget (the District of Columbia: city 693,645 of 702,250 residents, 98.8%). Checked against the places where the city is the state; a smaller place with no council has no body to vote its budget.",
+      "spread": [0.8, 0.98]
+    },
     "budgetAdoptionDuty": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -401,6 +407,24 @@
       "tag": "TUNABLE",
       "source": "How strongly a resident must be moved (their grievance with a member's vote plus the weighted trait lean between organizing and leaving it, about -1 to 1 on the shared trait scale, recalls.organize) before taking on a recall petition drive. Checked against local recall frequency: Ballotpedia counts about 150 to 250 local recall efforts a year across roughly 90,000 local governments.",
       "spread": [0.3, 1]
+    },
+    "recallMisconductWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a recorded charge or press exposure of a serving local official weighs with a resident who heard of it, toward organizing, signing a recall petition and voting to remove: on the same scale as an ordinance grievance (-1 to 1), so misconduct heard of counts as fully as the strongest disagreement with a vote.",
+      "spread": [0.5, 1.5]
+    },
+    "recallMisconductBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "What a petition or a removal over misconduct asks of anyone before they act on it, whatever their temperament: with the weight at 1, someone who heard of it and is not close to the official is halfway past the bar, and their lean decides the rest.",
+      "spread": [0.25, 0.75]
+    },
+    "recallMisconductNewsDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "source": "Days after a charge or an exposure is recorded before the town weighs a petition over it, for the news to reach residents through the press and their talk.",
+      "spread": [7, 30]
     },
     "recallElectionDays": {
       "value": 75,
@@ -494,9 +518,9 @@
       "spread": [1, 4]
     },
     "caseEffort": {
-      "value": 1.3,
+      "value": 1.15,
       "tag": "TUNABLE",
-      "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018).",
+      "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018). Moved from 1.3 when the case's trait weight fell from 1 to 0.51, so a resident out of work with no savings left still brings a problem at the same lean (above 0.3).",
       "spread": [0.9, 1.7]
     },
     "constituentHelpBase": {
@@ -718,7 +742,7 @@
     "doorAnswerThreshold": {
       "value": 0.46,
       "tag": "TUNABLE",
-      "source": "How ready the adult home who is most willing must be to open to a canvasser, before personality: their age term. Personality adds the calibrated campaigns.open-door weight times their lean. Set so the same 18% of adults open as under the earlier hand-set trait scale, measured over Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each; field contact rates run a quarter to a third of doors knocked, which counts a home once any adult opens (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005).",
+      "source": "Where a home opens to a canvasser one knock in two: the readiness of its most willing adult home, before personality, is their age term less this. Personality adds the calibrated campaigns.open-door weight times their lean, and doorAnswerScale slides the share either side. Kept where 18% of adults stood past it under the earlier hand-set trait scale (Newfane VT, Ute IA, Clifton KS and Cameron SC, a played year each); with doorAnswerScale it puts a quarter to a third of doors knocked open, the field contact rate, which counts a home once any adult opens (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005).",
       "spread": [0.2, 0.9]
     },
     "volunteerClosenessWeight": {
@@ -732,6 +756,12 @@
       "tag": "TUNABLE",
       "source": "How strong someone's pull to volunteer must be, before personality: their warmth and closeness to the candidate, less their hours of work. Personality adds the calibrated campaigns.volunteer weight times their lean. Set at the value where about 0.9% of the people a candidate asks say yes across Newfane VT, Ute IA, Clifton KS and Cameron SC for a played year each, and where the share of a candidate's acquaintances who volunteer stays inside the 31% top of the range src/core2/campaign-calibration.test.ts holds (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that). A weaker, researched personality term leaves closeness to decide, so the threshold sits above where the earlier hand-set trait scale put the pool's rate.",
       "spread": [0.6, 1.4]
+    },
+    "doorAnswerScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far readiness slides the share of knocks a home opens (a logistic step): a home whose most willing adult is right at the threshold opens one knock in two, one this far past it about three in four, one this far short about one in four. Set with doorAnswerThreshold so a quarter to a third of the doors knocked open, the field contact rate (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005): over a played weekly canvass of every door, 30% in Anson TX and 27% in Dix NE.",
+      "spread": [0.2, 0.8]
     },
     "doorAnswerPivotAge": {
       "value": 55,
@@ -973,16 +1003,46 @@
       "source": "Seniority counts only slightly in choosing leaders and committee members in every chamber type (data/research/legislature/chamber-leadership.json: seniorityImportance 'slight' for all, from NCSL, House and Senate rules and NLC): about a twentieth of a party-line difference per year served.",
       "spread": [0, 0.15]
     },
-    "appointmentExperienceWeight": {
+    "appointmentRelatedWorkWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
-      "source": "How much working in the department already adds to a resident's qualification for heading it (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
+      "source": "The most that years of work in the post's own field (data/research/executive/post-related-work.json) can add to a resident's qualification for heading the department, approached smoothly with the years (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
       "spread": [0.1, 0.5]
+    },
+    "appointmentRelatedWorkHalfYears": {
+      "value": 5,
+      "tag": "SOURCED",
+      "source": "Years of related work at which it counts half its full weight: BLS Occupational Outlook Handbook, Top Executives (https://www.bls.gov/ooh/management/top-executives.htm, fetched 2026-10-26), Quick Facts, \"Work experience in a related occupation: 5 years or more\".",
+      "spread": [3, 10]
+    },
+    "appointmentWorkWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The most that years of any recorded work add to a resident's qualification, beside related work: a working life outside the field still counts for something in running a department.",
+      "spread": [0, 0.2]
+    },
+    "appointmentWorkHalfYears": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "Years of any recorded work at which it counts half its full weight; checked against the related-work half-life (5 years), so a decade of other work weighs about as much as a few years in the field.",
+      "spread": [5, 20]
+    },
+    "appointmentCollegeWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "What a college degree adds to a resident's qualification for heading a department: BLS Occupational Outlook Handbook, Top Executives (https://www.bls.gov/ooh/management/top-executives.htm, fetched 2026-10-26), How to Become One, \"Top executives typically need at least a bachelor's degree and considerable work experience to enter the occupation.\"",
+      "spread": [0.1, 0.3]
+    },
+    "appointmentSomeCollegeWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "What some college without a degree adds: half the degree's weight, between none and a bachelor's degree on the same scale.",
+      "spread": [0, 0.2]
     },
     "appointmentBaseQualification": {
       "value": 0.35,
       "tag": "TUNABLE",
-      "source": "What an adult resident with no years of experience, no work in the department and a neutral temperament brings to heading it; with the age term it puts a typical 35-year-old near one half, the old fixed starting score. Checked against the share of appointees who are long-serving residents of the town (ICMA local government management surveys).",
+      "source": "What an adult resident with no recorded work, no schooling past high school and a neutral temperament brings to heading a department; the related-work, work and schooling terms build on it. Checked against the share of appointees who are long-serving residents of the town (ICMA local government management surveys).",
       "spread": [0.2, 0.5]
     },
     "appointmentTemperamentWeight": {
@@ -996,18 +1056,6 @@
       "tag": "SOURCED",
       "source": "Age of majority in 46 states (19 in Alabama and Nebraska, 21 in Mississippi); the game uses the common 18 as the first year of adult working experience, matching the working-age minimum used in town employment (canonical town-employment.ts WORKING_AGE_MIN=18). Structural: below it nobody holds a post.",
       "spread": [18, 21]
-    },
-    "appointmentExperienceHalfYears": {
-      "value": 17,
-      "tag": "ESTIMATED",
-      "source": "Years of adult life at which experience counts half of its full weight toward heading a department; the median age of local department heads is in the low-to-mid 40s, about 25 years past adulthood, and public-sector median tenure with an employer is about 6.5 years (BLS Employee Tenure, 2024; ICMA Municipal Year Book).",
-      "spread": [8, 25]
-    },
-    "appointmentExperienceAgeWeight": {
-      "value": 0.3,
-      "tag": "TUNABLE",
-      "source": "The most that years of adult experience can add to a resident's qualification, approached smoothly with age and never switched on at an age (department heads are seldom the youngest adults but are not barred from it).",
-      "spread": [0.1, 0.5]
     },
     "cabinetQualificationBase": {
       "value": 0.6,

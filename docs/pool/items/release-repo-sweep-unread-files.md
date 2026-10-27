@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #5867
 after:
@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Slim the repository like a real game (owner, Oct 15): unneeded files go, the guards stay (`tests/guards/`, `tests/golden-path/`, `scripts/core2-guard/`, `scripts/zero-dice-guard.mjs`, `scripts/release/`, `scripts/audit/`, `scripts/report-check/` are not on the list and are not touched). Replace, never layer: the `.claude/skills/` copy is replaced by a symlink in the same PR, and the PR body counts what was removed. Recheck the present import graph and existing pool claims before removing or moving any path; preserve current consumers, guards and provenance.
 
-**Done when.** Every path in the audit's G1 list is gone from main; `npm run build`, `npm run typecheck` and the golden-path suite pass on a drawn place from `buildBenchWorld`; `tests/assumption-markers.test.ts` and the release workflow still find what they read; and the PR body counts the files and MB removed.
+**Done when.** Every path in the audit's G1 list is gone from main; `npm run build`, `npm run typecheck` and the golden-path suite pass on a drawn place from `buildBenchWorld`; `tests/assumption-markers.test.ts` and the release workflow still find what they read; and the PR body counts the files and MB removed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** docs/reports/repo-audit-2026-10-19.md, package.json, vite.config.*, .github/workflows/browser.yml, public/data/
 
@@ -31,3 +31,7 @@ Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Current m
 Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Normal merge of current main into corrective head e0682e9be6 conflicts in package-lock.json; reconcile/regenerate the lock with latest main and rerun required checks/build/golden-path acceptance; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Lock conflict repaired; deletion removes trace report still cited by pool evidence and content-pack examples still required by live system docs; preserve or replace evidence and update live pointers; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 ~23:05 UTC from PR #5867 (branch claude/stoic-rubin-6vq560, head 57d636aa388d, main NOT merged: package-lock.json conflicts and scripts/press/proof.ts is modify/delete): main's package.json now depends on react/react-dom (persistent character history foundation), so the React removal contradicts main semantically; rebase the G1 list onto current main and re-verify no live reader per deleted path; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5867 (branch claude/stoic-rubin-6vq560): Corrective head9e8199b5c0 addresses the prior React/proof-script review, but ordinary integration with current main947440ff2e conflicts in package-lock.json; merge aborted, reconcile/regenerate the lock and rerun the required build/golden-path and changed-file checks before recheck; finish on that branch, merge main into it first.
