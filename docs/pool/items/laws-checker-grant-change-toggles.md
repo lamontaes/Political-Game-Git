@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/checker-grant-toggle
 pr: #6333
 blocked-on:
