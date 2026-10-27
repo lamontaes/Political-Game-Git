@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/law-table-medicaid-sentences
-pr:
+pr: #6287
 blocked-on:
 source: laws-and-effects lead, Oct 27 (a merger's report-check run on #6257)
 claimed-at: 2026-10-27T11:04:45.525Z
