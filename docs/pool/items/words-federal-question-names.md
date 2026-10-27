@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/federal-names
 pr:
 blocked-on:
 lead: words
 source: director lead, director-president-asks-within-powers (#6300), Oct 27
+claimed-at: 2026-10-27T12:32:57.571Z
 ---
 
 **What.** Of the 27 questions `data/research/powers-catalog/question-powers.json` gives the federal level, only 3 have a spoken name in `data/english/question-names.json`. The opening address speaks a stand only for a named question (`NAMED_QUESTIONS`, `src/english/question-names.ts`), and since #6300 it asks Congress only on a question federal law can answer. So the 19 unnamed `us-federal-positions:*` questions (debt limit, top income tax rate, tariffs, immigration, Medicare drug prices, retirement age, student loans, passenger rail, power-plant carbon, farm subsidies, disaster cost sharing, mandatory minimums, congressional stock trading, national data privacy, D.C. statehood and others) can never be asked of Congress. Measured: 12 of 12 drawn places had no Congress ask after #6300.

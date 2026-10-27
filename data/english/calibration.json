@@ -686,6 +686,7 @@
     "legislation": "broadcast",
     "journal": "narration",
     "scene-words": "narration",
+    "election-day": "narration",
     "choice-names": "narration"
   }
 }

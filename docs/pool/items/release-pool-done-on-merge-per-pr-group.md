@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** .github/workflows/pool-done-on-merge.yml, scripts/pool/index.ts, scripts/pool/index.test.ts, tests/release/pool-done-on-merge.test.ts
 
-**Notes.** Split from release-pool-done-on-merge-misses on 2026-10-23 at Merger A's send-back of PR #5843: that item keeps the operational acceptance (zero cancelled runs and every named item done after the next burst of ten or more merges), which can only be checked after this lands.
+**Notes.** Split from release-pool-done-on-merge-misses on 2026-10-23 at Merger A's send-back of PR #5843: that item keeps the operational acceptance (zero canceled runs and every named item done after the next burst of ten or more merges), which can only be checked after this lands.

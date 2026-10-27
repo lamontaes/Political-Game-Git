@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
+status: done
 claimed-by:
 pr: #6252
 blocked-on:
@@ -32,3 +32,4 @@ claimed-at:
 **Notes.** Owner rulings: OWNER-DECISIONS.md lines on Oct 26 (election day as scenes; election day as the player's choice, closing SG-OFFICE-owner-decision-ballot-stop). Related open item: play-results-sheet-opens-on-every-load (the sheet this replaces).
 Sent back 2026-10-27 from PR #6252 (branch words/election-day-scenes): its election-day browser check stops at an open choice in Hoback, Wyoming (run seed 1793085601061); finish on that branch, merge main into it first.
 Sent back 2026-10-27 from PR #6252 (branch words/election-day-scenes): election-day panel never shows for the first November (2025) election: East Franklin, NJ, EDAY_SEED=1793092862256; finish on that branch, merge main into it first.
+- Merged Oct 27 in PR #6252; awaiting the owner's installed-build check.
