@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: words/shifts-never-stop
-pr: "#6206"
+pr: #6206
 blocked-on:
 source: "owner, Oct 26 playtest ruling, built by the words-and-scenes lead (deliverable 3 of docs/work-orders/lead-words-scenes-2026-10-26.md)"
 lead: words
