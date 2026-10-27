@@ -2421,38 +2421,22 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-            "causeFacts": [
-              {
-                "key": "executiveId",
-                "is": "subject"
-              }
-            ]
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
-          "bind": {
-            "reporter": "press-corps",
-            "official": "subject"
-          },
+          "bind": { "reporter": "press-corps", "official": "subject" },
           "opener": "reporter",
           "opening": "greet"
         },
         {
           "match": {
             "label": "cause:event:veto-override",
-            "causeFacts": [
-              {
-                "key": "executiveId",
-                "is": "subject"
-              }
-            ]
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
           },
           "causeEngine": "legislature",
           "causeRecord": "veto-override",
-          "bind": {
-            "reporter": "press-corps",
-            "official": "subject"
-          },
+          "bind": { "reporter": "press-corps", "official": "subject" },
           "opener": "reporter",
           "opening": "greet"
         },
@@ -2463,20 +2447,14 @@
           },
           "causeEngine": "legislature",
           "causeRecord": "office.introduced",
-          "bind": {
-            "reporter": "press-corps",
-            "official": "subject"
-          },
+          "bind": { "reporter": "press-corps", "official": "subject" },
           "opener": "reporter",
           "opening": "greet"
         },
         {
           "causeEngine": "press",
           "causeRecord": "interview-published",
-          "bind": {
-            "reporter": "press",
-            "official": "subject"
-          },
+          "bind": { "reporter": "press", "official": "subject" },
           "opener": "reporter",
           "opening": "greet",
           "match": {
@@ -2490,7 +2468,7 @@
           "causeRecord": "bill-held-in-committee",
           "bind": { "reporter": "counterpart", "official": "subject" },
           "opener": "reporter",
-          "setting": ["seat"]
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -2691,7 +2669,7 @@
           "causeRecord": "public-meeting",
           "bind": { "other": "counterpart", "you": "subject" },
           "opener": "other",
-          "setting": ["seat"]
+          "setting": ["seat", "venue"]
         },
         {
           "match": { "label": "circumstance:meeting-reporter" },
@@ -2699,7 +2677,7 @@
           "causeRecord": "public-meeting",
           "bind": { "other": "counterpart", "you": "subject" },
           "opener": "other",
-          "setting": ["seat"]
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -3039,10 +3017,7 @@
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-amendment",
-          "bind": {
-            "colleague": "counterpart",
-            "you": "subject"
-          },
+          "bind": { "colleague": "counterpart", "you": "subject" },
           "opener": "colleague",
           "setting": ["chamber"]
         },
@@ -3052,7 +3027,7 @@
           "causeRecord": "committee-hearing",
           "bind": { "colleague": "counterpart", "you": "subject" },
           "opener": "colleague",
-          "setting": ["seat"]
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -3138,7 +3113,7 @@
           "causeRecord": "office.introduced",
           "bind": { "member": "counterpart", "you": "subject" },
           "opener": "member",
-          "setting": ["seat"]
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {

@@ -13,6 +13,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
+import { questionName, storyTopicName } from "../english/policy-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -139,6 +140,17 @@ function composeBinding(
       text: spokenDesignation(said.number, bill?.form.kind ?? ""),
       sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
     };
+  }
+  // A law in force (a story that it took effect): its policy by name, for
+  // the lines that say what took effect.
+  if (said.lawId && said.series) {
+    const topic = said.series.slice(said.series.lastIndexOf(":") + P.one);
+    const name = questionName(said.series) ?? storyTopicName(topic);
+    if (name)
+      facts.law = {
+        text: name,
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
   }
   // A law in force that a bill enacted (a story that it took effect): the
   // bill by its number, cited to the law and the bill.

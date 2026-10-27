@@ -1391,6 +1391,14 @@ export function createDirector(
               param(row.everyParameter),
               date,
             ),
+          // The same person is not cast again inside the scheduler's window
+          // for the same scene with the same people: the next with a reason is.
+          castDue: (id) =>
+            spacingAllows(
+              ledger.circumstanceLast.get(`${book.personId}|cast|${id}`),
+              SITUATION_LIBRARY.scheduling.repeatDays,
+              date,
+            ),
           byKind: circumstanceRows,
         },
       ).sort((a, b) => b.score - a.score || a.row.id.localeCompare(b.row.id));
@@ -1408,6 +1416,7 @@ export function createDirector(
         counterparts: new Set([pick.castId]),
         raw: new Map([["circumstance", raw]]),
         renewals: new Set(),
+        ...(pick.record.placeId ? { placeId: pick.record.placeId } : {}),
       };
       const label = circumstanceLabel(pick.row.id);
       storeMoment(core, book, change, label, impact, [
@@ -1424,6 +1433,7 @@ export function createDirector(
       // met as a journal line does not come again the next day.
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
       ledger.circumstanceLast.set(`${book.personId}|*`, date);
+      ledger.circumstanceLast.set(`${book.personId}|cast|${pick.castId}`, date);
     }
   }
 

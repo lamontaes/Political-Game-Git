@@ -97,6 +97,8 @@ export interface QueuedRecord {
   personIds: readonly PersonId[];
   witnessIds: readonly PersonId[];
   facts: Readonly<Record<string, string>>;
+  /** Where the record happened, when it says. */
+  placeId?: string;
   /**
    * A core record read directly (a job, a household's member), not a logged
    * event: it is cited by its own id.
@@ -111,6 +113,7 @@ export function queuedOf(event: CoreEventInput): QueuedRecord {
     personIds: [...event.personIds],
     witnessIds: [...(event.witnessIds ?? [])],
     facts: { ...(event.facts ?? {}) },
+    ...(event.placeId ? { placeId: event.placeId } : {}),
   };
 }
 
@@ -371,6 +374,8 @@ export function circumstancePicks(
     importance: (otherId: PersonId) => number;
     staged: ReadonlySet<string>;
     due: (row: CircumstanceRow) => boolean;
+    /** Whether a person may be cast today (not cast again inside the repeat window). */
+    castDue?: (id: PersonId) => boolean;
     byKind?: Map<string, CircumstanceRow[]>;
   },
 ): CircumstancePick[] {
@@ -402,6 +407,7 @@ export function circumstancePicks(
       for (const source of row.pool)
         for (const { id, named } of poolOf(source, core, playerId, record)) {
           if (id === playerId || core.people.get(id)?.alive !== true) continue;
+          if (options.castDue && !options.castDue(id)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
           const importance = options.importance(id);
           const closeness = importance / (one + importance);
