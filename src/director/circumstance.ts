@@ -336,6 +336,26 @@ function poolOf(
       .sort()
       .map((id) => ({ id, named: false }));
   }
+  if (source === "ties-of-each-named") {
+    // The people tied to anyone the record names (each candidate a count
+    // settled): their family on record, their household, the people they knew.
+    const ids = new Set<PersonId>();
+    for (const namedId of record.personIds) {
+      const named = core.people.get(namedId);
+      if (!named) continue;
+      for (const id of [
+        namedId,
+        ...named.familyIds,
+        ...(core.households.get(named.householdId)?.memberIds ?? []),
+        ...named.knownIds,
+      ])
+        ids.add(id);
+    }
+    return [...ids].sort().map((id) => ({
+      id,
+      named: record.personIds.includes(id),
+    }));
+  }
   if (source === "new-coworker")
     return record.personIds.map((id) => ({ id, named: true }));
   if (source.startsWith("fact:")) {
