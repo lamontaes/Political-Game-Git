@@ -135,12 +135,9 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
         };
         positions.put(weighted as unknown as { id: string });
         raiseUnfilledPay(api, row.organizationId, [weighted], trading, heads);
-        const room =
-          (trading!.salesMinor -
-            trading!.payrollMinor -
-            trading!.costsMinor -
-            trading!.complianceMinor) *
-          perMonth;
+        // The month's costs already hold the wages and compliance, so the room
+        // is what sales left past them (subtracting those again counts them twice).
+        const room = (trading!.salesMinor - trading!.costsMinor) * perMonth;
         expect(
           (hourlyAfter(weighted.id) - row.hourlyMinor) *
             hours *
