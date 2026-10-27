@@ -1,3 +1,4 @@
+import { heldSinceRecord, pastWorkOf, PAST_WORK_SPELL } from "../past-work";
 import { workedToday } from "../job-lifecycle";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
@@ -186,8 +187,9 @@ const yearsBetween = (from: string, to: string) =>
 /**
  * What the records say a resident has done toward heading a department: years
  * of work in the post's own field, years of any work, and schooling, each with
- * the record it was read from. A job counts from when its holder began it (the
- * deep past's tenure record, where the opening job has one).
+ * the record it was read from. A job counts from when its holder began it
+ * (the record of their working life before the start, where it has one), and
+ * the jobs that working life ended before day one count as years of work.
  */
 export function postRecord(
   api: CoreAPI,
@@ -202,21 +204,27 @@ export function postRecord(
 } {
   const core = api.state as CoreState;
   const fields = new Set(RELATED.posts[post] ?? []);
-  const tenure = new Map(
-    (person.pastFacts ?? [])
-      .filter((row) => row.kind === "work:tenure-summary")
-      .map((row) => [row.id.slice(row.id.lastIndexOf(":job:") + 5), row]),
-  );
   let relatedYears = 0;
   let workYears = 0;
   const recordIds: string[] = [];
+  for (const row of pastWorkOf(core, person.id))
+    if (
+      row.kind === PAST_WORK_SPELL &&
+      row.facts.endedAt &&
+      String(row.facts.endedAt) <= date
+    )
+      workYears += yearsBetween(
+        String(row.facts.startedAt),
+        String(row.facts.endedAt),
+      );
   for (const id of core.work.commitmentsByPerson.get(person.id) ?? []) {
     const commitment = core.work.commitments.get(id);
     if (!commitment || commitment.startsAt > date) continue;
-    const since = tenure.get(commitment.jobId);
+    const since = heldSinceRecord(core, person.id, commitment.jobId);
+    const started = since ? String(since.facts.startedAt) : undefined;
     const from =
-      since && since.date < commitment.startsAt
-        ? since.date
+      started && started < commitment.startsAt
+        ? started
         : (commitment.heldSince ?? commitment.startsAt);
     const to =
       commitment.endsAt && commitment.endsAt < date ? commitment.endsAt : date;

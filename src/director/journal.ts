@@ -31,6 +31,8 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName } from "./words";
+import { PAST_WORK_OUT, PAST_WORK_SPELL, pastWorkOf } from "../core2/past-work";
+import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
 import {
   OFFICE_DAY_MODULE_ID,
@@ -410,6 +412,109 @@ function householdMoments(
 }
 
 /**
+ * The working life before the start, from the pre-start run's own records
+ * (`src/core2/past-work.ts`): the first job after school, each job lost and
+ * the time out of work after it, each move to another employer, and the
+ * reason on record someone stopped. The job held on day one is told by the
+ * line that leads into it.
+ */
+function pastWorkMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+): JournalMoment[] {
+  const records = pastWorkOf(core as CoreState, person.id);
+  const employer = (row: (typeof records)[number] | undefined) => {
+    const org = row?.facts.organizationId
+      ? core.organizations.get(String(row.facts.organizationId))
+      : undefined;
+    return org && row
+      ? { text: properName(org.name), sourceRecordIds: [row.id, org.id] }
+      : undefined;
+  };
+  const spells = records
+    .filter((row) => row.kind === PAST_WORK_SPELL)
+    .sort((a, b) =>
+      String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+    );
+  const outAfter = new Map(
+    records
+      .filter((row) => row.kind === PAST_WORK_OUT && row.facts.causeRecordId)
+      .map((row) => [String(row.facts.causeRecordId), row]),
+  );
+  const moment = (
+    row: (typeof records)[number],
+    date: string,
+    causeKind: string,
+    actFacts: Facts,
+    counterpartIds: PersonId[] = [],
+  ): JournalMoment => ({
+    id: `${row.id}:${causeKind}`,
+    date: date as IsoDate,
+    causeId: row.id,
+    causeKind,
+    counterpartIds,
+    selfNamed: true,
+    hindsight: zero,
+    impact: zero,
+    echoes: [],
+    actFacts,
+  });
+  return spells.flatMap((row, at): JournalMoment[] => {
+    const moments: JournalMoment[] = [];
+    const facts = row.facts;
+    const where = employer(row);
+    const own: Facts = where ? { employer: where } : {};
+    if (facts.how === "first-job")
+      moments.push(
+        moment(row, String(facts.startedAt), "job-started:first", own),
+      );
+    if (facts.how === "after-out-of-work") {
+      const out = [...outAfter.values()].find(
+        (entry) => entry.facts.endedAt === facts.startedAt,
+      );
+      const days = out
+        ? daysBetween(
+            makeIsoDate(String(out.facts.startedAt)),
+            makeIsoDate(String(facts.startedAt)),
+          )
+        : undefined;
+      moments.push(
+        moment(row, String(facts.startedAt), "job-started:again", {
+          ...own,
+          ...(out && days !== undefined
+            ? { span: { text: spanSaid(days), sourceRecordIds: [out.id] } }
+            : {}),
+        }),
+      );
+    }
+    const ended = facts.endedAt ? String(facts.endedAt) : undefined;
+    if (!ended) return moments;
+    if (facts.end === "let-go")
+      moments.push(moment(row, ended, "job-ended:let-go", own));
+    else if (facts.end === "moved-on") {
+      const next = spells[at + 1];
+      const nextAt = employer(next);
+      moments.push(
+        moment(row, ended, "job-ended:moved-on", {
+          ...own,
+          ...(nextAt ? { next: nextAt } : {}),
+        }),
+      );
+    } else if (facts.end === "child-born") {
+      const child = (person.pastFacts ?? []).find(
+        (fact) => fact.id === facts.causeRecordId,
+      );
+      const childId = child?.facts?.otherPersonId as PersonId | undefined;
+      moments.push(
+        moment(row, ended, "job-ended:child", own, childId ? [childId] : []),
+      );
+    } else if (facts.end === "retired")
+      moments.push(moment(row, ended, "job-ended:retired", own));
+    return moments;
+  });
+}
+
+/**
  * The day the person comes of voting age, told once it has come, for a life
  * the player began before it (golden-path step one). It cites the person's
  * own record, whose birth date sets the day.
@@ -567,7 +672,8 @@ export function composeJournal(
       const employer = employerOf(person.jobId);
       if (employer) facts.employer = employer;
     }
-    if (moment.causeKind.startsWith("job-")) {
+    // A job of the run before the start names its own employer.
+    if (moment.causeKind.startsWith("job-") && !facts.employer) {
       const job =
         core.jobs.get(moment.causeId) ??
         [...core.jobs.values()].find(
@@ -735,6 +841,7 @@ export function composeJournal(
     ...book.moments,
     ...officeActMoments(core, personId, words),
     ...householdMoments(core, person),
+    ...pastWorkMoments(core, person),
     ...comingOfAgeMoments(core, person),
   ]
     .filter((moment) => moment.date <= through)
@@ -984,7 +1091,9 @@ export function composeJournal(
       (moment.causeKind === "event:life.death" &&
         !!facts.other &&
         kin.has(moment.counterpartIds[zero]!)) ||
-      (moment.causeKind.startsWith("job-ended") && own)
+      ((moment.causeKind === "job-ended" ||
+        moment.causeKind === "job-ended:let-go") &&
+        own)
     ) {
       const hard = render(
         { part: "memoir", field: "hard", closedWith },
