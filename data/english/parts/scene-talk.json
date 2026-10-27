@@ -41,7 +41,10 @@
     "child": "The youngest child at home, by name, from the household record.",
     "law": "A law in force, by its policy's name, from the law record.",
     "cost": "What a law in force costs a household each month, from the price record it moved.",
-    "chair": "The committee's chair, by name, from the committee's hold record."
+    "chair": "The committee's chair, by name, from the committee's hold record.",
+    "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
+    "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
+    "years": "Whole years a department head has held their post, from the appointment record."
   },
   "maxWords": 70,
   "parts": [
@@ -97656,6 +97659,2206 @@
           "role": "narrator"
         }
       ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-asked-for-time-about-the-budget-the-council-adopted",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has asked for time about the budget the council adopted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-the-budget-the-council-passed",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} wants to talk about the budget the council passed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {post}'s line lost {cut} in the budget the council passed. {name} has the page.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-your-post-wants-to-talk-about-one-line-in-the-council-s-budget",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, your {post}, wants to talk about one line in the council's budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-your-post-for-years-years",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been your {post} for {years} years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["years", "post"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-held-the-post-s-job-for-years-years",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has held the {post}'s job for {years} years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["years", "post"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-minute-it-s-about-the-budget",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a minute? It's about the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-need-ten-minutes-and-i-ll-be-quick-about-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I need ten minutes, and I'll be quick about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-ve-seen-what-the-council-did-to-my-line",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You've seen what the council did to my line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-d-like-to-say-something-about-the-budget-the-council-passed",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd like to say something about the budget the council passed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.sorry-to-come-in-like-this-it-can-t-wait-for-the-next-staff-meeting",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sorry to come in like this. It can't wait for the next staff meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-council-took-cut-out-of-my-department-i-can-show-you-what-goes-with-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The council took {cut} out of my department. I can show you what goes with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.cut-is-gone-from-my-line-i-d-like-to-tell-you-what-that-does",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{cut} is gone from my line. I'd like to tell you what that does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.they-cut-my-line-by-percent-percent-that-s-cut-i-was-counting-on",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "They cut my line by {percent} percent. That's {cut} I was counting on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "percent"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.percent-percent-of-my-budget-cut-came-out-in-one-vote",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{percent} percent of my budget, {cut}, came out in one vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "percent"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-ve-held-this-job-years-years-i-know-what-the-line-pays-for-and-cut-of-it-isn-t-there-anymore",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I've held this job {years} years. I know what the line pays for, and {cut} of it isn't there anymore.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "years"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-council-cut-my-line-here-is-what-i-think-it-does-to-us",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The council cut my line. Here is what I think it does to us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-d-rather-you-hear-this-from-me-the-cut-is-cut-and-it-comes-out-of-wo",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'd rather you hear this from me. The cut is {cut}, and it comes out of work we already do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-seeing-me-i-wanted-you-to-hear-this-from-me-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for seeing me. I wanted you to hear this from me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-appreciate-you-making-the-time-it-s-about-my-line-in-the-budget",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I appreciate you making the time. It's about my line in the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-sorry-to-bring-this-to-you-it-s-about-the-budget",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm sorry to bring this to you. It's about the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-about-what-the-council-did-to-my-line",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk about what the council did to my line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-get-right-to-it-the-budget-doesn-t-work-for-my-department",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll get right to it. The budget doesn't work for my department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-don-t-want-to-make-this-harder-than-it-is-the-council-took-cut-from-my-line-and-the-people-we-serve-will-feel-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I don't want to make this harder than it is. The council took {cut} from my line, and the people we serve will feel it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-to-bring-you-this-my-line-lost-cut-and-i-d-like-your-help-with-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry to bring you this. My line lost {cut}, and I'd like your help with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-know-there-s-only-so-much-to-go-around-still-cut-came-out-of-my-department-and-i-d-like-to-show-you-where-it-lands",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I know there's only so much to go around. Still, {cut} came out of my department, and I'd like to show you where it lands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.percent-percent-of-my-line-is-gone-cut-i-d-like-your-help-finding-a-way-through-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{percent} percent of my line is gone, {cut}. I'd like your help finding a way through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "percent"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-it-doesn-t-stand-i-ll-take-it-back-to-the-council",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then it doesn't stand. I'll take it back to the council.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.write-down-what-you-need-back-i-ll-carry-it-myself",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Write down what you need back. I'll carry it myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.draft-the-amendment-this-one-s-worth-a-fight",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Draft the amendment. This one's worth a fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-council-voted-i-can-t-un-vote-it-for-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The council voted. I can't un-vote it for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-s-their-budget-now-every-department-is-living-inside-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "It's their budget now. Every department is living inside it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-council-set-the-number-i-can-t-change-it-for-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The council set the number. I can't change it for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-can-get-you-half-of-it-back-the-rest-you-find-inside-the-department",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I can get you half of it back. The rest you find inside the department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.half-now-and-we-look-at-it-again-when-the-numbers-are-in",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Half now, and we look at it again when the numbers are in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.tell-me-the-part-you-can-t-live-without-and-i-ll-fight-for-that-part",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Tell me the part you can't live without, and I'll fight for that part.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-it-actually-stop",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does it actually stop?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-goes-first-if-nothing-changes",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What goes first, if nothing changes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.show-me-what-s-behind-the-number",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Show me what's behind the number.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-get-the-list-to-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll get the list to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-all-i-needed-i-ll-get-you-the-figures",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's all I needed. I'll get you the figures.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-write-down-what-the-line-buys-so-you-can-say-it-to-them",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll write down what the line buys, so you can say it to them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.half-is-better-than-none-i-ll-plan-around-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Half is better than none. I'll plan around it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-can-work-with-that-as-long-as-it-s-in-writing",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can work with that, as long as it's in writing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.half-doesn-t-cover-the-gap-can-you-find-the-rest",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Half doesn't cover the gap. Can you find the rest?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-keeps-the-doors-open-it-doesn-t-keep-the-program",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That keeps the doors open. It doesn't keep the program.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-things-we-can-put-off-go-first-after-that-it-s-the-jobs",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The things we can put off go first. After that it's the jobs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-not-asking-for-the-whole-thing-back-just-don-t-let-it-stand-as-it-is",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm not asking for the whole thing back. Just don't let it stand as it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-give-me-one-number-i-can-plan-a-year-around",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. Give me one number I can plan a year around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-ve-done-this-job-years-years-hear-me-out-before-you-decide",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I've done this job {years} years. Hear me out before you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse",
+          "requiresFacts": ["years"]
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-council-will-listen-to-you-they-won-t-listen-to-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The council will listen to you. They won't listen to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-the-council-s-answer-i-came-for-yours",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's the council's answer. I came for yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-i-ll-say-it-in-public-at-the-next-meeting",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then I'll say it in public, at the next meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.if-it-stays-i-ll-tell-the-paper-what-the-line-pays-for",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "If it stays, I'll tell the paper what the line pays for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ll-bring-it-to-you-first-all-i-m-asking-is-that-you-take-the-call",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll bring it to you first. All I'm asking is that you take the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-i-ll-keep-it-inside-the-building",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. I'll keep it inside the building.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "confront"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I hear you. The answer is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-listened-it-stays-as-the-council-passed-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've listened. It stays as the council passed it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-time-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this time. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.give-me-a-number-that-keeps-you-running-and-i-ll-find-half-of-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Give me a number that keeps you running, and I'll find half of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Send me the list. I'll answer tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me sleep on it before I answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll call you after I talk to the council chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.say-it-at-the-meeting-then-i-ll-be-in-the-room",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Say it at the meeting, then. I'll be in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-make-it-public-before-you-ve-made-it-plain-to-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't make it public before you've made it plain to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-that-s-what-we-protect-i-ll-take-it-to-the-council",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then that's what we protect. I'll take it to the council.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-we-don-t-let-those-go-i-ll-make-the-call",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then we don't let those go. I'll make the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-i-ll-get-it-to-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll get it to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-tell-the-department-you-re-carrying-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll tell the department you're carrying it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-have-it-written-up",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll have it written up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-ll-have-the-figures-before-the-next-vote",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll have the figures before the next vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-we-ll-make-it-work",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. We'll make it work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-plan-to-the-number-they-gave-us",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll plan to the number they gave us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-expect-questions-at-the-next-meeting",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then expect questions at the next meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-do-the-job-with-what-i-m-given-people-will-notice-the-difference",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll do the job with what I'm given. People will notice the difference.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.whenever-you-ve-decided-my-door-is-open",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Whenever you've decided, my door is open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.take-your-time-the-department-won-t-wait-long",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take your time. The department won't wait long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.beat-beat.name-straightens-the-page-and-says-nothing-for-a-moment",
+      "move": "beat-beat",
+      "kind": "spoken",
+      "text": "{name} straightens the page and says nothing for a moment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "beat",
+          "move": "beat",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "beat",
+        "key": "cut-heard"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.name-is-waiting-outside-your-office-bill-isn-t-on-the-agenda",

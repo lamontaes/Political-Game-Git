@@ -5,8 +5,8 @@
   "year": "2025-01-20 to 2026-01-20",
   "watched": 17,
   "counts": {
-    "types": 76,
-    "rows": 123,
+    "types": 77,
+    "rows": 124,
     "typesFired": 11,
     "rowsWaitingOnProducer": 18,
     "rowsWithoutEpisode": 56,
@@ -2288,6 +2288,24 @@
       },
       "lines": 32,
       "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "budget-cut",
+      "variant": 0,
+      "trigger": "budget-line-changed",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 7,
+        "asker": 48,
+        "asked": 23
+      },
+      "lines": 78,
+      "episodes": ["budget-cut-department-head"],
       "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
