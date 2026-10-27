@@ -16,6 +16,18 @@ const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+// Election morning comes first (owner, Oct 26: going to vote is a choice):
+// skip the canvass if offered, then Go vote opens the ballot.
+const toBallot = async () => {
+  if (!(await page.locator("#election-day:not([hidden])").count())) return;
+  const skipCanvass = page.getByRole("button", {
+    name: "Not today",
+    exact: true,
+  });
+  if (await skipCanvass.count()) await skipCanvass.click();
+  await page.getByRole("button", { name: "Go vote", exact: true }).click();
+  await page.locator("#ballot:not([hidden])").waitFor();
+};
 page.setDefaultTimeout(60000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
@@ -342,6 +354,7 @@ try {
     await page.waitForTimeout(3000);
   }
   for (let leg = 0; leg < 48; leg += 1) {
+    await toBallot();
     if (await page.locator("#ballot:not([hidden])").count()) {
       const clock = await page
         .locator("#card-clock")
@@ -514,6 +527,7 @@ try {
   ).includes(targetClock);
   assert.ok(arrived, `legs never reached ${targetClock}`);
   for (let round = 0; round < 30; round += 1) {
+    await toBallot();
     if (await page.locator("#ballot:not([hidden])").count()) break;
     console.log(
       "Round",

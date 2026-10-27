@@ -1,6 +1,31 @@
 {
   "entries": [
     {
+      "version": "0.55.0",
+      "releasedOn": "2026-10-27",
+      "revision": "58bdf67fc461c9d6987d11317d7b0a109f8bfc6c",
+      "changeIds": [
+        "play-legislature-floor-date-and-whip",
+        "play-stop-47-calendar-skip-forward-on-a-future-day",
+        "scenes-c-veto-override-whip-packet",
+        "skills-fixer-own-branch",
+        "words-election-day-and-night-scenes"
+      ]
+    },
+    {
+      "version": "0.54.0",
+      "releasedOn": "2026-10-27",
+      "revision": "946dcf65770f9642c6eb9481875ac1ce655aad28",
+      "changeIds": [
+        "director-president-asks-within-powers",
+        "tests-campaigns-candidate-doors-reach-nobody-oakley",
+        "tests-office-day-head-keeps-commuter-job",
+        "tests-record-attack-ad-checks-nothing",
+        "words-scene-bribe-offer-envelope",
+        "words-scene-town-hall-question"
+      ]
+    },
+    {
       "version": "0.53.0",
       "releasedOn": "2026-10-27",
       "revision": "69734c8438ae6e0238b4bc8b663f0e5546d9b46b",

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-47-calendar-skip-forward-on-a-future-day
 pr: #6281
 blocked-on:

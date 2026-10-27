@@ -1,7 +1,8 @@
 /**
  * Election day at the polls (owner, Oct 14, 2026): election day is a scene,
- * and the ballot is the scene's choice. On the eve of an election the voter's
- * day stops at the polling place; the contests on their ballot are the
+ * and the ballot is the scene's choice. Going is the player's choice (owner,
+ * Oct 26): on the eve of an election the day offers the polls, and a voter
+ * who goes marks a ballot there, one who stays home casts none; the contests on their ballot are the
  * elections engine's, each candidate as the ballot lists them, and what the
  * voter marks is cast through the voting engine's own `castBallot`, so the
  * count that opens election day reads it. The scene filter decides whether
@@ -217,8 +218,9 @@ export function markBallot(
 }
 
 /**
- * The voter leaves before marking every race: what they marked stands, and
- * the rest they vote or leave on their own reasons, like everyone else.
+ * The voter stays home, or leaves before marking every race: what they marked
+ * stands, and the rest goes unmarked. The count casts no vote for the player
+ * (voting.ts writes their unmarked ballot as not voted).
  */
 export function leavePollingPlace(
   ledger: Ledger,
