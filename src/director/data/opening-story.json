@@ -43,7 +43,13 @@
           },
           {
             "reason": "own-state-legislator"
-          },
+          }
+        ]
+      },
+      {
+        "stage": "town",
+        "levels": [],
+        "people": [
           {
             "reason": "own-council-member"
           }

@@ -5,12 +5,13 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-president-asks-within-powers
 pr:
 blocked-on:
 lead: director
 source: CTO opening root-cause report, Oct 27
+claimed-at: 2026-10-27T11:03:58.038Z
 ---
 
 **What.** The President's asks are chosen from their views alone (presidentQuestions, src/director/opening-story.ts:323-338). In Iowa City, Iowa, seed 28c0b8150290, the address said "Congress must remove the duty to retreat before using force." and "States should restrict abortion." Both are state powers only (question-powers.json), and both are already Iowa law (Iowa Code 704.1(3) and 146C.2 in the starting-law records). The owner named this on Oct 27 as hard-coded content. Evidence: docs/reports/opening-root-cause-2026-10-27.md.
@@ -24,3 +25,5 @@ source: CTO opening root-cause report, Oct 27
 **Files.** src/director/opening-story.ts, src/core2/policy-authority.ts, src/core2/policy-answers.ts
 
 **Notes.** Filed by the CTO root-cause report of Oct 27 (docs/reports/opening-root-cause-2026-10-27.md). Lead: director.
+
+Read Oct 27 by the laws-and-effects lead: one reader of every law in force, `lawHere` (`src/core2/modules/laws.ts`, PR #6289), returns each question's law at every level of the town's chain with its record id, citation and statute, including a county's or city's law and laws passed in play. `lawOn` (`src/director/opening-story.ts:383`) reads only the state's or the nation's row and ignores end dates; reading `lawHere` here gives the ask the law-in-force record id this item's done-when needs.

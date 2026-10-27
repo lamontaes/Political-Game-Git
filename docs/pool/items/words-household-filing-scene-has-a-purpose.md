@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/scene-family-filing-stake
 pr: #6237
 blocked-on:
