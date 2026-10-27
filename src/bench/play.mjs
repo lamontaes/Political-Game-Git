@@ -3618,8 +3618,16 @@ const sheets = {
             month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
             select(date);
           }),
-          // A day with nothing on it has no panel, so the skip sits here.
-          ...(selected > date && !byDate.has(selected) ? [skipControl()] : []),
+          // A day with nothing on it has no panel, so its date and the skip sit here.
+          ...(selected > date && !byDate.has(selected)
+            ? [
+                el("span", {
+                  className: "calendar-day-date",
+                  textContent: dateWords(selected),
+                }),
+                skipControl(),
+              ]
+            : []),
         ),
       );
     };
