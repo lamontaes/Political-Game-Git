@@ -9,7 +9,7 @@ size: M
 status: claimed
 claimed-by: claude/laws-player-bill-floor
 pr:
-blocked-on:
+blocked-on: play-legislature-floor-date-and-whip
 source: CTO's relay of the owner's Oct 26 playtest (MERGE-FIRST.md, Oct 26, 23:05 UTC)
 claimed-at: 2026-10-27T04:54:02.288Z
 ---
@@ -24,4 +24,4 @@ claimed-at: 2026-10-27T04:54:02.288Z
 
 **Files.** src/bench/legislature.ts, src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, src/core2/office-day-state.ts, docs/reports/law-wiring-matrix.json
 
-**Notes.** Filed by the laws-and-effects lead, Oct 26, from the CTO's relay of the Oct 26 playtest. Taken after the family PRs (#5669, #6026, #6011) land. src/bench is the play-first lane's (AGENTS.md), so the lead builds the calendar in src/core2 and the lane changes src/bench/legislature.ts and the screen, with a `Needs from others:` line in the channel. Read Oct 27 by the laws-and-effects lead: `floorWeek` (src/core2/modules/world-legislating.ts:1022) takes up only `row.filings`, which `openSession` fixes when the session opens (members' filings spread over `sessionFilingShare` of it); a bill drafted later in one of the session's chambers is never on the floor leader's calendar. Plan: the floor week also takes up drafted bills of the session's chambers that are not in its filings, ordered by the same backing, and members re-weigh their filings on each floor week; the bench half then shows the floor date.
+**Notes.** Filed by the laws-and-effects lead, Oct 26, from the CTO's relay of the Oct 26 playtest. Taken after the family PRs (#5669, #6026, #6011) land. src/bench is the play-first lane's (AGENTS.md), so the lead builds the calendar in src/core2 and the lane changes src/bench/legislature.ts and the screen, with a `Needs from others:` line in the channel. Read Oct 27 by the laws-and-effects lead: `floorWeek` (src/core2/modules/world-legislating.ts:1022) takes up only `row.filings`, which `openSession` fixes when the session opens (members' filings spread over `sessionFilingShare` of it); a bill drafted later in one of the session's chambers is never on the floor leader's calendar. Plan: the floor week also takes up drafted bills of the session's chambers that are not in its filings, ordered by the same backing, and members re-weigh their filings on each floor week; the bench half then shows the floor date. Split Oct 27 by the laws-and-effects lead: the core half (the floor takes up every chamber bill, `floorDateOf`, the agenda the day before, `whipCount`) is `laws-floor-takes-every-chamber-bill`; the screen half is the lane's `play-legislature-floor-date-and-whip`; this item closes with the law matrix row naming the screen once both are on main.
