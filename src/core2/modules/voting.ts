@@ -53,9 +53,13 @@ import {
 } from "../turnout";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYes,
+  reportOutcome,
+} from "../trait-decisions";
 import { standsAgain } from "../stand-again";
-import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -96,7 +100,7 @@ import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
-import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
+import { PARTIES_MODULE_ID, joinParty, partiesHere, partyTie } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { nationalParty, partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
@@ -918,12 +922,12 @@ function townIncumbentLean(api: CoreAPI): number {
 }
 
 /** The incumbent's side of a voter's traits: stay with the known or try someone new. */
-function incumbentLeanOf(
+export function incumbentLeanOf(
   api: CoreAPI,
   voter: Readonly<Pick<PersonState, "id" | "traits">>,
 ): number {
   return (
-    parameter("traitDecisionWeight") *
+    decisionTraitWeight(api.state, "voting.back-incumbent") *
     decisionLean(
       api.state,
       voter,
@@ -986,9 +990,10 @@ export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
 }
 
 /**
- * A voter's reasons to vote apart from the race: their own sense of duty and
- * reliability, every trait's lean between voting and staying home, how
- * closely they follow politics (where PEOPLE's views engine runs; younger
+ * A voter's reasons to vote apart from the race: every trait's lean between
+ * voting and staying home (one term, weighted from the personality and civic
+ * engagement study: duty and reliability reach it through the same lean),
+ * how closely they follow politics (where PEOPLE's views engine runs; younger
  * people follow less, CES 2024), against what voting costs them that day
  * (their work hours, the election laws in force, a custom world's turnout
  * setting, and what the election adds: a midterm's, an off-cycle date's or a
@@ -1001,13 +1006,24 @@ export function turnoutReasons(
   recordedWeeklyMinutes?: number,
   /** What this election adds to the cost of voting. */
   extraCost = 0,
-): { readonly duty: number; readonly cost: number } {
+): {
+  readonly duty: number;
+  readonly cost: number;
+  /** The trait term inside the duty (the decision's weight times the lean), and the lean. */
+  readonly trait: number;
+  readonly lean: number;
+} {
   const engagement = engagementOf(api.state as CoreState, voter);
+  const lean = decisionLean(
+    api.state,
+    voter,
+    "voting.turnout",
+    "vote",
+    "stay-home",
+  );
+  const trait = decisionTraitWeight(api.state, "voting.turnout") * lean;
   const duty =
-    (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
-    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2 +
-    parameter("traitDecisionWeight") *
-      decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home") +
+    trait +
     (engagement === null
       ? 0
       : campaignParameter("turnoutEngagementWeight") *
@@ -1019,7 +1035,7 @@ export function turnoutReasons(
       electionLawTurnoutCost(api, voter, weeklyWork)) /
       customPolitics(state).turnout +
     extraCost;
-  return { duty, cost };
+  return { duty, cost, trait, lean };
 }
 
 /** One voter's turnout on one day: its parts, the propensity, and (a named voter) the act. */
@@ -1071,7 +1087,7 @@ function decideTurnout(
   const hit = map.get(key);
   if (hit) return hit;
   const named = api.state.people.has(voter.id);
-  const { duty, cost } = turnoutReasons(
+  const { duty, cost, trait, lean } = turnoutReasons(
     api,
     voter,
     input.recordedWeeklyMinutes,
@@ -1102,6 +1118,16 @@ function decideTurnout(
       ? turnoutWeb(api, who.placeId, ageOnElection(who.birthDate, input.date))
       : null;
   const propensity = Math.min(1, propensityOf(parts) * (web ? web.factor : 1));
+  // The audit's probe (off in play) sees the propensity with and without the trait term.
+  reportOutcome("voting.turnout", voter.id, lean, "probability", (withTerm) =>
+    withTerm
+      ? propensity
+      : Math.min(
+          1,
+          propensityOf({ ...parts, duty: parts.duty - trait }) *
+            (web ? web.factor : 1),
+        ),
+  );
   let votes = false;
   if (named) {
     const act = namedTurnout(record?.carry ?? OPENING_CARRY, propensity);
@@ -1140,7 +1166,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  if (api.state.modules.has("candidacy")) return;
+  const candidacy = api.state.modules.has("candidacy");
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
   // Whoever holds the seat when filing closes stands as its incumbent: an
@@ -1190,6 +1216,50 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     filings.put(filing as unknown as ModuleRow);
     announce(api, filing, contest);
   };
+  if (candidacy) {
+    // Who runs is candidacy's, from people's own records. A statewide
+    // partisan race (no district) still draws each major party's nominee
+    // where no one of that side filed: parties field statewide tickets.
+    const partisan =
+      incumbent?.party ??
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("seats")
+          .get(contest.seatId) as unknown as
+          { party?: string | null } | undefined
+      )?.party;
+    if (
+      (contest.level === "federal" || contest.level === "state") &&
+      !contest.district &&
+      partisan
+    )
+      for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
+        if (
+          !ballot(api, contestId).some(
+            (f) =>
+              f.status === "on-ballot" &&
+              partySide(f.party ?? null) === partySide(party),
+          )
+        ) {
+          const nominee =
+            officialCandidate(api, contest, party) ??
+            officialCandidateId(`nominee:${party}:${contest.id}`);
+          // The party's nominee is its member: a person filled in to run
+          // for it joins it the day they file.
+          const partyHere = api.state.modules.has(PARTIES_MODULE_ID)
+            ? partiesHere(api).find((row) => row.name === party)
+            : undefined;
+          if (
+            partyHere &&
+            api.state.people.has(nominee) &&
+            !partyTie(api, nominee)
+          )
+            joinParty(api, nominee, partyHere.id);
+          put(nominee, party, "party nominee");
+        }
+    return;
+  }
   const alive =
     incumbent &&
     incumbent.status === "serving" &&
@@ -2205,13 +2275,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       ? null
       : choice === null
         ? "left-blank"
-        : decisionLean(
-              api.state,
-              voter,
-              "voting.exit-poll",
-              "tell",
-              "decline",
-            ) < 0
+        : !leanedYes(api.state, voter, "voting.exit-poll", "tell", "decline", 0)
           ? "declined"
           : choice;
     if (t.votes) {

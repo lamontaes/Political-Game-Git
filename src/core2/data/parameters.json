@@ -517,8 +517,10 @@
     "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-driveWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.6,
+      "high": 1.2,
+      "unit": "dimensionless utility weight relative to needWeight = 1",
+      "citation": "Assumed sensitivity band from 0.6 to 1.2 around the unchanged tunable value 1, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-driveWeight in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -595,8 +597,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Set by the M0-07 check against ATUS 2019 time with family outside the household (28 minutes a day, 170 hours a year): at 7 days adults visited relatives outside the home for 351 to 364 hours a year in four of six drawn places (2.1 times ATUS, over the check's limit of twice), at 14 days for 231 to 268 hours a year in twelve drawn places (1.4 to 1.6 times). Empirical calibration of the need itself is still pending.",
     "stopgapId": "SG-P8-param-companyHorizonDays",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 7,
+      "high": 30,
+      "unit": "days (contact gap at which the company need saturates)",
+      "citation": "Assumed sensitivity band from 7 to 30 around the unchanged tunable value 14, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-companyHorizonDays in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -633,8 +637,10 @@
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
     "stopgapId": "SG-P8-param-appraisalRelationshipWeight",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0.5,
+      "high": 1,
+      "unit": "dimensionless multiplier on event appraisal by relationship closeness",
+      "citation": "Assumed sensitivity band from 0.5 to 1 around the unchanged tunable value 1, not a published interval or an empirically fitted coefficient. The low-confidence proposal is recorded under SG-P8-param-appraisalRelationshipWeight in data/research/stopgaps-oct19/A-people-behavior-1.json. That file preserves the original contextual references and their stated retrieval limits; they do not establish these numeric bounds. Empirical calibration and the registered stopgap remain open."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -845,6 +851,17 @@
       "high": 15,
       "unit": "people",
       "citation": "From the closest weekly layer to the monthly 'sympathy group' of personal-network studies; to be sourced from pages fetched by research before it leaves TUNABLE."
+    }
+  },
+  "focusDailyContactDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "How long after the player last had contact with someone in focus (outside the player's family and household) that person keeps choosing daily; after it they choose at their tier's cadence until the two meet again. The contact date is read from the indexed tie. A scheduling cadence, like the tiers' own, not a behavior. Measured Oct 25 in Bedford, Wyoming (seed 9a4dd331ace7) with a prototype: the third year fell from 2.05 to 1.28 times the first.",
+    "spread": {
+      "low": 14,
+      "high": 90,
+      "unit": "days",
+      "citation": "From two weeks, about the gap between a weekly group's meetings missed twice, to a season; checked against the year-three speed band (speed:year)."
     }
   },
   "extendedKinVisitShare": {
@@ -4670,6 +4687,45 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "causeGivenWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly what a person has lately given to their causes (volunteer sessions, donations, groups joined, causes shared, each one act, fading at causeGivenDays) weighs against a further act of the same kind (a reason in the chooser). Without it the cause acts scored the same pull each day, so in Bedford, Wyoming (seed 9a4dd331ace7) the third year's 63 volunteers gave a median of 158 sessions, about 340 hours, and 46 donors gave a median of 227 times. Set beside the Census Bureau's hours per formal volunteer (median 24 to 40 hours a year, CEV 2017 to 2023) in a played town's third year, as an exploratory proxy: the survey counts every formal volunteer through any organization, the game only cause volunteering.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures giving on the chooser's utility scale; the volunteer-hours measure is a broader proxy for the town's totals, not a band."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeGivenDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Days over which what a person gave to a cause fades by a factor of e in the weight against giving more (about two-thirds gone after a month).",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how the memory of one's own giving fades; the volunteer-hours measure is a broader proxy for the town's totals, not a band."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeJoinedDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Days over which joining a cause group fades by a factor of e in the weight against joining another (causeGivenWeight): a membership is a standing commitment, remembered for about a year, not a month. Set beside the share of people who belong to any group or organization (CEV 2017 to 2023, 23.8 to 27.1 percent) and the groups each member holds in a played town's third year, as an exploratory proxy: the survey counts any group, the game only cause groups.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how long one membership weighs against the next; the membership share is a broader proxy for the town's totals, not a band."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
   "responseCarryOnFit": {
     "value": 1,
     "tag": "TUNABLE",
@@ -5225,6 +5281,39 @@
       "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
     }
   },
+  "believeStrangerPull": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "How strongly a hearer leans toward believing a story or speech from a stranger with nothing to go on, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest, so a stranger's bare word sits a little above even. With the decision's weight (traitWeightConversationBelieveClaim), only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a stranger's claim; a teller the hearer is close to (believeClosenessWeight) and a claim that fits where the hearer already leans (believeFitWeight) add to it, so about 95% of the stories and speeches heard in a played election-window year (Halfway, Missouri, seed 3e9ed70a5fb7) are taken in. The player's own claims in a conversation are still read by the director's doubtsClaim at truthDefaultPull (SG-TRAITS-director-claims-reader).",
+    "spread": {
+      "low": 0,
+      "high": 0.3,
+      "unit": "scaled trait lean",
+      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps a stranger's word believed by a clear majority."
+    }
+  },
+  "believeClosenessWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How much the closeness of a teller to the hearer (0 to 1, the one closeness read, closenessBetween) adds to taking a claim in: people take the word of those close to them (Levine 2014 truth-default theory names a prior relationship as a main reason the default is not overturned). No study gives the size against the hearer's temperament; it is set so a hearer who leans hard toward doubt still believes a tie as faint as a first conversation (closeness about 0.1 adds 0.3, twice the largest trait term) and the typical contact (closeness about 0.25) carries the claim.",
+    "spread": {
+      "low": 1.5,
+      "high": 6,
+      "unit": "scaled trait lean per unit of closeness",
+      "citation": "Checked so a close friend or relative is believed by every hearer and a stranger's word is left to the hearer's temperament and what the claim argues."
+    }
+  },
+  "believeFitWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How much a claim that argues the way the hearer already leans (their current view on its question times the side it argues, -1 to 1) adds to taking it in, and one that argues against subtracts: people accept claims that fit their prior views more readily (motivated reasoning; Kunda 1990, Psychological Bulletin 108(3)). No study gives the size; it is set so a claim that argues hard against a hearer's view (fit -0.5) is doubted even from a fairly close tie, as the closeness weight alone would carry it.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "scaled trait lean per unit of fit",
+      "citation": "Checked so fit moves a hearing by about as much as a middling tie does (believeClosenessWeight times a closeness of about 0.5)."
+    }
+  },
   "siblingBirthGapDays": {
     "value": 274,
     "tag": "TUNABLE",
@@ -5638,10 +5727,10 @@
   "traitWeightSpeechRetell": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the speech.retell decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the speech.retell decision. A listener retells a speech at home when how far it moved them plus their lean toward retelling outweighs keeping it to themselves; the chooser's trait reason carries it, with no separate sociability term. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightContractsAward": {
@@ -5656,21 +5745,25 @@
     }
   },
   "traitWeightCorruptionOffer": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the corruption.offer decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the corruption.offer decision, against its row in data/research/trait-effect-sizes.json (Pletzer, Bentvelzen, Oostrom and de Vries 2019, Journal of Vocational Behavior 112:369-383: honesty-humility against workplace deviance, corrected rho -0.482). Fitted Oct 24, 2026 on the offers play actually weighs: 16,228 asks kept by the trait audit in eleven played years of buildBenchWorld (Parkway, Missouri; Peacham, Vermont; Holualoa, Hawaii twice; Ilwaco, Washington; New Preston, Connecticut; Ora, Indiana; Arbela, Missouri; Jerry City, Ohio; New Britain, Connecticut; and the money branch's Peacham), each ask's favor, tie and reputation read from its kept case, with temperament carried by the shared chooser's trait term at traitWeightCorruptionOffer. Offers come from a town's lobbyists and bidding owners, not its adults at large, so a fit over every adult at one fixed favor would put the line where only money pressure reaches and no well-off lobbyist would ever offer. Fitted with corruptionHonestPull (3): 6.9 percent of asks offered, ratio between the thirds 7.8 against 11.0. It replaces the offer's own temperament term (corruptionTraitWeight, 1 on a lean scaled to -1 to 1), which the chooser's trait term had doubled.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1,
+      "high": 2.25,
+      "unit": "weight",
+      "citation": "Measured on the same 16,228 asks at the fitted pull: from 1 to 2.25 the rate stays 6.9 to 7.4 percent and the ratio 7.5 to 7.8; at 2.5 and above the most honest third never offers."
     }
   },
   "traitWeightCorruptionTake": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the corruption.take decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the corruption.take decision. Calibrated Oct 24, 2026 against its row in data/research/trait-effect-sizes.json (Pletzer, Bentvelzen, Oostrom and de Vries 2019, Journal of Vocational Behavior 112:369-383: honesty-humility against workplace deviance, corrected rho -0.482): on the adults of fourteen drawn towns (run seed fit1, label take-calibration) and checked on fourteen more (check2), the weight at which the third leaning most toward corruption takes as many times as often as the third leaning least as the latent model gives at the rate the towns show. Fitted with corruptionNeedWeight (0.5), corruptionPressureWeight (5.5) and corruptionTakeHonestPull (4.65): 6.3 percent take a $2,000 bribe from someone with a tie of 0.3, ratio 9.9 against 11.6 (check towns 7.2 percent, 11.8 against 10.7).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 2.0,
+      "high": 2.4,
+      "unit": "weight",
+      "citation": "Measured on both sets of fourteen towns at the fitted reasons and pull: at 2.0 the fit towns' ratio between thirds is 0.66 of the latent model's and at 2.4 the check towns' is 1.54 of it; at 2.2 both sets are within a factor of 1.2."
     }
   },
   "traitWeightCorruptionTell": {
@@ -5759,12 +5852,14 @@
     }
   },
   "traitWeightConversationBelieveClaim": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the conversation.believe-claim decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.18,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt, Rozgonjuk, Elhai and Montag 2021, The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption, Heliyon 7(3): extraversion correlates 0.09 with the number of 16 fake headlines a person judged true (N = 530 German adults; row conversation.believe-claim in data/research/trait-effect-sizes.json, a proxy: headlines, not a told claim). Carried to the thirds of hearers leaning most and least toward believing, that is a log odds gap of 0.357 (odds ratio 1.43). Goreis and Voracek 2019 (conspiracy belief, all five traits within 0.03 of zero) and the same paper's agreeableness (-0.03) say the pull is small. Weight found with scripts/traits/trait-calibrate.ts on a played year of each of two places drawn from all 56 (Halfway, Missouri, place key 2929962, seed 3e9ed70a5fb7, election window, 10,453 calls: 0.17; Marblehead, Ohio, place key 3947502, seed 7772ab1c8196, 13,123 calls: 0.20; stories told at a contact, speeches retold at home), taken as 0.18, which reaches 1.4 in both. The case it weighs against is the teller's closeness and the claim's fit with the hearer's views (believeClosenessWeight, believeFitWeight), so a doubter still believes a trusted friend.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.01,
+      "high": 0.35,
+      "unit": "weight",
+      "citation": "Weight scales with the correlation: the study's 95% interval for extraversion is 0.005 to 0.174 (0.09 gives 0.18)."
     }
   },
   "traitWeightConversationReplyReach": {
@@ -5788,30 +5883,32 @@
     }
   },
   "traitWeightVotingTurnout": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.turnout decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.79,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): openness to experience raises the log odds of reporting having voted by 1.26 across the trait's full 0-to-1 range (2006 CES, N about 1,060), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward voting, that is a log odds gap of 0.604 (odds ratio 1.83). Weight found by measuring the turnout propensity (turnoutReasons through the turnout logistic) of every adult over six drawn places (seeds c1, d1, d3, d12, c2, d2 with the label trait-wiring, buildBenchWorld, 60 days) at weights 0 to 1.2, net of the same gap at weight 0, and solving for 0.549: 0.716. The emotional-stability row (-1.42) is not used: its sign runs against the trait's lean and the authors flag it as inconsistent with earlier work. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1: 0.716 became 0.79.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.237,
+      "high": 1.339,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the openness coefficient is 0.378 to 2.142."
     }
   },
   "traitWeightVotingBackIncumbent": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.back-incumbent decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the voting.back-incumbent decision. Backing the incumbent adds the voter's lean toward keeping the known over trying someone new to the incumbent's appeal. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightVotingExitPoll": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.exit-poll decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the voting.exit-poll decision. A voter tells the exit pollster who they voted for when their lean toward telling is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightVotingStandAgain": {
@@ -5828,10 +5925,10 @@
   "traitWeightBallotMeasuresVote": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the ballot-measures.vote decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the ballot-measures.vote decision. A voter's lean toward change over keeping things as they are adds to their support for a measure. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightRecallsOrganize": {
@@ -5937,57 +6034,67 @@
     }
   },
   "traitWeightPartiesJoin": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the parties.join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "Linkov 2020, Political party membership and personality characteristics in the Czech Republic (2005), E-psychologie 14(2): members of eight Czech parties (194, NEO-FFI) scored higher on extraversion than the population, a standardized difference of 0.346 that the research helper turned into an odds ratio of 1.41 per standard deviation (row parties.join in data/research/trait-effect-sizes.json: derived from the printed party means, not printed as one number, and a proxy: party membership in another country, 2005). Carried to the thirds of tied people leaning most and least toward joining (2.18 standard deviations apart), that is a log odds gap of 0.748 (odds ratio 2.11). Weight found with scripts/traits/trait-calibrate.ts on a played year of Marblehead, Ohio (place key 3947502, seed 7772ab1c8196, 66 calls; Halfway, Missouri weighed only 13): 0.75 reaches 3.1, the nearest step to 2.1 because the case (the tie to the party) sorts people into a few lumps. The case it weighs against is partiesJoinBase for a person already tied to a party.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.4,
+      "high": 1,
+      "unit": "weight",
+      "citation": "Weight scales with the log odds ratio: the helper's interval for extraversion is 1.21 to 1.65 per standard deviation (1.41 gives 0.75)."
     }
   },
   "traitWeightPartiesAttend": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the parties.attend decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.55,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having attended political meetings or election rallies by 1.65 across the trait's full 0-to-1 range (2006 CES, N about 1,066; row parties.attend in data/research/trait-effect-sizes.json, a proxy: the survey does not separate a party's own meeting). Carried to the thirds of members leaning most and least toward attending with the trait's own standard deviation from their Table 1 (0.26 of its range), that is a log odds gap of 0.935 (odds ratio 2.55; Gerber et al. 2011's campaign-rally coefficient 1.049 gives 1.94). Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 5,248 calls, party meetings and candidate events together since both read this decision): 0.55 reaches 2.58. The case it weighs against is the member's free time and distance from the meeting (partyMeetingFreeTimeWeight, partyMeetingDistanceWeight), so no temperament decides alone.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.22,
+      "high": 0.88,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the Mondak extraversion coefficient is 0.67 to 2.63 (1.65 gives 0.55)."
     }
   },
   "traitWeightStaffHire": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the staff.hire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.65,
+    "tag": "ESTIMATED",
+    "citation": "Kardaslar, Kritikos and Menkhoff 2026, Personality Traits of Entrepreneurs and the Size of Their Firms, DIW Discussion Paper 2173, Table 6: openness changes the odds of running a business alone rather than with at least one employee by a factor of 0.776 per standard deviation (SOEP 2019, 2,473 entrepreneurs; row staff.hire in data/research/trait-effect-sizes.json, a proxy: a first employee, not an official's staff; extraversion 1.162 and conscientiousness 1.138 point toward hiring). Carried to the thirds (2.18 standard deviations apart), a log odds gap of 0.55 (odds ratio 1.74). An official's case varies only with the office's budget, so the thirds' odds in play are set by temperament alone at any weight; the weight is the study's log odds gap over the gap in lean between the thirds of officials weighing it: 0.876 in Jerry City, Ohio (72 calls) and 0.826 in New Britain, Connecticut (25 calls), giving 0.63 and 0.67.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.28,
+      "high": 1.02,
+      "unit": "weight",
+      "citation": "Weight scales with the log odds: the study's interval for openness, 0.673 to 0.895 per standard deviation, gives 0.28 to 1.02."
     }
   },
   "traitWeightInterestGroupsMemberJoin": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the interest-groups.member-join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.115,
+    "tag": "ESTIMATED",
+    "citation": "Bekkers 2005, Participation in Voluntary Associations: Relations with Resources, Personality, and Political Values, Political Psychology 26(3), model 1: per standard deviation of agreeableness the odds of belonging to a (quasi-)political association (parties, unions, professional, religious and similar groups) against none fall to 0.79 (conscientiousness 0.81, extraversion 1.14; row interest-groups.member-join in data/research/trait-effect-sizes.json, a proxy: the category pools seven kinds of organization and the paper prints no interval). Carried to the thirds of residents leaning most and least toward joining (2.18 standard deviations apart), that is a log odds gap of 0.514 (odds ratio 1.67). Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 3,172 calls): 0.115 reaches 1.65. The case it weighs against is how hard the question pulls the resident plus how strongly the group's members already draw them in (groupDrawWeight), against the bar.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "weight",
+      "citation": "The paper prints no interval; the other two traits' odds ratios per standard deviation (0.81 and 1.14) fit weights of 0.10 and 0.08, and its model 2 with resources controlled (agreeableness 0.90) fits 0.05."
     }
   },
   "traitWeightInterestGroupsEmployerJoin": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the interest-groups.employer-join decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the interest-groups.employer-join decision. An owner joins an employers' association when what the bill costs the firm against the dues plus their lean toward joining is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightInterestGroupsLobbyist": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the interest-groups.lobbyist decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "Gerber, Huber, Doherty, Dowling, Raso and Ha 2011, Personality Traits and Participation in Political Processes, Journal of Politics 73(3), on-line appendix Table A12a: extraversion raises the log odds of having spoken at a local public meeting by 0.978 across the trait's full 0-to-1 range (CT Survey 2008, N = 1,924; row interest-groups.lobbyist in data/research/trait-effect-sizes.json, a proxy: no study of who serves as a group's spokesperson was found). Carried to the thirds of members leaning most and least toward serving with the survey's own standard deviation (0.29), that is a log odds gap of 0.618 (odds ratio 1.86). Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 500 calls): the stake is a few lumps, so the fit steps from 1.2 at 0.25 to 3.0 at 0.3, and 0.3 is kept: it reaches 3.0 against the target 1.86 (a factor of 1.6) in Halfway and 5.0 (a factor of 2.7) in Marblehead, Ohio (place key 3947502, seed 7772ab1c8196, 1,059 calls), where trait-calibrate finds no step that reaches the study.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.15,
+      "high": 0.45,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 0.502 to 1.454 (0.978 gives 0.3)."
     }
   },
   "traitWeightOfficesAcceptAppointment": {
@@ -6059,12 +6166,14 @@
     }
   },
   "traitWeightConstituentCasesBringCase": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the constituent-cases.bring-case decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.51,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator in the past two years by 0.92 across the trait's full 0-to-1 range (2006 CES, N about 1,065; row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact, not only a casework request). Carried to the thirds with the trait's own standard deviation (0.26 of its range), a log odds gap of 0.52 (odds ratio 1.68); Gerber et al. 2011's contact with a local official gives 0.40. Bringing a problem is decided by its severity against caseEffort, and most residents out of work sit at the same severity, so the thirds' odds in play depend on where the line falls in that pile, not on the weight. The weight is therefore the study's log odds gap over the gap in lean between the thirds of residents weighing a case: 1.087 in Jerry City, Ohio (place key 3939074, 217 calls) and 0.957 in New Britain, Connecticut (0950370, 528 calls), giving 0.48 and 0.54.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.22,
+      "high": 0.8,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 0.39 to 1.45 (0.92 gives 0.51)."
     }
   },
   "traitWeightConstituentCasesHandleCase": {
@@ -6088,28 +6197,32 @@
   "traitWeightJobsBenefitsFileClaim": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs-benefits.file-claim decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "The trait weight of the jobs-benefits.file-claim decision. An eligible worker files for unemployment when the base reason plus their lean toward filing is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightNewsPassOn": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the news.pass-on decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.18,
+    "tag": "ESTIMATED",
+    "citation": "Lin, Wang and Sun 2024, How big five personality traits influence information sharing on social media: A meta analysis, PLOS ONE 19(6): extraversion has a pooled standardized beta of 0.05 on information sharing (27 studies, N=31,969). Carried to the thirds of people leaning most and least toward passing news on, that is a log rate gap of 0.198 (a rate ratio of 1.22). Stories passed at a contact are a rate, not a probability, so the gap is measured on the stories owed at a contact (storiesOwedAtContact), which grow as one plus the weight times the lean, by every adult over six drawn places (seeds c1, d1, d3, d12, c2, d2 with the label trait-wiring). Remeasured Oct 26, 2026: the thirds now sit 1.10 to 1.12 apart in lean (Newfane, Vermont; Ute, Iowa; Clifton, Kansas; Cameron, South Carolina; Frederiksted, U.S. Virgin Islands; Lockhart, Alabama), against about 0.71 when the weight was first found at 0.277, which then gave 0.30 in every town. The weight solving for 0.198 runs 0.178 to 0.187 across the six, mean 0.182. The agreeableness beta (-0.06) is not used: the lean toward telling is carried by extraversion and sociability.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.108,
+      "high": 0.219,
+      "unit": "weight",
+      "citation": "The study reports no interval; the same sentence reports betas of 0.03 to 0.06 for the other traits, and solved the same way over the same six places those give weights of 0.108 and 0.219."
     }
   },
   "traitWeightPressFollowNews": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the press.follow-news decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt and others 2021 (rows press.follow-news in data/research/trait-effect-sizes.json): extraversion correlates 0.16 with the number of news sources a German adult follows (openness 0.12, neuroticism -0.09). A person's habit is their political engagement plus the weighted lean, and each kind of news (local paper, television, radio, and the national kinds) takes the top of each age band by habit at its researched share, so the weight is set so the lean correlates 0.16 with the number of kinds a person follows. Fitted by rebuilding the audiences at each weight over every adult of two played towns (buildBenchWorld, every module): Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, 57 adults) reaches 0.16 at about 0.02 and Jagual, Puerto Rico (7237166, seed d29d296abf1f, 112 adults) at about 0.11; pooled, 0.08.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.02,
+      "high": 0.11,
+      "unit": "weight",
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightPressAcceptInterview": {
@@ -6153,12 +6266,14 @@
     }
   },
   "traitWeightMeetingsTakePart": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the meetings.take-part decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.26,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES; the trait's spread is 0.26 of its range, Table 1), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward taking part, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found in played years, on every meeting's whole pool of residents (each one's feeling about the question and their lean, and the room's size), so the room can be refilled at any weight: who took part at a bill's public comment and in a town hall's room, by thirds of lean over every resident weighed, net of the room filled with temperament left out. Refilled at 0.32, 0.285 and 0.26 in twenty drawn places' election windows on fresh random seeds (Oct 27, 2026, at #6143's head 99fc0b1579, one seed per place, each with its run seed, attempt and the different residents weighed): Jeromesville, Ohio (4565776ec6bbd777753e60793e3adb75d8170e85:meetings:0, 390 residents); Calumet, Oklahoma (4a3b742ed67a678280bb52c5e07946e6e056e99a:meetings:2, 388 residents); Loa, Utah (5b9f5133d4f09b48c17a1400ad9997c407f6a142:meetings:2, 386 residents); Grantsville, West Virginia (d85ba81c178988779216ba453c4d543af4d73826:meetings:0, 380 residents); Coopers Plains, New York (346297ca0c6347ebfe6283a726b7412fed002820:meetings:3, 359 residents); Richfield, Idaho (bf0c8cccea59d47b0486b8429ab231660fa1e2cf:meetings:0, 354 residents); Giltner, Nebraska (4171548db447be0cfb2f201f22f696e0cc6ad026:meetings:1, 335 residents); Pine Valley, Utah (290e684e1f4554f4ad97658260426b08a21bb8ce:meetings:4, 333 residents); Wyoming, Rhode Island (2e0a45586bc2a827a0ef4372ab71387d6e507c8c:meetings:0, 302 residents); Swan Valley, Idaho (2f234763e0a847d5c8cd10891133cf5d6b01b22e:meetings:0, 284 residents); Bruce Crossing, Michigan (80299d07892cb4e564190c33540ba3a9b18da828:meetings:0, 222 residents); Candlewood Lake Club, Connecticut (4f9c09e5328fcba61e895d18e33cd25308834fb3:meetings:1, 220 residents); Harrison, Idaho (22bb62bc23a274d0b1d405e6b0c7705d455c1077:meetings:1, 220 residents); Nikep, Maryland (32a42565139ff132b9992b2c0147d78c7875c620:meetings:2, 205 residents); Henry, Nebraska (6ac4606bddc97bbafb62c8157cf9ae99e1d60582:meetings:0, 141 residents); Garvin, Oklahoma (9cf6b1d5763b91a28c6b92e45d99332f2878e938:meetings:4, 138 residents); Leadore, Idaho (7bdcc2cf53d4d7f38de0cdacbbe82137ad6725d5:meetings:1, 75 residents); Whitney, Nebraska (5b9f5133d4f09b48c17a1400ad9997c407f6a142:meetings:1, 59 residents); Antelope Hills, Wyoming (c2ef691f6254c1bafe3eab93d9fd2b7522e5a6a1:meetings:0, 54 residents); Solen, North Dakota (7edd8f59102f8f866da350644620baf5e6ca3e0f:meetings:1, 50 residents). A refill matched the played run to within 0.08 in seven real runs at 0.285 and 0.26. In the 16 places with 100 or more different residents weighed the net log odds at 0.26 have geometric mean 1.077 against the study's 1.088 (0.52 to 2.04 singly; 1.410 at 0.32, 1.229 at 0.285), and all 20 together 0.961 (1.206 at 0.32). Antelope Hills and Whitney stay flat (0.31 and 0.35 at any weight below 0.4, and 0.306 and 0.329 at 0.26): their rooms of 40 fill from about 55 residents driven, the same people at every town hall, so temperament has almost nobody to turn away and the 418 and 1,068 weighings are 54 and 59 different residents; they would need weights of 0.445 and 0.785 to reach 1.088, which put 8 of the first 17 places over the band at 0.45. One town's thirds still swing from about 0.5 to 2.4 around the study's 1.088, nearly the width of the test's band, which is why the meetings test pools two towns. A fifth to a third of residents feel as strongly as anyone can about a question, and among them temperament alone sets who fills the room, which is why the weight sits below the 0.5 that two towns' audit years first gave (Halfway, Missouri and Marblehead, Ohio: net odds 2.01 and 4.16 at 0.5, 1.62 and 2.95 at 0.35).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.15,
+      "high": 0.45,
+      "unit": "weight",
+      "citation": "The 10th to 90th percentile (0.152 to 0.447) of the weights at which each of the twenty drawn places' own net first reaches the study's 1.088 (the places' weights ran 0.06 to 0.785, median 0.278); the study's own 95% interval for the extraversion coefficient, 1.195 to 2.645, scales to 0.16 to 0.36 at this weight."
     }
   },
   "traitWeightSchoolAttend": {
@@ -6173,37 +6288,48 @@
   "traitWeightJusticeReport": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the justice.report decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "Weight on the person's traits (speaking out and following the rules against staying quiet) when deciding to report a bribe they refused or were told of; whistleblowing tracks conscientiousness and moral courage (Bjorkelo, Einarsen and Matthiesen 2010). Carried from the former reportTraitWeight.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
+      "low": 0.5,
+      "high": 2,
+      "unit": "weight",
+      "citation": "The former parameter's spread, carried with it."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
   },
   "traitWeightJusticeProsecute": {
-    "value": 1,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the justice.prosecute decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "Weight on a prosecutor's own traits (confronting against playing safe) when deciding whether a case is worth opening and charging; half the reporter's: the office's standards narrow a prosecutor's own temperament. Carried from the former prosecutorTraitWeight.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
+      "low": 0.25,
+      "high": 1.0,
+      "unit": "weight",
+      "citation": "The former parameter's spread, carried with it."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
   },
   "traitWeightJusticePlea": {
-    "value": 1,
+    "value": 0.3,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the justice.plea decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "citation": "Weight on the defendant's traits (conceding against confronting) when weighing a plea against trial; smaller than the case's own strength, since about 90% of federal convictions came by plea (Bureau of Justice Statistics, Federal Justice Statistics 2022). Carried from the former pleaTraitWeight.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
+      "low": 0.15,
+      "high": 0.6,
+      "unit": "weight",
+      "citation": "The former parameter's spread, carried with it."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
   },
   "traitWeightMeetingsHoldTownHall": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the meetings.hold-town-hall decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.35,
+    "tag": "ESTIMATED",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES). No study of officials who host town halls was found, so the attendee coefficient stands in for the host (the same extraversion pull toward being in the room). Carried to the thirds of people leaning most and least toward holding one, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found by crossing the real cases the decision weighed (the host's reasons without personality, cause plus effort, from played years of drawn places with the label trait-wiring) with every adult's lean toward holding one, at weights 0 to 3, net of the gap at weight 0, and solving for 0.837: 0.61. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target grew by 1.3 to 1.088. Refitted Oct 26 on the cases weighed in six played election windows (Sula, Montana; Beulah, Mississippi; Cushing, Iowa; Kitzmiller, Maryland; Stratton, Colorado; Brook Forest, Colorado; 38 to 152 cases each, every adult's lean), because at 0.79 every town's net log odds sat from 3.2 to 4.7, three to four times the target: the geometric mean of the six is 1.095 at 0.35 (towns 0.64 to 1.60), against 0.79 at 0.3 and 1.37 at 0.4.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.218,
+      "high": 0.482,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 1.195 to 2.645."
     }
   },
   "traitWeightCampaignsPartyFirmness": {
@@ -6497,6 +6623,28 @@
       "high": 0.25,
       "unit": "standard deviations per event",
       "citation": "Small effects in the life-event personality literature; not retrieved per event."
+    }
+  },
+  "traitWeightViewsPersuasion": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "Hibbing, Ritchie and Anderson 2011 (rows views.persuasion in data/research/trait-effect-sizes.json): openness raises the log odds of being moved toward a discussion partner's view by 0.66 across the trait's range (trait sd 0.22), an odds ratio of 1.37 between the thirds. A move is a size, so the weight is set so the most yielding third's mean move over the least yielding third's, net of the same ratio without the trait term, is 1.37. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). At 0.3 the ratio is 1.36 in Lookeba and 1.35 in Jagual.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "weight",
+      "citation": "The fit's neighbors: 0.2 gives 1.22 to 1.23 and 0.4 gives 1.49 to 1.51."
+    }
+  },
+  "traitWeightViewsTrust": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt and others 2021 (row views.trust in data/research/trait-effect-sizes.json): agreeableness correlates 0.20 with the Interpersonal Trust Scale among German adults (neuroticism -0.17; Thielmann et al. 2020 give 0.09 to 0.11 for trust-game sending). The weight is set so the hearer's lean correlates 0.20 with how far they trust a speaker. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). Pooled over 29,256 trust readings, 0.25 gives 0.203 (0.119 in Lookeba, 0.302 in Jagual: how far near ties already track the lean differs by town).",
+    "spread": {
+      "low": 0.15,
+      "high": 0.35,
+      "unit": "weight",
+      "citation": "The pooled fit's neighbors: 0.15 gives 0.141 and 0.35 gives 0.256."
     }
   },
   "workAbsenceIllnessWeight": {

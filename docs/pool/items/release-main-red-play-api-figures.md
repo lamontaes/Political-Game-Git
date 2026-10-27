@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found by the speed lead while confirming #6049's release run.
 
 Merger 0, Oct 26: PR #6071 lands the bounded local repair release-play-api-figure-staging-local after an exact-main bundle failure, corrected bundle and HTTP figure-byte proof in the merger environment. This parent stays open for its unchanged next-platform-staging Done when; no queued or green GitHub badge substitutes for the local gate. The newer failed Release 40253254777 also stops at this route, Windows job 121352482445 reporting the outside-repository path.
+
+Confirmed Oct 26 after PR #6071 merge 03c3437ea4: Release 40257575148 completed successfully on source 001d8d1f8e (includes the repair). Windows job 121366046674 and macOS job 121366047618 both passed staging, packaging and packaged-app startup; desktop publisher 121371102349 succeeded. This supplies the retained next-platform-staging acceptance after the independent local bundle/HTTP proof. Requested pool-done CLI succeeded and main was verified.

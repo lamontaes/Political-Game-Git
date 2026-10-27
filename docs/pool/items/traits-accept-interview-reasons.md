@@ -25,3 +25,5 @@ claimed-at:
 Claim released Oct 25: branch never pushed (`claude/traits-accept-interview`).
 
 Oct 26 (traits lead): done-when corrected before the PR to the measure the audit gives (played election-window years, not drawn test windows) and to the target after the Oct 24 rescale (2.70, not 2.47). Name recognition was tried first as the case and dropped: in drawn towns nearly every candidate is known to the whole town.
+
+Merger 0: Sent back 2026-10-26 from PR #6128 (branch claude/traits-accept-interview): explicit merge-first dependency #5657 remains open at 48aa08ee5320d1c618548db2d3605688a4a30d54; main-targeted diff still includes shared civic-traits parent; recheck after parent merges; finish on that branch, merge main into it first.

@@ -3,8 +3,9 @@
  * probe on (a debug switch, off in play), and from the two-way decisions it
  * weighed, two people who faced about the same case for the same decision,
  * leaned opposite ways and decided differently. A family test names both by
- * person, date, case and lean, and the record the yes side wrote. With every
- * trait flat no pair is found, since every lean is zero.
+ * the `person.weighed` record each decision kept (person, date, case and
+ * lean), and the record the yes side wrote. With every trait flat no pair is
+ * found, since every lean is zero.
  */
 import table from "../../data/content/trait-decisions.json" with { type: "json" };
 import { buildBenchWorld, type BenchWorld } from "../bench/world";
@@ -13,7 +14,7 @@ import { addDays } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { residentPerson } from "./modules/residents";
 import { setTraitProbe } from "./trait-probe";
-import type { CoreState } from "./types";
+import type { CoreState, LogRecord } from "./types";
 
 /** One two-way decision a played day weighed for a named actor. */
 export interface PlayedCall {
@@ -27,6 +28,15 @@ export interface PlayedCall {
   yes: boolean;
   /** Whether the trait term changed the outcome the case alone would give. */
   turned: boolean;
+  /** The `person.weighed` record the decision kept (a formula decision by a full person). */
+  recordId?: string;
+  /**
+   * That record as it was kept the day the decision was made. A circle
+   * member's weighed choice is detail the log forgets after
+   * circleDecisionDetailDays (decision-detail.ts), so a played window longer
+   * than that reads its early records here.
+   */
+  record?: LogRecord;
 }
 
 /** Two people, about the same case, opposite leans, different decisions. */
@@ -54,7 +64,8 @@ const TWO_WAY = new Map(
  * named decisions that names its actor: formula decisions by their table id
  * (`leanedYes`, `leanedScore`, `leanedByKinds`, `leanedTerm`), and, for a
  * decision given its yes option, chooser picks between exactly its two
- * options.
+ * options. While it plays, every full person's formula decision is kept as a
+ * `person.weighed` record, as the player's are, and each call names its record.
  */
 export function playWeighing(
   core: CoreState,
@@ -71,6 +82,7 @@ export function playWeighing(
   }
   const calls: PlayedCall[] = [];
   setTraitProbe({
+    keepWeighed: true,
     formula(row) {
       if (
         !wanted.has(row.decisionId) ||
@@ -88,6 +100,12 @@ export function playWeighing(
         lean: row.lean,
         yes: row.yes,
         turned: row.turned,
+        ...(row.recordId
+          ? {
+              recordId: row.recordId,
+              record: core.durableLog.get(row.recordId),
+            }
+          : {}),
       });
     },
     chooser(row) {
@@ -195,10 +213,10 @@ export function livesIn(
     (core.people.get(id) ?? residentPerson(core, id))?.placeId === placeId;
 }
 
-/** One line naming a pair: the decision, the day each decided, both people, their cases and leans. */
+/** One line naming a pair: the decision, each side's record, the day each decided, both people, their cases and leans. */
 export function describePair(pair: OpposedPair, record?: string): string {
   const side = (c: PlayedCall) =>
-    `${c.actorId} on ${c.date} (case ${c.bare.toFixed(3)}, lean ${c.lean.toFixed(3)}${c.turned ? ", turned by temperament" : ""})`;
+    `${c.recordId ? `${c.recordId}: ` : ""}${c.actorId} on ${c.date} (case ${c.bare.toFixed(3)}, lean ${c.lean.toFixed(3)}${c.turned ? ", turned by temperament" : ""})`;
   return `${pair.decisionId}: yes ${side(pair.yes)}${record ? `, wrote ${record}` : ""}; no ${side(pair.no)}`;
 }
 
@@ -209,7 +227,8 @@ const MAX_DRAWS = 3;
  * The played-pair check over drawn places: each attempt draws a place (from
  * all 56, by `draw`), builds it as the game does (`buildBenchWorld`,
  * two-level, every module), plays `days` from the game's start and looks for
- * opposed pairs among its own residents. A small place can weigh too few
+ * opposed pairs among its own residents whose decisions kept a record (full
+ * people; a counted resident keeps none). A small place can weigh too few
  * cases to hold a pair, so it moves to the next draw, up to three; `tried`
  * names every place and seed for the failure message.
  */
@@ -236,9 +255,10 @@ export function playedPairs(
       placeKey: place.key,
     });
     const calls = playWeighing(world.core, addDays(start, days), decisions);
-    const pairs = opposedPairs(calls, {
-      among: livesIn(world.core, world.placeId),
-    });
+    const pairs = opposedPairs(
+      calls.filter((call) => call.recordId !== undefined),
+      { among: livesIn(world.core, world.placeId) },
+    );
     const label = `${place.name} (${place.key}), seed ${seed}`;
     tried.push(`${label}: ${calls.length} calls, ${pairs.length} pairs`);
     if (pairs.length || attempt + 1 >= MAX_DRAWS)

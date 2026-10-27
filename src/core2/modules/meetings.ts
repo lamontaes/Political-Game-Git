@@ -19,16 +19,21 @@
  *   (`answerDebate`).
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYesWithTerm,
+  reportOutcome,
+} from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { residentsRuntime } from "./residents";
 import { isDemoted } from "../counted-groups";
+import { countedResidents } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -138,12 +143,66 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 /**
- * Every trait's lean toward taking part in a public meeting over staying
- * away, on the trait scale the meeting bars were set on.
+ * What a resident's feeling (`base`) comes to as a drive to stand up: the
+ * feeling times one plus every trait's lean toward taking part in a public
+ * meeting over staying away, at the decision's weight (extraversion and
+ * attending meetings, Mondak et al. 2010).
  */
-const civic = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
-  parameter("traitScale") *
-  decisionLean(core, p, "meetings.take-part", "take-part", "stay-away");
+function driveOf(
+  base: number,
+  p: Readonly<Pick<PersonState, "id" | "traits">>,
+  core: Pick<CoreState, "data">,
+): { drive: number; lean: number } {
+  const lean = decisionLean(
+    core,
+    p,
+    "meetings.take-part",
+    "take-part",
+    "stay-away",
+  );
+  return {
+    drive: base * (1 + decisionTraitWeight(core, "meetings.take-part") * lean),
+    lean,
+  };
+}
+
+/**
+ * The meeting's time takes the `room` most driven of `rows`. The audit's
+ * probe (off in play) sees, for each of them, whether they took part, and
+ * whether they would have with temperament left out (the room filled by
+ * feeling alone), so the matrix shows who took part by thirds of lean. A room
+ * that holds everyone driven turns no one away, so temperament decides
+ * nothing there and the probe sees none of it.
+ */
+function takePart<
+  T extends {
+    p: Readonly<Pick<PersonState, "id" | "traits">>;
+    base: number;
+    drive: number;
+    lean: number;
+  },
+>(rows: readonly T[], room: number): readonly T[] {
+  const chosen = rows.slice(0, room);
+  const taken = new Set(chosen.map((row) => row.p.id));
+  let flat: Set<string> | undefined;
+  const takenFlat = () =>
+    (flat ??= new Set(
+      [...rows]
+        .sort((a, b) => b.base - a.base || a.p.id.localeCompare(b.p.id))
+        .slice(0, room)
+        .map((row) => row.p.id),
+    ));
+  if (rows.length > room)
+    for (const row of rows)
+      reportOutcome(
+        "meetings.take-part",
+        row.p.id,
+        row.lean,
+        "probability",
+        (withTerm) => ((withTerm ? taken : takenFlat()).has(row.p.id) ? 1 : 0),
+      );
+  return chosen;
+}
 
 export function openMeetings(core: CoreState): void {
   registerLegislatureHooks({
@@ -199,6 +258,14 @@ const local = (bill: BillRow) =>
   !bill.bodyOfficeId.includes(":legislature-") &&
   !bill.bodyOfficeId.includes(":us-");
 
+/** The question a town or county bill speaks to, or nothing for a bill of a legislature (it has testimony, not public comment). */
+export function localBillStance(
+  api: CoreAPI,
+  bill: BillRow,
+): { question: string; position: number } | null {
+  return local(bill) ? billQuestion(api, bill) : null;
+}
+
 /**
  * Sign up to speak on a bill before its vote: public comment at a town or
  * county meeting, testimony at a legislature's hearing. Recorded as said on
@@ -241,6 +308,78 @@ export function remarksOn(api: CoreAPI, billId: string): readonly RemarkRow[] {
 }
 
 /**
+ * Whether a resident is only a counted record: never filled in, or filled in
+ * once and returned to the counts, which keeps a retained full record on the
+ * counted tier (`isDemoted`). Such a resident stands up at public comment by
+ * the same rule as a named one, and is filled in before speaking.
+ */
+export function countedRecordOnly(core: CoreState, personId: string): boolean {
+  const kept = core.people.get(personId);
+  return !kept || isDemoted(kept);
+}
+
+/**
+ * How hard a bill's question drives a resident to stand up at its public
+ * comment: how strongly they feel it times their civic temperament.
+ */
+export function standUpDrive(
+  api: CoreAPI,
+  p: Readonly<Pick<PersonState, "id" | "traits">>,
+  stance: { readonly question: string; readonly position: number },
+): { view: number; base: number; drive: number; lean: number } {
+  const view =
+    viewOn(api, p.id, stance.question, personLean(api.state.people, p, 0)) *
+    stance.position;
+  const base = Math.abs(view);
+  return { view, base, ...driveOf(base, p, api.state) };
+}
+
+/**
+ * The residents who would stand up at a bill's public comment, most driven
+ * first: how strongly they feel about its question, times their civic
+ * temperament, the meeting's time (publicCommentSpeakers) decides how many speak.
+ */
+export function commentSpeakers(
+  api: CoreAPI,
+  bill: BillRow,
+  stance: { readonly question: string; readonly position: number },
+  /** Who has already had their say on the bill (the default: its remarks on record). */
+  already: ReadonlySet<string> = new Set(
+    remarksOn(api, bill.id).map((r) => r.personId),
+  ),
+): readonly {
+  p: Readonly<Pick<PersonState, "id" | "traits">>;
+  view: number;
+  base: number;
+  drive: number;
+  lean: number;
+}[] {
+  // The body's own members vote on the bill; public comment is the public's.
+  const seated = new Set(
+    members(api, bill.bodyOfficeId).flatMap((t) =>
+      t.personId ? [t.personId] : [],
+    ),
+  );
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  // The town's adults still in the wider population stand up by the same
+  // rule, read from their counted record (one model, two tiers).
+  const counted = countedResidents(core).filter(
+    (v) =>
+      v.placeId === town &&
+      countedRecordOnly(core, v.id) &&
+      ageOn(v, api.state.date) >= 18,
+  );
+  return [...townAdults(api), ...counted]
+    .filter(
+      (p) => !already.has(p.id) && !seated.has(p.id) && p.id !== core.playerId,
+    )
+    .map((p) => ({ p, ...standUpDrive(api, p, stance) }))
+    .filter((s) => s.view !== 0)
+    .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id));
+}
+
+/**
  * At a town or county meeting, before the vote: the residents who feel most
  * strongly about the bill's question, by their civic temperament, stand up
  * and say so; the room is a public record.
@@ -250,30 +389,14 @@ function publicComment(api: CoreAPI, billId: string): void {
   const bill = billOf(api, billId);
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
-  const already = new Set(remarksOn(api, billId).map((r) => r.personId));
-  // The body's own members vote on the bill; public comment is the public's.
-  const seated = new Set(
-    members(api, bill.bodyOfficeId).flatMap((t) =>
-      t.personId ? [t.personId] : [],
-    ),
+  const core = api.state as CoreState;
+  const speakers = takePart(
+    commentSpeakers(api, bill, stance),
+    meetingParameter("publicCommentSpeakers"),
   );
-  const speakers = townAdults(api)
-    .filter(
-      (p) =>
-        !already.has(p.id) &&
-        !seated.has(p.id) &&
-        p.id !== (api.state as CoreState).playerId,
-    )
-    .map((p) => {
-      const view =
-        viewOn(api, p.id, stance.question, personLean(api.state.people, p, 0)) *
-        stance.position;
-      return { p, view, drive: Math.abs(view) * (1 + civic(p, api.state)) };
-    })
-    .filter((s) => s.view !== 0 && s.drive >= meetingParameter("commentBar"))
-    .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id))
-    .slice(0, meetingParameter("publicCommentSpeakers"));
-  for (const s of speakers)
+  for (const s of speakers) {
+    // A speaker on the public record is a named person.
+    if (countedRecordOnly(core, s.p.id)) fillInPerson(core, s.p.id);
     table(api, "remarks").put({
       id: `remark:${bill.id}:${s.p.id}`,
       billId: bill.id,
@@ -284,6 +407,7 @@ function publicComment(api: CoreAPI, billId: string): void {
       signedUp: false,
       date: api.state.date,
     } as unknown as ModuleRow);
+  }
   const said = remarksOn(api, billId);
   if (!said.length) return;
   // Each comment is a speech to the room: the members and the others who
@@ -472,6 +596,42 @@ function ownView(
 }
 
 /**
+ * Who would fill a town hall's room, most driven first: each adult's
+ * strongest question (among those their own life touches most) and how hard
+ * it drives them, how strongly they feel it times their civic temperament.
+ */
+export function townHallDrives(
+  api: CoreAPI,
+  hostId: string,
+): readonly {
+  p: PersonState;
+  question: string | undefined;
+  base: number;
+  drive: number;
+  lean: number;
+}[] {
+  const questions = Object.keys(POLICY_QUESTIONS).filter(
+    (q) => questionAxis(q) !== 0,
+  );
+  return townAdults(api)
+    .filter((p) => p.id !== hostId)
+    .map((p) => {
+      const lean = personLean(api.state.people, p, 0);
+      const weight = concerns(api, p);
+      const salience = (q: string) =>
+        Math.abs(viewOn(api, p.id, q, lean)) *
+        (1 + meetingParameter("lifeConcernWeight") * (weight(q) ? 1 : 0));
+      const question = questions
+        .slice()
+        .sort((a, b) => salience(b) - salience(a) || a.localeCompare(b))[0];
+      const base = question ? salience(question) : 0;
+      return { p, question, base, ...driveOf(base, p, api.state) };
+    })
+    .filter((row) => row.drive > 0)
+    .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id));
+}
+
+/**
  * Hold a town hall. The town's most civic-minded adults come; each asks about
  * the question they feel most strongly about, and the host takes the
  * commonest. The host answers (the player's own answers, or another host's
@@ -489,35 +649,14 @@ export function holdTownHall(
     readonly calledFor?: TownHallRow["calledFor"];
   },
 ): TownHallRow {
-  const questions = Object.keys(POLICY_QUESTIONS).filter(
-    (q) => questionAxis(q) !== 0,
+  const drives = takePart(
+    townHallDrives(api, input.hostId),
+    meetingParameter("townHallSize"),
   );
-  const attendees = townAdults(api)
-    .filter(
-      (p) =>
-        p.id !== input.hostId &&
-        civic(p, api.state) >= meetingParameter("townHallBar"),
-    )
-    .sort(
-      (a, b) =>
-        civic(b, api.state) - civic(a, api.state) || a.id.localeCompare(b.id),
-    )
-    .slice(0, meetingParameter("townHallSize"));
-  // Each asks about what they feel most strongly about, among the questions
-  // their own life touches most.
-  const asked = attendees
-    .map((p) => {
-      const lean = personLean(api.state.people, p, 0);
-      const weight = concerns(api, p);
-      const salience = (q: string) =>
-        Math.abs(viewOn(api, p.id, q, lean)) *
-        (1 + meetingParameter("lifeConcernWeight") * (weight(q) ? 1 : 0));
-      const question = questions
-        .slice()
-        .sort((a, b) => salience(b) - salience(a) || a.localeCompare(b))[0];
-      return question ? { askedBy: p.id, question } : null;
-    })
-    .filter((q): q is { askedBy: string; question: string } => q !== null);
+  const attendees = drives.map((row) => row.p);
+  const asked = drives.flatMap((row) =>
+    row.question ? [{ askedBy: row.p.id, question: row.question }] : [],
+  );
   const counts = new Map<string, number>();
   for (const q of asked)
     counts.set(q.question, (counts.get(q.question) ?? 0) + 1);
@@ -720,20 +859,18 @@ function considerTownHalls(api: CoreAPI): void {
               86_400_000,
           ))
       : 0;
-    const parts = {
-      cause: meetingParameter("townHallCauseWeight") * why.cause,
-      temperament:
-        parameter("traitDecisionWeight") *
-        decisionLean(
-          api.state,
-          host,
-          "meetings.hold-town-hall",
-          "hold",
-          "skip",
-        ),
-      effort: -meetingParameter("townHallEffort") * (1 + recency),
-    };
-    if (parts.cause + parts.temperament + parts.effort <= 0) continue;
+    const cause = meetingParameter("townHallCauseWeight") * why.cause;
+    const effort = -meetingParameter("townHallEffort") * (1 + recency);
+    const { yes, term } = leanedYesWithTerm(
+      api.state,
+      host,
+      "meetings.hold-town-hall",
+      "hold",
+      "skip",
+      cause + effort,
+    );
+    if (!yes) continue;
+    const parts = { cause, temperament: term, effort };
     holdTownHall(api, {
       hostId,
       ...(why.filingId ? { filingId: why.filingId } : {}),
