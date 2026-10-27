@@ -408,7 +408,9 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
   );
   expect(unfired(), tried.join("; ")).toEqual([]);
   // Up to six played years, each about a minute: the budget for all of them.
-}, 1_800_000);
+  // Each played test fails by its own limit, with its seed in its name, well
+  // inside CI's 45-minute unit job: the two together fit it.
+}, 1_200_000);
 
 /** The last day a race may be held and still have its morning after inside the played year. */
 const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 2);
@@ -466,7 +468,7 @@ it(`the morning after the player's race is a scene, cited to the count (seed ${s
   throw new Error(
     `no place in ${MORNING_TRIES} draws held a race the new adult could enter that year: ${tried.join("; ")}`,
   );
-}, 1_800_000);
+}, 720_000);
 
 it("gives every circumstance a situation type cause and a scene-web row", () => {
   const labels = new Set(
