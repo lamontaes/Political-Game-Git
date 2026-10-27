@@ -18,7 +18,7 @@ claimed-at: 2026-10-27T05:07:57.486Z
 
 **Rules.** Wire to the world and the chain is the acceptance (owner, Oct 13 and 14): the floor's vote is the record the law in force and the roll call read. One rule, all 56 places: the floor's weeks come from each session's own dates. Replace, never layer: the filings-only floor and its header are replaced, not kept beside.
 
-**Done when.** In a played world (buildBenchWorld, a place drawn from all 56 on a seed the builder did not choose, named in the PR body), after the session opened, a bill the player drafts in the state legislature, one a U.S. House member drafts and one another state member files each get a floor date before adjournment, are on the floor's agenda the day before with a whip count covering every member, and are voted by the weekly floor on or before that date, on the session's record with every member's vote by record id.
+**Done when.** In a played world (buildBenchWorld, a place drawn from all 56 on a seed the builder did not choose, named in the PR body), after the session opened, a bill the player drafts in the state legislature, one a U.S. House member drafts and one another state member files each get a floor date before adjournment, are on the floor's agenda the day before with a whip count covering every member, and are taken up by the weekly floor on or before that date, on the session's record: every member's floor vote by record id, or the committee's recorded vote where the committee kept the bill from the floor.
 
 **Time box.** 3 hours, the laws-and-effects lead.
 
