@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/speed-api-parameter-once
 pr: #6074
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T07:44:50.722Z
 
 **Rules.** No dice: every value read is the same, and a stopgapped parameter still records its stopgap on every read. Bookkeeping is a debug switch: with it on, every read goes to the registry and its checks as now. Speed: measured before and after on the same base and machine, both checkouts in one process.
 
-**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, one year, and Stanardsville, Virginia, seed cc91f5444b53bd47, drawn from all 56, three years) the deep fingerprint is identical before and after; in a paired run's CPU profile split by checkout, the time under the core API's parameter reader falls by more than a third and the year is no slower; the parameters and stopgaps tests pass.
+**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, one year, and Stanardsville, Virginia, seed cc91f5444b53bd47, drawn from all 56, three years) the deep fingerprint is identical before and after; in a paired run's CPU profile split by checkout, the time under the core API's parameter reader falls by more than a third and the year is no slower; the parameters and stopgaps tests pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/state.ts
 

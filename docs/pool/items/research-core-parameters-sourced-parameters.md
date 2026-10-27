@@ -3,7 +3,7 @@ id: research-core-parameters-sourced-parameters
 title: "Research: sourced parameters for the core parameter tables (distance, time, past, speech, corruption, moves)"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -35,3 +35,5 @@ Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-
 Oct 20 (research-reachable-sources-oct20): the Census Gazetteer place centroids named in the first row (travel time between places) are reachable at https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/ (2023_Gaz_place_national.zip family, HTTP 200); that row can be taken. Check it in a played world (buildBenchWorld) in a drawn place and seed named in the PR body.
 
 Oct 24, 2026: split. PR 5857 (item research-core-parameters-spreads-citations) delivers spreads and citations, with no value changed, for farKinContactShare, workSleepReserveHours, restDayHours, both past-law age rows, movesOwnerHold, movesJobHold and movesUnemploymentGapWeight. Still open here: movesChildrenHold and movesKinHold (converted to 0.32 and 0.30, held at main's values until world-town-net-moving-negative), four speech rows and ten corruption rows (files held by PRs 5657 and 5737), and movesMinimumAge, movesKinHoldCap and movesHousingCostShareCap (a cutoff and caps; bug core-moves-caps-and-minimum-age-as-cause). Also open: eleven moves rows with no convertible source (the Jokela 2009 page refused the cloud, 403) and all six stopgaps.
+
+Deferred Oct 25: nothing on screen reads it yet.

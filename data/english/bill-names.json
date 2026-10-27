@@ -4,6 +4,7 @@
   "origin": "authored",
   "author": "Words line, Claude Sonnet 5.5",
   "date": "2026-10-15",
+  "article": "the",
   "forms": {
     "act": "Act",
     "ordinance": "Ordinance"
@@ -446,6 +447,12 @@
       "purpose": "a higher local sales tax rate",
       "repealName": "Sales Tax Reduction",
       "repealPurpose": "a lower local sales tax rate"
+    },
+    "law:property-tax": {
+      "name": "Property Tax Increase",
+      "purpose": "a higher property tax rate",
+      "repealName": "Property Tax Reduction",
+      "repealPurpose": "a lower property tax rate"
     },
     "law:minimum-wage": {
       "name": "Wage Floor Increase",

@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: the county row is looked up by the town's county FIPS from data, never a state named in logic, and the island areas take the nation's shares marked as an estimate. No dice: who still owes stays decided by each owner's age, purchase year and cash, as now; the county shares only change how many in each band, and the real totals check the town.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) the opening mortgages' share of owners with a loan in each age band matches the drawn place's county row in the research file within a stated spread, named by mortgage record ids, a test in src/core2 checks it, and SG-WORLD-housing-mortgage-history is cleared or kept with a reason.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) the opening mortgages' share of owners with a loan in each age band matches the drawn place's county row in the research file within a stated spread, named by mortgage record ids, a test in src/core2 checks it, and SG-WORLD-housing-mortgage-history is cleared or kept with a reason. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
 
 **Files.** src/core2/housing-mortgages.ts, src/core2/data/housing/housing.json, data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json, src/core2/data/stopgaps.json
 

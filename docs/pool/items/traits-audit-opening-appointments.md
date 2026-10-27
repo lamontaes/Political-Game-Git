@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/traits-audit-opening-appointments
 pr: #6031
 blocked-on:

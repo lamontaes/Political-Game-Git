@@ -29,4 +29,4 @@ milestone: play-first
 
 **Files.** src/bench/campaign.ts, src/bench/play.mjs, src/director/scene-talk.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): The tab still lists acts (Knock on doors, Hold an event, Ask for an interview, Call donors, Give a speech) against OD:77.

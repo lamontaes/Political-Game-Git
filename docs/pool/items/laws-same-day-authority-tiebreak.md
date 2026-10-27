@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/same-day-authority
+pr: #6120
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T22:39:29.578Z
 ---
 
 **What.** `localAuthority` in `src/core2/laws-in-force.ts` weighs the state's grant of local authority from two sources: the enactments table, where a policy question's answer lands with a running `sequence`, and the series' own law rows, which enter the comparison with sequence 0. When both take effect the same day, `governs` in `src/rules/laws/law-in-force.ts` compares rank, origin and date, all equal, and then sequence, so the answer's enactment always wins, even when the statute was enacted after it. The labor family test hit it in Ripon, California (seed 791ababc2df0d5d562bd924e6cbc38f44bb664f1). Its day-0 repeal of the authority question and a statute granting the authority took effect the same day, and the council's wage bill was preempted. The test now enacts the grant a day later. The engine still lets the order of enactment on one day decide nothing.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/laws-in-force.ts, src/rules/laws/law-in-force.ts, src/core2/law-wiring-labor.test.ts
 
 **Notes.** Found Oct 25 by the laws lead while fixing the labor family test (#5589).
+
+Merger 0: Completed 2026-10-26 by PR #6120, merge 9c9fb37e97df44efcfc98f03a4c4f72caff71e62, checked/pinned head 4c24e335057d5c54587f4b3b1b9a5515a69b439e. Own scoped gate and fresh-root Sprague grant-last/Martinton repeal-last worlds pass; unchanged same-root test fails on main engine files, then source restored byte-for-byte. Typecheck press error and all 36 pool diagnostics identical on clean main. Requested done CLI succeeded; main status verified done.

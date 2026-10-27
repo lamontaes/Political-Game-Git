@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Research before building: each link cites its source, with size and spread, and real rates check totals. An effect is a read: the web reads the law or its measure, and the outcome moves for full and counted people alike.
 
-**Done when.** For each law in outcome-research-gaps.json, a built link in data/research/outcome-web/links.json moves its measure in a buildBenchWorld played year in a drawn place, the law-wiring checker shows the link fired with its outcome-web month record id, and the row leaves the gap file.
+**Done when.** For each law in outcome-research-gaps.json, a built link in data/research/outcome-web/links.json moves its measure in a buildBenchWorld played year in a drawn place, the law-wiring checker shows the link fired with its outcome-web month record id, and the row leaves the gap file. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** data/research/outcome-web/links.json, src/core2/data/laws/outcome-research-gaps.json, src/core2/modules/outcome-web.ts
 

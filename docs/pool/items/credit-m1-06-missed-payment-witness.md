@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/m1-06-default-witness
 pr: #6032
 blocked-on:

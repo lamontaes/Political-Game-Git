@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6111
 blocked-on: politics-issues-taxes-named-by-level
 source: added with npm run pool -- add
 lead: play-first
@@ -30,3 +30,7 @@ claimed-at:
 **Files.** src/core2/modules/laws.ts, src/core2/data/legislature/bill-catalog.json, src/core2/data/laws/starting-law.json, src/bench/government.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:57; screenshot 27. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was effects.
+
+Sent back 2026-10-26 from PR #6111 (branch play-first/play-stop-06-texas-shows-local-income-tax): Merging current main conflicts in src/bench/government.ts and src/bench/play.mjs; resolve code on this branch and drop its main-only PROGRESS.md hunk under the October25 ruling.; finish on that branch, merge main into it first.
+
+Acceptance audit 2026-10-27 from PR #6111: repaired implementation merged by Merger1 at caf4b9926aa60fc7ddab11d30d09abac5fc682a5; old conflicts cleared, no new code failure alleged. The original owner installed-build screenshot remains unrecorded, and the Oct25 CTO ruling says that owner check closes this item later. Keep original acceptance OPEN; this session claims no own runtime gate or merge. Audit comment6432467537.

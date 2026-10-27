@@ -34,6 +34,8 @@ import finance from "../../../data/research/campaigns/campaign-finance-2026.json
 import { coreAPI, registerModule } from "../state";
 import type {
   CoreAPI,
+  CoreEventInput,
+  PersonId,
   CoreModule,
   CoreState,
   PersonState,
@@ -45,6 +47,8 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { townDistrict } from "../offices-state";
 import { basePlaces } from "../race-places";
+import { logistic } from "../kernel/deterministic-math";
+import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
 import { medianTransactionBalance } from "../starting-cash";
 import {
@@ -54,6 +58,7 @@ import {
   type Stance,
 } from "../campaign-views";
 import { candidatePlatform, partyLean } from "../campaign-stances";
+import { contestPositions } from "../contest-positions";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
@@ -64,7 +69,13 @@ import { agreementWith, VIEWS_SPEAKER_KEY } from "./views";
 import { recordAppeal } from "./record";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { answerInterview, candidateAnswers } from "./press";
+import {
+  ACCEPTING_MOVES,
+  answerInterview,
+  candidateAnswers,
+  PRESS_MODULE_ID,
+} from "./press";
+import { newsKey } from "./news";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -88,12 +99,18 @@ export interface CampaignRow {
   readonly staffIds: readonly string[];
   /** How many households its doors have reached (each kept in the doors table). */
   readonly doorsKnockedCount?: number;
+  /** What its evenings of knocking owe toward the next door that opens (a share of one). */
+  readonly doorAnswerCarry?: number;
   readonly raisedMinor: number;
   readonly spentMinor: number;
   /** Where the next turn's asks for money start in the campaign's list of people it can reach. */
   readonly askCursor?: number;
   /** Where the next turn's asks to volunteer start in the same list. */
   readonly volunteerCursor?: number;
+  /** Everyone who heard of the filing and weighed offering to help (each weighs once). */
+  readonly offerWeighedIds?: readonly string[];
+  /** The day the last offer to help came. */
+  readonly lastOfferOn?: string;
   /** Everyone already asked for an endorsement (each ask is made once). */
   readonly endorsementAskedIds?: readonly string[];
   /** Those who said yes: they endorsed, and their circle heard it. */
@@ -270,10 +287,21 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       },
       /** Contests the town votes in whose campaigns are under way. */
       races: {},
+      /** Each paid message's reach, by contest, for word of it passed on. */
+      messages: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** Word of a rival's message passed to a candidate, one row each. */
+      rivalWord: { indexes: { byCandidate: { fields: ["candidateId"] } } },
       town: {},
     },
   },
   onCalendarWork: (api, work) => campaignWork(api, work),
+  onDay: (api) => {
+    offersToHelp(api);
+    rivalWordPassedOn(api);
+  },
+  // The candidate's answer to an offer, said in the scene it stages.
+  eventKinds: ["scene.reply"],
+  onEvent: (api, event) => answerOffer(api, event),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -414,7 +442,17 @@ export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
     // campaigns on what the candidate and their party stand for.
     platform: filing.platform.length
       ? parsePlatform(filing.platform)
-      : candidatePlatform(api, filing.personId, filing.party ?? null),
+      : candidatePlatform(
+          api,
+          filing.personId,
+          filing.party ?? null,
+          contestPositions(
+            api,
+            elections(api, "contests").get(
+              filing.contestId,
+            ) as unknown as ContestRow,
+          ),
+        ),
     organizationId,
     volunteerIds: [],
     staffIds: [],
@@ -451,7 +489,7 @@ export function impressionOf(
  * A cause is the "why" behind one voter's warmth. The voter's running count
  * of contacts lives on their impression row, which the votes read; the cause
  * row itself is kept for the player's circle, for candidates the player
- * runs against, and when bookkeeping is on.
+ * runs against, and everyone's under the keep-everyone's-why switch.
  */
 function keepCause(api: CoreAPI, cause: CauseRow): void {
   if (keepsWhy(api.state as CoreState, cause.voterId, cause.candidateId))
@@ -726,37 +764,71 @@ function adultsAt(
 
 /**
  * Walk the town's doors for some hours, full households and counted ones
- * alike, skipping those already walked: at each door the most willing adult
- * home at that minute opens, or no one does. Yields each opener's id (a
- * counted resident is filled in by the caller); `done` gains every door.
+ * alike, those not yet walked first. At each door the most willing adult home
+ * at that minute is the one who might open; the evening opens as many doors
+ * as their readiness adds up to, at the homes that owe an opening most.
+ * Yields each opener's id in walk order (a counted resident is filled in by
+ * the caller); `done` and `walked` gain every door knocked, `carries` each
+ * knocked home's carry and `owed` the campaign's.
  */
 function* walkDoors(
   api: CoreAPI,
   input: {
     readonly done: Set<string>;
+    /** When each door already walked was last knocked. */
+    readonly lastKnocked: ReadonlyMap<string, string>;
+    /** What each home's knocks so far owe it toward its next opening. */
+    readonly carries: Map<string, number>;
+    /** What the campaign's evenings so far owe toward its next opening. */
+    readonly owed: { carry: number };
+    readonly walked: string[];
     readonly doors: number;
     readonly hours: number;
   },
 ): Generator<string> {
   const doors = input.doors;
   const done = input.done;
+  const list = townAddresses(api).list;
   const homes: { id: string; adults: ReturnType<typeof adultsAt> }[] = [];
-  for (const address of townAddresses(api).list) {
+  for (const address of list) {
     if (homes.length >= doors) break;
     if (done.has(address.id)) continue;
     homes.push({ id: address.id, adults: adultsAt(api, address) });
   }
+  // With every door in town walked, the canvass goes round again, the doors
+  // knocked longest ago first, as a field campaign walks its turf again
+  // before election day (the same walk order, SG-GOV-campaign-walk-order).
+  if (homes.length < doors) {
+    const again = list
+      .map((address, at) => ({
+        address,
+        at,
+        last: input.lastKnocked.get(address.id),
+      }))
+      .filter((row) => row.last !== undefined)
+      .sort((a, b) => a.last!.localeCompare(b.last!) || a.at - b.at);
+    for (const { address } of again) {
+      if (homes.length >= doors) break;
+      homes.push({ id: address.id, adults: adultsAt(api, address) });
+    }
+  }
   const perHour = Math.max(1, doors / Math.max(1, input.hours));
   const start = campaignParameter("canvassStartHour") * 60;
+  const knocks: {
+    readonly home: string;
+    readonly opener: string;
+    readonly share: number;
+    readonly owed: number;
+  }[] = [];
   for (const [index, home] of homes.entries()) {
     done.add(home.id);
+    input.walked.push(home.id);
     // Who's home at the minute of the knock: not at a scheduled shift.
     const minute = start + Math.floor((index * 60) / perHour);
     const athome = home.adults.filter(
       (a) => !a.slots.some((c) => atWork(c!, api.state.date, minute)),
     );
-    // The one home whose traits lean most toward opening answers a stranger
-    // if they're willing.
+    // The one home whose traits lean most toward opening answers a stranger.
     // Older residents answer more (contact rates rise with age in field
     // experiments; Green and Gerber 2019).
     // Each adult's readiness past the threshold, weighed once.
@@ -775,17 +847,40 @@ function* walkDoors(
         ),
       }))
       .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
-    const opener = weighed.find((a) => a.score > 0);
+    const opener = weighed[0];
     if (!opener) continue;
-    yield opener.id;
+    // Their readiness slides to the share of knocks they open, a ready home
+    // most times and a reluctant one now and then; each knock adds it to
+    // what the home is owed (starting even).
+    const share = logistic(opener.score / campaignParameter("doorAnswerScale"));
+    const owed = (input.carries.get(home.id) ?? OPENING_CARRY) + share;
+    knocks.push({ home: home.id, opener: opener.id, share, owed });
+  }
+  // The evening opens as many doors as the shares add up to, with what the
+  // campaign's earlier evenings carried, so a street of reluctant homes still
+  // opens a few. The homes owed most open them, each spending an opening.
+  const due = knocks.reduce((sum, k) => sum + k.share, input.owed.carry);
+  const opens = Math.floor(due);
+  input.owed.carry = due - opens;
+  const opening = new Set(
+    [...knocks]
+      .sort((a, b) => b.owed - a.owed || a.home.localeCompare(b.home))
+      .slice(0, opens)
+      .map((k) => k.home),
+  );
+  for (const k of knocks) {
+    const opened = opening.has(k.home);
+    input.carries.set(k.home, opened ? k.owed - 1 : k.owed);
+    if (opened) yield k.opener;
   }
 }
 
 /**
  * Knock on doors for some hours: the montage. Households not yet visited, in
- * the order they stand. At each door the most outgoing adult answers, if
- * anyone in the house is willing to open to a stranger; they talk with the
- * canvasser, and tell their household. Returns everyone met at a door, in
+ * the order they stand, then (once every door has been knocked) those knocked
+ * longest ago. At each door the most outgoing adult home answers, in the
+ * share of knocks their readiness to open to a stranger says; they talk with
+ * the canvasser, and tell their household. Returns everyone met at a door, in
  * order, so the screen can stop on a porch.
  */
 export function knockDoors(
@@ -817,11 +912,31 @@ export function knockDoors(
     citation: `Campaign ${campaign.id}`,
     asOf: api.state.date,
   });
-  const done = new Set(doorsKnockedOf(api, campaign.id));
-  const before = done.size;
+  const knocked = doorRowsOf(api, campaign.id);
+  const done = new Set(knocked.map((row) => row.householdId));
+  const lastKnocked = new Map(
+    knocked.map((row) => [row.householdId, row.lastDate ?? row.date]),
+  );
+  const carries = new Map(
+    knocked.flatMap((row) =>
+      row.answerCarry === undefined
+        ? []
+        : [[row.householdId, row.answerCarry] as const],
+    ),
+  );
+  const owed = { carry: campaign.doorAnswerCarry ?? OPENING_CARRY };
+  const walked: string[] = [];
   const core = api.state as CoreState;
   const met: CauseRow[] = [];
-  for (const openerId of walkDoors(api, { done, doors, hours: input.hours })) {
+  for (const openerId of walkDoors(api, {
+    done,
+    lastKnocked,
+    carries,
+    owed,
+    walked,
+    doors,
+    hours: input.hours,
+  })) {
     // A counted household is filled in when the player's campaign opens its
     // door (the owner's on-meet design): the person who answers is a full
     // person from then on. A world candidate's door counts them as reached.
@@ -852,22 +967,51 @@ export function knockDoors(
     met.push(cause);
     retell(api, campaign, answers, cause);
   }
+  // One row a household: the day its door was first knocked, the last, how
+  // many times, and what its knocks owe toward the next opening.
   const doorRows = table(api, "doors");
-  for (const household of done)
-    if (!doorRows.get(`${campaign.id}|${household}`))
-      doorRows.put({
-        id: `${campaign.id}|${household}`,
-        campaignId: campaign.id,
-        householdId: household,
-        date: api.state.date,
-      } as unknown as ModuleRow);
+  for (const household of walked) {
+    const id = `${campaign.id}|${household}`;
+    const prior = doorRows.get(id) as unknown as DoorRow | undefined;
+    doorRows.put({
+      id,
+      campaignId: campaign.id,
+      householdId: household,
+      date: prior?.date ?? api.state.date,
+      lastDate: api.state.date,
+      knocks: (prior?.knocks ?? (prior ? 1 : 0)) + 1,
+      ...(carries.has(household)
+        ? { answerCarry: carries.get(household) }
+        : {}),
+    } as unknown as ModuleRow);
+  }
   campaign = campaignFor(api, input.filingId);
+  // The campaign's door count is every door knocked, a second pass included.
   save(api, {
     ...campaign,
-    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + done.size - before,
+    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + walked.length,
+    doorAnswerCarry: owed.carry,
     countedReached: (campaign.countedReached ?? 0) + counted,
   });
   return met;
+}
+
+interface DoorRow {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly householdId: string;
+  /** The day the door was first knocked. */
+  readonly date: string;
+  readonly lastDate?: string;
+  readonly knocks?: number;
+  /** What the home's knocks owe it toward its next opening (a share of one). */
+  readonly answerCarry?: number;
+}
+
+function doorRowsOf(api: CoreAPI, campaignId: string): readonly DoorRow[] {
+  return table(api, "doors").query("byCampaign", [
+    campaignId,
+  ]) as unknown as DoorRow[];
 }
 
 /** The households a campaign's doors have reached. */
@@ -875,11 +1019,7 @@ export function doorsKnockedOf(
   api: CoreAPI,
   campaignId: string,
 ): readonly string[] {
-  return (
-    table(api, "doors").query("byCampaign", [campaignId]) as unknown as {
-      householdId: string;
-    }[]
-  ).map((row) => row.householdId);
+  return doorRowsOf(api, campaignId).map((row) => row.householdId);
 }
 
 /**
@@ -1069,6 +1209,287 @@ export function askToVolunteer(
       volunteerIds: [...campaign.volunteerIds, personId],
     });
   return yes;
+}
+
+/** The kind of an offer to help a candidate's campaign, from someone who heard they filed. */
+export const VOLUNTEER_OFFERED_EVENT = "volunteer-offered";
+
+/**
+ * People who know a candidate offer to help once word of the filing reaches
+ * them: the candidate told them (they have been in touch since the filing),
+ * or they heard the press's story of it, read in the paper or passed on in
+ * talk (the news engine's own spread). Offers arrive over weeks and months as
+ * each tie is next in touch. The candidate's own household is already in the
+ * filing's scene, so they are not asked again here. Each who has heard weighs it once by the same reasons as an
+ * ask to volunteer (liking, closeness, family, against their work hours) and
+ * their own temperament. Offers come at least a week apart (the next one
+ * waits, unweighed, for its turn). A candidate other than the player takes the help;
+ * the player answers in the scene the offer stages (`answerOffer`).
+ * stopgapId: SG-CAMPAIGN-offer-full-people-only
+ */
+function offersToHelp(api: CoreAPI): void {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return;
+  const date = api.state.date;
+  const playerId = (api.state as CoreState).playerId;
+  const stories = api.moduleState(PRESS_MODULE_ID).table("stories");
+  for (const filing of elections(
+    api,
+    "filings",
+  ).rows() as unknown as FilingRow[]) {
+    if (filing.status !== "on-ballot") continue;
+    const candidate = api.state.people.get(filing.personId);
+    if (!candidate?.alive || !candidate.knownIds.size) continue;
+    const contest = elections(api, "contests").get(filing.contestId) as
+      ContestRow | undefined;
+    if (!contest || contest.electionDate <= date) continue;
+    const filedOn = api.state.durableLog.get(
+      `candidate-filed:${filing.id}` as never,
+    )?.date;
+    if (!filedOn || filedOn >= date) continue;
+    const told = (
+      stories.query("byWire", [`candidate-filed:${filing.id}`]) as unknown as {
+        id: string;
+      }[]
+    ).map((row) => newsKey(row.id));
+    // In touch since the filing: the relationship's last contact.
+    const toldInPerson = (id: string) => {
+      const [a, b] = [id, candidate.id].sort();
+      const tie = (api.state as CoreState).relationships.get(`${a}:${b}`);
+      return !!tie && tie.lastContactDate > filedOn;
+    };
+    const existing = table(api, "campaigns").get(filing.id) as unknown as
+      CampaignRow | undefined;
+    // Offers come a week or more apart: the next waits its turn, unweighed.
+    if (
+      existing?.lastOfferOn &&
+      existing.lastOfferOn >
+        addDays(makeIsoDate(date), -campaignParameter("offerSpacingDays"))
+    )
+      continue;
+    const weighed = new Set(existing?.offerWeighedIds ?? []);
+    const helping = new Set(existing?.volunteerIds ?? []);
+    const before = weighed.size;
+    let offered: string | null = null;
+    for (const id of [...candidate.knownIds].sort()) {
+      if (offered) break;
+      if (weighed.has(id) || helping.has(id)) continue;
+      const person = api.state.people.get(id);
+      if (
+        !person?.alive ||
+        person.householdId === candidate.householdId ||
+        ageOn(person, date) < campaignParameter("minimumVolunteerAge") ||
+        !(toldInPerson(id) || told.some((key) => api.knows(id, key)))
+      )
+        continue;
+      weighed.add(id);
+      if (
+        !leanedYes(
+          api.state,
+          person,
+          "campaigns.volunteer",
+          "volunteer",
+          "decline",
+          offerReason(api, campaignFor(api, filing.id), person),
+        )
+      )
+        continue;
+      offered = id;
+      api.emit({
+        id: `${VOLUNTEER_OFFERED_EVENT}:${filing.id}:${id}`,
+        date,
+        kind: VOLUNTEER_OFFERED_EVENT,
+        personIds: [candidate.id, id],
+        placeId: townRow(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `${person.givenName} ${person.familyName} offers to help campaign ${filing.id}`,
+          asOf: date,
+        },
+        facts: {
+          offeredBy: id,
+          invitedId: candidate.id,
+          campaignId: filing.id,
+          filingId: filing.id,
+          contestId: contest.id,
+          office: contest.title,
+        },
+      });
+    }
+    if (weighed.size === before) continue;
+    const current = campaignFor(api, filing.id);
+    save(api, {
+      ...current,
+      offerWeighedIds: [...weighed],
+      ...(offered ? { lastOfferOn: date } : {}),
+      // A candidate who isn't the player takes the help offered.
+      volunteerIds:
+        offered && candidate.id !== playerId
+          ? [...current.volunteerIds, offered]
+          : current.volunteerIds,
+    });
+  }
+}
+
+/** The kind of word of a rival's paid message, passed to a candidate by someone it reached. */
+export const RIVAL_WORD_EVENT = "rival-word";
+
+interface MessageRow {
+  readonly id: string;
+  readonly contestId: string;
+  readonly candidateId: string;
+  readonly date: string;
+  readonly topic: string;
+  readonly witnessIds: readonly string[];
+}
+
+/**
+ * A rival's paid message reaches people a candidate knows, and the next time
+ * one of them is in touch with the candidate they pass it on: the closest
+ * such person, for each message once, at most once a week a candidate (the
+ * message's reach and the relationship's last contact are the records). The
+ * player meets it as a scene; for anyone else it is a record of what they
+ * heard.
+ */
+function rivalWordPassedOn(api: CoreAPI): void {
+  const date = api.state.date;
+  const core = api.state as CoreState;
+  const since = addDays(makeIsoDate(date), -campaignParameter("rivalWordDays"));
+  for (const filing of elections(
+    api,
+    "filings",
+  ).rows() as unknown as FilingRow[]) {
+    if (filing.status !== "on-ballot") continue;
+    const candidate = api.state.people.get(filing.personId);
+    if (!candidate?.alive || !candidate.knownIds.size) continue;
+    const told = table(api, "rivalWord").query("byCandidate", [
+      candidate.id,
+    ]) as unknown as { id: string; date: string }[];
+    if (told.some((row) => row.date > since)) continue;
+    const heard = new Set(told.map((row) => row.id));
+    const fresh = (
+      table(api, "messages").query("byContest", [
+        filing.contestId,
+      ]) as unknown as MessageRow[]
+    )
+      .filter(
+        (row) =>
+          row.candidateId !== candidate.id &&
+          row.date > since &&
+          !heard.has(`${row.id}:${candidate.id}`),
+      )
+      .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
+    for (const message of fresh) {
+      const witnesses = new Set(message.witnessIds);
+      const teller = [...candidate.knownIds]
+        .filter((id) => {
+          if (!witnesses.has(id)) return false;
+          const [a, b] = [id, candidate.id].sort();
+          const tie = core.relationships.get(`${a}:${b}`);
+          return !!tie && tie.lastContactDate > message.date;
+        })
+        .map((id) => ({
+          id,
+          tie: closenessBetween(core, id as PersonId, candidate.id),
+        }))
+        .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))[0];
+      if (!teller) continue;
+      const contest = elections(api, "contests").get(filing.contestId) as
+        ContestRow | undefined;
+      const id = `${message.id}:${candidate.id}`;
+      table(api, "rivalWord").put({
+        id,
+        candidateId: candidate.id,
+        date,
+      } as unknown as ModuleRow);
+      api.emit({
+        id: `${RIVAL_WORD_EVENT}:${id}`,
+        date,
+        kind: RIVAL_WORD_EVENT,
+        personIds: [candidate.id, teller.id],
+        placeId: townRow(api).townPlaceId,
+        topic: message.topic,
+        source: {
+          tag: "SOURCED",
+          citation: `Campaign message ${message.id}, passed on`,
+          asOf: date,
+        },
+        facts: {
+          invitedId: candidate.id,
+          tellerId: teller.id,
+          rivalId: message.candidateId,
+          messageId: message.id,
+          contestId: filing.contestId,
+          ...(contest ? { office: contest.title } : {}),
+        },
+      });
+      break;
+    }
+  }
+}
+
+/**
+ * Whether someone who heard of a filing offers to help unasked: the same
+ * reasons as an ask to volunteer, against the offer's own bar.
+ */
+export function offerReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): number {
+  return (
+    volunteerReason(api, campaign, person) +
+    campaignParameter("volunteerThreshold") -
+    campaignParameter("volunteerOfferThreshold")
+  );
+}
+
+/**
+ * The candidate's answer to an offer of help, said in its scene: a yes puts
+ * the one who offered on the campaign's volunteers; anything else leaves them
+ * off it.
+ */
+function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  const offer = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (offer?.kind !== VOLUNTEER_OFFERED_EVENT) return;
+  if (!ACCEPTING_MOVES.has(String(facts.move))) return;
+  const filingId = String(offer.facts?.filingId ?? "");
+  const helperId = String(offer.facts?.offeredBy ?? "");
+  const candidateId = String(offer.facts?.invitedId ?? "");
+  if (!event.personIds.includes(candidateId)) return;
+  const campaign = campaignFor(api, filingId);
+  if (campaign.volunteerIds.includes(helperId)) return;
+  save(api, {
+    ...campaign,
+    volunteerIds: [...campaign.volunteerIds, helperId],
+  });
+}
+
+/**
+ * Someone has said, to the candidate's face, that they will work the
+ * campaign (a relative's answer in the talk at home after the filing): they
+ * are counted among its volunteers, whom the canvass and the turnout read.
+ * Returns whether they were newly enlisted; a child, the dead and anyone
+ * already counted are not.
+ */
+export function enlistVolunteer(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  const campaign = campaignFor(api, filingId);
+  const person = api.state.people.get(personId);
+  if (
+    !person?.alive ||
+    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
+    campaign.volunteerIds.includes(personId)
+  )
+    return false;
+  save(api, {
+    ...campaign,
+    volunteerIds: [...campaign.volunteerIds, personId],
+  });
+  return true;
 }
 
 /** The individual contribution limit for this contest, in minor units (null: no limit), and its source. */
@@ -1952,6 +2373,14 @@ function emitMessage(
     (id) => id !== campaign.candidateId && api.state.people.has(id),
   );
   if (!lead || lead.position === 0 || !witnessIds.length) return;
+  table(api, "messages").put({
+    id: input.id,
+    contestId: campaign.contestId,
+    candidateId: campaign.candidateId,
+    date: api.state.date,
+    topic: lead.question,
+    witnessIds,
+  } as unknown as ModuleRow);
   api.emit({
     id: input.id,
     date: api.state.date,

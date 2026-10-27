@@ -55,8 +55,32 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
       (a, b) =>
         Number(a.office.level === "state") - Number(b.office.level === "state"),
     );
-  if (!lawmaking.length) return { voted: false, acted: false };
-  const seats = lawmaking;
+  if (!lawmaking.length) {
+    console.log(`SCENES ${place.name} ${seed}\nno body here with full members`);
+    return { voted: false, acted: false };
+  }
+  // A question the body's government may enact, from the place's own grant
+  // of authority (policy-authority.ts). A government granted none here has
+  // no bill this test can draft; another body, or another place, is read.
+  const allowedPolicy = (level: string) =>
+    billCatalog(api, level as "city" | "county" | "state")
+      .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
+      .find((row) => row.kind === "policy-question" && row.authority.allowed);
+  const seats = lawmaking.filter((row) => allowedPolicy(row.office.level));
+  // The bodies set aside for having no question they may enact, named in the log.
+  const setAside = [
+    ...new Set(
+      lawmaking
+        .filter((row) => !seats.includes(row))
+        .map((row) => row.office.id),
+    ),
+  ];
+  if (!seats.length) {
+    console.log(
+      `SCENES ${place.name} ${seed}\nno catalog question its ${[...new Set(lawmaking.map((row) => row.office.level))].join(", ")} bodies may enact`,
+    );
+    return { voted: false, acted: false };
+  }
   const withExecutive = seats.find((row) => {
     const id = executiveOf(api, row.office.id).term?.personId;
     return id && id !== row.holder!.personId && core.people.has(id);
@@ -74,12 +98,7 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
     ...(executiveId ? [executiveId] : []),
   ])
     director.watch(core, id);
-  const policy = billCatalog(
-    api,
-    seat!.office.level as "city" | "county" | "state",
-  )
-    .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
-    .find((row) => row.kind === "policy-question" && row.authority.allowed)!;
+  const policy = allowedPolicy(seat!.office.level)!;
   const bill = draftBill(api, {
     bodyOfficeId: seat!.office.id,
     sponsorId,
@@ -105,7 +124,12 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
   // scene with the chair and their colleagues named from the body's records.
   const voteCause = `bill-vote:${bill.id}:${seat!.office.id}`;
   // A state chamber's bill waits on its committee and session; nothing was voted.
-  if (!core.durableLog.has(voteCause)) return { voted: false, acted: false };
+  if (!core.durableLog.has(voteCause)) {
+    console.log(
+      `SCENES ${place.name} ${seed}\n${bill.id} not voted by ${core.date}${setAside.length ? `; ${setAside.join(", ")} may enact no catalog question` : ""}`,
+    );
+    return { voted: false, acted: false };
+  }
   const seatedNow = members(api, seat!.office.id).map((term) =>
     memberKey(term),
   );
@@ -128,7 +152,10 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
 
   // The executive's act, where the body's form of government gives one.
   const acted = core.durableLog.get(`executive-action:${bill.id}`);
-  const lines = [`${bill.id} floor-vote for ${heard.length}`];
+  const lines = [
+    `${bill.id} floor-vote for ${heard.length}`,
+    ...(setAside.length ? [`set aside: ${setAside.join(", ")}`] : []),
+  ];
   let checked = false;
   if (acted?.facts?.action) {
     const action = acted.facts.action;

@@ -3,7 +3,13 @@ import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { backdropFile, homeOf, orgPlace, stagePeople } from "./scene";
+import {
+  backdropFile,
+  homeOf,
+  orgPlace,
+  stagePeople,
+  type StageReason,
+} from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -116,15 +122,41 @@ export function storyScene(
       )
       .find((row): row is string => !!row && PICTURED.has(row)) ??
     homeOf(core, personId, minuteOfDay);
-  const ids = [
+  // Who stands in the room needs a reason on record: the
+  // people the moment is about (who opened it, whom it names, who asks), and
+  // at home the household who live there. Anyone else the situation listed
+  // is not drawn.
+  const moment = book?.momentsById.get(momentId);
+  const about = new Set<string>([
+    ...(moment?.counterpartIds ?? []),
+    ...(scene.talkToId ? [scene.talkToId] : []),
+    ...(purpose?.kind === "composed" ? [purpose.scene.askerId] : []),
+  ]);
+  const household = new Set(
+    scene.setting.kind === "home"
+      ? (core.households.get(core.people.get(personId)!.householdId)
+          ?.memberIds ?? [])
+      : [],
+  );
+  const reasonOf = (id: string): StageReason | null =>
+    id === personId
+      ? "you"
+      : about.has(id)
+        ? "moment"
+        : household.has(id)
+          ? "household"
+          : null;
+  const cast = [
     personId,
     ...scene.presentIds.filter(
       (id) => id !== personId && core.people.get(id)?.alive,
     ),
-  ];
-  const cast = ids.map((id) => {
+  ].flatMap((id) => {
+    const reason = reasonOf(id);
     const row = core.people.get(id)!;
-    return { id, name: `${row.givenName} ${row.familyName}` };
+    return reason
+      ? [{ id, name: `${row.givenName} ${row.familyName}`, reason }]
+      : [];
   });
   const talk =
     purpose?.kind === "composed"

@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T15:16:05.149Z
 
 **Rules.** Research before building: the turnover rate is SOURCED from a fetched study with its citation, and it checks the total, never one tie's fate (No dice). Wire to the world: the check plays a world built with buildBenchWorld in a drawn place.
 
-**Done when.** A test plays at least three years of a world built with buildBenchWorld in a place drawn from all 56 (place and seed named) and checks the share of the player's circle replaced against the sourced study's range; it runs from the M0-07 command, passes in two drawn places and fails when ties never end.
+**Done when.** A test plays at least three years of a world built with buildBenchWorld in a place drawn from all 56 (place and seed named) and checks the share of the player's circle replaced against the sourced study's range; it runs from the M0-07 command, passes in two drawn places and fails when ties never end. **On screen.** Nothing yet: it would show on the People web and the Journal, and nothing there reads it.
 
 **Files.** src/core2/m0-meeting-people.test.ts, src/core2/data/parameters.json
 

@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: split from laws-other-places-chains by pool feeder Oct 20
 **Files.** src/core2/modules/laws.ts, src/core2/modules/budgets.ts, src/core2/tax-withholding.test.ts
 
 **Notes.** Part 1 of 2 of laws-other-places-chains.
+
+Folded into laws-other-places-chains (Oct 25 audit).

@@ -4,7 +4,7 @@ title: "Stopgaps in world-legislating (missing-mechanic): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** First row: Background Congress uses the shared platform question pool, which lacks most federal-only questions in the powers catalog. Only supported questions with federal scope can be proposed; state-specific questions no longer s
 
 Oct 20 (pool feeder): spec written and split into four parts; most of the 25 questions are read only by the old core (src/simulation/federal-*.ts), which is not ported, so the parts rebuild their readers on core2 as modules and data rows and do not carry the old code over.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

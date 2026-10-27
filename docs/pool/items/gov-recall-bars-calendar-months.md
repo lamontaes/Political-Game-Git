@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/recalls.ts, src/core2/recalls.test.ts, src/core2/data/campaigns/recall-bars.json, data/research/core/recall-timing-statutes-2026.json, scripts/research/check-core-research.ts, src/core2/data/stopgaps.json
 
 **Notes.** Filed Oct 24, 2026 from the merger's second send-back of PR 5853 (research-core-recall-petition-windows): Louisiana's six-month closing bar was tagged SOURCED as 182 days. The fixer retagged the month rows ESTIMATED with the calendar's spread; the engine is unchanged.
+
+Folded into gov-recall-bars-election-clock (Oct 25 audit).

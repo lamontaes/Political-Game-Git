@@ -3,7 +3,7 @@ id: people-residents-cadence-mechanic
 title: "The wider population's pay timing, absence and turnover read the counts' pay dates and the sourced industry rates (SG-CORE-residents-cadence)"
 area: people
 kind: feature
-priority: 2
+priority: 3
 size: L
 status: open
 claimed-by:
@@ -28,3 +28,5 @@ Oct 21 (claude, scoped, not built): three separate mechanics, best taken as sepa
 (2) Counted layoffs. `layOff` (modules/jobs.ts) already picks counted jobs, by the keep score (tenure, reliability). Counted tenure runs from the opening history while full hires made in play are new, so full workers are laid off first. Re-measure with (1) before changing the rule.
 (3) Counted absence and purchases timed from pay dates both need inputs counted records don't hold (needs, pay dates per member). See world-jobs-quit-rate-jolts's Oct 21 notes: a counted record's strain is zero, so it never leaves for strain.
 Claim released.
+
+Deferred Oct 25: nothing on screen reads it yet.

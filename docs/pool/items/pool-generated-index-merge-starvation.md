@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Replace, never layer: retain one canonical generated index and preserve every pool item and its Notes. Never hand-merge INDEX or weaken pool validation to hide stale output. Keep ordinary pushes, independently checked PR heads and concurrent claim ownership safe.
 
-**Done when.** An integration test reproduces concurrent pool status edits and a planning PR adding child items, then demonstrates both can land through ordinary merges with no lost Notes, claims or specifications; regenerating INDEX exactly matches tracked main after each operation, without force pushes or a relaxed checker.
+**Done when.** An integration test reproduces concurrent pool status edits and a planning PR adding child items, then demonstrates both can land through ordinary merges with no lost Notes, claims or specifications; regenerating INDEX exactly matches tracked main after each operation, without force pushes or a relaxed checker. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/pool/index.ts, docs/pool/INDEX.md, .github/workflows/pool-done-on-merge.yml, docs/pool/README.md
 

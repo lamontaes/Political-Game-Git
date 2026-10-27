@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/data/renewal/parameters.json, src/core2/births-unplanned.ts, src/core2/data/stopgaps.json, scripts/research/
 
 **Notes.** Opened from the Oct 24 send-back of #5749 (people-abortion-provider-distance), which registered the gap instead of measuring it.
+
+Duplicate of people-unplanned-exposure-calibration (Oct 25 audit). Same unplanned-pregnancy weights calibration.

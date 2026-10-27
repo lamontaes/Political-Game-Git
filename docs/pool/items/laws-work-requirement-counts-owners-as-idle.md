@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/owner-hours-work-requirement
+pr: #6194
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T21:47:50.750Z
 ---
 
 **What.** The Medicaid work requirement ends coverage for expansion adults who work fewer than the required hours a month, and it reads each named person's hours from their work commitments only (`src/core2/law-reach/group-b-people.ts:156` and `:180`). An owner who runs their own business has no work commitment there, so the requirement reads them as working no hours and ends their coverage. In Montgomery, Michigan (2655220, world seed 5bc87ba8c575d498bfcfbac8353c3cae24df7a433ca9e816da727ccfaff83c9e), the health-schools family test's named example of coverage ended is the town newspaper's owner, `person:press:outlet:newspaper:0:jurisdiction_707bd06376948157:owner:0` (found by the laws lead, Oct 25). The assistance work requirement reads the same hours, so it likely has the same gap; check it in the same change.
@@ -18,6 +19,10 @@ source: added with npm run pool -- add
 
 **Done when.** An owner's hours at their own business count toward the work requirement's hours, read from a recorded source (the business's records or a sourced owner-hours parameter), and in a played world (`buildBenchWorld`, Montgomery, Michigan, seed above, and a random place named in the PR) the newspaper owner keeps coverage while an adult with no job and no business still loses it, both named by record id; the health-schools family test passes on its named seed.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/law-reach/group-b-people.ts, src/core2/law-reach/group-b.ts
 
 **Notes.** From the laws lead's health-schools PR review, Oct 25. Self-employment counts toward the federal requirement (Pub. L. 119-21 sec. 71119; recalled, not checked here), so the researcher confirms the statute's terms.
+
+Laws lead, Oct 26: the same owner shows up in the welfare line's reach. In the health and schools family test (PR #6026, seed e605d71b551e5dd49cb8, Provencal, Louisiana), `budget-line:welfareAndMedicaid|person:press:outlet:newspaper:0:jurisdiction_738b3e26bd5092c3:owner:0|2025-01-22` names the town newspaper's owner. Why the owner qualifies for cash assistance is not traced; check whether the owner's income reads as zero for the same reason.

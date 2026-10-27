@@ -12,6 +12,11 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import decisions from "../../data/content/trait-decisions.json" with { type: "json" };
 import outcomes from "../../data/content/trait-outcomes.json" with { type: "json" };
+import {
+  strongestRows,
+  targetLogOdds,
+  type ResearchRow,
+} from "./trait-targets";
 
 interface Run {
   seed: string;
@@ -43,7 +48,22 @@ interface Run {
       samples?: { bare: number; lean: number }[];
     }
   >;
+  /** Decisions whose trait term joins a sum or scales a size: kept results with and without it, by lean. */
+  outcomes?: Record<
+    string,
+    {
+      unit: "probability" | "size";
+      calls: number;
+      samples: { lean: number; value: number; flat: number }[];
+    }
+  >;
   events: Record<string, number>;
+  /** Decisions weighed while the world was built, and the first records of each kind it left. */
+  opening?: {
+    chooser: Record<string, { calls: number }>;
+    formula: Record<string, { calls: number }>;
+    records: Record<string, string[]>;
+  };
   people: {
     id: string;
     placeId?: string;
@@ -69,6 +89,8 @@ const GAPS = JSON.parse(
   readFileSync("data/content/trait-decision-gaps.json", "utf8"),
 ) as {
   formulaSiteAliases?: Record<string, string>;
+  /** The kind of record a decision weighed at the opening leaves, by decision id. */
+  openingRecordKinds?: Record<string, string>;
   gaps: Record<string, { class: string; why: string; fix: string }>;
 };
 const PARAMETERS = JSON.parse(
@@ -76,30 +98,61 @@ const PARAMETERS = JSON.parse(
 ) as Record<string, { value: number; tag: string }>;
 const RESEARCH = "data/research/trait-effect-sizes.json";
 const research = existsSync(RESEARCH)
-  ? (JSON.parse(readFileSync(RESEARCH, "utf8")) as { rows: { id: string }[] })
-  : { rows: [] };
+  ? (JSON.parse(readFileSync(RESEARCH, "utf8")) as { rows: ResearchRow[] })
+  : { rows: [] as ResearchRow[] };
+/** The study behind each decision's weight: the row with the largest effect, as odds between the thirds. */
+const strongest = strongestRows(research.rows);
+function researchTarget(decisionId: string) {
+  const row = strongest.get(decisionId) as
+    | (ResearchRow & {
+        trait?: string;
+        outcome?: string;
+        source?: { authors?: string; year?: number } | null;
+      })
+    | undefined;
+  const log = row ? targetLogOdds(row) : null;
+  return row && log !== null
+    ? {
+        oddsRatio: Math.exp(Math.abs(log)),
+        trait: row.trait ?? null,
+        outcome: row.outcome ?? null,
+        source: row.source ? `${row.source.authors} ${row.source.year}` : null,
+      }
+    : null;
+}
 /** Every study row for a decision (several when a study reports more than one trait). */
 const researchById = new Map<string, { id: string }[]>();
 for (const row of research.rows)
   researchById.set(row.id, [...(researchById.get(row.id) ?? []), row]);
 
+/**
+ * Whether a chooser site (its sorted action ids) is this decision's: every
+ * action is one of its options, and no narrower decision fits them all (a
+ * site whose actions fit several decisions goes to the narrowest).
+ */
+function siteIsDecision(key: string, decision: DecisionRow): boolean {
+  const actions = key.split("|");
+  if (!actions.every((a) => decision.options.some((o) => o.id === a)))
+    return false;
+  return !decisions.decisions.some(
+    (other) =>
+      other.id !== decision.id &&
+      other.options.length < decision.options.length &&
+      actions.every((a) => other.options.some((o) => o.id === a)),
+  );
+}
+
+/** Whether a formula read (by table id or caller site) is this decision's. */
+const readIsDecision = (key: string, decision: DecisionRow) =>
+  key === decision.id || GAPS.formulaSiteAliases?.[key] === decision.id;
+
 /** Chooser sites whose action ids all belong to one decision's options. */
 function chooserFor(run: Run, decision: DecisionRow) {
-  const ids = new Set(decision.options.map((o) => o.id));
   let calls = 0,
     turned = 0;
   const gaps: { option: string; n: number; low: number; high: number }[] = [];
   for (const [key, site] of Object.entries(run.chooser)) {
-    const actions = key.split("|");
-    if (!actions.every((a) => ids.has(a))) continue;
-    // A site whose actions fit several decisions goes to the narrowest.
-    const narrower = decisions.decisions.some(
-      (other) =>
-        other.id !== decision.id &&
-        other.options.length < decision.options.length &&
-        actions.every((a) => other.options.some((o) => o.id === a)),
-    );
-    if (narrower) continue;
+    if (!siteIsDecision(key, decision)) continue;
     calls += site.calls;
     turned += site.turned;
     for (const [option, t] of Object.entries(site.byLean))
@@ -118,8 +171,7 @@ function formulaFor(run: Run, decision: DecisionRow) {
     turned = 0;
   const sites: string[] = [];
   for (const [key, row] of Object.entries(run.formula)) {
-    if (key !== decision.id && GAPS.formulaSiteAliases?.[key] !== decision.id)
-      continue;
+    if (!readIsDecision(key, decision)) continue;
     calls += row.calls;
     absLean += row.absLeanSum;
     nonzero += row.nonzero;
@@ -175,17 +227,94 @@ function formulaThirds(run: Run, decision: DecisionRow, weight: number) {
   };
 }
 
+/**
+ * For a decision whose trait term joins a sum or scales a size (turnout, a
+ * story told, a view moved), the result in the third of kept calls leaning
+ * most toward the option and the third leaning least, with the trait term
+ * and flat (left out): the mean probability for a probability, the mean size
+ * for a size, and the ratio between the thirds with the term net of the same
+ * ratio flat (odds for a probability), the number the study's target is set
+ * against.
+ */
+function outcomeThirds(run: Run, decision: DecisionRow) {
+  const kept = run.outcomes?.[decision.id];
+  // A decision that runs for few people (following the news in a small town) still shows its rates, with how many calls they rest on.
+  if (!kept || kept.samples.length < 12) return null;
+  const sorted = [...kept.samples].sort((a, b) => a.lean - b.lean);
+  const n = Math.floor(sorted.length / 3);
+  const mean = (part: typeof sorted, key: "value" | "flat") =>
+    part.reduce((sum, s) => sum + s[key], 0) / Math.max(1, part.length);
+  const low = sorted.slice(0, n),
+    high = sorted.slice(sorted.length - n);
+  const third = (part: typeof sorted) => ({
+    withTraits: mean(part, "value"),
+    flat: mean(part, "flat"),
+    meanLean: mean(
+      part.map((s) => ({ ...s, value: s.lean })),
+      "value",
+    ),
+  });
+  const lo = third(low),
+    hi = third(high);
+  // Odds for a probability (kept off 0 and 1 by a half call), a plain ratio for a size.
+  const measure = (value: number) => {
+    if (kept.unit === "size") return value;
+    const r = (value * n + 0.5) / (n + 1);
+    return r / (1 - r);
+  };
+  const ratio = (high: number, low: number) =>
+    measure(high) / Math.max(measure(low), Number.MIN_VALUE);
+  // A size that can sit at or below zero (a habit centered on the nation's) has no ratio, only a shift.
+  const positive = [lo.withTraits, hi.withTraits, lo.flat, hi.flat].every(
+    (v) => v > 0,
+  );
+  return {
+    unit: kept.unit,
+    calls: kept.calls,
+    kept: kept.samples.length,
+    lowThird: lo,
+    highThird: hi,
+    ratioWithTraits: ratio(hi.withTraits, lo.withTraits),
+    ratioFlat: ratio(hi.flat, lo.flat),
+    netRatio:
+      kept.unit === "size" && !positive
+        ? null
+        : ratio(hi.withTraits, lo.withTraits) / ratio(hi.flat, lo.flat),
+    /** The gap between the thirds with the trait term, less the same gap flat, in the decision's own units. */
+    netShift: hi.withTraits - lo.withTraits - (hi.flat - lo.flat),
+  };
+}
+
+/** Calls of a decision weighed while the world was built (null when the run kept none). */
+function openingCalls(run: Run, decision: DecisionRow): number | null {
+  if (!run.opening) return null;
+  let calls = 0;
+  for (const [key, row] of Object.entries(run.opening.chooser))
+    if (siteIsDecision(key, decision)) calls += row.calls;
+  for (const [key, row] of Object.entries(run.opening.formula))
+    if (readIsDecision(key, decision)) calls += row.calls;
+  return calls;
+}
+
 const rows = decisions.decisions.map((decision: DecisionRow) => {
   const c = chooserFor(played, decision);
   const f = formulaFor(played, decision);
   const calls = c.calls + f.calls;
   const best = c.gaps.sort((a, b) => b.n - a.n)[0];
+  // Weighed while the world was built: counted apart, never in the year's calls.
+  const atOpening = openingCalls(played, decision);
+  const openingKind = GAPS.openingRecordKinds?.[decision.id];
   return {
     id: decision.id,
     kind: "decision",
     route: decision.route,
     site: decision.site,
     callsInYear: calls,
+    callsAtOpening: atOpening,
+    openingRecords:
+      atOpening && openingKind
+        ? (played.opening?.records[openingKind] ?? [])
+        : null,
     chooserCalls: c.calls,
     formulaCalls: f.calls,
     turnedShare: c.calls ? c.turned / c.calls : null,
@@ -202,6 +331,8 @@ const rows = decisions.decisions.map((decision: DecisionRow) => {
         PARAMETERS.traitWeight?.value ??
         1,
     ),
+    outcomeThirds: outcomeThirds(played, decision),
+    researchTarget: researchTarget(decision.id),
     research: researchById.get(decision.id) ?? null,
     gap: GAPS.gaps[decision.id] ?? null,
     weight: PARAMETERS[decision.traitWeightParameter]?.value ?? null,
@@ -351,6 +482,10 @@ const matrix = {
     decisions: rows.length,
     ran: rows.filter((r) => r.status === "ran").length,
     neverRan: rows.filter((r) => r.status === "never-ran").map((r) => r.id),
+    // Silent in the year but weighed while the world was built.
+    ranAtOpeningOnly: rows
+      .filter((r) => r.status === "never-ran" && (r.callsAtOpening ?? 0) > 0)
+      .map((r) => r.id),
     // A decision is calibrated once its weight row is set from research (no longer TUNABLE).
     calibrated: rows.filter((r) => r.weightTag && r.weightTag !== "TUNABLE")
       .length,

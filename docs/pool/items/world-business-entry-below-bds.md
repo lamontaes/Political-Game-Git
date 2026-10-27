@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: an opening follows a founder's money, skills and the town's demand, never a percentage; real rates check totals only. Wire to the world: each opening moves money, jobs and a place's firm count.
 
-**Done when.** In a one-year run of `buildBenchWorld` in eight drawn places with seeds the builder did not choose, openings land within the Census rate's spread, closures still match, and `src/core2/business.test.ts` states it with each new firm named by record id.
+**Done when.** In a one-year run of `buildBenchWorld` in eight drawn places with seeds the builder did not choose, openings land within the Census rate's spread, closures still match, and `src/core2/business.test.ts` states it with each new firm named by record id. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/business.ts, src/core2/business.test.ts
 

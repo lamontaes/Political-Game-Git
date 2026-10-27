@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: the reasons are read by the next item's law check, not just logged. No dice: reasons come from traits, views and records, never a roll. Ask why: every pass-over answers why by record id. One rule, all 56 places: nothing names a place.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body), a hiring decision's job-change record lists its reasons by record id, a test in src/core2/jobs.test.ts shows two applicants with the same fit chosen differently only where the owner's recorded view differs, and no hiring outcome changes where no view applies.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body), a hiring decision's job-change record lists its reasons by record id, a test in src/core2/jobs.test.ts shows two applicants with the same fit chosen differently only where the owner's recorded view differs, and no hiring outcome changes where no view applies. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/offices.ts (owner views), src/core2/jobs.test.ts
 

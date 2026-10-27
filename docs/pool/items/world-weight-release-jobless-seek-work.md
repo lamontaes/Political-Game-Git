@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: a counted record's working-age people beyond its jobs' heads are read by the jobs engine with the same chooser as a full person, times their count. No dice: who looks for work follows their traits, money and the place's conditions.
 
-**Done when.** In a played world built with buildBenchWorld at Census scale in a place drawn from all 56 (seed named), after fill-ins the jobs engine reads the jobless heads a weighted record gained as counted seekers, and one is hired by record id within a year, shown by a test in src/core2; SG-WORLD-weight-release-jobless-not-seeking is resolved.
+**Done when.** In a played world built with buildBenchWorld at Census scale in a place drawn from all 56 (seed named), after fill-ins the jobs engine reads the jobless heads a weighted record gained as counted seekers, and one is hired by record id within a year, shown by a test in src/core2; SG-WORLD-weight-release-jobless-not-seeking is resolved. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/counted-groups.ts, src/core2/modules/jobs.ts, src/core2/data/stopgaps.json
 
