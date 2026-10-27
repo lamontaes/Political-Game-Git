@@ -1,6 +1,7 @@
 ---
 id: laws-bill-section-cites-research-source
 title: "A bill section amending a law in force when the game began quotes the research source of that law as its statute"
+lead: laws-effects
 area: laws
 kind: bug
 priority: 2
