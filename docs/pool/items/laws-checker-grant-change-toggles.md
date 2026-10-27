@@ -20,6 +20,8 @@ claimed-at: 2026-10-27T14:16:56.467Z
 
 **Done when.** The taxes family's Prescott run changes the grant from 1 to 0 (or Uehling's from 0 to 1), its change line says so, and the matrix grades the law as before. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
+**Time box.** 3 hours, Sonnet, no helpers; builds against nothing.
+
 **Files.** scripts/law-wiring/check.ts
 
 **Notes.** Laws lead, Oct 25, from PR #5649.
