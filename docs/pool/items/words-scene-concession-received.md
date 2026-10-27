@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/helper-b-concession-call-received
-pr:
+pr: #6260
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T05:28:27.124Z
