@@ -20,7 +20,7 @@ import { advanceCore } from "./life";
 import { electorateChange } from "./electorate-inputs";
 import { inForceHere } from "./law-reach/host";
 import { RESTORE_VOTE } from "./law-reach/group-a-voting";
-import { openReach } from "./law-reach/group-a-records";
+import { openReach, townAdults } from "./law-reach/group-a-records";
 import {
   appliedEver,
   appliedOn,
@@ -762,6 +762,19 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
           tried.push(`${where}: nobody barred`);
           continue;
         }
+        // The restoration reaches the town's adults by the estimated share of
+        // them whose sentence is done; in a town so small that share is under
+        // half a person, no one is restored and there is no row to show.
+        const adults = townAdults(api);
+        const restoredHere = Math.round(
+          adults * reachParameter("restoredVoterShare"),
+        );
+        if (restoredHere < 1) {
+          tried.push(
+            `${where}: ${adults} adults leave under half a person restored`,
+          );
+          continue;
+        }
         const rows = openReach(api, RESTORE_VOTE);
         console.log(
           `law-wiring-justice restore voting in ${where}: barred share ${without} -> ${withLaw}; reach rows ${rows
@@ -778,7 +791,7 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
         expect(openReach(api, RESTORE_VOTE), where).toHaveLength(0);
         return;
       }
-      throw new Error(`no drawn place barred anyone: ${tried}`);
+      throw new Error(`no drawn place had anyone to restore: ${tried}`);
     } finally {
       setBookkeeping(true);
     }

@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/election-day-scenes
 pr:
 blocked-on:
 source: "words-and-scenes work order, deliverable 5 (docs/work-orders/lead-words-scenes-2026-10-26.md); the owner's Oct 26 rulings in OWNER-DECISIONS.md (election day is about five minutes of scenes; going to vote is the player's choice)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T04:07:13.413Z
 ---
 
 **What.** Election day stops the player at the polling place whether they want to vote or not ("Vote or leave the polling place first"), and election night is a text sheet ("Turnout 34 / 161", "Exit poll", "Where it was won the rest of the town") that opens again on later loads. The owner's Oct 26 rulings ask for about five minutes of scenes instead. A filed candidate canvasses on election morning. Going to vote is a choice the day offers, with a narrator, and the engine never votes for the player. On election night the returns come in as the player watches. Then the player concedes or celebrates. Election night is its own pop-up.

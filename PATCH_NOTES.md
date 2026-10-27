@@ -296,6 +296,109 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.45.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **The calendar opens on today, marks birthdays and deadlines on their days,
+  and opens a day panel only for a day with something.** The Calendar opens on
+  the day your card names, draws a small icon on each day with a birthday,
+  filing deadline, election or law taking effect, and keeps the middle day panel
+  closed for a day with nothing on it.
+
+### Changed
+
+- **Travel shows pictured place cards that say who is there and why each is
+  listed.** Travel is a grid of pictured places. Each card names the place, who
+  is there now and why it is on your list (you work or study there, someone you
+  know works there, you can do something there, or you file there for a named
+  race). Town departments are no longer listed just for being town offices, and
+  filing offices are named without the record's parenthetical.
+
+- **Running for office opens the races as a menu** Where a filing office has
+  many races, they now open as a menu beside the conversation, one row each with
+  the office, the seat, the election day and who holds it, instead of a long
+  numbered list in the clerk's talk box. The "(2025, 1)" codes are gone from the
+  races. Your player card also steps out of the way of a conversation.
+
+- **What was said before sits apart from what is being said now** In a
+  conversation, your earlier line is now its own quieter block above the line
+  being said, with your name over it and a rule under it, so a reply from a
+  minute ago never reads as part of what is being said now.
+
+- **Sheet panels share one header** The title and close button at the top of a
+  screen, and of the filing races menu, are now made by one shared part instead
+  of two copies. They look and work the same.
+
+- **Every conversation box is filled by one shared part** Conversations, the
+  filing counter and the scenes now fill the talk box through one shared part
+  instead of five hand-written places. It looks and works the same.
+
+- **Trust, persuasion and news habits weigh temperament at the size research
+  finds** How far a resident trusts a speaker, how far an argument moves them,
+  and how closely they keep up with the news now lean on their temperament at
+  the sizes studies of trust, political discussion and news use find, where
+  before temperament weighed at a general size several times larger.
+
+## PRE-ALPHA 0.44.3
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Personality shapes civic life and news** Who turns out to vote, who stands
+  up at a meeting, who joins a party or a group, who passes a story on and who
+  believes the story they are told now follow each person's own temperament,
+  sized from the research. Whether you believe a story depends first on who
+  tells it and how close you are: a suspicious person still believes a trusted
+  friend and doubts a stranger who argues against them. Whether a party member
+  comes to a meeting depends on their free time and how far they live from it,
+  and whether a resident joins a group depends on how hard the question pulls
+  them and on whether their friends are already in it. Counted business owners
+  now decide whether to join an employers' association, as named ones do.
+  Open-minded, trusting people are moved further by an argument than closed,
+  wary ones.
+
+- **Outgoing residents fill meeting rooms about three times as often as reserved
+  ones** Who stands up at a council meeting's public comment and who fills a
+  town hall's room now follows temperament at the size a study of public-meeting
+  attendance finds: the most outgoing third takes part about three times as
+  often as the most reserved, among people who feel as strongly about the
+  question.
+
+## PRE-ALPHA 0.44.2
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **Rents in a town the county tables leave out come from its own state** A town
+  whose county the Census tables do not place, as some towns in Puerto Rico are,
+  now starts its rents, home values and owner share from its own state's or
+  territory's counties, not from the nation's. In one Puerto Rico town that
+  halved the rent and ended a year in which one renter in twenty was put out on
+  the street.
+
+## PRE-ALPHA 0.44.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **When someone asks you to carry a bill, you decide** When a mayor or other
+  executive asked the member most inclined to carry a bill and that member was
+  you, the game used to decide for you and file the bill before you saw the
+  request. The ask now waits for your answer: agreeing files the bill under your
+  name, and declining files nothing.
+
+- **A bigger school budget no longer makes a senior who would have graduated
+  fail** When a school year's graduation share rose, a senior who would have
+  graduated could fail instead, because a heavier household ahead of them took
+  the share first. Seniors now clear in order of standing and the walk stops at
+  the first one the share does not cover, so more share never fails anyone.
+
 ## PRE-ALPHA 0.44.0
 
 _Released October 26, 2026._
