@@ -5098,6 +5098,30 @@
     "status": "open"
   },
   {
+    "id": "SG-TRAITS-household-distance-estimate",
+    "kind": "estimated-data",
+    "file": "src/core2/home-distance.ts",
+    "line": 59,
+    "whatItFakes": "How far a household lives from the middle of town is an estimate: a point spread evenly over a disc the size of the place's land area (2020 Census place-county parts), fixed by the world's seed. There are no home addresses or street map, so two households that are neighbors can be recorded far apart. Only the party meeting's attendance reads it.",
+    "why": "No generated household has an address or a position; the party meeting's distance cost needs a number that differs between households and grows with the size of the place.",
+    "addedBy": "traits-civic",
+    "addedAt": "2026-10-24",
+    "replacement": "Households placed on the town's real streets or tracts (the housing engine's dwellings), and the meeting hall placed with them; the distance cost then reads the real trip.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-director-claims-reader",
+    "kind": "rule-copy",
+    "file": "src/core2/heard-claims.ts",
+    "line": 33,
+    "whatItFakes": "Two believing rules: a story or speech one resident passes to another goes through believesClaim (the stranger's pull believeStrangerPull, plus closeness to the teller and how well the claim fits the hearer's view, against the trait lean at its weight), while the player's own claim in a conversation is still read by the director's doubtsClaim (src/director/conversation.ts), the flat truthDefaultPull against the raw trait lean, with no closeness, fit or weight.",
+    "why": "src/director edits belong to the Words line (merger rule); the civic family may not change the director's reader on its own branch.",
+    "addedBy": "traits-civic",
+    "addedAt": "2026-10-25",
+    "replacement": "The Words line routes doubtsClaim through believesClaim, passing the player as the teller (pool item words-director-claims-shared-rule); truthDefaultPull is then removed.",
+    "status": "open"
+  },
+  {
     "id": "SG-TRAITS-counted-health-no-trait",
     "kind": "partial-model",
     "file": "src/core2/modules/health.ts",
@@ -6553,6 +6577,18 @@
     "addedAt": "2026-10-20",
     "replacement": "Resolved: counted families are ranked with the full families each August (private-tuition-reenroll.ts) and their tuition is a part of the school's merged purchase flow, started or ended with setCountedTuition (modules/residents.ts). Shown in private-tuition-counted.test.ts (pool item core-private-tuition-counted).",
     "status": "resolved"
+  },
+  {
+    "id": "SG-TRAITS-persuasion-size",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/modules/views.ts",
+    "line": 400,
+    "whatItFakes": "How much a hearer's traits (openness and agreeableness side) scale the size of a view move after an argument or a story, and how much generalized trust scales a speaker's standing. Both read the hearer's trait lean at the general weight 1.",
+    "why": "The research rows (Hirsh, Kang and Bodenhausen 2012; Freitag and Bauer 2016) give a direction and no effect size for a single occasion.",
+    "addedBy": "claude/traits-civic",
+    "addedAt": "2026-10-20",
+    "replacement": "A one-occasion effect size of trait on persuasion and on trust in a speaker from a study that reports one, set in traitWeightViewsPersuasion and traitWeightViewsTrust.",
+    "status": "open"
   },
   {
     "id": "SG-GOV-territory-budget-mix",
