@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/counted-births-weight.test.ts, src/core2/bookkeeping.ts, src/core2/births-counted.ts
 
 **Notes.** TODO
+
+Environment follow-up 2026-10-26 06:13 UTC: the merger found about 2.4 GB of inactive Vite SSR output in RAM-backed /tmp within the 8 GB cgroup. The directories were preserved on disk; the unchanged original-root township and school cut/raise tests for PR #5632 then completed without further OOM kills. The birth-weight cases above have not been repeated after this environment correction, so a production memory regression is unconfirmed. Repeat the original Heath and Waimea cases with disk-backed TMPDIR before changing production code, retaining every cohort, bookkeeping record and assertion. PR #6072 remains returned for its measured speed acceptance result and incomplete final fingerprint.

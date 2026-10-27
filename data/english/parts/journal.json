@@ -1800,7 +1800,12 @@
           "subject": "office",
           "role": "line",
           "choice": "won",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 11,
@@ -1836,7 +1841,12 @@
           "subject": "office",
           "role": "line",
           "choice": "won",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 5,
@@ -1868,7 +1878,12 @@
           "subject": "office",
           "role": "line",
           "choice": "won",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 15,
@@ -1900,7 +1915,12 @@
           "subject": "office",
           "role": "line",
           "choice": "won",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 3,
@@ -1932,7 +1952,12 @@
           "subject": "office",
           "role": "line",
           "choice": "lost",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 4,
@@ -1965,7 +1990,12 @@
           "subject": "office",
           "role": "line",
           "choice": "lost",
-          "journal": []
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 4,
@@ -3343,12 +3373,7 @@
           "subject": "election",
           "role": "line",
           "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
+          "journal": []
         }
       ],
       "transcriptsUsing": 8,
@@ -3380,12 +3405,7 @@
           "subject": "election",
           "role": "line",
           "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
+          "journal": []
         }
       ],
       "transcriptsUsing": 2,
@@ -3415,12 +3435,7 @@
           "subject": "election",
           "role": "line",
           "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
+          "journal": []
         }
       ],
       "transcriptsUsing": 6,
@@ -6881,6 +6896,87 @@
       "shippable": true,
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.i-found-out-law-changed-what-i-pay",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "I found out {law} changed what I pay.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-law-effect-learned-journal)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.i-learned-law-is-behind-what-i-pay-now",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "I learned {law} is behind what I pay now.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-law-effect-learned-journal)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.now-i-know-law-is-why-my-costs-changed",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "Now I know {law} is why my costs changed.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-law-effect-learned-journal)",
       "date": "2026-10-25",
       "tag": {
         "move": "tell"

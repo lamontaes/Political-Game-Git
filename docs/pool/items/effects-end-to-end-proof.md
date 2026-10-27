@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr: #5912
+pr: #6161
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/effects-end-to-end.test.ts, src/core2/outcome-web-reach.ts, src/core2/outcome-web-twins.test.ts
 
 **Notes.** Added Oct 24 by the CTO (order `docs/work-orders/lead-effects-2026-10-24.md`). Built after the capstone and at least the family that owns the chosen link.
+
+Merger 0, Oct 26: PR #5912 merged only the completed effects-end-to-end-record-chain-test slice at f424fe7d00c4f5ee16b4be7def51e5487bf58788 (checked 435a9ead2b). This parent and effects-end-to-end-talk-screenshot remain open. Independent root 389c662e6d320b8dbc50093bcd8375e3 passed the full record-and-ordinary-dialogue chain in Livingston, Wisconsin; a private consumer-factor bypass on that same root and unchanged default twelve draws/150 met households failed the numeric-factor assertion in the third world, Trinity Center, California (1 instead of 1.0539086294416244). Cause, victimization, cited stance, moment and spoken-line ids are in the PR body. No screenshot or installed-build acceptance is claimed.

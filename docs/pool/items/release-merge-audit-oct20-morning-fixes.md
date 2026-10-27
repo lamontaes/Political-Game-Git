@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/audit-fix4-browser
+status: open
+claimed-by:
 pr: #5818
 blocked-on:
 source: CTO merge audit, Oct 20 morning
-claimed-at: 2026-10-26T07:18:28.608Z
+claimed-at:
 ---
 
 **What.** Three reviewers read the diffs of the 22 PRs merged into main between 05:00 and 07:00 UTC on October 20: 14 are good, 7 have concerns and 1 is bad. The bad one went to TRAIT-WIRING: #5289 left trait-decisions.json pointing at three deleted drive actions, so trait-coverage.test.ts throws on main. So did the concerns on #5552, its trait-weight code with no callers and a research row in the wrong unit. This item fixes the other six with concerns, plus two release notes that misstate their change, listed below. Each numbered fix is small and can land as its own PR that names this item and the number; the item is done when all seven are merged.
@@ -44,3 +44,5 @@ Sent back 2026-10-21 from PR #5703 (branch claude/fs11vb-f2): scripts/audit/rese
 Sent back 2026-10-23 from PR #5703 (branch claude/fs11vb-f2): The broad completion marker and table would close the seven-fix umbrella while public-hire/browser/aide proof remains open; use bounded fix-2 routing and correct the NBER citation to printed p.26 (PDF p.28); finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5818 (branch claude/audit-fix4-browser): Browser row assertion can check zero rows and four duplicate outings satisfy its length-only test; require nonempty applicable rows and exactly one of each outing; finish on that branch, merge main into it first.
+
+Merger 2: 2026-10-26, #5818 is routed to bounded release-merge-audit-fix4-browser-assertions. All listed component PRs are verified merged into main, and the exact browser check now passes here in Lake Mary FL, seed3a462e9c-2839-462d-b37c-a514536db0b9, checked head50771132c2fccdeb30f722e6931744ec00809d77. The umbrella stays OPEN because its Done when requires the research-data guard to pass: own clean-main b3c06e202f guard run returns3/5 in14.64s, eleven unaccounted research files plus jobs/series count1vs0; existing release-red-research-reader-census-rerun tracks that acceptance gap. Do not mark this umbrella DONE for the bounded browser merge.

@@ -212,7 +212,7 @@ export function composeScene(
   // what they came to do ("Your mother has something to tell you.").
   const openerId = opener?.personIds.find((id) => id !== personId);
   const openerFact = openerId ? who(openerId) : null;
-  const opening =
+  const openingLine =
     binding.opening && openerFact
       ? render(
           { part: "opening", move: binding.opening },
@@ -220,10 +220,18 @@ export function composeScene(
           `${moment.id}:opening`,
         )
       : null;
+  // A lead that names the one who opens the scene has already said who came
+  // and why; the opening would say it again ("Your mother has news for you.
+  // Your mother has something to tell you.").
+  const leadNamedOpener =
+    !!openerId &&
+    openerId === talkToId &&
+    !!lead?.usedFactKeys?.includes("other");
+  const opening = leadNamedOpener ? null : openingLine;
 
   // What led here, from the moment's cause, about someone else or the
   // player. News the opener is about to tell is left to them to tell.
-  const toTell = opening !== null && binding.opening === "tell";
+  const toTell = openingLine !== null && binding.opening === "tell";
   const otherId = moment.counterpartIds[zero];
   const cause = toTell
     ? null

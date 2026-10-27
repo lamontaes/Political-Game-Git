@@ -34,11 +34,13 @@ import {
   residentFacts,
 } from "./residents";
 import { chooseAct, traitLean } from "../choice";
+import { decisionTraitWeight, leanedByKinds } from "../trait-decisions";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
 import { bankDepositLiability } from "../accounts";
 import { reviewBankDeposits } from "../credit-deposits";
+import { weightedPayrollMinor } from "../residents-economy";
 
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
@@ -457,9 +459,16 @@ function review(api: CoreAPI): void {
     a[0].localeCompare(b[0]),
   )) {
     if (books.closedAt || books.creditFacilityId) continue;
+    // The paydays a line covers are the weighted ones, as the firm's cash
+    // is: a counted worker's record stands for its household's weight.
+    const payroll = weightedPayrollMinor(
+      c,
+      id,
+      books.annualPayrollMinor,
+      p("jobsDaysPerYear"),
+    );
     const cover =
-      (books.annualPayrollMinor / p("macroMonthsPerYear")) *
-      p("creditLineMonthsOfPayroll");
+      (payroll / p("macroMonthsPerYear")) * p("creditLineMonthsOfPayroll");
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
@@ -470,7 +479,13 @@ function review(api: CoreAPI): void {
     const ownerId =
       (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
       managerOf(c, id);
-    const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
+    // Its sales stand for the same weight as its payroll.
+    const monthlySales =
+      (books.annualDemandMinor *
+        (books.annualPayrollMinor > 0
+          ? payroll / books.annualPayrollMinor
+          : p("one"))) /
+      p("macroMonthsPerYear");
     // The owner weighs the rate the bank will charge this borrower, risk spread and all.
     const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
     const reasons = {
@@ -837,27 +852,36 @@ function earnedDaily(
  */
 export function personalBorrowingDecision(
   api: CoreAPI,
-  actor: Pick<PersonInput, "traits">,
+  actor: Pick<PersonInput, "traits"> & { id?: string },
   need: number,
   burden: number,
 ) {
   const p = (key: string) => api.parameter(key);
-  const wait =
-    traitLean(api.state, actor, creditData.actions.wait.actKinds) *
-    p("traitWeight");
+  const wait = p("zero");
+  const traitTerm =
+    (traitLean(api.state, actor, creditData.actions.borrow.actKinds) -
+      traitLean(api.state, actor, creditData.actions.wait.actKinds)) *
+    decisionTraitWeight(api.state, "credit.borrow");
   const reasons = {
-    trait:
-      traitLean(api.state, actor, creditData.actions.borrow.actKinds) *
-      p("traitWeight"),
+    trait: traitTerm,
     baseline: p("creditBorrowBaseline"),
     need: p("creditBorrowNeedWeight") * need,
     cost: -p("creditBorrowCostWeight") * Math.min(burden, p("two")),
   };
-  const borrow = Object.values(reasons).reduce((sum, value) => sum + value, 0);
+  const bare = reasons.baseline + reasons.need + reasons.cost;
   // The core chooser breaks ties by action id (borrow sorts before do-without).
+  const borrow =
+    leanedByKinds(
+      api.state,
+      actor,
+      "credit.borrow",
+      creditData.actions.borrow.actKinds,
+      creditData.actions.wait.actKinds,
+      bare,
+    ) || bare + traitTerm === wait;
   return {
-    borrow: borrow >= wait,
-    borrowScore: borrow,
+    borrow,
+    borrowScore: bare + traitTerm,
     waitScore: wait,
     reasons,
   };

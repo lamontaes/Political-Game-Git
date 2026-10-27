@@ -20,7 +20,7 @@ import { advanceCore } from "./life";
 import { electorateChange } from "./electorate-inputs";
 import { inForceHere } from "./law-reach/host";
 import { RESTORE_VOTE } from "./law-reach/group-a-voting";
-import { openReach } from "./law-reach/group-a-records";
+import { openReach, townAdults } from "./law-reach/group-a-records";
 import {
   appliedEver,
   appliedOn,
@@ -50,6 +50,7 @@ import {
   PUBLIC_SAFETY_MODULE_ID,
   STAND_GROUND,
   takeCensus,
+  type CaseRow,
   type GroupCensus,
   type SafetyMonth,
 } from "./public-safety";
@@ -156,6 +157,8 @@ interface Attempt {
   /** For a law with no evidence, what its rows' targets held. */
   readonly unfound: Map<string, string>;
   readonly web: Map<string, number[]>;
+  /** The minor-offense cases the case flow recorded (disorderly conduct, loitering and the like). */
+  readonly minorCases: CaseRow[];
   readonly after: Map<string, LawAppliedRow[]>;
   readonly monthsRun: SafetyMonth[];
   readonly cutService: number[];
@@ -397,6 +400,13 @@ function play(where: string, core: CoreState): Attempt {
     for (const row of webTable)
       for (const [link, effect] of Object.entries(row.effects))
         web.set(link, [...(web.get(link) ?? []), effect]);
+    // The minor offenses the case flow recorded while the police line stood a tenth above where it began.
+    const minorCases = (
+      api
+        .moduleState(PUBLIC_SAFETY_MODULE_ID)
+        .table("cases")
+        .rows() as unknown as CaseRow[]
+    ).filter((c) => c.offense === "lowlevel");
     // A cut police line gives less service, and putting it back gives it back.
     const gov =
       governments(api).find((g) => g.level === "city") ??
@@ -488,6 +498,7 @@ function play(where: string, core: CoreState): Attempt {
       evidence,
       unfound,
       web,
+      minorCases,
       after,
       monthsRun: months(api),
       cutService,
@@ -539,6 +550,36 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
         a.monthsRun.reduce((n, m) => n + m.arrests, 0),
         `${a.where}: arrests`,
       ).toBeGreaterThan(0);
+
+      // The minor offenses were recorded as cases, read the web's police
+      // factor, and the sized link moved their rate: the raised police line
+      // reached these arrests (disorderly conduct, loitering, drug possession
+      // and the like).
+      expect(
+        a.minorCases.length,
+        `${a.where}: minor-offense cases`,
+      ).toBeGreaterThan(0);
+      expect(
+        a.monthsRun.reduce((n, m) => n + m.lowLevelArrests, 0),
+        `${a.where}: minor-offense arrests`,
+      ).toBeGreaterThan(0);
+      expect(
+        (a.web.get("police-to-low-level-arrests") ?? []).some((e) => e > 0),
+        `${a.where}: police-to-low-level-arrests moved up with the raised police line (links seen: ${[...a.web.keys()].join(", ")})`,
+      ).toBe(true);
+      const minor = a.minorCases.find((c) => c.webRecordId);
+      expect(
+        minor,
+        `${a.where}: a minor case that names its web row`,
+      ).toBeDefined();
+      const drug = a.minorCases.find((c) => c.category === "drugPossession");
+      expect(
+        drug?.webRecordId,
+        `${a.where}: a drug possession case that names its web row`,
+      ).toBeTruthy();
+      console.log(
+        `law-wiring-justice minor offenses in ${a.where}: ${a.minorCases.length} cases, e.g. ${minor?.id} read ${minor?.webRecordId} at ${minor?.officersPer1000?.toFixed(3)} officers per 1,000; drug possession ${drug?.id} read ${drug?.webRecordId}`,
+      );
 
       // Every law recorded an application, and the counted tier by count.
       for (const key of [...QUESTIONS, HANDGUN_AGE])
@@ -721,6 +762,19 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
           tried.push(`${where}: nobody barred`);
           continue;
         }
+        // The restoration reaches the town's adults by the estimated share of
+        // them whose sentence is done; in a town so small that share is under
+        // half a person, no one is restored and there is no row to show.
+        const adults = townAdults(api);
+        const restoredHere = Math.round(
+          adults * reachParameter("restoredVoterShare"),
+        );
+        if (restoredHere < 1) {
+          tried.push(
+            `${where}: ${adults} adults leave under half a person restored`,
+          );
+          continue;
+        }
         const rows = openReach(api, RESTORE_VOTE);
         console.log(
           `law-wiring-justice restore voting in ${where}: barred share ${without} -> ${withLaw}; reach rows ${rows
@@ -737,7 +791,7 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
         expect(openReach(api, RESTORE_VOTE), where).toHaveLength(0);
         return;
       }
-      throw new Error(`no drawn place barred anyone: ${tried}`);
+      throw new Error(`no drawn place had anyone to restore: ${tried}`);
     } finally {
       setBookkeeping(true);
     }

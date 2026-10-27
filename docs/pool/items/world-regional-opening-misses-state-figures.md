@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/regional-opening-pay
 pr: #6034
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T12:44:28.114Z
 **Files.** src/core2/regional-model.ts
 
 **Notes.** Found by the M0-M2 lead's M1 helper, Oct 24. Blocks roadmap M1-03.
+
+2026-10-25 (claude/regional-opening-pay, stacked on #6019): the unemployment half (D.C., Rhode Island) is fixed in #6019 by one shared factor on an all-metro state's regions, with the test that fails when a state's opening unemployment is a metro's. The pay half: each region's income ratio is scaled so the state's people-weighted ratio is one, so the state opens at its published CES pay.
