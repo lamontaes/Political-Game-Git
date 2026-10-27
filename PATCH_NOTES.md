@@ -296,6 +296,27 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.47.0
+
+_Released October 27, 2026._
+
+### Improved
+
+- **One graded line now tunes the whole voice** When a line of dialogue or a
+  speech is graded, the lines built the same way, in the same voice and in the
+  same kind of setting, now come up a little more or a little less often
+  everywhere, not just the one line. A good opening speech line makes a
+  concession speech or a hearing's thanks sound more like it; nothing is ever
+  removed because a neighbor was graded.
+
+### Changed
+
+- **A new life opens on the President's address, not a living room** The opening
+  now starts on the President giving the address, with the Vice President and
+  the other key people pointed out by name and office as the camera passes. Your
+  home comes after the governor and your family, and the news anchor's
+  living-room lead-in is gone.
+
 ## PRE-ALPHA 0.46.0
 
 _Released October 27, 2026._

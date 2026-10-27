@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.47.0",
+      "releasedOn": "2026-10-27",
+      "revision": "57086e9be0657585ec0c7bc92a096ae582c56941",
+      "changeIds": [
+        "play-stop-36-opening-starts-with-the-address",
+        "words-grades-calibrate-by-trait-and-register"
+      ]
+    },
+    {
       "version": "0.46.0",
       "releasedOn": "2026-10-27",
       "revision": "7421844a6843b1618ddea87d33927f93596fcbbd",
