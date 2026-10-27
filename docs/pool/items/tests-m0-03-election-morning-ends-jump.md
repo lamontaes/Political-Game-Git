@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** Never loosen the check: election morning (and a candidate's own election morning) is a stop the jump must make and must name, and nothing may be skipped past it. One rule, all 56 places: the check holds wherever the runner draws, election dates come from the place's records.
 
-**Done when.** M0-03 passes on that seed and place on main and on two fresh seeds named in the PR body, its log naming the stop as election morning with the polling visit's id; a jump that ends before its target with no stop, no election morning and no candidate morning still fails, shown by a case.
+**Done when.** M0-03 passes on that seed and place on main and on two fresh seeds named in the PR body, its log naming the stop as election morning with the polling visit's record id; a jump that ends before its target with no stop, no election morning and no candidate morning still fails, shown by a test case.
 
 **Files.** src/bench/m0-check.ts, src/bench/player.ts
 
