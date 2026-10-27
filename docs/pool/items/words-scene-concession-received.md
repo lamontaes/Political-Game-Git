@@ -5,15 +5,16 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: words/helper-b-concession-call-received
 pr: #6260
 blocked-on:
-source: added with npm run pool -- add
-claimed-at:
+source: "owner, Oct 27: a victory speech needs a concession speech, and a contentious call with the other candidate can be a branch; episode packet docs/design/scenes/from-life/concession-call-received.md"
+lead: words
+claimed-at: 2026-10-27T05:28:27.124Z
 ---
 
-**What.** The count's result record names the winner and the totals, but only the loser's side of the call exists (concession-call, the loser's manager urging the dial) and the winner never hears from anyone. Add the winner's side from real calls (docs/design/scenes/from-life/concession-call-received.md): situation type concession-received on election-result, the runner-up on the totals cast as the caller (new opponent fill), on the phone, with four stances for the winner and the loser's answers chosen by the loser's traits.
+**What.** The count's result record names the winner and the totals, but only the loser's side of the call exists (concession-call, the loser's manager urging the dial) and the winner never hears from anyone. The loser's side asks who dials; the winner's side is the call itself. Add the winner's side from real calls (docs/design/scenes/from-life/concession-call-received.md): situation type concession-received on election-result, the runner-up on the totals cast as the caller (new opponent fill), on the phone, with four stances for the winner and the loser's answers chosen by the loser's traits.
 
 **Rules.** Cast from the world: the caller is the runner-up on the result totals, never a stranger; the scene does not fire for the loser or without a second candidate. No dice: the loser's answers follow their traits through the shared decision table. Every line from the bank, no real name or quote. Replace never layer: no old line of this scene exists.
 
@@ -21,4 +22,4 @@ claimed-at:
 
 **Files.** src/director/civic-roles.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json
 
-**Notes.** TODO
+**Notes.** Built on branch words/helper-b-concession-call-received (Helper B, Sonnet). Reached in a played world only by naming the type: an election-result entry stages several purpose scenes and the bench plays the first one it can word (race-won's victory night), so this call plays in ordinary play once scenes of one record play in turn (item director-moment-plays-every-staged-scene-in-turn). Lines vary by the speaker's bearing; versions by tie need a tie fact the scene-talk path does not carry (item words-scene-talk-lines-by-tie). The hard branch (a loser who will not concede until certification) is lines only: no recount record exists (item elections-contested-count-record).

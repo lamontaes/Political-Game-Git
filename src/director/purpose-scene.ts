@@ -275,6 +275,19 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
+  // The winner's side of a count: how far ahead they finished, from the
+  // result record's totals (votes, exact: a count is an integer).
+  if (said.totals && said.winnerId === askedId) {
+    const counts = Object.values(
+      JSON.parse(said.totals) as Record<string, number>,
+    ).sort((a, b) => b - a);
+    const ahead = (counts[P.zero] ?? P.zero) - (counts[P.one] ?? P.zero);
+    if (counts.length > P.one && ahead > P.zero)
+      facts.lead = {
+        text: `${ahead.toLocaleString("en-US")} ${ahead === P.one ? "vote" : "votes"}`,
+        sourceRecordIds: [moment.causeId],
+      };
+  }
 
   const result = composeSceneTalk(
     core,
@@ -324,7 +337,7 @@ export function replyInScene(
   personId: PersonId,
   entry: ScheduleEntry,
   path: readonly number[],
-  options: { includeHeld?: boolean } = {},
+  options: { includeHeld?: boolean; typeKey?: string } = {},
 ): string | null {
   const result = purposeScene(core, director, personId, entry, options);
   if (result?.kind !== "composed" || !path.length) return null;
