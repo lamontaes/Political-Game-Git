@@ -6,6 +6,7 @@
  * words (`scene-talk-words.ts`) call it with the pieces they pick.
  */
 import { P } from "../core2/parameters";
+import type { CalibrationTable } from "./calibration";
 import {
   renderGroundedEnglish,
   type EnglishSurface,
@@ -45,7 +46,11 @@ export function renderLine(input: {
   stage?: string;
   fallbackSourceId: string;
   /** The speaker's trait levels and the register, so the line is in their voice. */
-  voice?: { traits: Readonly<Record<string, number>>; register?: string };
+  voice?: {
+    traits: Readonly<Record<string, number>>;
+    register?: string;
+    calibration?: CalibrationTable;
+  };
 }): RenderedLine | null {
   if (!input.variants?.length) return null;
   const ids = [

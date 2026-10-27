@@ -18,6 +18,8 @@
  * so output is unchanged until a grade moves a weight.
  */
 import tableFile from "../../data/english/calibration.json" with { type: "json" };
+import reachFile from "../../data/english/grade-reach.json" with { type: "json" };
+import { reachFactor, type ReachTable } from "./grade-reach";
 
 export interface RunningGrade {
   readonly mean: number;
@@ -47,9 +49,16 @@ export interface CalibrationTable {
   >;
   readonly pieces: Readonly<Record<string, RunningGrade>>;
   readonly movePairs: Readonly<Record<string, RunningGrade>>;
+  /** The class of each bank's register, for how far a grade reaches (`grade-reach.ts`). */
+  readonly registerClasses?: Readonly<Record<string, string>>;
+  /** How far the owner's grades reach: the pieces sharing a graded piece's pattern, voice and register. Absent: no reach. */
+  readonly reach?: ReachTable;
 }
 
-export const CALIBRATION = tableFile as unknown as CalibrationTable;
+export const CALIBRATION = {
+  ...(tableFile as unknown as CalibrationTable),
+  reach: reachFile as unknown as ReachTable,
+} as CalibrationTable;
 
 /** The middle of the 1 to 5 grade scale; a piece graded 3 is neither favored nor held down. */
 export const MIDDLE_GRADE = 3;
@@ -61,12 +70,33 @@ const parameter = (table: CalibrationTable, key: string): number => {
 };
 
 /**
- * How much a piece is chosen relative to its authored weight, from its
- * running grade. 1 when it was never graded or graded 3.
+ * How much a piece is chosen relative to its authored weight: its own running
+ * grade, and the reach of the grades given to other pieces of its pattern,
+ * voice and register (`grade-reach.ts`). 1 when neither applies.
  */
 export function pieceFactor(
   ids: readonly string[],
   table: CalibrationTable = CALIBRATION,
+): number {
+  return ownGradeFactor(ids, table) * gradeReach(ids, table);
+}
+
+/** The reach of other pieces' grades on this one; 1 on a table with no reach. */
+export function gradeReach(
+  ids: readonly string[],
+  table: CalibrationTable = CALIBRATION,
+): number {
+  if (!table.reach) return 1;
+  return reachFactor(ids, table.reach, {
+    floor: parameter(table, "reachFloor"),
+    ceiling: parameter(table, "reachCeiling"),
+    saturation: parameter(table, "reachSaturation"),
+  });
+}
+
+function ownGradeFactor(
+  ids: readonly string[],
+  table: CalibrationTable,
 ): number {
   const found = ids
     .map((id) => table.pieces[id])

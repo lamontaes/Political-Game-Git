@@ -4,6 +4,7 @@ import {
   lengthFactor,
   pieceFactor,
   wordCount,
+  type CalibrationTable,
 } from "./calibration";
 import { stableHash } from "../core2/kernel/ids";
 import type { EntityId } from "../core2/kernel/brands";
@@ -58,6 +59,8 @@ export interface GroundedEnglishPacket {
   readonly voice?: {
     readonly traits: Readonly<Record<string, number>>;
     readonly register?: string;
+    /** The calibration table to read; the shipped one by default. */
+    readonly calibration?: CalibrationTable;
   };
 }
 
@@ -230,9 +233,14 @@ function voicedWeights(
   for (const { variant } of usable) {
     const text = variant.kind === "template" ? variant.text : "";
     const factor =
-      lengthFactor(voice.register, wordCount(text), voice.traits) *
-      bearingFactor(variant.bearing, voice.traits) *
-      pieceFactor([variant.pieceKey ?? variant.key]);
+      lengthFactor(
+        voice.register,
+        wordCount(text),
+        voice.traits,
+        voice.calibration,
+      ) *
+      bearingFactor(variant.bearing, voice.traits, voice.calibration) *
+      pieceFactor([variant.pieceKey ?? variant.key], voice.calibration);
     weights.set(
       variant.key,
       Math.max(1, Math.round((variant.weight ?? 1) * VOICE_SHARES * factor)),
