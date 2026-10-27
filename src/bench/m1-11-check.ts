@@ -22,6 +22,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import type { CoreEventInput } from "../core2/types";
 import {
   DEFAULT_DRIVES_DATA,
   drivesReport,
@@ -152,7 +153,13 @@ check(
 // record names as deciding the harm (who decided a layoff), else the topic or
 // the institution the record names.
 const responsible = (id: string) =>
-  responsibleId(DEFAULT_DRIVES_DATA, events.get(id)!, core.people);
+  // The trace keeps the event without its id, people and place; the engine's
+  // rule reads only the id, the facts, the topic and the kind.
+  responsibleId(
+    DEFAULT_DRIVES_DATA,
+    { ...events.get(id)!, id } as unknown as CoreEventInput,
+    core.people,
+  );
 const isRecord = (id: string) =>
   core.people.has(id as never) || core.organizations.has(id);
 const aimed = drivesReport(core).drives.filter(
