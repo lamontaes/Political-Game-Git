@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: helper-e/town-hall-pushback
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T05:39:21.075Z
 ---
 
 **What.** Scenes-from-life episode 2 (docs/design/scenes/from-life/town-hall-goes-wrong.md, from the August 2009 Lebanon, Pennsylvania town hall). A town-hall record fires the office-hours scene, whose lines are about a lost job or an eviction and say nothing of the question the resident asked or the answer the host gave. This moves the town-hall cause to its own situation type with lines read from the townHalls row.
