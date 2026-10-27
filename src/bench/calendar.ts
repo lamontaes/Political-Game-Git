@@ -57,6 +57,21 @@ export function calendarItems(
             recordId: row.id,
           });
   const person = core.people.get(personId);
+  // The person's own birthday, beside the family's.
+  if (person)
+    for (const year of [
+      Number(from.slice(0, 4)),
+      Number(from.slice(0, 4)) + 1,
+    ]) {
+      const date = `${year}${person.birthDate.slice(4)}`;
+      if (inWindow(date))
+        items.push({
+          date,
+          kind: "your-birthday",
+          title: `${person.givenName} ${person.familyName}`,
+          recordId: person.id,
+        });
+    }
   for (const fact of person?.pastFacts ?? []) {
     const otherId = fact.facts?.otherPersonId;
     const other = otherId ? core.people.get(otherId) : undefined;

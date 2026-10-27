@@ -5,6 +5,8 @@ description: Grows Our Civic Duty's scenes and dialogue from real people's lives
 
 # Scenes from real lives
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 The owner, Oct 26 (recorded Oct 27 in `OWNER-DECISIONS.md`): "use real life people's as examples. It can be a known American, unknown American, president, congressman, mayor, city councilman, school member, anyone... It can be copyrighted material because, again, you're just using it as calibration, and take scenes from their life. See if the engine can produce it. If not, work the framework of the dialogue in, and that will affect other scenes." Real life is the calibration set for scenes, the way real rates calibrate the simulation (`research-habit`). Nothing from it ships: no real name, no quoted line, no copied text. What ships is a producer that fires from the game's own records and bank lines written for the game's people.
 
 ## The scope (owner, Oct 27)
