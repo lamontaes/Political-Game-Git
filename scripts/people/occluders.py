@@ -120,7 +120,10 @@ def anchor(spot: dict) -> tuple[float, float]:
     return spot["x"], spot["y"]
 
 
-def bake(place: str, stage: dict, near: np.ndarray, file: Path) -> dict:
+def bake(
+    place: str, stage: dict, near: np.ndarray, file: Path, numbering: list | None = None
+) -> dict:
+    """Masks for the stage's spots, each named by its number in `numbering` (the whole place's spots)."""
     height, width = near.shape
     out = OUT / place
     spots = {}
@@ -168,9 +171,9 @@ def bake(place: str, stage: dict, near: np.ndarray, file: Path) -> dict:
         rgba = np.zeros((*a.shape, 2), dtype=np.uint8)
         rgba[..., 1] = a
         out.mkdir(parents=True, exist_ok=True)
-        name = f"{index}.png"
+        name = f"{(numbering or stage['spots']).index(spot)}.png"
         Image.fromarray(rgba, "LA").save(out / name, optimize=True)
-        spot_id = spot.get("id", f"{place}:spot:{index}")
+        spot_id = spot.get("id", f"{place}:spot:{(numbering or stage['spots']).index(spot)}")
         spots[spot_id] = {
             "file": f"{place}/{name}",
             "leftPercent": round((x0 + bx0) / width * 100, 3),
@@ -211,9 +214,20 @@ def main() -> None:
             print(f"{place}: no painting", file=sys.stderr)
             continue
         near = depth_of(file, Path(args.cache), holder)
+        stage = staging[place]
+        if "spotsFrom" in stage:
+            # Spots from a mannequin plate carry their own front line
+            # (scripts/people/room-spots.ts), and their masks are kept; only
+            # spots the plate has none for (a kept podium) are baked here.
+            kept = index["places"][place]
+            spots = [s for s in stage["spots"] if "head" not in s]
+            baked = bake(place, {**stage, "spots": spots}, near, file, stage["spots"])
+            kept["spots"].update(baked["spots"])
+            print(f"{place}: plate masks kept, {len(baked['spots'])} of {len(spots)} other spots covered")
+            continue
         for old in (OUT / place).glob("*.png") if (OUT / place).exists() else []:
             old.unlink()
-        entry = bake(place, staging[place], near, file)
+        entry = bake(place, stage, near, file)
         index["places"][place] = entry
         print(f"{place}: {len(entry['spots'])} of {len(staging[place]['spots'])} spots covered")
     index["places"] = dict(sorted(index["places"].items()))

@@ -10301,6 +10301,13 @@
           "topPercent": 64.612,
           "widthPercent": 2.452,
           "heightPercent": 16.791
+        },
+        "rally-town-square:spot:podium-0": {
+          "file": "rally-town-square/27.png",
+          "leftPercent": 59.928,
+          "topPercent": 52.497,
+          "widthPercent": 10.108,
+          "heightPercent": 16.259
         }
       }
     },
@@ -14810,6 +14817,13 @@
           "topPercent": 97.768,
           "widthPercent": 6.28,
           "heightPercent": 2.232
+        },
+        "us-house-floor:spot:podium-0": {
+          "file": "us-house-floor/104.png",
+          "leftPercent": 46.591,
+          "topPercent": 28.162,
+          "widthPercent": 6.818,
+          "heightPercent": 17.641
         }
       }
     },
