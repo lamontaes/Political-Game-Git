@@ -92,11 +92,14 @@ export function policyNames(): Record<string, string> {
     }
   };
   walk(billCatalog);
-  // A budget line a local seat takes a position on, by its name on the
-  // budgets screen (the source table's own item label).
-  for (const [line, row] of Object.entries(
-    (lineNames as { lines: Record<string, { name: string }> }).lines,
-  ))
-    names[`budget-line:${line}`] = row.name;
   return names;
+}
+
+/** A budget line a local seat takes a position on ("budget-line:police"), by its name on the budgets screen (the source table's own item label). */
+export function budgetLineNames(): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(
+      (lineNames as { lines: Record<string, { name: string }> }).lines,
+    ).map(([line, row]) => [`budget-line:${line}`, row.name]),
+  );
 }

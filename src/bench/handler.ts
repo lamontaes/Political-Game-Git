@@ -103,7 +103,7 @@ import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
-import { choiceName, policyNames } from "./words";
+import { budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -687,7 +687,12 @@ export async function benchRequest(
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/controls") {
-        send(200, { ...controls, policyNames: policyNames() });
+        // A position's name: a policy or law on the bill catalog, or a local
+        // seat's budget line.
+        send(200, {
+          ...controls,
+          policyNames: { ...policyNames(), ...budgetLineNames() },
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/progress") {
