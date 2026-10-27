@@ -13,15 +13,17 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:20:33.756Z
 ---
 
-**What.** TODO
+**What.** `src/core2/record.test.ts`, "an incumbent's broken promise changes specific voters' choices, with reasons, and feeds the rival's attack ad", fails on clean main at line 197: no ballot in the race weighs the incumbent's record (`weighed.length` 0), so the scenario never reaches the broken promise. It fails the same way on every seed tried on Oct 27 (below). The fix of Oct 20 (#5401) no longer holds. Find why no voter's ballot carries `recordReasons` for the incumbent: the record is not read, or no voter knows of it.
 
-**Rules.** TODO
+**Rules.** Ask why: every vote's reasons name the record that moved it, and a voter attributes a change to a promise only if they learned of it (news, a conversation, an ad). Never skip, disable or quarantine the case.
 
-**Done when.** TODO
+**Done when.** The test passes on main in a drawn place on three fresh seeds named in the PR body, with the ballot record ids that weigh the broken promise printed, and fails when the record reader is removed.
 
-**Files.** TODO
+**Time box.** 2 hours, any fixer or the elections lead.
 
-**Notes.** TODO
+**Files.** src/core2/record.test.ts, src/core2/modules/record.ts, src/core2/modules/voting.ts
+
+**Notes.** Filed earlier; see the history below.
 
 Sent back 2026-10-20 from PR #5401 (branch claude/pool-red-promise): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
 
