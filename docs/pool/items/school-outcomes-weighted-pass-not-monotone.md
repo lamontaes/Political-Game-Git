@@ -19,6 +19,8 @@ claimed-at: 2026-10-27T01:40:48.683Z
 
 **Done when.** The pass rule clears students in order of standing so that raising a fifth's share never fails a student who cleared before (for example a counted record clears its weight in part, as a share of its household); school-outcomes-spending-web.test.ts checks per senior again that the raise fails no one, on seed 020184272677dc2b and two fresh drawn places named in the PR body; the town's graduation share stays within the calibrated band. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/school-outcomes.ts, src/core2/school-outcomes-spending-web.test.ts
 
 **Notes.** TODO
