@@ -68,6 +68,9 @@ it(`a bill that loses its vote is the sponsor's staff-news scene, about that bil
     }
     const end = addDays(makeIsoDate(core.date), DAYS);
     const read = new Set<string>();
+    // Losses whose own talk was composed and checked (a loss taken into the
+    // day's sitting is talked of by that sitting's scene, so it does not count).
+    let composed = 0;
     while (core.date < end) {
       advanceCore(
         core,
@@ -138,9 +141,10 @@ it(`a bill that loses its vote is the sponsor's staff-news scene, about that bil
         expect(bill.recordIds, here).toContain(loss.id);
         expect(said, here).toContain(bill.text);
         expect(said, here).toContain(tally);
+        composed += 1;
       }
     }
-    if (read.size) return;
+    if (composed) return;
     tried.push(place.name);
   }
   throw new Error(
