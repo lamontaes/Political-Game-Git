@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/project-request-lower-seat
-pr:
+pr: #6266
 blocked-on:
 source: laws-and-effects lead, Oct 27 (the floor PR's changed-file tests)
 claimed-at: 2026-10-27T08:30:35.813Z
