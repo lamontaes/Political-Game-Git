@@ -56,6 +56,21 @@ const MAP_COLORS: Readonly<Record<Garment, readonly [number, number, number]>> =
     shoes: [0, 255, 0],
   };
 
+/**
+ * The colors each piece comes in (presentation, TUNABLE by eye): any color
+ * for a jacket or shirt; pants and shoes in the colors they are usually sold in.
+ */
+export const GARMENT_SWATCHES: Readonly<Record<Garment, readonly Swatch[]>> = {
+  jacket: CLOTHES_SWATCHES,
+  shirt: CLOTHES_SWATCHES,
+  pants: CLOTHES_SWATCHES.filter((row) =>
+    ["gray", "navy", "black", "brown", "green", "white"].includes(row.id),
+  ),
+  shoes: CLOTHES_SWATCHES.filter((row) =>
+    ["gray", "black", "brown", "white"].includes(row.id),
+  ),
+};
+
 /** A person's colors: their skin, and each piece of clothing; a piece left out keeps its painted gray. */
 export type FigureColors = { skin?: string } & Partial<Record<Garment, string>>;
 

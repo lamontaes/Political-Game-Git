@@ -16,9 +16,9 @@ import rules from "./data/whole-figures.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
 import { orgPlace } from "./scene";
 import {
-  CLOTHES_SWATCHES,
   DEFAULT_SKIN,
   GARMENTS,
+  GARMENT_SWATCHES,
   type FigureColors,
 } from "./figure-colors";
 import { occluderFor, type Occluder } from "./occluders";
@@ -296,8 +296,9 @@ export function colorsFor(person: FigurePerson): FigureColors {
     GARMENTS.map((garment) => [
       garment,
       person.look?.[garment] ??
-        CLOTHES_SWATCHES[mixed(`${seed}:${garment}`) % CLOTHES_SWATCHES.length]!
-          .id,
+        GARMENT_SWATCHES[garment][
+          mixed(`${seed}:${garment}`) % GARMENT_SWATCHES[garment].length
+        ]!.id,
     ]),
   );
   return { skin: person.look?.skin ?? skin, ...garments };

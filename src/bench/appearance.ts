@@ -1,10 +1,10 @@
 import { readFileSync } from "node:fs";
 import { lookFigures, type Figure } from "./whole-figures";
 import {
-  CLOTHES_SWATCHES,
   DEFAULT_CLOTHES,
   DEFAULT_SKIN,
   GARMENTS,
+  GARMENT_SWATCHES,
   SKIN_SWATCHES,
   clothesSwatch,
   recolorFigure,
@@ -128,7 +128,7 @@ export function appearanceRows(
       colorRow(
         `${garment}-color`,
         GARMENT_LABEL[garment],
-        CLOTHES_SWATCHES,
+        GARMENT_SWATCHES[garment],
         recipe[garment] ?? DEFAULT_CLOTHES,
       ),
     ),
@@ -158,7 +158,10 @@ export function setColor(
   if (rowId === "skin" && skinSwatch(swatchId))
     return { ...recipe, skin: swatchId };
   const garment = garmentRow(rowId);
-  if (isGarment(garment) && clothesSwatch(swatchId))
+  if (
+    isGarment(garment) &&
+    GARMENT_SWATCHES[garment].some((row) => row.id === swatchId)
+  )
     return { ...recipe, [garment]: swatchId };
   throw new Error("No such color.");
 }
@@ -176,7 +179,8 @@ export function moveAppearance(
   }
   const garment = garmentRow(rowId);
   if (rowId === "skin" || isGarment(garment)) {
-    const list = rowId === "skin" ? SKIN_SWATCHES : CLOTHES_SWATCHES;
+    const list =
+      rowId === "skin" ? SKIN_SWATCHES : GARMENT_SWATCHES[garment as Garment];
     const key = rowId === "skin" ? "skin" : (garment as Garment);
     const now =
       recipe[key] ?? (key === "skin" ? DEFAULT_SKIN : DEFAULT_CLOTHES);
@@ -233,7 +237,7 @@ export function drawnAppearance(
       GARMENTS.map((garment) => [
         garment,
         pick(
-          CLOTHES_SWATCHES.map((row) => row.id),
+          GARMENT_SWATCHES[garment].map((row) => row.id),
           garment,
         ),
       ]),

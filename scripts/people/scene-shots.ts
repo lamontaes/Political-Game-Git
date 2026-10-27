@@ -17,6 +17,7 @@ import { openingFrames } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
+import { recolorFigure } from "../../src/bench/figure-colors";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import type { PlayerPacketV1 } from "../../src/core2/player-v1";
 
@@ -194,7 +195,26 @@ for (const seed of seeds) {
       let src = p.figureUrl;
       if (src.startsWith("/art/people-engine/v2/")) {
         w0++;
-        src = `file://${root}${src}`;
+        // Colored as the play server colors it (handler.ts): the figure
+        // recolored from the person's own colors in the query.
+        const u = new URL(src, "http://bench");
+        const name = u.pathname
+          .split("/")
+          .pop()!
+          .replace(/\.png$/, "");
+        const file = resolve(
+          out,
+          `fig-${createHash("md5").update(src).digest("hex")}.png`,
+        );
+        writeFileSync(
+          file,
+          recolorFigure(
+            readFileSync(`.${u.pathname}`),
+            name,
+            Object.fromEntries(u.searchParams),
+          ),
+        );
+        src = `file://${file}`;
       } else {
         o0++;
         const u = new URL(p.figureUrl, "http://bench");
