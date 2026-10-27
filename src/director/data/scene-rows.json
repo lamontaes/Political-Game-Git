@@ -67,11 +67,12 @@
     "address",
     "hearing",
     "verdict",
+    "party-recruit",
+    "speech-afterward",
     "interview-invite",
     "debate-invite",
     "volunteer-offer",
     "rival-word",
-    "rival-filed",
-    "party-recruit"
+    "rival-filed"
   ]
 }

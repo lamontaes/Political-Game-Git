@@ -58,6 +58,7 @@ import {
   type Stance,
 } from "../campaign-views";
 import { candidatePlatform, partyLean } from "../campaign-stances";
+import { contestPositions } from "../contest-positions";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
@@ -441,7 +442,17 @@ export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
     // campaigns on what the candidate and their party stand for.
     platform: filing.platform.length
       ? parsePlatform(filing.platform)
-      : candidatePlatform(api, filing.personId, filing.party ?? null),
+      : candidatePlatform(
+          api,
+          filing.personId,
+          filing.party ?? null,
+          contestPositions(
+            api,
+            elections(api, "contests").get(
+              filing.contestId,
+            ) as unknown as ContestRow,
+          ),
+        ),
     organizationId,
     volunteerIds: [],
     staffIds: [],
@@ -1452,6 +1463,33 @@ function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     ...campaign,
     volunteerIds: [...campaign.volunteerIds, helperId],
   });
+}
+
+/**
+ * Someone has said, to the candidate's face, that they will work the
+ * campaign (a relative's answer in the talk at home after the filing): they
+ * are counted among its volunteers, whom the canvass and the turnout read.
+ * Returns whether they were newly enlisted; a child, the dead and anyone
+ * already counted are not.
+ */
+export function enlistVolunteer(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  const campaign = campaignFor(api, filingId);
+  const person = api.state.people.get(personId);
+  if (
+    !person?.alive ||
+    ageOn(person, api.state.date) < campaignParameter("minimumVolunteerAge") ||
+    campaign.volunteerIds.includes(personId)
+  )
+    return false;
+  save(api, {
+    ...campaign,
+    volunteerIds: [...campaign.volunteerIds, personId],
+  });
+  return true;
 }
 
 /** The individual contribution limit for this contest, in minor units (null: no limit), and its source. */

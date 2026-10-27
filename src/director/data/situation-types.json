@@ -5,6 +5,7 @@
     "subject": "The person whose moment opened the situation.",
     "counterpart": "The other person the opening record names.",
     "household": "The members of the subject's household that day.",
+    "household-stake": "The members of the subject's household the filing puts something of theirs at risk for, strongest first (src/director/family-stake.ts): their savings against the length of the race, or a young child at home while the subject works. None, and the scene is not staged.",
     "kin": "The subject's relatives on record.",
     "present": "Whoever else the setting's records place there that day.",
     "classmates": "People enrolled at the subject's school.",
@@ -2753,6 +2754,72 @@
       "stakes": ["race", "issue"]
     },
     {
+      "key": "speech-afterward",
+      "note": "A candidate's campaign speech, heard in person at a town hall or a campaign event, moved a listener (the listener's moment, on the cause channel, names the speaker); afterward the candidate comes over to ask for their support. The speech.heard record names the speaker, and the campaign act names the occasion. A debate is heard through the outlet's broadcast, so the candidate is not there to come over.",
+      "roles": [
+        {
+          "key": "listener",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "deflect", "leave"],
+          "wants": ["engage", "play-safe"],
+          "bearing": "curious"
+        },
+        {
+          "key": "candidate",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise",
+            "warn"
+          ],
+          "wants": ["commit"],
+          "bearing": "eager"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:speech.heard",
+            "occasion": "campaign",
+            "act": ["town-hall", "speech"],
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "views:speaker",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "speech",
+          "causeRecord": "speech.heard",
+          "bind": {
+            "listener": "subject",
+            "candidate": "counterpart"
+          },
+          "opener": "candidate",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "vote-wanted",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "ask-support",
+      "asker": "candidate",
+      "asked": "listener",
+      "stakes": ["race"]
+    },
+    {
       "key": "filing",
       "roles": [
         {
@@ -2920,6 +2987,7 @@
       "stakes": ["home", "rent"]
     },
     {
+      "repeatsBy": "bill",
       "key": "vote-asked",
       "purpose": "ask-vote",
       "asker": "colleague",
@@ -3117,6 +3185,59 @@
       }
     },
     {
+      "key": "bribe-offer",
+      "purpose": "bribe-offer",
+      "asker": "offerer",
+      "asked": "you",
+      "stakes": ["money", "favor", "record"],
+      "roles": [
+        {
+          "key": "offerer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "request",
+            "press",
+            "plea",
+            "threaten",
+            "deflect",
+            "accept",
+            "thank",
+            "confront"
+          ],
+          "wants": ["self-interest"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["accept", "refuse", "confront", "stall", "lie", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "bribe-offer",
+          "causeEngine": "corruption",
+          "causeRecord": "corruption.bribe-offered",
+          "bind": {
+            "offerer": "counterpart",
+            "you": "subject"
+          },
+          "opener": "offerer"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "party-ask",
       "purpose": "party-ask",
       "asker": "chair",
@@ -3159,6 +3280,70 @@
         "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
+    },
+    {
+      "key": "party-recruit",
+      "note": "A party with no one filed for a partisan seat asks one of its members to run: the candidacy engine's party-asked record names the member, the chair who asks, the party and the seat. The chair comes by the member's home. Their answer is a scene reply the candidacy engine reads: a yes is the decision to run, and the filing follows.",
+      "roles": [
+        {
+          "key": "chair",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise",
+            "warn"
+          ],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:party-asked",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "askedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "candidacy",
+          "causeRecord": "party-asked",
+          "bind": {
+            "chair": "counterpart",
+            "you": "subject"
+          },
+          "opener": "chair",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "run-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "ask-to-run",
+      "asker": "chair",
+      "asked": "you",
+      "stakes": ["office", "party", "race"]
     },
     {
       "key": "office-hours",
@@ -3206,24 +3391,6 @@
           },
           "opener": "constituent",
           "setting": ["office"]
-        },
-        {
-          "match": {
-            "label": "cause:event:town-hall",
-            "causeFacts": [
-              {
-                "key": "hostId",
-                "is": "subject"
-              }
-            ]
-          },
-          "causeEngine": "meetings",
-          "causeRecord": "town-hall",
-          "bind": {
-            "constituent": "town-hall-askers",
-            "you": "subject"
-          },
-          "opener": "constituent"
         }
       ],
       "tag": {
@@ -3237,7 +3404,7 @@
       "purpose": "family-filing",
       "asker": "relative",
       "asked": "you",
-      "stakes": ["office", "filing"],
+      "stakes": ["office", "filing", "household-money-or-time"],
       "roles": [
         {
           "key": "relative",
@@ -3266,7 +3433,7 @@
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
-            "relative": "household",
+            "relative": "household-stake",
             "you": "subject"
           },
           "opener": "relative"
@@ -3633,6 +3800,7 @@
       }
     },
     {
+      "repeatsBy": "bill",
       "key": "section-bargain",
       "purpose": "section-bargain",
       "asker": "member",
@@ -3783,6 +3951,120 @@
       "asker": "recruiter",
       "asked": "invited",
       "stakes": ["cause"]
+    },
+    {
+      "key": "concession-received",
+      "note": "The winner's side of the call after the count: the candidate who finished behind the player rings to say what comes next. The elections engine's result record names the winner and the totals; the runner-up on those totals is the caller. It plays on the phone, as the loser's concession-call does from the other side. How the winner answers is a scene reply: a promise to meet is a promise on record, a hold on the count strains the tie.",
+      "roles": [
+        {
+          "key": "loser",
+          "fill": "opponent",
+          "count": "one",
+          "moves": [
+            "congratulate",
+            "thank",
+            "ask",
+            "request",
+            "refuse",
+            "accept",
+            "warn"
+          ],
+          "wants": ["engage", "help-others"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "offer", "press", "stall", "promise"],
+          "wants": ["commit"],
+          "bearing": "proud"
+        }
+      ],
+      "setting": ["phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:election-result",
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "election-result",
+          "bind": {
+            "loser": "opponent",
+            "you": "subject"
+          },
+          "opener": "loser",
+          "opening": "congratulate"
+        }
+      ],
+      "tag": {
+        "key": "call-in",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "concession-received",
+      "asker": "loser",
+      "asked": "you",
+      "stakes": ["opponent", "office", "race"]
+    },
+    {
+      "key": "town-hall-question",
+      "purpose": "town-hall-question",
+      "asker": "resident",
+      "asked": "you",
+      "stakes": ["issue", "answer", "town"],
+      "roles": [
+        {
+          "key": "resident",
+          "fill": "town-hall-askers",
+          "count": "one",
+          "moves": ["ask", "press", "plea", "disagree", "thank", "accept"],
+          "wants": ["change"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:town-hall",
+            "causeFacts": [
+              {
+                "key": "hostId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "meetings",
+          "causeRecord": "town-hall",
+          "bind": {
+            "resident": "town-hall-askers",
+            "you": "subject"
+          },
+          "opener": "resident"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
     },
     {
       "key": "interview-invite",
@@ -4100,70 +4382,6 @@
       "asker": "teller",
       "asked": "you",
       "stakes": ["race", "opponent"]
-    },
-    {
-      "key": "party-recruit",
-      "note": "A party with no one filed for a partisan seat asks one of its members to run: the candidacy engine's party-asked record names the member, the chair who asks, the party and the seat. The chair comes by the member's home. Their answer is a scene reply the candidacy engine reads: a yes is the decision to run, and the filing follows.",
-      "roles": [
-        {
-          "key": "chair",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": [
-            "greet",
-            "request",
-            "answer",
-            "thank",
-            "press",
-            "accept",
-            "promise",
-            "warn"
-          ],
-          "wants": ["commit"],
-          "bearing": "hopeful"
-        },
-        {
-          "key": "you",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["ask", "agree", "decline", "stall", "leave"],
-          "wants": ["play-safe"],
-          "bearing": "curious"
-        }
-      ],
-      "setting": ["home"],
-      "timing": "at-cause",
-      "causes": [
-        {
-          "match": {
-            "label": "cause:event:party-asked",
-            "selfNamed": true,
-            "causeFacts": [
-              {
-                "key": "askedId",
-                "is": "subject"
-              }
-            ]
-          },
-          "causeEngine": "candidacy",
-          "causeRecord": "party-asked",
-          "bind": {
-            "chair": "counterpart",
-            "you": "subject"
-          },
-          "opener": "chair",
-          "opening": "request"
-        }
-      ],
-      "tag": {
-        "key": "run-asked",
-        "endpoint": "political",
-        "registers": ["scene-talk", "scene-words", "journal"]
-      },
-      "purpose": "ask-to-run",
-      "asker": "chair",
-      "asked": "you",
-      "stakes": ["office", "party", "race"]
     }
   ]
 }
