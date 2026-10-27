@@ -60,13 +60,10 @@ try {
   await page.locator("#person:not([hidden])").waitFor();
   assert.equal(await page.locator("#person-name").innerText(), name);
   assert.equal(
-    await page.locator("#person-figure").getAttribute("src"),
+    await page.locator("#person-media .screen-portrait").getAttribute("src"),
     card.figureUrl,
   );
-  assert.equal(
-    await page.locator("#person-background").getAttribute("src"),
-    null,
-  );
+  assert.equal(await page.locator("#person-media .screen-backdrop").count(), 0);
   const text = await page.locator("#person").innerText();
   assert.ok(!text.includes("undefined"));
   // No heading with nothing under it, no date without a label, a capitalized
@@ -97,9 +94,11 @@ try {
   if (card.tie?.lastContactDate)
     assert.ok(!text.includes(card.tie.lastContactDate));
   await page.waitForFunction(
-    () => document.getElementById("person-figure").complete,
+    () => document.querySelector("#person-media .screen-portrait").complete,
   );
-  const image = await page.locator("#person-figure").boundingBox();
+  const image = await page
+    .locator("#person-media .screen-portrait")
+    .boundingBox();
   assert.ok(image.height > 600 && image.width > 250, "large side figure");
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
@@ -140,8 +139,7 @@ try {
   });
   await page.locator("#people .talkable").first().press("Enter");
   await page.locator("#person:not([hidden])").waitFor();
-  assert.equal(await page.locator("#person-figure").getAttribute("src"), null);
-  assert.equal(await page.locator("#person-figure").isVisible(), false);
+  assert.equal(await page.locator("#person-media img").count(), 0);
   await page.setViewportSize({ width: 1024, height: 768 });
   const panel = await page.locator("#person").boundingBox();
   assert.ok(
