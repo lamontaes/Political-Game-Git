@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/governors-asks
-pr:
+pr: 6316
 blocked-on:
 source: "director engineer, Oct 27 (director-president-asks-within-powers): one governors ask piece per voice and stance; pieces for rank-second and rank-third let the address pass up to three"
 lead: words
