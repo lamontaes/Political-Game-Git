@@ -3527,6 +3527,69 @@
           "when": {}
         }
       ]
+    },
+    "housemate-arrives": {
+      "state": "ask",
+      "replies": ["offer", "bargain", "ask", "decline"],
+      "follow": {
+        "offer": ["thank", "promise"],
+        "bargain": ["accept", "bargain"],
+        "ask": ["answer"],
+        "decline": ["plea", "warn"],
+        "thank": ["accept"],
+        "agree": ["thank"],
+        "relent": ["thank"]
+      },
+      "again": {
+        "promise": ["thank", "leave"],
+        "answer": ["thank", "agree", "leave"],
+        "bargain": ["agree", "leave"],
+        "plea": ["relent", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "later",
+          "label": "Left it for later",
+          "keeps": "none",
+          "when": { "reply": ["leave"] }
+        },
+        {
+          "id": "house-rules",
+          "label": "House rules agreed",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["bargain", "agree"],
+            "asker": ["accept", "thank"]
+          }
+        },
+        {
+          "id": "staying",
+          "label": "They're staying",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["offer", "relent"],
+            "asker": ["thank", "accept", "promise"]
+          }
+        },
+        {
+          "id": "heard-out",
+          "label": "You heard them out",
+          "keeps": "none",
+          "when": { "anyReply": ["ask"], "reply": ["thank"] }
+        },
+        {
+          "id": "said-no",
+          "label": "You said no",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["decline"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {
