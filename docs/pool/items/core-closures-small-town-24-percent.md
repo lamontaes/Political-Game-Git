@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: each owner closes from their own cash, sales and costs, never a rate; real closure rates only check the total. One rule, all 56 places: the closure share holds in any drawn place.
 
-**Done when.** CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs passes its 'under 10% close' check in Dickens, Iowa (seed above) and in two more places drawn from all 56, with each closure's cause named by record id in the PR body.
+**Done when.** CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs passes its 'under 10% close' check in Dickens, Iowa (seed above) and in two more places drawn from all 56, with each closure's cause named by record id in the PR body. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** scripts/core2-year/closures.mjs, src/core2/modules/business.ts
 

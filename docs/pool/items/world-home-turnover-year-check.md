@@ -17,7 +17,7 @@ source: split of world-home-turnover (Oct 18)
 
 **Rules.** No dice: the real rate checks totals, it never decides one household's outcome. Estimate, never UNKNOWN: the targets carry their source and spread. One run, one number: a single run per place, no repeat medians.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named in the PR body) home sales and purchases appear by record id at a rate per thousand owner households inside the NAR and Census spread, a named sale is traced from the seller's reason to the buyer's mortgage and the town's price record, and a test in src/core2 names the place and seed.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named in the PR body) home sales and purchases appear by record id at a rate per thousand owner households inside the NAR and Census spread, a named sale is traced from the seller's reason to the buyer's mortgage and the town's price record, and a test in src/core2 names the place and seed. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/parameters.json
 

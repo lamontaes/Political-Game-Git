@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read: the engine that sets a household's utility cost reads the law at the moment it bills. One model, two tiers: counted households in the new homes take the same rule as named ones, times their count. No dice: who lives in a new home comes from the housing engine's own moves.
 
-**Done when.** In a played year of buildBenchWorld in a drawn place, with the ban in force, the family test names a household living in a home built under the ban by its lawApplied record id, and the journal entry of the utility bill that changed for it, plus one counted group by count.
+**Done when.** In a played year of buildBenchWorld in a drawn place, with the ban in force, the family test names a household living in a home built under the ban by its lawApplied record id, and the journal entry of the utility bill that changed for it, plus one counted group by count. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/housing.ts, src/core2/modules/place-prices.ts, src/core2/law-wiring-prices.test.ts
 

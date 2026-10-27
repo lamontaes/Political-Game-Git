@@ -23,6 +23,8 @@ export interface AppointmentCandidate {
   readonly lean: number;
   /** How qualified for the post, in [0, 1], from the candidate's career. */
   readonly qualification: number;
+  /** The records the qualification was read from (work, its tenure, schooling). */
+  readonly qualificationRecords?: readonly string[];
   /** Whether the appointing official knows them. */
   readonly known: boolean;
 }
@@ -31,6 +33,8 @@ export interface NominationReasons {
   readonly candidateId: string;
   readonly alignment: number;
   readonly qualification: number;
+  /** The records the qualification was read from (work, its tenure, schooling). */
+  readonly qualificationRecords?: readonly string[];
   readonly acquaintance: number;
   /** How much the appointer's own traits count loyalty and merit (1 each where no appointer is named). */
   readonly loyaltyWeight?: number;
@@ -168,6 +172,9 @@ export function nominateAndConfirm(input: {
         candidateId: c.id,
         alignment,
         qualification: c.qualification,
+        ...(c.qualificationRecords
+          ? { qualificationRecords: c.qualificationRecords }
+          : {}),
         acquaintance,
         ...(input.weighing
           ? { loyaltyWeight: loyalty, meritWeight: merit }

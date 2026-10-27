@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Two-level population: nobody gets a full past until filled in, and a filled-in relative must match the family and move facts already on their record. Wire to the world: the promoted relative's school cohort records are read by the peer-network and views engines exactly like a resident's.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, named in the PR), a relative promoted from the husk tier carries school:cohort-estimate records whose dates and places agree with their recorded birthplace and moves, named by record id, and a test beside src/core2/deep-past.test.ts shows the same relative gets the same past twice.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, named in the PR), a relative promoted from the husk tier carries school:cohort-estimate records whose dates and places agree with their recorded birthplace and moves, named by record id, and a test beside src/core2/deep-past.test.ts shows the same relative gets the same past twice. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/deep-past.ts,src/core2/state.ts,src/core2/data/stopgaps.json
 

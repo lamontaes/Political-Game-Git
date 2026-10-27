@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: a closure comes from a business's books, its owner's reasons and the market, never a roll or a fixed percentage. Ask why: each archived story keeps the closure record it came from. One model, two tiers: a counted business closing is archived at counted level and filled in when the player meets it.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a drawn place and a seed the builder did not choose, the opening's archive lists at least one business closure dated before day one with its record id, and the stopgap SG-CORE-past-no-deaths-closures is resolved. A test in src/core2 names the place, the seed and the closure record.
+**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a drawn place and a seed the builder did not choose, the opening's archive lists at least one business closure dated before day one with its record id, and the stopgap SG-CORE-past-no-deaths-closures is resolved. A test in src/core2 names the place, the seed and the closure record. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
 
 **Files.** src/core2/past-news.ts, src/core2/modules/business.ts, src/core2/past-business.ts, src/core2/data/stopgaps.json
 

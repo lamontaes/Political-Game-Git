@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: dropped
 claimed-by: claude/political-game-pool-76ksvw
 pr: #5180
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:11:58.883Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Duplicate of world-counted-weight-money-few-rents (Oct 25 audit). Same failure: counted-weight-money.test.ts finds too few rents to compare in a small place.

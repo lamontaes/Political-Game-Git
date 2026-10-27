@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: a policy counts only when the hiring, rental, police, business or districting engine reads it at the moment it decides or pays. No dice: whether an employer, landlord or officer complies comes from their records and the law in force. One rule, all 56 places: the check names a drawn place and seed. Look before you ask: the Oct 20 ruling on background pregnancies binds the abortion row, and the employer-pass-over ruling binds the discrimination row.
 
-**Done when.** For each of the six policies, either a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR body) shows the owning engine reading the law by record id at a decision (a refused hire, a barred identification, a business charge, a plan choice), or the stopgap row in src/core2/data/stopgaps.json names the pool item that replaces it; a test in src/core2/law-reach chain tests fails if any of the six handlers is still `none` without such a row.
+**Done when.** For each of the six policies, either a one-year run of the played world (buildBenchWorld, a drawn place and seed named in the PR body) shows the owning engine reading the law by record id at a decision (a refused hire, a barred identification, a business charge, a plan choice), or the stopgap row in src/core2/data/stopgaps.json names the pool item that replaces it; a test in src/core2/law-reach chain tests fails if any of the six handlers is still `none` without such a row. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/data/stopgaps.json, src/core2/law-reach-balance.test.ts
 

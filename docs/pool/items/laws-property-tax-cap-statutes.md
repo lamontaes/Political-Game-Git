@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Research before building: real law calibrates the terms and never decides one owner's bill. One rule, all 56 places: each place's terms are data with its citation, never logic naming a state. Estimate, never UNKNOWN: a place with no cap statute has none recorded, not a default.
 
-**Done when.** In a drawn place with a cap statute (name and seed in the PR body), a one-year played world (buildBenchWorld) shows a named owner's assessment held by the statute's size, the bill, the notice the owner received and the director's line, by record ids; the group B reach test passes and SG-GOV-REACH-B-property-tax-bills is resolved for the states done.
+**Done when.** In a drawn place with a cap statute (name and seed in the PR body), a one-year played world (buildBenchWorld) shows a named owner's assessment held by the statute's size, the bill, the notice the owner received and the director's line, by record ids; the group B reach test passes and SG-GOV-REACH-B-property-tax-bills is resolved for the states done. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-money.ts, src/core2/data/stopgaps.json
 

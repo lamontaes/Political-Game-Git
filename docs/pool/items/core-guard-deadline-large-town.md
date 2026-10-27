@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Speed: a town's month must be measured within the guard's budget in every one of the 56 places' towns, so the guard's deadline must fit the largest town it can draw, or the measured span must scale with the town.
 
-**Done when.** The paired guard completes base and head runs within its deadline for the town drawn on the voter-groups test change's head 671bcd7d16 (or the largest town in the place records), shown in a run log named in the PR; a test-only PR never fails it on time alone.
+**Done when.** The paired guard completes base and head runs within its deadline for the town drawn on the voter-groups test change's head 671bcd7d16 (or the largest town in the place records), shown in a run log named in the PR; a test-only PR never fails it on time alone. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/core2-guard/paired.mjs, scripts/core2-guard/policies.json, .github/workflows
 

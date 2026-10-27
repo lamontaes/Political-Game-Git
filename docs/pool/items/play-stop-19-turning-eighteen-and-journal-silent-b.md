@@ -29,4 +29,4 @@ milestone: play-first
 
 **Files.** src/director/journal.ts, src/bench/story.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-19-turning-eighteen-and-journal-silent (Oct 24, lane; the work order's journal half). Journal words are the Words lead's (`needs-from: words`). See play-first-10-journal-from-day-one. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-19-turning-eighteen-and-journal-silent (Oct 24, lane; the work order's journal half). Journal words are the Words lead's (`needs-from: words`). See play-first-10-journal-from-day-one. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Filing left no journal entry; the toast "I ran for Council member." (past tense) came two days after filing.

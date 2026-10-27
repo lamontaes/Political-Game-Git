@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read, not a record: a public event elsewhere is kept only where a reader (the news) reads it, and is read. Speed: keep what the news can carry, not every event in the world.
 
-**Done when.** In a played year of a place drawn from all 56, other states' monthly jobs reports are kept where the news reads them and at least one becomes a story the player's town can see, by record id; the M1-13 command's events clause passes, named with place and seed in the PR body.
+**Done when.** In a played year of a place drawn from all 56, other states' monthly jobs reports are kept where the news reads them and at least one becomes a story the player's town can see, by record id; the M1-13 command's events clause passes, named with place and seed in the PR body. **On screen.** Nothing yet: filed play-other-states-news-on-screen, which puts it on News.
 
 **Files.** src/core2/modules/regional.ts, src/core2/state.ts
 

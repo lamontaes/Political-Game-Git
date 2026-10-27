@@ -22,7 +22,8 @@
     "their-tenure": "tenure-reply",
     "their-school": "school-reply",
     "their-family": "family-reply",
-    "news": "news-reply"
+    "news": "news-reply",
+    "address": "address-view"
   },
   "otherRaises": {
     "own-work": {
@@ -96,6 +97,14 @@
     "acquittal": {
       "kind": "acquittal-reply",
       "stage": "default"
+    },
+    "address-view": {
+      "kind": "address-view",
+      "stage": "default"
+    },
+    "victimization": {
+      "kind": "victimization-reply",
+      "stage": "default"
     }
   },
   "follows": {
@@ -104,7 +113,8 @@
     "shared-work": ["their-work"],
     "other-work": ["their-tenure"],
     "home": ["home"],
-    "family": ["their-family"]
+    "family": ["their-family"],
+    "address": ["address"]
   },
   "related": {
     "about": "Owner, Oct 14, 2026, night: a talk has one main topic with side remarks, and one topic may lead to a related one. For each main topic, the topics it may lead on to, in order; after one of them the other person closes the talk.",
@@ -143,6 +153,11 @@
     },
     "eviction-cause-reply": {
       "where": "eviction-where"
+    },
+    "address": {
+      "agree": "address-view",
+      "doubt": "address-view",
+      "hope": "address-view"
     }
   },
   "familyTalk": {
@@ -169,6 +184,7 @@
       "feeling:event:health.",
       "feeling:event:housing.",
       "feeling:event:justice.",
+      "feeling:event:crime.",
       "feeling:event:person-birth",
       "feeling:event:person.moved-away",
       "cause:event:election-result",

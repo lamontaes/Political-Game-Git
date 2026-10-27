@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Estimate, never UNKNOWN: a place-type or value cell the survey lacks starts from the national average marked ESTIMATED with its source. One model, two tiers: the counted groups carry the same place-type term and values as full people, times their count.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, two drawn places from all 56 of different place types, seeds named), each adult's opening view record names its place-type term, the town's right and left shares are reported against the Pew band for its type, every adult has the 14 values with their reasons, and src/core2/views.test.ts covers the place-type term.
+**Done when.** In a one-year run of the played world (buildBenchWorld, two drawn places from all 56 of different place types, seeds named), each adult's opening view record names its place-type term, the town's right and left shares are reported against the Pew band for its type, every adult has the 14 values with their reasons, and src/core2/views.test.ts covers the place-type term. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, data/research/people/pew-partisanship-community-type-2023.json
 

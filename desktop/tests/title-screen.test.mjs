@@ -15,41 +15,15 @@ const read = (relative) =>
   readFileSync(fileURLToPath(new URL(relative, import.meta.url)), "utf8");
 const html = read("../../src/bench/play.html");
 const script = read("../../src/bench/play.mjs");
-const manifest = JSON.parse(read("../../art/backdrops/manifest.json"));
 
 const front = html.slice(
   html.indexOf('<section id="front"'),
   html.indexOf("</section>", html.indexOf('<section id="front"')),
 );
 
-const ALLOWED = new Set([
-  "white-house-exterior",
-  "national-convention-floor",
-  "national-convention-stage",
-  "rally-stage",
-  "rally-town-square",
-  "rally-courthouse-square",
-  "us-house-floor",
-  "us-senate-floor",
-  "debate-stage",
-  "oval-office",
-]);
-
-test("the title rotates through national scenes from the backdrop manifest", () => {
-  const title = read("../../src/bench/title.ts");
-  const list = /TITLE_SCENES = \[([^\]]+)\]/.exec(title);
-  assert.ok(list, "the title names its scenes");
-  const scenes = [...list[1].matchAll(/"([a-z-]+)"/g)].map((m) => m[1]);
-  assert.ok(scenes.length >= 3, "more than one scene rotates");
-  for (const place of scenes) {
-    assert.ok(ALLOWED.has(place), `${place} is an allowed national scene`);
-    assert.ok(
-      manifest.backdrops.some((row) => row.place === place),
-      `${place} is in art/backdrops/manifest.json`,
-    );
-  }
+test("the title asks for its scenes", () => {
   assert.match(script, /api\("\/api\/title"\)/);
-  assert.match(script, /\$\("backdrop"\)\.src = title\.backdrop\.url;/);
+  assert.match(script, /rotateTitle\(title\.scenes/);
 });
 
 test("the title menu and the creator follow the Oct 12 build", () => {
@@ -60,7 +34,6 @@ test("the title menu and the creator follow the Oct 12 build", () => {
   );
   const order = [
     "new-game",
-    "watch-world",
     "continue",
     "open-saves",
     "title-options",
@@ -80,10 +53,17 @@ test("the title menu and the creator follow the Oct 12 build", () => {
   assert.doesNotMatch(main, /id="seed"|id="place"/);
   const choice = front.slice(
     front.indexOf('id="front-new"'),
-    front.indexOf('id="front-custom"'),
+    front.indexOf('id="front-advanced"'),
   );
-  for (const id of ["custom-world", "start-life", "new-world", "new-game-back"])
+  for (const id of ["start-life", "advanced", "new-game-back"])
     assert.match(choice, new RegExp(`data-testid="${id}"`));
+  assert.doesNotMatch(choice, /data-testid="(custom-world|watch-world)"/);
+  const advanced = front.slice(
+    front.indexOf('id="front-advanced"'),
+    front.indexOf('id="front-pick"'),
+  );
+  for (const id of ["new-world", "advanced-build"])
+    assert.match(advanced, new RegExp(`data-testid="${id}"`));
   for (const id of [
     "gender-female",
     "gender-male",

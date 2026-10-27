@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: other places' voters move by the same view rule as the town's people, times their count, never a second simulation. No dice: a place's lean moves from its conditions, and real spreads only check the totals.
 
-**Done when.** In a played year of a place drawn from all 56, other states' coarse leans change from their own conditions with the cause named by record id, races counted there read the moved lean, and the M1-13 command's views clause passes, named with place and seed in the PR body.
+**Done when.** In a played year of a place drawn from all 56, other states' coarse leans change from their own conditions with the cause named by record id, races counted there read the moved lean, and the M1-13 command's views clause passes, named with place and seed in the PR body. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/views.ts, src/core2/electorate-places.ts, src/bench/m1-13-check.ts
 

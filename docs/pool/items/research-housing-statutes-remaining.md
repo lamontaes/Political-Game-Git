@@ -3,7 +3,7 @@ id: research-housing-statutes-remaining
 title: "Research: read the eviction and foreclosure statutes the cloud could not reach, and the territories' shelter counts"
 area: world
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/research/world/eviction-statute-reads-2026.json, data/research/world/foreclosure-reads-2026.json, src/core2/data/housing/housing.json, src/core2/data/housing/foreclosure.json, scripts/research/housing-check.ts
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

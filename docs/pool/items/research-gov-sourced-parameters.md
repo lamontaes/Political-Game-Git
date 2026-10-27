@@ -3,7 +3,7 @@ id: research-gov-sourced-parameters
 title: "Research: sourced parameters for justice law, officials and news habits"
 area: gov
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -34,3 +34,5 @@ Looked at Oct 20 (claude, claude/political-game-pool-yucp92-x), nothing sourced.
 Oct 24, 2026: split. PR 5856 (item research-gov-bribery-sentences-holder-parties) delivers newsOutletDelayDays (ESTIMATED, 1 day, spread 1 to 2 days), bribery ranges read from statute for 43 places, and the party of 158 unrecorded officeholders. Still open here: newsMaxAgeDays (the engine reads it as a cutoff; bug people-news-newsMaxAgeDays-as-cause), newsStoriesPerContact (no convertible source) and bribery ranges for 13 places whose code sites refused the cloud fetch. Also open: 24 unrecorded seats (six vacancies absent from Ballotpedia's tables, two territory boards not read, 16 invented by a district-name mismatch). SG-P15-news-habits, SG-GOV-justice-bribery-grade and SG-OFFICIALS-unrecorded-party stay open.
 
 Sent back 2026-10-23 from PR #5856 (branch claude/dreamy-tesla-bgi3ui-gov): The table leaves two parameter rows and all three stopgap-resolution rows unmet, and the year exercises neither new bribery nor unrecorded-party reader; bound the completed research slices while preserving the unidentified and unread work open; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

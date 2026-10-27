@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T19:13:27.677Z
 
 **Rules.** One rule, all 56 places: every drawn place's opening must build, so a government covering one place twice is resolved from its records (one coverage per government and place), never by skipping the place.
 
-**Done when.** buildBenchWorld builds Bayou Blue, Louisiana with the seed above, the cause is named by line in the PR, and a test builds the opening for every locality in the place records whose governments carry more than one coverage row for a place, naming any that fail.
+**Done when.** buildBenchWorld builds Bayou Blue, Louisiana with the seed above, the cause is named by line in the PR, and a test builds the opening for every locality in the place records whose governments carry more than one coverage row for a place, naming any that fail. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/opening-customers.ts
 

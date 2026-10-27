@@ -207,8 +207,7 @@ export class BenchPlayer {
    * leaving a pause can't commit anyone to the rest of a week or a year.
    */
   private run(start: PlayerPacketV1 | undefined, from: PlayerMomentV1) {
-    const { through, mode } = this.destination!;
-    const skipping = mode === "calendar";
+    const { through } = this.destination!;
     // Coming of voting age is golden-path step one: an advance that reaches
     // that day stops on it, so the player sees the day it happens.
     const began = from.date;
@@ -249,20 +248,6 @@ export class BenchPlayer {
       // (a director scene, a fixed commitment or a deadline) ends the advance.
       if (packet.kind === "choice") {
         packet = this.answerForSelf(packet, "advancing");
-        continue;
-      }
-      // A routine shift the character attends on its own never stops a
-      // skip (owner, Oct 12): the character answers the shift's choice itself.
-      if (
-        packet.kind === "stop" &&
-        skipping &&
-        !packet.stop.modules.length &&
-        packet.stop.work
-      ) {
-        packet = resumePlayerV1(this.core, {
-          kind: "stop",
-          pauseId: packet.pauseId,
-        });
         continue;
       }
       break;

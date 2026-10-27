@@ -7,7 +7,7 @@ priority: 2
 status: open
 claimed-by:
 pr: #5706
-blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
+blocked-on:
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"
 claimed-at:
@@ -36,3 +36,5 @@ Sent back 2026-10-20 from PR #5706 (branch claude/political-game-pool-yucp92-bo)
 Sent back 2026-10-20 from PR #5241 (branch claude/news-headlines-more): data/english/parts/headlines.json adds six origin authored entries with shippable true. Authored pieces must stay held until graded, and the body gives no grading proof. Correct the flags and the player-visible headline claim before merging; Words-owned bank and director edits also require the Words session. Keep the stacked parent handling separate from completion of the main pool item.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5706 (branch claude/political-game-pool-yucp92-bo): Words ownership is resolved, but the missing Done-when table and explicitly unfinished broad scope require a valid bounded held-headline item or full acceptance proof; finish on that branch, merge main into it first.
+
+Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).

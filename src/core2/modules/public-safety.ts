@@ -4,8 +4,12 @@
  * immigration partnership reach the town's households (see
  * `public-safety.ts`).
  */
-import { registerModule } from "../state";
-import { PUBLIC_SAFETY_MODULE_ID, runSafetyMonth } from "../public-safety";
+import { coreAPI, registerModule } from "../state";
+import {
+  openingSafetyMonth,
+  PUBLIC_SAFETY_MODULE_ID,
+  runSafetyMonth,
+} from "../public-safety";
 import type { CoreModule, CoreState } from "../types";
 
 export const PUBLIC_SAFETY_MODULE: CoreModule = {
@@ -23,7 +27,7 @@ export const PUBLIC_SAFETY_MODULE: CoreModule = {
       carry: {},
       storage: {},
       permits: {},
-      months: {},
+      months: { indexes: { byPlace: { fields: ["placeId"] } } },
     },
   },
   onDay(api) {
@@ -33,6 +37,7 @@ export const PUBLIC_SAFETY_MODULE: CoreModule = {
 };
 
 export function openPublicSafety(core: CoreState): void {
-  if (!core.modules.has(PUBLIC_SAFETY_MODULE_ID))
-    registerModule(core, PUBLIC_SAFETY_MODULE);
+  if (core.modules.has(PUBLIC_SAFETY_MODULE_ID)) return;
+  registerModule(core, PUBLIC_SAFETY_MODULE);
+  openingSafetyMonth(coreAPI(core));
 }

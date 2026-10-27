@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: the same rule as a full household times its weight. No dice: the sale follows from the death and the estate. Wire to the world: price, payoff and heirs move by journal record. Ask why: the sale row names the death and the estate.
 
-**Done when.** In a one-year run of the played world in a drawn place from all 56 (seed named in the PR body), a counted household whose last owner died has its home sold when its estate closes, with a home-sale row that names the estate and heirs paid, shown in src/core2/counted-estates.test.ts or a new test.
+**Done when.** In a one-year run of the played world in a drawn place from all 56 (seed named in the PR body), a counted household whose last owner died has its home sold when its estate closes, with a home-sale row that names the estate and heirs paid, shown in src/core2/counted-estates.test.ts or a new test. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/estates.ts, src/core2/housing-sale.ts, src/core2/modules/residents.ts
 
