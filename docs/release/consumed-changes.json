@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.43.0",
+      "releasedOn": "2026-10-26",
+      "revision": "17aa4c36ebac55bf96979769b29128d645ed939f",
+      "changeIds": [
+        "play-shifts-never-stop-player",
+        "release-smoke-title-lincoln",
+        "roadmap-m1-02-no-bank-line-witness"
+      ]
+    },
+    {
       "version": "0.42.0",
       "releasedOn": "2026-10-26",
       "revision": "950bc375d4413bbd9b496d7d4d34aafe933dbe46",

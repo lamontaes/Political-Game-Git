@@ -296,6 +296,23 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.43.0
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The desktop build checks itself again** The desktop build checks itself
+  again: its title check now accepts the Lincoln Memorial at night, which the
+  title's rotation added on Oct 26, so Mac and Windows packages publish.
+
+### Changed
+
+- **Work shifts no longer stop your day** Your character goes to work, works the
+  shift and gets paid on their own, and the start or end of a shift no longer
+  stops Day or Week with "Something needs you". Only a scene, a deadline you
+  must answer, or your own meeting or desk stops time now.
+
 ## PRE-ALPHA 0.42.0
 
 _Released October 26, 2026._
