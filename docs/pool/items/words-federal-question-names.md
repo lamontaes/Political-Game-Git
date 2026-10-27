@@ -17,7 +17,7 @@ source: director lead, director-president-asks-within-powers (#6300), Oct 27
 
 **Rules.** No hand-written player text: each name is an `about` noun phrase and a `to` verb phrase in the bank file, authored to the English engine's patterns. American English. One rule, all 56 places: names carry no place.
 
-**Done when.** `question-names.json` names every `us-federal-positions:*` question in `question-powers.json`; a test beside `src/english/question-names.ts` fails on any federal-power question without a name; the bank tests pass.
+**Done when.** `question-names.json` names every `us-federal-positions:*` question listed in `question-powers.json`; a new test beside `src/english/question-names.ts` fails on any federal-power question without a spoken name; and the bank tests and the American English sweep pass on the PR head.
 
 **Files.** data/english/question-names.json, src/english/question-names.ts
 
