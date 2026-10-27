@@ -317,6 +317,14 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // A committee trade coming due on the floor (legislature.ts
+  // recordPromises): the member promised their vote, and the lines about a
+  // promised vote need it.
+  if (record?.kind === "vote-promise")
+    facts["your-promise"] = {
+      text: said.traded ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.office)
     facts.office = {
       text: said.office,

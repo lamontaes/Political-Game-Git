@@ -1510,6 +1510,11 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "vote-promise",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "executive-action",
       "channel": "cause",
       "impactParameter": "directorExecutiveActionImpact"
