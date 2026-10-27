@@ -271,6 +271,21 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
+      "id": "away-evening",
+      "recordKinds": ["public-meeting"],
+      "recordFactEquals": { "evening": ["true"] },
+      "playerNamed": true,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "on the evening the player's body sits past the hour it meets at night, someone they live with, scored on tie and sociability",
+      "typeKey": "family-absence",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",
