@@ -3599,10 +3599,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.ask.polished-ina-sta-congress-should-to-and-i-will-put-my-name-to-the-bill-that-d",
+      "key": "opening-speech.ask.polished-ina-sta-congress-should-to-and-i-want-that-bill-on-my-desk",
       "move": "ask",
       "kind": "spoken",
-      "text": "Congress should {to}, and I will put my name to the bill that does.",
+      "text": "Congress should {to}, and I want that bill on my desk.",
       "uses": [
         {
           "move": "ask",
@@ -3627,10 +3627,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.ask.plain-ina-sta-congress-ought-to-to-send-it-to-me-and-i-ll-sign-it",
+      "key": "opening-speech.ask.plain-ina-sta-congress-ought-to-to-i-want-that-bill-on-my-desk",
       "move": "ask",
       "kind": "spoken",
-      "text": "Congress ought to {to}. Send it to me and I'll sign it.",
+      "text": "Congress ought to {to}. I want that bill on my desk.",
       "uses": [
         {
           "move": "ask",
@@ -4351,10 +4351,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.towns.plain-ina-sta-i-was-in-place-asking-for-votes-now-i-owe-them",
+      "key": "opening-speech.towns.plain-ina-sta-i-was-in-place-asking-for-votes-and-i-haven-t-forgotten-it",
       "move": "towns",
       "kind": "spoken",
-      "text": "I was in {place} asking for votes. Now I owe them.",
+      "text": "I was in {place} asking for votes, and I haven't forgotten it.",
       "uses": [
         {
           "move": "towns",
