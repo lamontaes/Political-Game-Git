@@ -6,7 +6,7 @@ lead: effects
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/poverty-halved-pay
 pr: #6251
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-27T06:35:43.051Z
 **Files.** src/core2/world-poverty.test.ts
 
 **Notes.** Filed by the laws lead, Oct 26, from the health branch's gate.
+
+Worker check (Claude, Oct 27): already fixed on main. The test halves pay up to ten times until the share rises (src/core2/world-poverty.test.ts, `halving < 10 && last <= before`). It passes at `WEB_POVERTY_SEED=2bb9c36ff3aac413` (Lupton, Arizona) and on fresh seeds `pv1a` (Honeyville, Utah) and `pv2b` (Golden Shores, Arizona). With the poverty measure no longer reading wages (named jobs fixed at a constant, counted households at a constant) it fails at the seed: "expected 0.0145 to be greater than 0.0145". No code change was needed.

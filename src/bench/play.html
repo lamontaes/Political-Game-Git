@@ -17,14 +17,8 @@
 
       <!-- The opening: the President's speech box, then the night's news at home. -->
       <section id="opening-box" class="panel chat" hidden>
-        <div class="who">
-          <div id="opening-bust" class="bust"></div>
-          <div>
-            <div id="opening-name" class="name"></div>
-            <div id="opening-role" class="role"></div>
-          </div>
-        </div>
-        <p id="opening-speech" class="speech"></p>
+        <div data-speaker="opening"></div>
+        <ol id="opening-speech" class="talk-lines"></ol>
       </section>
       <!-- Who the camera passes, pointed out by name and office. -->
       <div id="opening-point" class="panel" hidden>
@@ -38,6 +32,20 @@
         </button>
         <span data-close="news-surface-close"></span>
       </div>
+      <!-- Election morning: the narrator, a candidate's canvass, and the choice to vote. -->
+      <section id="election-day" class="panel" hidden>
+        <div id="election-day-lines"></div>
+        <div id="election-day-acts" class="acts"></div>
+      </section>
+      <!-- Election night: the returns for the player's race, place by place. -->
+      <section id="returns" class="panel" hidden>
+        <h3 id="returns-title" class="heading"></h3>
+        <div id="returns-lines"></div>
+        <div id="returns-count"></div>
+        <div class="acts">
+          <button id="returns-next" class="action" type="button"></button>
+        </div>
+      </section>
       <!-- Election day at the polls: the ballot, from the elections engine's records. -->
       <section id="ballot" class="panel" hidden>
         <div id="ballot-races"></div>
@@ -77,6 +85,10 @@
       </section>
       <section id="news-reader" class="panel" hidden>
         <div class="news-reader-main">
+          <header class="paper-masthead">
+            <h2 id="news-reader-masthead"></h2>
+            <span id="news-reader-date" class="paper-date"></span>
+          </header>
           <h2 id="news-reader-headline" class="heading"></h2>
           <div id="news-reader-body"></div>
           <div id="news-reader-pager" class="acts" data-pager hidden></div>
@@ -109,7 +121,14 @@
             data-testid="continue"
             disabled
           >
-            <b>Continue</b><small id="front-continue-life"></small>
+            <span
+              id="front-continue-bust"
+              class="bust"
+              data-testid="continue-face"
+            ></span
+            ><span class="continue-text"
+              ><b>Continue</b><small id="front-continue-life"></small
+            ></span>
           </button>
           <button
             id="front-saves"
@@ -542,7 +561,7 @@
           data-testid="sheet-close"
         ></span>
         <nav id="sheet-tabs" class="tabs"></nav>
-        <div id="sheet-media" hidden></div>
+        <div id="sheet-media" class="screen-media" hidden></div>
         <div id="sheet-body"></div>
         <div id="sheet-pager" class="acts" data-pager hidden></div>
       </section>
@@ -566,14 +585,8 @@
             />
           </svg>
         </button>
-        <div id="talk-who" class="who">
-          <div id="talk-bust" class="bust"></div>
-          <div>
-            <div id="talk-name" class="name"></div>
-            <div id="talk-role" class="role"></div>
-          </div>
-        </div>
-        <ol id="talk-lines"></ol>
+        <div data-speaker="talk"></div>
+        <ol id="talk-lines" class="talk-lines"></ol>
         <div id="talk-choices" class="replies"></div>
         <div class="acts">
           <button id="talk-silent" class="action small" type="button">
@@ -604,12 +617,13 @@
         aria-labelledby="person-name"
         hidden
       >
-        <div class="dossier-media">
-          <img id="person-background" alt="" hidden />
-          <img id="person-figure" alt="" hidden />
-        </div>
+        <div id="person-media" class="screen-media"></div>
         <div class="dossier-main">
-          <h2 id="person-name" class="heading"></h2>
+          <span
+            data-panel-head
+            data-title-id="person-name"
+            data-close-id="person-close"
+          ></span>
           <p id="person-role" class="role"></p>
           <div id="person-facts"></div>
           <div id="person-pager" class="acts" data-pager="person" hidden></div>
@@ -619,7 +633,6 @@
               class="action primary"
               type="button"
             ></button>
-            <span data-close="person-close"></span>
           </div>
         </div>
       </section>

@@ -53,6 +53,8 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  questionSettled,
+  type SettledQuestion,
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
@@ -213,6 +215,16 @@ export interface BillRow {
     | "blocked"
     /** Passed, on the desk of an executive who decides for themselves (the player). */
     | "awaiting-signature";
+  /**
+   * Why the floor never voted a failed bill: its law was already made (in
+   * force or waiting on its effective date), or cut across an act waiting.
+   * Names the law row it repeats or collides with.
+   */
+  readonly moot?: SettledQuestion & { readonly question: string };
+  /** Sections of an enacted bill that only repeated law already made: no new law row, the row they repeat named. */
+  readonly repeats?: readonly (SettledQuestion & {
+    readonly question: string;
+  })[];
   readonly deals: readonly {
     readonly memberId: string;
     readonly kind: string;
@@ -1305,6 +1317,19 @@ export function billReach(
   return { federal, state, county, township, level };
 }
 
+/** The government whose law a bill makes: the nation, the state, or the county, township or town its body governs. */
+export function billJurisdiction(api: CoreAPI, bill: BillRow): string {
+  const chain = lawChain(api);
+  const { federal, state, county, township } = billReach(api, bill);
+  return federal
+    ? "US"
+    : state
+      ? chain.stateKey
+      : (county ??
+        township ??
+        chain.levels[chain.levels.length - 1]!.jurisdiction);
+}
+
 /**
  * Which government a body belongs to, for a story that is not about one bill
  * (a chamber organizing itself): Congress's chambers are federal, a state's
@@ -1340,14 +1365,8 @@ export function effectiveRule(
   readonly cite: string;
 } {
   const chain = lawChain(api);
-  const { federal, state, county, township, level } = billReach(api, bill);
-  const jurisdiction = federal
-    ? "US"
-    : state
-      ? chain.stateKey
-      : (county ??
-        township ??
-        chain.levels[chain.levels.length - 1]!.jurisdiction);
+  const { federal, state, level } = billReach(api, bill);
+  const jurisdiction = billJurisdiction(api, bill);
   const base = { jurisdiction, level, federal, state } as const;
   if (federal)
     return {
@@ -3251,10 +3270,15 @@ function ownSections(
     official
       ? ownStance(official.ideal, official.signature, q)
       : viewOn(api, memberId, q, lean);
+  // A member asks for a section only where it would change their body's law:
+  // not one that repeats the law in force or an act already passed, nor one
+  // that cuts across an act waiting on its effective date.
+  const makes = billJurisdiction(api, bill);
   return Object.keys(POLICY_QUESTIONS)
     .filter((q) => !touched.has(q))
     .map((q) => ({ q, stance: stanceOn(q) }))
     .filter(({ stance }) => stance !== 0)
+    .filter(({ q, stance }) => !questionSettled(api, makes, q, stance))
     .sort(
       (a, b) =>
         Math.abs(b.stance) - Math.abs(a.stance) || a.q.localeCompare(b.q),
@@ -4342,6 +4366,7 @@ function enact(
         }[];
       }
     | undefined;
+  const repeats: NonNullable<BillRow["repeats"]>[number][] = [];
   for (const [index, provision] of bill.provisions.entries()) {
     if (itemVeto?.struck.includes(index)) continue;
     const itemDecision = itemVeto?.decisions.find(
@@ -4397,7 +4422,27 @@ function enact(
           measureId: bill.number,
         });
     }
-    if (provision.kind === "policy-question" && provision.question)
+    if (provision.kind === "policy-question" && provision.question) {
+      // A section that only repeats what is already law at this level (in
+      // force, or passed earlier and waiting on its date) changes nothing: it
+      // writes no new law and the act records the row it repeats. A bill's
+      // sections are written when it passes, not when they were added, so
+      // another bill may have made the same law in between.
+      const settled = questionSettled(
+        api,
+        jurisdiction,
+        provision.question,
+        provision.value,
+        bill.id,
+      );
+      if (
+        settled &&
+        (settled.why === "restates-in-force" ||
+          settled.why === "restates-pending")
+      ) {
+        repeats.push({ question: provision.question, ...settled });
+        continue;
+      }
       enactLaw(api, {
         jurisdiction,
         level,
@@ -4411,10 +4456,12 @@ function enact(
         // and sessions, and a recall or the record finds the bill by this.
         terms: { ...(terms ?? {}), enactedByBill: bill.id },
       });
+    }
   }
   const next: BillRow = {
     ...bill,
     status: bill.status === "overridden" ? "overridden" : "enacted",
+    ...(repeats.length ? { repeats } : {}),
   };
   table(api, "bills").put(next as unknown as ModuleRow);
   return next;

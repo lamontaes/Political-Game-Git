@@ -43,6 +43,12 @@ import {
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor, localClerkFor } from "../core2/modules/filing-clerk";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
+import {
+  EXECUTIVE_MODULE_ID,
+  appointmentsIn,
+} from "../core2/modules/executive";
+import { lawChain } from "../core2/modules/laws";
+import { lineForPost } from "../core2/budgets-treasury";
 import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
@@ -59,14 +65,17 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "poll-workers",
   "chair",
   "members",
+  "bill-sponsor",
   "executive",
   "appointer",
   "press",
   "press-corps",
   "staff",
+  "department-head",
   "town-hall-askers",
   "supporters",
   "volunteers",
+  "opponent",
   "audience",
   "staff",
 ]);
@@ -74,6 +83,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
 interface BillRow {
   readonly id: string;
   readonly bodyOfficeId: string;
+  readonly sponsorId: string;
 }
 interface OutletRow {
   readonly id: string;
@@ -155,6 +165,27 @@ export function civicFill(
           ...(campaign?.staffIds ?? []),
         ]),
       );
+    }
+    case "opponent": {
+      // The candidate who finished behind the moment's subject in the count
+      // the cause settled: the runner-up on the result record's totals, living
+      // and not the subject. Where the subject did not win, or nobody else
+      // stood, the role stays unfilled and the scene does not fire.
+      const facts = core.durableLog.get(moment.causeId)?.facts;
+      if (!facts?.totals || facts.winnerId !== moment.personId) return [];
+      const totals = JSON.parse(String(facts.totals)) as Record<string, number>;
+      return free(
+        living(
+          core,
+          Object.entries(totals)
+            .filter(([id]) => id !== moment.personId)
+            .sort(
+              ([idA, votesA], [idB, votesB]) =>
+                votesB - votesA || idA.localeCompare(idB),
+            )
+            .map(([id]) => id),
+        ),
+      ).slice(zero, one);
     }
     case "volunteers": {
       // The volunteers of a campaign the candidate is running now, from the
@@ -263,6 +294,32 @@ export function civicFill(
         ),
       );
     }
+    case "department-head": {
+      // A cut line's department head: the person the town's appointment
+      // records seat in a post whose pay draws on the line the record cut. A
+      // line no post draws on (administration is every post's fallback), a
+      // raise, or a government that appoints no heads has none, and the
+      // scene does not fire.
+      if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
+      const cut = core.durableLog.get(moment.causeId);
+      const line = cut?.facts?.line;
+      if (
+        cut?.kind !== "budget-line-changed" ||
+        !line ||
+        line === "administration" ||
+        cut.facts?.level !== "city" ||
+        !(Number(cut.facts?.deltaMinor) < zero)
+      )
+        return [];
+      return free(
+        living(
+          core,
+          appointmentsIn(api, lawChain(api).townPlaceId)
+            .filter((row) => lineForPost("city", `town:${row.post}`) === line)
+            .map((row) => row.holderId),
+        ),
+      );
+    }
     case "town-hall-askers": {
       // The residents who stood up with a question at the host's town hall,
       // in the order the record took their questions.
@@ -307,6 +364,13 @@ export function civicFill(
         ]) as unknown as TermRow[];
       const president = term?.personId;
       return free(living(core, [president ?? null]));
+    }
+    case "bill-sponsor": {
+      // The member who carried the bill the cause's record names (a committee
+      // that held it), when they are a living full person.
+      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+      const sponsor = billOf(api, moment)?.sponsorId;
+      return free(living(core, sponsor ? [sponsor] : []));
     }
     case "chair":
     case "members": {

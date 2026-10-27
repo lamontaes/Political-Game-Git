@@ -4793,6 +4793,30 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "responseRetrainAgeCenter": {
+    "value": 40,
+    "tag": "ESTIMATED",
+    "citation": "Age at which the logistic fall in a displaced worker's capacity to retrain or start over has reached one half. Jacobson, LaLonde and Sullivan 2005 (Journal of Econometrics; Chicago Fed WP 2003-25): of displaced workers, 16.8% of men under 35 against 10.9% at 35 and over, and 23.5% of women under 35 against 17.2%, completed community-college credit, so the older group retrains at about 0.65 to 0.73 of the younger group's rate. See data/research/drives/economic-losses.json. Set to 40 on Oct 25 (M0-M2 lead) with a width of 18 years: a 45-year-old keeps 0.65 of a 28-year-old's capacity, the low end of the paper's ratio, a 35-year-old 0.86 and a 58-year-old 0.41.",
+    "estimatedFrom": "The under-35 and 35-and-over completion rates in Jacobson, LaLonde and Sullivan 2005, read at the groups' typical ages (28 and 45); the paper gives two age groups, not a curve. Center and width were then set together with responseAmbitionFit so that the unchanged M1-11 check and drives-economy.test.ts read inside 6-25% in the generated towns listed under responseAmbitionFit.",
+    "spread": {
+      "low": 35,
+      "high": 60,
+      "unit": "years of age",
+      "citation": "At a width of 18, a center of 35 gives a 0.61 ratio between 28 and 45 and 60 gives 0.81, which brackets the paper's 0.65 to 0.73."
+    }
+  },
+  "responseRetrainAgeWidthYears": {
+    "value": 18,
+    "tag": "ESTIMATED",
+    "citation": "Width in years of the smooth fall in capacity to retrain or start over around responseRetrainAgeCenter. Jacobson, LaLonde and Sullivan 2005 report two age groups (under 35, 35 and over), not a curve, so they fix only the ratio between workers near 28 and near 45 (about 0.65 to 0.73); at a center of 40 a width of 18 years gives 0.65. Set on Oct 25 (M0-M2 lead): a steeper fall (center 50, width 10) left the workers over 45 with almost no pull, and Manson, Iowa (1948990) read 1 of 25 displaced workers setting out to prove themselves, under the 6% floor, while raising the ambition fit to make up for it pushed North Canton, Ohio over the 25% ceiling. A gentler fall keeps a pull in the town's 40- and 50-year-olds.",
+    "estimatedFrom": "The same two age groups, read at typical ages 28 and 45; the width is free within the ratio the paper gives, and was set with the center and the fit so that the generated towns listed under responseAmbitionFit read inside 6-25%.",
+    "spread": {
+      "low": 14,
+      "high": 26,
+      "unit": "years",
+      "citation": "From a steeper to a gentler fall. At a center of 40, a width of 14 gives a 28-to-45 ratio of 0.59 and 26 gives 0.74; the paper's ratio is 0.65 to 0.73."
+    }
+  },
   "responseCarryOnBaseline": {
     "value": 1,
     "tag": "TUNABLE",
@@ -4898,13 +4922,13 @@
     }
   },
   "responseAmbitionFit": {
-    "value": 1.5,
+    "value": 3.4,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois.",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Recalibrated Oct 24 (M0-M2 lead): after the Oct 13 traits change that gave every trait a low side (#4060) the same fit of 1.9 gave 26 to 32% in drawn towns; 1.5 gives 12 to 17% in Riverdale, Georgia, Warren, Illinois, Excelsior, Minnesota and Flora, Illinois. Recalibrated Oct 25 (M0-M2 lead) with the retraining age fade (responseRetrainAgeCenter): North Canton, Ohio read 35.1% at 1.5 because 77 of its 103 job losses came from one wholesale employer and its full workers leaned toward ambition; with the age fade, 1.75 read 19.1% there and 7.8% in Steamboat Springs, Colorado. Recalibrated again Oct 25 (M0-M2 lead) after Manson, Iowa (1948990, seed b63a9c1eccbba0f45589110cb2c6924003d0e8b668b9298a1bde2302f0d6df98) read 1 of 25 at 1.85: the retraining age fade was changed to a center of 40 and a width of 18 (a gentler fall, the 28-to-45 ratio at the paper's low end) and the fit raised to 3.4, because the fit now multiplies a capacity of 0.66 at age 28 (an effective 2.2 for a young adult). Read by the unchanged M1-11 check at 3.4: Manson, Iowa 2 of 25 (8.0%), North Canton, Ohio 28 of 118 (23.7%), Steamboat Springs, Colorado 75 of 555 (13.5%; 9.9% on main at 1.5 with no fade), and three towns drawn from a root written down first (wt72-accept-2026-10-25-a): Washington, District of Columbia 10 of 68 (14.7%), Franklin, North Carolina 17 of 72 (23.6%) and Magnolia, New Jersey 5 of 40 (12.5%). drives-economy.test.ts (Christmas, Florida, where every employer closes and the workers average 51) reads 15 of 215 (7.0%). The response competes with carry-on, whose baseline does not scale with the loss, and most workers' losses press about equally hard, so a town's share moves quickly with this value; it was set from the pooled share over six towns (13.5%) and every town was then checked. Full people who answer a layoff choose it two to four times as often as counted people in the same town (North Canton at fit 2.45: 8 of 15 against 16 of 103; Steamboat Springs 18 of 66 against 48 of 489), which is why a town's share also follows its mix of the two.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "measured",
-      "reason": "Fit 1.6 gives 8% and 2.0 gives 17% in the tuning towns; the research band is 10-20%."
+      "reason": "With the retraining age fade, 3.4 gives 7% to 24% of displaced workers in seven generated towns (Manson, Iowa; North Canton, Ohio; Steamboat Springs, Colorado; Washington, District of Columbia; Franklin, North Carolina; Magnolia, New Jersey; Christmas, Florida); the research band is 10-16% retraining plus a few points of new businesses."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4924,10 +4948,10 @@
     }
   },
   "resilienceBaseRateScale": {
-    "value": 0.106,
+    "value": 0.097,
     "tag": "ESTIMATED",
-    "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
-    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
+    "citation": "Scale (0.097 since Oct 27, 2026; 0.087 from Oct 21; 0.106 before) at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
+    "estimatedFrom": "Refit Oct 27, 2026 on the head of claude/health-resilience over twenty-four generated towns (scripts/health/mortality-band.ts, seeds sr1 to sr16 and m01 to m08, one played year each, default size, no place chosen): at 0.087 they recorded 400 deaths against 446.0 expected (ratio 0.897; sr1 to sr16 286 against 297.9, 0.96; m01 to m08 114 against 148.1, 0.77); at 0.097 they record 450 deaths against 446.0 expected (ratio 1.009, band 0.8 to 1.2; sr1 to sr16 325 against 297.9, 1.091; m01 to m08 125 against 148.1, 0.844). The Oct 21 refit (0.087, sixteen towns, 319 against 297.9) was taken before the chronic-condition weights were restored to 0.065. Totals only; no person's outcome is set by it. Single towns range from 0.3 to 1.9 of the table's count at a year (about 19 expected deaths each), so one town says little; the places differ by more than chance, which the single scale and the unrefit condition weights do not model.",
     "stopgapId": "SG-P10-resilience-scale"
   },
   "resilienceHashDigits": {
@@ -5666,6 +5690,17 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
+  "traitWeightJobsValueWorker": {
+    "value": 4.4,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991 (Personnel Psychology 44(1), Table 2): conscientiousness correlates 0.22 with job performance. Sized so a business's valuation of a worker (years of tenure, or of experience when hiring, plus this term) correlates 0.22 with the worker's lean toward diligence: weight = 0.22 / sqrt(1 - 0.22^2) x the spread of real tenure / the spread of the lean within a firm. Real tenure spread 5.6 years: an exponential with the BLS median of 3.9 years (Employee Tenure in 2024, jobsTypicalTenureYears). Lean spread within a firm 0.29, the mean of three drawn places (Puapua, American Samoa, seed 5e38743ba0d3: 0.254; Melville, Rhode Island, seed f3c0bd5cabcd: 0.270; Middleborough Center, Massachusetts, seed 2c719d0f46f8: 0.341). Sized against real tenure, not the played world's, because the opening records no start date for anyone's job (src/core2/deep-past.ts:599), so tenure within a firm spans about five days at the start.",
+    "spread": {
+      "low": 3,
+      "high": 7,
+      "unit": "years of tenure or experience at full lean",
+      "citation": "Tenure spread 4.5 to 8 years (the exponential understates the long tail of BLS tenure) against a lean spread of 0.25 to 0.34 across the three places."
+    }
+  },
   "traitWeightJobsStartLooking": {
     "value": 1,
     "tag": "TUNABLE",
@@ -5725,12 +5760,14 @@
     }
   },
   "traitWeightSpeechRetell": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the speech.retell decision. A listener retells a speech at home when how far it moved them plus their lean toward retelling outweighs keeping it to themselves; the chooser's trait reason carries it, with no separate sociability term. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.11,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the speech.retell decision, fitted with the retelling case (speechKeepPull and the two engagement weights in src/core2/data/speech/parameters.json; traits-retell-circumstances) to Hibbing, Ritchie and Anderson 2011 (Political Behavior 33(4):601-624, Table 2, family discussion): conscientiousness 0.63 on the ordered log-odds of talking local politics with family over the trait's full range (SD 0.29), odds ratio 1.49 between the thirds. Read as crossed net odds (every weighing's case against every listener's lean, top third against bottom third) over 22,461 weighings in four drawn towns' played years, it gives 1.50 pooled and 1.42 to 1.91 by town.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.055,
+      "high": 0.19,
+      "unit": "weight",
+      "citation": "The weights at which the pooled crossed net odds reach the study's interval, 1.2 to 2.4 (coefficient 0.63 plus or minus 1.96 standard errors of 0.28, scaled the same way), at this case."
     }
   },
   "traitWeightContractsAward": {
@@ -5882,6 +5919,42 @@
       "citation": "Jokela's interval for openness, 1.04 to 1.36 per standard deviation, gives weights 0.08 to 0.65."
     }
   },
+  "hardshipWeightMovesMoveAway": {
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "citation": "Huttunen, Moen and Salvanes 2018, Job loss and regional mobility (Journal of Labor Economics 36(2); IZA DP 8780, Table 2 and p. 5): job displacement raises the probability of moving to a new region within two years by 0.6 percentage points for men (2% base) and 0.7 for women, about 30 percent, an odds ratio of 1.31 and 1.34. How much a lost job or a lost home speeds a person's pull to leave, per unit of the stress it left them, on the log scale the holds and pushes are added on (moves.ts pushesOf). The study sets only the mean effect of a job loss; the layoff stress it is divided by is the model's, not the study's. The studies of personality and moving (Jokela 2009) find no neuroticism effect, so the temperament in this term comes only from how hard the person is hit.",
+    "estimatedFrom": "ln(1.325), the mean log odds ratio of the two sexes, 0.284, divided by the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.47,
+      "high": 0.78,
+      "unit": "log hazard of leaving per unit of stress",
+      "citation": "Women's interval in Table 2, 0.007 with standard error 0.001 on a 2.10% base: odds ratios 1.25 to 1.44, log 0.22 to 0.36, over 0.47."
+    }
+  },
+  "hardshipWeightJobsBenefitsFileClaim": {
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "Whittaker, Der, Cook and Saunders 2010, Predicting which people with psychosocial distress are at risk of becoming dependent on state benefits (BMJ 341:c3838): GHQ-12 psychological distress caseness rose before people started claiming incapacity benefit, odds ratio 1.6 (95% CI 1.3 to 1.9) from two years before. No study of stress and filing for unemployment insurance was found; this is the closest published size for how much distress raises claiming a state benefit, from a British panel of a disability benefit, so it names the direction (stress pulls toward claiming) and a size, not a measured effect on this filing. How much the stress a layoff left pulls an eligible worker toward filing, in the same score as the base and the traits' lean (jobs-benefits.ts fileClaim).",
+    "estimatedFrom": "ln(1.6), 0.47, for the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.56,
+      "high": 1.37,
+      "unit": "score per unit of stress",
+      "citation": "The study's interval, odds ratios 1.3 to 1.9, log 0.26 to 0.64, over 0.47."
+    }
+  },
+  "hardshipWeightCreditBorrow": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "Sullivan 2008, Borrowing during unemployment: unsecured debt as a safety net (Journal of Human Resources 43(2)): households with some assets that lose earnings to unemployment borrow, raising unsecured debt by more than 11 cents per dollar lost, while the poorest and the wealthy do not. The study gives an amount, not odds, so it sets the direction (a hardship pulls toward borrowing) and the size comes from the two studies that convert: the mean of the move weight's and the claim weight's log odds, 0.28 and 0.47. How much the stress a layoff, an eviction or a missed payment left pulls a household with a shortfall toward asking for a loan (credit.ts personalBorrowingDecision), in the same score as the baseline, need and cost.",
+    "estimatedFrom": "The mean of ln(1.325) and ln(1.6), 0.377, over the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.6,
+      "high": 1.0,
+      "unit": "score per unit of stress",
+      "citation": "The move weight (0.6) and the claim weight (1.0) it averages."
+    }
+  },
   "traitWeightVotingTurnout": {
     "value": 0.79,
     "tag": "ESTIMATED",
@@ -5903,12 +5976,14 @@
     }
   },
   "traitWeightVotingExitPoll": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.exit-poll decision. A voter tells the exit pollster who they voted for when their lean toward telling is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.094,
+    "tag": "ESTIMATED",
+    "citation": "Kostadintcheva, Kuha and Sturgis 2025, Survey Experience and Nonresponse in an Online Probability Panel (arXiv 2505.03971), Table 3: conscientiousness -0.095 log odds of not responding per point of a 1-5 scale; \"The least Conscientious panel members have a nonresponse probability of 21% compared to 15% for the most\"), row voting.exit-poll in data/research/trait-effect-sizes.json, carried to the thirds as an odds ratio of 1.18. Fitted with the exit poll's case (exitPollBase, exitPollEngagementWeight, exitPollInterestWeight) on the named voters of three drawn race towns, Finklea, South Carolina (4525405, seed 100a9eddd8c1), Silver City, Nevada (3266800, 62fd4b12c74d) and Douglas, Nebraska (3113505, d6f5f50c5452): crossed net odds 1.18 pooled, 1.14 to 1.35 by town; temperament turns 3.6% of answers. At the general weight of 1 with a case of 0 the thirds ran at 35.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.06,
+      "high": 0.13,
+      "unit": "weight",
+      "citation": "The conscientiousness standard deviation behind the target is assumed (0.15 to 0.25 of the scale's range), which moves the target from 1.13 to 1.23."
     }
   },
   "traitWeightVotingStandAgain": {
@@ -6003,9 +6078,9 @@
     }
   },
   "traitWeightCampaignsRetell": {
-    "value": 5.8,
+    "value": 1.13,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.70 between thirds (2.47 before the rescale below). A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target grows by 1.1 (log odds 0.903 to 0.993). A retelling's reach is 1 plus the weight times the lean, so it does not scale exactly with the target; the weight is found again the same way on the adults of Newfane VT (seed c1): the top third's mean reach is 2.45 times the bottom's at 4.9 and 2.71 times at 5.8, against the new 2.70, and a plain 1.1 scale (5.39) would reach only 2.59. 4.9 became 5.8. That lifts the town's mean reach from 1.65 to 1.77 times, which the campaign's second-hand weight is set from.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.70 between thirds (2.47 before the rescale below). A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target grows by 1.1 (log odds 0.903 to 0.993). A retelling's reach is 1 plus the weight times the lean, so it does not scale exactly with the target; the weight is found again the same way on the adults of Newfane VT (seed c1): the top third's mean reach is 2.45 times the bottom's at 4.9 and 2.71 times at 5.8, against the new 2.70, and a plain 1.1 scale (5.39) would reach only 2.59. 4.9 became 5.8. That lifts the town's mean reach from 1.65 to 1.77 times, which the campaign's second-hand weight is set from. Found again Oct 27 (tests-campaign-traits-ratios-out-of-band-st-paul): the act-kind pull table (data/content/trait-act-pulls.json) was rebuilt after the Oct 24 weight, which left the lean of speaking out against staying quiet about five times wider, so at 5.8 the top third's reach was 21 to 29 times the bottom's in every one of six drawn towns (seed scratch:0 to scratch:5, adults at the opening). The weight at which the ratio is 2.70 is 1.09 to 1.17 in each of the six towns, 1.13 pooled. That lowers the town's mean reach to 1.23 times, and the campaign's second-hand weight is set again from it.",
     "spread": {
       "low": 3.9,
       "high": 7.8,
@@ -6014,9 +6089,9 @@
     }
   },
   "traitWeightCampaignsAnswerPoll": {
-    "value": 0.1235,
+    "value": 0.0092,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.66 between thirds (1.48 before the rescale below). Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.095 became 0.1235.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.66 between thirds (1.48 before the rescale below). Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.095 became 0.1235. Found again Oct 27 (tests-campaign-traits-ratios-out-of-band-st-paul) by the same method on the adults of six drawn towns at the opening (seed scratch:0 to scratch:5): the act-kind pull table (data/content/trait-act-pulls.json) was rebuilt after the Oct 24 weight, so at 0.1235 the odds ratio was 3.3 to 5.1 against 1.66; the weight that reaches 1.66 is 0.0082 to 0.0107 in each town, 0.0092 in the middle.",
     "spread": {
       "low": 0.052,
       "high": 0.195,
@@ -6226,14 +6301,14 @@
     }
   },
   "traitWeightPressAcceptInterview": {
-    "value": 2.18,
+    "value": 1.1,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.70 between thirds (2.47 before the rescale below). Nearly every candidate has no closeness or grudge with the asking reporter, so no circumstance varies and the weight is set on the latent-logit scale: the study's log odds divided by the gap between the top and bottom third's mean lean (0.456) across the adults of Newfane VT (seed c1). Only a candidate strongly averse to a reporter declines. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1 (the weight is the study's log odds over the thirds' lean gap, so it scales exactly): 1.98 became 2.18.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.70 between thirds, with the trait's own spread from the paper's Table 1 (0.22 of its full range). Fitted on the interview asks of two played election-window years (Halfway, Missouri, seed 3e9ed70a5fb7; Marblehead, Ohio, seed 7772ab1c8196), every kept case (the base, the outlet's reach and the seat, src/core2/data/press/parameters.json) crossed with every candidate's lean: odds 3.06 and 3.48 between the thirds at 1.1. In small drawn towns whose residents are all named, where nearly every candidate is known to the whole town, 0.57 reaches the same odds.",
     "spread": {
-      "low": 1.43,
-      "high": 2.97,
+      "low": 0.744,
+      "high": 1.456,
       "unit": "weight",
-      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
+      "citation": "Scaled from the study's interval for the coefficient, 1.40 to 2.74 around 2.07."
     }
   },
   "traitWeightPressDig": {
@@ -6576,6 +6651,11 @@
     "value": 30,
     "tag": "SOURCED",
     "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 22, foreclosure of mortgage or loan: 30 units (stands for losing a home to eviction)."
+  },
+  "srrsChangeInFinancialState": {
+    "value": 38,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 16, change in financial state: 38 units (stands for falling behind on a loan payment)."
   },
   "healthConscientiousnessLogHazardPerLevel": {
     "value": -0.128,

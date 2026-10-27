@@ -13,9 +13,12 @@
  * Congress's floor days a year) and the floor's pace allow, once committee
  * has had each: the leader's filings first, then the chamber's other bills
  * oldest first (the player's, a member's carried ask, any drafted after the
- * session opened). What the floor never reaches dies at adjournment. At each
- * regular council or board meeting the members file the same way and the
- * agenda's time sets how many are taken up. Each bill reached goes through
+ * session opened). What the floor never reaches dies at adjournment. A
+ * member's filing is read against the law again on the floor day: a bill whose
+ * law an earlier act of the session already made, or cut across, ends without
+ * a vote and names that law's row. At each regular council or board meeting
+ * the members file the same way and the agenda's time sets how many are taken
+ * up. Each bill reached goes through
  * committee, every chamber and the executive; what passes takes effect by
  * that government's own rule and reaches named residents through the
  * law-effects module. No count of bills is set anywhere: the volume follows
@@ -49,14 +52,22 @@ import {
   personStance,
   PLATFORM_QUESTIONS,
 } from "../campaign-views";
-import { lastEnactment, lawChain, LAWS_MODULE_ID } from "./laws";
+import {
+  lastEnactment,
+  lawChain,
+  LAWS_MODULE_ID,
+  questionSettled,
+  type SettledQuestion,
+} from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import type { OfficeLevel } from "../offices-local";
 import { partySide } from "../appointments";
 import { decisionLean, termOfLean } from "../trait-decisions";
 import {
   authorityFor,
   beyondPower,
+  billJurisdiction,
   bodyOf,
   draftBill,
   executiveOf,
@@ -74,6 +85,7 @@ import {
   settledness,
   tasteForChange,
   type BillRow,
+  type Provision,
   type Sitting,
 } from "./legislature";
 
@@ -126,6 +138,28 @@ function questionForLevel(
   return kind === "federal-district" && level !== "federal"
     ? levels.some((own) => ["state", "county", "city"].includes(own))
     : levels.includes(level);
+}
+
+/**
+ * Whether the government an office belongs to may decide a policy question
+ * here: the question is that level's own (`question-powers.json`), the level
+ * has the power for it, and a town, township or county acts only within what
+ * its state lets its places do. The one check a body files by when it sits,
+ * and the one a contest's positions are read through (`contest-positions.ts`).
+ * A township legislates as a town does.
+ */
+export function levelMayDecide(
+  api: CoreAPI,
+  level: OfficeLevel,
+  question: string,
+  value = 1,
+): boolean {
+  const own = level === "township" ? "city" : level;
+  if (!questionForLevel(api, question, own)) return false;
+  const provision: Provision = { kind: "policy-question", question, value };
+  return own === "federal" || own === "state"
+    ? !beyondPower(provision, own)
+    : !beyondPower(provision, "local") && authorityFor(api, provision).allowed;
 }
 
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
@@ -276,8 +310,13 @@ export interface SessionBill {
   /** Members whose own reasons favor the change (the sponsor among them). */
   readonly cosponsors: number;
   readonly status: string;
-  /** "voted" when it reached the floor; "not-reached" when time ran out first. */
-  readonly fate: "voted" | "not-reached";
+  /**
+   * "voted" when it reached the floor; "not-reached" when time ran out first;
+   * "moot" when the floor took it up and found its law already made.
+   */
+  readonly fate: "voted" | "not-reached" | "moot";
+  /** For a moot bill: the law it repeated or cut across, by row id. */
+  readonly moot?: SettledQuestion & { readonly question: string };
 }
 
 /**
@@ -570,11 +609,15 @@ function holdSession(
         ],
       });
     const reached = index < floorTime;
-    const bill = reached
-      ? input.holdFor
-        ? drafted
-        : holdVote(api, drafted.id)
-      : dieOnCalendar(api, drafted);
+    // An earlier bill this sitting may have made this one's law already.
+    const moot = reached && !input.holdFor ? mootAtFloor(api, drafted) : null;
+    const bill = moot
+      ? dieMoot(api, drafted, moot)
+      : reached
+        ? input.holdFor
+          ? drafted
+          : holdVote(api, drafted.id)
+        : dieOnCalendar(api, drafted);
     if (reached && input.holdFor) heldIds.push(drafted.id);
     bills.push({
       number: bill.number,
@@ -583,7 +626,8 @@ function holdSession(
       sponsor: item.sponsor.key,
       cosponsors: item.cosponsors,
       status: bill.status,
-      fate: reached ? "voted" : "not-reached",
+      fate: moot ? "moot" : reached ? "voted" : "not-reached",
+      ...(moot ? { moot } : {}),
     });
   });
   if (input.holdFor && input.body)
@@ -607,6 +651,46 @@ function holdSession(
 function dieOnCalendar(api: CoreAPI, bill: BillRow): BillRow {
   if (bill.status !== "drafted") return bill;
   const died: BillRow = { ...bill, status: "failed" };
+  api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .put(died as unknown as ModuleRow);
+  return died;
+}
+
+/**
+ * A filing's premise is that the law in force differs from what its sponsors
+ * want. The floor reads that again on the day it takes the bill up, because
+ * an act passed since (a bill of its own, or a section another bill carried)
+ * may already have made it law or may cut across it. A bill whose every
+ * section is settled that way is moot; one with a section still to change
+ * goes to its vote.
+ */
+function mootAtFloor(
+  api: CoreAPI,
+  bill: BillRow,
+): (SettledQuestion & { readonly question: string }) | null {
+  if (
+    !bill.provisions.length ||
+    bill.provisions.some((p) => p.kind !== "policy-question" || !p.question)
+  )
+    return null;
+  const jurisdiction = billJurisdiction(api, bill);
+  const settled = bill.provisions.map((p) =>
+    questionSettled(api, jurisdiction, p.question!, p.value),
+  );
+  return settled.every((s) => s !== null)
+    ? { question: bill.provisions[0]!.question!, ...settled[0]! }
+    : null;
+}
+
+/** A moot bill dies unvoted, with the law row it repeats or cuts across on its record. */
+function dieMoot(
+  api: CoreAPI,
+  bill: BillRow,
+  moot: NonNullable<BillRow["moot"]>,
+): BillRow {
+  const died: BillRow = { ...bill, status: "failed", moot };
   api
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("bills")
@@ -883,11 +967,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           needsChange(direction, answerIn(api, jurisdiction, question, true)),
         // A legislature answers only the questions its level may (data).
         allowed: (question, value) =>
-          questionForLevel(api, question, federal ? "federal" : "state") &&
-          !beyondPower(
-            { kind: "policy-question", question, value },
-            federal ? "federal" : "state",
-          ),
+          levelMayDecide(api, federal ? "federal" : "state", question, value),
         // A new session takes every bill up afresh.
         barred: () => false,
       })
@@ -1160,7 +1240,9 @@ function floorWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   for (const q of week.done ? [] : week.value.taken) {
     const drafted = table.get(q.id) as unknown as BillRow | undefined;
     if (!drafted) continue;
-    const bill = holdVote(api, drafted.id);
+    // A member's filing is read against the law as it stands on the floor day.
+    const moot = q.filing ? mootAtFloor(api, drafted) : null;
+    const bill = moot ? dieMoot(api, drafted, moot) : holdVote(api, drafted.id);
     bills.push({
       number: bill.number,
       ...(q.filing
@@ -1172,7 +1254,8 @@ function floorWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           }
         : sessionBillOf(drafted)),
       status: bill.status,
-      fate: "voted",
+      fate: moot ? "moot" : "voted",
+      ...(moot ? { moot } : {}),
       decidedOn: today,
     });
   }
@@ -1330,7 +1413,8 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
-    .get(officeId) as unknown as { kind: string } | undefined;
+    .get(officeId) as unknown as
+    { kind: string; level: OfficeLevel } | undefined;
   const chain = lawChain(api);
   // Each body legislates for its own government: a county board for its
   // county, a township board for its township, a council for its place.
@@ -1360,13 +1444,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? !inForceForTown(api, question)
         : !!own && ownRow(api, own, question) === 1,
     allowed: (question, value) =>
-      questionForLevel(
-        api,
-        question,
-        office?.kind === "county-board" ? "county" : "city",
-      ) &&
-      !beyondPower({ kind: "policy-question", question, value }, "local") &&
-      authorityFor(api, { kind: "policy-question", question, value }).allowed,
+      levelMayDecide(api, office?.level ?? "city", question, value),
     barred: (question, direction) =>
       recentlyDefeated(api, officeId, question, direction),
   });

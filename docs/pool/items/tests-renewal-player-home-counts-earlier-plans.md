@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/renewal-player-home
 pr: #6270
 blocked-on:

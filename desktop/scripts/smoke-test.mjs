@@ -165,7 +165,12 @@ async function launch() {
       patchNotes: document.getElementById("front-patch-notes")?.disabled,
       saves: document.getElementById("front-saves")?.disabled,
       subtitle: Boolean(front.querySelector(".sub")),
-      itemLines: front.querySelectorAll(".item span").length,
+      // A description line is a span of text under an item. The Continue
+      // item's face (.bust) and its label span (<b>Continue</b> plus the
+      // life's name) are not description lines (#6283).
+      itemLines: [...front.querySelectorAll(".item span")].filter(
+        (s) => !s.classList.contains("bust") && !s.querySelector("b"),
+      ).length,
       continueShown: Boolean(document.getElementById("front-continue")),
       continueDisabled: document.getElementById("front-continue")?.disabled,
       figures: document.querySelectorAll("#people img").length,
@@ -219,6 +224,8 @@ async function launch() {
     { timeout: 240000 },
   );
   await page.getByTestId("new-game").click();
+  // New world lives under Advanced since the one dev-mode start (#6232).
+  await page.getByTestId("advanced").click();
   await page.getByTestId("new-world").click();
   await page.waitForFunction(
     () => {

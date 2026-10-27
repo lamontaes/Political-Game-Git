@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/laws-opening-past-chosen-age
-pr:
+pr: #6271
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: laws-effects
