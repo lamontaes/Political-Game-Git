@@ -103140,7 +103140,7 @@
       "key": "scene-talk.narrate-narrate.you-heard-name-out-on-cause-once-already-now-name-has-come-looking-for",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You heard {name} out on {cause} once already. Now {name} has come looking for an answer.",
+      "text": "You heard {name} out on {cause} once already. Now they have come looking for an answer.",
       "uses": [
         {
           "subject": "scene",
@@ -103166,7 +103166,7 @@
       "key": "scene-talk.narrate-narrate.name-speaks-for-a-group-with-a-stake-in-cause-and-name-has-followed-yo",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} speaks for a group with a stake in {cause}, and {name} has followed you down the hall.",
+      "text": "{name} speaks for a group with a stake in {cause}, and has followed you down the hall.",
       "uses": [
         {
           "subject": "scene",
@@ -103192,7 +103192,7 @@
       "key": "scene-talk.narrate-narrate.the-case-name-made-to-you-on-cause-is-still-hanging-between-you-and-na",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The case {name} made to you on {cause} is still hanging between you, and {name} has not let it drop.",
+      "text": "The case {name} made to you on {cause} is still hanging between you, and they have not let it drop.",
       "uses": [
         {
           "subject": "scene",
@@ -103218,7 +103218,7 @@
       "key": "scene-talk.narrate-narrate.you-heard-name-make-a-group-s-case-once-already-now-name-wants-an-answ",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You heard {name} make a group's case once already. Now {name} wants an answer.",
+      "text": "You heard {name} make a group's case once already. Now they want an answer.",
       "uses": [
         {
           "subject": "scene",
@@ -103243,7 +103243,7 @@
       "key": "scene-talk.narrate-narrate.name-speaks-for-a-group-that-wants-your-vote-and-name-has-caught-up-wi",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} speaks for a group that wants your vote, and {name} has caught up with you.",
+      "text": "{name} speaks for a group that wants your vote, and has caught up with you.",
       "uses": [
         {
           "subject": "scene",
