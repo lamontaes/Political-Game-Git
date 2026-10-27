@@ -213,8 +213,10 @@ it("a filed candidate's months are never silent, and each season scene writes ba
         composed.join("\n") +
         `\nwritten back: ${written.join("; ")}`,
     );
-    // Every stop cites its record, and that record names the race or a person.
-    for (const stop of stops) {
+    // Every season stop cites its record, and that record names the race or a
+    // person. Other stops (a job position, a birth) belong to their modules and
+    // cite theirs there.
+    for (const stop of stops.filter((row) => SEASON_TYPES.has(row.typeKey))) {
       const record = core.durableLog.get(stop.causeId as never);
       expect(record, `${where}: ${stop.causeId}`).toBeTruthy();
       expect(

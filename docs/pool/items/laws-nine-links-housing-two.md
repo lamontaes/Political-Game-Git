@@ -6,7 +6,7 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-nine-links-housing-credit
 pr: "#6011"
 blocked-on:
