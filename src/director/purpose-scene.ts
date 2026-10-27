@@ -140,6 +140,18 @@ function composeBinding(
       sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
     };
   }
+  // A law in force that a bill enacted (a story that it took effect): the
+  // bill by its number, cited to the law and the bill.
+  if (!said.number && said.lawId && said.enactedBy) {
+    const bill = core.modules.has(LEGISLATURE_MODULE_ID)
+      ? billOf(coreAPI(core as CoreState), said.enactedBy)
+      : undefined;
+    if (bill?.number)
+      facts.bill = {
+        text: spokenDesignation(bill.number, bill.form.kind),
+        sourceRecordIds: [bill.id, said.lawId, moment.causeId],
+      };
+  }
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
   // A vote trade puts the holdout's own section in (legislature.ts adopt()):

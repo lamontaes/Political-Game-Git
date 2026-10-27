@@ -383,5 +383,17 @@
     "addedAt": "2026-10-26",
     "replacement": "A band sourced from published margin-of-victory analyses of U.S. elections.",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-circumstance-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How often a scene from circumstance may come (the days between two), how strongly it orders the journal, and how the cast is weighed (named, witnessed, the player's tie, sociability).",
+    "why": "A pacing choice under the owner's Wildermyth ruling (Oct 26) with no study behind it; set so a played year in a drawn place carries scenes from circumstance about weekly while a quiet stretch carries none.",
+    "addedBy": "director",
+    "addedAt": "2026-10-27",
+    "replacement": "A calibration against the owner's playtests: scenes from circumstance per played month and how many he skips.",
+    "status": "open"
   }
 ]

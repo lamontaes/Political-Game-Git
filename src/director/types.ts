@@ -237,6 +237,11 @@ export interface Ledger {
   sceneFilters: Map<PersonId, SceneFilter>;
   /** Each voter's election-day visit to the polls, by `<person>:<election date>`. */
   pollingVisits: Map<string, PollingVisitRecord>;
+  /**
+   * The day each circumstance last staged a scene for a person, by
+   * `<person>|<row id>`, and `<person>|*` for any circumstance (circumstance.ts).
+   */
+  circumstanceLast: Map<string, IsoDate>;
 }
 
 /**
