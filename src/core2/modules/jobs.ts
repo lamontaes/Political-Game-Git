@@ -183,6 +183,8 @@ interface EmployerRow {
   leavers?: { jobId: string; personId: string; heads?: number }[];
   /** The counted workers' jobs at the last review (job to worker), to find who left outside the jobs engine. */
   countedJobs?: Record<string, string>;
+  /** The full people's jobs at the last review (job to worker), to find who left outside the jobs engine (hired to a public post, appointed, taken into custody). */
+  fullJobs?: Record<string, string>;
   /** What each of those jobs stood for at the last review, in jobs (the household weight), for a worker whose household is gone. */
   countedHeads?: Record<string, number>;
 }
@@ -440,6 +442,14 @@ function noteCountedLeavers(api: CoreAPI): void {
   if (!rt) return;
   const changes = store(api).table("changes");
   const employers = store(api).table("employers");
+  // The jobs engine's own endings need no replacement beyond what it queued.
+  // A death is recorded the day before its job ends.
+  const endedByJobs = (endsAt: string, id: string) =>
+    ["layoff", "quit", "left-work", "closure", "staff-shed"].some((kind) =>
+      [endsAt, addDays(makeIsoDate(endsAt), -1)].some((date) =>
+        changes.get(`job-change:${date}:${id}:${kind}`),
+      ),
+    );
   const live = new Map<string, Record<string, string>>();
   for (const job of rt.jobs.values())
     if (!job.endsAt) {
@@ -452,22 +462,15 @@ function noteCountedLeavers(api: CoreAPI): void {
   ]) as unknown as EmployerRow[]) {
     const now = live.get(row.id) ?? {};
     const closed = c.finance.businesses.get(row.id)?.closedAt;
-    for (const id of closed ? [] : Object.keys(row.countedJobs ?? {})) {
-      if (now[id] || c.jobs.has(id)) continue;
-      const job = rt.jobs.get(id);
-      const ownEnd =
-        job?.endsAt !== undefined &&
-        ["layoff", "quit", "left-work", "closure"].some((kind) =>
-          changes.get(`job-change:${job.endsAt}:${id}:${kind}`),
-        );
-      if (!ownEnd)
-        noteLeaver(
-          api,
-          row.id,
-          id,
-          row.countedJobs![id]!,
-          row.countedHeads?.[id] ?? 1,
-        );
+    // A counted job a full person now holds counts as theirs; one they held
+    // and lost since the last review is a leaver like any other.
+    const held = { ...row.countedJobs, ...row.fullJobs };
+    for (const id of closed ? [] : Object.keys(held)) {
+      if (now[id]) continue;
+      const job = c.jobs.get(id) ?? rt.jobs.get(id);
+      if (job && c.jobs.has(id) && job.endsAt === undefined) continue;
+      if (job?.endsAt !== undefined && endedByJobs(job.endsAt, id)) continue;
+      noteLeaver(api, row.id, id, held[id]!, row.countedHeads?.[id] ?? 1);
     }
     const fresh = (employers.get(row.id) as unknown as EmployerRow) ?? row;
     const heads: Record<string, number> = {};
@@ -475,9 +478,15 @@ function noteCountedLeavers(api: CoreAPI): void {
       const weight = countedJobHeads(c, { id, personId });
       if (weight !== 1) heads[id] = weight;
     }
+    const fullNow: Record<string, string> = {};
+    for (const id of c.finance.jobsByOrganization.get(row.id) ?? []) {
+      const job = c.jobs.get(id);
+      if (job && job.endsAt === undefined) fullNow[id] = job.personId;
+    }
     employers.put({
       ...fresh,
       countedJobs: now,
+      fullJobs: fullNow,
       ...(Object.keys(heads).length ? { countedHeads: heads } : {}),
     });
   }
