@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-29-creator-labels-and-fields-share-one-grid
-pr:
+pr: #6241
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
