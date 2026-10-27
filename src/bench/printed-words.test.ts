@@ -24,7 +24,7 @@ import { wordPrintedStory } from "./archive-words";
 import { heardItems } from "./calendar";
 import { buildBenchWorld } from "./world";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+const seed = process.env.GOLDEN_PATH_SEED || randomBytes(20).toString("hex");
 
 /** Words a player must never read in a story: a record id, a key, a raw slot. */
 const DEVELOPER = /[{}_]|\b[a-z]+:[a-z]|\b(?:press|printed|record)\.[a-z]/;

@@ -2017,7 +2017,8 @@
           "move": "law-amount",
           "subject": "headline",
           "role": "law-amount",
-          "choice": "headline"
+          "choice": "headline",
+          "requiresFacts": ["changed"]
         }
       ],
       "shippable": true,
@@ -2039,7 +2040,31 @@
           "move": "law-amount",
           "subject": "headline",
           "role": "law-amount",
-          "choice": "headline"
+          "choice": "headline",
+          "requiresFacts": ["changed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-measure-stays-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} {measure} stays at {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["same"]
         }
       ],
       "shippable": true,
@@ -5000,6 +5025,29 @@
           "subject": "headline",
           "role": "law-rule",
           "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.budget-adopted.congress-passes-the-federal-budget",
+      "move": "budget-adopted",
+      "kind": "written",
+      "text": "Congress passes the federal budget",
+      "uses": [
+        {
+          "move": "budget-adopted",
+          "subject": "headline",
+          "role": "budget-adopted",
+          "choice": "headline",
+          "requiresFacts": ["federal"]
         }
       ],
       "shippable": true,

@@ -798,6 +798,52 @@
       }
     },
     {
+      "key": "news.law-amount.the-measure-in-place-stays-at-to-under-a-law-that-took-effec",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} in {place} stays at {to} under a law that took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["same"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-measure-stays-at-to-under-a-law-that-took-effect-on-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} stays at {to} under a law that took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["same"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.law-amount.a-measure-of-to-took-effect-on-date",
       "move": "law-amount",
       "kind": "written",
@@ -807,7 +853,8 @@
           "move": "law-amount",
           "subject": "news",
           "role": "law-amount",
-          "choice": "lede"
+          "choice": "lede",
+          "requiresFacts": ["changed"]
         }
       ],
       "shippable": true,
@@ -943,7 +990,8 @@
           "move": "law-amount",
           "subject": "news",
           "role": "law-amount",
-          "choice": "lede"
+          "choice": "lede",
+          "requiresFacts": ["changed"]
         }
       ],
       "shippable": true,
@@ -4255,6 +4303,52 @@
           "subject": "news",
           "role": "law-rule",
           "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-adopted.congress-passed-the-federal-budget-for-year",
+      "move": "budget-adopted",
+      "kind": "written",
+      "text": "Congress passed the federal budget for {year}.",
+      "uses": [
+        {
+          "move": "budget-adopted",
+          "subject": "news",
+          "role": "budget-adopted",
+          "choice": "lede",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-adopted.the-federal-budget-for-year-is-law",
+      "move": "budget-adopted",
+      "kind": "written",
+      "text": "The federal budget for {year} is law.",
+      "uses": [
+        {
+          "move": "budget-adopted",
+          "subject": "news",
+          "role": "budget-adopted",
+          "choice": "lede",
+          "requiresFacts": ["federal"]
         }
       ],
       "shippable": true,

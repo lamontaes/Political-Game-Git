@@ -97,8 +97,13 @@ const SMALL = [
 const count = (value: number) =>
   SMALL[Math.round(value)] ??
   new Intl.NumberFormat("en-US").format(Math.round(value));
-/** A record key read as words: "finance-director" is "finance director". */
-const spaced = (key: string) => key.replace(/[-_.]+/g, " ").trim();
+/** A record key read as words: "finance-director" and "financeDirector" are "finance director". */
+const spaced = (key: string) =>
+  key
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_.]+/g, " ")
+    .trim()
+    .toLowerCase();
 const num = (value: string | undefined) => {
   const parsed = Number(value);
   return value !== undefined && value.trim() !== "" && Number.isFinite(parsed)
@@ -396,7 +401,9 @@ const lawTookEffect: Builder = (read, f) => {
         ...base,
         measure: read.fact(spaced(series), f.lawId ?? ""),
         to: read.fact(to, f.lawId ?? ""),
-        ...(from !== to ? { from: read.fact(from, f.lawId ?? "") } : {}),
+        ...(from !== to
+          ? { from: read.fact(from, f.lawId ?? ""), changed: read.yes() }
+          : { same: read.yes() }),
         ...(Number(now) < Number(was) ? { down: read.yes() } : {}),
         ...(Number(now) > Number(was) ? { up: read.yes() } : {}),
       },
@@ -528,7 +535,8 @@ const introduced: Builder = (read, f) => {
 /** A budget line a law changed. */
 const budgetLine: Builder = (read, f) => {
   const delta = num(f.deltaMinor);
-  const name = lineName(f.line ?? "");
+  // A line the names table lacks is said by its own key ("transit").
+  const name = lineName(f.line ?? "") ?? (f.line ? spaced(f.line) : undefined);
   if (delta === undefined || !name || delta === 0) return null;
   const place = read.place(f.level === "state" ? f.governmentId : undefined);
   return story(
@@ -560,8 +568,10 @@ const budgetAdopted: Builder = (read, f) => {
       ...(f.fiscalYear ? { year: read.fact(f.fiscalYear) } : {}),
       passed: read.yes(),
       ...(place ? { place: read.fact(place) } : {}),
+      // The nation's budget is Congress's, with no place of its own.
+      ...(f.governmentId === "US" ? { federal: read.yes() } : {}),
     },
-    ["place"],
+    [f.governmentId === "US" ? "federal" : "place"],
   );
 };
 
