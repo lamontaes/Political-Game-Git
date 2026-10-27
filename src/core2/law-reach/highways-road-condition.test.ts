@@ -17,12 +17,12 @@ import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
 import { amendBudget, governments } from "../modules/budgets";
 import { lawChain } from "../modules/laws";
-import { PLACE_PRICES_MODULE_ID } from "../modules/place-prices";
+import { PLACE_PRICES_MODULE_ID, monthlyChange } from "../modules/place-prices";
 import goods from "../data/prices/goods.json";
 import { coreAPI } from "../state";
 import { budgetNow, residentsOf } from "./group-b-money";
 
-const seed = randomBytes(32).toString("hex");
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex");
 
 /** Draws places until one has a government that funds highways; names those skipped. */
 function townWithHighways() {
@@ -77,6 +77,26 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
     before?.value ?? base,
   );
   expect(cut!.cause).toContain("highways");
+  // The repair bill follows the poor share: an average household's net monthly
+  // repair cost under the cut rule is above what the opening rule (or none) cost.
+  const bill = (value: number) => {
+    const m = monthlyChange(
+      {
+        good: "vehicle-repair",
+        kind: "road",
+        value,
+        refundable: false,
+        replacesFuelTax: false,
+      },
+      1,
+      1,
+    );
+    return m.payMinor - m.refundMinor;
+  };
+  expect(
+    bill(cut!.value),
+    `${where}: repair bill after the cut`,
+  ).toBeGreaterThan(bill(before?.value ?? base));
   const journal = core.cashJournal.totals;
   expect(journal.grossDebitMinor).toBe(journal.grossCreditMinor);
   amendBudget(api, {
