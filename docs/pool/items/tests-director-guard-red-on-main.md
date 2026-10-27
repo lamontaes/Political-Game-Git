@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/director-coming-of-age-one-rule
 pr: #6434
 blocked-on:

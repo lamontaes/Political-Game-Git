@@ -2259,6 +2259,26 @@ export function ownerOf(
   )?.ownerId;
 }
 
+const ownerIdsByDay = new WeakMap<
+  object,
+  { readonly date: string; readonly ids: ReadonlySet<string> }
+>();
+
+/** The people who own a business that is still open (full or counted), for a reader that must not draw them away from it. One scan a day. */
+export function openBusinessOwnerIds(api: CoreAPI): ReadonlySet<string> {
+  const c = api.state as CoreState;
+  if (!c.modules.has(BUSINESS_MODULE_ID)) return new Set();
+  const held = ownerIdsByDay.get(c);
+  if (held?.date === c.date) return held.ids;
+  const ids = new Set<string>();
+  for (const row of store(api)
+    .table("owners")
+    .query("all", [true]) as unknown as OwnerRow[])
+    if (!c.finance.businesses.get(row.id)?.closedAt) ids.add(row.ownerId);
+  ownerIdsByDay.set(c, { date: c.date, ids });
+  return ids;
+}
+
 /**
  * A person who already owns a business the book was added for (an outlet's
  * publisher, say) is recorded as its owner, so the owner's draws, hiring and
