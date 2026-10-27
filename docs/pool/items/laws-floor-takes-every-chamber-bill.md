@@ -6,9 +6,9 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-player-bill-floor
-pr:
+pr: #6226
 blocked-on:
 source: The core half of laws-player-bill-reaches-the-floor (laws-and-effects lead, Oct 27)
 claimed-at: 2026-10-27T05:07:57.486Z

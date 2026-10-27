@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-stop-38-figures-framed-whole
+pr: #6240
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:03:50.301Z
 ---
 
 **What.** Three framing defects in v0.34.0. The President's portrait in the talk box crops his head ("Their head is cut off in the portrait," the owner). In the bedroom scenes on January 22 and 28 the player stands at the far left edge with the head cut off by the frame. At the county board of elections the player's figure and the clerk's overlap behind the counter. This item frames every portrait with the whole head and places room figures inside the frame and apart from one another, and adds a check that measures it.
