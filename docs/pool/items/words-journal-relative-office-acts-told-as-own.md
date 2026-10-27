@@ -1,13 +1,13 @@
 ---
 id: words-journal-relative-office-acts-told-as-own
-title: "The journal tells a relative's bill as the player's own: \"I introduced Budget Ordinance.\""
+title: 'The journal tells a relative''s bill as the player''s own: "I introduced Budget Ordinance."'
 area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: words/journal-relative-acts
-pr:
+pr: #6376
 blocked-on:
 source: added with npm run pool -- add
 lead: words

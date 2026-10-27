@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: words/home-news-talk
-pr: 6352
+pr: #6360
 blocked-on:
 source: "CTO, Oct 27 16:00 UTC: home scenes speak only through the narrator; order by rows that fire with no lines by speaker"
 lead: words

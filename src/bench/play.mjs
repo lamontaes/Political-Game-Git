@@ -3,7 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
-import { mountMenu, fillChoiceMenu } from "./ui/menu.mjs";
+import { fillChoiceMenu } from "./ui/menu.mjs";
 import {
   talkLine,
   talkReply,
@@ -244,16 +244,36 @@ function shadowsOf(people) {
     });
 }
 
+/**
+ * What the painting has in front of a person (a desk, a chair back), laid
+ * back over them: the picture's own pixels through the spot's mask, lined up
+ * with the picture, so it is right in every light and weather.
+ */
+function occluderOf(o) {
+  const node = el("div", { className: "occluder" });
+  const along = (start, size) =>
+    size >= 100 ? 0 : (start / (100 - size)) * 100;
+  Object.assign(node.style, {
+    left: `${o.leftPercent}%`,
+    top: `${o.topPercent}%`,
+    width: `${o.widthPercent}%`,
+    height: `${o.heightPercent}%`,
+    backgroundImage: `url("${$("backdrop").src}")`,
+    backgroundSize: `${10000 / o.widthPercent}% ${10000 / o.heightPercent}%`,
+    backgroundPosition: `${along(o.leftPercent, o.widthPercent)}% ${along(o.topPercent, o.heightPercent)}%`,
+    maskImage: `url("${o.url}")`,
+    webkitMaskImage: `url("${o.url}")`,
+  });
+  return node;
+}
+
 /** The people in a picture; anyone but you can be clicked for their dossier. */
 function drawPeople(people, onClick) {
   $("people").replaceChildren(
     ...shadowsOf(people),
-    ...people.map((person) => {
+    ...people.flatMap((person) => {
       const f = person.figure;
-      const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
-      const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
-      img.style.height = `${(f.heightPercent / visible) * 100}%`;
       // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure" }, img);
@@ -262,7 +282,7 @@ function drawPeople(people, onClick) {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
         width: `${f.widthPercent}%`,
-        height: `${visible}%`,
+        height: `${f.heightPercent}%`,
       });
       if (onClick && person.personId !== me?.id) {
         box.classList.add("talkable");
@@ -276,7 +296,7 @@ function drawPeople(people, onClick) {
           onClick(person);
         });
       }
-      return box;
+      return f.occluder ? [box, occluderOf(f.occluder)] : [box];
     }),
   );
 }
@@ -527,7 +547,9 @@ document.addEventListener("keydown", (event) => {
 async function renderScene() {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   $("backdrop").src = scene.backdrop.url;
-  drawPeople(scene.people, showPerson);
+  // A person in the room is talked to by clicking them; their name in the talk
+  // box opens their card (owner, Oct 27: the card has no Talk button).
+  drawPeople(scene.people, (p) => talkTo(p.personId));
   me.scene = scene;
   // The look chosen in the creator is the player's own portrait.
   setBust(
@@ -1201,7 +1223,9 @@ $("continue").addEventListener("click", () => {
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
 /** Who you are talking to: their bust, name and what you know of their work. */
+let talkPersonId;
 async function setWho(personId, name) {
+  talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
   $("talk-role").textContent = "";
   const staged = [...(me.scene?.people ?? []), ...(filing?.people ?? [])].find(
@@ -1215,9 +1239,7 @@ async function setWho(personId, name) {
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   if (!staged?.figureUrl) setBust("talk-bust", c.figureUrl);
-  $("talk-role").textContent = [c.work?.title, c.work?.employer, c.relation]
-    .filter(Boolean)
-    .join(" · ");
+  $("talk-role").textContent = c.who ?? "";
 }
 /** The newest lines: yours, dim, then what was said back to you. */
 function spokenLines(lines, speakerOf) {
@@ -1985,18 +2007,25 @@ async function showPerson(person) {
         : []),
     ].filter(Boolean),
   );
-  $("person-talk").textContent = labels.talk;
   for (const button of document.querySelectorAll("[data-person-label]"))
     button.textContent = labels[button.dataset.personLabel];
-  $("person-talk").onclick = () => {
-    closePerson();
-    talkTo(person.personId);
-  };
   show("person", true);
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
 $("person-close").addEventListener("click", closePerson);
+// The name over a talk opens that person's card, by pointer or key.
+$("talk-name").setAttribute("role", "button");
+$("talk-name").tabIndex = 0;
+$("talk-name").addEventListener("click", () => {
+  if (talkPersonId && talkPersonId !== me?.id)
+    showPerson({ personId: talkPersonId });
+});
+$("talk-name").addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  $("talk-name").click();
+});
 pageWhenChanged($("person-facts"), $("person-pager"));
 window.addEventListener("resize", () => {
   if (!$("person").hidden) pageIn($("person-facts"), $("person-pager"));
@@ -2011,7 +2040,7 @@ async function visit(organizationId) {
   );
   me.names = { ...me.names, ...v.names };
   $("backdrop").src = v.backdrop.url;
-  drawPeople(v.people, showPerson);
+  drawPeople(v.people, (p) => talkTo(p.personId));
   $("card-place").textContent = v.name;
 }
 
@@ -3997,6 +4026,16 @@ const sheets = {
       });
       actions.append(skip);
     }
+    const guide = makeButton({ textContent: labels.guide });
+    guide.addEventListener("click", () => openSheet("guide"));
+    actions.append(guide);
+    // Dev mode, for a developer's session only.
+    const dev = makeButton({
+      className: "dev-only",
+      textContent: labels.devMode,
+    });
+    dev.addEventListener("click", () => window.open("/dev"));
+    actions.append(dev);
     const quit = makeButton({
       textContent: labels.quitToTitle,
     });
@@ -4039,9 +4078,14 @@ const sheets = {
     );
     const destinations = [...counters, ...places];
     // Why each card is listed, from the record that qualified it.
+    // Three offices named, the rest counted, so a card stays a card.
+    const someTitles = (titles) =>
+      titles.length > 3
+        ? `${titles.slice(0, 3).join(", ")} ${labels.andOthers.replace("{n}", titles.length - 3)}`
+        : titles.join(", ");
     const reasonLine = (p) =>
       p.filing
-        ? `${labels.reasons.filing} ${p.titles.join(", ")}`
+        ? `${labels.reasons.filing} ${someTitles(p.titles)}`
         : [
             ...p.reasons.map((r) =>
               r.kind === "known"
@@ -4051,12 +4095,13 @@ const sheets = {
                   : labels.reasons[r.kind],
             ),
           ].join(" · ");
+    // Open while someone works there now, by their own hours; else closed.
     const hereLine = (p) =>
       p.filing
         ? labels.filing
         : p.presentCount
-          ? `${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
-          : labels.nobody;
+          ? `${labels.open} · ${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
+          : labels.closed;
     const draw = () => {
       const found = destinations.filter((p) =>
         p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
@@ -4078,7 +4123,11 @@ const sheets = {
         }
         // The record behind the reason, for the specs; never shown as text.
         card.dataset.reason = (
-          p.filing ? [p.filedWith] : p.reasons.map((r) => r.recordId)
+          p.filing
+            ? [p.filedWith]
+            : p.reasons.length
+              ? p.reasons.map((r) => r.recordId)
+              : [p.organizationId]
         ).join(" ");
         card.append(
           el(
@@ -4086,7 +4135,14 @@ const sheets = {
             { className: "travel-info" },
             el("h3", { textContent: p.name }),
             el("p", { className: "travel-here", textContent: hereLine(p) }),
-            el("p", { className: "travel-reason", textContent: reasonLine(p) }),
+            ...(reasonLine(p)
+              ? [
+                  el("p", {
+                    className: "travel-reason",
+                    textContent: reasonLine(p),
+                  }),
+                ]
+              : []),
           ),
         );
         card.onclick = go;
@@ -4096,11 +4152,7 @@ const sheets = {
     };
     search.addEventListener("input", draw);
     draw();
-    return [
-      el("p", { className: "travel-from", textContent: labels.from }),
-      search,
-      content,
-    ];
+    return [search, content];
   },
   async politics() {
     return sheets.government();
@@ -4251,21 +4303,35 @@ const sheets = {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                const history = listRow("", {
+                // The term as a voter would say it: when it ends, and how the
+                // holder won it where the world ran the race.
+                const monthYear = (iso) =>
+                  new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                  });
+                const history = el("span", {
+                  className: "person-row-note",
                   textContent: [
-                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
-                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
                     won
-                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      ? labels.electedWith
+                          .replace("{date}", monthYear(won.date))
+                          .replace("{share}", `${Math.round(won.share * 100)}%`)
+                      : null,
+                    s.holder.endDate
+                      ? labels.termEnds.replace(
+                          "{date}",
+                          monthYear(s.holder.endDate),
+                        )
                       : null,
                   ]
                     .filter(Boolean)
-                    .join(" · "),
+                    .join(". "),
                 });
                 // The record the line reads, for the specs; never shown as text.
                 history.dataset.term = s.holder.termId;
                 if (won) history.dataset.election = won.termId;
-                line.append(history);
+                if (history.textContent) line.append(history);
               }
               // Elected and not yet seated: who won the seat, and when they take office.
               if (s.elect) {
@@ -4563,6 +4629,7 @@ const groups = {
     "budgets",
   ],
   people: ["people", "family"],
+  who: ["who", "jobs"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -4628,33 +4695,26 @@ async function openSheet(tab) {
     tab !== "who" && tab !== "calendar" && body.length > 12,
   );
   show("sheet", true);
-  show("menu", Boolean(me));
   $("game").classList.add("sheet-open");
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
-// The Menu list: the screens by name, in this order, nothing under the names.
-// The rail over the player card: a column of round icons, News among them.
+// The rail over the player card: a column of round icons, News among them; it is
+// the one menu. The player's portrait opens Who you are (owner, Oct 20 and 27).
 mountRail(
   $("rings"),
   ["journal", "calendar", "money", "politics", "news", "people", "travel"],
   titles,
 );
-mountMenu(
-  [
-    "calendar",
-    "people",
-    "politics",
-    "news",
-    "journal",
-    "who",
-    "money",
-    "jobs",
-    "travel",
-    "guide",
-    "options",
-  ].map((key) => ({ key, label: titles[key] })),
-);
+// The portrait is the way to Who you are: named from the screen's title, and a
+// key opens it as a click does.
+$("card-bust").title = titles.who;
+$("card-bust").setAttribute("aria-label", titles.who);
+$("card-bust").addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  $("card-bust").click();
+});
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
@@ -4667,7 +4727,6 @@ function closeSheet() {
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.remove("active");
   show("sheet", false);
-  show("menu", false);
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);

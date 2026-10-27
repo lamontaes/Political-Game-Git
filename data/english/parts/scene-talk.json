@@ -1862,31 +1862,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.you-re-home",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You're home.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.oh-you-re-back",
       "move": "open-greet",
       "kind": "spoken",
@@ -26710,31 +26685,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-waiting-for-you",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is waiting for you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "*",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.hey-have-you-got-a-minute",
       "move": "open-greet",
       "kind": "spoken",
@@ -27676,31 +27626,6 @@
       "tag": {
         "move": "accept",
         "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-is-there-when-you-walk-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is there when you walk in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "*",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "glad",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
       }
     },
     {
@@ -97641,6 +97566,211 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-waits-until-it-s-just-the-two-of-you-it-s-about-your-own-party",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has heard who else filed in your race, and it's someone from your own party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["same-party"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-down-across-from-you-with-news-from-inside-your-own-party",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has news from inside your own party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["same-party"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-filed-for-office-same-party-as-you",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent} filed for {office}. Same party as you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.someone-from-your-own-side-wants-office-opponent-filed",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Someone from your own side wants {office}. {opponent} filed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-sorry-to-be-the-one-opponent-filed-for-office-and-they-re-from-your-party",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm sorry to be the one. {opponent} filed for {office}, and they're from your party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.did-you-know-opponent-wanted-office-they-filed-and-they-re-in-your-party",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Did you know {opponent} wanted {office}? They filed, and they're in your party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-filed-for-office-they-run-under-the-same-party-you-do",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent} filed for {office}. They run under the same party you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.one-of-ours-what-is-opponent-running-on",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "One of ours? What is {opponent} running on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent", "same-party"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
       "move": "narrate-narrate",
       "kind": "spoken",
       "shippable": true,
@@ -102994,7 +103124,7 @@
       "key": "scene-talk.narrate-narrate.name-has-just-joined-your-household-and-comes-to-find-you-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has just joined your household and comes to find you first.",
+      "text": "{name} moved in today and wants to know how things work.",
       "uses": [
         {
           "subject": "scene",
@@ -103006,31 +103136,6 @@
         }
       ],
       "bearing": "curious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (housemate)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.as-of-today-name-lives-with-you-and-stands-there-waiting-to-see-what-y",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "As of today {name} lives with you, and stands there waiting to see what you'll say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "housemate-arrives",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
       "shippable": true,
       "origin": "authored",
       "author": "Finisher helper (housemate)",
@@ -103069,7 +103174,7 @@
       "key": "scene-talk.narrate-narrate.name-one-of-your-own-has-moved-in-with-your-household-it-s-different-h",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name}, one of your own, has moved in with your household. It's different, having family under the same roof.",
+      "text": "{name}, one of your own, moved in today. Family is different when it's every day.",
       "uses": [
         {
           "subject": "scene",
@@ -103341,32 +103446,6 @@
         }
       ],
       "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (housemate)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.well-here-we-are-all-under-one-roof",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Well, here we are, all under one roof.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival",
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "bearing": "glad",
       "shippable": true,
       "origin": "authored",
       "author": "Finisher helper (housemate)",
@@ -108513,32 +108592,7 @@
       "key": "scene-talk.narrate-narrate.name-sat-through-the-meeting-with-you-and-stays-behind-as-the-room-emp",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} sat through the meeting with you and stays behind as the room empties, plainly waiting for you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "hallway-word",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (hallway)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-others-scatter-name-who-was-at-the-meeting-with-you-steps-over-bef",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The others scatter. {name}, who was at the meeting with you, steps over before you can leave.",
+      "text": "{name} serves on the same body as you and wants to know which way you lean.",
       "uses": [
         {
           "subject": "scene",
@@ -108563,7 +108617,7 @@
       "key": "scene-talk.narrate-narrate.name-was-at-the-meeting-with-you-and-has-more-to-say-than-the-meeting",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} was at the meeting with you and has more to say than the meeting had room for.",
+      "text": "{name} has more to say than the meeting had room for.",
       "uses": [
         {
           "subject": "scene",
@@ -108588,7 +108642,7 @@
       "key": "scene-talk.narrate-narrate.name-reports-on-the-town-for-the-local-press-and-the-notebook-is-alrea",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} reports on the town for the local press, and the notebook is already out as you come through.",
+      "text": "{name} reports on the town for the local press and wants something for the story.",
       "uses": [
         {
           "subject": "scene",
@@ -108689,7 +108743,7 @@
       "key": "scene-talk.narrate-narrate.name-speaks-for-a-group-with-a-stake-in-cause-and-name-has-followed-yo",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} speaks for a group with a stake in {cause}, and has followed you down the hall.",
+      "text": "{name} speaks for a group with a stake in {cause}, and wants your answer.",
       "uses": [
         {
           "subject": "scene",
@@ -108766,7 +108820,7 @@
       "key": "scene-talk.narrate-narrate.name-speaks-for-a-group-that-wants-your-vote-and-name-has-caught-up-wi",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} speaks for a group that wants your vote, and has caught up with you.",
+      "text": "{name} speaks for a group that wants your vote.",
       "uses": [
         {
           "subject": "scene",

@@ -27,6 +27,19 @@ import { coreAPI, fillInPerson } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { openConversation } from "../../src/director/conversation";
 
+/** Each drawn person's occluder mask as a data URL, by its served path. */
+function masksOf(people: { figure: unknown }[]): Record<string, string> {
+  const masks: Record<string, string> = {};
+  for (const { figure } of people) {
+    const url = (figure as { occluder?: { url: string } | null }).occluder?.url;
+    if (url)
+      masks[url] = `data:image/png;base64,${readFileSync(
+        `art/backdrops/occluders/${url.slice("/art/backdrops/occluders/".length)}`,
+      ).toString("base64")}`;
+  }
+  return masks;
+}
+
 const [
   out = "end-to-end-talk.png",
   seed = "6f539fcfdf6d96f9",
@@ -151,6 +164,8 @@ html,body{margin:0;overflow:hidden}</style></head><body>
 ${panel.replace(" hidden>", ">")}</main>
 <script>
 const figures = ${JSON.stringify(figures)};
+// A mask must be same-origin to apply, so a page opened from disk gets them inline.
+      const MASKS = ${JSON.stringify(masksOf(figures))};
 const shown = ${JSON.stringify(shown)};
 const choices = ${JSON.stringify(talk.choices.slice(0, 6).map((c) => c.text))};
 const el = document.getElementById("people");
@@ -163,16 +178,25 @@ for (const person of figures) {
 }
 for (const person of figures) {
   const f = person.figure;
-  const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
-  const visible = Math.max(bottom - f.topPercent, 0.1);
   const img = document.createElement("img"); img.src = person.src;
-  img.style.height = (f.heightPercent / visible) * 100 + "%";
   if (f.mirrored) img.style.transform = "scaleX(-1)";
   const box = document.createElement("div"); box.className = "figure";
   if (f.shadow === true) { const sh = document.createElement("div"); sh.className = "shadow"; box.prepend(sh); }
   box.append(img);
-  Object.assign(box.style, { left: f.leftPercent + "%", top: f.topPercent + "%", width: f.widthPercent + "%", height: visible + "%" });
+  Object.assign(box.style, { left: f.leftPercent + "%", top: f.topPercent + "%", width: f.widthPercent + "%", height: f.heightPercent + "%" });
   el.append(box);
+  // What the painting has in front of them, laid back over them (play.mjs occluderOf).
+  const o = f.occluder;
+  if (o) {
+    const along = (start, size) => (size >= 100 ? 0 : (start / (100 - size)) * 100);
+    const node = document.createElement("div"); node.className = "occluder";
+    Object.assign(node.style, { left: o.leftPercent + "%", top: o.topPercent + "%", width: o.widthPercent + "%", height: o.heightPercent + "%",
+      backgroundImage: 'url("' + document.getElementById("backdrop").src + '")',
+      backgroundSize: 10000 / o.widthPercent + "% " + 10000 / o.heightPercent + "%",
+      backgroundPosition: along(o.leftPercent, o.widthPercent) + "% " + along(o.topPercent, o.heightPercent) + "%",
+      maskImage: 'url("' + MASKS[o.url] + '")' });
+    el.append(node);
+  }
 }
 document.getElementById("talk-name").textContent = ${JSON.stringify(card.name)};
 document.getElementById("talk-role").textContent = ${JSON.stringify(
