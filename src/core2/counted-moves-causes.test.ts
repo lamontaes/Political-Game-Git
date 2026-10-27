@@ -11,8 +11,9 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { residentsRuntime } from "./modules/residents";
 import { countedMoves, type MoveRecord } from "./modules/counted-moves";
 import { coreAPI } from "./state";
 
@@ -93,36 +94,68 @@ it("every counted move in a played year, within the state or across states, reco
   }
 }, 600_000);
 
-// The Hartselle, Alabama draw (test seed 744d31777622bd53, draw 0) holds a
-// counted household of minors alone that moves out: the monthly weighing
+// A counted household of minors alone that moves out: the monthly weighing
 // skips it (no adult to set a rate) and its group's due movers reach it. Its
-// record must name the group's rate, never an adult's it did not have.
+// record must name the group's rate, never an adult's it did not have. Such a
+// household is rare in one town-year, so places are drawn from all 56 until
+// one has it; every place passed over is named. (Hartselle, Alabama once held
+// one, test seed 744d31777622bd53 draw 0, but changes elsewhere in the
+// opening no longer put one in that world.)
+const MINORS_DRAWS = 60;
+/** Whether the world has a counted household with children and no adult, which is the only kind that can move this way. */
+function hasMinorsAlone(core: Parameters<typeof residentsRuntime>[0]): boolean {
+  const store = residentsRuntime(core)?.store;
+  if (!store) return false;
+  for (const household of store.liveHouseholds()) {
+    const members = store.countedMembers(household);
+    if (
+      members.length &&
+      members.every(
+        (m) => daysBetweenText(store.born[m]!, core.date) / 365.25 < 18,
+      )
+    )
+      return true;
+  }
+  return false;
+}
 it("a counted household of minors alone records its group's rate, and no web or age-set rate it was never weighed by", () => {
   const previousBookkeeping = setBookkeeping(false);
   try {
-    const place = drawPlace("744d31777622bd53:0", "counted-moves-causes");
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
-    const groupRated = countedMoves(coreAPI(core)).filter(
-      (row) => row.reasons.groupRate !== undefined,
-    );
-    expect(
-      groupRated.length,
-      `${where}: households with no adult`,
-    ).toBeGreaterThan(0);
-    for (const row of groupRated) {
-      expect(row.reasons.groupRate, `${where}: ${row.id}`).toBeGreaterThan(0);
-      expect(row.reasons.lifeStage, `${where}: ${row.id}`).toBeUndefined();
-      expect(row.reasons.web, `${where}: ${row.id}`).toBeUndefined();
+    const passed: string[] = [];
+    for (let draw = 0; draw < MINORS_DRAWS; draw += 1) {
+      const place = drawPlace(`${seed}:minors:${draw}`, "counted-moves-causes");
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      // Only a world that starts with such a household is played for the year.
+      if (!hasMinorsAlone(core)) {
+        passed.push(`${where} (no household of minors alone)`);
+        continue;
+      }
+      advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
+      const groupRated = countedMoves(coreAPI(core)).filter(
+        (row) => row.reasons.groupRate !== undefined,
+      );
+      if (!groupRated.length) {
+        passed.push(where);
+        continue;
+      }
+      for (const row of groupRated) {
+        expect(row.reasons.groupRate, `${where}: ${row.id}`).toBeGreaterThan(0);
+        expect(row.reasons.lifeStage, `${where}: ${row.id}`).toBeUndefined();
+        expect(row.reasons.web, `${where}: ${row.id}`).toBeUndefined();
+      }
+      process.stdout.write(
+        `counted move causes, minors alone: ${where}; ${groupRated.length} such moves, e.g. ${groupRated[0]!.id} ${JSON.stringify(groupRated[0]!.reasons)}; passed over ${passed.length} places\n`,
+      );
+      return;
     }
-    process.stdout.write(
-      `counted move causes, minors alone: ${where}; ${groupRated.length} such moves, e.g. ${groupRated[0]!.id} ${JSON.stringify(groupRated[0]!.reasons)}\n`,
+    throw new Error(
+      `no drawn place in ${MINORS_DRAWS} had a counted household of minors alone that moved: ${passed.join("; ")}`,
     );
   } finally {
     setBookkeeping(previousBookkeeping);
   }
-}, 600_000);
+}, 7_200_000);
