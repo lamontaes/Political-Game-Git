@@ -1708,6 +1708,11 @@
       "scaleFact": "weight"
     },
     {
+      "eventKind": "job-offered",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "rival-word",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
