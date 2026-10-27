@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/creator-look-matches-gender
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T22:28:18.514Z
 ---
 
 **What.** The owner saw a male character step to a female body in the creator. The Build and Clothes arrows cannot cross sexes, but a look the page sends back after Undo or Reset, or after the gender changed, is read by the server without being checked against the chosen gender, and New game saves whatever look the page sent. This item redraws any look whose body does not match a man's or a woman's chosen gender on the right body, keeping its build, clothes and colors, in the creator route and at New game.
