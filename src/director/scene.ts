@@ -141,7 +141,7 @@ export function composeScene(
     opener?.personIds.find((id) => id !== personId) ??
     moment.counterpartIds.find((id) => binding.presentIds.includes(id));
   const lead = render(
-    { part: "lead", typeKey: binding.typeKey },
+    { part: "lead", typeKey: binding.typeKey, setting: binding.setting.kind },
     () => {
       const facts: Record<string, Fact> = {};
       const other = talkToId ? who(talkToId) : null;
