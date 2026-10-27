@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/ledger.ts, src/bench/player.ts
 
 **Notes.** TODO Playtest Oct 26 sitting 1 (installed v0.34.0): The filing-reaction scene opened Wed Jan 22, 12:00 AM saying "It is a Monday in January."
+
+Oct 27 (director lead): reproduces on clean main at 820801c06 in `src/director/played-talks.test.ts` with GOLDEN_PATH_SEED=102b8c4d5f1ea00d (Gray Court, South Carolina): the appointment talk for moment `person_d8e14eeb5bd8ca2b:2025-01-20:appointed:appointment:town:finance-director:2025-01-20` reports "opened on 2025-01-21, staged for 2025-01-20". The director lead owns `src/director/scheduling.ts` now and takes this after `director-scenes-from-circumstance`.
