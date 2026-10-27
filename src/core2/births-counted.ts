@@ -37,10 +37,13 @@ import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" 
 import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
+import { weighUnplanned } from "./births-unplanned";
+import { countedPayment } from "./counted-money";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
-import { openingTemperaments } from "./opening-personality";
+import { inheritedTemperament } from "./opening-personality";
 import {
   addCountedPerson,
+  countedEstateOf,
   countedHouseholdsByPlace,
   householdIncome,
   incomeBandOf,
@@ -48,6 +51,7 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { assignDeathCause } from "./death-cause";
+import { settleCountedEstate } from "./estates";
 import { deathWebFactor } from "./health-web";
 import type { ResidentHouseholdRecord } from "./residents";
 import { webFactorFor } from "./outcome-web-reach";
@@ -210,10 +214,25 @@ const deathCohort = (person: PersonInput) =>
   `${person.looks?.gender === "male" ? "m" : "f"}:${person.birthDate.slice(0, 4)}`;
 
 /** Whole years from birth to `date` (ISO strings; the same rule as ageOnDate). */
-const ageOf = (person: PersonInput, date: string) =>
+const ageOf = (person: Pick<PersonInput, "birthDate">, date: string) =>
   Number(date.slice(0, 4)) -
   Number(person.birthDate.slice(0, 4)) -
   (date.slice(5) < person.birthDate.slice(5) ? 1 : 0);
+
+const fractionOf = (value: number) => value - Math.floor(value);
+
+/** Whether a relative in a woman's counted household is her partner: an adult within one generation of her age. */
+export function partnerByAge(
+  woman: Pick<PersonInput, "birthDate">,
+  other: Pick<PersonInput, "birthDate">,
+  date: string,
+): boolean {
+  const age = ageOf(woman, date);
+  return (
+    ageOf(other, date) >= YOUNGEST_PARENT_AGE &&
+    Math.abs(ageOf(other, date) - age) < YOUNGEST_PARENT_AGE
+  );
+}
 
 /** A woman's partner in her counted household: a relative within one generation. */
 function partnerOf(
@@ -221,13 +240,11 @@ function partnerOf(
   woman: PersonInput,
   date: string,
 ): PersonInput | undefined {
-  const age = ageOf(woman, date);
   return record.people.find(
     (row) =>
       row.id !== woman.id &&
       woman.familyIds.includes(row.id) &&
-      ageOf(row, date) >= YOUNGEST_PARENT_AGE &&
-      Math.abs(ageOf(row, date) - age) < YOUNGEST_PARENT_AGE,
+      partnerByAge(woman, row, date),
   );
 }
 
@@ -270,12 +287,42 @@ function birthStanding(
   );
 }
 
+/**
+ * Exposure a counted partnered woman adds at a review: her age curve times
+ * how little cushion her household has (cash against its costs), the same
+ * terms a full couple's exposure reads.
+ */
+function countedExposure(
+  api: CoreAPI,
+  record: ResidentHouseholdRecord,
+  woman: PersonInput,
+  date: string,
+): number {
+  const p = (key: string) => renewalParameter(api, key);
+  const distance =
+    (ageOf(woman, date) - p("renewalAgeCenter")) / p("renewalAgeSpread");
+  const cash = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+  const costs = record.people.reduce(
+    (n, row) => n + row.livingCostDailyMinor,
+    0,
+  );
+  const cushion = cash / (cash + costs * p("moneyBufferDays") + p("one"));
+  return (
+    p("renewalUnplannedExposure") *
+    Math.exp(-distance * distance) *
+    (p("one") - cushion)
+  );
+}
+
 /** Monthly flows for every place with counted residents. */
 export function applyCountedFlows(
   api: CoreAPI,
   carryTable: string,
   rowsTable: string,
   birthsTable: string,
+  unplannedTable: string,
+  /** Each counted woman's own exposure toward an unplanned pregnancy, by her id. */
+  exposureTable: string,
 ) {
   const core = api.state,
     date = core.date,
@@ -393,6 +440,15 @@ export function applyCountedFlows(
     const lead = (person: PersonInput, on: string) =>
       countedCourseDays(ageOf(person, on));
     const byId = new Map(people.map((person) => [person.id, person]));
+    // Each household's counted people in the same order, and the month's
+    // dead so far, so a death reads its own household, not the whole town.
+    const byHousehold = new Map<string, PersonInput[]>();
+    for (const person of people) {
+      const members = byHousehold.get(person.householdId);
+      if (members) members.push(person);
+      else byHousehold.set(person.householdId, [person]);
+    }
+    const dead = new Set<string>();
     const ill = new Map(
       illInPlace(api, placeId).map((found) => [found.id, found]),
     );
@@ -421,17 +477,17 @@ export function applyCountedFlows(
         (row.deathCauses[died.cause] ?? 0) + weightOfPerson(person);
       row.causeOf[person.id] = died.cause;
       // Who lived with them and outlives them, still in the counts.
-      const survivors = people
-        .filter(
-          (other) =>
-            other.id !== person.id &&
-            other.householdId === person.householdId &&
-            !row.deaths.includes(other.id),
-        )
+      const survivors = (byHousehold.get(person.householdId) ?? [])
+        .filter((other) => other.id !== person.id && !dead.has(other.id))
         .map((other) => other.id);
+      const estate = countedEstateOf(core, person.id);
       for (const heir of removeCountedPerson(core, person.id))
         row.estates.push({ deceasedId: person.id, ...heir });
+      // The death taxes in force read the estate that passed to them.
+      if (estate)
+        settleCountedEstate(api, { deceasedId: person.id, placeId, estate });
       row.deaths.push(person.id);
+      dead.add(person.id);
       // The death, for the household that outlives them: a private record
       // the people engines read (a counted death is no public notice).
       if (survivors.length)
@@ -454,7 +510,7 @@ export function applyCountedFlows(
         });
     }
     const well = people.filter(
-      (person) => !ill.has(person.id) && !row.deaths.includes(person.id),
+      (person) => !ill.has(person.id) && !dead.has(person.id),
     );
     const owed: Record<string, number> = { ...carry.deaths };
     const fall = (
@@ -467,34 +523,44 @@ export function applyCountedFlows(
         // Looking back before the opening, someone born since was not yet there to fall ill.
         if (person.birthDate > on) continue;
         const key = deathCohort(person);
-        cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
+        const cohort = cohorts.get(key);
+        if (cohort) cohort.push(person);
+        else cohorts.set(key, [person]);
       }
       let expected = 0;
       for (const [key, members] of cohorts) {
         // Each member's own chance at their own age, summed over the real
-        // people the member stands for.
-        const share = members.reduce(
-          (n, member) =>
-            n +
-            monthlyShare(
+        // people the member stands for. A cohort shares sex and birth year,
+        // so a member's chance depends only on their age and income fifth:
+        // it is worked out once for each pair and summed in the same order.
+        const chances = new Map<number, number>();
+        const share = members.reduce((n, member) => {
+          const age = ageOf(member, on),
+            fifth = fifthOf.get(member.id),
+            slot = age * 8 + (fifth ?? 7);
+          let chance = chances.get(slot);
+          if (chance === undefined) {
+            chance = monthlyShare(
               Math.min(
                 1,
                 deathChance(
                   member.looks?.gender,
                   Number(member.birthDate.slice(0, 4)),
-                  ageOf(member, on),
+                  age,
                 ) *
                   mortality *
                   webDeaths(member, on),
               ),
               months,
-            ) *
-              weightOfPerson(member),
-          0,
-        );
+            );
+            chances.set(slot, chance);
+          }
+          return n + chance * weightOfPerson(member);
+        }, 0);
         expected += share;
         debts[key] = (debts[key] ?? 0) + share;
       }
+      const sorted = new Set<string>();
       // The illnesses owed (the sum of every cohort's debt) begin, each in
       // the cohort owed the most, while the debt covers the real people the
       // next person stands for; a cohort that pays goes below zero and waits
@@ -510,7 +576,12 @@ export function applyCountedFlows(
           )
             pick = key;
         if (pick === undefined) break;
-        const members = cohorts.get(pick)!.sort((a, b) => compare(a.id, b.id));
+        // Sorted once, the first time it is picked: picks only take from it.
+        const members = cohorts.get(pick)!;
+        if (!sorted.has(pick)) {
+          members.sort((a, b) => compare(a.id, b.id));
+          sorted.add(pick);
+        }
         const owedNow = Object.values(debts).reduce((n, debt) => n + debt, 0);
         if (!(owedNow + 1e-9 >= weightOfPerson(members[0]!))) break;
         const person = members.shift()!;
@@ -552,12 +623,9 @@ export function applyCountedFlows(
               "counted-subject": person.id,
               "counted-household": person.householdId,
               "counted-perceivers": JSON.stringify(
-                people
+                (byHousehold.get(person.householdId) ?? [])
                   .filter(
-                    (other) =>
-                      other.id !== person.id &&
-                      other.householdId === person.householdId &&
-                      !row.deaths.includes(other.id),
+                    (other) => other.id !== person.id && !dead.has(other.id),
                   )
                   .map((other) => other.id),
               ),
@@ -611,6 +679,76 @@ export function applyCountedFlows(
     const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const spacing = p("renewalCountedBirthSpacingDays");
     const today = Date.parse(date);
+    const rateList = [...rates];
+    /** One more bedroom, a year, at the place's fair market rents. */
+    const roomCostOf = (record: ResidentHouseholdRecord) => {
+      const size = record.people.length;
+      return hud
+        ? Math.max(
+            0,
+            (hud.rents[bedroomsForHousehold(size + 1)]! -
+              hud.rents[bedroomsForHousehold(size)]!) *
+              CENTS_PER_DOLLAR *
+              months,
+          )
+        : 0;
+    };
+    // A woman already carrying a counted pregnancy has no other birth until it
+    // ends: she is neither a rate-funded mother nor exposed again.
+    const already = new Set(
+      store
+        .table(unplannedTable)
+        .rows()
+        .filter((r) => r.placeId === placeId && r.status === "pregnant")
+        .map((r) => String(r.motherId)),
+    );
+    // A continued pregnancy ends at term with a counted baby in the same
+    // household. The state's rate counts every birth, planned or not, so each
+    // delivery is charged to the month's birth carry: unplanned births are
+    // part of the rate's total, never added to it.
+    for (const pregnancy of store.table(unplannedTable).rows()) {
+      if (
+        pregnancy.placeId !== placeId ||
+        pregnancy.status !== "pregnant" ||
+        String(pregnancy.dueDate) > date
+      )
+        continue;
+      const found = (countedHouseholdsByPlace(core).get(placeId) ?? []).find(
+        (record) => record.people.some((kid) => kid.id === pregnancy.motherId),
+      );
+      const mother = found?.people.find((kid) => kid.id === pregnancy.motherId);
+      if (!found || !mother) {
+        // She was filled in as a full person or moved: the pregnancy leaves the group with her.
+        store
+          .table(unplannedTable)
+          .put({ ...pregnancy, status: "left" } as unknown as ModuleRow);
+        continue;
+      }
+      const partner = partnerOf(found, mother, date);
+      carry.births -= Number(pregnancy.stands);
+      const baby = countedNewborn(api, found, mother, date);
+      addCountedPerson(core, found.household.id, baby);
+      row.births.push(baby.id);
+      store.table(birthsTable).put({
+        id: `${baby.id}:birth`,
+        childId: baby.id,
+        counted: true,
+        unplannedId: pregnancy.id,
+        stands: Number(pregnancy.stands),
+        motherId: mother.id,
+        otherParentId: partner?.id ?? null,
+        date,
+        placeId,
+        householdId: found.household.id,
+        countsId: row.id,
+      });
+      store.table(unplannedTable).put({
+        ...pregnancy,
+        status: "delivered",
+        childId: baby.id,
+      } as unknown as ModuleRow);
+    }
+
     const mothers: {
       record: ResidentHouseholdRecord;
       woman: PersonInput;
@@ -620,7 +758,7 @@ export function applyCountedFlows(
       for (const woman of record.people) {
         if (woman.looks?.gender !== "female") continue;
         const age = ageOf(woman, date);
-        const rate = [...rates].find(
+        const rate = rateList.find(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
@@ -636,22 +774,14 @@ export function applyCountedFlows(
           : 1;
         row.expected.births +=
           monthlyShare(rate * webFactor, months) * weightOfPerson(woman);
+        if (already.has(woman.id)) continue;
         const recent = record.people.some(
           (row) =>
             woman.familyIds.includes(row.id) &&
             (today - Date.parse(row.birthDate)) / MS_PER_DAY < spacing,
         );
         if (recent) continue;
-        const size = record.people.length;
-        const roomCost = hud
-          ? Math.max(
-              0,
-              (hud.rents[bedroomsForHousehold(size + 1)]! -
-                hud.rents[bedroomsForHousehold(size)]!) *
-                CENTS_PER_DOLLAR *
-                months,
-            )
-          : 0;
+        const roomCost = roomCostOf(record);
         mothers.push({
           record,
           woman,
@@ -662,23 +792,25 @@ export function applyCountedFlows(
       (a, b) => b.standing - a.standing || compare(a.woman.id, b.woman.id),
     );
     carry.births += row.expected.births;
+    const birthMothers = new Set<string>();
     for (const { record, woman } of mothers) {
       // A baby in a record stands for as many babies as the household does.
       const stands = weightOfPerson(woman);
       if (carry.births < stands) continue;
       carry.births -= stands;
-      const partner = partnerOf(record, woman, date);
-      const baby = countedNewborn(api, record, woman, partner, date);
+      const baby = countedNewborn(api, record, woman, date);
       addCountedPerson(core, record.household.id, baby);
       row.births.push(baby.id);
+      birthMothers.add(woman.id);
       // The town's birth record: a counted baby has no plan or pregnancy of
       // its own, only the rate that counted it and the household it joined.
       store.table(birthsTable).put({
         id: `${baby.id}:birth`,
         childId: baby.id,
         counted: true,
+        stands,
         motherId: woman.id,
-        otherParentId: partner?.id ?? null,
+        otherParentId: baby.familyIds[1] ?? null,
         date,
         placeId,
         householdId: record.household.id,
@@ -686,27 +818,144 @@ export function applyCountedFlows(
       });
     }
 
-    const end = countedHouseholdsByPlace(core).get(placeId) ?? [];
-    row.endHouseholds = end.length;
-    row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
+    // Unplanned pregnancies: the same rule as a full couple's, times the
+    // households each record stands for. Each woman carries her own exposure,
+    // as a full couple does; when hers reaches one, each woman her record
+    // stands for has an unplanned pregnancy.
+    const reviewShare = p("daysPerMeanYear") / months / p("renewalReviewDays");
+    const exposed: { record: ResidentHouseholdRecord; woman: PersonInput }[] =
+      [];
+    for (const record of countedHouseholdsByPlace(core).get(placeId) ?? [])
+      for (const woman of record.people) {
+        if (woman.looks?.gender !== "female") continue;
+        if (already.has(woman.id) || birthMothers.has(woman.id)) continue;
+        const age = ageOf(woman, date);
+        if (![...rates.keys()].some(([low, high]) => age >= low && age <= high))
+          continue;
+        if (!partnerOf(record, woman, date)) continue;
+        const recent = record.people.some(
+          (kid) =>
+            woman.familyIds.includes(kid.id) &&
+            (today - Date.parse(kid.birthDate)) / MS_PER_DAY < spacing,
+        );
+        if (recent) continue;
+        const perReview = countedExposure(api, record, woman, date);
+        const held = store.table(exposureTable).get(woman.id);
+        // First seen, she has carried exposure since she came of age: the
+        // part of a whole that years of reviews at today's rate leave.
+        const opening = held
+          ? Number(held.carry)
+          : (api.stopgap("SG-PEOPLE-counted-opening-exposure"),
+            fractionOf(
+              perReview *
+                Math.max(
+                  0,
+                  ((ageOf(woman, date) - YOUNGEST_PARENT_AGE) *
+                    p("daysPerMeanYear")) /
+                    p("renewalReviewDays"),
+                ),
+            ));
+        const carried = opening + perReview * reviewShare;
+        const due = carried >= p("one");
+        store.table(exposureTable).put({
+          id: woman.id,
+          placeId,
+          carry: due ? carried - p("one") : carried,
+          at: date,
+        });
+        if (due) exposed.push({ record, woman });
+      }
+    exposed.sort((a, b) => compare(a.woman.id, b.woman.id));
+    for (const { record, woman } of exposed) {
+      const stands = weightOfPerson(woman);
+      const cash = record.people.reduce((n, kid) => n + kid.liquidMinor, 0);
+      const decision = weighUnplanned(
+        api,
+        placeId,
+        {
+          standing: birthStanding(
+            api,
+            record,
+            woman,
+            date,
+            median,
+            roomCostOf(record),
+          ),
+        },
+        cash,
+        date,
+      );
+      store.table(unplannedTable).put({
+        id: `${woman.id}:unplanned:${date}`,
+        placeId,
+        motherId: woman.id,
+        householdId: record.household.id,
+        date,
+        stands,
+        cashMinor: cash,
+        continues: decision.continues,
+        restricted: decision.restricted,
+        lawId: decision.lawId,
+        miles: decision.miles,
+        travelMinor: decision.travelMinor,
+        scores: decision.scores,
+        reasons: decision.reasons,
+        status: decision.continues ? "pregnant" : "ended",
+        dueDate: decision.continues
+          ? addDays(makeIsoDate(date), p("renewalGestationDays"))
+          : null,
+        countsId: row.id,
+      } as unknown as ModuleRow);
+      // Ending it pays the trip from the household's cash to the place's
+      // outside account, as a full household does, for each household the
+      // record stands for.
+      if (!decision.continues) {
+        const payee = [...api.state.organizations.values()].find(
+          (org) => org.placeId === placeId && org.outsideFlow !== undefined,
+        )?.id;
+        if (payee)
+          countedPayment(api, {
+            id: `${woman.id}:unplanned:${date}:trip`,
+            placeId,
+            householdId: record.household.id,
+            otherOwnerId: payee,
+            amountMinor: decision.travelMinor,
+            reasonKey: "renewal.unplanned-trip",
+            source: {
+              tag: "ESTIMATED",
+              asOf: date,
+              citation: `The trip to the nearest provider, ${decision.miles} miles, from the per-place table read by providerMiles.`,
+              estimatedFrom: "renewalTravelCostPerMileMinor",
+            },
+          });
+      }
+    }
     // The month's record is bookkeeping: nothing in play reads it, only
     // tests and the bench, which run with bookkeeping on.
-    if (bookkeeping()) store.table(rowsTable).put(row as unknown as ModuleRow);
+    if (bookkeeping()) {
+      const end = countedHouseholdsByPlace(core).get(placeId) ?? [];
+      row.endHouseholds = end.length;
+      row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
+      store.table(rowsTable).put(row as unknown as ModuleRow);
+    }
     store.table(carryTable).put({ id: placeId, ...carry });
     notifyCountedDeaths(api, row);
   }
 }
 
-/** A counted baby: who they are comes from the world's seed. */
-function countedNewborn(
+/**
+ * A counted baby: who they are comes from the world's seed, and their
+ * temperament from their parents' kept traits by the family rule every
+ * child is drawn by. The mother's partner is the household's relative
+ * within one generation (partnerOf). Exported for the births test.
+ */
+export function countedNewborn(
   api: CoreAPI,
   record: ResidentHouseholdRecord,
   mother: PersonInput,
-  partner: PersonInput | undefined,
   date: string,
 ): PersonInput {
-  // stopgapId: SG-PW8-counted-newborn-temperament (a seeded temperament, not inherited)
-  api.stopgap("SG-PW8-counted-newborn-temperament");
+  const partner = partnerOf(record, mother, date);
   const id = createStableId(
     "person",
     `${api.state.seed}:counted-birth:${mother.id}:${date}`,
@@ -714,17 +963,18 @@ function countedNewborn(
   const rng = new SeededRng(api.state.seed).fork(id);
   const identity = generatePersonIdentity(rng.fork("identity"));
   const name = drawCanonicalNamedIdentity(rng.fork("name"), identity);
-  const parents = partner ? [mother.id, partner.id] : [mother.id];
-  const subjects = [mother, ...(partner ? [partner] : [])].map((row) => ({
-    id: row.id,
-    birthDate: row.birthDate,
-    gender: row.looks?.gender,
-    parents: [],
-  }));
-  const traits = openingTemperaments(
-    [...subjects, { id, birthDate: date, gender: identity.gender, parents }],
-    { seed: api.state.seed, startedAt: date },
-  ).get(id)!;
+  const parentRows = partner ? [mother, partner] : [mother];
+  const parents = parentRows.map((row) => row.id);
+  const traits = inheritedTemperament(
+    parentRows.map((row) => ({
+      id: row.id,
+      birthDate: row.birthDate,
+      ...(row.looks?.gender ? { gender: row.looks.gender } : {}),
+      traits: row.traits,
+    })),
+    { id, birthDate: makeIsoDate(date), gender: identity.gender },
+    { seed: api.state.seed, startedAt: makeIsoDate(date) },
+  );
   return {
     id,
     givenName: name.givenName,

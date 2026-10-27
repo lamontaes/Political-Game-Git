@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: every reader multiplies by the weight the same way. No dice: a firm closes from its books and its owner's choice. Speed: the year must fit the two-minute rule, or the test runs the span the failure needs.
 
-**Done when.** In a played world built with buildBenchWorld at Census scale in Washington, D.C. and one more drawn place above 100,000 (seeds named), closure rows in the jobs engine are within the same town's count at scale one, by job change id, shown by a test in src/core2.
+**Done when.** In a played world built with buildBenchWorld at Census scale in Washington, D.C. and one more drawn place above 100,000 (seeds named), closure rows in the jobs engine are within the same town's count at scale one, by job change id, shown by a test in src/core2. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/census-scale-closures-support.ts, src/core2/modules/business.ts
 
@@ -32,3 +32,7 @@ Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): A sole
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Current main conflicts in src/core2/counted-groups.ts and src/core2/modules/employer-taxes.ts, plus stopgaps registry; code integration aborted without a gate pass; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Corrective6daec099ab5b still conflicts with current main d593cca589 in production src/core2/modules/residents.ts plus registry src/core2/data/stopgaps.json; merge aborted, preserve current payment readers and counted/full deposit conservation, retain registry rows, rerun sample/Census proofs; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Prior conflicts integrated and credit-weight readers repaired, but body marks second Done-when row NOT MET: Sunrise Manor sample182 ended job rows versus Census190; complete row conservation or bound independently completed leaves while retaining acceptance open; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5803 (branch claude/closures-large-cities): Current corrective head b00ed6b1a4 repairs press cost and D.C., but its updated Done-when row2 still explicitly reports Sunrise Manor Census190 closure job rows versus sample182; finish that acceptance or isolate bounded completed readers while leaving it open; finish on that branch, merge main into it first.

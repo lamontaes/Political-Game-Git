@@ -29,7 +29,14 @@ const server = createServer(async (request, response) => {
     response.end(serialize(value));
   };
   try {
-    const asset = assets.get(url.pathname);
+    // The play screen's shared parts (src/bench/ui/<part>.mjs).
+    const part = /^\/ui\/([a-z-]+\.mjs)$/.exec(url.pathname);
+    const asset =
+      assets.get(url.pathname) ??
+      (part && {
+        file: `ui/${part[1]}`,
+        type: "text/javascript; charset=utf-8",
+      });
     if (method === "GET" && asset) {
       const content = await readFile(new URL(asset.file, import.meta.url));
       response.writeHead(200, { "Content-Type": asset.type });

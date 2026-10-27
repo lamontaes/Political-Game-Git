@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: dropped
 claimed-by: claude/counted-hire-employer-calendar
 pr: #5958
-blocked-on:
+blocked-on: jobs-counted-hire-other-employer-calendar
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T16:53:03.066Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T16:53:03.066Z
 **Files.** src/core2/modules/jobs.ts,src/core2/counted-household-jobs.test.ts
 
 **Notes.** Found Oct 24 by the effects lead when the year-long twin check crashed in Paris, Arkansas. The counted-jobs fix that keeps a counted hire on payroll (core-counted-household-jobs-in-step) reached main inside #5609; this is its gap.
+
+Oct 25 (CTO ruling): dropped as a duplicate of jobs-counted-hire-other-employer-calendar (effects lead, Oct 25); #5958 names that item.

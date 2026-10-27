@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** "An effect is a read, not a record": a policy counts only when a different engine reads it when it decides or pays. "The chain is the acceptance": follow one dollar or rule to a named person and the choice, view and journal line that moved.
 
-**Done when.** A one-year run of buildBenchWorld in a drawn place (name and seed in the PR body) shows, for each policy here, the law record id, the payment, price or eligibility record that changed, the person record id reached and the knowing source, checked by a new test in src/core2/law-reach-balance.test.ts. The owner plays it: pass one of these laws and meet a neighbor it changed.
+**Done when.** A one-year run of buildBenchWorld in a drawn place (name and seed in the PR body) shows, for each policy here, the law record id, the payment, price or eligibility record that changed, the person record id reached and the knowing source, checked by a new test in src/core2/law-reach-balance.test.ts. The owner plays it: pass one of these laws and meet a neighbor it changed. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, src/core2/data/laws/reach-group-b.json
 
@@ -30,3 +30,4 @@ Sent back 2026-10-20 from PR #5517 (branch claude/political-game-pool-yucp92-pp)
 Sent back 2026-10-20 from PR #5179 (branch claude/laws-outcome-health-fiscal): Merging current origin/main conflicts in code: src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b-money.ts and src/core2/law-reach/group-b.ts. Resolve those on this branch against the current health/assistance paths, retaining nonempty payment assertions and both population tiers, then rerun changed-file checks and the required law-to-person payment chain. The stopgap-register conflict is resolvable; the code conflicts prevent gating this result.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5775 (branch claude/outcome-health-fiscal): Notes-only routing would complete the broad law-to-person chain without the required one-year law/payment/person/knowing-source proof or sales-tax evidence; preserve the current specification and add a bounded declaration if needed; finish on that branch, merge main into it first.
+Stale 2026-10-26: PR #5775 closed (no push for five days, handed back); the work is on branch claude/outcome-health-fiscal; claim the item and merge main into that branch.

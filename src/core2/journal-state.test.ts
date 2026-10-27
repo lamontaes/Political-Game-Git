@@ -1,5 +1,6 @@
 /** Meaningful source-only counterexamples; NOT EXECUTED and no world proof is claimed. */
 import { describe, expect, it } from "vitest";
+import { setBookkeeping } from "./bookkeeping";
 import { P } from "./parameters";
 import { createCore } from "./state";
 import {
@@ -730,6 +731,34 @@ describe("synchronous canonical cash journal writer", () => {
     rejectUnchanged(f, overFund.input, /fund after/);
     const overResidual = f.addSource(payment(701), "fixture:over-residual");
     rejectUnchanged(f, overResidual.input, /residual after/);
+  });
+
+  it("commits the same cash, funds, counters and projections in play as with bookkeeping on", () => {
+    const run = (checks: boolean): string => {
+      const previous = setBookkeeping(checks);
+      try {
+        const f = fixture();
+        allocate(f);
+        // One posting moves a fund, one leaves it unmoved, one is an outside payment.
+        const projections = [payment(100, fundA, residualB), payment(50)].map(
+          (lines, i) =>
+            postCashJournal(
+              f.runtime,
+              f.host,
+              f.addSource(lines, "fixture:play-" + i).input,
+            ),
+        );
+        projections.push(
+          postCashJournal(f.runtime, f.host, addOutsidePayment(f, 25).input),
+        );
+        return JSON.stringify([projections, snapshot(f)], (_key, row) =>
+          row instanceof Map || row instanceof Set ? [...row] : row,
+        );
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    expect(run(false)).toBe(run(true));
   });
 
   it("rejects a missing complete portfolio index and ambiguous actual owners without scanning outsiders", () => {
