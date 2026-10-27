@@ -2084,9 +2084,7 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      // The date is labeled; a tie with no contact on record shows nothing.
-      c.tie?.lastContactDate &&
-        row(labels.lastTalked, proseDate(c.tie.lastContactDate)),
+      // No "Last talked" (owner, Oct 27, 5 PM: never shown).
       ...(known
         ? [
             row("party", known.party),
