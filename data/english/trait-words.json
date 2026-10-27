@@ -1,0 +1,30 @@
+{
+  "about": "How the character screen says a person's temperament: one phrase per trait for each lean, a phrase a person could say about someone. The middle phrase says what someone with no marked lean does, and no two traits share one. Read by src/english/trait-words.ts; the card passes the trait and its recorded value.",
+  "traits": {
+    "deliberation": {
+      "low": "Thinks it through",
+      "middle": "Weighs the big choices, not the small ones",
+      "high": "Acts on impulse"
+    },
+    "sociability": {
+      "low": "Reserved",
+      "middle": "At ease alone or in a crowd",
+      "high": "Outgoing"
+    },
+    "conflict": {
+      "low": "Conciliatory",
+      "middle": "Picks which fights to have",
+      "high": "Confrontational"
+    },
+    "reliability": {
+      "low": "Lets things slip",
+      "middle": "Usually keeps a promise",
+      "high": "Follows through"
+    },
+    "risk": {
+      "low": "Cautious",
+      "middle": "Takes a chance when it seems worth it",
+      "high": "Takes chances"
+    }
+  }
+}

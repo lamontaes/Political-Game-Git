@@ -8,12 +8,12 @@ import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
+import { traitSaid } from "../english/trait-words";
 import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
 import {
-  BALANCED_TRAIT,
   PEOPLE_TRAITS,
   TRAIT_SHAPES,
   PEOPLE_MIND_VERSION,
@@ -130,22 +130,13 @@ export function personCard(core: CoreState, personId: string) {
             }
           | undefined) ?? null)
       : null,
-    // The temperament recorded on the person, each in the pole's own word.
+    // The temperament recorded on the person, each lean in the English
+    // engine's phrase for it.
     traits: PEOPLE_TRAITS.flatMap((trait) => {
       const value = person.traits[`${PEOPLE_MIND_VERSION}:${trait}`];
       if (value === undefined) return [];
-      const shape = TRAIT_SHAPES[trait];
-      return [
-        {
-          label: shape.label,
-          word:
-            value < 0
-              ? shape.low.label
-              : value > 0
-                ? shape.high.label
-                : BALANCED_TRAIT.label,
-        },
-      ];
+      const word = traitSaid(trait, value);
+      return word ? [{ label: TRAIT_SHAPES[trait].label, word }] : [];
     }),
     // Where they place themselves politically, as the views engine's label.
     view: core.modules.has(VIEWS_MODULE_ID)
