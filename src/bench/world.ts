@@ -10,6 +10,7 @@ import { createLifeCore } from "../core2/life";
 import { preStartWindow, runPreStart } from "../core2/pre-start";
 import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
+import { wordPrintedStory } from "./archive-words";
 import {
   WORLD_MODULES,
   withWorldEconomy,
@@ -435,7 +436,9 @@ function* benchWorldStages(
     );
   yield "core";
   options.onOpening?.(opening);
-  const director = createDirector();
+  // A talk at home can raise a printed story by its headline, in the words
+  // the paper's own screen prints it with.
+  const director = createDirector({ watch: [], storyWords: wordPrintedStory });
   const core = createLifeCore(opening, {
     observer: false,
     data: officeDayData(renewalData(worldCoreData(peopleData(DEFAULT_DATA)))),
