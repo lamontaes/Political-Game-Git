@@ -3115,6 +3115,8 @@ function endorseContests(
         storyId,
       } as unknown as ModuleRow);
     }
+  }
+}
 
 /**
  * Each press week the outlets' wider audience pays its part of the coming

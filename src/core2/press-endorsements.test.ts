@@ -39,14 +39,66 @@ it("an outlet endorses the candidate its head and owner hold highest, and its re
     const api = coreAPI(core);
     const where = `${draw.key} (${core.placeMetadata.placeName}), seed ${draw.seed}`;
     const calls = new Map<string, ReturnType<typeof endorsementsOf>[number]>();
+    const movedAtCall = new Map<string, boolean>();
+    /** Whether a follower's impression of the endorsed candidate is warmer and counts the contact. */
+    const readersMoved = (
+      call: ReturnType<typeof endorsementsOf>[number],
+      before: ReadonlyMap<string, number>,
+    ) => {
+      const outlet = outletsHere(api).find((o) => o.id === call.outletId)!;
+      const followers = new Set(followersOf(api, outlet.id));
+      const impressions = api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("impressions")
+        .rows() as unknown as {
+        voterId: string;
+        candidateId: string;
+        id: string;
+        heardOf: boolean;
+        warmth: number;
+        causes: number;
+      }[];
+      // Warmer than the week before (a view long set against the candidate
+      // can stay below zero after one endorsement) and counting the contact.
+      return impressions.some(
+        (i) =>
+          i.candidateId === call.candidateId &&
+          followers.has(i.voterId) &&
+          i.heardOf &&
+          i.causes > 0 &&
+          i.warmth > (before.get(i.id) ?? Number.NEGATIVE_INFINITY),
+      );
+    };
+    const warmthNow = () =>
+      new Map(
+        (
+          api
+            .moduleState(CAMPAIGNS_MODULE_ID)
+            .table("impressions")
+            .rows() as unknown as {
+            id: string;
+            warmth: number;
+          }[]
+        ).map((i) => [i.id, i.warmth]),
+      );
     for (let week = 0; week < 100; week++) {
+      const before = warmthNow();
       advanceCore(core, addDays(makeIsoDate(core.date), 7));
       const contests = api
         .moduleState(ELECTIONS_MODULE_ID)
         .table("contests")
         .rows() as unknown as { id: string }[];
       for (const c of contests)
-        for (const row of endorsementsOf(api, c.id)) calls.set(row.id, row);
+        for (const row of endorsementsOf(api, c.id)) {
+          if (calls.has(row.id)) continue;
+          calls.set(row.id, row);
+          // Read the readers' view in the week the paper made the call: later
+          // an election passing or the impressions fading take it away.
+          if (row.candidateId)
+            movedAtCall.set(row.id, readersMoved(row, before));
+        }
+      // The first week with a backed call is enough: stopping there keeps the world small.
+      if (movedAtCall.size) break;
     }
     const rows = [...calls.values()];
     const backed = rows.filter((r) => r.candidateId);
@@ -74,28 +126,11 @@ it("an outlet endorses the candidate its head and owner hold highest, and its re
       expect(story?.kind, call.id).toBe("endorsement");
       expect(story?.subjectIds, call.id).toEqual([call.candidateId]);
       // A reader's view of the candidate moved because of it: the voter's
-      // impression of them is warmer and counts the contact (the cause rows
-      // themselves are kept only for the player's circle).
-      const impressions = api
-        .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("impressions")
-        .rows() as unknown as {
-        voterId: string;
-        candidateId: string;
-        heardOf: boolean;
-        warmth: number;
-        causes: number;
-      }[];
-      const followers = new Set(followersOf(api, outlet.id));
+      // impression of them is warmer and counts the contact (read in the
+      // week of the call; the cause rows themselves are kept only for the
+      // player's circle).
       expect(
-        impressions.some(
-          (i) =>
-            i.candidateId === call.candidateId &&
-            followers.has(i.voterId) &&
-            i.heardOf &&
-            i.warmth > 0 &&
-            i.causes > 0,
-        ),
+        movedAtCall.get(call.id),
         `${call.id}: no follower's view moved`,
       ).toBe(true);
     }
