@@ -6,11 +6,12 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/checker-grant-toggle
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T14:16:56.467Z
 ---
 
 **What.** `scripts/law-wiring/check.ts` changes an amount law by a tenth, rounding an integer up by at least one. `local-income-tax-authority` is a grant held as 1 (granted) or 0 (not), so in Prescott, Michigan, where the state grants it, the checker set it from 1 to 2 (`docs/reports/law-wiring/families/taxes-year-US-MI-2666300.json`). The legislature's authority check reads a grant only where the value is exactly 1, so the run in fact withdrew the grant (inferred from `src/core2/modules/legislature.ts`, the local income tax check). Treat a series whose rows are 0 or 1 (a grant, a yes or no) as a switch: set it to the other value. Measured by the laws lead, Oct 25.
