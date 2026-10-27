@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/people-garment-colors
-pr:
+pr: #6423
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T21:56:17.186Z
