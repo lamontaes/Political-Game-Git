@@ -88,6 +88,8 @@ interface ResearchExecutive {
   readonly title: string;
   readonly termYears?: number;
   readonly nextRegularElectionYear?: number;
+  /** The first day of the office's first term, for an office created after the game opens. */
+  readonly firstTermStart?: string;
   readonly vacancyRule?: ResearchVacancy;
   readonly source?: string;
   readonly citation?: string;
@@ -124,6 +126,11 @@ const governorParty = new Map(
     g.party ? g.party[0]!.toUpperCase() + g.party.slice(1) : null,
   ]),
 );
+
+/** The party holding a state's governorship when the game opens, or null. */
+export function governorPartyAtOpening(stateKey: string): string | null {
+  return governorParty.get(stateKey) ?? null;
+}
 const federalExecutive = federalExecutiveResearch as unknown as Record<
   "president" | "vicePresident",
   { party: string }
@@ -209,21 +216,26 @@ export function townDistrict(
   return null;
 }
 
-/** A district's name or code reduced to comparable words. */
-function districtKey(text: string): string {
-  return text
+/**
+ * A district's name or code reduced to comparable words, by one rule for
+ * every place: the Census's "Subdistrict 1A" and the roster's "1A", "01A"
+ * and "1A", "Berkshire-Hampden-Franklin" and "Berkshire, Hampden and
+ * Franklin", "South East" and "Southeast" are each one district.
+ */
+function districtKey(text: string, sorted = true): string {
+  const words = text
     .toLowerCase()
     .replace(/(\d+)(st|nd|rd|th)\b/g, "$1")
+    .replace(/\b(north|south)\s+(east|west)\b/g, "$1$2")
     .replace(
-      /\b(state|house|senate|senatorial|assembly|legislative|district|of|the)\b/g,
+      /\b(state|house|senate|senatorial|assembly|legislative|district|subdistrict|of|the|and)\b/g,
       " ",
     )
     .replace(/[^a-z0-9 ]/g, " ")
     .split(/\s+/)
     .filter(Boolean)
-    .map((word) => (/^\d+$/.test(word) ? String(Number(word)) : word))
-    .sort()
-    .join(" ");
+    .map((word) => word.replace(/^0+(?=\d)/, ""));
+  return (sorted ? words.sort() : words).join(" ");
 }
 
 type Roster = Readonly<Record<string, readonly string[]>>;
@@ -242,12 +254,23 @@ function roster(
  * its roster has all its members.
  */
 function rosterDistricts(rows: Roster, d: DistrictIdentity): string[] {
+  // The name in its own word order first: "Middlesex and Norfolk" and
+  // "Norfolk and Middlesex" are two districts. Sorted words match a name the
+  // sources only order differently.
+  for (const sorted of [false, true]) {
+    const keys = new Set([
+      districtKey(d.districtCode, sorted),
+      districtKey(d.sourceName ?? "", sorted),
+    ]);
+    const exact = Object.keys(rows).filter((name) =>
+      keys.has(districtKey(name, sorted)),
+    );
+    if (exact.length) return exact.slice(0, 1);
+  }
   const keys = new Set([
     districtKey(d.districtCode),
     districtKey(d.sourceName ?? ""),
   ]);
-  const exact = Object.keys(rows).filter((name) => keys.has(districtKey(name)));
-  if (exact.length) return exact.slice(0, 1);
   const numbers = [...keys].filter((key) => /^\d+$/.test(key));
   return Object.keys(rows)
     .filter((name) => {
@@ -484,13 +507,12 @@ const STATEWIDE = statewideParties as unknown as {
 };
 /**
  * The party holding a statewide executive office at the start, where its
- * election carries party labels (null for a nonpartisan office). The research
- * was compiled without live sources: SG-GOV-statewide-parties-unverified.
+ * election carries party labels (null for a nonpartisan office, or a body no
+ * party holds a majority of). Every row was checked against a live page.
  */
 function statewidePartyOf(stateKey: string, key: string): string | null {
   const row = STATEWIDE.places[stateKey]?.[key];
   if (!row?.partisanElection) return null;
-  stopgap("SG-GOV-statewide-parties-unverified");
   return row.party;
 }
 
@@ -529,6 +551,9 @@ export function stateOffices(
         elected: true,
         districted: false,
         coversTown: true,
+        ...(executive.firstTermStart
+          ? { firstTermStart: executive.firstTermStart }
+          : {}),
         source: [executive.citation, executive.source]
           .filter(Boolean)
           .join(" "),

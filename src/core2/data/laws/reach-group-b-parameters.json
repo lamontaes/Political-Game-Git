@@ -136,6 +136,11 @@
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(2): 20 hours a week of work or a work program."
     },
+    "ownerWeeklyHours": {
+      "value": 34.9,
+      "tag": "SOURCED",
+      "source": "BLS, Current Population Survey 2023 annual averages, Table 21 (Persons at work in nonagricultural industries by class of worker and usual full- or part-time status), https://www.bls.gov/cps/data/aa2023/cpsaat21.pdf, row \"Self-employed workers, unincorporated\": average hours 34.9 for all persons at work (42.2 for those usually working full time). The hours an owner who has no work commitment of their own works at their business, which a work requirement counts."
+    },
     "snapWorkTimeLimitMonths": {
       "value": 3,
       "tag": "SOURCED",
@@ -269,10 +274,10 @@
       "spread": [0.03, 0.25]
     },
     "stateFlatIncomeTaxPercent": {
-      "value": 4,
+      "value": 4.25,
       "tag": "ESTIMATED",
-      "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025: flat-rate states range from 2.5% to 4.95%.",
-      "spread": [2.5, 4.95]
+      "source": "Tax Foundation, State Individual Income Tax Rates and Brackets, as of January 1, 2025 (https://taxfoundation.org/data/all/state/state-income-tax-rates/): the median of the 14 flat-rate states' rates, 2.5% (Arizona) to 5.695% (Idaho); data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json, checked by scripts/research/check-law-reach-sources.ts. ESTIMATED: one national rate stands in for the rate a sponsor writes (SG-GOV-REACH-B-flat-tax-replacement).",
+      "spread": [2.5, 5.695]
     },
     "localFlatIncomeTaxPercent": {
       "value": 1.5,

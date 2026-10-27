@@ -59,13 +59,40 @@ export interface BenchScene {
   /** People who are there but have no spot or no approved figure that fits one. */
   unplaced: { personId: string; reason: string }[];
 }
+/**
+ * Why a person stands in a room, from the records. Nobody is staged without
+ * a recorded reason.
+ */
+export type StageReason =
+  /** The person whose scene it is. */
+  | "you"
+  /** Lives in the household whose home this is. */
+  | "household"
+  /** Holds a job at the organization this place belongs to. */
+  | "coworker"
+  /** The other person in the act the player chose (a talk, a visit). */
+  | "act"
+  /** The moment the scene plays is about them: they opened it or it names them. */
+  | "moment"
+  /** The filing office's clerk on record. */
+  | "clerk"
+  /** A voter the campaign act reached, by its cause record. */
+  | "reached"
+  /** Holds the office or seat this room is for. */
+  | "official"
+  /** The person a card or portrait is of. */
+  | "subject"
+  /** The address or broadcast the scene shows names them. */
+  | "named";
+
 export interface BenchScenePerson {
   personId: string;
   name: string;
+  reason: StageReason;
   spotId: string;
   figure: WholeFigure["figure"];
   figureUrl: string;
-  /** Only owner-approved whole figures are ever drawn (owner, Oct 13). */
+  /** Only the v2 standing figures are drawn. */
   art: "whole";
 }
 
@@ -361,8 +388,6 @@ function doing(
   personId: string,
   packet: PlayerPacketV1 | undefined,
 ): { actionId: string; targetId?: string } | undefined {
-  if (packet?.kind === "stop" && packet.stop.work)
-    return { actionId: "work-shift" };
   if (packet?.kind === "choice" && packet.choiceKind === "committed")
     return { actionId: "work-shift" };
   const ids = [...(core.logByPerson.get(personId) ?? [])];
@@ -488,20 +513,35 @@ interface Looks {
   id: string;
   birthDate: string;
   gender?: string;
-  seed?: string;
+  /** The look chosen in the creator (the player), when there is one. */
+  look?: FigurePerson["look"];
+}
+/** A look saved by the creator, or none where the record holds no readable one. */
+function chosenLook(text: string | undefined): FigurePerson["look"] {
+  if (!text) return undefined;
+  try {
+    const { sex, build, outfit } = JSON.parse(text) as Record<string, unknown>;
+    return typeof sex === "string" &&
+      typeof build === "string" &&
+      typeof outfit === "string"
+      ? { sex, build, outfit }
+      : undefined;
+  } catch {
+    return undefined;
+  }
 }
 const OFFICES = "core2-offices-v1";
 export function looksOf(core: CoreState, id: string): Looks | null {
   const person = core.people.get(id);
-  if (person)
+  if (person) {
+    const look = chosenLook(person.looks?.recipe);
     return {
       id: person.id,
       birthDate: person.birthDate,
       ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
-      ...(person.looks?.appearanceSeed
-        ? { seed: person.looks.appearanceSeed }
-        : {}),
+      ...(look ? { look } : {}),
     };
+  }
   const term = coreAPI(core).moduleState(OFFICES).table("terms").get(id) as
     | {
         identity?: { birthDate: string; gender: string };
@@ -523,7 +563,7 @@ function isOfficial(core: CoreState, id: string): boolean {
 
 /**
  * Puts each id on the place's spots: the first on the hero spot, the rest
- * near them. Only approved whole figures are drawn (owner, Oct 13): a person
+ * near them. Only v2 figures are drawn: a person
  * no figure fits on a spot moves to the next spot that one fits, and where
  * none does, nobody is drawn for them. Then each turns toward who they're
  * with, or toward the front of a room that has one.
@@ -531,7 +571,7 @@ function isOfficial(core: CoreState, id: string): boolean {
 export function stagePeople(
   core: CoreState,
   place: string,
-  ids: readonly { id: string; name: string }[],
+  ids: readonly { id: string; name: string; reason: StageReason }[],
 ): { people: BenchScenePerson[]; unplaced: BenchScene["unplaced"] } {
   const stage = backdropStaging(place);
   const people: BenchScenePerson[] = [];
@@ -551,26 +591,29 @@ export function stagePeople(
   const placed: {
     id: string;
     name: string;
+    reason: StageReason;
     look: Figure;
     band: Parameters<typeof figureOn>[1];
     spot: StagingSpot;
   }[] = [];
   // No twins: each look is worn by one person in the scene, the lead first.
   const taken = new Set<string>();
-  for (const { id, name } of ids) {
+  for (const { id, name, reason } of ids) {
+    if (!reason) {
+      unplaced.push({ personId: id, reason: "no-reason" });
+      continue;
+    }
     const looks = looksOf(core, id);
     if (!looks) {
       unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
-    const act = core.people.has(id) ? doing(core, id, undefined) : undefined;
     const who: Who = {
       id,
       birthDate: looks.birthDate,
       ...(looks.gender ? { gender: looks.gender } : {}),
       official: isOfficial(core, id),
-      ...(act?.actionId ? { act: act.actionId } : {}),
-      ...(id === core.playerId ? { player: true } : {}),
+      ...(looks.look ? { look: looks.look } : {}),
     };
     const look = pickLook(core, who, place, taken);
     if (!look) {
@@ -594,13 +637,20 @@ export function stagePeople(
       continue;
     }
     taken.add(look.look);
-    placed.push({ id, name, look, band, spot: free.splice(index, 1)[0]! });
+    placed.push({
+      id,
+      name,
+      reason,
+      look,
+      band,
+      spot: free.splice(index, 1)[0]!,
+    });
   }
   const front = FRONTS[place];
   // Drawn far to near, so nearer people stand in front of farther ones.
   const depth = (spot: StagingSpot) => spot.depth ?? spot.y;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, look, band, spot } of order) {
+  for (const { id, name, reason, look, band, spot } of order) {
     const turn = turnOf(
       spot,
       placed.map((row) => row.spot),
@@ -610,6 +660,7 @@ export function stagePeople(
     people.push({
       personId: id,
       name,
+      reason,
       spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
       figure: whole.figure,
       figureUrl: whole.url,
@@ -720,13 +771,24 @@ export function benchScene(
     minute,
     openingEvening !== undefined,
   );
+  const working =
+    why === "work-shift" || why === "attend-scheduled-work-date-segment";
   const ids = [personId, ...presentIds(core, personId, place, why, targetId)];
   const { people, unplaced } = stagePeople(
     core,
     place,
     ids.map((id) => {
       const person = core.people.get(id)!;
-      return { id, name: `${person.givenName} ${person.familyName}` };
+      // The same reasons presentIds draws them by.
+      const reason: StageReason =
+        id === personId
+          ? "you"
+          : working
+            ? "coworker"
+            : id === targetId
+              ? "act"
+              : "household";
+      return { id, name: `${person.givenName} ${person.familyName}`, reason };
     }),
   );
   return {

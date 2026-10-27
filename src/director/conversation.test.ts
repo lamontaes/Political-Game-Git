@@ -4,6 +4,10 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
+import {
+  CONVERSATION_WORDS,
+  heldConversationWords,
+} from "../english/conversation-words";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -14,6 +18,7 @@ import {
   beliefsModule,
   beliefsOf,
   CONVERSATION_DATA,
+  CONVERSATION_RULES,
   doubtsClaim,
   openConversation,
   say,
@@ -22,11 +27,9 @@ import {
   type Conversation,
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
-import {
-  CONVERSATION_RULES,
-  MINED_CONVERSATION,
-} from "./mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
+import { kinAddress, relationPhrase } from "../english/journal-words";
+import type { PersonId } from "../core2/types";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
 // every turn, each answering the last line from real records; talking is
@@ -122,11 +125,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        // Four replies, always (owner, Oct 14), each saying something else.
+        // Four replies, always, each saying something else.
         const texts = talk.choices.map((row) => row.text);
         // An acknowledgment ("Okay.", "All right.") takes in a statement; it
         // is never a reply to a question, which every reply moves on
-        // (owner, Oct 15). Where a question has fewer than four real
+        //. Where a question has fewer than four real
         // wordings in its stage ("Where did you go to school?"), it gets
         // fewer, never a filler.
         const questioned = last.act === "ask" || /\?$/.test(last.text);
@@ -160,7 +163,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
     }
     // Relatives talk personal subjects only and often have nothing to say
-    // (owner, Oct 15, evening), so fewer turns run than before.
+    //, so fewer turns run than before.
     expect(turns).toBeGreaterThan(8);
   });
 
@@ -221,7 +224,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const texts = talk.lies.map((row) => row.text);
     expect(new Set(texts).size).toBe(texts.length);
     // A lie about work is a denial or a believable false alternative; a lie
-    // about where the player is from always names another place (owner, Oct 15).
+    // about where the player is from always names another place.
     const kinds = new Set(talk.lies.map((row) => row.key.split(":")[2]));
     if (opening(talk).kind.startsWith("own-work")) expect(kinds.size).toBe(2);
     else expect([...kinds]).toEqual(["elsewhere"]);
@@ -418,23 +421,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(closed).toBeGreaterThan(0);
   });
-  it("opens a reunion scene's talk on what the two share, ahead of any other event", () => {
+  it("opens a reunion scene's talk on a school or workplace the two once shared only when decades have passed and the record shows it (owner, Oct 15, evening)", () => {
     const book = director.ledger.people.get(player.id)!;
     const template = book.moments[0]!;
     let checked = 0;
     for (const otherId of others) {
-      // Not one whose last talk with the player was already about it.
-      const remembered = core.knowledgeByPerson
-        .get(otherId)
-        ?.get(`talk:${player.id}:topic`)?.value;
-      if (
-        !subjectsBetween(core, player.id, otherId, director).some(
-          (row) =>
-            (row.kind === "shared-school" || row.kind === "shared-work") &&
-            row.id !== remembered,
-        )
-      )
-        continue;
+      const shared = subjectsBetween(core, player.id, otherId, director).filter(
+        (row) => row.kind === "shared-school" || row.kind === "shared-work",
+      );
+      if (!shared.length) continue;
       // Edge case by hand: a re-entry moment whose cause no subject is about.
       const occasion = {
         ...template,
@@ -448,7 +443,17 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         occasionId: occasion.id,
       });
       book.momentsById.delete(occasion.id);
-      expect(talk.topics[0], otherId).toMatch(/(?:^|>)shared-(?:school|work):/);
+      // "Do you remember <school>?" opens nothing unless a record says
+      // something happened to it or decades have passed.
+      for (const line of talk.lines) {
+        const about = shared.find((row) => line.subjectId.includes(row.id));
+        if (about)
+          expect(
+            about.facts["long-ago"],
+            `${otherId}: ${line.text}`,
+          ).toBeTruthy();
+        else expect(line.text, otherId).not.toMatch(/\bremember\b/i);
+      }
       checked += 1;
       if (checked >= 3) break;
     }
@@ -466,7 +471,117 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(kin.length).toBeGreaterThan(0);
   });
+  it("asks one relative after another they share only as both call them, never by a parent's first name or as 'your father' (play-stop-20)", () => {
+    const asked = ["kin", "family", "their-family"];
+    // Two relatives and the living relatives they have in common, from the
+    // opening's family records: the player's own first, then the town's by
+    // id, so a drawn world whose player has none still has some to check.
+    const actors = [
+      me,
+      ...[...core.people.values()]
+        .filter((row) => row.id !== me.id)
+        .sort((a, b) => a.id.localeCompare(b.id)),
+    ];
+    const seen = new Set<string>();
+    const pairs = actors
+      .filter((row) => row.alive)
+      .flatMap((actor) =>
+        [...actor.familyIds].sort().flatMap((id) => {
+          const relative = core.people.get(id);
+          const key = [actor.id, id].sort().join("|");
+          if (!relative?.alive || seen.has(key)) return [];
+          seen.add(key);
+          const both = [...relative.familyIds].filter(
+            (other) =>
+              other !== actor.id &&
+              actor.familyIds.has(other) &&
+              core.people.get(other)?.alive,
+          );
+          return both.length ? [{ from: actor.id, to: id, both }] : [];
+        }),
+      )
+      .slice(0, 20);
+    expect(pairs.length, "relatives who share a relative").toBeGreaterThan(0);
+    const shared: string[] = [];
+    for (const { from: a, to: b, both } of pairs) {
+      // Something recorded happened to each relative they share (a lost
+      // job), so either of the two could talk of them.
+      const ledger = {
+        people: new Map(
+          both.map((other) => [
+            other,
+            {
+              moments: [
+                {
+                  date: core.date,
+                  label: "money:job-lost",
+                  causeId: other,
+                  counterpartIds: [],
+                },
+              ],
+            },
+          ]),
+        ),
+      };
+      const recent = { ledger } as unknown as Parameters<
+        typeof subjectsBetween
+      >[3];
+      for (const [from, to] of [
+        [a, b],
+        [b, a],
+      ] as const)
+        for (const row of subjectsBetween(core, from, to, recent)) {
+          if (!asked.includes(row.kind) || !both.includes(row.aboutId!))
+            continue;
+          // Only the speaker's relative asked after by the listener: never
+          // introduced, never asked back about as the listener's own.
+          expect(row.kind, `${from} to ${to}: ${row.id}`).toBe("family");
+          const relative = core.people.get(row.aboutId as PersonId)!;
+          const listener = core.people.get(to)!;
+          // The one who asks does not live with them.
+          expect(relative.householdId, `${from} to ${to}: ${row.id}`).not.toBe(
+            listener.householdId,
+          );
+          // As both call them: the kin address of a parent or grandparent
+          // to both ("Dad"), or a shared sibling's first name; never a
+          // relation phrase ("your father") or a parent's first name.
+          const relationOf = (person: PersonId) =>
+            core.people
+              .get(person)!
+              .pastFacts?.find(
+                (f) =>
+                  f.kind.startsWith("family:") &&
+                  f.facts?.otherPersonId === row.aboutId,
+              )
+              ?.kind.slice("family:".length);
+          const relation = relationOf(from);
+          expect(relation, `${from} to ${to}: ${row.id}`).toBe(relationOf(to));
+          const said = row.facts.relation!.text;
+          if (relation === "sibling")
+            expect(said, `${from} to ${to}: ${row.id}`).toBe(
+              relative.givenName,
+            );
+          else {
+            expect(said, `${from} to ${to}: ${row.id}`).toBe(
+              kinAddress(relation!, relative.looks?.gender ?? "other"),
+            );
+            expect(said, `${from} to ${to}: ${row.id}`).not.toBe(
+              relative.givenName,
+            );
+          }
+          expect(said, `${from} to ${to}: ${row.id}`).not.toMatch(
+            /^(my|your) /,
+          );
+          shared.push(`${to} asks ${from}: ${said} (${row.aboutId})`);
+        }
+    }
+    // Somebody asks after a relative they share, as they call them.
+    expect(shared.length, "a shared relative asked after").toBeGreaterThan(0);
+    console.log(`shared kin asked after: ${shared.slice(0, 5).join("; ")}`);
+  });
   it("remembers the last talk's topic and opens the next one with something else", () => {
+    // Any topic a talk keeps to is remembered by the listener: the next talk
+    // with the same person opens on another (a shared school is not an opener).
     let checked = 0;
     for (const otherId of others.slice(0, 15)) {
       const first = openConversation(core, player.id, otherId, { director });
@@ -475,9 +590,56 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       const next = openConversation(core, player.id, otherId, { director });
       if (next.topics[0]) expect(next.topics[0]).not.toBe(first.topics[0]);
       checked += 1;
+      if (checked >= 5) break;
     }
     expect(checked).toBeGreaterThan(0);
   });
+  it("never opens on a school or an old job without a reason, and a question answered is followed up, not answered with goodbye", () => {
+    // 15 talks in a drawn place. Owner, Oct 15, evening (batch 12 rejected).
+    const reason = /remember|go to school|work at|work for/i;
+    let talks = 0;
+    let checkedPairs = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const talk = openConversation(core, player.id, otherId, { director });
+      talks += 1;
+      // Rule 1: a shared school or workplace is raised only with a reason.
+      const subjects = subjectsBetween(core, player.id, otherId, director);
+      for (const row of subjects)
+        if (row.kind === "shared-school" || row.kind === "shared-work") {
+          const long = !!row.facts["long-ago"];
+          const said = talk.lines.some((line) =>
+            line.subjectId.includes(row.id),
+          );
+          if (said) expect(long).toBe(true);
+        }
+      for (let turn = 0; turn < 5 && talk.choices.length; turn += 1) {
+        // A yes or no (or any reply) to the other person's question.
+        const choice =
+          talk.choices.find((row) => /^(yes|no|yeah|nope)\b/i.test(row.text)) ??
+          talk.choices[0]!;
+        say(core, talk, choice.key);
+        void reason;
+      }
+      // Rule 2 and 3: a farewell is never the next thing said after the
+      // other person's own question was answered (an ack may sit between).
+      talk.lines.forEach((line, at) => {
+        if (line.kind !== "farewell") return;
+        let back = at - 1;
+        while (back >= 0 && talk.lines[back]!.kind === "ack") back -= 1;
+        const answer = talk.lines[back];
+        const asked = talk.lines[back - 1];
+        if (answer && answer.speakerId === player.id && asked) {
+          checkedPairs += 1;
+          expect(
+            asked.speakerId === talk.otherId && /\?$/.test(asked.text.trim()),
+          ).toBe(false);
+        }
+      });
+    }
+    expect(talks).toBe(Math.min(15, others.length));
+    expect(checkedPairs).toBeGreaterThan(0);
+  });
+
   it("answers a question about the player's relative, and may ask back about theirs", () => {
     // Neighbors who know one of the player's relatives and have a relative
     // the player knows, the two relatives being different people (a
@@ -493,15 +655,50 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           hours: 1,
         });
     };
+    // Relatives only one side has: a brother is not asked "How's your
+    // father?" about their own (play-stop-20). Each is one their own family
+    // record names by a relation with a word, which a question after them
+    // cites and says.
+    const recorded = (personId: string, id: string) => {
+      const fact = core.people
+        .get(personId)!
+        .pastFacts?.find(
+          (row) =>
+            row.kind.startsWith("family:") && row.facts?.otherPersonId === id,
+        );
+      return (
+        !!fact &&
+        !!relationPhrase(
+          fact.kind.slice("family:".length),
+          core.people.get(id)!.looks?.gender ?? "other",
+          "scene",
+        )
+      );
+    };
     const pairs = others.slice(0, 15).flatMap((otherId) => {
       const other = core.people.get(otherId)!;
-      const mine = [...me.familyIds].find((id) => id !== otherId && alive(id));
+      const mine = [...me.familyIds].find(
+        (id) =>
+          id !== otherId &&
+          alive(id) &&
+          !other.familyIds.has(id) &&
+          recorded(me.id, id),
+      );
       const theirs = [...other.familyIds].find(
-        (id) => id !== me.id && id !== mine && alive(id),
+        (id) =>
+          id !== me.id &&
+          id !== mine &&
+          alive(id) &&
+          !me.familyIds.has(id) &&
+          recorded(otherId, id),
       );
       if (!mine || !theirs) return [];
       introduce(otherId, mine);
       introduce(me.id, theirs);
+      // The player clicks into the neighbor's relative, so the director
+      // watches them and keeps what happens to them; a relative nobody
+      // watches is director-neighbor-relative-happening-unseen.
+      director.watch(core, theirs);
       return [{ otherId, mine, theirs }];
     });
     expect(
@@ -542,11 +739,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
     }
     // A talk the neighbor opens by asking after the player's relative: the
-    // player's answer may turn it back, and the neighbor answers in turn.
+    // player's answer may turn it back, and the neighbor answers in turn. The
+    // family answers that turn a talk back are hand-written and held until
+    // graded, so this reads them the way a grading batch does.
+    const held = heldConversationWords();
     let turned = 0;
     for (const pair of pairs) {
       const talk = openConversation(core, player.id, pair.otherId, {
         director,
+        data: held,
       });
       if (talk.lines.find((row) => row.kind !== "greet")?.kind !== "family")
         continue;
@@ -560,7 +761,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       expect(aboutId).not.toBe(asked);
       expect(core.people.get(pair.otherId)!.familyIds.has(aboutId)).toBe(true);
       const before = talk.lines.length;
-      say(core, talk, back.key);
+      say(core, talk, back.key, held);
       const [said, reply] = talk.lines.slice(before);
       expect(said!.speakerId).toBe(player.id);
       expect(reply!.speakerId).toBe(pair.otherId);
@@ -583,6 +784,16 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       if (word) expect(word).toBe(gender === "male" ? "he" : "she");
       turned += 1;
     }
+    // A question turns back only to a relative of the neighbor's whom
+    // something recorded happened to, as the player knows it, and never to
+    // one the two share (play-stop-20); every pair above has such a relative.
+    for (const pair of pairs)
+      expect(
+        subjectsBetween(core, player.id, pair.otherId, director).map(
+          (row) => row.id,
+        ),
+        pair.otherId,
+      ).toContain(`their-family:${pair.theirs}`);
     // A player who carries talk on sees the turned question among their four
     // replies; one who keeps it short sees plain answers first.
     const carriesOn =
@@ -625,7 +836,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
 
 describe("the answers to a question fit it", () => {
   it('never answers "Where did you go to school?" with "It\'s okay."', () => {
-    const school = MINED_CONVERSATION.subjects.school!;
+    const school = CONVERSATION_WORDS.subjects.school!;
     const keys = new Set((school.answers ?? []).map((move) => move.key));
     // Where, or that they are done: nothing about how it is going.
     expect([...keys].sort()).toEqual(["at", "done"]);
@@ -633,7 +844,7 @@ describe("the answers to a question fit it", () => {
       expect(move.text).not.toMatch(/^It'?s (okay|fine|good|hard|going well)/);
     // The reply to the same question, from their own record, is where.
     expect(
-      (MINED_CONVERSATION.subjects["school-reply"]?.reply ?? []).every(
+      (CONVERSATION_WORDS.subjects["school-reply"]?.reply ?? []).every(
         (move) => move.key === "at",
       ),
     ).toBe(true);

@@ -3,7 +3,7 @@ id: research-stopgaps-oct19-apply
 title: "Apply the Oct 19 stopgap research: 112 rows have sourced values or estimates with spreads"
 area: core
 kind: stopgap
-priority: 2
+priority: 3
 size: L
 status: open
 claimed-by:
@@ -38,3 +38,13 @@ Oct 21 (claude): the AS and MP shelter-bed row applied in PR 5461 is tracked as 
 Sent back 2026-10-23 from PR #5466 (branch claude/apply-stopgaps-a): Missing Done-when evidence table; identify a valid bounded spread-only item or provide parent calibration acceptance while preserving unfinished work open; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5478 (branch claude/apply-stopgaps-c2): Missing Done-when evidence table for delegate-size disposition and drawn-world reader proof; keep incomplete parent research work open or use a valid bounded item; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5794 (branch claude/apply-stopgaps-b): Body calls 0.04-to-0.10 smaller and cleaning provenance still says a tenth for 0.12; correct claims and use a valid bounded four-parameter acceptance item; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.
+
+Applied Oct 20 (claude, third PR, A-people-behavior-1): recorded the researched spreads (value unchanged, tag TUNABLE, stopgap rows still open) for driveWeight (0.6 to 1.2), companyHorizonDays (7 to 30), appraisalRelationshipWeight (0.5 to 1), appraisalDistressTraitWeight and appraisalBroodingTraitWeight (0.25 to 0.75), each with the research basis and the sources that were fetched vs only cited. Not applied: rows that move a value (stressHalfLifeDays 3, goalWeight 0.8, traitWeight 0.6 against the owner's Oct 14 equal-weight ruling, emotionWeight 0.35, effortWeight 0.3, restEffect 0.08, careEffect 0.04) because each is low confidence and moves the whole-life ATUS check; they need a run of the P9 whole-life check before and after.
+
+Merger 2, October26: PR #5466 merged at c0f05abbe02ef0ca9e9f2f8ec23a29b308d5d1a5 as the bounded metadata item research-people-three-tunable-sensitivity-bands. Only the remaining three assumed sensitivity bands (driveWeight, companyHorizonDays, appraisalRelationshipWeight) changed; all764base values/tags/stopgap IDs remain identical and allthree stopgaps stayOPEN. This112-row umbrella and whole-life/empirical calibration remainOPEN; no additional research row or calibration is declared complete.
+
+Sent back 2026-10-26 from PR #5478 (branch claude/apply-stopgaps-c2): Corrected table still cites only the small custom world rather than a drawn one-year all-module buildBenchWorld run with downstream record IDs; add a matching bounded proxy acceptance item and assert the full applicable territory seat set with a zero-electorate negative; keep this umbrella and SG-GOV-delegate-race-size open; finish on that branch, merge main into it first.

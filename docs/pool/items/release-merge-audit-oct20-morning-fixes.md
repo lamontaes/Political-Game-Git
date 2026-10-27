@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr: #5703
+pr: #5818
 blocked-on:
 source: CTO merge audit, Oct 20 morning
 claimed-at:
@@ -25,7 +25,7 @@ claimed-at:
 
 **Rules.** Wire to the world: every fix is proven by record id in a played world built with buildBenchWorld, not in a hand-built fixture. Replace, never layer: corrected text replaces the wrong text, and no test is narrowed, skipped or given a longer timeout without a measured reason.
 
-**Done when.** All seven numbered fixes are merged into main, each in a PR that names this item and its number. The new and changed tests (elections-law.test.ts, public-pay-floor-hire.test.ts, campaign-day-controls.test.ts, staff-paid-every-place.test.ts, saves.test.ts) pass in a drawn place with the seed in the PR body, and the research-data guard test passes without the rawSource entry.
+**Done when.** All seven numbered fixes are merged into main, each in a PR that names this item and its number. The new and changed tests (elections-law.test.ts, public-pay-floor-hire.test.ts, campaign-day-controls.test.ts, staff-paid-every-place.test.ts, saves.test.ts) pass in a drawn place with the seed in the PR body, and the research-data guard test passes without the rawSource entry. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/data/elections/term-starts.json, src/core2/elections-law.test.ts, scripts/audit/research-data-allowlist.json, data/research/jobs/employer-callback-gaps.json, src/core2/modules/jobs.ts, src/core2/public-pay-floor-hire.test.ts, src/bench/campaign.ts, src/bench/campaign-day-controls.test.ts, src/core2/staff.ts, src/core2/staff-paid-every-place.test.ts, src/core2/snapshot.ts, src/core2/saves.test.ts, src/core2/opening-customers-township-owner.test.ts, src/core2/term-start-history.test.ts, docs/release/changes/
 
@@ -42,3 +42,7 @@ Oct 21 (claude): where each fix stands. 1 merged (#5655). 2 is #5703: the older-
 Sent back 2026-10-21 from PR #5703 (branch claude/fs11vb-f2): scripts/audit/research-data-allowlist.json:89-94 adds the island-place population and economic-context binding files to rawSource with reasons that say no engine reads them yet. The latest fixer comment explicitly says the additions clear a red guard for ten unread research files. That is the bypass the merger rule rejects; no engine reads it yet belongs to a justified awaiting-reader category or a real reader, not automatic rawSource immunity. Keep the repaired callback citation and its justified rawSource-to-awaitingReader move, but remove the unrelated red-guard bypasses and account for each new entry in the correct category. No local gate pass is claimed.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5703 (branch claude/fs11vb-f2): The broad completion marker and table would close the seven-fix umbrella while public-hire/browser/aide proof remains open; use bounded fix-2 routing and correct the NBER citation to printed p.26 (PDF p.28); finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5818 (branch claude/audit-fix4-browser): Browser row assertion can check zero rows and four duplicate outings satisfy its length-only test; require nonempty applicable rows and exactly one of each outing; finish on that branch, merge main into it first.
+
+Merger 2: 2026-10-26, #5818 is routed to bounded release-merge-audit-fix4-browser-assertions. All listed component PRs are verified merged into main, and the exact browser check now passes here in Lake Mary FL, seed3a462e9c-2839-462d-b37c-a514536db0b9, checked head50771132c2fccdeb30f722e6931744ec00809d77. The umbrella stays OPEN because its Done when requires the research-data guard to pass: own clean-main b3c06e202f guard run returns3/5 in14.64s, eleven unaccounted research files plus jobs/series count1vs0; existing release-red-research-reader-census-rerun tracks that acceptance gap. Do not mark this umbrella DONE for the bounded browser merge.

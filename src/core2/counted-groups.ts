@@ -70,6 +70,20 @@ export interface CountedGroup extends GroupKey {
   readonly households: Set<number>;
 }
 
+/** What engines read about someone still counted, from the group's columns. */
+export interface CountedFacts {
+  readonly id: PersonId;
+  readonly familyName: string;
+  readonly placeId: string;
+  readonly birthDate: IsoDate;
+  readonly householdId: string;
+  readonly jobId?: string;
+  readonly liquidMinor: number;
+  readonly livingCostDailyMinor: number;
+  /** Read in place from the group's columns. */
+  readonly traits: Readonly<Record<string, number>>;
+}
+
 export interface CountedHousehold {
   readonly index: number;
   readonly id: string;
@@ -151,6 +165,9 @@ function grown<T extends Int8Array | Uint8Array>(
   return next;
 }
 
+/** Days a counted job is paid for in a year, as the residents engine pays it. */
+const DAYS_PER_YEAR = 365;
+
 /** Where a packed trait reader keeps its member (a symbol: not a trait key to for...in). */
 const MEMBER = Symbol("member");
 
@@ -205,6 +222,18 @@ export class CountedStore {
     number,
     { rev: number; people: readonly PersonInput[] }
   >();
+  /** Each household's counted members' facts, kept until the household changes (`touch`). */
+  private readonly factsViews = new Map<
+    number,
+    { rev: number; facts: readonly CountedFacts[] }
+  >();
+  /**
+   * How many real jobs a counted job stands for where that is not its
+   * worker's household weight: kept when the household's weight grows by
+   * another record's release, or when an employer sheds part of it, so an
+   * employer's heads move only with its own staffing (`headsOfJob`).
+   */
+  readonly jobHeads = new Map<string, number>();
   /** Bumped by every change to who is counted or how they are grouped. */
   version = 0;
   /** Bumped only when someone joins or leaves the counts (not on a regroup). */
@@ -357,6 +386,32 @@ export class CountedStore {
   touch(h: CountedHousehold): void {
     h.rev = (h.rev ?? 0) + 1;
     this.peopleViews.delete(h.index);
+    this.factsViews.delete(h.index);
+  }
+
+  /** What engines read about a counted member: their columns, with no person record built. */
+  factsOf(member: number): CountedFacts {
+    const jobId = this.jobId[member];
+    return {
+      id: this.ids[member]!,
+      familyName: this.family[member]!,
+      placeId: this.strings[this.placeIx[member]!]!,
+      birthDate: this.born[member]! as IsoDate,
+      householdId: this.households[this.household[member]!]!.id,
+      liquidMinor: this.liquid[member]!,
+      livingCostDailyMinor: this.living[member]!,
+      ...(jobId ? { jobId } : {}),
+      traits: this.packedTraits(member),
+    };
+  }
+
+  /** A household's counted members' facts, built once per change. */
+  factsOfHousehold(h: CountedHousehold): readonly CountedFacts[] {
+    const held = this.factsViews.get(h.index);
+    if (held && held.rev === (h.rev ?? 0)) return held.facts;
+    const facts = this.countedMembers(h).map((m) => this.factsOf(m));
+    this.factsViews.set(h.index, { rev: h.rev ?? 0, facts });
+    return facts;
   }
 
   /** A household's counted people as records (in-place traits), built once per change. */
@@ -380,6 +435,40 @@ export class CountedStore {
   /** How many real households a record stands for (one unless the opening gave it a weight). */
   weightOf(h: CountedHousehold): number {
     return h.weight ?? 1;
+  }
+
+  /** How many real jobs one of a record's counted jobs stands for. */
+  headsOfJob(h: CountedHousehold, jobId: string): number {
+    return this.jobHeads.get(jobId) ?? this.weightOf(h);
+  }
+
+  /**
+   * Set the jobs a counted job stands for, as its employer's staffing
+   * decided. The household record that holds it earns for those jobs only.
+   */
+  setJobHeads(job: { id: string; personId: string }, heads: number): void {
+    this.version++;
+    this.jobHeads.set(job.id, heads);
+    const m = this.countedMember(job.personId as PersonId);
+    const h = m === undefined ? undefined : this.households[this.household[m]!];
+    if (h) h.wagesMinorYear = this.wagesOf(h);
+  }
+
+  /**
+   * A household record's yearly pay, as one of the households it stands for
+   * earns it: each open job's wage, times the share of those households its
+   * heads cover (all of them unless staffing changed the job's heads), so
+   * the record's pay times its weight is what its employers pay.
+   */
+  wagesOf(h: CountedHousehold): number {
+    const weight = this.weightOf(h);
+    let n = 0;
+    for (const job of h.jobs)
+      if (job.endsAt === undefined)
+        n +=
+          (job.wageDailyMinor * DAYS_PER_YEAR * this.headsOfJob(h, job.id)) /
+          weight;
+    return Math.round(n);
   }
 
   /** The people a household record stands for: its counted members times its weight. */
@@ -432,8 +521,19 @@ export class CountedStore {
     if (!found.size) return people;
     const added = people / found.size;
     this.version++;
-    for (const other of found.targets)
+    // The households it stood for move; the jobs they held stay with their
+    // employers: a target's own jobs keep the heads they stood for (the
+    // filled record's own jobs are kept by the residents engine, which sees
+    // every counted job at an employer). The people a target gains beyond
+    // its jobs' heads stand for no job and do not look for one.
+    stopgap("SG-WORLD-weight-release-jobless-not-seeking");
+    for (const other of found.targets) {
+      for (const job of other.jobs)
+        if (!this.jobHeads.has(job.id))
+          this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
+      other.wagesMinorYear = this.wagesOf(other);
+    }
     return 0;
   }
 
@@ -551,7 +651,7 @@ export class CountedStore {
       }
     const wages = record.jobs
       .filter((job) => job.endsAt === undefined)
-      .reduce((n, job) => n + job.wageDailyMinor * 365, 0);
+      .reduce((n, job) => n + job.wageDailyMinor * DAYS_PER_YEAR, 0);
     const incomeContracts = record.contracts.filter(
       (row) => row.recipientIncome,
     );
@@ -743,6 +843,7 @@ export function encodeStore(store: CountedStore): unknown {
             "traitView",
             "traitViews",
             "peopleViews",
+            "factsViews",
             // Cache keys, not state: a restored store starts its own count.
             "version",
             "membersVersion",

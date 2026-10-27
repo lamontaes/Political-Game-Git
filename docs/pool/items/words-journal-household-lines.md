@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: blocked
+status: open
 claimed-by: claude/words-journal-household-lines
 pr:
-blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the journal lines still ship as authored shippable parts, so the slot is not empty and the rewritten test in the done-when does not exist yet. Needs the owner to grade the lines (the 5647 decision).
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:04:57.062Z
 ---
@@ -21,4 +21,6 @@ claimed-at: 2026-10-20T11:04:57.062Z
 
 **Files.** data/english/parts/journal.json, src/director/journal.ts, src/director/journal-household.test.ts
 
-**Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts.
+**Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts. Playtest Oct 26 sitting 1 (installed v0.34.0): Journal opens "Our family came from Albion, Pennsylvania. I was raised by my parent Kendall. My father Brian lived somewhere else. My brother Leo was born after me." and the first toast is "My brother Leo was born after me." Owner: "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up."
+
+Oct 25 audit: unblocked; PR #5647 (the held hand-written parts) merged Oct 23, so the slot is empty on main and waits for the engine's line.

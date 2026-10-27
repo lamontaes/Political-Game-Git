@@ -3,7 +3,18 @@
   "source": {
     "tag": "SOURCED",
     "asOf": "2026-10-12",
-    "citation": "BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json; FHFA MIRS table 26 (This product uses FHFA data but is neither endorsed nor certified by FHFA.); Freddie Mac Primary Mortgage Market Survey after 2019"
+    "citation": "BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json; FHFA MIRS table 26 (This product uses FHFA data but is neither endorsed nor certified by FHFA.); FHFA MIRS Transition Index from 2019-06 (mortgageTransition)"
+  },
+  "mortgageTransition": {
+    "tag": "ESTIMATED",
+    "asOf": "2026-10-22",
+    "from": "2019-06",
+    "citation": "FHFA, Monthly Interest Rate Survey (MIRS), MIRS Transition Index Data File, https://www.fhfa.gov/document/d/mirs/mirs-historical-data-file (data/research/macro/series/mirs-transition-index.csv; sha256 in receipts.json). This product uses FHFA data but is neither endorsed nor certified by FHFA.",
+    "estimatedFrom": "FHFA calls the index \"a version of Freddie Mac's 30-year\" survey \"that adjusts for differences between the two\", says \"It is not a replacement for PMMS\" and that it \"is intended to be used in lieu of the discontinued index for currently outstanding loans\"; it stands in for the discontinued monthly 30-year rate (acting CTO ruling, Oct 20). FHFA lists each value under the month it is released (\"September 2026: 6.48\"); each is kept here under the month two before its release, the alignment that best matches the 30-year rate it adjusts (mean difference -0.026 point, standard deviation 0.085, over 89 months, against 0.421 when kept under the release month). Months not yet covered read the 10-year Treasury plus the sourced spread.",
+    "spread": {
+      "low": -0.33,
+      "high": 0.27
+    }
   },
   "monthly": [
     {
@@ -3458,7 +3469,7 @@
       "hourlyEarnings": 27.97,
       "policyRatePct": 2.38,
       "treasury10Pct": 2.07,
-      "mortgage30Pct": 3.8
+      "mortgage30Pct": 3.75
     },
     {
       "month": "2019-07",
@@ -3468,7 +3479,7 @@
       "hourlyEarnings": 28.03,
       "policyRatePct": 2.4,
       "treasury10Pct": 2.06,
-      "mortgage30Pct": 3.77
+      "mortgage30Pct": 3.71
     },
     {
       "month": "2019-08",
@@ -3478,7 +3489,7 @@
       "hourlyEarnings": 28.14,
       "policyRatePct": 2.13,
       "treasury10Pct": 1.63,
-      "mortgage30Pct": 3.62
+      "mortgage30Pct": 3.59
     },
     {
       "month": "2019-09",
@@ -3488,7 +3499,7 @@
       "hourlyEarnings": 28.16,
       "policyRatePct": 2.04,
       "treasury10Pct": 1.7,
-      "mortgage30Pct": 3.61
+      "mortgage30Pct": 3.55
     },
     {
       "month": "2019-10",
@@ -3498,7 +3509,7 @@
       "hourlyEarnings": 28.24,
       "policyRatePct": 1.83,
       "treasury10Pct": 1.71,
-      "mortgage30Pct": 3.69
+      "mortgage30Pct": 3.56
     },
     {
       "month": "2019-11",
@@ -3508,7 +3519,7 @@
       "hourlyEarnings": 28.34,
       "policyRatePct": 1.55,
       "treasury10Pct": 1.81,
-      "mortgage30Pct": 3.69
+      "mortgage30Pct": 3.74
     },
     {
       "month": "2019-12",
@@ -3528,7 +3539,7 @@
       "hourlyEarnings": 28.43,
       "policyRatePct": 1.55,
       "treasury10Pct": 1.76,
-      "mortgage30Pct": 3.62
+      "mortgage30Pct": 3.63
     },
     {
       "month": "2020-02",
@@ -3548,7 +3559,7 @@
       "hourlyEarnings": 28.73,
       "policyRatePct": 0.65,
       "treasury10Pct": 0.87,
-      "mortgage30Pct": 3.45
+      "mortgage30Pct": 3.35
     },
     {
       "month": "2020-04",
@@ -3558,7 +3569,7 @@
       "hourlyEarnings": 30.04,
       "policyRatePct": 0.05,
       "treasury10Pct": 0.66,
-      "mortgage30Pct": 3.31
+      "mortgage30Pct": 3.32
     },
     {
       "month": "2020-05",
@@ -3568,7 +3579,7 @@
       "hourlyEarnings": 29.72,
       "policyRatePct": 0.05,
       "treasury10Pct": 0.67,
-      "mortgage30Pct": 3.23
+      "mortgage30Pct": 3.27
     },
     {
       "month": "2020-06",
@@ -3578,7 +3589,7 @@
       "hourlyEarnings": 29.38,
       "policyRatePct": 0.08,
       "treasury10Pct": 0.73,
-      "mortgage30Pct": 3.16
+      "mortgage30Pct": 3.2
     },
     {
       "month": "2020-07",
@@ -3598,7 +3609,7 @@
       "hourlyEarnings": 29.49,
       "policyRatePct": 0.1,
       "treasury10Pct": 0.65,
-      "mortgage30Pct": 2.94
+      "mortgage30Pct": 2.95
     },
     {
       "month": "2020-09",
@@ -3608,7 +3619,7 @@
       "hourlyEarnings": 29.51,
       "policyRatePct": 0.09,
       "treasury10Pct": 0.68,
-      "mortgage30Pct": 2.89
+      "mortgage30Pct": 2.85
     },
     {
       "month": "2020-10",
@@ -3618,7 +3629,7 @@
       "hourlyEarnings": 29.54,
       "policyRatePct": 0.09,
       "treasury10Pct": 0.79,
-      "mortgage30Pct": 2.83
+      "mortgage30Pct": 2.8
     },
     {
       "month": "2020-11",
@@ -3628,7 +3639,7 @@
       "hourlyEarnings": 29.64,
       "policyRatePct": 0.09,
       "treasury10Pct": 0.87,
-      "mortgage30Pct": 2.77
+      "mortgage30Pct": 2.83
     },
     {
       "month": "2020-12",
@@ -3638,7 +3649,7 @@
       "hourlyEarnings": 29.91,
       "policyRatePct": 0.09,
       "treasury10Pct": 0.93,
-      "mortgage30Pct": 2.68
+      "mortgage30Pct": 2.7
     },
     {
       "month": "2021-01",
@@ -3648,7 +3659,7 @@
       "hourlyEarnings": 29.93,
       "policyRatePct": 0.09,
       "treasury10Pct": 1.08,
-      "mortgage30Pct": 2.73
+      "mortgage30Pct": 2.64
     },
     {
       "month": "2021-02",
@@ -3658,7 +3669,7 @@
       "hourlyEarnings": 30.05,
       "policyRatePct": 0.08,
       "treasury10Pct": 1.26,
-      "mortgage30Pct": 2.81
+      "mortgage30Pct": 2.72
     },
     {
       "month": "2021-03",
@@ -3668,7 +3679,7 @@
       "hourlyEarnings": 30.03,
       "policyRatePct": 0.07,
       "treasury10Pct": 1.61,
-      "mortgage30Pct": 3.08
+      "mortgage30Pct": 3.04
     },
     {
       "month": "2021-04",
@@ -3678,7 +3689,7 @@
       "hourlyEarnings": 30.22,
       "policyRatePct": 0.07,
       "treasury10Pct": 1.64,
-      "mortgage30Pct": 3.06
+      "mortgage30Pct": 3.12
     },
     {
       "month": "2021-05",
@@ -3688,7 +3699,7 @@
       "hourlyEarnings": 30.41,
       "policyRatePct": 0.06,
       "treasury10Pct": 1.62,
-      "mortgage30Pct": 2.96
+      "mortgage30Pct": 2.93
     },
     {
       "month": "2021-06",
@@ -3698,7 +3709,7 @@
       "hourlyEarnings": 30.54,
       "policyRatePct": 0.08,
       "treasury10Pct": 1.52,
-      "mortgage30Pct": 2.98
+      "mortgage30Pct": 2.95
     },
     {
       "month": "2021-07",
@@ -3718,7 +3729,7 @@
       "hourlyEarnings": 30.78,
       "policyRatePct": 0.09,
       "treasury10Pct": 1.28,
-      "mortgage30Pct": 2.84
+      "mortgage30Pct": 2.86
     },
     {
       "month": "2021-09",
@@ -3728,7 +3739,7 @@
       "hourlyEarnings": 30.98,
       "policyRatePct": 0.08,
       "treasury10Pct": 1.37,
-      "mortgage30Pct": 2.9
+      "mortgage30Pct": 2.87
     },
     {
       "month": "2021-10",
@@ -3738,7 +3749,7 @@
       "hourlyEarnings": 31.14,
       "policyRatePct": 0.08,
       "treasury10Pct": 1.58,
-      "mortgage30Pct": 3.07
+      "mortgage30Pct": 3.04
     },
     {
       "month": "2021-11",
@@ -3748,7 +3759,7 @@
       "hourlyEarnings": 31.23,
       "policyRatePct": 0.08,
       "treasury10Pct": 1.56,
-      "mortgage30Pct": 3.07
+      "mortgage30Pct": 2.97
     },
     {
       "month": "2021-12",
@@ -3758,7 +3769,7 @@
       "hourlyEarnings": 31.39,
       "policyRatePct": 0.08,
       "treasury10Pct": 1.47,
-      "mortgage30Pct": 3.1
+      "mortgage30Pct": 3.09
     },
     {
       "month": "2022-01",
@@ -3768,7 +3779,7 @@
       "hourlyEarnings": 31.6,
       "policyRatePct": 0.08,
       "treasury10Pct": 1.76,
-      "mortgage30Pct": 3.45
+      "mortgage30Pct": 3.44
     },
     {
       "month": "2022-02",
@@ -3778,7 +3789,7 @@
       "hourlyEarnings": 31.64,
       "policyRatePct": 0.08,
       "treasury10Pct": 1.93,
-      "mortgage30Pct": 3.76
+      "mortgage30Pct": 3.68
     },
     {
       "month": "2022-03",
@@ -3788,7 +3799,7 @@
       "hourlyEarnings": 31.8,
       "policyRatePct": 0.2,
       "treasury10Pct": 2.13,
-      "mortgage30Pct": 4.17
+      "mortgage30Pct": 3.84
     },
     {
       "month": "2022-04",
@@ -3798,7 +3809,7 @@
       "hourlyEarnings": 31.96,
       "policyRatePct": 0.33,
       "treasury10Pct": 2.75,
-      "mortgage30Pct": 4.98
+      "mortgage30Pct": 4.99
     },
     {
       "month": "2022-05",
@@ -3808,7 +3819,7 @@
       "hourlyEarnings": 32.1,
       "policyRatePct": 0.77,
       "treasury10Pct": 2.9,
-      "mortgage30Pct": 5.23
+      "mortgage30Pct": 5.29
     },
     {
       "month": "2022-06",
@@ -3818,7 +3829,7 @@
       "hourlyEarnings": 32.19,
       "policyRatePct": 1.21,
       "treasury10Pct": 3.14,
-      "mortgage30Pct": 5.52
+      "mortgage30Pct": 5.22
     },
     {
       "month": "2022-07",
@@ -3828,7 +3839,7 @@
       "hourlyEarnings": 32.34,
       "policyRatePct": 1.68,
       "treasury10Pct": 2.9,
-      "mortgage30Pct": 5.41
+      "mortgage30Pct": 5.5
     },
     {
       "month": "2022-08",
@@ -3838,7 +3849,7 @@
       "hourlyEarnings": 32.44,
       "policyRatePct": 2.33,
       "treasury10Pct": 2.9,
-      "mortgage30Pct": 5.22
+      "mortgage30Pct": 5.21
     },
     {
       "month": "2022-09",
@@ -3848,7 +3859,7 @@
       "hourlyEarnings": 32.57,
       "policyRatePct": 2.56,
       "treasury10Pct": 3.52,
-      "mortgage30Pct": 6.11
+      "mortgage30Pct": 5.88
     },
     {
       "month": "2022-10",
@@ -3858,7 +3869,7 @@
       "hourlyEarnings": 32.7,
       "policyRatePct": 3.08,
       "treasury10Pct": 3.98,
-      "mortgage30Pct": 6.9
+      "mortgage30Pct": 6.91
     },
     {
       "month": "2022-11",
@@ -3868,7 +3879,7 @@
       "hourlyEarnings": 32.82,
       "policyRatePct": 3.78,
       "treasury10Pct": 3.89,
-      "mortgage30Pct": 6.8
+      "mortgage30Pct": 7.07
     },
     {
       "month": "2022-12",
@@ -3878,7 +3889,7 @@
       "hourlyEarnings": 32.94,
       "policyRatePct": 4.1,
       "treasury10Pct": 3.62,
-      "mortgage30Pct": 6.36
+      "mortgage30Pct": 6.32
     },
     {
       "month": "2023-01",
@@ -3888,7 +3899,7 @@
       "hourlyEarnings": 33.02,
       "policyRatePct": 4.33,
       "treasury10Pct": 3.53,
-      "mortgage30Pct": 6.27
+      "mortgage30Pct": 6.32
     },
     {
       "month": "2023-02",
@@ -3898,7 +3909,7 @@
       "hourlyEarnings": 33.15,
       "policyRatePct": 4.57,
       "treasury10Pct": 3.75,
-      "mortgage30Pct": 6.26
+      "mortgage30Pct": 6.11
     },
     {
       "month": "2023-03",
@@ -3908,7 +3919,7 @@
       "hourlyEarnings": 33.27,
       "policyRatePct": 4.65,
       "treasury10Pct": 3.66,
-      "mortgage30Pct": 6.54
+      "mortgage30Pct": 6.72
     },
     {
       "month": "2023-04",
@@ -3918,7 +3929,7 @@
       "hourlyEarnings": 33.43,
       "policyRatePct": 4.83,
       "treasury10Pct": 3.46,
-      "mortgage30Pct": 6.34
+      "mortgage30Pct": 6.26
     },
     {
       "month": "2023-05",
@@ -3928,7 +3939,7 @@
       "hourlyEarnings": 33.5,
       "policyRatePct": 5.06,
       "treasury10Pct": 3.57,
-      "mortgage30Pct": 6.42
+      "mortgage30Pct": 6.34
     },
     {
       "month": "2023-06",
@@ -3938,7 +3949,7 @@
       "hourlyEarnings": 33.69,
       "policyRatePct": 5.08,
       "treasury10Pct": 3.75,
-      "mortgage30Pct": 6.71
+      "mortgage30Pct": 6.68
     },
     {
       "month": "2023-07",
@@ -3948,7 +3959,7 @@
       "hourlyEarnings": 33.85,
       "policyRatePct": 5.12,
       "treasury10Pct": 3.9,
-      "mortgage30Pct": 6.84
+      "mortgage30Pct": 6.95
     },
     {
       "month": "2023-08",
@@ -3958,7 +3969,7 @@
       "hourlyEarnings": 33.89,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.17,
-      "mortgage30Pct": 7.07
+      "mortgage30Pct": 6.95
     },
     {
       "month": "2023-09",
@@ -3968,7 +3979,7 @@
       "hourlyEarnings": 34.01,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.38,
-      "mortgage30Pct": 7.2
+      "mortgage30Pct": 7.17
     },
     {
       "month": "2023-10",
@@ -3978,7 +3989,7 @@
       "hourlyEarnings": 34.08,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.8,
-      "mortgage30Pct": 7.62
+      "mortgage30Pct": 7.56
     },
     {
       "month": "2023-11",
@@ -3988,7 +3999,7 @@
       "hourlyEarnings": 34.17,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.5,
-      "mortgage30Pct": 7.44
+      "mortgage30Pct": 7.49
     },
     {
       "month": "2023-12",
@@ -3998,7 +4009,7 @@
       "hourlyEarnings": 34.29,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.02,
-      "mortgage30Pct": 6.81
+      "mortgage30Pct": 6.94
     },
     {
       "month": "2024-01",
@@ -4008,7 +4019,7 @@
       "hourlyEarnings": 34.47,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.06,
-      "mortgage30Pct": 6.64
+      "mortgage30Pct": 6.65
     },
     {
       "month": "2024-02",
@@ -4018,7 +4029,7 @@
       "hourlyEarnings": 34.52,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.21,
-      "mortgage30Pct": 6.78
+      "mortgage30Pct": 6.63
     },
     {
       "month": "2024-03",
@@ -4028,7 +4039,7 @@
       "hourlyEarnings": 34.65,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.21,
-      "mortgage30Pct": 6.82
+      "mortgage30Pct": 6.73
     },
     {
       "month": "2024-04",
@@ -4038,7 +4049,7 @@
       "hourlyEarnings": 34.76,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.54,
-      "mortgage30Pct": 6.99
+      "mortgage30Pct": 6.87
     },
     {
       "month": "2024-05",
@@ -4048,7 +4059,7 @@
       "hourlyEarnings": 34.89,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.48,
-      "mortgage30Pct": 7.06
+      "mortgage30Pct": 7.08
     },
     {
       "month": "2024-06",
@@ -4058,7 +4069,7 @@
       "hourlyEarnings": 35.01,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.31,
-      "mortgage30Pct": 6.92
+      "mortgage30Pct": 6.94
     },
     {
       "month": "2024-07",
@@ -4068,7 +4079,7 @@
       "hourlyEarnings": 35.08,
       "policyRatePct": 5.33,
       "treasury10Pct": 4.25,
-      "mortgage30Pct": 6.85
+      "mortgage30Pct": 6.88
     },
     {
       "month": "2024-08",
@@ -4078,7 +4089,7 @@
       "hourlyEarnings": 35.22,
       "policyRatePct": 5.33,
       "treasury10Pct": 3.87,
-      "mortgage30Pct": 6.5
+      "mortgage30Pct": 6.48
     },
     {
       "month": "2024-09",
@@ -4088,7 +4099,7 @@
       "hourlyEarnings": 35.34,
       "policyRatePct": 5.13,
       "treasury10Pct": 3.72,
-      "mortgage30Pct": 6.18
+      "mortgage30Pct": 6.19
     },
     {
       "month": "2024-10",
@@ -4098,7 +4109,7 @@
       "hourlyEarnings": 35.46,
       "policyRatePct": 4.83,
       "treasury10Pct": 4.1,
-      "mortgage30Pct": 6.43
+      "mortgage30Pct": 6.31
     },
     {
       "month": "2024-11",
@@ -4108,7 +4119,7 @@
       "hourlyEarnings": 35.6,
       "policyRatePct": 4.64,
       "treasury10Pct": 4.36,
-      "mortgage30Pct": 6.8
+      "mortgage30Pct": 6.77
     },
     {
       "month": "2024-12",
@@ -4118,7 +4129,7 @@
       "hourlyEarnings": 35.69,
       "policyRatePct": 4.48,
       "treasury10Pct": 4.39,
-      "mortgage30Pct": 6.71
+      "mortgage30Pct": 6.59
     },
     {
       "month": "2025-01",
@@ -4128,7 +4139,7 @@
       "hourlyEarnings": 35.84,
       "policyRatePct": 4.33,
       "treasury10Pct": 4.63,
-      "mortgage30Pct": 6.96
+      "mortgage30Pct": 6.92
     },
     {
       "month": "2025-02",
@@ -4138,7 +4149,7 @@
       "hourlyEarnings": 35.94,
       "policyRatePct": 4.33,
       "treasury10Pct": 4.45,
-      "mortgage30Pct": 6.84
+      "mortgage30Pct": 6.88
     },
     {
       "month": "2025-03",
@@ -4148,7 +4159,7 @@
       "hourlyEarnings": 36.11,
       "policyRatePct": 4.33,
       "treasury10Pct": 4.28,
-      "mortgage30Pct": 6.65
+      "mortgage30Pct": 6.64
     },
     {
       "month": "2025-04",
@@ -4158,7 +4169,7 @@
       "hourlyEarnings": 36.12,
       "policyRatePct": 4.33,
       "treasury10Pct": 4.28,
-      "mortgage30Pct": 6.72
+      "mortgage30Pct": 6.61
     },
     {
       "month": "2025-05",
@@ -4168,7 +4179,7 @@
       "hourlyEarnings": 36.28,
       "policyRatePct": 4.33,
       "treasury10Pct": 4.42,
-      "mortgage30Pct": 6.82
+      "mortgage30Pct": 6.8
     },
     {
       "month": "2025-06",
@@ -4178,7 +4189,7 @@
       "hourlyEarnings": 36.36,
       "policyRatePct": 4.33,
       "treasury10Pct": 4.38,
-      "mortgage30Pct": 6.82
+      "mortgage30Pct": 6.83
     },
     {
       "month": "2025-07",
@@ -4188,7 +4199,7 @@
       "hourlyEarnings": 36.47,
       "policyRatePct": 4.33,
       "treasury10Pct": 4.39,
-      "mortgage30Pct": 6.72
+      "mortgage30Pct": 6.71
     },
     {
       "month": "2025-08",
@@ -4198,7 +4209,7 @@
       "hourlyEarnings": 36.62,
       "policyRatePct": 4.33,
       "treasury10Pct": 4.26,
-      "mortgage30Pct": 6.59
+      "mortgage30Pct": 6.57
     },
     {
       "month": "2025-09",
@@ -4208,7 +4219,7 @@
       "hourlyEarnings": 36.7,
       "policyRatePct": 4.22,
       "treasury10Pct": 4.12,
-      "mortgage30Pct": 6.35
+      "mortgage30Pct": 6.34
     },
     {
       "month": "2025-10",
@@ -4216,7 +4227,7 @@
       "hourlyEarnings": 36.85,
       "policyRatePct": 4.09,
       "treasury10Pct": 4.06,
-      "mortgage30Pct": 6.25
+      "mortgage30Pct": 6.29
     },
     {
       "month": "2025-11",
@@ -4226,7 +4237,7 @@
       "hourlyEarnings": 37.0,
       "policyRatePct": 3.88,
       "treasury10Pct": 4.09,
-      "mortgage30Pct": 6.24
+      "mortgage30Pct": 6.23
     },
     {
       "month": "2025-12",
@@ -4236,7 +4247,7 @@
       "hourlyEarnings": 37.02,
       "policyRatePct": 3.72,
       "treasury10Pct": 4.14,
-      "mortgage30Pct": 6.19
+      "mortgage30Pct": 6.21
     },
     {
       "month": "2026-01",
@@ -4246,7 +4257,7 @@
       "hourlyEarnings": 37.15,
       "policyRatePct": 3.64,
       "treasury10Pct": 4.21,
-      "mortgage30Pct": 6.1
+      "mortgage30Pct": 6.15
     },
     {
       "month": "2026-02",
@@ -4256,7 +4267,7 @@
       "hourlyEarnings": 37.27,
       "policyRatePct": 3.64,
       "treasury10Pct": 4.13,
-      "mortgage30Pct": 6.05
+      "mortgage30Pct": 6.08
     },
     {
       "month": "2026-03",
@@ -4266,7 +4277,7 @@
       "hourlyEarnings": 37.35,
       "policyRatePct": 3.64,
       "treasury10Pct": 4.25,
-      "mortgage30Pct": 6.18
+      "mortgage30Pct": 6.1
     },
     {
       "month": "2026-04",
@@ -4276,7 +4287,7 @@
       "hourlyEarnings": 37.41,
       "policyRatePct": 3.64,
       "treasury10Pct": 4.32,
-      "mortgage30Pct": 6.33
+      "mortgage30Pct": 6.36
     },
     {
       "month": "2026-05",
@@ -4286,7 +4297,7 @@
       "hourlyEarnings": 37.49,
       "policyRatePct": 3.63,
       "treasury10Pct": 4.48,
-      "mortgage30Pct": 6.44
+      "mortgage30Pct": 6.35
     },
     {
       "month": "2026-06",
@@ -4296,7 +4307,7 @@
       "hourlyEarnings": 37.59,
       "policyRatePct": 3.63,
       "treasury10Pct": 4.47,
-      "mortgage30Pct": 6.49
+      "mortgage30Pct": 6.51
     },
     {
       "month": "2026-07",
@@ -4306,7 +4317,7 @@
       "hourlyEarnings": 37.64,
       "policyRatePct": 3.63,
       "treasury10Pct": 4.6,
-      "mortgage30Pct": 6.54
+      "mortgage30Pct": 6.48
     },
     {
       "month": "2026-08",
@@ -4315,8 +4326,7 @@
       "payrollJobsThousands": 159015.0,
       "hourlyEarnings": 37.76,
       "policyRatePct": 3.63,
-      "treasury10Pct": 4.68,
-      "mortgage30Pct": 6.67
+      "treasury10Pct": 4.68
     },
     {
       "month": "2026-09",
@@ -4324,8 +4334,7 @@
       "payrollJobsThousands": 159044.0,
       "hourlyEarnings": 37.81,
       "policyRatePct": 3.75,
-      "treasury10Pct": 4.99,
-      "mortgage30Pct": 6.86
+      "treasury10Pct": 4.99
     }
   ],
   "quarterlyRealOutput": [

@@ -39,16 +39,8 @@ import {
   prepareControlledActTraceV1,
 } from "./player-control-state-v1";
 import type { ControlTokenV1 } from "./player-control-state-v1";
-import {
-  earliestWorkBoundaryV1,
-  workBoundaryIdV1,
-  workSpansOnDateV1,
-} from "./work-spans-v1";
-import type {
-  WorkBoundaryV1,
-  WorkMomentV1,
-  WorkSpanOwnerV1,
-} from "./work-spans-v1";
+import { workSpansOnDateV1 } from "./work-spans-v1";
+import type { WorkMomentV1, WorkSpanOwnerV1 } from "./work-spans-v1";
 import {
   acknowledgeModuleStopsV1,
   bindModuleStopClockV1,
@@ -60,10 +52,15 @@ import type { ActOffer, CoreAPI, CoreState, DecisionResult } from "./types";
 
 const version = "core2-part1b-v1" as const;
 export type PlayerMomentV1 = WorkMomentV1;
+/**
+ * What stops the controlled person's clock: a module's stop (a director
+ * scene, a held deadline, a meeting). A work shift never does (owner, Oct 26:
+ * "Shifts are for the simulation... The player should not be clicking
+ * through that."); the character attends on its own choice.
+ */
 export interface PlayerStopV1 {
   readonly version: typeof version;
   readonly at: PlayerMomentV1;
-  readonly work: WorkBoundaryV1 | null;
   readonly modules: readonly ModuleStopV1[];
 }
 export interface PlayerOfferV1 {
@@ -139,7 +136,6 @@ type Session = {
   clock: ReturnType<typeof bindModuleStopClockV1>;
   at: PlayerMomentV1;
   target: PlayerMomentV1;
-  acknowledged: Set<string>;
   serial: number;
   simulatedDays: number;
   decisions: number;
@@ -232,33 +228,18 @@ function earliest(
   personId: string,
   from: PlayerMomentV1,
   through: PlayerMomentV1,
-  ack: readonly string[],
 ): PlayerStopV1 | null {
-  const work = core.data.work
-    ? earliestWorkBoundaryV1(coreAPI(core), {
-        controlledPersonId: personId,
-        from,
-        through,
-        acknowledgedBoundaryIds: ack,
-      })
-    : null;
   const modules = earliestModuleStopsV1(core, {
     controlledPersonId: personId,
     from,
     through,
   });
-  const moduleAt = modules[0]?.at;
-  if (!work && !moduleAt) return null;
-  const at =
-    work && (!moduleAt || compare(work.at, moduleAt) <= 0)
-      ? work.at
-      : moduleAt!;
+  const at = modules[0]?.at;
+  if (!at) return null;
   return Object.freeze({
     version,
     at,
-    work: work && compare(work.at, at) === 0 ? work : null,
-    modules:
-      moduleAt && compare(moduleAt, at) === 0 ? modules : Object.freeze([]),
+    modules: Object.freeze(modules.filter((row) => compare(row.at, at) === 0)),
   });
 }
 /** Pure query; cold clocks begin at the next unprocessed civil day, midnight. */
@@ -286,9 +267,7 @@ function earliestPlayerStopV1Impl(
     assertSession(core, s);
   }
   const identity = snapshotExplicitControlV1(core),
-    result = earliest(core, personId, from, through, [
-      ...(s?.acknowledged ?? []),
-    ]);
+    result = earliest(core, personId, from, through);
   r.verify();
   identity.verify();
   if (sessions.get(core) !== s)
@@ -430,6 +409,8 @@ function readyChoice(
       s.personId,
       prepared.offers,
       prepared.context,
+      false,
+      false,
     );
     s.decisions++;
     return publishChoice(
@@ -452,7 +433,7 @@ function readyChoice(
   const actor = core.people.get(s.personId)!;
   refreshNeeds(core, s.api, actor);
   const limit = endOf(core, day.date, dayMinutes(core)),
-    next = earliest(core, s.personId, s.at, limit, [...s.acknowledged]);
+    next = earliest(core, s.personId, s.at, limit);
   const remaining =
     next && next.at.date === day.date
       ? next.at.minuteOfDay - s.at.minuteOfDay
@@ -468,7 +449,7 @@ function readyChoice(
     day.discretionaryOffered = true;
     return;
   }
-  const decision = chooseAct(core, s.personId, offers);
+  const decision = chooseAct(core, s.personId, offers, undefined, false, false);
   s.decisions++;
   const actual = core.people.get(s.personId),
     date = core.date;
@@ -548,7 +529,7 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
           throw new Error(
             "A module attempted an autonomous controlled choice.",
           );
-        return chooseAct(core, actorId, offers, context);
+        return chooseAct(core, actorId, offers, context, false, false);
       };
       const refresh = (
         actor: Parameters<typeof refreshNeeds>[2],
@@ -595,9 +576,7 @@ function drive(core: CoreState, s: Session): PlayerPacketV1 {
       return Object.freeze({ ...base(s), kind: "complete" });
     const day = s.day ?? openDay(core, s);
     finishIntents(core, s, day);
-    const stop = earliest(core, s.personId, s.at, s.target, [
-      ...s.acknowledged,
-    ]);
+    const stop = earliest(core, s.personId, s.at, s.target);
     if (stop && compare(stop.at, s.at) === 0) {
       const packet = Object.freeze({
         ...base(s),
@@ -617,9 +596,25 @@ function drive(core: CoreState, s: Session): PlayerPacketV1 {
     const choice = readyChoice(core, s, day);
     if (choice) return choice;
     let next = s.target;
+    // A shift's start is a moment the clock reaches, so the character
+    // answers its own work choice there, but never a stop (owner, Oct 26).
+    const shiftStarts = day.owners
+      .filter(
+        (owner) =>
+          owner.spans.length && !day.preparedIds.has(owner.commitment.id),
+      )
+      .map((owner) =>
+        endOf(
+          core,
+          day.date,
+          Math.min(...owner.spans.map((span) => span.startMinute)),
+        ),
+      )
+      .filter((at) => compare(at, s.at) > 0);
     const candidates = [
       endOf(core, day.date, dayMinutes(core)),
       stop?.at,
+      ...shiftStarts,
       ...day.work.map((row) => row.end),
       day.action?.end,
     ].filter((at): at is PlayerMomentV1 => at !== undefined);
@@ -636,7 +631,6 @@ function drive(core: CoreState, s: Session): PlayerPacketV1 {
     }
     s.clock.setFrontier(next);
     s.at = next;
-    s.acknowledged.clear();
   }
 }
 /** Opening date is already processed. The first controlled day starts at next midnight. */
@@ -675,7 +669,6 @@ function advancePlayerV1Impl(
       api: coreAPI(core),
       at: from,
       target: through,
-      acknowledged: new Set(),
       serial: 0,
       simulatedDays: 0,
       decisions: 0,
@@ -725,8 +718,6 @@ function resumePlayerV1Impl(
       // Owners can release held stops; clients cannot waive remaining ones.
       if (actual.some((row) => row.hold)) return pending.packet;
       acknowledgeModuleStopsV1(core, actual);
-      for (const reason of pending.packet.stop.work?.reasons ?? [])
-        s.acknowledged.add(workBoundaryIdV1(reason));
       s.pending = undefined;
       return drive(core, s);
     }

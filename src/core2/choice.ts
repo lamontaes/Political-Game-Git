@@ -4,7 +4,7 @@ import { initialPersonState } from "./person-state";
 import { countedPersonOf } from "./counted-actor";
 import { parameter } from "./parameters";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
-import { coreAPI } from "./state";
+import { coreAPI, retainLog } from "./state";
 import { traitProbe } from "./trait-probe";
 import type {
   ActOffer,
@@ -190,22 +190,37 @@ export function traitLean(
   actor: Pick<PersonState, "traits">,
   actKinds: readonly string[],
 ): number {
-  // Called millions of times on a busy day: no per-call closures.
-  const parameters = core.data.parameters;
-  const zero = parameter("zero", parameters);
+  // Called millions of times on a busy day: no per-call closures, and in
+  // play the bounds are read once per parameter table.
+  const bounds = leanBounds(core.data.parameters);
+  const zero = bounds.zero;
   const lean = kindLean(core, actor);
   let sum = zero;
   for (let i = 0; i < actKinds.length; i++)
     sum += lean.sum[KIND_INDEX.get(actKinds[i]!) ?? lean.sum.length] ?? zero;
   return actKinds.length && lean.perKind > zero
     ? Math.max(
-        parameter("negativeOne", parameters),
-        Math.min(
-          parameter("one", parameters),
-          sum / (actKinds.length * lean.perKind),
-        ),
+        bounds.negativeOne,
+        Math.min(bounds.one, sum / (actKinds.length * lean.perKind)),
       )
     : zero;
+}
+
+/** traitLean's bounds, kept per parameter table in play; tests re-read them, since some change a value in place. */
+const boundsByParameters = new WeakMap<
+  object,
+  { zero: number; one: number; negativeOne: number }
+>();
+function leanBounds(parameters: CoreState["data"]["parameters"]) {
+  const kept = bookkeeping() ? undefined : boundsByParameters.get(parameters);
+  if (kept) return kept;
+  const bounds = {
+    zero: parameter("zero", parameters),
+    one: parameter("one", parameters),
+    negativeOne: parameter("negativeOne", parameters),
+  };
+  boundsByParameters.set(parameters, bounds);
+  return bounds;
 }
 
 /**
@@ -293,49 +308,67 @@ export function scoreOffers(
   const scored: ScoredOffer[] = [];
   let nextOfferIndex = p("zero");
   const traitWeight = p(traitWeightKey(offers));
+  const zero = p("zero");
+  // The terms that depend only on the kind of act (its need, the strongest
+  // goal it serves, its act kinds' trait lean and its feelings) are the same
+  // for every offer of that kind in this call: worked out once per kind.
+  const byKind = new Map<
+    ActOffer["definition"],
+    { need: number; goal: number; trait: number; emotion: number }
+  >();
   for (const offer of offers) {
     const offerIndex = nextOfferIndex++;
     const action = offer.definition;
     const effortHours = offer.effortHours ?? p(action.effortParameter);
     if (!Number.isFinite(offer.availableHours) || !Number.isFinite(effortHours))
       throw new Error("Non-finite choice utility.");
-    if (offer.availableHours < p("zero") || effortHours < p("zero"))
+    if (offer.availableHours < zero || effortHours < zero)
       throw new Error("Invalid choice time budget.");
     const drive = offer.driveId ? actor.drives.get(offer.driveId) : undefined;
-    // The strongest matching goal, without copying the person's goals.
-    let goal = p("zero");
-    if (action.goalKinds.length) {
-      for (const row of actor.goals.values())
-        if (action.goalKinds.includes(row.kind))
-          goal = Math.max(
-            goal,
-            context?.goalUrgencies?.[row.id] ?? row.urgency,
-          );
-      for (const row of context?.goalRows ?? [])
-        if (action.goalKinds.includes(row.kind))
-          goal = Math.max(
-            goal,
-            context?.goalUrgencies?.[row.id] ?? row.urgency,
-          );
+    let kind = byKind.get(action);
+    if (!kind) {
+      // The strongest matching goal, without copying the person's goals.
+      let goal = zero;
+      if (action.goalKinds.length) {
+        for (const row of actor.goals.values())
+          if (action.goalKinds.includes(row.kind))
+            goal = Math.max(
+              goal,
+              context?.goalUrgencies?.[row.id] ?? row.urgency,
+            );
+        for (const row of context?.goalRows ?? [])
+          if (action.goalKinds.includes(row.kind))
+            goal = Math.max(
+              goal,
+              context?.goalUrgencies?.[row.id] ?? row.urgency,
+            );
+      }
+      kind = {
+        need:
+          (context?.needValues?.[action.need] ??
+            actor.needs[action.need] ??
+            zero) * p("needWeight"),
+        goal: goal * p("goalWeight"),
+        trait: traitScore(core, actor, offer) * traitWeight,
+        emotion:
+          p("emotionWeight") *
+          ((context?.affect ?? actor.affect).mood *
+            p(action.emotion?.moodMultiplierParameter ?? "zero") +
+            (context?.affect ?? actor.affect).stress *
+              p(action.emotion?.stressMultiplierParameter ?? "zero")),
+      };
+      byKind.set(action, kind);
     }
     const reasons: DecisionReason = {
-      need:
-        (context?.needValues?.[action.need] ??
-          actor.needs[action.need] ??
-          p("zero")) * p("needWeight"),
-      goal: goal * p("goalWeight"),
-      drive: (drive?.strength ?? p("zero")) * p("driveWeight"),
-      trait: traitScore(core, actor, offer) * traitWeight,
-      emotion:
-        p("emotionWeight") *
-        ((context?.affect ?? actor.affect).mood *
-          p(action.emotion?.moodMultiplierParameter ?? "zero") +
-          (context?.affect ?? actor.affect).stress *
-            p(action.emotion?.stressMultiplierParameter ?? "zero")),
+      need: kind.need,
+      goal: kind.goal,
+      drive: (drive?.strength ?? zero) * p("driveWeight"),
+      trait: kind.trait,
+      emotion: kind.emotion,
       effort:
-        offer.availableHours > p("zero")
+        offer.availableHours > zero
           ? (-effortHours / offer.availableHours) * p("effortWeight")
-          : p("zero"),
+          : zero,
     };
     const ownBindings = action.reasonBindings ?? NO_BINDINGS,
       offerBindings = offer.reasonBindings ?? NO_BINDINGS;
@@ -417,12 +450,14 @@ export function chooseAct(
   offers: readonly ActOffer[],
   context?: DecisionContext,
   captureOriginalScores = false,
+  keepWeighed = true,
 ): DecisionResult {
   return decisionFromScores(
     core,
     personId,
     scoreOffers(core, personId, offers, context, captureOriginalScores),
     captureOriginalScores,
+    keepWeighed,
   );
 }
 
@@ -457,12 +492,19 @@ function compact(row: ScoredOffer): Readonly<CompactChoiceScoreV1> {
   });
 }
 
-/** The chooser's pick from a scoring pass: the highest score, ties to the lowest key. */
+/**
+ * The chooser's pick from a scoring pass: the highest score, ties to the
+ * lowest key. A choice among two or more options by the player or someone in
+ * focus is kept as a `person.weighed` record (why-kept), unless the caller
+ * commits it as an act, whose record keeps the same reasons (`keepWeighed`
+ * false), or only predicts it.
+ */
 export function decisionFromScores(
   core: CoreState,
   personId: string,
   scored: readonly ScoredOffer[],
   captureOriginalScores = false,
+  keepWeighed = true,
 ): DecisionResult {
   const actor = decisionActor(core, personId);
   const traced = savesReasons(core, actor.id);
@@ -485,7 +527,7 @@ export function decisionFromScores(
   const probe = traitProbe();
   if (probe?.chooser && best && runnerUp)
     probeChooser(core, probe, personId, scored, best);
-  return {
+  const decision: DecisionResult = {
     actorId: personId,
     date: core.date,
     selected: best?.offer,
@@ -525,6 +567,47 @@ export function decisionFromScores(
         }
       : {}),
   };
+  if (keepWeighed && best && runnerUp) keepChoice(core, decision, best);
+  return decision;
+}
+
+/**
+ * The player and the people in focus keep a record of a choice they weighed
+ * among options (why-kept: the player and the people they deal with), as
+ * their acts do: every option's score and reasons, on a `person.weighed` log
+ * record. The debug observer alone keeps none, so a full-trace run does not
+ * keep one for everyone.
+ */
+function keepChoice(
+  core: CoreState,
+  decision: DecisionResult,
+  best: ScoredOffer,
+): void {
+  const id = decision.actorId;
+  if (!core.focusPersonIds.has(id) && id !== core.playerId) return;
+  const actor = core.people.get(id);
+  if (!actor || !decision.scores) return;
+  const actionId = best.offer.definition.id;
+  const base = `weighed:${core.date}:${actionId}:${id}`;
+  let recordId = base;
+  for (let n = 2; core.durableLog.has(recordId); n++) recordId = `${base}:${n}`;
+  retainLog(core, {
+    id: recordId,
+    date: core.date,
+    kind: "person.weighed",
+    personIds: [id],
+    placeId: actor.placeId,
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation: "A choice weighed by the shared chooser.",
+    },
+    actorId: id,
+    actionId,
+    targetId: best.offer.targetId,
+    reasonKey: decision.reasonKey,
+    decision,
+  });
 }
 
 /** The audit probe's view of one pick: what the chooser would pick with the trait term removed. */
