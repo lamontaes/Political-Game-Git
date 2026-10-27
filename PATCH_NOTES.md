@@ -296,6 +296,29 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.41.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **An appointment's public record now names who was appointed** The public
+  record of a city appointment said which post was filled and who appointed, but
+  not who was appointed. The record now carries the appointee, so the news and
+  the government screens can say who runs a department.
+
+- **State legislatures no longer hold extra empty seats where two lists spell a
+  district differently.** Maryland's House had 150 seats for 141 members,
+  Massachusetts's Senate 48 for 40, and three more chambers one to three extra,
+  each extra seat voting with a guessed party. District names are now compared
+  by one rule, so each chamber seats its members once.
+
+- **A territory or D.C. player now sees their delegate as their own member of
+  the House** Players in the District of Columbia and the five territories had
+  no member of the House listed as their own on the Politics screen. Their
+  delegate or resident commissioner now appears first, the way a state player
+  sees their U.S. representative.
+
 ## PRE-ALPHA 0.41.0
 
 _Released October 26, 2026._
