@@ -527,11 +527,27 @@ it("the character's own budget is cut by an aide's read of the council", () => {
 // drawn from all 56 on the seed until one does; the changed amount, not the
 // sent one, is then followed to the line the treasury pays.
 const AMEND_DRAWS = 14;
+/**
+ * A council amends only where its members back the line change weakly, which
+ * is rare (none in 14 places drawn on one random seed), so the case starts
+ * from the place a measured run found amending: Ortley, South Dakota, where
+ * the council cut the mayor's +1,000,000 to half. Places drawn from the seed
+ * follow it if it ever stops amending.
+ */
+const AMENDING = {
+  key: "4647660",
+  seed: "ad21e095df9375889ae526b13cc8d8a0c45d0d59ba33c7f0bd3bb98e12f86348",
+  name: "Ortley",
+  state: "US-SD",
+};
 
 it("as mayor, a budget the council amends is voted at the amended amount, and the amended line is what the treasury pays", () => {
   const tried: string[] = [];
   for (let draw = 0; draw < AMEND_DRAWS; draw += 1) {
-    const place = drawPlace(`${seed}:amend:${draw}`, "budget-season-amend");
+    const place =
+      draw === 0
+        ? AMENDING
+        : drawPlace(`${seed}:amend:${draw}`, "budget-season-amend");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
