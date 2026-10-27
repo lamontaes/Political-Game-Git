@@ -32,3 +32,5 @@ Sent back 2026-10-20 from PR #5403 (branch claude/reach-stale): The in-force/emp
 Sent back 2026-10-23 from PR #5403 (branch claude/reach-stale): Normal main integration conflicts in src/core2/law-reach/group-a-records.ts; resolve code and rerun exact-date birthday and household refresh evidence; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5403 (branch claude/reach-stale): The household-event refresh still skips active laws with zero rows, the birthday witness can be empty, and the required age-18 and current storage-duty proofs are not supplied; finish on that branch, merge main into it first.
+
+Merger 1 recheck, 2026-10-26: PR #5397 at16924210760bb9670a22b0c990b859b5965fe0fe still fails current-main integration: src/core2/household-firearms.test.ts is deleted on main but modified on the branch, and src/core2/law-reach/group-a-records.ts has a content conflict. Merge aborted; no deleted test restored and no code conflict hand-merged. The existing code-conflict return remains applicable; no duplicate PR comment or completed gate is claimed. Finish on claude/reach-stale-causes and integrate current main before validation.

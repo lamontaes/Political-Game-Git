@@ -30,6 +30,9 @@ export function schoolsOf(core: CoreState, personId: string) {
         date: fact.date,
         recordId: fact.id,
       }))
+      // One campus for several stages (a K-12 school) is listed once, from
+      // the year the person started there.
+      .filter((school, at, all) => school.name !== all[at - 1]?.name)
   );
 }
 

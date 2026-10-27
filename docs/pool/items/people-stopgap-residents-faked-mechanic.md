@@ -4,9 +4,9 @@ title: "Stopgaps in residents (faked-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 2
-status: in-pr
+status: open
 claimed-by:
-pr: #5076
+pr:
 blocked-on: people-unplaced-fill-in-job
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind faked-mechanic"
@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/modules/residents.ts, src/core2/modules/jobs.ts, src/core2/population.ts, src/core2/data/stopgaps.json
 
-**Notes.** First row: A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts.
+**Notes.** First row: A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts. Released from idle draft #5076 by the CTO, Oct 26.

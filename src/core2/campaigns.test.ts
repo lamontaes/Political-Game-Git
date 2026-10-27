@@ -36,6 +36,10 @@ import {
 } from "./modules/campaigns";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { setKeepEveryonesWhy } from "./why-kept";
+
+// Reads every reached voter's recorded cause for people outside the player's circle.
+setKeepEveryonesWhy(true);
 
 const START = "2026-01-05";
 const seed =

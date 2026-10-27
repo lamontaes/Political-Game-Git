@@ -84,14 +84,23 @@ export function lineRaisedByBills(
  * the positions the line it carried in funded: a position the line funded
  * that nobody filled is still funded, so putting the line back cuts only
  * what the change added, never the staff the employer opened with. With no
- * earlier change, it is the staff in place.
+ * earlier change by this government, it is the staff in place: another
+ * government's line (a state's schools line beside a city's) funded its own
+ * positions, which this line's change does not carry.
  */
 export function baseStaffFor(
   held: StaffingRow | null,
   fiscalYear: number,
   inPlace: number,
+  governmentId?: string,
 ): number {
-  if (!held) return inPlace;
+  if (
+    !held ||
+    (governmentId !== undefined &&
+      held.governmentId !== undefined &&
+      held.governmentId !== governmentId)
+  )
+    return inPlace;
   return held.fiscalYear === fiscalYear ? held.baseStaff : held.positions;
 }
 
@@ -180,7 +189,7 @@ export const staffing: PolicyHandler = (api, change) => {
         countedStaffOf(api.state as CoreState, organizationId)
       : 0;
     const baseStaff = employers.length
-      ? baseStaffFor(held, budget.fiscalYear, inPlace)
+      ? baseStaffFor(held, budget.fiscalYear, inPlace, gov.id)
       : 0;
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.

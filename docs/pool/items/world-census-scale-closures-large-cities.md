@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5803
 blocked-on: world-counted-weight-release-grows-employer-staff (the pinned Washington, D.C. Census-size proof fails on that cause, PR #5803 comment 6331948796)
@@ -34,3 +34,7 @@ Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Curren
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Corrective6daec099ab5b still conflicts with current main d593cca589 in production src/core2/modules/residents.ts plus registry src/core2/data/stopgaps.json; merge aborted, preserve current payment readers and counted/full deposit conservation, retain registry rows, rerun sample/Census proofs; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Prior conflicts integrated and credit-weight readers repaired, but body marks second Done-when row NOT MET: Sunrise Manor sample182 ended job rows versus Census190; complete row conservation or bound independently completed leaves while retaining acceptance open; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5803 (branch claude/closures-large-cities): Current corrective head b00ed6b1a4 repairs press cost and D.C., but its updated Done-when row2 still explicitly reports Sunrise Manor Census190 closure job rows versus sample182; finish that acceptance or isolate bounded completed readers while leaving it open; finish on that branch, merge main into it first.
+
+Sent back 2026-10-27 from PR #5803 (branch claude/closures-large-cities): Conflict repair and new D.C./Providence pass acknowledged. Own generated DC dc-closures-a January21 countScale69.3645 actual two fill-ins preserve69.3645heads and firm cash but businessScaleOf falls69.3645 to34.68225 to23.1215. Owner alreadyfull beforesecond fill-in; unchangedowner divisor makes computed share1.5x. Fix scale independently of split job-record count and add regression. Type126s lintfmtPASS; larger gate stopped, no closure pass claimed (PR return comment); finish on that branch, merge main into it first.

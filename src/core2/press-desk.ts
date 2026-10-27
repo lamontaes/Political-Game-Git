@@ -378,7 +378,86 @@ export function printItem(
     receivedCounted: Math.round(ctx.countedFollowers(outlet) * share),
   };
   ctx.save(saved);
+  recordNamed(api, ctx, outlet, item, saved);
   return saved;
+}
+
+/** The record of who a printed story names (recordNamed). */
+export const PRESS_STORY_EVENT = "press-story";
+
+/**
+ * Who a printed story names, as a record the people it names read: the one
+ * person its record is about, and the sponsor of the bill it covers, each
+ * with whether the story runs for or against them. The story reaches its
+ * readers through the news engine; this record is how an officeholder's own
+ * office learns of it (a staffer brings it in). A story about one person runs
+ * against them when its slant does; a story about a bill runs against its
+ * sponsor when it argues for the opposite of the bill's own change.
+ */
+function recordNamed(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  item: WireItem,
+  story: PrintedStory,
+): void {
+  const full = (id: string | undefined): id is string =>
+    !!id && api.state.people.has(id);
+  const people = item.subjectIds.filter(full);
+  const subjectId = people.length === 1 ? people[0] : undefined;
+  const billId = item.facts?.billId;
+  const bill =
+    billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
+      ? (api.moduleState(LEGISLATURE_MODULE_ID).table("bills").get(billId) as
+          | {
+              readonly number?: string;
+              readonly sponsorId?: string;
+              readonly provisions?: readonly { readonly value?: number }[];
+            }
+          | undefined)
+      : undefined;
+  // A bill is talked of by its number; one never filed has none to name.
+  const sponsorId =
+    bill?.number && full(bill.sponsorId) ? bill.sponsorId : undefined;
+  if (!subjectId && !sponsorId) return;
+  const side = (sign: number) =>
+    sign < 0 ? "against" : sign > 0 ? "for" : "even";
+  // The bill's own change, as its first provision makes it (press-topics).
+  const billChange =
+    (bill?.provisions?.[0]?.value ?? 1) > 0 ? "enact" : "repeal";
+  api.emit({
+    id: `${PRESS_STORY_EVENT}:${story.id}`,
+    date: api.state.date,
+    kind: PRESS_STORY_EVENT,
+    personIds: [...new Set([subjectId, sponsorId].filter(full))],
+    placeId: ctx.townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Story ${story.id}, printed by ${outlet.organizationId}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      storyId: story.id,
+      outletId: outlet.organizationId,
+      reporterId: story.reporterId,
+      wireId: item.id,
+      topic: item.topic,
+      ...(subjectId ? { subjectId, subjectFraming: side(story.slant) } : {}),
+      ...(billId && sponsorId
+        ? {
+            billId,
+            sponsorId,
+            billFraming: side(
+              story.slant === 0
+                ? 0
+                : story.desiredChange === billChange
+                  ? 1
+                  : -1,
+            ),
+          }
+        : {}),
+    },
+  });
 }
 
 /** The kind of the news story the press writes about a record from before day one. */
@@ -479,6 +558,25 @@ function holdsHighOffice(api: CoreAPI, id: string): boolean {
   return office?.level === "federal" || office?.level === "state";
 }
 
+/** Whether the person serves a term in a local (not a state or federal) office. */
+function servesLocally(api: CoreAPI, personId: string): boolean {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  return (
+    offices.table("terms").query("byPerson", [personId]) as unknown as {
+      status?: string;
+      officeId: string;
+    }[]
+  ).some((term) => {
+    if (term.status !== "serving") return false;
+    const level = (
+      offices.table("offices").get(term.officeId) as unknown as
+        { level?: string } | undefined
+    )?.level;
+    return level !== undefined && level !== "federal" && level !== "state";
+  });
+}
+
 /**
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
  * outlet has not printed and files their best, up to their week's count.
@@ -506,6 +604,16 @@ export function runDesk(
   // town) and the counted followers, who are read by the same rule as a
   // full follower.
   const involved = (item: WireItem): number => {
+    // A charge against, or an exposure of, someone serving in a local office
+    // is the town's business: it involves every follower, named or counted,
+    // as a law in force does, so it is not outranked by every law and town
+    // hall that week.
+    // stopgapId: SG-TRAITS-press-local-misconduct-reach
+    if (
+      (item.kind === "justice.charged" || item.kind === "press.exposed") &&
+      item.subjectIds.some((id) => servesLocally(api, id))
+    )
+      return followers.length + ctx.countedFollowers(outlet);
     // A budget the executive signs or vetoes binds the whole town as much as
     // a law in force: every follower, named or counted, is involved.
     if (item.kind === "executive-action" && isBudgetBill(api, item))

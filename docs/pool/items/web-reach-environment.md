@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/web-reach-environment
 pr: #5915
 blocked-on:

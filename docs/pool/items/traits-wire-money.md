@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/traits-money
+status: open
+claimed-by:
 pr: #5587
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-26T07:28:11.253Z
+claimed-at:
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the jobs, money and housing family: borrowing, quitting, accepting a job, founding a business, moving, applying for a job, buying a home and an owner's draw must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
@@ -28,3 +28,5 @@ Sent back 2026-10-24 from PR #5587 (branch claude/traits-money): Family completi
 Sent back 2026-10-25 from PR #5587 (branch claude/traits-money): corrective head 673bc569dc has current-main conflicts in data/content/trait-decision-gaps.json, scripts/traits/trait-wiring-audit.ts and src/core2/modules/jobs.ts; reconcile all current job/payroll, gap and audit behavior before the family gate; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5587 (branch claude/traits-money): Unsourced jobs.apply and business.owner-draw weights are 0.7 and 0.35 against an assumed OR, but the item requires the general weight 1 with a gap row when no study number exists (parameters.json:5459 and :5512); restore that fallback or supply quantitative research, then rerun both drawn-place audits and update the Done-when evidence table; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5587 (branch claude/traits-money): Audit correction after actual implementation merge 0c29e101084e238e1300b15afa416487faf4725f: the played test proves opposed probe calls but does not read/assert both person.weighed records or name both stored decision-record IDs; add that explicit second Done-when proof in a follow-up while preserving normal retention and the landed implementation.; finish on that branch, merge main into it first.

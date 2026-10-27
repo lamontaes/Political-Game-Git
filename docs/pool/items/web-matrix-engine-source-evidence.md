@@ -5,7 +5,7 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/web-matrix-engine-source-evidence
 pr: #6154
 blocked-on:

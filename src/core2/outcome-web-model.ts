@@ -52,6 +52,12 @@ export interface WebLink {
   readonly group: string;
   /** Names what carries this effect through an engine's records; the link then does not run. */
   readonly carriedBy?: string;
+  /**
+   * Where an engine reads the same cause by its own mechanic, not this row's
+   * size and lag, so the link still reaches no one: the matrix names it in
+   * the link's reason for staying on the unwired list.
+   */
+  readonly engineGap?: string;
   readonly evidence: string;
   readonly source: string;
   readonly moderator?: {
@@ -127,6 +133,10 @@ const KEPT_LOCAL = local.keptOutcomes as unknown as Readonly<
       readonly scale: Scale;
       readonly unit: string;
       readonly national?: number;
+      /** A real level by state, D.C. and territory where the source reports one (else the national level, marked ESTIMATED). */
+      readonly places?: Readonly<Record<string, number>>;
+      /** Why a place the source leaves out starts from the national level. */
+      readonly estimatedFrom?: string;
       readonly source: Source;
     }
   >
@@ -237,6 +247,19 @@ export function baseOf(
   stateKey: string,
 ): { readonly value: number; readonly source: Source } {
   const local = KEPT_LOCAL[measure];
+  if (local?.places) {
+    const own = local.places[stateKey];
+    return own !== undefined
+      ? { value: own, source: local.source }
+      : {
+          value: local.national!,
+          source: {
+            ...local.source,
+            tag: "ESTIMATED",
+            estimatedFrom: local.estimatedFrom,
+          },
+        };
+  }
   if (local)
     return {
       value: local.scale === "index" ? INDEX_START : local.national!,

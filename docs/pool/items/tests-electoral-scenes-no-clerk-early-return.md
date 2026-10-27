@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/electoral-scenes-redraw
 pr: #6094
 blocked-on:

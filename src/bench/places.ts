@@ -12,6 +12,9 @@ import type { CoreState } from "../core2/types";
 
 // Engineering page size for the list, not a model value.
 const LISTED = 40;
+// Engineering sizes for a card's "who is there" line and the default hour.
+const PRESENT_NAMED = 2;
+const NOON = 12 * 60;
 
 function staffOf(core: CoreState, organizationId: string) {
   const full = [...core.jobs.values()]
@@ -25,20 +28,8 @@ function staffOf(core: CoreState, organizationId: string) {
   return { full: full.sort(), counted: counted.sort() };
 }
 
-/**
- * The town's and county's own offices, where every adult has civic business
- * on the golden path: records, public meetings, filing to run.
- */
-const CIVIC = new Set([
-  "service:municipal-government",
-  "service:county-government",
-  "sector:local-government-office",
-]);
 /** And the state's offices, where an officeholder's work takes them. */
 const STATE_OFFICES = new Set(["sector:state-government-office"]);
-/** The age of majority, when civic business (voting, filing) begins. */
-const ADULT_AGE = 18;
-
 /** Schools, where a household with a child of school age has business. */
 const SCHOOLS = new Set([
   "service:school",
@@ -58,9 +49,12 @@ function ageOn(birthDate: string, date: string): number {
  * The town's pictured places the player has a reason to go: where they,
  * their household or their family work, the schools while someone at home is
  * of school age, where people they know work, where they can do something
- * right now, the town's and county's offices for an adult, and the state's
- * offices while they hold an office. Not every organization with a picture
- * (owner, Oct 13: "Why would you need to visit the market?").
+ * right now, and the state's offices while they hold an office. Each says
+ * why it is listed. A town office is not listed on being a civic office
+ * alone (owner, Oct 26: "Why have to travel ... Public Works Department?");
+ * the offices that take the player's filings are their own cards. Not every
+ * organization with a picture (owner, Oct 13: "Why would you need to visit
+ * the market?").
  */
 export function townPlaces(
   core: CoreState,
@@ -70,6 +64,7 @@ export function townPlaces(
   const player = core.people.get(playerId);
   if (!player) throw new Error("No such person.");
   const offers = packet?.kind === "choice" ? packet.offers : [];
+  const minute = packet?.at.minuteOfDay ?? NOON;
   // Where the player, their household and their family work.
   const household = core.households.get(player.householdId)?.memberIds ?? [
     playerId,
@@ -87,7 +82,6 @@ export function townPlaces(
     const birth = core.people.get(id)?.birthDate;
     return birth !== undefined && ageOn(birth, core.date) < SCHOOL_AGE_UNDER;
   });
-  const adult = ageOn(player.birthDate, core.date) >= ADULT_AGE;
   const official = coreAPI(core)
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
@@ -103,14 +97,30 @@ export function townPlaces(
       const actions = offers
         .filter((offer) => offer.targetId === org.id)
         .map((offer) => offer.actionId);
-      const reason =
-        ownWork.has(org.id) ||
-        (studying && SCHOOLS.has(org.classification ?? "")) ||
-        known.length > 0 ||
-        actions.length > 0 ||
-        (adult && CIVIC.has(org.classification ?? "")) ||
-        (official && STATE_OFFICES.has(org.classification ?? ""));
-      if (!reason) return [];
+      const reasons = [
+        ...(ownWork.has(org.id)
+          ? [{ kind: "work" as const, recordId: org.id }]
+          : []),
+        ...(studying && SCHOOLS.has(org.classification ?? "")
+          ? [{ kind: "study" as const, recordId: org.id }]
+          : []),
+        ...known.map((id) => ({ kind: "known" as const, recordId: id })),
+        ...actions.map((actionId) => ({
+          kind: "action" as const,
+          recordId: actionId,
+        })),
+        ...(official && STATE_OFFICES.has(org.classification ?? "")
+          ? [{ kind: "serve" as const, recordId: org.id }]
+          : []),
+      ];
+      if (!reasons.length) return [];
+      // Who is at work there now, by their own work spans.
+      const here = onShift(
+        core,
+        full.filter((id) => id !== playerId),
+        org.id,
+        minute,
+      );
       return [
         {
           organizationId: org.id,
@@ -123,6 +133,13 @@ export function townPlaces(
           }),
           // What the player can do there right now: the core's own offers.
           actions,
+          reasons,
+          presentNames: here.slice(0, PRESENT_NAMED).map((id) => {
+            const row = core.people.get(id)!;
+            return `${row.givenName} ${row.familyName}`;
+          }),
+          presentCount: here.length,
+          presentation: { imageUrl: backdropFile(place, minute).url },
         },
       ];
     })

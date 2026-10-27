@@ -95,6 +95,16 @@ export function planCadence(changedFiles, options = {}) {
     });
   }
 
+  if (has(/^src\/bench\/(title\.ts|play\.(mjs|css|html))$/)) {
+    stages.push({
+      label: "Title tests and motion check (bench running)",
+      command:
+        "npx vitest run src/bench/title.test.ts && node src/bench/title-motion.browser.mjs",
+      receiptStage: "title",
+      kind: "focus",
+    });
+  }
+
   if (art) {
     stages.push({
       label: "Art validation trio",

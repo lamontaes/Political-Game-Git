@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: words/staff-bad-news
-pr:
+pr: #6163
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T07:39:54.952Z

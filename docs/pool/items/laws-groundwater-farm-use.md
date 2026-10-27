@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
-pr: #5076
+pr:
 blocked-on:
 source: "split from laws-stopgap-reach-group-b-faked-mechanic, Oct 16"
 claimed-at: 2026-10-19T21:44:57.210Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T21:44:57.210Z
 
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-money.ts, src/core2/data/stopgaps.json
 
-**Notes.** Split from laws-stopgap-reach-group-b-faked-mechanic.
+**Notes.** Split from laws-stopgap-reach-group-b-faked-mechanic. Released from idle draft #5076 by the CTO, Oct 26.

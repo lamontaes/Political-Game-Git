@@ -59,7 +59,14 @@ export const localWageAuthority: PolicyHandler = (api, change) => {
     answer,
     measureId: change.lawId,
     operativeAt: api.state.date,
-    sequence: enactments.size + 1,
+    // In the order the law was enacted, not the day it took effect; a
+    // starting law came before anything enacted in play.
+    sequence: Number(
+      (
+        api.moduleState(LAWS_MODULE_ID).table("laws").get(change.lawId) as
+          { terms?: { enactedSequence?: number } } | undefined
+      )?.terms?.enactedSequence ?? 0,
+    ),
   } as unknown as ModuleRow);
   putMechanic(api, {
     id: AUTHORITY_KEY,
