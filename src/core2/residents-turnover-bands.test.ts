@@ -16,7 +16,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { JOBS_MODULE_ID } from "./modules/jobs";
 import { residentsRuntime } from "./modules/residents";
-import { countedHeadsOf } from "./residents-economy";
+import { countedHeadsOf, countedJobHeads } from "./residents-economy";
 import { coreAPI, fillInPerson } from "./state";
 import { absenceRate, joltsRate, turnoverReport } from "./turnover-check";
 
@@ -113,7 +113,7 @@ it("reports a played year's monthly turnover rates against JOLTS, by record id",
     expect(Number.isFinite(r.town), where).toBe(true);
 }, 600_000);
 
-it("counts a counted worker's job as the household weight it stands for, as the jobs engine does", () => {
+it("counts a counted job as the heads it stands for, as the jobs engine does", () => {
   setBookkeeping(false);
   // Places are drawn (opened at three times their sample size) until one has
   // counted households that stand for more than one person each.
@@ -136,7 +136,7 @@ it("counts a counted worker's job as the household weight it stands for, as the 
     for (const job of residentsRuntime(core)?.jobs.values() ?? [])
       if (!job.endsAt) {
         records += 1;
-        people += countedHeadsOf(core, job.personId);
+        people += countedJobHeads(core, job);
       }
     const report = turnoverReport(core, core.date, core.date);
     expect(report.employed, where).toBe(people);
@@ -204,3 +204,81 @@ it("keeps a past change's weight when its counted worker is filled in as a full 
   }
   throw new Error(`no place had a weighted change: ${tried.join("; ")}`);
 }, 600_000);
+
+it("counts a staff cut that sheds part of a counted job as a layoff of the heads it shed, and employment by the heads left", () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  for (let n = 0; n < 6; n++) {
+    const place = drawPlace(`${seed}:shed:${n}`, "residents-turnover");
+    const where = `seed ${seed}:shed:${n}, ${place.name} (${place.key}), world seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+      countScale: 10,
+    });
+    const from = core.date;
+    const end = addDays(makeIsoDate(from), 70);
+    const rt = residentsRuntime(core)!;
+    const changes = coreAPI(core).moduleState(JOBS_MODULE_ID).table("changes");
+    // Each counted job's heads the day before, so a cut is read against what
+    // the job stood for when the employer made it.
+    while (core.date < end) {
+      const heads = new Map<string, number>();
+      for (const job of rt.jobs.values())
+        if (!job.endsAt) heads.set(job.id, countedJobHeads(core, job));
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const cuts = (
+        changes.rows() as unknown as {
+          id: string;
+          kind: string;
+          date: string;
+          jobId: string;
+          heads?: number;
+          values: { headsShed: number; headsLeft: number };
+        }[]
+      ).filter((r) => r.kind === "staff-shed" && r.date === core.date);
+      if (!cuts.length) continue;
+      const report = turnoverReport(core, from, end);
+      let shed = 0;
+      for (const cut of changes.rows() as unknown as {
+        kind: string;
+        values: { headsShed: number };
+      }[])
+        if (cut.kind === "staff-shed") shed += cut.values.headsShed;
+      for (const cut of cuts) {
+        const job = rt.jobs.get(cut.jobId)!;
+        expect(cut.heads, `${where}: ${cut.id} moved the heads it shed`).toBe(
+          cut.values.headsShed,
+        );
+        expect(
+          countedJobHeads(core, job),
+          `${where}: ${cut.id} leaves the job its heads left`,
+        ).toBe(cut.values.headsLeft);
+        expect(
+          heads.get(cut.jobId),
+          `${where}: ${cut.id} cut a job that stood for the heads shed and left`,
+        ).toBeCloseTo(cut.values.headsShed + cut.values.headsLeft, 9);
+      }
+      expect(report.counts["staff-shed"], where).toBeCloseTo(shed, 9);
+      const layoffs =
+        (report.counts.layoff ?? 0) + shed + (report.counts.closure ?? 0);
+      expect(report.rates.layoffs.town, where).toBeCloseTo(
+        (100 * layoffs) / 12 / report.employed,
+        9,
+      );
+      let employed = 0;
+      for (const job of core.jobs.values()) if (!job.endsAt) employed += 1;
+      for (const job of rt.jobs.values())
+        if (!job.endsAt) employed += countedJobHeads(core, job);
+      expect(report.employed, where).toBeCloseTo(employed, 9);
+      process.stdout.write(
+        `staff cut: ${where}; ${cuts.map((c) => `${c.id} shed ${c.values.headsShed} of ${heads.get(c.jobId)}, ${c.values.headsLeft} left`).join("; ")}; ${report.employed} employed; staff-shed ${report.counts["staff-shed"]}\n`,
+      );
+      return;
+    }
+    tried.push(`${where}: no staff cut in 70 days`);
+  }
+  throw new Error(
+    `no drawn place cut part of a counted job: ${tried.join("; ")}`,
+  );
+}, 900_000);

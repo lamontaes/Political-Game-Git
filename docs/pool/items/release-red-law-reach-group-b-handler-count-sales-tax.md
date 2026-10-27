@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-udtiwn
-pr: #5217
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T12:18:56.125Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T12:18:56.125Z
 
 **Files.** src/core2/law-reach-group-b.test.ts, src/core2/law-reach/
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.

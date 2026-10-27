@@ -906,17 +906,24 @@ function budgetChambers(
       ? offices.find((o) => o.kind === "county-board" && o.level === "county")
       : (offices.find((o) => o.kind === "council" && o.level === "city") ??
         offices.find((o) => o.kind === "township-board"));
-  return body
-    ? {
-        chambers: [body.id],
-        introducedIn: body.id,
-        body:
-          body.kind === "county-board"
-            ? "the county board"
-            : body.kind === "township-board"
-              ? "the township board"
-              : "the council",
-      }
+  if (body)
+    return {
+      chambers: [body.id],
+      introducedIn: body.id,
+      body:
+        body.kind === "county-board"
+          ? "the county board"
+          : body.kind === "township-board"
+            ? "the township board"
+            : "the council",
+    };
+  // A city with no council of its own that is the whole state (it holds nearly all the state's residents) is governed by the state's legislature, which votes its
+  // budget; a smaller place with no council has none to vote it.
+  const state = governments(api).find((g) => g.level === "state");
+  return state &&
+    gov.level === "city" &&
+    gov.residents >= state.residents * campaignParameter("wholeStateCityShare")
+    ? budgetChambers(api, state)
     : null;
 }
 

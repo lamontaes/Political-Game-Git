@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
-pr: #5076
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:48:52.575Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T01:48:52.575Z
 
 **Files.** src/core2/births-counted.ts, src/core2/modules/press.ts
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.

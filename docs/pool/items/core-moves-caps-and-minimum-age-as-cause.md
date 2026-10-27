@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/moves-caps-as-causes
+status: done
+claimed-by:
 pr: #6106
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T19:43:31.030Z
+claimed-at:
 ---
 
 **What.** The moves engine reads three numbers as a cap or a cutoff, which Sliding scales and causes forbids: movesMinimumAge (nobody under 18 weighs leaving, and every child under it goes with a leaving parent), movesKinHoldCap (relatives past the fourth add no hold, and closeness to kin elsewhere stops counting past four) and movesHousingCostShareCap (a home's cost counts at most as the whole income, and a household with no income reads as exactly the cap). The research item research-core-parameters-sourced-parameters found nothing that sets them, because a cutoff is not a measure, and left them TUNABLE. Replace each with a cause: who decides alone from the place's age of majority in its law records, kin holds and pulls with diminishing returns in the count and closeness of kin, and a housing push that keeps rising with the share and reads a household with no income from its own cash and debts.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T19:43:31.030Z
 **Files.** src/core2/modules/moves.ts, src/core2/data/moves/parameters.json, src/core2/modules/counted-moves.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-26 from PR #6106 (branch claude/moves-caps-as-causes, headd28d53a755df36d5d634b986bf9d72117d063f79): normal main040b6196e0 merge conflicts in shipped src/core2/data/moves/parameters.json around121–143, branch movesRiskWeight versus main movesMinimumAge/updated ACS age-band citation; reconcile the current parameter set and intended majority/trait behavior, then refresh acceptance evidence. No runtime failure or local green claimed; finish on that branch, merge main into it first.

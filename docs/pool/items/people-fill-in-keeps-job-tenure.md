@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/state.ts, src/core2/modules/jobs.ts
 
 **Notes.** Filed by the traits lead from claude/traits-pay-growth.
+
+Sent back 2026-10-25 from PR #6024 (branch claude/traits-fill-in-tenure): in Deschutes River Woods OR, seed b15c9ed812a2e34fca6fbfbbfe23eaa5, day-180 fill-in changes a March 3 hire from 0.378082 to 0.493151 years by copying the January 20 schedule date rather than jobs.pay.since; preserve actual later-hire tenure and cover that case while keeping pay from fill-in day; finish on that branch, merge main into it first. Five opening-worker cases and all static checks pass; the longer acceptance proof fails this real later-hire edge.
