@@ -32,6 +32,12 @@ export interface StagingSpot {
   readonly floor?: string;
   readonly floorHorizonY?: number;
   readonly floorMetersPercent?: number;
+  /** Measured from a mannequin plate (art/people-rooms): the head a person here has, in percent of the picture; a figure is scaled to its width and set on its top and middle. */
+  readonly head?: {
+    readonly top: number;
+    readonly x: number;
+    readonly width: number;
+  };
   /** Where the main character stands: one per place. */
   readonly hero?: boolean;
 }

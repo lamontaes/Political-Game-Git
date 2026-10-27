@@ -17,6 +17,14 @@ describe("figures are framed whole", () => {
         const drawn = figureOn(look, "adult", place, stage, spot);
         if (!drawn) continue;
         const { topPercent, leftPercent, widthPercent } = drawn.figure;
+        // A spot measured from a mannequin plate is where the painter put a
+        // person, at the picture's edge too: only its head's middle and top
+        // must be inside.
+        if (spot.head) {
+          if (spot.head.top < 0 || spot.head.x < 0 || spot.head.x > 100)
+            outside.push(`${place} ${spot.id ?? ""}`);
+          continue;
+        }
         if (
           topPercent < 0 ||
           leftPercent < 0 ||
