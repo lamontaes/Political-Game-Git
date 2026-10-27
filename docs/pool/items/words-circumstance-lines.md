@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/circumstance-lines
-pr: 6308
+pr: #6308
 blocked-on:
 source: "Oct 27 split: the director engineer's circumstance rows (#6263) need their lines from the words lead"
 lead: words
