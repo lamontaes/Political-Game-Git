@@ -600,10 +600,20 @@ export function withHousing(input: CoreInput): CoreInput {
       : { contracts: [], flows: [], terms: [] };
   leases.push(...mortgages.contracts);
   flows.push(...mortgages.flows);
+  // The sourced rent is the renters' median (ACS gross rent is asked of renting
+  // households), and renters sit below the town's median income, so each rent
+  // scales by its household's income relative to the renters' own median scale,
+  // as the owners' values do against theirs.
+  const renterScales = households
+    .filter((row) => rank.get(row.id)! >= owners)
+    .map((row) => incomeScale(row.income))
+    .sort((a, b) => a - b);
+  const renterMedianScale =
+    renterScales[Math.floor(renterScales.length / 2)] || 1;
   for (const row of households) {
     if (rank.get(row.id)! < owners) continue;
     // Every renter owes rent, with or without income of its own (owner, Oct 14): a household its group's money or its own cash can't carry falls behind like any other.
-    const scale = incomeScale(row.income);
+    const scale = incomeScale(row.income) / renterMedianScale;
     const amountMinor = Math.round(medianRent * 100 * scale);
     dwellings.push([row.id, "rent", amountMinor]);
     if (!row.counted)
