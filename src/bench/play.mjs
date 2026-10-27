@@ -2512,8 +2512,8 @@ const sheets = {
             { className: "people-center" },
             portrait({
               name: me.card.name,
-              figureUrl: me.scene?.people?.find((p) => p.personId === me.id)
-                ?.figureUrl,
+              // The saved look, as the card and Who you are read it: not whatever room's figure.
+              figureUrl: portraitUrl(),
             }),
             el("b", { textContent: me.card.name }),
           ),
