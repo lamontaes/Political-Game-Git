@@ -844,29 +844,6 @@
       }
     },
     {
-      "key": "news.law-amount.a-measure-of-to-took-effect-on-date",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "A {measure} of {to} took effect on {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["changed"]
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.law-amount.the-measure-in-place-went-from-from-to-to-on-date",
       "move": "law-amount",
       "kind": "written",
@@ -969,29 +946,6 @@
           "role": "law-amount",
           "choice": "lede",
           "requiresFacts": ["up"]
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.a-new-measure-of-to-took-effect-in-place-on-date",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "A new {measure} of {to} took effect in {place} on {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["changed"]
         }
       ],
       "shippable": true,
@@ -3634,6 +3588,50 @@
           "move": "founded",
           "subject": "news",
           "role": "founded",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.ad.subject-paid-for-ads-this-month",
+      "move": "ad",
+      "kind": "written",
+      "text": "{subject} paid for ads this month.",
+      "uses": [
+        {
+          "move": "ad",
+          "subject": "news",
+          "role": "ad",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.ad.a-group-formed-by-name-paid-for-ads-this-month",
+      "move": "ad",
+      "kind": "written",
+      "text": "A group formed by {name} paid for ads this month.",
+      "uses": [
+        {
+          "move": "ad",
+          "subject": "news",
+          "role": "ad",
           "choice": "lede"
         }
       ],

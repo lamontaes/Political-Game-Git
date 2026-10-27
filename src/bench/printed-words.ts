@@ -1055,15 +1055,13 @@ const causeAd: Builder = (read, f) => {
   const founder = f.organizationId?.match(
     /^organization:cause-group:([^:]+):/,
   )?.[1];
-  return story(
-    "ad",
-    {
-      ...(name ? { subject: read.fact(name, f.organizationId ?? "") } : {}),
-      ...(name ? {} : read.who(founder, "name", false)),
-      ...read.purpose(read.story.topic ?? ""),
-    },
-    ["purpose"],
-  );
+  // A group whose topic is no policy question is told by who paid.
+  const facts = {
+    ...(name ? { subject: read.fact(name, f.organizationId ?? "") } : {}),
+    ...(name ? {} : read.who(founder, "name", false)),
+    ...read.purpose(read.story.topic ?? ""),
+  };
+  return story("ad", facts, [facts.subject ? "subject" : "name"]);
 };
 
 /** A town's housing record: an eviction, a sale, homes built, a homeless count. */
