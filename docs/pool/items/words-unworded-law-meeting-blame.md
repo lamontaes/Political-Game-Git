@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/political-game-pool-76ksvw
 pr: #5180
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:15:39.204Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Duplicate of words-unworded-moments-remaining (Oct 25 audit). An empty shell naming the same three moments on the same PR #5180.

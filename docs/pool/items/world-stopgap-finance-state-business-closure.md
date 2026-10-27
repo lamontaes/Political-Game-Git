@@ -4,7 +4,7 @@ title: "Stopgaps in finance-state (business-closure): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: A business closed by its owner's choice pays its workers what they've earned (counted workers at once, full workers on their next payday from cash held back) and its supplier bills already owed; an open credit line's bal
 
 Oct 20 (pool feeder): spec written; the row says the business engine records the assets, but it records none today (no premises or equipment in business.ts), so the record is a new item, world-business-premises-record.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

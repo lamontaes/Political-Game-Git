@@ -3,12 +3,12 @@ id: research-opening-income-sourced-parameters
 title: "Research: sourced parameters for the opening's retirement income and its funding"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Matched 2021 award/eligibility/amount/payment-date evidence and an actual source-qualified due provider, preserving local stock pl
+blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-income-funding-opening-outside-flow-terms-prior, core-stopgap-opening-income-opening-generated-income-prior"
 claimed-at:
 ---
@@ -27,3 +27,7 @@ claimed-at:
 **Notes.** Folded from: core-stopgap-opening-income-funding-opening-outside-flow-terms-prior, core-stopgap-opening-income-opening-generated-income-prior. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
 Findings Oct 20 (claude), not built: (1) `openingRetirementBenefitMonthlyMinor` can move from the January 2021 COLA estimate ($1,543) to the measured December 2020 retired-worker mean, $1,544.15 across 46,329,595 people (SSA Annual Statistical Supplement 2021, Table 5.A, https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5a.pdf; Monthly Statistical Snapshot Dec 2020, https://www.ssa.gov/policy/docs/quickfacts/stat_snapshot/2020-12.html); the 1-dollar difference is why it stays ESTIMATED until a distribution (percentiles of awards) is read from Table 5.A's amount bands, which I did not extract, so no spread was written. (2) Career start age 18 has a sourced bracket: BLS NLSY79 reports 5.6 jobs held at ages 18 to 24 and employment in 77 percent of weeks from 18 to 58 (https://www.bls.gov/news.release/nlsoy.htm); no source gives an average age at first covered job, so the 18 and 4-year school-context rows stay ESTIMATED. Both stopgap rows' replacements are producers (a mechanic), which this item leaves to the builder.
+
+Deferred Oct 25: nothing on screen reads it yet.
+
+Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).

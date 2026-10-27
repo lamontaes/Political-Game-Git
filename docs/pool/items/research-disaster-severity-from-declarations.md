@@ -3,7 +3,7 @@ id: research-disaster-severity-from-declarations
 title: "A severe disaster is recorded from the disasters engine's own records, so home values and moving can read it"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/research/outcome-web/links.json, src/core2/modules/disasters.ts
 
 **Notes.** Filed Oct 25 by the effects lead from web-reach-places-services; see that item's Oct 24 note.
+
+Deferred Oct 25: nothing on screen reads it yet.

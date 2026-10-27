@@ -18,6 +18,29 @@ const STOPGAPS = "src/core2/data/stopgaps.json";
 const REACHED =
   "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.";
 
+/**
+ * What a shared row's links fake. A link the web runs moves its outcome in the
+ * monthly ledger that no engine reads; a link the web never runs (its cause is
+ * not recorded, its research gives no size, or its outcome is not kept) moves
+ * nothing at all, and its own reason says why.
+ */
+function fakes(links: readonly UnwiredRow[], outcome: string): string {
+  const notRun = (l: UnwiredRow) =>
+    l.reason.startsWith("the web does not run it") ||
+    l.reason.startsWith("no measure");
+  const ledger = links.filter((l) => !notRun(l));
+  const parts: string[] = [];
+  if (ledger.length)
+    parts.push(
+      `${ledger.map((l) => l.link).join(", ")} ${ledger.length === 1 ? "moves" : "move"} ${outcome} only in the outcome web's monthly ledger`,
+    );
+  for (const l of links.filter(notRun))
+    parts.push(
+      `${l.link} is not run by the outcome web, so it moves nothing (${l.reason.replace(/^the web does not run it: /, "")})`,
+    );
+  return `${parts.join("; ")}; no person, household or organization record changes.`;
+}
+
 export interface UnwiredRow {
   readonly link: string;
   readonly outcome: string;
@@ -71,9 +94,13 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
   // the old reaching text is read again, so the history stays true.
   const waitingOn = new Map(rows.map((row) => [row.link, row.stopgapId]));
   const resolution = (whatItFakes = "") => {
-    const named = (whatItFakes.split(/ moves? /)[0] ?? "")
-      .split(", ")
-      .map((key) => key.trim())
+    // Each clause of the text opens with the links it names ("a, b move ...;
+    // c is not run ..."); only known link keys are kept.
+    const named = whatItFakes
+      .split("; ")
+      .flatMap((part) =>
+        (/^([a-z0-9-]+(?:, [a-z0-9-]+)*) /.exec(part)?.[1] ?? "").split(", "),
+      )
       .filter(Boolean);
     const by = [
       ...new Set(
@@ -110,7 +137,7 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
       kind: noMeasure ? "missing-record" : "missing-mechanic",
       file: UNWIRED,
       line,
-      whatItFakes: `${links.map((l) => l.link).join(", ")} ${links.length === 1 ? "moves" : "move"} ${outcome} only in the outcome web's monthly ledger; no person, household or organization record changes.`,
+      whatItFakes: fakes(links, outcome),
       why: links[0]!.reason,
       addedBy: "EFFECT-WEB-WIRING",
       addedAt: "2026-10-20",

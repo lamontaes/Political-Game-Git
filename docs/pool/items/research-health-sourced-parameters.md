@@ -3,7 +3,7 @@ id: research-health-sourced-parameters
 title: "Research: sourced parameters for health severity and resilience"
 area: people
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -33,3 +33,5 @@ Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): m
 PR #5080 carries the Bonanno 2002 bereavement band (data/research/health/bereavement-trajectories-bonanno-2002.json, read by scripts/health/bereavement-band.ts) but resolves neither row; this item stays open for both calibrations.
 
 Sent back 2026-10-23 from PR #5790 (branch claude/health-resilience): Mortality-scale PR also silently changes restingStressMoneyWeight and traitWeightCampaignsDonate 0.065 to 0.087 without calibration evidence; restore or justify them and use a valid bounded completed item; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

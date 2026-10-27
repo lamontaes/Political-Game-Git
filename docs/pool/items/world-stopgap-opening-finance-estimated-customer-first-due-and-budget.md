@@ -4,7 +4,7 @@ title: "Stopgaps in opening-finance (estimated-customer-first-due-and-budget-hor
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: First-next-period-month payment and a twelve-month source-year budget horizon are generated conventions; the annual statistical source does not observe any actual contract expiry or renewal.
 
 Oct 20 (pool feeder): spec written; fiscal-year table from data/research/stopgaps-oct19/B-people-behavior-2.json (NCSL/NASBO; local governments assumed to follow their state, to be verified from the Census of Governments); the contracts module already awards a budget line to a firm for a fiscal year, so this connects the opening's customers to it.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

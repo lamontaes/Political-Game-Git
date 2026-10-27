@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T15:42:11.072Z
 
 **Rules.** No dice: the reasons are each person's own recorded circumstances, never a roll. Sliding scales: each reason grows smoothly with the circumstance, with no bar that flips the choice. Research before building: weights cite Kanfer 2001, Zhao and Seibert 2006 or keep a gap row.
 
-**Done when.** scripts/traits/trait-wiring-audit.ts played, flat and mirror twins and trait-wiring-matrix.ts on one year of buildBenchWorld in two places drawn from all 56, seeds named, show jobs.apply, housing.buy-home, business.owner-draw and business.found with a turned share above zero and top-third against bottom-third pick rates beside their targets; src/core2/money-traits.traits.test.ts covers each.
+**Done when.** scripts/traits/trait-wiring-audit.ts played, flat and mirror twins and trait-wiring-matrix.ts on one year of buildBenchWorld in two places drawn from all 56, seeds named, show jobs.apply, housing.buy-home, business.owner-draw and business.found with a turned share above zero and top-third against bottom-third pick rates beside their targets; src/core2/money-traits.traits.test.ts covers each. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/modules/business.ts, data/content/trait-decision-gaps.json
 

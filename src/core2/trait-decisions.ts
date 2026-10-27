@@ -221,7 +221,7 @@ function reportLeaned(
 ): number {
   const term = lean * decisionTraitWeight(core, decisionId);
   const score = bare + term;
-  keepWeighing(core, person, decisionId, bare, term);
+  const recordId = keepWeighing(core, person, decisionId, bare, term);
   const probe = traitProbe();
   if (probe?.formula) {
     const zero = parameter("zero", core.data.parameters);
@@ -232,17 +232,49 @@ function reportLeaned(
       bare,
       yes: score > zero,
       turned: score > zero !== bare > zero,
+      ...(recordId ? { recordId } : {}),
     });
   }
   return score;
 }
 
 /**
+ * For a decision whose trait term joins a sum or scales a size with no
+ * yes-or-no of its own: reports to the audit's probe what the decision came
+ * to with the term and with it left out, so the matrix can show how far the
+ * term moves the outcome between the people leaning most and least toward the
+ * option. A debug switch: with the probe off nothing is computed and play
+ * reads nothing new (`result` runs only when the probe is on).
+ */
+export function reportOutcome(
+  decisionId: string,
+  actorId: string | undefined,
+  lean: number,
+  unit: "probability" | "size",
+  result: (withTerm: boolean) => number,
+): void {
+  const probe = traitProbe();
+  if (!probe?.outcome) return;
+  probe.outcome({
+    decisionId,
+    ...(actorId === undefined ? {} : { actorId }),
+    lean,
+    unit,
+    value: result(true),
+    flat: result(false),
+  });
+}
+
+/**
  * The player and the people in focus keep a record of every two-way decision
  * they weigh, yes or no (why-kept: the player and the people they deal with),
  * as their acts do: the case without personality as the module reason and
- * the trait term as the trait reason, on a `person.weighed` log record. A
- * decline leaves no other trace.
+ * the trait term as the trait reason, on a `person.weighed` log record. Yes
+ * carries the case and the term as they are, no carries them turned around
+ * (the case against, the pull away), so a decline condensed to its chosen
+ * option's reasons still says why. A decline leaves no other trace. The
+ * audit's probe (off in play) can ask for every full person's. Returns the
+ * record's id, where one is kept.
  */
 function keepWeighing(
   core: Pick<CoreState, "data">,
@@ -250,13 +282,19 @@ function keepWeighing(
   decisionId: string,
   bare: number,
   term: number,
-): void {
+): string | undefined {
   const id = person.id;
-  if (!id || !("focusPersonIds" in core)) return;
+  if (!id || !("focusPersonIds" in core)) return undefined;
   const c = core as CoreState;
-  if (!c.focusPersonIds.has(id) && id !== c.playerId) return;
+  if (
+    !c.focusPersonIds.has(id) &&
+    id !== c.playerId &&
+    !traitProbe()?.keepWeighed
+  )
+    return undefined;
   const actor = c.people.get(id);
-  if (!actor) return;
+  if (!actor) return undefined;
+  const keepAll = traitProbe()?.keepWeighed === true;
   const zero = parameter("zero", c.data.parameters);
   const reasons = (trait: number, module: number) => ({
     need: zero,
@@ -271,41 +309,48 @@ function keepWeighing(
   const base = `weighed:${c.date}:${decisionId}:${id}`;
   let recordId = base;
   for (let n = 2; c.durableLog.has(recordId); n++) recordId = `${base}:${n}`;
-  retainLog(c, {
-    id: recordId,
-    date: c.date,
-    kind: "person.weighed",
-    personIds: [id],
-    placeId: actor.placeId,
-    source: {
-      tag: "SOURCED",
-      asOf: c.date,
-      citation: `A two-way decision weighed by its shared formula (${decisionId}).`,
-    },
-    actorId: id,
-    actionId: `${decisionId}:${yes ? "yes" : "no"}`,
-    reasonKey: decisionId,
-    decision: {
-      actorId: id,
+  retainLog(
+    c,
+    {
+      id: recordId,
       date: c.date,
+      kind: "person.weighed",
+      personIds: [id],
+      placeId: actor.placeId,
+      source: {
+        tag: "SOURCED",
+        asOf: c.date,
+        citation: `A two-way decision weighed by its shared formula (${decisionId}).`,
+      },
+      actorId: id,
+      actionId: `${decisionId}:${yes ? "yes" : "no"}`,
       reasonKey: decisionId,
-      selectedReasons: yes ? reasons(term, bare) : reasons(zero, zero),
-      scores: [
-        {
-          actionId: `${decisionId}:yes`,
-          targetId: id,
-          score: bare + term,
-          reasons: reasons(term, bare),
-        },
-        {
-          actionId: `${decisionId}:no`,
-          targetId: id,
-          score: zero,
-          reasons: reasons(zero, zero),
-        },
-      ],
+      decision: {
+        actorId: id,
+        date: c.date,
+        reasonKey: decisionId,
+        selectedReasons: yes
+          ? reasons(term, bare)
+          : reasons(zero - term, zero - bare),
+        scores: [
+          {
+            actionId: `${decisionId}:yes`,
+            targetId: id,
+            score: bare + term,
+            reasons: reasons(term, bare),
+          },
+          {
+            actionId: `${decisionId}:no`,
+            targetId: id,
+            score: zero - bare - term,
+            reasons: reasons(zero - term, zero - bare),
+          },
+        ],
+      },
     },
-  });
+    keepAll,
+  );
+  return c.durableLog.has(recordId) ? recordId : undefined;
 }
 
 /**
@@ -373,4 +418,30 @@ export function termOfLean(
   bare: number,
 ): number {
   return reportLeaned(core, person, decisionId, lean, bare) - bare;
+}
+
+/**
+ * `leanedYes` that also returns the trait term it added (the lean times the
+ * decision's calibrated weight), for a site that keeps its reasons on a record.
+ */
+export function leanedYesWithTerm(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  decisionId: string,
+  yesOptionId: string,
+  noOptionId: string,
+  bare: number,
+): { readonly yes: boolean; readonly term: number } {
+  const score = leanedScore(
+    core,
+    person,
+    decisionId,
+    yesOptionId,
+    noOptionId,
+    bare,
+  );
+  return {
+    yes: score > parameter("zero", core.data.parameters),
+    term: score - bare,
+  };
 }

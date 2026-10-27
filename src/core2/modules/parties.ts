@@ -26,12 +26,21 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
-import { personLean, PLATFORM_QUESTIONS } from "../campaign-views";
+import {
+  campaignParameter,
+  personLean,
+  PLATFORM_QUESTIONS,
+} from "../campaign-views";
+import { homeDistanceMiles } from "../home-distance";
 import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYes,
+} from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 
@@ -313,23 +322,26 @@ export function openParties(core: CoreState): void {
         index < noParty ? "leans-nowhere" : "independent-minded",
       ),
     );
-  // Each party's leader: its most outgoing, dutiful member in town.
+  // Each party's leader: the member whose traits lean most toward taking part.
   for (const party of parties) {
     const members = (ties.query("byParty", [party.id]) as unknown as TieRow[])
       .map((t) => core.people.get(t.personId)!)
-      .sort(
-        (a, b) =>
-          (b.traits["people-mind-v1:sociability"] ?? 0) +
-            (b.traits["personality-v1:facet-duty-bound"] ?? 0) -
-            ((a.traits["people-mind-v1:sociability"] ?? 0) +
-              (a.traits["personality-v1:facet-duty-bound"] ?? 0)) ||
-          a.id.localeCompare(b.id),
-      );
+      .map((member) => ({
+        member,
+        pull: decisionLean(core, member, "parties.join", "join", "stay-out"),
+      }))
+      .sort((a, b) => b.pull - a.pull || a.member.id.localeCompare(b.member.id))
+      .map((row) => row.member);
     for (const member of members)
       if (
-        value("partiesJoinBase") +
-          decisionLean(core, member, "parties.join", "join", "stay-out") >
-        0
+        leanedYes(
+          core,
+          member,
+          "parties.join",
+          "join",
+          "stay-out",
+          value("partiesJoinBase"),
+        )
       )
         api.join(member.id, party.organizationId);
     api
@@ -540,9 +552,14 @@ export function chooseChair(
   const lean = new Map(
     members.map((m) => [m.id, personLean(core.people, m, townLean)]),
   );
-  const pull = (p: Readonly<PersonState>) =>
-    (p.traits["people-mind-v1:sociability"] ?? 0) +
-    (p.traits["personality-v1:facet-duty-bound"] ?? 0);
+  const pulls = new Map(
+    members.map((m) => [
+      m.id,
+      decisionTraitWeight(core, "parties.attend") *
+        decisionLean(core, m, "parties.attend", "attend", "stay-home"),
+    ]),
+  );
+  const pull = (p: Readonly<PersonState>) => pulls.get(p.id) ?? 0;
   const votes: Record<string, string> = {};
   const tally = new Map<string, number>();
   for (const voter of members) {
@@ -614,6 +631,34 @@ export function chooseChair(
     },
   });
   return row;
+}
+
+/**
+ * A member's case for going to a party meeting, before temperament: the
+ * reason every member has to go, less the hours their work already takes of a working
+ * week (free time) and less how far from the meeting their home is (the
+ * household's distance from the middle of town against a distance that costs
+ * a trip the most). Both slide: a retiree across town and a worker next door
+ * are each in between.
+ */
+export function attendCase(
+  core: CoreState,
+  member: Readonly<PersonState>,
+): number {
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(member.id) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  const workShare = Math.min(
+    1,
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes"),
+  );
+  const miles = homeDistanceMiles(core, member.householdId);
+  const farShare = miles / (miles + value("partyMeetingHalfDistanceMiles"));
+  return (
+    value("partyMeetingAttendEase") -
+    value("partyMeetingFreeTimeWeight") * workShare -
+    value("partyMeetingDistanceWeight") * farShare
+  );
 }
 
 /**
@@ -700,9 +745,14 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       );
       recruited.set(party.id, [...(recruited.get(party.id) ?? []), p.id]);
       if (
-        value("partiesJoinBase") +
-          decisionLean(core, p, "parties.join", "join", "stay-out") >
-        0
+        leanedYes(
+          core,
+          p,
+          "parties.join",
+          "join",
+          "stay-out",
+          value("partiesJoinBase"),
+        )
       )
         api.join(p.id, party.organizationId);
     } else
@@ -735,8 +785,14 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       .filter(
         (m) =>
           m.id === leaderId ||
-          decisionLean(core, m, "parties.attend", "attend", "stay-home") >=
-            value("partyMeetingAttendBar"),
+          leanedYes(
+            core,
+            m,
+            "parties.attend",
+            "attend",
+            "stay-home",
+            attendCase(core, m),
+          ),
       )
       .map((m) => m.id);
     for (const id of attendeeIds)

@@ -145,12 +145,6 @@ export function sceneWordsFromBank(
         variants(bank, "setting", kind, false, heldFirst),
       ]),
     ),
-    present: ["one", "many"].flatMap((stage) =>
-      variants(bank, "present", stage, false, heldFirst).map((row) => ({
-        ...row,
-        stages: [stage],
-      })),
-    ),
     frame: variants(bank, "frame", "day", false, heldFirst),
     leads: rows.leads.map((typeKey) => ({
       typeKey,

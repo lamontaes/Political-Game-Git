@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: a counted voter group is read by the same voting rule as a full person, times its count. One rule, all 56 places: nothing names Puerto Rico or the town in logic. Ask why: name the cause by file and line.
 
-**Done when.** The played-world test passes on the Corral Viejo seed above, and on three fresh drawn places named in the PR body; and with counted voting switched off in a drawn place of a few thousand counted adults (seed named), the check still fails.
+**Done when.** The played-world test passes on the Corral Viejo seed above, and on three fresh drawn places named in the PR body; and with counted voting switched off in a drawn place of a few thousand counted adults (seed named), the check still fails. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/voting.ts, tests/golden-path/played-world.node-test.ts
 

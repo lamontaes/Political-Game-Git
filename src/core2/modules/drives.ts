@@ -218,6 +218,12 @@ export interface HeldDrive {
   told: Set<PersonId>;
 }
 
+/** A fading total: its amount on the date it was last added to. */
+interface Given {
+  amount: number;
+  date: string;
+}
+
 interface DrivesRuntime {
   drives: Map<string, HeldDrive>;
   byPerson: Map<PersonId, Map<string, HeldDrive>>;
@@ -228,6 +234,12 @@ interface DrivesRuntime {
    */
   countedByPerson: Map<PersonId, Map<string, HeldDrive>>;
   groupsByTopic: Map<string, Set<string>>;
+  /**
+   * What each person has lately given to their causes, by kind of act: one
+   * for each act, fading with the days (causeGivenDays). The more they gave
+   * lately, the less a further act of the same kind pulls.
+   */
+  given: Map<PersonId, Map<string, Given>>;
   groupFounder: Map<string, PersonId>;
   /** The change each cause group was founded to win (its founder's drive). */
   groupChange: Map<string, string>;
@@ -275,6 +287,7 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       byPerson: new Map(),
       countedByPerson: new Map(),
       groupsByTopic: new Map(),
+      given: new Map(),
       groupFounder: new Map(),
       groupChange: new Map(),
       formedByYearKind: new Map(),
@@ -1046,10 +1059,53 @@ function drivesOf(api: CoreAPI, actorId: PersonId, offer: ActOffer) {
   return drive;
 }
 
+const CAUSE_GIVEN = "drives:cause-given";
+
+/**
+ * The days over which what was given of an act fades, from the act's own
+ * binding (a membership is remembered longer than a session).
+ */
+function givenFadeDays(
+  api: CoreAPI,
+  binding: Readonly<ReasonBinding> | undefined,
+) {
+  return api.parameter(
+    binding?.arguments?.fadeDaysParameter ?? "causeGivenDays",
+  );
+}
+
+/** What is left today of a fading total. */
+function givenNow(
+  api: CoreAPI,
+  given: Readonly<Given> | undefined,
+  fadeDays: number,
+  date: string = api.state.date,
+) {
+  return given
+    ? given.amount * Math.exp(-daysBetweenText(given.date, date) / fadeDays)
+    : api.parameter("zero");
+}
+
 function recordAct(api: CoreAPI, drive: HeldDrive, row: DriveActTrace) {
   drive.actCount += api.parameter("one");
   drive.lastTracedAct = `${row.date}:${row.actionId}`;
   retain(api, drive.acts, row);
+  // The act adds one to what the person has lately given of its kind.
+  const given = runtimeFor(api.state).given;
+  const mine = given.get(drive.personId) ?? new Map<string, Given>();
+  given.set(drive.personId, mine);
+  const fadeDays = givenFadeDays(
+    api,
+    api.state.data.actions
+      .find((action) => action.id === row.actionId)
+      ?.reasonBindings?.find((binding) => binding.provider === CAUSE_GIVEN),
+  );
+  mine.set(row.actionId, {
+    amount:
+      givenNow(api, mine.get(row.actionId), fadeDays, row.date) +
+      api.parameter("one"),
+    date: row.date,
+  });
   reinforce(
     api,
     drive,
@@ -1467,6 +1523,18 @@ export function createDrivesModule(
       },
     },
     reasonProviders: {
+      // What the person gave lately to their causes weighs against giving
+      // more of the same, fading as the days pass: no cap, no cooldown.
+      [CAUSE_GIVEN]: (api, actor, offer, binding) => {
+        const given = runtimeFor(api.state)
+          .given.get(actor.id)
+          ?.get(offer.definition.id);
+        if (!given) return;
+        return {
+          value: -givenNow(api, given, givenFadeDays(api, binding)),
+          ...(offer.driveId ? { sourceIds: [offer.driveId] } : {}),
+        };
+      },
       // Having just had it out with someone weighs against doing it again,
       // fading as the days pass: no cooldown, no cutoff.
       [CONFRONT_RECENCY[0]!.provider]: (api, actor, offer) => {
@@ -1521,6 +1589,7 @@ export function createDrivesModule(
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
           runtime.byPerson.delete(personId);
+          runtime.given.delete(personId);
           continue;
         }
         const actor = api.state.people.get(personId)!;

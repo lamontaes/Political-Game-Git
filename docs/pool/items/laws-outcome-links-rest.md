@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Research before building: each link cites its source with size and spread, and real rates check totals. An effect is a read: the web reads the law or its measure and the outcome moves for full and counted people alike. No invented numbers; if no source gives a size, say so on the item and leave the row.
 
-**Done when.** For each law built, a link in data/research/outcome-web/links.json moves its measure in a buildBenchWorld played period in a drawn place from all 56, shown by the outcome-web month record id, and the row leaves the gap file.
+**Done when.** For each law built, a link in data/research/outcome-web/links.json moves its measure in a buildBenchWorld played period in a drawn place from all 56, shown by the outcome-web month record id, and the row leaves the gap file. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** data/research/outcome-web/links.json, src/core2/data/laws/outcome-research-gaps.json, src/core2/gov-measures.ts
 

@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/law-checker-own-payment-rules
 pr: #6098
 blocked-on:

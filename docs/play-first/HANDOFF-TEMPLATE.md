@@ -1,6 +1,6 @@
 # The handoff block
 
-Before you stop for any reason (done, time box spent, usage out, blocked, the environment restarting), add one entry at the top of the log in `PROGRESS.md` (newest first), commit it on your item branch, and push. If your branch is gone, push the entry on `play-first/progress-<your agent>-<date>` and open a draft PR for it; never write to main by hand.
+Before you stop for any reason (done, time box spent, usage out, blocked, the environment restarting), add one entry at the top of the log in `PROGRESS.md` (newest first) **on main only** (acting CTO, Oct 25): `git checkout main && git pull`, append, commit `play-first: handoff <item>`, push (pull with rebase and push again if rejected; never force-push), then check your branch out again. Never commit it on your item branch: a branch that changes `PROGRESS.md` is a defect and the merger drops the hunk. If main refuses you, post the line as a comment on your PR and the CTO copies it to main.
 
 Copy this block, one line, fields in this order, separated by `·`:
 

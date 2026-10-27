@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Ask why: every job change names who decided it, and that decider stays findable by record id (a person, an organization, an event or a counted member) for as long as the change is kept. Wire to the world: fix the writer or the removal, never the check.
 
-**Done when.** In Niceville, Florida with the seed above and in two places drawn from all 56, named with seeds, the M1-04 check reports changesDecidedByNoRecord 0 after a played year in buildBenchWorld; the PR names the cause by file and line; a test that removes the decider the old way fails.
+**Done when.** In Niceville, Florida with the seed above and in two places drawn from all 56, named with seeds, the M1-04 check reports changesDecidedByNoRecord 0 after a played year in buildBenchWorld; the PR names the cause by file and line; a test that removes the decider the old way fails. **On screen.** Nothing yet: it would show on News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/state.ts
 

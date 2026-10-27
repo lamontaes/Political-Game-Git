@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: blocked
+status: open
 claimed-by: claude/words-birth-scene-lead
 pr:
-blocked-on: PR 5647 (words-authored-parts-shippable-sweep) is an unmerged draft, 'do not merge as is'; on main the birth lead still ships authored shippable parts, so the slot is not empty and the done-when test does not exist yet. Also needs the owner to grade the replacement lines (the 5647 decision).
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:03:22.105Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T11:03:22.105Z
 **Files.** data/english/parts/scene-words.json, src/director/scene.ts, src/director/birth-scenes.test.ts
 
 **Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts.
+
+Oct 25 audit: unblocked; PR #5647 (the held hand-written parts) merged Oct 23, so the slot is empty on main and waits for the engine's line.

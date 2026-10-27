@@ -3,7 +3,7 @@ id: world-counted-renters-buy
 title: "A counted renter household buys a new house through its group's accounts: rent part ends, mortgage part starts"
 area: world
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -27,3 +27,7 @@ Sent back 2026-10-20 from PR #5243 (branch claude/counted-renters-buy): Merge co
 Sent back 2026-10-20 from PR #5243 (branch claude/counted-renters-buy): The new specification is useful, but the body explicitly says no counted-renter purchase path was built. This item Done when requires the buying decision, group-account payment, mortgage/rent flows and regrouping proof. A planning note cannot complete it. Keep the implementation open and track the completed specification work separately, or supply the required played-world purchase and money record proof.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5367 (branch claude/housing-construction-stopgap): The date/ruling cleanup fixes the prior return. The body still explicitly reports zero ordinary-world purchases and says the test raises housingBuyBaseline to 30 and funds the group to obtain one. Both linked pool items require a positive one-year buildBenchWorld purchase through existing producers, naming the rent part, mortgage part, owner and balanced group/bank/seller records. That proof is not supplied by the forced calibration-and-cash fixture. Both items also prohibit scanning every counted renter monthly, which the body says remains unaddressed. Keep the edge-case fixture, supply the ordinary generated-world purchase and money chain, and satisfy the stated speed rule before completing these items.; finish on that branch, merge main into it first.
+
+Oct 25 audit: PR #5367 changes notes and a declaration only; the build is still to do (from the dropped world-counted-renters-buy-build).
+
+Deferred Oct 25: nothing on screen reads it yet.

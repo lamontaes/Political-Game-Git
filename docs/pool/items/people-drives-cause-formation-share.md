@@ -3,7 +3,7 @@ id: people-drives-cause-formation-share
 title: "Too few of a town's adults ever act on a cause: about one in thirty volunteers, where one in four does"
 area: people
 kind: bug
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/drives.ts, src/core2/data/drives.json
 
 **Notes.** Split from people-drives-cause-acts-pull-less (acting CTO, Oct 25). Filed by the speed lead.
+
+Deferred Oct 25: nothing on screen reads it yet.

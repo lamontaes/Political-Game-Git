@@ -258,7 +258,11 @@ export function bodyScene(
   const cast = [
     ...body.members.filter((m) => m.you),
     ...body.members.filter((m) => !m.you),
-  ].map((m) => ({ id: m.key.replace(/^official:/, ""), name: m.name }));
+  ].map((m) => ({
+    id: m.key.replace(/^official:/, ""),
+    name: m.name,
+    reason: m.you ? ("you" as const) : ("official" as const),
+  }));
   return {
     title: body.title,
     place,

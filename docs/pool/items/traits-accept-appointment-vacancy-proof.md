@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Filed Oct 25 by the traits lead from the never-run send-back (PR 5886).
 
 Sent back 2026-10-25 from PR #6033 (branch claude/traits-accept-appointment-proof): explicit parent #6031 remains open/unmerged and itself stacks on #5886; merge/review parent features first, then integrate main and rerun vacancy-proof audit and gate; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #6033 (branch claude/traits-accept-appointment-proof): parent #6031 is merged and integration clean, but Done when requires a weighed acceptance record; body substitutes took-office and audit matches arbitrary same-actor/day events rather than the decision; retain and verify actual decision identity/reasons in played vacancy proof, then finish on that branch and merge main first.

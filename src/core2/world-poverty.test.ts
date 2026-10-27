@@ -51,6 +51,13 @@ function playTown(drawSeed: string) {
     placeKey: place.key,
   });
   advanceCore(world.core, addDays(makeIsoDate(opening), 100));
+  // The next monthly record, on the 2nd: the comparison is made on its own day.
+  const next =
+    addDays(
+      makeIsoDate(`${world.core.date.slice(0, "YYYY-MM".length)}-01`),
+      32,
+    ).slice(0, "YYYY-MM".length) + "-02";
+  advanceCore(world.core, makeIsoDate(next));
   const api = coreAPI(world.core);
   // The monthly record, and the web row reading it.
   const metrics = api
@@ -151,20 +158,29 @@ describe(`poverty from incomes (${firstPlace.name}, seed ${seed})`, () => {
     );
     const kindShares = [...byKind.values()].map((v) => v.poor / v.people);
     expect(Math.max(...kindShares)).toBeGreaterThan(Math.min(...kindShares));
+    // The record is the engine's share on the day it was taken, which is today.
+    expect(record.date).toBe(world.core.date);
     const poor = povertyByPlace(world.core).get(record.placeId)!;
     expect(poor.poor / poor.people).toBeCloseTo(record.povertyShare!, 1);
 
-    // The measure reads incomes: halve every pay and poverty rises.
+    // The measure reads incomes: halving every pay never lowers poverty, and
+    // it rises before the pay is gone. A small town's earners can sit well
+    // above the line, so one halving need not cross it.
     const before = poor.poor / poor.people;
-    for (const job of world.core.jobs.values())
-      job.wageDailyMinor = Math.round(job.wageDailyMinor / 2);
     const rt = residentsRuntime(world.core);
-    for (const h of rt?.store.liveHouseholds() ?? []) {
-      h.wagesMinorYear = Math.round(h.wagesMinorYear / 2);
-      h.unplacedWorkers = 0;
+    let last = before;
+    for (let halving = 0; halving < 10 && last <= before; halving += 1) {
+      for (const job of world.core.jobs.values())
+        job.wageDailyMinor = Math.round(job.wageDailyMinor / 2);
+      for (const h of rt?.store.liveHouseholds() ?? []) {
+        h.wagesMinorYear = Math.round(h.wagesMinorYear / 2);
+        h.unplacedWorkers = 0;
+      }
+      const half = povertyByPlace(world.core).get(record.placeId)!;
+      expect(half.poor / half.people).toBeGreaterThanOrEqual(last);
+      last = half.poor / half.people;
     }
-    const half = povertyByPlace(world.core).get(record.placeId)!;
-    expect(half.poor / half.people).toBeGreaterThan(before);
+    expect(last).toBeGreaterThan(before);
   }, 600_000);
 });
 

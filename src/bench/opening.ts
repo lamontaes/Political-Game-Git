@@ -3,15 +3,16 @@ import { townSeats } from "../core2/modules/offices";
 import { corePlaceByKey } from "../core2/place-lookup";
 import { capitolPlaceFor } from "./backdrop-places";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { backdropFile, stagePeople, homeOf } from "./scene";
+import { backdropFile, stagePeople, homeOf, type StageReason } from "./scene";
 import pictures from "./data/opening-pictures.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import type { OpeningSentence, OpeningStory } from "../director/opening-story";
 import { stageOfLevel, type OpeningFigure } from "../director/opening-sequence";
 
-// The opening (owner, Oct 14, 2026): the President's address, full screen,
-// sentence by sentence in the speech box, the picture cutting to what each
-// sentence is about; then home, where that night's news can be picked up.
+// The opening (owner, Oct 14 and Oct 26, 2026): the President's address, full
+// screen, sentence by sentence in the speech box, the picture cutting to what
+// each sentence is about; the first frame is the address itself. Home comes
+// after the governor and the family, where that night's news can be picked up.
 // The address plays over the director's sequence (owner, Oct 14, 2026,
 // late): the President's stage, Congress, the state, the family, then home.
 // Every word is the director's opening story, composed by the English engine
@@ -121,30 +122,21 @@ export function openingFrames(
      * names them (`line`, an index into `lines`), or as the frame opens.
      */
     pointOut: (OpeningFigure & { line?: number })[];
-    /** Who says the lines: the anchor's lead-in, else the President. */
-    speaker?: "anchor";
     lines: { text: string; sourceRecordIds: readonly string[] }[];
   }[] = [];
-  // What the player is watching, first (owner, Oct 14, 2026): their own
-  // household at home that evening, the anchor leading into the address.
+  // Why each person stands in an opening frame: the player, their household
+  // (at the family stage, after the governor), or someone the address names.
   const household = stages.get("family")?.people ?? [];
-  if (story.lead.length) {
-    const place = homeOf(core, playerId, OPENING_EVENING_MINUTE);
-    const cast = [
-      { id: playerId, name: `${player.givenName} ${player.familyName}` },
-      ...household.map(({ id, name }) => ({ id, name })),
-    ];
-    frames.push({
-      stage: "home",
-      place,
-      backdrop: backdropFile(place, OPENING_EVENING_MINUTE),
-      cast,
-      people: stagePeople(core, place, cast).people,
-      pointOut: [...household],
-      speaker: "anchor",
-      lines: [...story.lead],
-    });
-  }
+  const householdIds = new Set(household.map((row) => row.id));
+  const withReasons = (cast: readonly { id: string; name: string }[]) =>
+    cast.map((row) => ({
+      ...row,
+      reason: (row.id === playerId
+        ? "you"
+        : householdIds.has(row.id)
+          ? "household"
+          : "named") as StageReason,
+    }));
   const order = story.sequence.map((row) => row.stage);
   const opened = new Set<string>();
   const stagePlace = new Map<string, string>();
@@ -167,7 +159,7 @@ export function openingFrames(
     lines: OpeningSentence[],
   ) => {
     const last = frames.at(-1);
-    if (place === last?.place && !last.speaker) {
+    if (place === last?.place) {
       last.lines.push(...lines);
       last.pointOut.push(...pointOut);
       return;
@@ -177,7 +169,7 @@ export function openingFrames(
       place,
       backdrop: backdropFile(place, minute),
       cast,
-      people: stagePeople(core, place, cast).people,
+      people: stagePeople(core, place, withReasons(cast)).people,
       pointOut,
       lines,
     });
@@ -209,10 +201,7 @@ export function openingFrames(
       stage,
       place,
       cut ? castOf(cutawayFor(sentence)?.cast) : stageCast(stage),
-      // The household was introduced in the lead-in at home.
-      first && !(stage === "family" && story.lead.length)
-        ? [...(stages.get(stage)?.people ?? [])]
-        : [],
+      first ? [...(stages.get(stage)?.people ?? [])] : [],
       [sentence],
     );
   }

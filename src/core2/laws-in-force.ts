@@ -180,7 +180,7 @@ export function localAuthority(
           row.id,
           row.effectiveDate,
           "enacted",
-          0,
+          Number(row.terms?.enactedSequence ?? 0),
           row.terms?.preempts === true,
         ),
       ),

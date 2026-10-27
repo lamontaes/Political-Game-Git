@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** One model, two tiers: every founding reason reads its money and the book at the same weight. No dice: a business is founded from its founder's reasons and the market's room, never a monthly chance.
 
-**Done when.** In Washington, D.C. at its Census size and one more drawn place above 100,000 (seeds named), a year's foundings in buildBenchWorld are within the same town's count at the sample size plus its spread, listed by founding record id, shown by a test in src/core2 beside census-scale-closures-large-cities.test.ts.
+**Done when.** In Washington, D.C. at its Census size and one more drawn place above 100,000 (seeds named), a year's foundings in buildBenchWorld are within the same town's count at the sample size plus its spread, listed by founding record id, shown by a test in src/core2 beside census-scale-closures-large-cities.test.ts. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/business.ts
 

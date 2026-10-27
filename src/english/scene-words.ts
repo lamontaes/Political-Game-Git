@@ -27,7 +27,6 @@ export interface SceneWords {
   version: string;
   and: string;
   settings: Readonly<Record<string, Variant[]>>;
-  present: Variant[];
   /** The day, as the narrator opens: "It's a Tuesday in March." */
   frame: Variant[];
   /** What is happening, by the staged situation's type. */
@@ -53,6 +52,8 @@ export interface Fact {
 export interface SceneLine {
   text: string;
   sourceRecordIds: readonly string[];
+  /** The facts the sentence names (its slots), so the director knows what it said. */
+  usedFactKeys?: readonly string[];
 }
 
 /**
@@ -64,7 +65,6 @@ export interface SceneLine {
 export type NarrationMove =
   | { part: "frame" }
   | { part: "setting"; kind: string }
-  | { part: "present" }
   | { part: "lead"; typeKey: string }
   | { part: "opening"; move: string }
   | { part: "cause"; label: string };
@@ -81,8 +81,6 @@ const bankOf = (
         key: `scene-setting:${move.kind}`,
         variants: words.settings[move.kind],
       };
-    case "present":
-      return { key: "scene-present", variants: words.present };
     case "lead": {
       const lead = words.leads.find((row) => row.typeKey === move.typeKey);
       return lead
@@ -160,17 +158,8 @@ export function wordSceneLine(request: {
   return {
     text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
     sourceRecordIds: result.sourceRecordIds,
+    usedFactKeys: result.usedFactKeys,
   };
-}
-
-/** The people who are there, named as one list: "Ana, Luis and your mother". */
-export function sceneNameList(
-  names: readonly string[],
-  words: SceneWords = SCENE_WORDS,
-): string {
-  return names.length === one
-    ? names[zero]!
-    : `${names.slice(zero, -one).join(", ")} ${words.and} ${names.at(-one)!}`;
 }
 
 /** The sentences of a scene's opening, said as one paragraph. */

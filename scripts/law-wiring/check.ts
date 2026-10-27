@@ -44,7 +44,7 @@ import {
 } from "../../src/core2/modules/budgets";
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
-import { ownPayments, type Posting, type Reached } from "./own-payments";
+import { ownPayments, UNDER, type Posting, type Reached } from "./own-payments";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import { townSeats } from "../../src/core2/modules/offices";
@@ -127,8 +127,10 @@ interface Trace {
   reads: Map<string, Map<string, number>>;
   /** journal source kind and poster file:line -> gross minor units moved, and posts */
   money: Map<string, { gross: number; posts: number; ids: string[] }>;
-  /** posts whose source cites a law id or key */
+  /** posts whose source, or a posting of it, cites a law id or key */
   cited: Map<string, { gross: number; ids: string[] }>;
+  /** the treasuries' payments on a budget line, by payment id (which ends in its date) */
+  treasury: Map<string, { gross: number; ids: string[] }>;
   /** account -> each posting on it: date, source kind, signed amount, journal id */
   byAccount: Map<string, Posting[]>;
   on: boolean;
@@ -137,12 +139,29 @@ const trace: Trace = {
   reads: new Map(),
   money: new Map(),
   cited: new Map(),
+  treasury: new Map(),
   byAccount: new Map(),
   on: false,
 };
 let trackedKeys = new Set<string>();
 const kinds = new Map<string, string>();
 let citeTokens: string[] = [];
+/** Every law key, to name the laws a payment's source cites. */
+const lawKeys = allLaws().map((l) => l.key);
+const underCache = new Map<string, string>();
+/** The law keys a source id cites, from its first "law:" on (a price's id ends in its law's key and row), bounded by colons. */
+function underOf(sourceId: string): string {
+  const at = sourceId.indexOf("law:");
+  if (at < 0) return "";
+  const tail = `:${sourceId.slice(at)}:`;
+  let under = underCache.get(tail);
+  if (under === undefined) {
+    if (underCache.size > 50_000) underCache.clear();
+    under = lawKeys.filter((k) => tail.includes(`:${k}:`)).join("+");
+    underCache.set(tail, under);
+  }
+  return under;
+}
 
 function startTraces(): void {
   Error.stackTraceLimit = 60;
@@ -174,8 +193,10 @@ function startTraces(): void {
     row.posts += 1;
     if (row.ids.length < 3) row.ids.push(input.id);
     trace.money.set(kind, row);
-    // One shared string per source kind and poster, as the money map names it.
-    const shared = kinds.get(kind) ?? kinds.set(kind, kind).get(kind)!;
+    // One shared string per source kind, poster and the laws its source cites.
+    const under = underOf(input.sourceRef.id);
+    const own = under ? `${kind}${UNDER}${under}` : kind;
+    const shared = kinds.get(own) ?? kinds.set(own, own).get(own)!;
     for (const p of input.postings) {
       const list = trace.byAccount.get(p.accountId);
       const posting: Posting = [input.date, shared, p.deltaMinor, input.id];
@@ -183,19 +204,37 @@ function startTraces(): void {
       else trace.byAccount.set(p.accountId, [posting]);
     }
     const text = `${input.id} ${input.sourceRef.id}`;
-    for (const t of citeTokens)
-      if (text.includes(t)) {
+    for (const t of citeTokens) {
+      // The entry names the law, or one of its postings does (a paycheck's tax
+      // line names the law row it took): then only that posting's money counts.
+      let named = text.includes(t) ? gross : 0;
+      if (!named)
+        for (const p of input.postings)
+          if (p.deltaMinor > 0 && p.id?.includes(t)) named += p.deltaMinor;
+      if (named) {
         const c = trace.cited.get(t) ?? { gross: 0, ids: [] };
-        c.gross += gross;
+        c.gross += named;
         if (c.ids.length < 3) c.ids.push(input.id);
         trace.cited.set(t, c);
       }
+    }
+    // A treasury's payment on a budget line names its government, line and date.
+    if (input.sourceRef.id.startsWith("treasury")) {
+      const row = trace.treasury.get(input.sourceRef.id) ?? {
+        gross: 0,
+        ids: [],
+      };
+      row.gross += gross;
+      if (row.ids.length < 3) row.ids.push(input.id);
+      trace.treasury.set(input.sourceRef.id, row);
+    }
   });
 }
 function resetTrace(): void {
   trace.reads = new Map();
   trace.money = new Map();
   trace.cited = new Map();
+  trace.treasury = new Map();
   trace.byAccount = new Map();
 }
 
@@ -522,6 +561,32 @@ function snapshotMoney() {
   return m;
 }
 
+/**
+ * The treasury's payments on a budget line in a window: the payment ids that
+ * name the government and the line (a provider's, a payee group's), summed,
+ * for payments dated before `before` (the day a body in play first changed the
+ * law, after which the two worlds no longer differ by the checker's change).
+ */
+function lineMoney(
+  paid: ReadonlyMap<string, { gross: number; ids: string[] }>,
+  governmentId: string,
+  line: string,
+  before: string | null,
+): { gross: number; ids: string[] } {
+  const named = new RegExp(
+    `(^|:)${(governmentId + ":" + line).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(:|$)`,
+  );
+  const out = { gross: 0, ids: [] as string[] };
+  for (const [id, row] of paid) {
+    const dated = /^(.*):(\d{4}-\d{2}-\d{2})$/.exec(id);
+    if (!dated || !named.test(dated[1]!)) continue;
+    if (before && dated[2]! >= before) continue;
+    out.gross += row.gross;
+    for (const at of row.ids) if (out.ids.length < 3) out.ids.push(at);
+  }
+  return out;
+}
+
 // ---- changing a law -------------------------------------------------------
 
 interface Change {
@@ -736,7 +801,21 @@ function changeAmount(
 ): Change {
   const series = law.series!;
   const now = lawInForce(api, series);
-  const g = now.governing as LawRowInput | null | undefined;
+  const governing = now.governing as LawRowInput | null | undefined;
+  // The governing row can be another series lifted into a level's slot (the
+  // state's average local sales tax stands in for a place with no local row):
+  // the change is then made to the most local row of the law's own series.
+  const g =
+    governing && governing.series !== series
+      ? (["city", "county", "state", "federal"] as const)
+          .map(
+            (level) =>
+              now.levels.find(
+                (l) => l.level === level && l.row?.series === series,
+              )?.row,
+          )
+          .find((row) => row)
+      : governing;
   const at = g
     ? { level: g.level, jurisdiction: g.jurisdiction }
     : townLevel(api, AT ? [AT] : (law.catalog?.levels ?? null));
@@ -837,6 +916,25 @@ function changeBudget(
   };
 }
 
+/** The lines an act moved, as its move rows record them (the treasury pays the lines as amended). */
+function moveRowsOf(core: CoreState, key: string) {
+  if (!core.modules.has(REACH_B_MODULE_ID)) return [];
+  return (
+    coreAPI(core)
+      .moduleState(REACH_B_MODULE_ID)
+      .table("taken")
+      .rows() as unknown as {
+      id: string;
+      key?: string;
+      governmentId?: string;
+      moves?: Record<string, number>;
+      undone?: boolean;
+    }[]
+  )
+    .filter((r) => r.key === key && r.id.startsWith("move|") && r.moves)
+    .map((r) => ({ governmentId: r.governmentId!, moves: { ...r.moves } }));
+}
+
 // ---- one law ---------------------------------------------------------------
 
 function step(core: CoreState, days: number): void {
@@ -860,6 +958,8 @@ interface Control {
   reach: Map<string, ReachCount>;
   /** Posts citing each law's key in the control world, where a law in force at the opening stays in force. */
   cited: Map<string, { gross: number; ids: string[] }>;
+  /** The treasuries' payments on budget lines in the control window. */
+  treasury: Map<string, { gross: number; ids: string[] }>;
   /** Every posting in the control window, by account. */
   byAccount: Map<string, Posting[]>;
   /** Whom each law in force reached in the control world (a repeal stops their money). */
@@ -915,6 +1015,7 @@ function runControl(
   const money = snapshotMoney();
   const reads = trace.reads;
   const cited = new Map(trace.cited);
+  const treasury = new Map(trace.treasury);
   const byAccount = trace.byAccount;
   const targets = new Map(
     laws.map((l) => [l.key, reachedTargets(w.core, l.key, null)] as const),
@@ -929,7 +1030,17 @@ function runControl(
   for (const law of laws)
     for (const c of webCauses(w.core, placeId, [law]))
       cause.set(`${c.id}|${c.link.key}`, c.value);
-  return { money, reads, web, cause, reach, cited, byAccount, targets };
+  return {
+    money,
+    reads,
+    web,
+    cause,
+    reach,
+    cited,
+    treasury,
+    byAccount,
+    targets,
+  };
 }
 
 function checkLaw(
@@ -1007,6 +1118,7 @@ function checkLaw(
   // A repeal is measured on the window's last day (its reach must be gone);
   // an enactment by whom it reached at any step of the window.
   const peak = opening ? undefined : { reach: null as ReachCount | null };
+  let earlyMoves: ReturnType<typeof moveRowsOf> | undefined;
   trace.on = true;
   if (drafts) {
     // An authority law is read when a body drafts a bill under it: once the
@@ -1014,8 +1126,22 @@ function checkLaw(
     stepHearing(core, 2, heardInWindow, ids, law.key, since, peak);
     draftUnder(api, drafts);
     stepHearing(core, WINDOW - 1, heardInWindow, ids, law.key, since, peak);
-  } else
-    stepHearing(core, 1 + WINDOW, heardInWindow, ids, law.key, since, peak);
+  } else {
+    // The first month, then the rest: the move rows are read after the first
+    // month, before a body in play can change the act and the rows with it.
+    const first = Math.min(28, 1 + WINDOW);
+    stepHearing(core, first, heardInWindow, ids, law.key, since, peak);
+    earlyMoves = moveRowsOf(core, law.key);
+    stepHearing(
+      core,
+      1 + WINDOW - first,
+      heardInWindow,
+      ids,
+      law.key,
+      since,
+      peak,
+    );
+  }
   trace.on = false;
   const money = snapshotMoney();
   const reads = trace.reads.get(law.key) ?? new Map();
@@ -1035,6 +1161,7 @@ function checkLaw(
     control.byAccount,
     opening,
     since,
+    law.key,
   );
   const reach =
     peak?.reach && peak.reach.open > reachAtEnd.open ? peak.reach : reachAtEnd;
@@ -1141,10 +1268,50 @@ function checkLaw(
     (a, b) =>
       Math.abs(b.treatment - b.control) - Math.abs(a.treatment - a.control),
   );
+  // `control` is what the control world paid citing the same key, to set an
+  // amount law's payment (at the changed rate) beside the one it replaced.
   const cited = [...trace.cited.entries()].map(([token, v]) => ({
     token,
     ...v,
+    ...(control.cited.has(token)
+      ? { control: control.cited.get(token)!.gross }
+      : {}),
   }));
+  // An act that moves budget lines is paid by the treasury on those lines: the
+  // lines its own move rows name, and what the treasury paid on each here and
+  // in the control world, up to the day a body in play first changed the act
+  // (no rows: the law is not one that moves a line).
+  const moveRows = earlyMoves ?? moveRowsOf(core, law.key);
+  const changedByBodyOn = inPlay.map((r) => r.effectiveDate).sort()[0] ?? null;
+  const lines = moveRows.length
+    ? moveRows.flatMap((row) =>
+        Object.entries(row.moves)
+          .filter(([, moved]) => moved !== 0)
+          .map(([line, moved]) => {
+            const here = lineMoney(
+              trace.treasury,
+              row.governmentId,
+              line,
+              changedByBodyOn,
+            );
+            const there = lineMoney(
+              control.treasury,
+              row.governmentId,
+              line,
+              changedByBodyOn,
+            );
+            return {
+              government: row.governmentId,
+              line,
+              moved,
+              treatment: here.gross,
+              control: there.gross,
+              ...(changedByBodyOn ? { before: changedByBodyOn } : {}),
+              ids: here.ids.length ? here.ids : there.ids,
+            };
+          }),
+      )
+    : undefined;
   // Money a file that read this law posted differently from the control. A
   // law-reach file counts only where it read this law: law reach holds every
   // law's handlers, and another law's handler can post differently in this
@@ -1203,6 +1370,7 @@ function checkLaw(
       diffKinds: moneyDiff.length,
       cited,
       controlCited,
+      ...(lines ? { lines } : {}),
       own,
     },
     web: {
