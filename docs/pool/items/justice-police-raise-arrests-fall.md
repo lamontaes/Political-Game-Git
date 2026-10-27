@@ -19,6 +19,8 @@ claimed-at: 2026-10-27T12:45:49.188Z
 
 **Done when.** A note here names, for the Agat run, how much of the fall comes from fewer crimes and how much from clearance, by file and line, against the research's sizes; and either the numbers are shown to follow from the sourced links, or the defect is fixed with a test that fails without the fix. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
+**Time box.** 3 hours, Sonnet, no helpers; builds against nothing.
+
 **Files.** src/core2/public-safety.ts, data/research/outcome-web/links.json
 
 **Notes.** Filed by the laws lead, Oct 25.
