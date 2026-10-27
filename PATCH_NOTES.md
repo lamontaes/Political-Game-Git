@@ -296,6 +296,20 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.55.3
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A quiet evening at home can say when you last spent time together** On a
+  quiet day at home, the line about when the two of you last spent time together
+  ("Haven't seen much of you since last week.") can now play.
+
+- **A property tax bill now has a name in the meeting** A bill to raise or cut
+  the property tax rate had no authored name, so the meeting showed it untitled.
+  It is now the Property Tax Increase or Reduction.
+
 ## PRE-ALPHA 0.55.2
 
 _Released October 27, 2026._

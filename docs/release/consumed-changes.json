@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.55.3",
+      "releasedOn": "2026-10-27",
+      "revision": "2cd2bb588f28705a3d7fd2676f36e534d8edf9a2",
+      "changeIds": [
+        "director-quiet-last-together-slot",
+        "tests-office-bill-title-property-tax-null",
+        "words-scene-web-campaign-pass-1"
+      ]
+    },
+    {
       "version": "0.55.2",
       "releasedOn": "2026-10-27",
       "revision": "7f4bd10a39f753441dda871162d8e4155c3b62c9",
