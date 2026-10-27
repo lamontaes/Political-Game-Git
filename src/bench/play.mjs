@@ -4929,7 +4929,6 @@ function pickGender(g) {
   setup.gender = g;
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
-    b.classList.toggle("primary", on);
     b.setAttribute("aria-pressed", String(on));
   }
 }
