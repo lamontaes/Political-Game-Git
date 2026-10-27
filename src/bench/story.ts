@@ -7,6 +7,7 @@ import {
   backdropFile,
   homeOf,
   orgPlace,
+  pictureFor,
   stagePeople,
   type StageReason,
 } from "./scene";
@@ -122,6 +123,13 @@ export function storyScene(
       )
       .find((row): row is string => !!row && PICTURED.has(row)) ??
     homeOf(core, personId, minuteOfDay);
+  // The town's own picture of that kind of place, at this hour's light.
+  const pictured = pictureFor(
+    core,
+    place,
+    scene.setting.recordId ?? scene.setting.kind,
+    minuteOfDay,
+  );
   // Who stands in the room needs a reason on record: the
   // people the moment is about (who opened it, whom it names, who asks), and
   // at home the household who live there. Anyone else the situation listed
@@ -175,9 +183,9 @@ export function storyScene(
       : null;
   return {
     momentId,
-    place,
-    backdrop: backdropFile(place, minuteOfDay),
-    people: stagePeople(core, place, cast).people,
+    place: pictured,
+    backdrop: backdropFile(pictured, minuteOfDay),
+    people: stagePeople(core, pictured, cast).people,
     narration: [
       ...scene.narration,
       ...(purpose?.kind === "composed"
