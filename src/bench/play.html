@@ -63,26 +63,6 @@
       <section id="desk" class="panel" hidden>
         <div id="desk-items"></div>
       </section>
-      <section id="job-offer" class="panel" data-testid="job-offer" hidden>
-        <h2 id="job-offer-title" class="heading"></h2>
-        <p id="job-offer-employer"></p>
-        <div id="job-offer-facts"></div>
-        <div class="acts">
-          <button
-            id="job-offer-take"
-            class="action primary"
-            type="button"
-          ></button>
-          <button id="job-offer-turn" class="action" type="button"></button>
-          <button
-            id="job-offer-wait"
-            class="action small"
-            type="button"
-            hidden
-          ></button>
-        </div>
-        <p id="job-offer-status" role="status"></p>
-      </section>
       <section id="news-reader" class="panel" hidden>
         <div class="news-reader-main">
           <header class="paper-masthead">
@@ -128,10 +108,6 @@
             ></span
             ><span class="continue-text"
               ><b>Continue</b><small id="front-continue-life"></small
-              ><small
-                class="reason"
-                data-label="titleUnavailable.continue"
-              ></small
             ></span>
           </button>
           <button
@@ -141,8 +117,7 @@
             data-testid="open-saves"
             disabled
           >
-            <b>Saved games</b
-            ><small class="reason" data-label="titleUnavailable.saves"></small>
+            <b>Saved games</b>
           </button>
           <button
             id="front-options"
@@ -159,11 +134,7 @@
             data-testid="title-patch-notes"
             disabled
           >
-            <b>Patch notes</b
-            ><small
-              class="reason"
-              data-label="titleUnavailable.patchNotes"
-            ></small>
+            <b>Patch notes</b>
           </button>
           <!-- Quit is the desktop's; a browser tab has none to offer. -->
           <button
