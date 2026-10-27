@@ -97,7 +97,7 @@ try {
     .locator('[data-tab="news"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".paper").waitFor();
+  await page.locator("#sheet-body .paper").waitFor();
   await page.locator("#sheet-close").click();
   await page.waitForFunction(
     () =>
@@ -110,9 +110,12 @@ try {
     .locator('[data-tab="news"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".paper").waitFor();
+  await page.locator("#sheet-body .paper").waitFor();
   assert.ok((await page.locator(".story-headline").count()) > 0);
-  assert.equal(await page.locator(".paper-masthead h2").innerText(), "News");
+  assert.equal(
+    await page.locator("#sheet-body .paper-masthead h2").innerText(),
+    "News",
+  );
   assert.equal(await page.locator(".story-image").count(), 0);
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
