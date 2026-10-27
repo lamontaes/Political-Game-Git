@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-stop-35-people-drawn-from-their-own-look
+pr: #6236
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:55:10.434Z
 ---
 
 **What.** In v0.34.0 the people the player sees all look alike: the first evening's living room shows three bald figures with the same skin and the same gray clothes (the player in a vest, a man in a t-shirt and shorts on the couch, a man in a shirt by the kitchen), the House chamber shows two bald men from behind, and the door-knocking street has about nine identical gray figures. The owner, about the street: "Who the hell are all these people ... It just throws you into a location." The ruling is that every figure is drawn from that person's own appearance record. This item gives each staged person a look read from their own record (sex, build, outfit, and hair, skin and clothes color as those fields exist) so two neighbors differ and the same person is drawn the same in every scene.

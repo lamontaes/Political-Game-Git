@@ -132,7 +132,7 @@
       "engine": "src/core2/modules/views.ts",
       "wired": true,
       "evidence": "src/core2/modules/views.ts:409 (the hearer's lean toward trusting scales how far they trust a speaker in standingWith)",
-      "size": "No study gives a one-occasion size; general weight 1 under SG-TRAITS-persuasion-size."
+      "size": "0.25 (ESTIMATED): the hearer's lean correlates 0.20 with their trust, as agreeableness does with the Interpersonal Trust Scale (Sindermann et al. 2021)."
     },
     {
       "id": "outcome.persuasion",
@@ -140,7 +140,7 @@
       "engine": "src/core2/modules/views.ts",
       "wired": true,
       "evidence": "src/core2/modules/views.ts:619 (the hearer's lean toward yielding scales the stance change an argument or story makes)",
-      "size": "No study gives a one-occasion size; general weight 1 under SG-TRAITS-persuasion-size."
+      "size": "0.3 (ESTIMATED): the most yielding third is moved 1.37 times as far as the least, as openness raises the odds of being moved (Hibbing, Ritchie and Anderson 2011)."
     },
     {
       "id": "outcome.news-reaction",

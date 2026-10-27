@@ -3,12 +3,20 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
-import { mountMenu } from "./ui/menu.mjs";
+import { mountMenu, fillChoiceMenu } from "./ui/menu.mjs";
+import {
+  talkLine,
+  talkReply,
+  fillTalk,
+  addTalkLine,
+  mountTalkKeys,
+} from "./ui/talk-box.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
-import { show, mountCloseButtons } from "./ui/panel.mjs";
+import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
+mountPanelHeads();
 mountCloseButtons();
 mountPagers();
 const $ = (id) => document.getElementById(id);
@@ -299,8 +307,10 @@ function pointOut(figures) {
     box.style.animation = "none";
     void box.offsetWidth;
     box.style.animation = "";
-    for (const node of document.querySelectorAll("#people .figure"))
-      if (node.dataset.person === figure.id) node.classList.add("pointed");
+    // Only the one person pointed out is lit.
+    [...document.querySelectorAll("#people .figure")]
+      .find((node) => node.dataset.person === figure.id)
+      ?.classList.add("pointed");
     timer = setTimeout(() => step(index + 1), POINT_MS);
   };
   step(0);
@@ -319,18 +329,14 @@ async function playOpening() {
   openingReady = undefined;
   if (!opening?.frames?.length) return opening;
   const { speaker } = opening;
-  // Who is speaking: the anchor's lead-in on the news, then the President.
-  const speakerCard = (anchor) => {
-    $("opening-bust").style.backgroundImage =
-      !anchor && speaker.figureUrl ? `url("${speaker.figureUrl}")` : "";
-    $("opening-name").textContent = anchor
-      ? (controls.opening?.news ?? "")
-      : speaker.name;
-    $("opening-role").textContent = anchor
-      ? ""
-      : [speaker.title, ...speaker.detail].filter(Boolean).join(" · ");
-  };
-  speakerCard(false);
+  // Who is speaking: the President, from the first frame.
+  $("opening-bust").style.backgroundImage = speaker.figureUrl
+    ? `url("${speaker.figureUrl}")`
+    : "";
+  $("opening-name").textContent = speaker.name;
+  $("opening-role").textContent = [speaker.title, ...speaker.detail]
+    .filter(Boolean)
+    .join(" · ");
   show("opening-box", true);
   $("game").classList.add("letterbox", "cinema");
   frames: for (const frame of opening.frames) {
@@ -339,7 +345,6 @@ async function playOpening() {
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    speakerCard(frame.speaker === "anchor");
     // Who the camera points out: a household as the frame opens, anyone the
     // address names on the line that names them.
     const figures = frame.pointOut ?? [];
@@ -1093,45 +1098,34 @@ function spokenLines(lines, speakerOf) {
   const lastMine = lines.findLastIndex((line) => line.speakerId === me.id);
   const theirs = lines.slice(lastMine + 1).slice(-3);
   return [
+    // What was said before sits apart from the line being said now (owner, Oct 26).
     ...(lastMine >= 0
       ? [
-          el("li", {
-            className: `said${lines[lastMine].act === "lie" ? " lying" : ""}`,
-            textContent: lines[lastMine].text,
+          talkLine({
+            kind: "history",
+            who: $("card-name").textContent,
+            text: lines[lastMine].text,
+            lying: lines[lastMine].act === "lie",
           }),
         ]
       : []),
-    ...theirs.map((line) =>
-      el("li", { className: "speech", textContent: speakerOf(line) }),
-    ),
+    ...theirs.map((line) => talkLine({ text: speakerOf(line) })),
   ];
 }
 /** Numbered replies; a key press of the number says it. */
 function replies(choices, onPick) {
-  return choices.map((choice) => {
-    const b = makeButton({
-      className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
+  return choices.map((choice) =>
+    talkReply(
+      choice,
       // Filing is a control of its own, never worded like acknowledging a refusal.
-      textContent:
-        choice.control === "file"
-          ? (controls.filing?.file ?? choice.text)
-          : choice.text,
-    });
-    b.addEventListener("click", () => onPick(choice));
-    return b;
-  });
+      choice.control === "file"
+        ? (controls.filing?.file ?? choice.text)
+        : choice.text,
+      onPick,
+    ),
+  );
 }
-document.addEventListener("keydown", (event) => {
-  const n = Number(event.key);
-  if (
-    !Number.isInteger(n) ||
-    n < 1 ||
-    $("game").classList.contains("sheet-open")
-  )
-    return;
-  if (!$("talk-choices").offsetParent) return;
-  $("talk-choices").children[n - 1]?.click();
-});
+mountTalkKeys(() => $("game").classList.contains("sheet-open"));
 function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
@@ -1148,15 +1142,13 @@ function renderTalk(value) {
     !$("talk-name").textContent
   )
     setWho(value.otherId, other?.speaker ?? me.names?.[value.otherId]);
-  $("talk-lines").replaceChildren(
-    ...spokenLines(value.lines, (line) => line.text),
-  );
   // Lying, the false set stands in place of the true choices.
   const lies = value.lies ?? [];
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
-  $("talk-choices").replaceChildren(
-    ...replies(choices, (choice) => sayLine(choice.key)),
-  );
+  fillTalk({
+    lines: spokenLines(value.lines, (line) => line.text),
+    replies: replies(choices, (choice) => sayLine(choice.key)),
+  });
   // Dim when there is nothing false to say; tipped and red while lying.
   setScales({ available: lies.length > 0, on: lying });
 }
@@ -1234,10 +1226,13 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
+  fillTalk({ lines: spokenLines(lines, (line) => line.text) });
   renderFilingOverlay(value);
-  const choices = value.visit.choices.slice(0, 6);
-  const buttons = replies(choices, async (choice) => {
+  // More races than the talk can hold open as a menu beside it, never as a long
+  // numbered list in the talk box (owner, Oct 26).
+  const races = value.visit.choices.filter((c) => c.action.kind === "pick");
+  const asMenu = races.length > 4;
+  const choose = async (choice) => {
     // Filing carries the platform and party chosen on the overlay.
     const params = new URLSearchParams({ key: choice.key });
     if (choice.action.kind === "file") {
@@ -1247,33 +1242,60 @@ function renderFiling(value) {
       params.set("party", $("filing-party").value);
     }
     renderFiling(await post(`/api/filing/choose?${params}`));
-  });
+  };
   // Each race told apart before the pick: its seat, its election day and
   // who holds the seat now, from the contest's records.
   const counter = controls.filing;
+  const factsOf = (choice) => {
+    const seat = value.seats?.[choice.action.contestId];
+    if (!seat) return "";
+    return [
+      ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
+      proseDate(seat.electionDate),
+      seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
+    ].join(" · ");
+  };
+  const choices = value.visit.choices
+    .filter((c) => !(asMenu && c.action.kind === "pick"))
+    .slice(0, 6);
+  const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
-    const seat =
-      choice.action.kind === "pick" && value.seats?.[choice.action.contestId];
-    if (!seat) return;
+    if (choice.action.kind !== "pick") return;
     buttons[i].append(
-      el("small", {
-        className: "reply-facts",
-        textContent: [
-          ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
-          proseDate(seat.electionDate),
-          seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
-        ].join(" · "),
-      }),
+      el("small", { className: "reply-facts", textContent: factsOf(choice) }),
     );
   });
-  $("talk-choices").replaceChildren(...buttons);
+  if (asMenu) {
+    fillChoiceMenu($("race-menu"), {
+      title: counter.openRaces,
+      rows: races.map((choice) => ({
+        key: choice.key,
+        label:
+          value.visit.contests.find((c) => c.id === choice.action.contestId)
+            ?.title ?? choice.text,
+        facts: factsOf(choice),
+      })),
+      onPick: (key) => choose(races.find((c) => c.key === key)),
+      paged: (items) => menuPages(items, 8),
+    });
+    buttons.unshift(
+      makeButton({
+        className: "reply",
+        textContent: counter.chooseRace,
+        onclick: () => show("race-menu", true),
+      }),
+    );
+    if (!value.result && !value.overlay) show("race-menu", true);
+  }
+  if (!asMenu || value.overlay) show("race-menu", false);
+  fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
   // label under the talk, not as words in the clerk's mouth.
   if (value.result)
-    $("talk-lines").append(
-      el("li", {
-        className: "label",
-        textContent: value.result.filing
+    addTalkLine(
+      talkLine({
+        kind: "label",
+        text: value.result.filing
           ? (controls.filing?.status?.[value.result.status] ??
             words(value.result.status))
           : `${controls.filing?.status?.[value.result.status] ?? words(value.result.status)} · ${(
@@ -1710,24 +1732,25 @@ async function showStory(momentId) {
   show("talk", true);
   show("talk-who", false);
   $("talk-name").textContent = "";
-  $("talk-lines").replaceChildren(
-    ...story.narration.map((line) =>
-      el("li", {
-        className: `speech narration${line.held ? " held" : ""}`,
-        textContent: line.text,
-      }),
-    ),
-    ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
-  );
   // A scene with a purpose is its own exchange; any other opens a talk.
   const withId = story.talk?.askerId ?? story.talkToId;
-  $("talk-choices").replaceChildren(
-    ...(withId
+  fillTalk({
+    lines: [
+      ...story.narration.map((line) =>
+        talkLine({
+          kind: "speech narration",
+          text: line.text,
+          held: line.held,
+        }),
+      ),
+      ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
+    ],
+    replies: withId
       ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
           story.talk ? playExchange(story) : talkTo(withId, momentId),
         )
-      : []),
-  );
+      : [],
+  });
   setScales({ available: false });
 }
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
@@ -1736,16 +1759,18 @@ function playExchange(story) {
   setWho(talk.askerId, story.names[talk.askerId]);
   const said = [...talk.opening];
   const lineOf = (line) =>
-    el("li", {
-      className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
-      textContent: line.text,
+    talkLine({
+      kind: line.role === "asked" ? "history" : "speech",
+      who: line.role === "asked" ? $("card-name").textContent : undefined,
+      text: line.text,
+      held: line.held,
     });
   // The path is the index of each reply chosen, from the first.
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
-    $("talk-choices").replaceChildren(
-      ...replies(
+    fillTalk({ lines: said.slice(-4).map(lineOf) });
+    fillTalk({
+      replies: replies(
         node.replies.map((reply, index) => ({
           text: reply.line.text,
           held: reply.line.held,
@@ -1762,11 +1787,10 @@ function playExchange(story) {
           );
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
-          else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
-          if (!reply.next) $("talk-choices").replaceChildren();
+          else fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
         },
       ),
-    );
+    });
   };
   play(talk.tree, []);
 }
@@ -1821,7 +1845,7 @@ async function showPerson(person) {
   personArtwork("person-background", c.presentation?.backgroundUrl);
   $("person-name").textContent = c.name;
   $("person-role").textContent = [
-    c.relation,
+    c.relation && c.relation.charAt(0).toUpperCase() + c.relation.slice(1),
     c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
@@ -1842,6 +1866,16 @@ async function showPerson(person) {
               textContent: c.work.title ?? "",
             }),
             el("p", { textContent: c.work.employer ?? "" }),
+          ),
+        ]
+      : []),
+    ...(c.school
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.school }),
+            el("p", { textContent: c.school.name }),
           ),
         ]
       : []),
@@ -1876,11 +1910,9 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      c.tie &&
-        row(
-          c.tie.kind,
-          c.tie.lastContactDate ? proseDate(c.tie.lastContactDate) : "",
-        ),
+      // The date is labeled; a tie with no contact on record shows nothing.
+      c.tie?.lastContactDate &&
+        row(labels.lastTalked, proseDate(c.tie.lastContactDate)),
       ...(known
         ? [
             row("party", known.party),
@@ -4033,17 +4065,58 @@ const sheets = {
     const search = el("input", { type: "search", placeholder: labels.search });
     search.setAttribute("aria-label", labels.search);
     const content = el("div", { className: "travel-destinations" });
-    const counters = [
-      ...new Set(government.contests.map((c) => c.filingOffice.filedWith)),
-    ].map((name) => ({ name, filing: true }));
+    // The offices that take your filings: one card each, naming the races.
+    const byOffice = new Map();
+    for (const c of government.contests) {
+      const filedWith = c.filingOffice.filedWith;
+      const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      if (!byOffice.has(name))
+        byOffice.set(name, { name, filedWith, titles: [], filing: true });
+      byOffice.get(name).titles.push(c.contest.title);
+    }
+    const counters = await Promise.all(
+      [...byOffice.values()].map(async (office) => ({
+        ...office,
+        titles: [...new Set(office.titles)],
+        presentation: {
+          imageUrl: (
+            await api(
+              `/api/goto/counter-picture?filedWith=${encodeURIComponent(office.filedWith)}`,
+            )
+          ).url,
+        },
+      })),
+    );
     const destinations = [...counters, ...places];
-    let page = 0;
+    // Why each card is listed, from the record that qualified it.
+    const reasonLine = (p) =>
+      p.filing
+        ? `${labels.reasons.filing} ${p.titles.join(", ")}`
+        : [
+            ...p.reasons.map((r) =>
+              r.kind === "known"
+                ? `${p.known.find((k) => k.personId === r.recordId)?.name} ${labels.reasons.known}`
+                : r.kind === "action"
+                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? words(r.recordId)).toLowerCase()}`
+                  : labels.reasons[r.kind],
+            ),
+          ].join(" · ");
+    const hereLine = (p) =>
+      p.filing
+        ? labels.filing
+        : p.presentCount
+          ? `${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
+          : labels.nobody;
     const draw = () => {
       const found = destinations.filter((p) =>
         p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
       );
-      const cards = found.slice(page * 5, page * 5 + 5).map((p) => {
-        const card = el("article", { className: "travel-place" });
+      const cards = found.map((p) => {
+        const go = () =>
+          p.filing ? openFiling(p.filedWith) : visit(p.organizationId);
+        const card = makeCard("travel-place", { as: "button" });
+        card.type = "button";
+        card.setAttribute("aria-label", `${labels.go}: ${p.name}`);
         if (p.presentation?.imageUrl) {
           const image = el("img", {
             src: p.presentation.imageUrl,
@@ -4053,60 +4126,31 @@ const sheets = {
           image.onerror = () => image.remove();
           card.append(image);
         }
-        const info = el(
-          "div",
-          { className: "travel-info" },
-          el("h3", { textContent: p.name }),
+        // The record behind the reason, for the specs; never shown as text.
+        card.dataset.reason = (
+          p.filing ? [p.filedWith] : p.reasons.map((r) => r.recordId)
+        ).join(" ");
+        card.append(
+          el(
+            "div",
+            { className: "travel-info" },
+            el("h3", { textContent: p.name }),
+            el("p", { className: "travel-here", textContent: hereLine(p) }),
+            el("p", { className: "travel-reason", textContent: reasonLine(p) }),
+          ),
         );
-        if (p.filing)
-          info.append(
-            el("span", { className: "label", textContent: labels.filing }),
-          );
-        else
-          info.append(
-            el("p", {
-              textContent: [
-                ...p.known.map((k) => k.name),
-                ...p.actions.map((a) => controls.actions?.[a] ?? words(a)),
-              ].join(" · "),
-            }),
-          );
-        const go = makeButton({ textContent: labels.go });
-        go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
-        go.onclick = () =>
-          p.filing ? openFiling(p.name) : visit(p.organizationId);
-        card.append(info, go);
+        card.onclick = go;
         return card;
       });
-      const back = makeButton({
-        textContent: labels.back,
-        disabled: page === 0,
-      });
-      back.onclick = () => {
-        page--;
-        draw();
-      };
-      const next = makeButton({
-        textContent: labels.next,
-        disabled: (page + 1) * 5 >= found.length,
-      });
-      next.onclick = () => {
-        page++;
-        draw();
-      };
-      content.replaceChildren(
-        ...cards,
-        ...(found.length > 5
-          ? [el("nav", { className: "travel-pager" }, back, next)]
-          : []),
-      );
+      content.replaceChildren(...cards);
     };
-    search.addEventListener("input", () => {
-      page = 0;
-      draw();
-    });
+    search.addEventListener("input", draw);
     draw();
-    return [search, content];
+    return [
+      el("p", { className: "travel-from", textContent: labels.from }),
+      search,
+      content,
+    ];
   },
   async politics() {
     return sheets.government();
@@ -4875,8 +4919,13 @@ function chosenAge() {
   )?.[1];
 }
 function derivedAge() {
+  const age = chosenAge();
   $("cr-derived-age").textContent =
-    `${chosenAge() ?? ""} · ${setup.start ? proseDate(setup.start) : ""}`;
+    age && setup.start
+      ? (controls.creator?.ageLine ?? "")
+          .replace("{age}", age)
+          .replace("{date}", proseDate(setup.start))
+      : "";
 }
 $("cr-month").addEventListener("change", async () => {
   fillDays();
@@ -4888,7 +4937,6 @@ function pickGender(g) {
   setup.gender = g;
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
-    b.classList.toggle("primary", on);
     b.setAttribute("aria-pressed", String(on));
   }
 }
