@@ -231,5 +231,5 @@ for (const scene of scenes) {
 writeFileSync(STAGING, JSON.stringify(staging, null, 2) + "\n");
 writeFileSync(
   `${OCCLUDERS}/index.json`,
-  JSON.stringify(occluders, null, 1) + "\n",
+  JSON.stringify(occluders, null, 2) + "\n",
 );
