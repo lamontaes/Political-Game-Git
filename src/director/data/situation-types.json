@@ -3291,6 +3291,17 @@
           "bind": { "donor": "counterpart", "you": "subject" },
           "opener": "donor",
           "setting": ["public"]
+        },
+        {
+          "match": {
+            "label": "money:event:campaign-gift",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "candidateId", "is": "subject" }]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "campaign-gift",
+          "bind": { "donor": "counterpart", "you": "subject" },
+          "opener": "donor"
         }
       ],
       "tag": {

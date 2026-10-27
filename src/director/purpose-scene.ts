@@ -33,6 +33,7 @@ import {
   storyTopicName,
   topicInSentence,
 } from "../english/policy-names";
+import { dollars } from "../english/bill-sections";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -306,6 +307,18 @@ function composeBinding(
         text: properName(outlet.name),
         sourceRecordIds: [moment.causeId, outlet.id],
       };
+  }
+  // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
+  // and the lines about a gift need it.
+  if (record?.kind === "campaign-gift") {
+    const gift = {
+      text: dollars(Number(said.amountMinor)),
+      sourceRecordIds: [moment.causeId],
+    };
+    facts.money = gift;
+    facts.gift = gift;
+    // The bill the donor holds the strongest view on, when one is pending.
+    if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
   }
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
