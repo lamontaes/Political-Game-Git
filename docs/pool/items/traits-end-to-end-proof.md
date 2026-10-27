@@ -21,3 +21,4 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** scripts/traits/trait-wiring-matrix.ts, scripts/traits/trait-wiring-audit.ts, src/core2/trait-decisions.ts
 
 **Notes.** Added Oct 24 by the CTO (order `docs/work-orders/lead-traits-2026-10-24.md`); built last, after the families. If the gap cannot double because days are driven by needs and schedules, say so with the numbers and file an item; never loosen the check.
+Oct 27 (Merger 2): scripts/traits/trait-end-to-end.test.ts fails on clean main with 'TypeError: .toMatch() expects to receive a string, but got undefined' (found while gating PR 6017).
