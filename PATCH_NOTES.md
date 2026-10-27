@@ -296,6 +296,26 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.41.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Each rate under Politics → Issues names the government that sets it.**
+  Issues no longer calls the federal income tax a local one. Each law is named
+  for what it is ("Income tax rate"), and each rate shows the government that
+  sets it ("United States 37% top rate", "Texas 6.25% · City of Anson 1.951%").
+  A government that levies none is left out.
+
+### Changed
+
+- **Anyone in town who feels strongly about a bill can stand up at public
+  comment** Public comment at a council or county meeting now draws on every
+  adult in town who feels strongly about the bill, not only the people you
+  already know. Someone you have never met may stand up, become a person you can
+  find and talk to, and leave the meeting with a cause of their own.
+
 ## PRE-ALPHA 0.41.1
 
 _Released October 26, 2026._
