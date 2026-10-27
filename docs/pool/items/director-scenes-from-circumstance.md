@@ -10,7 +10,6 @@ claimed-by:
 pr:
 blocked-on:
 lead: director
-milestone: play-first
 source: director lead work order docs/work-orders/lead-director-2026-10-27.md, deliverable 1; owner Oct 27 01:30 ruling
 ---
 
