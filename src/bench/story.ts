@@ -204,7 +204,7 @@ export function storyReply(
   personId: string,
   momentId: string,
   path: readonly number[],
-  options: { held?: boolean } = {},
+  options: { held?: boolean; typeKey?: string } = {},
 ) {
   const entry = director.ledger.people
     .get(personId)
@@ -216,7 +216,12 @@ export function storyReply(
     personId as PersonId,
     entry,
     path,
-    options.held ? { includeHeld: true } : {},
+    {
+      ...(options.held ? { includeHeld: true } : {}),
+      // The scene the reply was said in, so the next one of the moment
+      // does not take its place partway through.
+      ...(options.typeKey ? { typeKey: options.typeKey } : {}),
+    },
   );
   if (!recordId) throw new Error("Not a reply the scene offers.");
   return { recordId };
