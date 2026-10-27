@@ -1,7 +1,7 @@
 ---
 id: tests-m0-13-tiny-town-without-renters
 title: "M0-13 fails in a three-home town where every home is owned: the check wants a renter the place's records need not have (Portage Creek, Alaska)"
-area: tests
+area: world
 lead: m0-m2
 kind: bug
 priority: 2
