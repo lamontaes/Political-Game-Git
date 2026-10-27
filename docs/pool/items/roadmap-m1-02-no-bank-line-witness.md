@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #6203
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The registered M1-02 command exits one in independently drawn Swanton, Nebraska, because no town bank line exists during any policy rate change. All 46 national bands and five rate decisions pass, but the required town loan-cost witness is absent. Clean main 143df7a4fd and PR 5875 return identical output, so this is a main acceptance gap rather than a regression from the roadmap flags.
@@ -23,3 +24,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/tooling/m1-02-check.ts, src/core2/modules/macro.ts, docs/roadmap/features.json
 
 **Notes.** Found by Merger 3 on PR #5875. Seed f9afc43813e78125cca0f168c33cbd5ddf89e39bb1618c86fa21ce1cbe9ce361; place 3148060; 2025-01-20 start through two years; townBankLines 0, repricings 0. Same output on clean main and integrated PR.
+
+Sent back 2026-10-27 from PR #6203 (branch claude/m1-02-bank-line-witness): Done-when removed-reader failure proof explicitly Not completed: mutation exceeded30-minute limit without captured nonzero exit. Eligibility at check.ts97-99 depends on repricing output, so removed reader skips active lines as no witness and retries12worlds; derive eligibility independently and provide bounded positive and negative proof, preserving Swanton regression; finish on that branch, merge main into it first.

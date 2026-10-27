@@ -67,7 +67,7 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { relationPhrase } from "../english/journal-words";
+import { kinAddress, relationPhrase } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { properName, spoken, spokenWhen } from "./words";
 
@@ -890,11 +890,8 @@ export function subjectsBetween(
       },
     });
   }
-  // The speaker's relatives the listener has not met, named by relation.
-  // stopgapId: SG-DIRECTOR-shared-relative-kin-address
-  // A relative the two share is neither introduced nor asked after: "my
-  // father", "your father" or "How's John?" is not how a brother and sister
-  // speak of their own father. Shared-kin wording replaces this suppression.
+  // The speaker's relatives the listener has not met, named by relation. A
+  // relative the two share is never introduced; they ask after them below.
   const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
@@ -926,29 +923,42 @@ export function subjectsBetween(
       },
     });
   }
-  // The speaker's relatives the listener knows, asked after by name.
+  // The speaker's relatives the listener knows, asked after by name. One the
+  // two share is asked after as they call them ("How's Dad?"): a parent or
+  // grandparent to both by the kin address, a shared sibling by first name,
+  // and only by someone who does not live with them.
+  const listenerRelation = relationsOf(listener);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
     if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
-    if (id === listenerId || listener.familyIds.has(id) || !happened(id))
-      continue;
-    const phrase = relationPhrase(
-      row.relation,
-      relative.looks?.gender ?? "other",
-      "scene",
-    );
+    if (id === listenerId || !happened(id)) continue;
+    const gender = relative.looks?.gender ?? "other";
+    let phrase: string | undefined;
+    let sourceRecordIds = [row.factId];
+    if (listener.familyIds.has(id)) {
+      const theirs = listenerRelation.get(id);
+      if (
+        !theirs ||
+        theirs.relation !== row.relation ||
+        relative.householdId === listener.householdId
+      )
+        continue;
+      phrase =
+        kinAddress(row.relation, gender) ??
+        (row.relation === "sibling" ? relative.givenName : undefined);
+      sourceRecordIds = [row.factId, theirs.factId];
+    } else phrase = relationPhrase(row.relation, gender, "scene");
     if (!phrase) continue;
+    const shared = listener.familyIds.has(id);
     out.push({
       id: `family:${id}`,
       kind: "family",
       aboutId: id,
       facts: {
-        relation: {
-          text: phrase,
-          sourceRecordIds: [row.factId],
-        },
-        name: { text: relative.givenName, sourceRecordIds: [row.factId] },
+        relation: { text: phrase, sourceRecordIds },
+        // "I'll tell Dad you asked": a shared relative goes by what both call them.
+        name: { text: shared ? phrase : relative.givenName, sourceRecordIds },
       },
     });
   }
