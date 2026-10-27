@@ -5,11 +5,12 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-producer-canvass-visit
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T19:46:51.349Z
 ---
 
 **What.** The scene web counts two rows waiting on a canvass-visit producer: first-meeting at a door, and visit to a door knocked before. The campaign engine already keeps a record of every resident who opened the door to the player's canvass, with their agreement with the player's platform. No director row reads it, so a canvass ends with a tally and nobody talks. The owner's Oct 8 design is a montage with an occasional porch scene for a household with a stake. This item is the director's part of words-door-knocking-montage-with-porch-scenes: the porch scene's producer.
