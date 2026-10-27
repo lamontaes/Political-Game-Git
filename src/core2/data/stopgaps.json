@@ -6791,8 +6791,8 @@
     "why": "The English banks have no shared-parent kin address yet; first names and possessive parent phrases give the wrong relation in these conversations.",
     "addedBy": "merger0",
     "addedAt": "2026-10-26",
-    "replacement": "words-family-talk-kin-address: select shared-relative wording through the English engine, then restore these topics with positive played-world conversation evidence.",
-    "status": "open"
+    "replacement": "Resolved: a relative two people share is asked after as they call them, by the kin address in src/director/data/journal-rows.json (Dad, Mom, Grandma, Grandpa) or a shared sibling's first name, through the conversation bank's family lines (pool item words-family-talk-kin-address).",
+    "status": "resolved"
   },
   {
     "id": "SG-LAW-justice-low-level-drug-possession",
