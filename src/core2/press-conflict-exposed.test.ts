@@ -20,7 +20,8 @@ import { BUSINESS_MODULE_ID } from "./business-module-id";
 import { governments } from "./modules/budgets";
 import { awardsOn, contractsOf } from "./modules/contracts";
 import { governingMembers } from "./modules/legislature";
-import { outletsHere, PRESS_MODULE_ID } from "./modules/press";
+import { followersOf, outletsHere, PRESS_MODULE_ID } from "./modules/press";
+import { impressionOf } from "./modules/campaigns";
 import type { LogRecord } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -251,7 +252,19 @@ const run = (attemptSeed: string, log: string[]): Found => {
         staged.get(event.id),
         `${who}: scandal scene for ${event.id}`,
       ).toBe(true);
-      line ??= `award ${award.id}, member ${conflict.memberId}, firm ${conflict.organizationId} (owner ${conflict.ownerId}, ${conflict.relation}), tip dig ${tip.dig!.toFixed(2)} run ${tip.run!.toFixed(2)} by ${tip.reporterId}, exposure ${event.id}, scandal scene staged`;
+      // The outlet's readers think less of the official: the exposure left an
+      // impression with them that the next election's ballots read.
+      const readers = followersOf(api, String(event.facts?.outletId)).filter(
+        (id) => id !== conflict.memberId && core.people.get(id)?.alive,
+      );
+      const moved = readers.filter(
+        (id) => (impressionOf(api, id, conflict.memberId)?.causes ?? 0) > 0,
+      );
+      expect(
+        moved.length,
+        `${who}: readers with an impression`,
+      ).toBeGreaterThan(0);
+      line ??= `award ${award.id}, member ${conflict.memberId}, firm ${conflict.organizationId} (owner ${conflict.ownerId}, ${conflict.relation}), tip dig ${tip.dig!.toFixed(2)} run ${tip.run!.toFixed(2)} by ${tip.reporterId}, exposure ${event.id}, scandal scene staged, ${moved.length} of ${readers.length} readers hold an impression of the official`;
     }
   }
   log.push(
