@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-bill-on-paper-clickable
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-27T19:53:14.014Z
 ---
 
 **What.** The owner ruled (Sept 25, Oct 14, Oct 26 sitting, OWNER-DECISIONS line 57): bills are on paper, every term clickable, an estimate beside it; the bill is the workspace. Today a filed bill is rows on the Government and Legislature panels (src/bench/legislature.ts, bill-tally.ts, seat-bill-text.ts) with the vote date and whip count from #6226, and the bill's wording comes from data/english/bill-names.json and bill-sections.json. Build the paper: opening the player's own bill, or any bill before a body, shows one document in the game's look, built from the shared parts in src/bench/ui/: title and number, sponsor and cosponsors by name, each section in the English engine's plain words, the vote scheduled and the whip count, and the record of the vote and the signature when they exist. Clicking a section or a term shows beside it what the simulation estimates it does (the dollars, the people reached, the law it changes), read from the existing law and budget records, never computed on the screen. The rows it replaces are deleted. Time box: 3 hours.
