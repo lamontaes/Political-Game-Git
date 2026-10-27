@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-first-11-people-web-uses-created-look
 pr: #6286
 blocked-on:

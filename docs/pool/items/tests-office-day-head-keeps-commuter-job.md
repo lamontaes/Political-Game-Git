@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/head-commuter-job
 pr: #6292
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-27T11:16:48.741Z
 **Files.** src/core2/public-payroll.ts, src/core2/modules/executive.ts, src/core2/office-day-name-head.test.ts
 
 **Notes.** Found on PR #6149 (gov-department-head-qualified-by-record).
+
+Worker check (Claude, Oct 27): no longer reproduces on main. `GOLDEN_PATH_SEED=8ba4740ce9a70741` builds Cedarville, Illinois (world seed ee11de58…75790) and both cases pass, including the one that opens the post when its head dies and fills it with a paid, recorded choice; a fresh seed `odh-fresh-1` passes too (Crestview, Kentucky, seed db370a23…8db70b for the pick case). Something merged since PR 6149 fixed it; not traced.
