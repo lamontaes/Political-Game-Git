@@ -6,11 +6,12 @@ lead: cto
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/touches-line
 pr:
 blocked-on:
 source: laws-and-effects lead, Oct 27 (#6289)
+claimed-at: 2026-10-27T17:05:47.102Z
 ---
 
 **What.** A merger sent #6289 back so its item would not be marked done on merge, and the fix it asked for was changing line 1 to `Touches pool item: laws-in-force-every-question`. The bot still set the item done at 15:42 (commit bfaaa38af1). `idFromBody` in `scripts/pool/done-on-merge.ts` finds no id on a "Touches" line, but `itemForMergedPr` then falls back to the item whose `pr:` field names the PR with status in-pr, and flips that one. So a "Touches" line protects an item only if someone also clears its `pr:` field before the merge, which nobody does.
