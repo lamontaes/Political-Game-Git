@@ -57,6 +57,11 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
         placeKey: place.key,
       });
       const jobs = coreAPI(world.core).moduleState(JOBS_MODULE_ID);
+      // A search begun by choosing to look, which the same review weighs again for both tiers.
+      const byChoice = new Set<string>([
+        JOBS_DATA.reasons.startedLooking,
+        "opening-unemployed",
+      ]);
       const looking = new Map<string, Seeker>();
       let retired: Change | undefined;
       let date = makeIsoDate(start);
