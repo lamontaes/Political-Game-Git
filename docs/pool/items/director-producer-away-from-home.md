@@ -5,11 +5,12 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-producer-away-from-home
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T23:48:19.971Z
 ---
 
 **What.** The family-absence situation type (a relative at home confronting the player about time their office takes) waits on a producer named away-from-home. The office-day engine records every sitting of a body the player sits on, with its start minute and length, and every member sits whether the player stops for it or not. A sitting that runs past the hour paid work's evening starts keeps the player from home that evening. Nothing reads that today, so the player's household never says a word about the office's hours.
