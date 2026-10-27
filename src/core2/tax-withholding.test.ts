@@ -211,3 +211,30 @@ describe("a state rate changed without a new table", () => {
     expect(raised.minor).toBeGreaterThan(asWritten.minor);
   });
 });
+
+describe("a state rate repealed to zero with its table kept", () => {
+  it("withholds nothing at zero beside a positive scaled rate from the same table", () => {
+    const table = (value: number) =>
+      income([
+        {
+          level: "state",
+          row: {
+            value,
+            unit: "percent-top-rate",
+            terms: {
+              schedules: {
+                single: {
+                  standardDeduction: 0,
+                  brackets: [{ over: 0, rate: 4 }],
+                },
+              },
+            },
+          },
+        },
+      ]);
+    // 100,000 minor over fourteen days, one 4-percent bracket: 4,000 minor.
+    expect(pay(table(4))[0]!.minor).toBe(4_000);
+    expect(pay(table(4.4))[0]!.minor).toBe(4_400);
+    expect(pay(table(0))).toEqual([]);
+  });
+});

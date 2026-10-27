@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
-pr: #5076
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:01:09.993Z
@@ -21,7 +21,7 @@ claimed-at: 2026-10-20T01:01:09.993Z
 
 **Files.** src/simulation/local-business-counts.ts, src/core2/modules/business.ts, src/bench/world.ts, scripts/core2-year/census-scaled-economy.mjs
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.
 
 Checked Oct 21 (claude): PR #5076, which this item points at, is an omnibus (commuter jobs, groundwater, redistricting data and code; 218 files, 118 commits) and its body does not mention establishments at all, so the town's businesses are not yet sized to the Census scale there. world-census-weight-owner-draws and world-census-scale-foundings-above-sample are gated on this item; they will not unblock until the establishment count is actually built. The gate is satisfied only when this item's own done-when test passes, not when #5076 merges.
 

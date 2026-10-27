@@ -51,6 +51,26 @@
     "labor.minimum-wage-to-median": {
       "value": 0,
       "note": "Not a starting level. The one link that reads this measure is a threshold: it acts only on how far the ratio sits above its own threshold (0.59), so no change from a start is taken and zero only lets the link be read."
+    },
+    "budget.healthAndHospitals-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the health and hospitals line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "budget.welfareAndMedicaid-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the welfare and Medicaid line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "budget.higherEducation-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the higher education line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "program.snap-maximum-change-pct": {
+      "value": 0,
+      "note": "Defined from the opening: the SNAP maximum allotment's change since the opening is 0 at the opening, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "budget.schools-added-pct": {
+      "value": 0,
+      "note": "Not a starting level. The measure is already counted from the schools lines' Census base, so zero is the base and only a change a body enacted moves the link; a line changed before the web's first month still counts."
     }
   },
   "links": [
@@ -697,7 +717,7 @@
       "source": "Currie, Hanushek, Kahn, Neidell and Rivkin 2009 (REStat)",
       "from": "env.carbon-monoxide",
       "evidence": "researched",
-      "notes": "Unsupported as a straight line: the study finds absences rise on days near the federal limit, a threshold effect rather than a per-ppm slope, and the game records no carbon monoxide or absence rate by place."
+      "notes": "Left unwired: no carbon monoxide reading is recorded (no code in src/core2 holds one). The study finds absences rise on days near the federal limit, a threshold on daily readings and not a slope on a place rate, and a student's absence in the core is their own day-by-day choice (src/core2/modules/school.ts), which a place rate does not set."
     },
     {
       "key": "emission-rules-to-particulates",
@@ -1208,21 +1228,21 @@
     },
     {
       "key": "school-spending-to-attainment",
-      "status": "person-level",
-      "unsupportedReason": "size-not-set",
-      "to": "school.years-completed",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "to": "school.graduation-pct",
       "strength": "strong",
       "shape": {
-        "kind": "exposure-years"
+        "kind": "linear"
       },
-      "size": null,
-      "per": "10% more every year for 12 years: +0.31 years",
+      "size": 0.0111,
+      "per": "percent the schools lines of the town's city and county budgets stand above their Census base, as the mean over a cohort's twelve school years",
       "lagMonths": 0,
       "group": "children, much larger for low-income",
       "owner": "M",
-      "anchor": "+0.31 years, +7% wages, -3.2 points adult poverty",
-      "source": "Jackson, Johnson and Persico 2016 (QJE)",
-      "from": "school.spending-per-student",
+      "anchor": "A 10% rise in per-pupil spending in all 12 school-age years raises the probability of high school graduation 9.5 points (11.6 for low-income children, 6.0 for the rest) on graduation rates of 86% (79% and 92%), and completed schooling 0.27 years (0.44 for low-income children) in the working-paper version; the published article's headline is +0.31 years, +7% wages and -3.2 points of adult poverty.",
+      "source": "Jackson, Johnson and Persico 2016 (QJE); graduation estimates from Table 3 of NBER Working Paper 20847 (January 2015)",
+      "from": "budget.schools-added-pct",
       "evidence": "researched",
       "why": [
         "A sustained funding increase can purchase school staff, time and resources.",
@@ -1244,15 +1264,55 @@
       },
       "reverseOnRepeal": "Repeal can stop future spending. Years already completed remain; the sustained treatment contrast cannot simply reverse in one month.",
       "who": "Pupils exposed to the district spending reform over childhood, with larger reported effects among low-income children.",
-      "lagWhy": "The link currently has lag0 but shape exposure-years. The cited12-year exposure must accumulate across the actual school-age cohort; zero lag does not mean instant attainment.",
+      "lagWhy": "The effect builds as a cohort's years of exposure accumulate. The web reads the mean of the cause over the previous 144 months (phaseInMonths), so a change moves a graduating class by the share of its twelve school years the change covered, and the full effect arrives twelve years after a sustained change.",
       "aboutZero": false,
-      "notes": "Person-level: it acts through each student's years of higher spending, so it waits on the person pipeline, not on a place rate."
+      "notes": "Runs in the new core (src/core2/data/outcome-web/coverage.json lists it as wired). The status above is the old engine's classifier, which does not know the schools line, and that engine does not run this link. Retargeted from school.years-completed, which no engine keeps, to the graduation share the school engine decides (decideSchoolOutcome in src/core2/school-outcomes.ts reads this link's factor by income fifth for each senior). The cause is the schools line of the town's city and county budgets above its Census base (budget.schools-added-pct in src/core2/gov-measures.ts): zero until a mayor or council enacts a change, so nothing moves until one does. Conversion: the paper's 2SLS coefficient on the log of average spending over ages 5 to 17 is 0.9523 for the probability of graduating, and it reads a 0.10 change as 10 percent, so 10 percent more in all twelve years is 9.5 points; per percent of spending that is 0.9523 points, and against the paper's 86% graduation rate a proportional change of 0.0111 per percent, the unit the web applies to a share outcome. The graduation columns are from the working paper (one version); its years-of-schooling estimate (0.27) differs from the published article's headline (0.31), and the published table was not reachable. Overlap: equalized-funding-to-graduation is the reduced form of the same chain through the equalize-school-funding law. The law does not move the schools line today (stopgap SG-SCHOOL-equalized-funding-budget), so the two do not count one dollar twice; when a handler moves the line for the law, that link must go.",
+      "range": [0.0045, 0.0177],
+      "rangeSource": "Jackson, Johnson and Persico, NBER Working Paper 20847 (January 2015), Table 3 column 5 (2SLS, all children, probability of high school graduation): \"Ln(Spending)(age 5-17) 0.9523*** (0.2898)\". The 95% interval 0.9523 +/- 1.96 x 0.2898 is [0.384, 1.520] in the probability of graduation per unit of log spending; per percent of spending, over the 0.86 graduation rate of the paper's Table 1, that is [0.0045, 0.0177] as a proportional change per percent.",
+      "phaseInMonths": 144,
+      "phaseInSource": "Jackson, Johnson and Persico, NBER Working Paper 20847, section \"Creating an Instrument for School Spending\": \"our endogenous treatment variable is the natural log of average school spending over the previous 12 years. This measures average school spending across all school-age years (5 to 17) for expected high school graduates that year.\" A graduating class's exposure is the mean of its twelve years, so the cause is read as the mean of the previous 144 months.",
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 0.1468,
+              "share": 0.2
+            },
+            {
+              "is": 1,
+              "weight": 0.1468,
+              "share": 0.2
+            },
+            {
+              "is": 2,
+              "weight": 0.0652,
+              "share": 0.2
+            },
+            {
+              "is": 3,
+              "weight": 0.0652,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0.0652,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Jackson, Johnson and Persico, NBER Working Paper 20847 (January 2015), Table 3 columns 5 and 6 and the results text after it (https://www.nber.org/papers/w20847)",
+          "quote": "\"increasing per-pupil spending by 10 percent in all 12 school-age years increases the probability of high school graduation by 11.6 percentage points (p-value<0.01) for low income children and 6 percentage points (p-value<0.10) for non-poor children. ... The high school graduation rates for low-income and non-poor children were 79 and 92 percent, respectively.\"",
+          "estimatedFrom": "The paper calls a child low income when the family's income fell below twice the poverty line in any childhood year. The second national household-income fifth ends at $62,200 (U.S. Census Bureau, Income in the United States: 2023, P60-282, Table A-4), about twice the 2023 poverty threshold for a family of four ($31,200 weighted average; Census Bureau, Poverty Thresholds for 2023), so the two lowest fifths are taken as the low-income children and the three highest as the non-poor, with equal national shares. Each band's weight is its gain in points over its own graduation rate (11.6/79 and 6.0/92), because the engine multiplies each fifth's own share; the weights are scaled so the national average is the researched size."
+        }
+      ]
     },
     {
       "key": "child-coverage-to-graduation",
       "status": "person-level",
       "unsupportedReason": "size-not-set",
-      "to": "school.graduation",
+      "to": "school.graduation-pct",
       "strength": "moderate",
       "shape": {
         "kind": "exposure-years"
@@ -1266,7 +1326,8 @@
       "source": "Cohodes, Grossman, Kleiner and Lovenheim 2016 (JHR)",
       "from": "health.child-coverage-years",
       "evidence": "researched",
-      "notes": "Person-level: it acts through each child's years of coverage, so it waits on the person pipeline, not on a place rate."
+      "notes": "Not run as its own link. The core records no childhood Medicaid or CHIP eligibility: coverage records belong to full people and cover a child through a parent's plan (src/core2/modules/coverage.ts), so a per-child years-of-coverage link would count the same expansion twice with uninsured-to-graduation.",
+      "carriedBy": "the web's uninsured-to-graduation link (the same Cohodes, Grossman, Kleiner and Lovenheim 2016 effect, read from the place's uninsured share five years earlier), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
     },
     {
       "key": "teacher-quality-to-earnings",
@@ -1328,13 +1389,13 @@
       "who": "Kindergarten-through-third-grade pupils assigned to the relevant small/regular classrooms; schoolmates outside exposure are not treated.",
       "lagWhy": "The link has lag0, but the anchor describes four years of exposure. Assessments must follow the actual exposure; the cited contrast/CI is required before switch-on.",
       "aboutZero": false,
-      "notes": "Unsupported until measured: the +0.22 standard deviations is for a small class against a regular one, but the game records no K-3 class size by place and keeps no test-score outcome by that name."
+      "notes": "Left unwired: the core records no class size. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), a district's teachers are jobs and counted staff, and the opening uses openingPupilTeacherRatio only to generate them, so no K-3 roster or pupil-teacher ratio exists to read. The study's +0.22 SD is for K-3 pupils in a small class against a regular one, after four years in it, while the school engine decides grade 8; once a roster is recorded, size the link by converting the standard deviations to the shift in the share above the proficiency line under a normal distribution at the place's base."
     },
     {
       "key": "prek-to-graduation",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",
-      "to": "school.graduation",
+      "to": "school.graduation-pct",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -1370,7 +1431,8 @@
       "who": "Attending four-year-old cohorts in the evaluated quality settings, later observed at high-school completion.",
       "lagWhy": "The existing lag0 is not an immediate completion effect. Cohort age and the study follow-up must determine the graduation date.",
       "aboutZero": false,
-      "notes": "Superseded for places by universal-prek-to-graduation, which carries the Boston and Tennessee size. This quality measure has no place-level series in the cited studies, so it remains inactive unless a program-quality reader supplies that series."
+      "notes": "Not run as its own link. The program-quality measure (school.prek-quality) has no series in the core, and a second link on it would count the same program twice: universal-prek-to-graduation already carries the Boston and Tennessee size, with quality deciding where in its range a world lands.",
+      "carriedBy": "the web's universal-prek-to-graduation link (the same Gray-Lobe, Pathak and Walters 2023 Boston and Tennessee estimates, read from the universal-preschool law in force with a 14-year lag and a range from Tennessee's loss to Boston's gain), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
     },
     {
       "key": "family-income-to-scores",
@@ -1390,7 +1452,8 @@
       "source": "Dahl and Lochner 2012 (AER)",
       "from": "household.income",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game keeps no test-score outcome by that name, and the +0.06 standard deviations per $1,000 is a child-level short-run effect."
+      "notes": "Not run as its own link. Median household earnings (household.income) is a nominal figure, so a link per $1,000 of it would move scores with inflation alone; the study's $1,000 is a real family income change, and the poverty share is the web's reading of it. The engine's income fifths cannot carry a place's level: the place's share is its base times the web's factor, and the gradient only spreads that over the fifths. Dahl and Lochner (NBER w14599, abstract) estimate that a $1,000 rise in income raises combined math and reading test scores by 6% of a standard deviation in the short run, so the reading half has no counterpart yet; a reading link would need the poverty-to-math link's per-point size confirmed first.",
+      "carriedBy": "for math, the web's poverty-to-math-proficiency link (the same Dahl and Lochner 2012 income effect, read as the place's poverty share into the share of eighth graders proficient in math), which the school engine reads when it decides each eighth grader's math result (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.math-proficient-pct, by income fifth); the engine's income-fifth gradient (gradientOf) then spreads the place's result over the fifths. Reading is not carried: no link moves reading proficiency by family income"
     },
     {
       "key": "neighborhood-years-to-adult-outcomes",
@@ -1431,7 +1494,7 @@
       "source": "Sharkey 2010 (PNAS)",
       "from": "crime.homicide-on-block",
       "evidence": "researched",
-      "notes": "Person-level: it acts on a child's scores right after a homicide on their block, decaying after, so it waits on the person pipeline, not on a place rate."
+      "notes": "Left unwired: it needs each student's own exposure, and no homicide has a location below the place. The crime engine's victimizations leave homicide out (stopgap SG-CORE-crime-firearm-homicide) and a death by homicide carries no block group; the effect (about -0.5 SD for the week after a homicide on a child's block) is for a child tested right after it."
     },
     {
       "key": "police-killing-to-graduation",
@@ -1451,7 +1514,7 @@
       "source": "Ang 2021 (QJE)",
       "from": "police.killing-nearby",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the 3.5% is for ninth graders living near a police killing, and the game records neither the killing nor the share of students exposed."
+      "notes": "Left unwired: the core records no police killing (no code in src/core2 holds one), and the 3.5% is for ninth graders who live near a killing, so it needs each student's distance to one; a place-wide rate would put the effect on students who were not exposed."
     },
     {
       "key": "school-move-to-scores",
@@ -1471,7 +1534,7 @@
       "source": "Hanushek, Kain and Rivkin 2004",
       "from": "housing.mid-year-school-move",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game records no mid-year school moves by place and keeps no test-score outcome by that name."
+      "notes": "Left unwired: no mid-year school move is recorded. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), and the moves module records only departures from the town (src/core2/modules/moves.ts), so there is no switch to count; the effect (about -0.03 SD in math per switch, for the mover and for classmates) needs each student's own switch."
     },
     {
       "key": "lead-to-reading",
@@ -1492,7 +1555,7 @@
       "from": "health.blood-lead",
       "evidence": "provisional",
       "range": [0.065, 0.26],
-      "notes": "Unsupported until measured: the game records no blood lead levels by place, and the share far below proficient is not a kept place outcome. CDC publishes only the share of tested children at or above 3.5 micrograms per deciliter, not the mean level this link is sized on; filed as research question state-average-child-blood-lead-level."
+      "notes": "Left unwired: the core records no blood lead (no code in src/core2 holds it), and the study's cause is the mean blood lead of children before school, which CDC does not publish by state (research question state-average-child-blood-lead-level). The outcome, the share far below proficient, is not what the school engine decides, so a recorded lead level would also need the 3.1-point rise on a 12% base converted to the proficiency share."
     },
     {
       "key": "heat-to-learning",
@@ -1517,7 +1580,7 @@
       "from": "env.school-year-temperature",
       "evidence": "researched",
       "range": [-0.0125, -0.0075],
-      "notes": "Unsupported until measured: the game records no school-year temperature by place, and learning is not a kept place outcome."
+      "notes": "Left unwired: the core records no school-year temperature and no share of schools with air conditioning (no weather or temperature in src/core2). Learning is not what the school engine decides either: it decides proficiency and graduation."
     },
     {
       "key": "home-internet-to-scores",
@@ -1557,7 +1620,7 @@
       "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
       "range": [-0.1, -0.073],
-      "notes": "Unsupported until a producer computes Hispanic school enrollment: the cause is now the law on local 287(g) partnerships, a question the game asks, but Hispanic school enrollment is not a kept place outcome."
+      "notes": "Runs on the web's ledger: school.hispanic-enrollment is a kept outcome, so the link moves that number from the 287(g) partnership law in force. No engine decides enrollment by ethnicity (the core records no ethnicity on a student; stopgap SG-SCHOOL-hispanic-enrollment), so no student or school record moves with it. The status above is the old engine's classifier, which does not produce this outcome."
     },
     {
       "key": "daca-to-graduation",
@@ -1577,7 +1640,7 @@
       "source": "Kuka, Shenhav and Shih 2020",
       "from": "immigration.deferred-action",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the +15% is for eligible youth, and the game records neither deferred action nor the eligible share of a place's students."
+      "notes": "Left unwired: deferred action is not recorded and is not a policy question the game asks, and no student's immigration status is recorded, so the eligible share of a place's students is unknown; the +15% is for eligible youth only."
     },
     {
       "key": "graduation-to-earnings",
@@ -4156,7 +4219,8 @@
           "quote": "\"reforms lead to sharp, immediate, and sustained increases in spending in low-income school districts.\" The abstract finds that achievement rose in \"these districts\" and that the rise phases in gradually over the years after each reform; it reports no gain for higher-income districts.",
           "estimatedFrom": "The paper's gains are for students in low-income districts. The two lowest national household-income fifths are taken as the students of those districts, the middle fifth as half in them, and the two highest as none, with equal national shares; the paper gives no finer split, so the weights are scaled so the national average is the researched size."
         }
-      ]
+      ],
+      "notes": "The reduced form of the spending chain through the law. school-spending-to-attainment is the same study (Jackson, Johnson and Persico) read from the schools budget line, which the law does not move today (stopgap SG-SCHOOL-equalized-funding-budget); when a handler moves the line for the law, this link goes in the same change so the funding is not counted twice."
     },
     {
       "key": "vouchers-to-math-proficiency",
@@ -5032,6 +5096,28 @@
       "shape": {
         "kind": "linear"
       },
+      "group": "households",
+      "owner": "B-cloud",
+      "key": "sales-tax-to-prices",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "to": "household.prices",
+      "size": 0,
+      "per": "percentage point of the combined state and local sales tax rate",
+      "lagMonths": 3,
+      "evidence": "about-zero",
+      "anchor": "Retail prices of taxed goods rise by about the amount of the sales tax: the shopper's price goes up point for point and the price before tax does not move. The tax is added at the register, so the price level the businesses set (before tax) is unchanged by a rate change",
+      "source": "Poterba 1996, National Tax Journal 49(2), pp. 165-176, abstract and Table 3; Besley and Rosen 1999, National Tax Journal 52(2), NBER Working Paper 6667",
+      "from": "law:sales-tax",
+      "range": [0, 0],
+      "rangeSource": "Poterba 1996 abstract: \"retail prices rise by approximately the amount of the sales tax\" (eight cities, 1947-77); Table 3 total responses of tax-inclusive clothing and personal-care prices to a one-point rate change are 1.33, 0.84 and 1.17, and the paper says it is \"never possible to reject the null hypothesis that prices rise point-for-point with changes in the retail sales tax\". Point-for-point pass-through to the price with tax means no change in the price before tax, so the pre-tax level is zero. The Depression-era estimate (0.62, 1925-39) and Besley and Rosen's overshifting for some goods are the spread on either side, and neither is a pre-tax move the web can attach to one direction. Besley and Rosen 1999 abstract: \"For some commodities, the after-tax price increases by exactly the amount of the tax.\"",
+      "notes": "Read by nothing, on purpose: the purchase-tax engine charges the tax at each sale (src/core2/modules/purchase-tax.ts collect), so a link that also raised the pre-tax price level would charge households twice. household.prices is the pre-tax level businesses set (finance-state.ts reads its factor at their price review)."
+    },
+    {
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
       "group": "place",
       "owner": "B-cloud",
       "key": "mandatory-minimums-to-violent-crime",
@@ -5899,6 +5985,40 @@
       "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
     },
     {
+      "key": "mileage-fee-to-vehicle-miles",
+      "status": "built",
+      "unsupportedReason": null,
+      "from": "law:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "to": "traffic.vehicle-miles",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.0035,
+      "per": "law in force says yes (1) rather than no (0), as the long-run change in miles driven per resident",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F",
+      "evidence": "researched",
+      "anchor": "Drivers respond to the fuel cost of a mile, whoever collects the tax in it: the rebound effect is \"the negative of the elasticity of driving with respect to fuel cost per unit distance\", so \"a VMT elasticity of -0.20 corresponds to a rebound effect of 20%\" (Hymel and Small 2015). The fee replaces the fuel tax, so the average vehicle's cost per mile moves by the fee less the tax it stops paying: 2.0 cents a mile (the law's fee) less 51.7 cents a gallon over 22.6 miles a gallon (2.29 cents), -0.29 cents a mile, -2.0% of the 14.6 cents a mile that a gallon of 2024 regular gasoline ($3.304) costs at 22.6 miles a gallon. At the long-run elasticity of -0.178 (Hymel and Small 2015, Table 2, 2000-2009, Model 3.3; short run -0.028) that raises miles driven 0.35%, about 34 miles a resident a year on 9,685. The fee is close to revenue neutral for the average vehicle, so the effect is near zero: it is the 0.29-cent gap, and it turns negative where the fee is above 2.29 cents a mile (-0.26% at the 2.5 cents top of the fee's range, +1.57% at its 1 cent bottom). Low end: \"the direct short-run effect of a price rise on driving is more than twice as large as that of a price cut\" (Hymel and Small 2015, Model 3.21b: -0.0639 against -0.0639+0.0340), and this is a cut in cost per mile, so the elasticity is taken at 0.47 of its value, -0.083. High end: the meta-analysis average long-run rebound effect of 26 to 29% (Dimitropoulos, Oueslati and Sintek 2018), -0.29. People are \"adjusting their travel in a given year by just 21 percent of the ultimate shift\" (Small and Van Dender 2007), so the effect builds over five years and a fifth of it, 0.07%, shows in the first.",
+      "source": "Hymel and Small 2015, The rebound effect for automobile travel: Asymmetric response to price changes and novel features of the 2000s, Energy Economics 49: 93-103, Table 2 (https://escholarship.org/uc/item/4m56j2xg); Small and Van Dender 2007, Fuel Efficiency and Motor Vehicle Travel: The Declining Rebound Effect, Energy Journal 28(1): 25-51, Table 5 and section 4.2 (UC Irvine working paper 05-06-03, https://www.econ.uci.edu/files/docs/workingpapers/2005-06/Small-03.pdf); Dimitropoulos, Oueslati and Sintek 2018, The rebound effect in road transport: A meta-analysis of empirical studies, Energy Economics 75: 163-179, abstract (https://ideas.repec.org/a/eee/eneeco/v75y2018icp163-179.html); U.S. EIA, U.S. Regular All Formulations Retail Gasoline Prices, annual 2024, $3.304 a gallon (https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&s=emm_epmr_pte_nus_dpg&f=a); fuel tax and fleet fuel economy from data/research/prices/household-prices-2026.json (EIA, FHWA Table VM-1); fee from reach-group-b-parameters.json (mileageFeeCentsPerMile)",
+      "range": [0.0016, 0.0057],
+      "phaseInMonths": 60,
+      "phaseInSource": "Small and Van Dender 2007 (the coefficient on lagged travel implies people adjust \"by just 21 percent of the ultimate shift\" in a year) and Hymel and Small 2015 (lagged travel 0.83 in Model 3.3, so the long run is about six times the one-year response, 5.6 to 6.3): a linear build over 60 months puts 20% of the effect in the first year.",
+      "reverseOnRepeal": "The fuel tax comes back and miles return as they left: the effect falls away over the same 60 months, as the months the fee stood leave the average the link reads.",
+      "researchSizing": {
+        "estimate": 0.0035,
+        "unit": "proportional change in miles driven per resident, long run: elasticity of vehicle miles with respect to fuel cost per mile (-0.178) times the proportional change in the average vehicle's fuel cost per mile when the 2.0 cent fee replaces the fuel tax (-0.01967)",
+        "source": "Hymel and Small 2015, Energy Economics 49: 93-103",
+        "location": "Table 2, Model 3.3, 2000-2009 long run -0.178 (short run -0.028; Model 3.18 long run -0.255); Table 3, Model 3.21b for the asymmetry",
+        "status": "applied",
+        "requiredConnection": "Applied: place-prices.ts multiplies the miles each household drives, and so the fee it is charged and the fuel tax it is refunded on them, by the web's factor on traffic.vehicle-miles (FHWA Highway Statistics 2024 Table VM-2 over Census Vintage 2024 population, all 56 places).",
+        "lag": "No delay before drivers respond; the response builds over 60 months (see phaseInSource).",
+        "rangeMeaning": "The range is the spread of published long-run elasticities (0.083 for a price cut in Hymel and Small's asymmetric model to 0.29 in the meta-analysis) times the same cost change at the national fuel tax; it is not variation between places. The fee's own spread (1 to 2.5 cents a mile) would move the effect from +0.0157 to -0.0026."
+      },
+      "notes": "The fee is close to revenue neutral for the average vehicle (2.0 cents against 2.29 cents of fuel tax a mile), so the web moves driving by a third of one percent, not a shift in how people travel. Read by the miles each household drives in place-prices.ts, so a household pays the fee and is refunded the fuel tax on the miles it now drives. The tax and fuel economy are national averages: state fuel taxes run from 27.4 to 89.3 cents a gallon with the federal 18.4 (EIA, January 2026), so the same fee cuts the cost per mile more where the tax is high (registered stopgap SG-GOV-REACH-B-mileage-fee-price). The sources give no split by income, household kind or place, so the link is not varied."
+    },
+    {
       "key": "fix-it-first-to-poor-roads",
       "status": "built",
       "unsupportedReason": null,
@@ -6249,6 +6369,179 @@
       "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay",
       "range": [-0.05, 0.05],
       "rangeSource": "Derenoncourt and Weil 2024 estimate precise zero cross-employer wage elasticities in the six months after an employer-wide minimum; the band allows a small effect either way"
+    },
+    {
+      "key": "snap-maximum-to-food-insecurity",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.00148,
+      "per": "percent the SNAP one-person maximum allotment has risen above its level at the opening",
+      "lagMonths": 0,
+      "group": "households under 130 percent of the poverty line",
+      "owner": "F",
+      "anchor": "When the 2009 Recovery Act raised the SNAP maximum benefit 13.6 percent, food insecurity among likely SNAP-eligible households (incomes under 130 percent of the poverty line) \"was 2.2 percentage points lower than expected in late 2009\", and \"food insecurity did not improve\" for households just above the eligibility line. Those households are 12.5 percent of all households (16,751 of 134,062 thousand, table 2 of ERR-358), so all households' food insecurity falls 0.275 points, 2.0 percent of the 13.7 percent national rate: 0.148 percent for each percent of the maximum. Nord's 2013 follow-up: a 10 percent rise in the maximum cuts very low food security among SNAP households about 22 percent, a 10 percent cut raises it about 29 percent; the link is linear at the smaller, measured rise.",
+      "source": "Nord and Prell 2011, USDA ERS Amber Waves (June 13, 2011) \"Food Security of SNAP Recipients Improved Following the 2009 Stimulus Package\" and Economic Research Report 116; Nord 2013, USDA ERS Amber Waves (October 24, 2013) \"Effects of Changes in SNAP Benefits on Food Security\" (ERR-151); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 2",
+      "evidence": "researched",
+      "from": "program.snap-maximum-change-pct",
+      "to": "household.food-insecurity",
+      "range": [-0.00185, -0.00111],
+      "rangeSource": "A quarter either side of the measured size: the 2011 report gives no interval, and Nord's 2013 sensitivity (22 percent fewer very-low-security SNAP households for a 10 percent rise, 29 percent more for a 10 percent cut) runs from a smaller to a larger response than the 2009 rise.",
+      "why": [
+        "The maximum allotment sets the benefit a qualifying household is owed each month.",
+        "A larger benefit pays for more of the household's food.",
+        "A household that can buy enough food is not food insecure.",
+        "The terminal is the benefit the treasury pays and the food the household buys with it; the place rate is the proportion the study measured among eligible households, scaled by their share of all households."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household is poorer and spends close to its whole benefit on food."
+        ],
+        "weakerWhen": [
+          "The household's income is just under the eligibility line, or the allotment is the minimum benefit."
+        ],
+        "absentWhen": [
+          "No household qualifies, or the treasury pays no benefit."
+        ]
+      },
+      "reverseOnRepeal": "Putting the old amount back lowers next month's benefit; food already bought stays eaten, so the effect ends with the benefit, not backward.",
+      "who": "Households with incomes under 130 percent of the poverty line, the likely SNAP-eligible, 12.5 percent of all households.",
+      "lagWhy": "The 2011 report compares late 2008 with late 2009, eight months after the April 2009 rise; the benefit is spent in the month it is paid, so the link takes effect at once.",
+      "aboutZero": false,
+      "notes": "Linear in the rise since the opening. The same benefit also moves program.snap-receipt:moved-by-causes only through the work requirement, so this link and snap-to-food-insecurity do not count one cause twice. The engine that pays it is the budgets engine's monthly close (src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household the maximum in force less its expected food spending."
+    },
+    {
+      "key": "health-hospitals-spending-to-infant-mortality",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "strength": "moderate",
+      "shape": {
+        "kind": "diminishing",
+        "scale": 100
+      },
+      "size": -0.00685,
+      "per": "percent the health and hospitals line is above its Census base",
+      "lagMonths": 9,
+      "group": "place",
+      "owner": "F",
+      "anchor": "\"mortality rates fell between 1.1 percent and 6.9 percent for each 10 percent increase in local public health spending\": infant deaths per 1,000 live births fell 6.85 percent (p < 0.01), heart disease deaths 3.22, diabetes 1.44 and cancer 1.13, across nearly three thousand local public health agencies from 1993 to 2005 (Exhibit 3). The line's change is spread over its public health spending in proportion, so its percent is the agencies' percent: 0.685 percent fewer infant deaths for each percent more.",
+      "source": "Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3",
+      "evidence": "provisional",
+      "from": "budget.healthAndHospitals-added-pct",
+      "to": "health.infant-mortality",
+      "range": [-0.00856, -0.00514],
+      "rangeSource": "A quarter either side of the Exhibit 3 coefficient: the article reports significance levels only and no confidence interval.",
+      "why": [
+        "A larger health and hospitals line pays for more public health staff, clinics and outreach.",
+        "More prenatal and infant care reaches the town's pregnancies and newborns.",
+        "Fewer infants die before their first birthday.",
+        "The terminal is the care the line pays for; the study's panel is local public health spending against deaths in the agency's area."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The added money goes to maternal and infant services."
+        ],
+        "weakerWhen": [
+          "The line's change is spent on hospital buildings or debt rather than services."
+        ],
+        "absentWhen": [
+          "The line is cut to nothing, or no clinic or health department serves the town."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back stops the added care; deaths already averted stay averted, the rate returns as the care does.",
+      "who": "Every live birth in the place: the study's agencies cover local populations, not a group.",
+      "lagWhy": "Judged: nine months, a pregnancy from the first prenatal visit the new money funds to the birth. The study's panel spans years and reports no timing.",
+      "aboutZero": false,
+      "notes": "The article is a fixed-effects panel of agency spending, not a randomized change, and it measures public health agencies, not hospitals. The line here pays both; the link assumes a rise spreads over its parts in proportion. The 6.85 percent is among the largest of the paper's results and the paper reports no interval; treat the size as provisional. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged."
+    },
+    {
+      "key": "higher-education-spending-to-college-completion",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "strength": "moderate",
+      "shape": {
+        "kind": "diminishing",
+        "scale": 100
+      },
+      "size": 0.000113,
+      "per": "percent the higher education line is above its Census base",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F",
+      "anchor": "\"a 10 percent increase in total spending in year t increases the number of four-year degrees awarded by 4.6 percent in year t + 2 and 4.5 percent in year t + 3\" (all awards: 2 percent in year t, then 7.8, 9.4 and 6.4 percent). Public colleges, 1990 to 2013. The place outcome is the share of adults 25 and older with a bachelor's degree, a stock: the 2.0 million bachelor's degrees a year (NCES, 2021-22) are 2.5 percent of the 81.3 million adults who hold one (ACS 2022: 229.7 million aged 25 and older, 35.4 percent), so 0.46 percent more degrees a year adds 0.0113 percent to the stock in each year the extra spending lasts.",
+      "source": "Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)",
+      "evidence": "provisional",
+      "from": "budget.higherEducation-added-pct",
+      "to": "school.college-completion-pct",
+      "range": [6e-5, 0.00017],
+      "rangeSource": "Deming and Walters Table 4 Panel C gives 4.6 percent at t + 2 and 4.5 at t + 3 with significance at the 5 and 10 percent levels and no reported interval; the range is half to one and a half times the size, the conversion to a stock being ours.",
+      "phaseInMonths": 24,
+      "phaseInSource": "Deming and Walters 2017, section 4.3: \"a 10 percent increase in total spending in year t leads to only a 2 percent increase in total awards in year t, but larger increases of 7.8, 9.4 and 6.4 percent in years t + 1 through t + 3\": the extra degrees build over about two years.",
+      "why": [
+        "A larger higher education line pays for more instruction, advising and student support at the public colleges.",
+        "Students persist and finish more often.",
+        "More bachelor's degrees are awarded each year.",
+        "The place's share of adults with a degree rises by the year's extra degrees."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The added money reaches the non-selective public colleges that drive the study's result."
+        ],
+        "weakerWhen": [
+          "The money goes to selective flagship campuses or to buildings."
+        ],
+        "absentWhen": [
+          "The town has no public college and few residents attend one."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back stops the extra degrees; those already earned stay earned, so the share eases back only as the cohorts turn over.",
+      "who": "Students at the state's public colleges, wherever they now live; the place share is their share among its adults.",
+      "lagWhy": "The paper's awards build over years t to t + 3 (the phase-in); the first year's 2 percent starts at once.",
+      "aboutZero": false,
+      "notes": "Estimated conversion from a flow (degrees awarded) to a stock (adults holding one): the web holds the first year's addition while the cause lasts and does not stack years, so a decade of higher spending is understated. tuition-freeze-to-college-completion is the same paper's price result, about zero. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged."
+    },
+    {
+      "key": "welfare-spending-to-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "percent the welfare and Medicaid line is above its Census base",
+      "lagMonths": 0,
+      "group": "households under 130 percent of the poverty line",
+      "owner": "F",
+      "anchor": "\"The income used to compute poverty status includes (before taxes)\" public assistance, and the official definition \"does not include capital gains or noncash benefits\" \"(such as public housing, Medicaid, and food stamps)\". The cash assistance the line pays a household is income dollar for dollar against its poverty threshold, so the measure's response is the arithmetic of the household incomes and thresholds, not a fitted size.",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), read Oct 24, 2026",
+      "evidence": "researched",
+      "from": "budget.welfareAndMedicaid-added-pct",
+      "to": "household.poverty-pct",
+      "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record",
+      "why": [
+        "The welfare and Medicaid line pays eligible households a monthly assistance benefit from the treasury.",
+        "The benefit is public assistance, which counts as income in the poverty measure.",
+        "A household whose income reaches its threshold is no longer counted as poor.",
+        "The terminal is the household's income against its threshold, both on record."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household draws a benefit large enough to close its gap to the threshold."
+        ],
+        "weakerWhen": [
+          "The household is far under its threshold, or the benefit is the 8 percent minimum."
+        ],
+        "absentWhen": ["The line is not raised, or no household qualifies."]
+      },
+      "reverseOnRepeal": "Putting the line back lowers the benefit from the next month; the household's income falls with it.",
+      "who": "Households under 130 percent of the poverty line that draw the benefit, named and counted.",
+      "lagWhy": "The benefit is owed from the month after the line changes and counts as income when paid.",
+      "aboutZero": false,
+      "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried. The Medicaid part of the line pays medical spending, a noncash benefit the official measure does not count; the SNAP benefit is food aid, also not counted."
     }
   ],
   "calibratedAt": "2024-07-01"
