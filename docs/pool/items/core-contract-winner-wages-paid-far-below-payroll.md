@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/contract-wages
-pr:
+pr: #6358
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T16:16:39.192Z
