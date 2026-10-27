@@ -2450,7 +2450,11 @@ export function askToCarry(
     billId: bill?.id ?? null,
     ...(toPlayer ? { awaitingPlayer: true } : {}),
   };
-  if (toPlayer) table(api, "carryAsks").put(row as unknown as ModuleRow);
+  if (toPlayer) {
+    // stopgapId: SG-GOV-carry-ask-no-screen (the held ask has no bench screen yet)
+    api.stopgap("SG-GOV-carry-ask-no-screen");
+    table(api, "carryAsks").put(row as unknown as ModuleRow);
+  }
   return row;
 }
 
