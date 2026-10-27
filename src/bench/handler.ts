@@ -66,6 +66,7 @@ import {
   ageAtStart,
   applyChosenPerson,
   birthYears,
+  chosenBirthDate,
   creatorStates,
   creatorTowns,
   drawBirthday,
@@ -268,12 +269,18 @@ export async function benchRequest(
           // The whole town, two-level (OPUS-CORE): full people for the
           // player's circle and officials, counts for everyone else.
           buildProgress = { stage: "people", done: 0, total: 0 };
+          // The person chosen in the creator, read before the build: the
+          // player is the resident born nearest the chosen birthday.
+          const chosen = url.searchParams.get("person")
+            ? readChosenPerson(url.searchParams.get("person")!)
+            : undefined;
           // Every game opens on the one start date (owner, Oct 14, 2026).
           const world = await buildBenchWorldInStages(
             url.searchParams.get("seed") ?? "",
             gameStartDate(),
             {
               twoLevel: true,
+              ...(chosen ? { playerBirthDate: chosenBirthDate(chosen) } : {}),
               ...(url.searchParams.get("settings")
                 ? { settings: JSON.parse(url.searchParams.get("settings")!) }
                 : {}),
@@ -293,12 +300,7 @@ export async function benchRequest(
           placeName = world.place.displayName;
           const entrant = { personId: world.playerId! };
           // The person chosen in the creator becomes the player.
-          if (url.searchParams.get("person"))
-            applyChosenPerson(
-              world.core,
-              entrant.personId,
-              readChosenPerson(url.searchParams.get("person")!),
-            );
+          if (chosen) applyChosenPerson(world.core, entrant.personId, chosen);
           player.select(entrant.personId);
           // The opening is prepared during loading; its whole figures are files.
           opening = world.director.ledger.opening
