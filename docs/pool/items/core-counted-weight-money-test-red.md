@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/counted-weight-money
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-27T17:04:13.233Z
+claimed-at:
 ---
 
 **What.** src/core2/counted-weight-money.test.ts fails on the unchanged main code in a drawn place: Ostrander, Ohio, wage flow residents:wages:opening-payroll-calendar:organization_bc110158f37a326c on 2025-02-20 moves 6,258,687 minor against an expected ceiling of 5,704,457 (one household times the wage scale plus 4). Found Oct 20 while changing residents.ts; the same failure appears with the file unchanged. Find why the counted flow pays more than the full run times its weight and fix it at the cause, not the bound.
