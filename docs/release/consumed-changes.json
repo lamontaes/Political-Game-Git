@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.47.1",
+      "releasedOn": "2026-10-27",
+      "revision": "91a589a9e6b7a774eb130e31a51d662f698b71ca",
+      "changeIds": [
+        "traits-accept-appointment-vacancy-proof",
+        "traits-meetings-take-part-refit",
+        "words-packet-executive-order-voting-rights"
+      ]
+    },
+    {
       "version": "0.47.0",
       "releasedOn": "2026-10-27",
       "revision": "57086e9be0657585ec0c7bc92a096ae582c56941",

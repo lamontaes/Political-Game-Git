@@ -296,6 +296,20 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.47.1
+
+_Released October 27, 2026._
+
+### Changed
+
+- **Who speaks at public comment and fills a town hall follows temperament at
+  the size a study finds** Who stands up at a council meeting's public comment,
+  and who fills a town hall's room, weighed each resident's temperament at 0.32,
+  which ran high in random towns. Fitted on twenty towns drawn fresh, the weight
+  is now 0.26: the third of residents leaning most toward taking part fills a
+  room about three times as often as the third leaning least, as Mondak and
+  colleagues found.
+
 ## PRE-ALPHA 0.47.0
 
 _Released October 27, 2026._
