@@ -6,6 +6,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
@@ -177,10 +178,15 @@ function playYear(
   return fired;
 }
 
-/** A sitting member of a local body who is a full person in town, or null. */
+/**
+ * A sitting member of a body (a council, a board: an office with other
+ * members) who is a full person in town, or null. An office held alone (an
+ * assessor, a mayor) sits on no body and has no hallway after a sitting.
+ */
 function localMember(core: CoreState): PersonId | null {
   const api = coreAPI(core);
   if (!core.modules.has(OFFICES_MODULE_ID)) return null;
+  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return null;
   const town = core.people.get(core.playerId!)?.placeId;
   const terms = api
     .moduleState(OFFICES_MODULE_ID)
@@ -189,7 +195,11 @@ function localMember(core: CoreState): PersonId | null {
   const local = terms
     .filter((term) => {
       const person = core.people.get(term.personId as PersonId);
-      return person?.alive === true && person.placeId === town;
+      return (
+        person?.alive === true &&
+        person.placeId === town &&
+        members(api, term.officeId).length > 1
+      );
     })
     .sort(
       (a, b) =>

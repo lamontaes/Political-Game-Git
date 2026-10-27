@@ -198,16 +198,16 @@
       }
     },
     "directorCircumstanceEveryDays": {
-      "value": 4,
+      "value": 7,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
       "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
       "spread": {
-        "low": 2,
-        "high": 10,
+        "low": 3,
+        "high": 14,
         "unit": "days",
-        "citation": "Fewest days between any two scenes from circumstance for one player: about two a week at most, checked by a played year in a drawn place (src/director/circumstance.test.ts)."
+        "citation": "Fewest days between any two scenes from circumstance for one player: at most about one a week, so a played year keeps quiet stretches between clusters (owner, Oct 26: Wildermyth pacing); checked by a played year in a drawn place (src/director/circumstance.test.ts), where a sitting member's year carried a hallway nearly every week at 4 days."
       }
     },
     "directorCircumstanceStreetEveryDays": {
@@ -250,16 +250,16 @@
       }
     },
     "directorCircumstanceHallwayEveryDays": {
-      "value": 7,
+      "value": 14,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
       "stopgapId": "SG-DIRECTOR-circumstance-weights",
       "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
       "spread": {
-        "low": 3,
-        "high": 21,
+        "low": 7,
+        "high": 30,
         "unit": "days",
-        "citation": "Fewest days between two hallway scenes at the seat of government on sitting days."
+        "citation": "Fewest days between two hallway scenes after a body sits: a body meeting weekly gives about two a month, not one each sitting."
       }
     },
     "directorCircumstanceLawImpact": {
