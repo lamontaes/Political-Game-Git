@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.55.2",
+      "releasedOn": "2026-10-27",
+      "revision": "7f4bd10a39f753441dda871162d8e4155c3b62c9",
+      "changeIds": [
+        "skills-lessons-2026-10-27-12",
+        "skills-lessons-2026-10-27-13",
+        "words-jobs-report-names-its-area",
+        "words-scene-concession-received"
+      ]
+    },
+    {
       "version": "0.55.1",
       "releasedOn": "2026-10-27",
       "revision": "213605cc8dc9b1381770f4750c8c92721e8596ed",

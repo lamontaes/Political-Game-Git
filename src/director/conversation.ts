@@ -669,7 +669,8 @@ function quietDay(
   };
   const seen = lastContact(core, speaker.id, listener.id);
   if (seen && seen.date < core.date)
-    facts.lastTogether = {
+    // Kebab case, as the English engine's slots are ({last-together}).
+    facts["last-together"] = {
       text: spokenWhen(seen.date, core.date),
       sourceRecordIds: [seen.tieId],
     };
