@@ -22518,10 +22518,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.your-phone-rings-at-four-it-s-name-from-outlet",
+      "key": "scene-talk.narrate-narrate.your-phone-rings-it-s-name-from-outlet",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Your phone rings at four. It's {name} from {outlet}.",
+      "text": "Your phone rings. It's {name} from {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -22543,10 +22543,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-m-filing-at-five-so-i-ll-be-quick",
+      "key": "scene-talk.open-greet.i-m-on-deadline-so-i-ll-be-quick",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'm filing at five, so I'll be quick.",
+      "text": "I'm on deadline, so I'll be quick.",
       "uses": [
         {
           "subject": "scene",
@@ -22953,10 +22953,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confess.fine-most-of-it-s-right-give-me-until-four-thirty-for-a-statement",
+      "key": "scene-talk.reply-confess.fine-most-of-it-s-right-give-me-an-hour-for-a-statement",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "Fine. Most of it's right. Give me until four-thirty for a statement.",
+      "text": "Fine. Most of it's right. Give me an hour for a statement.",
       "uses": [
         {
           "subject": "scene",
@@ -23031,10 +23031,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.four-thirty-i-ll-hold-the-space",
+      "key": "scene-talk.follow-thank.an-hour-i-ll-hold-the-space",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Four-thirty. I'll hold the space.",
+      "text": "An hour. I'll hold the space.",
       "uses": [
         {
           "subject": "scene",
@@ -23043,7 +23043,7 @@
           "role": "asker",
           "purpose": "scandal-comment",
           "key": "threat",
-          "after": "scene-talk.reply-confess.fine-most-of-it-s-right-give-me-until-four-thirty-for-a-statement"
+          "after": "scene-talk.reply-confess.fine-most-of-it-s-right-give-me-an-hour-for-a-statement"
         }
       ],
       "bearing": "calm",
@@ -23116,10 +23116,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.it-runs-at-six",
+      "key": "scene-talk.close-accept.it-runs-tomorrow",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "It runs at six.",
+      "text": "It runs tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -93017,6 +93017,260 @@
       "tag": {
         "move": "tell",
         "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-i-let-people-down-and-i-ll-answer-for-it",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I let people down, and I'll answer for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "scandal-comment",
+          "key": "threat"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.there-s-more-to-it-than-that-let-me-walk-you-through-what-happened",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "There's more to it than that. Let me walk you through what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "scandal-comment",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.this-is-a-hit-job-and-you-know-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "This is a hit job, and you know it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "scandal-comment",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.sorry-for-what-exactly-our-readers-will-want-to-know",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry for what, exactly? Our readers will want to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.go-ahead-i-m-listening-and-i-ll-put-in-what-checks-out",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Go ahead. I'm listening, and I'll put in what checks out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-have-the-records-tell-me-what-they-re-missing",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I have the records. Tell me what they're missing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.can-i-use-that-word-for-word",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Can I use that, word for word?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-have-my-office-send-you-a-statement",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me have my office send you a statement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.off-the-record-fine-but-you-didn-t-hear-it-from-me",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Off the record? Fine. But you didn't hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-s-a-message-from-name-at-outlet-it-s-about-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There's a message from {name} at {outlet}. It's about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "scandal-comment",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
       }
     },
     {
