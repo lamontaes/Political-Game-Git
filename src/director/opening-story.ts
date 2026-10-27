@@ -901,9 +901,9 @@ function townStory(
     kind: "jobs-report",
     recordId: region.id,
     facts: {
-      place: fact(townName, townId),
       // The rate is the region's (a metro, or the state outside its metros),
-      // so the story names that area, not the town.
+      // so the story names that area as its place, not the town.
+      place: area ? fact(area, region.id) : fact(townName, townId),
       ...(area ? { area: fact(area, region.id) } : {}),
       percent: fact(region.unemploymentPct.toFixed(N.decimals), region.id),
       ...(before && region.unemploymentPct < before.unemploymentPct
