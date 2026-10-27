@@ -79,8 +79,14 @@ it("pays each counted worker who retired their own claim, once, and no place-ave
     for (const row of retired) {
       const claim = claims.get(row.personId)!;
       expect(claim.counted, `${where}: ${row.id} claim is counted`).toBe(true);
+      if (claim.obligationId !== `retirement-claim:${row.personId}`)
+        console.log(
+          `${where}: ${row.personId} returned to the counts, paid by ${claim.obligationId}`,
+        );
+      // The flow the claim names: a claimant met and then returned to the
+      // counts is paid under a later flow (retirement-claims.ts).
       const own = flows.filter(
-        (f) => f.id === `retirement-claim:${row.personId}`,
+        (f) => f.id === claim.obligationId && !f.endedAt,
       );
       expect(own.length, `${where}: ${row.id}`).toBe(1);
       expect(own[0]!.amountMinor, `${where}: ${row.id}`).toBe(

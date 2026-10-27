@@ -202,9 +202,12 @@ export function birthCircumstances(
     work: p("renewalJobWeight") * (employed - p("one")),
     room: (-p("renewalRoomWeight") * room) / (annual + room + p("one")),
     housing: (-p("renewalHousingWeight") * costs) / (income + costs + p("one")),
+    // Centered on a cushion equal to the buffer days of costs: a couple with
+    // none weighs against, a couple with more weighs for, never always for.
     savings:
-      (p("renewalHousingWeight") * cash) /
-      (cash + costs * p("moneyBufferDays") + p("one")),
+      p("renewalHousingWeight") *
+      ((p("two") * cash) / (cash + costs * p("moneyBufferDays") + p("one")) -
+        p("one")),
     health:
       -p("renewalHealthWeight") *
         Math.max(p("zero"), actor.affect.stress - actor.affect.mood) -
@@ -229,9 +232,11 @@ export function birthCircumstances(
         }) -
           p("one"))
       : p("zero"),
+    // Centered on a couple who share a home, the only couples the review
+    // reads: sharing adds nothing to every plan, living apart weighs against.
     partnership:
       mother.householdId === partner.householdId
-        ? p("one")
+        ? p("zero")
         : -p("renewalWaitPull"),
   };
 }

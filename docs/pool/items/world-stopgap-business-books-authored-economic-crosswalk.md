@@ -4,7 +4,7 @@ title: "Stopgaps in business-books (authored-economic-crosswalk): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Existing authored workplace classifications mapped to corporate industry priors and explicit excluded institutional funding routes; no legal form, supplier relationship or budget is established.
 
 Oct 20 (pool feeder): spec written; legal form needs the owner record, so this waits on world-stopgap-business-generated-identity. The Oct 19 research row (B-people-behavior-2.json) agrees: map each class to its NAICS sector priors with an all-industry fallback, keep nonprofit and public exclusions.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

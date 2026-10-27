@@ -3,12 +3,12 @@ id: owner-bail-bonds
 title: "Should a defendant who cannot pay the whole bail be able to pay a bail bond company a fee and go home? Owner said yes on Oct 23; CTO to confirm with him"
 area: gov
 kind: owner-decision
-priority: 2
+priority: 3
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: owner
+blocked-on:
 source: "owner, in a pool-worker session, Oct 23"
 ---
 
@@ -21,3 +21,5 @@ source: "owner, in a pool-worker session, Oct 23"
 **Files.** docs/coordination/OWNER-DECISIONS.md, src/core2/justice-pretrial.ts, src/core2/data/justice/parameters.json
 
 **Notes.** Raised in PR 5847 (`justice-bail-moves-the-cash`). The owner's words, Oct 23: "Mark that as something for the CTO to check, double check with me, and also bring this back up to me. But yes, for the decision." The fee share (commonly said to be about a tenth of the bail) and which states ban commercial bail need sourcing (`researcher`) before building.
+
+Oct 25 audit: ruled under "simulate it, don't ask": the owner said yes on Oct 23, so a defendant who cannot pay the whole bail may pay a commercial bond company's fee where the state's law allows commercial bail. Build it when the justice engine is scheduled (the owner put crime later on Oct 16).

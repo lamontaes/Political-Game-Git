@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/no-pinned-place-opelika
+pr: #6014
 blocked-on:
 source: added by the acting CTO, Oct 22 merge sample
-claimed-at:
+claimed-at: 2026-10-25T09:19:46.575Z
 ---
 
 **What.** PR #5553 (world-census-scale-closures-rise) added src/core2/census-scale-closures-opelika.test.ts with `const OPELIKA = { key: "0157048", seed: "op1" }` and both cases built on that one town. A pinned place proves the regression that was found, but it never checks that the rule holds anywhere else. Rewrite the file so each case draws a place from all 56 states and territories (drawPlace with a seed the test did not choose, bounded retries where a place has no wholesaler or retailer), prints the drawn place, key and seed in the failure message, and keeps Opelika only as a named regression seed that runs when CENSUS_CLOSURES_SEED (or the existing seed env) is set.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/census-scale-closures-opelika.test.ts, src/core2/census-scale-closures-support.ts
 
 **Notes.** Found in the acting CTO's Oct 22 merge sample of #5553. Rename the file to census-scale-closures.test.ts if nothing imports it by name.
+
+2026-10-25 (claude/no-pinned-place-opelika): kept the file name, because census-scale-closures.test.ts already holds the year-long drawn-town case. Both cases now draw; CENSUS_CLOSURES_SEED=op1 replays Opelika. A fresh seed drew Bartlesville, Oklahoma, where the Census-size town closes a TV station on 2025-08-04 that the sample town keeps open; it passes on #5996's head (outlet cost by staff hours), so this PR's draws depend on that fix.

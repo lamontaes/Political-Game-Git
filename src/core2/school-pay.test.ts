@@ -71,18 +71,29 @@ function districtWith(tier: "full" | "counted") {
 it(`a public school district's full teachers are paid from the town treasury, seed ${seed}`, () => {
   const { core, place, district, full, link } = districtWith("full");
   advanceCore(core, addDays(makeIsoDate(core.date), 120));
-  // A teacher who left in the window (the post replaced their job) has no pay to check.
-  const staying = full.filter(
-    (id) => core.work.commitments.get(id)?.endsAt === undefined,
+  // Every full teacher the district opened with is paid for the paydays they
+  // worked, whether they still teach or have since left (a teacher may leave
+  // work by their own choice, a change the jobs engine records). One who left
+  // before their first payday was owed nothing.
+  const owed = full.filter(
+    (id) =>
+      (core.work.payrollLedgerByCommitment.get(id)?.dueRecognizedMinor ?? 0) >
+      0,
   );
-  expect(staying.length, `${district.name} full teachers`).toBeGreaterThan(0);
-  for (const id of staying)
+  expect(
+    owed.length,
+    `${district.name} full teachers owed pay in the window`,
+  ).toBeGreaterThan(0);
+  for (const id of owed)
     expect(
       core.work.payrollLedgerByCommitment.get(id)?.paidMinor ?? 0,
       `${district.name} ${id}`,
     ).toBeGreaterThan(0);
+  const staying = owed.filter(
+    (id) => core.work.commitments.get(id)?.endsAt === undefined,
+  );
   process.stdout.write(
-    `school-pay full: ${place.name} (seed ${seed}): ${district.name}, ${staying.length} full teachers paid from ${link.treasuryId}\n`,
+    `school-pay full: ${place.name} (seed ${seed}): ${district.name}, ${owed.length} full teachers paid from ${link.treasuryId}, ${staying.length} still teaching\n`,
   );
 }, 900_000);
 

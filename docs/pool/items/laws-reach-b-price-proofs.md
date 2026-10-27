@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: blocked
+status: dropped
 claimed-by: claude/political-game-pool-yucp92-hh
 pr: #5310
 blocked-on: records that do not exist: households' miles driven, fuel bought, transit rides and broadband bills are consumption estimates because no engine records them; the item text is also an empty shell
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:51:27.412Z
 **Files.** src/core2/modules/place-prices.ts, src/core2/data/laws/reach-group-b.json, src/core2/data/stopgaps.json
 
 **Notes.** Split from laws-stopgap-reach-group-b-missing-engine on Oct 19; the stopgap rows named above are its 13.
+
+Dropped by the Oct 25 audit: an empty shell waiting on records (miles driven, fuel, rides, broadband bills) no engine keeps; nothing on screen reads them.

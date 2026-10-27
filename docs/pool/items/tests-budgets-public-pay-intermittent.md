@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/budgets-pay-intermittent
+pr: #5995
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T20:03:50.985Z
 ---
 
 **What.** src/core2/budgets-public-pay.test.ts plays 90 days in Marlborough, New Hampshire on its fixed seed 109a7b3b1d5c1715d738e7b8ca9deec614910239 and expects the public employers' wages drawn from the treasury to equal what the payroll ledger says was paid. On Oct 24 it failed once at line 81, expected 11549162 to be 12181567, in a run of six budgets and withholding test files at two workers on a 4-core container, then passed alone and again in the same six-file run. A fixed-seed world should give the same number every time, so something in the run depends on more than the seed, or the test reads a ledger that can include pay the journal hook did not see.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/budgets-public-pay.test.ts, src/core2/modules/budgets.ts
 
 **Notes.** The failing run was on PR #5845's branch with PR #5782's change applied (each withholding posting's id names its tax, src/core2/modules/budgets.ts). The same test passed on that branch without the change once, and with it twice, so whether the change matters was not established.
+
+Oct 24, 2026 (claude/budgets-pay-intermittent): not intermittent on main; it fails every run on this seed, alone too. The gap is the New Hampshire treasury's recorded shortfalls on the February 27 and March 27, 2025 paydays for two state workers in Marlborough (640,051 cents on main), which the authority paid and recorded (`src/core2/public-work-pay.ts:244`). The test compared the treasury's draws alone with the ledger; it now adds the recorded shortfalls. Found on the way: housing construction pays a builder's materials to the first organization in the place with an outside flow, which can be a public employer (separate item). Ten runs of the six files at two workers on Oct 25: this test passed in all ten; budgets.test.ts lost its worker at the 2 GB heap limit in two, filed as tests-budgets-worker-heap-limit.

@@ -9,7 +9,6 @@ import type { CoreAPI } from "./types";
 
 export const ABORTION_LAW_SERIES =
   "us-policy-positions:civil-family-community.restrict-abortion";
-export const UNPLANNED_STOPGAP = "SG-PEOPLE-unplanned-pregnancy";
 
 interface MilesRow {
   readonly miles: number;
@@ -51,14 +50,17 @@ export function providerMiles(
   };
 }
 
-/** The restriction law in force where she lives: its record id, or none recorded. */
-export function restrictionRead(api: CoreAPI): {
+/** The restriction law in force where she lives on a day: its record id, or none recorded. */
+export function restrictionRead(
+  api: CoreAPI,
+  asOf: string = api.state.date,
+): {
   restricted: boolean;
   lawId: string | null;
 } {
   let answer;
   try {
-    answer = lawInForce(api, ABORTION_LAW_SERIES);
+    answer = lawInForce(api, ABORTION_LAW_SERIES, asOf);
   } catch {
     // No laws engine in this world: nothing restricts, and no record is cited.
     return { restricted: false, lawId: null };
@@ -95,6 +97,8 @@ export function unplannedExposure(
     0,
   );
   const cushion = cash / (cash + costs * p("moneyBufferDays") + p("one"));
+  // stopgapId: SG-PEOPLE-unplanned-calibration
+  api.stopgap("SG-PEOPLE-unplanned-calibration");
   return (
     p("renewalUnplannedExposure") *
     Math.exp(-distance * distance) *
@@ -108,6 +112,10 @@ export interface UnplannedDecision {
   lawId: string | null;
   miles: number;
   travelMinor: number;
+  /** The share of the trip that the restriction added: none where the law in force does not restrict. */
+  lawShare: number;
+  /** The household's cash she weighed the trip against, the day she decided. */
+  cashMinor: number;
   scores: { continue: number; end: number };
   reasons: Record<string, number>;
 }
@@ -125,17 +133,32 @@ export function weighUnplanned(
   placeId: string,
   circumstances: Readonly<Record<string, number>>,
   cash: number,
+  asOf: string,
 ): UnplannedDecision {
   const p = (key: string) => renewalParameter(api, key);
   const raising = Object.values(circumstances).reduce((sum, v) => sum + v, 0);
-  const law = restrictionRead(api);
+  const law = restrictionRead(api, asOf);
   const { miles } = providerMiles(
     placeId,
     law.restricted,
     api.state.placeMetadata?.placeKey,
   );
   const travelMinor = Math.round(miles * p("renewalTravelCostPerMileMinor"));
+  // What the law added to the trip: the miles with it against the miles the
+  // same place would have without it.
+  const lawShare =
+    law.restricted && miles > 0
+      ? Math.max(
+          0,
+          1 -
+            providerMiles(placeId, false, api.state.placeMetadata?.placeKey)
+              .miles /
+              miles,
+        )
+      : 0;
   // Distance and money both hold her back, each on a smooth curve.
+  // stopgapId: SG-PEOPLE-unplanned-calibration
+  api.stopgap("SG-PEOPLE-unplanned-calibration");
   const far = miles / (miles + p("renewalTravelHalfMiles"));
   const unaffordable = travelMinor / (travelMinor + cash + p("one"));
   const travel = (-p("renewalTravelWeight") * (far + unaffordable)) / p("two");
@@ -154,6 +177,8 @@ export function weighUnplanned(
     lawId: law.lawId,
     miles,
     travelMinor,
+    lawShare,
+    cashMinor: cash,
     scores: { continue: carry, end },
     reasons,
   };
@@ -176,5 +201,6 @@ export function decideUnplanned(
     mother.placeId,
     birthCircumstances(api, mother, couple, asOf),
     cash,
+    asOf,
   );
 }

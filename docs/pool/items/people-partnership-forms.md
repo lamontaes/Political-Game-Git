@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** TODO
 
-**Done when.** TODO
+**Done when.** TODO **On screen.** Nothing yet: it would show on a person's card in the People web, and nothing there reads it.
 
 **Files.** TODO
 

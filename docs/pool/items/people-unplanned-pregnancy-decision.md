@@ -4,9 +4,9 @@ title: "Unplanned pregnancies and the decision, reading the abortion law where s
 area: people
 kind: feature
 priority: 2
-status: open
+status: done
 claimed-by:
-pr: #5695
+pr: #5749
 blocked-on:
 milestone:
 source: "found while building laws-record-only-reads"

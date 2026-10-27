@@ -13,13 +13,6 @@
         "scene-words.setting-public-out.you-are-in-place"
       ]
     },
-    "present": {
-      "bank": "scene-words",
-      "keys": [
-        "scene-words.present-one-one.who-is-here",
-        "scene-words.present-one-one.who-is-there"
-      ]
-    },
     "lead": {
       "bank": "scene-words",
       "keys": [

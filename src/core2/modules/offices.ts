@@ -32,7 +32,7 @@ import { incompatibleOffices } from "../office-incompatibility";
  */
 import { registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
-import { decisionLean } from "../trait-decisions";
+import { leanedScore } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
 import { makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, PersonId, Source } from "../types";
@@ -364,6 +364,10 @@ function suitedResidents(
         taken.has(person.id)
       )
         return false;
+      // The player takes a seat by filing and winning, never by being the
+      // resident the opening seats: a player the creator made 25 or older is
+      // a resident this pick could reach.
+      if (person.id === (api.state as CoreState).playerId) return false;
       // Officeholders are fictional: a resident who happens to share a real
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
@@ -524,6 +528,10 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     ...stateOffices(stateKey, geoid, date),
   ]) {
     putOffice(api, entry);
+    // An office its law creates later has no holder and no past until its
+    // first term: its first election fills it.
+    if (entry.office.firstTermStart && entry.office.firstTermStart > date)
+      continue;
     for (const seat of entry.seats)
       pastTerms(
         api,
@@ -682,6 +690,18 @@ function pastTerms(
       } as unknown as ModuleRow);
     return;
   }
+  // An office its law created has no service before its first term: a term
+  // that would have begun earlier is that first term.
+  const created = office.firstTermStart;
+  if (created && start <= created) {
+    table(api, "terms").put({
+      ...term,
+      startDate: created,
+      serviceStart: created,
+      ...(office.elected ? { elected: electionBehind(office, created) } : {}),
+    } as unknown as ModuleRow);
+    return;
+  }
   // A term read as ending more than a full term out began at the opening, and
   // so did one whose holder was too young to begin it a full term back.
   const born = Number(term.identity.birthDate.slice(0, 4));
@@ -716,7 +736,9 @@ function pastTerms(
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
     prior > 0 &&
-    firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm")
+    (firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm") ||
+      (created !== undefined &&
+        termStartInYear(office, shiftYears(start, -prior * years)) < created))
   )
     prior -= 1;
   // A state that limits legislative terms caps the service before today.
@@ -748,6 +770,23 @@ function pastTerms(
       : start;
   const won = (from: string) =>
     office.elected ? { elected: electionBehind(office, from) } : {};
+  // A holder too young for the office when the current term began came to it
+  // partway through, on the day they reached the minimum age (a February 29
+  // birthday counts on March 1), filling the seat rather than winning it.
+  const birth = term.identity.birthDate;
+  const ageYear = born + tenureYears("minimumAgeAtFirstTerm");
+  const leap =
+    (ageYear % 4 === 0 && ageYear % 100 !== 0) || ageYear % 400 === 0;
+  const ofAge = `${ageYear}-${birth.slice(5) === "02-29" && !leap ? "03-01" : birth.slice(5)}`;
+  if (prior === 0 && start < ofAge) {
+    const joined = ofAge < opening ? ofAge : opening;
+    table(api, "terms").put({
+      ...term,
+      startDate: joined,
+      serviceStart: joined,
+    } as unknown as ModuleRow);
+    return;
+  }
   table(api, "terms").put({
     ...term,
     startDate: start,
@@ -1160,12 +1199,15 @@ function fillVacancy(
             ).townPlaceId,
           ).find(
             (suited) =>
-              decisionLean(
+              // The shared formula with no case but personality (the lean's sign,
+              // as before), so the weighing is reported and, where kept, recorded.
+              leanedScore(
                 api.state,
                 suited.person,
                 "offices.accept-appointment",
                 "accept",
                 "decline",
+                0,
               ) >= 0,
           )
         : undefined;

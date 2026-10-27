@@ -18,7 +18,7 @@ claimed-at: 2026-10-16T02:49:10.292Z
 
 **Rules.** Estimate, never UNKNOWN: until a person record holds the status it starts from the real average with a per-world spread, marked as an estimate with its source. One model, two tiers: a named person and a counted group are read by one rule. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a citizenship, conviction or firearm law reaches a named person by their own record and the count of the rest is the sum of groups, with person record ids, named by record id. The test in src/core2/law-reach-group-a.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: pass an enforcement partnership law and see which of his neighbors it reaches.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a citizenship, conviction or firearm law reaches a named person by their own record and the count of the rest is the sum of groups, with person record ids, named by record id. The test in src/core2/law-reach-group-a.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: pass an enforcement partnership law and see which of his neighbors it reaches. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/data/stopgaps.json, src/core2/law-reach-group-a.test.ts
 

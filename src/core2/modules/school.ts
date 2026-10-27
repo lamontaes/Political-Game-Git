@@ -100,16 +100,28 @@ function lastDayOfYear(startYear: number, usps: string | undefined): string {
   return last;
 }
 
+/** The last day asked about, with its state and answer. */
+let lastAsked: { date: string; usps: string | undefined; answer: boolean } = {
+  date: "",
+  usps: undefined,
+  answer: false,
+};
+
 /**
  * A weekday of the school year, outside its recorded breaks. A state that
  * requires a number of instructional days ends its year when they are done
  * (a state that sets hours, or leaves it to the district, keeps the base year).
  */
 export function isSchoolDay(date: string, usps?: string): boolean {
-  if (!onBaseCalendar(date)) return false;
+  // Every school-age person asks about the same day: the answer depends on
+  // the date and the state alone, so the last one is kept.
+  if (date === lastAsked.date && usps === lastAsked.usps)
+    return lastAsked.answer;
   const year = Number(date.slice(0, 4));
   const startYear = date.slice(5) >= data.schoolYear.firstDay ? year : year - 1;
-  return date <= lastDayOfYear(startYear, usps);
+  const answer = onBaseCalendar(date) && date <= lastDayOfYear(startYear, usps);
+  lastAsked = { date, usps, answer };
+  return answer;
 }
 
 /** The holiday's date that year: the nth (or, at -1, the last) given weekday of its month. */

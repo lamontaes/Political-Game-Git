@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-seat-age
 pr: #5945
 blocked-on:

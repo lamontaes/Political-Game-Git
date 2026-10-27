@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-m0-flags
 pr: #5869
 blocked-on:

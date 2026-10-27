@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/affectionate-clarke-7dknew
 pr: #5879
 blocked-on:

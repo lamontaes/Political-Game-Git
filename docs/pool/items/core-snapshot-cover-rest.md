@@ -32,3 +32,5 @@ Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): The title 
 Sent back 2026-10-23 from PR #5036 (branch claude/snapshot-cover-s5): integrating main conflicts in src/core2/grief.ts, modules/housing.ts and modules/news.ts; give the bounded repair a matching item and Done-when evidence table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5036 (branch claude/snapshot-cover-s5): Code conflicts are repaired but the body still claims exact restoration while six engines and candidacy/news divergence remain; provide bounded restore-shape acceptance and a Done-when table or finish the umbrella; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5036 (branch claude/snapshot-cover-s5): the corrected evidence table still marks empty uncoveredModules and exact round-trip restoration NOT MET, with nine uncovered modules and 14/20/16 differing fields; provide a valid bounded item for the completed slice or finish the umbrella, and reconcile title six versus body nine; finish on that branch, merge main into it first.

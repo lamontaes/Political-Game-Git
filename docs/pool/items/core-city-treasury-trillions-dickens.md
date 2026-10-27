@@ -17,10 +17,12 @@ claimed-at:
 
 **Rules.** Wire to the world: every dollar moves between real accounts on the one balanced writer, so a city's payments must match its budget and the journal must balance in the played year. One rule, all 56 places: the fix holds for any drawn place.
 
-**Done when.** CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs, run with the runner's env for Dickens, Iowa (seed above) and two more places drawn from all 56, reports 'every dollar balances: true' and each city employer's yearly flows within its adopted budget, named by record id in the PR body.
+**Done when.** CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs, run with the runner's env for Dickens, Iowa (seed above) and two more places drawn from all 56, reports 'every dollar balances: true' and each city employer's yearly flows within its adopted budget, named by record id in the PR body. **On screen.** Nothing yet: filed play-city-books-on-screen, which puts it on Politics → Budgets.
 
 **Files.** scripts/core2-year/closures.mjs, src/core2/modules/budgets.ts, src/core2/accounts.ts
 
 **Notes.** Found by the M0-M2 lead's baseline run, Oct 24 (docs/coordination/LEADS-2026-10-24.md). Blocks roadmap M0-08.
 
 Sent back 2026-10-24 from PR #5891 (branch claude/quirky-ride-vrwwz4-city-treasury): First Done-when row explicitly not met: committed closures command remains false in required three places, while passing corrected-checker copy is unpublished; publish root checker fix or bound completion item and retain balance acceptance open; finish on that branch, merge main into it first.
+
+The outside-market lookup fix is bounded by core-treasury-settles-with-outside-market for PR #5891. This item stays open for its first Done-when line (closures.mjs reporting every dollar balances: true), which waits on roadmap-m0-08-closures-check-opening-timing.

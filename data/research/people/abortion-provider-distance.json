@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "readOn": "2026-10-20",
-  "note": "Driving miles from a place to the nearest abortion provider. milesBefore is the May 2022 figure (before the Dobbs-era closures) and milesNow is July 2026; the engine reads milesNow where the abortion law in force restricts and milesBefore where it does not. Each figure is the mean over the state's counties weighted by women aged 15-44, with low and high the 10th and 90th percentiles of that weighted spread. Alaska and Hawaii counties are weighted by Census county population because the Myers file leaves their women-aged-15-44 count blank. One Alaska county row (FIPS 02261, former Valdez-Cordova) has no current Census population and is left out. Places the Myers file lacks carry estimatedFrom and reason.",
+  "note": "Driving miles from a place to the nearest abortion provider. milesBefore is the May 2022 figure (before the Dobbs-era closures) and milesNow is July 2026; the engine reads milesNow where the abortion law in force restricts and milesBefore where it does not. Each figure is the mean over the state's counties weighted by women aged 15-44, with low and high the 10th and 90th percentiles of that weighted spread. Alaska and Hawaii counties are weighted by the Census Bureau's Vintage 2024 county population estimates because the Myers file leaves their women-aged-15-44 count blank. One Alaska county row (FIPS 02261, former Valdez-Cordova) has no current Census population and is left out. Places the Myers file lacks carry estimatedFrom and reason. Every computed figure is produced by scripts/research/export-abortion-provider-distance.py from the two inputs listed under inputs, checked by their sha256; the figures are ESTIMATED because they are computed from the county file, not printed in it.",
   "source": {
     "citation": "Caitlin Myers, County-by-month travel distances to nearest abortion provider, Vintage July 1, 2026 (Middlebury College; Myers Abortion Facility Database public panel), osf.io/pfxq3; user guide and codebook last updated May 20, 2026",
     "url": "https://osf.io/s6zpa/",
@@ -15,22 +15,24 @@
   },
   "places": {
     "US-AK": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
-        "miles": 64.6,
+        "miles": 64.8,
         "low": 1.6,
         "high": 230.3
       },
       "milesNow": {
-        "miles": 121.1,
+        "miles": 121.3,
         "low": 1.6,
         "high": 565.5
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by county population (Census Bureau Vintage 2024 estimates), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-AL": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 48.6,
         "low": 3.4,
@@ -42,10 +44,12 @@
         "high": 228.3
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-AR": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 75.1,
         "low": 7.3,
@@ -57,10 +61,12 @@
         "high": 343.1
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-AZ": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 16.6,
         "low": 1.9,
@@ -72,10 +78,12 @@
         "high": 66.3
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-CA": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 6.7,
         "low": 2.0,
@@ -87,10 +95,12 @@
         "high": 15.9
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-CO": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 17.3,
         "low": 1.8,
@@ -102,10 +112,12 @@
         "high": 36.4
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-CT": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 8.7,
         "low": 2.2,
@@ -117,10 +129,12 @@
         "high": 13.5
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-DC": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 1.1,
         "low": 1.1,
@@ -132,10 +146,12 @@
         "high": 1.1
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-DE": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 6.3,
         "low": 2.9,
@@ -147,10 +163,12 @@
         "high": 40.4
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-FL": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 14.5,
         "low": 2.3,
@@ -162,10 +180,12 @@
         "high": 50.7
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-GA": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 28.3,
         "low": 2.6,
@@ -177,10 +197,12 @@
         "high": 77.1
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-HI": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 7.9,
         "low": 2.5,
@@ -192,10 +214,12 @@
         "high": 21.3
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by county population (Census Bureau Vintage 2024 estimates), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-IA": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 41.1,
         "low": 3.5,
@@ -207,10 +231,12 @@
         "high": 101.6
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-ID": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 39.6,
         "low": 3.7,
@@ -222,10 +248,12 @@
         "high": 185.1
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-IL": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 16.7,
         "low": 3.0,
@@ -237,10 +265,12 @@
         "high": 41.4
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-IN": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 33.3,
         "low": 4.1,
@@ -252,10 +282,12 @@
         "high": 115.3
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-KS": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 52.5,
         "low": 4.5,
@@ -267,10 +299,12 @@
         "high": 126.7
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-KY": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 64.6,
         "low": 7.3,
@@ -282,10 +316,12 @@
         "high": 176.4
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-LA": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 46.6,
         "low": 2.8,
@@ -297,10 +333,12 @@
         "high": 523.2
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-MA": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 14.0,
         "low": 0.3,
@@ -312,10 +350,12 @@
         "high": 13.6
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-MD": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 9.4,
         "low": 2.1,
@@ -327,10 +367,12 @@
         "high": 21.2
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-ME": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 10.2,
         "low": 3.5,
@@ -342,10 +384,12 @@
         "high": 14.4
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-MI": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 16.0,
         "low": 2.2,
@@ -357,10 +401,12 @@
         "high": 45.3
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-MN": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 31.2,
         "low": 5.7,
@@ -372,10 +418,12 @@
         "high": 76.7
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-MO": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 67.9,
         "low": 10.5,
@@ -387,10 +435,12 @@
         "high": 99.8
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-MS": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 66.8,
         "low": 13.6,
@@ -402,10 +452,12 @@
         "high": 366.8
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-MT": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 52.9,
         "low": 0.6,
@@ -417,10 +469,12 @@
         "high": 124.3
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-NC": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 24.2,
         "low": 1.9,
@@ -432,10 +486,12 @@
         "high": 59.7
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-ND": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 142.6,
         "low": 4.8,
@@ -447,10 +503,12 @@
         "high": 294.2
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-NE": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 43.5,
         "low": 2.6,
@@ -462,10 +520,12 @@
         "high": 182.7
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-NH": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 17.8,
         "low": 4.4,
@@ -477,10 +537,12 @@
         "high": 34.8
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-NJ": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 6.2,
         "low": 1.8,
@@ -492,10 +554,12 @@
         "high": 13.9
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-NM": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 51.6,
         "low": 2.5,
@@ -507,10 +571,12 @@
         "high": 196.6
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-NV": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 9.0,
         "low": 0.8,
@@ -522,10 +588,12 @@
         "high": 7.4
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-NY": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 5.0,
         "low": 1.1,
@@ -537,10 +605,12 @@
         "high": 9.9
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-OH": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 25.3,
         "low": 4.8,
@@ -552,10 +622,12 @@
         "high": 53.9
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-OK": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 37.8,
         "low": 1.8,
@@ -567,10 +639,12 @@
         "high": 245.6
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-OR": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 27.0,
         "low": 2.1,
@@ -582,10 +656,12 @@
         "high": 52.2
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-PA": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 20.2,
         "low": 2.2,
@@ -597,10 +673,12 @@
         "high": 62.9
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-RI": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 10.1,
         "low": 4.1,
@@ -612,10 +690,12 @@
         "high": 29.5
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-SC": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 29.4,
         "low": 5.1,
@@ -627,10 +707,12 @@
         "high": 72.4
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-SD": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 129.6,
         "low": 7.8,
@@ -642,10 +724,12 @@
         "high": 283.5
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-TN": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 35.1,
         "low": 4.7,
@@ -657,10 +741,12 @@
         "high": 226.0
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-TX": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 38.4,
         "low": 0.5,
@@ -672,10 +758,12 @@
         "high": 623.8
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-UT": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 40.4,
         "low": 5.5,
@@ -687,10 +775,12 @@
         "high": 98.2
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-VA": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 20.9,
         "low": 2.3,
@@ -702,10 +792,12 @@
         "high": 48.5
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-VT": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 17.7,
         "low": 4.1,
@@ -717,10 +809,12 @@
         "high": 39.8
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-WA": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 12.1,
         "low": 2.0,
@@ -732,10 +826,12 @@
         "high": 11.2
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-WI": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 44.9,
         "low": 4.0,
@@ -747,10 +843,12 @@
         "high": 101.0
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-WV": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 61.7,
         "low": 21.1,
@@ -762,10 +860,12 @@
         "high": 119.8
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-WY": {
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "milesBefore": {
         "miles": 134.3,
         "low": 51.2,
@@ -777,7 +877,9 @@
         "high": 145.3
       },
       "sourceUrl": "https://osf.io/download/gtpm4/",
-      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility."
+      "quote": "The variable distance_origintodest measures the travel (driving) distance from the origin county to the nearest abortion facility.",
+      "estimatedFrom": "Computed by scripts/research/export-abortion-provider-distance.py from the Myers county file: the mean of distance_origintodest over the state's counties weighted by women aged 15-44 (the file's origin_population), for May 2022 and July 2026.",
+      "spread": "low and high are the weighted 10th and 90th percentiles of the state's counties"
     },
     "US-PR": {
       "tag": "ESTIMATED",
@@ -811,7 +913,7 @@
       "estimatedFrom": "National women-weighted county distances, Myers file, May 2022 (this file, nationalBefore).",
       "reason": "No fetched source names a provider or a trip for the Virgin Islands, and the Myers file omits it; the national pre-ban distribution stands in for both columns until one is found.",
       "sourceUrl": "https://osf.io/download/fnumq/",
-      "quote": "The data record the population of women aged 15\u201344 in the origin county based on data from SEER and the location (county and state) of the nearest facility."
+      "quote": "The data record the population of women aged 15–44 in the origin county based on data from SEER and the location (county and state) of the nearest facility."
     },
     "US-GU": {
       "tag": "ESTIMATED",
@@ -864,5 +966,15 @@
       "sourceUrl": "https://en.wikipedia.org/wiki/American_Samoa",
       "quote": "situated 2,200 miles (3,500 km) southwest of the U.S. state of Hawaii"
     }
-  }
+  },
+  "inputs": [
+    {
+      "url": "https://osf.io/download/gtpm4/",
+      "sha256": "0394cd762e53418b23e32d031c47f141aa8902c1359e5798d2a15859ef5ebbf7"
+    },
+    {
+      "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv",
+      "sha256": "abcc8720d669e793bbfdcd440eeec37a78db3b452adbe4ccd1eadf7c72b522b9"
+    }
+  ]
 }

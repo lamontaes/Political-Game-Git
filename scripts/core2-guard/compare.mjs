@@ -1,14 +1,24 @@
 import policies from "./policies.json" with { type: "json" };
-const median = (values) =>
-  [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
+// An even count (a large town whose time budget allowed two pairs) takes the
+// mean of the middle two; an odd count its middle value, as before.
+const median = (values) => {
+  const sorted = [...values].sort((a, b) => a - b),
+    middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2
+    ? sorted[middle]
+    : (sorted[middle - 1] + sorted[middle]) / 2;
+};
 export function compare(base, head) {
   const rows = [...base, ...head];
+  // Base and head runs are measured in pairs, as many as the time budget
+  // allows up to measuredRuns (paired.mjs), so the two groups match in size.
   if (
-    base.length !== policies.measuredRuns ||
-    head.length !== policies.measuredRuns
+    base.length !== head.length ||
+    base.length < 1 ||
+    base.length > policies.measuredRuns
   )
     throw new Error(
-      "Expected three independent measured runs for each revision",
+      "Expected the same one to three independent measured runs for each revision",
     );
   for (const row of rows) {
     if (
@@ -16,7 +26,9 @@ export function compare(base, head) {
       !row.seed ||
       !row.placeKey ||
       !row.inputHash ||
-      row.days !== policies.measuredDays ||
+      !Number.isInteger(row.days) ||
+      row.days < policies.warmupDays ||
+      row.days > policies.measuredDays ||
       typeof row.opening?.budget?.passed !== "boolean" ||
       !Number.isFinite(row.millisecondsPerDay) ||
       row.millisecondsPerDay <= 0 ||
@@ -69,6 +81,8 @@ export function compare(base, head) {
     baseMillisecondsPerDay: baseMs,
     headMillisecondsPerDay: headMs,
     ratio,
+    measuredPairs: base.length,
+    measuredDays: base[0].days,
     maximumRatio: policies.maximumRatio,
     peakRssMiB: {
       base: Math.max(...base.map((row) => row.peakRssMiB)),
@@ -81,6 +95,6 @@ export function compare(base, head) {
       changed: base[0].inputHash !== head[0].inputHash,
     },
     yearEstimateScope:
-      "Relative estimate from identical 31-day windows; not a full-year two-minute proof",
+      "Relative estimate from identical windows of the measured span; not a full-year two-minute proof",
   };
 }

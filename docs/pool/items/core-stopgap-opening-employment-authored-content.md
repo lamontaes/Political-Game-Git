@@ -4,7 +4,7 @@ title: "Stopgaps in opening-employment (authored content): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-19T23:41:36.732Z
 **Notes.** First row: The existing town-employment generator uses an authored workplace and role mix; sourced employment totals do not source those content options.
 
 Oct 20: Switched from blocked to the automatic after: gate on research-opening-jobs-sourced-parameters, so it opens by itself the moment those items are done.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

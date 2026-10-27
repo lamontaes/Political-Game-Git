@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by: claude/press-staff-exit
 pr: #5353
 blocked-on:
@@ -34,3 +34,5 @@ Oct 20 (claude, claude/press-staff-exit-spread): the mass exit no longer reprodu
 Sent back 2026-10-20 from PR #5353 (branch claude/press-staff-exit): The formatting feedback is addressed, but the body reports zero departures, which does not establish the Done when proof of departures spread by individual causes, named by record id, or the owner-play staff-list check. The item Notes explicitly defer the no-leavers gap to people-press-turnover-no-leavers-no-openings. Supply the required positive departure/cause proof or separate this completed finding-only note from the unfinished item so it is not marked done.; finish on that branch, merge main into it first.
 
 Oct 21 (claude, claude/press-staff-exit, PR 5353): finding only, the item stays open. On current main the ten-on-one-day exit does not reproduce (Center Moriches, New York, seed s2: 16 press staff, a 400-day run, nobody leaves; four other drawn places the same), because press staff now have households. That means the cause is fixed but the done-when's positive proof (departures spread over the year, each followed from its cause record, and the owner reading the staff list through the year) cannot be shown until press staff leave at all, which is people-press-turnover-no-leavers-no-openings (PR 4972). The guard that no more than three leave on one day is in press-turnover.test.ts. This item is blocked on that one.
+
+Found on main at 2a524c1757 by the Oct 25 audit: the ten-on-one-day exit no longer reproduces now that press staff have households; the no-more-than-three guard is in press-turnover.test.ts.

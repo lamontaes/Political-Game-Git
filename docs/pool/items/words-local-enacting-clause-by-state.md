@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No hand-written player text: the clause wording comes from the English engine's banks, authored to each statute's pattern with its source recorded and shippable false until graded. One rule, all 56 places: the composer reads the drawn place's row by postal code, never a state named in code. Replace, never layer: the national piece stays only as the fallback for places whose row is ESTIMATED.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body), an ordinance drafted in a place whose research row is SOURCED reads its state's clause through the English engine (bill record id and bank key named), a place with an ESTIMATED row keeps the national clause, and the pieces appear on the next grading page under docs/grading/.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body), an ordinance drafted in a place whose research row is SOURCED reads its state's clause through the English engine (bill record id and bank key named), a place with an ESTIMATED row keeps the national clause, and the pieces appear on the next grading page under docs/grading/. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** data/english/parts/legislation.json, src/english/bill-sections.ts, data/research/gov/local-ordinance-style-2026.json
 

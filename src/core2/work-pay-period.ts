@@ -241,6 +241,7 @@ function calendar(
     validatedOn.set(c, (seen ?? new Map()).set(at, result));
     return result;
   }
+  if (!bookkeeping()) return c;
   units(u);
   if (
     !Object.is(admitted.zero, u.zero) ||
@@ -275,12 +276,16 @@ function guardedRecord<T extends object>(
   return result as T;
 }
 
+// In play the checks below only confirm what the engines already wrote, so
+// they return at once; tests and the bench run them with bookkeeping on.
 function identity(value: string): void {
+  if (!bookkeeping()) return;
   if (typeof value !== "string" || !value || value !== value.trim())
     throw new Error("Payroll requires canonical recorded identities.");
 }
 
 function units(value: Units): void {
+  if (!bookkeeping()) return;
   if (
     value.zero !== value.zero - value.zero ||
     value.one !== Math.sign(value.one) ||
@@ -295,6 +300,7 @@ function units(value: Units): void {
 }
 
 function capturedUnits(r: FinanceReadGuard, value: Units): Units {
+  if (!bookkeeping()) return value;
   const result = {
     zero: r.field(value, "zero"),
     one: r.field(value, "one"),
@@ -305,18 +311,21 @@ function capturedUnits(r: FinanceReadGuard, value: Units): Units {
 }
 
 function minor(value: number, u: Units): number {
+  if (!bookkeeping()) return value;
   if (!Number.isSafeInteger(value) || value < u.zero)
     throw new Error("Payroll minor units are malformed or overflow.");
   return value;
 }
 
 function sum(left: number, right: number, u: Units): number {
+  if (!bookkeeping()) return left + right;
   minor(left, u);
   minor(right, u);
   return minor(Number(BigInt(left) + BigInt(right)), u);
 }
 
 function date(value: string): IsoDate {
+  if (!bookkeeping()) return value as IsoDate;
   const normalized = makeIsoDate(value);
   if (normalized !== value)
     throw new Error("Payroll dates must retain their exact recorded ISO form.");
@@ -329,6 +338,7 @@ function availableSource(
   at: string,
   u: Units,
 ): void {
+  if (!bookkeeping()) return;
   if (!source) throw new Error("Payroll requires full dated Source evidence.");
   // Full payload retains optional provenance, every own key/descriptor and nesting.
   r.payload(source, u.zero, u.one);
@@ -677,6 +687,7 @@ function basis(
   at: string,
   u: Units,
 ): WorkPayrollBasis {
+  if (!bookkeeping()) return b;
   b = guardedRecord(r, b, u);
   for (const key of [
     "calendarId",
@@ -703,6 +714,7 @@ function sameOwner(
   row: WorkPayrollBasis | WorkPayrollLedger,
   b: WorkPayrollBasis,
 ): void {
+  if (!bookkeeping()) return;
   for (const key of [
     "calendarId",
     "commitmentId",
@@ -736,6 +748,7 @@ function readLedger(
       accruedMinor: u.zero,
       arrearsMinor: u.zero,
     };
+  if (!bookkeeping()) return prior;
   prior = guardedRecord(r, prior, u);
   sameOwner(prior, b);
   for (const value of [
@@ -806,6 +819,7 @@ function readPeriod(
   prior: WorkEarnedPayPeriod,
   u: Units,
 ): WorkEarnedPayPeriod {
+  if (!bookkeeping()) return prior;
   prior = guardedRecord(r, prior, u);
   sameOwner(prior, b);
   identity(prior.id);
@@ -864,33 +878,39 @@ export function prepareWorkPayAccrual(
   const old = readLedger(r, c, b, priorLedger, u);
   identity(periodId);
   identity(shift.id);
-  for (const key of [
-    "commitmentId",
-    "jobId",
-    "personId",
-    "organizationId",
-  ] as const)
-    if (shift[key] !== b[key])
-      throw new Error("Earned shift has another actual owner.");
-  availableSource(r, shift.source, at, u);
+  if (bookkeeping()) {
+    for (const key of [
+      "commitmentId",
+      "jobId",
+      "personId",
+      "organizationId",
+    ] as const)
+      if (shift[key] !== b[key])
+        throw new Error("Earned shift has another actual owner.");
+    availableSource(r, shift.source, at, u);
+  }
   if (
-    (old.lastEarnedAt !== undefined && old.lastEarnedAt >= at) ||
-    (old.lastSettledPeriodIndex !== undefined &&
-      old.lastSettledPeriodIndex >= resolved.index) ||
-    !Number.isFinite(shift.plannedMinutes) ||
-    shift.plannedMinutes <= u.zero ||
-    !Number.isFinite(shift.attendedMinutes) ||
-    shift.attendedMinutes < u.zero ||
-    !Number.isFinite(shift.absentMinutes) ||
-    shift.absentMinutes < u.zero ||
-    shift.attendedMinutes > shift.plannedMinutes ||
-    shift.absentMinutes !== shift.plannedMinutes - shift.attendedMinutes
+    bookkeeping() &&
+    ((old.lastEarnedAt !== undefined && old.lastEarnedAt >= at) ||
+      (old.lastSettledPeriodIndex !== undefined &&
+        old.lastSettledPeriodIndex >= resolved.index) ||
+      !Number.isFinite(shift.plannedMinutes) ||
+      shift.plannedMinutes <= u.zero ||
+      !Number.isFinite(shift.attendedMinutes) ||
+      shift.attendedMinutes < u.zero ||
+      !Number.isFinite(shift.absentMinutes) ||
+      shift.absentMinutes < u.zero ||
+      shift.attendedMinutes > shift.plannedMinutes ||
+      shift.absentMinutes !== shift.plannedMinutes - shift.attendedMinutes)
   )
     throw new Error("Invalid, duplicate or already settled earned shift.");
   minor(shift.earnedMinor, u);
   if (priorPeriod) {
     priorPeriod = readPeriod(r, c, b, priorPeriod, u);
-    if (priorPeriod.id !== periodId || priorPeriod.index !== resolved.index)
+    if (
+      bookkeeping() &&
+      (priorPeriod.id !== periodId || priorPeriod.index !== resolved.index)
+    )
       throw new Error(
         "Accrual target differs from the actual open payroll period.",
       );
@@ -918,11 +938,25 @@ export function prepareWorkPayAccrual(
     source: earnedSource(at),
   };
   if (
-    !Number.isFinite(period.plannedMinutes) ||
-    !Number.isFinite(period.attendedMinutes)
+    bookkeeping() &&
+    (!Number.isFinite(period.plannedMinutes) ||
+      !Number.isFinite(period.attendedMinutes))
   )
     throw new Error("Accrued payroll time overflows.");
-  return Object.freeze({ ledger, period });
+  return bookkeeping() ? Object.freeze({ ledger, period }) : { ledger, period };
+}
+
+/** Days from a period's end to its payday: fixed by the calendar, so play asks once. */
+const lags = new WeakMap<WorkPayrollCalendarInput, number>();
+function paydayLag(c: WorkPayrollCalendarInput, u: Units): number {
+  const kept = bookkeeping() ? undefined : lags.get(c);
+  if (kept !== undefined) return kept;
+  const lag = daysBetween(
+    date(periodAtIndex(c, u.zero, u).throughAt),
+    date(c.firstPaydayAt),
+  );
+  if (!bookkeeping()) lags.set(c, lag);
+  return lag;
 }
 
 /** A period becomes due once. Re-requested old arrears are not newly recognized wages. */
@@ -942,8 +976,7 @@ export function prepareWorkPayrollRequest(
   c = calendar(r, c, at, u);
   b = basis(r, c, b, at, u);
   const old = readLedger(r, c, b, priorLedger, u),
-    firstThrough = periodAtIndex(c, u.zero, u).throughAt,
-    lag = daysBetween(date(firstThrough), date(c.firstPaydayAt)),
+    lag = paydayLag(c, u),
     throughDate = addDays(date(at), -lag);
   if (throughDate < c.firstPeriodStartsAt)
     throw new Error("Payroll cash may settle only on its recorded payday.");
@@ -1003,41 +1036,45 @@ export function prepareWorkPayrollSettlement(
   request = guardedRecord(r, request, u);
   c = calendar(r, c, request.date, u);
   b = basis(r, c, b, request.date, u);
-  const expected = prepareWorkPayrollRequest(
-    r,
-    c,
-    b,
-    priorLedger,
-    earnedPeriod,
-    request.date,
-    request.id,
-    u,
-  );
-  for (const key of [
-    "index",
-    "fromAt",
-    "throughAt",
-    "dueAt",
-    "earnedPeriodId",
-    "newlyDueMinor",
-    "arrearsBeforeMinor",
-    "requestedMinor",
-  ] as const)
-    if (request[key] !== expected[key])
-      throw new Error(
-        "Payroll request differs from its owned original earned/due terms.",
-      );
-  sameOwner(request, b);
-  availableSource(r, request.source, request.date, u);
-  if (
-    !sameEvidence(r, request.source, expected.source, u) ||
-    !sameEvidence(r, request.jobSource, b.jobSource, u) ||
-    !sameEvidence(r, request.paySource, b.paySource, u) ||
-    !sameEvidence(r, request.scheduleSource, b.scheduleSource, u)
-  )
-    throw new Error(
-      "Payroll request full Source evidence differs from its original owning basis.",
+  // Play settles the request it just prepared; bookkeeping prepares it again
+  // from the recorded terms and compares.
+  if (bookkeeping()) {
+    const expected = prepareWorkPayrollRequest(
+      r,
+      c,
+      b,
+      priorLedger,
+      earnedPeriod,
+      request.date,
+      request.id,
+      u,
     );
+    for (const key of [
+      "index",
+      "fromAt",
+      "throughAt",
+      "dueAt",
+      "earnedPeriodId",
+      "newlyDueMinor",
+      "arrearsBeforeMinor",
+      "requestedMinor",
+    ] as const)
+      if (request[key] !== expected[key])
+        throw new Error(
+          "Payroll request differs from its owned original earned/due terms.",
+        );
+    sameOwner(request, b);
+    availableSource(r, request.source, request.date, u);
+    if (
+      !sameEvidence(r, request.source, expected.source, u) ||
+      !sameEvidence(r, request.jobSource, b.jobSource, u) ||
+      !sameEvidence(r, request.paySource, b.paySource, u) ||
+      !sameEvidence(r, request.scheduleSource, b.scheduleSource, u)
+    )
+      throw new Error(
+        "Payroll request full Source evidence differs from its original owning basis.",
+      );
+  }
   const paid = minor(actualPaidMinor, u);
   if (paid > request.requestedMinor)
     throw new Error("Payroll paid exceeds its actual request.");
@@ -1056,7 +1093,7 @@ export function prepareWorkPayrollSettlement(
     lastPayrollReceiptId: request.id,
   };
   readLedger(r, c, b, ledger, u);
-  return Object.freeze({
+  const settled = {
     ledger,
     receipt: {
       ...request,
@@ -1067,7 +1104,8 @@ export function prepareWorkPayrollSettlement(
       missedNewlyDueMinor: request.newlyDueMinor - paidNewlyDueMinor,
       arrearsAfterMinor,
     },
-  });
+  };
+  return bookkeeping() ? Object.freeze(settled) : settled;
 }
 
 /** Readonly validation of already recorded earned stocks; no due request or payment is created. */

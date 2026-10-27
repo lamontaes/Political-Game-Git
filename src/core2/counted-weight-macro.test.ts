@@ -21,7 +21,7 @@ function open(seed: string, key: string, countScale?: number) {
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale ? { countScale } : {}),
+    countScale: countScale ?? 1,
   });
   // The macro engine records its state on its first day.
   advanceCore(core, addDays(makeIsoDate(core.date), 2));

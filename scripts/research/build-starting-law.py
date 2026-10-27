@@ -119,8 +119,14 @@ def minimum_wages(rows):
     rows.append(row("US", "federal", "minimum-wage", federal["value"], federal["operativeAt"],
                     FOREVER, federal["source"], False, unit="minor/hour"))
     for state, place in matrix["places"].items():
-        tiers = {r["tier"] for r in place["rows"]}
+        # The national floor's own rows are skipped below, so their tier is
+        # never the place's general one. A place with one tier left (Georgia's
+        # six or more employees not under federal law) has it as its general.
+        tiers = {r["tier"] for r in place["rows"]
+                 if not (r["level"] == "federal" and r["tierKind"] == "federal-floor")}
         general = next((t for t in GENERAL_TIERS if t in tiers), None)
+        if general is None and len(tiers) == 1:
+            general = next(iter(tiers))
         for item in place["rows"]:
             if item["level"] == "federal" and item["tierKind"] == "federal-floor":
                 continue  # the national floor row above covers it
@@ -202,7 +208,8 @@ def death_taxes(rows):
         rows.append(row(state, "state", "inheritance-tax", top, taxes["estateFrom"], FOREVER,
                         f"{law['source']} Exemptions and rates: {taxes['source']}.",
                         True, unit="percent-top-rate",
-                        terms={"classes": law["classes"], "others": law["others"]},
+                        terms={"classes": law["classes"], "others": law["others"],
+                               "governmentHeir": law["governmentHeir"]},
                         retrieved=taxes["retrieved"]))
 
 
@@ -398,6 +405,17 @@ def benefits(rows):
         rows.append(item)
 
 
+def public_pay_floor(rows):
+    """The public pay floor law, from the statutes: no law sets one salary floor for every
+    public job at a level and the levels under it, so it starts at none (0) everywhere; the
+    minimum wage (its own series) is the floor every public employer pays."""
+    rows.append(row("US", "federal", "public-pay-floor", 0, "1985-02-19", FOREVER,
+                    "29 U.S.C. 203(e)(2) and (x) (https://www.law.cornell.edu/uscode/text/29/203): the Fair Labor Standards Act's minimum wage covers 'any individual employed by a State, political subdivision of a State, or an interstate governmental agency' and 'any individual employed by the Government of the United States'; Garcia v. San Antonio Metropolitan Transit Authority, 469 U.S. 528 (February 19, 1985) (https://www.law.cornell.edu/supremecourt/text/469/528), upheld 'affording SAMTA employees the protections of the wage and hour provisions of the FLSA'; 5 U.S.C. 5332(a)(1) (https://www.law.cornell.edu/uscode/text/5/5332): 'Each employee to whom this subchapter applies is entitled to basic pay in accordance with the General Schedule', a schedule for federal staff only.",
+                    False, unit="dollars/year",
+                    note="No law sets one salary floor for every public job at a level and the levels under it; 0 means none.",
+                    retrieved="2026-10-24"))
+
+
 LAWS = RESEARCH / "laws"
 
 
@@ -524,6 +542,7 @@ def main():
     income_taxes(rows)
     sales_taxes(rows)
     benefits(rows)
+    public_pay_floor(rows)
     start_phases(rows)
     rows = dated(rows)
     by_jurisdiction = {}

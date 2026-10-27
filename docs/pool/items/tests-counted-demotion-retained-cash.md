@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/counted-demotion-retained-cash
 pr: #5897
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T16:08:17.924Z
 ---
 
 **What.** The existing counted-demotion regression fails on clean main at src/core2/counted-demotion.test.ts:84. In the randomly drawn Pylesville, Maryland world, root GOLDEN_PATH_SEED=51e5845efd36aaf2da3e67158b592735, a demoted person retains 145850 cents where the test expects zero after 300 days. This reproduces identically on PR #5852 and clean main 91134560af385ac1ffad83559d833c86a10223c2; determine the cash and payroll record chain before deciding whether settlement or the assertion is wrong.

@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Research before building: the 2025 phases calibrate the law in force at the start, read from published tables with a quote for each figure. Estimate, never UNKNOWN: a place a source lacks takes the nearest sourced phase, marked ESTIMATED with its reason. One rule, all 56 places: every figure lives in a per-place table keyed by jurisdiction.
 
-**Done when.** scripts/research/check-start-law-2025.ts lists no series still carried back to January 20, 2025, SG-GOV-start-law-carried-back is resolved in src/core2/data/stopgaps.json, and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) shows the town's law rows in force on day one with no :from-start record id.
+**Done when.** scripts/research/check-start-law-2025.ts lists no series still carried back to January 20, 2025, SG-GOV-start-law-carried-back is resolved in src/core2/data/stopgaps.json, and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) shows the town's law rows in force on day one with no :from-start record id. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/research/build-starting-law.py, scripts/research/check-start-law-2025.ts, src/core2/data/laws/starting-law.json, data/research/laws/local-starting-law/local-income-tax.json
 
