@@ -330,9 +330,17 @@ it("gives every circumstance a situation type cause and a scene-web row", () => 
     expect(labels.has(`${row.typeKey}|circumstance:${row.id}`), row.id).toBe(
       true,
     );
+  // One scene-web row for every live cause of every situation type.
+  const live = SITUATION_LIBRARY.types.reduce(
+    (sum, type) => sum + type.causes.filter((cause) => cause.match).length,
+    0,
+  );
+  expect(sceneWebRows()).toHaveLength(live);
   for (const row of sceneWebRows()) {
     expect(row.triggerRecordKinds.length, row.id).toBeGreaterThan(0);
-    expect(row.placeKind, row.id).toBeTruthy();
+    for (const kind of row.triggerRecordKinds)
+      expect(kind, row.id).toBeTruthy();
+    expect(row.placeKinds.length, row.id).toBeGreaterThan(0);
     expect(row.castRule, row.id).toBeTruthy();
     expect(row.outcomeRecord, row.id).toBeTruthy();
   }
