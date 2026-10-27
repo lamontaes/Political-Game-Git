@@ -30,3 +30,4 @@ claimed-at: 2026-10-27T06:03:50.301Z
 **Files.** src/bench/staging.ts, src/bench/scene.ts, src/bench/play.css, src/bench/play.mjs, src/bench/framing.browser.mjs (new)
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "Their head is cut off in the portrait." The bedroom crop and the counter overlap are the CTO's observations in the same sitting (the owner said nothing about them). Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+- Merged Oct 27 in PR #6240; awaiting the owner's installed-build check. Not yet screenshotted: bedroom and filing-counter scenes (geometry tests cover them).
