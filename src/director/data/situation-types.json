@@ -3906,6 +3906,17 @@
       "causes": [
         {
           "match": {
+            "label": "cause:event:bill-failed",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "sponsorId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-failed",
+          "bind": { "aide": "staff", "you": "subject" },
+          "opener": "aide"
+        },
+        {
+          "match": {
             "label": "cause:event:press-story",
             "selfNamed": true,
             "causeFacts": [

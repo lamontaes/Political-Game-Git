@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6314
 blocked-on:
 source: "Helper B, Oct 27, docs/design/scenes/from-life/quiet-weeks-listener-offers.md"
 lead: director
