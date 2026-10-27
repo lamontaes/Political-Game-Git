@@ -240,6 +240,82 @@
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
       "about": "protecting farmland from development",
       "to": "protect farmland from development"
+    },
+    "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
+      "about": "paying for a higher debt limit",
+      "to": "pay for raising the debt limit"
+    },
+    "us-federal-positions:tax.raise-top-income-tax-rate": {
+      "about": "a higher top income tax rate",
+      "to": "raise the top income tax rate"
+    },
+    "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
+      "about": "a cap on consumer loan interest",
+      "to": "cap the interest on consumer loans"
+    },
+    "us-federal-positions:defense.grow-defense-spending": {
+      "about": "more defense spending",
+      "to": "grow defense spending"
+    },
+    "us-federal-positions:foreign-affairs.increase-foreign-aid": {
+      "about": "more foreign aid",
+      "to": "increase foreign aid"
+    },
+    "us-federal-positions:trade.raise-tariffs": {
+      "about": "higher tariffs",
+      "to": "raise tariffs"
+    },
+    "us-federal-positions:immigration.admit-more-immigrants": {
+      "about": "admitting more immigrants",
+      "to": "admit more immigrants"
+    },
+    "us-federal-positions:health.medicare-drug-price-negotiation": {
+      "about": "Medicare negotiating drug prices",
+      "to": "let Medicare negotiate drug prices"
+    },
+    "us-federal-positions:social-insurance.raise-retirement-age": {
+      "about": "a higher retirement age",
+      "to": "raise the retirement age"
+    },
+    "us-federal-positions:education.forgive-student-loans": {
+      "about": "forgiving student loans",
+      "to": "forgive student loans"
+    },
+    "us-federal-positions:housing.vouchers-for-every-eligible-family": {
+      "about": "housing vouchers for every family that qualifies",
+      "to": "give a housing voucher to every family that qualifies"
+    },
+    "us-federal-positions:transport-water.expand-passenger-rail": {
+      "about": "more passenger rail",
+      "to": "expand passenger rail"
+    },
+    "us-federal-positions:energy-environment.limit-power-plant-carbon": {
+      "about": "limits on power plant carbon",
+      "to": "limit carbon from power plants"
+    },
+    "us-federal-positions:agriculture.cut-farm-subsidies": {
+      "about": "cutting farm subsidies",
+      "to": "cut farm subsidies"
+    },
+    "us-federal-positions:emergencies.states-share-disaster-costs": {
+      "about": "states sharing disaster costs",
+      "to": "have the states share more of disaster costs"
+    },
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
+      "about": "shorter mandatory minimum sentences",
+      "to": "reduce mandatory minimum sentences"
+    },
+    "us-federal-positions:government.ban-congressional-stock-trading": {
+      "about": "a ban on stock trading by members of Congress",
+      "to": "ban members of Congress from trading stocks"
+    },
+    "us-federal-positions:science-communications.national-data-privacy": {
+      "about": "a national data privacy law",
+      "to": "pass a national data privacy law"
+    },
+    "us-federal-positions:territories-culture.statehood-for-dc": {
+      "about": "statehood for the District of Columbia",
+      "to": "make the District of Columbia a state"
     }
   }
 }

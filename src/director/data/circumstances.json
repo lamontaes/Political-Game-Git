@@ -1,6 +1,6 @@
 {
   "version": "director-circumstances-v1",
-  "note": "Scenes from circumstance (owner, Oct 27, 01:30 Eastern: 'if the circumstances are right in the simulation, they should be callable, and the English engine handles the words'). Each row is a kind of circumstance: a record of one of its kinds is written somewhere in the world, the player is at a kind of place that day, and someone there has a reason from the record to bring it to them. The producer (src/director/circumstance.ts) reads only the day's new records, casts the person with the highest score (a reason from the record, the player's tie to them, their sociability; the record id breaks a tie; nothing is drawn by chance), and writes a moment for the player labeled circumstance:<id>, which the situation type's cause of the same label stages through the ordinary scheduler. Rows hold no sentence. The four scene-web fields are recordKinds (trigger record kind), place (place kind), cast (cast rule) and outcome (the record the scene writes back). pool: where the cast comes from (named: the people the record names; witnessed: those who saw or read it; household-of-named: the household of the first person it names; civic:<fill>: a civic role the record's bill or body names; new-coworker: a job started today at the player's employer). where: what places the cast with the player (same-town, same-employer, same-household, same-body, known: the player knows them, pool: the pool's own record places them there). player: what must hold of the player (anyone, resident: neither serving nor filed, public-figure: serving or filed, serving: holds an office, voted-on-it: the record's source vote names them, same-body: serves in the body of the record's bill). everyParameter: the fewest days between two scenes of this row (Wildermyth pacing: scenes cluster where records give cause, quiet otherwise).",
+  "note": "Scenes from circumstance (owner, Oct 27, 01:30 Eastern: 'if the circumstances are right in the simulation, they should be callable, and the English engine handles the words'). Each row is a kind of circumstance: a record of one of its kinds is written somewhere in the world, the player is at a kind of place that day, and someone there has a reason from the record to bring it to them. The producer (src/director/circumstance.ts) reads only the day's new records, casts the person with the highest score (a reason from the record, the player's tie to them, their sociability; the record id breaks a tie; nothing is drawn by chance), and writes a moment for the player labeled circumstance:<id>, which the situation type's cause of the same label stages through the ordinary scheduler. Rows hold no sentence. The four scene-web fields are recordKinds (trigger record kind), place (place kind), cast (cast rule) and outcome (the record the scene writes back). pool: where the cast comes from (named: the people the record names; witnessed: those who saw or read it; household-of-named: the household of the first person it names; civic:<fill>: a civic role the record's bill or body names; new-coworker: a job started today at the player's employer). where: what places the cast with the player (same-town, same-employer, same-household, same-body, known: the player knows them, pool: the pool's own record places them there). player: what must hold of the player (anyone, resident: neither serving nor filed, public-figure: serving or filed, serving: holds an office, voted-on-it: the record's source vote names them, same-body: serves in the body of the record's bill, heard-it: the player is among those who saw or heard the record). recordIdPrefix picks one producer's records among a kind several write (the interest groups' lobbying cases, case:lobby:, among the cases made). everyParameter: the fewest days between two scenes of this row (Wildermyth pacing: scenes cluster where records give cause, quiet otherwise).",
   "rows": [
     {
       "id": "vote-read-street",
@@ -310,6 +310,20 @@
       "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceRaceImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "lobbyist-hallway",
+      "recordKinds": ["case.made"],
+      "recordIdPrefix": "case:lobby:",
+      "place": "seat",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "heard-it",
+      "cast": "an interest group's lobbyist who made the group's case to the player, a member who will vote on the bill",
+      "typeKey": "hallway",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
     }
   ]
 }
