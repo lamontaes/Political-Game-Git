@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: words-and-scenes lead
-pr:
+pr: 6276
 blocked-on:
 source: "owner sitting Oct 26 (the home talks said nothing); deliverable 7 of docs/work-orders/lead-words-scenes-2026-10-26.md"
 lead: words
