@@ -1,4 +1,3 @@
-import { jobsView, answerJobOffer } from "./jobs";
 import { recolorFigure } from "./figure-colors";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
@@ -1148,24 +1147,6 @@ export async function benchRequest(
             url.searchParams.get("id") ?? "",
             personOrFillIn(requireCore(), url.searchParams.get("other") ?? "")
               ?.id ?? "",
-          ),
-        );
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/jobs") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(200, jobsView(requireCore(), player.personId));
-        return;
-      }
-      if (request.method === "POST" && url.pathname === "/api/jobs/answer") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          answerJobOffer(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("offerId") ?? "",
-            url.searchParams.get("answer") ?? "",
           ),
         );
         return;

@@ -7186,5 +7186,17 @@
     "status": "resolved",
     "resolvedAt": "2026-10-25",
     "resolution": "Each job held at the opening carries when it was taken (the work commitment's heldSince): the world's recorded start, else the opening's estimate from the BLS age band's median tenure bounded by adulthood and the employer's founding, the same date the person's work:opening fact and their opening pay read (src/core2/population.ts, openingStartOf). tenureYears reads it for full and counted workers alike, so raises, layoffs and quits read real tenure (pool item people-opening-job-tenure-estimate)."
+  },
+  {
+    "id": "SG-DIR-job-offer-lines",
+    "kind": "missing-data",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 3337,
+    "whatItFakes": "The job-offer scene composes only once the Words lead adds `job-offer` lines (scene-talk and scene-words banks) for the purpose; until then the director stages no call for a job-offered record, so the player sees no offer and it lapses at its deadline.",
+    "why": "Owner, Oct 27: a job offer comes through a person and a scene or not at all. The bench's faceless offer card was removed; the lines for the new purpose belong to the Words lead.",
+    "addedBy": "claude/integration-one-employment",
+    "addedAt": "2026-10-27",
+    "replacement": "Bank lines for the job-offer purpose and the job-offer scene opening, written by the Words lead through civic-prose; the offer then shows as a call from the person at the employer.",
+    "status": "open"
   }
 ]

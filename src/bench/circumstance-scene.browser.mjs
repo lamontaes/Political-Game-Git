@@ -57,19 +57,15 @@ try {
   for (let week = 0; week < WEEKS && !found; week++) {
     const before = stories.length;
     await page.locator("#week").click();
-    // The week runs until it is done, a scene opens, or an offer holds it.
+    // The week runs until it is done or a scene opens.
     await page.waitForFunction(
       () =>
         !document.getElementById("week").disabled ||
-        !document.getElementById("talk").hidden ||
-        !document.getElementById("job-offer").hidden,
+        !document.getElementById("talk").hidden,
       undefined,
       { timeout: 300000 },
     );
-    // Answer what stops the week the way a player would: take an offer,
-    // and leave any scene that is not one from circumstance.
-    if (await page.locator("#job-offer:not([hidden])").isVisible())
-      await page.locator("#job-offer-take").click();
+    // Leave any scene that is not one from circumstance, as a player would.
     const fresh = stories.slice(before);
     found = fresh.find((row) => CAUSES.test(row.momentId)) ?? null;
     if (found) break;
