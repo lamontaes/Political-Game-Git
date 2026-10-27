@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-cost-learned-on-hearing
-pr:
+pr: #6371
 blocked-on:
 source: "Split from #5968 (laws-end-to-end-proof) by the per-unit rule (owner, Oct 27)"
 claimed-at: 2026-10-27T18:49:21.000Z
