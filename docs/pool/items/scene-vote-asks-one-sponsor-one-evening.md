@@ -1,6 +1,7 @@
 ---
 id: scene-vote-asks-one-sponsor-one-evening
 title: "A sponsor's asks about several bills on one evening play as one scene, not the first of seven"
+lead: words
 area: play
 kind: bug
 priority: 2
