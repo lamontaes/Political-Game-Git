@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/polling-place-town-government
+pr: #5911
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T06:30:40.716Z
 ---
 
 **What.** pollingPlaces() in src/core2/modules/voting.ts picks the building for each precinct from the town's organizations whose classification starts with government: or whose kind is government or local-government. A town government recorded with classification service:municipal-government, the classification the disasters engine and the law-reach group B code read, matches neither test. So every precinct votes at a polling place with no building and kind unread, and the SG-GOV-polling-place-kind stopgap is hit even where the town has a town hall.

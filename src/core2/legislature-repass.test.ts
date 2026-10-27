@@ -36,15 +36,20 @@ const PINNED = [
     seed: "fc26f909e5d5b49dc5d8a2796b7220e913cc95143777de03a7dccc69445ac090",
   },
 ];
-const PLACES = PINNED.length + 5;
-const WANTED = PINNED.length + 1;
+// Both pinned regressions are kept, and the invariant must also be witnessed
+// in this many places drawn fresh from all 56.
+const FRESH_WANTED = 2;
+const PLACES = PINNED.length + 6;
+const WANTED = PINNED.length + FRESH_WANTED;
 
 it(
   "never passes a bill for a policy already in force at its level",
   () => {
     const tried: string[] = [];
     let witnessed = 0;
-    for (let n = 0; n < PLACES && witnessed < WANTED; n++) {
+    let fresh = 0;
+    for (let n = 0; n < PLACES; n++) {
+      if (n >= PINNED.length && fresh >= FRESH_WANTED) break;
       // The first is the case a county board once passed twice: civilian
       // oversight of police, enacted by one bill and then passed again by
       // another that had waited on the same meeting's agenda.
@@ -106,15 +111,20 @@ it(
       tried.push(`${label}: ${enacted.length} policy laws enacted`);
       if (!enacted.length) continue;
       witnessed += 1;
+      if (n >= PINNED.length) fresh += 1;
       process.stdout.write(
         `policy laws enacted, none repeating: ${label}; ${enacted.slice(0, 5).join("; ")}\n`,
       );
     }
     process.stdout.write(`repass draws: ${tried.join("; ")}\n`);
     expect(
+      fresh,
+      `fewer than ${FRESH_WANTED} drawn places enacted a policy law: ${tried.join("; ")}`,
+    ).toBeGreaterThanOrEqual(FRESH_WANTED);
+    expect(
       witnessed,
       `fewer than ${WANTED} places enacted a policy law: ${tried.join("; ")}`,
-    ).toBe(WANTED);
+    ).toBeGreaterThanOrEqual(WANTED);
     // A drawn town's played year took 36 to 184 seconds on a 4-core
     // container; up to PLACES of them.
   },

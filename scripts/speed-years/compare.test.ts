@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { compareYears, type SpeedReceipt } from "./compare";
 const baseline: SpeedReceipt = {
@@ -59,5 +60,13 @@ describe("year speed budget", () => {
         rows: [{ ...baseline.rows[0]!, seconds: Number.NaN }],
       }),
     ).toHaveLength(1);
+  });
+  it("measures a year at the young-generation size play and the guards use", () => {
+    const json = (path: string) =>
+      JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
+    const policy = json("../core2-guard/policies.json").nodeSemiSpaceMiB;
+    expect(json("../../package.json").scripts["speed:year"]).toContain(
+      `--max-semi-space-size=${policy} `,
+    );
   });
 });

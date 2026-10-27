@@ -3,7 +3,7 @@ id: gov-legislature-local-rules-by-place
 title: "Town and county bills follow their own state's general law: who may bring an executive's bill, and how ordinances are numbered"
 area: gov
 kind: stopgap
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/legislature.ts, src/core2/legislature-bill-form.ts, src/core2/data/legislature/executive-proposal.json, data/research/gov/local-executive-introduction-2026.json, data/research/gov/local-ordinance-style-2026.json
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

@@ -3,6 +3,7 @@
   "stopgapId": "SG-P10-health-minimal-port",
   "calibrationCategory": "equal-mixture",
   "onsetEventKind": "health.serious-illness",
+  "countedOnsetEventKind": "residents.member-fell-ill",
   "deathEventKind": "life.death",
   "countedDeathEventKind": "residents.member-died",
   "topicPrefix": "health",
@@ -56,6 +57,11 @@
   },
   "evictionSeverity": {
     "lifeChangeUnitsParameter": "srrsForeclosure",
+    "maximumUnitsParameter": "srrsMaximumUnits",
+    "stopgapId": "SG-P10-event-severity"
+  },
+  "missedPaymentSeverity": {
+    "lifeChangeUnitsParameter": "srrsChangeInFinancialState",
     "maximumUnitsParameter": "srrsMaximumUnits",
     "stopgapId": "SG-P10-event-severity"
   }

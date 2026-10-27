@@ -1,11 +1,8 @@
 name: Deterministic validation
 
-# The browser suite lives in browser.yml since 2026-09-22, split out with
-# lamontae's approval so the unit shards stop queueing behind 21-to-59-minute
-# browser shards. This workflow is the fast one: repository plus six unit
-# shards, about 38 job-minutes, and the aggregate `validate` below no longer
-# waits on the browser suite. Making the browser suite gate merging again is a
-# branch-protection change, not a change here.
+# The browser workflow (browser.yml) was deleted on 2026-10-24: no Playwright
+# suite exists. This workflow is the fast one: repository plus six unit shards,
+# about 38 job-minutes.
 
 on:
   pull_request:
@@ -22,14 +19,7 @@ permissions:
 # A new commit supersedes its own predecessor, so the predecessor's run stops.
 # Without this, every push left this workflow's jobs in a shared queue, and on
 # 2026-09-22 that grew to roughly two thousand queued jobs and several hours in
-# which no branch could get a verdict at all. (It was fifteen jobs per push
-# before the browser suite moved to browser.yml; it is eight now.)
-#
-# NOT on main. Cancel-in-progress is deliberately false there, because main's
-# run is the base verdict every lane reads to tell a failure it inherited from
-# one it caused. That is not academic: three browser shards were failing on
-# main the night this was written, and if pushes to main had been canceling
-# each other's runs, nobody could have established that.
+# which no branch could get a verdict at all. (It is eight jobs per push now.)
 #
 # The key separates the push run from the pull_request run of the same ref.
 # Branch protection may read either, and canceling one to save the other would
@@ -54,11 +44,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
-          # The ownership-boundary suite diffs this branch against the commit it
-          # was cut from. On a pull_request event Actions checks out the
-          # synthetic merge ref, and the default depth of 1 leaves that base
-          # commit outside the clone, so the check cannot run. Fetch the full
-          # history so history-dependent validation has something to measure.
+          # On a pull_request event Actions checks out the synthetic merge ref,
+          # and the default depth of 1 leaves the base commit outside the
+          # clone. Fetch the full history so history-dependent validation (the
+          # release declaration diff) has something to measure.
           fetch-depth: 0
           # Acceptance is for the published PR head, not a synthetic merge SHA.
           ref: ${{ github.event.pull_request.head.sha || github.sha }}

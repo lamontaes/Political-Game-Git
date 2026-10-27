@@ -213,7 +213,7 @@
   },
   "personality": {
     "stopgapId": "SG-P15-personality-mapping",
-    "citation": "Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; A4 quadratic term not legible in the manuscript, held at zero). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female.",
+    "citation": "Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/. A4 Compliance has no quadratic term because the table gives one only where it fit better than a straight line, so it is zero; every facet's terms are checked against data/research/people/terracciano-blsa-neo-facets-2005.json by scripts/research/people-parameters-check.ts). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female.",
     "tScoreSd": 10,
     "ageCenter": 64.5,
     "ageUnitYears": 10,

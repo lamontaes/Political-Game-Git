@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/homeless-rehouse-left-household
 pr: #5772
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T01:31:18.142Z
 ---
 
 **What.** A played year stops on 2026-02-06 in Monarch, Montana with Finance terms require distinct recorded payers. The housing module's monthly review of homeless households rehouses one whose status row still lists a living member who has since left the household, while the household itself holds only a dead member, so the lease has no payers. It was found running the candidacy calibration test in a drawn place and reproduces from the same place and seed.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/housing-homeless.ts, src/core2/housing-rehouse-left-household.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5772 (branch claude/homeless-rehouse-left-household): housing-rehouse-left-household.test.ts:33-40 asserts only nonempty payerIds, not a living payer as its title and item require; resolve payer records and assert alive, plus the actual 400-day final date; finish on that branch, merge main into it first.

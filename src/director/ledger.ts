@@ -83,9 +83,30 @@ interface Change {
   renewals: Set<PersonId>;
 }
 
+/**
+ * How a printed story is said: its headline, as the screen that prints the
+ * paper words it, citing the story and the record it was printed from. Given
+ * by whoever builds the director; a director without it raises no story by
+ * its headline.
+ */
+export type StoryWords = (
+  core: CoreState,
+  story: {
+    readonly id: string;
+    readonly kind: string;
+    readonly date: string;
+    readonly facts: Readonly<Record<string, unknown>>;
+  },
+) => {
+  readonly headline?: string;
+  readonly sourceRecordIds: readonly string[];
+} | null;
+
 export interface Director {
   module: CoreModule;
   ledger: Ledger;
+  /** How a printed story is said, when the director was given it. */
+  storyWords?: StoryWords;
   /** Snapshot every watched person; call once after the core is created. */
   start(core: Readonly<CoreState>): void;
   /** Begin watching another person, such as someone the player clicks into. */
@@ -108,7 +129,11 @@ export interface Director {
 }
 
 export function createDirector(
-  options: { watch: readonly PersonId[]; data?: DirectorData } = { watch: [] },
+  options: {
+    watch: readonly PersonId[];
+    data?: DirectorData;
+    storyWords?: StoryWords;
+  } = { watch: [] },
 ): Director {
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
   const ledger: Ledger = {
@@ -335,6 +360,19 @@ export function createDirector(
       observedDays: zero,
     };
     ledger.people.set(personId, book);
+    // Someone first followed partway through a day still meets what already
+    // happened to them that day (the address given the morning they begin to
+    // be followed), read from the log's own index of them.
+    for (const id of core.logByPerson.get(personId) ?? []) {
+      const record = core.durableLog.get(id);
+      if (record?.date === core.date && record.personIds.includes(personId))
+        pendingFor(personId).events.push({
+          event: record,
+          reach: "named",
+          mood: zero,
+          stress: zero,
+        });
+    }
     const home = new Set(
       core.households.get(actor.householdId)?.memberIds ?? [],
     );
@@ -706,14 +744,26 @@ export function createDirector(
     otherId: PersonId,
     date: IsoDate,
   ) {
+    // Importance reads impact, never hindsight, so a counterpart's is the
+    // same for every moment of the pair: worked out once per rescore.
+    const importance = new Map<PersonId, number>();
+    const importanceFor = (id: PersonId) => {
+      let value = importance.get(id);
+      if (value === undefined) {
+        const thread = book.threads.get(id);
+        value = thread ? importanceOf(book, thread, date) : zero;
+        importance.set(id, value);
+      }
+      return value;
+    };
     for (const moment of pairMoments(book, otherId)) {
       moment.hindsight =
         moment.impact *
         (one +
-          moment.counterpartIds.reduce((sum, id) => {
-            const thread = book.threads.get(id);
-            return sum + (thread ? importanceOf(book, thread, date) : zero);
-          }, zero));
+          moment.counterpartIds.reduce(
+            (sum, id) => sum + importanceFor(id),
+            zero,
+          ));
       moment.hindsightAt = date;
     }
   }
@@ -871,7 +921,12 @@ export function createDirector(
       fadedBefore.set(otherId, fadingBefore);
       // Cites the relationship record; the moment id carries the date.
       const causeId = id;
-      change(causeId, `contact:${row.kind}`, "tie", Math.abs(delta), [otherId]);
+      // A tie moves a little with each contact; it turns when the change since
+      // its last turn adds up, as a friendship grows over many meetings.
+      thread.tieDrift = (thread.tieDrift ?? zero) + delta;
+      change(causeId, `contact:${row.kind}`, "tie", Math.abs(thread.tieDrift), [
+        otherId,
+      ]);
       if (
         thread.lastContact === undefined &&
         !prior &&
@@ -1086,7 +1141,13 @@ export function createDirector(
     impact: number,
     contributions: ChannelContribution[],
   ): void {
-    const date = core.date;
+    // A cause met only after it happened (someone first followed partway
+    // through the day it happened) keeps its own day.
+    const causeDate = core.durableLog.get(row.causeId)?.date;
+    const date =
+      causeDate && causeDate < core.date && causeDate >= book.watchedSince
+        ? causeDate
+        : core.date;
     const counterpartIds = [...row.counterparts].sort();
     // A cause measured twice in a day (once when its event is recorded, again
     // when the day closes) keeps one id per moment.
@@ -1194,14 +1255,21 @@ export function createDirector(
       book.momentsByOther.set(otherId, list);
       const thread = ensureThread(book, otherId);
       thread.momentIds.push(moment.id);
-      if (moment.channels.some((part) => part.channel === "tie"))
+      if (moment.channels.some((part) => part.channel === "tie")) {
+        // Which way it turned: the change since its last turn.
+        const drift = thread.tieDrift ?? zero;
         thread.turns.push({
           date,
-          turn: thread.tone === "souring" ? "soured" : "grew",
+          turn:
+            drift < zero || (drift === zero && thread.tone === "souring")
+              ? "soured"
+              : "grew",
           causeId: row.causeId,
           momentId: moment.id,
           closeness: thread.closeness,
         });
+        thread.tieDrift = zero;
+      }
       rescoreHindsight(book, otherId, date);
     }
     const filter = ledger.sceneFilters.get(moment.personId);
@@ -1456,6 +1524,7 @@ export function createDirector(
   return {
     module,
     ledger,
+    ...(options.storyWords ? { storyWords: options.storyWords } : {}),
     start(core) {
       if (started) return;
       started = true;

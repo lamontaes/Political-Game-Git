@@ -3,7 +3,7 @@ id: world-dwelling-position
 title: "A dwelling has a place inside its town, so a street, a ward or a precinct can be drawn from where people live"
 area: world
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -26,3 +26,7 @@ claimed-at:
 Oct 20 (research-reachable-sources-oct20): unblocked. Tract and block-group population shares come from the bulk files under https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/ and the Census Gazetteer at https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/ (both HTTP 200 from a cloud session). The done-when stands: a played world (buildBenchWorld), a drawn place and seed named in the PR body.
 
 Fetched Oct 20 (research-reachable-sources-oct20): total population by tract and block group from B01003 in the 2023 ACS 5-year table-based summary files (https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/acsdt5y2023-b01003.dat, 18,311,997 bytes, SHA-256 24ae3f523b4c54332ce0a71ba534569685a8a729056f975915d860d1eb943565): 85,381 tract rows (GEO_ID prefix 1400000US) and 242,296 block-group rows (1500000US). Check: Autauga County, Alabama has 17 tract rows summing to 59,285, equal to its county row (0500000US01001). The shares per tract are therefore a straight division of the tract row by its county or place total; the builder keeps the file out of the repository and records the values it uses with this citation.
+
+Oct 25 audit: From the dropped world-dwelling-locations: the first reader is gov-ward-map-from-dwellings, now blocked on this item.
+
+Deferred Oct 25: nothing on screen reads it yet.

@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read: a commuter flow nobody reads is a placeholder, so the split lands with its reader. One model, two tiers: counted households carry the weights in both flows. No dice: shares come from the place's LODES row; a territory takes the national average marked ESTIMATED. Replace, never layer: the single flow is replaced, not kept beside the two.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, the place's counted workers are paid by two flows (in-town industries and commuters) whose workers sum to the old flow's and whose commuter share matches the place's LODES row, and the nonresident tax or a law-reach count reads the commuter flow, shown by flow id; the existing counted-weight-unplaced test passes.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, the place's counted workers are paid by two flows (in-town industries and commuters) whose workers sum to the old flow's and whose commuter share matches the place's LODES row, and the nonresident tax or a law-reach count reads the commuter flow, shown by flow id; the existing counted-weight-unplaced test passes. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/counted-demotion.ts, src/core2/commuting-shares.ts
 

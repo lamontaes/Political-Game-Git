@@ -24,7 +24,7 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import type { CoreState, PersonId } from "../../src/core2/types";
-import { composeScene } from "../../src/director/scene";
+import { composeScene, type Scene } from "../../src/director/scene";
 import { SITUATION_LIBRARY } from "../../src/director/scheduling";
 import type { SituationType } from "../../src/director/scheduling";
 import type { Director } from "../../src/director/ledger";
@@ -127,9 +127,23 @@ export function stageWorld(
   return stageWorldHeld(options, log).report;
 }
 
-/** `stageWorld`, with the world and the director kept for composing the staged scenes. */
+/**
+ * `stageWorld`, with the world and the director kept for composing the staged
+ * scenes. `onStaged` sees each scene on the day it is staged, before the world
+ * moves on, the way a player would meet it.
+ */
 export function stageWorldHeld(
-  options: { id: string; seed: string; days: number },
+  options: {
+    id: string;
+    seed: string;
+    days: number;
+    onStaged?: (
+      staged: StagedScene,
+      scene: Scene | null,
+      core: CoreState,
+      director: Director,
+    ) => void;
+  },
   log: (line: string) => void = () => {},
 ): {
   report: StageReport;
@@ -181,7 +195,7 @@ export function stageWorldHeld(
           });
           continue;
         }
-        staged.push({
+        const row: StagedScene = {
           typeKey: binding.typeKey,
           watchedId: personId,
           momentId: moment.id,
@@ -190,7 +204,9 @@ export function stageWorldHeld(
           date: String(entry.date),
           setting: binding.setting,
           castIds: [...binding.presentIds],
-        });
+        };
+        staged.push(row);
+        options.onStaged?.(row, scene, core, director);
       }
     }
   }

@@ -16,9 +16,11 @@ import { openParties } from "./modules/parties";
 import { openVoting } from "./modules/voting";
 import {
   amendBudget,
+  baseBudget,
   budgetsOf,
   governments,
   openBudgets,
+  townShareOf,
 } from "./modules/budgets";
 import { GOV_MEASURES, govMeasure } from "./gov-measures";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -89,17 +91,45 @@ describe("GOV measures for the outcome web", () => {
     if (city && budgetsOf(api, city.id).length) {
       const before = govMeasure(api, "budget.parks-added-pct");
       const line = budgetsOf(api, city.id).at(-1)!.spendingMinor.parks ?? 0;
-      if (line > 0) {
+      // The town's parks base: each government's Census line by the town's share of it.
+      const weighted = governments(api).reduce((sum, gov) => {
+        const budget = budgetsOf(api, gov.id).at(-1);
+        return budget
+          ? sum +
+              townShareOf(api, gov) *
+                (baseBudget(api, gov, budget.fiscalYear).spendingMinor.parks ??
+                  0)
+          : sum;
+      }, 0);
+      if (line > 0 && weighted > 0) {
+        const delta = Math.round(line * 0.1);
         amendBudget(api, {
           governmentId: city.id,
           line: "parks",
-          deltaMinor: Math.round(line * 0.1),
+          deltaMinor: delta,
           measureId: "test:parks",
         });
         expect(govMeasure(api, "budget.parks-added-pct")!, where).toBeCloseTo(
-          (before ?? 0) + 10,
-          0,
+          (before ?? 0) + (100 * delta) / weighted,
+          3,
         );
+        // A change at the state moves the town's measure too: the line is the town's across its governments.
+        const state = governments(api).find((g) => g.level === "state");
+        const stateLine =
+          (state && budgetsOf(api, state.id).at(-1)?.spendingMinor.parks) || 0;
+        if (state && stateLine > 0) {
+          const moved = govMeasure(api, "budget.parks-added-pct")!;
+          amendBudget(api, {
+            governmentId: state.id,
+            line: "parks",
+            deltaMinor: Math.round(stateLine * 0.1),
+            measureId: "test:parks-state",
+          });
+          expect(
+            govMeasure(api, "budget.parks-added-pct")!,
+            where,
+          ).toBeGreaterThan(moved);
+        }
       }
     }
     govReport("gov-measures", JSON.stringify({ where, read }));

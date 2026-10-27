@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/law-tests-positive-witnesses
 pr: #5870
 blocked-on:

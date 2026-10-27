@@ -306,12 +306,7 @@ export const LIFE_MODULE: CoreModule = {
         .map((id) => offer(api, actor, action, id)),
     "known-group": knownPublicTargets,
     "public-meeting-place": knownPublicTargets,
-    "known-office": (api, actor, action) =>
-      knownPublicTargets(api, actor, action).filter(
-        (chosen) =>
-          (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
-            zero(api)) > zero(api),
-      ),
+    "known-office": knownPublicTargets,
     "public-directory": (api, actor, action) => {
       api.stopgap("SG-P8-directory-company-substitution");
       const out: ActOffer[] = [];
@@ -327,6 +322,12 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   eligibilityRules: {
+    // Someone holds a staff job at the office to receive the visit, on the day
+    // it is offered and again on a planned day: an office's staff follow its
+    // jobs, so the clerk can leave between the plan and the visit.
+    "office-staffed": (api, _actor, chosen) =>
+      (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
+        zero(api)) > zero(api),
     "not-member": (api, actor, chosen) =>
       !api.state.memberships.has(`${actor.id}:${chosen.targetId}`),
     "has-drive": (_api, actor, chosen) =>

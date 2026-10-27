@@ -10,6 +10,7 @@
     "tell": "Say something the speaker's own record holds.",
     "deliver-news": "Tell someone something that happened that they may not know.",
     "react": "A short reaction to what was just said.",
+    "beat": "The narrator says what is happening around the people talking, between their lines.",
     "recall": "Bring up something shared from the past.",
     "condole": "Say one is sorry for a loss.",
     "congratulate": "Recognize someone's win or honor.",
@@ -50,7 +51,9 @@
     "relent": "Give way after holding out.",
     "withdraw": "Go back on something one said before.",
     "accept": "Take the other's answer as final.",
-    "stall": "Put off an answer."
+    "stall": "Put off an answer.",
+    "leave": "Ends the exchange and walks away: the talk stops without an answer.",
+    "deny": "Says a claim is false."
   },
   "keys": {
     "loss": "Someone or something is lost: a death, a lost job, a lost race, an eviction.",
@@ -1235,6 +1238,27 @@
       {
         "move": "^[a-z]+-lie$",
         "tag": "lie"
+      },
+      {
+        "move": "^[a-z]+-leave$",
+        "tag": "leave"
+      },
+      {
+        "move": "^[a-z]+-react$",
+        "tag": "react"
+      },
+      { "move": "^beat-beat$", "tag": "beat" },
+      {
+        "move": "^[a-z]+-call-to-order$",
+        "tag": "call-to-order"
+      },
+      {
+        "move": "^[a-z]+-deny$",
+        "tag": "deny"
+      },
+      {
+        "move": "^[a-z]+-farewell$",
+        "tag": "farewell"
       }
     ]
   }

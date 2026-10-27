@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr: #5210
-blocked-on: owner decision: what moves a customer between sellers (OWNER-DECISIONS.md, Open)
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** In a one-year run of a drawn town, layoffs at shrinking firms follow their lost customers, by business and purchase-share record ids, and the layoff rate is checked against JOLTS.
+**Done when.** In a one-year run of a drawn town, layoffs at shrinking firms follow their lost customers, by business and purchase-share record ids, and the layoff rate is checked against JOLTS. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/residents.ts, src/core2/modules/business.ts
 
@@ -34,3 +34,5 @@ Sent back 2026-10-20 from PR #5210 (branch claude/pool-world-customers-move-betw
 Oct 20 (claude, claude/civic-producers-government-landed), read again and left unbuilt. Reading the code, the sellers' shares are set by `splitMarketDemand` (`business-books.ts`: capacity times relative price to the elasticity) and applied only at entry by `enterResidentMarket` (`residents.ts`). Two of the candidate causes the Oct 16 note lists cannot move customers on the data that exists: a seller's price follows the same wage and price indexes as its rivals' (spread 0.06 percent), and a seller's capacity follows its own demand, so re-splitting by capacity returns the same shares. What does differ between sellers is location, which needs the dwelling and business locations in `world-dwelling-locations` (open, L), and a rival's opening or closing, which the entry path already handles. The one cause buildable from today's records is a seller's own unit labor cost passing through to its price (`projectBusinessPrice` already mixes the seller's pay share with the wage index), so a pay-heavy seller prices above its rivals; it needs a per-seller wage factor that today's indexes do not provide. Proposed split for the owner: (1) per-seller price pass-through of its own payroll per sale; (2) the monthly re-split by price and capacity (the Oct 16 move, rebuilt after 1); (3) location-based share once `world-dwelling-locations` lands. Nothing here waits on the owner: item 1 can be built next and its owner-decision stopgap registered.
 
 Sent back 2026-10-20 from PR #5445 (branch claude/fs11vb-customers-question): The code-conflict review is addressed, but the new Notes explicitly say Blocked on the owner answer and the body ships no implementation or registered owner-decision stopgap. AGENTS.md requires building the simplest compliant path and flagging the question without waiting. This item Done when also requires a drawn one-year run following lost customers to layoffs by business/purchase-share ids and a JOLTS check. Supply that proof, or track the completed question-only paperwork separately while leaving the implementation item open; this PR cannot complete it.; finish on that branch, merge main into it first.
+
+Oct 25 audit: ruled under "simulate it, don't ask": a household moves its spending between sellers by the shared chooser on price, travel time, capacity and what it has heard, no dice; build that.
