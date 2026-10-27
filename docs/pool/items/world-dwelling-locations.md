@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.**
 
 Oct 20 (pool feeder): spec written; it was sized L with an empty body; the work is one engine (housing) plus one place-data column, so it fits M. The first consumer is gov-ward-map-from-dwellings, which is blocked on this. Gazetteer land area (ALAND_SQMI) is in the same census-gazetteer-2025 corpus as the existing localities file.
+
+Duplicate of world-dwelling-position (Oct 25 audit). Same dwelling position inside the town.

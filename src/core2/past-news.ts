@@ -153,11 +153,18 @@ export function buildNewsArchive(
     }[]) {
       const sum = (rows: Record<string, number>) =>
         String(Object.values(rows).reduce((a, b) => a + b, 0));
+      // The largest spending line, so the story can say what the money is for.
+      const largest = Object.entries(budget.spendingMinor).sort(
+        (x, y) => y[1] - x[1] || x[0].localeCompare(y[0]),
+      )[0];
       add("budget-adopted", budget.id, budget.startsOn, {
         governmentId: budget.governmentId,
         fiscalYear: String(budget.fiscalYear),
         revenueMinor: sum(budget.revenueMinor),
         spendingMinor: sum(budget.spendingMinor),
+        ...(largest
+          ? { largestLine: largest[0], largestLineMinor: String(largest[1]) }
+          : {}),
       });
     }
   // A business that closed in the year before day one: reported once, and

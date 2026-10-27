@@ -4,7 +4,7 @@ title: "Stopgaps in whole-figures (missing-data): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** First row: Each approved look is painted doing one thing, so a person whose look doesn't fit where they are (a teen boy's skateboard or basketball indoors, a laptop off work) is drawn in their next look, or the nearest-age look tha
 
 Oct 20 (pool feeder): spec written; the stopgap's own replacement (activity variants of every look) is superseded by the layered figure set in art-figure-set; this item is the code that switches the renderer and deletes v1, so it waits on that item.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

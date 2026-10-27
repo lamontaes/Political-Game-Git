@@ -3,7 +3,7 @@ id: gov-treasury-diversion
 title: "An official can divert a budget line's money, recorded on the treasury's books"
 area: gov
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -38,3 +38,5 @@ Sent back 2026-10-17 from PR #4587 (branch claude/gov-treasury-diversion): Morni
 Sent back 2026-10-20 from PR #4587 (branch claude/gov-treasury-diversion): Morning check and test timeout: treasury-diversion.test.ts timed out, and corruption.diversions table has no non-test reader and no stopgap row; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #4587 (branch claude/gov-treasury-diversion): The body still describes the removed table and lacks its Done-when evidence table; the ordinary-year test can pass with zero diversions, while the positive case substitutes and funds residents by hand; add a positive ordinary generated-world money-chain witness by record id; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

@@ -13,6 +13,7 @@
  * Nothing here draws a level or limits a factor. Engines that set a measure
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
+import { addDays, makeIsoDate } from "../kernel/dates";
 import regions from "../data/regional/regions.json" with { type: "json" };
 import {
   baseOf,
@@ -39,9 +40,25 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
-import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
+import { schoolsLineAboveBase } from "../school-budget-line";
+import { lawInForce, LAWS_MODULE_ID } from "./laws";
+import {
+  budgetLineAddedPct,
+  GOV_MEASURES,
+  govMeasure,
+  govMeasureRecord,
+  snapMaximumChangePct,
+} from "../gov-measures";
 import { monthEvent } from "../outcome-news";
+
+/** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
+const SCHOOL_MEASURED = new Set([
+  "school.math-proficient-pct",
+  "school.reading-proficient-pct",
+  "school.graduation-pct",
+]);
 
 export { OUTCOME_WEB_MODULE_ID };
 const STATE_ID = "outcome-web:state";
@@ -187,7 +204,79 @@ const ENGINE_READERS: Readonly<
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
   },
+  // A budget line above its Census base (gov-measures keeps the readings).
+  "parks-added-pct": (api) => lineAddedPct(api, "budget.parks-added-pct"),
+  "highways-added-pct": (api) => lineAddedPct(api, "budget.highways-added-pct"),
+  // The SNAP maximum and the budget lines the health, assistance and schools
+  // laws set, as the town's treasuries and law rows record them.
+  "snap-maximum-change": (api) => snapMaximumChangePct(api),
+  ...Object.fromEntries(
+    ["healthAndHospitals", "welfareAndMedicaid", "higherEducation"].map(
+      (line) => [
+        `budget-line-added:${line}`,
+        (api: CoreAPI) => budgetLineAddedPct(api, line),
+      ],
+    ),
+  ),
+  "schools-line-above-base": (api, placeId) => {
+    const line = schoolsLineAboveBase(api, placeId);
+    return line ? { value: line.pct, recordId: line.recordId } : null;
+  },
+  // The corporate rate in force is the town's state law; other places keep
+  // their own. A state with no corporate income tax reads zero.
+  "state-corporate-rate": (api, placeId) => {
+    if (!readsTownLaw(api, placeId)) return null;
+    const state = lawInForce(api, "corporate-income-tax").levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    );
+    return { value: state?.row?.value ?? 0, recordId: state?.row?.id ?? null };
+  },
 };
+
+/**
+ * The level a law-read cause is measured from: the law in force the day
+ * before the web opened (the starting law), in the measure's own unit.
+ */
+const BASELINE_READERS: Readonly<
+  Record<
+    string,
+    (api: CoreAPI, placeId: string, openedAt: string) => number | undefined
+  >
+> = {
+  "state-corporate-rate": (api, placeId, openedAt) => {
+    if (!readsTownLaw(api, placeId)) return undefined;
+    const day = addDays(makeIsoDate(openedAt), -1);
+    const state = lawInForce(api, "corporate-income-tax", day).levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    );
+    return state?.row?.value ?? 0;
+  },
+  "property-tax-rate": (api, placeId, openedAt) => {
+    if (!readsTownLaw(api, placeId)) return undefined;
+    return (
+      lawInForce(api, "property-tax", addDays(makeIsoDate(openedAt), -1))
+        .value ?? undefined
+    );
+  },
+};
+
+/** The laws module's chain is the town's: other places keep their own laws. */
+function readsTownLaw(api: CoreAPI, placeId: string): boolean {
+  return (
+    api.state.placeMetadata?.housingTown === placeId &&
+    (api.state as CoreState).modules.has(LAWS_MODULE_ID)
+  );
+}
+
+function lineAddedPct(
+  api: CoreAPI,
+  measure: string,
+): { value: number; recordId: string | null } | null {
+  const value = govMeasure(api, measure);
+  return value === null
+    ? null
+    : { value, recordId: govMeasureRecord(api, measure) };
+}
 
 /** An engine's record for a measure in a place today, or null where it keeps none. */
 function readEngine(
@@ -238,7 +327,12 @@ const GOV_CAUSES = [
     WEB_LINKS.flatMap((link) => [link.from, link.moderator?.measure ?? ""]),
   ),
 ]
-  .filter((measure) => (GOV_MEASURES as readonly string[]).includes(measure))
+  .filter(
+    (measure) =>
+      (GOV_MEASURES as readonly string[]).includes(measure) &&
+      // One that is also an engine measure is read as one (ENGINE_READERS).
+      !engineMeasure(measure),
+  )
   .sort();
 const LAW_CAUSES = [
   ...new Set(
@@ -255,6 +349,8 @@ interface Reading {
   readonly index: number;
   readonly openingIndex: number;
   readonly values: Record<string, number>;
+  /** Each engine cause as first read at the opening (the baselines row). */
+  readonly first: Readonly<Record<string, number>>;
 }
 
 /** The place's record for a month, or the nearest earlier one back to the opening. */
@@ -268,12 +364,17 @@ function rowAt(r: Reading, index: number): WebMonth | undefined {
 
 /** A cause's value as it stood in month `index` (today's date shifted back for a law). */
 function causeAt(r: Reading, measure: string, index: number): number | null {
-  if (isLaw(measure))
+  if (isLaw(measure)) {
+    // The starting law rows take effect on the calibration date, so a date
+    // before it reads the law as it stood then, not as absent: a place that
+    // repeals a law it began with feels the repeal a lag later.
+    const date = dateMonthsBefore(r.api.state.date, r.index - index);
     return lawValue(
       r.api,
       measure.slice(LAW_PREFIX.length),
-      dateMonthsBefore(r.api.state.date, r.index - index),
+      date < CALIBRATED_AT ? CALIBRATED_AT : date,
     );
+  }
   const derived = derivedOf(measure);
   const kept = derived?.measure ?? measure;
   if (index >= r.index && !keptOutcome(kept)) return r.values[measure] ?? null;
@@ -293,7 +394,12 @@ function causeAt(r: Reading, measure: string, index: number): number | null {
       ? null
       : (value / base - 1) * SETTINGS.indexStart;
   }
-  // An engine record before the web opened reads as it stood at the opening.
+  // An engine record before the web opened reads as it was first read at the
+  // opening. The opening month's row is rewritten when a law or a budget
+  // change takes effect that month, and reading that row back would carry the
+  // change into every earlier month a phased link averages.
+  if (index < r.openingIndex && r.first[measure] !== undefined)
+    return r.first[measure];
   return (
     (row ?? rowAt(r, r.openingIndex))?.values[measure] ??
     r.values[measure] ??
@@ -310,6 +416,13 @@ function baselineOf(r: Reading, measure: string): number | undefined {
       CALIBRATED_AT,
       true,
     );
+  const reader = engineMeasure(measure)?.baselineReader;
+  const opened = webState(r.api)?.openedAt;
+  const lawLevel =
+    reader && opened
+      ? BASELINE_READERS[reader]?.(r.api, r.placeId, opened)
+      : undefined;
+  if (lawLevel !== undefined) return lawLevel;
   return (
     fixedBaseline(measure, r.stateKey) ??
     (
@@ -365,6 +478,10 @@ function effectOf(r: Reading, link: WebLink): number | null {
 function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   const date = api.state.date;
   const month = date.slice(0, "YYYY-MM".length);
+  const baselines = store(api).table("baselines");
+  const opening = baselines.get(placeId) as unknown as
+    { id: string; date: string; values: Record<string, number> } | undefined;
+  const bases: Record<string, number> = { ...opening?.values };
   const r: Reading = {
     api,
     placeId,
@@ -372,11 +489,8 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     index: monthIndex(month),
     openingIndex: monthIndex(state.openingMonth),
     values: {},
+    first: bases,
   };
-  const baselines = store(api).table("baselines");
-  const opening = baselines.get(placeId) as unknown as
-    { id: string; date: string; values: Record<string, number> } | undefined;
-  const bases: Record<string, number> = { ...opening?.values };
   const engineSources: Record<string, string | null> = {};
   let newBaseline = false;
   for (const measure of ENGINE_CAUSES) {
@@ -431,6 +545,15 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     }
     bases[outcome] = base;
     r.values[outcome] = level ? base + added : base * product;
+    // An outcome the school engine measures stands on its records: the share
+    // its students reached last school year, citing that record.
+    const measured = SCHOOL_MEASURED.has(outcome)
+      ? schoolMeasure(api, placeId, outcome)
+      : null;
+    if (measured) {
+      r.values[outcome] = measured.value;
+      engineSources[outcome] = measured.recordId;
+    }
   }
   const row: WebMonth = {
     id: `web:${placeId}:${month}`,
@@ -464,7 +587,7 @@ function run(api: CoreAPI, announced = false): void {
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
-  // No engine keeps SNAP receipt or food insecurity; they stay ledger numbers.
+  // No field counts the SNAP benefit's recipients into SNAP receipt, and no engine keeps food insecurity; both stay ledger numbers.
   api.stopgap("SG-WEB-snap-receipt-ledger");
   api.stopgap("SG-WEB-food-insecurity-ledger");
   // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
@@ -566,6 +689,9 @@ export function placeOutcome(
       engineRecordId: string | null;
     }
   | undefined {
+  // A world without the web (a small test world) has no conditions to read.
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
+    return undefined;
   const rows = store(api)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[];

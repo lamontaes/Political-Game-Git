@@ -31,6 +31,25 @@ export interface OutsideMarketData {
 
 export const OUTSIDE_MARKET_KIND = "outside-market";
 
+/**
+ * The outside account a place's engines settle with: its outside market, else
+ * (a world built without one) the first other outside-flow account there. A
+ * public employer's pay authority also has an outside account
+ * (opening-public-pay.ts); it carries that government's wages only, so
+ * engines that merely need "the outside" never take it while a market exists.
+ */
+export function townOutsideOf<
+  T extends { kind?: string; placeId?: string; outsideFlow?: unknown },
+>(orgs: Iterable<T>, placeId: string | undefined): T | undefined {
+  let other: T | undefined;
+  for (const org of orgs) {
+    if (org.placeId !== placeId || org.outsideFlow === undefined) continue;
+    if (org.kind === OUTSIDE_MARKET_KIND) return org;
+    other ??= org;
+  }
+  return other;
+}
+
 /** The one outside account per place: buyers and sellers outside the town. */
 export function outsideMarketAccount(
   placeId: string,

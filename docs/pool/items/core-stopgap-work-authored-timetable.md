@@ -4,7 +4,7 @@ title: "Stopgaps in work (authored-timetable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ after:
 **Notes.** First row: Imports existing generated timetable assumptions or explicitly tunable fallback placement.
 
 Oct 20 (pool feeder): spec written; the sources are named in docs/research/stand-in-figures-2026-10-12.md (ATUS Table A-4, job flexibilities) and need to be fetched into data/research/core/ by the builder (bls.gov returned 403 from cloud on Oct 20; use the ATUS microdata or a mirrored table and cite it). The roster rule is already built (world-port-work-schedules-roster).
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

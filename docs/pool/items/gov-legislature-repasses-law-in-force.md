@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-23 from PR #5778 (branch claude/repass-law-in-force): New legislature-repass regression fails in St. Leon IN 1866978, seed fc26f909e5d5b49dc5d8a2796b7220e913cc95143777de03a7dccc69445ac090: council bill re-enacts right-to-counsel 0 over existing 0; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5778 (branch claude/repass-law-in-force): Done-when needs two drawn-place played years, but legislature-repass.test.ts sets WANTED to PINNED.length + 1 and counts both pinned regressions, guaranteeing only one fresh draw; require two fresh witnessed draws and update the evidence table; finish on that branch, merge main into it first.

@@ -1,5 +1,7 @@
 # Prior rulings, by area
 
+> **Read-only history; rulings live in `OWNER-DECISIONS.md`; newest wins.** (acting CTO, Oct 25)
+
 Digests of the owner's earlier rulings found in Google Drive on October 14, 2026, one per area, by Haiku research agents. Each lists rulings newest first with quotes, file titles and dates, then conflicts. The conflict rule: the most recent wins unless the older makes more sense; either way it is flagged. Snippet-only items are marked. The Decision Register copy and OWNER-DECISIONS.md in the parent folder are the binding record; these digests point into them.
 
 - words.md

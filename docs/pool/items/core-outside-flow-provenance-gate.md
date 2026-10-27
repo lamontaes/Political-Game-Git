@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Fix at the root: a flow the gate cannot match is traced to the module that posted it and given a real payer or payee there, never an allowlist row. The chain is the acceptance: the gate's pass is shown by following one tax dollar and one spending dollar to named people. One rule, all 56 places: the gate runs in a drawn place, with no place named in code. No dice: payers and payees come from law, budget and records, not a roll. Replace, never layer: no gate exemption is added beside the removed plug.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), `node scripts/core2-year/closures.mjs` check 6 reports zero plug rows matched and zero unmatched outside flows, and the PR body names one tax receipt and one spending payment by journal record id. The test that proves it is src/core2/budgets.test.ts together with the closures run.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), `node scripts/core2-year/closures.mjs` check 6 reports zero plug rows matched and zero unmatched outside flows, and the PR body names one tax receipt and one spending payment by journal record id. The test that proves it is src/core2/budgets.test.ts together with the closures run. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** scripts/core2-year/closures.mjs, src/core2/data/outside-flows.json, src/core2/modules/budgets.ts, src/core2/budgets.test.ts
 

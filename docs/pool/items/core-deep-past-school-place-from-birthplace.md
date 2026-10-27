@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** One rule, all 56 places: the born-here share is a per-place table keyed by postal code, never a state named in logic. Estimate, never UNKNOWN: a person with no recorded birthplace starts from the place's measured share, marked ESTIMATED with the B05002 source.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, named in the PR), the share of school:cohort-estimate records placed in the opening locality lands within 5 points of the place's B05002 born-in-state share, printed by scripts/research/deep-past-year.ts with the record ids, and the tests in src/core2/deep-past.test.ts pass.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, named in the PR), the share of school:cohort-estimate records placed in the opening locality lands within 5 points of the place's B05002 born-in-state share, printed by scripts/research/deep-past-year.ts with the record ids, and the tests in src/core2/deep-past.test.ts pass. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/deep-past.ts,src/core2/data/deep-past.json,data/research/core/acs-2023-b05002-born-in-state.json
 

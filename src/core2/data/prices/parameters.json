@@ -122,15 +122,15 @@
     }
   },
   "pricesCannabisUsePrevalence": {
-    "value": 0.22,
+    "value": 0.2317,
     "tag": "ESTIMATED",
-    "citation": "SAMHSA National Survey on Drug Use and Health 2023: about 22 percent of adults 18 and older used cannabis in the past year (the share among those 21 and older is close). The same national share is used for every place until a state series is loaded.",
-    "estimatedFrom": "NSDUH 2023 national adult past-year cannabis use, applied to every state.",
+    "citation": "SAMHSA, 2023-2024 National Surveys on Drug Use and Health, State Estimates, Table 2 (Marijuana Use in the Past Year), Total U.S., 18+: 23.17 percent (95% CI 22.67-23.67), https://www.samhsa.gov/data/sites/default/files/reports/rpt56957/2024-nsduh-sae-tables-percent-csvs/2024-nsduh-sae-tables-percent.pdf; recorded in data/research/laws/samhsa-2024-cannabis-past-year.json and checked by scripts/research/check-law-reach-sources.ts.",
+    "estimatedFrom": "The national adult (18+) past-year share stands in for each place's own share, which the same table gives by state (SG-GOV-REACH-A-cannabis-market); the 21-and-over share is not published.",
     "spread": {
-      "low": 0.15,
-      "high": 0.3,
+      "low": 0.1594,
+      "high": 0.3757,
       "unit": "share of adults",
-      "citation": "State past-year adult use runs from the high teens to near 30 percent."
+      "citation": "SAMHSA NSDUH 2023-2024 Table 2, 18+ past-year use by state: lowest Texas 15.94 percent, highest Vermont 37.57 percent."
     }
   },
   "pricesCannabisAdultShare": {

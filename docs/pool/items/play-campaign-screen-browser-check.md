@@ -15,7 +15,7 @@ claimed-at: 2026-10-20T12:40:35.823Z
 
 **What.** PR 5674 added Hold an event and Ask for an interview controls to the Campaigns screen (src/bench/play.mjs, src/bench/data/controls.json) and PR 5549's done-when named a browser check that was never run. Open the Campaigns screen in a real browser in a drawn place with a candidate on a ballot, and confirm it shows the four outing controls (doors, event, interview, calls) with their control names, no list of acts, and that taking an event shows the venue scene and taking an interview shows its result line. File a pool item for anything that looks wrong.
 
-**Rules.** This is a game, not a spreadsheet: a scene, not a form. No hand-written player text: control names come from src/bench/data/controls.json. Follow the browser-visual-acceptance skill.
+**Rules.** This is a game, not a spreadsheet: a scene, not a form. No hand-written player text: control names come from src/bench/data/controls.json. Follow the browser check in the play-first skill.
 
 **Done when.** In a drawn place from all 56 (name it and the seed) the browser run shows the Campaigns screen with the four controls and no list of acts, and each control taken writes the engine's own record by id (cause rows for the event, the interview row for the interview); a screenshot is attached to the PR body and a test or note records the result.
 

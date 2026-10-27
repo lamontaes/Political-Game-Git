@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: the census and Pew shares check the town's totals and never become a draw for one person; a person's attainment and faith follow their own schooling record and household. One rule, all 56 places: both check tables are keyed by postal code for every place, never a state named in logic.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, named in the PR), the share of full adults with a bachelor's degree or more in each ACS age band with at least 30 adults lands within 5 points of the state's B15001 share, and each faith group within 5 points of the Pew state share, printed by scripts/research/deep-past-year.ts with the person record ids it read.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, named in the PR), the share of full adults with a bachelor's degree or more in each ACS age band with at least 30 adults lands within 5 points of the state's B15001 share, and each faith group within 5 points of the Pew state share, printed by scripts/research/deep-past-year.ts with the person record ids it read. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/opening-profile.ts,src/core2/deep-past.ts,data/research/core/acs-2023-b15001-attainment-by-state.json,data/research/core/pew-rls-2023-24-faith-by-state.json
 

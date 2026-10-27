@@ -18,8 +18,10 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: the medical spending flow must pay less because the coverage record says Medicaid. The chain is the acceptance: law row, eligibility, coverage record, the lower bill, the household's cash. One model, two tiers: counted groups follow the same rule times their weight.
 
-**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (name place and seed) with a Medicaid expansion law in force, a named low-income adult and a counted group hold Medicaid coverage records, their monthly medical spending is lower than an uncovered neighbor's by record id, the cash journal balances, and the SG-GOV-REACH-B-medicaid-coverage row in stopgaps.json is closed with the reader named.
+**Done when.** In a one-year run of buildBenchWorld in a drawn place from all 56 (name place and seed) with a Medicaid expansion law in force, a named low-income adult and a counted group hold Medicaid coverage records, their monthly medical spending is lower than an uncovered neighbor's by record id, the cash journal balances, and the SG-GOV-REACH-B-medicaid-coverage row in stopgaps.json is closed with the reader named. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-b.ts, src/core2/modules/health.ts, src/core2/data/stopgaps.json
 
 **Notes.** Part 3 of 3 split from missing-engine-health-coverage-and-medical-spending (Oct 20).
+
+Folded in from the withdrawn people-health-coverage-reader (PR #5450), which named the same chain: (1) a lost job or a raise that moves an adult over the income limit ends the coverage and raises the bill again, the same sliding rule in both directions, never a cutoff; (2) the chain reaches the director's line (the smaller bill cites the coverage record, and nobody credits the law unless they learned of it). The monthly flow this reads is the CE health insurance and medical services flow; two open items describe it, world-medical-spending-categories and people-health-spending-flows, so whoever claims one should read the other first and one of them should be closed as the duplicate (a CTO call, not made here).

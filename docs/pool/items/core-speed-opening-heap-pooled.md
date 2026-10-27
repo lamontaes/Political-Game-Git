@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/counted-groups.ts,src/core2/module-data.ts,src/core2/choice.ts
 
 **Notes.** TODO
+
+Speed lead, Oct 24: the premise does not hold in play. A `--trace-gc` run of Long Hill, Connecticut (seed m7b, main 185d76d7ce, 64 MiB young generation, the first 60 days after the build) shows no full mark-compact collection of the main heap during play: the last one is during the build (1,024 to 915 MB, 157 ms). Play's garbage collection is 140 young-generation scavenges in 60 days, 2.67 s together (about 19 ms each, roughly 16 s a year, which matches the 21 s the CPU profile charges the collector). So the cost is short-lived allocation and what survives a scavenge, not major collections walking the opening heap; moving the opening into columns would not shorten the year. The cuts that do are in `core-speed-allocation-volume-flat`'s parts. Recommend dropping this item (CTO).

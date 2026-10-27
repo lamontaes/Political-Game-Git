@@ -71,6 +71,9 @@ import {
 } from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
+import { termStartAfter } from "../elections-calendar";
+import { governorPartyAtOpening, stateOffices } from "../offices-state";
+import { placeStateKeys } from "../places";
 
 export const WORLD_RACES_MODULE_ID = "core2-world-races-v1";
 
@@ -159,8 +162,58 @@ function nextRaceYear(api: CoreAPI, from: number): number {
       .filter((y): y is number => y !== undefined && y % 2 === 1),
   );
   let year = from;
-  while (year % 2 === 1 && !oddYears.has(year)) year += 1;
+  while (
+    year % 2 === 1 &&
+    !oddYears.has(year) &&
+    !governorRaces(api, year).length
+  )
+    year += 1;
   return year;
+}
+
+/**
+ * Every other state's governor race held in `year`, by the state's own
+ * cycle and term in its research row; the winner takes office on the
+ * state's inauguration day for a November election.
+ */
+function governorRaces(api: CoreAPI, year: number): readonly Race[] {
+  const townState = lawChain(api).stateKey;
+  const electionDay = novemberGeneralElectionDay(year);
+  const races: Race[] = [];
+  for (const stateKey of placeStateKeys()) {
+    if (stateKey === townState) continue;
+    const office = stateOffices(stateKey, "", api.state.date).find(
+      (entry) => entry.office.kind === "governor",
+    )?.office;
+    if (!office?.elected || !office.termYears || !office.nextElectionYear)
+      continue;
+    if ((year - office.nextElectionYear) % office.termYears !== 0) continue;
+    // A territory's electorate has no counted places or major-party record.
+    if (!statePlaces(stateKey.slice(3)).length) {
+      // stopgapId: SG-GOV-territory-governor-race (a territory's governor race is not run: its electorate's places and its own parties are not on record)
+      api.stopgap("SG-GOV-territory-governor-race");
+      continue;
+    }
+    const seatId = `seat:${stateKey}:governor`;
+    races.push({
+      seatId,
+      office: "governor",
+      usps: stateKey.slice(3),
+      code: "00",
+      incumbentParty: currentParty(
+        api,
+        seatId,
+        governorPartyAtOpening(stateKey),
+      ),
+      leanSource: "2024 presidential vote in the state's counties",
+      seatedOn: termStartAfter(office, electionDay),
+    });
+  }
+  if (races.length) {
+    // stopgapId: SG-GOV-world-governor-executive (another state's elected governor is kept as its seat's party and date; no engine acts as that state's executive)
+    api.stopgap("SG-GOV-world-governor-executive");
+  }
+  return races;
 }
 
 function scheduleElection(api: CoreAPI, year: number): void {
@@ -850,6 +903,8 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     if (legislature && seat.electionYear !== year) continue;
     races.push(seatRace(api, seat, office, year));
   }
+  // Every other state's governor its cycle elects this year.
+  races.push(...governorRaces(api, year));
   const congressStart = `${year + 1}-01-03`;
   // Congress outside the town's state, in even years.
   if (year % 2) return races.sort((a, b) => a.seatId.localeCompare(b.seatId));
@@ -917,7 +972,8 @@ function racePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     const delegate = statePlaces(usps, 1)[0];
     return delegate ? [{ ...delegate, eligible: 0 }] : [];
   }
-  if (race.office === "us-senate") return statePlaces(usps);
+  if (race.office === "us-senate" || race.office === "governor")
+    return statePlaces(usps);
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const districts = new Set(
     (
@@ -1033,7 +1089,7 @@ function decide(
     family:
       race.office === "us-house"
         ? "usHouse"
-        : race.office === "us-senate"
+        : race.office === "us-senate" || race.office === "governor"
           ? "statewideExecutive"
           : "stateLegislative",
     cycle,

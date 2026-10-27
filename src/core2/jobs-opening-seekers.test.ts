@@ -18,38 +18,51 @@ import { coreAPI } from "./state";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 it("opening seekers are chosen per place, from the place's own rate", () => {
-  const place = drawPlace(seed, "opening-seekers");
-  const where = `${place.name} (${place.key}), seed ${place.seed}`;
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const rows = coreAPI(core)
-    .moduleState(JOBS_MODULE_ID)
-    .table("seekers")
-    .query("all", [true]) as unknown as {
-    reasonKey: string;
-    placeId: string;
-  }[];
-  const counted = coreAPI(core)
-    .moduleState(JOBS_MODULE_ID)
-    .table("countedSeekers")
-    .query("all", [true]) as unknown as {
-    reasonKey: string;
-    placeId: string;
-  }[];
-  expect(
-    counted.filter((r) => r.reasonKey === "opening-unemployed").length,
-    `${where}: the wider population's seekers`,
-  ).toBeGreaterThan(0);
-  const opening = rows.filter((r) => r.reasonKey === "opening-unemployed");
-  expect(opening.length, where).toBeGreaterThan(0);
-  expect(
-    opening.every((r) => r.placeId),
-    where,
-  ).toBe(true);
-}, 600_000);
+  // A band's seekers are its rate times its counted workers, so a very small
+  // town can have none among the wider population; draw on until one has.
+  const tried: string[] = [];
+  for (let draw = 0; draw < 12; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "opening-seekers");
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const rows = coreAPI(core)
+      .moduleState(JOBS_MODULE_ID)
+      .table("seekers")
+      .query("all", [true]) as unknown as {
+      reasonKey: string;
+      placeId: string;
+    }[];
+    const counted = coreAPI(core)
+      .moduleState(JOBS_MODULE_ID)
+      .table("countedSeekers")
+      .query("all", [true]) as unknown as {
+      reasonKey: string;
+      placeId: string;
+    }[];
+    const countedOpening = counted.filter(
+      (r) => r.reasonKey === "opening-unemployed",
+    ).length;
+    if (countedOpening === 0) {
+      tried.push(`${where}: no counted seekers`);
+      continue;
+    }
+    const opening = rows.filter((r) => r.reasonKey === "opening-unemployed");
+    expect(opening.length, where).toBeGreaterThan(0);
+    expect(
+      opening.every((r) => r.placeId),
+      where,
+    ).toBe(true);
+    return;
+  }
+  throw new Error(`no drawn place had counted seekers: ${tried.join("; ")}`);
+  // Measured: building a drawn place and playing its first day took 8 to 10 s in
+  // most towns and 88 s in the largest of six drawn (Langley Park, Maryland), so
+  // twelve draws can take up to about 1,060,000 ms; 1,800,000 ms leaves margin.
+}, 1_800_000);
 
 it("the opening's named seekers follow the place's labor force by age band", () => {
   const tried: string[] = [];

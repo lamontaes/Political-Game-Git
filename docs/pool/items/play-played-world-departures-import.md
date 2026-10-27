@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T11:29:13.171Z
 
 **Rules.** An effect is a read: the verdict reads the moved-away event's departure record, the same record the engine emitted, never a rebuilt copy. Replace, never layer: the dead import goes, no second departures source is added. One rule, all 56 places: the proof still draws its place by seed.
 
-**Done when.** node --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts with PLAYED_WORLD_SEED set runs to its end on a drawn place (name the place and seed in the PR body) and its nobody-serves-after-moving-away verdict reports a departures count taken from the moved-away events.
+**Done when.** node --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts with PLAYED_WORLD_SEED set runs to its end on a drawn place (name the place and seed in the PR body) and its nobody-serves-after-moving-away verdict reports a departures count taken from the moved-away events. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** tests/golden-path/played-world.node-test.ts
 

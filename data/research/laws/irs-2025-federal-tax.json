@@ -1,0 +1,126 @@
+{
+  "id": "irs-2025-federal-tax",
+  "publisher": "Internal Revenue Service",
+  "vintage": "tax year 2025",
+  "table": "Rev. Proc. 2024-40, section 2.01 (Tables 1-3) and 2.15 (standard deduction); Publication 15 (2025), social security wage base",
+  "title": "Revenue Procedure 2024-40 (2025 inflation adjustments) and Publication 15 (2025), Employer's Tax Guide",
+  "universe": "Federal individual income tax schedules and the employee Social Security tax on wages",
+  "geography": "United States (federal)",
+  "sourceUrl": "https://www.irs.gov/pub/irs-drop/rp-24-40.pdf",
+  "retrievedOn": "2026-10-23",
+  "limits": [
+    "The law in force on January 1, 2025. The 2025 reconciliation act (July 2025) raised the 2025 standard deduction retroactively; it was not law on January 20, 2025 and is not here.",
+    "Married filing separately and surviving-spouse schedules are not carried."
+  ],
+  "incomeTax": {
+    "taxYear": 2025,
+    "quote": "For taxable years beginning in 2025, the tax rate tables under § 1 are as follows: ... Unmarried Individuals ... Not over $11,925 10% of the taxable income ... Over $626,350 $188,769.75 plus 37% of the excess over $626,350; standard deduction Unmarried Individuals $15,000, Married Individuals Filing Joint Returns $30,000, Heads of Households $22,500",
+    "schedules": {
+      "single": {
+        "standardDeductionMinor": 1500000,
+        "brackets": [
+          {
+            "overMinor": 0,
+            "rateBasisPoints": 1000
+          },
+          {
+            "overMinor": 1192500,
+            "rateBasisPoints": 1200
+          },
+          {
+            "overMinor": 4847500,
+            "rateBasisPoints": 2200
+          },
+          {
+            "overMinor": 10335000,
+            "rateBasisPoints": 2400
+          },
+          {
+            "overMinor": 19730000,
+            "rateBasisPoints": 3200
+          },
+          {
+            "overMinor": 25052500,
+            "rateBasisPoints": 3500
+          },
+          {
+            "overMinor": 62635000,
+            "rateBasisPoints": 3700
+          }
+        ]
+      },
+      "married-filing-jointly": {
+        "standardDeductionMinor": 3000000,
+        "brackets": [
+          {
+            "overMinor": 0,
+            "rateBasisPoints": 1000
+          },
+          {
+            "overMinor": 2385000,
+            "rateBasisPoints": 1200
+          },
+          {
+            "overMinor": 9695000,
+            "rateBasisPoints": 2200
+          },
+          {
+            "overMinor": 20670000,
+            "rateBasisPoints": 2400
+          },
+          {
+            "overMinor": 39460000,
+            "rateBasisPoints": 3200
+          },
+          {
+            "overMinor": 50105000,
+            "rateBasisPoints": 3500
+          },
+          {
+            "overMinor": 75160000,
+            "rateBasisPoints": 3700
+          }
+        ]
+      },
+      "head-of-household": {
+        "standardDeductionMinor": 2250000,
+        "brackets": [
+          {
+            "overMinor": 0,
+            "rateBasisPoints": 1000
+          },
+          {
+            "overMinor": 1700000,
+            "rateBasisPoints": 1200
+          },
+          {
+            "overMinor": 6485000,
+            "rateBasisPoints": 2200
+          },
+          {
+            "overMinor": 10335000,
+            "rateBasisPoints": 2400
+          },
+          {
+            "overMinor": 19730000,
+            "rateBasisPoints": 3200
+          },
+          {
+            "overMinor": 25050000,
+            "rateBasisPoints": 3500
+          },
+          {
+            "overMinor": 62635000,
+            "rateBasisPoints": 3700
+          }
+        ]
+      }
+    }
+  },
+  "socialSecurity": {
+    "ratePercent": 6.2,
+    "wageBase": 176100,
+    "source": "https://www.irs.gov/pub/irs-prior/p15--2025.pdf",
+    "quote": "The social security wage base limit is $176,100. The Medicare tax rate is 1.45% each for the employee and employer, unchanged from 2024."
+  }
+}

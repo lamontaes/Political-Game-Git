@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/core-speed-guard-input-change
+pr: #5937
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T10:55:35.542Z
 ---
 
 **What.** The paired-performance job (scripts/core2-guard/paired.mjs through compare.mjs) stops with 'Incomparable measurement: inputHash' whenever a PR changes data the opening reads, because compare.mjs requires base and head to share one inputHash. So a research or data PR that moves a parameter row the opening reads cannot be timed at all, and the job is red without a speed result: lamontaes/Political-Game-Git#5854, #5860 and #5864 on Oct 24. The Oct 13 note in docs/coordination/core.md proposed comparing timings across a changed opening and reporting the change, keeping seed, place, days, settings and host strict. Build that, so a changed opening is reported in the receipt and timed rather than refused.

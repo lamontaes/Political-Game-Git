@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: the same rule reads a counted group and a full person. Speed: counts are indexed and filled in only when the player meets someone; never scan every place daily. No dice: who is met follows the counts and the visit, never a roll. One rule, all 56 places: no place named in code. Replace, never layer: the trip identities drawn from the world seed are deleted.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, a president's trip to another drawn town meets a resident with a household, job and pay that match that town's counts, shown by person and place record ids; SG-OFFICE-FED-trip-residents closes in stopgaps.json; a test beside src/core2/office-day-federal.test.ts names the places and the seed.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose, a president's trip to another drawn town meets a resident with a household, job and pay that match that town's counts, shown by person and place record ids; SG-OFFICE-FED-trip-residents closes in stopgaps.json; a test beside src/core2/office-day-federal.test.ts names the places and the seed. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/residents.ts, src/core2/modules/regional.ts, src/core2/office-day-federal-president.ts, src/core2/data/stopgaps.json
 

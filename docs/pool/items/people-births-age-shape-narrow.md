@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/births-plan.ts,src/core2/data/renewal/parameters.json,src/core2/births-full-coverage.test.ts
 
 **Notes.** TODO
+
+Folded into people-births-ready-couples-conceive-at-once (Oct 25 audit).
