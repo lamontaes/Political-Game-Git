@@ -5,9 +5,9 @@ area: release
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/release-package-clock
-pr:
+pr: #6353
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T16:41:25.359Z
