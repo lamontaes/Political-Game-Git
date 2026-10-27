@@ -1,5 +1,5 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { wordArchiveStory } from "./archive-words";
+import { wordArchiveStory, wordPrintedStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import type { ContestRow } from "../core2/modules/elections";
@@ -146,6 +146,8 @@ export function heardItems(core: CoreState, personId: string) {
       kind: story.kind,
       facts: story.facts,
       staffing: staffingNews(core, story.facts),
-      ...wordArchiveStory(core, story),
+      // A story archived before day one, or printed since, in the English
+      // engine's words.
+      ...(wordArchiveStory(core, story) ?? wordPrintedStory(core, story)),
     }));
 }

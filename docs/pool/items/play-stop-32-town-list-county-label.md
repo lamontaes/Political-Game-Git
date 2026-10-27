@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-32-town-list-county-label
+pr: #6248
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:21:26.161Z
 ---
 
 **What.** The town list shows "Aaronsburg, Pennsylvania" and under it "Centre County, 718 people". The county is there only to tell two Aaronsburgs apart, but it runs straight into the count and reads as "Centre County has 718 people". The owner: "Are these the real populations? Like, I don't think there's 718 people in Centre County, Pennsylvania" and then "Yes, I guess we have to delineate between county and city or whatever." This item separates the two: the county as its own labeled part ("in Centre County") and the count attached to the town. The population values do not change.
@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/creator.ts, src/bench/play.mjs, src/bench/play.css, src/bench/creator-towns-population.test.ts, src/bench/towns.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "Yes, I guess we have to delineate between county and city or whatever." Not filed on purpose: a population-accuracy item. The owner ruled the census is calibration only ("remember, oh my God, the census stuff doesn't have to be literal. It's just calibration."). For the record, boroughs read Census Vintage 2025 estimates (data/tables/place-population.json) and CDPs read ACS 2020-24 (data/research/money/place-population-acs-2024.json), and the list and the opened world share one source. The county was added by play-stop-14 (done). New owner instruction in playtest; CTO to record in OWNER-DECISIONS.md. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+Merged Oct 27 in PR #6248; awaiting the owner's installed-build check

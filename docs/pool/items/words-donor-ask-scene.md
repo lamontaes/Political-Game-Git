@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/campaigns.ts, src/director/data/situation-types.json, src/director/data/director.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json
 
 **Notes.** TODO
+
+Evidence (words lead, Oct 27): the packet `docs/design/scenes/from-life/the-donor-who-wants-something.md` (local cases in Gilbert, Arizona and Prince George's County, Maryland, calibration only). The `gifts` table names the donor (`donorId`, `totalMinor`) but no event is emitted and no gift is tied to a matter the donor cares about; the legislature keeps no recusal record and reads no gift.

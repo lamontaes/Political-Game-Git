@@ -1,0 +1,11 @@
+{
+  "about": "Links a law in the rights, technology, environment, farms and parks family does not have by its own terms, with the reason. A declaration is applied only where the measured link is not wired.",
+  "laws": {
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "money": {
+        "status": "n/a",
+        "why": "The clean air plan question moves no payment of its own in the game's model. EPA designates the nonattainment areas and the duty on their stationary sources follows the designation (Clean Air Act sec. 107(d) and 172, 42 U.S.C. 7407(d) and 7502), and where a state has no plan the federal plan applies instead (sec. 110(c), 42 U.S.C. 7410(c)), so the sources are charged either way. The engine does the same: src/core2/modules/business.ts:937 sets the share from the county's missed standards alone, :949-951 uses the plan's law row only for the citation when one is in force, and :959 makes the charge with or without it (tested in src/core2/clean-air-law.test.ts; the earlier ruling is pool item laws-family-clean-air, 'the cost is federal either way'). What the plan changes is the air, through the outcome web (emission-rules-to-particulates). In the drawn places for this law no journal post differs from the control world; the audit-town reading that looked like money (Uehling, Nebraska: interest-group-dues, journal:2025-02-01:1885, 400000 in the control world against 250000 with the plan in force) is interest groups' dues, not a payment the plan causes."
+      }
+    }
+  }
+}
