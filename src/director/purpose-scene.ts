@@ -7,12 +7,19 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { personLean } from "../core2/campaign-views";
 import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
+import {
+  MEETINGS_MODULE_ID,
+  type TownHallRow,
+} from "../core2/modules/meetings";
+import { viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
+import { questionAbout } from "../english/question-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -155,6 +162,43 @@ function composeBinding(
       text: said.problem,
       sourceRecordIds: [moment.causeId],
     };
+  // A town hall (meetings.ts holdTownHall): the question this resident stood up with,
+  // and whether the host's answer to it agreed with the resident's own stand,
+  // opposed it, or was not given.
+  if (said.townHallId && core.modules.has(MEETINGS_MODULE_ID)) {
+    const api = coreAPI(core as CoreState);
+    const hall = api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("townHalls")
+      .get(said.townHallId) as unknown as TownHallRow | undefined;
+    const asking = hall?.questions.find((row) => row.askedBy === askerId);
+    const issue = asking ? questionAbout(asking.question) : null;
+    if (hall && asking && issue) {
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [said.townHallId, moment.causeId],
+      };
+      const stand = hall.answers.find(
+        (row) => row.question === asking.question,
+      )?.position;
+      const own = viewOn(
+        api,
+        askerId,
+        asking.question,
+        personLean(core.people, asker, P.zero),
+      );
+      const reading =
+        stand === null || stand === undefined
+          ? "host-declined"
+          : stand * own < P.zero
+            ? "host-opposed"
+            : "host-agreed";
+      facts[reading] = {
+        text: reading,
+        sourceRecordIds: [said.townHallId, askerId],
+      };
+    }
+  }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {
