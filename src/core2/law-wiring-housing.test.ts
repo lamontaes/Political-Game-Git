@@ -86,6 +86,23 @@ function apartmentsPermitted(usps: string, people: number): number {
 }
 const UNITS_PER_BUILDING = housingParameters.housingUnitsPerBuilding.value;
 
+/**
+ * The apartment buildings started under the by-right zoning law, each with the enactment it was started under. A
+ * house carries the same law ids and is not one; neither is a building that was under way when the world opened,
+ * which was started before any law here (housing-construction.ts records only a start on the day as the law's).
+ */
+function apartmentsStartedUnderLaw<
+  P extends {
+    readonly kind: string;
+    readonly startedAt: string;
+    readonly lawIds?: Record<string, string>;
+  },
+>(projects: readonly P[], opened: string): P[] {
+  return projects.filter(
+    (p) => p.kind === "multi" && p.startedAt >= opened && p.lawIds?.multifamily,
+  );
+}
+
 type Law = keyof typeof KEYS;
 
 /** What a case names: the law's applied record, who it reached, and the journal entry of the money. */
@@ -154,6 +171,22 @@ function setQuestion(api: CoreAPI, key: string, value: 0 | 1): void {
       .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
     if (latest?.value === 1) enact(level, jurisdiction);
   }
+}
+
+/**
+ * Whether a policy was law for the town on a date: any level of its chain whose latest row in force on that date says
+ * yes. The rule the engines apply on the day they decide (`inForceHere` in law-reach/host.ts), asked of a past day.
+ */
+function inForceOn(api: CoreAPI, key: string, date: string): boolean {
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  return lawChain(api).levels.some(({ jurisdiction }) => {
+    const latest = (
+      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
+    )
+      .filter((r) => r.effectiveDate <= date)
+      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+    return latest?.value === 1;
+  });
 }
 
 /** Every row an engine recorded for the key, current or ended by a later law row taking effect (the engine records the new one at its next read). */
@@ -297,10 +330,28 @@ function play(
 
   // A body in play may repeal one of these laws before an engine reads it (a council undoing rent
   // stabilization before any lease's anniversary); the test puts it back each month so every read happens under it.
+  const lawDays = { checked: 0, inForce: 0 };
   for (let day = 0; day < DAYS; day += 30) {
     for (const key of QUESTIONS) setQuestion(api, key, 1);
     step(core, Math.min(30, DAYS - day));
+    lawDays.checked += 1;
+    if (inForceOn(api, KEYS.multifamily, core.date)) lawDays.inForce += 1;
   }
+
+  // The place is a subject of the by-right law only if a landlord started an apartment building while some enactment of it
+  // stood: a council that repeals the law each time it is enacted again can leave none (the draw already passes over small
+  // towns the same way).
+  const opened = String(gameStartDate());
+  const startedUnderLaw = apartmentsStartedUnderLaw(
+    api.moduleState("housing").table("projects").rows() as unknown as {
+      kind: string;
+      startedAt: string;
+      lawIds?: Record<string, string>;
+    }[],
+    opened,
+  );
+  if (startedUnderLaw.length === 0)
+    return `no subject: no apartment building was started while the by-right law stood (in force on ${lawDays.inForce} of ${lawDays.checked} monthly checks)`;
 
   // Rent stabilization: every renewed lease under the law, full and counted.
   {
@@ -348,7 +399,15 @@ function play(
       (a, b) => (b.savedMinor ?? 0) - (a.savedMinor ?? 0),
     )) {
       if (r.tier === "counted" || !r.householdId) continue;
-      const row = rent.find((x) => x.targetId === r.householdId && !x.endedOn);
+      // The row this renewal wrote: it cites the renewal's own law and was last applied on the renewal's day. A body in play
+      // that repeals the law ends every open row on it (law-reach/host.ts), so a lease renewed under the law keeps its row,
+      // ended, until its next renewal; the row is not open on the day the test looks when a body repealed the law days before.
+      const row = rent.find(
+        (x) =>
+          x.targetId === r.householdId &&
+          x.lawId === r.lawId &&
+          x.lastOn >= r.renewedAt,
+      );
       const paid = lastSettlement(r.id, r.renewedAt);
       if (!row || !paid || paid.paidMinor !== r.rentMinor) continue;
       trails.rent = {
@@ -362,10 +421,13 @@ function play(
       };
       break;
     }
+    const fullRenewals = renewals.filter(
+      (r) => r.tier !== "counted" && r.householdId,
+    );
     check(
       "rent",
       Boolean(trails.rent),
-      `no full household's renewed lease was paid at its renewed rent (${renewals.filter((r) => r.tier !== "counted").length} full and ${renewals.filter((r) => r.tier === "counted").length} counted renewals, ${leasePosts.size} rent payments kept, e.g. ${[...leasePosts.keys()].slice(0, 2).join(", ")}; other rent refs ${otherRefs.join(", ")})`,
+      `no full household's renewed lease was paid at its renewed rent (${fullRenewals.length} full and ${renewals.filter((r) => r.tier === "counted").length} counted renewals, ${fullRenewals.filter((r) => rent.some((x) => x.targetId === r.householdId && x.lawId === r.lawId && x.lastOn >= r.renewedAt)).length} of the full ones with an applied row citing the renewal's law, ${fullRenewals.filter((r) => lastSettlement(r.id, r.renewedAt)?.paidMinor === r.rentMinor).length} paid at the renewed rent since; ${leasePosts.size} rent payments kept, e.g. ${[...leasePosts.keys()].slice(0, 2).join(", ")}; other rent refs ${otherRefs.join(", ")})`,
     );
   }
 
@@ -376,6 +438,8 @@ function play(
     .rows() as unknown as {
     id: string;
     payerId: string;
+    kind: "single" | "multi";
+    startedAt: string;
     lawIds?: Record<string, string>;
     affordableUnits: number;
     askingRentMinor: number;
@@ -396,17 +460,31 @@ function play(
   }
   // Multifamily: the landlord's row, and the construction payment of an apartment building started under the law.
   {
-    const row = rowsOn(api, KEYS.multifamily).find(
+    const landlordRows = rowsOn(api, KEYS.multifamily).filter(
       (r) => r.target === "organization" && r.what === "apartments-permitted",
     );
-    const project = projects.find(
-      (p) => p.lawIds?.multifamily && p.lawIds.multifamily === row?.lawId,
+    const paidFor = (project: { id: string }) =>
+      posts.find(
+        (p) => p.ref.startsWith(`construction:${project.id}:`) && p.gross > 0,
+      );
+    // An apartment building (not a house: houses carry the same law ids) a landlord started under the law, paired with
+    // that landlord's row. The row follows the law's newest enactment, while each building keeps the enactment it was
+    // started under (a body in play that repeals the law, and the test enacting it again, make a new one), so a building
+    // started under the row's own enactment is the closest chain and one started under an earlier enactment also counts.
+    const pairs = apartmentsStartedUnderLaw(projects, opened).flatMap(
+      (project) =>
+        landlordRows
+          .filter((r) => r.targetId === project.payerId)
+          .map((row) => ({ row, project })),
     );
-    const paid = project
-      ? posts.find(
-          (p) => p.ref.startsWith(`construction:${project.id}:`) && p.gross > 0,
-        )
-      : undefined;
+    const pair =
+      pairs.find(
+        (x) =>
+          x.project.lawIds!.multifamily === x.row.lawId && paidFor(x.project),
+      ) ?? pairs.find((x) => paidFor(x.project));
+    const row = (pair ?? pairs[0])?.row ?? landlordRows[0];
+    const project = (pair ?? pairs[0])?.project;
+    const paid = project ? paidFor(project) : undefined;
     check(
       "multifamily",
       Boolean(project),
@@ -417,13 +495,17 @@ function play(
       Boolean(paid),
       "no construction payment cites a building started under the law",
     );
-    if (row && paid)
+    if (row && project && paid)
       trails.multifamily = {
         appliedId: row.id,
         lawId: row.lawId,
         reached: row.targetId,
         journalId: paid.id,
         amountMinor: row.amountMinor,
+        note:
+          project.lawIds!.multifamily === row.lawId
+            ? `${project.id} was started under the row's law`
+            : `${project.id} was started under ${project.lawIds!.multifamily}, an earlier enactment; the landlord's row follows the newest`,
       };
     // A household that moved into one of those buildings, and the rent it pays there.
     for (const tenant of rowsOn(api, KEYS.multifamily)) {
@@ -475,18 +557,22 @@ function play(
       api.moduleState("housing").table("affordable").rows() as unknown as {
         householdId: string;
         projectId: string;
+        since: string;
       }[]
     ).filter((a) =>
       projects.some((p) => p.id === a.projectId && p.lawIds?.inclusionary),
     );
+    // A repealed law reaches no one new (housing-occupancy.ts, `appliedSetAside`), so a household that took a set-aside
+    // unit on a day no level of the town's chain had the law in force has no row; every tenant who moved in under it does.
     for (const a of setAside)
-      check(
-        "inclusionary",
-        rowsOn(api, KEYS.inclusionary).some(
-          (r) => r.targetId === a.householdId,
-        ),
-        `set-aside tenant ${a.householdId} has no applied row`,
-      );
+      if (inForceOn(api, KEYS.inclusionary, a.since))
+        check(
+          "inclusionary",
+          rowsOn(api, KEYS.inclusionary).some(
+            (r) => r.targetId === a.householdId,
+          ),
+          `set-aside tenant ${a.householdId} (moved in ${a.since}, with the law in force) has no applied row`,
+        );
     for (const a of setAside) {
       const project = projects.find((p) => p.id === a.projectId)!;
       const row = rowsOn(api, KEYS.inclusionary).find(
