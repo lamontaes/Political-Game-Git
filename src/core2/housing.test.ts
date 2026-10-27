@@ -1,4 +1,5 @@
 /** M1-05 checks on a recorded fixture: eviction only from unpaid rent, through the place's steps. */
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { describe, expect, it } from "vitest";
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
@@ -398,6 +399,44 @@ describe("right to counsel in eviction", () => {
           ),
         ).toBe(true);
         expect(cases().some((row) => row.counselPaidMinor === 0)).toBe(true);
+        // The lawyer the empty treasury could not pay is owed, not dropped:
+        // the debt is kept, and it is paid, by journal entry, once cash arrives.
+        const cost = api.parameter("housingCounselCostPerCaseMinor");
+        const debts = () =>
+          api.moduleState("housing").table("counselOwed").rows() as unknown as {
+            id: string;
+            caseId: string;
+            owedMinor: number;
+            paidLaterMinor?: number;
+            lastPaymentId?: string;
+          }[];
+        const owed = debts().filter((d) => d.owedMinor === cost);
+        expect(owed.length, "a debt for each unpaid lawyer").toBeGreaterThan(0);
+        transferCash(
+          api,
+          "fixture:fund-treasury",
+          "payer",
+          "organization:treasury",
+          cost * owed.length * 2,
+          src,
+        );
+        advanceCore(core, addDays(makeIsoDate(core.date), 2));
+        for (const debt of owed) {
+          const paid = debts().find((d) => d.id === debt.id)!;
+          expect(paid.owedMinor, debt.caseId).toBe(0);
+          expect(paid.paidLaterMinor, debt.caseId).toBe(cost);
+          expect(paid.lastPaymentId, debt.caseId).toMatch(
+            new RegExp(`^${debt.id}:`),
+          );
+          expect(
+            cases().find((row) => row.id === debt.caseId)!.counselPaidMinor,
+            debt.caseId,
+          ).toBe(cost);
+        }
+        // The treasury paid exactly what it owed, out of the cash it was given.
+        expect(
+          core.organizations.get("organization:treasury")!.liquidMinor,
+        ).toBe(cost * owed.length);
         return;
       }
       // Its pay goes unpaid while the shop has no cash; a tenth of the $4,500 a month it's owed carries the arrears inside a year.
