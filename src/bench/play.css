@@ -176,6 +176,16 @@ ol {
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.75))
     drop-shadow(0 0 14px rgba(255, 255, 255, 0.3));
 }
+/* The painting's own furniture in front of a person, through the spot's mask. */
+#people .occluder {
+  position: absolute;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+}
 /* A soft contact shadow on the floor at a person's feet (placed by the scene). */
 #people .shadow {
   position: absolute;

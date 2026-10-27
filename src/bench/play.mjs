@@ -244,16 +244,36 @@ function shadowsOf(people) {
     });
 }
 
+/**
+ * What the painting has in front of a person (a desk, a chair back), laid
+ * back over them: the picture's own pixels through the spot's mask, lined up
+ * with the picture, so it is right in every light and weather.
+ */
+function occluderOf(o) {
+  const node = el("div", { className: "occluder" });
+  const along = (start, size) =>
+    size >= 100 ? 0 : (start / (100 - size)) * 100;
+  Object.assign(node.style, {
+    left: `${o.leftPercent}%`,
+    top: `${o.topPercent}%`,
+    width: `${o.widthPercent}%`,
+    height: `${o.heightPercent}%`,
+    backgroundImage: `url("${$("backdrop").src}")`,
+    backgroundSize: `${10000 / o.widthPercent}% ${10000 / o.heightPercent}%`,
+    backgroundPosition: `${along(o.leftPercent, o.widthPercent)}% ${along(o.topPercent, o.heightPercent)}%`,
+    maskImage: `url("${o.url}")`,
+    webkitMaskImage: `url("${o.url}")`,
+  });
+  return node;
+}
+
 /** The people in a picture; anyone but you can be clicked for their dossier. */
 function drawPeople(people, onClick) {
   $("people").replaceChildren(
     ...shadowsOf(people),
-    ...people.map((person) => {
+    ...people.flatMap((person) => {
       const f = person.figure;
-      const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
-      const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
-      img.style.height = `${(f.heightPercent / visible) * 100}%`;
       // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure" }, img);
@@ -262,7 +282,7 @@ function drawPeople(people, onClick) {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
         width: `${f.widthPercent}%`,
-        height: `${visible}%`,
+        height: `${f.heightPercent}%`,
       });
       if (onClick && person.personId !== me?.id) {
         box.classList.add("talkable");
@@ -276,7 +296,7 @@ function drawPeople(people, onClick) {
           onClick(person);
         });
       }
-      return box;
+      return f.occluder ? [box, occluderOf(f.occluder)] : [box];
     }),
   );
 }
