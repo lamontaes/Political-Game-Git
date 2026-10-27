@@ -308,6 +308,15 @@ corruptionCases(
 const fresh = process.env.CORRUPTION_SEED ?? randomBytes(16).toString("hex");
 const passedOver: string[] = [];
 let drawn = 0;
+// CORRUPTION_WORLD_SEED with CORRUPTION_PLACE_KEY replays one recorded draw
+// (the world seed and place a failing run printed) before the fresh ones.
+const replaySeed = process.env.CORRUPTION_WORLD_SEED;
+const replayKey = process.env.CORRUPTION_PLACE_KEY;
+if (replaySeed && replayKey) {
+  const refused = corruptionCases(replaySeed, replayKey, true);
+  if (refused) passedOver.push(`replay: ${refused}`);
+  else drawn += 1;
+}
 for (let draw = 0; drawn < 3 && draw < 12; draw++) {
   const place = drawPlace(`${fresh}:${draw}`, "corruption");
   const refused = corruptionCases(place.seed, place.key, true);

@@ -2,6 +2,14 @@
 
 Slug `spouse-stake-after-filing`. Season: home and family. Pool item `words-household-filing-scene-has-a-purpose`. Calibration only: nothing here ships as player text; no real name or quoted line is in any bank.
 
+## Build sheet (for the director engineer)
+
+1. **Trigger:** `candidate-filed:<filing id>`, written by the elections engine (`announce`). Real record: `candidate-filed:filing:contest:seat:gus2025:164887:council:0:2025-11-04:person_01a319696aec9436`, Selden, Kansas, seed `scene-a2-1` (`buildBenchWorld`, council seat, filed in the opening weeks).
+2. **Place kind:** home.
+3. **Cast rule:** the asker is a household adult whose stake the records give: household savings (`liquidMinor` over `livingCostDailyMinor`) short of the days to the filing's `electionDate`, or a child under 13 in the household while the filer holds a job. Strongest stake first; none, no scene. Built as `household-stake` (merged in #6237, literals moved to TUNABLE rows in #6273).
+4. **Outcome record:** the reply's `scene.reply` event. A yes to helping writes the relative into the campaign's `volunteerIds`, read by `reachablePeople` and `whoComes` on the canvass; a put-off is negative hours on the tie, read by `closenessBetween`. The "bound the cost" reply writes nothing another engine reads (stopgap `SG-WORDS-family-limit-unread`; engine item `campaigns-household-limit-read`, lead effects).
+5. **Lines:** to the words lead (done in #6237 and reviewed there).
+
 ## Sources read (for calibration)
 
 1. A published memoir's account of a 2004 U.S. Senate run, as summarized in two study guides: the spouse was reluctant to give the go-ahead, weighed what the office could do for people against what it cost the family, and set one condition (if the run is lost, the political career ends and the household moves to other work). Summaries: SuperSummary "Becoming", Part 2, chapters 15-17 (https://supersummary.com/becoming/part-2-chapters-15-17) and SparkNotes "Becoming", chapters 15 and 16 (https://www.sparknotes.com/lit/becoming/section8/). Read second-hand; the memoir itself was not available to this session, so the packet takes only the shape (a reluctant spouse, a cost named, one condition), nothing quoted.
