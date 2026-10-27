@@ -448,6 +448,12 @@
       "repealName": "Sales Tax Reduction",
       "repealPurpose": "a lower local sales tax rate"
     },
+    "law:property-tax": {
+      "name": "Property Tax Increase",
+      "purpose": "a higher property tax rate",
+      "repealName": "Property Tax Reduction",
+      "repealPurpose": "a lower property tax rate"
+    },
     "law:minimum-wage": {
       "name": "Wage Floor Increase",
       "purpose": "a higher minimum wage",

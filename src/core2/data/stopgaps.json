@@ -6968,6 +6968,18 @@
     "status": "open"
   },
   {
+    "id": "SG-CAMPAIGN-offer-full-people-only",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 1217,
+    "whatItFakes": "Only full people who know a candidate offer to help once word of the filing reaches them; the counted population never offers, so a candidate's volunteers from the wider town come only from the campaign's own asks.",
+    "why": "Volunteers are kept as person ids on the campaign row and an offer is a scene with a person; a counted group has no one to stage. The ask to volunteer has the same limit.",
+    "addedBy": "words-campaign-season-scenes-fill-the-months",
+    "addedAt": "2026-10-26",
+    "replacement": "Counted groups who hear of a filing offer by the same volunteerReason times their count, filled in as full people when one offers to the player.",
+    "status": "open"
+  },
+  {
     "id": "SG-P15-party-ask-after-player",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/candidacy.ts",

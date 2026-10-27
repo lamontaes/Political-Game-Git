@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/bill-title-property-tax
 pr: #6313
 blocked-on:
