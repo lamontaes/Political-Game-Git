@@ -68,6 +68,11 @@
     "venue": "Where",
     "retold": "retold"
   },
+  "campaignVolunteers": {
+    "one": "1 volunteer",
+    "other": "{n} volunteers",
+    "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
+  },
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",

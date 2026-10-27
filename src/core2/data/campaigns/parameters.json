@@ -1326,6 +1326,12 @@
       "source": "How long a rival's paid message stays news someone passes on to a candidate, and how often at most a candidate hears of one: a week, the campaigns engine's own turn. Checked by src/director/campaign-season.test.ts.",
       "spread": [3, 14]
     },
+    "volunteerOfferHalfElectorate": {
+      "value": 10000,
+      "tag": "TUNABLE",
+      "source": "The race's eligible voters at which an offer of help counts half as much to the candidate's story on size alone: a town council or small-city race (a few thousand voters) keeps most of its weight, a state legislative district (tens of thousands) little and a statewide or presidential race next to none (owner, Oct 27, 4 PM Eastern: 'it shouldn't be stopped for literally every single volunteer. Maybe some that matter. And that's only when you're doing small local campaigns, or maybe your first campaign.'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
+      "spread": [2500, 40000]
+    },
     "offerSpacingDays": {
       "value": 7,
       "tag": "TUNABLE",

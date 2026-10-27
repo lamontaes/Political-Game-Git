@@ -596,6 +596,17 @@
       "citation": "Filing to run for office, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same scale the director uses for every life event.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
     },
+    "directorVolunteerOfferImpact": {
+      "value": 0.7,
+      "tag": "TUNABLE",
+      "citation": "An offer of help at its full weight (a close tie, in a candidate's first small local race), scaled by the offer's own weight (offerWeight in src/core2/modules/campaigns.ts: the race's size, the candidate's earlier campaigns and the tie). At full weight it is over the interrupt line (0.5) and stops the day as a scene; a stranger's offer in a first council race sits near filing to run (0.28) and waits its turn among the year's moments; an offer in a statewide or presidential race is a journal line (owner, Oct 27, 4 PM Eastern: volunteers stop the player only when they matter, in small local races or a first campaign).",
+      "spread": {
+        "low": 0.5,
+        "high": 0.9,
+        "unit": "life-change units divided by 100",
+        "citation": "From just at the interrupt line to near a close friend's death (Holmes and Rahe 1967, 37 to 63 units); checked by src/director/volunteer-offer-weight.test.ts."
+      }
+    },
     "directorCampaignSpeechImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
@@ -1648,7 +1659,8 @@
     {
       "eventKind": "volunteer-offered",
       "channel": "cause",
-      "impactParameter": "directorFilingImpact"
+      "impactParameter": "directorVolunteerOfferImpact",
+      "scaleFact": "weight"
     },
     {
       "eventKind": "rival-word",
