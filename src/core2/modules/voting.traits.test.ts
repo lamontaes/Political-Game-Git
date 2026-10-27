@@ -4,17 +4,20 @@
  * (a place drawn from all 56 from a fresh seed, played over the weeks to just after its own next election), every resident a full person.
  */
 import { drawPlace } from "../../../tests/golden-path/place";
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   adultsOf,
   drawnRaceWorld,
   RUN_SEED,
   netLogOdds,
   studyLogOdds,
+  weightOf,
   withTraitWeight,
 } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { propensityOf } from "../turnout";
+import { NATIONAL_ENGAGEMENT } from "../electorate";
+import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
   VOTING_MODULE_ID,
   incumbentLeanOf,
@@ -22,6 +25,7 @@ import {
   type BallotRow,
 } from "./voting";
 import type { CoreAPI, CoreState, PersonState } from "../types";
+import { setKeepEveryonesWhy } from "../why-kept";
 
 const SEED = `${RUN_SEED}:voting`;
 /** The thirds' mean lean gap toward voting over the six places the turnout weight was found on. */
@@ -33,7 +37,16 @@ let adults: PersonState[];
 
 // Building and playing a drawn town to its election takes about 20 seconds,
 // inside the 60 second hook limit.
+let keptBefore = false;
+
+afterAll(() => {
+  setKeepEveryonesWhy(keptBefore);
+});
+
 beforeAll(() => {
+  // A voter's reasons are kept for the player's circle only; the exit-poll test
+  // reads the reasons of voters nobody deals with, so it asks for everyone's.
+  keptBefore = setKeepEveryonesWhy(true);
   ({ core, api } = drawnRaceWorld(
     (attempt) => {
       const seed = `${SEED}:${attempt}`;
@@ -148,31 +161,32 @@ function polledBallots(api: CoreAPI): BallotRow[] {
   ).filter((b) => b.voted && b.choice !== null && b.toldPollster !== null);
 }
 
-describe("voting.exit-poll is told by the voters whose traits lean toward telling", () => {
-  it("every voter in the drawn town's race who told the pollster leans toward telling, and everyone who declined leans away", () => {
-    const polled = polledBallots(api);
+describe("voting.exit-poll is told by voters whose engagement, stake in the race and temperament carry them over", () => {
+  it("every voter in the drawn town's race tells the pollster exactly when their own reasons and their lean at the decision's weight clear zero, and both answers occur", () => {
+    const polled = polledBallots(api).filter((b) => b.pollsterReasons);
     console.log(`exit poll: ${polled.length} voters with a choice`);
     expect(polled.length).toBeGreaterThan(0);
-    // A lean within rounding of zero sits on the line (the decision sums its
-    // trait terms in another order), so each answer is checked to that
-    // rounding, never skipped; and at least one voter must lean clearly, or
-    // the check would hold for a town where every lean is zero.
-    const rounding = 1e-9;
-    let clear = 0;
+    const param = (key: string) =>
+      (
+        electionParameters as unknown as {
+          parameters: Record<string, { value: number }>;
+        }
+      ).parameters[key]!.value;
+    const weight = weightOf(core, "voting.exit-poll");
+    let told = 0;
     for (const b of polled) {
-      const voter = core.people.get(b.voterId)!;
-      const lean = decisionLean(
-        core,
-        voter,
-        "voting.exit-poll",
-        "tell",
-        "decline",
+      const { engagement, interest, lean } = b.pollsterReasons!;
+      const reasons =
+        param("exitPollBase") +
+        param("exitPollEngagementWeight") * (engagement - NATIONAL_ENGAGEMENT) +
+        param("exitPollInterestWeight") * interest;
+      expect(b.toldPollster !== "declined", b.id).toBe(
+        reasons + weight * lean > 0,
       );
-      if (Math.abs(lean) > rounding) clear += 1;
-      if (b.toldPollster === "declined")
-        expect(lean, b.id).toBeLessThanOrEqual(rounding);
-      else expect(lean, b.id).toBeGreaterThan(-rounding);
+      if (b.toldPollster !== "declined") told += 1;
     }
-    expect(clear, "voters whose lean is clear of zero").toBeGreaterThan(0);
+    console.log(`exit poll: ${told} of ${polled.length} told`);
+    expect(told).toBeGreaterThan(0);
+    expect(told).toBeLessThan(polled.length);
   });
 });
