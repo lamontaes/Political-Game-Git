@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/filed-absent
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T17:51:24.749Z
 ---
 
 **What.** PR #6062 reports an accepted on-ballot U.S. Senate filing in Runge, Texas, yet the paged election-day ballot has no Test Voter candidate. Its logged run seed is f6ccb40e-f134-47d6-91a5-c9fe93ab1256, but the independent world seed was not retained in the body. This is a reported finding, not a runtime failure reproduced by Merger2; recover the actual world inputs and trace the filing, contest and candidate records before diagnosing its cause.

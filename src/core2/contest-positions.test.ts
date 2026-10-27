@@ -51,6 +51,7 @@ import { questionAxis } from "./campaign-views";
 import { createLifeCore } from "./life";
 import { buildPopulation } from "./population";
 import { setKeepEveryonesWhy } from "./why-kept";
+import { corePlaceByKey } from "./place-lookup";
 import { coreAPI } from "./state";
 import type { CoreAPI } from "./types";
 
@@ -407,9 +408,13 @@ function noQuestionTown(place: ReturnType<typeof drawPlace>): string | null {
         parsePlatform(row.platform).some((s) => s.question.startsWith(BUDGET))
       );
     });
+  // A race already held offers no event, so one whose campaign still offers
+  // it (open or shut on price) comes before one that offers none.
   const pick = (rows: readonly FilingRow[]) =>
     rows.find((r) => town(r) && eventOf(r)?.available) ??
     rows.find((r) => eventOf(r)?.available) ??
+    rows.find((r) => town(r) && eventOf(r)) ??
+    rows.find((r) => eventOf(r)) ??
     rows.find(town) ??
     rows[0];
   // Each choice as it stood the day it was taken: a race's event choice is
@@ -440,6 +445,10 @@ function noQuestionTown(place: ReturnType<typeof drawPlace>): string | null {
     return `${where}: no local filing stated a budget line in ${day} days (${localFilings().length} local filings)`;
   const filing = chosen!.filing;
   const contest = contests().find((c) => c.id === filing.contestId)!;
+  // Every filing seen had its race held between two looks (a town meeting
+  // race filed and held within one step): its campaign offers no event.
+  if (!chosen.event)
+    return `${where}: ${filing.id} offered no campaign event when seen, its race held ${contest.electionDate}, and no other local filing with a budget line offered one in ${day} days`;
   const stances = parsePlatform(filing.platform);
   // Every platform holds only its own contest's positions as they stood the
   // day it was filed; the positions follow the law and the budget after.
@@ -497,6 +506,18 @@ it("a town whose state lets it decide no platform question still campaigns on it
     // named.
     const tried: string[] = [];
     let checked = false;
+    // A place to replay first, as "<key>:<place seed>" (a send-back names one).
+    const replay = process.env.CONTEST_POSITIONS_PLACE?.split(":");
+    if (replay?.length === 2) {
+      const passedOver = noQuestionTown({
+        ...drawPlace(seed, "contest-positions-replay"),
+        key: replay[0]!,
+        name: corePlaceByKey(replay[0]!)?.displayName ?? replay[0]!,
+        seed: replay[1]!,
+      });
+      if (passedOver) tried.push(passedOver);
+      else checked = true;
+    }
     for (let draw = 0; draw < 200 && !checked && tried.length < 8; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "contest-positions-none");
       if (!townsDecideNoQuestion(place.key)) continue;

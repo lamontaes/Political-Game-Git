@@ -41,7 +41,10 @@
     "child": "The youngest child at home, by name, from the household record.",
     "law": "A law in force, by its policy's name, from the law record.",
     "cost": "What a law in force costs a household each month, from the price record it moved.",
-    "chair": "The committee's chair, by name, from the committee's hold record."
+    "chair": "The committee's chair, by name, from the committee's hold record.",
+    "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
+    "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
+    "years": "Whole years a department head has held their post, from the appointment record."
   },
   "maxWords": 70,
   "parts": [
@@ -725,10 +728,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-council-is-in-recess-name-pulls-you-aside-about-bill",
+      "key": "scene-talk.narrate-narrate.there-s-a-break-in-the-meeting-name-pulls-you-aside-about-bill",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The council is in recess. {name} pulls you aside about {bill}.",
+      "text": "There's a break in the meeting. {name} pulls you aside about {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -21301,10 +21304,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.deceased-had-one-more-fight-left-at-the-council-and-never-got-to-it-so",
+      "key": "scene-talk.state-request.deceased-left-something-unfinished-somebody-has-to-carry-it-and-i-d-like-it-to-be-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{deceased} had one more fight left at the council and never got to it. Somebody has to finish it. I'd like it to be you.",
+      "text": "{deceased} left something unfinished. Somebody has to carry it, and I'd like it to be you.",
       "uses": [
         {
           "subject": "scene",
@@ -21326,10 +21329,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.tell-me-what-it-was-and-i-ll-put-it-on-the-agenda-myself-i-can-t-promi",
+      "key": "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Tell me what it was, and I'll put it on the agenda myself. I can't promise it passes. I can promise it gets a vote with {deceased}'s name on it.",
+      "text": "Tell me what it was. I can't promise how it ends, but I'll take it up in {deceased}'s name.",
       "uses": [
         {
           "subject": "scene",
@@ -21351,10 +21354,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-call-my-office-monday-and-we-ll-tal",
+      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-about-it-properly",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not today. Let me get through today. Call my office Monday, and we'll talk about it properly.",
+      "text": "Not today. Let me get through today. Come find me next week, and we'll talk about it properly.",
       "uses": [
         {
           "subject": "scene",
@@ -21426,10 +21429,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.every-spring-deceased-called-the-council-about-the-same-thing-and-ever",
+      "key": "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Every spring {deceased} called the council about the same thing, and every spring somebody said next year.",
+      "text": "{deceased} kept asking for the same thing, year after year, and kept being told next year.",
       "uses": [
         {
           "subject": "scene",
@@ -21452,10 +21455,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.then-it-goes-on-the-agenda-this-spring-i-ll-call-you-when-it-s-schedul",
+      "key": "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Then it goes on the agenda this spring. I'll call you when it's scheduled.",
+      "text": "Then I'll take it up. I'll tell you what comes of it.",
       "uses": [
         {
           "subject": "scene",
@@ -21478,10 +21481,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-s-the-state-s-road-i-can-carry-it-to-them-i-can-t-make-them-say-y",
+      "key": "scene-talk.reply-decline.i-can-carry-it-to-the-people-who-decide-i-can-t-make-them-say-yes",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That's the state's road. I can carry it to them. I can't make them say yes.",
+      "text": "I can carry it to the people who decide. I can't make them say yes.",
       "uses": [
         {
           "subject": "scene",
@@ -21554,10 +21557,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.monday-then",
+      "key": "scene-talk.follow-accept.next-week-then",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Monday, then.",
+      "text": "Next week, then.",
       "uses": [
         {
           "subject": "scene",
@@ -21580,10 +21583,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.if-not-here-when-nobody-returns-my-calls",
+      "key": "scene-talk.follow-press.if-not-here-when-i-ve-waited-long-enough",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "If not here, when? Nobody returns my calls.",
+      "text": "If not here, when? I've waited long enough.",
       "uses": [
         {
           "subject": "scene",
@@ -88800,6 +88803,415 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.then-one-night-a-week-stays-ours-promise-me-that-part-too",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then one night a week stays ours. Promise me that part too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-long-until-it-really-settles-down",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How long until it really settles down?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-everyone-who-knocked-doors-not-just-me-they-earned-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank everyone who knocked doors, not just me. They earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.say-that-again-in-a-month-when-you-re-never-home",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Say that again in a month, when you're never home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-told-me-now-tell-me-what-it-s-going-to-cost-us",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You told me. Now tell me what it's going to cost us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "boast"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.are-you-scared-at-all",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Are you scared at all?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.does-it-feel-real-yet",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Does it feel real yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-going-to-remember-you-said-that",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm going to remember you said that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.we-ll-see-how-you-handle-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "We'll see how you handle it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "boast"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-coming-it-would-have-meant-something-to-deceased",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for coming. It would have meant something to {deceased}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-you-came-i-wasn-t-sure-you-would",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad you came. I wasn't sure you would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased} always said you'd understand what was left undone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-know-who-else-to-ask-deceased-trusted-you-with-things",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't know who else to ask. {deceased} trusted you with things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits until the room thins out, then comes over to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-and-the-race-for-office-is-yours-name-hears-it-before-you-can-say-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in, and the race for {office} is yours. {name} hears it before you can say it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-win",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-race-for-office-went-the-other-way-name-waited-up-anyway",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The race for {office} went the other way. {name} waited up anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-asks-for-ten-minutes-alone-with-you",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -93387,6 +93799,31 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-catches-you-before-the-vote-on-bill-there-s-a-section-they-want-changed",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches you before the vote on {bill}. There's a section they want changed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "section-bargain",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-has-questions-ready",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -97224,6 +97661,2206 @@
       ]
     },
     {
+      "key": "scene-talk.narrate-narrate.name-has-asked-for-time-about-the-budget-the-council-adopted",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has asked for time about the budget the council adopted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-the-budget-the-council-passed",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} wants to talk about the budget the council passed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {post}'s line lost {cut} in the budget the council passed. {name} has the page.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-your-post-wants-to-talk-about-one-line-in-the-council-s-budget",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, your {post}, wants to talk about one line in the council's budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-your-post-for-years-years",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been your {post} for {years} years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["years", "post"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-held-the-post-s-job-for-years-years",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has held the {post}'s job for {years} years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["years", "post"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-minute-it-s-about-the-budget",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a minute? It's about the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-need-ten-minutes-and-i-ll-be-quick-about-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I need ten minutes, and I'll be quick about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-ve-seen-what-the-council-did-to-my-line",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You've seen what the council did to my line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-d-like-to-say-something-about-the-budget-the-council-passed",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd like to say something about the budget the council passed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.sorry-to-come-in-like-this-it-can-t-wait-for-the-next-staff-meeting",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sorry to come in like this. It can't wait for the next staff meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-council-took-cut-out-of-my-department-i-can-show-you-what-goes-with-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The council took {cut} out of my department. I can show you what goes with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.cut-is-gone-from-my-line-i-d-like-to-tell-you-what-that-does",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{cut} is gone from my line. I'd like to tell you what that does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.they-cut-my-line-by-percent-percent-that-s-cut-i-was-counting-on",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "They cut my line by {percent} percent. That's {cut} I was counting on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "percent"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.percent-percent-of-my-budget-cut-came-out-in-one-vote",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{percent} percent of my budget, {cut}, came out in one vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "percent"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-ve-held-this-job-years-years-i-know-what-the-line-pays-for-and-cut-of-it-isn-t-there-anymore",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I've held this job {years} years. I know what the line pays for, and {cut} of it isn't there anymore.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "years"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-council-cut-my-line-here-is-what-i-think-it-does-to-us",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The council cut my line. Here is what I think it does to us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-d-rather-you-hear-this-from-me-the-cut-is-cut-and-it-comes-out-of-wo",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'd rather you hear this from me. The cut is {cut}, and it comes out of work we already do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-seeing-me-i-wanted-you-to-hear-this-from-me-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for seeing me. I wanted you to hear this from me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-appreciate-you-making-the-time-it-s-about-my-line-in-the-budget",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I appreciate you making the time. It's about my line in the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-sorry-to-bring-this-to-you-it-s-about-the-budget",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm sorry to bring this to you. It's about the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-about-what-the-council-did-to-my-line",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk about what the council did to my line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-get-right-to-it-the-budget-doesn-t-work-for-my-department",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll get right to it. The budget doesn't work for my department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-don-t-want-to-make-this-harder-than-it-is-the-council-took-cut-from-my-line-and-the-people-we-serve-will-feel-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I don't want to make this harder than it is. The council took {cut} from my line, and the people we serve will feel it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-to-bring-you-this-my-line-lost-cut-and-i-d-like-your-help-with-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry to bring you this. My line lost {cut}, and I'd like your help with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-know-there-s-only-so-much-to-go-around-still-cut-came-out-of-my-department-and-i-d-like-to-show-you-where-it-lands",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I know there's only so much to go around. Still, {cut} came out of my department, and I'd like to show you where it lands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.percent-percent-of-my-line-is-gone-cut-i-d-like-your-help-finding-a-way-through-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{percent} percent of my line is gone, {cut}. I'd like your help finding a way through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "percent"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-it-doesn-t-stand-i-ll-take-it-back-to-the-council",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then it doesn't stand. I'll take it back to the council.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.write-down-what-you-need-back-i-ll-carry-it-myself",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Write down what you need back. I'll carry it myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.draft-the-amendment-this-one-s-worth-a-fight",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Draft the amendment. This one's worth a fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-council-voted-i-can-t-un-vote-it-for-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The council voted. I can't un-vote it for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.it-s-their-budget-now-every-department-is-living-inside-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "It's their budget now. Every department is living inside it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-council-set-the-number-i-can-t-change-it-for-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The council set the number. I can't change it for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-can-get-you-half-of-it-back-the-rest-you-find-inside-the-department",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I can get you half of it back. The rest you find inside the department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.half-now-and-we-look-at-it-again-when-the-numbers-are-in",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Half now, and we look at it again when the numbers are in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.tell-me-the-part-you-can-t-live-without-and-i-ll-fight-for-that-part",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Tell me the part you can't live without, and I'll fight for that part.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-it-actually-stop",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does it actually stop?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-goes-first-if-nothing-changes",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What goes first, if nothing changes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.show-me-what-s-behind-the-number",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Show me what's behind the number.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-get-the-list-to-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll get the list to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-all-i-needed-i-ll-get-you-the-figures",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's all I needed. I'll get you the figures.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-write-down-what-the-line-buys-so-you-can-say-it-to-them",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll write down what the line buys, so you can say it to them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.half-is-better-than-none-i-ll-plan-around-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Half is better than none. I'll plan around it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-can-work-with-that-as-long-as-it-s-in-writing",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can work with that, as long as it's in writing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.half-doesn-t-cover-the-gap-can-you-find-the-rest",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Half doesn't cover the gap. Can you find the rest?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-keeps-the-doors-open-it-doesn-t-keep-the-program",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That keeps the doors open. It doesn't keep the program.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-things-we-can-put-off-go-first-after-that-it-s-the-jobs",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The things we can put off go first. After that it's the jobs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-not-asking-for-the-whole-thing-back-just-don-t-let-it-stand-as-it-is",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm not asking for the whole thing back. Just don't let it stand as it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-give-me-one-number-i-can-plan-a-year-around",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. Give me one number I can plan a year around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-ve-done-this-job-years-years-hear-me-out-before-you-decide",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I've done this job {years} years. Hear me out before you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse",
+          "requiresFacts": ["years"]
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-council-will-listen-to-you-they-won-t-listen-to-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The council will listen to you. They won't listen to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-the-council-s-answer-i-came-for-yours",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's the council's answer. I came for yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-i-ll-say-it-in-public-at-the-next-meeting",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then I'll say it in public, at the next meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.if-it-stays-i-ll-tell-the-paper-what-the-line-pays-for",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "If it stays, I'll tell the paper what the line pays for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "decline"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "threaten",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ll-bring-it-to-you-first-all-i-m-asking-is-that-you-take-the-call",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll bring it to you first. All I'm asking is that you take the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-i-ll-keep-it-inside-the-building",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. I'll keep it inside the building.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "confront"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I hear you. The answer is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-listened-it-stays-as-the-council-passed-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've listened. It stays as the council passed it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-time-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this time. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "decline",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.give-me-a-number-that-keeps-you-running-and-i-ll-find-half-of-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Give me a number that keeps you running, and I'll find half of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Send me the list. I'll answer tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me sleep on it before I answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll call you after I talk to the council chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.say-it-at-the-meeting-then-i-ll-be-in-the-room",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Say it at the meeting, then. I'll be in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-make-it-public-before-you-ve-made-it-plain-to-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't make it public before you've made it plain to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-that-s-what-we-protect-i-ll-take-it-to-the-council",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then that's what we protect. I'll take it to the council.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-we-don-t-let-those-go-i-ll-make-the-call",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then we don't let those go. I'll make the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-i-ll-get-it-to-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll get it to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-tell-the-department-you-re-carrying-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll tell the department you're carrying it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-have-it-written-up",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll have it written up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-ll-have-the-figures-before-the-next-vote",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll have the figures before the next vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-we-ll-make-it-work",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. We'll make it work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-plan-to-the-number-they-gave-us",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll plan to the number they gave us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-expect-questions-at-the-next-meeting",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then expect questions at the next meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-do-the-job-with-what-i-m-given-people-will-notice-the-difference",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll do the job with what I'm given. People will notice the difference.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.whenever-you-ve-decided-my-door-is-open",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Whenever you've decided, my door is open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.take-your-time-the-department-won-t-wait-long",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take your time. The department won't wait long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.beat-beat.name-straightens-the-page-and-says-nothing-for-a-moment",
+      "move": "beat-beat",
+      "kind": "spoken",
+      "text": "{name} straightens the page and says nothing for a moment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "beat",
+          "move": "beat",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "beat",
+        "key": "cut-heard"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-is-waiting-outside-your-office-bill-isn-t-on-the-agenda",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -99263,6 +101900,1090 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-s-the-first-morning-as-the-next-office-name-comes-by",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "It's the first morning as the next {office}. {name} comes by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-and-the-job-is-yours-name-is-at-the-door-early",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in, and the job is yours. {name} is at the door early.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-race-for-office-is-over-name-comes-by-anyway",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The race for {office} is over. {name} comes by anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-morning-after-the-count-name-knocks",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The morning after the count, {name} knocks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.morning-i-didn-t-know-if-you-d-be-up",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Morning. I didn't know if you'd be up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-hope-it-s-all-right-that-i-came-by",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I hope it's all right that I came by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.morning-office-it-still-sounds-strange-doesn-t-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Morning, {office}. It still sounds strange, doesn't it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.so-what-s-first-what-do-you-need-from-us-this-week",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "So what's first? What do you need from us this week?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.people-are-already-asking-what-you-ll-do-first-what-do-i-tell-them",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "People are already asking what you'll do first. What do I tell them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-do-you-want-me-to-tell-the-people-who-worked-for-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you want me to tell the people who worked for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-keep-going-over-it-was-it-worth-it-tell-me-straight",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I keep going over it. Was it worth it? Tell me straight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.none-of-this-happens-without-you-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "None of this happens without you. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-gave-this-more-than-anyone-thank-you-for-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You gave this more than anyone. Thank you for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.we-do-what-we-said-every-bit-of-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "We do what we said. Every bit of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.this-isn-t-the-last-race-i-ll-run-again",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "This isn't the last race. I'll run again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-we-not-plan-anything-today",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can we not plan anything today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-a-few-days-before-we-talk-about-what-s-next",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me a few days before we talk about what's next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-i-don-t-know-where-to-start-yet",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly? I don't know where to start yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-on-me-i-should-have-seen-it-coming",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's on me. I should have seen it coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.opponent-ran-the-better-race-i-can-say-that-now",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{opponent} ran the better race. I can say that now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-d-do-it-again",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-i-ll-be-there",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.say-that-to-the-people-who-knocked-doors-not-just-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Say that to the people who knocked doors, not just me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.they-ll-want-to-hear-something-from-you-soon",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "They'll want to hear something from you soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-one-day-at-a-time",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. One day at a time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-on-you-don-t-carry-it-alone",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not on you. Don't carry it alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "tell",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-know-more-than-you-think-you-ran-on-it",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You know more than you think. You ran on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "tell",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.all-right-i-ll-call-them-myself-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "All right. I'll call them myself this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-tell-them-the-truth-i-need-a-little-time",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll tell them the truth: I need a little time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-do-this-today",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.maybe-it-still-feels-like-mine",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Maybe. It still feels like mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-next-time-we-start-earlier",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then next time, we start earlier.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-be-by-myself-for-a-bit",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to be by myself for a bit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.next-time-you-re-the-first-call-i-make",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Next time, you're the first call I make.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "accept"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-m-holding-you-to-that",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'm holding you to that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.call-me-when-you-re-ready",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Call me when you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "leave"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.get-some-rest-you-earned-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Get some rest. You earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-morning-after-the-count-name-comes-by",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The morning after the count, {name} comes by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.so-what-now",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "So. What now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-all-of-it-i-mean-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for all of it. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-not-done-with-this-town",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm not done with this town.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-still-taking-it-in",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm still taking it in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     }
   ]
