@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 
 **Done when.** In three drawn places, a month of door knocking by a resident whose platform matches the town's median voter leaves no more voters cooler than warmer beyond the spread the cited research allows, named by place, seed and the cause records read. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
+**Time box.** 3 hours. Model: Sonnet, no helpers.
+
 **Files.** src/core2/modules/campaigns.ts (door contact warmth), src/core2/data/campaigns/parameters.json (rapportWeight and related).
 
 **Notes.** Found by the m0-m2 lead on play-stop-18 (race line in words), whose screen now shows these counts.
