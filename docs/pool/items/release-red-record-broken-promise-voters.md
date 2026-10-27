@@ -5,12 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/record-broken-promise-red
 pr: #5401
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T11:20:33.756Z
+claimed-at: 2026-10-27T10:00:53.656Z
 ---
 
 **What.** `src/core2/record.test.ts`, "an incumbent's broken promise changes specific voters' choices, with reasons, and feeds the rival's attack ad", fails on clean main at line 197: no ballot in the race weighs the incumbent's record (`weighed.length` 0), so the scenario never reaches the broken promise. It fails the same way on every seed tried on Oct 27 (below). The fix of Oct 20 (#5401) no longer holds. Find why no voter's ballot carries `recordReasons` for the incumbent: the record is not read, or no voter knows of it.
