@@ -22,6 +22,7 @@ import {
   type Figure,
   type FigurePerson,
   type WholeFigure,
+  spotIdOf,
 } from "./whole-figures";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
@@ -705,7 +706,7 @@ export function stagePeople(
       personId: id,
       name,
       reason,
-      spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
+      spotId: spotIdOf(place, stage, spot),
       figure: whole.figure,
       figureUrl: colors ? `${whole.url}?${colors}` : whole.url,
       art: "whole",
@@ -729,9 +730,7 @@ function outline(stage: PlaceStaging, spot: StagingSpot) {
     top: spot.y - height,
     // Behind a counter or desk, only what shows above its front can be covered.
     bottom:
-      spot.clipBelowY !== undefined
-        ? Math.min(spot.y, spot.clipBelowY)
-        : spot.y,
+      spot.behindY !== undefined ? Math.min(spot.y, spot.behindY) : spot.y,
   };
 }
 /** Whether two people on these spots would cover much of one another. */
