@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-01-talk-says-nothing-b
-pr:
+pr: #6208
 blocked-on:
 after: play-stop-01-talk-says-nothing-a
 source: added with npm run pool -- add
