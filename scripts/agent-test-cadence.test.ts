@@ -68,6 +68,15 @@ describe("agent test cadence planning", () => {
       ),
     ).toBe(true);
   });
+
+  it("routes title edits to the title tests and the motion check", () => {
+    for (const file of ["src/bench/title.ts", "src/bench/play.css"]) {
+      const commands = planCadence([file]).map((stage) => stage.command);
+      expect(
+        commands.some((c) => c.includes("src/bench/title-motion.browser.mjs")),
+      ).toBe(true);
+    }
+  });
 });
 
 describe("EFFICIENCY18 cursor discovery wiring", () => {

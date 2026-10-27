@@ -19,7 +19,7 @@
  *   (`answerDebate`).
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   decisionLean,
@@ -33,6 +33,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { residentsRuntime } from "./residents";
 import { isDemoted } from "../counted-groups";
+import { countedResidents } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -149,7 +150,7 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
  */
 function driveOf(
   base: number,
-  p: Readonly<PersonState>,
+  p: Readonly<Pick<PersonState, "id" | "traits">>,
   core: Pick<CoreState, "data">,
 ): { drive: number; lean: number } {
   const lean = decisionLean(
@@ -302,12 +303,23 @@ export function remarksOn(api: CoreAPI, billId: string): readonly RemarkRow[] {
 }
 
 /**
+ * Whether a resident is only a counted record: never filled in, or filled in
+ * once and returned to the counts, which keeps a retained full record on the
+ * counted tier (`isDemoted`). Such a resident stands up at public comment by
+ * the same rule as a named one, and is filled in before speaking.
+ */
+export function countedRecordOnly(core: CoreState, personId: string): boolean {
+  const kept = core.people.get(personId);
+  return !kept || isDemoted(kept);
+}
+
+/**
  * How hard a bill's question drives a resident to stand up at its public
  * comment: how strongly they feel it times their civic temperament.
  */
 export function standUpDrive(
   api: CoreAPI,
-  p: PersonState,
+  p: Readonly<Pick<PersonState, "id" | "traits">>,
   stance: { readonly question: string; readonly position: number },
 ): { view: number; base: number; drive: number; lean: number } {
   const view =
@@ -343,12 +355,19 @@ export function commentSpeakers(
       t.personId ? [t.personId] : [],
     ),
   );
-  return townAdults(api)
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  // The town's adults still in the wider population stand up by the same
+  // rule, read from their counted record (one model, two tiers).
+  const counted = countedResidents(core).filter(
+    (v) =>
+      v.placeId === town &&
+      countedRecordOnly(core, v.id) &&
+      ageOn(v, api.state.date) >= 18,
+  );
+  return [...townAdults(api), ...counted]
     .filter(
-      (p) =>
-        !already.has(p.id) &&
-        !seated.has(p.id) &&
-        p.id !== (api.state as CoreState).playerId,
+      (p) => !already.has(p.id) && !seated.has(p.id) && p.id !== core.playerId,
     )
     .map((p) => ({ p, ...standUpDrive(api, p, stance) }))
     .filter((s) => s.view !== 0)
@@ -369,7 +388,9 @@ function publicComment(api: CoreAPI, billId: string): void {
     commentSpeakers(api, bill, stance),
     meetingParameter("publicCommentSpeakers"),
   );
-  for (const s of speakers)
+  for (const s of speakers) {
+    // A speaker on the public record is a named person.
+    if (countedRecordOnly(core, s.p.id)) fillInPerson(core, s.p.id);
     table(api, "remarks").put({
       id: `remark:${bill.id}:${s.p.id}`,
       billId: bill.id,
@@ -380,6 +401,7 @@ function publicComment(api: CoreAPI, billId: string): void {
       signedUp: false,
       date: api.state.date,
     } as unknown as ModuleRow);
+  }
   const said = remarksOn(api, billId);
   if (!said.length) return;
   // Each comment is a speech to the room: the members and the others who
