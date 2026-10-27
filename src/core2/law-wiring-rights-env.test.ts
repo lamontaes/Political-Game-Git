@@ -439,8 +439,11 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         paid?.id,
         paid &&
           (paidWhat
-            ? postWith(paid.lawId, `:${govRow?.targetId}:${budgetLine}:`)
-            : postWith(`:${paid.targetId}:${budgetLine}:`)
+            ? postWith(
+                paid.lawId,
+                `:${govRow?.targetId}:budget-line:${budgetLine}:`,
+              )
+            : postWith(`:${paid.targetId}:budget-line:${budgetLine}:`)
           )?.id,
         `${personOf(key, rowsOn(key)) ?? "no person"} / ${govRow?.targetId} / ${group?.targetId}${paid && paidWhat ? ` / ${paid.targetId}` : ""}`,
       );
@@ -481,7 +484,7 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         (budgetLine === "highways"
           ? postWith("law-reach:budget-line:highways")
           : undefined
-        )?.id ?? postWith(`:${gov.id}:${budgetLine}:`)?.id,
+        )?.id ?? postWith(`:${gov.id}:budget-line:${budgetLine}:`)?.id,
         reached?.personId,
       );
     }
