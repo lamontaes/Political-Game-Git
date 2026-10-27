@@ -24,9 +24,10 @@ import { SITUATION_LIBRARY } from "./scheduling";
 // Scenes from circumstance (owner, Oct 27, 01:30 Eastern: "if the
 // circumstances are right in the simulation, they should be callable"). A
 // played year in a drawn place as the town's new adult (the ordinary player),
-// another as a sitting member of a council or board, and another as the new
-// adult filed for the soonest race once they turn 18, each played through the
-// player clock as the bench plays it. Each scene from circumstance is
+// another as a sitting member of a council or board, another as the new adult
+// filed for the soonest race once they turn 18, and another as a member of the
+// state legislature, each played through the player clock as the bench plays
+// it. Each scene from circumstance is
 // checked at its stop: its record was written that day and, unless the row
 // follows a sitting, does not name the player; the person cast is someone
 // else and stands in the scene; the scene composes; and a scene with a
@@ -53,6 +54,7 @@ const FAMILIES: Readonly<Record<string, readonly string[]>> = {
   ],
   "a lobbyist in the hallway": ["lobbyist-hallway"],
   "a rival in the player's own race": ["rival-message"],
+  "a hallway at the capitol": ["hallway-colleague", "hallway-reporter"],
   "a hallway after a sitting": [
     "hallway-colleague",
     "hallway-reporter",
@@ -63,7 +65,7 @@ const FAMILIES: Readonly<Record<string, readonly string[]>> = {
 
 /** The families each way of playing can show; a way is played only while one is unfired. */
 const SHOWS: Readonly<
-  Record<"resident" | "member" | "candidate", readonly string[]>
+  Record<"resident" | "member" | "candidate" | "legislator", readonly string[]>
 > = {
   resident: [
     "a printed story",
@@ -77,6 +79,7 @@ const SHOWS: Readonly<
     "a lobbyist in the hallway",
   ],
   candidate: ["a rival in the player's own race", "a law passed or in force"],
+  legislator: ["a hallway at the capitol"],
 };
 
 interface Fired {
@@ -233,6 +236,29 @@ function localMember(core: CoreState): PersonId | null {
 }
 
 /**
+ * A sitting member of the state's legislature, a full person wherever they
+ * live (playing as anyone, owner, Oct 26), or null.
+ */
+function stateLegislator(core: CoreState): PersonId | null {
+  if (!core.modules.has(OFFICES_MODULE_ID)) return null;
+  const terms = coreAPI(core)
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .query("byStatus", ["serving"]) as unknown as TermRow[];
+  const seated = terms
+    .filter(
+      (term) =>
+        /legislature/.test(term.officeId) &&
+        core.people.get(term.personId as PersonId)?.alive === true,
+    )
+    .sort(
+      (a, b) =>
+        a.officeId.localeCompare(b.officeId) || a.id.localeCompare(b.id),
+    );
+  return (seated[0]?.personId as PersonId | undefined) ?? null;
+}
+
+/**
  * The new adult filed for the soonest race the town's records let them enter,
  * once they turn 18 (the golden path's filing step), or null when none is
  * open to them. The days before 18 run as the world's own.
@@ -271,7 +297,12 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
       .filter(([, rows]) => !fired.some((row) => rows.includes(row.row)))
       .map(([family]) => family);
   for (let draw = 0; draw < DRAWS && unfired().length; draw += 1) {
-    for (const as of ["resident", "member", "candidate"] as const) {
+    for (const as of [
+      "resident",
+      "member",
+      "candidate",
+      "legislator",
+    ] as const) {
       if (!SHOWS[as].some((family) => unfired().includes(family))) continue;
       const place = drawPlace(seed, `circumstance-${as}:${draw}`);
       const world = buildBenchWorld(place.seed, gameStartDate(), {
@@ -283,13 +314,17 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
           ? (world.playerId as PersonId)
           : as === "member"
             ? localMember(world.core)
-            : fileNewAdult(world);
+            : as === "candidate"
+              ? fileNewAdult(world)
+              : stateLegislator(world.core);
       const where = `${place.name} (${place.key}), seed ${place.seed}, as ${
         as === "resident"
           ? "the new adult"
           : as === "member"
             ? "a sitting member"
-            : "the new adult, filed"
+            : as === "candidate"
+              ? "the new adult, filed"
+              : "a member of the state legislature"
       }`;
       tried.push(personId ? where : `${where}: no full-person member or race`);
       if (personId)
