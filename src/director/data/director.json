@@ -1484,6 +1484,11 @@
       "impactParameter": "directorElectionResultImpact"
     },
     {
+      "eventKind": "primary-result",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
       "eventKind": "took-office",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
@@ -1533,6 +1538,16 @@
       "channel": "money",
       "impactParameter": "directorCampaignGiftImpact",
       "scaleFact": "share"
+    },
+    {
+      "eventKind": "vote-promise",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "carry-asked",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
     },
     {
       "eventKind": "bill-failed",

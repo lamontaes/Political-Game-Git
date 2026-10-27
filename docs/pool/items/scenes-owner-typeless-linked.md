@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: finisher/owner-scenes-typed
-pr: 6362
+pr: #6362
 blocked-on:
 source: "finisher brief, Oct 27: the owner's 15 typeless scenes in docs/reports/scene-web.md"
 lead: words
