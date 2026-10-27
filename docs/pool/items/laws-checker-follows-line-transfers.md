@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-checker-line-transfers
-pr:
+pr: #6391
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T19:09:50.159Z
