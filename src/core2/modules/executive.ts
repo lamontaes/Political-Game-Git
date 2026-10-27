@@ -24,6 +24,9 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  */
 import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
+import relatedWork from "../../../data/research/executive/post-related-work.json" with { type: "json" };
+import { PROFILE_FACT_KINDS } from "../opening-profile";
+import { schoolingOn } from "./jobs";
 import emergencyData from "../data/executive/emergency.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -173,24 +176,100 @@ function councilSides(api: CoreAPI): number[] {
     : [];
 }
 
-/** How qualified a resident is for a department: temperament, and work there. */
-function qualification(
+const RELATED = relatedWork as unknown as {
+  posts: Readonly<Record<string, readonly string[]>>;
+};
+const DAYS_PER_YEAR = 365.25;
+const yearsBetween = (from: string, to: string) =>
+  Math.max(0, (Date.parse(to) - Date.parse(from)) / 86_400_000 / DAYS_PER_YEAR);
+
+/**
+ * What the records say a resident has done toward heading a department: years
+ * of work in the post's own field, years of any work, and schooling, each with
+ * the record it was read from. A job counts from when its holder began it (the
+ * deep past's tenure record, where the opening job has one).
+ */
+export function postRecord(
   api: CoreAPI,
   person: Readonly<PersonState>,
   post: string,
   date: string,
+): {
+  relatedYears: number;
+  workYears: number;
+  schooling: string | undefined;
+  recordIds: readonly string[];
+} {
+  const core = api.state as CoreState;
+  const fields = new Set(RELATED.posts[post] ?? []);
+  const tenure = new Map(
+    (person.pastFacts ?? [])
+      .filter((row) => row.kind === "work:tenure-summary")
+      .map((row) => [row.id.slice(row.id.lastIndexOf(":job:") + 5), row]),
+  );
+  let relatedYears = 0;
+  let workYears = 0;
+  const recordIds: string[] = [];
+  for (const id of core.work.commitmentsByPerson.get(person.id) ?? []) {
+    const commitment = core.work.commitments.get(id);
+    if (!commitment || commitment.startsAt > date) continue;
+    const since = tenure.get(commitment.jobId);
+    const from =
+      since && since.date < commitment.startsAt
+        ? since.date
+        : (commitment.heldSince ?? commitment.startsAt);
+    const to =
+      commitment.endsAt && commitment.endsAt < date ? commitment.endsAt : date;
+    const years = yearsBetween(from, to);
+    if (years <= 0) continue;
+    workYears += years;
+    const job = core.jobs.get(commitment.jobId);
+    if (
+      job?.occupationClassification &&
+      fields.has(job.occupationClassification)
+    ) {
+      relatedYears += years;
+      recordIds.push(commitment.id, ...(since ? [since.id] : []));
+    }
+  }
+  const schooling = schoolingOn(api, person.id, date);
+  const schooled = schooling === "college" || schooling === "some-college";
+  if (schooled) {
+    const fact = person.pastFacts?.find(
+      (row) => row.kind === PROFILE_FACT_KINDS.education,
+    );
+    recordIds.push(fact?.id ?? `${person.id}:${PROFILE_FACT_KINDS.education}`);
+  }
+  return { relatedYears, workYears, schooling, recordIds };
+}
+
+/** Whether the records show related work or schooling past high school. */
+const hasRecord = (record: ReturnType<typeof postRecord>) =>
+  record.relatedYears > 0 ||
+  record.schooling === "college" ||
+  record.schooling === "some-college";
+
+/**
+ * How qualified a resident is for a department: their temperament, then what
+ * the records say they have done, each on a saturating scale (no step at any
+ * number of years): years in the post's field, years of any work, schooling.
+ */
+export function appointmentQualification(
+  person: Readonly<PersonState>,
+  record: ReturnType<typeof postRecord>,
 ): number {
   const temperament =
     ((person.traits["people-mind-v1:reliability"] ?? 0) +
       (person.traits["people-mind-v1:deliberation"] ?? 0)) *
     campaignParameter("appointmentTemperamentWeight");
-  const core = api.state as CoreState;
-  const worksThere = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
-    .map((id) => core.work.commitments.get(id))
-    .some((c) => {
-      const org = c ? core.organizations.get(c.organizationId) : undefined;
-      return !!org && org.name.toLowerCase().includes(post.split("-")[0]!);
-    });
+  const saturating = (years: number, half: string, weight: string) =>
+    (campaignParameter(weight) * years) / (years + campaignParameter(half));
+  const schooling =
+    record.schooling === "college"
+      ? campaignParameter("appointmentCollegeWeight")
+      : record.schooling === "some-college"
+        ? campaignParameter("appointmentSomeCollegeWeight")
+        : 0;
   // 0 and 1 bound the score, as they do for every 0..1 score in this file.
   return Math.max(
     0,
@@ -198,28 +277,18 @@ function qualification(
       1,
       campaignParameter("appointmentBaseQualification") +
         temperament +
-        experienceFromAge(person, date) +
-        (worksThere ? campaignParameter("appointmentExperienceWeight") : 0),
+        saturating(
+          record.relatedYears,
+          "appointmentRelatedWorkHalfYears",
+          "appointmentRelatedWorkWeight",
+        ) +
+        saturating(
+          record.workYears,
+          "appointmentWorkHalfYears",
+          "appointmentWorkWeight",
+        ) +
+        schooling,
     ),
-  );
-}
-
-/**
- * What adult years add to a qualification: zero at the age of majority, then
- * a saturating curve (no step at any age), so a young adult can be appointed
- * but seldom beats an equally suited older resident.
- */
-export function experienceFromAge(
-  person: Readonly<Pick<PersonState, "birthDate">>,
-  date: string,
-): number {
-  const years = Math.max(
-    0,
-    ageOn(person, date) - campaignParameter("appointmentAdulthoodAge"),
-  );
-  return (
-    (campaignParameter("appointmentExperienceAgeWeight") * years) /
-    (years + campaignParameter("appointmentExperienceHalfYears"))
   );
 }
 
@@ -257,7 +326,7 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
-  const pool = [...(api.state.peopleByPlace.get(town) ?? [])]
+  const adults = [...(api.state.peopleByPlace.get(town) ?? [])]
     .map((id) => api.state.people.get(id))
     .filter(
       (p): p is PersonState =>
@@ -272,6 +341,13 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
         !workedToday(api.state as CoreState, p),
     );
   const relationships = (api.state as CoreState).relationships;
+  // A department's search draws those who have done the work or studied for
+  // it; only a town with none of them looks at every adult.
+  const records = new Map(
+    adults.map((p) => [p.id, postRecord(api, p, spec.key, date)]),
+  );
+  const shown = adults.filter((p) => hasRecord(records.get(p.id)!));
+  const pool = shown.length ? shown : adults;
   return {
     appointer,
     appointerSide: appointerLean,
@@ -282,7 +358,8 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
     candidates: pool.map((p) => ({
       id: p.id,
       lean: personLean(api.state.people, p, 0),
-      qualification: qualification(api, p, spec.key, date),
+      qualification: appointmentQualification(p, records.get(p.id)!),
+      qualificationRecords: records.get(p.id)!.recordIds,
       known:
         !!appointer?.personId &&
         relationships.has(pairKey(appointer.personId, p.id)),
@@ -815,14 +892,18 @@ export function appointStatePost(
     seatKey: `cabinet:${state}:${spec.key}`,
     appointerSide: leanOf(api, input.executiveId),
     weighing: appointerWeighing(api.state as CoreState, input.executiveId),
-    candidates: pool.map((person) => ({
-      id: person.id,
-      lean: personLean(api.state.people, person, 0),
-      qualification: qualification(api, person, spec.key, api.state.date),
-      known: (api.state as CoreState).relationships.has(
-        pairKey(input.executiveId, person.id),
-      ),
-    })),
+    candidates: pool.map((person) => {
+      const record = postRecord(api, person, spec.key, api.state.date);
+      return {
+        id: person.id,
+        lean: personLean(api.state.people, person, 0),
+        qualification: appointmentQualification(person, record),
+        qualificationRecords: record.recordIds,
+        known: (api.state as CoreState).relationships.has(
+          pairKey(input.executiveId, person.id),
+        ),
+      };
+    }),
     confirmingBody: confirmation
       ? {
           name: senate!.title,

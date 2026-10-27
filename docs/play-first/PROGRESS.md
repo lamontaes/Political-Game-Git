@@ -6,6 +6,8 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
+- 2026-10-27 02:10 · Claude Sonnet 5.5 · play-stop-28-title-panel-header-separated · play-first/play-stop-28-title-panel-header-separated · e7d28a59bb · PR opened #6205 · merger checks the screenshots; next is line 72 (play-stop-29-creator-labels-and-fields-share-one-grid) · none
+- 2026-10-27 01:40 · Claude Sonnet 5.5 · play-stop-27-title-motion-and-rotation-restored · play-first/play-stop-27-title-motion-and-rotation-restored · a03d6723c8 · PR opened #6204 · merger checks the screenshots; then take line 71 (play-stop-28-title-panel-header-separated) · none
 - 2026-10-26 13:00 · Claude Sonnet 5.5 · play-stop-21-ballot-stuck-on-first-page · play-first/play-stop-21-ballot-stuck-on-first-page · d728a279d7 · ready for recheck #6062 · merger rechecks #6062: polling check now asserts marked[contestId]=player and replays the world seed · none
 - 2026-10-26 12:00 · Claude Sonnet 5.5 · play-stop-21-ballot-stuck-on-first-page · play-first/play-stop-21-ballot-stuck-on-first-page · 625dff6612 · ready for recheck #6062 · merger merges #6062 (CTO's three asks done; proof Lake Oswego, Oregon, seed polling-proof-2; separate finding: Runge, Texas draw f6ccb40e-f134-47d6-91a5-c9fe93ab1256 shows no Test Voter on the Senate page) · none
 - 2026-10-26 08:50 · Claude (m0-m2 lead) · play-stop-26-empty-something-needs-you · play-first/play-stop-26-empty-something-needs-you · 6b5edcfbbc · PR ready #6126 · a merger checks #6126: in Murraysville, North Carolina main stops on January 10, 2026 with no box and then an empty one; with the change the year's only stop is the father's news, with Talk · none
