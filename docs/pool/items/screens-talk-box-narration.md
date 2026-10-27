@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/talk-box-narration
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T23:20:02.421Z
 ---
 
 **What.** The owner at 6:20 PM on Oct 27, from v0.59.0 in Berry, Kentucky, said: WHEN IT IS JUST THE NARRATOR REMOVE THE LEAVE/SAY NOTHING. He also said he does not like how talk is displayed, and wants Continue on the bottom left. A beat with nothing to answer showed Say nothing and Leave, which did nothing, and a subtitle sat under the speaker's name.
