@@ -97687,6 +97687,235 @@
       }
     },
     {
+      "key": "scene-talk.open-greet.thank-you-for-seeing-me-i-wanted-you-to-hear-this-from-me-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for seeing me. I wanted you to hear this from me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-appreciate-you-making-the-time-it-s-about-my-line-in-the-budget",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I appreciate you making the time. It's about my line in the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-sorry-to-bring-this-to-you-it-s-about-the-budget",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm sorry to bring this to you. It's about the budget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-about-what-the-council-did-to-my-line",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk about what the council did to my line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-get-right-to-it-the-budget-doesn-t-work-for-my-department",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll get right to it. The budget doesn't work for my department.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-don-t-want-to-make-this-harder-than-it-is-the-council-took-cut-from-my-line-and-the-people-we-serve-will-feel-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I don't want to make this harder than it is. The council took {cut} from my line, and the people we serve will feel it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-to-bring-you-this-my-line-lost-cut-and-i-d-like-your-help-with-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry to bring you this. My line lost {cut}, and I'd like your help with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-know-there-s-only-so-much-to-go-around-still-cut-came-out-of-my-department-and-i-d-like-to-show-you-where-it-lands",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I know there's only so much to go around. Still, {cut} came out of my department, and I'd like to show you where it lands.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.percent-percent-of-my-line-is-gone-cut-i-d-like-your-help-finding-a-way-through-it",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{percent} percent of my line is gone, {cut}. I'd like your help finding a way through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["cut", "percent"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.then-it-doesn-t-stand-i-ll-take-it-back-to-the-council",
       "move": "reply-agree",
       "kind": "spoken",
