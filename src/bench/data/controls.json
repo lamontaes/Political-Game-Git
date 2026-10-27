@@ -388,12 +388,8 @@
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
-    "reached": {
-      "in office at the opening": "Serving when your story began",
-      "elected": "Elected"
-    },
-    "electedOn": "Elected",
-    "ofVote": "of the vote",
+    "electedWith": "Elected {date} with {share} of the vote",
+    "termEnds": "Term ends {date}",
     "adopted": "Adopted",
     "elected": "Elected",
     "takesOffice": "Takes office",

@@ -4391,21 +4391,34 @@ const sheets = {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
+                // The term as a voter would say it: when it ends, and how the
+                // holder won it where the world ran the race.
+                const monthYear = (iso) =>
+                  new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                  });
                 const history = listRow("", {
                   textContent: [
-                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
-                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
                     won
-                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      ? labels.electedWith
+                          .replace("{date}", monthYear(won.date))
+                          .replace("{share}", `${Math.round(won.share * 100)}%`)
+                      : null,
+                    s.holder.endDate
+                      ? labels.termEnds.replace(
+                          "{date}",
+                          monthYear(s.holder.endDate),
+                        )
                       : null,
                   ]
                     .filter(Boolean)
-                    .join(" · "),
+                    .join(". "),
                 });
                 // The record the line reads, for the specs; never shown as text.
                 history.dataset.term = s.holder.termId;
                 if (won) history.dataset.election = won.termId;
-                line.append(history);
+                if (history.textContent) line.append(history);
               }
               // Elected and not yet seated: who won the seat, and when they take office.
               if (s.elect) {
