@@ -21,6 +21,7 @@ it("lowers union dues as membership falls after the law, and raises them back on
   const seed = process.env.RTW_SEED ?? randomBytes(32).toString("hex");
   setBookkeeping(false);
   try {
+    const skipped: string[] = [];
     for (let attempt = 0; attempt < 10; attempt += 1) {
       // RTW_DRAW_SEED and RTW_PLACE_KEY pin the first town (a failure prints both).
       const draw =
@@ -92,13 +93,27 @@ it("lowers union dues as membership falls after the law, and raises them back on
           dues().map((f) => [f.id, f.amountMinor]),
         );
         const reenacted = playWatching(400, 0);
-        if (!reenacted && playedRepeal.baseline === 0)
-          for (const flow of dues())
-            expect(flow.amountMinor, `${where}: ${flow.id}`).toBeGreaterThan(
-              atPlayedRepeal.get(flow.id)!,
-            );
+        // The repeal's effect on the dues can be judged only where the law
+        // had an effect to undo (a baseline of 0) and the legislature did not
+        // enact it again in the window; otherwise this town cannot show it and
+        // the next one is drawn, never reported as checked.
+        if (playedRepeal.baseline !== 0 || reenacted) {
+          skipped.push(
+            `${where}: repealed by ${playedRepeal.lawId}, ${reenacted ? "enacted again" : `baseline ${playedRepeal.baseline}`}`,
+          );
+          continue;
+        }
+        const judged = dues().filter((f) => atPlayedRepeal.has(f.id));
+        expect(
+          judged.length,
+          `${where}: locals' dues that stood at the repeal`,
+        ).toBeGreaterThan(0);
+        for (const flow of judged)
+          expect(flow.amountMinor, `${where}: ${flow.id}`).toBeGreaterThan(
+            atPlayedRepeal.get(flow.id)!,
+          );
         console.log(
-          `right-to-work: ${where}: repealed in play by ${playedRepeal.lawId} on ${playedRepeal.changedOn}; ${dues().length} locals' dues charged again`,
+          `right-to-work: ${where}: repealed in play by ${playedRepeal.lawId} on ${playedRepeal.changedOn}; ${judged.length} locals' dues charged more than at the repeal`,
         );
         return;
       }
@@ -142,7 +157,9 @@ it("lowers union dues as membership falls after the law, and raises them back on
         }
       return;
     }
-    throw new Error(`no town with a union local in 10 draws (seed ${seed})`);
+    throw new Error(
+      `no town with a union local in 10 draws (seed ${seed})${skipped.length ? `; played repeals that could not be judged: ${skipped.join("; ")}` : ""}`,
+    );
   } finally {
     setBookkeeping(true);
   }
