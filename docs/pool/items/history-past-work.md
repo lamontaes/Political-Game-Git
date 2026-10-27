@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/history-past-work
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T23:18:30.676Z
 ---
 
 **What.** The owner's ruling of Oct 27 (fix history not simulating before 2025; OWNER-DECISIONS 'The world has a past') needs the years before day one to run, not to be drawn. Today a 35-year-old's Journal stops at age 14 because nothing between school and the opening exists, and deep-past.ts writes only a work:tenure-summary proxy copied from the opening job's estimated start. This item runs every full adult's working life quarter by quarter from leaving school to the start date in the people phase of the pre-start run, reading the economy pass's published months and the business pass's founding dates, so each job, layoff, quit and spell out of work is a dated history record with a cause.
