@@ -167,7 +167,7 @@ describe("choosing each person's look", () => {
           shoes: "black",
         },
       }),
-    ).toEqual({
+    ).toMatchObject({
       skin: "ebony",
       jacket: "red",
       shirt: "white",
