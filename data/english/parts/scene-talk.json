@@ -86745,10 +86745,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.again-tell-me-what-s-different-next-time",
+      "key": "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Again? Tell me what's different next time.",
+      "text": "Again. Then tell me what's different next time.",
       "uses": [
         {
           "subject": "scene",
@@ -86875,10 +86875,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.again-with-what-tell-me-what-we-have-left-to-put-in",
+      "key": "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Again, with what? Tell me what we have left to put in.",
+      "text": "Again. Then tell me what we have left to put in.",
       "uses": [
         {
           "subject": "scene",
@@ -86905,6 +86905,266 @@
       "move": "follow-thank",
       "kind": "spoken",
       "text": "Then we do it with a number before we start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You did what a candidate does. Sit down with me for a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You spent it on something you believed in. Sit down with me for a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.stop-adding-it-up-tonight-we-both-knew-it-could-go-this-way",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Stop adding it up tonight. We both knew it could go this way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.don-t-add-it-up-tonight-we-knew-it-could-go-this-way-when-we-put-it-in",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Don't add it up tonight. We knew it could go this way when we put it in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Look at me. I worked this race too, and I need you to say one true thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Look at me. That money was ours, and I need you to say one true thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Again. Then I'll want to know the plan before I give you another month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Again. Then I'll want a number in writing before another dollar goes in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'm in again. Wake me when you've decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then we start with what's left in the account, and we say it out loud.",
       "uses": [
         {
           "subject": "scene",
