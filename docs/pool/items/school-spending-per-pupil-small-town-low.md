@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/school-spending-pupil
-pr:
+pr: #6337
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T14:23:41.917Z

@@ -2388,7 +2388,7 @@
     "kind": "estimated-calibration",
     "file": "src/core2/data/health.json",
     "line": 15,
-    "whatItFakes": "One base-rate scale (0.106) for every place, solved from two generated towns so expected yearly deaths match the SSA 2023 life table; the chronic-condition weights were calibrated for the old shared threshold and are not refit.",
+    "whatItFakes": "One base-rate scale (0.097, refit Oct 27, 2026 over twenty-four generated towns: 450 deaths against 446.0 expected) for every place; the chronic-condition weights were calibrated for the old shared threshold and are not refit, and single towns range from 0.3 to 1.9 of the table's count.",
     "why": "The owner replaced the shared threshold with personal resilience lines; totals must stay on the life table and a full recalibration of the condition pack has not been done.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
@@ -2428,7 +2428,7 @@
     "why": "Speeches (M4-04) need a first reception model; persuasion research gives directions and small averages, not these coefficients.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse, speechRetellWeight, speechSociabilityWeight or speechKeepPull, so they stay TUNABLE.",
+    "replacement": "Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse or speechRetellWeight, so they stay TUNABLE. Oct 25, 2026 (traits-retell-circumstances): speechKeepPull and the two engagement weights of the retelling case are ESTIMATED from ANES 2020 talk at home by interest, and the retelling weighs who is at home to hear it.",
     "status": "open"
   },
   {
@@ -7157,6 +7157,30 @@
     "addedBy": "claude/press-exposes-conflicts",
     "addedAt": "2026-10-27",
     "replacement": "A conflict reaches a reporter as a tip from the people who know of it (a losing bidder, a clerk, a colleague on the body) through the same tip path a taken bribe uses, and an editor's beat assigns the reporter who covers that government.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-public-pay-growth",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1745,
+    "whatItFakes": "A worker at an employer with no business books (a town, county or state government, or another public body) gets the yearly move with the place's pay level but no raise for tenure or how they work, so a public employee's pay does not grow within the job as a private worker's does.",
+    "why": "A business's raises are held to the room its own trading month leaves; a public employer has no trading month, and its pay follows its budget line and the public pay floor (public-pay-floor.ts, the bargaining law). Public step schedules and the budget room they would read are not modeled yet.",
+    "addedBy": "claude/traits-pay-growth",
+    "addedAt": "2026-10-25",
+    "replacement": "Within-job raises for public workers by the same withinJobRaise rule, held to the room in the government's personnel budget line (the budgets engine) or set by the step schedule a bargaining or pay law records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-opening-tenure",
+    "kind": "missing-data",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1750,
+    "whatItFakes": "Every job held at the opening counts its tenure from the game's start, so each opening worker's first yearly raise reads the steepest year of the tenure profile (about 2.6 points over the market's move) instead of the year their real tenure would put them in (about 1.0 point at the BLS median of 3.9 years).",
+    "why": "The opening records no start date for anyone's job (src/core2/deep-past.ts keeps only a supplied start and assigns no median to a missing job history), so tenure within a firm spans a few days at the start; the same gap is why traitWeightJobsValueWorker is sized against real tenure rather than the played world's.",
+    "addedBy": "claude/traits-pay-growth",
+    "addedAt": "2026-10-25",
+    "replacement": "An opening start date for each job held at the opening, generated from the BLS Employee Tenure tables by age and industry when the world is generated (who exists may be seeded), read by tenureYears for raises and layoffs alike.",
     "status": "open"
   }
 ]

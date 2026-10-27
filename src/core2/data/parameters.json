@@ -4924,10 +4924,10 @@
     }
   },
   "resilienceBaseRateScale": {
-    "value": 0.106,
+    "value": 0.097,
     "tag": "ESTIMATED",
-    "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
-    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
+    "citation": "Scale (0.097 since Oct 27, 2026; 0.087 from Oct 21; 0.106 before) at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
+    "estimatedFrom": "Refit Oct 27, 2026 on the head of claude/health-resilience over twenty-four generated towns (scripts/health/mortality-band.ts, seeds sr1 to sr16 and m01 to m08, one played year each, default size, no place chosen): at 0.087 they recorded 400 deaths against 446.0 expected (ratio 0.897; sr1 to sr16 286 against 297.9, 0.96; m01 to m08 114 against 148.1, 0.77); at 0.097 they record 450 deaths against 446.0 expected (ratio 1.009, band 0.8 to 1.2; sr1 to sr16 325 against 297.9, 1.091; m01 to m08 125 against 148.1, 0.844). The Oct 21 refit (0.087, sixteen towns, 319 against 297.9) was taken before the chronic-condition weights were restored to 0.065. Totals only; no person's outcome is set by it. Single towns range from 0.3 to 1.9 of the table's count at a year (about 19 expected deaths each), so one town says little; the places differ by more than chance, which the single scale and the unrefit condition weights do not model.",
     "stopgapId": "SG-P10-resilience-scale"
   },
   "resilienceHashDigits": {
@@ -5666,6 +5666,17 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
+  "traitWeightJobsValueWorker": {
+    "value": 4.4,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991 (Personnel Psychology 44(1), Table 2): conscientiousness correlates 0.22 with job performance. Sized so a business's valuation of a worker (years of tenure, or of experience when hiring, plus this term) correlates 0.22 with the worker's lean toward diligence: weight = 0.22 / sqrt(1 - 0.22^2) x the spread of real tenure / the spread of the lean within a firm. Real tenure spread 5.6 years: an exponential with the BLS median of 3.9 years (Employee Tenure in 2024, jobsTypicalTenureYears). Lean spread within a firm 0.29, the mean of three drawn places (Puapua, American Samoa, seed 5e38743ba0d3: 0.254; Melville, Rhode Island, seed f3c0bd5cabcd: 0.270; Middleborough Center, Massachusetts, seed 2c719d0f46f8: 0.341). Sized against real tenure, not the played world's, because the opening records no start date for anyone's job (src/core2/deep-past.ts:599), so tenure within a firm spans about five days at the start.",
+    "spread": {
+      "low": 3,
+      "high": 7,
+      "unit": "years of tenure or experience at full lean",
+      "citation": "Tenure spread 4.5 to 8 years (the exponential understates the long tail of BLS tenure) against a lean spread of 0.25 to 0.34 across the three places."
+    }
+  },
   "traitWeightJobsStartLooking": {
     "value": 1,
     "tag": "TUNABLE",
@@ -5725,12 +5736,14 @@
     }
   },
   "traitWeightSpeechRetell": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the speech.retell decision. A listener retells a speech at home when how far it moved them plus their lean toward retelling outweighs keeping it to themselves; the chooser's trait reason carries it, with no separate sociability term. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.11,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the speech.retell decision, fitted with the retelling case (speechKeepPull and the two engagement weights in src/core2/data/speech/parameters.json; traits-retell-circumstances) to Hibbing, Ritchie and Anderson 2011 (Political Behavior 33(4):601-624, Table 2, family discussion): conscientiousness 0.63 on the ordered log-odds of talking local politics with family over the trait's full range (SD 0.29), odds ratio 1.49 between the thirds. Read as crossed net odds (every weighing's case against every listener's lean, top third against bottom third) over 22,461 weighings in four drawn towns' played years, it gives 1.50 pooled and 1.42 to 1.91 by town.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.055,
+      "high": 0.19,
+      "unit": "weight",
+      "citation": "The weights at which the pooled crossed net odds reach the study's interval, 1.2 to 2.4 (coefficient 0.63 plus or minus 1.96 standard errors of 0.28, scaled the same way), at this case."
     }
   },
   "traitWeightContractsAward": {
@@ -6041,9 +6054,9 @@
     }
   },
   "traitWeightCampaignsRetell": {
-    "value": 5.8,
+    "value": 1.13,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.70 between thirds (2.47 before the rescale below). A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target grows by 1.1 (log odds 0.903 to 0.993). A retelling's reach is 1 plus the weight times the lean, so it does not scale exactly with the target; the weight is found again the same way on the adults of Newfane VT (seed c1): the top third's mean reach is 2.45 times the bottom's at 4.9 and 2.71 times at 5.8, against the new 2.70, and a plain 1.1 scale (5.39) would reach only 2.59. 4.9 became 5.8. That lifts the town's mean reach from 1.65 to 1.77 times, which the campaign's second-hand weight is set from.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.70 between thirds (2.47 before the rescale below). A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target grows by 1.1 (log odds 0.903 to 0.993). A retelling's reach is 1 plus the weight times the lean, so it does not scale exactly with the target; the weight is found again the same way on the adults of Newfane VT (seed c1): the top third's mean reach is 2.45 times the bottom's at 4.9 and 2.71 times at 5.8, against the new 2.70, and a plain 1.1 scale (5.39) would reach only 2.59. 4.9 became 5.8. That lifts the town's mean reach from 1.65 to 1.77 times, which the campaign's second-hand weight is set from. Found again Oct 27 (tests-campaign-traits-ratios-out-of-band-st-paul): the act-kind pull table (data/content/trait-act-pulls.json) was rebuilt after the Oct 24 weight, which left the lean of speaking out against staying quiet about five times wider, so at 5.8 the top third's reach was 21 to 29 times the bottom's in every one of six drawn towns (seed scratch:0 to scratch:5, adults at the opening). The weight at which the ratio is 2.70 is 1.09 to 1.17 in each of the six towns, 1.13 pooled. That lowers the town's mean reach to 1.23 times, and the campaign's second-hand weight is set again from it.",
     "spread": {
       "low": 3.9,
       "high": 7.8,
@@ -6052,9 +6065,9 @@
     }
   },
   "traitWeightCampaignsAnswerPoll": {
-    "value": 0.1235,
+    "value": 0.0092,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.66 between thirds (1.48 before the rescale below). Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.095 became 0.1235.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.66 between thirds (1.48 before the rescale below). Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.095 became 0.1235. Found again Oct 27 (tests-campaign-traits-ratios-out-of-band-st-paul) by the same method on the adults of six drawn towns at the opening (seed scratch:0 to scratch:5): the act-kind pull table (data/content/trait-act-pulls.json) was rebuilt after the Oct 24 weight, so at 0.1235 the odds ratio was 3.3 to 5.1 against 1.66; the weight that reaches 1.66 is 0.0082 to 0.0107 in each town, 0.0092 in the middle.",
     "spread": {
       "low": 0.052,
       "high": 0.195,

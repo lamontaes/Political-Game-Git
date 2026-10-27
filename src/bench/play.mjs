@@ -57,9 +57,16 @@ function pageIn(box, pager, keepPage = false) {
   // Measure with every row showing; a page then hides the rows that are not its own.
   for (const hidden of box.querySelectorAll(".paged-out"))
     hidden.classList.remove("paged-out");
-  const rows = [
-    ...box.querySelectorAll(":scope > *:not(.flow), :scope > .flow > *"),
-  ];
+  // A block taller than the box (a grid of cards, a long screen) would be one page of its own
+  // and hide behind a Continue; its children are the rows instead, so page 0 shows the first of them.
+  const rowsIn = (parent) =>
+    [...parent.children].flatMap((kid) =>
+      kid.classList.contains("flow") ||
+      (kid.offsetHeight > box.clientHeight && kid.children.length > 1)
+        ? rowsIn(kid)
+        : [kid],
+    );
+  const rows = rowsIn(box);
   const tops = rows.map((row) => row.offsetTop);
   const stops = [0];
   let sideways = false;
@@ -72,7 +79,12 @@ function pageIn(box, pager, keepPage = false) {
     } else if (box.scrollHeight > box.clientHeight + 2) {
       let top = 0;
       rows.forEach((kid, index) => {
-        if (tops[index] + kid.offsetHeight - top > box.clientHeight) {
+        // A row taller than the box starts no page of its own at the top: a second stop at
+        // 0 would make page 0 empty and hide every row.
+        if (
+          tops[index] > top &&
+          tops[index] + kid.offsetHeight - top > box.clientHeight
+        ) {
           top = tops[index];
           stops.push(top);
         }
@@ -4642,6 +4654,15 @@ const sheets = {
     });
     search.setAttribute("aria-label", labels.searchIssues);
     const list = el("div", { className: "issues-content" });
+    // A policy question's law reads yes or no; every other law, its amount.
+    const lawText = (law, value, unit) =>
+      law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
+    const dateWords = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
     const draw = () =>
       list.replaceChildren(
         menuPages(
@@ -4661,22 +4682,32 @@ const sheets = {
                   el("h3", { textContent: policyLabel(law.series) }),
                   el("strong", {
                     className: "law-value",
-                    textContent: law.text ?? amount(law.value, law.unit),
+                    textContent: law.text ?? lawText(law, law.value, law.unit),
                   }),
                 ),
               );
+              // A level's law and when it took effect; a starting answer to a
+              // question names its statute instead, as its research did not
+              // record the day it took effect.
               for (const level of law.levels.filter((l) => l.row))
                 detail.append(
                   row(
                     lawLevelLabel(law, level),
-                    `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
+                    [
+                      lawText(law, level.row.value, level.row.unit),
+                      !law.yesNo || level.row.terms?.enactedBy
+                        ? dateWords(level.row.effectiveDate)
+                        : level.row.terms?.cite,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
                   ),
                 );
               for (const pending of law.pending)
                 detail.append(
                   row(
-                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${pending.effectiveDate}`,
-                    amount(pending.value, pending.unit),
+                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
+                    lawText(law, pending.value, pending.unit),
                   ),
                 );
               for (const change of [...changes.took, ...changes.ahead].filter(
@@ -4684,7 +4715,7 @@ const sheets = {
               ))
                 detail.append(
                   row(
-                    change.date,
+                    dateWords(change.date),
                     [change.measure, change.jurisdiction, change.what]
                       .filter(Boolean)
                       .join(" · "),

@@ -6,7 +6,7 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-opening-past-chosen-age
 pr: #6271
 blocked-on:
