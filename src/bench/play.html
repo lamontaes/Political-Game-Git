@@ -108,6 +108,10 @@
             ></span
             ><span class="continue-text"
               ><b>Continue</b><small id="front-continue-life"></small
+              ><small
+                class="reason"
+                data-label="titleUnavailable.continue"
+              ></small
             ></span>
           </button>
           <button
@@ -117,7 +121,8 @@
             data-testid="open-saves"
             disabled
           >
-            <b>Saved games</b>
+            <b>Saved games</b
+            ><small class="reason" data-label="titleUnavailable.saves"></small>
           </button>
           <button
             id="front-options"
@@ -134,7 +139,11 @@
             data-testid="title-patch-notes"
             disabled
           >
-            <b>Patch notes</b>
+            <b>Patch notes</b
+            ><small
+              class="reason"
+              data-label="titleUnavailable.patchNotes"
+            ></small>
           </button>
           <!-- Quit is the desktop's; a browser tab has none to offer. -->
           <button

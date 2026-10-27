@@ -5,6 +5,8 @@ description: The Wildermyth standard every scene and conversation in Our Civic D
 
 # Scenes to the Wildermyth standard
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 Owner, Oct 24: scenes "that come out of what is actually happening in the world, narrated into a moment, played out with real dialogue and choices, the outcome back into the game." Owner, Oct 26, after a full year of play: "the biggest problem [is] words and scenes." These rules come from Wildermyth's own event files (studied Oct 26; summary in `docs/design/references/wildermyth-patterns.md`) and from what failed on screen that day.
 
 ## The rules
