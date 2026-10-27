@@ -2837,21 +2837,26 @@ export function chairHearsBill(
   chairId: string,
   position: number,
 ): boolean {
+  return position + chairHearingTrait(api, chairId, position) >= 0;
+}
+
+/** What the chair's temperament adds to hearing a bill over burying it (zero for a name not filled in). */
+function chairHearingTrait(
+  api: CoreAPI,
+  chairId: string,
+  position: number,
+): number {
   const chair = api.state.people.get(chairId);
-  return (
-    position +
-      (chair
-        ? leanedTerm(
-            api.state,
-            chair,
-            "legislature.hold-hearing",
-            "hear",
-            "bury",
-            position,
-          )
-        : 0) >=
-    0
-  );
+  return chair
+    ? leanedTerm(
+        api.state,
+        chair,
+        "legislature.hold-hearing",
+        "hear",
+        "bury",
+        position,
+      )
+    : 0;
 }
 
 /**
@@ -3080,6 +3085,15 @@ export interface CommitteeRecord {
   readonly chairId: string;
   readonly memberIds: readonly string[];
   readonly heard: boolean;
+  /**
+   * Why the chair heard or held the bill: their position on it and what
+   * their temperament adds to holding a hearing (heard when the sum is not
+   * below zero).
+   */
+  readonly chairReasons: {
+    readonly position: MemberPosition;
+    readonly hearingTrait: number;
+  };
   readonly votes: readonly {
     readonly memberId: string;
     readonly vote: "yes" | "no" | "abstain";
@@ -3186,7 +3200,15 @@ function committeeStage(
     }
   }
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
-  const heard = chairHearsBill(api, memberKey(chair), chairPosition.total);
+  const hearingTrait = chairHearingTrait(
+    api,
+    memberKey(chair),
+    chairPosition.total,
+  );
+  const heard = chairPosition.total + hearingTrait >= 0;
+  // The chair's reasons are kept on the committee record; no scene or story
+  // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
+  api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
   const witnesses: { personId: string; stake: string }[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
@@ -3260,6 +3282,7 @@ function committeeStage(
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),
     heard,
+    chairReasons: { position: chairPosition, hearingTrait },
     votes,
     witnesses,
     yes,
@@ -3625,6 +3648,49 @@ function runBeforeVote(
   }
 }
 
+/**
+ * A bill that lost a vote, in its committee or on the floor: a record for its
+ * sponsor, who hears it that day, with the count it lost by. A committee that
+ * never heard the bill held no vote, so it records none.
+ */
+function recordFailure(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  stage: "committee" | "floor",
+  tally: { readonly yes: number; readonly no: number },
+): void {
+  if (!api.state.people.has(bill.sponsorId)) return;
+  // The seat the sponsor holds, whose office the news reaches.
+  const seat = chambersOf(api, bill)
+    .flatMap((body) => members(api, body))
+    .find((term) => memberKey(term) === bill.sponsorId);
+  api.emit({
+    id: `bill-failed:${bill.id}:${chamber}`,
+    date: api.state.date,
+    kind: "bill-failed",
+    personIds: [bill.sponsorId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `${stage === "committee" ? "Committee vote" : "Vote"} on ${bill.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    facts: {
+      billId: bill.id,
+      number: bill.number,
+      level: billReach(api, bill).level,
+      chamber,
+      stage,
+      sponsorId: bill.sponsorId,
+      ...(seat ? { officeId: seat.officeId } : {}),
+      yes: String(tally.yes),
+      no: String(tally.no),
+    },
+  });
+}
+
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const result = countVote(api, billId);
   // Votes are on the record once a bill is anything but unvoted or blocked.
@@ -3653,6 +3719,8 @@ function countVote(api: CoreAPI, billId: string): BillRow {
     if (committee && !committee.reported) {
       const held: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(held as unknown as ModuleRow);
+      if (committee.heard)
+        recordFailure(api, held, chamber, "committee", committee);
       return held;
     }
     // The floor's vote cites the report that sent the bill to it.
@@ -3698,6 +3766,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
     if (tally.yes <= tally.no || cloture) {
       const failed: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(failed as unknown as ModuleRow);
+      recordFailure(api, failed, chamber, "floor", tally);
       return failed;
     }
   }
