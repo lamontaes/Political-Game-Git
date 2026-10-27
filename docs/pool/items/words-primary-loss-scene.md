@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: finisher/words-primary-loss-scene
-pr:
+pr: #6388
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
