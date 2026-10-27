@@ -622,14 +622,15 @@ const jobsReport: Builder = (read, f) => {
   return story(
     "jobs-report",
     {
-      place: read.fact(state),
+      // The rate is the state's: told under the area it measures, never a town.
+      area: read.fact(state),
       percent: read.fact(percent(rate)),
       ...(nation !== undefined ? { nation: read.fact(percent(nation)) } : {}),
       ...(f.month
         ? { month: read.fact(MONTHS[Number(f.month.slice(5, 7)) - 1]!) }
         : {}),
     },
-    ["place", "percent"],
+    ["area", "percent"],
   );
 };
 
