@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/public-pay-nonvacuous
-pr:
+pr: #6341
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
@@ -23,3 +23,7 @@ claimed-at: 2026-10-27T15:46:02.022Z
 **Files.** src/core2/budgets-public-pay.test.ts
 
 **Notes.** Found during PR #5998 review at checked head 9fdf58914c0ee58255a02f694be25b068fc514e6; this early return already exists on main and is unchanged by that PR. The separate old money-reconciliation issue tests-budgets-public-pay-intermittent is done via #5995 and is not reopened. Additional positive check at Marlborough NH, root109a7b3b1d5c1715d738e7b8ca9deec614910239, world873e6371b7ae7444c76151367a8c6876172f2e41ab9bbe2c9a0999ec5d6837ee: 9 authorities, 61 payday entries, treasury11512962 cents plus shortfalls639884 cents reconciled with the ledger; test passed54.379s. Do not treat Alega's empty pass as positive coverage.
+
+**Time box.** 3 hours, Sonnet, no helpers; builds against nothing.
+
+**Files.** src/core2/budgets-public-pay.test.ts
