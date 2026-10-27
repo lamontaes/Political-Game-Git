@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/law-reach-group-b.test.ts
 
-**Notes.** TODO
+**Notes.** Found Oct 27 by Merger 4; red on clean main with the seed above.
