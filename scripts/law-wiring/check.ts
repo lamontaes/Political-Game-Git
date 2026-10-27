@@ -54,6 +54,7 @@ import powerQuestions from "../../data/research/powers-catalog/question-powers.j
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { linkCoverage, WEB_LINKS } from "../../src/core2/outcome-web-model";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
+import startingLawData from "../../src/core2/data/laws/starting-law.json" with { type: "json" };
 
 const ROOT = `${process.cwd()}/`;
 /** Days after a repeal (or the old amount put back) before reach is read again: a month, so an engine that applies a law at a monthly close runs once. */
@@ -793,6 +794,30 @@ const FIRST_AMOUNT: Readonly<Record<string, number>> = {
   "public-pay-floor": 70_000,
 };
 
+/**
+ * Amount series whose every starting row is 0 or 1: a grant or a yes-or-no
+ * (a state granting localities an income tax). A body changes one by
+ * switching it, not by raising it a tenth (1 to 2 would not be read as
+ * granted).
+ */
+const SWITCH_SERIES: ReadonlySet<string> = (() => {
+  const values = new Map<string, boolean>();
+  for (const rows of Object.values(
+    (
+      startingLawData as unknown as {
+        jurisdictions: Record<string, { series: string; value: number }[]>;
+      }
+    ).jurisdictions,
+  ))
+    for (const row of rows)
+      values.set(
+        row.series,
+        (values.get(row.series) ?? true) &&
+          (row.value === 0 || row.value === 1),
+      );
+  return new Set([...values].filter(([, only01]) => only01).map(([k]) => k));
+})();
+
 function changeAmount(
   api: CoreAPI,
   law: LawEntry,
@@ -828,8 +853,12 @@ function changeAmount(
   // The governing row's own amount: the change is written at its level, and
   // the law in force can be several levels' sum (a federal and a state tax).
   const old = Number(g?.value ?? now.value ?? 0);
-  const next =
-    old > 0
+  const switched = SWITCH_SERIES.has(series);
+  const next = switched
+    ? old === 1
+      ? 0
+      : 1
+    : old > 0
       ? Number.isInteger(old)
         ? Math.max(old + 1, Math.round(old * 1.1))
         : Math.round(old * 1.1 * 100) / 100
@@ -841,7 +870,9 @@ function changeAmount(
     value: next,
     effectiveDate: date,
     measureId: `law-wiring-${tag}`,
-    citation: "Law-wiring check: amount raised a tenth",
+    citation: switched
+      ? "Law-wiring check: grant switched"
+      : "Law-wiring check: amount raised a tenth",
     ...(g?.unit ? { unit: g.unit } : {}),
     ...(g?.terms ? { terms: { ...g.terms } } : {}),
   });

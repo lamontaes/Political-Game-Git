@@ -25,3 +25,5 @@ claimed-at: 2026-10-27T14:16:56.467Z
 **Files.** scripts/law-wiring/check.ts
 
 **Notes.** Laws lead, Oct 25, from PR #5649.
+
+Worker note (Claude, Oct 27): fixed in `scripts/law-wiring/check.ts` (`SWITCH_SERIES`: every amount series whose starting rows are all 0 or 1 is switched, not raised a tenth). `node --import tsx scripts/law-wiring/check.ts --seed a91c03e7d2b84f10 --only local-income-tax-authority` in Prescott, Michigan now reads `local-income-tax-authority 1 -> 0 at state (law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc)`. Reach 1 (one organization), readers 2, money kinds 2. I did not compare the matrix grade with the old run.
