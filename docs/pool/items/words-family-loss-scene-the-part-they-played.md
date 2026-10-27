@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/scene-family-loss-worked-it
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T06:07:27.504Z
 ---
 
 **What.** After a race is lost, the household talk is staged for every relative today, with generic comfort lines such as 'Come to bed. It'll still be true in the morning.', and it writes nothing the next election reads. This item casts the scene only for a household member the records show put something in (they are counted among the campaign's volunteers, or the candidate gave their own money), opens on what they put in and how close the count was, and writes the reply where the next candidacy decision reads it. Episode: the night after a first loss, from local candidates who lost by a few dozen votes and ran again (Jefferson City 2013, Raincross 2019 and 2024).
