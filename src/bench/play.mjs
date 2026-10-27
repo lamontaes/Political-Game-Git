@@ -3,6 +3,11 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
+import { mountMenu } from "./ui/menu.mjs";
+import { mountRail } from "./ui/rail.mjs";
+import { makeTab, chooseTab } from "./ui/tab.mjs";
+import { makeCard } from "./ui/card.mjs";
+import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons } from "./ui/panel.mjs";
 mountCloseButtons();
 mountPagers();
@@ -160,9 +165,9 @@ function plain(value) {
 /** One labeled line; a value that can't be put in a reader's words hides the line. */
 function row(label, value) {
   const text = plain(value);
-  const line = el(
-    "div",
-    { className: "row" },
+  const line = listRow(
+    "",
+    {},
     termLabel(label),
     el("span", { className: "record-value", textContent: text ?? "" }),
   );
@@ -633,7 +638,12 @@ async function renderJournalNote() {
   $("journal-line").textContent = line;
 }
 async function refresh() {
-  await Promise.all([renderScene(), renderCard(), renderJournalNote()]);
+  await Promise.all([
+    renderScene(),
+    renderCard(),
+    renderJournalNote(),
+    markNews(false),
+  ]);
   // When your character dies, carry on as someone connected to them.
   if (me.card && me.card.alive === false) {
     await openSheet("handoff");
@@ -1030,6 +1040,20 @@ for (const mode of ["day", "week"])
   });
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
+// Stories News held when it was last open: a dot on the rail's News icon until it is read.
+let seenNews = 0;
+async function newsCount() {
+  const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
+  // Every row News lists (its public records), the same rows its screen draws.
+  return rows.length;
+}
+async function markNews(read) {
+  const count = await newsCount();
+  if (read) seenNews = count;
+  document
+    .querySelector('#rings [data-tab="news"]')
+    ?.classList.toggle("unread", count > seenNews);
+}
 async function changeCount() {
   const { ahead, took } = await api(
     `/api/changes?id=${encodeURIComponent(me.id)}`,
@@ -1289,9 +1313,9 @@ function renderFilingOverlay(value) {
   );
   $("filing-platform").replaceChildren(
     ...overlay.questions.map((question) =>
-      el(
-        "div",
-        { className: "row" },
+      listRow(
+        "",
+        {},
         el("b", { textContent: policyLabel(question) }),
         el(
           "select",
@@ -1366,9 +1390,9 @@ function debatePanel(debate) {
     );
     return { question, pick };
   });
-  return el(
-    "div",
-    { className: "row campaign" },
+  return listRow(
+    "campaign",
+    {},
     el("b", { textContent: `${words.title} · ${debate.date}` }),
     ...picks.map(({ question, pick }) =>
       el("label", {}, ` ${policyLabel(question)} `, pick),
@@ -1447,6 +1471,52 @@ function speechPanel(filing, venue) {
       }),
     ),
   );
+}
+/**
+ * The town's next local ballot: every city, township and county seat on it
+ * with each filer by name, from the filing records, marked unopposed or
+ * unfilled where that is what the records hold.
+ */
+async function localRacesBlock() {
+  const { date, races } = await api("/api/government/local-races");
+  const labels = controls.localRaces;
+  const block = el(
+    "div",
+    { className: "row race local-races" },
+    el("b", {
+      textContent: date ? `${labels.title} · ${proseDate(date)}` : labels.title,
+    }),
+  );
+  if (!races.length)
+    block.append(
+      el("div", { className: "label", textContent: labels.noBallot }),
+    );
+  for (const race of races) {
+    const names = race.filers.map(
+      (f) => `${f.name ?? ""}${f.party ? ` (${f.party})` : ""}`,
+    );
+    const mark = !race.filers.length
+      ? labels.noFilers
+      : race.filers.length === 1 && race.filingClosed
+        ? labels.unopposed
+        : null;
+    const line = row(
+      race.title,
+      [
+        names.join(", "),
+        mark,
+        race.filingClosed
+          ? null
+          : `${labels.filingCloses} ${proseDate(race.filingDeadline)}`,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    );
+    line.classList.add("local-race");
+    line.dataset.contest = race.contestId;
+    block.append(line);
+  }
+  return block;
 }
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
@@ -1528,9 +1598,9 @@ async function campaignRows() {
       return b;
     };
     rows.push(
-      el(
-        "div",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        {},
         el("b", {
           textContent: [
             contest?.title,
@@ -1600,8 +1670,7 @@ async function campaignRows() {
         ...(causes ?? [])
           .filter((who) => who.acts.length)
           .map((who) =>
-            el("div", {
-              className: "row",
+            listRow("", {
               textContent: `${who.you ? "" : `${who.name} · `}${who.acts
                 .map(
                   (a) =>
@@ -1888,9 +1957,9 @@ async function officeRows() {
   });
   return [
     ...v.jobs.map((job) =>
-      el(
-        "div",
-        { className: "row campaign", title: job.citation },
+      listRow(
+        "campaign",
+        { title: job.citation },
         el("b", { textContent: job.title }),
         ` ${dollars(job.annualMinor)} · ${job.weeklyHours} h · ${job.payer}`,
         job.lastPaid
@@ -1899,13 +1968,13 @@ async function officeRows() {
         job.nextMeeting ? ` · ${job.nextMeeting}` : "",
       ),
     ),
-    el("div", { className: "row campaign" }, ...toggles),
+    listRow("campaign", {}, ...toggles),
     // The outlet the next interview asks; left on the character's own, the widest reach.
     ...(v.outlets?.length
       ? [
-          el(
-            "label",
-            { className: "row campaign" },
+          listRow(
+            "campaign",
+            { as: "label" },
             `${words.interviewOutlet ?? ""} `,
             (() => {
               const pick = el(
@@ -1933,9 +2002,9 @@ async function officeRows() {
       : []),
     // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
     ...(v.heads ?? []).map((head) =>
-      el(
-        "label",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        { as: "label" },
         `${head.title} · ${words.nameHeadPick ?? ""} `,
         (() => {
           const pick = el(
@@ -1962,9 +2031,9 @@ async function officeRows() {
     // The budget you may send now: the change to each line, in steps of its amount.
     ...(v.budget
       ? [
-          el(
-            "div",
-            { className: "row campaign" },
+          listRow(
+            "campaign",
+            {},
             el("b", { textContent: controls.budgetEditor.title }),
             ...v.budget.lines.map((row) => {
               const pick = el(
@@ -1996,9 +2065,9 @@ async function officeRows() {
       : []),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
-      el(
-        "div",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        {},
         el("b", { textContent: `${bill.number} · ${controls.deals.title}` }),
         ...bill.colleagues.map((colleague) => {
           const pick = el(
@@ -2117,9 +2186,9 @@ async function seatRows() {
       });
     });
     rows.push(
-      el(
-        "div",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        {},
         el("b", { textContent: body.title }),
         body.members.map((m) => m.name).join(" · "),
         el("div", {}, pick, value, draft),
@@ -2128,9 +2197,9 @@ async function seatRows() {
   }
   for (const { bill, votes } of v.bills)
     rows.push(
-      el(
-        "div",
-        { className: "row campaign" },
+      listRow(
+        "campaign",
+        {},
         el("b", { textContent: `${bill.number} · ${bill.status}` }),
         // The title's subjects name each section (record keys, then words).
         bill.provisions
@@ -2154,17 +2223,14 @@ async function seatRows() {
     );
   for (const left of v.incompatibilities ?? [])
     rows.push(
-      el("div", {
-        className: "row campaign",
+      listRow("campaign", {
         textContent: `${left.date} · ${left.left} → ${left.took} · ${left.law}`,
       }),
     );
   if (seatResult)
     rows.push(
-      el("div", { className: "row campaign", textContent: seatResult }),
-      ...seatText.map((line) =>
-        el("div", { className: "row", textContent: line }),
-      ),
+      listRow("campaign", { textContent: seatResult }),
+      ...seatText.map((line) => listRow("", { textContent: line })),
     );
   return rows;
 }
@@ -2462,19 +2528,20 @@ const sheets = {
       });
       next.disabled = (page + 1) * 8 >= found.length;
       pager.replaceChildren(...(found.length > 8 ? [back, next] : []));
-      for (const b of filters.querySelectorAll("[data-group]")) {
-        b.classList.toggle("on", b.dataset.group === group);
-        b.setAttribute("aria-pressed", String(b.dataset.group === group));
-      }
+      chooseTab(filters, "group", group);
     };
     for (const key of ["all", "family", "friends", "work", "politics"]) {
-      const b = button(labels[key], () => {
-        group = key;
-        draw();
-      });
-      b.dataset.group = key;
-      b.className = "tab";
-      filters.append(b);
+      filters.append(
+        makeTab({
+          key,
+          attr: "group",
+          label: labels[key],
+          onSelect: () => {
+            group = key;
+            draw();
+          },
+        }),
+      );
     }
     const mode = button(labels.list, () => {
       listMode = !listMode;
@@ -2809,9 +2876,9 @@ const sheets = {
     ])
       for (const item of finances[key] ?? [])
         root.append(
-          el(
-            "section",
-            { className: "money-item" },
+          makeCard(
+            "money-item",
+            { as: "section" },
             el("span", { className: "label", textContent: label }),
             el("h3", { textContent: item.name }),
             el("strong", { textContent: dollars(item.minor) }),
@@ -2826,9 +2893,9 @@ const sheets = {
     const labels = controls.jobs;
     const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`);
     const job = me.card.job;
-    const work = el(
-      "section",
-      { className: "work-overview" },
+    const work = makeCard(
+      "work-overview",
+      { as: "section" },
       el("h3", { textContent: labels.work }),
     );
     if (job) {
@@ -2878,9 +2945,9 @@ const sheets = {
         el("h3", { className: "work-heading", textContent: labels.offers }),
       );
     for (const offer of view.offers) {
-      const card = el(
-        "section",
-        { className: "job-offer" },
+      const card = makeCard(
+        "job-offer",
+        { as: "section" },
         el("h3", { textContent: offer.title }),
         el("p", { textContent: offer.employer }),
         row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
@@ -2937,9 +3004,9 @@ const sheets = {
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
     return chapters.map((c) =>
-      el(
-        "div",
-        { className: "row narrative" },
+      listRow(
+        "narrative",
+        {},
         el("b", { textContent: c.title }),
         c.lines.map((l) => l.text).join(" "),
       ),
@@ -2959,9 +3026,9 @@ const sheets = {
     const earlier = races.slice(night.length, night.length + 8);
     // After your own night's races, every other state's governor race that
     // night, from the world's race records: who won and by how much.
-    const nationBlock = el(
-      "div",
-      { className: "row race nation" },
+    const nationBlock = listRow(
+      "race nation",
+      {},
       el("b", { textContent: labels.nation }),
       nation.length
         ? el(
@@ -2980,9 +3047,9 @@ const sheets = {
         : el("div", { className: "label", textContent: labels.noNation }),
     );
     const rows = [...night, ...earlier].map((race) =>
-      el(
-        "div",
-        { className: `row race${race.mine ? " own" : ""}` },
+      listRow(
+        `race${race.mine ? " own" : ""}`,
+        {},
         race.mine
           ? el(
               "div",
@@ -3074,7 +3141,7 @@ const sheets = {
       );
       legend.push(row(district.name, district.holders.join(" · ")));
     }
-    return [el("div", { className: "row map" }, svg), ...legend];
+    return [listRow("map", {}, svg), ...legend];
   },
   async handoff() {
     const people = [
@@ -3110,7 +3177,7 @@ const sheets = {
     return members
       .filter((m) => m.name)
       .map((m) => {
-        const card = el("div", { className: "family-card" });
+        const card = makeCard("family-card", {});
         if (m.backdrop) {
           const pic = el(
             "div",
@@ -3709,21 +3776,22 @@ const sheets = {
         paper.append(el("nav", { className: "paper-pager" }, back, next));
       }
       paper.append(publicRecords());
-      for (const b of outletPicker.children) {
-        b.classList.toggle("on", b.dataset.outlet === chosen);
-        b.setAttribute("aria-pressed", String(b.dataset.outlet === chosen));
-      }
+      chooseTab(outletPicker, "outlet", chosen);
     };
     if (outlets.size > 1)
       for (const [key, outlet] of outlets) {
-        const b = button(outlet.name, () => {
-          chosen = key;
-          page = 0;
-          draw();
-        });
-        b.dataset.outlet = key;
-        b.className = "tab";
-        outletPicker.append(b);
+        outletPicker.append(
+          makeTab({
+            key,
+            attr: "outlet",
+            label: outlet.name,
+            onSelect: () => {
+              chosen = key;
+              page = 0;
+              draw();
+            },
+          }),
+        );
       }
     draw();
     return [...economy, outletPicker, paper];
@@ -3737,9 +3805,9 @@ const sheets = {
     return [
       ...yours,
       ...v.law.map((law) =>
-        el(
-          "div",
-          { className: "row narrative" },
+        listRow(
+          "narrative",
+          {},
           termLabel(policyLabel(law.series)),
           ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
           el(
@@ -3769,9 +3837,9 @@ const sheets = {
     seenChanges = { ahead: ahead.length, took: took.length };
     // Enacted, waiting for its date: the measure, what it sets, and when.
     const coming = ahead.map((law) =>
-      el(
-        "div",
-        { className: "row narrative" },
+      listRow(
+        "narrative",
+        {},
         el("b", {
           textContent: `${law.date} · ${policyLabel(law.series)} · ${amount(law.value, law.unit)}`,
         }),
@@ -3781,9 +3849,9 @@ const sheets = {
     return [
       ...coming,
       ...took.map((law) =>
-        el(
-          "div",
-          { className: "row narrative" },
+        listRow(
+          "narrative",
+          {},
           el("b", {
             textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
           }),
@@ -3810,9 +3878,9 @@ const sheets = {
       );
       list.replaceChildren(
         ...rows.map((t) => {
-          const line = el(
-            "details",
-            { className: "row narrative", open: rows.length === 1 },
+          const line = listRow(
+            "narrative",
+            { as: "details", open: rows.length === 1 },
             el("summary", {}, el("b", { textContent: t.term }), ` ${t.short}`),
             el("p", { textContent: t.explanation }),
           );
@@ -3994,6 +4062,7 @@ const sheets = {
     const labels = controls.results;
     return [
       ...(await campaignRows()),
+      await localRacesBlock(),
       ...v.filings.map((f) =>
         row(
           decided.has(f.contestId)
@@ -4062,8 +4131,7 @@ const sheets = {
       statePick.hidden = level === "local";
       if (level !== "local" && otherState) {
         drawOtherState();
-        for (const b of picker.querySelectorAll("button"))
-          b.classList.toggle("on", b.dataset.level === level);
+        chooseTab(picker, "level", level);
         return;
       }
       const offices = new Map();
@@ -4112,14 +4180,22 @@ const sheets = {
               const name = s.holder
                 ? `${s.holder.givenName} ${s.holder.familyName}`
                 : labels.vacant;
-              const line = row(name, s.holder?.party ?? "");
+              const line = s.holder?.personId
+                ? personRow({
+                    name,
+                    party: s.holder.party,
+                    onOpen: () => {
+                      closeSheet();
+                      showPerson({ personId: s.holder.personId });
+                    },
+                  })
+                : row(name, s.holder?.party ?? "");
               // Years of service and how the holder won, from the term and the seat's elections.
               if (s.holder) {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                const history = el("div", {
-                  className: "row",
+                const history = listRow("", {
                   textContent: [
                     `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
                     labels.reached?.[s.holder.reached] ?? s.holder.reached,
@@ -4137,8 +4213,7 @@ const sheets = {
               }
               // Elected and not yet seated: who won the seat, and when they take office.
               if (s.elect) {
-                const elect = el("div", {
-                  className: "row elect",
+                const elect = listRow("elect", {
                   textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
                 });
                 elect.dataset.contest = s.elect.contestId;
@@ -4147,8 +4222,7 @@ const sheets = {
               // Your race for this seat: won or lost, and the votes each side got.
               if (race && s.seatId === race.seatId) {
                 const result = controls.results;
-                const own = el("div", {
-                  className: "row own-race",
+                const own = listRow("own-race", {
                   textContent: [
                     result.yourRace,
                     race.won ? result.won : result.lost,
@@ -4163,17 +4237,6 @@ const sheets = {
                 own.dataset.contest = race.contestId;
                 own.dataset.record = race.recordId;
                 line.append(own);
-              }
-              if (s.holder?.personId) {
-                const b = makeButton({
-                  className: "member-name",
-                  textContent: name,
-                });
-                b.addEventListener("click", () => {
-                  closeSheet();
-                  showPerson({ personId: s.holder.personId });
-                });
-                line.replaceChild(b, line.firstChild);
               }
               return line;
             });
@@ -4204,20 +4267,20 @@ const sheets = {
           raceOffice,
         ),
       );
-      for (const b of picker.children)
-        b.classList.toggle("on", b.dataset.level === level);
+      chooseTab(picker, "level", level);
     };
     for (const key of ["local", "state", "federal"]) {
-      const b = makeButton({
-        className: "tab",
-        textContent: controls.levels?.[key] ?? words(key),
-      });
-      b.dataset.level = key;
-      b.addEventListener("click", () => {
-        level = key;
-        draw();
-      });
-      picker.append(b);
+      picker.append(
+        makeTab({
+          key,
+          attr: "level",
+          label: controls.levels?.[key] ?? words(key),
+          onSelect: () => {
+            level = key;
+            draw();
+          },
+        }),
+      );
     }
     // Which state's legislature the State view shows: the player's own, or any other.
     const { states } = await api(`/api/government/state?state=`);
@@ -4340,9 +4403,9 @@ const sheets = {
                 .includes(search.value.toLowerCase()),
             )
             .map((law) => {
-              const detail = el(
-                "details",
-                { className: "law-card" },
+              const detail = makeCard(
+                "law-card",
+                { as: "details" },
                 el(
                   "summary",
                   {},
@@ -4434,6 +4497,7 @@ async function openSheet(tab) {
   if (tab === "politics") tab = "government";
   if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
+  if (tab === "news") markNews(true);
   show("tip", false);
   const group = groupOf(tab);
   const politics =
@@ -4457,14 +4521,14 @@ async function openSheet(tab) {
             politics.filings.length > 0 ||
             politics.ofVotingAge),
       )
-      .map((name) => {
-        const b = makeButton({
-          className: `tab${name === tab ? " on" : ""}`,
-          textContent: titles[name],
-        });
-        b.addEventListener("click", () => openSheet(name));
-        return b;
-      }),
+      .map((name) =>
+        makeTab({
+          key: name,
+          label: titles[name],
+          active: name === tab,
+          onSelect: () => openSheet(name),
+        }),
+      ),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
@@ -4496,6 +4560,28 @@ async function openSheet(tab) {
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
+// The Menu list: the screens by name, in this order, nothing under the names.
+// The rail over the player card: a column of round icons, News among them.
+mountRail(
+  $("rings"),
+  ["journal", "calendar", "money", "politics", "news", "people", "travel"],
+  titles,
+);
+mountMenu(
+  [
+    "calendar",
+    "people",
+    "politics",
+    "news",
+    "journal",
+    "who",
+    "money",
+    "jobs",
+    "travel",
+    "guide",
+    "options",
+  ].map((key) => ({ key, label: titles[key] })),
+);
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
@@ -4521,8 +4607,33 @@ document.addEventListener("fullscreenchange", () => {
 // The title screen: a national scene or event, full window, that moves on with
 // each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
 let titleLife = null;
+// The painting drifts by CSS while the title is open; every few seconds the
+// next scene of the day's rotation fades in over it.
+function rotateTitle(scenes, seconds) {
+  let at = 0;
+  const next = $("backdrop-next");
+  setInterval(() => {
+    if ($("front").hidden) return;
+    at = (at + 1) % scenes.length;
+    next.src = scenes[at].backdrop.url;
+    next.onload = () => {
+      next.onload = null;
+      next.classList.add("fading");
+      setTimeout(() => {
+        if ($("front").hidden) return next.classList.remove("fading");
+        const back = $("backdrop");
+        back.src = next.src;
+        back.style.animation = "none";
+        void back.offsetWidth;
+        back.style.animation = "";
+        next.classList.remove("fading");
+      }, 3100);
+    };
+  }, seconds * 1000);
+}
 api("/api/title").then((title) => {
   if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
+  if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
   $("front-continue-life").textContent = titleLife

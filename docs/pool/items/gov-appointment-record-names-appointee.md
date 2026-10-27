@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/appointment-names-appointee
+pr: #6197
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-26T23:17:57.263Z
 ---
 
 **What.** The public record of an appointment (kind official-appointed) keeps only the post and the appointing official (facts post and appointedBy), so News can say 'Post City clerk · Appointed by Ray Cannon' but never who now holds the post. Seen in Horn Hill, Alabama (seed 7581a656-3e18-40af-b786-560383b29e4e) on the bench and in the October 24 playtest ('Official appointed' with no names). A player cannot tell who runs the city's departments from the record.
