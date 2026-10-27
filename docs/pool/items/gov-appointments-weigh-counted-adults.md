@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/appoint-counted
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-27T23:13:22.078Z
+claimed-at:
 ---
 
 **What.** The appointer chooses a town's department heads from the town's full people only (src/core2/modules/executive.ts, townPostInput reads peopleByPlace). In a two-level world those are the player's household and circle, officials and people met, about 120 in Anson, Texas (playtest seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213, 80 of them adults), so the player's household is a large share of the pool: on main two of Anson's eight heads came from it (the player's mother as city administrator, and a 17-year-old sister at public works, fixed for age in play-stop-20). The town's counted adults are never weighed.
