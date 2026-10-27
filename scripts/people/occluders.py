@@ -180,6 +180,10 @@ def bake(
         cover = np.clip((part - line) / SOFT + 0.5, 0, 1)
         shown = int(np.ceil(shown_above(stage, spot) / 100 * height)) - y0
         cover[: max(shown, 0)] = 0
+        if spot.get("pose") == "podium" and "behindY" in spot:
+            # At a lectern only the lectern is in front: nothing above its top.
+            edge = int(spot["behindY"] / 100 * height) - y0
+            cover[: max(edge, 0)] = 0
         alpha = Image.fromarray((cover * 255).astype(np.uint8)).filter(
             ImageFilter.MedianFilter(3)
         )
