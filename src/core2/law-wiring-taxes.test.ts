@@ -234,6 +234,8 @@ interface Attempt {
   readonly ids: Record<string, string>;
   /** Laws with no applied record after play, in a place that had a subject for each. */
   readonly absent: string[];
+  /** Whether any business an organization owns made a profit in a quarter of the run. */
+  readonly profited: boolean;
   /** Every journal post of the run: its id and what names it (source, accounts). */
   readonly posts: { id: string; text: string }[];
 }
@@ -259,6 +261,8 @@ function draw(index: number): {
 /** Plays an eligible place: the laws put in force, about half a year run. */
 function play(where: string, core: CoreState): Attempt {
   const api = coreAPI(core);
+  let profited = false;
+  const lastProfit = new Map<string, number>();
   const ids: Record<string, string> = {};
   for (const key of QUESTIONS)
     setQuestion(api, key, 1, key === CAP ? undefined : "state");
@@ -299,6 +303,11 @@ function play(where: string, core: CoreState): Attempt {
     for (let day = 0; day < 170; day += 30) {
       putBack();
       run(core, Math.min(30, 170 - day));
+      // A quarter in which an owned business made a profit is one the law could tax.
+      for (const [id, minor] of corporateProfits(api, core)) {
+        if (minor > (lastProfit.get(id) ?? minor)) profited = true;
+        lastProfit.set(id, minor);
+      }
     }
     // A body in play can repeal an act in the last stretch (Greenville, Rhode
     // Island, seed m3-wh1: H 14 repealed the pension schedule on 2025-07-01,
@@ -320,24 +329,22 @@ function play(where: string, core: CoreState): Attempt {
         .filter(([, id]) => !id)
         .map(([name]) => `${name} law row`),
     );
-  return { where, api, core, ids, absent, posts };
+  return { where, api, core, ids, absent, posts, profited };
 }
 
-/** Each organization-owned business's operating profit to date, as the profit tax reads it. */
-function corporateProfits(api: CoreAPI, core: CoreState): number[] {
-  if (!core.modules.has(EMPLOYER_TAXES_MODULE_ID)) return [];
+/** Each organization-owned business's operating profit to date, by business, as the profit tax last read it. */
+function corporateProfits(api: CoreAPI, core: CoreState): Map<string, number> {
+  const out = new Map<string, number>();
+  if (!core.modules.has(EMPLOYER_TAXES_MODULE_ID)) return out;
   const quarters = api.moduleState(EMPLOYER_TAXES_MODULE_ID).table("quarters");
-  return [...core.finance.businesses.keys()]
-    .filter(
-      (id) =>
-        !core.finance.businesses.get(id)!.closedAt &&
-        core.organizations.has(ownerOf(api, id) ?? ""),
-    )
-    .map(
-      (id) =>
+  for (const [id, books] of core.finance.businesses)
+    if (!books.closedAt && core.organizations.has(ownerOf(api, id) ?? ""))
+      out.set(
+        id,
         (quarters.get(id) as unknown as { minor: number } | undefined)?.minor ??
-        0,
-    );
+          0,
+      );
+  return out;
 }
 
 describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
@@ -367,7 +374,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           const lossOnly =
             played.absent.length === 1 &&
             played.absent[0] === "corporate-income-tax" &&
-            corporateProfits(played.api, played.core).every((m) => m <= 0);
+            !played.profited;
           if (lossOnly) {
             tried.push(`${d.where}: every owned business lost money in play`);
             continue;
