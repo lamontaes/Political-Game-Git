@@ -1,0 +1,175 @@
+{
+ "seed": "7a3535a49386981d",
+ "place": {
+  "seed": "1807abae47e9d608aa1f6873f9f12a72b33a639fc858e4552abccff207db8466",
+  "key": "1967125",
+  "name": "Rinard, Iowa",
+  "state": "US-IA"
+ },
+ "window": 35,
+ "after": 31,
+ "results": [
+  {
+   "key": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at state (law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480) effective 2025-01-21; then repealed at state effective 2025-02-26",
+   "lawIds": [
+    "law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+    "law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reachAtEnd": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "inPlay": [
+    {
+     "id": "law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-07-01:SF 15",
+     "level": "state",
+     "effectiveDate": "2025-07-01",
+     "value": 0
+    }
+   ],
+   "readers": {
+    "src/core2/modules/legislature.ts:2163": 970,
+    "src/core2/modules/world-legislating.ts:214": 14,
+    "src/core2/modules/outcome-web.ts:175": 12,
+    "src/core2/modules/world-legislating.ts:284": 12,
+    "src/core2/life.ts:561": 5,
+    "src/core2/modules/world-legislating.ts:364": 2
+   },
+   "openingRow": "law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": [],
+    "controlCited": [],
+    "own": {
+     "targets": 0,
+     "among": "reached",
+     "pairs": [],
+     "paid": 0,
+     "pick": null,
+     "sample": [],
+     "near": []
+    }
+   },
+   "web": {
+    "links": [
+     {
+      "key": "restore-voting-to-turnout",
+      "status": "built",
+      "to": "voting.turnout-pct"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_d475dc96795c19a0:2025-01",
+      "link": "restore-voting-to-turnout",
+      "effect": -0.0002
+     },
+     {
+      "id": "web:jurisdiction_d475dc96795c19a0:2025-02",
+      "link": "restore-voting-to-turnout",
+      "effect": -0.0002
+     }
+    ],
+    "firedCount": 2,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_d475dc96795c19a0:2025-01",
+      "month": "2025-01",
+      "link": "restore-voting-to-turnout",
+      "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_d475dc96795c19a0:2025-02",
+      "month": "2025-02",
+      "link": "restore-voting-to-turnout",
+      "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     }
+    ],
+    "reenacted": {
+     "id": "law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-07-01:SF 15",
+     "level": "state",
+     "effectiveDate": "2025-07-01",
+     "value": 0
+    }
+   },
+   "heard": {
+    "people": 35,
+    "sample": [
+     "person_e3921a684f0d9fe9:printed:outlet:newspaper:0:jurisdiction_d475dc96795c19a0:law-took-effect:law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+     "person_9f743dac49fa0fb6:printed:outlet:newspaper:0:jurisdiction_d475dc96795c19a0:law-took-effect:law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+     "person:press:outlet:newspaper:0:jurisdiction_d475dc96795c19a0:reporter:0:printed:outlet:newspaper:0:jurisdiction_d475dc96795c19a0:law-took-effect:law:US-IA:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 9
+  }
+ ]
+}
