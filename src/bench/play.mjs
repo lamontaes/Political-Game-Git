@@ -4179,9 +4179,14 @@ const sheets = {
     );
     const destinations = [...counters, ...places];
     // Why each card is listed, from the record that qualified it.
+    // Three offices named, the rest counted, so a card stays a card.
+    const someTitles = (titles) =>
+      titles.length > 3
+        ? `${titles.slice(0, 3).join(", ")} ${labels.andOthers.replace("{n}", titles.length - 3)}`
+        : titles.join(", ");
     const reasonLine = (p) =>
       p.filing
-        ? `${labels.reasons.filing} ${p.titles.join(", ")}`
+        ? `${labels.reasons.filing} ${someTitles(p.titles)}`
         : [
             ...p.reasons.map((r) =>
               r.kind === "known"
@@ -4191,12 +4196,13 @@ const sheets = {
                   : labels.reasons[r.kind],
             ),
           ].join(" · ");
+    // Open while someone works there now, by their own hours; else closed.
     const hereLine = (p) =>
       p.filing
         ? labels.filing
         : p.presentCount
-          ? `${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
-          : labels.nobody;
+          ? `${labels.open} · ${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
+          : labels.closed;
     const draw = () => {
       const found = destinations.filter((p) =>
         p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
@@ -4218,7 +4224,11 @@ const sheets = {
         }
         // The record behind the reason, for the specs; never shown as text.
         card.dataset.reason = (
-          p.filing ? [p.filedWith] : p.reasons.map((r) => r.recordId)
+          p.filing
+            ? [p.filedWith]
+            : p.reasons.length
+              ? p.reasons.map((r) => r.recordId)
+              : [p.organizationId]
         ).join(" ");
         card.append(
           el(
@@ -4226,7 +4236,14 @@ const sheets = {
             { className: "travel-info" },
             el("h3", { textContent: p.name }),
             el("p", { className: "travel-here", textContent: hereLine(p) }),
-            el("p", { className: "travel-reason", textContent: reasonLine(p) }),
+            ...(reasonLine(p)
+              ? [
+                  el("p", {
+                    className: "travel-reason",
+                    textContent: reasonLine(p),
+                  }),
+                ]
+              : []),
           ),
         );
         card.onclick = go;
@@ -4236,11 +4253,7 @@ const sheets = {
     };
     search.addEventListener("input", draw);
     draw();
-    return [
-      el("p", { className: "travel-from", textContent: labels.from }),
-      search,
-      content,
-    ];
+    return [search, content];
   },
   async politics() {
     return sheets.government();
