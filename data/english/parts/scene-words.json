@@ -3813,6 +3813,48 @@
       }
     },
     {
+      "key": "scene-words.lead-news-arrives-other.other-has-been-waiting-for-you-to-get-home",
+      "move": "lead-news-arrives-other",
+      "kind": "spoken",
+      "text": "{other} has been waiting for you to get home.",
+      "uses": [
+        {
+          "move": "lead-news-arrives-other",
+          "subject": "lead",
+          "role": "news-arrives",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-news-arrives-other.other-asks-you-to-sit-down-first",
+      "move": "lead-news-arrives-other",
+      "kind": "spoken",
+      "text": "{other} asks you to sit down first.",
+      "uses": [
+        {
+          "move": "lead-news-arrives-other",
+          "subject": "lead",
+          "role": "news-arrives",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
       "key": "scene-words.lead-hallway-other.other-catches-you-on-the-way-out-of-the-meeting",
       "move": "lead-hallway-other",
       "kind": "spoken",
