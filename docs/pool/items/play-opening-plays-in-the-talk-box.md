@@ -5,14 +5,14 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: play-first/play-opening-plays-in-the-talk-box
+status: open
+claimed-by:
 pr:
 blocked-on:
 lead: play-first
 milestone: play-first
 source: CTO opening root-cause report, Oct 27
-claimed-at: 2026-10-27T10:38:20.777Z
+claimed-at:
 ---
 
 **What.** The opening has its own renderer: playOpening, holdOpening and pointOut in src/bench/play.mjs:254-373, with its own speech box (#opening-box) and name tag (#opening-point) and their timers. Every other scene plays in the talk box (renderTalk, src/bench/play.mjs:1139) built from the shared parts in src/bench/ui/. The owner ruled one UI system and one scene system on Oct 26. Two renderers for the same speech box is the duplication he named. Evidence: docs/reports/opening-root-cause-2026-10-27.md.

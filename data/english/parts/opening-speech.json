@@ -262,7 +262,7 @@
       "key": "opening-speech.occasion.polished-ina-i-come-to-this-office-from-home-state-after-my-time-as-prior",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come to this office from {home-state}, after my time as {prior-office}, and I take the oath knowing how much I have yet to learn.",
+      "text": "I come to this office from {home-state}, after my time as {prior-office}, and I begin knowing how much I have yet to learn.",
       "uses": [
         {
           "move": "occasion",
@@ -383,10 +383,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.occasion.polished-sta-i-come-before-you-tonight-to-report-on-the-state-of-our-unio",
+      "key": "opening-speech.occasion.polished-sta-i-come-before-you-to-report-on-the-state-of-our-union-and-to",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you tonight to report on the state of our union, and to say what I will ask of you.",
+      "text": "I come before you to report on the state of our union, and to say what I will ask of you.",
       "uses": [
         {
           "move": "occasion",
@@ -403,10 +403,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.occasion.plain-sta-i-m-here-tonight-to-tell-you-where-the-country-stands-and-wh",
+      "key": "opening-speech.occasion.plain-sta-i-m-here-to-tell-you-where-the-country-stands-and-what-i-nee",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here tonight to tell you where the country stands and what I need from this chamber.",
+      "text": "I'm here to tell you where the country stands and what I need from Congress.",
       "uses": [
         {
           "move": "occasion",
@@ -444,10 +444,10 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.occasion.plain-sta-i-m-from-home-state-and-i-m-here-tonight-to-tell-you-where-w",
+      "key": "opening-speech.occasion.plain-sta-i-m-from-home-state-and-i-m-here-to-tell-you-where-we-stand",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm from {home-state}, and I'm here tonight to tell you where we stand.",
+      "text": "I'm from {home-state}, and I'm here to tell you where we stand.",
       "uses": [
         {
           "move": "occasion",
@@ -2330,7 +2330,7 @@
       "key": "opening-speech.stake.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-year-and-i-want-",
       "move": "stake",
       "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent over the year, and I want to talk about what we pay for energy.",
+      "text": "Prices rose {inflation-rate} percent over the year, and I want to talk about what we do about it.",
       "uses": [
         {
           "move": "stake",
@@ -2358,7 +2358,7 @@
       "key": "opening-speech.stake.plain-ina-sta-prices-rose-inflation-rate-percent-and-i-want-to-talk-about-",
       "move": "stake",
       "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent, and I want to talk about energy bills.",
+      "text": "Prices rose {inflation-rate} percent, and I want to talk about what we do about it.",
       "uses": [
         {
           "move": "stake",
@@ -3599,10 +3599,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.ask.polished-ina-sta-congress-should-to-and-i-will-put-my-name-to-the-bill-that-d",
+      "key": "opening-speech.ask.polished-ina-sta-congress-should-to-and-i-want-that-bill-on-my-desk",
       "move": "ask",
       "kind": "spoken",
-      "text": "Congress should {to}, and I will put my name to the bill that does.",
+      "text": "Congress should {to}, and I want that bill on my desk.",
       "uses": [
         {
           "move": "ask",
@@ -3627,10 +3627,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.ask.plain-ina-sta-congress-ought-to-to-send-it-to-me-and-i-ll-sign-it",
+      "key": "opening-speech.ask.plain-ina-sta-congress-ought-to-to-i-want-that-bill-on-my-desk",
       "move": "ask",
       "kind": "spoken",
-      "text": "Congress ought to {to}. Send it to me and I'll sign it.",
+      "text": "Congress ought to {to}. I want that bill on my desk.",
       "uses": [
         {
           "move": "ask",
@@ -4351,10 +4351,10 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.towns.plain-ina-sta-i-was-in-place-asking-for-votes-now-i-owe-them",
+      "key": "opening-speech.towns.plain-ina-sta-i-was-in-place-asking-for-votes-and-i-haven-t-forgotten-it",
       "move": "towns",
       "kind": "spoken",
-      "text": "I was in {place} asking for votes. Now I owe them.",
+      "text": "I was in {place} asking for votes, and I haven't forgotten it.",
       "uses": [
         {
           "move": "towns",
@@ -4547,10 +4547,10 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.families.polished-ina-sta-to-every-family-watching-tonight-this-work-is-for-you",
+      "key": "opening-speech.families.polished-ina-sta-to-every-family-listening-this-work-is-for-you",
       "move": "families",
       "kind": "spoken",
-      "text": "To every family watching tonight: this work is for you.",
+      "text": "To every family listening: this work is for you.",
       "uses": [
         {
           "move": "families",
@@ -4573,10 +4573,10 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.families.plain-ina-sta-to-everyone-at-home-all-of-this-is-for-you",
+      "key": "opening-speech.families.plain-ina-sta-to-everyone-listening-all-of-this-is-for-you",
       "move": "families",
       "kind": "spoken",
-      "text": "To everyone at home, all of this is for you.",
+      "text": "To everyone listening, all of this is for you.",
       "uses": [
         {
           "move": "families",

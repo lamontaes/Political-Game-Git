@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/continue-news.browser.mjs
 
-**Notes.** TODO
+**Notes.** Merger 4, Oct 27: still failing on clean origin/main at the time of the #6284 merge, twice on fresh draws ("kept in the opening record: Waynesboro unemployment at 4.1" and "Warwick unemployment at 2.5"); it passed twice on #6234 earlier the same day, so something merged since broke it.
