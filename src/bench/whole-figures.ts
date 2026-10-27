@@ -19,6 +19,7 @@ import {
   DEFAULT_SKIN,
   GARMENTS,
   GARMENT_SWATCHES,
+  hasGarmentMap,
   type FigureColors,
 } from "./figure-colors";
 import { occluderFor, type Occluder } from "./occluders";
@@ -83,6 +84,13 @@ const toFigure = (row: V2Row): Figure => ({
   height: row.height,
   footY: row.footY,
 });
+/**
+ * A look painted turned each way is mirrored on screen to face anyone, so the
+ * figure with a garment map (each piece its own color) is drawn first.
+ */
+function mappedFirst(a: Figure, b: Figure): number {
+  return Number(hasGarmentMap(b.file)) - Number(hasGarmentMap(a.file));
+}
 const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
   .filter(
     (row) =>
@@ -90,11 +98,13 @@ const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
       !row.flag &&
       (row.pose === "stand" || row.pose === "sit"),
   )
-  .map(toFigure);
+  .map(toFigure)
+  .sort(mappedFirst);
 /** The lectern pose: facing the room, hands forward on the podium the picture has. */
 const LECTERNS: Figure[] = (index.figures as unknown as V2Row[])
   .filter((row) => row.prop === "none" && !row.flag && row.pose === "lectern")
-  .map(toFigure);
+  .map(toFigure)
+  .sort(mappedFirst);
 /** The same person at a lectern: their sex and age band, their outfit and build where painted. */
 function lecternFor(front: Figure, band: Figure["ageBand"]): Figure | null {
   const same = LECTERNS.filter(
