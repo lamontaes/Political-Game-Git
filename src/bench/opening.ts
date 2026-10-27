@@ -3,7 +3,16 @@ import { townSeats } from "../core2/modules/offices";
 import { corePlaceByKey } from "../core2/place-lookup";
 import { capitolPlaceFor } from "./backdrop-places";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { backdropFile, stagePeople, homeOf, type StageReason } from "./scene";
+import {
+  backdropFile,
+  stagePeople,
+  homeOf,
+  orgPlace,
+  type StageReason,
+} from "./scene";
+import { fillInPerson } from "../core2/state";
+import { residentsRuntime } from "../core2/modules/residents";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import pictures from "./data/opening-pictures.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import type { OpeningSentence, OpeningStory } from "../director/opening-story";
@@ -21,6 +30,9 @@ import { stageOfLevel, type OpeningFigure } from "../director/opening-sequence";
 /** The evening of the opening day, when the household has the news on. */
 export const OPENING_EVENING_MINUTE = 20 * 60 + 30;
 
+/** The most people a cutaway shows. */
+const MOST_IN_A_CUTAWAY = 4;
+
 const PICTURED = new Set(
   manifest.backdrops
     .filter((row) => row.variant === "midday")
@@ -29,6 +41,7 @@ const PICTURED = new Set(
 
 interface Picture {
   places: string[];
+  /** Who stands in it: a key of "cast" (offices), or "workers" or "jobless" (the town's own people). */
   cast?: string;
 }
 const RULES = pictures as unknown as {
@@ -87,7 +100,58 @@ export function openingFrames(
     picture?.places
       .map((row) => resolve(row, sentence))
       .find((row) => PICTURED.has(row));
-  const castOf = (key: string | undefined) => {
+  // A cutaway shows the town's own people, never an empty room: the people
+  // with jobs at an organization of the town whose own picture it is, or the
+  // adults of the town with no job.
+  const town = new Set<string>([player.placeId, player.countyId]);
+  const workersBy = new Map<string, string[]>();
+  const workersOf = (place: string) => {
+    if (!workersBy.size) {
+      const orgs = new Map(
+        [...core.organizations.values()]
+          .filter((org) => town.has(org.placeId))
+          .map((org) => [org.id, orgPlace(core, org.id)] as const),
+      );
+      const add = (orgId: string, personId: string) => {
+        const where = orgs.get(orgId);
+        if (where)
+          workersBy.set(where, [...(workersBy.get(where) ?? []), personId]);
+      };
+      for (const job of core.jobs.values())
+        if (!job.endsAt) add(job.organizationId, job.personId);
+      for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+        add(job.organizationId, job.personId);
+      workersBy.set("", []);
+    }
+    const ids = [...new Set(workersBy.get(place) ?? [])].sort();
+    return ids.slice(0, MOST_IN_A_CUTAWAY).flatMap((id) => {
+      if (!core.people.has(id)) fillInPerson(core, id);
+      const person = core.people.get(id);
+      return person?.alive
+        ? [{ id, name: `${person.givenName} ${person.familyName}` }]
+        : [];
+    });
+  };
+  const joblessIn = () =>
+    [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          town.has(row.placeId) &&
+          !row.jobId &&
+          ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >=
+            api.parameter("benchmarkAdultMinimumAge") &&
+          ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) <
+            api.parameter("openingRetirementClaimAgeYears"),
+      )
+      .slice(0, MOST_IN_A_CUTAWAY)
+      .map((row) => ({
+        id: row.id,
+        name: `${row.givenName} ${row.familyName}`,
+      }));
+  const castOf = (key: string | undefined, place: string) => {
+    if (key === "workers") return workersOf(place);
+    if (key === "jobless") return joblessIn();
     for (const kinds of (key && RULES.cast[key]) || []) {
       const cast = seats
         .filter((row) => kinds.includes(row.office.kind) && row.holder)
@@ -197,10 +261,16 @@ export function openingFrames(
       continue;
     }
     const cut = place !== onStage;
+    const cast = cut ? castOf(cutawayFor(sentence)?.cast, place) : [];
+    // A cutaway with nobody in it is not shown: the line stays on the stage.
+    if (cut && !cast.length) {
+      push(stage, onStage, stageCast(stage), [], [sentence]);
+      continue;
+    }
     push(
       stage,
       place,
-      cut ? castOf(cutawayFor(sentence)?.cast) : stageCast(stage),
+      cut ? cast : stageCast(stage),
       first ? [...(stages.get(stage)?.people ?? [])] : [],
       [sentence],
     );
