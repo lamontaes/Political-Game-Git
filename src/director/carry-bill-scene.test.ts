@@ -108,6 +108,9 @@ it(`an executive's ask to carry a bill is the member's carry-bill scene, with th
       tried.push(place.name);
       continue;
     }
+    // Asks whose own talk was composed and checked (an ask taken into the
+    // day's sitting is talked of by that sitting's scene, so it does not count).
+    let composed = 0;
     for (const ask of asks) {
       const memberId = String(ask.facts!.memberId) as PersonId;
       const askerId = String(ask.facts!.askerId);
@@ -156,11 +159,13 @@ it(`an executive's ask to carry a bill is the member's carry-bill scene, with th
           result.scene.facts.find((row) => row.key === "carry-ask")?.recordIds,
           here,
         ).toContain(ask.id);
+      composed += 1;
       console.log(
         `CARRY ${here}: "${result.scene.talk.state.text}" (${ask.facts!.carried === "yes" ? "carried" : "turned down"})`,
       );
     }
-    return;
+    if (composed) return;
+    tried.push(`${place.name}: every ask was taken into a sitting`);
   }
   throw new Error(
     `no executive asked a watched member to carry a bill in ${DAYS} days in ${tried.join("; ")} (seed ${seed})`,
