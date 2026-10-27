@@ -301,8 +301,9 @@ function roomAt(minuteOfDay: number): Room {
 
 /** A stable pick from a list by an id, so the same home always looks the same. */
 function pickFor(id: string, options: readonly string[]): string {
-  let hash = 0;
-  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  let hash = 2166136261;
+  for (const char of id)
+    hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0;
   return options[hash % options.length]!;
 }
 
@@ -482,10 +483,8 @@ export function pictureFor(
   const family = FAMILIES.get(place)?.filter(hasBackdrop);
   if (!family?.length) return place;
   const town = core.placeMetadata?.placeKey ?? "";
-  let hash = 2166136261;
-  for (const char of `${town}:${key}:${family[0]}`)
-    hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0;
-  const order = family.map((_, i) => family[(hash + i) % family.length]!);
+  const first = family.indexOf(pickFor(`${town}:${key}:${family[0]}`, family));
+  const order = [...family.slice(first), ...family.slice(0, first)];
   if (minuteOfDay === undefined) return order[0]!;
   const light = lightAt(minuteOfDay);
   return order.find((row) => LIGHTS.get(row)?.has(light)) ?? order[0]!;
