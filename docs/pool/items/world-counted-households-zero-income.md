@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/counted-zero-income
-pr:
+pr: #6441
 blocked-on:
 after:
 source: added by EFFECT-WEB-WIRING
