@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/screens-ui-talk-box
 pr: #6189
 blocked-on:
@@ -30,3 +30,4 @@ claimed-at: 2026-10-26T21:20:31.995Z
 **Files.** src/bench/ui/talk-box.mjs, src/bench/play.mjs
 
 **Notes.** Work order docs/work-orders/lead-screens-2026-10-26.md, part 7. Stacked on claude/screens-talk-history (#6188) and the stack under it; merge those first.
+Merged Oct 27 in PR #6189

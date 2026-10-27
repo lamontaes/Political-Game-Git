@@ -36,6 +36,19 @@ export function storyTopicName(topic: string): string | null {
   );
 }
 
+/**
+ * A record's topic as a sentence says it mid-line ("rental rules", "the
+ * minimum wage"): the story topic's name, its first letter lowered when it
+ * opens with an ordinary capitalized word, kept when it opens with an acronym.
+ */
+export function topicInSentence(topic: string): string | null {
+  const name = storyTopicName(topic);
+  if (!name) return null;
+  return /^[A-Z][a-z]/.test(name)
+    ? name.charAt(0).toLowerCase() + name.slice(1)
+    : name;
+}
+
 /** A question's name as the bill catalog records it ("raise minimum wage"). */
 export function questionName(question: string): string | null {
   return questionRow(question)?.policy ?? null;
