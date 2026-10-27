@@ -123,7 +123,6 @@
     "place": "Home",
     "school": "School",
     "lastTalked": "Last talked",
-    "talk": "Talk",
     "back": "Back",
     "continue": "Continue",
     "knows": "Knows",
@@ -142,6 +141,8 @@
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
     "skipOpening": "Skip opening",
+    "guide": "Guide",
+    "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
   },
   "polling": {
