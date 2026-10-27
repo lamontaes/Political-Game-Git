@@ -2557,6 +2557,42 @@ export function askToCarry(
     api.stopgap("SG-GOV-carry-ask-no-screen");
     table(api, "carryAsks").put(row as unknown as ModuleRow);
   }
+  // The ask is a record for the member and the asker. Carried, it is public
+  // (the bill names who asked for it); turned down, it stays between them.
+  if (api.state.people.has(input.memberId)) {
+    const body = bodyOf(api, input.bodyOfficeId);
+    const section = input.provisions[0]!;
+    const seat = members(api, input.bodyOfficeId).find(
+      (term) => memberKey(term) === input.memberId,
+    );
+    api.emit({
+      id: `carry-asked:${row.id}`,
+      date: api.state.date,
+      kind: "carry-asked",
+      personIds: [input.memberId, input.askerId].filter(
+        (id, index, ids) =>
+          api.state.people.has(id) && ids.indexOf(id) === index,
+      ),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `A request to carry a bill before ${input.bodyOfficeId}`,
+        asOf: api.state.date,
+      },
+      publicRecord: row.carried,
+      facts: {
+        askerId: input.askerId,
+        memberId: input.memberId,
+        carried: row.carried ? "yes" : "no",
+        byExecutive: isExecutive ? "yes" : "no",
+        ...(section.question ? { question: section.question } : {}),
+        direction: section.value > 0 ? "enact" : "repeal",
+        ...(body ? { formKind: bodyNumbering(body, api.state.date).kind } : {}),
+        ...(seat ? { officeId: seat.officeId } : {}),
+        ...(bill ? { billId: bill.id, number: bill.number } : {}),
+      },
+    });
+  }
   return row;
 }
 

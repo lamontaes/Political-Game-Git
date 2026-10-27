@@ -1523,6 +1523,11 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "carry-asked",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "bill-failed",
       "channel": "cause",
       "impactParameter": "directorFloorVoteImpact"

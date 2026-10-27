@@ -540,19 +540,6 @@
         ></p>
       </section>
 
-      <nav id="menu" class="panel" hidden>
-        <h2 class="menu-title">Menu</h2>
-        <span data-menu-items></span>
-        <button
-          id="dev-mode"
-          type="button"
-          class="nav-item dev-only"
-          onclick="window.open('/dev')"
-        >
-          <span class="nl">Dev mode</span>
-        </button>
-      </nav>
-
       <section id="sheet" class="panel" data-testid="sheet" hidden>
         <span
           data-panel-head
@@ -642,7 +629,13 @@
       <div id="dock">
         <nav id="rings" hidden></nav>
         <section id="card" class="panel me" hidden>
-          <div id="card-bust" class="bust"></div>
+          <div
+            id="card-bust"
+            class="bust"
+            data-tab="who"
+            role="button"
+            tabindex="0"
+          ></div>
           <div>
             <h2 id="card-name" class="name"></h2>
             <p id="card-place" class="role"></p>
