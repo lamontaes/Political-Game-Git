@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/live-news-worded
-pr:
+pr: #6213
 blocked-on:
 source: "words-and-scenes work order, deliverable 4 (docs/work-orders/lead-words-scenes-2026-10-26.md), from the owner's Oct 26 playtest"
 lead: words
