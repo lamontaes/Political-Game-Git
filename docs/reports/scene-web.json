@@ -9,7 +9,7 @@
     "rows": 103,
     "typesFired": 21,
     "rowsWaitingOnProducer": 27,
-    "rowsWithoutEpisode": 99,
+    "rowsWithoutEpisode": 81,
     "ownerExamples": 112,
     "ownerScenesMissing": 15
   },
@@ -68,10 +68,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -84,10 +84,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -100,10 +100,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -116,10 +116,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -132,10 +132,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -148,10 +148,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -164,10 +164,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -180,10 +180,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -196,10 +196,10 @@
       "waiting": true,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 21
+        "narrator": 23
       },
-      "lines": 21,
-      "episodes": [],
+      "lines": 23,
+      "episodes": ["news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-06-17:event:housing.eviction:eviction:lease:household_b2935a6039fb5583:2025-06-06"
@@ -327,7 +327,7 @@
         "narrator": 9
       },
       "lines": 9,
-      "episodes": [],
+      "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-12-22:job:position:organization_048cfc00dca25fa6:2025-12-01:111:person_0289566afe5c1a52"
@@ -343,7 +343,7 @@
         "narrator": 9
       },
       "lines": 9,
-      "episodes": [],
+      "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-12-22:job:position:organization_048cfc00dca25fa6:2025-12-01:111:person_0289566afe5c1a52"
@@ -359,7 +359,7 @@
         "narrator": 9
       },
       "lines": 9,
-      "episodes": [],
+      "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-12-22:job:position:organization_048cfc00dca25fa6:2025-12-01:111:person_0289566afe5c1a52"
@@ -375,7 +375,7 @@
         "narrator": 9
       },
       "lines": 9,
-      "episodes": [],
+      "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-12-22:job:position:organization_048cfc00dca25fa6:2025-12-01:111:person_0289566afe5c1a52"
@@ -391,7 +391,7 @@
         "narrator": 9
       },
       "lines": 9,
-      "episodes": [],
+      "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
       "firedExample": "person_0289566afe5c1a52:2025-12-22:job:position:organization_048cfc00dca25fa6:2025-12-01:111:person_0289566afe5c1a52"
@@ -418,12 +418,12 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 9,
-        "narrator": 6,
+        "asker": 13,
+        "narrator": 7,
         "asked": 7
       },
-      "lines": 22,
-      "episodes": [],
+      "lines": 27,
+      "episodes": ["funeral-of-someone-known", "news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 1,
       "firedExample": "person_563685259e1ef3b8:2025-11-30:life.death:person_1d34be038b55b946:2025-11-30"
@@ -473,7 +473,7 @@
         "asked": 45
       },
       "lines": 109,
-      "episodes": [],
+      "episodes": ["first-day-at-the-new-job"],
       "ownerAsked": [],
       "firedInYear": 1,
       "firedExample": "person_0289566afe5c1a52:2025-12-22:job:position:organization_048cfc00dca25fa6:2025-12-01:111:person_0289566afe5c1a52"
@@ -491,7 +491,7 @@
         "asked": 45
       },
       "lines": 109,
-      "episodes": [],
+      "episodes": ["first-day-at-the-new-job"],
       "ownerAsked": [],
       "firedInYear": 1,
       "firedExample": "person_0289566afe5c1a52:2025-12-22:job:position:organization_048cfc00dca25fa6:2025-12-01:111:person_0289566afe5c1a52"
@@ -1600,7 +1600,7 @@
         "narrator": 4
       },
       "lines": 88,
-      "episodes": ["spouse-stake-after-filing"],
+      "episodes": ["spouse-stake-after-filing", "win-night-at-home"],
       "ownerAsked": [
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
@@ -1616,12 +1616,12 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 2,
-        "asker": 13,
+        "narrator": 3,
+        "asker": 22,
         "asked": 11
       },
-      "lines": 26,
-      "episodes": [],
+      "lines": 36,
+      "episodes": ["win-night-at-home"],
       "ownerAsked": [
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
@@ -1637,11 +1637,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 2,
+        "narrator": 3,
         "asker": 15,
         "asked": 10
       },
-      "lines": 27,
+      "lines": 28,
       "episodes": ["household-after-the-loss"],
       "ownerAsked": [
         "Family reaction with a purpose",

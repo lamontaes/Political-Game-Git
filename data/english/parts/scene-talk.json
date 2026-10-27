@@ -87455,6 +87455,56 @@
         "move": "narrate",
         "key": "loss"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-and-the-race-for-office-is-yours-name-hears-it-before-you-can-say-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in, and the race for {office} is yours. {name} hears it before you can say it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-win",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-race-for-office-went-the-other-way-name-waited-up-anyway",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The race for {office} went the other way. {name} waited up anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
     }
   ]
 }
