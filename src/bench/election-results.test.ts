@@ -27,14 +27,7 @@ it("marks a race with one candidate unopposed and labels the night from controls
       twoLevel: true,
       placeKey: place.key,
     });
-    for (const key of [
-      "turnout",
-      "exitPoll",
-      "wonIn",
-      "you",
-      "unopposed",
-      "abstained",
-    ])
+    for (const key of ["you", "yourRace", "won", "lost"])
       expect(
         (controls.results as Record<string, string>)[key],
         key,

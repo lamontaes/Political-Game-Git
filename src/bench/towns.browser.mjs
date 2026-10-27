@@ -96,7 +96,8 @@ try {
         recorded(usps),
         `${state.name}: the list holds ${texts.length} of ${recorded(usps)} towns`,
       );
-      const noCount = texts.filter((t) => !/\d[\d,]* \S+$/.test(t));
+      // The count, then for a same-named town its own "in <county>" line.
+      const noCount = texts.filter((t) => !/\d[\d,]* \S+( in .+)?$/.test(t));
       assert.equal(
         noCount.length,
         0,

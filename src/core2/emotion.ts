@@ -138,6 +138,18 @@ export function affectAt(
       numeric(params, "stressHalfLifeDays"),
       params,
     ),
+    // What a hardship put into the stress lets go at the same half-life, to nothing.
+    ...(affect.hardship
+      ? {
+          hardship: decay(
+            affect.hardship,
+            numeric(params, "zero"),
+            elapsedDays,
+            numeric(params, "stressHalfLifeDays"),
+            params,
+          ),
+        }
+      : {}),
   };
 }
 
@@ -240,6 +252,13 @@ export function appraiseEvent(
     "appraised stress impulse",
   );
 
+  // A layoff, an eviction or a missed payment also marks how much of the
+  // stress is theirs, so the coping decisions read that part and no other.
+  const hardship =
+    (previous.hardship ?? numeric(params, "zero")) +
+    (content.hardshipEventKinds.includes(event.kind)
+      ? Math.max(stressImpulse, numeric(params, "zero"))
+      : numeric(params, "zero"));
   return {
     actorId: actor.id,
     sourceEventId: event.id,
@@ -256,6 +275,9 @@ export function appraiseEvent(
         previous.stress + stressImpulse,
         "resulting stress signal",
       ),
+      ...(hardship > numeric(params, "zero")
+        ? { hardship: finite(hardship, "resulting hardship signal") }
+        : {}),
     },
   };
 }

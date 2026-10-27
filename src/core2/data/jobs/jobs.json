@@ -1793,7 +1793,6 @@
     "*": "total"
   },
   "traits": {
-    "reliability": "people-mind-v1:reliability",
     "restless": "personality-v1:facet-restless",
     "ambitious": "personality-v1:facet-ambitious",
     "risk": "people-mind-v1:risk",
