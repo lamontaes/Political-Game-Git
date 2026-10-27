@@ -345,6 +345,13 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
+  // A race's result for the asked (the morning after): the lines for a
+  // winner and for the one who lost differ.
+  if (said.winnerId && said.contestId)
+    facts[said.winnerId === askedId ? "won" : "lost"] = {
+      text: "",
+      sourceRecordIds: [moment.causeId],
+    };
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {
