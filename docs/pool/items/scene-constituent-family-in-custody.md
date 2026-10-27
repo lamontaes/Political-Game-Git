@@ -5,10 +5,11 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
-pr: #6304
+pr:
 blocked-on:
+lead: director
 source: added with npm run pool -- add
 ---
 
