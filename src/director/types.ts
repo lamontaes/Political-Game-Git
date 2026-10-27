@@ -143,6 +143,11 @@ export interface Thread {
   closeness: number;
   lastContact?: IsoDate;
   tone: "rising" | "souring" | "steady";
+  /**
+   * The change in closeness since the tie last turned, signed: each contact
+   * moves a tie a little, and the tie turns when the change adds up.
+   */
+  tieDrift?: number;
   momentIds: string[];
   /**
    * Moments forgotten from this pair: their count, summed impact, and summed
