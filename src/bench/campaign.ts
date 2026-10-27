@@ -364,13 +364,17 @@ export function campaignAct(
     throw new Error("That is not your campaign.");
   const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
   switch (input.kind) {
-    case "volunteer":
+    case "volunteer": {
+      const answers = known.map((id) => ({
+        personId: id,
+        yes: askToVolunteer(api, input.filingId, id),
+      }));
+      // The count shown is the campaign record's, the one the header reads.
       return {
-        answers: known.map((id) => ({
-          personId: id,
-          yes: askToVolunteer(api, input.filingId, id),
-        })),
+        answers,
+        volunteers: campaignFor(api, input.filingId).volunteerIds.length,
       };
+    }
     case "donation":
       return {
         answers: known.map((id) => ({
