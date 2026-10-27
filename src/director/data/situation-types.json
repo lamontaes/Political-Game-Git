@@ -70,7 +70,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, someone's offer to help their campaign, word of a rival's paid message passed on by someone it reached, a rival filing against them) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say. metWhereYouAre: label prefixes of moments met where the player is that day, a scene from circumstance (src/director/data/circumstances.json; owner, Oct 27: any record can call a scene when the circumstances fit), staged that day whatever its impact; its producer keeps the spacing.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, word of a rival's paid message passed on by someone it reached, a rival filing against them) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say. metWhereYouAre: label prefixes of moments met where the player is that day, a scene from circumstance (src/director/data/circumstances.json; owner, Oct 27: any record can call a scene when the circumstances fit), staged that day whatever its impact; its producer keeps the spacing.",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -111,10 +111,10 @@
     "ownRecordScenes": [
       "cause:event:candidate-filed",
       "cause:event:election-result",
+      "cause:event:primary-result",
       "cause:event:press-story",
       "cause:event:interview-invited",
       "cause:event:debate-invited",
-      "cause:event:volunteer-offered",
       "cause:event:rival-word",
       "cause:event:rival-filed",
       "cause:event:party-asked"
@@ -1949,6 +1949,21 @@
           },
           "opener": "candidate",
           "opening": "congratulate"
+        },
+        {
+          "match": {
+            "label": "cause:event:primary-result",
+            "causeFacts": [{ "key": "outIds", "includes": "subject" }]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "primary-result",
+          "bind": {
+            "candidate": "subject",
+            "supporters": "supporters",
+            "family": "household"
+          },
+          "opener": "candidate",
+          "opening": "congratulate"
         }
       ],
       "tag": {
@@ -3210,13 +3225,14 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "vote-confirmed",
-          "causeEngine": "legislature",
-          "causeRecord": "legislature.member-position",
-          "bind": {
-            "colleague": "members",
-            "you": "subject"
+          "match": {
+            "label": "cause:event:vote-promise",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "memberId", "is": "subject" }]
           },
+          "causeEngine": "legislature",
+          "causeRecord": "vote-promise",
+          "bind": { "colleague": "counterpart", "you": "subject" },
           "opener": "colleague"
         }
       ],
@@ -3260,6 +3276,17 @@
           "bind": { "member": "counterpart", "you": "subject" },
           "opener": "member",
           "setting": ["seat", "venue"]
+        },
+        {
+          "match": {
+            "label": "cause:event:carry-asked",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "memberId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "carry-asked",
+          "bind": { "member": "counterpart", "you": "subject" },
+          "opener": "member"
         }
       ],
       "tag": {
@@ -3309,6 +3336,17 @@
           "bind": { "donor": "counterpart", "you": "subject" },
           "opener": "donor",
           "setting": ["public"]
+        },
+        {
+          "match": {
+            "label": "money:event:campaign-gift",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "candidateId", "is": "subject" }]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "campaign-gift",
+          "bind": { "donor": "counterpart", "you": "subject" },
+          "opener": "donor"
         }
       ],
       "tag": {
@@ -3625,6 +3663,19 @@
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
+          "bind": {
+            "relative": "household",
+            "you": "subject"
+          },
+          "opener": "relative"
+        },
+        {
+          "match": {
+            "label": "cause:event:primary-result",
+            "causeFacts": [{ "key": "outIds", "includes": "subject" }]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "primary-result",
           "bind": {
             "relative": "household",
             "you": "subject"
@@ -4531,6 +4582,69 @@
       "asker": "helper",
       "asked": "you",
       "stakes": ["race", "tie", "team"]
+    },
+    {
+      "key": "job-offer",
+      "note": "An employer picked the player for an opening: the jobs engine's job-offered record names the applicant, the person at the employer who makes the offer (the one there longest) and the position. They call. A yes takes the job; a no turns it down and the position opens to others; anything else leaves it waiting until its deadline, when the employer withdraws it. A job offer comes through a person and a scene or not at all (owner, Oct 27): it joins scheduling.ownRecordScenes, so it stops the day, once the words lead's job-offer lines compose (words-job-offer-scene-lines, SG-DIR-job-offer-lines); until then it is a moment the director ranks like any other.",
+      "roles": [
+        {
+          "key": "employer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise"
+          ],
+          "wants": ["engage"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "hopeful"
+        }
+      ],
+      "setting": ["phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:job-offered",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "invitedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "jobs",
+          "causeRecord": "job-offered",
+          "bind": {
+            "employer": "counterpart",
+            "you": "subject"
+          },
+          "opener": "employer",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "job-offer",
+      "asker": "employer",
+      "asked": "you",
+      "stakes": ["job", "money"]
     },
     {
       "key": "rival-word",

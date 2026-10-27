@@ -5,6 +5,8 @@ description: Grows and corrects Our Civic Duty's skills automatically, from both
 
 # Skill lessons
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 Owner, Oct 27: "when problems keep popping up, a skill is updated so it stops popping up... if something gets fixed at 3 a.m. and then something gets updated at 4 a.m. and then three errors keep happening at 5, 5:30 and 5:32, a skill would be automatically updated." Skills are the crew's memory. Anthropic and OpenAI run thousands; ours grow the same way, from what went wrong, not from what someone imagined. A lesson nobody wrote into a skill will be relearned by the next session at the same cost.
 
 Owner, Oct 27, again: "not just errors, but work processes as well... if something works well and I like it, I would like it automatically made into a skill... the biography thing, for example. And if you end up trying it while I'm asleep and something ends up not working right after a sweep, then you update it." The owner never prompts a skill's creation or update. The job writes both kinds: what to stop doing and what to keep doing.

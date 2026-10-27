@@ -270,16 +270,36 @@ function shadowsOf(people) {
     });
 }
 
+/**
+ * What the painting has in front of a person (a desk, a chair back), laid
+ * back over them: the picture's own pixels through the spot's mask, lined up
+ * with the picture, so it is right in every light and weather.
+ */
+function occluderOf(o) {
+  const node = el("div", { className: "occluder" });
+  const along = (start, size) =>
+    size >= 100 ? 0 : (start / (100 - size)) * 100;
+  Object.assign(node.style, {
+    left: `${o.leftPercent}%`,
+    top: `${o.topPercent}%`,
+    width: `${o.widthPercent}%`,
+    height: `${o.heightPercent}%`,
+    backgroundImage: `url("${$("backdrop").src}")`,
+    backgroundSize: `${10000 / o.widthPercent}% ${10000 / o.heightPercent}%`,
+    backgroundPosition: `${along(o.leftPercent, o.widthPercent)}% ${along(o.topPercent, o.heightPercent)}%`,
+    maskImage: `url("${o.url}")`,
+    webkitMaskImage: `url("${o.url}")`,
+  });
+  return node;
+}
+
 /** The people in a picture; anyone but you can be clicked for their dossier. */
 function drawPeople(people, onClick) {
   $("people").replaceChildren(
     ...shadowsOf(people),
-    ...people.map((person) => {
+    ...people.flatMap((person) => {
       const f = person.figure;
-      const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
-      const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
-      img.style.height = `${(f.heightPercent / visible) * 100}%`;
       // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure" }, img);
@@ -288,7 +308,7 @@ function drawPeople(people, onClick) {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
         width: `${f.widthPercent}%`,
-        height: `${visible}%`,
+        height: `${f.heightPercent}%`,
       });
       if (onClick && person.personId !== me?.id) {
         box.classList.add("talkable");
@@ -302,7 +322,7 @@ function drawPeople(people, onClick) {
           onClick(person);
         });
       }
-      return box;
+      return f.occluder ? [box, occluderOf(f.occluder)] : [box];
     }),
   );
 }
@@ -701,6 +721,12 @@ const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
   controls = value;
+  // A dimmed title entry's reason is a control name from data, never typed here.
+  for (const el of document.querySelectorAll("[data-label]"))
+    el.textContent =
+      el.dataset.label
+        .split(".")
+        .reduce((node, key) => node?.[key], controls) ?? "";
   $("week").textContent = controls.time?.week ?? "";
   return value;
 });
@@ -800,17 +826,6 @@ async function act(path) {
         `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
       );
     }
-    // A job offer holds the clock: the offer itself, then the day goes on.
-    const offerStop = jobOfferStop(result.packet);
-    if (offerStop) {
-      const answered = await atTheOffer(offerStop);
-      if (answered) {
-        busy = false;
-        return act(
-          `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
-        );
-      }
-    }
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
   } catch (error) {
@@ -828,22 +843,18 @@ function officeStop(value) {
     ? value.stop.modules.find((row) => row.moduleId === "core2-office-day-v1")
     : undefined;
 }
-/** A stop the jobs engine holds: an employer's offer to the player, when it
- * arrives and again at its deadline. Every hold reason answers here, the
- * offer-deadline kind included. */
-function jobOfferStop(value) {
-  return value?.kind === "stop"
-    ? value.stop.modules.find(
-        (row) =>
-          row.moduleId === "jobs" &&
-          (row.reasonKey === "job-offered" || row.kind === "offer-deadline"),
-      )
-    : undefined;
-}
 const voteWords = () => controls.meeting ?? {};
 /** One agenda item or desk bill: number, sponsor, terms, who spoke and how each member voted. */
-function billBlock(item, buttons) {
+function billBlock(item, buttons, onPaper) {
   const words = voteWords();
+  const paperButton = () => {
+    const open = makeButton({
+      className: "action",
+      textContent: controls.bill?.open ?? "",
+    });
+    open.addEventListener("click", () => onPaper(item.billId));
+    return open;
+  };
   return el(
     "div",
     { className: "race" },
@@ -878,7 +889,14 @@ function billBlock(item, buttons) {
             .join(" · "),
         })
       : "",
-    buttons.length ? el("div", { className: "acts" }, ...buttons) : "",
+    onPaper || buttons.length
+      ? el(
+          "div",
+          { className: "acts" },
+          ...(onPaper ? [paperButton()] : []),
+          ...buttons,
+        )
+      : "",
   );
 }
 function inMeeting() {
@@ -928,6 +946,13 @@ function inMeeting() {
                     return b;
                   }),
                 ],
+            (billId) =>
+              openBillPaper(
+                billId,
+                (...nodes) => $("meeting-items").replaceChildren(...nodes),
+                () => api("/api/meeting").then(draw),
+                controls.bill?.backMeeting,
+              ),
           ),
         ),
       );
@@ -972,6 +997,13 @@ function atDesk() {
               );
               return b;
             }),
+            (billId) =>
+              openBillPaper(
+                billId,
+                (...nodes) => $("desk-items").replaceChildren(...nodes),
+                () => api("/api/desk").then(draw),
+                controls.bill?.backDesk,
+              ),
           ),
         ),
       );
@@ -1207,80 +1239,6 @@ function atThePolls(scene) {
     draw(scene);
     show("ballot", true);
   });
-}
-// ---- A job offer (jobs): the hold is the offer itself ----
-// The employer, the job and the pay with Take it and Turn it down: the
-// engine offers, the player decides. Either answer releases the
-// hold and the day goes on; before the deadline the offer can also wait,
-// answerable at the Jobs tab, until the deadline holds the clock.
-async function atTheOffer(stopRow) {
-  const labels = controls.jobs ?? {};
-  const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`).catch(
-    () => ({ offers: [] }),
-  );
-  const offer = (view.offers ?? []).find((row) =>
-    stopRow.recordId.startsWith(`${row.id}:`),
-  );
-  if (!offer) return false;
-  $("job-offer-title").textContent = offer.title;
-  $("job-offer-employer").textContent = offer.employer;
-  $("job-offer-facts").replaceChildren(
-    row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
-    row(labels.deadline, proseDate(offer.deadline)),
-  );
-  $("job-offer-take").textContent = labels.accept ?? "";
-  $("job-offer-turn").textContent = labels.decline ?? "";
-  $("job-offer-wait").textContent = labels.notNow ?? "";
-  $("job-offer-status").textContent = "";
-  // The deadline holds the clock: answering is the only way out. An offer
-  // that just arrived can wait.
-  $("job-offer-wait").hidden = Boolean(stopRow.hold);
-  return await new Promise((resolve) => {
-    const close = (answered) => {
-      show("job-offer", false);
-      resolve(answered);
-    };
-    const answer = async (kind) => {
-      for (const button of $("job-offer").querySelectorAll("button"))
-        button.disabled = true;
-      try {
-        const result = await post(
-          `/api/jobs/answer?${new URLSearchParams({
-            offerId: offer.id,
-            answer: kind,
-          })}`,
-        );
-        if (result.answered) close(true);
-        else {
-          // The employer withdrew it while the moment stood open.
-          $("job-offer-status").textContent = labels.unavailable ?? "";
-          setTimeout(() => close(false), 1500);
-        }
-      } catch {
-        $("job-offer-status").textContent = labels.failed ?? "";
-        for (const button of $("job-offer").querySelectorAll("button"))
-          button.disabled = false;
-      }
-    };
-    $("job-offer-take").onclick = () => answer("accept");
-    $("job-offer-turn").onclick = () => answer("decline");
-    $("job-offer-wait").onclick = () => close(false);
-    // A later offer's moment must not inherit an answered one's disabled buttons.
-    for (const button of $("job-offer").querySelectorAll("button"))
-      button.disabled = false;
-    show("job-offer", true);
-    $("job-offer-take").focus();
-  });
-}
-/** The offer moment for a hold already open when the page loads. */
-async function openOfferMoment() {
-  const stopRow = jobOfferStop(packet);
-  if (!stopRow) return;
-  const answered = await atTheOffer(stopRow);
-  if (answered)
-    await act(
-      `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: packet.pauseId })}`,
-    );
 }
 // Day and Week run the world forward (owner, Oct 15, 2026); a calendar day
 // runs it to that day. A scene the director fires stops any of them there.
@@ -1654,6 +1612,13 @@ function partyRows(party) {
   });
 }
 
+/** The campaign record's count of volunteers, worded (one count for every line that shows it). */
+function volunteerCount(n) {
+  return n === 1
+    ? controls.campaignVolunteers.one
+    : controls.campaignVolunteers.other.replace("{n}", String(n));
+}
+
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
 // The speech being built: the parts said and the four on offer, from the server.
@@ -1711,9 +1676,9 @@ async function campaignRows() {
     filing,
     contest,
     campaign,
-    polls,
+    pollSample,
     outings,
-    causes,
+    standing,
     debates,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
@@ -1754,13 +1719,21 @@ async function campaignRows() {
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
       campaignResult =
-        result.contacted !== undefined
-          ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
-              .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-              .join(" · ")}`
-          : result.reached !== undefined
-            ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-            : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+        result.volunteers !== undefined
+          ? controls.campaignVolunteers.asked
+              .replace("{asked}", String(result.answers.length))
+              .replace(
+                "{yes}",
+                String(result.answers.filter((a) => a.yes).length),
+              )
+              .replace("{volunteers}", volunteerCount(result.volunteers))
+          : result.contacted !== undefined
+            ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
+                .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
+                .join(" · ")}`
+            : result.reached !== undefined
+              ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+              : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
@@ -1801,7 +1774,7 @@ async function campaignRows() {
             .filter(Boolean)
             .join(" · "),
         }),
-        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${campaign.volunteers} volunteers · ${campaign.doors} doors`,
+        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${volunteerCount(campaign.volunteers)} · ${campaign.doors} doors`,
         el(
           "div",
           {},
@@ -1830,7 +1803,7 @@ async function campaignRows() {
           button("Donations", "donation"),
           button("Endorsements", "endorsement"),
           button("Ad", "ad", { amountMinor: "5000" }),
-          button("Poll", "poll", { sampleSize: "50" }),
+          button("Poll", "poll", { sampleSize: String(pollSample) }),
         ),
         // The player's own money into the campaign: the amount is theirs to set.
         (() => {
@@ -1895,25 +1868,11 @@ async function campaignRows() {
             },
           }),
         ),
-        // What the race turns on: each candidate's acts and how the people reached came to feel.
-        ...((causes ?? []).some((who) => who.acts.length)
-          ? [el("b", { textContent: controls.campaignActs.title })]
-          : []),
-        ...(causes ?? [])
-          .filter((who) => who.acts.length)
-          .map((who) =>
-            listRow("", {
-              textContent: `${who.you ? "" : `${who.name} · `}${who.acts
-                .map(
-                  (a) =>
-                    `${controls.campaignActs[a.act] ?? a.act} ${a.reached} · +${a.warmer} · −${a.cooler}`,
-                )
-                .join(" · ")}`,
-            }),
-          ),
-        polls.length
-          ? `Poll ${polls.at(-1).date}: ${polls.at(-1).contacted}`
-          : "",
+        // Where the race stands, in plain sentences from the English engine.
+        el("b", { textContent: controls.raceStanding.title }),
+        ...(standing ?? []).map((line) =>
+          el("div", { className: "row", textContent: line }),
+        ),
         campaignResult ? el("div", { textContent: campaignResult }) : "",
       ),
     );
@@ -2320,6 +2279,157 @@ async function officeRows() {
   ];
 }
 
+// ---- The bill on paper: one document, every section clickable ----
+/** The simulation's estimate beside a clicked section, every figure a record
+ * the server read: the statute it amends with the values before and after,
+ * the budget line and its amount, and the bill's own cost estimate. */
+function billEstimateRows(paper, section) {
+  const words = controls.bill ?? {};
+  const est = section.estimate;
+  const rows = [
+    el("p", {
+      className: "prose",
+      textContent: section.text ?? paper.title,
+    }),
+  ];
+  const webCite =
+    typeof est.statute === "string" && /^https?:\/\//.test(est.statute);
+  if (est.statute && !webCite)
+    rows.push(
+      el("div", { textContent: `${words.amends ?? ""} ${est.statute}` }),
+    );
+  // A question answered yes or no has no numeric scale: its clause says
+  // what it does, so bare 0/1 values stay off the screen.
+  const scaled = est.beforeUnit != null || est.afterUnit != null;
+  const before =
+    scaled && est.beforeValue != null
+      ? amount(est.beforeValue, est.beforeUnit)
+      : null;
+  const after =
+    scaled && est.afterValue != null
+      ? amount(est.afterValue, est.afterUnit)
+      : null;
+  if (before && after && !est.statute)
+    rows.push(el("div", { textContent: `${before} → ${after}` }));
+  else if (before && after)
+    rows.push(
+      el("div", {
+        textContent: webCite
+          ? `${words.amends ?? ""} ${words.lawInForce ?? ""}: ${words.from ?? ""} ${before} ${words.to ?? ""} ${after}`
+          : `${before} ${words.from ?? ""} ${after}`,
+      }),
+    );
+  else if (after)
+    rows.push(el("div", { textContent: `${words.to ?? ""} ${after}` }));
+  if (est.line)
+    rows.push(
+      el("div", {
+        textContent: [
+          `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
+          est.lineAmountMinor != null ? dollars(est.lineAmountMinor) : null,
+          est.ofMinor != null
+            ? `${words.from ?? ""} ${dollars(est.ofMinor)}`
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      }),
+    );
+  rows.push(
+    el("div", {
+      textContent: [
+        paper.estimate.workers > 0
+          ? `${paper.estimate.workers} ${words.workers ?? ""}`
+          : null,
+        paper.estimate.payMinor > 0 ? dollars(paper.estimate.payMinor) : null,
+        paper.estimate.note,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    }),
+  );
+  return rows;
+}
+/**
+ * Open a bill as one paper document: designation, title, sponsor, each
+ * section in plain words, the floor date and whip, and the vote and signature
+ * records when the body has made them. Clicking a section shows its estimate
+ * beside it. `show` draws the nodes, `back` returns to the rows.
+ */
+async function openBillPaper(billId, show, back, backLabel) {
+  const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
+  const words = controls.bill ?? {};
+  const floor = controls.floor ?? {};
+  const meet = controls.meeting ?? {};
+  const backButton = makeButton({
+    className: "action",
+    textContent: backLabel ?? words.back ?? "",
+  });
+  backButton.addEventListener("click", back);
+  const aside = makeCard(
+    "bill-estimate",
+    {},
+    el("b", { textContent: words.estimate ?? "" }),
+    ...billEstimateRows(paper, paper.sections[0] ?? { estimate: {} }),
+  );
+  const doc = el(
+    "div",
+    { className: "bill-doc" },
+    el("h2", { className: "heading", textContent: paper.spoken }),
+    el("p", { className: "prose", textContent: paper.title }),
+    el("div", {
+      textContent: `${words.sponsor ?? ""} ${paper.sponsor}`,
+    }),
+    el("b", { textContent: words.sections ?? "" }),
+    ...paper.sections.map((section) => {
+      const open = makeButton({
+        className: "action bill-section",
+        textContent: section.text ?? paper.title,
+      });
+      open.addEventListener("click", () =>
+        aside.replaceChildren(
+          el("b", { textContent: words.estimate ?? "" }),
+          ...billEstimateRows(paper, section),
+        ),
+      );
+      return open;
+    }),
+    ...(paper.effective ? [el("div", { textContent: paper.effective })] : []),
+    ...(paper.floorDate
+      ? [
+          el("div", {
+            textContent: `${floor.takenUp ?? ""} ${proseDate(paper.floorDate)}`,
+          }),
+        ]
+      : []),
+    ...paper.whip.map((count) =>
+      el("div", {
+        textContent: `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
+      }),
+    ),
+    ...(paper.votes.length
+      ? [
+          el("div", {
+            textContent: `${floor.voted ?? ""}: ${paper.votes.filter((x) => x.vote === "yes").length} ${floor.yes ?? ""}, ${paper.votes.filter((x) => x.vote === "no").length} ${floor.no ?? ""}`,
+          }),
+          el("div", {
+            textContent: paper.votes
+              .map((x) => `${x.name} · ${meet[x.vote] ?? x.vote}`)
+              .join(" · "),
+          }),
+        ]
+      : []),
+    ...(paper.decision
+      ? [
+          el("div", {
+            textContent: `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${proseDate(paper.decision.passedOn)}` : ""}`,
+          }),
+        ]
+      : []),
+  );
+  show(backButton, el("div", { className: "bill-paper" }, doc, aside));
+}
+
 // ---- From your seat (steps 6 to 9): draft; the vote is at the meeting ----
 // Asking colleagues and the vote itself are acts in the day and the meeting
 // scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
@@ -2451,24 +2561,22 @@ async function seatRows() {
               }),
             ]
           : []),
-        // The title's subjects name each section (record keys, then words).
-        bill.provisions
-          .map((p, at) => {
-            const key = bill.title?.subjects[at]?.key ?? "";
-            const name = key.startsWith("budget-line:")
-              ? key.slice("budget-line:".length)
-              : (p.series ?? (p.question && policyLabel(p.question)) ?? p.line);
-            return `${name} ${p.value}`;
-          })
-          .join("; "),
-        bill.costEstimate
-          ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
-          : "",
-        votes.length
-          ? el("div", {
-              textContent: votes.map((x) => `${x.name} ${x.vote}`).join(" · "),
-            })
-          : "",
+        // The paper holds the sections, the estimate and the votes: the row
+        // opens it instead of repeating them.
+        (() => {
+          const open = makeButton({
+            className: "action",
+            textContent: controls.bill?.open ?? "",
+          });
+          open.addEventListener("click", () =>
+            openBillPaper(
+              bill.id,
+              (...nodes) => $("sheet-body").replaceChildren(...nodes),
+              () => openSheet("office"),
+            ),
+          );
+          return open;
+        })(),
       ),
     );
   for (const left of v.incompatibilities ?? [])
@@ -2866,26 +2974,13 @@ const sheets = {
         }),
       ),
     ];
-    if (c.traits?.length)
+    // What you're like, in plain sentences, never the traits' names (owner, Oct 27).
+    if (c.sketch)
       rows.push(
-        recordSection(
-          labels.traits,
-          el(
-            "ul",
-            { className: "character-traits" },
-            ...c.traits.map((trait) =>
-              el(
-                "li",
-                {},
-                el("span", {
-                  className: "character-trait-label",
-                  textContent: trait.label,
-                }),
-                el("strong", { textContent: trait.word }),
-              ),
-            ),
-          ),
-        ),
+        el("p", {
+          className: "character-sketch narrative",
+          textContent: c.sketch,
+        }),
       );
     rows.push(
       recordSection(
@@ -2948,7 +3043,17 @@ const sheets = {
         el("strong", { textContent: dollars(c.liquidMinor) }),
       ),
     );
-    return rows;
+    // The record sections side by side under the name and the sketch, so the
+    // screen reads as a character sheet, not a column down one side.
+    const [heading, ...rest] = rows;
+    const sketch = rest[0]?.classList?.contains("character-sketch")
+      ? rest.shift()
+      : null;
+    return [
+      heading,
+      ...(sketch ? [sketch] : []),
+      el("div", { className: "character-grid" }, ...rest),
+    ];
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -3151,7 +3256,6 @@ const sheets = {
   },
   async jobs() {
     const labels = controls.jobs;
-    const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`);
     const job = me.card.job;
     const work = makeCard(
       "work-overview",
@@ -3200,48 +3304,6 @@ const sheets = {
         el("p", { className: "work-empty", textContent: labels.noJob }),
       );
     const result = [work];
-    if (view.offers.length)
-      result.push(
-        el("h3", { className: "work-heading", textContent: labels.offers }),
-      );
-    for (const offer of view.offers) {
-      const card = makeCard(
-        "job-offer",
-        { as: "section" },
-        el("h3", { textContent: offer.title }),
-        el("p", { textContent: offer.employer }),
-        row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
-        row(labels.deadline, offer.deadline),
-      );
-      const status = el("p", { className: "offer-status", role: "status" });
-      const actions = el("div", { className: "offer-actions" });
-      for (const [answer, label] of [
-        ["accept", labels.accept],
-        ["decline", labels.decline],
-      ]) {
-        const button = makeButton({ textContent: label });
-        button.onclick = async () => {
-          for (const b of actions.children) b.disabled = true;
-          try {
-            const response = await post(
-              `/api/jobs/answer?${new URLSearchParams({ offerId: offer.id, answer })}`,
-            );
-            await refresh();
-            if (response.answered) await openSheet("jobs");
-            else {
-              status.textContent = labels.unavailable;
-              actions.remove();
-            }
-          } catch {
-            status.textContent = labels.failed;
-            for (const b of actions.children) b.disabled = false;
-          }
-        };
-        actions.append(button);
-      }
-      card.append(actions, status);
-      result.push(card);
-    }
     const schools = [...(me.card.schools ?? [])].reverse();
     const education = el(
       "section",
@@ -3263,11 +3325,13 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
+    // A chapter's title heads it only when there is more than one chapter: a
+    // lone title over the only story restates the screen (principles rule 3).
     return chapters.map((c) =>
       listRow(
         "narrative",
         {},
-        el("b", { textContent: c.title }),
+        ...(chapters.length > 1 ? [el("b", { textContent: c.title })] : []),
         c.lines.map((l) => l.text).join(" "),
       ),
     );
@@ -4089,6 +4153,104 @@ const sheets = {
       ),
     ];
   },
+  /**
+   * Politics' own guide: what each tab is for, a page each, then how a
+   * player could run here, from the filing records: the race, the office
+   * that takes filings, and the dates.
+   */
+  async politicsGuide() {
+    const labels = controls.politics.guide;
+    const [government, terms] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
+    ]);
+    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
+    const row = (label, value) =>
+      el(
+        "div",
+        { className: "guide-fact" },
+        el("span", { className: "label", textContent: label }),
+        el("strong", { textContent: value }),
+      );
+    const page = (heading, ...body) =>
+      el(
+        "section",
+        { className: "politics-guide-page" },
+        el("h3", { textContent: heading }),
+        ...body,
+      );
+    const pages = ["government", "issues", "parties", "campaigns"].map((tab) =>
+      page(titles[tab], el("p", { textContent: labels[tab] })),
+    );
+    const next = government.nextFiling;
+    pages.push(
+      page(
+        labels.runHere,
+        ...(next
+          ? [
+              row(labels.race, next.title),
+              row(
+                labels.filesWith,
+                next.filedWith.replace(
+                  /\s*\(counter: ([^)]*)\)/g,
+                  `, ${labels.atTheDeskOf} $1`,
+                ),
+              ),
+              row(labels.filingOpens, proseDate(next.filingOpens)),
+              row(labels.filingDeadline, proseDate(next.filingDeadline)),
+              ...(deadlineTerm
+                ? [
+                    el("p", {
+                      className: "small",
+                      textContent: deadlineTerm.short,
+                    }),
+                  ]
+                : []),
+              ...(next.primaryDate
+                ? [row(labels.primary, proseDate(next.primaryDate))]
+                : []),
+              row(labels.election, proseDate(next.electionDate)),
+              ...(next.estimated
+                ? [
+                    el("p", {
+                      className: "small",
+                      textContent: labels.estimated,
+                    }),
+                  ]
+                : []),
+            ]
+          : [el("p", { textContent: labels.noRace })]),
+      ),
+    );
+    let at = 0;
+    const box = el("div", { className: "politics-guide" });
+    const draw = () => {
+      const back = el("button", {
+        type: "button",
+        textContent: controls.politics.back,
+        disabled: at === 0,
+      });
+      const forward = el("button", {
+        type: "button",
+        textContent: controls.politics.next,
+        disabled: at === pages.length - 1,
+      });
+      back.onclick = () => {
+        at--;
+        draw();
+      };
+      forward.onclick = () => {
+        at++;
+        draw();
+      };
+      box.replaceChildren(
+        pages[at],
+        el("nav", { className: "record-pager" }, back, forward),
+      );
+    };
+    draw();
+    return [box];
+  },
   async guide() {
     const search = el("input", {
       type: "search",
@@ -4454,21 +4616,35 @@ const sheets = {
                 const won = s.elections.find(
                   (e) => e.termId === s.holder.termId,
                 );
-                const history = listRow("", {
+                // The term as a voter would say it: when it ends, and how the
+                // holder won it where the world ran the race.
+                const monthYear = (iso) =>
+                  new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric",
+                  });
+                const history = el("span", {
+                  className: "person-row-note",
                   textContent: [
-                    `${proseDate(s.holder.serviceStart)} – ${s.holder.endDate ? proseDate(s.holder.endDate) : ""}`,
-                    labels.reached?.[s.holder.reached] ?? s.holder.reached,
                     won
-                      ? `${labels.electedOn} ${proseDate(won.date)} · ${Math.round(won.share * 100)}% ${labels.ofVote}`
+                      ? labels.electedWith
+                          .replace("{date}", monthYear(won.date))
+                          .replace("{share}", `${Math.round(won.share * 100)}%`)
+                      : null,
+                    s.holder.endDate
+                      ? labels.termEnds.replace(
+                          "{date}",
+                          monthYear(s.holder.endDate),
+                        )
                       : null,
                   ]
                     .filter(Boolean)
-                    .join(" · "),
+                    .join(". "),
                 });
                 // The record the line reads, for the specs; never shown as text.
                 history.dataset.term = s.holder.termId;
                 if (won) history.dataset.election = won.termId;
-                line.append(history);
+                if (history.textContent) line.append(history);
               }
               // Elected and not yet seated: who won the seat, and when they take office.
               if (s.elect) {
@@ -4749,6 +4925,7 @@ const titles = {
   travel: "Travel",
   options: "Options",
   guide: "Guide",
+  politicsGuide: "Guide",
   changes: "What changed",
   law: "Law here",
   handoff: "Carry on as",
@@ -4764,6 +4941,7 @@ const groups = {
     "parties",
     "issues",
     "budgets",
+    "politicsGuide",
   ],
   people: ["people", "family"],
   who: ["who", "jobs"],
@@ -4830,6 +5008,13 @@ async function openSheet(tab) {
   $("sheet-body").classList.toggle(
     "cols",
     tab !== "who" && tab !== "calendar" && body.length > 12,
+  );
+  // A screen is as tall as what it holds (owner, Oct 27: "so much dead space");
+  // the calendar, the people web and two-column readers fill the window.
+  $("sheet").classList.toggle(
+    "fits",
+    !["calendar", "people", "family", "map", "who"].includes(tab) &&
+      !$("sheet-body").classList.contains("cols"),
   );
   show("sheet", true);
   $("game").classList.add("sheet-open");
@@ -4918,12 +5103,6 @@ api("/api/title").then((title) => {
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));
-// Not yet routes on the new core: said on the control itself.
-for (const [id, key] of [
-  ["front-saves", "saves"],
-  ["front-patch-notes", "patchNotes"],
-])
-  $(id).title = controls.titleUnavailable?.[key] ?? "";
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
   if (!life) return;
@@ -4941,7 +5120,6 @@ $("front-continue").addEventListener("click", async () => {
   $("game").classList.add("in-play");
   if (life.packet) renderPacket(life.packet);
   await refresh();
-  await openOfferMoment();
   // Still the opening evening: the night's paper is back on the table, read
   // from the kept opening, until living on clears it.
   const opening = await api(
@@ -5433,7 +5611,6 @@ async function enterAs(life, personId) {
   $("game").classList.add("in-play");
   renderPacket(value.packet);
   await refresh();
-  await openOfferMoment();
 }
 
 async function startLife({ custom = false, pick = false, placeKey, person }) {
@@ -5533,7 +5710,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();
-    await openOfferMoment();
     showNewsSurface(opening?.news);
     coachFirstChoices();
   } catch (error) {

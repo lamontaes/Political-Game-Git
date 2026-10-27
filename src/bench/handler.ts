@@ -1,4 +1,3 @@
-import { jobsView, answerJobOffer } from "./jobs";
 import { recolorFigure } from "./figure-colors";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
@@ -34,7 +33,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
-import { seatAct, seatView } from "./legislature";
+import { billPaper, seatAct, seatView } from "./legislature";
 import {
   deskDecide,
   deskView,
@@ -60,6 +59,7 @@ import {
   type BenchFilingVisit,
 } from "./filing";
 import { backdropFile, backdropPath, benchScene } from "./scene";
+import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -77,6 +77,7 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
   portraitPng,
   readRecipe,
@@ -353,6 +354,21 @@ export async function benchRequest(
       }
       if (
         request.method === "GET" &&
+        url.pathname.startsWith("/art/backdrops/occluders/")
+      ) {
+        // What stands in front of a spot: a mask the screen lays the picture through.
+        const content = await readFile(
+          occluderPath(url.pathname.slice("/art/backdrops/occluders/".length)),
+        );
+        response.writeHead(200, {
+          "Content-Type": "image/png",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(content);
+        return;
+      }
+      if (
+        request.method === "GET" &&
         url.pathname.startsWith("/art/backdrops/")
       ) {
         const content = await readFile(
@@ -456,6 +472,11 @@ export async function benchRequest(
             requireCore(),
             director,
             url.searchParams.get("id") ?? "",
+            // The player's own journal reads to their clock, which stands at
+            // the start of a day the core has yet to run (a birthday morning).
+            player?.packet && player.personId === url.searchParams.get("id")
+              ? { through: player.packet.at.date }
+              : {},
           ),
         );
         return;
@@ -497,7 +518,8 @@ export async function benchRequest(
                   )
               : readRecipe(q.get("recipe")!)
             : drawnAppearance(gender, seed, draw);
-          send(200, { recipe, rows: appearanceRows(recipe, gender) });
+          const fitted = lookForGender(recipe, gender);
+          send(200, { recipe: fitted, rows: appearanceRows(fitted, gender) });
         } else send(404, { error: "Unknown bench route." });
         return;
       }
@@ -712,6 +734,14 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/seat") {
         send(200, seatView(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      // A bill as one paper document, read from its own records.
+      if (request.method === "GET" && url.pathname === "/api/bill") {
+        send(
+          200,
+          billPaper(requireCore(), url.searchParams.get("billId") ?? ""),
+        );
         return;
       }
       // The officeholder's day (OFFICE-LOCAL): the meeting scene, the desk and the stops.
@@ -1153,24 +1183,6 @@ export async function benchRequest(
             url.searchParams.get("id") ?? "",
             personOrFillIn(requireCore(), url.searchParams.get("other") ?? "")
               ?.id ?? "",
-          ),
-        );
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/jobs") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(200, jobsView(requireCore(), player.personId));
-        return;
-      }
-      if (request.method === "POST" && url.pathname === "/api/jobs/answer") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          answerJobOffer(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("offerId") ?? "",
-            url.searchParams.get("answer") ?? "",
           ),
         );
         return;
