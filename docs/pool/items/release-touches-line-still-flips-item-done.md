@@ -6,9 +6,9 @@ lead: cto
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/touches-line
-pr:
+pr: #6359
 blocked-on:
 source: laws-and-effects lead, Oct 27 (#6289)
 claimed-at: 2026-10-27T17:05:47.102Z
