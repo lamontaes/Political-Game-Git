@@ -390,6 +390,9 @@ it(
       if (!waiting) continue;
       core.playerId = String(waiting.motherId);
       const playerHome = core.people.get(core.playerId)!.householdId;
+      // Only plans from the day the player took the household count: an
+      // earlier one (the opening's) was the household's before it was hers.
+      const tookOn = core.date;
       renewal.table("exposure").put({ id: waiting.id, carry: 1 });
       advanceCore(core, addDays(makeIsoDate(core.date), 100));
       const atHome = renewal
@@ -398,9 +401,13 @@ it(
         .filter(
           (row) =>
             row.unplanned === true &&
+            String(row.date) >= tookOn &&
             core.people.get(String(row.motherId))?.householdId === playerHome,
         );
-      expect(atHome, label).toEqual([]);
+      expect(
+        atHome.map((row) => `${row.id} (couple ${row.coupleId}, ${row.date})`),
+        `${label}: unplanned plans in the player's household from ${tookOn}`,
+      ).toEqual([]);
       expect(
         Number(renewal.table("exposure").get(waiting.id)?.carry),
         `${label} ${waiting.id} is never reviewed into a pregnancy`,

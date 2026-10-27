@@ -25,7 +25,11 @@ import majority from "../../../data/research/people/age-of-majority.json" with {
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionLean, decisionTraitWeight } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  hardshipReason,
+} from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { moveRecipientIncomeHome } from "../finance-state";
 import { sellHome } from "../housing-sale";
@@ -524,6 +528,15 @@ export function pushesOf(
     parts.closeElsewhere =
       m(api, "movesCloseElsewherePull") * diminishing(api, closeness);
     reads.closeElsewhere = away;
+  }
+  // Stress that a layoff, an eviction or a missed payment left and has not
+  // worn off: on this log scale it speeds the pull by the stress itself, so a
+  // person hit harder (their own appraisal, emotion.ts) leans harder toward
+  // leaving and a month-old loss almost none.
+  const hardship = hardshipReason(core, person, "moves.move-away");
+  if (hardship.term > zero) {
+    parts.hardshipStress = hardship.term;
+    reads.hardshipStress = [person.id];
   }
   return { parts, reads };
 }

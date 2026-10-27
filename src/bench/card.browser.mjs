@@ -24,6 +24,7 @@ try {
     { timeout: 600000 },
   );
   await page.locator("#new-life").click();
+  await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
   await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });

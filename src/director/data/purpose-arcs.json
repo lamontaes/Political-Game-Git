@@ -560,12 +560,6 @@
         "promise": ["thank", "accept", "leave"],
         "decline": ["request", "accept"]
       },
-      "auto": [
-        {
-          "after": "state",
-          "move": "ask"
-        }
-      ],
       "endings": [
         {
           "id": "on-board",
