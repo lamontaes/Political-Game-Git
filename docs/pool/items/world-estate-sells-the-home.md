@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: the sale follows from the death and the estate's own record, and its price is the dwelling's value on the dwellings table. Wire to the world: the price, the payoff and the heirs' shares move by journal record. One model, two tiers: a counted group's last owner dying sells the group's home by the same rule, times the count. Ask why: the sale row names the death and the estate.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named in the PR body) a household whose last owner died has its home sold at the estate's close, a `home-sale:<householdId>:<date>` row in the housing `sales` table names the estate and the heirs paid, the mortgage row ends, and a test in src/core2 names the place and seed.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named in the PR body) a household whose last owner died has its home sold at the estate's close, a `home-sale:<householdId>:<date>` row in the housing `sales` table names the estate and the heirs paid, the mortgage row ends, and a test in src/core2 names the place and seed. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/housing-sale.ts, src/core2/estates.ts, src/core2/modules/housing.ts
 

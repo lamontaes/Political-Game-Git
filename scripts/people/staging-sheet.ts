@@ -14,11 +14,11 @@ import { backdropFile } from "../../src/bench/scene";
 const [out = "staging-sheets", ...places] = process.argv.slice(2);
 mkdirSync(out, { recursive: true });
 const root = resolve(".");
-// The reference adult: look-006, average build, 471 x 1000 canvas with the feet on row 993.
+// The reference adult: v2 figure 43, medium build, front view, 213 x 500 canvas with the feet on row 494.
 const REF = {
-  file: "look-006__base__average.png",
-  aspect: 471 / 1000,
-  foot: 0.993,
+  file: "figures/v2-43-f-medium.png",
+  aspect: 213 / 500,
+  foot: 494 / 500,
 };
 const browser = await chromium.launch({
   executablePath:
@@ -45,7 +45,7 @@ for (const place of places) {
     const w = (h * REF.aspect) / BACKDROP_ASPECT;
     const fig =
       pose === "stand"
-        ? `<img src="file://${root}/art/people-whole/${REF.file}" style="position:absolute;opacity:.8;left:${spot.x - w / 2}%;top:${spot.y - h * REF.foot}%;height:${h}%;${spot.x < 50 ? "" : "transform:scaleX(-1)"}">`
+        ? `<img src="file://${root}/art/people-engine/v2/${REF.file}" style="position:absolute;opacity:.8;left:${spot.x - w / 2}%;top:${spot.y - h * REF.foot}%;height:${h}%;${spot.x < 50 ? "" : "transform:scaleX(-1)"}">`
         : "";
     return `${fig}<div style="position:absolute;left:${spot.x}%;top:${spot.y}%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;background:${COLORS[pose]};border:2px solid #000"></div>
       <div style="position:absolute;left:${spot.x}%;top:${spot.y}%;transform:translate(8px,-4px);font:bold 12px sans-serif;color:#fff;text-shadow:0 0 3px #000">${index}${spot.hero ? "★" : ""}${ARROWS[spot.facing ?? "viewer"]}${spot.clipBelowY !== undefined ? "▬" : ""}</div>`;

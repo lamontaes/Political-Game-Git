@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: the same rule as a full household times its weight. No dice: the sale follows from the death and the estate. Wire to the world: price, payoff and heirs move by journal record. Ask why: the sale row names the death and the estate.
 
-**Done when.** In a one-year run of the played world in a drawn place from all 56 (seed named in the PR body), a counted household whose last owner died has its home sold when its estate closes, with a home-sale row that names the estate and heirs paid, shown in src/core2/counted-estates.test.ts or a new test.
+**Done when.** In a one-year run of the played world in a drawn place from all 56 (seed named in the PR body), a counted household whose last owner died has its home sold when its estate closes, with a home-sale row that names the estate and heirs paid, shown in src/core2/counted-estates.test.ts or a new test. **On screen.** Nothing yet: it would show on Who you are and News, and nothing there reads it.
 
 **Files.** src/core2/estates.ts, src/core2/housing-sale.ts, src/core2/modules/residents.ts
 
@@ -26,3 +26,5 @@ claimed-at:
 Oct 20 (claude, paused by the CTO for the usage reset): stopped mid-build on branch claude/counted-estate-home (stacked on claude/estate-sells-home, PR #5735). Written and typechecking, not tested: `sellHome` takes a `counted` argument (weight, group surplus callback) and `removeCountedPerson` calls `sellCountedHome` when the last member dies. Still to do: a test in counted-estates.test.ts or a new file (counted household that owns its home, every member removed with removeCountedPerson in a bench world, then the sale row, lender paid, surplus in the group fund, journal balanced), the housing/estates/counted tests, a release declaration, PR.
 
 Sent back 2026-10-23 from PR #5786 (branch claude/counted-estate-home-sale): Fresh code conflicts in births-counted.ts, estates.ts, housing-sale.ts and modules/residents.ts; preserve both current readers and counted estate sales and rerun the generated-year proof; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5786 (branch claude/counted-estate-home-sale): Required parent #5735 remains open for ordinary played-world probate-to-heir proof; this child still carries that unresolved parent implementation, so land #5735 before rechecking this counted slice; finish on that branch, merge main into it first.

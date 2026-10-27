@@ -92,8 +92,12 @@ function volunteerRows(): Row[] {
 
 /**
  * What the played window lacks for the tests to read: enough calls of each
- * played decision, and at least one call temperament turns (someone near
- * enough to the line for it to matter).
+ * played decision, and for giving and answering the door at least one call
+ * temperament turns (someone near enough to the line for it to matter).
+ * Running for office is read for calls only: at the study's small size (an
+ * odds ratio of 1.21 between thirds) temperament tips about one newcomer a
+ * year in a town (1, 1, 2 and 0 in the four election years its weight was
+ * fitted on), so half a year often holds none; its slope is read below.
  */
 function windowGaps(world: CoreState): string[] {
   const gaps: string[] = [];
@@ -109,7 +113,7 @@ function windowGaps(world: CoreState): string[] {
     const turned = rows.filter(
       (r) => r.bare + w * r.lean > 0 !== r.bare > 0,
     ).length;
-    if (rows.length <= 50 || turned === 0)
+    if (rows.length <= 50 || (turned === 0 && id !== "candidacy.run"))
       gaps.push(`${id}: ${rows.length} calls, ${turned} turned by temperament`);
   }
   return gaps;
@@ -200,15 +204,18 @@ function targetOddsRatio(id: string): number {
   let best = 0;
   for (const row of research.rows as {
     id: string;
-    effect: { kind: string; value: number } | null;
+    effect: { kind: string; value: number; traitSd?: number } | null;
   }[]) {
     if (row.id !== id || !row.effect) continue;
     const e = row.effect;
+    // A trait scored over its full range converts with its own standard
+    // deviation from the study's table, as the calibration script does.
+    const sd = e.traitSd ?? 0;
     const log =
       e.kind === "logit-coef-full-range"
-        ? e.value * 0.2 * THIRDS_APART
+        ? e.value * sd * THIRDS_APART
         : e.kind === "pp-full-range"
-          ? swing(e.value) * 0.2 * THIRDS_APART
+          ? swing(e.value) * sd * THIRDS_APART
           : e.kind === "pp-per-iqr"
             ? (swing(e.value) / 1.35) * THIRDS_APART
             : 0;
@@ -263,9 +270,12 @@ function expectAboutResearch(
   rows: readonly Row[],
   w: number,
   slack = ONE_TOWN_SLACK,
+  share?: number,
 ) {
   const target = targetOddsRatio(id);
-  const reached = crossOdds(rows, w);
+  const at = (weight: number) =>
+    share === undefined ? 0 : shiftForShare(rows, weight, share);
+  const reached = crossOdds(rows, w, at(w));
   expect(rows.length, `${placeName}: ${id} calls`).toBeGreaterThan(50);
   expect(
     reached,
@@ -276,7 +286,7 @@ function expectAboutResearch(
     `${placeName}: ${id} odds ratio, target ${target.toFixed(2)}`,
   ).toBeLessThan(target * slack);
   // Personality is the cause: with the weight flat the same calls show no gap.
-  expect(crossOdds(rows, 0)).toBeCloseTo(1, 5);
+  expect(crossOdds(rows, 0, at(0))).toBeCloseTo(1, 5);
 }
 
 describe("personality in campaigns and candidacy (a played slice of a drawn place)", () => {
@@ -315,11 +325,17 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
     );
   });
 
-  it("running for office follows honesty-humility at about the researched rate", () => {
+  it("running for office follows honesty-humility at about the researched rate, among newcomers", () => {
+    // A serving incumbent weighs standing again (voting.stand-again), so only
+    // newcomers weigh running here, and so few of them run that the thirds'
+    // rates would sit at the floor; the slope is read with every reason total
+    // moved so one in twenty would run, as volunteering is read.
     expectAboutResearch(
       "candidacy.run",
       chooser,
       decisionTraitWeight(core, "candidacy.run"),
+      ONE_TOWN_SLACK,
+      VOLUNTEER_SHARE,
     );
   });
 

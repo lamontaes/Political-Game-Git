@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: blocked
+status: dropped
 claimed-by:
 pr:
 blocked-on: spec: the item text is an empty shell; a water-system condition model needs a design
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/ (a new water-system module), src/core2/data/outcome-web/coverage.json, src/core2/modules/outcome-web.ts
 
 **Notes.** Oct 20 (claude): claimed and read, not built. The measure `env.drinking-water-violations` appears only in `coverage.json`, so the engine, its data and the registration of the measure are all new work; check `docs/research/cloud-b-outcomes-2024/water-search-draft.json` for the researched numbers before choosing parameters.
+
+Dropped by the Oct 25 audit: an empty shell that needs a water-system design; nothing on screen reads it.

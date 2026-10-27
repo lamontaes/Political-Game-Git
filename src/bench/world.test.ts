@@ -65,6 +65,51 @@ describe("the bench player", () => {
   });
 });
 
+describe("the player the creator's birthday makes", () => {
+  it("is the resident born nearest the chosen day, whatever age that is", () => {
+    const input = opening({
+      "turns-18-in-three-days": "2008-10-15",
+      "born-near-35": "1991-09-30",
+      "born-far-35": "1991-01-01",
+      "born-near-70": "1956-10-02",
+    });
+    expect(entrantChoice(input, place, "1991-09-20")).toEqual({
+      id: "born-near-35",
+      age: 35,
+      estimated: false,
+    });
+    // Nobody is 56: the nearest stands in, marked as an estimate.
+    expect(entrantChoice(input, place, "1970-01-01")).toEqual({
+      id: "born-near-70",
+      age: 70,
+      estimated: true,
+    });
+  });
+  it("passes over a resident whose parent would be too young at the chosen birthday", () => {
+    const input = opening({
+      "parent-of-near": "1980-06-01",
+      near: "1991-09-30",
+      far: "1992-03-01",
+    });
+    const person = (id: string) =>
+      input.people.find((row) => row.id === id) as {
+        tier?: string;
+        pastFacts?: unknown;
+      };
+    // A relative living elsewhere (a husk) is never the player.
+    person("parent-of-near").tier = "husk";
+    const parentIsParent = [
+      { kind: "family:parent", facts: { otherPersonId: "parent-of-near" } },
+    ];
+    person("near").pastFacts = parentIsParent;
+    // The chosen day sits 11 years after the parent's: too young to be one.
+    expect(entrantOf(input, place, "1991-10-20")).toBe("far");
+    // Where every resident near the day fails, the nearest stands in.
+    person("far").pastFacts = parentIsParent;
+    expect(entrantOf(input, place, "1991-10-20")).toBe("near");
+  });
+});
+
 describe("a thin place", () => {
   it("opens and plays a month in Polebridge, a place with few residents, with a player at or near 18", () => {
     const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

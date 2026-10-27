@@ -8,7 +8,7 @@ import { storyOfReadEvent } from "../core2/modules/news";
 import { printedStoryOf } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import { bringItUp, changesKnownTo } from "./bring-it-up";
-import { storyTopicName } from "./question-names";
+import { storyTopicName } from "../english/policy-names";
 
 // A neighbor says aloud that a law took effect (golden path step 10): in a
 // played world in a drawn place, a reader of the story the press printed when
@@ -16,7 +16,7 @@ import { storyTopicName } from "./question-names";
 const seed = process.env.GOLDEN_PATH_SEED ?? "bring-it-up-law";
 
 describe("bring it up: a law taking effect", () => {
-  it("tells the neighbor of the printed law story, saying no hand-written line", () => {
+  it("names the law's subject and the outlet that printed it", () => {
     setBookkeeping(false);
     const tried: string[] = [];
     for (let draw = 0; draw < 6; draw += 1) {
@@ -56,16 +56,11 @@ describe("bring it up: a law taking effect", () => {
       const [change] = lawStory(reader.id);
       const story = printedStoryOf(api, storyOfReadEvent(change!.eventId)!)!;
       const said = bringItUp(core, reader.id, [...reader.knownIds][0]!);
-      // The reader still knows the law's story and tells the neighbor. The
-      // sentence it would say is hand-written and held until
-      // graded (pool item words-bring-it-up-law-line), so nothing is said
-      // aloud, never an empty or hand-written line, until the engine writes
-      // it.
       expect(said).not.toBeNull();
-      expect(said!.change.eventId).toBe(change!.eventId);
-      expect(story.topic).toBeDefined();
-      expect(said!.toldEventId).toBeTruthy();
-      expect(said!.lines).toEqual([]);
+      expect(said!.lines[0]!.text.toLowerCase()).toContain(
+        storyTopicName(story.topic)!.toLowerCase(),
+      );
+      expect(said!.lines[0]!.sourceRecordIds).toContain(change!.eventId);
       return;
     }
     throw new Error(

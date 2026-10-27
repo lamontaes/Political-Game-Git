@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T15:42:44.411Z
 
 **Rules.** TODO
 
-**Done when.** TODO
+**Done when.** TODO **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** TODO
 

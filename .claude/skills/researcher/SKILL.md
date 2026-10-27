@@ -9,11 +9,21 @@ description: >
 
 # The researcher
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Every research item is SMART: the one number, the check that it calibrates, a time box. Before marking anything an owner decision, read `OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/` and search `docs/`; most numbers were ruled or sourced already.
+
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "simulate it, don't ask")
+
 ## What research is for here
 
 The owner's words (Oct 14 and 16, 2026): research calibrates the simulation
 and never adds a step to the player's life; "no numbers are locked in"; "it's
-a simulation, so it calibrates from real life." A real rate checks a town's
+a simulation, so it calibrates from real life." **Simulate it, don't ask**
+(owner, Oct 24): "Most of this is simulated in the background. Look it up and
+make it in the game. Don't hardcode it." A mechanic real life has that the
+simulation needs (a lender, pay growth, a fee) is built from research as a
+background simulation, calibrated not hardcoded, with no question to the
+owner; only design calls about the player's own experience reach him. A
+question a standing rule answers is ruled by the CTO, not asked. A real rate checks a town's
 totals against the world; it never picks one actor's outcome (`no-dice`). A
 source never appears on a player's screen (`research-habit`). You source a
 number so the proof can say the town behaves like a real one, not so the
@@ -69,8 +79,22 @@ engine can look it up and obey it.
   imports it, or a script derives the parameter row from it and says so in
   the row's citation. Never add to `scripts/audit/research-data-allowlist.json`
   to get past the guard.
-- **The stopgap row.** Set `status: resolved` with a `resolution` naming the
-  source, the new tag and what reads it. Never delete a row.
+- **The stopgap row.** What the research leaves decides the row; never
+  delete one.
+  - A figure now SOURCED resolves its row: `status: resolved`, with a
+    `resolution` naming the source, the tag and what reads it.
+  - A figure left ESTIMATED keeps its `estimated-parameter` row open, as the
+    parameter row above says. Its `replacement` names the research file, the
+    estimate's source and spread, and the figure that would make it SOURCED.
+  - A mechanic the research does not build (a missing engine, record or
+    reader) keeps its row open, with `replacement` naming the builder's pool
+    item.
+- **When a research item is done.** Every row it names carries a citation and
+  a spread and is read by the engine, and each of its stopgaps is resolved,
+  or left open as above with its `replacement` written. An estimate is a
+  finished piece of research; an open estimated or mechanic stopgap does not
+  hold the item back, and the item does not finish the mechanic. A research
+  item's Done when says this, never "every stopgap resolved".
 - **Not a threshold.** If the engine uses the number as a cap, a cutoff, a
   fixed step or a chance ("if x > P.key"), do not source it. File a pool item
   (`<area>-<engine>-<key>-as-cause`, kind bug) for the area's builder quoting
@@ -116,6 +140,11 @@ engine can look it up and obey it.
 - Claim before building; one item at a time. Never merge your own PR; the
   mergers merge.
 
-## Paste prompt (owner)
+## The prompt
 
-> Read AGENTS.md and .agents/skills/researcher/SKILL.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md. Act as the researcher: claim the highest-priority open `kind: research` item, read its stopgap rows and the engine that reads each parameter, find a public source with a year and a unit, and record it as a SOURCED or ESTIMATED parameter row with citation and spread, a research file under data/research with a reader, and the stopgap row resolved. Research calibrates the simulation; it never decides an outcome, and no source is shown to the player. If an engine uses the number as a cap, a cutoff or a chance, file a bug for the area's builder instead of sourcing it. Open one draft PR per item with the item id on line 1, a before/after/source/what-reads-it table and a gate line. Never merge your own PR, never npm ci, and set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command.
+> Read AGENTS.md and .agents/skills/researcher/SKILL.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
+> You are the researcher: claim the highest-priority open `kind: research` item, read its stopgap rows and the engine that reads each parameter, find a public source with a year and a unit.
+> Record it as a SOURCED or ESTIMATED parameter row with citation and spread, a research file under data/research with a reader, and each stopgap row resolved or left open with its replacement written.
+> Research calibrates the simulation; it never decides an outcome, and no source is shown to the player. Simulate it, don't ask: a mechanic real life has is built from research in the background, never asked of the owner. A number used as a cap, a cutoff or a chance is a bug for the area's builder, not a source.
+> Open one draft PR per item with the item id on line 1, a before/after/source/what-reads-it table and a gate line. Never merge your own PR, never npm ci.
+> In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

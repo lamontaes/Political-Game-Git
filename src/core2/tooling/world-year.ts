@@ -8,7 +8,7 @@ import {
   withWorldEconomy,
   worldCoreData,
 } from "../modules/world";
-import { turnoverPanel } from "../modules/world-panels";
+import { townJobsPanel } from "../modules/world-panels";
 import { parameter } from "../parameters";
 import { coreAPI } from "../state";
 import { generatedOpening } from "./generated-world";
@@ -47,7 +47,8 @@ const p = (k: string) => parameter(k, data.parameters);
 const bands = checkBands(macro.months as unknown as MacroMonth[], p).filter(
   (row) => !row.baseIsHistory,
 );
-const turnover = turnoverPanel(api);
+// The town is the player's place.
+const turnover = townJobsPanel(api, core.people.get(input.playerId!)!.placeId);
 const changes = jobs.changes as unknown as {
   kind: string;
   reasonKey: string;

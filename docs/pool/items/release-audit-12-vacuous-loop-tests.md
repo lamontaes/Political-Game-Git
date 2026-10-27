@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-76ksvw
-pr: #5180
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T04:32:36.887Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T04:32:36.887Z
 
 **Files.** tests touched by #5016, #5033, #5008 and #5020
 
-**Notes.** Item 12 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+**Notes.** Item 12 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.

@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
+status: done
 claimed-by:
 pr: #5234
 blocked-on:

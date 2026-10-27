@@ -1,0 +1,312 @@
+{
+  "id": "pew-extended-family-proximity-2021",
+  "publisher": "Pew Research Center",
+  "vintage": "American Trends Panel, Oct. 18 to 24, 2021",
+  "table": "Short read (May 18, 2022)",
+  "title": "More than half of Americans live within an hour of extended family",
+  "universe": "9,676 U.S. adults; extended family means relatives outside the respondent's home, including in-laws",
+  "geography": "United States, Census regions and community type",
+  "sourceUrl": "https://www.pewresearch.org/short-reads/2022/05/18/more-than-half-of-americans-live-within-an-hour-of-extended-family/",
+  "retrievedOn": "2026-10-24",
+  "limits": "Self-reported, within an hour's drive of at least some extended family. Regions are the four Census regions; the island areas are not surveyed and take the median of the 50 states and DC.",
+  "national": {
+    "percent": 55,
+    "quote": "Overall, 55% of U.S. adults say they live within an hour’s drive of at least some of their extended family members."
+  },
+  "regions": {
+    "northeast": 62,
+    "midwest": 62,
+    "south": 53,
+    "west": 46,
+    "quote": "with adults in the Northeast and Midwest being the most likely to do so (62% each). Slightly more than half of adults in the South (53%) say they live near at least some extended family, while fewer than half of adults in the West (46%) say the same."
+  },
+  "communityType": {
+    "rural": 62,
+    "suburban": 54,
+    "urban": 50,
+    "quote": "Roughly six-in-ten adults in rural communities (62%) say they are within an hour of all, most or some of their extended family, compared with 54% of adults in suburban areas and 50% in urban areas."
+  },
+  "places": {
+    "AK": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "AL": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "AR": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "AS": {
+      "percent": 53,
+      "tag": "ESTIMATED",
+      "basis": "Not in a Census region and not surveyed: the median of the 50 states and DC."
+    },
+    "AZ": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "CA": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "CO": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "CT": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "DC": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "DE": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "FL": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "GA": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "GU": {
+      "percent": 53,
+      "tag": "ESTIMATED",
+      "basis": "Not in a Census region and not surveyed: the median of the 50 states and DC."
+    },
+    "HI": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "IA": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "ID": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "IL": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "IN": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "KS": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "KY": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "LA": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "MA": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "MD": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "ME": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "MI": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "MN": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "MO": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "MP": {
+      "percent": 53,
+      "tag": "ESTIMATED",
+      "basis": "Not in a Census region and not surveyed: the median of the 50 states and DC."
+    },
+    "MS": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "MT": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "NC": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "ND": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "NE": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "NH": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "NJ": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "NM": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "NV": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "NY": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "OH": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "OK": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "OR": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "PA": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "PR": {
+      "percent": 53,
+      "tag": "ESTIMATED",
+      "basis": "Not in a Census region and not surveyed: the median of the 50 states and DC."
+    },
+    "RI": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "SC": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "SD": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "TN": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "TX": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "UT": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "VA": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "VI": {
+      "percent": 53,
+      "tag": "ESTIMATED",
+      "basis": "Not in a Census region and not surveyed: the median of the 50 states and DC."
+    },
+    "VT": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: northeast"
+    },
+    "WA": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    },
+    "WI": {
+      "percent": 62,
+      "tag": "SOURCED",
+      "basis": "Census region: midwest"
+    },
+    "WV": {
+      "percent": 53,
+      "tag": "SOURCED",
+      "basis": "Census region: south"
+    },
+    "WY": {
+      "percent": 46,
+      "tag": "SOURCED",
+      "basis": "Census region: west"
+    }
+  },
+  "use": "SG-P15-kin-generation: the per-place band the share of residents with a relative outside the home living in their county is reported against (scripts/research/people-year.ts); read by the builder item people-kin-placement-by-distance."
+}

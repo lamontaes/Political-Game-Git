@@ -1,0 +1,24 @@
+{
+  "id": "jukic-gestation-2013",
+  "publisher": "Human Reproduction (Oxford University Press); National Institute of Environmental Health Sciences study",
+  "vintage": "North Carolina Early Pregnancy Study, 1982-1986 births",
+  "table": "Table I",
+  "title": "Length of human pregnancy and contributors to its natural variation",
+  "authors": "Jukic, Baird, Weinberg, McConnaughey and Wilcox (2013), Human Reproduction 28(10)",
+  "universe": "125 singleton live births with the day of ovulation measured from daily urine hormones",
+  "geography": "United States (one state's cohort; the figure is biological, not a place rate)",
+  "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3777570/",
+  "retrievedOn": "2026-10-24",
+  "limits": "Measured from ovulation, which the game's conception date stands for; obstetric gestation counted from the last menstrual period runs about two weeks longer (285 days at the median in the same table). One cohort of 125 births.",
+  "fromOvulation": {
+    "medianDays": 268,
+    "p25Days": 262,
+    "p75Days": 275,
+    "minDays": 208,
+    "maxDays": 284,
+    "quote": "The median time from ovulation to birth was 268 days (38 weeks, 2 days).",
+    "rangeQuote": "The ovulation-based gestational ages for the 125 singleton live births ranged from 208 to 284 days",
+    "tableRow": "Table I, all births, ovulation: mean 267 (SD 10); percentiles 10th 253, 25th 262, 50th 268, 75th 275, 90th 280"
+  },
+  "use": "renewalGestationDays: the median, 268 days; the spread is the 25th to 75th percentile, 262 to 275 days."
+}

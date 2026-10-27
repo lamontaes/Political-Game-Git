@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/simulation/living-world/town-employment.ts, src/core2/population.ts, src/core2/town-labor.ts
 
 **Notes.** TODO
+
+Duplicate of core-old-engine-03-schedules-jobs-traits-history (Oct 25 audit). The town job writers are the town-jobs step of core-old-engine-03.

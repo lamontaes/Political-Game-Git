@@ -21,6 +21,7 @@
  * Views form when first read, so a person filled in later gets theirs too.
  */
 import { stableHash, pairKey } from "../kernel/ids";
+import { livedQuestion } from "../outcome-news";
 import { ageOnDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
@@ -40,6 +41,11 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  reportOutcome,
+} from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
 
 interface CellKey {
@@ -364,6 +370,60 @@ function profileFromAverage(
   };
 }
 
+/**
+ * Where a person's view opens on the views scale: the CES cell for their
+ * state, age and profile, spread by their household's heritage and their own
+ * key. A counted resident opens where they will when filled in.
+ */
+function openingLean(
+  person: PersonState,
+  startedAt: string,
+  seed: string,
+): ReturnType<typeof viewCell> & { lean: number } {
+  const found = viewCell(person, startedAt, seed);
+  const share = v("householdShare");
+  const z =
+    share * normal(`${seed}:views:home:${person.householdId}`) +
+    Math.sqrt(v("one") - share * share) *
+      normal(`${seed}:views:person:${person.id}`);
+  const lean = Math.min(
+    v("leanMax"),
+    Math.max(v("leanMin"), found.cell.mean + found.cell.sd * z),
+  );
+  return { ...found, lean };
+}
+
+const countedLeans = new WeakMap<object, Map<PersonId, number>>();
+
+/**
+ * A counted resident's lean on the views scale: the lean their view gets when
+ * they are filled in as a full person, without making them one (one model,
+ * two tiers). A counted resident hears nothing that moves it, so it is kept
+ * for the world.
+ */
+export function countedLean(
+  api: CoreAPI,
+  voter: {
+    readonly id: PersonId;
+    readonly householdId: string;
+    readonly birthDate: string;
+    readonly placeId: string;
+    readonly traits: PersonState["traits"];
+  },
+): number {
+  const held = countedLeans.get(api.state) ?? new Map<PersonId, number>();
+  countedLeans.set(api.state, held);
+  const kept = held.get(voter.id);
+  if (kept !== undefined) return kept;
+  const { lean } = openingLean(
+    voter as unknown as PersonState,
+    api.state.startedAt,
+    api.state.seed,
+  );
+  held.set(voter.id, lean);
+  return lean;
+}
+
 /** A person's view, formed from their record the first time it is read. */
 export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const table = viewsTable(api);
@@ -372,21 +432,11 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const person = api.state.people.get(personId);
   if (!person) return null;
   api.stopgap(VIEWS_DATA.stopgapId);
-  const { cell, shares, basis } = viewCell(
+  const seed = api.state.seed;
+  const { lean, cell, shares, basis } = openingLean(
     person,
     api.state.startedAt,
-    api.state.seed,
-  );
-  const seed = api.state.seed;
-  // Who someone is at the opening: their household's heritage and their own.
-  const share = v("householdShare");
-  const z =
-    share * normal(`${seed}:views:home:${person.householdId}`) +
-    Math.sqrt(v("one") - share * share) *
-      normal(`${seed}:views:person:${person.id}`);
-  const lean = Math.min(
-    v("leanMax"),
-    Math.max(v("leanMin"), cell.mean + cell.sd * z),
+    seed,
   );
   // Following politics: the cell's average, spread by the person's own key
   // (u to the power a has mean 1 / (a + 1)).
@@ -437,7 +487,7 @@ export function standingWith(
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
-  const trust = speaker
+  const nearTrust = speaker
     ? Math.max(
         v("zero"),
         v("one") -
@@ -445,6 +495,28 @@ export function standingWith(
             (v("leanMax") - v("leanMin")),
       )
     : half;
+  // How far the listener trusts anyone follows their own traits (generalized
+  // trust: agreeableness), at the weight fitted to its study.
+  const hearer = api.state.people.get(listener.id);
+  let trust = nearTrust;
+  if (hearer) {
+    const lean = decisionLean(
+      api.state,
+      hearer,
+      "views.trust",
+      "trust",
+      "distrust",
+    );
+    trust = Math.min(
+      v("one"),
+      nearTrust *
+        Math.exp(decisionTraitWeight(api.state, "views.trust") * lean),
+    );
+    // The audit's probe (off in play) sees the trust with and without the trait term.
+    reportOutcome("views.trust", hearer.id, lean, "size", (withTerm) =>
+      withTerm ? trust : nearTrust,
+    );
+  }
   const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
   const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
   const partyOf = (id: string) =>
@@ -689,10 +761,16 @@ export const viewsModule: CoreModule = {
   },
   eventKinds: ["*"],
   onEvent(api, event, learnedBy) {
-    // Only an event with a topic and a wanted change carries a stance. A
-    // drive forming or growing restates a change the event behind it already
-    // made, so it moves nothing again.
-    if (!event.topic || !event.desiredChange) return;
+    // Only an event with a topic and a wanted change carries a stance, or a
+    // condition someone lives (their household burglarized): that argues no
+    // change, so each person it happened to takes it as a reason for the
+    // side their own view already holds on the question it ties to, as a
+    // reader of a story about it does; someone who only hears of it does not
+    // live it. A drive forming or growing restates a change the event behind
+    // it already made, so it moves nothing again.
+    const lived = event.desiredChange ? null : livedQuestion(event.kind);
+    const topic = lived ?? event.topic;
+    if (!topic || (!event.desiredChange && !lived)) return;
     if (DRIVE_MOMENTS.has(event.kind)) return;
     const impulse =
       Math.abs(event.moodImpulse ?? v("zero")) +
@@ -701,7 +779,16 @@ export const viewsModule: CoreModule = {
     for (const personId of learnedBy) {
       const view = viewOf(api, personId);
       if (!view) continue;
-      const id = `${personId}:${event.topic}`;
+      let desiredChange = event.desiredChange;
+      if (lived) {
+        // stopgapId: SG-PEOPLE-counted-victims-lived-crime (a counted group's victimizations are a tally row; its view on the police does not move)
+        if (!event.personIds.includes(personId)) continue;
+        const current = viewOn(api, personId, lived, view.lean);
+        if (current === v("zero")) continue;
+        desiredChange = current > v("zero") ? "enact" : "repeal";
+      }
+      if (!desiredChange) continue;
+      const id = `${personId}:${topic}`;
       const prior = stancesTable(api).get(id) as unknown as Stance | undefined;
       // A case made by a speaker moves the listener by the speaker's
       // standing with them: the speaker the event names, or for someone who
@@ -731,20 +818,43 @@ export const viewsModule: CoreModule = {
       )
         continue;
       const nearness = speakerId
-        ? standingWith(api, view, speakerId, event.topic, event.desiredChange)
+        ? standingWith(api, view, speakerId, topic, desiredChange)
         : v("one");
       // The same case from the same speaker again persuades less each time.
       const heard = speakerId
         ? (prior?.heard?.[speakerId] ?? v("zero"))
         : v("zero");
+      // How far this hearer lets an argument or a story move them follows
+      // their own traits (openness and agreeableness toward yielding), at the
+      // weight fitted to its study.
+      const hearer = api.state.people.get(personId);
+      // A multiplier, never zero: the most resistant hearer still moves a little.
+      const yieldLean = hearer
+        ? decisionLean(api.state, hearer, "views.persuasion", "yield", "resist")
+        : v("zero");
+      const yielding = hearer
+        ? Math.exp(
+            decisionTraitWeight(api.state, "views.persuasion") * yieldLean,
+          )
+        : v("one");
       const change =
         (v("stanceStep") *
           size *
           nearness *
+          yielding *
           (v("one") - v("tightness") * view.engagement)) /
         (v("one") + v("repeatWearOut") * heard);
+      // The audit's probe (off in play) sees the move with and without the trait term.
+      if (hearer)
+        reportOutcome(
+          "views.persuasion",
+          personId,
+          yieldLean,
+          "size",
+          (withTerm) => (withTerm ? change : change / yielding),
+        );
       if (change <= v("zero")) continue;
-      const same = prior?.desiredChange === event.desiredChange;
+      const same = prior?.desiredChange === desiredChange;
       const strength = Math.min(
         v("one"),
         prior
@@ -756,14 +866,14 @@ export const viewsModule: CoreModule = {
       const stance: Stance = {
         id,
         personId,
-        topic: event.topic,
+        topic,
         // A stance pushed past zero turns toward the new change.
         desiredChange:
           prior && !same && strength > v("zero")
             ? prior.desiredChange
-            : event.desiredChange,
+            : desiredChange,
         strength: Math.abs(strength),
-        // The player's circle (and every person when bookkeeping is on) keeps
+        // The player's circle (and everyone, under the keep-everyone's-why switch) keeps
         // why the stance is what it is: one cause per source, the speaker and
         // the record they learned it from, holding that source's latest event
         // and how often and how much it has moved the stance. A source
@@ -793,8 +903,7 @@ export const viewsModule: CoreModule = {
           : {}),
       };
       stancesTable(api).put(stance as unknown as { id: string });
-      for (const listener of stanceListeners)
-        listener(api, personId, event.topic);
+      for (const listener of stanceListeners) listener(api, personId, topic);
     }
   },
 };

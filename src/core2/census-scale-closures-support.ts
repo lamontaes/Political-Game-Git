@@ -12,6 +12,7 @@ import { advanceCore } from "./life";
 import { BUSINESS_MODULE_ID } from "./modules/business";
 import { JOBS_MODULE_ID } from "./modules/jobs";
 import { coreAPI } from "./state";
+import { residentsRuntime } from "./modules/residents";
 import type { CoreState } from "./types";
 
 export const SAMPLE = 10_000;
@@ -47,8 +48,16 @@ function build(seed: string, key: string, countScale: number) {
   return buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale !== 1 ? { countScale } : {}),
+    countScale,
   }).core as CoreState;
+}
+
+/** Opening counted people across the world, before either run changes its records. */
+function openingCountedPeople(core: CoreState): number {
+  const store = residentsRuntime(core)!.store;
+  let people = 0;
+  for (const h of store.liveHouseholds()) people += store.weightedCount(h);
+  return people;
 }
 
 /** How long past the window the sample town may take to close a firm the Census town closed: a month, the step counted moves and owners' books take. */
@@ -71,10 +80,23 @@ export function compareClosures(
   // The Census town first, read and let go, so one world is held at a time.
   const scaled = (() => {
     const core = build(seed, key, reference / SAMPLE);
+    const openingCounted = openingCountedPeople(core);
     advanceCore(core, addDays(makeIsoDate(core.date), days));
-    return readClosures(core);
+    return { ...readClosures(core), openingCounted };
   })();
   const sampleCore = build(seed, key, 1);
+  const sampleOpeningCounted = openingCountedPeople(sampleCore);
+  expect(
+    sampleOpeningCounted,
+    `${where}: sample opening counted people`,
+  ).toBeGreaterThan(0);
+  expect(
+    scaled.openingCounted,
+    `${where}: Census control must start with more counted people than the sample`,
+  ).toBeGreaterThan(sampleOpeningCounted);
+  process.stdout.write(
+    `CLOSURE CONTROLS ${where}: Census ${scaled.openingCounted} counted people; sample ${sampleOpeningCounted} counted people\n`,
+  );
   const end = addDays(makeIsoDate(sampleCore.date), days);
   advanceCore(sampleCore, end);
   const sample = readClosures(sampleCore);
