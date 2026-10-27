@@ -5,14 +5,15 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-first-06-created-look-in-every-scene
 pr:
 blocked-on:
 after:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-27T10:46:55.602Z
 ---
 
 **What.** In the v0.22.10 release the creator drew a blonde woman in a burgundy top, and play drew someone else in every scene; the talk box showed my portrait next to another person's name. Once the rooms draw the created look (play-stop-03), the other places a player sees themself must read the same record. This item makes every portrait and figure of the player read the one appearance record the creator saved.
