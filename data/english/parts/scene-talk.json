@@ -23256,10 +23256,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-at-a-folding-table-outside-the-grocery-store-with-a-clipboard-",
+      "key": "scene-talk.narrate-narrate.name-is-at-a-folding-table-with-a-clipboard-and-a-stack-of-petitions-you-d-have-to-walk-right-past",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is at a folding table outside the grocery store with a clipboard and a stack of petitions. You'd have to walk right past.",
+      "text": "{name} is at a folding table with a clipboard and a stack of petitions. You'd have to walk right past.",
       "uses": [
         {
           "subject": "scene",
@@ -23306,10 +23306,10 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.we-re-collecting-signatures-to-recall-you-you-voted-for-bill-and-peopl",
+      "key": "scene-talk.state-confront.we-re-collecting-signatures-to-recall-you-you-voted-for-bill-that-s-why",
       "move": "state-confront",
       "kind": "spoken",
-      "text": "We're collecting signatures to recall you. You voted for {bill}, and people here are paying for it.",
+      "text": "We're collecting signatures to recall you. You voted for {bill}. That's why.",
       "uses": [
         {
           "subject": "scene",
@@ -48804,10 +48804,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.a-card-table-has-gone-up-by-the-post-office-doors-name-is-behind-it-wi",
+      "key": "scene-talk.narrate-narrate.a-card-table-has-gone-up-on-your-way-through-town-name-is-behind-it-with-petitions",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A card table has gone up by the post office doors. {name} is behind it with petitions and a jar of pens.",
+      "text": "A card table has gone up on your way through town. {name} is behind it with petitions.",
       "uses": [
         {
           "subject": "scene",
