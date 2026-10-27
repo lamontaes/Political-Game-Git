@@ -9,6 +9,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import heads from "./data/figure-heads.json" with { type: "json" };
+import figures from "../../art/people-engine/v2/index.json" with { type: "json" };
 
 export interface Swatch {
   readonly id: string;
@@ -72,7 +73,13 @@ export const GARMENT_SWATCHES: Readonly<Record<Garment, readonly Swatch[]>> = {
 };
 
 /** A person's colors: their skin, and each piece of clothing; a piece left out keeps its painted gray. */
-export type FigureColors = { skin?: string } & Partial<Record<Garment, string>>;
+export type FigureColors = {
+  skin?: string;
+  /** A hair style's number (figure-hair.ts); bald where absent. */
+  hair?: string;
+  /** A hair swatch id. */
+  hairColor?: string;
+} & Partial<Record<Garment, string>>;
 
 const rgb = (hex: string): [number, number, number] => [
   parseInt(hex.slice(1, 3), 16),
@@ -107,6 +114,28 @@ function regionOf(r: number, g: number, b: number): Region {
   if (sat < 0.12 && lum > 60 && lum < 235) return "clothes";
   return "other";
 }
+
+// Where pieces meet on a figure with no map yet (presentation, TUNABLE by
+// eye): the hip at this share of the height to the feet, and the shoes in
+// this share of the picture above the foot line.
+const HIP = 0.5;
+const FEET = 0.045;
+const ROWS = new Map(
+  (
+    figures.figures as {
+      file: string;
+      outfit: string;
+      footY: number;
+      seatY?: number;
+    }[]
+  ).map((row) => [
+    row.file
+      .split("/")
+      .pop()!
+      .replace(/\.png$/, ""),
+    row,
+  ]),
+);
 
 const maps = new Map<string, PNG | null>();
 /** The figure's garment map, or null where the art session has not painted one yet. */
@@ -163,23 +192,29 @@ export function recolorFigure(
   if (skin.id === DEFAULT_SKIN && !wanted.size) return source;
   const png = PNG.sync.read(source);
   const map = garmentMap(name);
-  // Without a map: everything below the head that reads as gray cloth is
-  // one piece, worn in the top's color (the jacket's, else the shirt's).
+  // Without a map: the gray cloth below the head, split by height on the
+  // body: the feet are the shoes, below the hip the pants, above it the top
+  // (the jacket where the outfit has one, else the shirt).
   const head = (heads.heads as Record<string, number[]>)[name];
+  const row = ROWS.get(name);
   const below = head ? head[0]! + head[2]! * 1.3 : 0;
+  const foot = row?.footY ?? png.height;
+  const hip = row?.seatY ?? foot * HIP;
+  const feet = foot - png.height * FEET;
+  const top: Garment =
+    row && (row.outfit === "vest" || row.outfit === "blazer")
+      ? "jacket"
+      : "shirt";
   const pieceOf = (i: number): Garment | null => {
     if (map) return garmentAt(map, i);
     const y = Math.floor(i / 4 / png.width);
     if (y < below) return null;
-    const region = regionOf(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!);
-    return region === "clothes" ? "shirt" : null;
+    if (
+      regionOf(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!) !== "clothes"
+    )
+      return null;
+    return y >= feet ? "shoes" : y >= hip ? "pants" : top;
   };
-  if (!map) {
-    const top = colors.jacket ?? colors.shirt;
-    wanted.clear();
-    if (top && top !== DEFAULT_CLOTHES)
-      wanted.set("shirt", rgb(clothesSwatch(top)!.color));
-  }
   // Each piece's own median luminance, and the skin's.
   const lums = new Map<Garment | "skin", number[]>();
   const pieces = new Array<Garment | "skin" | null>(png.width * png.height);
