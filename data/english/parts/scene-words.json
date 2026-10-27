@@ -2941,6 +2941,48 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-party-recruit-other.other-has-come-by-about-the-election",
+      "move": "lead-party-recruit-other",
+      "kind": "spoken",
+      "text": "{other} has come by about the election.",
+      "uses": [
+        {
+          "move": "lead-party-recruit-other",
+          "subject": "lead",
+          "role": "party-recruit",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-recruit-alone.a-party-officer-has-come-by-to-see-you",
+      "move": "lead-party-recruit-alone",
+      "kind": "spoken",
+      "text": "A party officer has come by to see you.",
+      "uses": [
+        {
+          "move": "lead-party-recruit-alone",
+          "subject": "lead",
+          "role": "party-recruit",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

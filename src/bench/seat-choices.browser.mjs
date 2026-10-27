@@ -23,6 +23,13 @@ try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto(`${base}/play`);
   await ready;
+  // SEED=<seed> replays a drawn world: the new-life request carries it.
+  if (process.env.SEED)
+    await page.route("**/api/newlife?*", (route) => {
+      const url = new URL(route.request().url());
+      url.searchParams.set("seed", process.env.SEED);
+      return route.continue({ url: url.toString() });
+    });
   const made = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/newlife",
     { timeout: 600000 },

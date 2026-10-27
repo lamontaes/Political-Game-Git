@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/legislators-know-colleagues
-pr:
+pr: #6199
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T23:45:58.958Z
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T23:45:58.958Z
 **Rules.** No dice: a tie's strength comes from the years two officials served together, as the delegation ties already do. One model, two tiers: officials are full people, and their ties are read by the same engines as any person's.
 
 **Done when.** The M1-12 command in Kagman IV, Northern Mariana Islands (seed above) and a second place drawn from all 56 shows every serving official with at least one relationship, by record id in the PR body, and a test fails when a chamber's members get no ties. **On screen.** Nothing yet: filed play-official-ties-on-screen, which puts it on a person card.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/modules/officials.ts
 
