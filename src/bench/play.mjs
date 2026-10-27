@@ -384,6 +384,9 @@ async function playOpening() {
  * controls.opening.newsToastSeconds, goes at once on its close, and the story
  * stays in News either way.
  */
+/** A story's headline as every news surface says it: its headline, else its lede, else the newscast's first line. */
+const storyHeadline = (story) =>
+  story.headline ?? story.lede ?? story.broadcast?.[0]?.text ?? "";
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
@@ -391,8 +394,7 @@ function showNewsSurface(news) {
   const story = news?.stories?.[0];
   if (!story) return;
   $("news-surface-label").textContent = controls.opening?.news ?? "";
-  $("news-surface-headline").textContent =
-    story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
+  $("news-surface-headline").textContent = storyHeadline(story);
   $("news-surface-close").setAttribute(
     "aria-label",
     controls.opening?.closeNews ?? "",
@@ -412,8 +414,7 @@ function showNewsSurface(news) {
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
-  $("news-reader-headline").textContent =
-    lead.headline ?? lead.lede ?? lead.broadcast[0]?.text ?? "";
+  $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
     ...lead.broadcast.map((line) =>
       el("p", { className: "prose", textContent: line.text }),
@@ -427,10 +428,7 @@ function openNewsReader(news) {
     ...rest.map((item) =>
       el("p", {
         className: "prose",
-        textContent:
-          item.headline ??
-          item.lede ??
-          item.broadcast.map((line) => line.text).join(" "),
+        textContent: storyHeadline(item),
       }),
     ),
   );
@@ -3657,11 +3655,12 @@ const sheets = {
       api(`/api/opening?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.news;
-    // What you heard, newest first, ahead of the opening night's paper.
+    // One feed: the night's lead story the toast showed first, then what you heard,
+    // newest first. News and the toast read the same stories through storyHeadline.
     const stories = [
-      ...rows.filter((r) => r.headline || r.lede),
       ...(opening?.news?.stories ?? []),
-    ].filter((s) => s.headline || s.lede);
+      ...rows.filter((r) => r.headline || r.lede),
+    ].filter(storyHeadline);
     const outlets = new Map();
     for (const story of stories) {
       const outlet = story.outlet ??
@@ -3856,9 +3855,7 @@ const sheets = {
       paper.className = `paper paper-${layout}`;
       const section = el("div", { className: "paper-stories" });
       outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
-        const headline = button(story.headline ?? story.lede, () =>
-          article(story),
-        );
+        const headline = button(storyHeadline(story), () => article(story));
         headline.className = "story-headline";
         section.append(
           el(
