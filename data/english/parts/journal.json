@@ -7254,10 +7254,10 @@
       }
     },
     {
-      "key": "journal.home-line-school-started-high.i-went-on-to-school",
+      "key": "journal.home-line-school-started-high.i-was-a-freshman-at-school",
       "move": "home-line-school-started-high",
       "kind": "spoken",
-      "text": "I went on to {school}.",
+      "text": "I was a freshman at {school}.",
       "uses": [
         {
           "move": "home-line-school-started-high",
