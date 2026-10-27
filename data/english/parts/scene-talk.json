@@ -33,7 +33,8 @@
     "title": "How the person is addressed (their office), from their term.",
     "issue": "The bill's question, named as the bill catalog records it.",
     "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
-    "reporter": "The reporter who wrote a story, by name, from the press record."
+    "reporter": "The reporter who wrote a story, by name, from the press record.",
+    "first": "The player's own given name, from the scene's cast record."
   },
   "maxWords": 70,
   "parts": [
@@ -85659,32 +85660,6 @@
       }
     },
     {
-      "key": "scene-talk.state-congratulate.congratulations-on-office-this-isn-t-an-easy-call-to-make-but-i-m-maki",
-      "move": "state-congratulate",
-      "kind": "spoken",
-      "text": "Congratulations on {office}. This isn't an easy call to make, but I'm making it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "congratulate",
-          "role": "asker",
-          "purpose": "concession-received",
-          "key": "call-in",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session, helper B (pool item words-scene-concession-received)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "congratulate",
-        "key": "call-in"
-      }
-    },
-    {
       "key": "scene-talk.state-congratulate.congratulations-my-people-worked-hard-and-so-did-yours",
       "move": "state-congratulate",
       "kind": "spoken",
@@ -86561,32 +86536,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-that-s-all-i-wanted-to-hear",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. That's all I wanted to hear.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "concession-received",
-          "key": "call-in",
-          "after": "promise"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session, helper B (pool item words-scene-concession-received)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "call-in"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.then-i-ll-hold-you-to-it-and-so-will-they",
       "move": "follow-press",
       "kind": "spoken",
@@ -86743,32 +86692,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.did-the-numbers-hold-up-where-i-expected-them-to",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Did the numbers hold up where I expected them to?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "concession-received",
-          "key": "call-in",
-          "after": "answer"
-        }
-      ],
-      "bearing": "curious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session, helper B (pool item words-scene-concession-received)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "call-in"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.then-i-ll-plan-on-that-thank-you-for-telling-me-straight",
       "move": "follow-thank",
       "kind": "spoken",
@@ -86869,32 +86792,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "thank",
-        "key": "call-in"
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-see-you-monday-then",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll see you Monday, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "concession-received",
-          "key": "call-in",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session, helper B (pool item words-scene-concession-received)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "promise",
         "key": "call-in"
       }
     },
@@ -87052,6 +86949,237 @@
       "date": "2026-10-27",
       "tag": {
         "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.congratulations-this-isn-t-an-easy-call-to-make-but-i-m-making-it",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "Congratulations. This isn't an easy call to make, but I'm making it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-see-you-monday-then",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll see you Monday, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "offer",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.then-we-ll-talk-when-you-ve-settled-in-congratulations-again",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Then we'll talk when you've settled in. Congratulations again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "offer",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-is-all-i-needed-to-hear",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That is all I needed to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-i-will-hold-you-to-that-hearing-and-so-will-they-don-t-make-it-a",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then I will hold you to that hearing, and so will they. Don't make it a quiet one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "decline"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.they-will-hear-it-from-me-first-you-have-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "They will hear it from me first. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-will-make-sure-your-people-are-in-the-room-when-it-counts",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I will make sure your people are in the room when it counts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.thank-you-for-the-call-i-need-to-get-back-to-my-people",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thank you for the call. I need to get back to my people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-let-you-go-we-both-have-people-waiting",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should let you go. We both have people waiting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-received",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session, helper B (pool item words-scene-concession-received)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
         "key": "call-in"
       }
     }

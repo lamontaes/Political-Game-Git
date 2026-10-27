@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -7,6 +8,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   type ContestRow,
@@ -17,6 +19,7 @@ import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import type { TreeNode } from "./scene-talk";
 
 // The call after the count, from the winner's side (episode
 // docs/design/scenes/from-life/concession-call-received.md). In the played
@@ -42,7 +45,14 @@ const run = (drawSeed: string): string | null => {
   const api = coreAPI(core);
   const end = addDays(makeIsoDate(core.date), YEAR);
   const town = [...core.people.values()]
-    .filter((p) => p.alive && p.id !== core.playerId)
+    .filter(
+      (p) =>
+        p.alive &&
+        p.id !== core.playerId &&
+        (core.households.get(p.householdId)?.memberIds ?? []).some(
+          (id) => id !== p.id && core.people.get(id)?.alive,
+        ),
+    )
     .sort((a, b) => a.id.localeCompare(b.id));
   const open = () =>
     [...openContests(api)]
@@ -52,6 +62,20 @@ const run = (drawSeed: string): string | null => {
           a.electionDate.localeCompare(b.electionDate) ||
           a.id.localeCompare(b.id),
       );
+  // Many places elect their seats only in even years: a place with no race
+  // counted within the year is passed over the day it is built.
+  const contests = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as unknown as ContestRow[];
+  if (
+    !contests.some(
+      (race) =>
+        race.filingDeadline >= core.date &&
+        addDays(makeIsoDate(race.electionDate), 2) <= end,
+    )
+  )
+    return `${where}: no race is counted within the year`;
   for (let day = 0; !open().length && day < YEAR; day += 7)
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
   let contest: ContestRow | undefined;
@@ -75,6 +99,16 @@ const run = (drawSeed: string): string | null => {
     filings.length = 0;
   }
   if (!contest) return `${where}: no race took two filers`;
+  // Anyone else who filed on their own is watched too, so the winner is
+  // someone the director follows, as it follows the player's circle.
+  advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
+  const onBallot = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .rows() as unknown as FilingRow[]
+  ).filter((f) => f.contestId === contest!.id && f.status === "on-ballot");
+  for (const f of onBallot) director.watch(core, f.personId as PersonId);
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
   if (!result?.winnerId) return `${where}: ${contest.id} named no winner`;
@@ -88,8 +122,6 @@ const run = (drawSeed: string): string | null => {
   const ranked = Object.entries(totals).sort(
     (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
   );
-  if (!filings.some((f) => f.personId === winner))
-    return `${where}: the winner is not a watched filer`;
 
   const entryOf = (personId: PersonId) =>
     director.ledger.people
@@ -122,9 +154,9 @@ const run = (drawSeed: string): string | null => {
   expect(scene.askedId, where).toBe(winner);
   // The lead is the count's own difference, citing the record.
   const lead = scene.facts.find((row) => row.key === "lead");
-  expect(lead?.text, where).toMatch(/^\d+ votes?$/);
+  expect(lead?.text, where).toMatch(/^[\d,]+ votes?$/);
   expect(lead?.recordIds, where).toContain(causeId);
-  expect(Number.parseInt(lead!.text, 10), where).toBe(
+  expect(Number.parseInt(lead!.text.replaceAll(",", ""), 10), where).toBe(
     ranked[0]![1] - ranked[1]![1],
   );
   // Four replies that are four stances.
@@ -139,10 +171,16 @@ const run = (drawSeed: string): string | null => {
     ).toBeGreaterThan(0);
 
   // The reply is a record and reaches the pair's tie.
-  const id = replyInScene(core, director, winner, entry!, [0], {});
+  // The winner is the player here: the core keeps the reasons of the player's
+  // own circle, and a reply is a record of what they said to whom.
+  core.playerId = winner;
+  const id = replyInScene(core, director, winner, entry!, [0], {
+    typeKey: "concession-received",
+  });
   expect(id, where).toMatch(/^scene-reply:/);
   const written = core.durableLog.get(id!);
-  expect(written?.facts?.typeKey, where).toBe("concession-received");
+  expect(written?.facts?.causeId, where).toBe(causeId);
+  expect(written?.facts?.line, where).toBe(replies[0]!.line.text);
   expect(written?.personIds, where).toEqual(
     expect.arrayContaining([winner, callerId]),
   );
@@ -155,8 +193,39 @@ const run = (drawSeed: string): string | null => {
     `${where}: the loser got the winner's call`,
   ).toBe(false);
 
+  // The bank has a line for every node: the engine lists what it lacks.
+  expect(scene.talk.gaps, `${where}: bank gaps`).toEqual([]);
+  // The exchange reaches more than one named ending.
+  expect(
+    Object.keys(scene.talk.endingCounts).length,
+    `${where}: ${JSON.stringify(scene.talk.endingCounts)}`,
+  ).toBeGreaterThan(2);
+
+  // CONCESSION_DUMP=<file> writes every branch of the scene for review.
+  if (process.env.CONCESSION_DUMP) {
+    const out: string[] = [
+      `${where}: ${causeId}`,
+      ...scene.talk.narration.map((l) => `NARRATOR: ${l.text}`),
+      `OPEN (${scene.talk.open?.speaker}): ${scene.talk.open?.text}`,
+      `STATE (${scene.talk.state.speaker}): ${scene.talk.state.text}`,
+    ];
+    const walk = (node: TreeNode, depth: number) => {
+      const pad = "  ".repeat(depth);
+      for (const l of node.lines) out.push(`${pad}${l.speaker}: ${l.text}`);
+      for (const r of node.replies) {
+        out.push(`${pad}> [${r.line.move}] ${r.line.text}`);
+        if (r.next) walk(r.next, depth + 1);
+      }
+      if (node.end)
+        out.push(
+          `${pad}= ${node.end.ending?.label ?? node.end.outcome} (${node.end.ending?.keeps ?? "none"})${node.end.close ? ` / ${node.end.close.speaker}: ${node.end.close.text}` : ""}`,
+        );
+    };
+    walk(scene.talk.tree, 1);
+    writeFileSync(process.env.CONCESSION_DUMP, out.join("\n") + "\n");
+  }
   console.log(
-    `CONCESSION RECEIVED ${where}: ${causeId}\n  narrate: ${scene.talk.root.lines.map((l) => l.text).join(" / ")}\n  state: ${scene.talk.state.text}\n  replies: ${replies.map((r) => `"${r.line.text}"`).join(" ")}`,
+    `CONCESSION RECEIVED ${where}: ${causeId}\n  narrate: ${scene.talk.narration.map((l) => l.text).join(" / ")}\n  open: ${scene.talk.open?.text}\n  state: ${scene.talk.state.text}\n  replies: ${replies.map((r) => `"${r.line.text}"`).join(" ")}\n  endings: ${JSON.stringify(scene.talk.endingCounts)}\n  gaps: ${JSON.stringify(scene.talk.gaps)}`,
   );
   return null;
 };

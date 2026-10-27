@@ -2787,10 +2787,16 @@
         "thank": ["request", "promise"],
         "offer": ["accept", "thank"],
         "press": ["accept", "refuse"],
-        "stall": ["ask", "accept"]
+        "stall": ["ask", "accept"],
+        "decline": ["refuse", "press"],
+        "answer": ["thank"],
+        "promise": ["thank", "press"]
       },
       "again": {
         "request": ["promise", "offer", "decline", "stall"],
+        "promise": ["thank", "offer", "press", "stall"],
+        "press": ["offer", "promise", "stall", "leave"],
+        "plea": ["promise", "offer", "stall", "leave"],
         "refuse": ["press", "accept", "warn", "leave"],
         "ask": ["answer", "press", "stall", "leave"]
       },
@@ -2828,6 +2834,14 @@
           "when": {
             "anyReply": ["press"],
             "asker": ["refuse"]
+          }
+        },
+        {
+          "id": "told-the-count",
+          "label": "You told them where the count stood",
+          "keeps": "none",
+          "when": {
+            "reply": ["answer"]
           }
         },
         {

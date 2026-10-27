@@ -216,7 +216,7 @@ function composeBinding(
     const ahead = (counts[P.zero] ?? P.zero) - (counts[P.one] ?? P.zero);
     if (counts.length > P.one && ahead > P.zero)
       facts.lead = {
-        text: `${ahead} ${ahead === P.one ? "vote" : "votes"}`,
+        text: `${ahead.toLocaleString("en-US")} ${ahead === P.one ? "vote" : "votes"}`,
         sourceRecordIds: [moment.causeId],
       };
   }
@@ -269,7 +269,7 @@ export function replyInScene(
   personId: PersonId,
   entry: ScheduleEntry,
   path: readonly number[],
-  options: { includeHeld?: boolean } = {},
+  options: { includeHeld?: boolean; typeKey?: string } = {},
 ): string | null {
   const result = purposeScene(core, director, personId, entry, options);
   if (result?.kind !== "composed" || !path.length) return null;
