@@ -215,6 +215,18 @@ function playYear(
     expect(tie, `${row.replyId}: a tie with the cast`).toBeTruthy();
     expect(tie!.lastContactDate >= row.date, row.replyId).toBe(true);
   }
+  // A reply to an override's sponsor is kept by the legislature as a favor or
+  // a strain the member's next vote on the sponsor's bills reads.
+  for (const row of fired.filter(
+    (item) => item.row === "override-whip" && item.replyId,
+  ))
+    expect(
+      coreAPI(core)
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("overrideReplies")
+        .get(row.replyId!),
+      `${row.replyId}: the legislature keeps the reply`,
+    ).toBeTruthy();
   // Spaced: never two on one day.
   const days = fired.map((row) => row.date);
   expect(new Set(days).size).toBe(days.length);
