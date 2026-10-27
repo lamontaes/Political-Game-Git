@@ -103,7 +103,11 @@ export function openingFrames(
   // A cutaway shows the town's own people, never an empty room: the people
   // with jobs at an organization of the town whose own picture it is, or the
   // adults of the town with no job.
-  const town = new Set<string>([player.placeId, player.countyId]);
+  const town = new Set<string>(
+    [player.placeId, player.countyId].filter(
+      (id): id is NonNullable<typeof id> => Boolean(id),
+    ),
+  );
   const workersBy = new Map<string, string[]>();
   const workersOf = (place: string) => {
     if (!workersBy.size) {

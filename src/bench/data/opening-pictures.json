@@ -30,12 +30,12 @@
       "places": ["@visited-capitol"]
     },
     {
-      "facts": ["goal"],
-      "places": ["us-capitol-exterior", "us-house-floor"],
-      "cast": "congress"
-    },
-    {
-      "facts": ["unemployment-rate", "unemployment-down", "jobless"],
+      "facts": [
+        "unemployment-rate",
+        "unemployment-down",
+        "jobless",
+        "unemployment-up"
+      ],
       "places": ["unemployment-office", "workforce-center"],
       "cast": "jobless"
     },
@@ -45,7 +45,7 @@
       "cast": "workers"
     },
     {
-      "facts": ["wages-up"],
+      "facts": ["wages-up", "wage-growth"],
       "places": ["factory-floor", "workforce-center"],
       "cast": "workers"
     },
@@ -67,7 +67,7 @@
       "cast": "workers"
     },
     {
-      "facts": ["growth-up", "growth-high"],
+      "facts": ["growth-up", "growth-high", "growth-rate", "mortgage-rate"],
       "places": ["main-street", "downtown-sidewalk"],
       "cast": "workers"
     },
