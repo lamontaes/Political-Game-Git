@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-37-opening-tags-and-highlights-match-the-figure
 pr: #6243
 blocked-on:

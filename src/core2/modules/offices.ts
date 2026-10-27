@@ -32,7 +32,7 @@ import { incompatibleOffices } from "../office-incompatibility";
  */
 import { registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
-import { decisionLean } from "../trait-decisions";
+import { leanedScore } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
 import { makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, PersonId, Source } from "../types";
@@ -1195,12 +1195,15 @@ function fillVacancy(
             ).townPlaceId,
           ).find(
             (suited) =>
-              decisionLean(
+              // The shared formula with no case but personality (the lean's sign,
+              // as before), so the weighing is reported and, where kept, recorded.
+              leanedScore(
                 api.state,
                 suited.person,
                 "offices.accept-appointment",
                 "accept",
                 "decline",
+                0,
               ) >= 0,
           )
         : undefined;

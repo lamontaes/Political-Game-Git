@@ -296,6 +296,125 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.47.1
+
+_Released October 27, 2026._
+
+### Changed
+
+- **Who speaks at public comment and fills a town hall follows temperament at
+  the size a study finds** Who stands up at a council meeting's public comment,
+  and who fills a town hall's room, weighed each resident's temperament at 0.32,
+  which ran high in random towns. Fitted on twenty towns drawn fresh, the weight
+  is now 0.26: the third of residents leaning most toward taking part fills a
+  room about three times as often as the third leaning least, as Mondak and
+  colleagues found.
+
+## PRE-ALPHA 0.47.0
+
+_Released October 27, 2026._
+
+### Improved
+
+- **One graded line now tunes the whole voice** When a line of dialogue or a
+  speech is graded, the lines built the same way, in the same voice and in the
+  same kind of setting, now come up a little more or a little less often
+  everywhere, not just the one line. A good opening speech line makes a
+  concession speech or a hearing's thanks sound more like it; nothing is ever
+  removed because a neighbor was graded.
+
+### Changed
+
+- **A new life opens on the President's address, not a living room** The opening
+  now starts on the President giving the address, with the Vice President and
+  the other key people pointed out by name and office as the camera passes. Your
+  home comes after the governor and your family, and the news anchor's
+  living-room lead-in is gone.
+
+## PRE-ALPHA 0.46.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **A candidate whose speech moved you comes over to ask for your vote** When a
+  candidate's speech at a town hall or a campaign event changes your mind on
+  something, the candidate now comes over afterward and asks for your vote, and
+  you can ask what they'd do, say yes, say not yet, or keep your vote to
+  yourself. Before, that moment stopped your day with nobody there to answer. A
+  neighbor who invites you to join a cause now names the cause.
+
+### Fixed
+
+- **The creator's age line says it is your age on the day your life begins**
+  Under the birthday, the creator no longer prints a bare "35 · January 20,
+  2025". It reads "You will be 35 on January 20, 2025, the day your life
+  begins."
+
+- **The creator's state and town search boxes carry the gold outline** The
+  search box above the state list and the one above the town list now show the
+  slight gold edge at rest, as the other panels do, and a solid gold edge when
+  you click in. The lists and their font are unchanged.
+
+### Changed
+
+- **The President's opening address is built from the world's own records** The
+  address that opens the game now reads like a speech. It opens with the
+  occasion, tells the story of the country's year, names the few things this
+  President cares most about, says what the law is on each in your state or in
+  the nation, draws the one line the President will not cross, and speaks to the
+  governors about a state law that differs from their view. Which things the
+  President raises come from their own views on every policy question in the
+  game, so a different President, a different state, or different laws give a
+  different speech. Every figure is read from that year's records. The President
+  speaks plainly or formally, depending on who they are.
+
+## PRE-ALPHA 0.45.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **The calendar opens on today, marks birthdays and deadlines on their days,
+  and opens a day panel only for a day with something.** The Calendar opens on
+  the day your card names, draws a small icon on each day with a birthday,
+  filing deadline, election or law taking effect, and keeps the middle day panel
+  closed for a day with nothing on it.
+
+### Changed
+
+- **Travel shows pictured place cards that say who is there and why each is
+  listed.** Travel is a grid of pictured places. Each card names the place, who
+  is there now and why it is on your list (you work or study there, someone you
+  know works there, you can do something there, or you file there for a named
+  race). Town departments are no longer listed just for being town offices, and
+  filing offices are named without the record's parenthetical.
+
+- **Running for office opens the races as a menu** Where a filing office has
+  many races, they now open as a menu beside the conversation, one row each with
+  the office, the seat, the election day and who holds it, instead of a long
+  numbered list in the clerk's talk box. The "(2025, 1)" codes are gone from the
+  races. Your player card also steps out of the way of a conversation.
+
+- **What was said before sits apart from what is being said now** In a
+  conversation, your earlier line is now its own quieter block above the line
+  being said, with your name over it and a rule under it, so a reply from a
+  minute ago never reads as part of what is being said now.
+
+- **Sheet panels share one header** The title and close button at the top of a
+  screen, and of the filing races menu, are now made by one shared part instead
+  of two copies. They look and work the same.
+
+- **Every conversation box is filled by one shared part** Conversations, the
+  filing counter and the scenes now fill the talk box through one shared part
+  instead of five hand-written places. It looks and works the same.
+
+- **Trust, persuasion and news habits weigh temperament at the size research
+  finds** How far a resident trusts a speaker, how far an argument moves them,
+  and how closely they keep up with the news now lean on their temperament at
+  the sizes studies of trust, political discussion and news use find, where
+  before temperament weighed at a general size several times larger.
+
 ## PRE-ALPHA 0.44.3
 
 _Released October 27, 2026._
