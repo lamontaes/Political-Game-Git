@@ -7,6 +7,8 @@
 import delegateRaces from "./data/elections/delegate-races-2024.json" with { type: "json" };
 import delegateLeans from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import { createHash } from "node:crypto";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -381,4 +383,112 @@ describe("M2-10 state and federal races in the world", () => {
     if (stuck.acting === "vice-president-elect")
       expect(stuck.vicePresidentSide).toBe(0);
   }, 240_000);
+});
+
+/**
+ * The territory delegate seats an election year must count voters in: those
+ * with a 2024 lean on record (the table that sizes them is
+ * delegate-races-2024.json). American Samoa's lean is not on record, so it
+ * counts none.
+ */
+const DELEGATE_USPS = Object.keys(delegateRaces.places).filter(
+  (usps) => usps in delegateLeans.places,
+);
+const delegateSeatIds = DELEGATE_USPS.map(
+  (usps) => `seat:US-${usps}:us-house:00`,
+);
+
+/**
+ * Every applicable territory seat that was run through the counted races
+ * (all but the town's own territory seat, which the town's named voters
+ * decide) counts voters: the complete seat-id set, then each seat's votes.
+ */
+function expectDelegateSeatsCounted(
+  races: readonly {
+    seatId: string;
+    votes?: { republican: number; democratic: number };
+  }[],
+  own: string | null,
+  where: string,
+): string[] {
+  const territory = races.filter((r) => delegateSeatIds.includes(r.seatId));
+  const expected = delegateSeatIds.filter((id) => id !== own).sort();
+  const found = territory.map((r) => r.seatId).sort();
+  const missing = expected.filter((id) => !found.includes(id));
+  expect(missing, `${where}: territory delegate seats not run`).toEqual([]);
+  for (const r of territory)
+    if (r.seatId !== own)
+      expect(
+        (r.votes?.republican ?? 0) + (r.votes?.democratic ?? 0),
+        `${where}: ${r.seatId} counts its voters`,
+      ).toBeGreaterThan(0);
+  return territory.map((r) => r.seatId);
+}
+
+describe("territory delegate races count voters in the played world", () => {
+  it("in a drawn place's world, with every module, every territory delegate seat counts positive voters and its winner follows the count", () => {
+    const place = drawPlace(seed, "delegate-races");
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, START, {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    advanceCore(core, "2026-11-04");
+    const races = racesOf(api);
+    // The town's own territory race, if it is in one, is decided by its named voters.
+    const own =
+      delegateSeatIds.find(
+        (id) => place.state === `US-${id.split(":")[1]!.slice(3)}`,
+      ) ?? null;
+    const seats = expectDelegateSeatsCounted(races, own, where);
+    // The counted votes decide the race: each seat's winner is the side with
+    // the larger share of what was counted. (A territory delegate's serving
+    // term is not written yet; the race record is the downstream read here.)
+    for (const id of seats) {
+      const race = races.find((r) => r.seatId === id)!;
+      if (race.republicanShare !== 0.5)
+        expect(sideOf(race.winnerParty), `${where}: ${id} winner`).toBe(
+          race.republicanShare > 0.5 ? 1 : -1,
+        );
+    }
+    process.stdout.write(
+      `delegate races: ${where}; ${seats.length} territory seats counted: ${races
+        .filter((r) => seats.includes(r.seatId))
+        .map((r) => `${r.seatId} ${r.votes!.republican + r.votes!.democratic}`)
+        .join("; ")}\n`,
+    );
+  }, 3_600_000);
+
+  it("fails when a territory's size is the old zero electorate", () => {
+    const places = delegateRaces.places as Record<string, unknown>;
+    const kept = { ...places };
+    for (const usps of Object.keys(places)) delete places[usps];
+    try {
+      const place = drawPlace(seed, "delegate-races-negative");
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: place.key,
+          startedAt: START,
+          minimumPeople: 120,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openParties(core);
+      openVoting(core);
+      openLegislature(core);
+      openWorldRaces(core);
+      const api = coreAPI(core);
+      advanceCore(core, "2026-11-04");
+      expect(() =>
+        expectDelegateSeatsCounted(racesOf(api), null, "negative"),
+      ).toThrow();
+    } finally {
+      Object.assign(places, kept);
+    }
+  }, 600_000);
 });
