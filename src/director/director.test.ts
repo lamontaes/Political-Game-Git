@@ -566,8 +566,26 @@ describe("story director on the new core", () => {
       types
         .find((row) => row.key === key)!
         .causes.some((row) => row.awaitingProducer === producer);
-    expect(folded("news-arrives", "election-result")).toBe(true);
-    expect(folded("celebration", "election-result")).toBe(true);
+    // A race's result reaches the player through a candidate they know; the
+    // player's own win is the race-won scene, not a second celebration.
+    expect(
+      types
+        .find((row) => row.key === "news-arrives")!
+        .causes.some(
+          (row) =>
+            row.match?.label === "circumstance:race-result-known" &&
+            row.causeRecord === "election-result",
+        ),
+    ).toBe(true);
+    expect(
+      types
+        .find((row) => row.key === "celebration")!
+        .causes.some(
+          (row) =>
+            row.awaitingProducer === "election-result" ||
+            row.causeRecord === "election-result",
+        ),
+    ).toBe(false);
     expect(folded("first-meeting", "canvass-visit")).toBe(true);
     expect(folded("visit", "canvass-visit")).toBe(true);
   });
