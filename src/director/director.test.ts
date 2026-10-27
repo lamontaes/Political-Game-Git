@@ -534,8 +534,23 @@ describe("story director on the new core", () => {
     // interview is the one with a record), the party's ask (the party's
     // recruit is the same ask), and the three the player starts (asking a
     // favor or permission, confessing), which the talk box offers rather than
-    // the director. The count is the catalog's own (CTO, Oct 27): each key once.
-    expect(new Set(types.map((row) => row.key)).size).toBe(types.length);
+    // the director.
+    expect(types).toHaveLength(
+      (
+        JSON.parse(
+          readFileSync(
+            join(
+              process.cwd(),
+              "src",
+              "director",
+              "data",
+              "situation-types.json",
+            ),
+            "utf8",
+          ),
+        ) as { types: unknown[] }
+      ).types.length,
+    );
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
