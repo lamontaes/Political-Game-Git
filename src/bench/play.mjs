@@ -1586,6 +1586,13 @@ function partyRows(party) {
   });
 }
 
+/** The campaign record's count of volunteers, worded (one count for every line that shows it). */
+function volunteerCount(n) {
+  return n === 1
+    ? controls.campaignVolunteers.one
+    : controls.campaignVolunteers.other.replace("{n}", String(n));
+}
+
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
 // The speech being built: the parts said and the four on offer, from the server.
@@ -1681,13 +1688,21 @@ async function campaignRows() {
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
       campaignResult =
-        result.contacted !== undefined
-          ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
-              .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
-              .join(" · ")}`
-          : result.reached !== undefined
-            ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-            : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+        result.volunteers !== undefined
+          ? controls.campaignVolunteers.asked
+              .replace("{asked}", String(result.answers.length))
+              .replace(
+                "{yes}",
+                String(result.answers.filter((a) => a.yes).length),
+              )
+              .replace("{volunteers}", volunteerCount(result.volunteers))
+          : result.contacted !== undefined
+            ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
+                .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
+                .join(" · ")}`
+            : result.reached !== undefined
+              ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+              : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
@@ -1728,7 +1743,7 @@ async function campaignRows() {
             .filter(Boolean)
             .join(" · "),
         }),
-        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${campaign.volunteers} volunteers · ${campaign.doors} doors`,
+        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${volunteerCount(campaign.volunteers)} · ${campaign.doors} doors`,
         el(
           "div",
           {},

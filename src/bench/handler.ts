@@ -77,6 +77,7 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
   portraitPng,
   readRecipe,
@@ -517,7 +518,8 @@ export async function benchRequest(
                   )
               : readRecipe(q.get("recipe")!)
             : drawnAppearance(gender, seed, draw);
-          send(200, { recipe, rows: appearanceRows(recipe, gender) });
+          const fitted = lookForGender(recipe, gender);
+          send(200, { recipe: fitted, rows: appearanceRows(fitted, gender) });
         } else send(404, { error: "Unknown bench route." });
         return;
       }

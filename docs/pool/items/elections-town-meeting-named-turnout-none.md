@@ -22,3 +22,6 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/voting.ts, src/core2/data/campaigns/parameters.json, src/core2/voting.test.ts
 
 **Notes.** Found Oct 27 by the laws-and-effects lead while checking #6375's golden-path red; reproduced on #6375's head and on main 553bb7e78a with the place CI drew.
+
+
+Evidence (integrator, Oct 27, 22:45 UTC): the same failure on main at d4ccbf562d in Magnolia, Delaware: GOLDEN_PATH_SEED=a1c100a9b6b3cd7dfe587313bcbc32206f0f34a2e30f142254d250e28a3e91a9 GOLDEN_PATH_PLACE_KEY=1044430 (drawn for PR #6412 head 976d2ec5), "1044430: no noncandidate choice checked against its reasons"; it reproduces identically on clean main.
