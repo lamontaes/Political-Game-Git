@@ -62,6 +62,10 @@ declare const data: {
       value: number;
       note: string;
     };
+    "budget.schools-added-pct": {
+      value: number;
+      note: string;
+    };
   };
   links: Array<{
     key: string;

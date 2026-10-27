@@ -298,13 +298,13 @@
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.medianHouseholdEarningsMinor (the middle earning household's yearly earnings), in thousands of dollars",
       "field": "medianHouseholdEarningsMinor",
-      "unitScale": 0.00001
+      "unitScale": 1e-5
     },
     "housing.home-prices": {
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.medianHomeValueMinor (the housing engine's typical owned home), in tens of thousands of dollars",
       "field": "medianHomeValueMinor",
-      "unitScale": 0.000001
+      "unitScale": 1e-6
     },
     "housing.rent-to-income-pct": {
       "owner": "OPUS-WORLD",
@@ -379,6 +379,13 @@
       "field": "officersPer1000",
       "unitScale": 1,
       "ownsOutcome": true
+    },
+    "budget.schools-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
+      "reader": "schools-line-above-base",
+      "field": "",
+      "unitScale": 1
     }
   },
   "measureOwners": {
