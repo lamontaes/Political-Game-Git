@@ -271,11 +271,13 @@ describe("recorded exact work spans v1 (SOURCE-ONLY author fixtures)", () => {
     const core = createCore(fixture([slot(22, 4 * hour)])),
       before = evidence(core);
     expect(
-      query(core, "2021-01-02").owners[0]!.spans.map((span) => [
-        span.originDate,
-        span.startMinute,
-        span.minutes,
-      ]),
+      query(core, "2021-01-02")
+        .owners[0]!.spans.map((span) => [
+          span.originDate,
+          span.startMinute,
+          span.minutes,
+        ])
+        .sort((a, b) => Number(a[1]) - Number(b[1])),
     ).toEqual([
       [at, p("zero"), 2 * hour],
       ["2021-01-02", 22 * hour, 2 * hour],

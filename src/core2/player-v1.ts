@@ -596,9 +596,25 @@ function drive(core: CoreState, s: Session): PlayerPacketV1 {
     const choice = readyChoice(core, s, day);
     if (choice) return choice;
     let next = s.target;
+    // A shift's start is a moment the clock reaches, so the character
+    // answers its own work choice there, but never a stop (owner, Oct 26).
+    const shiftStarts = day.owners
+      .filter(
+        (owner) =>
+          owner.spans.length && !day.preparedIds.has(owner.commitment.id),
+      )
+      .map((owner) =>
+        endOf(
+          core,
+          day.date,
+          Math.min(...owner.spans.map((span) => span.startMinute)),
+        ),
+      )
+      .filter((at) => compare(at, s.at) > 0);
     const candidates = [
       endOf(core, day.date, dayMinutes(core)),
       stop?.at,
+      ...shiftStarts,
       ...day.work.map((row) => row.end),
       day.action?.end,
     ].filter((at): at is PlayerMomentV1 => at !== undefined);
