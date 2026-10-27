@@ -340,10 +340,12 @@ export async function benchRequest(
         const content = drawnFigure(
           file.replace(/\.png$/, ""),
           Object.fromEntries(
-            ["skin", "hair", "hairColor", ...GARMENTS].flatMap((key) => {
-              const value = url.searchParams.get(key);
-              return value ? [[key, value]] : [];
-            }),
+            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap(
+              (key) => {
+                const value = url.searchParams.get(key);
+                return value ? [[key, value]] : [];
+              },
+            ),
           ),
         );
         response.writeHead(200, {

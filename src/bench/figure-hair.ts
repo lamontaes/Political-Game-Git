@@ -1,15 +1,17 @@
-// Hair on the bald v2 figures. The art session painted hair pieces onto the
-// figures' own heads (art/people-engine/v2/hair-on-figures: front, three-quarter
-// and back views, one piece per style on a few figures, each in its figure's
-// own pixel frame, plain gray). A piece goes on any figure seen from the same
-// angle: scaled by the two heads' widths and lined up on head top and middle
-// (src/bench/data/figure-heads.json), mirrored where the figure is painted
-// facing the other way, and colored from the person's record by luminance,
-// keeping the painted strands. One path serves the creator's preview and
-// every room, laid over the figure in its own frame.
+// Faces and hair on the bald v2 figures. The art session painted them onto the
+// figures' own heads (art/people-engine/v2/faces-on-figures and
+// hair-on-figures: front, both three-quarter views and, for hair, the back;
+// each piece in its figure's own pixel frame). A piece goes on any figure seen
+// from the same angle: scaled by the two heads' widths and lined up on head
+// top and middle (src/bench/data/figure-heads.json), mirrored only where the
+// other three-quarter view is not painted yet. A face goes on first, so the
+// skin recolor reaches it; its gray beard takes the hair color; the hair goes
+// on last, colored by luminance so the painted strands stay. One path serves
+// the creator's preview and every room.
 import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import index from "../../art/people-engine/v2/hair-on-figures/index.json" with { type: "json" };
+import faceIndex from "../../art/people-engine/v2/faces-on-figures/index.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
 import figures from "../../art/people-engine/v2/index.json" with { type: "json" };
 import { recolorFigure, type FigureColors, type Swatch } from "./figure-colors";
@@ -29,56 +31,84 @@ export const HAIR_SWATCHES: readonly Swatch[] = [
 export const hairSwatch = (id: string) =>
   HAIR_SWATCHES.find((row) => row.id === id);
 
+type View = "front" | "threeq" | "threeqr" | "back";
 interface Piece {
-  view: "front" | "threeq" | "back";
-  style: number;
+  view: View;
   sex: string;
-  styleName: string;
   figure: string;
   file: string;
-  head: [number, number, number];
-  facing: "left" | "right" | null;
 }
-const PIECES = index.pieces as unknown as readonly Piece[];
+interface HairPiece extends Piece {
+  style: number;
+  styleName: string;
+}
+interface FacePiece extends Piece {
+  face: number;
+  faceName: string;
+  expression: string;
+}
+const PIECES = index.pieces as unknown as readonly HairPiece[];
+const FACES = faceIndex.pieces as unknown as readonly FacePiece[];
 const STYLES = index.styles as unknown as Readonly<Record<string, string[]>>;
 const HEADS = heads.heads as unknown as Readonly<
   Record<string, readonly [number, number, number]>
 >;
 
+/** Three-quarter views: painted turned left (threeq) or right (threeqr). */
+const turned = (view: View) => view === "threeq" || view === "threeqr";
+
 /** The styles painted for a sex: every style with a front and a three-quarter piece, by number. */
 export function hairStyles(sex: string): { style: number; name: string }[] {
-  const has = (view: Piece["view"], style: number) =>
-    PIECES.some((p) => p.sex === sex && p.view === view && p.style === style);
+  const has = (style: number, test: (view: View) => boolean) =>
+    PIECES.some((p) => p.sex === sex && test(p.view) && p.style === style);
   return (STYLES[sex] ?? [])
     .map((name, i) => ({ style: i + 1, name }))
-    .filter(({ style }) => has("front", style) && has("threeq", style));
+    .filter(
+      ({ style }) => has(style, (v) => v === "front") && has(style, turned),
+    );
 }
 
-const viewOf = (angle: string): Piece["view"] =>
-  angle === "back" ? "back" : angle === "three-quarter" ? "threeq" : "front";
+/** The faces painted for a sex, by number: each in front and three-quarter. */
+export function faces(sex: string): { face: number; name: string }[] {
+  const seen = new Map<number, string>();
+  for (const p of FACES)
+    if (p.sex === sex && !seen.has(p.face)) seen.set(p.face, p.faceName);
+  const has = (face: number, test: (view: View) => boolean) =>
+    FACES.some((p) => p.sex === sex && p.face === face && test(p.view));
+  return [...seen]
+    .filter(([face]) => has(face, (v) => v === "front") && has(face, turned))
+    .sort(([a], [b]) => a - b)
+    .map(([face, name]) => ({ face, name }));
+}
 
 /**
- * The piece for this figure: the style painted at this angle, on this figure
- * where there is one, else on another of the same sex. A style the set has
- * not yet painted from behind takes the back piece of the nearest-numbered
- * painted style.
- * stopgapId: SG-PLAY-hair-back-view-nearest-style
+ * The piece for a figure at its angle: the view painted that way, else the
+ * other three-quarter view mirrored; on the figure itself where there is
+ * one, else on another of the same sex. None for a view not painted (a face
+ * from behind).
  */
-function pieceFor(
+function pick<T extends Piece>(
+  list: readonly T[],
   figure: string,
-  sex: string,
   angle: string,
-  style: number,
-): Piece | undefined {
-  const view = viewOf(angle);
-  const painted = PIECES.filter((p) => p.sex === sex && p.view === view);
-  const styles = [...new Set(painted.map((p) => p.style))].sort(
-    (a, b) => Math.abs(a - style) - Math.abs(b - style) || a - b,
-  );
-  const chosen = styles[0];
-  if (chosen === undefined) return undefined;
-  const same = painted.filter((p) => p.style === chosen);
-  return same.find((p) => p.figure === figure) ?? same[0];
+  facing: string,
+): { piece: T; mirror: boolean } | undefined {
+  const wanted: View =
+    angle === "back"
+      ? "back"
+      : angle === "three-quarter"
+        ? facing === "right"
+          ? "threeqr"
+          : "threeq"
+        : "front";
+  const at = (view: View) => list.filter((p) => p.view === view);
+  const own = (rows: readonly T[]) =>
+    rows.find((p) => p.figure === figure) ?? rows[0];
+  const exact = own(at(wanted));
+  if (exact) return { piece: exact, mirror: false };
+  if (!turned(wanted)) return undefined;
+  const other = own(at(wanted === "threeq" ? "threeqr" : "threeq"));
+  return other ? { piece: other, mirror: true } : undefined;
 }
 
 const pieces = new Map<string, PNG>();
@@ -87,10 +117,15 @@ function pieceImage(piece: Piece): PNG {
   if (!png) {
     png = PNG.sync.read(
       readFileSync(
-        new URL(
-          `../../art/people-engine/v2/hair-on-figures/${piece.file.slice("hair-on-figures/".length)}`,
-          import.meta.url,
-        ),
+        piece.file.startsWith("faces-on-figures/")
+          ? new URL(
+              `../../art/people-engine/v2/faces-on-figures/${piece.file.slice("faces-on-figures/".length)}`,
+              import.meta.url,
+            )
+          : new URL(
+              `../../art/people-engine/v2/hair-on-figures/${piece.file.slice("hair-on-figures/".length)}`,
+              import.meta.url,
+            ),
       ),
     );
     pieces.set(piece.file, png);
@@ -104,48 +139,26 @@ const rgb = (hex: string): [number, number, number] => [
   parseInt(hex.slice(5, 7), 16),
 ];
 
-/** Who the hair belongs to: the figure drawn, and the person's hair on record. */
-export interface HairOn {
-  /** The figure's name in the set (`v2-01-m-medium`). */
-  figure: string;
-  sex: string;
-  angle: string;
-  /** Which way the figure is painted facing (three-quarter figures). */
-  facing: string;
-  style: number;
-  color: string;
-}
-
-/** The figure with the person's hair laid on, in the figure's own frame. */
-export function withHair(figurePng: Buffer, hair: HairOn): Buffer {
-  const piece = pieceFor(hair.figure, hair.sex, hair.angle, hair.style);
-  const head = HEADS[hair.figure];
-  const swatch = hairSwatch(hair.color);
-  if (!piece || !head || !swatch) return figurePng;
-  const figure = PNG.sync.read(figurePng);
+/**
+ * A painted piece laid on a figure in the figure's own frame: scaled by head
+ * width, set on head top and middle, mirrored where asked. `color` turns a
+ * piece pixel into the color drawn (or null to keep the painted pixel).
+ */
+function layOn(
+  figure: PNG,
+  name: string,
+  piece: Piece,
+  mirror: boolean,
+  color: (r: number, g: number, b: number) => [number, number, number] | null,
+): void {
+  const head = HEADS[name];
+  const own = HEADS[piece.figure];
+  if (!head || !own) return;
   const src = pieceImage(piece);
-  // Three-quarter pieces are painted facing left: a figure facing right
-  // takes the piece mirrored.
-  const mirror =
-    piece.view === "threeq" &&
-    hair.facing !== (piece.facing ?? "left") &&
-    (hair.facing === "left" || hair.facing === "right");
-  const [pieceTop, pieceMiddle0, pieceWidth] = piece.head;
+  const [pieceTop, pieceMiddle0, pieceWidth] = own;
   const pieceMiddle = mirror ? src.width - 1 - pieceMiddle0 : pieceMiddle0;
   const [top, middle, width] = head;
   const scale = width / pieceWidth;
-  // The hair's own median luminance, so the swatch keeps the painted strands.
-  const lums: number[] = [];
-  for (let i = 0; i < src.data.length; i += 4)
-    if (src.data[i + 3]! > 128)
-      lums.push(
-        0.299 * src.data[i]! +
-          0.587 * src.data[i + 1]! +
-          0.114 * src.data[i + 2]!,
-      );
-  lums.sort((a, b) => a - b);
-  const mid = lums[lums.length >> 1] ?? 128;
-  const to = rgb(swatch.color);
   const sample = (x: number, y: number, c: number) => {
     // Bilinear, in the piece's own pixels.
     const x0 = Math.floor(x),
@@ -176,25 +189,56 @@ export function withHair(figurePng: Buffer, hair: HairOn): Buffer {
         continue;
       const alpha = sample(px, py, 3) / 255;
       if (alpha < 0.02) continue;
-      const lum =
-        0.299 * sample(px, py, 0) +
-        0.587 * sample(px, py, 1) +
-        0.114 * sample(px, py, 2);
-      const shade = lum / mid;
+      const rgbAt: [number, number, number] = [
+        sample(px, py, 0),
+        sample(px, py, 1),
+        sample(px, py, 2),
+      ];
+      const drawn = color(...rgbAt) ?? rgbAt;
       const o = (fy * figure.width + fx) * 4;
-      for (let c = 0; c < 3; c++) {
-        const hairValue = Math.max(0, Math.min(255, to[c]! * shade));
+      for (let c = 0; c < 3; c++)
         figure.data[o + c] = Math.round(
-          hairValue * alpha + figure.data[o + c]! * (1 - alpha),
+          Math.max(0, Math.min(255, drawn[c]!)) * alpha +
+            figure.data[o + c]! * (1 - alpha),
         );
-      }
       figure.data[o + 3] = Math.max(
         figure.data[o + 3]!,
         Math.round(alpha * 255),
       );
     }
-  return PNG.sync.write(figure);
 }
+
+const luminance = (r: number, g: number, b: number) =>
+  0.299 * r + 0.587 * g + 0.114 * b;
+
+/** A piece's own median luminance, so a swatch keeps its painted shading. */
+const medians = new Map<string, number>();
+function medianOf(
+  piece: Piece,
+  only?: (r: number, g: number, b: number) => boolean,
+) {
+  const key = `${piece.file}:${only ? "beard" : "all"}`;
+  if (!medians.has(key)) {
+    const src = pieceImage(piece);
+    const lums: number[] = [];
+    for (let i = 0; i < src.data.length; i += 4) {
+      const [r, g, b] = [src.data[i]!, src.data[i + 1]!, src.data[i + 2]!];
+      if (src.data[i + 3]! > 128 && (!only || only(r, g, b)))
+        lums.push(luminance(r, g, b));
+    }
+    lums.sort((a, b) => a - b);
+    medians.set(key, lums[lums.length >> 1] ?? 128);
+  }
+  return medians.get(key)!;
+}
+
+/** A face's beard and brows: its gray pixels, which take the hair color. */
+const isBeard = (r: number, g: number, b: number) => {
+  const max = Math.max(r, g, b);
+  return (
+    max > 0 && (max - Math.min(r, g, b)) / max < 0.12 && luminance(r, g, b) > 50
+  );
+};
 
 const ROWS = new Map(
   (
@@ -214,32 +258,63 @@ const ROWS = new Map(
 );
 
 /**
- * A figure as the game draws a person: their skin and clothing colors, and
- * their hair. The one drawing path for rooms (the play server's figure
- * route), the creator's preview and the screenshot tools.
+ * A figure as the game draws a person: their face, their skin and clothing
+ * colors, and their hair. The one drawing path for rooms (the play server's
+ * figure route), the creator's preview and the screenshot tools.
  */
 export function drawnFigure(name: string, colors: FigureColors): Buffer {
   const row = ROWS.get(name);
   if (!row) throw new Error("No such figure.");
-  const colored = recolorFigure(
-    readFileSync(
-      new URL(
-        `../../art/people-engine/v2/figures/${name}.png`,
-        import.meta.url,
-      ),
-    ),
-    name,
-    colors,
+  const hairTo = colors.hairColor && hairSwatch(colors.hairColor);
+  let figure: Buffer = readFileSync(
+    new URL(`../../art/people-engine/v2/figures/${name}.png`, import.meta.url),
   );
+  const face = Number(colors.face);
+  const facePick =
+    face &&
+    pick(
+      FACES.filter((p) => p.sex === row.sex && p.face === face),
+      name,
+      row.angle,
+      row.facing,
+    );
+  if (facePick) {
+    const png = PNG.sync.read(figure);
+    const to = hairTo ? rgb(hairTo.color) : null;
+    const mid = medianOf(facePick.piece, isBeard);
+    layOn(png, name, facePick.piece, facePick.mirror, (r, g, b) =>
+      to && isBeard(r, g, b)
+        ? (to.map((c) => (c * luminance(r, g, b)) / mid) as [
+            number,
+            number,
+            number,
+          ])
+        : null,
+    );
+    figure = PNG.sync.write(png);
+  }
+  const colored = recolorFigure(figure, name, colors);
   const style = Number(colors.hair);
-  return style && colors.hairColor
-    ? withHair(colored, {
-        figure: name,
-        sex: row.sex,
-        angle: row.angle,
-        facing: row.facing,
-        style,
-        color: colors.hairColor,
-      })
-    : colored;
+  const hairPick =
+    style &&
+    hairTo &&
+    pick(
+      PIECES.filter((p) => p.sex === row.sex && p.style === style),
+      name,
+      row.angle,
+      row.facing,
+    );
+  if (!hairPick || !hairTo) return colored;
+  const png = PNG.sync.read(colored);
+  const to = rgb(hairTo.color);
+  const mid = medianOf(hairPick.piece);
+  layOn(
+    png,
+    name,
+    hairPick.piece,
+    hairPick.mirror,
+    (r, g, b) =>
+      to.map((c) => (c * luminance(r, g, b)) / mid) as [number, number, number],
+  );
+  return PNG.sync.write(png);
 }

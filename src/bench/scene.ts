@@ -535,7 +535,7 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
           build,
           outfit,
           ...Object.fromEntries(
-            ["skin", "hair", "hairColor", ...GARMENTS].flatMap((key) =>
+            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap((key) =>
               typeof record[key] === "string" ? [[key, record[key]]] : [],
             ),
           ),

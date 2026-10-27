@@ -79,6 +79,8 @@ export type FigureColors = {
   hair?: string;
   /** A hair swatch id. */
   hairColor?: string;
+  /** A face's number (figure-hair.ts); the painted bald face where absent. */
+  face?: string;
 } & Partial<Record<Garment, string>>;
 
 const rgb = (hex: string): [number, number, number] => [

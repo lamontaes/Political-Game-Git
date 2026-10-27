@@ -76,15 +76,16 @@ describe("the New game creator", () => {
     const recipe = drawnAppearance("female", "seed", 0);
     expect(recipe.sex).toBe("female");
     const labels = appearanceRows(recipe, "female").map((row) => row.label);
-    expect(labels.slice(0, 5)).toEqual([
+    expect(labels.slice(0, 6)).toEqual([
       "Build",
       "Clothes",
       "Skin",
+      "Face",
       "Hair",
       "Hair color",
     ]);
     // A color for each piece the outfit has: a jacket only with a vest or blazer.
-    expect(labels.slice(5)).toEqual([
+    expect(labels.slice(6)).toEqual([
       ...(recipe.outfit === "vest" || recipe.outfit === "blazer"
         ? ["Jacket color"]
         : []),
