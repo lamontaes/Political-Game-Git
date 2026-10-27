@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-32-town-list-county-label
 pr: #6248
 blocked-on:
