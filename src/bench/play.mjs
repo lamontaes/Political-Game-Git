@@ -2232,6 +2232,16 @@ async function seatRows() {
   return rows;
 }
 
+/** The Kit 13 calendar icon a kind of dated record is drawn with. */
+const dayIcon = (kind) =>
+  ({
+    birthday: "birthday",
+    "filing-opens": "deadline",
+    "filing-deadline": "deadline",
+    primary: "election",
+    election: "election",
+  })[kind] ?? "meeting";
+
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
 const kindName = (kind) => {
   const name = kind.split(/[:.]/).pop();
@@ -3327,9 +3337,11 @@ const sheets = {
     return [select, content];
   },
   async calendar() {
-    const { date, items } = await api(
+    const { date: recordDate, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
+    // Today is the day the player's clock names, which the calendar opens on.
+    const date = packet?.at.date ?? recordDate;
     const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
@@ -3380,6 +3392,11 @@ const sheets = {
       b.addEventListener("click", fn);
       return b;
     };
+    const skipControl = () =>
+      skipForward(labels.advance, () => {
+        closeSheet();
+        act(`/api/advance?mode=calendar&date=${selected}`);
+      });
     const paging = (index, count, change) => {
       const back = button(labels.back, () => change(index - 1));
       const next = button(labels.next, () => change(index + 1));
@@ -3387,8 +3404,15 @@ const sheets = {
       next.disabled = (index + 1) * 3 >= count;
       return el("nav", { className: "calendar-paging" }, back, next);
     };
+    // The day panel opens only for a day that has something.
     const drawDetails = () => {
       const entries = byDate.get(selected) ?? [];
+      root.classList.toggle("has-day", entries.length > 0);
+      details.hidden = !entries.length;
+      if (!entries.length) {
+        details.replaceChildren();
+        return;
+      }
       details.replaceChildren(
         el("h3", { textContent: dateWords(selected) }),
         ...entries.slice(dayPage * 3, dayPage * 3 + 3).map(event),
@@ -3400,13 +3424,7 @@ const sheets = {
             drawDetails();
           }),
         );
-      if (selected > (packet?.at.date ?? date))
-        details.append(
-          skipForward(labels.advance, () => {
-            closeSheet();
-            act(`/api/advance?mode=calendar&date=${selected}`);
-          }),
-        );
+      if (selected > date) details.append(skipControl());
     };
     const select = (iso) => {
       selected = iso;
@@ -3449,27 +3467,44 @@ const sheets = {
         cell.setAttribute("aria-label", dateWords(iso));
         cell.setAttribute("aria-pressed", String(iso === selected));
         if (iso === date) cell.setAttribute("aria-current", "date");
+        // One small Kit 13 icon per kind of thing on the day.
         if (entries.length)
           cell.append(
-            el("span", {
-              className: "entry",
-              textContent: "•",
-              title: entries
-                .map(
-                  (i) => controls.policyNames?.[i.title] ?? slugWords(i.title),
-                )
-                .join("\n"),
-            }),
+            el(
+              "span",
+              {
+                className: "entry",
+                title: entries
+                  .map(
+                    (i) =>
+                      controls.policyNames?.[i.title] ?? slugWords(i.title),
+                  )
+                  .join("\n"),
+              },
+              ...[...new Set(entries.map((i) => dayIcon(i.kind)))].map((icon) =>
+                el("img", {
+                  src: `/ui/kit13/calendar-${icon}.png`,
+                  alt: "",
+                  className: "day-icon",
+                }),
+              ),
+            ),
           );
         grid.append(cell);
       }
       monthBox.replaceChildren(
         header,
         grid,
-        button(labels.today, () => {
-          month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-          select(date);
-        }),
+        el(
+          "div",
+          { className: "calendar-month-foot" },
+          button(labels.today, () => {
+            month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
+            select(date);
+          }),
+          // A day with nothing on it has no panel, so the skip sits here.
+          ...(selected > date && !byDate.has(selected) ? [skipControl()] : []),
+        ),
       );
     };
     const next = items
