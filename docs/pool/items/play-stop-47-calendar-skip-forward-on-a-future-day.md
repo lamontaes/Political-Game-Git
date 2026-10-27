@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-47-calendar-skip-forward-on-a-future-day
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T10:41:14.488Z
 ---
 
 **What.** On the calendar in v0.34.0, clicking a day nine months ahead (November 3, 2025) blanks the day's tile (its number disappears), shows no skip-forward icon, and leaves the day detail on the old date. The owner ruled that clicking a future day shows a small skip-forward icon or button, with no "skip to event" label, and pressing it runs time to that day; a scene stops any advance. This item makes a clicked future day show a selected state, updates the day detail to that date, shows the icon, and runs time when it is pressed.
