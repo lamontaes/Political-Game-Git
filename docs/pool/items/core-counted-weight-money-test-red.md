@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/counted-weight-money
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-27T17:04:13.233Z
+claimed-at:
 ---
 
 **What.** src/core2/counted-weight-money.test.ts fails on the unchanged main code in a drawn place: Ostrander, Ohio, wage flow residents:wages:opening-payroll-calendar:organization_bc110158f37a326c on 2025-02-20 moves 6,258,687 minor against an expected ceiling of 5,704,457 (one household times the wage scale plus 4). Found Oct 20 while changing residents.ts; the same failure appears with the file unchanged. Find why the counted flow pays more than the full run times its weight and fix it at the cause, not the bound.
@@ -22,3 +22,4 @@ claimed-at: 2026-10-27T17:04:13.233Z
 **Files.** src/core2/counted-weight-money.test.ts, src/core2/modules/residents.ts
 
 **Notes.** Failure text: AssertionError ... residents:wages:opening-payroll-calendar:organization_bc110158f37a326c|residents:jurisdiction_082f7e93b3d1faad:0@2025-02-20: expected 6258687 to be less than or equal to 5704457. Released from idle draft #5076 by the CTO, Oct 26.
+Oct 27 (claude/counted-weight-money): not reproduced on main at 17:05 UTC. src/core2/counted-weight-money.test.ts passed on three fresh random draws (the test draws its own place). The pinned Ostrander seed was never recorded, so the original failure cannot be replayed. Likely fixed by b6ad5d4ada (weight tests read a counted job's own heads). Released unbuilt; a done-when needs the failing seed to prove a fix.
