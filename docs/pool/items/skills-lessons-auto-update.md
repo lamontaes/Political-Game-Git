@@ -5,9 +5,9 @@ area: docs
 kind: feature
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6291
 blocked-on:
 source: "owner, Oct 27, to the CTO"
 lead: cto

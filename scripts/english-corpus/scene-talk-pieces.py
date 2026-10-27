@@ -15,6 +15,7 @@ KEY={"ask-vote":"vote-wanted","confirm-vote":"vote-wanted","section-bargain":"vo
  "press-comment":"routine","family-filing":"news-received","family-win":"honor","family-loss":"loss","family-absence":"threat",
  "rally-opponent":"threat","staff-news":"news-received"}
 E=[]
+KEY["town-hall-question"]="favor-asked"
 def L(step,move,role,purposes,rows,after=None,outcome=None):
     if isinstance(purposes,str): purposes=[purposes]
     for r in rows:
@@ -3206,6 +3207,59 @@ L('reply','lie',Y,'section-bargain',[("I was going to put it in anyway.","guarde
 L('follow','confront',A,'section-bargain',[("You spent an hour fighting it in committee.","braced",K+ADDED)],after='lie')
 L('reply','bargain',Y,'ask-vote',[("Put my amendment in {bill}, and you'll have my vote.","braced",ADDED)])
 L('follow','accept',A,'ask-vote',[("Then your amendment goes in. Deal.","calm",ADDED)],after='bargain')
+# A resident's question at a town hall (meetings.ts holdTownHall; scenes-from-life episode
+# docs/design/scenes/from-life/town-hall-goes-wrong.md): the resident stood up with the question they feel most
+# strongly about, and the host's answer to it agreed with their own stand, opposed it, or was not given. Each
+# line that names the question needs the fact issue; the ones about the answer need host-agreed, host-opposed or
+# host-declined, read from the townHalls row, and outrank the generic lines. Nothing rolls.
+T='town-hall-question'
+HO=['host-opposed','issue']; HA=['host-agreed','issue']; HD=['host-declined','issue']; IS=['issue']
+L(N,N,R,T,[("The hall is full, and the questions are coming. {name} stands up with a folded sheet of paper.","braced")])
+L(N,N,R,T,[("{name} has waited all evening to ask about {issue}.","braced",IS)])
+L(N,N,R,T,[("You have just answered on {issue}. {name} did not like the answer and stands to say so.","braced",HO),("{name} did not come to hear that answer on {issue}, and says so before the room is quiet.","braced",HO)])
+L(N,N,R,T,[("{name} stands to follow up on your answer on {issue}.","calm",HA)])
+L(N,N,R,T,[("You moved past {issue}. {name} stands to ask it again.","braced",HD)])
+L('open','greet',A,T,[("Thank you for taking this.","calm"),("I'll be quick.","nervous"),("I've been waiting to ask.","braced")])
+L('state','ask',A,T,[("I have a question, and I'd like a straight answer.","braced"),("What are you going to do about the things people here are worried about?","braced")])
+L('state','ask',A,T,[("What does the town do about {issue}? I'd like to hear it from you.","calm",IS)])
+L('state','ask',A,T,[("You said that on {issue}, and I can't square it with what it costs people like me. Why?","braced",HO),("That answer on {issue} hurts people here. What do you say to us?","braced",HO),("I came tonight about {issue}. What you just said means I came for nothing.","hurt",HO)])
+L('state','ask',A,T,[("I'm glad you're with us on {issue}. What happens after tonight?","hopeful",HA),("You said the right thing on {issue}. Will you put it in writing?","hopeful",HA)])
+L('state','ask',A,T,[("You went past {issue}. I'd like an answer.","braced",HD),("I asked about {issue}. Where do you stand?","braced",HD)])
+L('reply','answer',Y,T,[("I meant what I said, and I'll tell you what I weighed.","calm"),("I hear you. I still think it's the right answer.","calm"),("I owe you the reason, so here it is.","calm")])
+L('reply','answer',Y,T,[("You're right to ask. Here is where I stand.","calm")]+[],after=None)
+L('reply','relent',Y,T,[("You've given me something to think about. I may be wrong.","contrite"),("I didn't weigh what it costs you. I'll look at it again.","contrite"),("Fair. Let me take that back and work on it.","calm")])
+L('reply','offer',Y,T,[("Stay after, and let's sit down. I want the whole story.","calm"),("Give my office your name and number. I'll call you this week.","calm"),("I can't do this justice in two minutes. Come see me.","tender")])
+L('reply','deflect',Y,T,[("I want to hear from others too. Next question.","guarded"),("That's a good one for another night.","guarded"),("I'll take the next hand.","guarded")])
+L('reply','lie',Y,T,[("I'm already working on it.","calm"),("I'm on your side on this.","calm")])
+L('follow','press',A,T,[("That isn't an answer I can take home.","braced"),("Easy to say from up there.","braced")],after='answer')
+L('follow','accept',A,T,[("Then at least I know where you stand.","guarded"),("All right. I'll remember you said it.","guarded")],after='answer')
+L('follow','thank',A,T,[("Thank you. That's all I wanted.","calm"),("I appreciate you saying so.","calm")],after='relent')
+L('follow','thank',A,T,[("I'll stay. Thank you.","calm")],after='offer')
+L('follow','press',A,T,[("You'll really see me?","nervous")],after='offer')
+L('follow','press',A,T,[("Don't skip me. People here are waiting.","braced")],after='deflect')
+L('follow','plea',A,T,[("Please. I took the day off to be here.","anxious")],after='deflect')
+L('reply','answer',Y,T,[("All right. Let me say it plainly.","calm")],after='press')
+L('reply','relent',Y,T,[("Maybe I'm wrong. Tell me what I'm missing.","contrite")],after='press')
+L('reply','offer',Y,T,[("Let's not do this in front of the room. Stay after.","calm")],after='press')
+L('reply','leave',Y,T,[("I'll take the next question.","guarded")],after='press')
+L('reply','answer',Y,T,[("You deserve a real answer. Here it is.","calm")],after='plea')
+L('reply','relent',Y,T,[("You're right. I'm sorry. Let me try again.","contrite")],after='plea')
+L('reply','offer',Y,T,[("Come see me this week. I'll make the time.","tender")],after='plea')
+L('reply','leave',Y,T,[("I'm sorry. I have to move on.","guarded")],after='plea')
+L('follow','confront',A,T,[("{source} says your office hasn't touched it.","braced",K),("{source} says there's no work being done on it.","braced",K)],after='lie')
+L('follow','thank',A,T,[("Good. I'll hold you to that.","calm")],after='lie')
+L('reply','confess',Y,T,[("You're right. I haven't started.","contrite")],after='confront')
+L('reply','deflect',Y,T,[("People say a lot of things.","guarded")],after='confront')
+L('reply','lie',Y,T,[("They've got it wrong.","nervous")],after='confront')
+L('follow','ask',A,T,[("Then why say it?","hurt")],after='confess')
+L('follow','accept',A,T,[("At least you said it to my face.","guarded")],after='confess')
+L('follow','press',A,T,[("That isn't an answer.","braced")],after='deflect')
+L('close','thank',A,T,[("Thank you for hearing me out.","calm")],outcome='resolved')
+L('close','promise',A,T,[("I'll be at the next one too.","calm")],outcome='resolved')
+L('close','accept',A,T,[("Then I'll be watching what you do.","guarded")],outcome='refused')
+L('close','warn',A,T,[("People are going to hear about this.","braced")],outcome='refused')
+L('close','press',A,T,[("I'm not done. I'll be back in line.","braced")],outcome='open')
+L('close','warn',A,T,[("Don't keep us waiting.","braced")],outcome='open')
 # Office hours (constituent-cases.ts problemOf): the resident's own problem from the case record, and the
 # referral the module really makes; each needs the case's fact, and with it they outrank the generic request.
 LW=['case-looking-for-work']; UW=['case-paid-under-minimum-wage']

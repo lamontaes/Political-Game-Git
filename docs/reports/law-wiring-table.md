@@ -39,11 +39,11 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      |
 | Unemployment weekly maximum                  | assistance         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      |
-| allow multifamily in single family zones     | housing            | yes    | yes    | SG    | yes     | SG    | SG   | yes     | NO     | NO        | partly     |
-| Spending: housing                            | housing            | yes    | yes    | part  | yes     | part  | SG   | NO      | yes    | yes       | partly     |
-| inclusionary requirement                     | housing            | yes    | yes    | SG    | yes     | part  | n/a  | yes     | NO     | NO        | partly     |
-| rent stabilization                           | housing            | yes    | yes    | SG    | SG      | SG    | yes  | yes     | NO     | NO        | partly     |
-| right to counsel in eviction                 | housing            | yes    | yes    | SG    | SG      | SG    | SG   | yes     | NO     | NO        | partly     |
+| allow multifamily in single family zones     | housing            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
+| Spending: housing                            | housing            | yes    | yes    | yes   | yes     | part  | yes  | yes     | yes    | yes       | partly     |
+| inclusionary requirement                     | housing            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      |
+| rent stabilization                           | housing            | yes    | yes    | yes   | yes     | part  | yes  | yes     | yes    | yes       | partly     |
+| right to counsel in eviction                 | housing            | yes    | yes    | part  | yes     | part  | yes  | yes     | yes    | part      | partly     |
 | Minimum wage                                 | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | raise federal minimum wage                   | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | local minimum wage authority                 | labor              | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      |
@@ -52,7 +52,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | public sector collective bargaining          | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | right to work                                | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | part | yes     | yes    | yes       | partly     |
-| cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | SG   | yes     | NO     | NO        | partly     |
+| cap consumer loan rates                      | business           | yes    | yes    | yes   | yes     | SG    | SG   | yes     | yes    | yes       | stopgapped |
 | ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | clean electricity standard                   | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      |
 | clean air plan for polluted counties         | energy-environment | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     |
@@ -157,45 +157,23 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**allow multifamily in single family zones** (`us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones`)
-
-- reach: law-reach row (group A, mechanic housing-construction) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-housing-supply)
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-housing-supply)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-housing-supply)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
 **Spending: housing** (`budget-line:housing`)
 
-- reach: full people only: no counted group is reached (one model, two tiers)
 - money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure homelessness and rent burden (SG-LAW-outcome-link-unresearched)
-- knowing: nobody heard of it: the change is not a news story anyone receives
 
 **inclusionary requirement** (`us-policy-positions:housing-land-use.inclusionary-requirement`)
 
-- reach: law-reach row (group A, mechanic housing-construction) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-affordable-units)
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **rent stabilization** (`us-policy-positions:housing-land-use.rent-stabilization`)
 
-- reach: law-reach row (group A, mechanic rent-renewal) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-rent-contracts)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-rent-contracts)
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-rent-contracts)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 
 **right to counsel in eviction** (`us-policy-positions:housing-land-use.right-to-counsel-in-eviction`)
 
-- reach: law-reach row (group A, mechanic eviction-counsel) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-eviction-cases)
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-eviction-cases)
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-eviction-cases)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-eviction-cases)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8), North Pownal, Vermont, US-VT (seed f72df05648f09350)
+- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
+- allPlaces: reached people in one drawn place and not the other
 
 **local minimum wage authority** (`us-policy-positions:labor-workforce.local-minimum-wage-authority`)
 
@@ -207,11 +185,8 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
 
-- reach: law-reach row (group A, mechanic consumer-loan-quote) has no handler registered: the mechanic list is empty, so no reach record is written (registered SG-GOV-REACH-A-consumer-credit)
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-consumer-credit)
+- money: The cap applies only to the bank's consumer loan (about 13 percent against a 36 percent ceiling), so no borrower's rate changes and the law moves no dollar; the game has no small-dollar lender for it to bind (SG-WORLD-credit-rate-cap-no-small-lender)
 - web: no production reader: loan-rate-cap-to-high-cost-borrowing (SG-WEB-unread-finance-high-cost-loans) move only the web's ledger
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **clean air plan for polluted counties** (`us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties`)
 

@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/record-attack-ad
 pr: #6297
 blocked-on:
