@@ -296,6 +296,52 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.49.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **The creator offers skin tones and clothing colors, and the figure wears them
+  everywhere** Character appearance now has a Skin row of eight tones, light to
+  dark, and a Clothes color row of ten colors. Picking one recolors just that
+  part of the figure at once, Randomize changes both, and the figure in every
+  room wears what was chosen.
+
+### Fixed
+
+- **A bill drafted in a state legislature or Congress after its session opened
+  now reaches the floor** A legislature's weekly floor took up only the bills
+  filed on the session's first day, so a bill drafted later, including the
+  player's, sat drafted until adjournment. The floor now takes up every bill in
+  its chambers after the leader's filings, oldest first, and each one gets a
+  floor date and a whip count the day before its vote.
+
+- **The creator's labels and fields line up, and picking a gender no longer
+  resizes its button** In the character step, every heading and label sits on
+  one left edge and every field, the name boxes and the birthday boxes alike, on
+  one field edge. The chosen gender button keeps its size and shows the brass
+  corner instead of growing.
+
+- **Heads stay in frame, and you and the clerk stand apart at the counter** The
+  President's portrait in the talk box now shows his whole head. In a close-up
+  room such as the bedroom, you are no longer drawn with your head above the top
+  of the picture or cut off at a side. At the clerk's counter the clerk is
+  seated where you do not stand in front of them.
+
+- **A person's card shows where they live and no empty headings** A family
+  member's card now reads "Mother · Age 59" with their home town and a labeled
+  "Last talked" date, plus their work or school when the records give one. The
+  empty FAMILY heading and the unlabeled date are gone.
+
+### Changed
+
+- **New game offers Start a life and Advanced; Advanced builds a world and lets
+  you play as any officeholder in it.** New game now has Start a life and one
+  Advanced entry. Advanced holds the world's seed and settings, builds the world
+  with no questionnaire, and lists everyone who holds an office in it to step in
+  as. The Custom world button and the dead Watch the world button are gone.
+
 ## PRE-ALPHA 0.48.0
 
 _Released October 27, 2026._
