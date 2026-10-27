@@ -224,7 +224,13 @@ export interface FigurePerson {
   gender?: string;
   official: boolean;
   /** A look the person chose in the creator (the player), worn everywhere. */
-  look?: { sex: string; build: string; outfit: string };
+  look?: {
+    sex: string;
+    build: string;
+    outfit: string;
+    skin?: string;
+    clothes?: string;
+  };
 }
 
 /**

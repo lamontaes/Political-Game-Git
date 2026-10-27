@@ -1,4 +1,5 @@
 import { jobsView, answerJobOffer } from "./jobs";
+import { recolorFigure } from "./figure-colors";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
@@ -76,6 +77,7 @@ import {
   moveAppearance,
   portraitPng,
   readRecipe,
+  setColor,
 } from "./appearance";
 import { pollingScene } from "./polling";
 import {
@@ -324,11 +326,15 @@ export async function benchRequest(
         // Standing people: the v2 figures, served as they are. The folder is
         // written out so the desktop build copies it (it reads the fixed part
         // of this path, desktop/scripts/build-play-api.mjs).
-        const content = await readFile(
-          new URL(
-            `../../art/people-engine/v2/figures/${url.pathname.split("/").at(-1)}`,
-            import.meta.url,
+        const content = recolorFigure(
+          await readFile(
+            new URL(
+              `../../art/people-engine/v2/figures/${url.pathname.split("/").at(-1)}`,
+              import.meta.url,
+            ),
           ),
+          url.searchParams.get("skin") ?? undefined,
+          url.searchParams.get("clothes") ?? undefined,
         );
         response.writeHead(200, {
           "Content-Type": "image/png",
@@ -469,12 +475,18 @@ export async function benchRequest(
         else if (route === "appearance") {
           const recipe = q.get("recipe")
             ? request.method === "POST"
-              ? moveAppearance(
-                  readRecipe(q.get("recipe")!),
-                  gender,
-                  q.get("row") ?? "",
-                  Number(q.get("by") ?? 1),
-                )
+              ? q.get("value")
+                ? setColor(
+                    readRecipe(q.get("recipe")!),
+                    q.get("row") ?? "",
+                    q.get("value")!,
+                  )
+                : moveAppearance(
+                    readRecipe(q.get("recipe")!),
+                    gender,
+                    q.get("row") ?? "",
+                    Number(q.get("by") ?? 1),
+                  )
               : readRecipe(q.get("recipe")!)
             : drawnAppearance(gender, seed, draw);
           send(200, { recipe, rows: appearanceRows(recipe, gender) });

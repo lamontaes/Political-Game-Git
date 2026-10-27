@@ -924,6 +924,38 @@ input[type="range"]::-moz-range-thumb {
   gap: 6px;
   justify-content: center;
 }
+.swatch-row {
+  grid-template-columns: 110px 1fr;
+  row-gap: 2px;
+}
+.swatch-row .look-value {
+  grid-column: 2;
+  justify-content: flex-start;
+  color: var(--text-2);
+  font: 500 12px var(--ui);
+}
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.swatch-button {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--brass);
+  cursor: pointer;
+}
+.swatch-button[aria-pressed="true"] {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+.swatch-button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
 .swatch {
   width: 12px;
   height: 12px;

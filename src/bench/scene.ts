@@ -520,11 +520,20 @@ interface Looks {
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { sex, build, outfit } = JSON.parse(text) as Record<string, unknown>;
+    const { sex, build, outfit, skin, clothes } = JSON.parse(text) as Record<
+      string,
+      unknown
+    >;
     return typeof sex === "string" &&
       typeof build === "string" &&
       typeof outfit === "string"
-      ? { sex, build, outfit }
+      ? {
+          sex,
+          build,
+          outfit,
+          ...(typeof skin === "string" ? { skin } : {}),
+          ...(typeof clothes === "string" ? { clothes } : {}),
+        }
       : undefined;
   } catch {
     return undefined;
@@ -593,6 +602,7 @@ export function stagePeople(
     name: string;
     reason: StageReason;
     look: Figure;
+    colors: string;
     band: Parameters<typeof figureOn>[1];
     spot: StagingSpot;
   }[] = [];
@@ -637,11 +647,16 @@ export function stagePeople(
       continue;
     }
     taken.add(look.look);
+    const colors = new URLSearchParams({
+      ...(looks.look?.skin ? { skin: looks.look.skin } : {}),
+      ...(looks.look?.clothes ? { clothes: looks.look.clothes } : {}),
+    }).toString();
     placed.push({
       id,
       name,
       reason,
       look,
+      colors,
       band,
       spot: free.splice(index, 1)[0]!,
     });
@@ -650,7 +665,7 @@ export function stagePeople(
   // Drawn far to near, so nearer people stand in front of farther ones.
   const depth = (spot: StagingSpot) => spot.depth ?? spot.y;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, reason, look, band, spot } of order) {
+  for (const { id, name, reason, look, colors, band, spot } of order) {
     const turn = turnOf(
       spot,
       placed.map((row) => row.spot),
@@ -663,7 +678,7 @@ export function stagePeople(
       reason,
       spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
       figure: whole.figure,
-      figureUrl: whole.url,
+      figureUrl: colors ? `${whole.url}?${colors}` : whole.url,
       art: "whole",
     });
   }

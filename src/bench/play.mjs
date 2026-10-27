@@ -4990,6 +4990,38 @@ async function listTowns() {
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
 
+// A row of color swatches: each a button named for its color, the chosen one marked.
+function swatchRow(row) {
+  const buttons = row.swatches.map((swatch) => {
+    const b = makeButton({
+      className: "swatch-button",
+      style: `background:${swatch.color}`,
+    });
+    b.setAttribute("aria-label", `${row.label}: ${swatch.label}`);
+    b.setAttribute("aria-pressed", String(swatch.chosen));
+    b.title = swatch.label;
+    b.dataset.swatch = swatch.id;
+    b.addEventListener("click", () => void pickColor(row.id, swatch.id));
+    return b;
+  });
+  const line = el(
+    "div",
+    { className: "look-row swatch-row" },
+    el("span", { className: "label", textContent: row.label }),
+    el("span", { className: "swatches" }, ...buttons),
+    el("span", { className: "look-value", textContent: row.value }),
+  );
+  line.dataset.testid = `engine-appearance-${row.id}`;
+  return line;
+}
+async function pickColor(row, value) {
+  const view = await post(
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, value })}`,
+  );
+  setup.previous = [...setup.previous, setup.recipe].slice(-20);
+  showLook(view);
+}
+
 // Character appearance: the people engine's portrait and arrows.
 function showLook(view) {
   setup.recipe = view.recipe;
@@ -4997,6 +5029,7 @@ function showLook(view) {
     `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) => {
+      if (row.swatches) return swatchRow(row);
       const arrow = (by, glyph) => {
         const b = makeButton({
           className: "action small",
