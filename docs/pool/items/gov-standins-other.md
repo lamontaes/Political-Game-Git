@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5155
 blocked-on: gov-standin-budgets-adopted-by-rule
@@ -28,3 +28,5 @@ Sent back 2026-10-20 from PR #5155 (branch claude/standins-other-credit-business
 Sent back 2026-10-23 from PR #5155 (branch claude/standins-other-credit-business): Child credit/business spec reopens resolved rows and contradicts the FHFA ruling; the bare broad-parent marker would prematurely complete implementation acceptance; refresh specs and use bounded planning routing with its evidence table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from planning PR #5155 (branch claude/standins-other-credit-business): own-environment applicable checks passed on fd0992eb0f99cb2dd69d061ddd2c2662c0b64b4c, but the head-pinned merge returned 405 merge conflicts after main advanced; implementation acceptance remains open. Finish the planning merge on that branch, merge current main into it first and rerun the changed-file checks.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping across six engines; each row stays in the stopgap register and nothing on screen reads it.

@@ -14,10 +14,13 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { isDemoted } from "./counted-groups";
 import { advanceCore } from "./life";
+import { countedDemotions } from "./modules/counted-demotion";
+import { residentsRuntime } from "./modules/residents";
 import { drivesReport } from "./modules/drives";
-import { MEETINGS_MODULE_ID } from "./modules/meetings";
-import { coreAPI } from "./state";
+import { countedRecordOnly, MEETINGS_MODULE_ID } from "./modules/meetings";
+import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
 const PLACES = 4;
@@ -103,6 +106,71 @@ it(
       `no counted speaker took up a cause from the room in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
     );
     // A day-by-day played year took 463 seconds in Port Wentworth, Georgia on a 4-core container; up to PLACES of them.
+  },
+  PLACES * 600_000,
+);
+
+it(
+  "a resident returned to the counts is still a counted record: eligible to stand up at public comment and filled in before speaking",
+  () => {
+    const tried: string[] = [];
+    for (let n = 0; n < PLACES; n++) {
+      const place = drawPlace(
+        createHash("sha256").update(`${base}:demoted:${n}`).digest("hex"),
+        "meetings-counted-speakers-demoted",
+      );
+      const where = `${place.name}, ${place.state} (${place.key}), seed ${place.seed}`;
+      setBookkeeping(false);
+      const core = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }).core as CoreState;
+      const api = coreAPI(core);
+      const rt = residentsRuntime(core)!;
+      const player = core.playerId ? core.people.get(core.playerId) : undefined;
+      const circle = new Set([
+        ...(player?.familyIds ?? []),
+        ...(player?.knownIds ?? []),
+      ]);
+      // A few counted households nobody in the player's circle belongs to,
+      // met and then left alone, return to the counts.
+      const met = [...rt.households.values()]
+        .filter((row) => row.people.every((p) => !circle.has(p.id)))
+        .slice(0, 4);
+      for (const row of met) fillInPerson(core, row.people[0]!.id);
+      advanceCore(core, addDays(makeIsoDate(core.date), 300));
+      const demoted = countedDemotions(api)
+        .flatMap((row) => row.personIds)
+        .map((id) => core.people.get(id))
+        .filter((row) => row && isDemoted(row) && row.alive);
+      if (!demoted.length) {
+        tried.push(`${where}: nobody was returned to the counts`);
+        continue;
+      }
+      for (const person of demoted)
+        expect(
+          countedRecordOnly(core, person!.id),
+          `${where}: ${person!.id} returned to the counts`,
+        ).toBe(true);
+      // A named person who was not returned is not a counted record.
+      const named = [...core.people.values()].find(
+        (row) => row.alive && !isDemoted(row),
+      )!;
+      expect(countedRecordOnly(core, named.id), `${where}: ${named.id}`).toBe(
+        false,
+      );
+      // Someone who never had a full record is.
+      expect(countedRecordOnly(core, "person_never_filled_in"), where).toBe(
+        true,
+      );
+      process.stdout.write(
+        `COUNTED RECORDS ${where}: ${demoted.length} returned to the counts (e.g. ${demoted[0]!.id}) count as counted records; ${named.id} does not\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place returned anyone to the counts in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
+    );
   },
   PLACES * 600_000,
 );

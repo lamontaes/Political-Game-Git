@@ -5,6 +5,7 @@
  * treasury money, budget lines, tax law rows, records), and a repeal (or a
  * budget line back at its base) ends it.
  */
+import { appliedOn } from "./law-reach/applied";
 import { createHash } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -30,7 +31,7 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
+import { getRow, REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type {
   GroupReach,
   OrganizationReach,
@@ -78,13 +79,29 @@ const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
+/** A subject a case's assertions read; a town without it is redrawn, never skipped. */
+type Need =
+  | "time-limit"
+  | "medicaid"
+  | "preschool"
+  | "private-school"
+  | "school-job"
+  | "highway"
+  | "paycheck";
+
 /**
  * A town to run the cases in. The payment cases need payees (adults the
  * expansion covers, adults the work requirement then reaches, and a child of
  * preschool age), so a place without them is redrawn. The tax case needs none,
  * so it alone keeps a pinned place (GOLDEN_PATH_PLACE_KEY).
  */
-function build(options: { pinned: boolean; placeKey?: string }): void {
+function build(options: {
+  pinned: boolean;
+  placeKey?: string;
+  need?: readonly Need[];
+}): void {
+  const needs = new Set<Need>(options.need ?? []);
+  const tried: string[] = [];
   for (let attempt = 0; attempt < 40; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
@@ -98,6 +115,7 @@ function build(options: { pinned: boolean; placeKey?: string }): void {
       options.placeKey ??
       (options.pinned ? process.env.GOLDEN_PATH_PLACE_KEY : undefined) ??
       pick(places, `place:${attempt}`).key;
+    tried.push(key);
     // The opening's public school district is the employer the school-pay tests need.
     const full = withPublicSchoolDistrict(
       buildPopulation({
@@ -137,11 +155,32 @@ function build(options: { pinned: boolean; placeKey?: string }): void {
       selectResidents(facts, groupBPolicy(Q(law))!.people!, stateKey).filter(
         (r) => r.named,
       );
+    // The welfare time-limit case needs a household head, named or counted,
+    // the assistance work requirement reaches and the welfare line pays.
+    const workReached = new Set(
+      selectResidents(
+        facts,
+        groupBPolicy(
+          Q("health-human-services.work-requirement-for-assistance"),
+        )!.people!,
+        stateKey,
+      ).map((r) => r.id),
+    );
+    const timeLimitHeads = selectResidents(
+      facts,
+      { incomeBelowPovertyShare: "assistanceIncomeShare", householdHead: true },
+      stateKey,
+    ).filter((h) => workReached.has(h.id));
     if (
       !options.pinned &&
-      (!covers("health-human-services.expand-medicaid-eligibility").length ||
-        !covers("health-human-services.medicaid-work-requirement").length ||
-        !covers("education.universal-preschool").length)
+      ((needs.has("time-limit") && !timeLimitHeads.length) ||
+        (needs.has("medicaid") &&
+          (!covers("health-human-services.expand-medicaid-eligibility")
+            .length ||
+            !covers("health-human-services.medicaid-work-requirement")
+              .length)) ||
+        (needs.has("preschool") &&
+          !covers("education.universal-preschool").length))
     )
       continue;
     // The tests below need a private school, a school job and a state highway
@@ -164,13 +203,23 @@ function build(options: { pinned: boolean; placeKey?: string }): void {
         core.organizations.get(j.organizationId)?.classification ===
           "service:school",
     );
+    // A named worker whose job pays: the payday a payroll tax is withheld on.
+    const hasPaycheck = [...core.jobs.values()].some(
+      (j) =>
+        j.endsAt === undefined &&
+        (j.hourlyMinor ?? 0) > 0 &&
+        core.people.get(j.personId)?.alive === true,
+    );
     const hasHighwayLine =
       !!stateGov &&
       residentsOf(api, stateGov) > 0 &&
       (budgetNow(api, stateGov.id)?.spendingMinor.highways ?? 0) > 0;
     if (
       !options.pinned &&
-      (!hasPrivateSchool || !hasSchoolJob || !hasHighwayLine)
+      ((needs.has("private-school") && !hasPrivateSchool) ||
+        (needs.has("school-job") && !hasSchoolJob) ||
+        (needs.has("paycheck") && !hasPaycheck) ||
+        (needs.has("highway") && !hasHighwayLine))
     )
       continue;
     const levels = new Set(governments(api).map((g) => g.level));
@@ -182,7 +231,7 @@ function build(options: { pinned: boolean; placeKey?: string }): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult, a preschool-age child, a private school, a school job and a state highway line in forty draws (seed ${seed})`,
+    `no town with an employed adult${needs.size ? ` and ${[...needs].join(", ")}` : ""} in forty draws (seed ${seed}); places tried: ${tried.join(", ")}`,
   );
 }
 
@@ -458,25 +507,30 @@ function assistanceWorkCase(): void {
   // The line's money goes to the heads still drawing, each counted row for
   // the households it stands for; each group's fund is paid that rate times
   // its households still drawing, in whole cents.
-  const stillDrawing = past.heads.filter((h) => !stopped.includes(h));
-  const households = stillDrawing.reduce((n, h) => n + (h.scale ?? 1), 0);
-  const rate = Math.floor(
-    ((group(key)?.terms.townDeltaMinor ?? 0) *
-      modeledShare(api, townFacts(api, town))) /
-      reachParameter("monthsPerYear") /
-      Math.max(1, households),
-  );
   const store = residentsRuntime(core)!.store;
-  const byGroup = new Map<number, number>();
-  for (const h of stillDrawing.filter((x) => !x.named)) {
-    const ix = store.householdOf.get(h.householdId);
-    const g = ix === undefined ? undefined : store.households[ix]?.group;
-    if (g !== undefined) byGroup.set(g, (byGroup.get(g) ?? 0) + (h.scale ?? 1));
-  }
-  const expectedCounted = [...byGroup.values()].reduce(
-    (n, units) => n + Math.floor(rate * units),
-    0,
-  );
+  const countedDue = (drawing: typeof past.heads) => {
+    const households = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
+    const rate = Math.floor(
+      ((group(key)?.terms.townDeltaMinor ?? 0) *
+        modeledShare(api, townFacts(api, town))) /
+        reachParameter("monthsPerYear") /
+        Math.max(1, households),
+    );
+    const byGroup = new Map<number, number>();
+    for (const h of drawing.filter((x) => !x.named)) {
+      const ix = store.householdOf.get(h.householdId);
+      const g = ix === undefined ? undefined : store.households[ix]?.group;
+      if (g !== undefined)
+        byGroup.set(g, (byGroup.get(g) ?? 0) + (h.scale ?? 1));
+    }
+    const expected = [...byGroup.values()].reduce(
+      (n, units) => n + Math.floor(rate * units),
+      0,
+    );
+    return { rate, byGroup, expected };
+  };
+  const stillDrawing = past.heads.filter((h) => !stopped.includes(h));
+  const { rate, byGroup, expected: expectedCounted } = countedDue(stillDrawing);
   // The proof never passes by selecting nothing: counted heads still
   // drawing, a positive rate and a positive expected payment come first.
   expect(byGroup.size, `${where} counted groups still drawing`).toBeGreaterThan(
@@ -501,14 +555,47 @@ function assistanceWorkCase(): void {
     stopped: stopped.length,
     namedStopped: stopped.filter((h) => h.named).length,
   };
-  // A repeal pays them again.
+  // A repeal pays them again. The proof keeps a stopped witness and a positive
+  // payment to it: each stopped named head is paid again, and where counted
+  // heads were stopped the groups are paid the whole-cent rate times every
+  // household now drawing, a positive exact sum.
   enact(work, 0, "state");
   const after_ = standing();
+  const stoppedNamed = stopped.filter((h) => h.named);
+  const stoppedCounted = stopped.filter((h) => !h.named);
+  expect(
+    stoppedNamed.length + stoppedCounted.length,
+    `${where} a stopped recipient to restore`,
+  ).toBeGreaterThan(0);
+  for (const head of stoppedNamed)
+    expect(
+      after_.named.some((r) => r.recipientId === head.id),
+      `${where} ${head.id} not paid again after the repeal`,
+    ).toBe(true);
   for (const head of after_.heads.filter((h) => h.named))
     expect(
       after_.named.some((r) => r.recipientId === head.id),
       `${where} ${head.id} not paid again after the repeal`,
     ).toBe(true);
+  if (stoppedCounted.length) {
+    const again = countedDue(after_.heads);
+    expect(
+      again.expected,
+      `${where} counted payment after the repeal`,
+    ).toBeGreaterThan(0);
+    expect(
+      after_.countedRows.reduce((n, r) => n + r.amountMinor, 0),
+      `${where} counted groups' payments after the repeal`,
+    ).toBe(again.expected);
+    for (const h of stoppedCounted) {
+      const ix = store.householdOf.get(h.householdId);
+      const g = ix === undefined ? undefined : store.households[ix]?.group;
+      expect(
+        g !== undefined && again.byGroup.has(g),
+        `${where} stopped counted head ${h.id}'s group is paid again`,
+      ).toBe(true);
+    }
+  }
   amend(gov, "welfareAndMedicaid", base - line(gov, "welfareAndMedicaid"));
 }
 
@@ -569,6 +656,359 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expect(group(key), `${where} ${key} group`).toBeUndefined();
       enact(key, 0, "state");
     });
+
+  // The sales tax is not a group B policy any more: the price engine records
+  // each seller it charged (law-wiring-prices.test.ts).
+
+  // ---- Budget lines reach what they pay for ----
+  const serviceLines: [string, number | null][] = [
+    ["highways", 16],
+    ["higherEducation", 18],
+    ["naturalResources", null],
+    ["parks", null],
+    ["healthAndHospitals", null],
+  ];
+  for (const [name, from] of serviceLines)
+    it(`budget line ${name}: a change reaches the people it serves; back at base it ends`, () => {
+      const key = `budget-line:${name}`;
+      const gov = govFor(name);
+      const base = line(gov, name);
+      const step = stepFor(gov, name);
+      amend(gov, name, step);
+      const g = group(key);
+      expect(g?.endedOn, `${where} ${key}`).toBeNull();
+      if (from !== null)
+        expect(reached(key)).toBe(
+          residentsAged(from, name === "higherEducation" ? 25 : Infinity),
+        );
+      else expect(reached(key)).toBe(residentsAged(0));
+      for (const row of openPeople(key))
+        expect(row.terms.townDeltaMinor).toBeGreaterThan(0);
+      report[key] = {
+        government: gov.id,
+        stepMinor: step,
+        reached: reached(key),
+      };
+      amend(gov, name, base - line(gov, name));
+      expectEnded(key);
+    });
+
+  it("budget line welfare: an increase pays eligible households a monthly benefit from the treasury", () => {
+    const key = "budget-line:welfareAndMedicaid";
+    const gov = govFor("welfareAndMedicaid");
+    const base = line(gov, "welfareAndMedicaid");
+    const step = stepFor(gov, "welfareAndMedicaid");
+    amend(gov, "welfareAndMedicaid", step);
+    // Households with no job income at all are under any income limit.
+    const anyNoIncome = [...townFacts(api, town).households.values()].some(
+      (h) => h.incomeDollars === 0,
+    );
+    if (anyNoIncome) expect(reached(key), where).toBeGreaterThan(0);
+    const benefits = table<{
+      key: string;
+      obligationId: string;
+      amountMinor: number;
+    }>("taken").filter((r) => r.key === `benefit|${key}`);
+    // Where the town's share of the increase comes to a cent a household a month.
+    const perHousehold = Math.floor(
+      ((group(key)?.terms.townDeltaMinor ?? 0) *
+        modeledShare(api, townFacts(api, town))) /
+        12 /
+        Math.max(1, reached(key)),
+    );
+    if (reached(key) > 0 && perHousehold >= 1)
+      expect(benefits.length, where).toBeGreaterThan(0);
+    const accounts = api.accounts();
+    const treasuryBefore = core.organizations.get(
+      gov.organizationId,
+    )!.liquidMinor;
+    advanceCore(core, after(api.state.date, 40));
+    let paid = 0;
+    for (const b of benefits) {
+      const o = accounts.obligation(b.obligationId)!;
+      expect(o.amountMinor).toBe(b.amountMinor);
+      expect(o.lastReceipt, where).toBeDefined();
+      expect(o.lastReceipt!.paidMinor + o.lastReceipt!.shortMinor).toBe(
+        b.amountMinor,
+      );
+      paid += o.paidMinor;
+    }
+    report[key] = {
+      government: gov.id,
+      recipients: benefits.length,
+      monthlyMinor: benefits.reduce((n, b) => n + b.amountMinor, 0),
+      paidMinor: paid,
+      treasuryBefore,
+    };
+    amend(gov, "welfareAndMedicaid", base - line(gov, "welfareAndMedicaid"));
+    expectEnded(key);
+    for (const b of benefits)
+      expect(accounts.obligation(b.obligationId)!.endedAt).toBeDefined();
+  });
+
+  // ---- Acts that move budget money ----
+  // Price-law settlement and repeal are checked in price-laws.test.ts.
+  // Eligibility notes do not prove that a household paid a changed price.
+  it("fare-free transit funds the fares from the budget; repeal takes the money back", () => {
+    const key = Q("transportation-infrastructure.fare-free-transit");
+    const state = governments(api).find((g) => g.level === "state")!;
+    const level = residentsOf(api, state) > 0 ? "state" : LOCAL;
+    const gov = governments(api).find((g) => g.level === level)!;
+    const before = line(gov, "transit");
+    enact(key, 1, level);
+    expect(line(gov, "transit") - before).toBe(
+      Math.round(
+        reachParameter("transitFareboxPerResidentDollars") *
+          100 *
+          residentsOf(api, gov),
+      ),
+    );
+    expect(reached(key), "funding alone does not notify every rider").toBe(0);
+    enact(key, 0, level);
+    expectEnded(key);
+    expect(line(gov, "transit")).toBe(before);
+  });
+
+  it("funding pensions to schedule adds the contribution and reaches public employers and workers", () => {
+    const key = Q("fiscal.fund-pensions-to-schedule");
+    const gov = governments(api).find((g) => g.level === LOCAL)!;
+    const before = line(gov, "retirementContributions");
+    enact(key, 1, LOCAL);
+    const added = Math.round(
+      reachParameter("pensionShortfallPerResidentDollars") *
+        100 *
+        residentsOf(api, gov),
+    );
+    expect(line(gov, "retirementContributions") - before).toBe(added);
+    const publicOrgs = [...core.organizations.values()].filter(
+      (o) =>
+        o.placeId === town &&
+        [
+          "sector:local-government-office",
+          "sector:state-government-office",
+          "sector:federal-government-office",
+          "service:municipal-government",
+          "service:police",
+          "service:fire",
+          "service:school",
+          "service:public-health",
+        ].includes(o.classification ?? "") &&
+        [
+          ...core.jobs.values(),
+          ...(residentsRuntime(core)?.jobs.values() ?? []),
+        ].some((j) => j.organizationId === o.id && j.endsAt === undefined),
+    );
+    expect(openOrgs("budget-line:retirementContributions").length, where).toBe(
+      publicOrgs.length,
+    );
+    report.pensions = { addedMinor: added, publicEmployers: publicOrgs.length };
+    enact(key, 0, LOCAL);
+    expect(line(gov, "retirementContributions")).toBe(before);
+    expectEnded("budget-line:retirementContributions");
+  });
+
+  it("a minimum reserve sets the treasury's cash aside up to its target; repeal releases it", () => {
+    const key = Q("fiscal.minimum-reserve-balance");
+    const govs = governments(api).filter(
+      (g) => g.level === LOCAL || g.level === "state",
+    );
+    // The government with a budget to hold a reserve against, richest first.
+    const spends = (g: GovernmentRow) =>
+      Object.values(budgetNow(api, g.id)?.spendingMinor ?? {}).some(
+        (v) => v > 0,
+      )
+        ? 1
+        : 0;
+    const gov = [...govs].sort(
+      (a, b) =>
+        spends(b) - spends(a) ||
+        core.organizations.get(b.organizationId)!.liquidMinor -
+          core.organizations.get(a.organizationId)!.liquidMinor,
+    )[0]!;
+    const accounts = api.accounts();
+    const cash = core.organizations.get(gov.organizationId)!.liquidMinor;
+    enact(key, 1, gov.level);
+    const reserve = `reserve:${gov.organizationId}`;
+    const held = accounts.balance(reserve);
+    // The reserve engine keeps the target it set on its own row (the law's reach is its applied row).
+    const target = getRow<{ targetMinor: number }>(
+      api,
+      "taken",
+      `reserve|${key}|${gov.id}`,
+    )!.targetMinor;
+    const spending = Object.values(
+      budgetNow(api, gov.id)?.spendingMinor ?? {},
+    ).reduce((a, b) => a + b, 0);
+    // The target is the reserve share of the year's spending, the town's part of it.
+    const expected = Math.round(
+      spending *
+        reachParameter("reserveShareOfSpending") *
+        townShare(api, gov) *
+        modeledShare(api, townFacts(api, town)),
+    );
+    const numbers = `${where}: cash ${cash}, spending ${spending}, target ${target}, held ${held}`;
+    expect(target, numbers).toBe(expected);
+    expect(held, numbers).toBeLessThanOrEqual(target);
+    // The treasury is recorded as held to the reserve, with the cash set aside.
+    const reached = appliedOn(api, key).find((r) => r.targetId === gov.id);
+    expect(reached?.target, numbers).toBe("government");
+    expect(reached?.amountMinor, numbers).toBe(held);
+    // Where the treasury had cash and the target is above zero, cash moved.
+    if (cash > 0 && target > 0) expect(held, numbers).toBeGreaterThan(0);
+    expect(
+      core.organizations.get(gov.organizationId)!.liquidMinor,
+    ).toBeGreaterThanOrEqual(held);
+    report.reserve = { government: gov.id, cashBefore: cash, held, target };
+    enact(key, 0, gov.level);
+    expect(accounts.balance(reserve)).toBe(0);
+    expectEnded(key);
+    expect(appliedOn(api, key), numbers).toEqual([]);
+  });
+
+  it("a balanced-budget rule cuts spending to revenue", () => {
+    const key = Q("fiscal.balanced-operating-budget");
+    const gov = governments(api).find((g) => g.level === LOCAL)!;
+    const total = (o: Readonly<Record<string, number>>) =>
+      Object.values(o).reduce((a, b) => a + b, 0);
+    const b0 = budgetNow(api, gov.id)!;
+    const gap = total(b0.spendingMinor) - total(b0.revenueMinor);
+    if (gap <= 0)
+      amend(gov, "otherPrograms", -gap + stepFor(gov, "otherPrograms"));
+    const before = budgetNow(api, gov.id)!;
+    expect(total(before.spendingMinor)).toBeGreaterThan(
+      total(before.revenueMinor),
+    );
+    enact(key, 1, LOCAL);
+    const after_ = budgetsOf(api, gov.id).find((b) => b.id === before.id)!;
+    expect(total(after_.spendingMinor), where).toBeLessThanOrEqual(
+      total(after_.revenueMinor),
+    );
+    expect(after_.spendingMinor.interest ?? 0).toBe(
+      before.spendingMinor.interest ?? 0,
+    );
+    report.balanced = {
+      spendingBefore: total(before.spendingMinor),
+      spendingAfter: total(after_.spendingMinor),
+      revenue: total(after_.revenueMinor),
+    };
+    enact(key, 0, LOCAL);
+    expectEnded(key);
+  });
+
+  it("reports", () => {
+    govReport("law-reach-group-b", JSON.stringify({ place, ...report }));
+  });
+});
+
+describe("law reach, group B: a city income tax", () => {
+  // Its own town, drawn for a named worker with a paycheck, from all 56 and named in every failure.
+  beforeAll(() => build({ pinned: false, need: ["paycheck"] }));
+
+  // ---- Taxes collected through payroll withholding ----
+  it("adopting a city income tax writes the law row payroll withholds into the city treasury; repeal stops it", () => {
+    const key = Q("fiscal.adopt-income-tax");
+    const city = governments(api).find((g) => g.level === LOCAL)!;
+    const had =
+      (lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
+        ?.value ?? 0) > 0;
+    enact(key, 1, LOCAL);
+    const row = lawInForce(api, "income-tax").levels.find(
+      (l) => l.level === LOCAL,
+    )?.row;
+    if (!had) {
+      expect(row?.value, where).toBe(
+        reachParameter("localFlatIncomeTaxPercent"),
+      );
+      expect(row?.unit).toBe("percent-flat");
+    }
+    const since = api.state.date;
+    advanceCore(core, after(api.state.date, 30));
+    // A payday must fall in the window, or the act has no paycheck to change.
+    for (let month = 0; month < 3 && !paidSince(since); month += 1)
+      advanceCore(core, after(api.state.date, 30));
+    expect(paidSince(since), `${where}: no payday in 120 days`).toBe(true);
+    const cityLines = [...core.people.keys()].flatMap((id) =>
+      withholdingOf(api, id)
+        .filter((w) => w.date >= since)
+        .flatMap((w) =>
+          w.lines.filter((l) => l.level === LOCAL && l.tax === "income"),
+        ),
+    );
+    // Where any named worker was paid in the month, the tax came out of it.
+    if (paidSince(since))
+      expect(
+        cityLines.length,
+        `${where}: no paycheck paid ${LOCAL} income tax`,
+      ).toBeGreaterThan(0);
+    // The act reaches the people whose paychecks it changed. Where the city
+    // already had an income tax it wrote none, so it reached no one.
+    // The withholding engine records the workers it took the tax from.
+    const appliedRows = appliedOn(api, key).filter(
+      (r) => r.target === "person" && r.amountMinor > 0,
+    );
+    // Where the city already had an income tax, the act wrote no row, so its own key reached no one.
+    if (had) expect(appliedRows.length, where).toBe(0);
+    else expect(appliedRows.length, where).toBeGreaterThan(0);
+    report.cityIncomeTax = {
+      paychecks: cityLines.length,
+      collectedMinor: cityLines.reduce((n, l) => n + l.minor, 0),
+      treasury: city.organizationId,
+    };
+    enact(key, 0, LOCAL);
+    expectEnded(key);
+    expect(appliedOn(api, key), `${where}: applied rows after repeal`).toEqual(
+      [],
+    );
+    if (!had)
+      expect(
+        lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
+          ?.value,
+      ).toBe(0);
+  });
+
+  it("a city income tax drafted in the catalog's unit reaches workers (collection: audit item 8)", () => {
+    enact("income-tax", 2, LOCAL, "percent");
+    expect(openPeople("income-tax").length, where).toBeGreaterThan(0);
+    expect(openPeople("income-tax")[0]!.terms[`${LOCAL}Rate`]).toBe(2);
+    // Collection in "percent" is audit item 8 (OPUS-GOV, tax-withholding.ts).
+    const percentCollects =
+      withholdingFor({
+        paidMinor: 100_000,
+        periodDays: 14,
+        yearToDateMinor: 0,
+        incomeTax: {
+          levels: [
+            {
+              level: "city",
+              jurisdiction: "x",
+              row: { id: "x", value: 2, unit: "percent", terms: {} },
+            },
+          ],
+        } as unknown as LawInForceAnswer,
+        socialSecurity: { governing: null } as unknown as LawInForceAnswer,
+        medicare: { governing: null } as unknown as LawInForceAnswer,
+      }).length > 0;
+    if (percentCollects) {
+      const since = api.state.date;
+      advanceCore(core, after(api.state.date, 30));
+      const lines = [...core.people.keys()].flatMap((id) =>
+        withholdingOf(api, id)
+          .filter((w) => w.date >= since)
+          .flatMap((w) => w.lines.filter((l) => l.level === LOCAL)),
+      );
+      if (paidSince(since)) expect(lines.length, where).toBeGreaterThan(0);
+    }
+    report.incomeTaxPercent = { collectsNow: percentCollects };
+    enact("income-tax", 0, LOCAL, "percent");
+    // Other levels' income taxes still reach workers; the city's rate is gone.
+    for (const row of openPeople("income-tax"))
+      expect(row.terms[`${LOCAL}Rate`] ?? 0).toBe(0);
+  });
+});
+
+describe("law reach, group B: Medicaid expansion and its work requirement", () => {
+  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
+  beforeAll(() => build({ pinned: false, need: ["medicaid"] }));
 
   // ---- Eligibility from income, work hours and children ----
   it("Medicaid expansion reaches low-income adults 19-64; the work requirement those under 80 hours without young children", () => {
@@ -679,6 +1119,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(expand, 0, "state");
     expect(open(), `${where} coverage after repeal`).toEqual([]);
   });
+});
+
+describe("law reach, group B: universal preschool", () => {
+  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
+  beforeAll(() => build({ pinned: false, need: ["preschool"] }));
 
   it("universal preschool has the state treasury pay the household of each 3- and 4-year-old a month at a time; a repeal ends it", () => {
     const key = Q("education.universal-preschool");
@@ -744,6 +1189,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 0, "state");
     expect(open(), `${where} preschool after repeal`).toEqual([]);
   });
+});
+
+describe("law reach, group B: school pay", () => {
+  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
+  beforeAll(() => build({ pinned: false, need: ["school-job"] }));
 
   // ---- Pay ----
   it("a teacher minimum salary raises every covered teacher under it to the floor (rerateJob)", () => {
@@ -796,131 +1246,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 0, "state");
     expectEnded(key);
   });
+});
 
-  // ---- Taxes collected through payroll withholding ----
-  it("adopting a city income tax writes the law row payroll withholds into the city treasury; repeal stops it", () => {
-    const key = Q("fiscal.adopt-income-tax");
-    const city = governments(api).find((g) => g.level === LOCAL)!;
-    const had =
-      (lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
-        ?.value ?? 0) > 0;
-    enact(key, 1, LOCAL);
-    const row = lawInForce(api, "income-tax").levels.find(
-      (l) => l.level === LOCAL,
-    )?.row;
-    if (!had) {
-      expect(row?.value, where).toBe(
-        reachParameter("localFlatIncomeTaxPercent"),
-      );
-      expect(row?.unit).toBe("percent-flat");
-    }
-    const since = api.state.date;
-    advanceCore(core, after(api.state.date, 30));
-    const cityLines = [...core.people.keys()].flatMap((id) =>
-      withholdingOf(api, id)
-        .filter((w) => w.date >= since)
-        .flatMap((w) =>
-          w.lines.filter((l) => l.level === LOCAL && l.tax === "income"),
-        ),
-    );
-    // Where any named worker was paid in the month, the tax came out of it.
-    if (paidSince(since))
-      expect(
-        cityLines.length,
-        `${where}: no paycheck paid ${LOCAL} income tax`,
-      ).toBeGreaterThan(0);
-    // The act reaches the people whose paychecks it changed. Where the city
-    // already had an income tax it wrote none, so it reached no one.
-    if (had) expect(reached(key), where).toBe(0);
-    else expect(openPeople(key).length, where).toBeGreaterThan(0);
-    report.cityIncomeTax = {
-      paychecks: cityLines.length,
-      collectedMinor: cityLines.reduce((n, l) => n + l.minor, 0),
-      treasury: city.organizationId,
-    };
-    enact(key, 0, LOCAL);
-    expectEnded(key);
-    if (!had)
-      expect(
-        lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
-          ?.value,
-      ).toBe(0);
-  });
-
-  it("a city income tax drafted in the catalog's unit reaches workers (collection: audit item 8)", () => {
-    enact("income-tax", 2, LOCAL, "percent");
-    expect(openPeople("income-tax").length, where).toBeGreaterThan(0);
-    expect(openPeople("income-tax")[0]!.terms[`${LOCAL}Rate`]).toBe(2);
-    // Collection in "percent" is audit item 8 (OPUS-GOV, tax-withholding.ts).
-    const percentCollects =
-      withholdingFor({
-        paidMinor: 100_000,
-        periodDays: 14,
-        yearToDateMinor: 0,
-        incomeTax: {
-          levels: [
-            {
-              level: "city",
-              jurisdiction: "x",
-              row: { id: "x", value: 2, unit: "percent", terms: {} },
-            },
-          ],
-        } as unknown as LawInForceAnswer,
-        socialSecurity: { governing: null } as unknown as LawInForceAnswer,
-        medicare: { governing: null } as unknown as LawInForceAnswer,
-      }).length > 0;
-    if (percentCollects) {
-      const since = api.state.date;
-      advanceCore(core, after(api.state.date, 30));
-      const lines = [...core.people.keys()].flatMap((id) =>
-        withholdingOf(api, id)
-          .filter((w) => w.date >= since)
-          .flatMap((w) => w.lines.filter((l) => l.level === LOCAL)),
-      );
-      if (paidSince(since)) expect(lines.length, where).toBeGreaterThan(0);
-    }
-    report.incomeTaxPercent = { collectsNow: percentCollects };
-    enact("income-tax", 0, LOCAL, "percent");
-    // Other levels' income taxes still reach workers; the city's rate is gone.
-    for (const row of openPeople("income-tax"))
-      expect(row.terms[`${LOCAL}Rate`] ?? 0).toBe(0);
-  });
-
-  // The sales tax is not a group B policy any more: the price engine records
-  // each seller it charged (law-wiring-prices.test.ts).
-
-  // ---- Budget lines reach what they pay for ----
-  const serviceLines: [string, number | null][] = [
-    ["highways", 16],
-    ["higherEducation", 18],
-    ["naturalResources", null],
-    ["parks", null],
-    ["healthAndHospitals", null],
-  ];
-  for (const [name, from] of serviceLines)
-    it(`budget line ${name}: a change reaches the people it serves; back at base it ends`, () => {
-      const key = `budget-line:${name}`;
-      const gov = govFor(name);
-      const base = line(gov, name);
-      const step = stepFor(gov, name);
-      amend(gov, name, step);
-      const g = group(key);
-      expect(g?.endedOn, `${where} ${key}`).toBeNull();
-      if (from !== null)
-        expect(reached(key)).toBe(
-          residentsAged(from, name === "higherEducation" ? 25 : Infinity),
-        );
-      else expect(reached(key)).toBe(residentsAged(0));
-      for (const row of openPeople(key))
-        expect(row.terms.townDeltaMinor).toBeGreaterThan(0);
-      report[key] = {
-        government: gov.id,
-        stepMinor: step,
-        reached: reached(key),
-      };
-      amend(gov, name, base - line(gov, name));
-      expectEnded(key);
-    });
+describe("law reach, group B: the schools budget line", () => {
+  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
+  beforeAll(() => build({ pinned: false, need: ["school-job"] }));
 
   it("budget line schools: a change re-rates school staff pay from base and returns it at base", () => {
     const key = "budget-line:schools";
@@ -1006,86 +1336,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
     );
     report.schoolRaiseKept = { jobId: job.id, hourlyMinor: raisedTo };
   });
+});
 
-  it("budget line welfare: an increase pays eligible households a monthly benefit from the treasury", () => {
-    const key = "budget-line:welfareAndMedicaid";
-    const gov = govFor("welfareAndMedicaid");
-    const base = line(gov, "welfareAndMedicaid");
-    const step = stepFor(gov, "welfareAndMedicaid");
-    amend(gov, "welfareAndMedicaid", step);
-    // Households with no job income at all are under any income limit.
-    const anyNoIncome = [...townFacts(api, town).households.values()].some(
-      (h) => h.incomeDollars === 0,
-    );
-    if (anyNoIncome) expect(reached(key), where).toBeGreaterThan(0);
-    const benefits = table<{
-      key: string;
-      obligationId: string;
-      amountMinor: number;
-    }>("taken").filter((r) => r.key === `benefit|${key}`);
-    // Where the town's share of the increase comes to a cent a household a month.
-    const perHousehold = Math.floor(
-      ((group(key)?.terms.townDeltaMinor ?? 0) *
-        modeledShare(api, townFacts(api, town))) /
-        12 /
-        Math.max(1, reached(key)),
-    );
-    if (reached(key) > 0 && perHousehold >= 1)
-      expect(benefits.length, where).toBeGreaterThan(0);
-    const accounts = api.accounts();
-    const treasuryBefore = core.organizations.get(
-      gov.organizationId,
-    )!.liquidMinor;
-    advanceCore(core, after(api.state.date, 40));
-    let paid = 0;
-    for (const b of benefits) {
-      const o = accounts.obligation(b.obligationId)!;
-      expect(o.amountMinor).toBe(b.amountMinor);
-      expect(o.lastReceipt, where).toBeDefined();
-      expect(o.lastReceipt!.paidMinor + o.lastReceipt!.shortMinor).toBe(
-        b.amountMinor,
-      );
-      paid += o.paidMinor;
-    }
-    report[key] = {
-      government: gov.id,
-      recipients: benefits.length,
-      monthlyMinor: benefits.reduce((n, b) => n + b.amountMinor, 0),
-      paidMinor: paid,
-      treasuryBefore,
-    };
-    amend(gov, "welfareAndMedicaid", base - line(gov, "welfareAndMedicaid"));
-    expectEnded(key);
-    for (const b of benefits)
-      expect(accounts.obligation(b.obligationId)!.endedAt).toBeDefined();
-  });
-
-  // ---- Acts that move budget money ----
-  // Price-law settlement and repeal are checked in price-laws.test.ts.
-  // Eligibility notes do not prove that a household paid a changed price.
-  it("an assistance work requirement stops the welfare benefit for the adults it reaches after its time limit, and a repeal pays them again", () => {
-    assistanceWorkCase();
-  });
-
-  it("fare-free transit funds the fares from the budget; repeal takes the money back", () => {
-    const key = Q("transportation-infrastructure.fare-free-transit");
-    const state = governments(api).find((g) => g.level === "state")!;
-    const level = residentsOf(api, state) > 0 ? "state" : LOCAL;
-    const gov = governments(api).find((g) => g.level === level)!;
-    const before = line(gov, "transit");
-    enact(key, 1, level);
-    expect(line(gov, "transit") - before).toBe(
-      Math.round(
-        reachParameter("transitFareboxPerResidentDollars") *
-          100 *
-          residentsOf(api, gov),
-      ),
-    );
-    expect(reached(key), "funding alone does not notify every rider").toBe(0);
-    enact(key, 0, level);
-    expectEnded(key);
-    expect(line(gov, "transit")).toBe(before);
-  });
+describe("law reach, group B: shifting highway funds", () => {
+  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
+  beforeAll(() => build({ pinned: false, need: ["highway"] }));
 
   it("shifting highway funds to transit moves the line; drivers' road service falls", () => {
     const key = Q(
@@ -1113,122 +1368,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expect(line(state, "highways")).toBe(highways);
     expectEnded("budget-line:highways");
   });
+});
 
-  it("funding pensions to schedule adds the contribution and reaches public employers and workers", () => {
-    const key = Q("fiscal.fund-pensions-to-schedule");
-    const gov = governments(api).find((g) => g.level === LOCAL)!;
-    const before = line(gov, "retirementContributions");
-    enact(key, 1, LOCAL);
-    const added = Math.round(
-      reachParameter("pensionShortfallPerResidentDollars") *
-        100 *
-        residentsOf(api, gov),
-    );
-    expect(line(gov, "retirementContributions") - before).toBe(added);
-    const publicOrgs = [...core.organizations.values()].filter(
-      (o) =>
-        o.placeId === town &&
-        [
-          "sector:local-government-office",
-          "sector:state-government-office",
-          "sector:federal-government-office",
-          "service:municipal-government",
-          "service:police",
-          "service:fire",
-          "service:school",
-          "service:public-health",
-        ].includes(o.classification ?? "") &&
-        [
-          ...core.jobs.values(),
-          ...(residentsRuntime(core)?.jobs.values() ?? []),
-        ].some((j) => j.organizationId === o.id && j.endsAt === undefined),
-    );
-    expect(openOrgs("budget-line:retirementContributions").length, where).toBe(
-      publicOrgs.length,
-    );
-    report.pensions = { addedMinor: added, publicEmployers: publicOrgs.length };
-    enact(key, 0, LOCAL);
-    expect(line(gov, "retirementContributions")).toBe(before);
-    expectEnded("budget-line:retirementContributions");
-  });
-
-  it("a minimum reserve sets the treasury's cash aside up to its target; repeal releases it", () => {
-    const key = Q("fiscal.minimum-reserve-balance");
-    const govs = governments(api).filter(
-      (g) => g.level === LOCAL || g.level === "state",
-    );
-    // The government with a budget to hold a reserve against, richest first.
-    const spends = (g: GovernmentRow) =>
-      Object.values(budgetNow(api, g.id)?.spendingMinor ?? {}).some(
-        (v) => v > 0,
-      )
-        ? 1
-        : 0;
-    const gov = [...govs].sort(
-      (a, b) =>
-        spends(b) - spends(a) ||
-        core.organizations.get(b.organizationId)!.liquidMinor -
-          core.organizations.get(a.organizationId)!.liquidMinor,
-    )[0]!;
-    const accounts = api.accounts();
-    const cash = core.organizations.get(gov.organizationId)!.liquidMinor;
-    enact(key, 1, gov.level);
-    const reserve = `reserve:${gov.organizationId}`;
-    const held = accounts.balance(reserve);
-    const target = group(key)!.terms.targetMinor!;
-    const spending = Object.values(
-      budgetNow(api, gov.id)?.spendingMinor ?? {},
-    ).reduce((a, b) => a + b, 0);
-    // The target is the reserve share of the year's spending, the town's part of it.
-    const expected = Math.round(
-      spending *
-        reachParameter("reserveShareOfSpending") *
-        townShare(api, gov) *
-        modeledShare(api, townFacts(api, town)),
-    );
-    const numbers = `${where}: cash ${cash}, spending ${spending}, target ${target}, held ${held}`;
-    expect(target, numbers).toBe(expected);
-    expect(held, numbers).toBeLessThanOrEqual(target);
-    // Where the treasury had cash and the target is above zero, cash moved.
-    if (cash > 0 && target > 0) expect(held, numbers).toBeGreaterThan(0);
-    expect(
-      core.organizations.get(gov.organizationId)!.liquidMinor,
-    ).toBeGreaterThanOrEqual(held);
-    report.reserve = { government: gov.id, cashBefore: cash, held, target };
-    enact(key, 0, gov.level);
-    expect(accounts.balance(reserve)).toBe(0);
-    expectEnded(key);
-  });
-
-  it("a balanced-budget rule cuts spending to revenue", () => {
-    const key = Q("fiscal.balanced-operating-budget");
-    const gov = governments(api).find((g) => g.level === LOCAL)!;
-    const total = (o: Readonly<Record<string, number>>) =>
-      Object.values(o).reduce((a, b) => a + b, 0);
-    const b0 = budgetNow(api, gov.id)!;
-    const gap = total(b0.spendingMinor) - total(b0.revenueMinor);
-    if (gap <= 0)
-      amend(gov, "otherPrograms", -gap + stepFor(gov, "otherPrograms"));
-    const before = budgetNow(api, gov.id)!;
-    expect(total(before.spendingMinor)).toBeGreaterThan(
-      total(before.revenueMinor),
-    );
-    enact(key, 1, LOCAL);
-    const after_ = budgetsOf(api, gov.id).find((b) => b.id === before.id)!;
-    expect(total(after_.spendingMinor), where).toBeLessThanOrEqual(
-      total(after_.revenueMinor),
-    );
-    expect(after_.spendingMinor.interest ?? 0).toBe(
-      before.spendingMinor.interest ?? 0,
-    );
-    report.balanced = {
-      spendingBefore: total(before.spendingMinor),
-      spendingAfter: total(after_.spendingMinor),
-      revenue: total(after_.revenueMinor),
-    };
-    enact(key, 0, LOCAL);
-    expectEnded(key);
-  });
+describe("law reach, group B: a closed school", () => {
+  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
+  beforeAll(() => build({ pinned: false, need: ["private-school"] }));
 
   it("a closed school's eligibility rows end the day it closes", () => {
     const key = Q("education.public-funds-for-private-schooling");
@@ -1257,9 +1401,16 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expect(openOrgs(key).length, where).toBe(openBefore - 1);
     enact(key, 0, "state");
   });
+});
 
-  it("reports", () => {
-    govReport("law-reach-group-b", JSON.stringify({ place, ...report }));
+describe("law reach, group B: the assistance work requirement", () => {
+  // Its own town: one with a welfare head the requirement reaches, drawn from
+  // all 56 and named in every failure, with every place tried listed when none
+  // qualifies in forty draws.
+  beforeAll(() => build({ pinned: false, need: ["time-limit"] }));
+
+  it("an assistance work requirement stops the welfare benefit for the adults it reaches after its time limit, and a repeal pays them again", () => {
+    assistanceWorkCase();
   });
 });
 

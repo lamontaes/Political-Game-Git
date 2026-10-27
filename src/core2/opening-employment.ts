@@ -12,9 +12,7 @@ import { openingOrganizationProfiles } from "./opening-org-profiles";
 import {
   activeWorkers,
   laborStatus,
-  townEmploymentMix,
   townResidents,
-  townWorkplaceWeights,
 } from "../simulation/living-world/town-employment";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
@@ -25,7 +23,8 @@ import {
   type Role,
   type Workplace,
 } from "./town-workplaces";
-import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
+import { townEmploymentMix, townWorkplaceWeights } from "./town-employment-mix";
+import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,
@@ -132,6 +131,7 @@ function expandCountyCounts(): ResidentEmploymentData["countyCounts"] {
 export const DEFAULT_RESIDENT_EMPLOYMENT: ResidentEmploymentData = {
   ...residentData,
   countySource: countyEmployment.source,
+  countySources: countyEmployment.sources,
   countyCounts: {
     ...residentData.countyCounts,
     ...expandCountyCounts(),

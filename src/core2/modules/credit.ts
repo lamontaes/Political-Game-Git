@@ -31,9 +31,10 @@ import {
   residentsRuntime,
   householdCash,
   householdCashReader,
-  residentPerson,
+  residentFacts,
 } from "./residents";
 import { chooseAct, traitLean } from "../choice";
+import { decisionTraitWeight, leanedByKinds } from "../trait-decisions";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
@@ -837,27 +838,36 @@ function earnedDaily(
  */
 export function personalBorrowingDecision(
   api: CoreAPI,
-  actor: Pick<PersonInput, "traits">,
+  actor: Pick<PersonInput, "traits"> & { id?: string },
   need: number,
   burden: number,
 ) {
   const p = (key: string) => api.parameter(key);
-  const wait =
-    traitLean(api.state, actor, creditData.actions.wait.actKinds) *
-    p("traitWeight");
+  const wait = p("zero");
+  const traitTerm =
+    (traitLean(api.state, actor, creditData.actions.borrow.actKinds) -
+      traitLean(api.state, actor, creditData.actions.wait.actKinds)) *
+    decisionTraitWeight(api.state, "credit.borrow");
   const reasons = {
-    trait:
-      traitLean(api.state, actor, creditData.actions.borrow.actKinds) *
-      p("traitWeight"),
+    trait: traitTerm,
     baseline: p("creditBorrowBaseline"),
     need: p("creditBorrowNeedWeight") * need,
     cost: -p("creditBorrowCostWeight") * Math.min(burden, p("two")),
   };
-  const borrow = Object.values(reasons).reduce((sum, value) => sum + value, 0);
+  const bare = reasons.baseline + reasons.need + reasons.cost;
   // The core chooser breaks ties by action id (borrow sorts before do-without).
+  const borrow =
+    leanedByKinds(
+      api.state,
+      actor,
+      "credit.borrow",
+      creditData.actions.borrow.actKinds,
+      creditData.actions.wait.actKinds,
+      bare,
+    ) || bare + traitTerm === wait;
   return {
-    borrow: borrow >= wait,
-    borrowScore: borrow,
+    borrow,
+    borrowScore: bare + traitTerm,
     waitScore: wait,
     reasons,
   };
@@ -905,7 +915,7 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
       if (c.households.has(h.id)) continue;
-      const members = rt.store.peopleOf(h);
+      const members = rt.store.factsOfHousehold(h);
       if (!members.length) continue;
       rows.push({
         id: h.id,
@@ -1020,7 +1030,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         loan.paymentMinor + loan.pastDueMinor,
       );
     const person =
-      c.people.get(loan.borrowerId) ?? residentPerson(c, loan.borrowerId);
+      c.people.get(loan.borrowerId) ?? residentFacts(c, loan.borrowerId);
     const cashBefore = borrowerCash(api, loan.borrowerId);
     const paid = personalLoanTransfer(
       api,

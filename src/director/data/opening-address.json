@@ -1,0 +1,26 @@
+{
+  "version": "opening-address-v1",
+  "about": "How the President's own record shapes the address: which of the country's numbers each of the President's goals bears on, by the bill catalog's subject of that goal; how many numbers the address cites; and whether the numbers or the occasion come first on the President's own stage. A President whose first goal bears on a number opens with the numbers, right after the salutation, and cites one more for each of their leading goals that bears on one; any other President opens with the occasion. The camera's order of stages never changes. It holds no sentences: the words are the opening-speech bank's.",
+  "numbersBySubject": {
+    "labor": ["wages", "jobs"],
+    "housing": ["mortgage"],
+    "taxes-finance": ["growth"],
+    "business": ["growth", "jobs"],
+    "energy-environment": ["inflation"]
+  },
+  "otherNumbers": ["inflation", "growth", "wages", "mortgage", "jobs"],
+  "parameters": {
+    "addressNumbersAtLeast": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": "2 to 4",
+      "note": "How many of the country's numbers besides unemployment every address cites, before the President's own goals add more (play-first-09: at least three)."
+    },
+    "addressGoalsRead": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": "1 to 3",
+      "note": "How many of the President's goals, most wanted first, the address reads for the numbers they bear on: the three it asks for (Congress, the governors, the occasion)."
+    }
+  }
+}

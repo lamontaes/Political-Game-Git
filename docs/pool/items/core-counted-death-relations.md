@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
 pr: #5855
 blocked-on:

@@ -245,6 +245,17 @@ export function remarksOn(api: CoreAPI, billId: string): readonly RemarkRow[] {
 }
 
 /**
+ * Whether a resident is only a counted record: never filled in, or filled in
+ * once and returned to the counts, which keeps a retained full record on the
+ * counted tier (`isDemoted`). Such a resident stands up at public comment by
+ * the same rule as a named one, and is filled in before speaking.
+ */
+export function countedRecordOnly(core: CoreState, personId: string): boolean {
+  const kept = core.people.get(personId);
+  return !kept || isDemoted(kept);
+}
+
+/**
  * At a town or county meeting, before the vote: the residents who feel most
  * strongly about the bill's question, by their civic temperament, stand up
  * and say so; the room is a public record.
@@ -268,7 +279,7 @@ function publicComment(api: CoreAPI, billId: string): void {
   const counted = countedResidents(core).filter(
     (v) =>
       v.placeId === town &&
-      !core.people.has(v.id) &&
+      countedRecordOnly(core, v.id) &&
       ageOn(v, api.state.date) >= 18,
   );
   const speakers = [...townAdults(api), ...counted]
@@ -286,7 +297,7 @@ function publicComment(api: CoreAPI, billId: string): void {
     .slice(0, meetingParameter("publicCommentSpeakers"));
   for (const s of speakers) {
     // A speaker on the public record is a named person.
-    if (!core.people.has(s.p.id)) fillInPerson(core, s.p.id);
+    if (countedRecordOnly(core, s.p.id)) fillInPerson(core, s.p.id);
     table(api, "remarks").put({
       id: `remark:${bill.id}:${s.p.id}`,
       billId: bill.id,

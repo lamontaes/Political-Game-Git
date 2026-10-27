@@ -299,137 +299,6 @@
       }
     },
     {
-      "key": "scene-words.present-one-one.who-is-here",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is here.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 108,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 7,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 2,
-        "crec": 1,
-        "dcpd": 89,
-        "hearings": 5,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
-        "date": "2026-08-19",
-        "granule": "DCPD-202600547",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-is-there",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is there.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 22,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 2,
-        "crec": 2,
-        "dcpd": 8,
-        "hearings": 2,
-        "nasa": 2,
-        "nasa2": 2,
-        "nps": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks and an Exchange With Reporters Upon Arrival in Morristown, New Jersey",
-        "date": "2025-09-14",
-        "granule": "DCPD-202500914",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500914/html/DCPD-202500914.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-is-with-you",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is with you.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on the National Day of Prayer",
-        "date": "2025-05-01",
-        "granule": "DCPD-202500543",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500543/html/DCPD-202500543.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-many-many.who-many-are-here",
-      "move": "present-many-many",
-      "kind": "spoken",
-      "text": "{who_many} are here.",
-      "uses": [
-        {
-          "move": "present-many-many",
-          "subject": "present",
-          "role": "many",
-          "choice": "many"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at a State Dinner With Amir Tamim bin Hamad Al Thani of Qatar in Doha, Qatar",
-        "date": "2025-05-14",
-        "granule": "DCPD-202500603",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500603/html/DCPD-202500603.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.cause-home:moved-moved.you-moved",
       "move": "cause-home:moved-moved",
       "kind": "spoken",
@@ -576,7 +445,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -597,7 +466,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -618,7 +487,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -639,7 +508,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -660,7 +529,7 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -681,7 +550,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -702,7 +571,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -723,7 +592,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -744,7 +613,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -765,7 +634,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -786,7 +655,7 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -807,7 +676,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -828,7 +697,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -849,7 +718,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -870,7 +739,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -898,7 +767,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -926,7 +795,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -947,7 +816,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -968,7 +837,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -989,7 +858,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1017,7 +886,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1038,7 +907,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1059,7 +928,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1087,7 +956,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1108,7 +977,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1136,7 +1005,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1157,7 +1026,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1178,7 +1047,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1199,7 +1068,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1220,7 +1089,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1241,7 +1110,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1260,7 +1129,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1281,7 +1150,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1302,7 +1171,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1323,7 +1192,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1344,7 +1213,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1365,7 +1234,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1386,7 +1255,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1407,7 +1276,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1428,7 +1297,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1449,7 +1318,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1470,7 +1339,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1491,7 +1360,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1512,7 +1381,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1533,7 +1402,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1554,7 +1423,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1575,7 +1444,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1596,7 +1465,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1617,7 +1486,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1626,10 +1495,10 @@
       }
     },
     {
-      "key": "scene-words.lead-reunion-other.you-and-other-are-together-again",
+      "key": "scene-words.lead-reunion-other.you-haven-t-seen-other-in-a-long-time",
       "move": "lead-reunion-other",
       "kind": "spoken",
-      "text": "You and {other} are together again.",
+      "text": "You haven't seen {other} in a long time.",
       "uses": [
         {
           "move": "lead-reunion-other",
@@ -1638,7 +1507,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1659,7 +1528,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1680,7 +1549,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1701,7 +1570,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1722,7 +1591,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1743,7 +1612,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1764,7 +1633,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1785,7 +1654,7 @@
           "choice": "other"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1806,7 +1675,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1827,7 +1696,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1848,7 +1717,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1869,7 +1738,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1890,7 +1759,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1911,7 +1780,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1932,7 +1801,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1953,7 +1822,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1974,7 +1843,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1995,7 +1864,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2016,7 +1885,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2037,7 +1906,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2058,7 +1927,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2079,7 +1948,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2100,7 +1969,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2121,7 +1990,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2142,7 +2011,7 @@
           "choice": "any"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2163,7 +2032,7 @@
           "choice": "home"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2184,7 +2053,7 @@
           "choice": "visit"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2205,7 +2074,7 @@
           "choice": "visit"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2226,7 +2095,7 @@
           "choice": "letter"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2247,7 +2116,7 @@
           "choice": "school"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2269,7 +2138,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2291,7 +2160,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2313,7 +2182,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2335,7 +2204,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2357,7 +2226,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2379,7 +2248,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2401,7 +2270,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2423,7 +2292,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2445,7 +2314,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2467,7 +2336,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2489,7 +2358,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2511,7 +2380,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2533,7 +2402,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2555,7 +2424,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2577,7 +2446,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2599,7 +2468,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2621,7 +2490,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2643,7 +2512,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2665,7 +2534,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2687,7 +2556,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2708,7 +2577,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2729,7 +2598,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2750,7 +2619,7 @@
           "choice": "deliver-news"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2771,7 +2640,7 @@
           "choice": "farewell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2792,7 +2661,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2813,7 +2682,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2834,7 +2703,7 @@
           "choice": "thank"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2855,7 +2724,7 @@
           "choice": "request"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2876,7 +2745,7 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2897,28 +2766,7 @@
           "choice": "announce-result"
         }
       ],
-      "shippable": false,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-is-waiting-for-you",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is waiting for you.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2983,7 +2831,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -3004,10 +2852,136 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": false,
+      "shippable": true,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-alone.you-step-up-to-the-podium",
+      "move": "lead-address-alone",
+      "kind": "spoken",
+      "text": "You step up to the podium. The country is listening.",
+      "uses": [
+        {
+          "move": "lead-address-alone",
+          "subject": "lead",
+          "role": "address",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-alone.the-crowd-goes-quiet",
+      "move": "lead-address-alone",
+      "kind": "spoken",
+      "text": "The crowd goes quiet as you reach the microphone.",
+      "uses": [
+        {
+          "move": "lead-address-alone",
+          "subject": "lead",
+          "role": "address",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-other.other-hands-you-the-final-draft",
+      "move": "lead-address-other",
+      "kind": "spoken",
+      "text": "{other} hands you the draft. You walk to the podium.",
+      "uses": [
+        {
+          "move": "lead-address-other",
+          "subject": "lead",
+          "role": "address",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-other.other-squeezes-your-arm",
+      "move": "lead-address-other",
+      "kind": "spoken",
+      "text": "{other} squeezes your arm. Then it's you and the microphone.",
+      "uses": [
+        {
+          "move": "lead-address-other",
+          "subject": "lead",
+          "role": "address",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-recruit-other.other-has-come-by-about-the-election",
+      "move": "lead-party-recruit-other",
+      "kind": "spoken",
+      "text": "{other} has come by about the election.",
+      "uses": [
+        {
+          "move": "lead-party-recruit-other",
+          "subject": "lead",
+          "role": "party-recruit",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-recruit-alone.a-party-officer-has-come-by-to-see-you",
+      "move": "lead-party-recruit-alone",
+      "kind": "spoken",
+      "text": "A party officer has come by to see you.",
+      "uses": [
+        {
+          "move": "lead-party-recruit-alone",
+          "subject": "lead",
+          "role": "party-recruit",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
       }
     }
   ]

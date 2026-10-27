@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/quirky-ride-vrwwz4-m2-10
 pr: #5880
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T05:10:38.373Z
 ---
 
 **What.** Roadmap M2-10, state and federal races in the world, reads passes: false with command null on main. src/core2/world-races.test.ts covers its clauses in a hand-built world of 120 people with chosen modules and ignores the runner's drawn place, which cannot prove play. A check on the bench world, opened three weeks before November 2026 and November 2028 in the runner's place, reads every race the world runs and who serves after the real seating dates.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/bench/m2-10-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m2-filing-races-flags (CTO branch).
+
+Sent back 2026-10-24 from PR #5880 (branch claude/quirky-ride-vrwwz4-m2-10): seating checker accepts a January 20 term for a January 3 seat and skips every seating assertion when a House seating date moves beyond the observed day; validate real dates before skipping and add regressions; finish on that branch, merge main into it first.

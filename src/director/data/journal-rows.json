@@ -1,6 +1,6 @@
 {
   "version": "words-journal-v1",
-  "about": "The structure of the My life journal: which moments it writes, which record facts each one reads, and the relation and count words. It holds no sentences; the sentences come from the mined bank (data/english/parts/journal.json) through src/director/mined/journal-bank.ts. A title is only a record name. A moment the mined bank has no sentence for is left out.",
+  "about": "The structure of the My life journal: which moments it writes, which record facts each one reads, and the relation and count words. It holds no sentences; the sentences come from the mined bank (data/english/parts/journal.json) through src/english/mined/journal-bank.ts. A title is only a record name. A moment the mined bank has no sentence for is left out.",
   "relationWords": {
     "parent": {
       "female": "mother",
@@ -46,6 +46,21 @@
       "female": "partner",
       "male": "partner",
       "other": "partner"
+    }
+  },
+  "kinAddress": {
+    "about": "How two relatives speak of a relative they share, by that relative's relation to both and recorded gender: a brother and sister call their father Dad. A relation with no word here (a shared sibling) is said by first name; a gender with no word, not at all.",
+    "parent": {
+      "female": "Mom",
+      "male": "Dad"
+    },
+    "other-parent": {
+      "female": "Mom",
+      "male": "Dad"
+    },
+    "grandparent": {
+      "female": "Grandma",
+      "male": "Grandpa"
     }
   },
   "countWords": [
@@ -143,6 +158,17 @@
         }
       },
       "entry": "setting"
+    },
+    {
+      "kindPrefix": "event:law.effect-learned",
+      "turn": false,
+      "eventFacts": {
+        "law": {
+          "fact": "lawId",
+          "format": "lawName"
+        }
+      },
+      "entry": "story"
     },
     {
       "kindPrefix": "event:life.death",
@@ -335,6 +361,46 @@
     },
     {
       "kindPrefix": "household:moment:parent-new-job",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:hometown",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:where-they-lived",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parents-met:school",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:raised-by",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:parent-apart",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-older",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-twin",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:sibling-born",
       "turn": false,
       "entry": "story"
     }
