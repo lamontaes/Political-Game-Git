@@ -76,13 +76,14 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   const other = await page.$("#people .figure[style*='pointer']");
   if (other) {
     await other.evaluate((e) => e.click());
-    // Their card first (only what you could know), then talk.
-    await page.waitForSelector("#person:not([hidden])");
-    await settle();
-    await shot(`${seed}-person`);
-    await page.click("#person-talk");
+    // The talk first; their name in it opens their card.
     await page.waitForSelector("#talk:not([hidden])");
+    await settle();
     await shot(`${seed}-talk`);
+    await page.click("#talk-name");
+    await page.waitForSelector("#person:not([hidden])");
+    await shot(`${seed}-person`);
+    await page.keyboard.press("Escape");
     await page.click("#talk-leave");
   }
   await page.click("#stack [data-tab=people]");

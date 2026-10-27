@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/tests-six-bench-browser-checks
 pr: #6350
 blocked-on:

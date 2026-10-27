@@ -26,7 +26,7 @@ import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { spokenDesignation } from "../english/bill-names";
+import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
 import {
   questionName,
@@ -35,7 +35,11 @@ import {
 } from "../english/policy-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import {
+  SITUATION_LIBRARY,
+  type ScheduleEntry,
+  type SituationType,
+} from "./scheduling";
 import type { Moment } from "./types";
 import {
   composeSceneTalk,
@@ -121,6 +125,17 @@ export function purposeScene(
   return skipped;
 }
 
+/**
+ * The type as its cause plays it: a cause may name its own `sceneKey`, which
+ * tags the exchange's pieces in place of the type's key, so one purpose speaks
+ * for each cause's own reason (the cause is matched by the moment's label).
+ */
+export function typeForCause(type: PurposeType, label: string): PurposeType {
+  const causes = (type as { causes?: SituationType["causes"] }).causes;
+  const sceneKey = causes?.find((row) => row.match?.label === label)?.sceneKey;
+  return sceneKey ? { ...type, tag: { ...type.tag, key: sceneKey } } : type;
+}
+
 /** One purpose scene of a moment, worded from its records. */
 function composeBinding(
   core: Readonly<CoreState>,
@@ -130,7 +145,10 @@ function composeBinding(
   binding: ScheduleEntry["bindings"][number],
   options: { includeHeld?: boolean },
 ): PurposeSceneResult {
-  const type = TYPES.get(binding.typeKey) as PurposeType;
+  const type = typeForCause(
+    TYPES.get(binding.typeKey) as PurposeType,
+    moment.label,
+  );
   const cast = (role: string | undefined) =>
     binding.roles.find((row) => row.role === role)?.personIds[P.zero];
   const askerId = cast(type.asker);
@@ -204,6 +222,27 @@ function composeBinding(
       text: `${chair.givenName} ${chair.familyName}`,
       sourceRecordIds: [moment.causeId, chair.id],
     };
+  // An executive's ask to carry their bill (legislature.ts askToCarry): the
+  // lines about a bill its asker can't introduce need it.
+  if (record?.kind === "carry-asked" && said.byExecutive === "yes")
+    facts["carry-ask"] = {
+      text: said.askerId ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // An ask to carry a bill the member turned down has no number yet: the
+  // bill goes by its name, from the policy the ask was for.
+  if (record?.kind === "carry-asked" && !said.number && said.question) {
+    const name = billNameFor(
+      said.question,
+      said.formKind ?? "",
+      said.direction === "repeal",
+    );
+    if (name)
+      facts.bill = {
+        text: `the ${name.title}`,
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
   // A vote trade puts the holdout's own section in (legislature.ts adopt()):
@@ -317,6 +356,18 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // A bill that lost a vote (legislature.ts recordFailure): the lines about a
+  // lost vote need it, where it lost, and the count, against to for.
+  if (record?.kind === "bill-failed") {
+    const lost = { text: said.number ?? "", sourceRecordIds: [moment.causeId] };
+    facts["bill-lost"] = lost;
+    facts[said.stage === "committee" ? "lost-in-committee" : "lost-on-floor"] =
+      lost;
+    facts.tally = {
+      text: `${said.no} to ${said.yes}`,
+      sourceRecordIds: [moment.causeId],
+    };
+  }
   if (said.office)
     facts.office = {
       text: said.office,

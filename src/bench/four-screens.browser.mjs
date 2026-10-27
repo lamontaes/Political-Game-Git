@@ -79,6 +79,9 @@ try {
   await figure.waitFor();
   await figure.focus();
   await page.keyboard.press("Enter");
+  // The talk opens; the person's name in it opens their card.
+  await page.locator("#talk:not([hidden])").waitFor();
+  await page.locator("#talk-name").click();
   await page.locator("#person:not([hidden])").waitFor();
   await settle();
   assert.equal(
