@@ -28,7 +28,9 @@ import { DEFAULT_DEEP_PAST_DATA } from "../core2/deep-past";
 import { gameStartDate } from "../core2/game-start";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { OPENING_KIN } from "../core2/opening-kin";
-import { personOrFillIn } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { PARTIES_MODULE_ID } from "../core2/modules/parties";
 import { properName } from "../director/words";
 
 describe("the New game creator", () => {
@@ -173,6 +175,25 @@ describe("the life drawn for the age the creator chose", () => {
           ageOnDate(player.birthDate, makeIsoDate(born(child))),
           `${where}: child ${child}`,
         ).toBeGreaterThanOrEqual(minParentAge);
+
+      // The player starts a resident: the opening seats officials and names
+      // party chairs from residents 25 or older, and the player is one.
+      const api = coreAPI(core);
+      expect(
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .query("byPerson", [id]),
+        `${where}: holds no seat at the opening`,
+      ).toHaveLength(0);
+      expect(
+        api
+          .moduleState(PARTIES_MODULE_ID)
+          .table("parties")
+          .rows()
+          .filter((row) => row.leaderId === id),
+        `${where}: leads no party at the opening`,
+      ).toHaveLength(0);
 
       // Who you are: the schools the record holds, each in its full name,
       // and the record of the high school the player went through.
