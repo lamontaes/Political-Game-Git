@@ -18,7 +18,9 @@
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
     "first": "The given name of someone both people know, from the person's record.",
-    "year": "A year from a dated record."
+    "year": "A year from a dated record.",
+    "headline": "The headline of a printed story the speaker read or heard, as the news composer worded it.",
+    "outlet": "The newspaper or station that printed the story, from its organization record."
   },
   "maxWords": 10,
   "mining": {
@@ -8901,112 +8903,6 @@
       }
     },
     {
-      "key": "conversation.news-raise-heard.did-you-hear",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you hear?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 2,
-        "hearings": 1,
-        "house": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on the 11th Anniversary of the Enactment of the Patient Protection and Affordable Care Act in Columbus, Ohio",
-        "date": "2021-03-23",
-        "granule": "DCPD-202100249",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202100249/html/DCPD-202100249.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-raise-heard.have-you-heard",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Have you heard?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 2,
-        "nasa": 1,
-        "nps": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Press Briefing by Press Secretary Jen Psaki, October 1, 2021",
-        "date": "2021-10-01",
-        "granule": "WH-2021-10-01-press-briefing-by-press-secretary-jen-psaki-october-1-2021",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2021/10/01/press-briefing-by-press-secretary-jen-psaki-october-1-2021/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-raise-heard.did-you-see-that",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you see that?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 35,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "crec": 1,
-        "dcpd": 21,
-        "hearings": 2,
-        "house": 1,
-        "nasa": 1,
-        "nasa2": 1,
-        "nps": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks and an Exchange With Reporters Upon Arrival in Orly, France",
-        "date": "2026-06-17",
-        "granule": "DCPD-202600411",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600411/html/DCPD-202600411.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.news-raise-heard.did-you-read-about-topic",
       "move": "news-raise-heard",
       "kind": "spoken",
@@ -9036,73 +8932,6 @@
         "move": "deliver-news",
         "key": "news-received"
       }
-    },
-    {
-      "key": "conversation.news-raise-heard.do-you-know-what-happened",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Do you know what happened?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "crec": 6,
-        "nasa2": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Congressional Record, Senate section, 2025-04-30",
-        "date": "2025-04-30",
-        "granule": "CREC-2025-04-30-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-04-30",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-raise-heard.guess-what",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Guess what.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 58,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "crec": 47,
-        "hearings": 4,
-        "nasa": 2,
-        "nasa2": 4
-      },
-      "shippable": true,
-      "source": {
-        "document": "FRAUD IN FOCUS: EXPOSING FINANCIAL THREATS TO AMERICAN FAMILIES",
-        "date": "2025-09-18",
-        "granule": "CHRG-119hhrg63431",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63431/html/CHRG-119hhrg63431.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
     },
     {
       "key": "conversation.news-answer-yes.i-heard",
@@ -13907,37 +13736,6 @@
         "move": "deliver-news",
         "key": "loss"
       }
-    },
-    {
-      "key": "conversation.news-raise-heard.guess-what-happened",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Guess what happened.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nasa": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history interview with Robert L. Gibson",
-        "date": "2016-01-22",
-        "granule": "gibsonrl-1-22-16",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-1-22-16.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "curious"
     },
     {
       "key": "conversation.farewell-leave-bye.tell-name-i-said-hello",
@@ -20295,6 +20093,282 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-see-the-outlet-story-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you see the {outlet} story? {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "conversation.news-raise-heard.i-saw-it-in-the-outlet-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "I saw it in the {outlet}: {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.news-raise-heard.have-you-seen-this-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Have you seen this? {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.there-s-good-news-in-the-outlet-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "There's good news in the {outlet}. {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "conversation.news-raise-heard.headline-it-was-in-the-outlet-this-morning",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "{headline}. It was in the {outlet} this morning.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "nervous"
+    },
+    {
+      "key": "conversation.news-raise-heard.the-outlet-says-topic-is-in-the-news-again",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "The {outlet} says {topic} is in the news again.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.news-answer-opinion.good-that-s-been-a-long-time-coming",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "Good. That's been a long time coming.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "conversation.news-answer-opinion.that-worries-me-somebody-here-is-going-to-feel-it",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "That worries me. Somebody here is going to feel it.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-d-want-more-than-a-headline-before-i-decide",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I'd want more than a headline before I decide.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.news-answer-opinion.what-does-that-mean-for-us-though",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "What does that mean for us, though?",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-don-t-like-the-sound-of-that",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I don't like the sound of that.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "nervous"
+    },
+    {
+      "key": "conversation.news-answer-opinion.could-be-good-we-ll-find-out-soon-enough",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "Could be good. We'll find out soon enough.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "bearing": "calm"
     }
   ]
 }
