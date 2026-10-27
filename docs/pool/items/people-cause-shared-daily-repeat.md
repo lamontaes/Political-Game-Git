@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-udtiwn
-pr: #5217
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:31:38.230Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T01:31:38.230Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.

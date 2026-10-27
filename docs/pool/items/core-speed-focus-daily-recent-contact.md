@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/speed-focus-recent-contact
 pr: #6102
 blocked-on:

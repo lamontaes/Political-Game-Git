@@ -124,8 +124,8 @@ export function composeScene(
   // Where you are, from the setting's record.
   const { kind, recordId } = binding.setting;
   const settingFacts: Record<string, Fact> = {};
-  if (kind === "home" || kind === "public" || kind === "venue") {
-    const town = place(kind === "home" ? person.placeId : recordId);
+  if (kind === "public" || kind === "venue") {
+    const town = place(recordId);
     if (town) settingFacts.place = town;
   }
   if (kind === "workplace") {
@@ -147,34 +147,16 @@ export function composeScene(
         sourceRecordIds: [recordId, named.id],
       };
   }
+  // The narrator never restates what the screen shows (owner, Oct 26: "it
+  // shouldn't say you're at home in Albion or it's Tuesday in November.
+  // Obviously, it says that in the bottom right."): no day, and no setting
+  // when it is the player's own home; another's house, a workplace or a
+  // venue is said, since only the narration names it.
   const sentences: SceneLine[] = [];
-  const dayAt = new Date(`${moment.date}T00:00:00Z`);
-  const frame = render(
-    { part: "frame" },
-    {
-      weekday: {
-        text: dayAt.toLocaleString("en-US", {
-          weekday: "long",
-          timeZone: "UTC",
-        }),
-        sourceRecordIds: [moment.causeId],
-      },
-      month: {
-        text: dayAt.toLocaleString("en-US", {
-          month: "long",
-          timeZone: "UTC",
-        }),
-        sourceRecordIds: [moment.causeId],
-      },
-    },
-    `${moment.id}:frame`,
-  );
-  if (frame) sentences.push(frame);
-  const setting = render(
-    { part: "setting", kind },
-    settingFacts,
-    `${moment.id}:setting`,
-  );
+  const setting =
+    kind === "home"
+      ? null
+      : render({ part: "setting", kind }, settingFacts, `${moment.id}:setting`);
   if (setting) sentences.push(setting);
 
   // Nobody is announced as merely there;
@@ -212,7 +194,7 @@ export function composeScene(
   // what they came to do ("Your mother has something to tell you.").
   const openerId = opener?.personIds.find((id) => id !== personId);
   const openerFact = openerId ? who(openerId) : null;
-  const opening =
+  const openingLine =
     binding.opening && openerFact
       ? render(
           { part: "opening", move: binding.opening },
@@ -220,10 +202,18 @@ export function composeScene(
           `${moment.id}:opening`,
         )
       : null;
+  // A lead that names the one who opens the scene has already said who came
+  // and why; the opening would say it again ("Your mother has news for you.
+  // Your mother has something to tell you.").
+  const leadNamedOpener =
+    !!openerId &&
+    openerId === talkToId &&
+    !!lead?.usedFactKeys?.includes("other");
+  const opening = leadNamedOpener ? null : openingLine;
 
   // What led here, from the moment's cause, about someone else or the
   // player. News the opener is about to tell is left to them to tell.
-  const toTell = opening !== null && binding.opening === "tell";
+  const toTell = openingLine !== null && binding.opening === "tell";
   const otherId = moment.counterpartIds[zero];
   const cause = toTell
     ? null

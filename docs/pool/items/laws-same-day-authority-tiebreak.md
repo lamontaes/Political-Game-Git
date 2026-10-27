@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/same-day-authority
 pr: #6120
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T22:39:29.578Z
 **Files.** src/core2/laws-in-force.ts, src/rules/laws/law-in-force.ts, src/core2/law-wiring-labor.test.ts
 
 **Notes.** Found Oct 25 by the laws lead while fixing the labor family test (#5589).
+
+Merger 0: Completed 2026-10-26 by PR #6120, merge 9c9fb37e97df44efcfc98f03a4c4f72caff71e62, checked/pinned head 4c24e335057d5c54587f4b3b1b9a5515a69b439e. Own scoped gate and fresh-root Sprague grant-last/Martinton repeal-last worlds pass; unchanged same-root test fails on main engine files, then source restored byte-for-byte. Typecheck press error and all 36 pool diagnostics identical on clean main. Requested done CLI succeeded; main status verified done.

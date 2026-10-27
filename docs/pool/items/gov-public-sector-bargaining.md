@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: L
-status: in-pr
+status: open
 claimed-by:
 pr: #5415
 blocked-on:
@@ -35,3 +35,5 @@ Sent back 2026-10-21 from PR #5415 (branch claude/public-bargaining): The integr
 Sent back 2026-10-23 from PR #5415 (branch claude/public-bargaining): The counted-worker contract re-rating proof remains red on the recorded main-integrated head after both the full and isolated same-seed runs; supply a positive generated-world counted-worker witness. Rechecked unchanged head 8a05ae4aee; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5415#issuecomment-6370213398; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5415 (branch claude/public-bargaining): current main integration conflicts in src/core2/budgets-treasury.ts:287–294; preserve both current treasury/payroll behavior and the repaired positive named/counted bargaining witness; finish on that branch, merge main into it first.
+
+Sent back 2026-10-26 from PR #5415 (branch claude/public-bargaining): The repaired source integrates main cleanly and the recorded ruling permits the budget-only phase, but the PR body still lacks the required Done-when evidence table mapping its one-year drawn-place, named-worker/pay-change, budget-funded payroll and repeal proofs; add those rows and reflect the already recorded scope ruling; finish on that branch, merge main into it first.

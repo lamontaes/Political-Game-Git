@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/speed-journal-portfolios-in-play
 pr: #6131
 blocked-on:

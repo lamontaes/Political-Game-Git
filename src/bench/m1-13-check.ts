@@ -19,7 +19,8 @@ import { coreAPI } from "../core2/state";
 import { REGIONAL_MODULE_ID } from "../core2/modules/regional";
 import { countedMoves } from "../core2/modules/counted-moves";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import type { RegionMonth } from "../core2/regional-model";
+import { REGIONS, type RegionMonth } from "../core2/regional-model";
+import stats from "../../data/research/regional/series/stats.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m1-13-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -90,11 +91,45 @@ check(
     .join(", ")})`,
 );
 
-// 2. Within real ranges: the repo has no sourced range of a region's or a
-// state's one-year population change (data/research/regional holds jobs,
-// pay and unemployment, not population), so the clause cannot be checked.
-failures.push(
-  `${where}: no sourced range for a place's one-year population change in data/research/regional, so "within real ranges" is unchecked`,
+// 2. Within real ranges: each region's change over the year against the 5th
+// to 95th percentile of the real one-year change where it lies: a state's
+// metro or rest of state against the states' and D.C.'s (Census Bureau state
+// estimates), a territory against the four territories' (World Bank), both
+// in data/research/regional/series/stats.json. A tenth of real years fall
+// outside such a band, so no more than a tenth of the regions may.
+const bands = {
+  state: stats.stateOneYearPopulationChangePct,
+  territory: stats.territoryOneYearPopulationChangePct,
+};
+const territories = new Set(
+  REGIONS.filter((row) => row.kind === "territory").map((row) => row.id),
+);
+const changes = [...opening].flatMap(([id, before]) => {
+  const after = year.get(id);
+  return after && before.population
+    ? [
+        {
+          id,
+          pct: (after.population / before.population - 1) * 100,
+          band: territories.has(id) ? bands.territory : bands.state,
+        },
+      ]
+    : [];
+});
+const outside = changes.filter(
+  (row) => row.pct < row.band.p05 || row.pct > row.band.p95,
+);
+const checkedTerritories = changes.filter((row) => territories.has(row.id));
+check(
+  changes.length > 0 && outside.length <= changes.length * 0.1,
+  `${where}: ${outside.length} of ${changes.length} regions' one-year population change sit outside their real band (states ${bands.state.p05.toFixed(2)}% to ${bands.state.p95.toFixed(2)}%, territories ${bands.territory.p05.toFixed(2)}% to ${bands.territory.p95.toFixed(2)}%): ${outside
+    .slice(0, 5)
+    .map((row) => `${row.id} ${row.pct.toFixed(2)}%`)
+    .join(", ")}`,
+);
+check(
+  checkedTerritories.length === territories.size,
+  `${where}: ${checkedTerritories.length} of ${territories.size} territory regions' population changes were checked`,
 );
 // 3. Other places' voters' views: no engine keeps views for places outside
 // the town (the views engine holds the town's people only).
@@ -126,6 +161,20 @@ console.log(
       from: openingMonth,
       through: stepped,
       changed,
+      populationBands: {
+        state: [bands.state.p05, bands.state.p95],
+        territory: [bands.territory.p05, bands.territory.p95],
+      },
+      territoriesChecked: checkedTerritories.map(
+        (row) => `${row.id} ${row.pct.toFixed(2)}%`,
+      ),
+      regionsOutsideBand: outside.length,
+      widestChange: changes
+        .map(({ id, pct }) => ({ id, pct }))
+        .reduce(
+          (top, row) => (Math.abs(row.pct) > Math.abs(top.pct) ? row : top),
+          { id: "", pct: 0 },
+        ),
       countedMoves: moves.length,
       sampleMove: moves.at(-1)
         ? `${moves.at(-1)!.id}: ${Object.keys(moves.at(-1)!.reasons).join(", ")}`

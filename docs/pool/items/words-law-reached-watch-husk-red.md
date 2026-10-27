@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr: #5991
+pr: #4626
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-25 from PR #5991 (branch words/law-reached-husk): the fix already exists on main via #4626 and the older test conflicts with main; preserve the current fill-in and same-day join assertions, verify any remaining acceptance against the actual merged implementation, and let the CTO retire the superseded PR; do not land a release-only duplicate; finish on that branch, merge main into it first.
+
+Verified 2026-10-26 by Merger 3: actual merged PR #4626 commit606e7c44e0dae790e2450219068b26957564148a already calls personOrFillIn(core, heir) immediately before director.watch(core, heir) in law-reached-scenes.test.ts:44-45, and current main retains it plus newer same-day join assertions. The author reports the named regression and four further drawn-place passes in #5991 and confirms that item acceptance landed through #4626. Closing this bookkeeping item against that actual merged implementation; no new current-main runtime gate or merge of the redundant release-only #5991 is claimed.

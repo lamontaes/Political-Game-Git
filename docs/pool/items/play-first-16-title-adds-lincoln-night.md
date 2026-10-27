@@ -5,7 +5,7 @@ area: art
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6109
 blocked-on:
