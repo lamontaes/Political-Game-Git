@@ -636,6 +636,28 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   // none, the township that governs it.
   // (the same units the town's offices are seated for).
   const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+  // A municipio (Puerto Rico) is its own government and the employer of the
+  // town's police, schools and offices, though the law chain holds no county
+  // for it: its treasury is the county-level government of the town.
+  const municipio = countyUnit ? undefined : local.counties[0];
+  if (municipio)
+    govs.push(
+      government(
+        api,
+        {
+          id: `county:${municipio.id.slice("municipio:".length)}`,
+          level: "county",
+          name: municipio.name,
+          fiscalYearStart: localFiscalYearStart(
+            chain.stateKey,
+            "county",
+            townResidents,
+          ),
+          residents: townResidents,
+        },
+        municipio.id,
+      ),
+    );
   const city = local.municipal[0] ?? local.townships[0];
   if (city)
     govs.push(
