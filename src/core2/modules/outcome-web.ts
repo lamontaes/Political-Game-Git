@@ -44,7 +44,13 @@ import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { schoolsLineAboveBase } from "../school-budget-line";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
-import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
+import {
+  budgetLineAddedPct,
+  GOV_MEASURES,
+  govMeasure,
+  govMeasureRecord,
+  snapMaximumChangePct,
+} from "../gov-measures";
 import { monthEvent } from "../outcome-news";
 
 /** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
@@ -198,6 +204,20 @@ const ENGINE_READERS: Readonly<
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
   },
+  // A budget line above its Census base (gov-measures keeps the readings).
+  "parks-added-pct": (api) => lineAddedPct(api, "budget.parks-added-pct"),
+  "highways-added-pct": (api) => lineAddedPct(api, "budget.highways-added-pct"),
+  // The SNAP maximum and the budget lines the health, assistance and schools
+  // laws set, as the town's treasuries and law rows record them.
+  "snap-maximum-change": (api) => snapMaximumChangePct(api),
+  ...Object.fromEntries(
+    ["healthAndHospitals", "welfareAndMedicaid", "higherEducation"].map(
+      (line) => [
+        `budget-line-added:${line}`,
+        (api: CoreAPI) => budgetLineAddedPct(api, line),
+      ],
+    ),
+  ),
   "schools-line-above-base": (api, placeId) => {
     const line = schoolsLineAboveBase(api, placeId);
     return line ? { value: line.pct, recordId: line.recordId } : null;
@@ -246,6 +266,16 @@ function readsTownLaw(api: CoreAPI, placeId: string): boolean {
     api.state.placeMetadata?.housingTown === placeId &&
     (api.state as CoreState).modules.has(LAWS_MODULE_ID)
   );
+}
+
+function lineAddedPct(
+  api: CoreAPI,
+  measure: string,
+): { value: number; recordId: string | null } | null {
+  const value = govMeasure(api, measure);
+  return value === null
+    ? null
+    : { value, recordId: govMeasureRecord(api, measure) };
 }
 
 /** An engine's record for a measure in a place today, or null where it keeps none. */
@@ -297,7 +327,12 @@ const GOV_CAUSES = [
     WEB_LINKS.flatMap((link) => [link.from, link.moderator?.measure ?? ""]),
   ),
 ]
-  .filter((measure) => (GOV_MEASURES as readonly string[]).includes(measure))
+  .filter(
+    (measure) =>
+      (GOV_MEASURES as readonly string[]).includes(measure) &&
+      // One that is also an engine measure is read as one (ENGINE_READERS).
+      !engineMeasure(measure),
+  )
   .sort();
 const LAW_CAUSES = [
   ...new Set(

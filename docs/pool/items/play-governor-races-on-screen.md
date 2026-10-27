@@ -5,14 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: done
-claimed-by: play-first/play-governor-races-on-screen
+status: open
+claimed-by:
 pr: #6159
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from gov-world-races-run-no-governors)
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-26T07:56:34.497Z
+claimed-at:
 ---
 
 **What.** Thirty-five states elect a governor in November 2026, and gov-world-races-run-no-governors makes the world run them. Election night shows the player's own races and nothing of the country. After the player's own contests, add a Nation page with each governor race's winner, party and margin, read from the race records, so the night feels like a national election.
@@ -30,3 +30,7 @@ claimed-at: 2026-10-26T07:56:34.497Z
 **Files.** src/bench/results.ts, src/bench/play.mjs
 
 **Notes.** Filed by the Oct 25 pool audit: gov-world-races-run-no-governors's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with gov-world-races-run-no-governors (needs-from in the handoff line).
+
+Acceptance audit 2026-10-27: implementation merged in PR #6159, but owner installed-build acceptance has no recorded completion. Independent original-source Monson Center MA browser seed bd5644a3-1dd4-4a04-b4ea-93aab21ad6b3 clipped eight of 35 governor rows at 1024x768 (PR comment 6431416879); current main changed row construction and needs reproduction. Keep owner acceptance open.
+
+Acceptance audit follow-up 2026-10-27: current main6dd3fab28c1dfb0fdfd8fab00c37f2d4ffdb2763 still clips governor results. Fresh ordinary Mirrormont WA seed d8301713-281d-43c0-9133-d339e717cff7 reached November2026: all36 rows readable1440x900, only27 reachable1024x768 through all pager pages. Nine rows extend below sheet672 to840.36; next skips to older races. Native screenshots and route published on merger3/audit-governor-results-oct27 at c899ff376be1cf2a2a6a40f8d637618bb1bbadb8/docs/reports/merger3-governor-paging-2026-10-27/README.md; PR audit comment6431416879 updated. Keep responsive-pagination repair and owner installed-build acceptance open.

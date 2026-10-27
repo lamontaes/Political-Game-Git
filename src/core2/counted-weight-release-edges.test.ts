@@ -5,7 +5,9 @@
  * took its weight keeps the rest) and when the record stood for less than one
  * job (the full job takes the difference back from another counted job at
  * the employer). In a place drawn from all 56 at ten times its sample, with
- * the heads set as an employer's staffing would have set them.
+ * the heads set as an employer's staffing would have set them. Each
+ * record's household income follows its jobs' heads, through a partial cut
+ * and both fill-ins.
  */
 import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -14,10 +16,17 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import type { CountedHousehold } from "./counted-groups";
 import { gameStartDate } from "./game-start";
-import { residentsRuntime } from "./modules/residents";
-import { countedHeadcountOf, countedJobsOf } from "./residents-economy";
-import { fillInPerson } from "./state";
+import { householdIncome, residentsRuntime } from "./modules/residents";
+import {
+  countedHeadcountOf,
+  countedJobHeads,
+  countedJobsOf,
+} from "./residents-economy";
+import { payrollReserve, treasuryParameter } from "./budgets-treasury";
+import { governments } from "./modules/budgets";
+import { coreAPI, fillInPerson } from "./state";
 import type { CoreState, JobInput } from "./types";
+import { publicPayTreasuries } from "./public-work-pay";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
@@ -28,6 +37,36 @@ function heads(core: CoreState, organizationId: string): number {
     if (job.organizationId === organizationId && job.endsAt === undefined)
       full += 1;
   return full + countedHeadcountOf(core, organizationId);
+}
+
+const DAYS_PER_YEAR = 365;
+
+/** What a record's employers pay for its open jobs in a year, for the jobs each stands for. */
+function paidFor(core: CoreState, h: CountedHousehold): number {
+  const store = residentsRuntime(core)!.store;
+  return h.jobs
+    .filter((job) => job.endsAt === undefined)
+    .reduce(
+      (n, job) =>
+        n + job.wageDailyMinor * DAYS_PER_YEAR * store.headsOfJob(h, job.id),
+      0,
+    );
+}
+
+/**
+ * Every live record's pay, times the households it stands for, is what its
+ * employers pay for its jobs (within the cent each record's pay is rounded
+ * to), so poverty, moves and housing read the payroll the employers pay.
+ */
+function payAgrees(core: CoreState, where: string): void {
+  const store = residentsRuntime(core)!.store;
+  for (const h of store.liveHouseholds()) {
+    const weight = store.weightOf(h);
+    expect(
+      Math.abs(h.wagesMinorYear * weight - paidFor(core, h)),
+      `${where}: ${h.id} earns ${h.wagesMinorYear} a year at weight ${weight}; its employers pay ${paidFor(core, h)}`,
+    ).toBeLessThanOrEqual(weight);
+  }
 }
 
 function world(i: number) {
@@ -89,7 +128,7 @@ it(`a fill-in keeps an employer's heads when its job was the employer's only cou
       string,
       { job: JobInput; home: CountedHousehold }[],
     ];
-    rt.store.setJobHeads(only!.job.id, 10);
+    rt.store.setJobHeads(only!.job, 10);
     const soleBefore = heads(core, soleOrg);
     fillInPerson(core, only!.job.personId);
     const kept = countedJobsOf(core, soleOrg);
@@ -106,12 +145,28 @@ it(`a fill-in keeps an employer's heads when its job was the employer's only cou
       where,
     ).toBe(true);
 
+    payAgrees(core, `${where}, after ${only!.home.id} was filled in`);
+
     // Two records at one employer: the one filled in stands for half a job.
     const [pairOrg, rows] = pair;
     const filled = rows[0]!;
     const keeper = rows.find((row) => row.home.id !== filled.home.id)!;
-    rt.store.setJobHeads(filled.job.id, 0.5);
-    rt.store.setJobHeads(keeper.job.id, 10);
+    rt.store.setJobHeads(filled.job, 0.5);
+    rt.store.setJobHeads(keeper.job, 10);
+    // A partial cut: the keeper's job goes from 10 jobs to 4.5, and its
+    // household's income falls by the 5.5 jobs' pay over its weight.
+    const wage = keeper.job.wageDailyMinor * DAYS_PER_YEAR;
+    const incomeAtTen = householdIncome(rt, keeper.home);
+    rt.store.setJobHeads(keeper.job, 4.5);
+    const cutBy = incomeAtTen - householdIncome(rt, keeper.home);
+    process.stdout.write(
+      `WEIGHT RELEASE EDGES ${where}: ${keeper.job.id} (${keeper.home.id}, weight ${rt.store.weightOf(keeper.home)}) cut from 10 to 4.5 jobs: household income ${incomeAtTen} to ${householdIncome(rt, keeper.home)}\n`,
+    );
+    expect(
+      Math.abs(cutBy - (wage * 5.5) / rt.store.weightOf(keeper.home)),
+      `${where}: ${keeper.home.id}'s income after the cut`,
+    ).toBeLessThanOrEqual(1);
+    payAgrees(core, `${where}, after the cut`);
     const pairBefore = heads(core, pairOrg);
     fillInPerson(core, filled.job.personId);
     process.stdout.write(
@@ -121,9 +176,66 @@ it(`a fill-in keeps an employer's heads when its job was the employer's only cou
       heads(core, pairOrg),
       `${where}: ${pairOrg} after ${filled.home.id} was filled in`,
     ).toBeCloseTo(pairBefore, 9);
+    payAgrees(core, `${where}, after ${filled.home.id} was filled in`);
     return;
   }
   throw new Error(
     `no drawn place had both cases at ten times its sample: ${tried.join("; ")}`,
+  );
+}, 900_000);
+
+it(`a counted job's heads size its treasury's payroll reserve (base ${base})`, () => {
+  const tried: string[] = [];
+  for (let i = 0; i < 6; i += 1) {
+    const { core, where } = world(100 + i);
+    const api = coreAPI(core);
+    const rt = residentsRuntime(core)!;
+    // A counted job at an employer a modeled treasury pays (a town department):
+    // its pay authority is linked to the treasury of a government in the world,
+    // read from the opening before any cut.
+    const links = publicPayTreasuries(core);
+    const treasuries = new Set(
+      governments(api).map((gov) => gov.organizationId),
+    );
+    const job = [...core.organizations.values()]
+      .filter((org) => {
+        const link = links.get(org.publicPayAuthority?.id ?? "");
+        return link !== undefined && treasuries.has(link.treasuryId);
+      })
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .flatMap((org) => countedJobsOf(core, org.id))
+      .find((row) => countedJobHeads(core, row) >= 2);
+    if (!job) {
+      tried.push(
+        `${where}: no counted job at an employer a modeled treasury pays`,
+      );
+      continue;
+    }
+    const before = new Map(
+      governments(api).map((gov) => [gov.id, payrollReserve(api, gov)]),
+    );
+    const heads = countedJobHeads(core, job);
+    rt.store.setJobHeads(job, heads / 2);
+    const changed = governments(api)
+      .map((gov) => ({
+        id: gov.id,
+        by: before.get(gov.id)! - payrollReserve(api, gov),
+      }))
+      .filter((row) => row.by !== 0);
+    const monthDays =
+      treasuryParameter("daysPerYear") / treasuryParameter("monthsPerYear");
+    const expected = job.wageDailyMinor * monthDays * (heads / 2);
+    process.stdout.write(
+      `WEIGHT RELEASE EDGES ${where}: ${job.id} at ${job.organizationId} cut from ${heads} to ${heads / 2} jobs: reserve of ${changed.map((row) => `${row.id} down ${row.by}`).join(", ") || "none"}, expected ${expected.toFixed(1)}\n`,
+    );
+    expect(changed.length, `${where}: treasuries whose reserve moved`).toBe(1);
+    expect(
+      Math.abs(changed[0]!.by - expected),
+      `${where}: ${changed[0]!.id}'s reserve after the cut`,
+    ).toBeLessThanOrEqual(1);
+    return;
+  }
+  throw new Error(
+    `no drawn place had a counted job at an employer a modeled treasury pays: ${tried.join("; ")}`,
   );
 }, 900_000);

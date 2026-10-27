@@ -210,8 +210,7 @@ export function countedJobsOf(
 
 /**
  * How many real jobs an employer's counted workers stand for: each counted
- * job is worth the weight of its worker's household (one unless the opening
- * gave households a weight). Readers that count heads read this; readers that
+ * job is worth the heads its employer's staffing set (`countedJobHeads`). Readers that count heads read this; readers that
  * pick one worker keep the record from `countedJobsOf`.
  */
 export function countedHeadcountOf(
@@ -520,6 +519,29 @@ export function limitOutsideSales(
     changed += 1;
   }
   return changed;
+}
+
+/**
+ * What a business's operating limit costs it in outside sales a year: each
+ * outside buyers' flow at the amount it would pay without the limit, less
+ * what it pays now.
+ */
+export function outputLostPerYear(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = residentsRuntime(core);
+  const limit = limitOf(core, organizationId);
+  if (!rt || !(limit > 0) || limit >= 1) return 0;
+  let lost = 0;
+  for (const flow of rt.flows.values())
+    if (
+      flow.kind === "outside-sales" &&
+      !flow.endedAt &&
+      flow.payeeId === organizationId
+    )
+      lost += perYear(flow, (flow.amountMinor * (1 - limit)) / limit);
+  return Math.round(lost);
 }
 
 /**

@@ -29,6 +29,11 @@ import {
   ownerOf,
   type BusinessTradingMonth,
 } from "./business";
+import {
+  ageBiasAt,
+  recordEmployerBound,
+  recordHiredUnderBan,
+} from "../jobs-age-bias";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
@@ -297,12 +302,15 @@ function record(
     decidedBy: string;
     values?: Readonly<Record<string, number>>;
     tradingId?: string;
+    /** The jobs the change itself moved, where fewer than the job stands for (a staff cut that sheds part of a counted job). */
+    heads?: number;
   },
 ): void {
-  // The people the change stands for when it happens (a counted worker's
-  // household weight, one for a full person), kept on the change so a later
-  // fill-in doesn't rewrite it.
-  const heads = headsOf(core(api), { id: row.jobId, personId: row.personId });
+  // The people the change stands for when it happens (a counted job's heads,
+  // one for a full person), kept on the change so a later fill-in doesn't
+  // rewrite it.
+  const heads =
+    row.heads ?? headsOf(core(api), { id: row.jobId, personId: row.personId });
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
   if (row.kind === "quit" || row.kind === "left-work")
     noteLeaver(api, row.organizationId, row.jobId, row.personId, heads);
@@ -1014,6 +1022,12 @@ function reviewEmployers(api: CoreAPI): void {
       positions = [...openPositions(api, row.id)];
     // Staff and postings in jobs: a counted worker's record stands for its household's weight.
     const staff = staffHeads(c, jobs);
+    recordEmployerBound(
+      api,
+      row.id,
+      c.organizations.get(row.id)?.placeId ?? "",
+      staff,
+    );
     let posted = positions.reduce((n, row) => n + positionHeads(row), 0);
     const projected =
       (book.capacityMinor > 0
@@ -1391,7 +1405,7 @@ export function layOff(
     const shed = Math.floor(budget + 1e-9);
     const rt = residentsRuntime(c);
     if (c.jobs.has(job.id) || shed < 1 || !rt) return "over";
-    rt.store.setJobHeads(job.id, heads - shed);
+    rt.store.setJobHeads(job, heads - shed);
     record(api, {
       personId: job.personId,
       organizationId,
@@ -1408,6 +1422,7 @@ export function layOff(
         headsShed: shed,
         headsLeft: heads - shed,
       },
+      heads: shed,
       ...(tradingId ? { tradingId } : {}),
     });
     return {
@@ -2005,10 +2020,24 @@ function runWeek(api: CoreAPI): void {
         );
       return value;
     };
-    const pick = (pool: readonly SeekerRow[]) => {
+    // Where no law bars it, a small employer weighs an older applicant down;
+    // a ban in the town takes that off, and the pick is made on fit alone.
+    const bias = ageBiasAt(
+      api,
+      position.placeId,
+      staffHeads(c, currentJobs(api, position.organizationId)),
+    );
+    const birthOf = (personId: string) =>
+      c.people.get(personId)?.birthDate ??
+      residentFacts(c, personId)?.birthDate;
+    const weighed = (seeker: SeekerRow, penalized: boolean) => {
+      const born = penalized && bias ? birthOf(seeker.personId) : undefined;
+      return fit(seeker) - (born && bias ? bias.penaltyOf(born) : 0);
+    };
+    const pick = (pool: readonly SeekerRow[], penalized: boolean) => {
       let top = pool[0]!;
       for (const row of pool) {
-        const gap = fit(row) - fit(top);
+        const gap = weighed(row, penalized) - weighed(top, penalized);
         if (gap > 0 || (gap === 0 && row.id.localeCompare(top.id) < 0))
           top = row;
       }
@@ -2020,7 +2049,9 @@ function runWeek(api: CoreAPI): void {
       (row) => !c.jobs.has(`job:${position.id}:${row.personId}`),
     );
     while (pool.length) {
-      const best = pick(pool);
+      const best = pick(pool, !bias?.ban);
+      // Under the ban: would the penalty have chosen someone else?
+      const overruled = !!bias?.ban && pick(pool, true).id !== best.id;
       pool = pool.filter((row) => row !== best);
       let placed = false;
       if (isCounted(api, best.personId)) {
@@ -2078,6 +2109,24 @@ function runWeek(api: CoreAPI): void {
           `job:${position.id}:${best.personId}`;
       }
       if (!placed) continue;
+      if (overruled && bias)
+        recordHiredUnderBan(
+          api,
+          bias,
+          {
+            personId: best.personId,
+            counted: isCounted(api, best.personId),
+            heads: positionHeads(position),
+          },
+          Math.round(
+            position.hourlyMinor *
+              ((
+                c.jobs.get(position.templateJobId) ??
+                residentsRuntime(c)?.jobs.get(position.templateJobId)
+              )?.hoursDaily ?? 0) *
+              p("jobsDaysPerYear"),
+          ),
+        );
       for (const row of applications.values())
         for (let i = row.length - 1; i >= 0; i--)
           if (row[i]!.personId === best.personId) row.splice(i, 1);
@@ -2354,7 +2403,7 @@ function hireCounted(
   if (calendar) keepCalendar(c, calendar);
   // The hire stands for the jobs the opening offered (one, or the leaver's it
   // replaces), not every household the seeker's record stands for.
-  residentsRuntime(c)?.store.setJobHeads(job.id, position.heads ?? 1);
+  residentsRuntime(c)?.store.setJobHeads(job, position.heads ?? 1);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
