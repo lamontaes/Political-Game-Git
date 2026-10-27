@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/integration-volunteers
 pr: #6403
 blocked-on:
