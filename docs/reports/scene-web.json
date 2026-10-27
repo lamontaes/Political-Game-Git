@@ -5,11 +5,11 @@
   "year": "2025-01-20 to 2026-01-20",
   "watched": 17,
   "counts": {
-    "types": 77,
-    "rows": 124,
+    "types": 78,
+    "rows": 125,
     "typesFired": 11,
-    "rowsWaitingOnProducer": 18,
-    "rowsWithoutEpisode": 56,
+    "rowsWaitingOnProducer": 16,
+    "rowsWithoutEpisode": 54,
     "ownerExamples": 112,
     "ownerScenesMissing": 8
   },
@@ -212,8 +212,8 @@
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 8,
-      "trigger": "awaiting: election-result",
-      "waiting": true,
+      "trigger": "election-result",
+      "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
         "narrator": 31,
@@ -477,24 +477,6 @@
       "domain": "home-and-family",
       "type": "celebration",
       "variant": 3,
-      "trigger": "awaiting: election-result",
-      "waiting": true,
-      "outcome": "personal conversation",
-      "speakers": {
-        "narrator": 9,
-        "hearer": 12,
-        "bearer": 7
-      },
-      "lines": 28,
-      "episodes": ["win-night-at-home"],
-      "ownerAsked": ["Wedding", "The world happens around you"],
-      "firedInYear": 5,
-      "firedExample": "person_c30b190bfd061602:2025-03-03:job:position:organization_4467bc1e72a27be7:2025-03-01:478:person_c30b1a0bfd0617b5"
-    },
-    {
-      "domain": "home-and-family",
-      "type": "celebration",
-      "variant": 4,
       "trigger": "money:job-started",
       "waiting": false,
       "outcome": "personal conversation",
@@ -2013,6 +1995,42 @@
       "firedExample": null
     },
     {
+      "domain": "none",
+      "type": "desk-visit",
+      "variant": 0,
+      "trigger": "bill-presented",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 6,
+        "asker": 57,
+        "asked": 37
+      },
+      "lines": 100,
+      "episodes": ["desk-decision-both-sides"],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "desk-visit",
+      "variant": 1,
+      "trigger": "bill-presented",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 6,
+        "asker": 57,
+        "asked": 37
+      },
+      "lines": 100,
+      "episodes": ["desk-decision-both-sides"],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
       "domain": "the-executive",
       "type": "desk-bill",
       "variant": 0,
@@ -2025,7 +2043,7 @@
         "asked": 59
       },
       "lines": 131,
-      "episodes": [],
+      "episodes": ["desk-decision-both-sides"],
       "ownerAsked": ["Mayor's desk with a bill", "Bill scenes at every stage"],
       "firedInYear": 0,
       "firedExample": null
@@ -2043,7 +2061,7 @@
         "asked": 59
       },
       "lines": 131,
-      "episodes": [],
+      "episodes": ["desk-decision-both-sides"],
       "ownerAsked": ["Mayor's desk with a bill", "Bill scenes at every stage"],
       "firedInYear": 0,
       "firedExample": null
