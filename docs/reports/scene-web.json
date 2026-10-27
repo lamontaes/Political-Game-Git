@@ -410,9 +410,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 4
+        "narrator": 4,
+        "talk": 207
       },
-      "lines": 4,
+      "lines": 211,
       "episodes": ["introduced-at-a-civic-event"],
       "ownerAsked": [],
       "firedInYear": 14,
@@ -548,9 +549,10 @@
       "waiting": true,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 6
+        "narrator": 6,
+        "talk": 207
       },
-      "lines": 6,
+      "lines": 213,
       "episodes": ["introduced-at-a-civic-event"],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -564,9 +566,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 6
+        "narrator": 6,
+        "talk": 207
       },
-      "lines": 6,
+      "lines": 213,
       "episodes": ["introduced-at-a-civic-event"],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -712,9 +715,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 4
+        "narrator": 4,
+        "talk": 207
       },
-      "lines": 4,
+      "lines": 211,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
