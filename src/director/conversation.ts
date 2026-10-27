@@ -37,6 +37,13 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { NEWS_MODULE_ID, newsKey, storiesHeard } from "../core2/modules/news";
+import type { EntityId } from "../core2/kernel/brands";
+import {
+  PRESS_MODULE_ID,
+  outletsHere,
+  type OutletKind,
+} from "../core2/modules/press";
 import { decisionLean } from "../core2/trait-decisions";
 import type {
   CoreAPI,
@@ -677,6 +684,85 @@ function quietDay(
   return { id: `quiet:${speaker.id}:${core.date}`, kind: "quiet", facts };
 }
 
+/** The news engine's kind for a story an outlet printed (press desk). */
+const PRINTED_STORY = "press.printed";
+
+/** How each kind of outlet carries a story: printed on paper or broadcast. */
+const MEDIUM: Readonly<Partial<Record<OutletKind, "paper" | "broadcast">>> = {
+  newspaper: "paper",
+  "national-paper": "paper",
+  magazine: "paper",
+  television: "broadcast",
+  radio: "broadcast",
+  cable: "broadcast",
+};
+
+/** Whether a person knows of a change or a story: learned of the change, or heard the story. */
+function knowsNews(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  aboutId: string | undefined,
+): boolean {
+  if (!aboutId) return false;
+  if (core.knowledgeByPerson.get(personId)?.has(newsKey(aboutId))) return true;
+  return changesKnownTo(core, personId).some((row) => row.eventId === aboutId);
+}
+
+/**
+ * The newest printed story a person heard within the recent window, as a
+ * news subject: its headline (worded by the director's story words), the
+ * outlet that printed it and the story's id, each citing the story.
+ */
+function printedHeard(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  director: Director | undefined,
+): Subject | null {
+  const words = director?.storyWords;
+  if (!words || !core.modules.has(NEWS_MODULE_ID)) return null;
+  const since = addDays(makeIsoDate(core.date), -recentDays());
+  for (const story of storiesHeard(coreAPI(core), speakerId, since)) {
+    if (story.kind !== PRINTED_STORY) continue;
+    const said = words(core as CoreState, story);
+    if (!said?.headline) continue;
+    const cited = [story.id, ...said.sourceRecordIds];
+    const outlet = story.outletId
+      ? core.organizations.get(story.outletId as EntityId)
+      : undefined;
+    // A paper prints it; a station has it on the air ("in the Courier", "on
+    // WMQB"); a site online is neither.
+    const row = core.modules.has(PRESS_MODULE_ID)
+      ? outletsHere(coreAPI(core as CoreState)).find(
+          (entry) => entry.organizationId === story.outletId,
+        )
+      : undefined;
+    const medium = row ? MEDIUM[row.kind] : undefined;
+    const carried = medium
+      ? { [medium]: { text: "", sourceRecordIds: [story.id, row!.id] } }
+      : {};
+    return {
+      id: `news:${story.id}`,
+      kind: "news",
+      aboutId: story.id,
+      facts: {
+        headline: { text: said.headline, sourceRecordIds: cited },
+        storyId: { text: "", sourceRecordIds: [story.id] },
+        ...carried,
+        ...(outlet
+          ? {
+              // As the paper's own masthead or call sign has it.
+              outlet: {
+                text: outlet.name,
+                sourceRecordIds: [story.id, outlet.id],
+              },
+            }
+          : {}),
+      },
+    };
+  }
+  return null;
+}
+
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
 export function subjectsBetween(
   core: Readonly<CoreState>,
@@ -1065,6 +1151,10 @@ export function subjectsBetween(
       kind: "their-school",
       facts: {},
     });
+  // The newest printed story the speaker read or heard of lately, said by
+  // its headline and the outlet that printed it.
+  const printed = printedHeard(core, speakerId, director);
+  if (printed) out.push(printed);
   // The newest change the speaker learned of, as news to pass on.
   const news = changesKnownTo(core, speakerId)[zero];
   const institution = news
@@ -1246,9 +1336,7 @@ function replyFacts(
     case "news":
       return {
         facts: subject.facts,
-        stage: changesKnownTo(core, listenerId).some(
-          (row) => row.eventId === subject.aboutId,
-        )
+        stage: knowsNews(core, listenerId, subject.aboutId)
           ? "heard"
           : "not-heard",
       };
@@ -1324,9 +1412,7 @@ function playerFacts(
     else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
   }
   if (last.kind === "news" && last.subject.aboutId)
-    stage = changesKnownTo(core, playerId).some(
-      (row) => row.eventId === last.subject.aboutId,
-    )
+    stage = knowsNews(core, playerId, last.subject.aboutId)
       ? "heard"
       : "not-heard";
   if (last.kind === "school") stage = schoolStage(core, player);
@@ -1542,12 +1628,14 @@ function otherAsks(
   order: readonly string[],
 ): boolean {
   const { playerId, otherId } = conversation;
+  // News is raised by whoever heard it, saying what it was; asked about by
+  // someone who may not know it, it is a "What do you think?" about nothing.
   const subjects = subjectsBetween(
     core,
     playerId,
     otherId,
     conversation.director,
-  ).filter((row) => !conversation.used.includes(row.id));
+  ).filter((row) => row.kind !== "news" && !conversation.used.includes(row.id));
   const other = core.people.get(otherId)!;
   const sameWork = order.includes("own-work")
     ? subjects.find(

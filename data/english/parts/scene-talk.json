@@ -36,7 +36,10 @@
     "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
     "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
-    "child": "The youngest child at home, by name, from the household record."
+    "child": "The youngest child at home, by name, from the household record.",
+    "first": "The given name of the person spoken to, from their record.",
+    "law": "A law in force, by its policy's name, from the law record.",
+    "cost": "What a law in force costs a household each month, from the price record it moved."
   },
   "maxWords": 70,
   "parts": [
@@ -23744,131 +23747,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-re-in-line-at-the-pharmacy-when-name-turns-around",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You're in line at the pharmacy when {name} turns around.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.you-voted-for-it",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You voted for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.bill-took-effect-this-month-it-s-costing-my-family-real-money-and-i-d-",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "{bill} took effect this month. It's costing my family real money, and I'd like to hear you explain it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-did-vote-for-it-it-was-trading-against-a-cut-that-would-have-hit-mor",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I did vote for it. It was trading against a cut that would have hit more families than this one. That's not an answer for yours, I know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.tell-me-how-much-if-there-s-a-hardship-waiver-i-ll-find-it-and-i-ll-ca",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Tell me how much. If there's a hardship waiver, I'll find it, and I'll call you myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.this-isn-t-the-place",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -23890,56 +23768,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "deflect",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-blame.the-state-forced-our-hand-on-that",
-      "move": "reply-blame",
-      "kind": "spoken",
-      "text": "The state forced our hand on that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "guarded",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "blame",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.that-s-not-an-answer-for-my-kids",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "That's not an answer for my kids.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "hurt",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
         "key": "news-received"
       }
     },
@@ -23978,109 +23806,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.every-month-i-ll-hold-you-to-it",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Every month. I'll hold you to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "after": "promise"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.then-where-is-you-don-t-answer-email",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Then where is? You don't answer email.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.no-it-isn-t-let-me-see-if-there-s-a-waiver-here-s-my-card",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "No, it isn't. Let me see if there's a waiver. Here's my card.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "after": "disagree"
-        }
-      ],
-      "bearing": "contrite",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.give-me-your-number-i-ll-call-before-friday",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Give me your number. I'll call before Friday.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-leave.i-m-sorry-i-have-to-go",
       "move": "reply-leave",
       "kind": "spoken",
@@ -24102,33 +23827,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "leave",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.i-ll-remember-this-in-november",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "I'll remember this in November.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "after": "leave",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
         "key": "news-received"
       }
     },
@@ -90886,6 +90584,646 @@
       "tag": {
         "move": "warn",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-recognizes-you-on-the-street-in-place",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} recognizes you on the street in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-crosses-the-street-to-catch-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} crosses the street to catch you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-voted-for-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You voted for {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-voted-against-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You voted against {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-re-first-aren-t-you-i-want-a-word-about-law",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You're {first}, aren't you? I want a word about {law}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-read-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I read about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-read-how-you-voted-on-bill-i-d-like-to-hear-why",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read how you voted on {bill}. I'd like to hear why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-read-that-you-voted-it-down-bill-would-have-helped-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read that you voted it down. {bill} would have helped us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.law-took-effect-and-i-m-the-one-living-with-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{law} took effect, and I'm the one living with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["in-force", "law"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.bill-is-law-now-and-it-costs-us-cost-a-month",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{bill} is law now, and it costs us {cost} a month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["in-force", "cost"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.bill-is-law-now-nobody-asked-people-like-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{bill} is law now. Nobody asked people like me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["in-force"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-the-way-i-thought-was-right-for-place-here-s-why",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted the way I thought was right for {place}. Here's why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-was-a-hard-vote-i-ll-tell-you-what-i-weighed",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It was a hard vote. I'll tell you what I weighed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.tell-me-what-it-s-doing-to-you-and-i-ll-take-it-back-to-the-others",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Tell me what it's doing to you, and I'll take it back to the others.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.give-me-your-number-i-ll-look-into-what-it-means-for-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Give me your number. I'll look into what it means for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-wasn-t-the-only-vote-on-it",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I wasn't the only vote on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.take-it-up-with-the-ones-who-voted-for-it",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "Take it up with the ones who voted for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-doesn-t-help-us",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That doesn't help us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll hold you to that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-where-you-re-the-one-we-elected",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then where? You're the one we elected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-re-right-let-me-see-what-i-can-do",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You're right. Let me see what I can do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-call-you-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call you this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-remember-this-at-the-next-election",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll remember this at the next election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-keep-reading-about-bill-i-want-to-know-what-it-means-for-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I keep reading about {bill}. I want to know what it means for us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.tell-me-straight-what-bill-does-for-people-like-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Tell me straight what {bill} does for people like me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
       }
     }
   ]
