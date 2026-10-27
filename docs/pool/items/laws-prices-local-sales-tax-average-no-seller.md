@@ -19,6 +19,8 @@ claimed-at: 2026-10-27T13:25:35.538Z
 
 **Done when.** src/core2/law-wiring-prices.test.ts passes with West Wildwood pinned and on two fresh random seeds, each named in the PR body; the PR says which it was (the engine's missed record, by file and line, or the town's rate coming from another row, with the test reading the row actually in force). **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
+**Time box.** 3 hours, Sonnet, no helpers; builds against nothing.
+
 **Files.** src/core2/law-wiring-prices.test.ts
 
 **Notes.** TODO
