@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: words/family-stake-spans
-pr:
+pr: 6355
 blocked-on: "#6273 (director numbers in family-stake.ts) merges first; it edits the same file"
 source: "director engineer, Oct 27 message: src/director/family-stake.ts words spans in code (MONTH_WORDS)"
 lead: words
