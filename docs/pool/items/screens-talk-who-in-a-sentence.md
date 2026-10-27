@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by: 
+status: claimed
+claimed-by: screens/person-card-plain
 pr:
 blocked-on:
 source: "the owner's v0.56.2 sitting, Oct 27, 3:30 PM Eastern (Carlos Washington, 35, Salida, Colorado), filed by the screens designer"
 lead: play-first
 milestone: play-first
-claimed-at: 
+claimed-at: 2026-10-27T20:15:26.114Z
 ---
 
 **What.** In v0.56.2 the talk box subtitle read "Warehouse worker · Quinn Supply Company · partner"; the owner said "that needs work." It must say in a sentence a person would who this is to the player and what they do, through the English engine, for example "Your partner. Works at Quinn Supply." The name stays above it as it is now. A person the player has never met says only what they do.
