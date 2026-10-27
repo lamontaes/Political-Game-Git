@@ -86267,10 +86267,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-phone-rings-while-the-room-is-still-loud-it-s-name",
+      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The phone rings while the room is still loud. It's {name}.",
+      "text": "The phone rings. It's {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -86292,10 +86292,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.a-call-comes-in-from-name-the-one-the-count-put-behind-you",
+      "key": "scene-talk.narrate-narrate.a-call-comes-in-from-name-who-ran-against-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A call comes in from {name}, the one the count put behind you.",
+      "text": "A call comes in from {name}, who ran against you.",
       "uses": [
         {
           "subject": "scene",
@@ -86317,10 +86317,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.your-phone-lights-up-on-the-table-name-s-number",
+      "key": "scene-talk.narrate-narrate.name-is-calling",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Your phone lights up on the table. {name}'s number.",
+      "text": "{name} is calling.",
       "uses": [
         {
           "subject": "scene",
@@ -86544,10 +86544,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thank-you-you-ran-a-clean-race",
+      "key": "scene-talk.reply-thank.thank-you-that-can-t-have-been-an-easy-call",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thank you. You ran a clean race.",
+      "text": "Thank you. That can't have been an easy call.",
       "uses": [
         {
           "subject": "scene",
@@ -86594,10 +86594,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.come-by-the-office-monday-i-want-to-hear-what-your-supporters-care-abo",
+      "key": "scene-talk.reply-offer.come-see-me-when-things-settle-i-want-to-hear-what-your-supporters-care-about",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Come by the office Monday. I want to hear what your supporters care about.",
+      "text": "Come see me when things settle. I want to hear what your supporters care about.",
       "uses": [
         {
           "subject": "scene",
@@ -86644,10 +86644,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-press.will-you-say-that-in-public-tonight-people-are-waiting-to-hear-it-from",
+      "key": "scene-talk.reply-press.will-you-say-that-in-public-people-are-waiting-to-hear-it-from-you",
       "move": "reply-press",
       "kind": "spoken",
-      "text": "Will you say that in public tonight? People are waiting to hear it from you.",
+      "text": "Will you say that in public? People are waiting to hear it from you.",
       "uses": [
         {
           "subject": "scene",
@@ -86669,10 +86669,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-press.say-it-where-the-cameras-are-and-we-ll-both-be-better-for-it",
+      "key": "scene-talk.reply-press.say-it-where-your-people-can-hear-it-it-ll-mean-more-from-you",
       "move": "reply-press",
       "kind": "spoken",
-      "text": "Say it where the cameras are, and we'll both be better for it.",
+      "text": "Say it where your people can hear it. It'll mean more from you.",
       "uses": [
         {
           "subject": "scene",
@@ -86694,10 +86694,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.thank-you-i-m-going-to-let-the-county-finish-counting-before-i-say-any",
+      "key": "scene-talk.reply-stall.thank-you-i-ll-wait-for-the-count-to-be-official-before-i-say-what-s-next",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Thank you. I'm going to let the county finish counting before I say anything about what's next.",
+      "text": "Thank you. I'll wait for the count to be official before I say what's next.",
       "uses": [
         {
           "subject": "scene",
@@ -86770,10 +86770,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-request.i-ll-ask-it-once-and-then-i-ll-let-you-get-back-to-your-night-the-folk",
+      "key": "scene-talk.follow-request.i-ll-ask-it-once-and-then-i-ll-let-you-go-the-folks-who-backed-me-expect-a-hearing-can-i-count-on-that",
       "move": "follow-request",
       "kind": "spoken",
-      "text": "I'll ask it once, and then I'll let you get back to your night. The folks who backed me expect a hearing. Can I count on that?",
+      "text": "I'll ask it once, and then I'll let you go. The folks who backed me expect a hearing. Can I count on that?",
       "uses": [
         {
           "subject": "scene",
@@ -86848,10 +86848,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.monday-works-i-ll-bring-the-list",
+      "key": "scene-talk.follow-accept.that-works-i-ll-bring-what-my-people-care-about",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Monday works. I'll bring the list.",
+      "text": "That works. I'll bring what my people care about.",
       "uses": [
         {
           "subject": "scene",
@@ -86900,10 +86900,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-s-more-than-i-expected-tonight-thank-you",
+      "key": "scene-talk.follow-thank.that-s-more-than-i-expected-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's more than I expected tonight. Thank you.",
+      "text": "That's more than I expected. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -86926,10 +86926,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-say-it-tonight-from-the-podium-before-my-people-go-home",
+      "key": "scene-talk.follow-accept.i-ll-say-it-today-in-front-of-my-people",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll say it tonight, from the podium, before my people go home.",
+      "text": "I'll say it today, in front of my people.",
       "uses": [
         {
           "subject": "scene",
@@ -86978,10 +86978,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.not-tonight-i-ll-say-it-when-the-county-certifies-the-count-and-not-be",
+      "key": "scene-talk.follow-refuse.not-yet-i-ll-say-it-when-the-count-is-certified-and-not-before",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "Not tonight. I'll say it when the county certifies the count, and not before.",
+      "text": "Not yet. I'll say it when the count is certified, and not before.",
       "uses": [
         {
           "subject": "scene",
@@ -87004,10 +87004,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.my-people-need-the-night-i-ll-speak-when-the-count-is-final",
+      "key": "scene-talk.follow-refuse.my-people-need-some-time-i-ll-speak-when-the-count-is-final",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "My people need the night. I'll speak when the count is final.",
+      "text": "My people need some time. I'll speak when the count is final.",
       "uses": [
         {
           "subject": "scene",
@@ -87108,10 +87108,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.bring-me-their-top-three-concerns-i-ll-put-them-on-the-agenda-myself",
+      "key": "scene-talk.reply-offer.bring-me-their-concerns-i-ll-put-them-on-the-agenda-myself",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Bring me their top three concerns. I'll put them on the agenda myself.",
+      "text": "Bring me their concerns. I'll put them on the agenda myself.",
       "uses": [
         {
           "subject": "scene",
@@ -87186,10 +87186,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-press.the-number-tonight-is-the-number-i-d-rather-hear-you-say-it-than-guess",
+      "key": "scene-talk.reply-press.the-count-is-the-count-i-d-rather-hear-you-say-it-than-guess-at-it",
       "move": "reply-press",
       "kind": "spoken",
-      "text": "The number tonight is the number. I'd rather hear you say it than guess at it.",
+      "text": "The count is the count. I'd rather hear you say it than guess at it.",
       "uses": [
         {
           "subject": "scene",
@@ -87238,10 +87238,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-warn.i-ll-speak-to-my-people-tonight-either-way-i-won-t-wait-on-a-recount-n",
+      "key": "scene-talk.reply-warn.i-ll-speak-to-my-people-either-way-i-d-rather-you-did-too",
       "move": "reply-warn",
       "kind": "spoken",
-      "text": "I'll speak to my people tonight either way. I won't wait on a recount nobody has asked for.",
+      "text": "I'll speak to my people either way. I'd rather you did too.",
       "uses": [
         {
           "subject": "scene",
@@ -87264,10 +87264,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-let-you-go-good-night",
+      "key": "scene-talk.reply-leave.i-ll-let-you-go-take-care",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll let you go. Good night.",
+      "text": "I'll let you go. Take care.",
       "uses": [
         {
           "subject": "scene",
@@ -87317,10 +87317,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-press.that-s-the-clerk-s-job-to-say-not-mine-i-d-rather-you-said-what-you-ll",
+      "key": "scene-talk.reply-press.that-s-for-the-official-count-to-say-not-me-i-d-rather-you-said-what-you-ll-do-either-way",
       "move": "reply-press",
       "kind": "spoken",
-      "text": "That's the clerk's job to say, not mine. I'd rather you said what you'll do either way.",
+      "text": "That's for the official count to say, not me. I'd rather you said what you'll do either way.",
       "uses": [
         {
           "subject": "scene",
@@ -87343,10 +87343,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-don-t-know-ask-me-when-the-clerk-s-office-has-finished",
+      "key": "scene-talk.reply-stall.i-don-t-know-ask-me-when-the-count-is-official",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I don't know. Ask me when the clerk's office has finished.",
+      "text": "I don't know. Ask me when the count is official.",
       "uses": [
         {
           "subject": "scene",
@@ -87369,10 +87369,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-call-you-if-i-hear-anything-good-night",
+      "key": "scene-talk.reply-leave.i-ll-call-you-if-i-hear-anything",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll call you if I hear anything. Good night.",
+      "text": "I'll call you if I hear anything.",
       "uses": [
         {
           "subject": "scene",
@@ -87395,10 +87395,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.they-will-hear-it-from-me-first-you-have-my-word",
+      "key": "scene-talk.reply-promise.they-ll-hear-from-me-directly-you-have-my-word",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "They will hear it from me first. You have my word.",
+      "text": "They'll hear from me directly. You have my word.",
       "uses": [
         {
           "subject": "scene",
@@ -87781,10 +87781,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-ll-let-you-get-back-to-your-night-congratulations-again",
+      "key": "scene-talk.close-thank.i-ll-let-you-go-congratulations-again",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'll let you get back to your night. Congratulations again.",
+      "text": "I'll let you go. Congratulations again.",
       "uses": [
         {
           "subject": "scene",
@@ -87807,10 +87807,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-see-you-monday-then",
+      "key": "scene-talk.close-promise.then-i-ll-wait-for-your-call-to-set-it-up",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll see you Monday, then.",
+      "text": "Then I'll wait for your call to set it up.",
       "uses": [
         {
           "subject": "scene",
@@ -87887,10 +87887,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.then-that-s-where-we-leave-it-for-tonight",
+      "key": "scene-talk.close-accept.then-that-s-where-we-leave-it-for-now",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Then that's where we leave it for tonight.",
+      "text": "Then that's where we leave it for now.",
       "uses": [
         {
           "subject": "scene",
@@ -87925,7 +87925,8 @@
           "role": "asker",
           "purpose": "concession-received",
           "key": "call-in",
-          "outcome": "refused"
+          "outcome": "refused",
+          "after": "decline"
         }
       ],
       "bearing": "braced",
@@ -87991,10 +87992,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.take-the-night-good-night",
+      "key": "scene-talk.close-accept.take-some-time-we-ll-talk",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Take the night. Good night.",
+      "text": "Take some time. We'll talk.",
       "uses": [
         {
           "subject": "scene",
