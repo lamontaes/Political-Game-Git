@@ -749,6 +749,23 @@ const interview: Builder = (read, f) => {
   );
 };
 
+/** A reporter checking a candidate's interview answer against their record. */
+const claimCheck: Builder = (read) => {
+  const interviewId = read.sourceId.replace(/^claim:/, "").replace(/:\d+$/, "");
+  const row = (read.core.modules.has(PRESS_MODULE_ID)
+    ? read.api.moduleState(PRESS_MODULE_ID).table("interviews").get(interviewId)
+    : undefined) as unknown as { candidateId?: string } | undefined;
+  return story(
+    "claim-check",
+    {
+      ...read.who(row?.candidateId, "name", false),
+      ...read.issue(read.story.topic ?? ""),
+    },
+    ["name", "issue"],
+    row?.candidateId,
+  );
+};
+
 /** A race's debate. */
 const debate: Builder = (read, f) => {
   const office = read.contestTitle(f.contestId);
@@ -1148,6 +1165,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "meeting-held": publicMeeting,
   profile,
   interview,
+  claim: claimCheck,
+  "claim-checked": claimCheck,
   debate,
   "candidate-filed": filing,
   "election-result": electionResult,

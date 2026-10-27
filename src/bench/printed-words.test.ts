@@ -68,6 +68,11 @@ describe("printed stories in News", () => {
         if (text)
           expect(text, `${story.id} in ${where}`).not.toMatch(DEVELOPER);
     }
+    // Which records went unworded, so a new kind of story is named at once.
+    if (unworded.length)
+      console.log(
+        `printed-words unworded: ${[...new Set(unworded)].join(", ")}`,
+      );
     expect(unworded, where).toEqual([]);
     // What News lists for the resident who heard the most printed stories.
     const heard = new Map<string, number>();

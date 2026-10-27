@@ -5127,6 +5127,50 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.claim-check.checking-name-on-issue",
+      "move": "claim-check",
+      "kind": "written",
+      "text": "Checking {name} on {issue}",
+      "uses": [
+        {
+          "move": "claim-check",
+          "subject": "headline",
+          "role": "claim-check",
+          "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.claim-check.what-the-record-says-about-name-on-issue",
+      "move": "claim-check",
+      "kind": "written",
+      "text": "What the record says about {name} on {issue}",
+      "uses": [
+        {
+          "move": "claim-check",
+          "subject": "headline",
+          "role": "claim-check",
+          "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

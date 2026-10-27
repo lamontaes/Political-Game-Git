@@ -141,6 +141,7 @@ export const STORY_KINDS = {
   estate: { headline: ["estate"], lede: ["estate"] },
   "law-rule": { headline: ["law-rule"], lede: ["law-rule"] },
   "member-vote": { headline: ["member-vote"], lede: ["member-vote"] },
+  "claim-check": { headline: ["claim-check"], lede: ["claim-check"] },
 } as const;
 export type StoryKind = keyof typeof STORY_KINDS;
 

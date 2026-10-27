@@ -4474,6 +4474,50 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.claim-check.we-checked-what-name-told-us-about-issue-against-the-record",
+      "move": "claim-check",
+      "kind": "written",
+      "text": "We checked what {name} told us about {issue} against the record.",
+      "uses": [
+        {
+          "move": "claim-check",
+          "subject": "news",
+          "role": "claim-check",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.claim-check.name-spoke-about-issue-we-looked-at-the-record-behind-it",
+      "move": "claim-check",
+      "kind": "written",
+      "text": "{name} spoke about {issue}; we looked at the record behind it.",
+      "uses": [
+        {
+          "move": "claim-check",
+          "subject": "news",
+          "role": "claim-check",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }
