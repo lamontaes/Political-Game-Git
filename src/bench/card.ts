@@ -8,6 +8,7 @@ import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
 import { circleChanges } from "./circle";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
 import {
@@ -266,6 +267,21 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         ? ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date))
         : null,
     alive: other.alive,
+    // Where family, housemates and coworkers live, by their record.
+    placeName:
+      (family || housemate || coworker) &&
+      corePlaceByJurisdictionId(other.placeId as never)
+        ? corePlaceByJurisdictionId(other.placeId as never)!.displayName
+        : null,
+    // The school a child or teen is at now, from the school their past records.
+    school:
+      (family || housemate) &&
+      ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
+        coreAPI(core).parameter("benchmarkAdultMinimumAge")
+        ? (schoolsOf(core, otherId)
+            .filter((row) => row.date <= core.date)
+            .at(-1) ?? null)
+        : null,
     work:
       (family || housemate || coworker) && job
         ? {

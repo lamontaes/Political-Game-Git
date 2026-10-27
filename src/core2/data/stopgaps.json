@@ -4625,8 +4625,8 @@
     "why": "World building draws the player's past during New game, before the creator runs, and there is no step to redraw it for a chosen age.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age.",
-    "status": "open"
+    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age. Resolved Oct 27, 2026: the chosen birthday goes into the world build (buildBenchWorld's playerBirthDate), which holds a resident of that age and makes the player the resident born nearest it, so the household, kin, schooling, work and money drawn for them fit the age; the identity call then sets the name, exact birth date and looks.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-town-count-estimate",
@@ -6605,18 +6605,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-TRAITS-persuasion-size",
-    "kind": "uncalibrated-tunable",
-    "file": "src/core2/modules/views.ts",
-    "line": 400,
-    "whatItFakes": "How much a hearer's traits (openness and agreeableness side) scale the size of a view move after an argument or a story, and how much generalized trust scales a speaker's standing. Both read the hearer's trait lean at the general weight 1.",
-    "why": "The research rows (Hirsh, Kang and Bodenhausen 2012; Freitag and Bauer 2016) give a direction and no effect size for a single occasion.",
-    "addedBy": "claude/traits-civic",
-    "addedAt": "2026-10-20",
-    "replacement": "A one-occasion effect size of trait on persuasion and on trust in a speaker from a study that reports one, set in traitWeightViewsPersuasion and traitWeightViewsTrust.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-territory-budget-mix",
     "kind": "assumed-data",
     "file": "src/core2/modules/budgets.ts",
@@ -7049,6 +7037,42 @@
     "addedBy": "fixer, Merger 2's send-back of PR 5792",
     "addedAt": "2026-10-27",
     "replacement": "Correct the counted renters' income to the place's sourced ratio (world-counted-renter-income-puerto-rico-third), then remove the pin so the case meets the HUD bound.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-rent-help-population-share",
+    "kind": "faked-mechanic",
+    "file": "src/core2/housing-assistance.ts",
+    "line": 51,
+    "whatItFakes": "A state's or county's rent-help line is paid to the played town by the town's share of the government's population, as though renter households were spread the same way as people.",
+    "why": "Renter households are not recorded for the whole government, only for the played town, so the town's slice of a larger government's line cannot be read from renters; the population share is the nearest record that exists.",
+    "addedBy": "fixer, Merger 4's send-back of PR 6219",
+    "addedAt": "2026-10-27",
+    "replacement": "Record renter households per government (counted, as the town's are) and pay each line by the town's share of them; the stopgap clears when the share reads renters.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-figure-color-masks-from-picture",
+    "kind": "faked-mechanic",
+    "file": "src/bench/figure-colors.ts",
+    "line": 61,
+    "whatItFakes": "A figure's skin and clothing regions are guessed from pixel colors (warm saturated pixels are skin, unsaturated mid-gray pixels are clothing) instead of read from a painted mask, so the gray shoes follow the clothes color and a very dark skin tone loses some facial shading.",
+    "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
+    "addedBy": "claude/play-stop-34",
+    "addedAt": "2026-10-27",
+    "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-people-skin-tone-weights",
+    "kind": "estimated-data",
+    "file": "src/bench/whole-figures.ts",
+    "line": 236,
+    "whatItFakes": "The skin tone of a person other than the player is drawn from one national spread of eight tones, the same in every place, not from the place's own people.",
+    "why": "The people records hold no skin tone; the figures need one to differ from their neighbors. The weights are a rough estimate of the national spread (Census race and ethnicity counts folded into eight tones), about five points a tone.",
+    "addedBy": "claude/play-stop-35",
+    "addedAt": "2026-10-27",
+    "replacement": "A skin tone set from the place's own demographics when the person is made, stored on their appearance record.",
     "status": "open"
   }
 ]
