@@ -296,6 +296,287 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.56.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **Personality moves who answers a pollster and who retells a campaign story by
+  the researched amount** A voter's personality moved their answering a pollster
+  and their retelling a campaign story about four to twenty times too far in
+  every town, because the table of how acts pull on traits had been rebuilt
+  since the weights were set. Both weights are set again from the current table,
+  and a retelling's second-hand share is set from the new average reach.
+
+- **The evening news on opening night names the area whose unemployment rate it
+  gives** The opening night's jobs story gave the metro or state-wide
+  unemployment rate under the town's name ("Philipsburg unemployment at 2.8").
+  It now names the area the rate belongs to (for example "Montana outside the
+  Billings and Missoula areas").
+
+## PRE-ALPHA 0.56.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **A filed candidate's season brings people to the door and the phone** Once
+  you file, the race starts coming to you. Within days someone at home tells you
+  who filed against you. Friends who hear you're running come by to offer a
+  hand, one at a time as each of them learns of it, and a yes puts them on your
+  campaign. When an opponent's mail or ad reaches someone you know, they pass it
+  on. In the last weeks, the town's papers and stations call for an interview,
+  once a week for all who asked, and the debate's host calls about the race's
+  debate. Say yes and you sit for it, or take the stage, on the positions you
+  filed; say no and they go on without you. Scene narration no longer opens by
+  telling you the day or that you're at home, since the screen already shows
+  both.
+
+### Improved
+
+- **Rent, zoning and housing-budget laws now reach tenants through the whole
+  first year** Leases that already exist when a game begins now come up for
+  renewal through the first year, not all in the same month, so a rent
+  stabilization law reaches renters from its first months. When a council lets
+  apartments be built by right, the law records the buildings it brought and the
+  households who move into them. A housing budget a council passes keeps paying
+  rent help to the town's lowest-income renters in later years. Repealing a loan
+  rate cap stops the law from counting interest on loans already written.
+
+### Fixed
+
+- **The desktop build publishes again** The desktop build checks itself again:
+  its title check no longer counts the Continue item's face and label as a
+  description line, so Mac and Windows packages publish.
+
+### Changed
+
+- **People in the wider population now retire, quit and look for work the way
+  people you can click do** Workers who are only counted in the town's
+  population used to retire, quit and start or stop looking for work by a
+  separate summed-up rule, and applied to every opening nearby. They now weigh
+  staying, looking around, leaving and retiring by the same reasons as full
+  people: their age, savings, how their pay compares with the going rate, how
+  long they have held the job, how scarce jobs are, and their temperament. Each
+  applies to the openings worth more to them than waiting. Retirement now comes
+  in the mid-sixties for most workers, with savings deciding who goes first.
+
+## PRE-ALPHA 0.55.4
+
+_Released October 27, 2026._
+
+### Changed
+
+- **When a reporter calls, you can apologize, explain, send a statement or go
+  off the record** A reporter's call about a story on you can now be met with an
+  apology, an explanation or an attack on the story, and any call for comment
+  can be answered with a statement from your office or off the record; the call
+  no longer names a time of day the game doesn't know.
+
+## PRE-ALPHA 0.55.3
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A quiet evening at home can say when you last spent time together** On a
+  quiet day at home, the line about when the two of you last spent time together
+  ("Haven't seen much of you since last week.") can now play.
+
+- **A property tax bill now has a name in the meeting** A bill to raise or cut
+  the property tax rate had no authored name, so the meeting showed it untitled.
+  It is now the Property Tax Increase or Reduction.
+
+## PRE-ALPHA 0.55.2
+
+_Released October 27, 2026._
+
+### Improved
+
+- **The loser calls the winner after the count** When you win a race, the
+  candidate who finished behind you now phones after the count. They
+  congratulate you on the margin and ask for something or say what comes next,
+  and you answer in one of four ways: take the call warmly, offer to meet, ask
+  them to say it in public tonight, or wait for the county to finish counting.
+  How they answer depends on who they are, and what you say is kept on the
+  record between the two of you.
+
+### Fixed
+
+- **A jobs report names the area its rate measures** The opening night's jobs
+  headline no longer gives a metro area's unemployment rate under the town's
+  name.
+
+## PRE-ALPHA 0.55.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **Talk about the news says what the news was** A relative who read or heard a
+  story now brings it up by its headline and the paper or station that ran it,
+  instead of asking "What do you think?" about news they never name.
+
+- **Talk at home on a quiet day says something** On a day with nothing new to
+  talk about, someone you live with now opens on the day itself (the weekday,
+  when you last spent time together, or that one of you had work) instead of
+  saying goodbye at once.
+
+### Changed
+
+- **People who stop you say why, from what happened** When someone stops you
+  about a law, a story or a meeting, they say only what they know: your own
+  vote, the law in force, what it costs them.
+
+## PRE-ALPHA 0.55.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **A bill you draft shows the day the floor takes it up, each chamber's count
+  for and against, and how the vote came out.** Your office screen now tells you
+  the day the floor takes up a bill you drafted, how many members are for,
+  against or undecided, and after the vote how it came out, in words instead of
+  a bare status.
+
+### Fixed
+
+- **Clicking a future day on the calendar keeps its tile, shows its date and a
+  skip-forward icon.** Click a day months ahead and it stays lit with its
+  number, its date shows beside a small skip icon, and pressing the icon runs
+  time to that day or to the first thing that needs you.
+
+### Changed
+
+- **Election day and night are scenes, and voting is your choice** Election day
+  no longer drops you at the polls. On election morning the narrator sets the
+  day, and if you're on the ballot, a volunteer can take you canvassing before
+  the polls close. Then the day asks whether you go vote: Go vote opens the
+  ballot, Stay home casts nothing. That night the returns for your race come in
+  place by place until the race is called, with the other states' governor races
+  that night, in a pop-up of its own. The Election Night results sheet is gone,
+  and it no longer opens again on every load.
+
+## PRE-ALPHA 0.54.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **An official can be left an offer, with five ways to answer it** When someone
+  who wants a vote or a contract leaves something for an official, the official
+  now has a scene to play: five different answers (take it, hand it back, say it
+  will be reported, put it off, or play along), the offerer pressing, pleading
+  or threatening in reply, and an ending for each. The scene waits for the
+  corruption engine to record offers as events, so it does not appear in play
+  yet.
+
+### Fixed
+
+- **The President asks Congress only for what Congress can do** The opening
+  address no longer asks Congress to change a state's law, or to keep a law your
+  state already has. Each ask now goes to the level that can answer it: Congress
+  for a federal question federal law does not yet answer, and the governors for
+  a state law your state answers the other way from the President.
+
+### Changed
+
+- **A town hall now plays as a resident's question and the answer they got**
+  When a local official holds a town hall, the resident who stood up with a
+  question now has a scene about that question: the issue they asked about, and
+  whether the official's answer agreed with their own view, opposed it, or was
+  not given. Before, the same meeting played as office hours, with a resident
+  who had lost a job or faced eviction and said nothing about the meeting.
+
+## PRE-ALPHA 0.53.0
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Candidates accept a reporter's interview by what it brings them** A
+  candidate now weighs a reporter's interview by how much of the town the outlet
+  reaches and whether they already hold the seat, and temperament tips the close
+  calls. About half accept, as real candidates answer about half of voter-guide
+  requests; before, nearly every candidate accepted every interview.
+
+- **Hardship now shapes what people do next** A layoff, an eviction or a missed
+  loan payment now leaves stress that the person carries into what they do next,
+  and how hard it lands depends on who they are. A worker who has just lost a
+  job is more likely to file for unemployment, a household in a bind is more
+  likely to ask for a loan, and a person under strain is more likely to start
+  leaving town, each by a size taken from research and each fading as the stress
+  wears off. Missing a loan payment now weighs on a person less than being laid
+  off.
+
+### Fixed
+
+- **A relative's age is read from the calendar** When a relative at home weighs
+  in on your filing, their age and the child's age are now counted by the
+  calendar, not by dividing days by 365, so someone turns 18 on their birthday.
+
+- **The title's Continue shows the face you made** The title's Continue now
+  shows the character's own face and clothes from the creator beside the name
+  and place, the same portrait the player card and Who you are already show.
+
+- **The face at the center of People is always the one you made** The center of
+  the People web now reads your saved look directly, the same portrait the
+  player card and Who you are show, instead of whichever figure the current room
+  happens to draw for you.
+
+- **The clerk at the filing counter is introduced before they speak** When you
+  walk up to the counter to file, a line of narration now says who is behind it
+  and what their post is, then the clerk asks how they can help.
+
+- **A same-named town's row names its county on its own line** In the creator's
+  town list, a town whose name another town in the state shares now shows "in
+  Coosa County" on its own line under the town's count, so the county no longer
+  reads as the thing the count belongs to.
+
+- **A news story opens as the paper's front page, with its masthead, date and
+  headline.** Picking up the news on the table opens the story under the paper's
+  name and the date, with its headline in large type and the other stories
+  beside it.
+
+- **The President's address no longer claims an oath, an evening or energy
+  prices the records do not show** Three lines in the opening address said
+  things the game's records do not back: that the oath had already been taken,
+  that the address was given in the evening, and that energy bills were part of
+  the price rise. They now say only what the records show.
+
+- **Puerto Rico's municipios now pay their police, schools and offices from a
+  treasury** In Puerto Rico a town's municipio employed its police, fire, health
+  and school staff but had no treasury in the budgets, so none of them was paid
+  from public money. The municipio is now the town's county-level government
+  with a treasury and a budget.
+
+### Changed
+
+- **The President speaks from a podium and the opening's cutaways show the
+  town's own workplaces** The opening now puts the President at the lectern,
+  with the Vice President and others seated beside him, and the cutaways to
+  jobs, wages and prices go to an employer in your town of the right kind, with
+  the people who work there.
+
+## PRE-ALPHA 0.52.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A second vote trade on a new bill gets its own ask** When a colleague trades
+  votes with you on one bill and comes back the next day about another, you now
+  hear the second ask too. Before, it was taken for a repeat of the first and
+  never shown.
+
+- **A life started at 35 now has the past of a 35-year-old** When you pick a
+  birthday in the creator, the town is built around someone who really is that
+  age. A 35-year-old now has parents old enough to have had him, the schools he
+  went through in the 1990s, the household he lives in and money on hand,
+  instead of the family and school years of a teenager.
+
 ## PRE-ALPHA 0.52.0
 
 _Released October 27, 2026._

@@ -7,9 +7,9 @@ milestone: play-first
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-legislature-floor-date-and-whip
-pr:
+pr: #6285
 blocked-on:
 source: The screen half of laws-player-bill-reaches-the-floor (laws-and-effects lead, Oct 27; the owner's Oct 26 playtest, relayed by the CTO)
 claimed-at: 2026-10-27T10:49:47.630Z
@@ -30,3 +30,4 @@ claimed-at: 2026-10-27T10:49:47.630Z
 **Files.** src/bench/legislature.ts, the legislature screen under src/bench
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27. The core readers land with laws-floor-takes-every-chamber-bill. Unblocked Oct 27, 08:03 UTC: `laws-floor-takes-every-chamber-bill` merged in #6226, so `floorDateOf`, `whipCount` and the weekly floor's `floorAgendaOn` are on main. It is from the Oct 26 sitting, so it is due in the 14:00 UTC build.
+Merged Oct 27 in PR #6285; awaiting the owner's installed-build check (the voted-result line and state/House rows remain open)
