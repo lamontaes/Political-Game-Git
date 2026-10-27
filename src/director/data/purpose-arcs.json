@@ -2779,6 +2779,78 @@
           "when": {}
         }
       ]
+    },
+    "bribe-offer": {
+      "state": "request",
+      "replies": ["accept", "refuse", "confront", "stall", "lie"],
+      "follow": {
+        "accept": ["thank"],
+        "refuse": ["plea", "press", "accept"],
+        "confront": ["plea", "threaten", "deflect"],
+        "stall": ["press", "plea"]
+      },
+      "again": {
+        "plea": ["refuse", "accept", "confront", "leave"],
+        "press": ["refuse", "accept", "confront", "leave"],
+        "threaten": ["refuse", "confront", "accept", "leave"],
+        "deflect": ["refuse", "confront", "leave"]
+      },
+      "endings": [
+        {
+          "id": "took-it",
+          "label": "You took it",
+          "keeps": "bribe-taken",
+          "when": {
+            "anyReply": ["accept"]
+          }
+        },
+        {
+          "id": "reported",
+          "label": "You said you would report it",
+          "keeps": "bribe-reported",
+          "when": {
+            "anyReply": ["confront"]
+          }
+        },
+        {
+          "id": "handed-back",
+          "label": "You handed it back",
+          "keeps": "bribe-refused",
+          "when": {
+            "anyReply": ["refuse"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "played-along",
+          "label": "A promise you never meant",
+          "keeps": "bribe-promised",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "put-off",
+          "label": "Put off",
+          "keeps": "bribe-pending",
+          "when": {
+            "reply": ["stall", "leave", "deflect"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

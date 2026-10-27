@@ -155,6 +155,12 @@ function composeBinding(
       text: said.problem,
       sourceRecordIds: [moment.causeId],
     };
+  // What an offer asks in return (a vote, a contract): the lines about that favor need it.
+  if (said.favor)
+    facts[`favor-${said.favor}`] = {
+      text: said.favor,
+      sourceRecordIds: [moment.causeId],
+    };
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {

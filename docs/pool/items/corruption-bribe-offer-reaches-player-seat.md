@@ -9,10 +9,11 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: effects
 source: added with npm run pool -- add
 ---
 
-**What.** considerBribe (src/core2/modules/corruption.ts) writes the offer only as a crime row and a self knowledge record, so no director scene can fire on it, and for an official the player plays it runs the take decision from the player's traits as for anyone, so the engine answers for the player. Seen Oct 27 in the scenes-from-life episode docs/design/scenes/from-life/envelope-refused-developer.md.
+**What.** considerBribe (src/core2/modules/corruption.ts) writes the offer only as a crime row and a self knowledge record, so no director scene can fire on it, and for an official the player plays it runs the take decision from the player's traits as for anyone, so the engine answers for the player. Seen Oct 27 in the scenes-from-life episode docs/design/scenes/from-life/envelope-refused-developer.md. Until it does, the director's bribe-offer scene waits and no offer ever reaches the player.
 
 **Rules.** No dice: who offers and who takes stays the chooser's (traits, money, tie). The player's answer is the player's: for the seat the player holds the engine records the offer as pending and the scene answers it. Wire to the world; an effect is a read, not a record.
 

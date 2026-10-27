@@ -521,8 +521,9 @@ describe("story director on the new core", () => {
     // to carry, a donor, the party, office hours, family, a rally, the desk,
     // staff, a bargain), plus the life moments with a purpose of their own
     // (a new baby, a cause shared), plus an
-    // officeholder's own address, plus the party's ask that a member run.
-    expect(types).toHaveLength(67);
+    // officeholder's own address, plus the party's ask that a member run,
+    // plus the offer an official finds left for them (scenes from life).
+    expect(types).toHaveLength(68);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));

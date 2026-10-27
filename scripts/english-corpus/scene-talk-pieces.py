@@ -11,7 +11,7 @@ FAVOR=['carry-bill','donor-ask','party-ask']
 ASKS=VOTE+FAVOR
 WORK=ASKS+['press-comment','constituent-help','desk-bill','staff-news']
 KEY={"ask-vote":"vote-wanted","confirm-vote":"vote-wanted","section-bargain":"vote-wanted","desk-bill":"vote-wanted","rally-volunteer":"vote-wanted",
- "carry-bill":"favor-asked","donor-ask":"favor-asked","party-ask":"favor-asked","constituent-help":"favor-asked",
+ "carry-bill":"favor-asked","donor-ask":"favor-asked","party-ask":"favor-asked","constituent-help":"favor-asked","bribe-offer":"favor-asked",
  "press-comment":"routine","family-filing":"news-received","family-win":"honor","family-loss":"loss","family-absence":"threat",
  "rally-opponent":"threat","staff-news":"news-received"}
 E=[]
@@ -3255,6 +3255,68 @@ L('follow','plea',A,'carry-bill',[("I can't file it myself. You're the one I'd t
 GF=['gift']; GB=['gift','donor-bill']
 L('state','request',A,'donor-ask',[("I was glad to help your campaign. I'll want your ear when it counts.","calm",GF),("That check wasn't charity. When I call, I need you to pick up.","braced",GF),("I backed you early. I'd like to know I can count on you later.","calm",GF),("I gave because I think you'll listen. Keep listening.","calm",GF),("I put my money behind you. Now I need to know where you stand on what I care about.","braced",GF)])
 L('state','request',A,'donor-ask',[("I gave to your campaign because of {bill}. I need you with me on it.","calm",GB),("That check was about {bill}. Don't forget it.","braced",GB)])
+# An offer left for an official (corruption.ts considerBribe; scenes-from-life episode
+# docs/design/scenes/from-life/envelope-refused-developer.md): the offerer wants a favor and leaves something
+# for it. FV and FC are the favor the offer record names (a vote, a contract); the lines that need one outrank
+# the generic ones, and the lines that name {bill} need the bill too. Nothing here decides who offers or who
+# takes: the scene's reply is the player's, and the offer record is the engine's.
+B='bribe-offer'
+FV=['favor-vote']; FVB=['favor-vote','bill']; FC=['favor-contract']
+L(N,N,R,B,[("{name} waited until the hall emptied, then asked for ten minutes.","guarded"),("{name} is at your office door at closing time with a paper bag in one hand.","guarded"),("{name} was the last to leave the meeting, and now {name} is walking back toward you.","braced")])
+L(N,N,R,B,[("{bill} comes up soon. {name} has money riding on it and asks to see you alone.","guarded",FVB)])
+L(N,N,R,B,[("The job went out for bids, and {name} bid on it. Now {name} is in your office with the door shut.","guarded",FC)])
+L('open','greet',A,B,[("Thanks for making time.","calm"),("I'll keep this short.","nervous"),("Can we close the door?","guarded"),("Nobody knows I'm here.","guarded"),("You've been fair with me, and I wanted to say so.","warm")])
+L('state','request',A,B,[("There's something in here for you. All I ask is that you keep an open mind.","calm"),("Call it a thank-you for your time. There's more when this is finished.","calm"),("I know how this looks. Nobody has to know, and nobody gets hurt.","guarded"),("Take it. I'm not asking you to do anything you wouldn't do anyway.","braced")])
+L('state','request',A,B,[("My bid is the best one in the stack. This makes sure someone reads it that way.","calm",FC),("I need that contract to go my way, and I'll make it worth your while.","braced",FC)])
+L('state','request',A,B,[("I need your vote when it comes up. This is for your trouble.","calm",FV),("You're going to vote on this soon. I'd like it to go my way.","braced",FV)])
+L('state','request',A,B,[("I need your vote on {bill}. This is for your trouble.","calm",FVB),("{bill} is coming to you. I'd like to know you'll be with me, and this is how I say thanks.","guarded",FVB)])
+# The player's five replies: take it, hand it back, say it will be reported, put it off, and play along.
+L('reply','accept',Y,B,[("All right. Leave it with me.","guarded"),("I didn't see you come in.","guarded"),("Keep this between us.","nervous"),("Then we understand each other.","calm")])
+L('reply','refuse',Y,B,[("Take it back. I can't.","guarded"),("Pick that up and go.","braced"),("I don't take money, from you or from anyone.","calm"),("I won't be bought.","proud")])
+L('reply','confront',Y,B,[("You know I have to report this.","braced"),("You just offered me a bribe. I'm reporting it.","braced"),("Put it down on the table. I'm calling this in.","braced")])
+L('reply','stall',Y,B,[("I need time to think about this.","nervous"),("Let me think. Don't call me.","guarded"),("Not today. Come back when I've thought it over.","guarded")])
+L('reply','lie',Y,B,[("Of course. I'll see what I can do.","calm"),("Consider it done.","calm")])
+# The offerer's answer to each reply.
+L('follow','thank',A,B,[("I knew you were a reasonable person.","calm"),("You won't regret this.","calm"),("Good. Then we're square.","calm")],after='accept')
+L('follow','plea',A,B,[("Please. I have a lot riding on this.","anxious"),("Think about what you're doing. No one else will see it.","anxious"),("Everything I've put into this is on the line.","anxious")])
+L('follow','press',A,B,[("People do this all the time. They just don't say so.","braced"),("Don't be naive. This is how it gets done.","braced"),("Sleep on it, and call me when you've come around.","calm")])
+L('follow','threaten',A,B,[("It's your word against mine. Think about who they'll believe.","braced"),("You'll want friends in this town after tonight. I'd think about that.","braced")])
+L('follow','accept',A,B,[("All right. I'll take it back. Forget I came.","guarded"),("Then we never had this conversation.","guarded")])
+L('follow','deflect',A,B,[("I don't know what you think I handed you. It's a thank-you card.","guarded"),("Report what? I came to say thanks.","braced")])
+# The player's next reply to each answer.
+L('reply','refuse',Y,B,[("Then find another way to win it. This isn't it.","calm"),("I'm sorry. My answer doesn't change.","guarded")],after='plea')
+L('reply','refuse',Y,B,[("Everyone doing it doesn't make it right.","braced")],after='press')
+L('reply','refuse',Y,B,[("Say that to whoever asks, then. I'd rather lose friends.","braced")],after='threaten')
+L('reply','refuse',Y,B,[("A thank-you card doesn't weigh that much. Take it back.","braced")],after='deflect')
+L('reply','accept',Y,B,[("Fine. Put it down and go.","guarded"),("All right. I'll keep it. Don't come here again.","nervous")],after='plea')
+L('reply','accept',Y,B,[("Fine. Put it down and go.","guarded")],after='press')
+L('reply','accept',Y,B,[("All right. I'll keep it. Don't come here again.","nervous")],after='threaten')
+L('reply','confront',Y,B,[("You've said enough. I'm reporting this today.","braced"),("That's the last thing you'll say to me about it. I'm reporting it.","braced")],after='plea')
+L('reply','confront',Y,B,[("You've said enough. I'm reporting this today.","braced")],after='press')
+L('reply','confront',Y,B,[("Threatening me doesn't help you. I'm reporting this.","braced")],after='threaten')
+L('reply','confront',Y,B,[("Don't. You know what that was. I'm reporting it.","braced")],after='deflect')
+L('reply','leave',Y,B,[("I'm done. Take it with you.","braced"),("This conversation is over.","guarded")],after='plea')
+L('reply','leave',Y,B,[("I'm done. Take it with you.","braced")],after='press')
+L('reply','leave',Y,B,[("This conversation is over.","guarded")],after='threaten')
+L('reply','leave',Y,B,[("I'm not having this conversation.","guarded")],after='deflect')
+# Putting it off, and playing along: the offerer pushes for an answer, or takes the player at their word.
+L('reply','refuse',Y,B,[("No. I thought about it. Take it back.","calm")],after='stall')
+L('follow','thank',A,B,[("Good. Then I'll hold you to that.","calm"),("Then we're agreed.","calm")],after='lie')
+# Caught: the offerer cites where they learned the truth.
+L('follow','confront',A,B,[("{source} says you already told someone about this.","braced",K),("{source} told me you'd never go along with it.","braced",K)],after='lie')
+L('reply','confess',Y,B,[("You're right. I was never going to.","contrite")],after='confront')
+L('reply','deflect',Y,B,[("Think what you like.","guarded")],after='confront')
+L('reply','lie',Y,B,[("I don't know what they told you.","nervous")],after='confront')
+L('follow','ask',A,B,[("Then why did you let me say all that?","hurt")],after='confess')
+L('follow','accept',A,B,[("All right. I'll take it back.","guarded")],after='confess')
+L('follow','press',A,B,[("Don't play games with me.","braced")],after='deflect')
+# The close, by how it ended.
+L('close','thank',A,B,[("Then that's settled.","calm"),("You'll see I keep my word.","calm")],outcome='resolved')
+L('close','promise',A,B,[("You'll hear from me when it's done.","calm")],outcome='resolved')
+L('close','accept',A,B,[("Then I'll leave it at that.","guarded")],outcome='refused')
+L('close','warn',A,B,[("You'll hear about this again.","braced"),("This isn't over.","braced")],outcome='refused')
+L('close','press',A,B,[("Think about it. I'll be back for an answer.","calm")],outcome='open')
+L('close','warn',A,B,[("Don't take too long.","braced")],outcome='open')
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}

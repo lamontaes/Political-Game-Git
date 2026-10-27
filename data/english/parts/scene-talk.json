@@ -9072,6 +9072,15 @@
           "purpose": "party-ask",
           "key": "favor-asked",
           "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "outcome": "open"
         }
       ],
       "bearing": "braced",
@@ -9430,6 +9439,15 @@
           "purpose": "*",
           "key": "threat",
           "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "outcome": "refused"
         }
       ],
       "bearing": "braced",
@@ -85428,6 +85446,2145 @@
       "tag": {
         "move": "blame",
         "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waited-until-the-hall-emptied-then-asked-for-ten-minutes",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waited until the hall emptied, then asked for ten minutes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-at-your-office-door-at-closing-time-with-a-paper-bag-in-one-ha",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is at your office door at closing time with a paper bag in one hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-was-the-last-to-leave-the-meeting-and-now-name-is-walking-back-to",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was the last to leave the meeting, and now {name} is walking back toward you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.bill-comes-up-soon-name-has-money-riding-on-it-and-asks-to-see-you-alo",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{bill} comes up soon. {name} has money riding on it and asks to see you alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-job-went-out-for-bids-and-name-bid-on-it-now-name-is-in-your-offic",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The job went out for bids, and {name} bid on it. Now {name} is in your office with the door shut.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-making-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for making time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-keep-this-short",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll keep this short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.can-we-close-the-door",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can we close the door?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.nobody-knows-i-m-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Nobody knows I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-ve-been-fair-with-me-and-i-wanted-to-say-so",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You've been fair with me, and I wanted to say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.there-s-something-in-here-for-you-all-i-ask-is-that-you-keep-an-open-m",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "There's something in here for you. All I ask is that you keep an open mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.call-it-a-thank-you-for-your-time-there-s-more-when-this-is-finished",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Call it a thank-you for your time. There's more when this is finished.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-how-this-looks-nobody-has-to-know-and-nobody-gets-hurt",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know how this looks. Nobody has to know, and nobody gets hurt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.take-it-i-m-not-asking-you-to-do-anything-you-wouldn-t-do-anyway",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Take it. I'm not asking you to do anything you wouldn't do anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.my-bid-is-the-best-one-in-the-stack-this-makes-sure-someone-reads-it-t",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My bid is the best one in the stack. This makes sure someone reads it that way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-that-contract-to-go-my-way-and-i-ll-make-it-worth-your-while",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need that contract to go my way, and I'll make it worth your while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-your-vote-when-it-comes-up-this-is-for-your-trouble",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need your vote when it comes up. This is for your trouble.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-re-going-to-vote-on-this-soon-i-d-like-it-to-go-my-way",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You're going to vote on this soon. I'd like it to go my way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-your-vote-on-bill-this-is-for-your-trouble",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need your vote on {bill}. This is for your trouble.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-is-coming-to-you-i-d-like-to-know-you-ll-be-with-me-and-this-is-h",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} is coming to you. I'd like to know you'll be with me, and this is how I say thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-leave-it-with-me",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. Leave it with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.i-didn-t-see-you-come-in",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "I didn't see you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.keep-this-between-us",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Keep this between us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.then-we-understand-each-other",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Then we understand each other.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.take-it-back-i-can-t",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Take it back. I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.pick-that-up-and-go",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Pick that up and go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-don-t-take-money-from-you-or-from-anyone",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I don't take money, from you or from anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-be-bought",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't be bought.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-know-i-have-to-report-this",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You know I have to report this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-just-offered-me-a-bribe-i-m-reporting-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You just offered me a bribe. I'm reporting it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Put it down on the table. I'm calling this in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-need-time-to-think-about-this",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I need time to think about this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-think-don-t-call-me",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me think. Don't call me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.not-today-come-back-when-i-ve-thought-it-over",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Not today. Come back when I've thought it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.of-course-i-ll-see-what-i-can-do",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Of course. I'll see what I can do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.consider-it-done",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Consider it done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-knew-you-were-a-reasonable-person",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I knew you were a reasonable person.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-won-t-regret-this",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You won't regret this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-then-we-re-square",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Then we're square.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. I have a lot riding on this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Think about what you're doing. No one else will see it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.everything-i-ve-put-into-this-is-on-the-line",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Everything I've put into this is on the line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-do-this-all-the-time-they-just-don-t-say-so",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People do this all the time. They just don't say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-be-naive-this-is-how-it-gets-done",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't be naive. This is how it gets done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.sleep-on-it-and-call-me-when-you-ve-come-around",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sleep on it, and call me when you've come around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.it-s-your-word-against-mine-think-about-who-they-ll-believe",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "It's your word against mine. Think about who they'll believe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.you-ll-want-friends-in-this-town-after-tonight-i-d-think-about-that",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "You'll want friends in this town after tonight. I'd think about that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-take-it-back-forget-i-came",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll take it back. Forget I came.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-never-had-this-conversation",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we never had this conversation.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-don-t-know-what-you-think-i-handed-you-it-s-a-thank-you-card",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I don't know what you think I handed you. It's a thank-you card.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.report-what-i-came-to-say-thanks",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "Report what? I came to say thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Then find another way to win it. This isn't it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm sorry. My answer doesn't change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.everyone-doing-it-doesn-t-make-it-right",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Everyone doing it doesn't make it right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.say-that-to-whoever-asks-then-i-d-rather-lose-friends",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Say that to whoever asks, then. I'd rather lose friends.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-card-doesn-t-weigh-that-much-take-it-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A thank-you card doesn't weigh that much. Take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.fine-put-it-down-and-go",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Fine. Put it down and go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. I'll keep it. Don't come here again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You've said enough. I'm reporting this today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-the-last-thing-you-ll-say-to-me-about-it-i-m-reporting-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's the last thing you'll say to me about it. I'm reporting it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.threatening-me-doesn-t-help-you-i-m-reporting-this",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Threatening me doesn't help you. I'm reporting this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.don-t-you-know-what-that-was-i-m-reporting-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Don't. You know what that was. I'm reporting it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-done-take-it-with-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm done. Take it with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.this-conversation-is-over",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "This conversation is over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "threaten"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-having-this-conversation",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not having this conversation.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-i-thought-about-it-take-it-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. I thought about it. Take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-then-i-ll-hold-you-to-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Then I'll hold you to that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "lie"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-we-re-agreed",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then we're agreed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "lie"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-says-you-already-told-someone-about-this",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} says you already told someone about this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["knows-truth"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-told-me-you-d-never-go-along-with-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} told me you'd never go along with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["knows-truth"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.you-re-right-i-was-never-going-to",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "You're right. I was never going to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "confront"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confess",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.think-what-you-like",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Think what you like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-don-t-know-what-they-told-you",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I don't know what they told you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "confront"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.then-why-did-you-let-me-say-all-that",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Then why did you let me say all that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "confess"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-take-it-back",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "confess"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-play-games-with-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't play games with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.then-that-s-settled",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Then that's settled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.you-ll-see-i-keep-my-word",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "You'll see I keep my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-ll-hear-from-me-when-it-s-done",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll hear from me when it's done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-leave-it-at-that",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll leave it at that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.you-ll-hear-about-this-again",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "You'll hear about this again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-i-ll-be-back-for-an-answer",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. I'll be back for an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
       }
     }
   ]
