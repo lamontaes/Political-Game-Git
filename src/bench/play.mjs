@@ -4770,6 +4770,13 @@ api("/api/title").then((title) => {
   $("front-continue-life").textContent = titleLife
     ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
     : "";
+  // The life's own face: the look the creator saved, as every other view of the player reads it.
+  setBust(
+    "front-continue-bust",
+    titleLife?.portrait
+      ? `/api/portrait?id=${encodeURIComponent(titleLife.personId)}`
+      : "",
+  );
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));
