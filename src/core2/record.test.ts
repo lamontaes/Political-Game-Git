@@ -11,7 +11,7 @@
  */
 import { createHash } from "node:crypto";
 import { countedChoice } from "./electorate";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
@@ -43,6 +43,7 @@ import { openRecord, promisesOf, recordVote, votesOf } from "./modules/record";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { setKeepEveryonesWhy } from "./why-kept";
 
 const START = "2026-01-05";
 const seed =
@@ -57,6 +58,18 @@ function pick<T>(list: readonly T[], salt: string): T {
 }
 
 describe("M4-06 the record follows you", () => {
+  // A voter's reasons are saved for the player's circle only (Keep it simple,
+  // Oct 11; the test switch of Oct 25). This case reads the record reasons on
+  // the ballots of voters nobody in the player's circle deals with, so it asks
+  // for everyone's, and puts the setting back for the next case.
+  let keptBefore = false;
+  beforeAll(() => {
+    keptBefore = setKeepEveryonesWhy(true);
+  });
+  afterAll(() => {
+    setKeepEveryonesWhy(keptBefore);
+  });
+
   /** One draw: a place, an incumbent's broken promise, and the election that follows. */
   function scenario(draw: number) {
     let place = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -274,6 +287,18 @@ describe("M4-06 the record follows you", () => {
         promise: question,
         weighedTheRecord: weighed.length,
         sawTheBrokenPromise: broken.length,
+        brokenPromiseBallots: broken.slice(0, 8).map((b) => b!.id),
+        brokenPromiseIds: [
+          ...new Set(
+            broken.flatMap((b) =>
+              b!
+                .recordReasons![incumbent.id]!.filter(
+                  (r) => r.kind === "broken-promise",
+                )
+                .map((r) => r.itemId),
+            ),
+          ),
+        ],
         choicesChanged: changed.length,
         attackAdReached: attack.length,
         oneVoter: changed[0],
