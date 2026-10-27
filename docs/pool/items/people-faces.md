@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-faces
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T22:51:00.318Z
 ---
 
 **What.** The owner asked for facial expressions and different faces for men and women. Every v2 figure shares one painted face today, so every person looks alike. The art session painted faces onto the figures' own heads (faces-on-figures: front and both three-quarter views, with expressions) and hair pieces at every angle, including three-quarter turned right, painted rather than mirrored. This item puts a face on each person's record, lays the face on before the skin recolor so it takes their skin, colors a gray beard with their hair, uses the painted right-turned hair, and adds a Face row to the creator.
