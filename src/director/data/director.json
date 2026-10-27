@@ -314,6 +314,19 @@
         "citation": "Hearing of the death of someone known through their household, as above."
       }
     },
+    "directorCircumstanceSchoolImpact": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.15,
+        "high": 0.4,
+        "unit": "life-change units divided by 100",
+        "citation": "The end of the player's own school year (the last day, and the household's celebration of a diploma): weighed with the morning after their own race, as a thing they lived through."
+      }
+    },
     "directorCircumstanceRaceImpact": {
       "value": 0.2,
       "tag": "TUNABLE",
@@ -1511,6 +1524,11 @@
     },
     {
       "eventKind": "office.approached",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "carry-asked",
       "channel": "cause",
       "impactParameter": "directorFloorVoteImpact"
     },
