@@ -36,12 +36,23 @@ export function readPool(dir: string): {
   return { ids, byPr };
 }
 
-/** The item a merged pull request finishes: the id in its body, else the item pointing at it. */
+/** Whether the body's first line says the PR only touches an item ("Touches pool item: <id>"). */
+export function touchesOnly(body: string): boolean {
+  const first = body.split(/\r?\n/).find((line) => line.trim() !== "");
+  return /^touch(es|ing)?\b/i.test(first?.trim() ?? "");
+}
+
+/**
+ * The item a merged pull request finishes: the id in its body, else the item
+ * pointing at it. A "Touches" first line flips nothing, so the pr: fallback
+ * never applies to it; a body with no first-line id at all keeps the fallback.
+ */
 export function itemForMergedPr(
   prNumber: string,
   body: string,
   pool: { ids: Set<string>; byPr: Map<string, string> },
 ): string | null {
+  if (touchesOnly(body)) return null;
   return idFromBody(body, pool.ids) ?? pool.byPr.get(prNumber) ?? null;
 }
 

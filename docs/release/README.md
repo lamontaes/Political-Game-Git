@@ -93,6 +93,10 @@ A push to `main` runs `.github/workflows/release.yml`, which:
 7. when release automation is not enabled, uploads the exact candidate bundle
    and review patch and stops without publishing.
 
+8. when it publishes, leaves a `publish-record` artifact (version,
+   candidateSha, bundleSha256, sourceSha, published commit, run id), kept 30
+   days: the publish ledger the package workflow reads.
+
 You can run every step of that locally:
 
 ```bash
@@ -102,6 +106,23 @@ npm run release:recover
 ```
 
 `npm run release:check` is part of `npm run validate`.
+
+## When desktop builds happen, and how to ask for one
+
+A push to `main` builds, validates and publishes the version commit (minutes).
+It does not package the apps. `.github/workflows/release-package.yml` does:
+
+- **every two hours** on a schedule (GitHub cron can lag), and
+- **on request**: Actions > "Release package" > Run workflow on `main`, or
+  `gh workflow run release-package.yml --ref main`.
+
+It packages exactly the newest published candidate, read from the newest
+`publish-record` (highest version; its published commit, candidateSha and
+bundleSha256), never a newer `main`, then builds, stages, plays the packaged
+app (the smoke test, unchanged), checks the update feed and publishes the
+GitHub release `v<version>`. If that version already has a release, the run
+exits cleanly and says "Nothing new". Nothing cancels a running package: a
+merge never starts this workflow, and a second tick or request waits behind it.
 
 ## What it refuses to do
 
