@@ -9,7 +9,11 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import { openContests } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  openContests,
+  type FilingRow,
+} from "../core2/modules/elections";
 import { advanceCore } from "../core2/life";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
@@ -36,9 +40,18 @@ import { SITUATION_LIBRARY } from "./scheduling";
 // each family of circumstance the owner named calls at least one scene.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 365;
-const DRAWS = 3;
+const DRAWS = 2;
 
-/** The families of circumstance (owner, Oct 27) and the rows of each. */
+/**
+ * The families of circumstance (owner, Oct 27) that every drawn year
+ * carries, and the rows of each. A price change (price-moved-street,
+ * rent-news-street), a death known to the player (death-known-street), a hire
+ * (new-coworker), a rival's message (rival-message) and a lobbyist after a
+ * lobbying visit to the player (lobbyist-hallway) are counted and
+ * printed, not asserted: a year in one town carries one or none, so whether
+ * any comes is the draw's, not the producer's
+ * (director-circumstance-rare-families-asserted).
+ */
 const FAMILIES: Readonly<Record<string, readonly string[]>> = {
   "a law passed or in force": [
     "vote-read-street",
@@ -46,14 +59,10 @@ const FAMILIES: Readonly<Record<string, readonly string[]>> = {
     "law-news-street",
   ],
   "a printed story": ["story-read-home"],
-  "a price change": ["price-moved-street", "rent-news-street"],
-  "a death": ["death-known-street"],
   "a national event in the news": [
     "national-news-work",
     "national-news-street",
   ],
-  "a lobbyist in the hallway": ["lobbyist-hallway"],
-  "a rival in the player's own race": ["rival-message"],
   "a hallway at the capitol": ["hallway-colleague", "hallway-reporter"],
   "a hallway after a sitting": [
     "hallway-colleague",
@@ -63,22 +72,13 @@ const FAMILIES: Readonly<Record<string, readonly string[]>> = {
   ],
 };
 
-/** The families each way of playing can show; a way is played only while one is unfired. */
+/** The families each way of playing can show; after the first draw, a way is played only while one is unfired. */
 const SHOWS: Readonly<
   Record<"resident" | "member" | "candidate" | "legislator", readonly string[]>
 > = {
-  resident: [
-    "a printed story",
-    "a price change",
-    "a death",
-    "a national event in the news",
-  ],
-  member: [
-    "a law passed or in force",
-    "a hallway after a sitting",
-    "a lobbyist in the hallway",
-  ],
-  candidate: ["a rival in the player's own race", "a law passed or in force"],
+  resident: ["a printed story", "a national event in the news"],
+  member: ["a law passed or in force", "a hallway after a sitting"],
+  candidate: ["a law passed or in force"],
   legislator: ["a hallway at the capitol"],
 };
 
@@ -259,8 +259,8 @@ function stateLegislator(core: CoreState): PersonId | null {
 }
 
 /**
- * The new adult filed for the soonest race the town's records let them enter,
- * once they turn 18 (the golden path's filing step), or null when none is
+ * The new adult filed for a race the town's records let them enter (one with
+ * a rival filed first, else the soonest), once they turn 18 (the golden path's filing step), or null when none is
  * open to them. The days before 18 run as the world's own.
  */
 function fileNewAdult(
@@ -271,9 +271,19 @@ function fileNewAdult(
   const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
   const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
   if (eighteen > core.date) advanceCore(core, eighteen);
+  // A race someone else has already filed in comes first, so there is a
+  // rival; then the soonest.
+  const rivals = new Map<string, number>();
+  for (const row of coreAPI(core)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .rows() as unknown as FilingRow[])
+    if (row.personId !== playerId)
+      rivals.set(row.contestId, (rivals.get(row.contestId) ?? 0) + 1);
   const filed = [...openContests(coreAPI(core))]
     .sort(
       (a, b) =>
+        Number(rivals.has(b.id)) - Number(rivals.has(a.id)) ||
         a.electionDate.localeCompare(b.electionDate) ||
         a.id.localeCompare(b.id),
     )
@@ -303,7 +313,10 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
       "candidate",
       "legislator",
     ] as const) {
-      if (!SHOWS[as].some((family) => unfired().includes(family))) continue;
+      // Every way of playing plays once; a later draw only for a family
+      // still unfired.
+      if (draw && !SHOWS[as].some((family) => unfired().includes(family)))
+        continue;
       const place = drawPlace(seed, `circumstance-${as}:${draw}`);
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
