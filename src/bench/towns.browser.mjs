@@ -41,9 +41,10 @@ try {
     try {
       await page.goto(`${base}/play`);
       await page.locator("#new-life").click();
-      await page.locator("#new-custom").click();
+      await page.locator("#new-advanced").click();
       await page.locator("#seed").fill(seed);
-      await page.locator("#custom-next").click();
+      await page.locator("#advanced-back").click();
+      await page.locator("#new-start").click();
       await page.locator("#cr-character:not([hidden])").waitFor();
       await page.locator("[data-gender=male]").click();
       await page.locator("#cr-random-name").click();
@@ -95,7 +96,8 @@ try {
         recorded(usps),
         `${state.name}: the list holds ${texts.length} of ${recorded(usps)} towns`,
       );
-      const noCount = texts.filter((t) => !/\d[\d,]* \S+$/.test(t));
+      // The count, then for a same-named town its own "in <county>" line.
+      const noCount = texts.filter((t) => !/\d[\d,]* \S+( in .+)?$/.test(t));
       assert.equal(
         noCount.length,
         0,

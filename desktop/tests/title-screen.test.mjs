@@ -34,7 +34,6 @@ test("the title menu and the creator follow the Oct 12 build", () => {
   );
   const order = [
     "new-game",
-    "watch-world",
     "continue",
     "open-saves",
     "title-options",
@@ -54,10 +53,17 @@ test("the title menu and the creator follow the Oct 12 build", () => {
   assert.doesNotMatch(main, /id="seed"|id="place"/);
   const choice = front.slice(
     front.indexOf('id="front-new"'),
-    front.indexOf('id="front-custom"'),
+    front.indexOf('id="front-advanced"'),
   );
-  for (const id of ["custom-world", "start-life", "new-world", "new-game-back"])
+  for (const id of ["start-life", "advanced", "new-game-back"])
     assert.match(choice, new RegExp(`data-testid="${id}"`));
+  assert.doesNotMatch(choice, /data-testid="(custom-world|watch-world)"/);
+  const advanced = front.slice(
+    front.indexOf('id="front-advanced"'),
+    front.indexOf('id="front-pick"'),
+  );
+  for (const id of ["new-world", "advanced-build"])
+    assert.match(advanced, new RegExp(`data-testid="${id}"`));
   for (const id of [
     "gender-female",
     "gender-male",

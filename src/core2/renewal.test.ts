@@ -10,7 +10,8 @@ import { gameStartDate } from "./game-start";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { ABORTION_LAW_SERIES, decideUnplanned } from "./births-unplanned";
 import type { BirthCouple } from "./births-plan";
-import { lawInForce } from "./modules/laws";
+import { appliedOn, appliedTo } from "./law-reach/applied";
+import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { coreAPI, fillInPerson } from "./state";
 import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 
@@ -34,6 +35,7 @@ interface Decision {
   miles: number;
   scores: { continue: number; end: number };
   travelMinor: number;
+  lawShare?: number;
   cashMinor: number;
 }
 
@@ -45,6 +47,12 @@ function milesFor(state: string) {
       { milesBefore: { miles: number }; milesNow: { miles: number } }
     >
   )[state]!;
+}
+
+/** Whether a restriction puts the nearest provider farther away in the state: only there can it add miles to a trip. */
+function restrictionAddsMiles(state: string) {
+  const miles = milesFor(state);
+  return miles.milesNow.miles > miles.milesBefore.miles;
 }
 
 /** The decision kept on a plan read the law in force and her state's miles, and reading it again gives the same. */
@@ -184,13 +192,15 @@ it(
   ORDINARY_PLACES * 300_000,
 );
 
-it(
-  "an unplanned pregnancy she ends pays her trip from her household's cash, on the journal (named regression)",
-  () => {
+it.each([false, true])(
+  "an unplanned pregnancy she ends pays her trip from her household's cash, on the journal (named regression; restriction enacted: %s)",
+  (restrict) => {
     const tried: string[] = [];
     for (let n = 0; n < PLACES; n += 1) {
       const draw = drawPlace(
-        createHash("sha256").update(`${base}:ended:${n}`).digest("hex"),
+        createHash("sha256")
+          .update(`${base}:${restrict ? "ended-restricted" : "ended"}:${n}`)
+          .digest("hex"),
         "unplanned-ended",
       );
       setBookkeeping(false);
@@ -199,6 +209,18 @@ it(
         placeKey: draw.key,
       });
       const api = coreAPI(core);
+      // A restriction in force at every level the town answers to.
+      if (restrict)
+        for (const level of lawChain(api).levels)
+          enactLaw(api, {
+            jurisdiction: level.jurisdiction,
+            level: level.level,
+            series: ABORTION_LAW_SERIES,
+            value: 1,
+            effectiveDate: core.date,
+            measureId: `fixture:renewal:restriction:${core.date}`,
+            citation: "Controlled law case after the native generated start.",
+          });
       const label = `${draw.name}, ${draw.state} (${draw.key}), seed ${draw.seed}`;
       advanceCore(core, addDays(makeIsoDate(core.date), 30));
       const renewal = api.moduleState(RENEWAL_MODULE_ID);
@@ -299,6 +321,23 @@ it(
               left -= posting.deltaMinor;
         }
       expect(left, `${label}: ${receipts.join(", ")}`).toBe(paid);
+      // The miles the restriction added to the trip are money the household paid under it, on the law's row.
+      const recorded = appliedTo(
+        api,
+        core.people.get(String(pregnancy.motherId))!.householdId,
+      ).filter((row) => row.key === ABORTION_LAW_SERIES);
+      const added = Math.round(paid * (decision.lawShare ?? 0));
+      if (restrict) expect(decision.restricted, label).toBe(true);
+      if (decision.restricted && added > 0)
+        expect(
+          recorded.map((row) => [row.what, row.amountMinor, row.lawId]),
+          label,
+        ).toContainEqual([
+          "trip-lengthened-by-restriction",
+          -added,
+          String(plan.lawId),
+        ]);
+      else expect(recorded, label).toHaveLength(0);
       process.stdout.write(
         `UNPLANNED ENDED ${label}: ${String(pregnancy.motherId)}'s ${String(pregnancy.id)} on ${String(plan.date)}, ended (continue ${decision.scores.continue.toFixed(3)}, end ${decision.scores.end.toFixed(3)}), law ${String(plan.lawId)}, ${decision.miles} miles, trip ${decision.travelMinor} paid ${paid} in ${[...new Set(receipts)].join(", ")}\n`,
       );
@@ -351,6 +390,9 @@ it(
       if (!waiting) continue;
       core.playerId = String(waiting.motherId);
       const playerHome = core.people.get(core.playerId)!.householdId;
+      // Only plans from the day the player took the household count: an
+      // earlier one (the opening's) was the household's before it was hers.
+      const tookOn = core.date;
       renewal.table("exposure").put({ id: waiting.id, carry: 1 });
       advanceCore(core, addDays(makeIsoDate(core.date), 100));
       const atHome = renewal
@@ -359,9 +401,13 @@ it(
         .filter(
           (row) =>
             row.unplanned === true &&
+            String(row.date) >= tookOn &&
             core.people.get(String(row.motherId))?.householdId === playerHome,
         );
-      expect(atHome, label).toEqual([]);
+      expect(
+        atHome.map((row) => `${row.id} (couple ${row.coupleId}, ${row.date})`),
+        `${label}: unplanned plans in the player's household from ${tookOn}`,
+      ).toEqual([]);
       expect(
         Number(renewal.table("exposure").get(waiting.id)?.carry),
         `${label} ${waiting.id} is never reviewed into a pregnancy`,
@@ -385,10 +431,15 @@ it(
     const tried: string[] = [];
     for (let attempt = 0; attempt < PLACES; attempt += 1) {
       const draw = drawPlace(
-        randomBytes(32).toString("hex"),
-        "unplanned-counted-tier",
+        createHash("sha256").update(`${base}:counted:${attempt}`).digest("hex"),
+        `unplanned-counted-tier:${attempt}`,
       );
       tried.push(`${draw.key} seed ${draw.seed}`);
+      // The input is on record before the world is built, so a run killed in
+      // construction or in its year can be replayed with GOLDEN_PATH_SEED.
+      process.stdout.write(
+        `renewal counted unplanned: ${draw.name} (${draw.key}), world seed ${draw.seed}, root ${base}, attempt ${attempt}\n`,
+      );
       // The month's counts rows (expected births) are kept only with bookkeeping on.
       setBookkeeping(true);
       const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
@@ -501,6 +552,101 @@ it(
     // container (three towns); up to PLACES of them.
   },
   PLACES * 300_000,
+);
+
+it(
+  "where a restriction is law, the miles it adds to a counted household's trip are money its counted group paid under it",
+  () => {
+    const tried: string[] = [];
+    let passedOver = 0;
+    let built = 0;
+    // A draw in a state where the restriction adds no miles is passed over
+    // before its town is built: no trip there is lengthened by the law. A
+    // built town may still have no counted pregnancy (a small one often has
+    // none), so up to ORDINARY_PLACES towns are built.
+    for (
+      let attempt = 0;
+      attempt < ORDINARY_PLACES * 16 && built < ORDINARY_PLACES;
+      attempt += 1
+    ) {
+      const draw = drawPlace(
+        createHash("sha256")
+          .update(`${base}:counted-restricted:${attempt}`)
+          .digest("hex"),
+        "unplanned-counted-restricted",
+      );
+      if (!restrictionAddsMiles(draw.state)) {
+        passedOver += 1;
+        continue;
+      }
+      built += 1;
+      setBookkeeping(false);
+      const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(core);
+      for (const level of lawChain(api).levels)
+        enactLaw(api, {
+          jurisdiction: level.jurisdiction,
+          level: level.level,
+          series: ABORTION_LAW_SERIES,
+          value: 1,
+          effectiveDate: core.date,
+          measureId: `fixture:renewal:restriction:${core.date}`,
+          citation: "Controlled law case after the native generated start.",
+        });
+      advanceCore(
+        core,
+        addDays(makeIsoDate(core.date), COUNTED_UNPLANNED_DAYS),
+      );
+      const renewal = api.moduleState(RENEWAL_MODULE_ID);
+      // Each counted decision that ended a pregnancy under the restriction, with the households its record stands for.
+      const ended = renewal
+        .table("countedUnplanned")
+        .rows()
+        .filter(
+          (row) =>
+            row.continues === false &&
+            row.restricted === true &&
+            Number(row.lawShare) > 0,
+        );
+      tried.push(`${draw.key} seed ${draw.seed}: ${ended.length} ended`);
+      if (!ended.length) continue;
+      // What the law added to the trips: at most the households' trips times the share, less what a group without the cash could not pay.
+      const added = ended.reduce(
+        (sum, row) =>
+          sum +
+          Number(row.stands) * Number(row.travelMinor) * Number(row.lawShare),
+        0,
+      );
+      // The counted groups' rows (a full household's, if one ended a pregnancy too, is on its household).
+      const recorded = appliedOn(api, ABORTION_LAW_SERIES).filter(
+        (row) =>
+          row.what === "trip-lengthened-by-restriction" &&
+          row.target === "group",
+      );
+      const label = `${draw.key} seed ${draw.seed}`;
+      expect(recorded.length, label).toBeGreaterThan(0);
+      for (const row of recorded) {
+        expect(row.amountMinor, label).toBeLessThan(0);
+        expect(row.count, label).toBeGreaterThan(0);
+      }
+      const paid = -recorded.reduce((sum, row) => sum + row.amountMinor, 0);
+      expect(paid, label).toBeGreaterThan(0);
+      expect(paid, label).toBeLessThanOrEqual(
+        Math.ceil(added) + recorded.length,
+      );
+      process.stderr.write(
+        `counted restricted trips: ${label} ${ended.length} ended, ${recorded.length} groups recorded ${paid} of ${Math.round(added)}\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `No counted household ended a pregnancy under a restriction in any drawn place (base ${base}, ${passedOver} draws passed over where the restriction adds no miles): ${tried.join("; ")}`,
+    );
+  },
+  ORDINARY_PLACES * 300_000,
 );
 
 it(

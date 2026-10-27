@@ -372,7 +372,12 @@ export function buildMonth(
       const affordableUnits =
         kind === "multi" ? Math.floor(units * z.inclusionaryShare) : 0;
       if (kind === "multi") {
-        applyRule("multifamily", payerId);
+        // The outcome web's factor on large buildings is this law's alone (the by-right link is the only one into that measure): the share of this building the factor added is the building cost the law moved.
+        applyRule(
+          "multifamily",
+          payerId,
+          largeBuildings > 1 ? costMinor * (1 - 1 / largeBuildings) : 0,
+        );
         // The rent the set-aside units give up over a year, against the asking rent.
         if (affordableUnits > 0)
           applyRule(
