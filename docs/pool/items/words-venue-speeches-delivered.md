@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-7xkkii
-pr: #5196
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:52:34.624Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T03:52:34.624Z
 
 **Files.** src/director/scene.ts, src/english/venue-speech.ts, src/director/hearing-scenes.test.ts, src/director/data/director.json
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5196 by the CTO, Oct 26.

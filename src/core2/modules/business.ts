@@ -7,6 +7,7 @@
  * adults choose whether to found one. Chains are repeated growth, never
  * scripted. Every payment moves through the ledger.
  */
+import { BUSINESS_MODULE_ID } from "../business-module-id";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
@@ -63,7 +64,7 @@ import {
   setOperatingLimit,
 } from "../business-operating-rules";
 
-export const BUSINESS_MODULE_ID = "business";
+export { BUSINESS_MODULE_ID };
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
   Record<string, Parameter>
 >;

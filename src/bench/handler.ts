@@ -1,4 +1,5 @@
 import { jobsView, answerJobOffer } from "./jobs";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
@@ -24,7 +25,13 @@ import {
 import type { SpeechBuild } from "../director/speech-builder";
 import { storyReply, storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
-import { electionResults, governorRacesTonight, resultsScene } from "./results";
+import {
+  electionResults,
+  governorRacesTonight,
+  ownRace,
+  resultsScene,
+} from "./results";
+import { wordOwnResult } from "./archive-words";
 import { seatAct, seatView } from "./legislature";
 import {
   deskDecide,
@@ -1017,14 +1024,48 @@ export async function benchRequest(
         const id = url.searchParams.get("id");
         // What you heard first, then your town's public record; not every
         // news event in the world.
-        const heard = id ? heardItems(requireCore(), id) : [];
+        const heard: { id: string; date: string }[] = id
+          ? heardItems(requireCore(), id)
+          : [];
+        // Your own race's result, among what you heard by its date.
+        const race = id ? ownRace(requireCore(), id) : null;
+        const own = race && wordOwnResult(requireCore(), race, id!);
+        if (own) {
+          const at = heard.findIndex((row) => row.date < own.date);
+          heard.splice(at < 0 ? heard.length : at, 0, own);
+        }
         const seen = new Set(heard.map((row) => row.id));
-        send(200, [
-          ...heard,
-          ...newsItems(requireCore()).filter(
-            (row) => row.visibility === "public" && !seen.has(row.id),
+        // A public record names who it is about: each fact that is a person
+        // or a state.
+        const core = requireCore();
+        const stateNames = new Map([
+          ...corePlaceStateIdentities().map(
+            (row) => [row.jurisdictionKey, row.name] as const,
           ),
+          ["US", "the United States"] as const,
         ]);
+        send(
+          200,
+          [
+            ...heard,
+            ...newsItems(core).filter(
+              (row) => row.visibility === "public" && !seen.has(row.id),
+            ),
+          ].map((row) => {
+            const facts = (row as { facts?: Record<string, unknown> }).facts;
+            const names: Record<string, string> = {};
+            for (const value of Object.values(facts ?? {})) {
+              if (typeof value !== "string") continue;
+              const person = core.people.get(value);
+              if (person)
+                names[person.id] = `${person.givenName} ${person.familyName}`;
+              // A state's jurisdiction by its name, not its key.
+              const state = stateNames.get(value);
+              if (state) names[value] = state;
+            }
+            return Object.keys(names).length ? { ...row, names } : row;
+          }),
+        );
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/opening") {

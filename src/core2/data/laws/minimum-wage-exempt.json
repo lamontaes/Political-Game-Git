@@ -1,0 +1,6 @@
+{
+  "about": "Jobs the minimum wage does not reach, read by src/core2/wage-floor.ts. The Fair Labor Standards Act leaves an elected official and the people on their personal staff or in policymaking posts (a mayor's department heads, a legislator's aides) out of 'employee', so a wage floor raises none of their pay. A job at an employer outside the town's own law keeps that law.",
+  "citation": "29 U.S.C. 203(e)(2)(C): an individual elected to public office, chosen by an elected official to serve on their personal staff, appointed to a policymaking position, or serving as an immediate adviser, is not an employee for the Act's wage rules.",
+  "jobIdPrefixes": ["job:public:", "job:office:"],
+  "employerKinds": ["outside-market"]
+}
