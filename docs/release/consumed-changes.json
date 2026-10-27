@@ -1,6 +1,27 @@
 {
   "entries": [
     {
+      "version": "0.51.1",
+      "releasedOn": "2026-10-27",
+      "revision": "fef3b9ce00f946bfc3826dd769b46bd56eff366d",
+      "changeIds": [
+        "cto-opening-root-cause-report",
+        "tests-renewal-player-home-counts-earlier-plans",
+        "traits-exit-poll-reasons"
+      ]
+    },
+    {
+      "version": "0.51.0",
+      "releasedOn": "2026-10-27",
+      "revision": "d0654521e19d18a3c180258fb77f50d23e5abc5c",
+      "changeIds": [
+        "director-conversation-drawn-fixture-lacks-subjects",
+        "housing-state-line-rent-help-whole-state-in-one-town",
+        "play-first-08-news-box-fades-or-dismisses",
+        "words-household-filing-scene-has-a-purpose"
+      ]
+    },
+    {
       "version": "0.50.0",
       "releasedOn": "2026-10-27",
       "revision": "11d3d3b4ccd1ae080ebbb9cc49b82583c0b887ce",

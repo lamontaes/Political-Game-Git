@@ -296,6 +296,50 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.51.1
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Who tells the exit pollster depends on why they voted** Voters who follow
+  politics closely and cared about the race now tell the exit pollster more
+  readily, and temperament tips only the close calls. About 45% of voters tell,
+  as real exit polls find; before, a voter's temperament alone decided, so the
+  eager and the private split by personality and nothing else.
+
+## PRE-ALPHA 0.51.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **The talk at home after you file comes from someone with something at stake**
+  After you file for office, someone at home talks to you only if the records
+  give them a stake in the run: the household's savings against how long the
+  race will last, or a young child at home while you work. They open with that
+  in their own words, you answer one of four ways (own it, bring them in, bound
+  it, put it off), and what you say counts: a relative who agrees to help is
+  counted among your campaign's volunteers, and putting it off costs you with
+  them. A household with nothing at stake no longer gets a scene.
+
+### Improved
+
+- **The news and Journal boxes fade or close** The night's news no longer sits
+  over the room from the first evening until you open it. It shows as a toast
+  top right, fades by itself after about eight seconds, and goes at once when
+  you click its close. The story stays in News either way. The Journal line at
+  the bottom right is a toast too: it fades after the same time and closes with
+  its own X.
+
+### Fixed
+
+- **A state's rent help reaches a town only in proportion to its people** When a
+  state raised its housing line, the played town used to receive rent help for
+  the whole state's extra, about a hundred times its share in a small town. The
+  town now gets the part its own residents stand for, and a tenant is helped in
+  part when a full voucher would overshoot that share.
+
 ## PRE-ALPHA 0.50.0
 
 _Released October 27, 2026._
