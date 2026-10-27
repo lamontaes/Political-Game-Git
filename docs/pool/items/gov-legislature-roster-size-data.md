@@ -1,24 +1,23 @@
 ---
 id: gov-legislature-roster-size-data
-title: "Four legislative chambers' member rosters hold a different number of members than their legal size"
+title: "Four legislative chambers' rosters disagree with their legal size: non-voting delegates, vacancies in multi-member districts, added minority seats"
 area: gov
-kind: bug
+kind: research
 priority: 3
-size: S
+size: M
 status: open
 claimed-by:
 pr:
 blocked-on:
-source: fixer, Oct 27 (found by the roster district-name PR's all-56-places test)
-claimed-at:
+source: added with npm run pool -- add
 ---
 
-**What.** After the district-name matcher in src/core2/offices-state.ts was made one rule for every place, four chambers still seat a number of seats that differs from their legal size in data/research/offices/state-offices.json, because their member rosters in data/research/offices/legislature-party-counts-2026.json hold a different number of members than the legal size. They are Maine's House (153 seats against 151), New Hampshire's House (386 against 400), and Puerto Rico's Senate (28 against 27) and House (53 against 51). The matcher is not the cause: every roster member sits in one seat, and the surplus or shortfall is in the roster data itself.
+**What.** After the district-name fix (gov-offices-roster-district-name-mismatch), stateOffices seats every chamber at its legal size from data/research/offices/state-offices.json except four, where the roster in data/research/offices/legislature-party-counts-2026.json itself holds a different number of members. One House seats 153 for 151: its roster includes two tribal representatives who sit without a vote. One House seats 386 for 400: the roster lists only sitting members, so a multi-member district with a vacancy seats fewer members and no data gives each district's number of members. A territory's Senate seats 28 for 27 and its House 53 for 51: the roster includes seats its constitution adds for minority parties.
 
-**Rules.** One rule, all 56 places: fix the roster data from its source (the Open States roster and the state's own member list), never a per-state exception in code, and mark any value that stays an estimate with its source and spread.
+**Rules.** Research before building: each chamber's size and each district's number of members come from the chamber's own law, cited. One rule, all 56 places: the rule is read from data (non-voting delegates, district magnitudes, added minority seats), never a named state in code. Estimate, never UNKNOWN: a vacant seat is a seat, empty.
 
-**Done when.** The all-56-places test in src/core2/offices-state.test.ts, "seats each chamber at its legal size", finds no chamber whose roster disagrees with its legal size, with the expected-disagreement list in that test emptied, and the played-world case passes in a drawn place with the seed named.
+**Done when.** The test 'seats each chamber at its legal size, every roster member once, in all 56 places' in src/core2/offices-state.test.ts reports no chamber whose roster disagrees with its legal size, because the research records non-voting members, each multi-member district's number of members and any added seats, each with its citation, and stateOffices seats exactly the voting seats the law sets, vacancies included; the PR names the four chambers by office id.
 
-**Files.** data/research/offices/legislature-party-counts-2026.json, data/research/offices/state-offices.json, src/core2/offices-state.test.ts
+**Files.** data/research/offices/state-offices.json, data/research/offices/legislature-party-counts-2026.json, src/core2/offices-state.ts
 
-**Notes.** Found by the fixer on PR #6116, Oct 27. The test lists exactly these four chambers as known disagreements so a new one fails the test.
+**Notes.** Filed Oct 25 from gov-offices-roster-district-name-mismatch. The four chambers, as the test logs them: office:US-ME:legislature-lower 153/151, office:US-NH:legislature-lower 386/400, office:US-PR:legislature-upper 28/27, office:US-PR:legislature-lower 53/51.

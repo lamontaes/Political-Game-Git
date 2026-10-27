@@ -224,6 +224,17 @@ export function registerLinePayments(payer: LinePayer): void {
 }
 
 /**
+ * The fiscal rules a treasury reads as it budgets (a balanced budget, pension
+ * funding, a minimum reserve): each month's close reads the rules in force and
+ * applies them to the budget it then pays from, before any line is paid.
+ */
+type TreasuryRule = (api: CoreAPI) => void;
+const treasuryRules: TreasuryRule[] = [];
+export function registerTreasuryRule(rule: TreasuryRule): void {
+  if (!treasuryRules.includes(rule)) treasuryRules.push(rule);
+}
+
+/**
  * Whether an employer and a treasury belong to one government: the same
  * recorded government key, or, for a state's or the nation's office, the same
  * jurisdiction.
@@ -748,6 +759,7 @@ export function fundFederalStanding(api: CoreAPI): void {
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
+  for (const rule of treasuryRules) rule(api);
   const accounts = api.accounts();
   const date = api.state.date;
   const months = treasuryParameter("monthsPerYear");
@@ -1026,7 +1038,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       let providersPaid = 0;
       const winner = awarded[line];
       if (winner) {
-        const id = `treasury:${gov.id}:${line}:${winner.organizationId}:${date}`;
+        const id = `treasury:${gov.id}:budget-line:${line}:${winner.organizationId}:${date}`;
         providersPaid = pay(
           id,
           accounts.main(winner.organizationId),
@@ -1076,7 +1088,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         );
         groups.forEach(([payeeId], i) => {
           const payee = PAYEES.payees[payeeId]!;
-          const id = `${PAYEE_PREFIX[payee.kind]}:${payeeId}:${gov.id}:${line}:${date}`;
+          const id = `${PAYEE_PREFIX[payee.kind]}:${payeeId}:${gov.id}:budget-line:${line}:${date}`;
           const paid = pay(
             id,
             accounts.main(outside),

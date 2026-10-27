@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-stop-24-every-statewide-race-unopposed
-pr:
+pr: #6118
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

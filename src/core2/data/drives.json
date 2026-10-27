@@ -537,6 +537,13 @@
   "actions": [
     {
       "id": "share-cause",
+      "reasonBindings": [
+        {
+          "id": "cause-given",
+          "provider": "drives:cause-given",
+          "weightParameter": "causeGivenWeight"
+        }
+      ],
       "actKinds": ["speak-out", "engage", "help-others"],
       "goalKinds": ["change-condition", "serve"],
       "need": "company",
@@ -583,6 +590,14 @@
     },
     {
       "id": "join-cause-group",
+      "reasonBindings": [
+        {
+          "id": "cause-given",
+          "provider": "drives:cause-given",
+          "weightParameter": "causeGivenWeight",
+          "arguments": { "fadeDaysParameter": "causeJoinedDays" }
+        }
+      ],
       "actKinds": ["cooperate", "commit", "engage"],
       "goalKinds": ["change-condition", "serve"],
       "need": "company",
@@ -606,6 +621,13 @@
     },
     {
       "id": "donate-to-cause",
+      "reasonBindings": [
+        {
+          "id": "cause-given",
+          "provider": "drives:cause-given",
+          "weightParameter": "causeGivenWeight"
+        }
+      ],
       "actKinds": ["help-others", "commit"],
       "goalKinds": ["change-condition"],
       "need": "safety",
@@ -629,6 +651,13 @@
     },
     {
       "id": "volunteer-for-cause",
+      "reasonBindings": [
+        {
+          "id": "cause-given",
+          "provider": "drives:cause-given",
+          "weightParameter": "causeGivenWeight"
+        }
+      ],
       "actKinds": ["help-others", "commit", "cooperate"],
       "goalKinds": ["change-condition", "serve"],
       "need": "company",

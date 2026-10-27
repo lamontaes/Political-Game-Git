@@ -3,7 +3,7 @@ id: research-opening-capital-sourced-parameters
 title: "Research: sourced parameters for the opening's firm cash and owner funding"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -32,3 +32,5 @@ Checked Oct 20 (claude), not built: the thirteen `openingEmployerCashBufferDays*
 Oct 24, 2026: split. PR 5860 (item research-opening-capital-cash-buffer-tail) delivers openingEmployerCashBufferTailSpan (ESTIMATED, 2.7, spread 2.6 to 2.85) and the reopening of the thirteen openingEmployerCashBufferDays rows, unchanged. Still open here: SG-P8-opening-private-cash-buffer needs a measured employer-firm cash distribution by industry on a payroll-and-cost basis, or recorded firm opening balances. SG-P8-opening-private-cash-buffer-spread needs a published table of percentiles beyond the quartiles, or recorded firm balances. SG-P8-opening-unsupported-owner-funding is a mechanic for builder items world-corporate-office-staff-never-paid, world-public-employer-staff-never-paid and world-town-public-works-staff-never-paid; the Census 2022 "Cash and security holdings" line is pension and trust assets and must not seed an opening balance.
 
 Sent back 2026-10-23 from PR #5860 (branch claude/dreamy-tesla-bgi3ui-opening-capital): The required three stopgap-resolution rows are explicitly Not met; route the completed estimated tail-span and source-checking slice to bounded acceptance while keeping the remaining mechanic and estimate work open; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

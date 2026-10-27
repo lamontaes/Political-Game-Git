@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5413
 blocked-on:
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5413 (branch claude/speed-pair-key): Merging curre
 Merger review: the source change carried earlier by #5413 is already on main; this PR now records only that allocation cleanup. The original m7a timing and relationship-test acceptance is not completed by this documentation note and remains open.
 
 Oct 25 (speed lead): `pairKey` (src/core2/kernel/ids.ts) and its call sites are on main, and the sibling-tie key went to core-speed-sibling-tie-pair-key, so there is no branch left to time against main. PR #5400 closed Oct 25 under the CTO's Oct 24 ruling. Recommend dropping this item.
+
+Found on main at 2a524c1757 by the Oct 25 audit: pairKey (src/core2/kernel/ids.ts) and its call sites are on main; the sibling-tie key went to core-speed-sibling-tie-pair-key.

@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice: the voter's traits, agreement with the platform and the meeting decide warmth. Research calibrates totals (rapportWeight cites Kalla and Broockman 2018). One rule, all 56 places.
 
-**Done when.** In three drawn places, a month of door knocking by a resident whose platform matches the town's median voter leaves no more voters cooler than warmer beyond the spread the cited research allows, named by place, seed and the cause records read.
+**Done when.** In three drawn places, a month of door knocking by a resident whose platform matches the town's median voter leaves no more voters cooler than warmer beyond the spread the cited research allows, named by place, seed and the cause records read. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/campaigns.ts (door contact warmth), src/core2/data/campaigns/parameters.json (rapportWeight and related).
 

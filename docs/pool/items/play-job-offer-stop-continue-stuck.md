@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/play.mjs, src/bench/handler.ts
 
 **Notes.** Filed Oct 24 by the traits lead from the play-bench-follow-and-read-decisions browser run, which declines the offer to keep time moving (src/bench/dev-follow.browser.mjs).
+
+Duplicate of play-stop-23-job-offer-hold-locks-the-game (Oct 25 audit). Same job-offer hold that locks the clock.
