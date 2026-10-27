@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/helper-b-concession-call-received
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T05:28:27.124Z
 ---
 
 **What.** The count's result record names the winner and the totals, but only the loser's side of the call exists (concession-call, the loser's manager urging the dial) and the winner never hears from anyone. Add the winner's side from real calls (docs/design/scenes/from-life/concession-call-received.md): situation type concession-received on election-result, the runner-up on the totals cast as the caller (new opponent fill), on the phone, with four stances for the winner and the loser's answers chosen by the loser's traits.
