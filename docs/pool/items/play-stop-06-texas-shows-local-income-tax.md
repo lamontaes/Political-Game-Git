@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-stop-06-texas-shows-local-income-tax
 pr: #6111
 blocked-on: politics-issues-taxes-named-by-level
