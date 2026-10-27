@@ -1185,6 +1185,54 @@
    "style": "crew cut",
    "edit": "hr-front-08"
   },
+  "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "shoulder-length locs",
+   "edit": "hr-front-09"
+  },
+  "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "shoulder-length locs",
+   "edit": "hr-front-09"
+  },
+  "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "shoulder-length locs",
+   "edit": "hr-front-09"
+  },
+  "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "short locs",
+   "edit": "hr-front-09"
+  },
+  "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "short locs",
+   "edit": "hr-front-09"
+  },
+  "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "short locs",
+   "edit": "hr-front-09"
+  },
   "art/people-engine/v2/hair-on-figures/front/10/v2-37-f-slim-hair.png": {
    "kind": "hair piece",
    "figure": "v2-37-f-slim",
@@ -5991,6 +6039,42 @@
    "sheet": "61",
    "edit": "gm-61"
   },
+  "art/people-engine/v2/garments/v2-62-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-62-f-heavy",
+   "sheet": "62",
+   "edit": "gm-62"
+  },
+  "art/people-engine/v2/garments/v2-62-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-62-f-medium",
+   "sheet": "62",
+   "edit": "gm-62"
+  },
+  "art/people-engine/v2/garments/v2-62-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-62-f-slim",
+   "sheet": "62",
+   "edit": "gm-62"
+  },
+  "art/people-engine/v2/garments/v2-62-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-62-m-heavy",
+   "sheet": "62",
+   "edit": "gm-62"
+  },
+  "art/people-engine/v2/garments/v2-62-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-62-m-medium",
+   "sheet": "62",
+   "edit": "gm-62"
+  },
+  "art/people-engine/v2/garments/v2-62-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-62-m-slim",
+   "sheet": "62",
+   "edit": "gm-62"
+  },
   "art/people-engine/v2/garments/v2-65-f-heavy-garments.png": {
    "kind": "garment map",
    "figure": "v2-65-f-heavy",
@@ -6171,6 +6255,42 @@
    "sheet": "70",
    "edit": "gm-70"
   },
+  "art/people-engine/v2/garments/v2-74-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-74-f-heavy",
+   "sheet": "74",
+   "edit": "gm-74"
+  },
+  "art/people-engine/v2/garments/v2-74-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-74-f-medium",
+   "sheet": "74",
+   "edit": "gm-74"
+  },
+  "art/people-engine/v2/garments/v2-74-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-74-f-slim",
+   "sheet": "74",
+   "edit": "gm-74"
+  },
+  "art/people-engine/v2/garments/v2-74-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-74-m-heavy",
+   "sheet": "74",
+   "edit": "gm-74"
+  },
+  "art/people-engine/v2/garments/v2-74-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-74-m-medium",
+   "sheet": "74",
+   "edit": "gm-74"
+  },
+  "art/people-engine/v2/garments/v2-74-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-74-m-slim",
+   "sheet": "74",
+   "edit": "gm-74"
+  },
   "art/people-engine/v2/garments/v2-76b-f-heavy-garments.png": {
    "kind": "garment map",
    "figure": "v2-76b-f-heavy",
@@ -6206,6 +6326,78 @@
    "figure": "v2-76b-m-slim",
    "sheet": "76b",
    "edit": "gm-76b"
+  },
+  "art/people-engine/v2/garments/v2-sb20-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb20-f-heavy",
+   "sheet": "sb20",
+   "edit": "gm-sb20"
+  },
+  "art/people-engine/v2/garments/v2-sb20-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb20-f-medium",
+   "sheet": "sb20",
+   "edit": "gm-sb20"
+  },
+  "art/people-engine/v2/garments/v2-sb20-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb20-f-slim",
+   "sheet": "sb20",
+   "edit": "gm-sb20"
+  },
+  "art/people-engine/v2/garments/v2-sb20-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb20-m-heavy",
+   "sheet": "sb20",
+   "edit": "gm-sb20"
+  },
+  "art/people-engine/v2/garments/v2-sb20-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb20-m-medium",
+   "sheet": "sb20",
+   "edit": "gm-sb20"
+  },
+  "art/people-engine/v2/garments/v2-sb20-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb20-m-slim",
+   "sheet": "sb20",
+   "edit": "gm-sb20"
+  },
+  "art/people-engine/v2/garments/v2-sb32-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb32-f-heavy",
+   "sheet": "sb32",
+   "edit": "gm-sb32"
+  },
+  "art/people-engine/v2/garments/v2-sb32-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb32-f-medium",
+   "sheet": "sb32",
+   "edit": "gm-sb32"
+  },
+  "art/people-engine/v2/garments/v2-sb32-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb32-f-slim",
+   "sheet": "sb32",
+   "edit": "gm-sb32"
+  },
+  "art/people-engine/v2/garments/v2-sb32-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb32-m-heavy",
+   "sheet": "sb32",
+   "edit": "gm-sb32"
+  },
+  "art/people-engine/v2/garments/v2-sb32-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb32-m-medium",
+   "sheet": "sb32",
+   "edit": "gm-sb32"
+  },
+  "art/people-engine/v2/garments/v2-sb32-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-sb32-m-slim",
+   "sheet": "sb32",
+   "edit": "gm-sb32"
   },
   "art/people-engine/v2/garments/v2-x3-f-heavy-garments.png": {
    "kind": "garment map",
@@ -6696,6 +6888,19 @@
     "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-slim-hair.png",
     "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-medium-hair.png",
     "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-09": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-09] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have shoulder-length locs. The three men in the bottom row all have short locs. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/09/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/09/v2-37-m-heavy-hair.png"
    ]
   },
   "hr-front-10": {
@@ -8089,6 +8294,19 @@
     "art/people-engine/v2/garments/v2-61-m-slim-garments.png"
    ]
   },
+  "gm-62": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-62.png",
+   "prompt": "[gm-62] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-62-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-62-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-62-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-62-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-62-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-62-m-slim-garments.png"
+   ]
+  },
   "gm-65": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-65.png",
@@ -8154,6 +8372,19 @@
     "art/people-engine/v2/garments/v2-70-m-slim-garments.png"
    ]
   },
+  "gm-74": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-74.png",
+   "prompt": "[gm-74] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-74-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-74-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-74-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-74-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-74-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-74-m-slim-garments.png"
+   ]
+  },
   "gm-76b": {
    "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
    "reference": "art/people-engine/v2/sheets/clarify-76b.png",
@@ -8165,6 +8396,32 @@
     "art/people-engine/v2/garments/v2-76b-m-heavy-garments.png",
     "art/people-engine/v2/garments/v2-76b-m-medium-garments.png",
     "art/people-engine/v2/garments/v2-76b-m-slim-garments.png"
+   ]
+  },
+  "gm-sb20": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-sb20.png",
+   "prompt": "[gm-sb20] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-sb20-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-sb20-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-sb20-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-sb20-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-sb20-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-sb20-m-slim-garments.png"
+   ]
+  },
+  "gm-sb32": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-sb32.png",
+   "prompt": "[gm-sb32] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-sb32-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-sb32-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-sb32-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-sb32-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-sb32-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-sb32-m-slim-garments.png"
    ]
   },
   "gm-x3": {

@@ -1833,6 +1833,96 @@
   },
   {
    "view": "front",
+   "style": 9,
+   "sex": "female",
+   "styleName": "shoulder-length locs",
+   "figure": "v2-37-f-slim",
+   "file": "hair-on-figures/front/09/v2-37-f-slim-hair.png",
+   "head": [
+    7,
+    95.5,
+    69
+   ],
+   "facing": 0,
+   "hairPx": 6667
+  },
+  {
+   "view": "front",
+   "style": 9,
+   "sex": "female",
+   "styleName": "shoulder-length locs",
+   "figure": "v2-37-f-medium",
+   "file": "hair-on-figures/front/09/v2-37-f-medium-hair.png",
+   "head": [
+    6,
+    104.0,
+    70
+   ],
+   "facing": 0,
+   "hairPx": 7137
+  },
+  {
+   "view": "front",
+   "style": 9,
+   "sex": "female",
+   "styleName": "shoulder-length locs",
+   "figure": "v2-37-f-heavy",
+   "file": "hair-on-figures/front/09/v2-37-f-heavy-hair.png",
+   "head": [
+    7,
+    122.5,
+    71
+   ],
+   "facing": 0,
+   "hairPx": 6778
+  },
+  {
+   "view": "front",
+   "style": 9,
+   "sex": "male",
+   "styleName": "short locs",
+   "figure": "v2-37-m-slim",
+   "file": "hair-on-figures/front/09/v2-37-m-slim-hair.png",
+   "head": [
+    6,
+    106.5,
+    73
+   ],
+   "facing": 0,
+   "hairPx": 2041
+  },
+  {
+   "view": "front",
+   "style": 9,
+   "sex": "male",
+   "styleName": "short locs",
+   "figure": "v2-37-m-medium",
+   "file": "hair-on-figures/front/09/v2-37-m-medium-hair.png",
+   "head": [
+    6,
+    114.5,
+    73
+   ],
+   "facing": 0,
+   "hairPx": 2050
+  },
+  {
+   "view": "front",
+   "style": 9,
+   "sex": "male",
+   "styleName": "short locs",
+   "figure": "v2-37-m-heavy",
+   "file": "hair-on-figures/front/09/v2-37-m-heavy-hair.png",
+   "head": [
+    6,
+    131.5,
+    75
+   ],
+   "facing": 0,
+   "hairPx": 2234
+  },
+  {
+   "view": "front",
    "style": 10,
    "sex": "female",
    "styleName": "long loose curls",

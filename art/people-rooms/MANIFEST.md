@@ -31,7 +31,7 @@ Each edit painted one style per sex on all six figures of one bald sheet (three 
 
 | View | Sheet | Styles delivered (women / men) |
 |---|---|---|
-| front | 37 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
+| front | 37 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
 | threeq | 01 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
 | threeqr | 70 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
 | back | 06 | 01 shoulder-length wavy hair / a short cropped cut; 02 long straight hair past the shoulders / a short side-parted cut; 03 a short rounded natural afro / short tight curls; 04 a chin-length bob with straight bangs / a close buzz cut; 05 long box braids / a low fade with a short textured top; 06 a neat high bun / slicked-back medium-length hair; 07 a low ponytail / short hair with a receding hairline; 08 a short pixie cut / a classic crew cut; 09 shoulder-length locs / short locs; 10 long loose curls / neat cornrows; 11 short two-strand twists / medium-length wavy hair; 12 medium layered hair swept to one side / short hair on the sides with a bald crown |
@@ -102,12 +102,16 @@ One edit per outfit sheet; six maps per sheet, one per figure id.
 | 57 | v2-57-f/m-slim/medium/heavy | lectern front, base |
 | 58 | v2-58-f/m-slim/medium/heavy | sit front, base |
 | 61 | v2-61-f/m-slim/medium/heavy | sit front, base |
+| 62 | v2-62-f/m-slim/medium/heavy | sit front, base |
 | 65 | v2-65-f/m-slim/medium/heavy | sit three-quarter left, base |
 | 66 | v2-66-f/m-slim/medium/heavy | sit three-quarter left, base |
 | 68 | v2-68-f/m-slim/medium/heavy | sit three-quarter right, base |
 | 69 | v2-69-f/m-slim/medium/heavy | sit three-quarter left, base |
 | 70 | v2-70-f/m-slim/medium/heavy | sit three-quarter right, base |
+| 74 | v2-74-f/m-slim/medium/heavy | sit three-quarter right, base |
 | 76b | v2-76b-f/m-slim/medium/heavy | sit back, base |
+| sb20 | v2-sb20-f/m-slim/medium/heavy | stand back, vest |
+| sb32 | v2-sb32-f/m-slim/medium/heavy | stand back, blazer |
 | x3 | v2-x3-f/m-slim/medium/heavy | sit back, base |
 
 ## Prompts
