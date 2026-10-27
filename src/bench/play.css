@@ -931,6 +931,13 @@ input[type="range"]::-moz-range-thumb {
   display: block;
   font: inherit;
 }
+.item.town .town-head {
+  display: block;
+}
+.item.town .town-county {
+  color: var(--text-3);
+  margin-top: 2px;
+}
 .item.town small {
   color: var(--text-2);
 }
