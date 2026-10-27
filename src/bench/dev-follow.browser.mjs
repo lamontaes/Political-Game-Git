@@ -184,8 +184,7 @@ try {
   const reachedDate = new Date(target.getTime() - 86_400_000)
     .toISOString()
     .slice(0, 10);
-  // A stop the Continue button cannot clear is a job offer waiting for an
-  // answer: decline it in the Jobs sheet, as a player would, and go on.
+  // Stops the Continue button clears are continued past, as a player would.
   const clearStops = async () => {
     for (let tries = 0; await page.locator("#continue").isVisible(); tries++) {
       assert.ok(tries < 40, "stops cleared");
@@ -195,19 +194,6 @@ try {
       await page.locator("#continue").click();
       await resumed;
       await page.waitForTimeout(1000);
-      if (!(await page.locator("#continue").isVisible())) break;
-      await page.locator("#card-bust").click();
-      await page.locator('#sheet-tabs [data-tab="jobs"]').click();
-      await page.locator(".work-overview").waitFor();
-      const decline = page.locator(".job-offer .offer-actions button").nth(1);
-      assert.ok(
-        await decline.count(),
-        "the stop Continue cannot clear is a job offer",
-      );
-      await decline.click();
-      await page.locator(".job-offer").first().waitFor({ state: "detached" });
-      await page.keyboard.press("Escape");
-      await page.waitForTimeout(500);
     }
   };
   for (let stops = 0; ; stops++) {
