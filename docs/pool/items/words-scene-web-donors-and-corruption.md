@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/web-cases
+pr: 6327
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T13:40:00.588Z
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the donors and corruption domain, one row per cause that fires it. This domain covers donors and corruption: a donor's ask, an offer left for an official, a contract and the person behind it. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's donors and corruption requests with no type are listed under Missing in the report and become rows here.

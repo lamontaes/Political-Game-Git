@@ -9,7 +9,7 @@
     "rows": 105,
     "typesFired": 19,
     "rowsWaitingOnProducer": 28,
-    "rowsWithoutEpisode": 91,
+    "rowsWithoutEpisode": 79,
     "ownerExamples": 112,
     "ownerScenesMissing": 15
   },
@@ -328,7 +328,10 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Wedding", "The world happens around you"],
+      "ownerAsked": [
+        "Wedding",
+        "The world happens around you"
+      ],
       "firedInYear": 3,
       "firedExample": "person_096a8f63cd519b87:2025-02-19:job:public:staff:person_af077c5ecbfd18af:person_096a8f63cd519b87"
     },
@@ -344,7 +347,10 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Wedding", "The world happens around you"],
+      "ownerAsked": [
+        "Wedding",
+        "The world happens around you"
+      ],
       "firedInYear": 3,
       "firedExample": "person_096a8f63cd519b87:2025-02-19:job:public:staff:person_af077c5ecbfd18af:person_096a8f63cd519b87"
     },
@@ -360,7 +366,10 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Wedding", "The world happens around you"],
+      "ownerAsked": [
+        "Wedding",
+        "The world happens around you"
+      ],
       "firedInYear": 3,
       "firedExample": "person_096a8f63cd519b87:2025-02-19:job:public:staff:person_af077c5ecbfd18af:person_096a8f63cd519b87"
     },
@@ -376,7 +385,10 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Wedding", "The world happens around you"],
+      "ownerAsked": [
+        "Wedding",
+        "The world happens around you"
+      ],
       "firedInYear": 3,
       "firedExample": "person_096a8f63cd519b87:2025-02-19:job:public:staff:person_af077c5ecbfd18af:person_096a8f63cd519b87"
     },
@@ -392,7 +404,10 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Wedding", "The world happens around you"],
+      "ownerAsked": [
+        "Wedding",
+        "The world happens around you"
+      ],
       "firedInYear": 3,
       "firedExample": "person_096a8f63cd519b87:2025-02-19:job:public:staff:person_af077c5ecbfd18af:person_096a8f63cd519b87"
     },
@@ -406,7 +421,9 @@
       "speakers": {},
       "lines": 0,
       "episodes": [],
-      "ownerAsked": ["Family absence"],
+      "ownerAsked": [
+        "Family absence"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -440,7 +457,9 @@
       },
       "lines": 2,
       "episodes": [],
-      "ownerAsked": ["Door knocking as a montage"],
+      "ownerAsked": [
+        "Door knocking as a montage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -456,7 +475,9 @@
       },
       "lines": 2,
       "episodes": [],
-      "ownerAsked": ["Door knocking as a montage"],
+      "ownerAsked": [
+        "Door knocking as a montage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -542,7 +563,9 @@
       "speakers": {},
       "lines": 0,
       "episodes": [],
-      "ownerAsked": ["Romance without a prompt"],
+      "ownerAsked": [
+        "Romance without a prompt"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -652,7 +675,9 @@
       },
       "lines": 7,
       "episodes": [],
-      "ownerAsked": ["Door knocking as a montage"],
+      "ownerAsked": [
+        "Door knocking as a montage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -668,7 +693,9 @@
       },
       "lines": 7,
       "episodes": [],
-      "ownerAsked": ["Door knocking as a montage"],
+      "ownerAsked": [
+        "Door knocking as a montage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -684,7 +711,9 @@
       },
       "lines": 7,
       "episodes": [],
-      "ownerAsked": ["Door knocking as a montage"],
+      "ownerAsked": [
+        "Door knocking as a montage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -700,7 +729,9 @@
       },
       "lines": 7,
       "episodes": [],
-      "ownerAsked": ["Door knocking as a montage"],
+      "ownerAsked": [
+        "Door knocking as a montage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -716,7 +747,9 @@
       },
       "lines": 7,
       "episodes": [],
-      "ownerAsked": ["Door knocking as a montage"],
+      "ownerAsked": [
+        "Door knocking as a montage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -768,7 +801,9 @@
       },
       "lines": 105,
       "episodes": [],
-      "ownerAsked": ["Mentor scene"],
+      "ownerAsked": [
+        "Mentor scene"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -786,7 +821,9 @@
       },
       "lines": 105,
       "episodes": [],
-      "ownerAsked": ["Mentor scene"],
+      "ownerAsked": [
+        "Mentor scene"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -871,7 +908,9 @@
         "asked": 32
       },
       "lines": 66,
-      "episodes": ["trouble-at-the-polling-place"],
+      "episodes": [
+        "trouble-at-the-polling-place"
+      ],
       "ownerAsked": [
         "Election day is five minutes of scenes",
         "Going to vote with a narrator",
@@ -893,7 +932,9 @@
       },
       "lines": 4,
       "episodes": [],
-      "ownerAsked": ["Trial in scenes"],
+      "ownerAsked": [
+        "Trial in scenes"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -909,7 +950,9 @@
       },
       "lines": 4,
       "episodes": [],
-      "ownerAsked": ["Trial in scenes"],
+      "ownerAsked": [
+        "Trial in scenes"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -925,7 +968,9 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Trial in scenes"],
+      "ownerAsked": [
+        "Trial in scenes"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -941,7 +986,9 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Trial in scenes"],
+      "ownerAsked": [
+        "Trial in scenes"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -957,7 +1004,9 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Trial in scenes"],
+      "ownerAsked": [
+        "Trial in scenes"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -973,7 +1022,9 @@
       },
       "lines": 9,
       "episodes": [],
-      "ownerAsked": ["Trial in scenes"],
+      "ownerAsked": [
+        "Trial in scenes"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -990,7 +1041,10 @@
         "narrator": 3
       },
       "lines": 74,
-      "episodes": ["concession-call-received", "the-morning-after-the-race"],
+      "episodes": [
+        "concession-call-received",
+        "the-morning-after-the-race"
+      ],
       "ownerAsked": [
         "Election day is five minutes of scenes",
         "Concede or celebrate",
@@ -1012,7 +1066,10 @@
         "asked": 32
       },
       "lines": 63,
-      "episodes": ["concession-call-received", "the-morning-after-the-race"],
+      "episodes": [
+        "concession-call-received",
+        "the-morning-after-the-race"
+      ],
       "ownerAsked": [
         "Election day is five minutes of scenes",
         "Concede or celebrate",
@@ -1059,7 +1116,9 @@
       },
       "lines": 56,
       "episodes": [],
-      "ownerAsked": ["Bill scenes at every stage"],
+      "ownerAsked": [
+        "Bill scenes at every stage"
+      ],
       "firedInYear": 6,
       "firedExample": "person_415e54c0961f8d9c:2026-01-01:executive-action:bill:office:gus2025:175113:council:2026-01-01:person_415e55c0961f8f4f:55"
     },
@@ -1076,8 +1135,12 @@
         "narrator": 3
       },
       "lines": 55,
-      "episodes": ["veto-override-whip"],
-      "ownerAsked": ["Legislature in the background"],
+      "episodes": [
+        "veto-override-whip"
+      ],
+      "ownerAsked": [
+        "Legislature in the background"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1094,8 +1157,12 @@
         "narrator": 3
       },
       "lines": 55,
-      "episodes": ["veto-override-whip"],
-      "ownerAsked": ["Legislature in the background"],
+      "episodes": [
+        "veto-override-whip"
+      ],
+      "ownerAsked": [
+        "Legislature in the background"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1113,7 +1180,9 @@
       },
       "lines": 67,
       "episodes": [],
-      "ownerAsked": ["Appointment"],
+      "ownerAsked": [
+        "Appointment"
+      ],
       "firedInYear": 1,
       "firedExample": "person_f86a528627e88ed6:2025-01-20:appointed:appointment:town:city-administrator:2025-01-20"
     },
@@ -1131,7 +1200,9 @@
       },
       "lines": 67,
       "episodes": [],
-      "ownerAsked": ["Appointment"],
+      "ownerAsked": [
+        "Appointment"
+      ],
       "firedInYear": 1,
       "firedExample": "person_f86a528627e88ed6:2025-01-20:appointed:appointment:town:city-administrator:2025-01-20"
     },
@@ -1149,7 +1220,9 @@
       },
       "lines": 97,
       "episodes": [],
-      "ownerAsked": ["Recall"],
+      "ownerAsked": [
+        "Recall"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1167,7 +1240,9 @@
       },
       "lines": 97,
       "episodes": [],
-      "ownerAsked": ["Recall"],
+      "ownerAsked": [
+        "Recall"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1185,7 +1260,10 @@
       },
       "lines": 106,
       "episodes": [],
-      "ownerAsked": ["Bill scenes at every stage", "Public meeting agenda"],
+      "ownerAsked": [
+        "Bill scenes at every stage",
+        "Public meeting agenda"
+      ],
       "firedInYear": 4,
       "firedExample": "person_073a55dd0ac8b0e2:2025-02-04:public-comment:bill:office:gus2025:175005:board:2025-02-04:person_bc3d8a4ead477cf1:31"
     },
@@ -1198,11 +1276,13 @@
       "outcome": "scene.reply",
       "speakers": {
         "asker": 202,
-        "asked": 194,
+        "asked": 196,
         "narrator": 18
       },
-      "lines": 414,
-      "episodes": [],
+      "lines": 416,
+      "episodes": [
+        "the-reporter-calls-for-comment"
+      ],
       "ownerAsked": [
         "Reporter at your door",
         "Interview",
@@ -1221,11 +1301,13 @@
       "outcome": "scene.reply",
       "speakers": {
         "asker": 202,
-        "asked": 194,
+        "asked": 196,
         "narrator": 18
       },
-      "lines": 414,
-      "episodes": [],
+      "lines": 416,
+      "episodes": [
+        "the-reporter-calls-for-comment"
+      ],
       "ownerAsked": [
         "Reporter at your door",
         "Interview",
@@ -1244,11 +1326,13 @@
       "outcome": "scene.reply",
       "speakers": {
         "asker": 202,
-        "asked": 194,
+        "asked": 196,
         "narrator": 18
       },
-      "lines": 414,
-      "episodes": [],
+      "lines": 416,
+      "episodes": [
+        "the-reporter-calls-for-comment"
+      ],
       "ownerAsked": [
         "Reporter at your door",
         "Interview",
@@ -1267,11 +1351,13 @@
       "outcome": "scene.reply",
       "speakers": {
         "asker": 202,
-        "asked": 194,
+        "asked": 196,
         "narrator": 18
       },
-      "lines": 414,
-      "episodes": [],
+      "lines": 416,
+      "episodes": [
+        "the-reporter-calls-for-comment"
+      ],
       "ownerAsked": [
         "Reporter at your door",
         "Interview",
@@ -1289,13 +1375,17 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 2,
-        "asker": 13,
-        "asked": 11
+        "narrator": 3,
+        "asker": 17,
+        "asked": 14
       },
-      "lines": 26,
-      "episodes": [],
-      "ownerAsked": ["Corruption caught by people turning"],
+      "lines": 34,
+      "episodes": [
+        "the-story-breaks"
+      ],
+      "ownerAsked": [
+        "Corruption caught by people turning"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1313,7 +1403,9 @@
       },
       "lines": 29,
       "episodes": [],
-      "ownerAsked": ["Heard it from the news"],
+      "ownerAsked": [
+        "Heard it from the news"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1328,7 +1420,9 @@
         "narrator": 4
       },
       "lines": 4,
-      "episodes": ["executive-record-gaps"],
+      "episodes": [
+        "executive-record-gaps"
+      ],
       "ownerAsked": [
         "President's address as a speech",
         "Speech per world",
@@ -1350,7 +1444,9 @@
         "asked": 15
       },
       "lines": 37,
-      "episodes": [],
+      "episodes": [
+        "the-local-candidate-debate"
+      ],
       "ownerAsked": [
         "Volunteer after a rally",
         "A season full of scenes",
@@ -1374,8 +1470,12 @@
         "asked": 10
       },
       "lines": 35,
-      "episodes": [],
-      "ownerAsked": ["Volunteer after a rally"],
+      "episodes": [
+        "the-local-candidate-debate"
+      ],
+      "ownerAsked": [
+        "Volunteer after a rally"
+      ],
       "firedInYear": 1,
       "firedExample": "person_415e54c0961f8d9c:2025-02-03:speech:person_415e55c0961f8f4f:2025-02-03:town-hall:town-hall:person_415e55c0961f8f4f:2025-02-03:2"
     },
@@ -1392,7 +1492,9 @@
         "asked": 37
       },
       "lines": 100,
-      "episodes": [],
+      "episodes": [
+        "a-primary-challenge-from-your-own-side"
+      ],
       "ownerAsked": [
         "Filing deliberately marked",
         "Filing is a conversation at the clerk"
@@ -1414,7 +1516,9 @@
       },
       "lines": 26,
       "episodes": [],
-      "ownerAsked": ["Money breaks the wallet"],
+      "ownerAsked": [
+        "Money breaks the wallet"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1432,7 +1536,9 @@
       },
       "lines": 23,
       "episodes": [],
-      "ownerAsked": ["Money breaks the wallet"],
+      "ownerAsked": [
+        "Money breaks the wallet"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1472,7 +1578,10 @@
       },
       "lines": 134,
       "episodes": [],
-      "ownerAsked": ["Colleague asks for your vote", "Telling a colleague no"],
+      "ownerAsked": [
+        "Colleague asks for your vote",
+        "Telling a colleague no"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1490,7 +1599,10 @@
       },
       "lines": 123,
       "episodes": [],
-      "ownerAsked": ["Carry a bill", "Bill scenes at every stage"],
+      "ownerAsked": [
+        "Carry a bill",
+        "Bill scenes at every stage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1528,7 +1640,9 @@
         "asked": 34
       },
       "lines": 84,
-      "episodes": ["envelope-refused-developer"],
+      "episodes": [
+        "envelope-refused-developer"
+      ],
       "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
@@ -1546,8 +1660,12 @@
         "asked": 35
       },
       "lines": 97,
-      "episodes": [],
-      "ownerAsked": ["Donor or party chair asks"],
+      "episodes": [
+        "a-primary-challenge-from-your-own-side"
+      ],
+      "ownerAsked": [
+        "Donor or party chair asks"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1565,7 +1683,9 @@
       },
       "lines": 34,
       "episodes": [],
-      "ownerAsked": ["Party asks you to run"],
+      "ownerAsked": [
+        "Party asks you to run"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1583,7 +1703,9 @@
       },
       "lines": 270,
       "episodes": [],
-      "ownerAsked": ["Office hours"],
+      "ownerAsked": [
+        "Office hours"
+      ],
       "firedInYear": 4,
       "firedExample": "person_f86a538627e89089:2025-02-19:office-approached:case:person_f86a528627e88ed6:2025-02-19"
     },
@@ -1600,7 +1722,9 @@
         "narrator": 4
       },
       "lines": 88,
-      "episodes": ["spouse-stake-after-filing"],
+      "episodes": [
+        "spouse-stake-after-filing"
+      ],
       "ownerAsked": [
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
@@ -1621,7 +1745,9 @@
         "asked": 11
       },
       "lines": 26,
-      "episodes": ["concession-call-received"],
+      "episodes": [
+        "concession-call-received"
+      ],
       "ownerAsked": [
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
@@ -1642,7 +1768,9 @@
         "asked": 10
       },
       "lines": 27,
-      "episodes": ["household-after-the-loss"],
+      "episodes": [
+        "household-after-the-loss"
+      ],
       "ownerAsked": [
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
@@ -1663,7 +1791,9 @@
         "asker": 28
       },
       "lines": 48,
-      "episodes": ["owed-talk-comes-due"],
+      "episodes": [
+        "owed-talk-comes-due"
+      ],
       "ownerAsked": [
         "Family absence",
         "Family reacts to filing, win, loss, absence"
@@ -1684,7 +1814,10 @@
         "asked": 17
       },
       "lines": 47,
-      "episodes": ["concession-call-received"],
+      "episodes": [
+        "a-primary-challenge-from-your-own-side",
+        "concession-call-received"
+      ],
       "ownerAsked": [
         "Rally as a public scene",
         "Campaign volunteer or opponent at a rally"
@@ -1706,7 +1839,10 @@
       },
       "lines": 131,
       "episodes": [],
-      "ownerAsked": ["Mayor's desk with a bill", "Bill scenes at every stage"],
+      "ownerAsked": [
+        "Mayor's desk with a bill",
+        "Bill scenes at every stage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1724,7 +1860,10 @@
       },
       "lines": 131,
       "episodes": [],
-      "ownerAsked": ["Mayor's desk with a bill", "Bill scenes at every stage"],
+      "ownerAsked": [
+        "Mayor's desk with a bill",
+        "Bill scenes at every stage"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1741,8 +1880,12 @@
         "asked": 29
       },
       "lines": 79,
-      "episodes": [],
-      "ownerAsked": ["Staff bring bad news"],
+      "episodes": [
+        "the-story-breaks"
+      ],
+      "ownerAsked": [
+        "Staff bring bad news"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1759,8 +1902,12 @@
         "asked": 29
       },
       "lines": 79,
-      "episodes": [],
-      "ownerAsked": ["Staff bring bad news"],
+      "episodes": [
+        "the-story-breaks"
+      ],
+      "ownerAsked": [
+        "Staff bring bad news"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1777,8 +1924,12 @@
         "asked": 29
       },
       "lines": 79,
-      "episodes": [],
-      "ownerAsked": ["Staff bring bad news"],
+      "episodes": [
+        "the-story-breaks"
+      ],
+      "ownerAsked": [
+        "Staff bring bad news"
+      ],
       "firedInYear": 0,
       "firedExample": null
     },
@@ -1837,7 +1988,9 @@
       },
       "lines": 173,
       "episodes": [],
-      "ownerAsked": ["Shared-cause invitation"],
+      "ownerAsked": [
+        "Shared-cause invitation"
+      ],
       "firedInYear": 1,
       "firedExample": "person_415e55c0961f8f4f:2025-02-04:cause.shared:2025-02-04:person_415e54c0961f8d9c:person_415e55c0961f8f4f:cause:us-policy-positions:civil-family-community.restrict-abortion"
     },
@@ -1854,7 +2007,9 @@
         "asked": 24
       },
       "lines": 68,
-      "episodes": ["concession-call-received"],
+      "episodes": [
+        "concession-call-received"
+      ],
       "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
@@ -1872,7 +2027,9 @@
         "narrator": 6
       },
       "lines": 61,
-      "episodes": ["town-hall-goes-wrong"],
+      "episodes": [
+        "town-hall-goes-wrong"
+      ],
       "ownerAsked": [],
       "firedInYear": 12,
       "firedExample": "person_f86a538627e89089:2026-01-05:town-hall:town-hall:person_f86a538627e89089:2026-01-05"
@@ -1985,5 +2142,8 @@
       "source": "`prior-rulings/people.md:74`"
     }
   ],
-  "unlinkedEpisodes": ["disaster-first-hours", "executive-order-voting-rights"]
+  "unlinkedEpisodes": [
+    "disaster-first-hours",
+    "executive-order-voting-rights"
+  ]
 }
