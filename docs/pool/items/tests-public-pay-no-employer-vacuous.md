@@ -5,13 +5,13 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/public-pay-nonvacuous
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
-claimed-at:
+claimed-at: 2026-10-27T15:46:02.022Z
 ---
 
 **What.** src/core2/budgets-public-pay.test.ts:34-38 returns before any assertion when the opening has no publicPayAuthority employer. Merger 2 observed this in Alega, American Samoa, with GOLDEN_PATH_SEED=f3d402dc6d11da2e while checking PR #5998: the case printed no opening public employer and passed without testing a payday or treasury link. A genuinely empty input can be valid, but that passing case supplies no positive payroll evidence and can hide an opening-producer regression.
