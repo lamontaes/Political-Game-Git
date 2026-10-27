@@ -68,7 +68,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, someone's offer to help their campaign, word of a rival's paid message passed on by someone it reached, a rival filing against them) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, someone's offer to help their campaign, word of a rival's paid message passed on by someone it reached, a rival filing against them) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say.",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -114,7 +114,8 @@
       "cause:event:debate-invited",
       "cause:event:volunteer-offered",
       "cause:event:rival-word",
-      "cause:event:rival-filed"
+      "cause:event:rival-filed",
+      "cause:event:party-asked"
     ],
     "ownRecordSettings": ["home", "office", "phone"]
   },
@@ -4099,6 +4100,70 @@
       "asker": "teller",
       "asked": "you",
       "stakes": ["race", "opponent"]
+    },
+    {
+      "key": "party-recruit",
+      "note": "A party with no one filed for a partisan seat asks one of its members to run: the candidacy engine's party-asked record names the member, the chair who asks, the party and the seat. The chair comes by the member's home. Their answer is a scene reply the candidacy engine reads: a yes is the decision to run, and the filing follows.",
+      "roles": [
+        {
+          "key": "chair",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise",
+            "warn"
+          ],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:party-asked",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "askedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "candidacy",
+          "causeRecord": "party-asked",
+          "bind": {
+            "chair": "counterpart",
+            "you": "subject"
+          },
+          "opener": "chair",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "run-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "ask-to-run",
+      "asker": "chair",
+      "asked": "you",
+      "stakes": ["office", "party", "race"]
     }
   ]
 }

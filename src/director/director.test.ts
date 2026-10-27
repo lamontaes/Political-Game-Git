@@ -521,10 +521,11 @@ describe("story director on the new core", () => {
     // to carry, a donor, the party, office hours, family, a rally, the desk,
     // staff, a bargain), plus the life moments with a purpose of their own
     // (a new baby, a cause shared), plus an
-    // officeholder's own address, plus the campaign season's five (an
-    // interview and a debate invitation, an offer to help, a rival's filing,
-    // word of a rival's campaign; owner, Oct 26).
-    expect(types).toHaveLength(71);
+    // officeholder's own address, plus the party's ask that a member run,
+    // plus the campaign season's five (an interview and a debate invitation,
+    // an offer to help, a rival's filing, word of a rival's campaign; owner,
+    // Oct 26).
+    expect(types).toHaveLength(72);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));

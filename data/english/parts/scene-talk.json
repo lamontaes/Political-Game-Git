@@ -84200,6 +84200,815 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-who-chairs-the-party-in-place-has-come-by-the-house",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name}, who chairs the party in {place}, has come by the house.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-s-a-knock-at-the-door-it-s-name-who-runs-the-party-in-place",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There's a knock at the door. It's {name}, who runs the party in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-seeing-me-this-won-t-take-long",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for seeing me. This won't take long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-few-minutes-it-s-about-the-election",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a few minutes? It's about the election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "greet",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-s-filed-for-office-on-our-side-you-re-one-of-ours-and-people-here-know-you-will-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody's filed for {office} on our side. You're one of ours, and people here know you. Will you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-need-a-name-on-the-ballot-for-office-people-in-place-know-you-and-you-re-one-of-ours-would-you-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We need a name on the ballot for {office}. People in {place} know you, and you're one of ours. Would you run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "request",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-i-have-to-do",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would I have to do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-running-take",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would running take?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "ask",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-i-ll-run",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. I'll run.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.sign-me-up",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sign me up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "agree",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-not-this-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't. Not this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-the-one-for-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not the one for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-talk-it-over-at-home-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me talk it over at home first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-to-think-about-it",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days to think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "stall",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-but-thank-you-for-asking",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go, but thank you for asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-back-to-my-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get back to my day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "leave",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.file-your-papers-before-the-deadline-the-party-will-help-with-the-rest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "File your papers before the deadline. The party will help with the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.get-your-papers-in-before-filing-closes-we-ll-walk-you-through-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get your papers in before filing closes. We'll walk you through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "answer",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-you-ll-have-the-party-behind-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. You'll have the party behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-hoped-you-d-say",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I hoped you'd say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.if-nobody-runs-for-us-that-seat-goes-without-a-fight",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If nobody runs for us, that seat goes without a fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.filing-closes-soon-and-the-seat-needs-someone",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Filing closes soon, and the seat needs someone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-the-offer-stands-until-filing-closes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. The offer stands until filing closes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-talk-it-over-and-let-me-know",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Talk it over, and let me know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-ll-tell-the-others-we-ll-be-in-touch",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll tell the others. We'll be in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "thank",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.we-ll-back-you-the-whole-way",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "We'll back you the whole way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.no-hard-feelings-maybe-next-time",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No hard feelings. Maybe next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-find-someone-i-hoped-it-would-be-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll find someone. I hoped it would be you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "warn",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-take-too-long-filing-closes-soon",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't take too long. Filing closes soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "press",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.every-day-you-wait-is-a-day-we-don-t-have",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Every day you wait is a day we don't have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "warn",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-think-it-over",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. Think it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.of-course-call-me-when-you-ve-decided",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Of course. Call me when you've decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "run-asked"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-comes-in-with-the-story-outlet-ran-on-bill",
       "move": "narrate-narrate",
       "kind": "spoken",
