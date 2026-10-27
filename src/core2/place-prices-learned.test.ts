@@ -43,10 +43,15 @@ interface Learned {
  * `storyAfterDays` after the town opens. The law takes effect `effectiveAfterDays`
  * after the town opens.
  */
-function townWithLaw(storyAfterDays = 0, effectiveAfterDays = 0) {
-  const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+function townWithLaw(
+  storyAfterDays = 0,
+  effectiveAfterDays = 0,
+  place: { readonly seed: string; readonly key: string } = draw,
+) {
+  const at = place === draw ? where : `${place.key}, seed ${place.seed}`;
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: draw.key,
+    placeKey: place.key,
   });
   const api = coreAPI(core);
   const learned: Learned[] = [];
@@ -88,7 +93,7 @@ function townWithLaw(storyAfterDays = 0, effectiveAfterDays = 0) {
       citation: "Controlled enactment in a generated town.",
     });
   const lawId = lawInForce(api, question, effectiveDate).governing?.id;
-  expect(lawId, `${where}: no law governs`).toBeDefined();
+  expect(lawId, `${at}: no law governs`).toBeDefined();
   if (storyAfterDays)
     advanceCore(core, addDays(makeIsoDate(core.date), storyAfterDays));
   const town = lawChain(api).townPlaceId;
@@ -109,7 +114,7 @@ function townWithLaw(storyAfterDays = 0, effectiveAfterDays = 0) {
     },
     residents,
   );
-  expect(reached, `${where}: the story reached no one`).toBeGreaterThan(0);
+  expect(reached, `${at}: the story reached no one`).toBeGreaterThan(0);
   return { core, api, learned, lawId: lawId!, effectiveDate };
 }
 
@@ -249,37 +254,58 @@ it(`a payer who heard a story the news has since forgotten still ties the first 
   setBookkeeping(false);
   try {
     // The law takes effect two months after its story ran: the news keeps a
-    // story for a month, so it is gone by the household's first bill.
-    const { core, api, learned, lawId, effectiveDate } = townWithLaw(0, 60);
-    advanceCore(core, addDays(makeIsoDate(core.date), 82));
-    const events = learned.filter((l) => l.event.facts?.priceRuleId);
-    expect(
-      events.length,
-      `${where}: no household learned the effect`,
-    ).toBeGreaterThan(0);
-    // The news no longer keeps their hearing, yet they cite the story.
-    const forgotten = events.filter((l) => l.heardOn === undefined);
-    expect(
-      forgotten.length,
-      `${where}: ${events.length} learned, none from a story the news had forgotten`,
-    ).toBeGreaterThan(0);
-    for (const l of forgotten) {
-      expect(l.storyId, `${where}: ${l.event.id}`).toBeDefined();
+    // story for a month, so it is gone by the household's first bill. Where
+    // the town's own press covers the law taking effect and that story
+    // reaches every payer, each learns from the fresh story instead; that
+    // place is passed over, named, and another drawn.
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const place =
+        attempt === 0
+          ? draw
+          : drawPlace(`${draw.seed}:${attempt}`, "price-law-learned-forgotten");
+      const at = `${place.name} (${place.key}), seed ${place.seed}`;
+      const { core, api, learned, lawId, effectiveDate } = townWithLaw(
+        0,
+        60,
+        place,
+      );
+      advanceCore(core, addDays(makeIsoDate(core.date), 82));
+      const events = learned.filter((l) => l.event.facts?.priceRuleId);
       expect(
-        String(l.event.date) >= effectiveDate,
-        `${where}: ${l.event.id} before the law took effect`,
-      ).toBe(true);
-      // They know the story again, as they first heard it.
-      expect(
-        api.knows(l.personId, String(l.event.facts?.learnedFrom)),
-        `${where}: ${l.personId} no longer knows the story they learned from`,
-      ).toBeDefined();
+        events.length,
+        `${at}: no household learned the effect`,
+      ).toBeGreaterThan(0);
+      // The news no longer keeps their hearing, yet they cite the story.
+      const forgotten = events.filter((l) => l.heardOn === undefined);
+      if (!forgotten.length) {
+        tried.push(
+          `${at}: ${events.length} learned, each from a story still in the news (e.g. ${events[0]!.storyId})`,
+        );
+        continue;
+      }
+      for (const l of forgotten) {
+        expect(l.storyId, `${at}: ${l.event.id}`).toBeDefined();
+        expect(
+          String(l.event.date) >= effectiveDate,
+          `${at}: ${l.event.id} before the law took effect`,
+        ).toBe(true);
+        // They know the story again, as they first heard it.
+        expect(
+          api.knows(l.personId, String(l.event.facts?.learnedFrom)),
+          `${at}: ${l.personId} no longer knows the story they learned from`,
+        ).toBeDefined();
+      }
+      const withView = expectStances(api, forgotten);
+      const sample =
+        forgotten.find((l) => viewOf(api, l.personId)) ?? forgotten[0]!;
+      console.log(
+        `learned from a story the news forgot: ${at}${tried.length ? ` (passed over: ${tried.join("; ")})` : ""}; law ${lawId} effective ${effectiveDate}; ${events.length} learned, ${forgotten.length} from a forgotten story, ${withView.length} with a view; e.g. ${sample.event.id} from ${sample.storyId}`,
+      );
+      return;
     }
-    const withView = expectStances(api, forgotten);
-    const sample =
-      forgotten.find((l) => viewOf(api, l.personId)) ?? forgotten[0]!;
-    console.log(
-      `learned from a story the news forgot: ${where}; law ${lawId} effective ${effectiveDate}; ${events.length} learned, ${forgotten.length} from a forgotten story, ${withView.length} with a view; e.g. ${sample.event.id} from ${sample.storyId}`,
+    expect.fail(
+      `${where}: no drawn place had a payer whose only story the news had forgotten: ${tried.join("; ")}`,
     );
   } finally {
     setBookkeeping(true);
