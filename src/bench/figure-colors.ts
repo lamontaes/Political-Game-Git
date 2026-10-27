@@ -115,6 +115,23 @@ function regionOf(r: number, g: number, b: number): Region {
   return "other";
 }
 
+/**
+ * How much a pixel of a figure with no map yet reads as gray cloth, 0 to 1:
+ * fully below 0.12 saturation, fading out by 0.22, and inside the cloth's
+ * brightness with a soft edge, so lightly tinted folds (the heavy blazers'
+ * pants) recolor instead of staying as gray patches.
+ */
+function clothShare(r: number, g: number, b: number): number {
+  const max = Math.max(r, g, b);
+  const sat = max === 0 ? 0 : (max - Math.min(r, g, b)) / max;
+  const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+  const ramp = (value: number, from: number, to: number) =>
+    Math.max(0, Math.min(1, (value - from) / (to - from)));
+  return (
+    (1 - ramp(sat, 0.12, 0.22)) * ramp(lum, 45, 60) * (1 - ramp(lum, 235, 250))
+  );
+}
+
 // Where pieces meet on a figure with no map yet (presentation, TUNABLE by
 // eye): the hip at this share of the height to the feet, and the shoes in
 // this share of the picture above the foot line.
@@ -219,14 +236,19 @@ export function recolorFigure(
     row && (row.outfit === "vest" || row.outfit === "blazer")
       ? "jacket"
       : "shirt";
+  // How much of the new color each pixel takes: all of it on a map.
+  const weights = new Float32Array(png.width * png.height).fill(1);
   const pieceOf = (i: number): Garment | null => {
     if (map) return garmentAt(map, i);
     const y = Math.floor(i / 4 / png.width);
     if (y < below) return null;
+    const share = clothShare(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!);
     if (
-      regionOf(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!) !== "clothes"
+      share <= 0 ||
+      regionOf(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!) === "skin"
     )
       return null;
+    weights[i / 4] = share;
     // A jacket's hem has no line to cut at: jacket and pants are one suit.
     return y >= feet ? "shoes" : top === "jacket" || y < hip ? top : "pants";
   };
@@ -253,8 +275,13 @@ export function recolorFigure(
     const to = piece === "skin" ? skinTo : wanted.get(piece);
     if (!to) continue;
     const shade = luminance(png.data, i) / mid.get(piece)!;
-    for (let c = 0; c < 3; c++)
-      png.data[i + c] = Math.max(0, Math.min(255, Math.round(to[c]! * shade)));
+    const weight = piece === "skin" ? 1 : weights[i / 4]!;
+    for (let c = 0; c < 3; c++) {
+      const color = Math.max(0, Math.min(255, to[c]! * shade));
+      png.data[i + c] = Math.round(
+        color * weight + png.data[i + c]! * (1 - weight),
+      );
+    }
   }
   return PNG.sync.write(png);
 }
