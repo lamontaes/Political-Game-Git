@@ -58,7 +58,7 @@ import {
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
 import { DevMode } from "./dev-mode";
-import { titleScene } from "./title";
+import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   ageAtStart,
@@ -498,12 +498,14 @@ export async function benchRequest(
         // One visit to the title: its scene, and the life in progress to
         // continue (the server's current life), or none.
         const personId = core ? player?.personId : undefined;
-        const scene = titleScene(
+        const scenes = titleRotation(
           new Date().toISOString().slice(0, 10),
           titleVisits++,
         );
         send(200, {
-          ...scene,
+          ...scenes[0]!,
+          scenes,
+          rotateSeconds: TITLE_ROTATE_SECONDS,
           life: personId
             ? {
                 personId,
