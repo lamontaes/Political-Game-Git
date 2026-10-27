@@ -16,7 +16,34 @@ try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto(`${base}/play`);
   await ready;
+  // The gold name is set apart from the first control by a drawn rule and a
+  // gap, on the title menu, the New game choice and the creator.
+  const header = (first) =>
+    page.evaluate((sel) => {
+      const title = document.querySelector("#front .title");
+      const rule = document.querySelector("#front .title-rule");
+      const control = document.querySelector(sel);
+      const t = title.getBoundingClientRect();
+      const r = rule.getBoundingClientRect();
+      const c = control.getBoundingClientRect();
+      return {
+        ruleDrawn: getComputedStyle(rule).borderTopWidth !== "0px",
+        above: r.top - t.bottom,
+        below: c.top - r.bottom,
+        gap: c.top - t.bottom,
+      };
+    }, first);
+  const checkHeader = async (name, first) => {
+    const h = await header(first);
+    console.log(`${name}: rule above ${h.above}, below ${h.below}`);
+    assert.ok(h.ruleDrawn, `${name}: no rule is drawn`);
+    assert.ok(h.above >= 8 && h.below >= 12, `${name}: the rule has no room`);
+    if (process.env.SHOT_DIR)
+      await page.screenshot({ path: `${process.env.SHOT_DIR}/${name}.png` });
+  };
+  await checkHeader("title-menu", "#new-life");
   await page.locator("#new-life").click();
+  await checkHeader("new-game", "#new-start");
   await page.locator("#new-start").click();
   await page.locator("#cr-character:not([hidden])").waitFor();
   await page.mouse.move(1400, 880); // nothing hovered
@@ -49,6 +76,7 @@ try {
   );
   for (const f of fields)
     assert.ok(f.alpha > 0, `${f.id} shows no box at rest`);
+  await checkHeader("creator", "#cr-character button, #cr-character input");
   if (process.env.SHOT) await page.screenshot({ path: process.env.SHOT });
   assert.deepEqual(errors, []);
   console.log(

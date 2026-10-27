@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counsel-owed
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T03:56:01.006Z
 ---
 
 **What.** Under the right to counsel in eviction, `payCounsel` in `src/core2/modules/housing.ts` pays the tenant's lawyer with `transferCash` from the government whose statute governs, and records whatever that transfer paid. When the treasury holds no cash, the transfer pays 0, the case still records the law with a lawyer present, and nothing is owed afterward, so the lawyer is never paid. CI's housing family run on seed ef7362489c9d17517723c5c83d6faab4ce63e972 drew Derry, New Hampshire (3317860): five eviction hearings on 2025-02-06 had counsel under the state's law and 0 paid. Election costs under #5582 handle the same shortfall by carrying the cost as owed until cash arrives.
