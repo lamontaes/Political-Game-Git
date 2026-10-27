@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/corruption-weston
-pr:
+pr: #6290
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T11:12:17.104Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-27T11:12:17.104Z
 **Files.** src/core2/corruption.test.ts, src/core2/modules/corruption.ts
 
 **Notes.** Filed by the m0-m2 lead from CI run 40240835920 (job 121312058489). Lead: gov.
+
+Worker check (Claude, Oct 27): no longer reproduces on main. The test now replays one recorded draw with `CORRUPTION_WORLD_SEED` and `CORRUPTION_PLACE_KEY`; at Weston, Missouri (2978856, world seed 1512c792…a78ba) all 26 cases pass and the replay is not passed over; fresh seed `cw-fresh-1` passes too. Something merged since 6097's head fixed it; not traced.

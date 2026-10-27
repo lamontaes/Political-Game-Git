@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/school-pay-treasury
 pr: #6280
 blocked-on:

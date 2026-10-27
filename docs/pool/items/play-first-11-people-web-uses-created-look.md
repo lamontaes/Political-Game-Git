@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-first-11-people-web-uses-created-look
 pr: #6286
 blocked-on:
@@ -33,3 +33,4 @@ claimed-at: 2026-10-27T10:59:42.288Z
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
 
 CTO, Oct 27: the `after:` lines (play-first-05, play-stop-03) are cleared; both landed in #5898 and wait only on the owner's installed-build check, which does not block building on them.
+- Merged Oct 27 in PR #6286; awaiting the owner's installed-build check. The PR's check also passes on main in the home room; the change removes the room dependency.
