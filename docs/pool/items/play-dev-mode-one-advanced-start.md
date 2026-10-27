@@ -5,14 +5,14 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-dev-mode-one-advanced-start
 pr:
 blocked-on:
 source: "owner, Oct 26 evening and Oct 27 (OWNER-DECISIONS), added by lane agent 5"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:41:05.100Z
 ---
 
 **What.** The owner ruled (Oct 26 evening, OWNER-DECISIONS): "Watch the World and the custom world become one dev mode where you can do anything from the start, more like RimWorld or Crusader Kings... get rid of the opening questions. The questionnaire, that's useless." Today New game offers Custom world, Start a life and New world, and the title carries a dead Watch the world button. This item makes New game offer Start a life and one Advanced entry; Advanced holds the seed and the world's settings (the old custom fields), builds the world with no questionnaire, then offers every person who holds an office in that world, each with their office, to play as, plus a random resident. Choosing one plays that person from today, with no opening address.
