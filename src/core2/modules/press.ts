@@ -84,7 +84,7 @@ import {
   payWiderAudience,
   type OutletMoneyDeps,
 } from "../press-money";
-import { countedHeadsOf, countedJobsOf } from "../residents-economy";
+import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import {
@@ -356,7 +356,7 @@ function outletPayrollYearMinor(api: CoreAPI, organizationId: string): number {
     total +=
       job.wageDailyMinor *
       api.parameter("jobsDaysPerYear") *
-      countedHeadsOf(core, job.personId);
+      countedJobHeads(core, job);
   return total;
 }
 

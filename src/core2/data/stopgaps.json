@@ -2912,7 +2912,7 @@
     "why": "The research gives how often people of each age leave a county and the reasons movers give, but not each tie's and event's size in this model.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving. Oct 23, 2026: the owner and job holds are ESTIMATED as log ratios of CPS ASEC 2023 different-county move rates (data/research/core/cps-asec-2023-mobility.json). The children and kin holds convert to 0.32 (CPS ASEC 2023 Table 6) and 0.30 per relative (Spring, Ackert, Crowder and South 2017, data/research/core/spring-2017-kin-proximity.json) but stay at their starting values, 0.4 and 0.15, with the converted figures as their spreads, because applying them takes src/core2/moves.test.ts past its departure band while the engine already sends about 1.75 times the expected adults away; world-town-net-moving-negative applies them once the departure rate is right. All are checked by scripts/research/core-parameters-check.ts; the figures that would make them SOURCED are effects net of age. movesMinimumAge, movesKinHoldCap and movesHousingCostShareCap are a cutoff and caps, replaced by core-moves-caps-and-minimum-age-as-cause. The other pulls and pushes stay TUNABLE: scripts/research/core-parameters-year.ts reports a town's departures against the ACS 2024 rate for its adults and the share of leavers by recorded cause against the CPS different-county reasons.",
+    "replacement": "Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving. Oct 23, 2026: the owner and job holds are ESTIMATED as log ratios of CPS ASEC 2023 different-county move rates (data/research/core/cps-asec-2023-mobility.json). The children and kin holds convert to 0.32 (CPS ASEC 2023 Table 6) and 0.30 per relative (Spring, Ackert, Crowder and South 2017, data/research/core/spring-2017-kin-proximity.json) but stay at their starting values, 0.4 and 0.15, with the converted figures as their spreads, because applying them takes src/core2/moves.test.ts past its departure band while the engine already sends about 1.75 times the expected adults away; world-town-net-moving-negative applies them once the departure rate is right. All are checked by scripts/research/core-parameters-check.ts; the figures that would make them SOURCED are effects net of age. The cutoff and caps are gone: who decides alone is the place's age of majority (data/research/people/age-of-majority.json), kin hold and pull slide with movesKinHoldDecay, and the housing push rises with the share of the household's income and net cash its home takes. The other pulls and pushes stay TUNABLE: scripts/research/core-parameters-year.ts reports a town's departures against the ACS 2024 rate for its adults and the share of leavers by recorded cause against the CPS different-county reasons.",
     "status": "open"
   },
   {
@@ -6952,5 +6952,29 @@
     "addedAt": "2026-10-26",
     "replacement": "Resolved: the chair asks members with inroads first (closeness to the chair), then those the most people know (standing), per the rulings quoted in why.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-WORLD-weight-release-jobless-not-seeking",
+    "kind": "missing-mechanic",
+    "file": "src/core2/counted-groups.ts",
+    "line": 529,
+    "whatItFakes": "When a filled-in household's weight spreads over its group, the households that take it stand for more people while their jobs keep the heads they stood for, so the added people stand for no job and never become counted job seekers.",
+    "why": "A counted job's heads now stay with its employer through a fill-in (world-counted-weight-release-grows-employer-staff); the jobs engine's counted seekers are read from records, not from the weight a record gains.",
+    "addedBy": "claude/weight-release-heads",
+    "addedAt": "2026-10-24",
+    "replacement": "The jobs engine reads each counted record's working-age people beyond its jobs' heads as counted seekers, with the same chooser as everyone else (pool item world-weight-release-jobless-seek-work).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-fill-in-fractional-sole-job",
+    "kind": "partial-model",
+    "file": "src/core2/modules/residents.ts",
+    "line": 2065,
+    "whatItFakes": "A filled-in record whose job stood for less than one job, at an employer with no other counted job, becomes one full job: that employer gains the difference (under one head).",
+    "why": "A full person holds a whole job, and with no other counted job at the employer there is no record to take the difference back from.",
+    "addedBy": "claude/weight-release-heads",
+    "addedAt": "2026-10-24",
+    "replacement": "The employer's staffing review reads the full job against its staffing need and sheds or keeps it by its own books, as for any job.",
+    "status": "open"
   }
 ]
