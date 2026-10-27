@@ -1237,7 +1237,15 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
+  // The narrator sets the counter up before the clerk speaks (the opening call only).
+  $("talk-lines").replaceChildren(
+    ...(lines.length <= 1
+      ? (value.intro ?? []).map((line) =>
+          el("li", { className: "speech narration", textContent: line.text }),
+        )
+      : []),
+    ...spokenLines(lines, (line) => line.text),
+  );
   renderFilingOverlay(value);
   const choices = value.visit.choices.slice(0, 6);
   const buttons = replies(choices, async (choice) => {

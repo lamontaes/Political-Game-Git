@@ -84620,6 +84620,58 @@
         "move": "blame",
         "key": "news-received"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-come-in-to-file-for-office-name-the-post-looks-up-from-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You come in to file for {office}. {name}, the {post}, looks up from the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["office", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Play-first lane",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-come-in-with-your-forms-name-the-post-is-the-one-behind-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You come in with your forms in a folder. {name}, the {post}, is the one behind the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["post"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Play-first lane",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     }
   ]
 }

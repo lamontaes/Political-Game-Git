@@ -22,7 +22,8 @@ import { backdropFile, stagePeople, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
+import { wordSceneMove, type Fact } from "../english/scene-talk-words";
 
 const PICTURED = new Set(
   manifest.backdrops
@@ -57,6 +58,12 @@ export interface BenchFilingVisit {
   /** What the counter shows once an office is named: its rules and the choices made with the filing. */
   overlay?: FilingOverlay;
   result?: unknown;
+  /**
+   * The narrator's setup before the clerk speaks: who is behind the counter
+   * and what the player came for, worded by the English engine from the
+   * filing-clerk scene's narration and citing the records it stands on.
+   */
+  intro: { text: string; sourceRecordIds: readonly string[] }[];
 }
 
 export interface SeatFacts {
@@ -98,6 +105,67 @@ function overlayFor(
     parties: parties.map((row) => row.name),
     party: parties.find((row) => row.id === tie?.partyId)?.name ?? null,
   };
+}
+
+/**
+ * The narrator's setup at a counter, from the filing-clerk scene's own
+ * narration bank (the director fires the same scene when a filing is made).
+ * The seat is named only when the counter takes one race, so the line never
+ * says a seat the player did not pick.
+ */
+function counterIntro(
+  core: CoreState,
+  playerId: string,
+  clerkId: string,
+  title: string,
+  recordId: string,
+  contests: readonly { id: string; title: string }[],
+): BenchFilingVisit["intro"] {
+  const clerk = core.people.get(clerkId as PersonId)!;
+  const facts: Record<string, Fact> = {
+    name: {
+      text: `${clerk.givenName} ${clerk.familyName}`,
+      sourceRecordIds: [clerkId],
+    },
+    // A title the record capitalizes only at its start ("County clerk") is said
+    // in running text as a common noun; one with proper names stays as written.
+    post: {
+      text: /^\S+( [a-z]+)*$/.test(title)
+        ? `${title.charAt(0).toLowerCase()}${title.slice(1)}`
+        : title,
+      sourceRecordIds: [recordId],
+    },
+  };
+  if (contests.length === 1)
+    facts.office = {
+      text: contests[0]!.title,
+      sourceRecordIds: [contests[0]!.id],
+    };
+  const worded = wordSceneMove({
+    move: {
+      step: "narrate",
+      move: "narrate",
+      role: "narrator",
+      purpose: "filing-clerk",
+      key: "routine",
+    },
+    facts,
+    seed: core.seed,
+    speakerId: clerkId,
+    traits: {},
+    momentKey: `counter:${playerId}:${clerkId}:${recordId}`,
+    said: new Set(),
+  });
+  return worded && "text" in worded
+    ? [
+        {
+          text: worded.text,
+          sourceRecordIds: Object.values(facts).flatMap(
+            (fact) => fact.sourceRecordIds,
+          ),
+        },
+      ]
+    : [];
 }
 
 /** The player walks into the office that takes filings for these contests. */
@@ -161,7 +229,8 @@ export function openBenchFilingVisit(
   );
   if (!contests.length) throw new Error("No open contest files there.");
   // The clerk the contest's filing office records name (none for a state or federal counter).
-  const clerk = filingClerkFor(api, contests[0]!.id)?.personId;
+  const clerkRow = filingClerkFor(api, contests[0]!.id);
+  const clerk = clerkRow?.personId;
   const visit = openFilingVisit(core, playerId, contests, clerk ?? undefined);
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
@@ -184,6 +253,16 @@ export function openBenchFilingVisit(
     visit,
     filedWith,
     place,
+    intro: clerkRow
+      ? counterIntro(
+          core,
+          playerId,
+          clerkRow.personId,
+          clerkRow.title,
+          clerkRow.recordId,
+          contests,
+        )
+      : [],
     backdrop: backdropFile(place, minuteOfDay),
     people: stagePeople(core, place, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
