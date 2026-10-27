@@ -296,6 +296,117 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.56.2
+
+_Released October 27, 2026._
+
+### Added
+
+- **Governments show their last two years' budgets before the start** Every
+  government now has its two earlier years' budgets in the history before day
+  one, estimated from the opening budget by the published growth of federal and
+  of state and local spending, each marked as an estimate with its source.
+
+### Fixed
+
+- **Becoming friends and falling out are scenes again** Spending real time with
+  someone can now turn them into a friend in a scene, and a quarrel that sours
+  the tie plays as an argument. Before, a friendship that grew over many
+  meetings never counted as a change, so these scenes never played.
+
+- **More police now lower the assaults and robberies that arrests follow**
+  Arrests for assault and robbery ignored the violent-crime link that more
+  officers move, so doubling a police line left those arrests unchanged while
+  the crime engine recorded fewer. Arrests now follow the same crime.
+
+### Changed
+
+- **Issues lists every law in force where you live** Politics → Issues now lists
+  every law in force where you live, not only taxes, wages and benefits. Each
+  policy question your state or the nation has a law on, from abortion to rent
+  stabilization, reads Yes or No, with the government whose law it is and the
+  statute it rests on where the research names one. When your city, county or
+  state passes a law, its card shows the new law from the day it takes effect.
+  Dates on Issues are written out in words.
+
+## PRE-ALPHA 0.56.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **Personality moves who answers a pollster and who retells a campaign story by
+  the researched amount** A voter's personality moved their answering a pollster
+  and their retelling a campaign story about four to twenty times too far in
+  every town, because the table of how acts pull on traits had been rebuilt
+  since the weights were set. Both weights are set again from the current table,
+  and a retelling's second-hand share is set from the new average reach.
+
+- **The evening news on opening night names the area whose unemployment rate it
+  gives** The opening night's jobs story gave the metro or state-wide
+  unemployment rate under the town's name ("Philipsburg unemployment at 2.8").
+  It now names the area the rate belongs to (for example "Montana outside the
+  Billings and Missoula areas").
+
+## PRE-ALPHA 0.56.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **A filed candidate's season brings people to the door and the phone** Once
+  you file, the race starts coming to you. Within days someone at home tells you
+  who filed against you. Friends who hear you're running come by to offer a
+  hand, one at a time as each of them learns of it, and a yes puts them on your
+  campaign. When an opponent's mail or ad reaches someone you know, they pass it
+  on. In the last weeks, the town's papers and stations call for an interview,
+  once a week for all who asked, and the debate's host calls about the race's
+  debate. Say yes and you sit for it, or take the stage, on the positions you
+  filed; say no and they go on without you. Scene narration no longer opens by
+  telling you the day or that you're at home, since the screen already shows
+  both.
+
+### Improved
+
+- **Rent, zoning and housing-budget laws now reach tenants through the whole
+  first year** Leases that already exist when a game begins now come up for
+  renewal through the first year, not all in the same month, so a rent
+  stabilization law reaches renters from its first months. When a council lets
+  apartments be built by right, the law records the buildings it brought and the
+  households who move into them. A housing budget a council passes keeps paying
+  rent help to the town's lowest-income renters in later years. Repealing a loan
+  rate cap stops the law from counting interest on loans already written.
+
+### Fixed
+
+- **The desktop build publishes again** The desktop build checks itself again:
+  its title check no longer counts the Continue item's face and label as a
+  description line, so Mac and Windows packages publish.
+
+### Changed
+
+- **People in the wider population now retire, quit and look for work the way
+  people you can click do** Workers who are only counted in the town's
+  population used to retire, quit and start or stop looking for work by a
+  separate summed-up rule, and applied to every opening nearby. They now weigh
+  staying, looking around, leaving and retiring by the same reasons as full
+  people: their age, savings, how their pay compares with the going rate, how
+  long they have held the job, how scarce jobs are, and their temperament. Each
+  applies to the openings worth more to them than waiting. Retirement now comes
+  in the mid-sixties for most workers, with savings deciding who goes first.
+
+## PRE-ALPHA 0.55.4
+
+_Released October 27, 2026._
+
+### Changed
+
+- **When a reporter calls, you can apologize, explain, send a statement or go
+  off the record** A reporter's call about a story on you can now be met with an
+  apology, an explanation or an attack on the story, and any call for comment
+  can be answered with a statement from your office or off the record; the call
+  no longer names a time of day the game doesn't know.
+
 ## PRE-ALPHA 0.55.3
 
 _Released October 27, 2026._
