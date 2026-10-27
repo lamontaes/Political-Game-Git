@@ -527,7 +527,9 @@ document.addEventListener("keydown", (event) => {
 async function renderScene() {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   $("backdrop").src = scene.backdrop.url;
-  drawPeople(scene.people, showPerson);
+  // A person in the room is talked to by clicking them; their name in the talk
+  // box opens their card (owner, Oct 27: the card has no Talk button).
+  drawPeople(scene.people, (p) => talkTo(p.personId));
   me.scene = scene;
   // The look chosen in the creator is the player's own portrait.
   setBust(
@@ -1298,7 +1300,9 @@ $("continue").addEventListener("click", () => {
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
 /** Who you are talking to: their bust, name and what you know of their work. */
+let talkPersonId;
 async function setWho(personId, name) {
+  talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
   $("talk-role").textContent = "";
   const staged = [...(me.scene?.people ?? []), ...(filing?.people ?? [])].find(
@@ -1312,9 +1316,7 @@ async function setWho(personId, name) {
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   if (!staged?.figureUrl) setBust("talk-bust", c.figureUrl);
-  $("talk-role").textContent = [c.work?.title, c.work?.employer, c.relation]
-    .filter(Boolean)
-    .join(" · ");
+  $("talk-role").textContent = c.who ?? "";
 }
 /** The newest lines: yours, dim, then what was said back to you. */
 function spokenLines(lines, speakerOf) {
@@ -2082,18 +2084,25 @@ async function showPerson(person) {
         : []),
     ].filter(Boolean),
   );
-  $("person-talk").textContent = labels.talk;
   for (const button of document.querySelectorAll("[data-person-label]"))
     button.textContent = labels[button.dataset.personLabel];
-  $("person-talk").onclick = () => {
-    closePerson();
-    talkTo(person.personId);
-  };
   show("person", true);
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
 $("person-close").addEventListener("click", closePerson);
+// The name over a talk opens that person's card, by pointer or key.
+$("talk-name").setAttribute("role", "button");
+$("talk-name").tabIndex = 0;
+$("talk-name").addEventListener("click", () => {
+  if (talkPersonId && talkPersonId !== me?.id)
+    showPerson({ personId: talkPersonId });
+});
+$("talk-name").addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  $("talk-name").click();
+});
 pageWhenChanged($("person-facts"), $("person-pager"));
 window.addEventListener("resize", () => {
   if (!$("person").hidden) pageIn($("person-facts"), $("person-pager"));
@@ -2108,7 +2117,7 @@ async function visit(organizationId) {
   );
   me.names = { ...me.names, ...v.names };
   $("backdrop").src = v.backdrop.url;
-  drawPeople(v.people, showPerson);
+  drawPeople(v.people, (p) => talkTo(p.personId));
   $("card-place").textContent = v.name;
 }
 
