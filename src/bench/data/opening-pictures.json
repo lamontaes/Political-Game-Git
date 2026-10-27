@@ -33,19 +33,23 @@
         "jobless",
         "unemployment-up"
       ],
-      "places": ["unemployment-office", "workforce-center"]
+      "places": ["unemployment-office", "workforce-center"],
+      "cast": "jobless"
     },
     {
       "facts": ["jobs-up", "jobs-added", "factory-jobs-up"],
-      "places": ["factory-floor", "construction-site"]
+      "places": ["factory-floor", "construction-site"],
+      "cast": "workers"
     },
     {
       "facts": ["wages-up", "wage-growth"],
-      "places": ["factory-floor", "workforce-center"]
+      "places": ["factory-floor", "workforce-center"],
+      "cast": "workers"
     },
     {
       "facts": ["gas-down"],
-      "places": ["gas-station"]
+      "places": ["gas-station"],
+      "cast": "workers"
     },
     {
       "facts": [
@@ -56,15 +60,18 @@
         "prices-up",
         "prices-down"
       ],
-      "places": ["grocery-store", "general-store"]
+      "places": ["grocery-store", "general-store"],
+      "cast": "workers"
     },
     {
       "facts": ["growth-up", "growth-high", "growth-rate", "mortgage-rate"],
-      "places": ["main-street", "downtown-sidewalk"]
+      "places": ["main-street", "downtown-sidewalk"],
+      "cast": "workers"
     },
     {
       "facts": ["crime-down"],
-      "places": ["police-station"]
+      "places": ["police-station"],
+      "cast": "workers"
     },
     {
       "facts": ["deficit-down", "deficit-cut", "national-debt"],
