@@ -15,6 +15,7 @@ import {
   PARTIES_MODULE_ID,
   partyMeetings,
   type PartyRow,
+  type TieRow,
 } from "./parties";
 import type { CoreAPI, CoreState } from "../types";
 
@@ -56,15 +57,24 @@ beforeAll(() => {
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
 
-/** The lean toward joining of each full person tied to a party, split by whether they joined it. */
+/**
+ * The lean toward joining of each full person tied to a party, split by
+ * whether they joined it. Only ties the engine weighed joining for count: a
+ * tie made by joining as an act (`joinParty`, as an official does filing
+ * under the label) records "joined" and weighs nothing, and in Ambrose, North
+ * Dakota (seed 49dd8d7d2a283af3d5a18e0906dd54d5f3f4289f:parties:1) five such
+ * officials, leaning 0.08 to 1.00 toward joining, held no membership.
+ */
 function tiedChoices(
   core: CoreState,
   api: CoreAPI,
 ): { joined: number[]; notJoined: number[] } {
-  const ties = api
-    .moduleState(PARTIES_MODULE_ID)
-    .table("ties")
-    .rows() as unknown as { personId: string; partyId: string | null }[];
+  const ties = (
+    api
+      .moduleState(PARTIES_MODULE_ID)
+      .table("ties")
+      .rows() as unknown as TieRow[]
+  ).filter((tie) => !tie.reason.startsWith("joined"));
   const organizationOf = new Map(
     (
       api
