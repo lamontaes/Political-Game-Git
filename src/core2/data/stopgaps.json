@@ -2388,7 +2388,7 @@
     "kind": "estimated-calibration",
     "file": "src/core2/data/health.json",
     "line": 15,
-    "whatItFakes": "One base-rate scale (0.106) for every place, solved from two generated towns so expected yearly deaths match the SSA 2023 life table; the chronic-condition weights were calibrated for the old shared threshold and are not refit.",
+    "whatItFakes": "One base-rate scale (0.097, refit Oct 27, 2026 over twenty-four generated towns: 450 deaths against 446.0 expected) for every place; the chronic-condition weights were calibrated for the old shared threshold and are not refit, and single towns range from 0.3 to 1.9 of the table's count.",
     "why": "The owner replaced the shared threshold with personal resilience lines; totals must stay on the life table and a full recalibration of the condition pack has not been done.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
@@ -7133,6 +7133,18 @@
     "addedBy": "play-first lane agent 4",
     "addedAt": "2026-10-27",
     "replacement": "The inauguration record carries its venue, and the Capitol steps picture gets a podium spot; the setting reads the record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-pay-growth-by-performance",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1291,
+    "whatItFakes": "A worker's pay is the rate their job was posted at, so temperament changes earnings only through who is hired first and who is let go last; nobody's pay grows with their tenure or how they work.",
+    "why": "Real pay grows with tenure and performance (Gensowski 2018: about 16.7 percent of lifetime earnings per standard deviation of conscientiousness). The owner ruled on Oct 24 that it is built, not asked: pay moves with tenure and the worker's record at the employer, calibrated from BLS/ECI tenure-wage research, no fixed step (OWNER-DECISIONS.md, Oct 24).",
+    "addedBy": "claude/traits-outcome-job-performance",
+    "addedAt": "2026-10-24",
+    "replacement": "Pay growth by tenure and the worker's record, built by owner-pay-growth-by-performance; this row resolves when it lands.",
     "status": "open"
   }
 ]

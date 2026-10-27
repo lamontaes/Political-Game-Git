@@ -111,6 +111,8 @@ export interface GovernmentRow {
   readonly organizationId: string;
   readonly fiscalYearStart: string;
   readonly residents: number;
+  /** A county-level government of a town with no city or township government of its own: it carries the whole local share of every function. */
+  readonly carriesWholeLocal?: boolean;
 }
 
 export interface BudgetRow {
@@ -583,7 +585,7 @@ function budgetFor(
     const county = gov.level === "county";
     for (const [k, v] of Object.entries(place.local.spending)) {
       const share = countyShare(stateKey, k);
-      const mine = county ? share : 1 - share;
+      const mine = county ? (gov.carriesWholeLocal ? 1 : share) : 1 - share;
       if (mine > 0) spending[k] = minor(v * mine, gov.residents, factor);
     }
     const share =
@@ -672,6 +674,14 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       residents: residentsOfPlace(place),
     }),
   ];
+  const geoid = chain.levels[chain.levels.length - 1]!.jurisdiction.slice(
+    "place:".length,
+  );
+  // The town's own government: its city or village, or where the place has
+  // none, the township that governs it.
+  // (the same units the town's offices are seated for).
+  const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+  const city = local.municipal[0] ?? local.townships[0];
   const county = chain.countyGeoids[0];
   const countyUnit = county ? countyGovernmentUnit(county) : null;
   if (countyUnit)
@@ -688,17 +698,12 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             bases.countyPopulation2024[county!] ?? townResidents,
           ),
           residents: bases.countyPopulation2024[county!] ?? townResidents,
+          ...(city ? {} : { carriesWholeLocal: true }),
         },
         countyUnit.id,
       ),
     );
-  const geoid = chain.levels[chain.levels.length - 1]!.jurisdiction.slice(
-    "place:".length,
-  );
-  // The town's own government: its city or village, or where the place has
-  // none, the township that governs it.
-  // (the same units the town's offices are seated for).
-  const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+
   // A municipio (Puerto Rico) is its own government and the employer of the
   // town's police, schools and offices, though the law chain holds no county
   // for it: its treasury is the county-level government of the town.
@@ -717,11 +722,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             townResidents,
           ),
           residents: townResidents,
+          ...(city ? {} : { carriesWholeLocal: true }),
         },
         municipio.id,
       ),
     );
-  const city = local.municipal[0] ?? local.townships[0];
   if (city)
     govs.push(
       government(
