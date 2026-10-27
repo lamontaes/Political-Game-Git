@@ -55,7 +55,7 @@ import {
 } from "./legislature";
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";
 import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
@@ -124,8 +124,10 @@ export const EXECUTIVE_MODULE: CoreModule = {
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(EXECUTIVE_MODULE_ID).table(name);
+// Age by the birthday, not the year: a resident born in February 2007 is 17
+// in January 2025, and not yet one of the town's adults.
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) - Number(p.birthDate.slice(0, 4));
+  ageOnDate(p.birthDate, date);
 
 /** The town's form of government, read from who holds office there. */
 export function townForm(

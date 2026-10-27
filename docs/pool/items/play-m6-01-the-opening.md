@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-76ksvw
-pr: #5180
+pr:
 blocked-on:
 milestone: M6
 source: "docs/roadmap/later-specs-draft.md M6-01"
@@ -22,4 +22,4 @@ claimed-at: 2026-10-20T01:20:04.239Z
 
 **Files.** see spec
 
-**Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+**Notes.** Priority 3 until scheduled. Verify how much is built before starting. Released from idle draft #5180 by the CTO, Oct 26.

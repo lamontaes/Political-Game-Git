@@ -10,6 +10,8 @@ description: >
 
 # Session start: the pool worker loop
 
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** An item without a time box and a measurable done-when goes back to its writer, not built. Before any owner question or `owner-decision` stopgap, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/` for your area, `docs/play-first/LAW.md`, and search `docs/` for the subject; end the question with the reading line. Research first is allowed and expected. Every stopgap you register has its id as a marker in the code it fakes.
+
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: play first; the lane owns `src/bench`; "simulate it, don't ask"; "sessions never message each other")
 
 Copy this checklist and keep it current:
@@ -40,7 +42,7 @@ Copy this checklist and keep it current:
 3. An L item: split it into S or M items with their own done-when before building, and mark the L item `blocked-on` them.
 4. Copy every line of the item's **Done when** into a scratch list before writing code. Each line is a thing you will show, not a thing you will describe. Read every function, export and field you plan to use on current `origin/main` first; names change daily, and code written from memory of an older main is the most common unverified assumption.
 5. Branch from `origin/main` and build to the done-when. Prove it in a played world (`played-world-proof`), in a place drawn from all 56, naming place, seed and record ids.
-6. Register every shortcut as a stopgap. **Simulate it, don't ask** (owner, Oct 24): a mechanic real life has that the simulation needs is built from research in the background, calibrated not hardcoded; only a design call about the player's own experience is an owner question. For that, register an `owner-decision` stopgap and ask under **OWNER DECISIONS NEEDED**. Add a pool item for anything you find that isn't yours, with `lead:` set to the role that owns it; a `src/bench` change is the play-first lane's.
+6. Register every shortcut as a stopgap. **Simulate it, don't ask** (owner, Oct 24): a mechanic real life has that the simulation needs is built from research in the background, calibrated not hardcoded; only a design call about the player's own experience is an owner question. For that, register an `owner-decision` stopgap and ask under **OWNER DECISIONS NEEDED**. Add a pool item for anything you find that isn't yours, with `lead:` set to the role that owns it, after searching for an existing one first (`grep -ril "<key words>" docs/pool/items`; add your evidence to a match's Notes instead of a twin); a `src/bench` change is the play-first lane's.
 
 ## Self-check before the PR
 

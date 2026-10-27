@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-7xkkii
-pr: #5196
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:35:12.454Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T22:35:12.454Z
 
 **Files.** src/core2/modules/housing.ts, src/core2/modules/business.ts, src/core2/data/housing/housing.json, src/core2/data/housing/parameters.json, src/core2/data/stopgaps.json, src/core2/housing.test.ts
 
-**Notes.** Oct 19 (claude/landlord-owners, released after reading the code). Spec written, not built: the housing module is over 1,800 lines and the decision touches the business owners table, the payout, the notice, `countedLate` and the parameters `housingNoticeBaseline`, `housingNoticeArrearsWeight` and `housingNoticeLateWeight`, so it deserves a session of its own. Pattern to copy: `credit.ts` review, lines near 451 to 480 (owner id, reasons, `chooseAct`). First check whether `world-business-owner-seam` already gives rentals an owner.
+**Notes.** Oct 19 (claude/landlord-owners, released after reading the code). Spec written, not built: the housing module is over 1,800 lines and the decision touches the business owners table, the payout, the notice, `countedLate` and the parameters `housingNoticeBaseline`, `housingNoticeArrearsWeight` and `housingNoticeLateWeight`, so it deserves a session of its own. Pattern to copy: `credit.ts` review, lines near 451 to 480 (owner id, reasons, `chooseAct`). First check whether `world-business-owner-seam` already gives rentals an owner. Released from idle draft #5196 by the CTO, Oct 26.

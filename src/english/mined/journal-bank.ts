@@ -52,6 +52,26 @@ function resultStages(text: string): string[] | undefined {
   return undefined;
 }
 
+/** How a race was decided, as the result record's totals show it. */
+export const RACE_MARGINS = ["close", "wide", "middle", "alone"] as const;
+
+/**
+ * One's own race, said by result and by margin ("won:close"): a line that
+ * claims a close race ("It was very close.") or a wide one ("It wasn't
+ * close.") fits only the margin it claims; a line that claims none fits any.
+ */
+function ownRaceStages(text: string): string[] {
+  const results = resultStages(text) ?? ["won", "lost"];
+  const margins = /\b(?:wasn't|was not|not) close\b|\blandslide\b/i.test(text)
+    ? ["wide"]
+    : /\bclose\b/i.test(text)
+      ? ["close"]
+      : [...RACE_MARGINS];
+  return results.flatMap((result) =>
+    margins.map((margin) => `${result}:${margin}`),
+  );
+}
+
 /** A mined sentence in the first person plural, told when the event names a group. */
 const plural = (text: string) => /^We\b/.test(text);
 
@@ -137,10 +157,11 @@ export function journalDataFromBank(
             return stages ? { ...variant, stages } : variant;
           })
         : mined(from, "otherLine");
+      // One's own race is told by how it went and by its margin.
       const ownLine = row.hasOwnLine
         ? (fields.get(`${from}|ownLine`) ?? []).map((variant) => {
-            const stages = resultStages(variant.text);
-            return stages ? { ...variant, stages } : variant;
+            const stages = ownRaceStages(variant.text);
+            return { ...variant, stages };
           })
         : undefined;
       const repeat = mined(from, "repeatLine");

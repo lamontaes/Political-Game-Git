@@ -116,6 +116,7 @@ import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
+import { spacedSiblingBirths } from "./sibling-births";
 import { openingTemperaments } from "./opening-personality";
 import { PARAMETERS, parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -595,7 +596,31 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   );
   // P15: members are aged from the place's records by household type, and
   // some housemates are a parent and grown child (opening-partnership.ts).
+  // Then the household's children, minor and grown, are born months apart.
   const drawHousehold = (index: number, shape?: HouseholdShape) =>
+    spaceSiblings(drawAged(index, shape));
+  const spaceSiblings = (drawn: ReturnType<typeof drawAged>) => {
+    const siblings = drawn.skeleton.members.flatMap((member, n) =>
+      member.role === "child" || drawn.grownChildren.includes(n) ? [n] : [],
+    );
+    if (siblings.length < p("two")) return drawn;
+    const births = spacedSiblingBirths(
+      startedAt,
+      siblings.map((n) => drawn.people[n]!.birthDate),
+    );
+    const people = [...drawn.people];
+    const members = [...drawn.skeleton.members];
+    siblings.forEach((n, i) => {
+      if (births[i] === people[n]!.birthDate) return;
+      people[n] = { ...people[n]!, birthDate: births[i]! };
+      members[n] = {
+        ...members[n]!,
+        age: ageOnDate(makeIsoDate(births[i]!), startedAt),
+      };
+    });
+    return { ...drawn, people, skeleton: { ...drawn.skeleton, members } };
+  };
+  const drawAged = (index: number, shape?: HouseholdShape) =>
     partnerAgedHousehold({
       seed: options.seed,
       geo: partnershipGeo(corePlaceByJurisdictionId(town)?.sourceGeoid),
