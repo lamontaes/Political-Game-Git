@@ -31,7 +31,7 @@ const PICTURED = new Set(
 );
 
 /** The picture for the office that takes a contest's filings. */
-function officePlace(filedWith: string): string {
+export function officePlace(filedWith: string): string {
   const name = filedWith.toLowerCase();
   for (const row of scenePlaces.filingOffices)
     if (!row.match || new RegExp(row.match).test(name)) {

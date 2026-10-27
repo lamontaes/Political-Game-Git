@@ -56,17 +56,6 @@ export interface WorkSpansOnDateV1 {
   readonly owners: readonly WorkSpanOwnerV1[];
   readonly totalPlannedMinutes: number;
 }
-export interface WorkBoundaryV1 {
-  readonly version: "core2-work-spans-v1";
-  readonly at: WorkMomentV1;
-  readonly reasons: readonly Readonly<{
-    boundary: "start" | "end";
-    owner: WorkSpanOwnerV1;
-    span: WorkSpanV1;
-  }>[];
-  readonly parameters: Readonly<Record<string, Parameter>>;
-  readonly asOf: string;
-}
 
 const version = "core2-work-spans-v1" as const;
 const prototypeWitness = Symbol("work-span-owned-data-prototype");
@@ -162,13 +151,6 @@ function availableSource(source: Source, at: string): void {
 }
 const remainder = (n: number, period: number) =>
   ((n % period) + period) % period;
-function compare(a: WorkMomentV1, b: WorkMomentV1): number {
-  return a.date < b.date
-    ? -1
-    : a.date > b.date
-      ? 1
-      : a.minuteOfDay - b.minuteOfDay;
-}
 
 /** One guard for request, relevant person index, actual owners, parameters and residue. */
 class SpanRead {
@@ -337,21 +319,6 @@ class SpanRead {
         throw new Error("Periodic job slots overlap.");
     }
   }
-  moment(raw: WorkMomentV1): WorkMomentV1 {
-    const value = copy(this.r, raw),
-      at = date(value.date);
-    if (
-      !Number.isFinite(value.minuteOfDay) ||
-      value.minuteOfDay < this.zero ||
-      value.minuteOfDay >= this.day
-    )
-      throw new Error("Work span civil minute is malformed.");
-    if (at < this.asOf)
-      throw new Error(
-        "Work spans are current/future terms, not a historical reconstruction.",
-      );
-    return Object.freeze({ date: at, minuteOfDay: value.minuteOfDay });
-  }
   eligible(
     owner: Omit<WorkSpanOwnerV1, "spans" | "plannedMinutes">,
     at: string,
@@ -512,130 +479,4 @@ export function workSpansOnDateV1(
     });
   r.verify(); // Original request/actual owning reads LAST, after detached immutable projection.
   return result;
-}
-
-/** Bounded selected-person slots: recurrence jumps, no date/world/history expansion. */
-export function earliestWorkBoundaryV1(
-  api: CoreAPI,
-  request: Readonly<{
-    controlledPersonId: string;
-    from: WorkMomentV1;
-    through: WorkMomentV1;
-    /** Only root-owned acknowledgments at the exact current frontier, never client advance options. */
-    acknowledgedBoundaryIds?: readonly string[];
-  }>,
-): WorkBoundaryV1 | undefined {
-  const r = new FinanceReadGuard(),
-    query = copy(r, request),
-    personId = text(query.controlledPersonId),
-    read = new SpanRead(api, personId, r),
-    from = read.moment(query.from),
-    through = read.moment(query.through),
-    acknowledged = new Set((query.acknowledgedBoundaryIds ?? []).map(text));
-  if (compare(through, from) < read.zero)
-    throw new Error("Work boundary window is reversed.");
-  let earliest: WorkMomentV1 | undefined;
-  const ties: {
-    boundary: "start" | "end";
-    owner: Omit<WorkSpanOwnerV1, "spans" | "plannedMinutes">;
-    at: string;
-    slotIndex: number;
-    shift: number;
-  }[] = [];
-  for (const owner of read.rows) {
-    const row = owner.commitment;
-    for (let index = read.zero; index < row.slots.length; index += read.one)
-      for (const shift of [read.zero, read.one])
-        for (const boundary of ["start", "end"] as const) {
-          // Include yesterday's segment only for an exact midnight end boundary today.
-          const slot = row.slots[index]!,
-            same = Math.min(slot.minutes, read.day - slot.startMinute),
-            minutes = shift === read.zero ? same : slot.minutes - same;
-          if (minutes <= read.zero) continue;
-          const start = shift === read.zero ? slot.startMinute : read.zero,
-            minute = boundary === "start" ? start : start + minutes,
-            midnightEnd = minute === read.day ? read.one : read.zero,
-            firstOrigin = addDays(makeIsoDate(row.startsAt), shift),
-            windowDate = addDays(makeIsoDate(from.date), -midnightEnd),
-            lower = windowDate > firstOrigin ? windowDate : firstOrigin,
-            jump = remainder(
-              slot.offsetDays + shift - daysBetweenText(row.anchorDate, lower),
-              row.periodDays,
-            );
-          let at = addDays(makeIsoDate(lower), jump),
-            moment = Object.freeze({
-              date: addDays(makeIsoDate(at), midnightEnd),
-              minuteOfDay: midnightEnd ? read.zero : minute,
-            });
-          const boundaryId = JSON.stringify([
-            row.id,
-            index,
-            addDays(makeIsoDate(at), -shift),
-            boundary,
-          ]);
-          if (
-            compare(moment, from) < read.zero ||
-            (compare(moment, from) === read.zero &&
-              acknowledged.has(boundaryId))
-          ) {
-            at = addDays(makeIsoDate(at), row.periodDays);
-            moment = Object.freeze({
-              date: addDays(makeIsoDate(at), midnightEnd),
-              minuteOfDay: midnightEnd ? read.zero : minute,
-            });
-          }
-          if (!read.eligible(owner, at) || compare(moment, through) > read.zero)
-            continue;
-          if (!earliest || compare(moment, earliest) < read.zero) {
-            earliest = moment;
-            ties.length = read.zero;
-          }
-          if (compare(moment, earliest) === read.zero)
-            ties.push({ boundary, owner, at, slotIndex: index, shift });
-        }
-  }
-  const projected = new Map<string, Map<string, WorkSpanOwnerV1>>(),
-    reasons = ties.map((tie) => {
-      const id = tie.owner.commitment.id,
-        dates = projected.get(id) ?? new Map<string, WorkSpanOwnerV1>();
-      let owner = dates.get(tie.at);
-      if (!owner) {
-        owner = read.onDate(tie.owner, tie.at);
-        dates.set(tie.at, owner);
-        projected.set(id, dates);
-      }
-      const span = owner.spans.find(
-        (value) =>
-          value.slotIndex === tie.slotIndex &&
-          value.originDate === addDays(makeIsoDate(tie.at), -tie.shift),
-      );
-      if (!span)
-        throw new Error(
-          "Work boundary lacks its actual dated duration evidence.",
-        );
-      return Object.freeze({ boundary: tie.boundary, owner, span });
-    });
-  const result = earliest
-    ? Object.freeze({
-        version,
-        at: earliest,
-        reasons: Object.freeze(reasons),
-        parameters: read.parameters,
-        asOf: read.asOf,
-      })
-    : undefined;
-  r.verify(); // Original request/owning reads LAST; no chooser/provider/module hook invocation.
-  return result;
-}
-
-/** A dated owning boundary identity; no guessed timestamp or duration authority. */
-export function workBoundaryIdV1(
-  reason: WorkBoundaryV1["reasons"][number],
-): string {
-  return JSON.stringify([
-    reason.span.commitmentId,
-    reason.span.slotIndex,
-    reason.span.originDate,
-    reason.boundary,
-  ]);
 }
