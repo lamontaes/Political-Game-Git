@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/floor-ended-job
 pr: #6122
 blocked-on:

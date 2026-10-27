@@ -28,6 +28,8 @@ import { countedHousingInArrears, countedPayment } from "../counted-money";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
+import { formerHome } from "../housing-former-home";
+import type { ModuleRow } from "../module-data";
 import { bankYes, lendMortgage, monthlyIncome } from "./credit";
 import { chooseAct } from "../choice";
 import { CREDIT_PARAMETERS } from "./credit";
@@ -309,8 +311,20 @@ function townOf(input: CoreInput): Town | undefined {
       : [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   const usps = place?.stateJurisdictionKey?.slice("US-".length);
   if (!placeId || !usps) return undefined;
-  // A place no county table covers (the island areas) uses the nation's figures, estimated.
-  return { geoid, county: county || `${NATION}:${usps}`, usps, placeId };
+  // A place the county shares leave out reads its state's counties as a
+  // whole (the state's FIPS code with county 000: no county has that code,
+  // so the county fallbacks give the state's household-weighted figures);
+  // a place in no state the county tables cover (the island areas) uses its
+  // own island area's row, else the nation's figures, estimated.
+  const state = geoid.slice(0, 2);
+  const wholeState =
+    geoid.length >= 2 && STATE_TENURE.has(state) ? `${state}000` : undefined;
+  return {
+    geoid,
+    county: county || wholeState || `${NATION}:${usps}`,
+    usps,
+    placeId,
+  };
 }
 
 const UNITS = housingData.unitsInStructure as unknown as {
@@ -1949,18 +1963,21 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
     });
   store(api)
     .table("dwellings")
-    .put({
-      id: `dwelling:${row.householdId}`,
-      householdId: row.householdId,
-      tenure: "removed",
-      kind:
-        (
-          store(api).table("dwellings").get(`dwelling:${row.householdId}`) as
-            { kind?: string } | undefined
-        )?.kind ?? "house",
-      since: c.date,
-      basis: "eviction",
-    });
+    .put(
+      formerHome(
+        store(api)
+          .table("dwellings")
+          .get(`dwelling:${row.householdId}`) as Parameters<
+          typeof formerHome
+        >[0],
+        {
+          householdId: row.householdId,
+          tenure: "removed",
+          basis: "eviction",
+          date: c.date,
+        },
+      ) as unknown as ModuleRow,
+    );
   const household = c.households.get(row.householdId);
   api.emit({
     id: `event:housing.eviction:${caseId}`,

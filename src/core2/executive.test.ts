@@ -26,7 +26,7 @@ import {
 import { ageOnDate } from "./kernel/dates";
 import {
   appoint,
-  experienceFromAge,
+  appointmentQualification,
   appointmentsIn,
   headCandidates,
   issueOrder,
@@ -288,24 +288,35 @@ describe("the executive's desk", () => {
       ).toBeGreaterThanOrEqual(18);
   }, 300_000);
 
-  it("appointment qualification rises smoothly with adult years, so a young adult is eligible but rarely preferred", () => {
-    const date = "2026-06-01";
-    const born = (age: number) => ({ birthDate: `${2026 - age}-01-01` });
-    let previous = experienceFromAge(born(18), date);
-    expect(previous).toBe(0);
+  it("appointment qualification rises smoothly with recorded related work, other work and schooling, never with age alone", () => {
+    const person = { traits: {} } as never;
+    const score = (
+      relatedYears: number,
+      workYears: number,
+      schooling?: string,
+    ) =>
+      appointmentQualification(person, {
+        relatedYears,
+        workYears: Math.max(workYears, relatedYears),
+        schooling,
+        recordIds: [],
+      });
+    // No record at all: the base, whatever the person's age.
+    const none = score(0, 0, "no-college");
+    let previous = none;
     let biggestStep = 0;
-    for (let age = 19; age <= 90; age += 1) {
-      const now = experienceFromAge(born(age), date);
+    for (let years = 1; years <= 40; years += 1) {
+      const now = score(years, years, "no-college");
       expect(now).toBeGreaterThan(previous);
       biggestStep = Math.max(biggestStep, now - previous);
       previous = now;
     }
-    // No jump at 25 or anywhere else: the largest one-year gain is small.
-    expect(biggestStep).toBeLessThan(0.02);
-    // A 22-year-old counts (more than zero) but trails a 45-year-old.
-    expect(experienceFromAge(born(22), date)).toBeGreaterThan(0);
-    expect(experienceFromAge(born(22), date)).toBeLessThan(
-      experienceFromAge(born(45), date),
-    );
+    // A sliding scale: no year of work switches the score on.
+    expect(biggestStep).toBeLessThan(0.1);
+    // Years in the field count for more than the same years elsewhere.
+    expect(score(5, 5)).toBeGreaterThan(score(0, 5));
+    // A degree counts for more than some college, which counts for more than none.
+    expect(score(0, 0, "college")).toBeGreaterThan(score(0, 0, "some-college"));
+    expect(score(0, 0, "some-college")).toBeGreaterThan(none);
   });
 });

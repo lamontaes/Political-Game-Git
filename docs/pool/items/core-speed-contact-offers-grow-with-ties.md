@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/speed-score-offers-per-kind
 pr: #6133
 blocked-on:

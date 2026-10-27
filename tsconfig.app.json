@@ -18,14 +18,10 @@
     "allowArbitraryExtensions": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
     "types": ["vite/client"]
   },
   "files": [
     "data/research/laws/starting-law-2026/index.ts",
-    "src/source/domains/census-voting-registration/types.ts",
-    "src/source/core/value.ts",
-    "src/source/core/errors.ts",
     "scripts/core2-year/place.ts"
   ],
   "include": ["src"],
@@ -33,7 +29,6 @@
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
     "src/cli",
-    "src/persistence",
-    "src/source"
+    "src/persistence"
   ]
 }

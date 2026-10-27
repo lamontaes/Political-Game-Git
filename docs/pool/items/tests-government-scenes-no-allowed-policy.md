@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/gov-scenes-no-policy
 pr: #6142
 blocked-on:

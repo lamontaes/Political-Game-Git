@@ -36,7 +36,7 @@ import { countedPersonOf } from "./counted-actor";
 import { appraiseEvent } from "./emotion";
 import { parameter, parameterValues } from "./parameters";
 import { initialPersonState } from "./person-state";
-import { decisionLean, hardshipReason } from "./trait-decisions";
+import { hardshipReason, leanedYesWithTerm } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
 import { countedPayment } from "./counted-money";
 import type {
@@ -225,20 +225,18 @@ export function filingDecision(
 ) {
   const c = api.state as CoreState;
   const baseline = api.parameter("benefitsFileBase");
-  const lean = decisionLean(
+  const hardship = hardshipReason(c, feeling, "jobs-benefits.file-claim");
+  // The stress is one more reason in the case; the trait term is the lean
+  // toward filing over skipping at the decision's calibrated weight.
+  const { yes, term } = leanedYesWithTerm(
     c,
     filer,
     "jobs-benefits.file-claim",
     "file",
     "skip",
+    baseline + hardship.term,
   );
-  const hardship = hardshipReason(c, feeling, "jobs-benefits.file-claim");
-  return {
-    files: baseline + hardship.term + lean > api.parameter("zero"),
-    baseline,
-    lean,
-    hardship,
-  };
+  return { files: yes, baseline, lean: term, hardship };
 }
 
 /**

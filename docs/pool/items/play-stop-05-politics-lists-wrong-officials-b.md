@@ -29,4 +29,4 @@ milestone: play-first
 
 **Files.** src/bench/government.ts, src/core2/modules/offices.ts, src/bench/play.mjs
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-05-politics-lists-wrong-officials (Oct 24, lane). Engine changes in offices.ts are the laws lead's (`needs-from: laws`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-05-politics-lists-wrong-officials (Oct 24, lane). Engine changes in offices.ts are the laws lead's (`needs-from: laws`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Council terms Tammy May 2016-2028 (12 years) and George Williamson 2014-2026; the mayor (Brian Duncan) only on page 2; no party per member.

@@ -21,7 +21,13 @@ import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
-import { decisionLean, leanedYes } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedScore,
+  leanedYes,
+  reportOutcome,
+} from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -32,7 +38,12 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
-import { countedResidents } from "../electorate";
+import {
+  countedResidents,
+  countedResidentsOf,
+  engagementOf,
+  NATIONAL_ENGAGEMENT,
+} from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -72,7 +83,7 @@ import {
   STAFF_ROLES,
   type StaffRow,
 } from "../press-staff";
-import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
+import { countedLean, stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts, residentsRuntime } from "./residents";
 import { openingEmployerCashBufferPrior } from "../opening-capital";
 import { employerTaxShareOfWage } from "./employer-taxes";
@@ -84,7 +95,7 @@ import {
   payWiderAudience,
   type OutletMoneyDeps,
 } from "../press-money";
-import { countedHeadsOf, countedJobsOf } from "../residents-economy";
+import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import {
@@ -351,7 +362,7 @@ function outletPayrollYearMinor(api: CoreAPI, organizationId: string): number {
     total +=
       job.wageDailyMinor *
       api.parameter("jobsDaysPerYear") *
-      countedHeadsOf(core, job.personId);
+      countedJobHeads(core, job);
   return total;
 }
 
@@ -844,20 +855,40 @@ function scheduleWeek(api: CoreAPI, from: string): void {
   });
 }
 
-/** Every trait's lean toward keeping up with the news over letting it go. */
-const habitScore = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
-  decisionLean(core, p, "press.follow-news", "follow", "skip");
+/**
+ * How much a person keeps up with the news: how closely they follow politics
+ * (their view's engagement, against the nation's) plus every trait's lean
+ * toward keeping up over letting it go, at the decision's weight.
+ */
+export const habitScore = (p: Readonly<PersonState>, core: CoreState) => {
+  const engaged =
+    (engagementOf(core, p) ?? NATIONAL_ENGAGEMENT) - NATIONAL_ENGAGEMENT;
+  const lean = decisionLean(core, p, "press.follow-news", "follow", "skip");
+  const term = decisionTraitWeight(core, "press.follow-news") * lean;
+  // The audit's probe (off in play) sees the habit with and without the trait term.
+  reportOutcome("press.follow-news", p.id, lean, "size", (withTerm) =>
+    withTerm ? engaged + term : engaged,
+  );
+  return engaged + term;
+};
 
 const followCache = new WeakMap<
   object,
   { date: string; map: Map<string, readonly string[]> }
 >();
 
-/** Each adult's habit, once per rebuild, not once per sort comparison. */
-function habitOf(api: CoreAPI, scores: Map<string, number>, p: PersonState) {
+/**
+ * Each adult's habit, worked out once and kept: a person's engagement and
+ * traits do not change after they are built, and the audiences are rebuilt
+ * every week and sorted by it.
+ */
+const habitScores = new WeakMap<object, Map<string, number>>();
+function habitOf(api: CoreAPI, p: PersonState) {
+  let scores = habitScores.get(api.state);
+  if (!scores) habitScores.set(api.state, (scores = new Map()));
   let score = scores.get(p.id);
   if (score === undefined) {
-    score = habitScore(p, api.state);
+    score = habitScore(p, api.state as CoreState);
     scores.set(p.id, score);
   }
   return score;
@@ -868,11 +899,7 @@ function habitOf(api: CoreAPI, scores: Map<string, number>, p: PersonState) {
  * the share that follows that kind (Pew 2024), its most dutiful and
  * deliberate members first.
  */
-function audienceOfKind(
-  api: CoreAPI,
-  kind: OutletKind,
-  scores: Map<string, number> = new Map(),
-): readonly string[] {
+function audienceOfKind(api: CoreAPI, kind: OutletKind): readonly string[] {
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
   const bands = new Map<Band, PersonState[]>();
@@ -886,7 +913,7 @@ function audienceOfKind(
     list.push(p);
     bands.set(band, list);
   }
-  const habit = (p: PersonState) => habitOf(api, scores, p);
+  const habit = (p: PersonState) => habitOf(api, p);
   const followers: PersonState[] = [];
   const national = NATIONAL.kinds.find((row) => row.kind === kind);
   for (const [band, people] of bands) {
@@ -923,13 +950,12 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
     return cached.map.get(outletId) ?? [];
   const map = new Map<string, readonly string[]>();
   const outlets = outletsHere(api);
-  const scores = new Map<string, number>();
   for (const kind of ALL_KINDS) {
     const own = outlets.filter((o) => o.kind === kind);
     if (!own.length) continue;
     const lists = new Map<string, string[]>(own.map((o) => [o.id, []]));
     const views = api.state.modules.has(VIEWS_MODULE_ID);
-    for (const id of audienceOfKind(api, kind, scores)) {
+    for (const id of audienceOfKind(api, kind)) {
       const lean = leanOf(api, id);
       // Distrust of an outlet (a speech against it they took in) pushes a
       // follower away from it, on the lean scale.
@@ -999,8 +1025,7 @@ function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
   const adults = new Map<Band, number>();
-  for (const voter of countedResidents(api.state as CoreState)) {
-    if (voter.placeId !== town) continue;
+  for (const voter of countedResidentsOf(api.state as CoreState, town)) {
     const age = ageOn(voter, date);
     if (age < 18) continue;
     const band = bandOf(age);
@@ -2005,7 +2030,10 @@ function checkClaim(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 /**
  * How a candidate who isn't the player answers: their platform's position,
  * else where their own view and their party's put them (`candidateStance`),
- * else (no view and no party) they decline.
+ * else (no view and no party) they decline. A candidate who has voted on the
+ * question answers from the vote, or shades the answer toward where the town
+ * stands (`shadesAnswer`); a shaded answer names the vote it contradicts,
+ * which a reporter may check.
  */
 export function candidateAnswers(
   api: CoreAPI,
@@ -2014,17 +2042,103 @@ export function candidateAnswers(
 ): readonly InterviewAnswer[] {
   const { personId, party } = asSpeaker(who);
   const platform = platformOf(api, who);
-  return questions.map((question) => {
+  // An officeholder known only by their record weighs it with no lean.
+  const person = api.state.people.get(personId) ?? { traits: {} };
+  const votes = votesOf(api, personId);
+  const round = (x: number) => Math.round(x * 1000) / 1000;
+  return questions.map((question): InterviewAnswer => {
     const stated = platform.find((s) => s.question === question);
     if (stated) return { question, position: stated.position, move: "plain" };
-    // Their own view blended with their party's; none only with neither.
-    const stance = candidateStance(api, personId, party, question);
-    return {
-      question,
-      position: stance === null ? null : Math.round(stance * 1000) / 1000,
-      move: "plain",
-    };
+    const vote = votes.filter((v) => v.stance.question === question).at(-1);
+    if (!vote) {
+      // Their own view blended with their party's; none only with neither.
+      const stance = candidateStance(api, personId, party, question);
+      return {
+        question,
+        position: stance === null ? null : round(stance),
+        move: "plain",
+      };
+    }
+    const town = townStand(api, question);
+    // The candidate weighs the town's stand against how far towns stand at
+    // the furthest: a town that far reads as half way to an end.
+    const felt = Math.max(
+      -0.5,
+      Math.min(0.5, (town / pressParameter("townStandReach")) * 0.5),
+    );
+    return shadesAnswer(api, person, felt, vote.stance.position)
+      ? { question, position: round(town), move: "lie", recordId: vote.id }
+      : {
+          question,
+          position: round(vote.stance.position),
+          move: "plain",
+          recordId: vote.id,
+        };
   });
+}
+
+/**
+ * Whether a candidate shades an answer about their own vote toward where the
+ * town stands rather than owning the vote: the further apart the two stand
+ * (half the distance, 0 to 1; the town as the candidate weighs it, half way
+ * to an end at the furthest a town stands), the more the vote costs with the
+ * people listening, and their own lean toward bending the truth over owning
+ * it (every trait).
+ */
+export function shadesAnswer(
+  api: CoreAPI,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  town: number,
+  voted: number,
+): boolean {
+  return leanedYes(
+    api.state,
+    person,
+    "press.shade-answer",
+    "shade",
+    "own",
+    pressParameter("shadeBase") +
+      (pressParameter("shadeGapWeight") * Math.abs(town - voted)) / 2,
+  );
+}
+
+const standCache = new WeakMap<
+  object,
+  { key: string; map: Map<string, number> }
+>();
+
+/**
+ * Where the town's adults stand on a question, -1 to 1: the mean of where
+ * each one's lean puts them on its axis (as the press reads an outlet's
+ * readers), each counted record weighed by the people it stands for. Read
+ * once a day, and again after a fill-in.
+ */
+export function townStand(api: CoreAPI, question: string): number {
+  const core = api.state as CoreState;
+  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
+  const held = standCache.get(core);
+  const map = held?.key === key ? held.map : new Map<string, number>();
+  if (held?.key !== key) standCache.set(core, { key, map });
+  const hit = map.get(question);
+  if (hit !== undefined) return hit;
+  const town = lawChain(api).townPlaceId;
+  const views = core.modules.has(VIEWS_MODULE_ID);
+  let sum = 0;
+  let adults = 0;
+  for (const id of core.peopleByPlace.get(town) ?? []) {
+    const p = core.people.get(id);
+    if (!p?.alive || ageOn(p, core.date) < 18) continue;
+    sum += leanOf(api, id) / 2;
+    adults += 1;
+  }
+  for (const voter of countedResidents(core)) {
+    if (voter.placeId !== town || ageOn(voter, core.date) < 18) continue;
+    sum += ((views ? countedLean(api, voter) : 0) / 2) * voter.weight;
+    adults += voter.weight;
+  }
+  const stand = adults ? (sum / adults) * questionAxis(question) : 0;
+  map.set(question, stand);
+  return stand;
 }
 
 /**
@@ -2231,9 +2345,17 @@ function weighTip(
   const tip =
     reporterId === knowerId || input.leak
       ? 1
-      : decisionLean(api.state, knower, "press.tip", "tip", "keep") +
-        closeness(api, knowerId, reporterId) -
-        regard(api, p, knowerId, officialId);
+      : // Taking it to the nearest reporter, weighed against how they regard
+        // the official, with the knower's temperament at its calibrated weight.
+        leanedScore(
+          api.state,
+          knower,
+          "press.tip",
+          "tip",
+          "keep",
+          closeness(api, knowerId, reporterId) -
+            regard(api, p, knowerId, officialId),
+        );
   const row: Record<string, unknown> = {
     id: crimeId,
     crimeId,

@@ -1,0 +1,38 @@
+# Evidence lines to append to existing items' Notes (Playtest Oct 26 sitting 1, v0.34.0 61b5fec, Albion PA, Jackson Knox 35)
+
+Each line starts "Playtest Oct 26 sitting 1 (installed v0.34.0):" when pasted.
+
+- play-stop-01-talk-says-nothing-a: Talk with Kendall Roberts gave only "I'll see you later." and no replies; Leo Roberts only "We'll talk more later." Owner: "what the hell, mark gap, say nothing, leave. This is not ... like what I approved as dialogue." MERGE #6078 (open, green, first in merge order since Oct 25; no merger has taken it).
+- play-stop-01-talk-says-nothing-b: The county board clerk (Laura Pierce) spoke "Can I help you?" with no introduction (OD:345); include the filing counter in the done-when.
+- play-first-15-mark-gap-off-player-screen: Mark gap still in every talk box on v0.34.0 (family talks and the filing counter). Same owner quote as above.
+- play-first-01-start-a-life-first: New game listed CUSTOM WORLD, START A LIFE, NEW WORLD with START A LIFE second; owner: "I've already ruled about custom world, start a life, a new world. It should just say start a life or custom world or something like that." Not in v0.34.0 (#6091 sent back Oct 26 for custom world outside dev mode). Also seen, owner silent: a small "Customize the world" icon top right of the title (OD:215: no customization on the title itself); check it.
+- play-stop-13-start-a-life-or-new-world: Patch notes dimmed on the title with no reason; "Watch the World" still a title entry. Owner: "I don't know why patch notes is grayed out on the main menu."
+- play-first-08-news-box-fades-or-dismisses: News toast (top right) never left; the Journal toast (bottom right, "I ran for Council member.") sat from Jan 22 into May. Owner: "there's no way to get rid of it and it doesn't leave for any reason. Same thing with a journal on the bottom right." Extend the item's done-when to the Journal toast.
+- play-first-09-opening-speech-per-world: #6103 merged before v0.34.0 yet the address is still a stat readout (unemployment 4.1, prices 2.9, wages 4.1) and the lines "I was in Pennsylvania." and "The American people deserve better. God bless you all." state nothing. Owner: "This isn't coming out like a speech. And these scenes are hard-coded in." / "That's not a speech." Cause: the same national figures in every world. Owner on the duty-to-retreat line: "I guess that's some dynamicism."
+- play-opening-address-empty-waiting-room: v0.34.0: the President is only a small portrait, never seen giving the address; cutaway offices (unemployment, grocery, factory) are empty.
+- play-stop-15-family-unexplained: Player Jackson Knox, brother Leo Roberts, parent Kendall Roberts, father Brian; nothing explains the surnames and nobody is introduced. Calendar also lists birthdays of Aditi and Wesley Roberts, never introduced.
+- play-stop-07-every-day-starts-at-midnight-a: Travel plus filing left the clock at Mon 8:30 PM; three hours of door knocking did not move it; every Week landed at 12:00 AM (Wed Jan 22, then Tue Jan 28 after a Week from the 22nd). Owner: "Why does it say it's midnight?" / "it still shows 8:30 p.m."
+- play-stop-07-every-day-starts-at-midnight-b: The county board of elections was open with daylight windows at 8:30 PM; the bedroom was sunlit at midnight; the opening went from night to day in one room.
+- words-day-end-scene-opens-next-midnight: The filing-reaction scene opened Wed Jan 22, 12:00 AM saying "It is a Monday in January."
+- play-stop-02-developer-text-on-play-screens-b and play-screens-codes-and-iso-dates: Politics rows "2018-01-01 – 2026-01-01 · in office at the opening · 2021-11-02 60%", "Republican · Views fit 0.87"; filing panel "FILING DEADLINE 2025-01-20 / 2025-03-11", "AGE 35 / 18", residency line; Campaigns "ON-BALLOT · COUNCIL-1 2025-11-04"; clerk said "on-ballot". Owner: "politics there's more dev language again how does this keep happening" / "I don't even know what the hell that's supposed to mean."
+- words-filing-clerk-line-after-filing: After "Okay, thank you." the clerk said "on-ballot".
+- play-stop-05-politics-lists-wrong-officials-a: Owner: "it obviously doesn't show any of my representatives." They were on page 2 under YOUR MEMBERS, labels hard left and names hard right with no face or party; page 1 was the local council. (#6127 is merged and in v0.34.0.)
+- play-stop-05-politics-lists-wrong-officials-b: Council terms Tammy May 2016-2028 (12 years) and George Williamson 2014-2026; the mayor (Brian Duncan) only on page 2; no party per member.
+- play-first-12-politics-screen-to-mock-a: Owner: "Why is everything being printed on the menu like a spreadsheet? Why is everything not in the UI?" The item waits on 05-b, which waits on 05-a: ungate it.
+- play-first-13-campaign-screen-to-mock-a: Before filing Campaigns is an empty panel; after filing it shows "1 hours", "+13 · −0" and a stray "0" among buttons of different sizes. Owner: "this campaign screens again. It's just jumbled mess. I've given UI, I've given a billion UI samples."
+- play-first-13-campaign-screen-to-mock-b: The tab still lists acts (Knock on doors, Hold an event, Ask for an interview, Call donors, Give a speech) against OD:77.
+- play-first-18-politics-guide: Politics > Campaigns before filing is blank and has no "how to run here".
+- play-first-17-buttons-same-size: The selected Male button grows wider with a gold tab; the campaign act buttons differ in size; the Week button moves between screens.
+- words-journal-household-lines (and reopen play-first-10-journal-from-day-one, marked done): Journal opens "Our family came from Albion, Pennsylvania. I was raised by my parent Kendall. My father Brian lived somewhere else. My brother Leo was born after me." and the first toast is "My brother Leo was born after me." Owner: "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up."
+- play-stop-19-turning-eighteen-and-journal-silent-b: Filing left no journal entry; the toast "I ran for Council member." (past tense) came two days after filing.
+- play-school-names-abbreviated: Who you are lists "Northwestern MS" and "Northwestern El Sch" in Albion; raise priority from 3 to 2.
+- play-menu-shell-oct20: stale claim (in-pr on draft #5180, which is not menu work), size L. Rail and subheadings are split out as play-stop-39 and play-stop-40; set it open for the rest (Options to Esc, old Menu panel).
+- core-speed-campaign-season-kept-whys (and core-speed-year-over-limit-dense-town): Week press took 3 to 5 s before filing and 6 to 10 s after, in Albion (a 1,479-person borough); budget is about 2.3 s per week.
+- play-stop-17-see-through-panels: News and menu panels were see-through at v0.34.0; #6066 merged after the build; re-check on the next build.
+- play-stop-04-filing-panel-runs-off-screen and play-stop-16-identical-council-seat-choices (both done): the panel still ran to the window bottom and the choices still read "(2025, 1)"; the remainder is in play-stop-44 and the owner's check.
+
+# Seen, not filed (owner silent or no ruling)
+
+- Loading screen is a small box "Seating the government" over the title painting; the spec (docs/packages/M6-screens.md line 63: journal writing itself, a year counter with headlines, the map filling in) is far larger. Owner said nothing; CTO decides.
+- The owner's start-date frustration ("the game is just starting at January 20th, 2025"): the Oct 14 mock itself starts Monday January 20, 2025, 8:30 PM, and OD:120 says history does not start on the day you generate in. Ask him whether it is the date or the missing past.
+- English engine "graded lines not merged": they are merged (#5906, #5942, #4626) per the helper; the unmerged one is #6078.

@@ -211,5 +211,17 @@
       "unit": "pull",
       "citation": "The 11% and 25% entry shares of Fisman et al. 2025 read through the tail scales 0.044 to 0.066 of the calibration's 0.1%, 0.5% and 1% tails."
     }
+  },
+  "candidacyPartyAskPull": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Being asked to run by a party official is among the strongest pushes toward running: people recruited by party leaders, officeholders or activists are about twice as likely to consider a candidacy (Lawless and Fox 2010, It Still Takes a Candidate, Cambridge University Press, ch. 5). Pull on running from a party's ask, raised by the asked person's closeness to the chair who asked. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyPartyAskTries": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How many of its members a local party asks in turn, those the most people know first, for a partisan seat it has no one filed for, before it leaves the seat. Spread 1 to 5.",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }
