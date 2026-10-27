@@ -32,7 +32,7 @@ function claimant(
 }
 import type { LawRowInput } from "./laws-starting";
 import { residentFacts, residentsRuntime } from "./modules/residents";
-import { decisionLean } from "./trait-decisions";
+import { leanedYes } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
 import { countedPayment } from "./counted-money";
 import type {
@@ -194,9 +194,14 @@ export function fileClaim(
   const filer = full ?? residentFacts(c, job.personId);
   if (
     filer &&
-    api.parameter("benefitsFileBase") +
-      decisionLean(c, filer, "jobs-benefits.file-claim", "file", "skip") <=
-      api.parameter("zero")
+    !leanedYes(
+      c,
+      filer,
+      "jobs-benefits.file-claim",
+      "file",
+      "skip",
+      api.parameter("benefitsFileBase"),
+    )
   )
     return undefined;
   const payee = full

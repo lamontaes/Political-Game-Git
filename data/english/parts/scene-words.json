@@ -2983,6 +2983,48 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-speech-afterward-other.other-comes-your-way-as-the-room-empties",
+      "move": "lead-speech-afterward-other",
+      "kind": "spoken",
+      "text": "{other} comes your way as the room empties.",
+      "uses": [
+        {
+          "move": "lead-speech-afterward-other",
+          "subject": "lead",
+          "role": "speech-afterward",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-speech-afterward-alone.the-candidate-who-spoke-is-coming-your-way",
+      "move": "lead-speech-afterward-alone",
+      "kind": "spoken",
+      "text": "The candidate who spoke is coming your way.",
+      "uses": [
+        {
+          "move": "lead-speech-afterward-alone",
+          "subject": "lead",
+          "role": "speech-afterward",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
+      "date": "2026-10-26",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
