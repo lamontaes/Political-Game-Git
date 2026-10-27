@@ -11,9 +11,11 @@ import {
   addTalkLine,
   mountTalkKeys,
 } from "./ui/talk-box.mjs";
+import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
+import { townRow } from "./ui/town-row.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -378,24 +380,61 @@ async function playOpening() {
   return opening;
 }
 
-/** That night's news at home: on the table, picked up to read. */
+/**
+ * That night's news at home, as a toast top right: it fades by itself after
+ * controls.opening.newsToastSeconds, goes at once on its close, and the story
+ * stays in News either way.
+ */
+/** A story's headline as every news surface says it: its headline, else its lede, else the newscast's first line. */
+const storyHeadline = (story) =>
+  story.headline ?? story.lede ?? story.broadcast?.[0]?.text ?? "";
+function hideNewsToast() {
+  hideToast($("news-surface"));
+}
 function showNewsSurface(news) {
   const story = news?.stories?.[0];
   if (!story) return;
   $("news-surface-label").textContent = controls.opening?.news ?? "";
-  $("news-surface-headline").textContent =
-    story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
-  $("news-surface").onclick = () => {
+  $("news-surface-headline").textContent = storyHeadline(story);
+  $("news-surface-close").setAttribute(
+    "aria-label",
+    controls.opening?.closeNews ?? "",
+  );
+  $("news-surface-open").onclick = () => {
     coachUsed("news-surface");
+    hideNewsToast();
     openNewsReader(news);
   };
-  // The paper stays on the table for the evening; living on clears it.
-  show("news-surface", true);
+  $("news-surface-close").onclick = () => {
+    coachUsed("news-surface");
+    hideNewsToast();
+  };
+  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8, () =>
+    coachUsed("news-surface"),
+  );
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
-  $("news-reader-headline").textContent =
-    lead.headline ?? lead.lede ?? lead.broadcast[0]?.text ?? "";
+  // The story opens as the paper's front page: its masthead and layout.
+  const outlet = news.outlet ?? {
+    name: controls.news.title,
+    layout: "broadsheet",
+  };
+  $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
+  $("news-reader-date").textContent = new Date(
+    `${me.date}T12:00:00`,
+  ).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  $("news-reader").className = `panel paper paper-${
+    ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
+      ? outlet.layout
+      : "broadsheet"
+  }`;
+  $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
     ...lead.broadcast.map((line) =>
       el("p", { className: "prose", textContent: line.text }),
@@ -409,10 +448,7 @@ function openNewsReader(news) {
     ...rest.map((item) =>
       el("p", {
         className: "prose",
-        textContent:
-          item.headline ??
-          item.lede ??
-          item.broadcast.map((line) => line.text).join(" "),
+        textContent: storyHeadline(item),
       }),
     ),
   );
@@ -632,12 +668,21 @@ function endedBy(value) {
 }
 
 /** The newest line of the journal, bottom right. */
+let shownJournalLine = "";
+$("journal-note-close").addEventListener("click", () =>
+  hideToast($("journal-note")),
+);
 async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
   ).catch(() => []);
   const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
   $("journal-line").textContent = line;
+  // A new line is a toast: it holds, fades and goes, or goes at once on its close.
+  if (!line) hideToast($("journal-note"));
+  else if (line !== shownJournalLine)
+    showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+  shownJournalLine = line;
 }
 async function refresh() {
   await Promise.all([
@@ -1036,7 +1081,7 @@ async function openOfferMoment() {
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
     // Living on puts the evening's paper away and ends the first-choice glow.
-    show("news-surface", false);
+    hideNewsToast();
     coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
@@ -1226,7 +1271,17 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  fillTalk({ lines: spokenLines(lines, (line) => line.text) });
+  // The narrator sets the counter up before the clerk speaks (the opening call only).
+  fillTalk({
+    lines: [
+      ...(lines.length <= 1
+        ? (value.intro ?? []).map((line) =>
+            el("li", { className: "speech narration", textContent: line.text }),
+          )
+        : []),
+      ...spokenLines(lines, (line) => line.text),
+    ],
+  });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
@@ -3630,11 +3685,12 @@ const sheets = {
       api(`/api/opening?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.news;
-    // What you heard, newest first, ahead of the opening night's paper.
+    // One feed: the night's lead story the toast showed first, then what you heard,
+    // newest first. News and the toast read the same stories through storyHeadline.
     const stories = [
-      ...rows.filter((r) => r.headline || r.lede),
       ...(opening?.news?.stories ?? []),
-    ].filter((s) => s.headline || s.lede);
+      ...rows.filter((r) => r.headline || r.lede),
+    ].filter(storyHeadline);
     const outlets = new Map();
     for (const story of stories) {
       const outlet = story.outlet ??
@@ -3829,9 +3885,7 @@ const sheets = {
       paper.className = `paper paper-${layout}`;
       const section = el("div", { className: "paper-stories" });
       outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
-        const headline = button(story.headline ?? story.lede, () =>
-          article(story),
-        );
+        const headline = button(storyHeadline(story), () => article(story));
         headline.className = "story-headline";
         section.append(
           el(
@@ -4768,7 +4822,7 @@ $("front-continue").addEventListener("click", async () => {
   };
   seenChanges = await changeCount();
   show("front", false);
-  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
   if (life.packet) renderPacket(life.packet);
   await refresh();
@@ -5052,23 +5106,17 @@ async function listTowns() {
   const count = new Intl.NumberFormat("en-US");
   const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
-    ...towns.map((t) => {
-      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
-      const b = el(
-        "button",
-        // In the state buttons' font, name and count alike.
-        { type: "button", className: "item town" },
-        el("span", { textContent: t.name }),
-        el("small", {
-          textContent: t.county ? `${t.county}, ${size}` : size,
-        }),
-      );
-      b.addEventListener("click", () => {
-        setup.town = t;
-        void openLook();
-      });
-      return b;
-    }),
+    ...towns.map((t) =>
+      townRow(
+        t,
+        words,
+        (n) => count.format(n),
+        (town) => {
+          setup.town = town;
+          void openLook();
+        },
+      ),
+    ),
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
@@ -5266,7 +5314,7 @@ async function enterAs(life, personId) {
   };
   seenChanges = await changeCount();
   show("front", false);
-  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
   renderPacket(value.packet);
   await refresh();
@@ -5366,7 +5414,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.
-    for (const id of ["rings", "card", "journal-note"]) show(id, true);
+    for (const id of ["rings", "card"]) show(id, true);
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();

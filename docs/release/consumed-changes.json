@@ -1,6 +1,58 @@
 {
   "entries": [
     {
+      "version": "0.52.1",
+      "releasedOn": "2026-10-27",
+      "revision": "c4730847df956a165c0bb8fdc9c3dca49fcbff14",
+      "changeIds": [
+        "director-red-race-lost-and-vote-ask-unbound",
+        "laws-opening-past-fits-the-chosen-age",
+        "tests-record-broken-promise-keeps-reasons"
+      ]
+    },
+    {
+      "version": "0.52.0",
+      "releasedOn": "2026-10-27",
+      "revision": "5c81486befecbc0d51f15ffcbf9f2077725142fc",
+      "changeIds": [
+        "laws-filing-positions-are-the-seats-own-issues",
+        "release-smoke-advanced-new-world",
+        "words-live-news-worded"
+      ]
+    },
+    {
+      "version": "0.51.1",
+      "releasedOn": "2026-10-27",
+      "revision": "fef3b9ce00f946bfc3826dd769b46bd56eff366d",
+      "changeIds": [
+        "cto-opening-root-cause-report",
+        "tests-renewal-player-home-counts-earlier-plans",
+        "traits-exit-poll-reasons"
+      ]
+    },
+    {
+      "version": "0.51.0",
+      "releasedOn": "2026-10-27",
+      "revision": "d0654521e19d18a3c180258fb77f50d23e5abc5c",
+      "changeIds": [
+        "director-conversation-drawn-fixture-lacks-subjects",
+        "housing-state-line-rent-help-whole-state-in-one-town",
+        "play-first-08-news-box-fades-or-dismisses",
+        "words-household-filing-scene-has-a-purpose"
+      ]
+    },
+    {
+      "version": "0.50.0",
+      "releasedOn": "2026-10-27",
+      "revision": "11d3d3b4ccd1ae080ebbb9cc49b82583c0b887ce",
+      "changeIds": [
+        "core-past-laws-no-answer-gets-enactment-date",
+        "play-stop-35-people-drawn-from-their-own-look",
+        "world-census-scale-closures-large-cities",
+        "world-press-amount-law-never-printed"
+      ]
+    },
+    {
       "version": "0.49.0",
       "releasedOn": "2026-10-27",
       "revision": "166e6f8f9008ea25843898e976a1b419ff0feba3",
