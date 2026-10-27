@@ -296,6 +296,190 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.52.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A filing offers the issues that seat's own government decides** When you
+  file for office, the positions you can take are now the issues that seat's own
+  government decides in that place. A town board or council seat no longer lists
+  abortion, carbon pricing or cannabis sales, which only a state can change; it
+  lists the local issues the state lets its places act on. A governor or state
+  legislature seat still lists the issues the state decides. Candidates the
+  world files for state their positions on the same list.
+
+- **The desktop build publishes again** The desktop build checks itself again:
+  its smoke test opens Advanced before New world, where the one dev-mode start
+  moved it, so Mac and Windows packages publish.
+
+### Changed
+
+- **News tells every story the press prints in plain words** Every story your
+  town's papers and stations print during play now shows in News as a headline
+  and a first sentence, under the outlet that printed it: a law taking effect, a
+  bill signed or vetoed, a council vote and its count, a charge or a sentence, a
+  business closing, the month's unemployment, a filing, a debate. None shows as
+  a record name or a row of labeled fields any more. Papers also stop printing
+  the record kept when someone new enters the world.
+
+## PRE-ALPHA 0.51.1
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Who tells the exit pollster depends on why they voted** Voters who follow
+  politics closely and cared about the race now tell the exit pollster more
+  readily, and temperament tips only the close calls. About 45% of voters tell,
+  as real exit polls find; before, a voter's temperament alone decided, so the
+  eager and the private split by personality and nothing else.
+
+## PRE-ALPHA 0.51.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **The talk at home after you file comes from someone with something at stake**
+  After you file for office, someone at home talks to you only if the records
+  give them a stake in the run: the household's savings against how long the
+  race will last, or a young child at home while you work. They open with that
+  in their own words, you answer one of four ways (own it, bring them in, bound
+  it, put it off), and what you say counts: a relative who agrees to help is
+  counted among your campaign's volunteers, and putting it off costs you with
+  them. A household with nothing at stake no longer gets a scene.
+
+### Improved
+
+- **The news and Journal boxes fade or close** The night's news no longer sits
+  over the room from the first evening until you open it. It shows as a toast
+  top right, fades by itself after about eight seconds, and goes at once when
+  you click its close. The story stays in News either way. The Journal line at
+  the bottom right is a toast too: it fades after the same time and closes with
+  its own X.
+
+### Fixed
+
+- **A state's rent help reaches a town only in proportion to its people** When a
+  state raised its housing line, the played town used to receive rent help for
+  the whole state's extra, about a hundred times its share in a small town. The
+  town now gets the part its own residents stand for, and a tenant is helped in
+  part when a full voucher would overshoot that share.
+
+## PRE-ALPHA 0.50.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A law a state never passed no longer has a passage in its past** The world's
+  past no longer records an enactment, a roll call or a signer for a law the
+  research says the place does not have, such as Medicaid expansion in a state
+  that never expanded it.
+
+- **The people in a room look like different people, and look the same each time
+  you meet them** Everyone in a scene is now drawn from their own record: their
+  body, build, outfit, skin tone and clothing color come from who they are, not
+  from what is left over once the others are placed. Two neighbors differ, and a
+  person is drawn the same wherever you see them.
+
+- **Firms in a big city stop overpaying, overhiring and closing** In a city
+  opened at its full Census size, such as Washington, D.C., a few firms used to
+  close within the year. One raised the pay of an unfilled opening far past what
+  it could afford, and another kept hiring for sales its books could not carry.
+  A person who joined the story from the wider population kept bank savings that
+  belonged to many households, and an owner took home the profit of many
+  businesses. Now a raise fits what the month left over, hiring follows the
+  firm's own books, and savings and profit go to the households they belong to.
+  Washington, D.C. at its Census size now closes no more firms in a year than at
+  its sample size.
+
+- **A change to the minimum wage or a tax rate now makes the paper** The press
+  desk used to give a change to a law's amount no reader care, so a wage floor
+  falling from $10.70 to $7.25 lost every week to policy laws and never ran. It
+  now sizes the care by how far the amount in force moved, and the paper runs
+  the change.
+
+## PRE-ALPHA 0.49.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **The creator offers skin tones and clothing colors, and the figure wears them
+  everywhere** Character appearance now has a Skin row of eight tones, light to
+  dark, and a Clothes color row of ten colors. Picking one recolors just that
+  part of the figure at once, Randomize changes both, and the figure in every
+  room wears what was chosen.
+
+### Fixed
+
+- **A bill drafted in a state legislature or Congress after its session opened
+  now reaches the floor** A legislature's weekly floor took up only the bills
+  filed on the session's first day, so a bill drafted later, including the
+  player's, sat drafted until adjournment. The floor now takes up every bill in
+  its chambers after the leader's filings, oldest first, and each one gets a
+  floor date and a whip count the day before its vote.
+
+- **The creator's labels and fields line up, and picking a gender no longer
+  resizes its button** In the character step, every heading and label sits on
+  one left edge and every field, the name boxes and the birthday boxes alike, on
+  one field edge. The chosen gender button keeps its size and shows the brass
+  corner instead of growing.
+
+- **Heads stay in frame, and you and the clerk stand apart at the counter** The
+  President's portrait in the talk box now shows his whole head. In a close-up
+  room such as the bedroom, you are no longer drawn with your head above the top
+  of the picture or cut off at a side. At the clerk's counter the clerk is
+  seated where you do not stand in front of them.
+
+- **A person's card shows where they live and no empty headings** A family
+  member's card now reads "Mother · Age 59" with their home town and a labeled
+  "Last talked" date, plus their work or school when the records give one. The
+  empty FAMILY heading and the unlabeled date are gone.
+
+### Changed
+
+- **New game offers Start a life and Advanced; Advanced builds a world and lets
+  you play as any officeholder in it.** New game now has Start a life and one
+  Advanced entry. Advanced holds the world's seed and settings, builds the world
+  with no questionnaire, and lists everyone who holds an office in it to step in
+  as. The Custom world button and the dead Watch the world button are gone.
+
+## PRE-ALPHA 0.48.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **The opening's cutaways show the town's own people, not empty rooms** When
+  the President names the jobs or prices, the cutaway to a factory, grocery or
+  workforce office now shows people from your town: the workers at an
+  organization of the town whose own picture it is, or adults in town with no
+  job. A cutaway with nobody to show stays on the address instead.
+
+- **In the opening, a name tag names the person drawn, and only that person is
+  lit** In the opening, each name tag now sits over a picture that draws that
+  person, only the person named is lit, a council member is shown in the
+  council's own chamber with the town named, and the President's tag says
+  President without his home state.
+
+## PRE-ALPHA 0.47.1
+
+_Released October 27, 2026._
+
+### Changed
+
+- **Who speaks at public comment and fills a town hall follows temperament at
+  the size a study finds** Who stands up at a council meeting's public comment,
+  and who fills a town hall's room, weighed each resident's temperament at 0.32,
+  which ran high in random towns. Fitted on twenty towns drawn fresh, the weight
+  is now 0.26: the third of residents leaning most toward taking part fills a
+  room about three times as often as the third leaning least, as Mondak and
+  colleagues found.
+
 ## PRE-ALPHA 0.47.0
 
 _Released October 27, 2026._

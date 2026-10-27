@@ -1,6 +1,82 @@
 {
   "entries": [
     {
+      "version": "0.52.0",
+      "releasedOn": "2026-10-27",
+      "revision": "5c81486befecbc0d51f15ffcbf9f2077725142fc",
+      "changeIds": [
+        "laws-filing-positions-are-the-seats-own-issues",
+        "release-smoke-advanced-new-world",
+        "words-live-news-worded"
+      ]
+    },
+    {
+      "version": "0.51.1",
+      "releasedOn": "2026-10-27",
+      "revision": "fef3b9ce00f946bfc3826dd769b46bd56eff366d",
+      "changeIds": [
+        "cto-opening-root-cause-report",
+        "tests-renewal-player-home-counts-earlier-plans",
+        "traits-exit-poll-reasons"
+      ]
+    },
+    {
+      "version": "0.51.0",
+      "releasedOn": "2026-10-27",
+      "revision": "d0654521e19d18a3c180258fb77f50d23e5abc5c",
+      "changeIds": [
+        "director-conversation-drawn-fixture-lacks-subjects",
+        "housing-state-line-rent-help-whole-state-in-one-town",
+        "play-first-08-news-box-fades-or-dismisses",
+        "words-household-filing-scene-has-a-purpose"
+      ]
+    },
+    {
+      "version": "0.50.0",
+      "releasedOn": "2026-10-27",
+      "revision": "11d3d3b4ccd1ae080ebbb9cc49b82583c0b887ce",
+      "changeIds": [
+        "core-past-laws-no-answer-gets-enactment-date",
+        "play-stop-35-people-drawn-from-their-own-look",
+        "world-census-scale-closures-large-cities",
+        "world-press-amount-law-never-printed"
+      ]
+    },
+    {
+      "version": "0.49.0",
+      "releasedOn": "2026-10-27",
+      "revision": "166e6f8f9008ea25843898e976a1b419ff0feba3",
+      "changeIds": [
+        "laws-floor-takes-every-chamber-bill",
+        "play-dev-mode-one-advanced-start",
+        "play-stop-29-creator-labels-and-fields-share-one-grid",
+        "play-stop-34-creator-skin-and-clothes-colors",
+        "play-stop-38-figures-framed-whole",
+        "play-stop-41-person-card-no-empty-headings"
+      ]
+    },
+    {
+      "version": "0.48.0",
+      "releasedOn": "2026-10-27",
+      "revision": "92a204637104c3967052caf5533bfb354295866f",
+      "changeIds": [
+        "play-opening-address-empty-waiting-room",
+        "play-stop-37-opening-tags-and-highlights-match-the-figure",
+        "words-executive-record-gaps",
+        "words-packet-disaster-first-hours"
+      ]
+    },
+    {
+      "version": "0.47.1",
+      "releasedOn": "2026-10-27",
+      "revision": "91a589a9e6b7a774eb130e31a51d662f698b71ca",
+      "changeIds": [
+        "traits-accept-appointment-vacancy-proof",
+        "traits-meetings-take-part-refit",
+        "words-packet-executive-order-voting-rights"
+      ]
+    },
+    {
       "version": "0.47.0",
       "releasedOn": "2026-10-27",
       "revision": "57086e9be0657585ec0c7bc92a096ae582c56941",

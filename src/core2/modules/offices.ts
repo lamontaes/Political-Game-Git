@@ -364,6 +364,10 @@ function suitedResidents(
         taken.has(person.id)
       )
         return false;
+      // The player takes a seat by filing and winning, never by being the
+      // resident the opening seats: a player the creator made 25 or older is
+      // a resident this pick could reach.
+      if (person.id === (api.state as CoreState).playerId) return false;
       // Officeholders are fictional: a resident who happens to share a real
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
