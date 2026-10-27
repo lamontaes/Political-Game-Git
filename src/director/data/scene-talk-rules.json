@@ -49,6 +49,11 @@
   },
   "familyStakes": {
     "about": "Who at home has a stake in a filing (scenes-from-life, spouse-stake-after-filing). A relative reacts to a filing only when the household's records give them one; the strongest stake casts the relative and gives the scene its facts, and with none the scene is not staged. Read from the household's savings and costs, the filing's election date, and the children's birth dates; nothing is rolled.",
+    "daysPerMonth": {
+      "value": 30,
+      "tag": "SOURCED",
+      "citation": "A month as people say a span of time: 365 days over 12, rounded to 30 for speech; it rounds a count of days to the months a relative names, never decides anything."
+    },
     "adultAge": {
       "value": 18,
       "tag": "SOURCED",
