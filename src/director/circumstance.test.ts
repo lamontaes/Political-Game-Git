@@ -47,6 +47,7 @@ const FAMILIES: Readonly<Record<string, readonly string[]>> = {
     "national-news-work",
     "national-news-street",
   ],
+  "a lobbyist in the hallway": ["lobbyist-hallway"],
   "a hallway after a sitting": [
     "hallway-colleague",
     "hallway-reporter",

@@ -45,6 +45,11 @@ export interface CircumstanceRow {
   recordFacts?: readonly string[];
   /** Facts the record must carry with one of the listed values. */
   recordFactEquals?: Readonly<Record<string, readonly string[]>>;
+  /**
+   * The record's id begins with this: one producer's records among a kind
+   * several write (an interest group's lobbying case among the cases made).
+   */
+  recordIdPrefix?: string;
   /** For a story read: the tier of the outlet that printed it ("national"). */
   outletTier?: string;
   /**
@@ -246,6 +251,9 @@ function playerHolds(
         (!!job && core.jobs.get(job)?.endsAt === undefined)
       );
     }
+    case "heard-it":
+      // The player is among those who saw or heard the record (a case made to them).
+      return record.witnessIds.includes(playerId);
     case "voted-on-it": {
       const source = record.facts.sourceRecordId;
       return (
@@ -393,6 +401,8 @@ export function circumstancePicks(
     for (const row of byKind.get(record.kind) ?? []) {
       if (namesPlayer && !row.playerNamed) continue;
       if (!options.due(row)) continue;
+      if (row.recordIdPrefix && !record.id.startsWith(row.recordIdPrefix))
+        continue;
       if (row.recordFacts?.some((key) => !record.facts[key])) continue;
       if (
         Object.entries(row.recordFactEquals ?? {}).some(

@@ -2675,6 +2675,14 @@
           "bind": { "other": "counterpart", "you": "subject" },
           "opener": "other",
           "setting": ["seat", "venue"]
+        },
+        {
+          "match": { "label": "circumstance:lobbyist-hallway" },
+          "causeEngine": "circumstance",
+          "causeRecord": "case.made",
+          "bind": { "other": "counterpart", "you": "subject" },
+          "opener": "other",
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
