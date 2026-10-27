@@ -4398,7 +4398,8 @@ const sheets = {
                     month: "long",
                     year: "numeric",
                   });
-                const history = listRow("", {
+                const history = el("span", {
+                  className: "person-row-note",
                   textContent: [
                     won
                       ? labels.electedWith
