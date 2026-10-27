@@ -6976,5 +6976,17 @@
     "addedAt": "2026-10-27",
     "replacement": "A waiting ask on Politics, Issues and Government, with Agree and Decline controls wired to answerCarryAsk, reading carryAsksAwaiting (pool item gov-carry-ask-player-decides).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-pr-counted-renter-income-third",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-calibration.test.ts",
+    "line": 53,
+    "whatItFakes": "Puerto Rico place 7237336's counted renter households earn about a third of the ACS income, so half of them pay over 72 percent of income in rent on day one; their living-cost arrears then push 17 households into homelessness (76 per 10,000 against HUD's 6.5), and the housing-calibration case is pinned to that count instead of the HUD bound.",
+    "why": "Counted incomes in Puerto Rico are read at a third of the sourced figure (pool item world-counted-renter-income-puerto-rico-third); with rent now read from the territory's own counties, the arrears from living costs (#4937) show it as homelessness.",
+    "addedBy": "fixer, Merger 2's send-back of PR 5792",
+    "addedAt": "2026-10-27",
+    "replacement": "Correct the counted renters' income to the place's sourced ratio (world-counted-renter-income-puerto-rico-third), then remove the pin so the case meets the HUD bound.",
+    "status": "open"
   }
 ]
