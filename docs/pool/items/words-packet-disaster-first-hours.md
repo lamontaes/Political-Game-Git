@@ -5,7 +5,7 @@ area: words
 kind: research
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: words/helper-d-disaster
 pr: #6258
 blocked-on:
