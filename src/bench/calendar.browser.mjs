@@ -169,21 +169,42 @@ try {
     .click({ timeout: 2000 })
     .catch(() => undefined);
   await page.locator(".calendar-side-head .skip-forward").click();
+  // Living weeks ahead runs the world day by day, which takes longer than a click.
   await page.waitForFunction(
     (before) =>
       document.getElementById("card-clock").innerText.trim() !== before,
     clock,
+    { timeout: 180000 },
   );
+  // The clock moves before the stop that ended the jump is drawn. A jump can end
+  // on a stop (Continue), a scene's talk, or the day it asked for; stops can come
+  // one after another, so each is answered until Week is ready again.
+  const settled = () =>
+    page.waitForFunction(
+      () =>
+        !document.getElementById("continue").hidden ||
+        !document.getElementById("talk").hidden ||
+        !document.getElementById("week").disabled,
+      undefined,
+      { timeout: 120000 },
+    );
+  await settled();
   const jumped = await page.locator("#card-clock").innerText();
   console.log("Calendar jump to", target, "->", jumped.replace("\n", " "));
-  // It reached that day, or a scene the director fired stopped it on an earlier one.
-  assert.ok(
-    jumped.includes(String(Number(target.slice(-2)))) ||
-      (await page.locator("#continue").isVisible()),
-  );
+  // It reached that day, or something the director fired stopped it on an earlier one.
+  const stopped =
+    (await page.locator("#continue").isVisible()) ||
+    (await page.locator("#talk").isVisible());
+  assert.ok(jumped.includes(String(Number(target.slice(-2)))) || stopped);
   // Week advances seven days, Day one.
-  if (await page.locator("#continue").isVisible())
-    await page.locator("#continue").click();
+  for (let i = 0; i < 8; i++) {
+    if (await page.locator("#talk").isVisible())
+      await page.locator("#talk-leave").click();
+    else if (await page.locator("#continue").isVisible())
+      await page.locator("#continue").click();
+    else break;
+    await settled();
+  }
   const week = page.locator("#week");
   assert.ok((await week.innerText()).trim());
   await week.waitFor();
