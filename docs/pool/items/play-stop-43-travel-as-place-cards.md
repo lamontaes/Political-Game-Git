@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-43-travel-as-place-cards
 pr: #6225
 blocked-on:

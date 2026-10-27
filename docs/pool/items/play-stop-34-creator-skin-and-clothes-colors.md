@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-34-creator-skin-and-clothes-colors
 pr: #6229
 blocked-on:
@@ -31,3 +31,4 @@ claimed-at: 2026-10-27T05:20:02.154Z
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "No skin colors or anything like that." The look record gets its skin and color fields here; play-stop-33 adds hair on the same record, so either can land first. People other than the player are drawn from their own look in play-stop-35. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
 Sent back 2026-10-27 from PR #6229 (branch play-first/play-stop-34-creator-skin-and-clothes-colors): the picture-derived mask stand-in has no stopgap row or code marker; finish on that branch, merge main into it first.
+- Merged Oct 27 in PR #6229; awaiting the owner's installed-build check.
