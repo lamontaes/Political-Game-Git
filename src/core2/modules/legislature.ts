@@ -2557,6 +2557,42 @@ export function askToCarry(
     api.stopgap("SG-GOV-carry-ask-no-screen");
     table(api, "carryAsks").put(row as unknown as ModuleRow);
   }
+  // The ask is a record for the member and the asker. Carried, it is public
+  // (the bill names who asked for it); turned down, it stays between them.
+  if (api.state.people.has(input.memberId)) {
+    const body = bodyOf(api, input.bodyOfficeId);
+    const section = input.provisions[0]!;
+    const seat = members(api, input.bodyOfficeId).find(
+      (term) => memberKey(term) === input.memberId,
+    );
+    api.emit({
+      id: `carry-asked:${row.id}`,
+      date: api.state.date,
+      kind: "carry-asked",
+      personIds: [input.memberId, input.askerId].filter(
+        (id, index, ids) =>
+          api.state.people.has(id) && ids.indexOf(id) === index,
+      ),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `A request to carry a bill before ${input.bodyOfficeId}`,
+        asOf: api.state.date,
+      },
+      publicRecord: row.carried,
+      facts: {
+        askerId: input.askerId,
+        memberId: input.memberId,
+        carried: row.carried ? "yes" : "no",
+        byExecutive: isExecutive ? "yes" : "no",
+        ...(section.question ? { question: section.question } : {}),
+        direction: section.value > 0 ? "enact" : "repeal",
+        ...(body ? { formKind: bodyNumbering(body, api.state.date).kind } : {}),
+        ...(seat ? { officeId: seat.officeId } : {}),
+        ...(bill ? { billId: bill.id, number: bill.number } : {}),
+      },
+    });
+  }
   return row;
 }
 
@@ -3649,6 +3685,54 @@ function runBeforeVote(
 }
 
 /**
+ * The floor day of a bill whose committee traded for votes: each member who
+ * traded their vote there for their own section, and sits on this floor, is
+ * a record for them and the sponsor, who comes to make sure of the vote.
+ */
+function recordPromises(api: CoreAPI, bill: BillRow, chamber: string): void {
+  const seats = members(api, chamber);
+  for (const deal of bill.deals) {
+    if (
+      deal.kind !== "trade-amendment" ||
+      deal.status !== "accepted" ||
+      deal.stage !== "committee" ||
+      deal.chamber !== chamber ||
+      !api.state.people.has(deal.memberId)
+    )
+      continue;
+    const seat = seats.find((term) => memberKey(term) === deal.memberId);
+    if (!seat) continue;
+    api.emit({
+      id: `vote-promise:${bill.id}:${chamber}:${deal.memberId}`,
+      date: api.state.date,
+      kind: "vote-promise",
+      personIds: [deal.memberId, bill.sponsorId].filter(
+        (id, index, ids) =>
+          api.state.people.has(id) && ids.indexOf(id) === index,
+      ),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${bill.number}: the committee trade of ${deal.date}, on the floor`,
+        asOf: api.state.date,
+      },
+      // The committee's trade is public record; this is that trade, due.
+      publicRecord: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        level: billReach(api, bill).level,
+        chamber,
+        memberId: deal.memberId,
+        sponsorId: bill.sponsorId,
+        officeId: seat.officeId,
+        traded: deal.date,
+      },
+    });
+  }
+}
+
+/**
  * A bill that lost a vote, in its committee or on the floor: a record for its
  * sponsor, who hears it that day, with the count it lost by. A committee that
  * never heard the bill held no vote, so it records none.
@@ -3728,6 +3812,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       bill = { ...bill, committeeId: committee.id };
       table(api, "bills").put(bill as unknown as ModuleRow);
     }
+    recordPromises(api, bill, chamber);
     bill = floorAmendments(api, bill, chamber);
     const counted = chamberVote(api, bill, chamber);
     // A tie: the presiding officer who may break one does (the Vice President
