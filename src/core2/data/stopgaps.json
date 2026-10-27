@@ -7094,7 +7094,7 @@
     "kind": "faked-mechanic",
     "file": "src/bench/figure-colors.ts",
     "line": 99,
-    "whatItFakes": "Skin is still guessed from pixel colors (warm saturated pixels), and the 282 v2 figures without a garment map yet (art/people-engine/v2/garments covers 108) take their clothing from the unsaturated mid-gray pixels below the head, split into top, pants and shoes by height on the body (the shirt under a jacket takes the jacket's color).",
+    "whatItFakes": "Skin is still guessed from pixel colors (warm saturated pixels), and the 282 v2 figures without a garment map yet (art/people-engine/v2/garments covers 108) take their clothing from the unsaturated mid-gray pixels below the head, split by height into shirt, pants and shoes, or with a vest or blazer into a one-color suit and shoes.",
     "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
     "addedBy": "claude/play-stop-34",
     "addedAt": "2026-10-27",

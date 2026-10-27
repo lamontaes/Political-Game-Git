@@ -119,7 +119,7 @@ function regionOf(r: number, g: number, b: number): Region {
 // eye): the hip at this share of the height to the feet, and the shoes in
 // this share of the picture above the foot line.
 const HIP = 0.5;
-const FEET = 0.045;
+const FEET = 0.06;
 const ROWS = new Map(
   (
     figures.figures as {
@@ -207,8 +207,8 @@ export function recolorFigure(
   const png = PNG.sync.read(source);
   const map = garmentMap(name);
   // Without a map: the gray cloth below the head, split by height on the
-  // body: the feet are the shoes, below the hip the pants, above it the top
-  // (the jacket where the outfit has one, else the shirt).
+  // body: the feet are the shoes, below the hip the pants, above it the shirt;
+  // with a vest or blazer, a suit in the jacket's color down to the shoes.
   const head = (heads.heads as Record<string, number[]>)[name];
   const row = ROWS.get(name);
   const below = head ? head[0]! + head[2]! * 1.3 : 0;
@@ -227,7 +227,8 @@ export function recolorFigure(
       regionOf(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!) !== "clothes"
     )
       return null;
-    return y >= feet ? "shoes" : y >= hip ? "pants" : top;
+    // A jacket's hem has no line to cut at: jacket and pants are one suit.
+    return y >= feet ? "shoes" : top === "jacket" || y < hip ? top : "pants";
   };
   // Each piece's own median luminance, and the skin's.
   const lums = new Map<Garment | "skin", number[]>();
