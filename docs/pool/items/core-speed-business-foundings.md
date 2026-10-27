@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-76ksvw
-pr: #5180
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:08:03.624Z
@@ -21,6 +21,6 @@ claimed-at: 2026-10-20T03:08:03.624Z
 
 **Files.** src/core2/modules/business.ts
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
 
 Oct 20 (claude): duplicate of `core-speed-foundings-per-place` (branch `claude/speed-foundings`, another session), which already restructures the same function more widely (it weighs the town's counted founders once a month rather than once per kind of business). I found it after writing the same cut (pay table and sorted people built once per pass, `foundings` 9.0 -> 5.3 seconds in the profile), so I dropped mine unpushed. For the CTO to drop this item.

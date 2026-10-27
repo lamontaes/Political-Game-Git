@@ -185,24 +185,58 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
   });
 
   it("has most incumbents run again, as about 81% really do", () => {
-    // Every adult in town, each as the seat's incumbent. Measured samples
-    // include 1,200 adults in Suissevale and 903 in Santa Ana; minimumPeople
-    // counts people, not adults. At those sample sizes, one standard error
-    // of the share is about a point. The band below is the spread between
-    // towns, not between draws. The first
-    // 200 records alone came in households, a few dozen of them, and an old
-    // town's first households ran again at 0.955 (Suissevale, New Hampshire)
-    // against 0.918 for the whole town.
-    const sample = adults;
-    const again = sample.filter(
-      (row) =>
+    // Every adult 30 to 85 in town, each as the seat's incumbent. The rule
+    // keeps everyone under about 70 standing and retires the old, so a town's
+    // raw share is only its share under 70 (0.965 in young Heimdal, North
+    // Dakota; 0.989 in Kearney Park, Mississippi; 0.918 in old Suissevale,
+    // New Hampshire). The share is therefore taken by five-year age band and
+    // weighted by the U.S. adult age mix the rule was calibrated on
+    // (votingStandAgainAgeWeight), so it checks the rule and not the town's
+    // age structure.
+    // ESTIMATED: U.S. population by age in millions, rounded from the
+    // Census Bureau's 2020 ACS 5-year age tables; the 85 band is 85 and over.
+    const nationalMix: Record<number, number> = {
+      30: 22.0,
+      35: 21.6,
+      40: 20.5,
+      45: 20.1,
+      50: 20.8,
+      55: 21.9,
+      60: 21.4,
+      65: 18.2,
+      70: 14.4,
+      75: 9.9,
+      80: 6.4,
+      85: 6.5,
+    };
+    const bands = new Map<number, { again: number; total: number }>();
+    for (const row of adults) {
+      const age = ageOnDate(
+        makeIsoDate(row.birthDate),
+        makeIsoDate(input.startedAt),
+      );
+      if (age < 30) continue;
+      const band = Math.min(85, Math.floor(age / 5) * 5);
+      const tally = bands.get(band) ?? { again: 0, total: 0 };
+      tally.total += 1;
+      if (
         decideToRun(api, row.id, {
           ...contest(`incumbent:${row.id}`),
           incumbentId: row.id,
-        })!.run,
-    ).length;
-    expect(again / sample.length).toBeGreaterThan(0.65);
-    expect(again / sample.length).toBeLessThan(0.95);
+        })!.run
+      )
+        tally.again += 1;
+      bands.set(band, tally);
+    }
+    let weighted = 0;
+    let weight = 0;
+    for (const [band, tally] of bands) {
+      weighted += (nationalMix[band] ?? 0) * (tally.again / tally.total);
+      weight += nationalMix[band] ?? 0;
+    }
+    expect(bands.size).toBeGreaterThan(5);
+    expect(weighted / weight).toBeGreaterThan(0.65);
+    expect(weighted / weight).toBeLessThan(0.95);
   });
 
   // No one pays to file (owner, Oct 13): what filing would cost is no

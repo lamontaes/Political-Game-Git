@@ -1,6 +1,66 @@
 {
   "entries": [
     {
+      "version": "0.39.2",
+      "releasedOn": "2026-10-26",
+      "revision": "84a74f9939a78ddf4d650fbf44ce2ca4392b4fec",
+      "changeIds": [
+        "play-stop-40-menu-list-drops-its-subheadings",
+        "screens-ui-card",
+        "screens-ui-tab"
+      ]
+    },
+    {
+      "version": "0.39.1",
+      "releasedOn": "2026-10-26",
+      "revision": "13034532b1e0d34f42d28092af0538fff723643f",
+      "changeIds": [
+        "elections-territory-no-contest-at-18",
+        "gov-dc-mayor-budget-proposal-not-adopted",
+        "screens-ui-list-row"
+      ]
+    },
+    {
+      "version": "0.39.0",
+      "releasedOn": "2026-10-26",
+      "revision": "50327e6868cc362bbc447f725f18a0e93a81d60c",
+      "changeIds": [
+        "core-speed-counted-renewal-pass",
+        "cto-smart-assignments-oct-26",
+        "elections-incumbents-stand-again-above-band",
+        "laws-work-requirement-counts-owners-as-idle",
+        "play-official-ties-on-screen",
+        "skills-scene-screen-text-oct-26"
+      ]
+    },
+    {
+      "version": "0.38.0",
+      "releasedOn": "2026-10-26",
+      "revision": "bf9d6382f50b46d230cf256ab518400bced18e90",
+      "changeIds": [
+        "docs-law-wiring-report-long-reach-sentence",
+        "gov-recall-for-cause-start",
+        "laws-zero-top-rate-retains-withholding",
+        "people-corruption-take-calibrated",
+        "play-stop-21-ballot-stuck-on-first-page",
+        "traits-integrity",
+        "web-reach-schools"
+      ]
+    },
+    {
+      "version": "0.37.0",
+      "releasedOn": "2026-10-26",
+      "revision": "7d8a8481091e55b54501b6c2d36ef77184858c58",
+      "changeIds": [
+        "gov-standins-other-split",
+        "outcome-causes-split",
+        "play-stop-22-election-win-never-shown-b",
+        "pool-old-imports-bodies",
+        "words-journal-law-title-needs-article",
+        "words-law-effect-learned-journal"
+      ]
+    },
+    {
       "version": "0.36.5",
       "releasedOn": "2026-10-26",
       "revision": "8f62029e2f5528ffeeaa03974ab274ec456b3e4c",
