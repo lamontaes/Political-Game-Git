@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/director/conversation.ts
 
 **Notes.** The lines are drafted and ship on the words side, each needing the facts above: "Did you see the {outlet} piece? {headline}." / "{headline}, says the {outlet}." / "I saw it in the {outlet}: {headline}." The answers go by the director's `heard` / `not-heard` stage and four stances: glad, worried, doubting, and asking for more.
+
+The full drafted set (words lead, Oct 27) is on branch `words/home-talk-lines` at e356f24e71, in `data/english/parts/conversation.json`. The words lead ships it in the same change that passes the facts.
