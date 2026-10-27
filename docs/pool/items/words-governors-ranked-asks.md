@@ -19,14 +19,14 @@ claimed-at: 2026-10-27
 
 **Rules.** No hand-written player text in code: each ask is a bank piece with its facts in slots. Serves `scene-standard`: the asks vary by voice and stance and say only what the stand's facts carry. One rule, all 56 places: the state is a slot, never a name in a line.
 
-**Done when.** `opening-speech.json` has governors asks requiring `rank-second` and `rank-third`, each with a for and an against stance, in the polished and plain voices. `english-parts-banks`, `opening-address.test.ts` and `opening-asks.test.ts` pass in a buildBenchWorld drawn place. A follow-up test asserts a second governors ask appears once the director passes the ranks.
+**Done when.** `opening-speech.json` has governors asks requiring `rank-second` and `rank-third`, each with a for and an against stance, in the polished and plain voices. `english-parts-banks`, `opening-address.test.ts` and `opening-asks.test.ts` pass in a buildBenchWorld drawn place.
 
 **Time box.** 1 hour.
 
-**You will see.** In the opening address, after the first law put to the governors: "I'd also ask you to look at whether your state should raise its minimum wage."
+**You will see.** Once the director passes the ranks: after the first law put to the governors, "I'd also ask you to look at whether your state should" and the second law, said plainly.
 
 **Screenshot.** None until the director passes the ranks.
 
 **Files.** data/english/parts/opening-speech.json
 
-**Notes.** The director engineer passes the ranks after this lands.
+**Notes.** The director engineer passes the ranks after this lands, with a test that a second governors ask appears.
