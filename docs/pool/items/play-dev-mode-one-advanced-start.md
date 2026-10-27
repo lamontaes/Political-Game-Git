@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-dev-mode-one-advanced-start
-pr:
+pr: #6232
 blocked-on:
 source: "owner, Oct 26 evening and Oct 27 (OWNER-DECISIONS), added by lane agent 5"
 lead: play-first
