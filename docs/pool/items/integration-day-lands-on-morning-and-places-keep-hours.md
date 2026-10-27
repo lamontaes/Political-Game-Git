@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/player.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/scene.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json
 
 **Notes.** Supersedes #6059 (claude/quirky-ride-vrwwz4-play-stop-07, Fixer 3); its pool item play-stop-07-every-day-starts-at-midnight-a closes with this one. Owner, Oct 27, 4 PM Eastern: "Systems are being made for individually instead of linking everything together... The UI needs to be linked to the systems as it works... Sessions should not be building their own shit." Read: OWNER-DECISIONS (Oct 27, afternoon), DECISION-REGISTER, prior-rulings/words.md, LAW; searched docs/ for the subject.
+Sent back 2026-10-27 from PR #6397 (branch claude/integration-clock-and-hours): clock.browser.mjs fails in 3 of 3 drawn places: a story stop at the start minute leaves the card unmoved; finish on that branch, merge main into it first.
