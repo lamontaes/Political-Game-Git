@@ -71,7 +71,7 @@ function check(seed: string, placeKey: string) {
   }[];
   const lines = [...macro.table("lines").rows()] as unknown as {
     facilityId: string;
-    linkedAt?: string;
+    source?: { asOf: string };
   }[];
   const changes = meetings.filter((row) => row.toRatePct !== row.fromRatePct);
   let repriced = 0;
@@ -94,9 +94,14 @@ function check(seed: string, placeKey: string) {
         date: string;
         meetingId: string;
       }[];
-      const first = linked.map((row) => row.date).sort()[0];
-      // Lines opened after the decision took effect have nothing to reprice.
-      if (!facility || !first || first > meeting.effectiveAt) continue;
+      // Whether the line was open before the decision took effect comes from
+      // the line's own recorded date, never from the repricing output: with
+      // the repricing removed there is none, and a real line would otherwise
+      // read as no witness.
+      const openedOn = line.source?.asOf ?? facility?.source.asOf;
+      // Lines opened on or after the day the decision took effect are
+      // priced at the new rate when they are linked.
+      if (!facility || !openedOn || openedOn >= meeting.effectiveAt) continue;
       // A line the borrower closed (or whose borrower's business closed) on or
       // before the decision took effect is never repriced again.
       const endedOn = [
