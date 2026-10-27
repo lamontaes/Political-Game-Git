@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6277
 blocked-on:
 lead: director
 source: added with npm run pool -- add

@@ -415,6 +415,25 @@ function showNewsSurface(news) {
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
+  // The story opens as the paper's front page: its masthead and layout.
+  const outlet = news.outlet ?? {
+    name: controls.news.title,
+    layout: "broadsheet",
+  };
+  $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
+  $("news-reader-date").textContent = new Date(
+    `${me.date}T12:00:00`,
+  ).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  $("news-reader").className = `panel paper paper-${
+    ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
+      ? outlet.layout
+      : "broadsheet"
+  }`;
   $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
     ...lead.broadcast.map((line) =>
@@ -1252,7 +1271,17 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  fillTalk({ lines: spokenLines(lines, (line) => line.text) });
+  // The narrator sets the counter up before the clerk speaks (the opening call only).
+  fillTalk({
+    lines: [
+      ...(lines.length <= 1
+        ? (value.intro ?? []).map((line) =>
+            el("li", { className: "speech narration", textContent: line.text }),
+          )
+        : []),
+      ...spokenLines(lines, (line) => line.text),
+    ],
+  });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
