@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted group is read with the same rule as a full person, times its count. Replace, never layer: delete each `residentPerson` call as its caller moves. Wire to the world.
 
-**Done when.** `grep -rn "residentPerson(\|peopleOf(\|householdOfPerson" src/core2` finds nothing outside fill-in (`takeResidentHousehold`), and a one-year `buildBenchWorld` run in a drawn place (place and seed named in the PR body) gives the same jobs, taxes and loans as before. `core-counted-views-delete` is then unblocked.
+**Done when.** `grep -rn "residentPerson(\|peopleOf(\|householdOfPerson" src/core2` finds nothing outside fill-in (`takeResidentHousehold`), and a one-year `buildBenchWorld` run in a drawn place (place and seed named in the PR body) gives the same jobs, taxes and loans as before. `core-counted-views-delete` is then unblocked. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, jobs-benefits.ts, employer-taxes.ts, business.ts, candidacy.ts, credit.ts, world-metrics.ts, src/core2/state.ts
 
@@ -32,3 +32,4 @@ Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): T
 Split: jobs, unemployment claims, employer taxes, credit, business and candidacy are world-counted-reads-six-engines (PR #5080). Still calling `residentPerson`: estates.ts (an existence check), the fill-in placeholder in state.ts and the counted-groups view.
 
 Sent back 2026-10-21 from PR #5807 (branch claude/counted-reads): The body Done when table explicitly reports only four caller replacements, the remaining person-building callers unfinished, and no one-year before/after jobs/taxes/loans equality run. That does not finish docs/pool/items/world-counted-reads-person-callers.md:20. Track these four place/existence reads under a bounded item with their own parity proof while keeping the broader caller migration open, or supply its remaining replacements and named year equivalence. The current Touches pool item first line does not avoid completion: I ran itemForMergedPr here and it returns world-counted-reads-person-callers through the existing status in-pr / pr #5807 fallback, despite the body saying the item stays open. Verify the real completion helper after correcting scope and metadata. No local standard gate pass or whole-migration completion is claimed for this source review.; finish on that branch, merge main into it first.
+Stale 2026-10-26: PR #5807 closed (no push for five days, sent back); the work is on branch claude/counted-reads; claim the item and merge main into that branch.

@@ -1,0 +1,336 @@
+{
+  "batch": "voice-notes-batches-11-19",
+  "note": "The owner's voice-note grades of batches 11 to 19, read from the rulings he gave on each review (docs/coordination/OWNER-DECISIONS.md: batch 11 grading rulings, Oct 15; batch 12 rejected, Oct 15; batch 13 review, Oct 15; batch 14 review, Oct 16; and the batch 15 to 19 reviews of Oct 16 and Oct 19, which reach main with the word pack, #4626). The owner, Oct 24: take everything I said I liked in the voice notes and start getting it in the game. Each row quotes the line he named, the ruling it came from (note) and the parts that say it. A line he named in one setting only (\"Thank you very much\" over \"Thank you so much\" in a speech) is graded in that bank only; a line whose ruling allows it where a record supports it (\"Do you remember me? From the town hall?\") is left ungraded. Each row is one part, so a line said in two banks is two rows.",
+  "grades": [
+    {
+      "i": 0,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 15, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Thank you very much.",
+      "note": "Oct 15, evening: batch 11 grading rulings: \"Thank you very much\" over \"Thank you so much\" in a speech",
+      "parts": [
+        "opening-speech.state-of-the-union-salutation.thank-you-very-much"
+      ]
+    },
+    {
+      "i": 1,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 15, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Thank you so much.",
+      "note": "Oct 15, evening: batch 11 grading rulings: \"Thank you very much\" over \"Thank you so much\" in a speech",
+      "parts": ["opening-speech.inaugural-salutation.thank-you-so-much"]
+    },
+    {
+      "i": 2,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 15, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Do you remember {school}? / Do you remember {employer}?",
+      "note": "Oct 15, evening: batch 12 rejected: every item of the form \"do you remember <school>\" is removed as an opener",
+      "parts": [
+        "conversation.shared-school-ask-remember.do-you-remember-school"
+      ]
+    },
+    {
+      "i": 3,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 15, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Do you remember {school}? / Do you remember {employer}?",
+      "note": "Oct 15, evening: batch 12 rejected: every item of the form \"do you remember <school>\" is removed as an opener",
+      "parts": [
+        "conversation.shared-work-ask-remember.do-you-remember-employer"
+      ]
+    },
+    {
+      "i": 4,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 15, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Talk to you soon.",
+      "note": "Oct 15, evening: batch 12 rejected: nobody closes with \"Talk to you soon\" after a question was answered",
+      "parts": ["conversation.farewell-leave-bye.talk-to-you-soon"]
+    },
+    {
+      "i": 5,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 15, night), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "You'll need friends after this vote. I won't be one.",
+      "note": "Oct 15, night: batch 13 review: threats sound like politics (graded 5)",
+      "parts": [
+        "scene-talk.close-warn.you-ll-need-friends-after-this-vote-i-won-t-be-one"
+      ]
+    },
+    {
+      "i": 6,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 15, night), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "The party has a long memory.",
+      "note": "Oct 15, night: batch 13 review: threats sound like politics",
+      "parts": ["scene-talk.follow-threaten.the-party-has-a-long-memory"]
+    },
+    {
+      "i": 7,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 15, night), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "You know how this works.",
+      "note": "Oct 15, night: batch 13 review: threats sound like politics",
+      "parts": ["scene-talk.follow-threaten.you-know-how-this-works"]
+    },
+    {
+      "i": 8,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 15, night), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "I won't forget this.",
+      "note": "Oct 15, night: batch 13 review: \"I won't forget this.\" is better",
+      "parts": ["scene-talk.close-warn.i-won-t-forget-this"]
+    },
+    {
+      "i": 9,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 15, night), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "I could lose my primary over this",
+      "note": "Oct 15, night: batch 13 review: a plea gives its stake",
+      "parts": ["scene-talk.follow-plea.i-could-lose-my-primary-over-this"]
+    },
+    {
+      "i": 10,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 15, night), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "this is a two-way street",
+      "note": "Oct 15, night: batch 13 review: a bargain names the trade",
+      "parts": [
+        "scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine"
+      ]
+    },
+    {
+      "i": 11,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 15, night), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "We have it on the record",
+      "note": "Oct 15, night: batch 13 review: say that directly",
+      "parts": [
+        "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond"
+      ]
+    },
+    {
+      "i": 12,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "I'm not going to talk about that.",
+      "note": "Oct 16, early morning: batch 14 review: unnatural",
+      "parts": [
+        "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that"
+      ]
+    },
+    {
+      "i": 13,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "I'm not going to talk about that.",
+      "note": "Oct 16, early morning: batch 14 review: unnatural",
+      "parts": ["scene-talk.reply-refuse.i-m-not-going-to-talk-about-that"]
+    },
+    {
+      "i": 14,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Then put this in the story: I'm proud of my vote.",
+      "note": "Oct 16, early morning: batch 14 review: wrong before the vote",
+      "parts": [
+        "scene-talk.reply-answer.then-put-this-in-the-story-i-m-proud-of-my-vote"
+      ]
+    },
+    {
+      "i": 15,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "I'll have something to say after the vote.",
+      "note": "Oct 16, early morning: batch 14 review: the most natural",
+      "parts": [
+        "scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote"
+      ]
+    },
+    {
+      "i": 16,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Your vote is public. Your reasons don't have to be a secret.",
+      "note": "Oct 16, early morning: batch 14 review: great; Oct 16, morning: batch 15 review: good",
+      "parts": [
+        "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret"
+      ]
+    },
+    {
+      "i": 17,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "People say a lot of things.",
+      "note": "Oct 16, early morning: batch 14 review: decent",
+      "parts": ["scene-talk.reply-deflect.people-say-a-lot-of-things"]
+    },
+    {
+      "i": 18,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Bring a friend next time.",
+      "note": "Oct 16, early morning: batch 14 review: reads as AI's quick resolution",
+      "parts": [
+        "scene-talk.reply-request.more-people-knocking-on-doors-bring-a-friend-next-time"
+      ]
+    },
+    {
+      "i": 19,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "You've got it. We'll bring more people Saturday.",
+      "note": "Oct 16, early morning: batch 14 review: reads as AI's quick resolution",
+      "parts": [
+        "scene-talk.follow-promise.you-ve-got-it-we-ll-bring-more-people-saturday"
+      ]
+    },
+    {
+      "i": 20,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, early morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "We'll be there.",
+      "note": "Oct 16, early morning: batch 14 review: reads as AI's quick resolution",
+      "parts": ["scene-talk.follow-thank.we-ll-be-there"]
+    },
+    {
+      "i": 21,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "You'll have to ask the chair.",
+      "note": "Oct 16, morning: batch 15 review: makes no sense for your own vote",
+      "parts": ["scene-talk.reply-deflect.you-ll-have-to-ask-the-chair"]
+    },
+    {
+      "i": 22,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 16, morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "I'm not doing this in a hallway.",
+      "note": "Oct 16, morning: batch 15 review: good",
+      "parts": ["scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway"]
+    },
+    {
+      "i": 23,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "The back of the room was standing by the end.",
+      "note": "Oct 16, morning: batch 15 review: doesn't connect",
+      "parts": [
+        "scene-talk.open-react.the-back-of-the-room-was-standing-by-the-end"
+      ]
+    },
+    {
+      "i": 24,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Where'd you drive in from?",
+      "note": "Oct 16, morning: batch 15 review: creepy",
+      "parts": ["scene-talk.reply-ask.where-d-you-drive-in-from"]
+    },
+    {
+      "i": 25,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Go home. I'll call you at eight.",
+      "note": "Oct 16, morning: batch 15 review: awkward",
+      "parts": ["scene-talk.follow-accept.go-home-i-ll-call-you-at-eight"]
+    },
+    {
+      "i": 26,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 16, morning), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Okay. For you, I'll do it.",
+      "note": "Oct 16, morning: batch 15 review: a weird answer",
+      "parts": ["scene-talk.reply-relent.okay-for-you-i-ll-do-it"]
+    },
+    {
+      "i": 27,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 19), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Why me?",
+      "note": "Oct 19: batch 17 review: liked (the floor switch and the appointment)",
+      "parts": ["scene-talk.reply-ask.why-me"]
+    },
+    {
+      "i": 28,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 19), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Then move me. What's it worth to you?",
+      "note": "Oct 19: batch 17 review: liked",
+      "parts": ["scene-talk.reply-bargain.then-move-me-what-s-it-worth-to-you"]
+    },
+    {
+      "i": 29,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 19), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Done. Put it in writing tonight.",
+      "note": "Oct 19: batch 17 review: liked",
+      "parts": ["scene-talk.reply-agree.done-put-it-in-writing-tonight"]
+    },
+    {
+      "i": 30,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 19), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Why me? We've never met.",
+      "note": "Oct 19: batch 17 review: liked",
+      "parts": ["scene-talk.reply-ask.why-me-we-ve-never-met"]
+    },
+    {
+      "i": 31,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 19), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Don't make me chase you.",
+      "note": "Oct 19: batch 17 review: liked",
+      "parts": ["scene-talk.close-accept.don-t-make-me-chase-you"]
+    },
+    {
+      "i": 32,
+      "grade": "good",
+      "by": "owner (voice notes, Oct 19), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Don't make me chase you.",
+      "note": "Oct 19: batch 17 review: liked",
+      "parts": ["scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you"]
+    },
+    {
+      "i": 33,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 19), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "I will. First thing on the agenda.",
+      "note": "Oct 19: batch 17 review: makes no sense after the line before it",
+      "parts": [
+        "scene-talk.reply-apologize.i-will-first-thing-on-the-agenda-in-my-own-words"
+      ]
+    },
+    {
+      "i": 34,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 19, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Then we'll settle it at the next meeting",
+      "note": "Oct 19, evening: batch 19 review: dropped the personal grievance",
+      "parts": [
+        "scene-talk.reply-confront.then-we-ll-settle-it-at-the-next-meeting-in-front-of-everybody"
+      ]
+    },
+    {
+      "i": 35,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 19, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Before the day eats us",
+      "note": "Oct 19, evening: batch 19 review: wording took a step back",
+      "parts": [
+        "scene-talk.state-ask.quick-question-before-the-day-eats-us-did-anybody-tell-you-what-you-re"
+      ]
+    },
+    {
+      "i": 36,
+      "grade": "bad",
+      "by": "owner (voice notes, Oct 19, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+      "line": "Take the message. I'm not holding the room",
+      "note": "Oct 19, evening: batch 19 review: wording took a step back",
+      "parts": [
+        "scene-talk.reply-answer.take-the-message-i-m-not-holding-the-room"
+      ]
+    }
+  ]
+}

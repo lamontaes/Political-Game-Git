@@ -3,7 +3,7 @@ id: world-medical-spending-categories
 title: "Households pay out-of-pocket medical services and drugs from the BLS Consumer Expenditure health lines"
 area: world
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -29,3 +29,7 @@ Released Oct 20 (claude): needs the coverage record from people-coverage-record-
 Tried Oct 20 (claude): the BLS workbook the category file cites returns HTTP 403 to this cloud container's proxy (curl with a browser user agent, 1,325-byte error page), so the health-insurance and medical-services rows could not be read from the source; they were not typed in from memory. Whoever builds this needs the workbook placed where the container can read it (or network access to bls.gov).
 
 Oct 20 later (claude, claude/fs11vb-health-split): the 403 above is only for the spreadsheet. The BLS public data API (POST https://api.bls.gov/publicAPI/v1/timeseries/data/, no key, version 1) answers from the same container. National 2024 means for all consumer units: health care `CXUHEALTHLB0101M` = $6,197 (2023: $6,159), medical services `CXUMEDSERVSLB0101M` = $1,252, drugs `CXUDRUGSLB0101M` = $658. The health insurance series id was not found (`CXUHLTHINSLB0101M`, `CXUHEALTHINSLB0101M`, `CXUHEALINSLB0101M` and `CXUHLTHINLB0101M` do not exist), and regional and household-size series ids were not tried. Version 1 allows 25 requests a day per address and that limit was reached, so retry the next day or register a key. Each value used must cite its series id and year.
+
+Oct 25 audit: From the dropped people-health-spending-flows: CE rows 461 to 469 of cu-region-1-year-average-2024.xlsx (health insurance $4,055) are in the repo; pay the insurance and clinic firms the opening already holds.
+
+Deferred Oct 25: nothing on screen reads it yet.

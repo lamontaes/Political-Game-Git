@@ -157,6 +157,22 @@
         margin-left: 12px;
         word-break: break-word;
       }
+      .kv .block {
+        display: block;
+        margin-left: 14px;
+        white-space: pre-line;
+      }
+      .followed {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 14px;
+      }
+      .followed-one {
+        min-width: 0;
+      }
+      .followed-one .scroll {
+        max-height: 56vh;
+      }
       .kv > span:first-child {
         color: var(--text-3);
       }
@@ -240,6 +256,7 @@
       <button class="tab" type="button" data-tab="decisions">Decisions</button>
       <button class="tab" type="button" data-tab="trace">Trace</button>
       <button class="tab" type="button" data-tab="watch">Watch</button>
+      <button class="tab" type="button" data-tab="path">Golden path</button>
       <button class="tab" type="button" data-tab="experiments">
         Experiments
       </button>
@@ -274,6 +291,10 @@
       </section>
 
       <section id="decisions" class="panel" hidden>
+        <div id="followed-box" hidden>
+          <div class="row"><span class="label">Followed</span></div>
+          <div id="followed" class="followed"></div>
+        </div>
         <div class="grid">
           <div>
             <div class="row">
@@ -284,6 +305,7 @@
           </div>
           <div>
             <div class="label" id="offers-name"></div>
+            <div id="offers-follow"></div>
             <div class="scroll"><table id="offers-table"></table></div>
             <div id="choose-result"></div>
           </div>
@@ -326,6 +348,16 @@
         <div id="prices"></div>
         <div class="row"><span class="label">News</span></div>
         <div class="scroll"><table id="news-table"></table></div>
+      </section>
+
+      <section id="path" class="panel" hidden>
+        <div class="row">
+          <span class="label">Golden path</span>
+          <span id="path-furthest" class="when"></span>
+        </div>
+        <div class="scroll"><table id="path-steps"></table></div>
+        <div class="row"><span class="label">World</span></div>
+        <div class="scroll"><table id="path-world"></table></div>
       </section>
 
       <section id="experiments" class="panel" hidden>

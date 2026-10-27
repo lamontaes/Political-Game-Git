@@ -1181,7 +1181,7 @@
         "hearings": 4,
         "nps": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks on the Situation in Israel and Iran and an Exchange With Reporters Aboard Air Force One En Route to Amsterdam, Netherlands",
         "date": "2025-06-24",

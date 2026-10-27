@@ -7,7 +7,7 @@ import { advanceCore } from "../core2/life";
 import { billForm, type BillRow } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
-import { storyTopicName } from "../director/question-names";
+import { storyTopicName } from "./policy-names";
 import { BILL_SECTIONS, composeBill, valueWords } from "./bill-sections";
 
 // A bill's sections are worded from the record (owner, Oct 14, 2026: bill

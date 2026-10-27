@@ -12,7 +12,7 @@ import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
 import { composeJournal } from "../../src/director/journal";
 import { createDirector } from "../../src/director/ledger";
-import { journalDataFromBank } from "../../src/director/mined/journal-bank";
+import { journalDataFromBank } from "../../src/english/mined/journal-bank";
 
 const seed = process.argv[2] ?? "words-journal";
 const base = enrichCivicInputs(
@@ -36,7 +36,7 @@ director.start(core);
 advanceCore(core, addDays(makeIsoDate(core.date), 120));
 console.log(`# ${base.placeMetadata?.placeName} (seed ${seed})`);
 for (const chapter of composeJournal(core, director, player.id, {
-  data: journalDataFromBank(),
+  words: journalDataFromBank(),
 })) {
   console.log(`\n## ${chapter.title}`);
   for (const line of chapter.lines) console.log(line.text);

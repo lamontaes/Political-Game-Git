@@ -1,0 +1,24 @@
+{
+  "id": "bonanno-bereavement-patterns-2002",
+  "publisher": "Journal of Personality and Social Psychology (American Psychological Association)",
+  "vintage": "205 widowed spouses (Changing Lives of Older Couples) followed from before the loss to 6 and 18 months after",
+  "table": "Results, Bereavement Patterns (text)",
+  "title": "Resilience to loss and chronic grief: A prospective study from preloss to 18-months postloss",
+  "authors": "Bonanno, Wortman, Lehman, Tweed, Haring, Sonnega, Carr and Nesse (2002), Journal of Personality and Social Psychology 83(5):1150-1164, doi 10.1037/0022-3514.83.5.1150",
+  "universe": "Older adults whose spouse died, interviewed before the death and at 6 and 18 months after",
+  "geography": "Detroit Standardized Metropolitan Statistical Area, United States",
+  "sourceUrl": "https://sites.bu.edu/deborahcarr/files/2020/09/bonanno-et-al-2002.pdf",
+  "retrievedOn": "2026-10-24",
+  "limits": "Spousal loss in old age only, so the resilient share is lower than the 65.7% pooled across all potential traumas (trauma-trajectories-2018.json); the band the town is held to stays the pooled one, and this lower figure is the reason that band may be generous for bereavement alone. Symptom trajectories, not actions.",
+  "patterns": [
+    { "id": "resilient", "count": 94, "percent": 45.9 },
+    { "id": "chronic-grief", "count": 32, "percent": 15.6 },
+    { "id": "depressed-improved", "count": 21, "percent": 10.2 },
+    { "id": "common-grief", "count": 22, "percent": 10.7 },
+    { "id": "chronic-depression", "count": 16, "percent": 7.8 }
+  ],
+  "participants": 205,
+  "quote": "As anticipated, most of the sample (n = 185; 90.2%) were captured by five conceptually relevant patterns: common grief (n = 22; 10.7%); chronic grief (n = 32; 15.6%); resilient (n = 94; 45.9%); chronic depression (n = 16; 7.8%); and depressed-improved (n = 21; 10.2%).",
+  "use": "A caution beside the pooled band in scripts/research/people-year.ts: for bereavement alone, resilience is the most frequent pattern but not the majority.",
+  "readVia": "Full text read from the PDF at the source URL (text extracted with pdftotext)."
+}

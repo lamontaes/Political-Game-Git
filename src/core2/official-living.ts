@@ -89,14 +89,18 @@ export function giveLivingCost(
   return true;
 }
 
-/** What someone spends on living for a number of days, out of what they hold, to the outside account. */
+/**
+ * What someone spends on living for a number of days, out of what they hold,
+ * to the outside account. A caller paying many people at once finds that
+ * account once and passes it.
+ */
 export function spendLivingCost(
   api: CoreAPI,
   personId: string,
   days: number,
+  outside: string | undefined = outsideAccountOf(api),
 ): void {
   const person = api.state.people.get(personId);
-  const outside = outsideAccountOf(api);
   if (!person?.alive || !outside || days <= 0) return;
   const accounts = api.accounts();
   accounts.transfer({

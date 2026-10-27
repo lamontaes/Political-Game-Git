@@ -20,10 +20,9 @@ import {
   PERSONALITY_ANCHORED,
   PERSONALITY_DIMENSIONS,
   personalityLevel,
-  personalityLevelScore,
+  personalityKeptScore,
   yearlyPersonalityShift,
 } from "../opening-personality";
-import { stableHash } from "../kernel/ids";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { ModuleRow } from "../module-data";
@@ -92,12 +91,11 @@ function scoreOf(
   if (score === undefined) {
     // Where in its level's band they started: a generation fact keyed to
     // the person and trait (the opening kept only the level).
-    const hash = stableHash(
-      `${api.state.seed}:trait-score:${person.id}:${traitId}`,
-    );
-    score = personalityLevelScore(
+    score = personalityKeptScore(
+      api.state.seed,
+      person.id,
+      traitId,
       person.traits[traitId] ?? 0,
-      Number.parseInt(hash.slice(0, 8), 16) / 16 ** 8,
     );
     own.set(traitId, score);
   }

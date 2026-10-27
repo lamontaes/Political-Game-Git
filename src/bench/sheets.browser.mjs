@@ -26,6 +26,7 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const r = await response;
     assert.equal(r.status(), 200);

@@ -1,5 +1,5 @@
 {
-  "about": "The month and day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). Read by src/core2/elections-calendar.ts termStartAfter. The statewideExecutive row is the governor's clause and stands for every statewide office until another clause is read. Rows are keyed by state and office family and carry either a fixed `monthDay` or a `rule` (the nth weekday of a month, plus offsetDays; a December rule falls in the election year, a January rule the year after). The default stands in where a state's rule is not yet read (SG-GOV-term-end-estimate, still open for the states not listed).",
+  "about": "The month and day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). Read by src/core2/elections-calendar.ts termStartAfter. Rows are keyed by state and office family: statewideExecutive is the governor's clause (the mayor's for D.C.) and stands for every statewide office until another clause is read; stateLegislative is the day members elected at the general election take their seats. Each row carries either a fixed `monthDay` or a `rule` (the nth weekday of a month, plus offsetDays; the first such day after the election is the start). Rows read on 2026-10-23 carry the URL of the text they quote, most from 50constitutions.org (University of Wisconsin State Democracy Research Initiative). The default stands in for county and municipal offices with no county calendar row (SG-GOV-term-end-estimate, still open for them).",
   "stopgap": "SG-GOV-term-end-estimate",
   "default": {
     "monthDay": "01-01",
@@ -18,11 +18,107 @@
           "offsetDays": 0
         },
         "citation": "Alaska Const. art. III, §4",
-        "excerpt": "First Monday in December following the election."
+        "excerpt": "First Monday in December following the election.",
+        "url": "https://50constitutions.org/ak/constitution/section-id-44686"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 3,
+          "weekday": 2,
+          "offsetDays": 0
+        },
+        "citation": "AS 24.05.080 (Alaska Const. art. II, sec. 3 allows a law to set the day)",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=24.05.080&secEnd=24.05.090",
+        "excerpt": "Sec. 24.05.080. Terms. The term of each member of the legislature begins on the third Tuesday in January. The term of representatives is two years, and the term of senators, four years.",
+        "note": "The constitution (https://50constitutions.org/ak/constitution/section-id-44573) says: \"Their terms begin on the fourth Monday of the January following election unless otherwise provided by law.\" The statute is that law; AS 24.05.090 also convenes the legislature on the third Tuesday in January."
+      }
+    },
+    "US-AL": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 2,
+          "offsetDays": 6
+        },
+        "citation": "Ala. Const. art. V, sec. 116 (2022 recompilation)",
+        "url": "https://50constitutions.org/al/constitution/section-id-58429",
+        "excerpt": "The governor, lieutenant governor, attorney general, state auditor, secretary of state, state treasurer, and commissioner of agriculture and industries, shall hold their respective offices for the term of four years from the first Monday after the second Tuesday in January next succeeding their election and until their successors shall be elected and qualified.",
+        "note": "The first Monday after the second Tuesday is the second Tuesday plus 6 days. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Ala. Const. art. IV, sec. 46(a) (2022 recompilation)",
+        "url": "https://50constitutions.org/al/constitution/section-id-57482",
+        "excerpt": "The terms of office of the senators and representatives shall commence on the day after the general election at which they are elected, and expire on the day after the general election held in the fourth year after their election, except as otherwise provided in this Constitution.",
+        "note": "The game's day-after-election rule {11,1,1,2}. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-AR": {
+      "statewideExecutive": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 1
+        },
+        "citation": "Ark. Const. art. 6, sec. 3 and art. 5, sec. 5(b); 2019 and 2023 inaugurations",
+        "url": "https://50constitutions.org/ar/constitution/section-id-60775",
+        "excerpt": "The start day is not read from the text. The clause read says: ...directed to the Speaker of the House of Representatives; who shall, during the first week of the session, open and publish the votes cast and given for each of the respective officers hereinbefore mentioned, in the presence of both houses of the General Assembly. The person having the highest number of votes, for each of the respective offices, shall be declared duly elected thereto",
+        "estimatedFrom": "No clause fixes the day. The session opens \"on the second Monday in January of each odd-numbered year\" (art. 5, sec. 5(b), https://50constitutions.org/ar/constitution/section-id-60591), and the votes are published during its first week. The swearing-in \"takes place Tuesday, January 10th\" (2023, https://gcdd.arkansas.gov/events/governor-sanders-swearing-in-inaugural-address), and Hutchinson was \"inaugurated at the state Capitol on Tuesday\" in an article dated January 15, 2019 (https://katv.com/news/local/arkansas-governor-to-be-sworn-in-for-2nd-term). Both dates are the Tuesday after the second Monday in January. The Arkansas Code text was not read."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "Ark. Const. art. 8, sec. 6",
+        "url": "https://50constitutions.org/ar/constitution/section-id-60959",
+        "excerpt": "At the next general election for State and County officers ensuing after any such apportionment, Representatives shall be elected in accordance therewith, Senators shall be elected henceforth according to the apportionment now existing, and their respective terms of office shall begin on January 1 next following.",
+        "note": "The clause sits in the apportionment article; no other clause sets the day. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-AS": {
+      "statewideExecutive": {
+        "tag": "ESTIMATED",
+        "monthDay": "01-03",
+        "citation": "Rev. Const. of American Samoa art. IV, sec. 2 (sets no day); term dates",
+        "url": "https://en.wikipedia.org/wiki/List_of_governors_of_American_Samoa",
+        "excerpt": "The start day is not read from the text. The clause read says: Term starts listed: Lolo Matalasi Moliga \"January 3, 2013\"; Lemanu Peleti Mauga \"January 3, 2021\"; Pula Nikolao Pula \"January 3, 2025\".",
+        "estimatedFrom": "Art. IV, sec. 2 (https://faolex.fao.org/docs/pdf/ams72562.pdf) says the governor and lieutenant governor shall \"be popularly elected and serve in accordance with the laws of American Samoa\". The American Samoa Code text was not found; Refworld returned 403. January 3 is also the legislators' constitutional start day."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-03",
+        "citation": "Rev. Const. of American Samoa art. II, sec. 6",
+        "url": "https://faolex.fao.org/docs/pdf/ams72562.pdf",
+        "excerpt": "Section 6. Term of office. Each senator shall hold office for a term of four years. Representatives including any delegates from Swains Island shall each hold office for a term of two years. The terms of all members of the Legislature including any delegate from Swains Island shall commence at noon on the third day of January following their election, except as otherwise provided.",
+        "note": "Read in the FAOLEX PDF copy of the annotated constitution, which may predate the 2022 amendments."
       }
     },
     "US-AZ": {
       "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Ariz. Const. art. V, sec. 1(A) (2022 text)",
+        "url": "https://50constitutions.org/az/constitution/section-amendment-id-133540",
+        "excerpt": "A. The executive department shall consist of the governor, lieutenant governor, secretary of state, attorney general, state treasurer and superintendent of public instruction, each of whom shall hold office for four years beginning on the first Monday of January, 1971 next after the regular general election in 1970.",
+        "note": "Four-year terms counted from the first Monday of January 1971, so every term starts on the first Monday of January. Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
         "tag": "ESTIMATED",
         "rule": {
           "month": 1,
@@ -30,8 +126,10 @@
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2023-01-02 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Ariz. Const. art. IV, pt. 2, sec. 21; A.R.S. 41-1101",
+        "url": "https://50constitutions.org/az/constitution/section-amendment-id-131445",
+        "excerpt": "The start day is not read from the text. The clause read says: The members of the first Legislature shall hold office until the first Monday in January, 1913. The terms of office of the members of succeeding Legislatures shall be two years.",
+        "estimatedFrom": "No clause names the start day outright. The two-year terms count from the first Monday in January 1913, which gives the first Monday in January. A.R.S. 41-1101 (https://www.azleg.gov/ars/41/01101.htm) has members take the oath when the legislature assembles \"at twelve o'clock noon on the second Monday of January each year\"; if the oath day is the one that matters, use {1,2,1,0}."
       }
     },
     "US-CA": {
@@ -44,7 +142,21 @@
           "offsetDays": 1
         },
         "citation": "Cal. Const. art. V, sec. 2",
-        "excerpt": "The Governor's term runs from the Monday after January 1 following the election (the first Sunday on or after January 1, plus one day, so a January 1 that is a Monday gives January 8)."
+        "excerpt": "The Governor's term runs from the Monday after January 1 following the election (the first Sunday on or after January 1, plus one day, so a January 1 that is a Monday gives January 8).",
+        "url": "https://50constitutions.org/ca/constitution/section-id-62338"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 12,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Cal. Const. art. IV, sec. 2(a)(3)",
+        "url": "https://50constitutions.org/ca/constitution/section-id-62271",
+        "excerpt": "(3) The terms of a Senator or a Member of the Assembly shall commence on the first Monday in December next following her or his election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-CO": {
@@ -57,20 +169,67 @@
           "offsetDays": 0
         },
         "citation": "Colo. Const. art. IV, sec. 1 and C.R.S. 1-1-201",
-        "excerpt": "Terms begin on the second Tuesday of January next after the election."
+        "excerpt": "Terms begin on the second Tuesday of January next after the election.",
+        "url": "https://50constitutions.org/co/constitution/section-id-67713"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 3,
+          "offsetDays": 0
+        },
+        "citation": "Colo. Const. art. V, sec. 7; C.R.S. 2-2-303.5(2)",
+        "url": "https://50constitutions.org/co/constitution/section-id-67790",
+        "excerpt": "The term of service of the members of the general assembly shall begin on the convening of the first regular session of the general assembly next after their election.",
+        "note": "C.R.S. 2-2-303.5(2) (https://colorado.public.law/statutes/crs_2-2-303.5): \"Unless a different date is established in accordance with subsection (3) or (4) of this section, the general assembly shall meet in regular session at 10 a.m. on the second Wednesday of January of each year.\" The assembly may set an earlier date, so the start can move earlier in some years."
       }
     },
     "US-CT": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 1,
           "weekday": 1,
           "offsetDays": 2
         },
-        "citation": "The Wednesday after the first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-09 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Conn. Const. art. IV, sec. 2",
+        "url": "https://50constitutions.org/ct/constitution/section-id-74125",
+        "excerpt": "Such officers shall hold their respective offices from the Wednesday following the first Monday of the January next succeeding their election until the Wednesday following the first Monday of the fifth January succeeding their election and until their successors are duly qualified.",
+        "note": "Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Conn. Const. art. III, sec. 10",
+        "url": "https://50constitutions.org/ct/constitution/section-id-74098",
+        "excerpt": "The members of the general assembly shall hold their offices from the Wednesday following the first Monday of the January next succeeding their election until the Wednesday after the first Monday of the third January next succeeding their election, and until their successors are duly qualified.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-DC": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "monthDay": "01-02",
+        "citation": "D.C. Code 1-204.21(b) (Home Rule Act sec. 421)",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.21",
+        "excerpt": "(b) The Mayor, established by subsection (a) of this section, shall be elected, on a partisan basis, for a term of 4 years beginning at noon on January 2nd of the year following his election.",
+        "note": "This row is the Mayor's term."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-02",
+        "citation": "D.C. Code 1-204.01(b)(1) (Home Rule Act sec. 401)",
+        "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.01",
+        "excerpt": "The term of office of the members of the Council shall be 4 years, except as provided in paragraph (3) of this subsection, and shall begin at noon on January 2nd of the year following their election.",
+        "note": "This row is the Council's term."
       }
     },
     "US-DE": {
@@ -83,7 +242,21 @@
           "offsetDays": 0
         },
         "citation": "Del. Const. art. III, §5",
-        "excerpt": "Third Tuesday in January."
+        "excerpt": "Third Tuesday in January.",
+        "url": "https://50constitutions.org/de/constitution/section-id-56277"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Del. Const. art. II, sec. 3(b)",
+        "url": "https://50constitutions.org/de/constitution/section-id-56028",
+        "excerpt": "(b) The terms of Senators and Representatives begin on the day next after their election.",
+        "note": "The game's day-after-election rule {11,1,1,2}. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-FL": {
@@ -96,20 +269,77 @@
           "offsetDays": 1
         },
         "citation": "Fla. Const. art. IV, §5(a)",
-        "excerpt": "First Tuesday after the first Monday in January."
+        "excerpt": "First Tuesday after the first Monday in January.",
+        "url": "https://50constitutions.org/fl/constitution/section-id-64838"
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Fla. Const. art. III, sec. 15",
+        "url": "https://50constitutions.org/fl/constitution/section-id-64755",
+        "excerpt": "Members of the legislature shall take office upon election.",
+        "note": "\"Upon election\" is election day itself, which the game cannot use (it takes the first start after election day). The nearest rule is the day after the election, {11,1,1,2}. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23.",
+        "estimatedFrom": "The clause fixes the term's start on election day itself (the Tuesday, 1 day after the first Monday in November), which ruleStartAfter cannot return because it takes the first start strictly after election day. The row carries the next day (offset 2), one day late; spread 0 to 1 day, the Wednesday after election day. Replaced when a term can start on the day of its election."
       }
     },
     "US-GA": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 2,
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The second Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-14 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Ga. Const. art. V, sec. I, para. II and art. III, sec. IV, para. I",
+        "url": "https://50constitutions.org/ga/constitution/section-id-78207",
+        "excerpt": "An election for Governor shall be held on Tuesday after the first Monday in November of 1986, and the Governor-elect shall be installed in office at the next session of the General Assembly.",
+        "note": "Art. III, sec. IV, para. I (https://50constitutions.org/ga/constitution/section-id-77515): \"The General Assembly shall meet in regular session on the second Monday in January of each year, or otherwise as provided by law\". Wikipedia's list of governors gives January 10, 2011 and January 14, 2019, both second Mondays. Installation can fall later in the session week, so a single year may differ. Matches the earlier estimate."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Ga. Const. art. III, sec. II, para. V(a) and art. III, sec. IV, para. I",
+        "url": "https://50constitutions.org/ga/constitution/section-id-77449",
+        "excerpt": "Paragraph V. Election and term of members. (a) The members of the General Assembly shall be elected by the qualified electors of their respective districts for a term of two years and shall serve until the time fixed for the convening of the next General Assembly.",
+        "note": "A new member's term starts when the next General Assembly convenes, on \"the second Monday in January of each year, or otherwise as provided by law\" (https://50constitutions.org/ga/constitution/section-id-77515)."
+      }
+    },
+    "US-GU": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "48 U.S.C. 1422 (Organic Act of Guam)",
+        "url": "https://www.law.cornell.edu/uscode/text/48/1422",
+        "excerpt": "The term of the elected Governor and Lieutenant Governor shall commence on the first Monday of January following the date of election."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "2 GCA sec. 1105 (48 U.S.C. 1423 leaves organization to Guam law)",
+        "url": "https://policyrisk.com/states/guam/statutes?title=2",
+        "excerpt": "Senators elected to the Guam Legislature shall hold office for a term of two (2) years and until their successors are elected and qualified. The term of Senators elected to the Guam Legislature shall commence on the first Monday of January following the date of election.",
+        "note": "Read through WebFetch in a third-party compilation. The official Compiler of Laws PDF (https://www.guamcourts.gov/CompilerofLaws/GCA/02gca/2gc001.pdf) returned 404, and Justia returned 403."
       }
     },
     "US-HI": {
@@ -122,20 +352,68 @@
           "offsetDays": 0
         },
         "citation": "Haw. Const. art. V, §1",
-        "excerpt": "First Monday in December following the election."
+        "excerpt": "First Monday in December following the election.",
+        "url": "https://50constitutions.org/hi/constitution/section-id-66123"
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Haw. Const. art. III, sec. 4",
+        "url": "https://50constitutions.org/hi/constitution/section-id-65984",
+        "excerpt": "The term of a member of the legislature shall begin on the day of the general election at which elected or if elected at a primary election, on the day of the general election immediately following the primary election at which elected.",
+        "note": "The term begins on election day itself, which the game cannot use; the nearest rule is the day after the election, {11,1,1,2}, one day late. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23.",
+        "estimatedFrom": "The clause fixes the term's start on election day itself (the Tuesday, 1 day after the first Monday in November), which ruleStartAfter cannot return because it takes the first start strictly after election day. The row carries the next day (offset 2), one day late; spread 0 to 1 day, the Wednesday after election day. Replaced when a term can start on the day of its election."
+      }
+    },
+    "US-IA": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 1
+        },
+        "citation": "Iowa Const. art. IV, sec. 15 (1988 text)",
+        "url": "https://50constitutions.org/ia/constitution/section-amendment-id-140535",
+        "excerpt": "The official terms of the governor and lieutenant governor shall commence on the Tuesday after the second Monday of January next after their election and shall continue until their successors are elected and qualified.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "Iowa Const. art. III, sec. 3 (House); Iowa Code 39.8 (Senate)",
+        "url": "https://50constitutions.org/ia/constitution/section-id-140030",
+        "excerpt": "...and their term of office shall commence on the first day of January next after their election, and continue two years, and until their successors are elected and qualified.",
+        "note": "Representatives start January 1. Senators fall under Iowa Code 39.8 (https://www.legis.iowa.gov/docs/code/39.8.pdf): \"The term of office of all officers chosen at a general election for a full term shall commence on the first day of January following the election which is not a Sunday or legal holiday\". January 1 is a holiday, so senators start January 2, or January 3 when January 2 is a Sunday. One row cannot hold both, so this row uses the House date."
       }
     },
     "US-ID": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 1,
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-07 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Idaho Const. art. IV, sec. 1 (1994 text)",
+        "url": "https://50constitutions.org/id/constitution/section-amendment-id-73941",
+        "excerpt": "The executive department shall consist of a governor, lieutenant governor, secretary of state, state controller, state treasurer, attorney-general and superintendent of public instruction, each of whom shall hold his office for four years beginning on the first Monday in January next after his election, commencing with those elected in the year 1946, except as otherwise provided in this Constitution.",
+        "note": "Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "12-01",
+        "citation": "Idaho Const. art. III, sec. 3",
+        "url": "https://50constitutions.org/id/constitution/section-id-45015",
+        "excerpt": "The senators and representatives shall be elected for the term of two years, from and after the first day of December next following the general election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-IL": {
@@ -148,33 +426,100 @@
           "offsetDays": 0
         },
         "citation": "Ill. Const. art. V, sec. 2",
-        "excerpt": "The term begins on the second Monday of January following the election."
+        "excerpt": "The term begins on the second Monday of January following the election.",
+        "url": "https://50constitutions.org/il/constitution/section-id-86863"
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 3,
+          "offsetDays": 0
+        },
+        "citation": "Ill. Const. art. IV, sec. 5(a)",
+        "url": "https://50constitutions.org/il/constitution/section-id-86361",
+        "excerpt": "The start day is not read from the text. The clause read says: (a) The General Assembly shall convene each year on the second Wednesday of January. The General Assembly shall be a continuous body during the term for which members of the House of Representatives are elected.",
+        "estimatedFrom": "Art. IV, sec. 2 sets term lengths but no start day. The start is taken as the convening day; the statute that fixes the day, if any, was not found."
       }
     },
     "US-IN": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 2,
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "Ind. Const. art. 5, sec. 9 (1851 text), and the January 13, 2025 inauguration",
-        "excerpt": "The term begins on the second Monday in the January following the election; the current text of section 9 was not read."
+        "citation": "Ind. Const. art. 5, sec. 9",
+        "url": "https://50constitutions.org/in/constitution/section-id-65063",
+        "excerpt": "The official term of the Governor and Lieutenant Governor shall commence on the second Monday of January, in the year one thousand eight hundred and fifty-three; and on the same day every fourth year thereafter.",
+        "note": "Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Ind. Const. art. 4, sec. 3",
+        "url": "https://50constitutions.org/in/constitution/section-id-64891",
+        "excerpt": "Senators shall be elected for the term of four years, and Representatives for the term of two years, from the day next after their general election.",
+        "note": "The game's day-after-election rule {11,1,1,2}. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-KS": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 2,
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The second Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-14 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Kan. Const. art. 1, sec. 1",
+        "url": "https://50constitutions.org/ks/constitution/section-id-64237",
+        "excerpt": "Such officers shall be chosen by the electors of this state at the time of voting for members of the legislature in the year 1974 and every four years thereafter, and such officers elected in 1974 and thereafter shall have terms of four years which shall begin on the second Monday of January next after their election, and until their successors are elected and qualified.",
+        "note": "Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Kan. Const. art. 2, sec. 2",
+        "url": "https://50constitutions.org/ks/constitution/section-id-64272",
+        "excerpt": "The terms of representatives and senators shall commence on the second Monday of January of the year following election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-KY": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 36
+        },
+        "citation": "Ky. Const. sec. 73",
+        "url": "https://50constitutions.org/ky/constitution/section-id-67603",
+        "excerpt": "The Governor and the Lieutenant Governor shall commence the execution of the duties of their offices on the fifth Tuesday succeeding their election, and shall continue in the execution thereof until a successor shall have qualified.",
+        "note": "The fifth Tuesday after election day is election day plus 35 days: the first Monday in November plus 36. The election is in November of odd years, so the term starts in December of the election year. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "Ky. Const. sec. 30",
+        "url": "https://50constitutions.org/ky/constitution/section-id-67292",
+        "excerpt": "The term of office of Representatives and Senators shall begin upon the first day of January of the year succeeding their election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-LA": {
@@ -187,20 +532,77 @@
           "offsetDays": 0
         },
         "citation": "La. Const. art. IV, §3",
-        "excerpt": "Second Monday in January."
+        "excerpt": "Second Monday in January.",
+        "url": "https://50constitutions.org/la/constitution/section-id-69152"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "La. Const. art. III, sec. 5(A) with art. IV, sec. 3(A)",
+        "url": "https://50constitutions.org/la/constitution/section-id-69106",
+        "excerpt": "(A) Full Term. Members of the legislature shall take office on the same day as the governor and other officials elected statewide.",
+        "note": "Art. IV, sec. 3(A) (https://50constitutions.org/la/constitution/section-id-69152): \"The term of each such official shall begin at noon on the second Monday in January next following the election.\" Art. III, sec. 2(D) has the organizational session \"convened at ten o'clock in the morning on the day the members are required to take office.\""
+      }
+    },
+    "US-MA": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 3,
+          "offsetDays": 1
+        },
+        "citation": "Mass. Const. amend. art. LXXXII",
+        "url": "https://50constitutions.org/ma/constitution/section-id-53820",
+        "excerpt": "The terms of the governor and lieutenant-governor shall begin at noon on the Thursday next following the first Wednesday in January succeeding their election and shall end at noon on the Thursday next following the first Wednesday in January in the fifth year following their election.",
+        "note": "The Thursday after the first Wednesday is the first Wednesday plus 1. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 3,
+          "offsetDays": 0
+        },
+        "citation": "Mass. Const. amend. art. LXXXII",
+        "url": "https://50constitutions.org/ma/constitution/section-id-53820",
+        "excerpt": "The terms of senators and representatives shall begin with the first Wednesday in January succeeding their election and shall extend to the first Wednesday in January in the third year following their election and until their successors are chosen and qualified.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-MD": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 3,
           "weekday": 3,
           "offsetDays": 0
         },
-        "citation": "Md. Const. art. II, sec. 1 (2005 compilation) and the January 18, 2023 inauguration",
-        "excerpt": "The term begins on the third Wednesday of January after the election; the page read was labeled an older version."
+        "citation": "Md. Const. art. II, sec. 1",
+        "url": "https://50constitutions.org/md/constitution/section-id-74466",
+        "excerpt": "The executive power of the State shall be vested in a Governor, whose term of office shall commence on the third Wednesday of January next ensuing his election, and continue for four years, and until his successor shall have qualified;",
+        "note": "Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 3,
+          "offsetDays": 0
+        },
+        "citation": "Md. Const. art. III, sec. 6",
+        "url": "https://50constitutions.org/md/constitution/section-id-74553",
+        "excerpt": "A member of the General Assembly shall be elected by the registered voters of the legislative or delegate district from which he seeks election, to serve for a term of four years beginning on the second Wednesday of January following his election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-ME": {
@@ -213,36 +615,244 @@
           "offsetDays": 1
         },
         "citation": "Me. Const. art. V, pt. first, §2",
-        "excerpt": "First Wednesday after the first Tuesday in January."
+        "excerpt": "First Wednesday after the first Tuesday in January.",
+        "url": "https://50constitutions.org/me/constitution/section-id-71723"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 12,
+          "nth": 1,
+          "weekday": 3,
+          "offsetDays": -1
+        },
+        "citation": "Me. Const. art. IV, pt. 1, sec. 2 and pt. 2, sec. 1",
+        "url": "https://50constitutions.org/me/constitution/section-id-71420",
+        "excerpt": "The House of Representatives shall consist of 151 members, to be elected by the qualified electors, and hold their office 2 years from the day next preceding the first Wednesday in December following the general election.",
+        "note": "The Senate is elected \"at the same time and for the same term as Representatives\" (https://50constitutions.org/me/constitution/section-id-71476). The day before the first Wednesday in December is the first Wednesday minus 1. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-MI": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "Mich. Const. art. XI, sec. 2",
+        "url": "https://50constitutions.org/mi/constitution/section-id-79666",
+        "excerpt": "The terms of office of elective state officers, members of the legislature and justices and judges of courts of record shall begin at twelve o'clock noon on the first day of January next succeeding their election, except as otherwise provided in this constitution.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "Mich. Const. art. XI, sec. 2",
+        "url": "https://50constitutions.org/mi/constitution/section-id-79666",
+        "excerpt": "The terms of office of elective state officers, members of the legislature and justices and judges of courts of record shall begin at twelve o'clock noon on the first day of January next succeeding their election, except as otherwise provided in this constitution.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-MN": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 1,
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-07 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Minn. Stat. 204D.02, subd. 2; Minn. Const. art. VII, sec. 7",
+        "url": "https://www.revisor.mn.gov/statutes/cite/204D.02",
+        "excerpt": "Subd. 2. Term of office. The term of office of all elective state and county officers shall begin on the first Monday in January of the odd-numbered year following their election.",
+        "note": "Matches the earlier estimate."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Minn. Const. art. VII, sec. 7",
+        "url": "https://50constitutions.org/mn/constitution/section-id-53355",
+        "excerpt": "The official year for the state of Minnesota commences on the first Monday in January in each year and all terms of office terminate at that time.",
+        "note": "The outgoing terms end on the first Monday in January, so the new terms begin then. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
-    "US-MT": {
+    "US-MO": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "RSMo 26.015",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=26.015",
+        "excerpt": "26.015. Terms of office. — The governor and lieutenant governor shall hold their offices for a term of four years beginning at 12:00 noon on the second Monday in January next after their election and until their successors are elected and qualified."
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Mo. Const. art. III, sec. 20 (session date); 2013 swearing-in",
+        "url": "https://50constitutions.org/mo/constitution/section-id-73348",
+        "excerpt": "The start day is not read from the text. The clause read says: The general assembly shall meet on the first Wednesday after the first Monday in January following each general election.",
+        "estimatedFrom": "No constitution or statute text naming the start day was found. A 2013 report (https://patch.com/missouri/ofallon/bp--robert-cornejo-begins-service-as-state-representative) says the member \"officially began his service as a state legislator after being sworn in during a ceremony Wednesday, January 9\", the opening day."
+      }
+    },
+    "US-MP": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "N. Mar. I. Const. art. VIII, sec. 4",
+        "url": "https://cnmilaw.gov/constitution",
+        "excerpt": "Section 4: Taking Office After Elections. Officers elected at the regular general election shall take office on the second Monday of January of the year following the year in which the election was held.",
+        "note": "The CNMI Law Revision Commission's text, marked \"Original provision, unaltered (ratified 1977, effective 1978).\""
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "N. Mar. I. Const. art. VIII, sec. 4 and art. II (organizational meeting)",
+        "url": "https://cnmilaw.gov/constitution",
+        "excerpt": "Officers elected at the regular general election shall take office on the second Monday of January of the year following the year in which the election was held.",
+        "note": "Art. II also reads: \"The legislature shall meet for organizational purposes on the second Monday of January in the year following the regular general election at which members of the legislature are elected\"."
+      }
+    },
+    "US-MS": {
       "statewideExecutive": {
         "tag": "ESTIMATED",
         "rule": {
           "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 1
+        },
+        "citation": "Miss. Const. secs. 116, 136 (term length only); inauguration dates",
+        "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Mississippi",
+        "excerpt": "The start day is not read from the text. The clause read says: \"The current governor is Republican Tate Reeves, who took office January 14, 2020.\" Note 35: \"Reeves' second term began on January 9, 2024, and will expire on January 11, 2028\"",
+        "estimatedFrom": "The constitution sets four-year terms but no start day (sec. 116, https://50constitutions.org/ms/constitution/section-id-72858). Listed starts (January 13, 2004; January 10, 2012; January 14, 2020; January 9, 2024; end January 11, 2028) are all the Tuesday after the second Monday in January, one week after the session opens (sec. 36). The legislature's yearly inauguration resolution (https://billstatus.ls.state.ms.us/documents/2024/html/HC/HC0002IN.htm) did not load: curl failed TLS verification and WebFetch returned HTTP 503. No statute fixing the day was found."
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 1
+        },
+        "citation": "Miss. Const. sec. 36 (session date); 2024 swearing-in",
+        "url": "https://www.clarkecountytrib.com/most-recent/mississippi-legislature-gavels-new-term-65946bbbcbda8",
+        "excerpt": "The start day is not read from the text. The clause read says: \"The gavels are set to fall in both chambers of the Mississippi Legislature on Tuesday, January 2nd\" ... \"Seven new Senators and 25 new State Representatives to be sworn in Tuesday.\"",
+        "estimatedFrom": "Sec. 36 (https://50constitutions.org/ms/constitution/section-id-72650): \"The Legislature shall meet at the seat of government in regular session on the Tuesday after the first Monday of January of the year A.D., 1970, and annually thereafter\". Sec. 257 starts the political year on the first Monday of January. No statute naming the legislators' start day was found."
+      }
+    },
+    "US-MT": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
           "nth": 1,
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2021-01-04 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Mont. Const. art. VI, sec. 1(2)",
+        "url": "https://50constitutions.org/mt/constitution/section-id-43629",
+        "excerpt": "(2) Each holds office for a term of four years which begins on the first Monday of January next succeeding election, and until a successor is elected and qualified.",
+        "note": "Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "MCA 5-2-102 (Mont. Const. art. V, sec. 3 leaves the date to law)",
+        "url": "https://mca.legmt.gov/bills/mca/title_0050/chapter_0020/part_0010/section_0020/0050-0020-0010-0020.html",
+        "excerpt": "5-2-102. Term of office. The term of office of a senator is 4 years or until a successor is elected and qualified, and the term of office of a representative is 2 years or until a successor is elected and qualified. The term of service begins on the first Monday of January following the election."
+      }
+    },
+    "US-NC": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "N.C. Const. art. III, sec. 2(1)",
+        "url": "https://50constitutions.org/nc/constitution/section-amendment-id-138204",
+        "excerpt": "Their term of office shall be four years and shall commence on the first day of January next after their election and continue until their successors are elected and qualified.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "N.C. Const. art. II, sec. 9",
+        "url": "https://50constitutions.org/nc/constitution/section-amendment-id-138242",
+        "excerpt": "The term of office of Senators and Representatives shall commence on the first day of January next after their election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-ND": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "monthDay": "12-15",
+        "citation": "N.D. Const. art. V, sec. 5",
+        "url": "https://50constitutions.org/nd/constitution/section-id-83607",
+        "excerpt": "The terms of the governor and lieutenant governor begin on December fifteenth following their election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "12-01",
+        "citation": "N.D. Const. art. IV, sec. 7",
+        "url": "https://50constitutions.org/nd/constitution/section-id-83578",
+        "excerpt": "The terms of members of the legislative assembly begin on the first day of December following their election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-NE": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 2,
+          "offsetDays": 2
+        },
+        "citation": "Neb. Const. art. XVII, sec. 5 (art. IV, sec. 1 sets no day)",
+        "url": "https://50constitutions.org/ne/constitution/section-id-82753",
+        "excerpt": "Unless otherwise provided by this Constitution or by law the terms of all elected officers shall begin on the first Thursday after the first Tuesday in January next succeeding their election.",
+        "note": "Art. IV, sec. 1 gives the governor \"a term of four years\" with no start day, so the default in art. XVII, sec. 5 applies. Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Neb. Const. art. III, sec. 10; Neb. Rev. Stat. 32-122",
+        "url": "https://50constitutions.org/ne/constitution/section-id-82442",
+        "excerpt": "The start day is not read from the text. The clause read says: Beginning with the year 1975, regular sessions of the Legislature shall be held annually, commencing at 10 a.m. on the first Wednesday after the first Monday in January of each year.",
+        "estimatedFrom": "Neb. Rev. Stat. 32-122 (https://nebraskalegislature.gov/laws/statutes.php?statute=32-122) ties the term to the swearing-in: \"The second half of a term of office for a member of the Legislature starts on the day of the meeting of the Legislature at which members are regularly sworn in to office\". The term is taken to start at the opening-day swearing-in. If no law displaces art. XVII, sec. 5, the start would be the following Thursday, {1,1,2,2}."
+      }
+    },
+    "US-NH": {
       "statewideExecutive": {
         "tag": "ESTIMATED",
         "rule": {
@@ -251,8 +861,23 @@
           "weekday": 2,
           "offsetDays": 2
         },
-        "citation": "The first Thursday after the first Tuesday in January: the usual clause for this state, which reproduces the current governor's term start of 2023-01-05 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "N.H. Const. pt. 2, art. 42; 1993 and 2025 inaugurations",
+        "url": "https://50constitutions.org/nh/constitution/section-id-81440",
+        "excerpt": "The start day is not read from the text. The clause read says: ...and the secretary shall lay the same before the senate and house of representatives, on the first Wednesday following the first Tuesday of January to be by them examined, and in case of an election by a plurality of votes through the state, the choice shall be by them declared and published.",
+        "estimatedFrom": "The constitution sets the canvass day, not the oath day. \"Steve Merrill's term as governor did not begin until January 7 in accordance to the Constitution of New Hampshire\" (https://en.wikipedia.org/wiki/Ralph_D._Hough): January 7, 1993 was the Thursday after the first Tuesday, the first Tuesday plus 2. A search snippet (not read in full) gave Ayotte's start as January 9, 2025, the same weekday. If the canvass day itself is the start, use {1,1,2,1}. The RSA text was not found."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 12,
+          "nth": 1,
+          "weekday": 3,
+          "offsetDays": 0
+        },
+        "citation": "N.H. Const. pt. 2, art. 3",
+        "url": "https://50constitutions.org/nh/constitution/section-id-81300",
+        "excerpt": "The senate and house shall assemble biennially on the first Wednesday of December for organizational purposes in even numbered years, ... and shall dissolve and be dissolved at 12:01 A.M. on the first Wednesday of December in even numbered years",
+        "note": "The old General Court is dissolved, and the new one assembles, on the first Wednesday of December. Pt. 2, art. 33 summons members for \"a due meeting of senators and representatives on the first Wednesday of December, biennially\". Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-NJ": {
@@ -265,20 +890,85 @@
           "offsetDays": 0
         },
         "citation": "N.J. Const. art. V, sec. I",
-        "excerpt": "The Governor's term is four years, beginning at noon of the third Tuesday in January next following the election."
+        "excerpt": "The Governor's term is four years, beginning at noon of the third Tuesday in January next following the election.",
+        "url": "https://50constitutions.org/nj/constitution/section-id-82159"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 2,
+          "offsetDays": 0
+        },
+        "citation": "N.J. Const. art. IV, sec. II (Senate and General Assembly terms)",
+        "url": "https://50constitutions.org/nj/constitution/section-id-82053",
+        "excerpt": "Two members of the General Assembly shall be elected by the legally qualified voters of each Assembly district for terms beginning at noon of the second Tuesday in January next following their election and ending at noon of the second Tuesday in January two years thereafter.",
+        "note": "Senators (https://50constitutions.org/nj/constitution/section-id-82049): \"Each senator shall be elected for a term beginning at noon of the second Tuesday in January next following his election\". Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-NM": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "N.M. Const. art. V, sec. 1 and art. XX, sec. 3(A)",
+        "url": "https://50constitutions.org/nm/constitution/section-amendment-id-58688",
+        "excerpt": "...lieutenant governor, secretary of state, state auditor, state treasurer, attorney general and commissioner of public lands, who shall, unless otherwise provided in the constitution of New Mexico, be elected for terms of four years beginning on the first day of January next after their election.",
+        "note": "Art. XX, sec. 3(A) (https://50constitutions.org/nm/constitution/section-amendment-id-63228): \"The term of office of every state, county or district officer, except those elected to fill vacancies, shall commence on the first day of January next after the officer's election.\""
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "monthDay": "01-01",
+        "citation": "N.M. Const. art. IV, sec. 4 and art. XX, sec. 3(A)",
+        "url": "https://50constitutions.org/nm/constitution/section-amendment-id-57933",
+        "excerpt": "The start day is not read from the text. The clause read says: Such legislative appointments as provided in this section shall be for a term ending on December 31, subsequent to the next succeeding general election.",
+        "estimatedFrom": "No clause names the legislators' start day. An appointed seat ends on December 31 after the next election, so the elected member starts January 1. Art. XX, sec. 3(A) starts \"every state, county or district officer\" on January 1, if legislators count as state officers."
       }
     },
     "US-NV": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 1,
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2023-01-02 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "NRS 223.020(2) and 223.030 (Nev. Const. art. 5, sec. 2: \"from the time of his installation\")",
+        "url": "https://www.leg.state.nv.us/NRS/NRS-223.html",
+        "excerpt": "NRS 223.030 Oath. The Governor shall take and subscribe to the official oath before the Chief Justice or one of the associate justices of the Supreme Court on the 1st Monday of January next succeeding his or her election.",
+        "note": "NRS 223.020(2): the Governor \"shall hold office for the term of 4 years from the time of his or her installment\". The installation is the oath day. Matches the earlier estimate."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Nev. Const. art. 4, secs. 3 and 4",
+        "url": "https://50constitutions.org/nv/constitution/section-amendment-id-142050",
+        "excerpt": "The members of the Assembly shall be chosen biennially by the qualified electors of their respective districts, on the Tuesday next after the first Monday in November and their term of Office shall be two years from the day next after their election.",
+        "note": "Senators (https://50constitutions.org/nv/constitution/section-amendment-id-142053): \"their term of Office shall be four years from the day next after their election.\" The game's day-after-election rule {11,1,1,2}."
+      }
+    },
+    "US-NY": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "N.Y. Public Officers Law sec. 4(1) (N.Y. Const. art. IV, sec. 1 sets no day)",
+        "url": "https://www.nysenate.gov/legislation/laws/PBO/4",
+        "excerpt": "The term of office of an elective officer, unless elected to fill a vacancy then existing, shall commence on the first day of January next after his election, if the commencement thereof be not otherwise fixed by law.",
+        "note": "Read through WebFetch, which returned the subdivision in three quoted segments; curl got a JavaScript challenge (HTTP 403)."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "N.Y. Const. art. XIII, sec. 4",
+        "url": "https://50constitutions.org/ny/constitution/section-amendment-id-149623",
+        "excerpt": "The political year and legislative term shall begin on the first day of January; and the legislature shall, every year, assemble on the first Wednesday after the first Monday in January.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-OH": {
@@ -291,7 +981,16 @@
           "offsetDays": 0
         },
         "citation": "Ohio Rev. Code 107.01 and Ohio Const. art. III, sec. 2",
-        "excerpt": "The governor's term commences on the second Monday of January next after the election."
+        "excerpt": "The governor's term commences on the second Monday of January next after the election.",
+        "url": "https://50constitutions.org/oh/constitution/section-amendment-id-143996"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "Ohio Const. art. II, sec. 2",
+        "url": "https://50constitutions.org/oh/constitution/section-amendment-id-143993",
+        "excerpt": "Representatives shall be elected biennially by the electors of the respective House of Representatives districts; their term of office shall commence on the first day of January next thereafter and continue two years. Senators shall be elected by the electors of the respective Senate districts; their terms of office shall commence on the first day of January next after their election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-OK": {
@@ -304,7 +1003,21 @@
           "offsetDays": 0
         },
         "citation": "Okla. Const. art. VI, sec. 4",
-        "excerpt": "The four-year term runs from the second Monday of January following the election (the Oklahoma Senate's copy of Article VI)."
+        "excerpt": "The four-year term runs from the second Monday of January following the election (the Oklahoma Senate's copy of Article VI).",
+        "url": "https://50constitutions.org/ok/constitution/section-id-85450"
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 16
+        },
+        "citation": "Okla. Stat. tit. 14, secs. 80.35.14 and 145 (as cited by the Oklahoma State Election Board)",
+        "url": "https://www.oklahoma.gov/content/dam/ok/en/elections/terms-of-office/2025-terms-of-office.pdf",
+        "excerpt": "The start day is not read from the text. The clause read says: State Senate (48) Even-numbered districts 4 2026 15th day after General November 18, 2026 (f) ... State House of Representatives (101) 2 2026 15th day after General (g) ... (f) Title 14 O.S. Section 80.35.14 ... (g) Title 14 O.S. Section 145",
+        "estimatedFrom": "This is the State Election Board's official terms-of-office table; the statute text itself was not read. The 15th day after election day is the first Monday in November plus 16, which matches the table's November 18, 2026 and November 22, 2028."
       }
     },
     "US-OR": {
@@ -316,8 +1029,23 @@
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The second Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2023-01-09 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "ORS 176.010; Or. Const. art. V, sec. 4; Kotek term dates",
+        "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors176.html",
+        "excerpt": "The start day is not read from the text. The clause read says: 176.010 Commencement of term; inauguration. The official term of the Governor shall commence upon the publication of the returns by the Speaker of the House of Representatives, as provided in section 4, Article V, Oregon Constitution",
+        "estimatedFrom": "The term starts when the Speaker publishes the returns before both houses (art. V, sec. 4, https://50constitutions.org/or/constitution/section-id-88197); no statute fixes that day. Members' terms begin on the second Monday in January (art. IV, sec. 4). Wikipedia's list of governors (https://en.wikipedia.org/wiki/List_of_governors_of_Oregon) gives Kotek's start as January 9, 2023 and her term's end as January 11, 2027, both second Mondays. Matches the earlier estimate."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Or. Const. art. IV, sec. 4",
+        "url": "https://50constitutions.org/or/constitution/section-amendment-id-97740",
+        "excerpt": "The tern of each Senator and Representative shall commence on the second Monday in January following his election, and shall continue for the full period of four years or two years, as the case may be, unless a different commencing day for such terms shall have been appointed by law.",
+        "note": "\"tern\" is the source's spelling. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-PA": {
@@ -330,7 +1058,142 @@
           "offsetDays": 0
         },
         "citation": "Pa. Const. art. IV, sec. 3",
-        "excerpt": "The Governor's term is four years, starting on the third Tuesday of January next ensuing the election (read in a constitution mirror, not an official page)."
+        "excerpt": "The Governor's term is four years, starting on the third Tuesday of January next ensuing the election (read in a constitution mirror, not an official page).",
+        "url": "https://50constitutions.org/pa/constitution/section-amendment-id-132671"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "12-01",
+        "citation": "Pa. Const. art. II, sec. 2",
+        "url": "https://50constitutions.org/pa/constitution/section-id-129556",
+        "excerpt": "Members of the General Assembly shall be chosen at the general election every second year. Their term of service shall begin on the first day of December next after their election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-PR": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "monthDay": "01-02",
+        "citation": "P.R. Const. art. IV, sec. 2",
+        "url": "https://en.wikisource.org/wiki/Constitution_of_the_Commonwealth_of_Puerto_Rico",
+        "excerpt": "Section 2. The Governor shall hold office for the term of four years from the second day of January of the year following his election and until his successor has been elected and qualifies.",
+        "note": "English translation on Wikisource; the official text is Spanish."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-02",
+        "citation": "P.R. Const. art. III, sec. 8",
+        "url": "https://en.wikisource.org/wiki/Constitution_of_the_Commonwealth_of_Puerto_Rico",
+        "excerpt": "Section 8. The term of office of Senators and Representatives shall begin on the second day of January immediately following the date of the general election in which they shall have been elected.",
+        "note": "English translation on Wikisource; the official text is Spanish."
+      }
+    },
+    "US-RI": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 2,
+          "offsetDays": 0
+        },
+        "citation": "R.I. Const. art. IV, sec. 1",
+        "url": "https://50constitutions.org/ri/constitution/section-id-89939",
+        "excerpt": "The governor, lieutenant governor, secretary of state, attorney general and general treasurer shall be elected on the Tuesday after the first Monday in November, quadrennially commencing A.D. 1994, and every four (4) years thereafter, and shall severally hold their offices, subject to recall as provided for herein, for four (4) years from the first Tuesday of January next succeeding their election and until their successors are elected and qualified.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 2,
+          "offsetDays": 0
+        },
+        "citation": "R.I. Const. art. IV, sec. 1",
+        "url": "https://50constitutions.org/ri/constitution/section-id-89939",
+        "excerpt": "The senators and representatives in the general assembly shall be elected on the Tuesday after the first Monday in November, biennially in even numbered years, and shall severally hold their offices for two (2) years from the first Tuesday of January next succeeding their election and until their successors are elected and qualified.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-SC": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 2,
+          "offsetDays": 1
+        },
+        "citation": "S.C. Const. art. IV, sec. 4",
+        "url": "https://50constitutions.org/sc/constitution/section-id-90232",
+        "excerpt": "The term of office of the Governor shall be four years, beginning at noon on the first Wednesday following the second Tuesday in January next after his election and ending at noon on the first Wednesday following the second Tuesday in January four years later.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 7
+        },
+        "citation": "S.C. Const. art. III, sec. 10",
+        "url": "https://50constitutions.org/sc/constitution/section-id-90168",
+        "excerpt": "The terms of office of the Senators and Representatives chosen at a general election shall begin on the Monday following such election.",
+        "note": "The Monday after election day is the first Monday in November plus 7. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-SD": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 2,
+          "offsetDays": -3
+        },
+        "citation": "SDCL 3-1-2",
+        "url": "https://sdlegislature.gov/api/Statutes/3-1-2.html?all=true",
+        "excerpt": "3-1-2. Time of commencement of term of office. Except as otherwise expressly provided, all state, district, and county officers shall qualify and enter upon the duties of their office on the first Monday of January succeeding their election or within twenty days thereafter. However, a state officer may qualify and enter upon the duties of office on the Saturday immediately preceding the second Tuesday of January that succeeds the state officer's election.",
+        "note": "Two lawful days. The Saturday option was added in 2018 (SL 2018 (SS), ch 1) and is used here; the default would be {1,1,1,0}. The Saturday before the second Tuesday is the second Tuesday minus 3. S.D. Const. art. IV, sec. 2 sets the term length only."
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "SDCL 3-1-2 (general rule for state officers)",
+        "url": "https://sdlegislature.gov/api/Statutes/3-1-2.html?all=true",
+        "excerpt": "The start day is not read from the text. The clause read says: Except as otherwise expressly provided, all state, district, and county officers shall qualify and enter upon the duties of their office on the first Monday of January succeeding their election or within twenty days thereafter.",
+        "estimatedFrom": "No legislator-specific clause was found. The legislature convenes \"on the second Tuesday of January at 12 o'clock m.\" (S.D. Const. art. III, sec. 7, https://50constitutions.org/sd/constitution/section-id-93294); if members' terms run from that day, use {1,2,2,0}."
+      }
+    },
+    "US-TN": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "monthDay": "01-15",
+        "citation": "Tenn. Const. art. VII, sec. 5",
+        "url": "https://50constitutions.org/tn/constitution/section-id-87222",
+        "excerpt": "The term of office of the Governor and other executive officers shall be computed from the fifteenth of January next after the election of the Governor.",
+        "note": "The inauguration itself happens at the organizational session that convenes on the second Tuesday in January (art. II, sec. 8, https://50constitutions.org/tn/constitution/section-id-87068); the term is counted from January 15. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 11,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Tenn. Const. art. II, sec. 3",
+        "url": "https://50constitutions.org/tn/constitution/section-id-87054",
+        "excerpt": "Representatives shall hold office for two years and Senators for four years from the day of the general election",
+        "note": "The term runs from election day itself, which the game cannot use; the nearest rule is the day after the election, {11,1,1,2}, one day late. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23.",
+        "estimatedFrom": "The clause fixes the term's start on election day itself (the Tuesday, 1 day after the first Monday in November), which ruleStartAfter cannot return because it takes the first start strictly after election day. The row carries the next day (offset 2), one day late; spread 0 to 1 day, the Wednesday after election day. Replaced when a term can start on the day of its election."
       }
     },
     "US-TX": {
@@ -342,21 +1205,46 @@
           "weekday": 2,
           "offsetDays": 0
         },
-        "citation": "The third Tuesday in January: the usual clause for this state, which reproduces the current governor's term start of 2015-01-20 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Tex. Const. art. IV, sec. 4; session date",
+        "url": "https://50constitutions.org/tx/constitution/section-id-78456",
+        "excerpt": "The start day is not read from the text. The clause read says: The Governor elected at the general election in 1974, and thereafter, shall be installed on the first Tuesday after the organization of the Legislature, or as soon thereafter as practicable, and shall hold his office for the term of four years, or until his successor shall be duly installed.",
+        "estimatedFrom": "The constitution leaves the session date to law (art. III, sec. 5(a)). Wikipedia (https://en.wikipedia.org/wiki/Texas_Legislature) says the Legislature meets \"starting on the second Tuesday in January of odd-numbered years\"; the Government Code 301.001 page did not load (JavaScript page). The first Tuesday after a second-Tuesday organization is the third Tuesday. Matches the earlier estimate."
+      },
+      "stateLegislative": {
+        "tag": "ESTIMATED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 2,
+          "offsetDays": 0
+        },
+        "citation": "Tex. Const. art. III, sec. 18; session date",
+        "url": "https://50constitutions.org/tx/constitution/section-id-63918",
+        "excerpt": "The start day is not read from the text. The clause read says: ...provided, however, the fact that the term of office of Senators and Representatives does not end precisely on the last day of December but extends a few days into January of the succeeding year shall be considered as de minimis",
+        "estimatedFrom": "Terms run a few days into January, which implies the start falls at the session's opening, \"the second Tuesday in January of odd-numbered years\" (https://en.wikipedia.org/wiki/Texas_Legislature). No clause naming the day was read."
       }
     },
     "US-UT": {
       "statewideExecutive": {
-        "tag": "ESTIMATED",
+        "tag": "SOURCED",
         "rule": {
           "month": 1,
           "nth": 1,
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2021-01-04 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Utah Const. art. VII, sec. 1(2)(a)",
+        "url": "https://50constitutions.org/ut/constitution/section-amendment-id-81495",
+        "excerpt": "(2) Each officer shall: (a) hold office for four years beginning on the first Monday of January next after their election;",
+        "note": "Matches the earlier estimate. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "01-01",
+        "citation": "Utah Const. art. VI, secs. 3(2) and 4(2)",
+        "url": "https://50constitutions.org/ut/constitution/section-amendment-id-81783",
+        "excerpt": "(2) Their term of office shall be two years from the first day of January next after their election.",
+        "note": "Senators (https://50constitutions.org/ut/constitution/section-amendment-id-81788): \"(2) Their term of office shall be four years from the first day of January next after their election.\" Art. IV, sec. 9(3) excludes legislators from the first-Monday rule. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-VA": {
@@ -369,7 +1257,47 @@
           "offsetDays": 3
         },
         "citation": "Va. Const. art. V, §1",
-        "excerpt": "Saturday after the second Wednesday in January."
+        "excerpt": "Saturday after the second Wednesday in January.",
+        "url": "https://law.lis.virginia.gov/constitution/article5/section1/"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 3,
+          "offsetDays": 0
+        },
+        "citation": "Va. Code secs. 24.2-214 and 24.2-215",
+        "url": "https://law.lis.virginia.gov/vacode/title24.2/chapter2/section24.2-215/",
+        "excerpt": "The members of the House of Delegates shall be elected at the general election in November 1995, and every two years thereafter for terms of two years, to begin on the second Wednesday in January succeeding their election.",
+        "note": "Senators (https://law.lis.virginia.gov/vacode/title24.2/chapter2/section24.2-214/): \"for terms of four years, to begin on the second Wednesday in January succeeding their election.\" Va. Const. art. IV, secs. 2 and 3 set only the election day."
+      }
+    },
+    "US-VI": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "48 U.S.C. 1591 (Revised Organic Act of the Virgin Islands)",
+        "url": "https://www.law.cornell.edu/uscode/text/48/1591",
+        "excerpt": "The term of the elected Governor and Lieutenant Governor shall commence on the first Monday of January following the date of election."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "48 U.S.C. 1572(a)",
+        "url": "https://www.law.cornell.edu/uscode/text/48/1572",
+        "excerpt": "The term of office of each member of the legislature shall be two years. The term of office of each member shall commence on the second Monday in January following his election"
       }
     },
     "US-VT": {
@@ -378,11 +1306,26 @@
         "rule": {
           "month": 1,
           "nth": 1,
-          "weekday": 3,
-          "offsetDays": 1
+          "weekday": 1,
+          "offsetDays": 3
         },
-        "citation": "The first Thursday after the first Wednesday in January: the usual clause for this state, which reproduces the current governor's term start of 2017-01-05 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Vt. Const. ch. II, sec. 49; 2025 joint resolution R-3",
+        "url": "https://50constitutions.org/vt/constitution/section-id-88622",
+        "excerpt": "The start day is not read from the text. The clause read says: The term of office of the Governor, Lieutenant-Governor and Treasurer of the State, respectively, shall commence when they shall be chosen and qualified, and shall continue for the term of two years",
+        "estimatedFrom": "The governor is \"chosen\" when the General Assembly counts the votes at its opening (ch. II, sec. 47) and \"qualified\" at the oath. The 2025 resolution (https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACTR003/ACTR003%20As%20Adopted.pdf) reads: \"That the two Houses meet in Joint Assembly on Thursday, January 9, 2025, at two o'clock in the afternoon to receive the inaugural message of the Governor.\" That is the Thursday after the session opens on the Wednesday after the first Monday: the first Monday plus 3. The earlier estimate {1,1,3,1} gives January 2, 2025, a week early."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 2
+        },
+        "citation": "Vt. Const. ch. II, sec. 46",
+        "url": "https://50constitutions.org/vt/constitution/section-id-88616",
+        "excerpt": "The term of office of Senators and Representatives shall be two years, commencing on the first Wednesday next after the first Monday of January following their election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     },
     "US-WA": {
@@ -395,7 +1338,20 @@
           "offsetDays": 2
         },
         "citation": "RCW 43.01.010",
-        "excerpt": "The term shall commence on the Wednesday after the second Monday of January following their election."
+        "excerpt": "The term shall commence on the Wednesday after the second Monday of January following their election.",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=43.01.010"
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "RCW 44.04.021",
+        "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=44.04.021",
+        "excerpt": "Commencement of terms of office. The regular term of office of each senator and representative shall commence on the second Monday in January following the date of election."
       }
     },
     "US-WI": {
@@ -407,12 +1363,12 @@
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "Wis. Const. art. V, sec. 1 (historical text: the political year begins the first Monday in January) and the January 7, 2019 inauguration",
-        "excerpt": "The governor takes office the first Monday in January after the general election; the current text was not read."
-      }
-    },
-    "US-WY": {
-      "statewideExecutive": {
+        "citation": "Wis. Const. art. XIII, sec. 1 (art. V, sec. 1 sets no day)",
+        "url": "https://50constitutions.org/wi/constitution/section-amendment-id-71709",
+        "excerpt": "The start day is not read from the text. The clause read says: The political year for this state shall commence on the first Monday of January in each year, and the general election shall be held on the Tuesday next succeeding the first Monday of November in even-numbered years.",
+        "estimatedFrom": "Art. V, sec. 1 says only that the governor \"shall hold office for 4 years\". The start is taken as the first day of the political year. The statutes could not be read: https://docs.legis.wisconsin.gov/statutes/statutes/13/i/02 and /document/statutes/13.02 gave curl \"Recv failure: Connection reset by peer\" and WebFetch HTTP 503. Matches the earlier estimate."
+      },
+      "stateLegislative": {
         "tag": "ESTIMATED",
         "rule": {
           "month": 1,
@@ -420,8 +1376,61 @@
           "weekday": 1,
           "offsetDays": 0
         },
-        "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-07 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "text not read"
+        "citation": "Wis. Const. art. XIII, sec. 1 (art. IV, secs. 4 and 5 set no day)",
+        "url": "https://50constitutions.org/wi/constitution/section-amendment-id-71709",
+        "excerpt": "The start day is not read from the text. The clause read says: The political year for this state shall commence on the first Monday of January in each year",
+        "estimatedFrom": "Same estimate as the governor; Wis. Stat. 13.02 (session start) could not be loaded (same errors)."
+      }
+    },
+    "US-WV": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 2,
+          "weekday": 3,
+          "offsetDays": 5
+        },
+        "citation": "W. Va. Const. art. VII, sec. 1",
+        "url": "https://50constitutions.org/wv/constitution/section-id-90908",
+        "excerpt": "Their terms of office shall be four years, and shall commence on the first Monday after the second Wednesday of January next after their election.",
+        "note": "The first Monday after the second Wednesday is the second Wednesday plus 5. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "monthDay": "12-01",
+        "citation": "W. Va. Const. art. IV, sec. 7",
+        "url": "https://50constitutions.org/wv/constitution/section-id-90642",
+        "excerpt": "The terms of such officers, not elected, or appointed to fill a vacancy, shall, unless herein otherwise provided, begin on the first day of January; and of the members of the Legislature, on the first day of December next succeeding their election.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+      }
+    },
+    "US-WY": {
+      "statewideExecutive": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Wyo. Stat. 22-2-107 (Wyo. Const. art. 4, sec. 1 sets no day)",
+        "url": "https://wyoleg.gov/statutes/compress/title22.pdf",
+        "excerpt": "22-2-107. When elected state and county officers assume offices. All state and county officers elected at a general election shall assume their offices on the first Monday in January next following their election.",
+        "note": "Matches the earlier estimate."
+      },
+      "stateLegislative": {
+        "tag": "SOURCED",
+        "rule": {
+          "month": 1,
+          "nth": 1,
+          "weekday": 1,
+          "offsetDays": 0
+        },
+        "citation": "Wyo. Const. art. 3, sec. 5",
+        "url": "https://50constitutions.org/wy/constitution/section-id-92690",
+        "excerpt": "Members of the senate and house of representatives shall be elected on the day provided by law for the general election of a member of congress, and their term of office shall begin on the first Monday of January thereafter.",
+        "note": "Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       }
     }
   }
