@@ -725,10 +725,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-council-is-in-recess-name-pulls-you-aside-about-bill",
+      "key": "scene-talk.narrate-narrate.there-s-a-break-in-the-meeting-name-pulls-you-aside-about-bill",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The council is in recess. {name} pulls you aside about {bill}.",
+      "text": "There's a break in the meeting. {name} pulls you aside about {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -21301,10 +21301,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.deceased-had-one-more-fight-left-at-the-council-and-never-got-to-it-so",
+      "key": "scene-talk.state-request.deceased-left-something-unfinished-somebody-has-to-carry-it-and-i-d-like-it-to-be-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{deceased} had one more fight left at the council and never got to it. Somebody has to finish it. I'd like it to be you.",
+      "text": "{deceased} left something unfinished. Somebody has to carry it, and I'd like it to be you.",
       "uses": [
         {
           "subject": "scene",
@@ -21326,10 +21326,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.tell-me-what-it-was-and-i-ll-put-it-on-the-agenda-myself-i-can-t-promi",
+      "key": "scene-talk.reply-promise.tell-me-what-it-was-i-can-t-promise-how-it-ends-but-i-ll-take-it-up-in-deceased-s-name",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Tell me what it was, and I'll put it on the agenda myself. I can't promise it passes. I can promise it gets a vote with {deceased}'s name on it.",
+      "text": "Tell me what it was. I can't promise how it ends, but I'll take it up in {deceased}'s name.",
       "uses": [
         {
           "subject": "scene",
@@ -21351,10 +21351,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-call-my-office-monday-and-we-ll-tal",
+      "key": "scene-talk.reply-decline.not-today-let-me-get-through-today-come-find-me-next-week-and-we-ll-talk-about-it-properly",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not today. Let me get through today. Call my office Monday, and we'll talk about it properly.",
+      "text": "Not today. Let me get through today. Come find me next week, and we'll talk about it properly.",
       "uses": [
         {
           "subject": "scene",
@@ -21426,10 +21426,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.every-spring-deceased-called-the-council-about-the-same-thing-and-ever",
+      "key": "scene-talk.follow-answer.deceased-kept-asking-for-the-same-thing-year-after-year-and-kept-being-told-next-year",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Every spring {deceased} called the council about the same thing, and every spring somebody said next year.",
+      "text": "{deceased} kept asking for the same thing, year after year, and kept being told next year.",
       "uses": [
         {
           "subject": "scene",
@@ -21452,10 +21452,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.then-it-goes-on-the-agenda-this-spring-i-ll-call-you-when-it-s-schedul",
+      "key": "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Then it goes on the agenda this spring. I'll call you when it's scheduled.",
+      "text": "Then I'll take it up. I'll tell you what comes of it.",
       "uses": [
         {
           "subject": "scene",
@@ -21478,10 +21478,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-s-the-state-s-road-i-can-carry-it-to-them-i-can-t-make-them-say-y",
+      "key": "scene-talk.reply-decline.i-can-carry-it-to-the-people-who-decide-i-can-t-make-them-say-yes",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That's the state's road. I can carry it to them. I can't make them say yes.",
+      "text": "I can carry it to the people who decide. I can't make them say yes.",
       "uses": [
         {
           "subject": "scene",
@@ -21554,10 +21554,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.monday-then",
+      "key": "scene-talk.follow-accept.next-week-then",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Monday, then.",
+      "text": "Next week, then.",
       "uses": [
         {
           "subject": "scene",
@@ -21580,10 +21580,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.if-not-here-when-nobody-returns-my-calls",
+      "key": "scene-talk.follow-press.if-not-here-when-i-ve-waited-long-enough",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "If not here, when? Nobody returns my calls.",
+      "text": "If not here, when? I've waited long enough.",
       "uses": [
         {
           "subject": "scene",
@@ -88800,6 +88800,415 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.then-one-night-a-week-stays-ours-promise-me-that-part-too",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then one night a week stays ours. Promise me that part too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.how-long-until-it-really-settles-down",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "How long until it really settles down?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-everyone-who-knocked-doors-not-just-me-they-earned-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank everyone who knocked doors, not just me. They earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.say-that-again-in-a-month-when-you-re-never-home",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Say that again in a month, when you're never home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-told-me-now-tell-me-what-it-s-going-to-cost-us",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You told me. Now tell me what it's going to cost us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "boast"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.are-you-scared-at-all",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Are you scared at all?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.does-it-feel-real-yet",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Does it feel real yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-going-to-remember-you-said-that",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm going to remember you said that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.we-ll-see-how-you-handle-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "We'll see how you handle it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor",
+          "after": "boast"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-coming-it-would-have-meant-something-to-deceased",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for coming. It would have meant something to {deceased}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-you-came-i-wasn-t-sure-you-would",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad you came. I wasn't sure you would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.deceased-always-said-you-d-understand-what-was-left-undone",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{deceased} always said you'd understand what was left undone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-know-who-else-to-ask-deceased-trusted-you-with-things",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't know who else to ask. {deceased} trusted you with things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits until the room thins out, then comes over to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "funeral-cause",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-and-the-race-for-office-is-yours-name-hears-it-before-you-can-say-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in, and the race for {office} is yours. {name} hears it before you can say it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-win",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-race-for-office-went-the-other-way-name-waited-up-anyway",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The race for {office} went the other way. {name} waited up anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-asks-for-ten-minutes-alone-with-you",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -93384,6 +93793,31 @@
       "tag": {
         "move": "narrate",
         "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-you-before-the-vote-on-bill-there-s-a-section-they-want-changed",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches you before the vote on {bill}. There's a section they want changed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "section-bargain",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
       }
     },
     {
@@ -99263,6 +99697,1090 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-s-the-first-morning-as-the-next-office-name-comes-by",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "It's the first morning as the next {office}. {name} comes by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-and-the-job-is-yours-name-is-at-the-door-early",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in, and the job is yours. {name} is at the door early.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-race-for-office-is-over-name-comes-by-anyway",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The race for {office} is over. {name} comes by anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-morning-after-the-count-name-knocks",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The morning after the count, {name} knocks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.morning-i-didn-t-know-if-you-d-be-up",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Morning. I didn't know if you'd be up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-hope-it-s-all-right-that-i-came-by",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I hope it's all right that I came by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.morning-office-it-still-sounds-strange-doesn-t-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Morning, {office}. It still sounds strange, doesn't it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.so-what-s-first-what-do-you-need-from-us-this-week",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "So what's first? What do you need from us this week?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.people-are-already-asking-what-you-ll-do-first-what-do-i-tell-them",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "People are already asking what you'll do first. What do I tell them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-do-you-want-me-to-tell-the-people-who-worked-for-you",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you want me to tell the people who worked for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-keep-going-over-it-was-it-worth-it-tell-me-straight",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I keep going over it. Was it worth it? Tell me straight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.none-of-this-happens-without-you-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "None of this happens without you. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-gave-this-more-than-anyone-thank-you-for-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You gave this more than anyone. Thank you for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.we-do-what-we-said-every-bit-of-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "We do what we said. Every bit of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.this-isn-t-the-last-race-i-ll-run-again",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "This isn't the last race. I'll run again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-we-not-plan-anything-today",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can we not plan anything today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-a-few-days-before-we-talk-about-what-s-next",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me a few days before we talk about what's next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-i-don-t-know-where-to-start-yet",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly? I don't know where to start yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-on-me-i-should-have-seen-it-coming",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's on me. I should have seen it coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.opponent-ran-the-better-race-i-can-say-that-now",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{opponent} ran the better race. I can say that now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "requiresFacts": ["lost", "opponent"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-d-do-it-again",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "thank"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-i-ll-be-there",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.say-that-to-the-people-who-knocked-doors-not-just-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Say that to the people who knocked doors, not just me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.they-ll-want-to-hear-something-from-you-soon",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "They'll want to hear something from you soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-one-day-at-a-time",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. One day at a time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-on-you-don-t-carry-it-alone",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not on you. Don't carry it alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "tell",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-know-more-than-you-think-you-ran-on-it",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You know more than you think. You ran on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "tell",
+          "requiresFacts": ["won"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.all-right-i-ll-call-them-myself-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "All right. I'll call them myself this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-tell-them-the-truth-i-need-a-little-time",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll tell them the truth: I need a little time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-do-this-today",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.maybe-it-still-feels-like-mine",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Maybe. It still feels like mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-next-time-we-start-earlier",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then next time, we start earlier.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-be-by-myself-for-a-bit",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to be by myself for a bit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.next-time-you-re-the-first-call-i-make",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Next time, you're the first call I make.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "accept"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-m-holding-you-to-that",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'm holding you to that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.call-me-when-you-re-ready",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Call me when you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor",
+          "after": "leave"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.get-some-rest-you-earned-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Get some rest. You earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-morning-after-the-count-name-comes-by",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The morning after the count, {name} comes by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.so-what-now",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "So. What now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-all-of-it-i-mean-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for all of it. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-not-done-with-this-town",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm not done with this town.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-still-taking-it-in",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm still taking it in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "morning-after",
+          "key": "honor"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item scene-morning-after-the-race, words)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     }
   ]
