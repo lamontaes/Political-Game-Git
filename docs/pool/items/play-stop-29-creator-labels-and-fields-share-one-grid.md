@@ -30,3 +30,4 @@ claimed-at: 2026-10-27T06:15:24.821Z
 **Files.** src/bench/play.css, src/bench/play.html, src/bench/creator-fields.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "Why is everything not lined up like a normal game? I still don't understand." Related and not duplicated: play-first-03-creator-date-fields-aligned (the three date fields and field boxes; implementation merged, item open for the installed-build check) and play-first-17-buttons-same-size (one size per row; PR open). This item adds the label column and the picked state those two do not cover. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+- Merged Oct 27 in PR #6241; awaiting the owner's installed-build check.
