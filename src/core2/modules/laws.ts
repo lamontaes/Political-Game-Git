@@ -605,6 +605,14 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(id) as
     LawRowInput | undefined;
   if (!row || !inForceOn(row, api.state.date)) return;
+  // A row a later statute overrides never governs, so nothing took effect: the
+  // level's law in force today is another row (a repeal enacted over a
+  // scheduled rise).
+  const governing = lawInForce(api, row.series).levels.find(
+    (level) =>
+      level.jurisdiction === row.jurisdiction && level.level === row.level,
+  )?.row;
+  if (governing && governing.id !== row.id) return;
   const town = lawChain(api).townPlaceId;
   // What it replaced: the law in force on the series the day before. A
   // policy question set to 0 ends that law (a repeal).
