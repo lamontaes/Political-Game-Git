@@ -15,10 +15,8 @@ export interface StagingSpot {
   /** The foot point, in percent of the picture (a seated person's too). */
   readonly x: number;
   readonly y: number;
-  /** A desk, counter, podium or table front hides everything below this. */
-  readonly clipBelowY?: number;
-  /** Open furniture: only the band from `clipBelowY` down to here hides the person. */
-  readonly clipBandEndY?: number;
+  /** Behind a desk, counter or lectern: its top edge. The occluder bake reads the furniture's depth just below it (scripts/people/occluders.py), and the floor at the feet is hidden. */
+  readonly behindY?: number;
   /** Standing when absent. */
   readonly pose?: SpotPose;
   readonly facing?: SpotFacing;

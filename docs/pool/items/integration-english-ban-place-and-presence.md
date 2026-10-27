@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/integration-english-ban
-pr:
+pr: #6395
 blocked-on:
 source: "Integrator (Opus), Oct 27, from the owner's v0.56.2 sitting (Salida, Colorado, as Carlos Washington)"
 lead: words
