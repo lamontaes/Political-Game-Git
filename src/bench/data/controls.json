@@ -228,7 +228,18 @@
     "filing": "Filing office",
     "go": "Go",
     "back": "Back",
-    "next": "Continue"
+    "next": "Continue",
+    "from": "You are at home",
+    "nobody": "Nobody there right now",
+    "andOthers": "and {n} more",
+    "reasons": {
+      "work": "You work here",
+      "study": "Someone at home studies here",
+      "known": "works here",
+      "action": "You can",
+      "serve": "Where you serve",
+      "filing": "You file here for"
+    }
   },
   "time": {
     "week": "Week"

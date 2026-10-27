@@ -4033,17 +4033,58 @@ const sheets = {
     const search = el("input", { type: "search", placeholder: labels.search });
     search.setAttribute("aria-label", labels.search);
     const content = el("div", { className: "travel-destinations" });
-    const counters = [
-      ...new Set(government.contests.map((c) => c.filingOffice.filedWith)),
-    ].map((name) => ({ name, filing: true }));
+    // The offices that take your filings: one card each, naming the races.
+    const byOffice = new Map();
+    for (const c of government.contests) {
+      const filedWith = c.filingOffice.filedWith;
+      const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      if (!byOffice.has(name))
+        byOffice.set(name, { name, filedWith, titles: [], filing: true });
+      byOffice.get(name).titles.push(c.contest.title);
+    }
+    const counters = await Promise.all(
+      [...byOffice.values()].map(async (office) => ({
+        ...office,
+        titles: [...new Set(office.titles)],
+        presentation: {
+          imageUrl: (
+            await api(
+              `/api/goto/counter-picture?filedWith=${encodeURIComponent(office.filedWith)}`,
+            )
+          ).url,
+        },
+      })),
+    );
     const destinations = [...counters, ...places];
-    let page = 0;
+    // Why each card is listed, from the record that qualified it.
+    const reasonLine = (p) =>
+      p.filing
+        ? `${labels.reasons.filing} ${p.titles.join(", ")}`
+        : [
+            ...p.reasons.map((r) =>
+              r.kind === "known"
+                ? `${p.known.find((k) => k.personId === r.recordId)?.name} ${labels.reasons.known}`
+                : r.kind === "action"
+                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? words(r.recordId)).toLowerCase()}`
+                  : labels.reasons[r.kind],
+            ),
+          ].join(" · ");
+    const hereLine = (p) =>
+      p.filing
+        ? labels.filing
+        : p.presentCount
+          ? `${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
+          : labels.nobody;
     const draw = () => {
       const found = destinations.filter((p) =>
         p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
       );
-      const cards = found.slice(page * 5, page * 5 + 5).map((p) => {
-        const card = el("article", { className: "travel-place" });
+      const cards = found.map((p) => {
+        const go = () =>
+          p.filing ? openFiling(p.filedWith) : visit(p.organizationId);
+        const card = makeCard("travel-place", { as: "button" });
+        card.type = "button";
+        card.setAttribute("aria-label", `${labels.go}: ${p.name}`);
         if (p.presentation?.imageUrl) {
           const image = el("img", {
             src: p.presentation.imageUrl,
@@ -4053,60 +4094,31 @@ const sheets = {
           image.onerror = () => image.remove();
           card.append(image);
         }
-        const info = el(
-          "div",
-          { className: "travel-info" },
-          el("h3", { textContent: p.name }),
+        // The record behind the reason, for the specs; never shown as text.
+        card.dataset.reason = (
+          p.filing ? [p.filedWith] : p.reasons.map((r) => r.recordId)
+        ).join(" ");
+        card.append(
+          el(
+            "div",
+            { className: "travel-info" },
+            el("h3", { textContent: p.name }),
+            el("p", { className: "travel-here", textContent: hereLine(p) }),
+            el("p", { className: "travel-reason", textContent: reasonLine(p) }),
+          ),
         );
-        if (p.filing)
-          info.append(
-            el("span", { className: "label", textContent: labels.filing }),
-          );
-        else
-          info.append(
-            el("p", {
-              textContent: [
-                ...p.known.map((k) => k.name),
-                ...p.actions.map((a) => controls.actions?.[a] ?? words(a)),
-              ].join(" · "),
-            }),
-          );
-        const go = makeButton({ textContent: labels.go });
-        go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
-        go.onclick = () =>
-          p.filing ? openFiling(p.name) : visit(p.organizationId);
-        card.append(info, go);
+        card.onclick = go;
         return card;
       });
-      const back = makeButton({
-        textContent: labels.back,
-        disabled: page === 0,
-      });
-      back.onclick = () => {
-        page--;
-        draw();
-      };
-      const next = makeButton({
-        textContent: labels.next,
-        disabled: (page + 1) * 5 >= found.length,
-      });
-      next.onclick = () => {
-        page++;
-        draw();
-      };
-      content.replaceChildren(
-        ...cards,
-        ...(found.length > 5
-          ? [el("nav", { className: "travel-pager" }, back, next)]
-          : []),
-      );
+      content.replaceChildren(...cards);
     };
-    search.addEventListener("input", () => {
-      page = 0;
-      draw();
-    });
+    search.addEventListener("input", draw);
     draw();
-    return [search, content];
+    return [
+      el("p", { className: "travel-from", textContent: labels.from }),
+      search,
+      content,
+    ];
   },
   async politics() {
     return sheets.government();
