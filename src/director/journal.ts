@@ -21,6 +21,7 @@ import {
   possessivePronoun,
   relationPhrase,
   saysOffice,
+  withArticle,
   wordJournalLine,
   type Fact,
   type JournalMove,
@@ -72,7 +73,11 @@ type JournalMoment = Pick<
   | "hindsight"
   | "impact"
   | "echoes"
-> & { readonly actFacts?: Facts };
+> & {
+  readonly actFacts?: Facts;
+  /** Moments of one beat are told together, as one memoir entry. */
+  readonly beat?: string;
+};
 
 /**
  * A bill's real name, from the legislature's own record of it, as a
@@ -146,6 +151,12 @@ function raceMargin(
 }
 
 /** The person's relatives by id, with the family fact that records each. */
+function listOf(items: readonly string[]): string {
+  return items.length < P.two + one
+    ? items.join(" and ")
+    : `${items.slice(zero, -one).join(", ")} and ${items.at(-one)}`;
+}
+
 function relatives(person: PersonState) {
   const out = new Map<PersonId, { relation: string; factId: string }>();
   for (const fact of person.pastFacts ?? []) {
@@ -158,6 +169,27 @@ function relatives(person: PersonState) {
       });
   }
   return out;
+}
+
+/**
+ * Which of the family's stories a parent or sibling belongs to, by the
+ * household each is in and their birth against the person's own.
+ */
+function familyCategory(
+  person: PersonState,
+  relative: PersonState,
+  parent: boolean,
+): string {
+  if (parent)
+    return relative.householdId === person.householdId
+      ? "household:raised-by"
+      : "household:parent-apart";
+  const against = relative.birthDate.localeCompare(person.birthDate);
+  return against > zero
+    ? "household:sibling-born"
+    : against < zero
+      ? "household:sibling-older"
+      : "household:sibling-twin";
 }
 
 /**
@@ -174,6 +206,25 @@ function householdMoments(
 ): JournalMoment[] {
   // Each relative once, from the first family fact that names them.
   const toldOf = new Set<string>();
+  const parentIds = new Set(
+    (person.pastFacts ?? [])
+      .filter((fact) =>
+        ["family:parent", "family:other-parent"].includes(fact.kind),
+      )
+      .map((fact) => fact.facts?.otherPersonId),
+  );
+  // The parents or siblings of one story, told together as one moment.
+  const familyGroups = new Map<string, PersonId[]>();
+  for (const fact of person.pastFacts ?? []) {
+    const id = fact.facts?.otherPersonId as PersonId | undefined;
+    const kin = id ? core.people.get(id) : undefined;
+    const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
+    if (!kin?.alive || !(parent || fact.kind === "family:sibling")) continue;
+    const category = familyCategory(person, kin, parent);
+    const group = familyGroups.get(category) ?? [];
+    if (!group.includes(id!)) group.push(id!);
+    familyGroups.set(category, group);
+  }
   // The day the past records the birth, which the family facts are dated by
   // (a creator's chosen age keeps the drawn past: SG-PLAY-creator-age-keeps-past).
   const bornOn =
@@ -222,13 +273,15 @@ function householdMoments(
               causeKind: `${fact.kind}:${setting}`,
               counterpartIds: [],
               actFacts,
+              beat: "roots",
             },
           ]
         : [];
     }
-    // Each parent from the day the person was born: the one who raised them
-    // at home, or the one who lived apart, by the household each is in.
-    // Each sibling by their birth against the person's own.
+    // Each parent from the day the person was born: those who raised them at
+    // home together, or the one who lived apart, by the household each is in.
+    // Brothers and sisters by their birth against the person's own, older
+    // ones together and younger ones together.
     const otherId = fact.facts?.otherPersonId;
     const relative = otherId ? core.people.get(otherId) : undefined;
     const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
@@ -237,24 +290,21 @@ function householdMoments(
       (parent || fact.kind === "family:sibling") &&
       !toldOf.has(relative.id)
     ) {
-      toldOf.add(relative.id);
-      const sibling = relative.birthDate.localeCompare(person.birthDate);
+      const category = familyCategory(person, relative, parent);
+      const group = familyGroups.get(category) ?? [];
+      group.forEach((id) => toldOf.add(id));
+      const born = relative.birthDate > bornOn ? relative.birthDate : bornOn;
       return [
         {
           ...base,
-          date: (sibling > zero && relative.birthDate > bornOn
-            ? relative.birthDate
-            : bornOn) as IsoDate,
-          causeKind: parent
-            ? relative.householdId === person.householdId
-              ? "household:raised-by"
-              : "household:parent-apart"
-            : sibling > zero
-              ? "household:sibling-born"
-              : sibling < zero
-                ? "household:sibling-older"
-                : "household:sibling-twin",
-          counterpartIds: [relative.id],
+          date: (fact.kind === "family:sibling" ? born : bornOn) as IsoDate,
+          // Several brothers and sisters have their own wordings (plural verbs).
+          causeKind:
+            group.length > one && category.startsWith("household:sibling-")
+              ? category.replace("sibling-", "siblings-")
+              : category,
+          counterpartIds: group,
+          beat: "roots",
         },
       ];
     }
@@ -264,21 +314,96 @@ function householdMoments(
         .find((id) => id && corePlaceByJurisdictionId(id as never));
       const actFacts = place(first);
       return actFacts.place
-        ? [{ ...base, causeKind: fact.kind, counterpartIds: [], actFacts }]
+        ? [
+            {
+              ...base,
+              causeKind: fact.kind,
+              counterpartIds: [],
+              actFacts,
+              beat: "roots",
+            },
+          ]
         : [];
     }
     if (
       fact.kind === "household:moment" &&
       fact.facts?.about === "parent-new-job" &&
-      fact.facts.otherPersonId
+      fact.facts.otherPersonId &&
+      // Where the livelihood names the job, that line tells more than a bare
+      // "started a new job".
+      !(person.pastFacts ?? []).some(
+        (entry) =>
+          entry.kind === "household:livelihood" &&
+          (entry.facts?.earnerIds ?? "")
+            .split(" ")
+            .includes(fact.facts?.otherPersonId ?? ""),
+      )
     )
       return [
         {
           ...base,
           causeKind: `${fact.kind}:parent-new-job`,
           counterpartIds: [fact.facts.otherPersonId],
+          beat: "work",
         },
       ];
+    // The first day at a school the person's record names, told by the
+    // school's own record ("When I was 5, I started at ...").
+    if (
+      fact.kind === "household:moment" &&
+      fact.facts?.about === "school-started" &&
+      fact.facts.sourceFactId
+    ) {
+      const school = (person.pastFacts ?? []).find(
+        (entry) => entry.id === fact.facts?.sourceFactId,
+      );
+      const stage = school?.facts?.stage;
+      return school?.facts?.schoolName && stage
+        ? [
+            {
+              ...base,
+              causeFactId: school.id,
+              causeKind: `household:school-started:${stage}`,
+              counterpartIds: [],
+            },
+          ]
+        : [];
+    }
+    // What each earner in the household does for work now, by their job's own
+    // record: the family's livelihood the person grew up inside.
+    if (fact.kind === "household:livelihood") {
+      const moments: JournalMoment[] = [];
+      // The parents first, then the brothers and sisters who earn.
+      const earners = (fact.facts?.earnerIds ?? "")
+        .split(" ")
+        .sort((a, b) => Number(!parentIds.has(a)) - Number(!parentIds.has(b)));
+      for (const [at, id] of earners.entries()) {
+        const earner = core.people.get(id as PersonId);
+        const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
+        if (!earner?.alive || !job || id === person.id) continue;
+        const org = core.organizations.get(job.organizationId);
+        moments.push({
+          ...base,
+          id: `${fact.id}:${String(at).padStart(2, "0")}:${id}`,
+          causeId: job.id,
+          causeKind: "household:livelihood",
+          counterpartIds: [earner.id],
+          beat: "work",
+          actFacts: {
+            job: { text: withArticle(job.title), sourceRecordIds: [job.id] },
+            ...(org
+              ? {
+                  employer: {
+                    text: properName(org.name),
+                    sourceRecordIds: [job.id, org.id],
+                  },
+                }
+              : {}),
+          },
+        });
+      }
+      return moments;
+    }
     return [];
   });
 }
@@ -518,6 +643,35 @@ export function composeJournal(
             : said;
       }
     }
+    // Several relatives of one story ("my brothers Daniel and George") are
+    // named together, each by their recorded relation and given name.
+    if (moment.counterpartIds.length > one && facts.named) {
+      const members = moment.counterpartIds.flatMap((id) => {
+        const row = core.people.get(id);
+        const relation = kin.get(id);
+        const phrase =
+          row && relation
+            ? relationPhrase(
+                relation.relation,
+                row.looks?.gender ?? "other",
+                "journal",
+                words,
+              )
+            : undefined;
+        return row && relation && phrase
+          ? [{ phrase, name: row.givenName, factId: relation.factId, id }]
+          : [];
+      });
+      const phrases = new Set(members.map((member) => member.phrase));
+      const names = members.map((member) => member.name);
+      facts.named = {
+        text:
+          phrases.size === one
+            ? `${members[zero]!.phrase}s ${listOf(names)}`
+            : listOf(members.map((m) => `${m.phrase} ${m.name}`)),
+        sourceRecordIds: members.flatMap((m) => [m.factId, m.id]),
+      };
+    }
     return facts;
   };
 
@@ -583,6 +737,7 @@ export function composeJournal(
   const chapterOfContest = new Map<string, (typeof chapters)[number]>();
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
+  const beatEntries = new Map<string, JournalLine>();
   // Every moment of the person's so far, told or not, and those a later
   // entry has already revised.
   const momentsById = new Map(moments.map((moment) => [moment.id, moment]));
@@ -892,7 +1047,7 @@ export function composeJournal(
         parts.push(hook);
       }
     }
-    told.lines.push({
+    const entry = {
       id: moment.id,
       date: moment.date,
       text: journalEntry(parts),
@@ -901,7 +1056,21 @@ export function composeJournal(
         ...new Set(parts.flatMap((part) => part.sourceRecordIds)),
       ],
       ...(changed && revision ? { revises: [changed.id] } : {}),
-    });
+    };
+    // A beat of the household's story (where the family came from, who
+    // raised the person, what they did for a living) is one memoir entry, its
+    // sentences told in the order the records give them.
+    const joined = moment.beat ? beatEntries.get(moment.beat) : undefined;
+    if (joined) {
+      joined.text = `${joined.text} ${entry.text}`;
+      joined.momentIds = [...joined.momentIds, moment.id];
+      joined.sourceRecordIds = [
+        ...new Set([...joined.sourceRecordIds, ...entry.sourceRecordIds]),
+      ];
+    } else {
+      told.lines.push(entry);
+      if (moment.beat) beatEntries.set(moment.beat, entry);
+    }
     if (moment.date > told.through) told.through = moment.date;
   }
 
