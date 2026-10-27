@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-held-bill-chair-reasons
 pr: #6374
 blocked-on:
