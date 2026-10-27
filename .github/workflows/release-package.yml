@@ -31,7 +31,7 @@ on:
 permissions:
   contents: read
 
-# One package at a time, and a running one is never cancelled: a later tick or
+# One package at a time, and a running one is never canceled: a later tick or
 # request waits (GitHub keeps only the newest pending), and no push to main
 # starts this workflow at all.
 concurrency:

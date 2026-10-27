@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/director-producer-election-result
 pr: #6366
 blocked-on:

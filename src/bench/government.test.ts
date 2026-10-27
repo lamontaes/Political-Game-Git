@@ -1,6 +1,6 @@
 /**
  * The Politics sheet carries each holder's years of service, how they reached
- * the seat and the seat's elections, from the term records, in a place drawn
+ * the seat and the elections the world ran for it, from the term records, in a place drawn
  * from all 56 (place and seed named in every failure message).
  */
 import { randomBytes } from "node:crypto";
@@ -26,18 +26,14 @@ describe(`the government view in ${place.name}, ${place.state} (seed ${seed})`, 
       const holder = seat.holder!;
       expect(holder.serviceStart, seat.seatId).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(holder.reached, seat.seatId).toBeTruthy();
-      // A holder the world opened with by election has that election listed,
-      // named by the term it seated.
-      if (holder.elected)
+      // The seat's elections are only races the world ran: a holder seated
+      // before the opening has an estimated average share, which is not sent
+      // (owner, Oct 27: no placeholder vote share on screen).
+      if (holder.reached === "in office at the opening")
         expect(
           seat.elections.some((row) => row.termId === holder.termId),
           seat.seatId,
-        ).toBe(true);
+        ).toBe(false);
     }
-    // Some seat in a town shows an election with its record id.
-    expect(
-      held.some((seat) => seat.elections.length > 0),
-      `${place.key}: no seat shows an election`,
-    ).toBe(true);
   }, 300_000);
 });

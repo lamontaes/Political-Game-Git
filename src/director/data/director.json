@@ -1478,6 +1478,11 @@
       "impactParameter": "directorElectionResultImpact"
     },
     {
+      "eventKind": "primary-result",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
       "eventKind": "took-office",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
@@ -1524,6 +1529,11 @@
     },
     {
       "eventKind": "vote-promise",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "carry-asked",
       "channel": "cause",
       "impactParameter": "directorFloorVoteImpact"
     },
