@@ -320,7 +320,7 @@
       "where": "known",
       "player": "anyone",
       "cast": "the day after the count, someone the player knows who ran in the race or is tied to a candidate in it (their family, household or the people they knew), telling who won; scored on tie and sociability",
-      "typeKey": "news-arrives",
+      "typeKey": "race-told",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceRaceImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"

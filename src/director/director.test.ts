@@ -573,7 +573,7 @@ describe("story director on the new core", () => {
     // player's own win is the race-won scene, not a second celebration.
     expect(
       types
-        .find((row) => row.key === "news-arrives")!
+        .find((row) => row.key === "race-told")!
         .causes.some(
           (row) =>
             row.match?.label === "circumstance:race-result-known" &&
