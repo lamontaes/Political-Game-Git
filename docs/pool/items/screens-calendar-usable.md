@@ -30,3 +30,4 @@ claimed-at:
 **Files.** src/bench/calendar.ts, src/bench/play.mjs, src/bench/play.css, data/english/parts/calendar.json, src/english/screen-words.ts, src/bench/calendar.browser.mjs
 
 **Notes.** Reading: OWNER-DECISIONS.md (Oct 27 afternoon screens rulings), DECISION-REGISTER.md, prior-rulings/, docs/play-first/LAW.md section 1, docs/ui/mocks/screens-2026-10-14/README.md; docs/ searched for the screen name. Principles: docs/design/screens/principles-2026-10-27.md.
+Sent back 2026-10-27 from PR #6382 (branch screens/calendar-usable): add/add conflict in src/english/screen-words.ts and a conflict in src/bench/calendar.ts; finish on that branch, merge main into it first.
