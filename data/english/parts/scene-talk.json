@@ -84687,6 +84687,14 @@
           "step": "follow",
           "move": "thank",
           "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
         }
       ],
       "bearing": "hopeful",
@@ -88373,31 +88381,6 @@
         }
       ],
       "bearing": "glad",
-      "shippable": true,
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-s-what-i-hoped-you-d-say",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That's what I hoped you'd say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker"
-        }
-      ],
-      "bearing": "tender",
       "shippable": true,
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
