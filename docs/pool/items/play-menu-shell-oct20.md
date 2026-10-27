@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: screens/one-left-menu
-pr:
+pr: #6389
 blocked-on:
 source: "docs/coordination/OWNER-DECISIONS.md (Oct 20, the menu structure)"
 claimed-at: 2026-10-27T20:05:50.568Z
