@@ -6,9 +6,9 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-opening-past-chosen-age
-pr:
+pr: #6271
 blocked-on:
 source: laws-and-effects lead, Oct 27 (changed-file tests of laws-opening-past-fits-the-chosen-age)
 claimed-at: 2026-10-27T09:16:01.782Z
