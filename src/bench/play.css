@@ -312,6 +312,7 @@ select:focus-visible {
 }
 .action,
 #sheet-body button,
+#race-menu .record-pager button,
 #person-facts button {
   position: relative;
   display: inline-block;
@@ -551,6 +552,7 @@ select:focus-visible {
 .ring,
 .lie-scales,
 #sheet-body button,
+#race-menu .record-pager button,
 .term {
   transition:
     color 0.2s ease,
@@ -560,6 +562,7 @@ select:focus-visible {
 }
 .action:hover:not(:disabled),
 #sheet-body button:hover:not(:disabled),
+#race-menu .record-pager button:hover:not(:disabled),
 #person-facts button:hover {
   background:
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
@@ -1363,6 +1366,7 @@ body.dev .dev-ring {
    solid: the scene never shows through text meant to be read. Glass stays
    for panels over a scene, such as the talk box. */
 #menu,
+#race-menu,
 #sheet,
 #person {
   background: linear-gradient(var(--solid-top), var(--solid-bottom));
@@ -1376,11 +1380,25 @@ body.dev .dev-ring {
 }
 .calendar-layout {
   display: grid;
-  grid-template-columns: minmax(360px, 1.7fr) minmax(170px, 1fr) minmax(
-      170px,
+  grid-template-columns: minmax(360px, 1.7fr) minmax(220px, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+/* The day panel opens between the month and Coming up only for a day with something. */
+.calendar-layout.has-day {
+  grid-template-columns: minmax(360px, 1.7fr) minmax(200px, 1fr) minmax(
+      180px,
       1fr
     );
-  gap: 24px;
+}
+.calendar-month-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.calendar-details[hidden] {
+  display: none;
 }
 .calendar-layout h3 {
   font: 600 17px var(--name);
@@ -1415,7 +1433,8 @@ body.dev .dev-ring {
   padding-bottom: 8px;
 }
 .month .day {
-  min-height: 44px;
+  height: 56px;
+  min-height: 56px;
   padding: 6px;
   background: rgba(255, 255, 255, 0.05);
   position: relative;
@@ -1432,9 +1451,14 @@ body.dev .dev-ring {
   display: none;
 }
 .month .entry {
-  display: block;
-  color: var(--gold);
-  line-height: 8px;
+  display: flex;
+  gap: 3px;
+  margin-top: 4px;
+}
+.month .day-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 .calendar-event {
   margin-bottom: 20px;
@@ -1453,7 +1477,8 @@ body.dev .dev-ring {
   color: var(--gold);
 }
 @media (max-width: 1100px) {
-  .calendar-layout {
+  .calendar-layout,
+  .calendar-layout.has-day {
     grid-template-columns: minmax(300px, 1.6fr) 1fr;
     gap: 18px;
   }
@@ -2590,36 +2615,69 @@ body.dev .dev-ring {
 }
 
 #sheet-body:has(.travel-destinations) {
-  max-width: 1100px;
+  max-width: 1200px;
 }
+.travel-from {
+  font: 600 12px var(--ui);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 12px;
+}
+.travel-destinations {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 16px;
+}
+/* A pictured place card: the room, its name, who is there, why it is listed. */
 .travel-place {
   display: flex;
-  align-items: center;
-  gap: 28px;
-  min-height: 84px;
-  margin: 20px 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 8px;
+  margin: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: left;
+  cursor: pointer;
+}
+.travel-place::after {
+  display: none;
 }
 .travel-info {
-  flex: 1;
+  text-align: left;
 }
 .travel-info h3 {
-  font: 600 22px var(--name);
-  color: var(--gold);
-  margin: 0 0 8px;
+  font: 600 18px var(--ui);
+  color: var(--text-strong);
+  margin: 0 0 4px;
 }
 .travel-info p {
-  font: 17px var(--speech);
-  margin: 0;
+  font: 15px var(--ui);
+  color: var(--text-2);
+  margin: 0 0 2px;
+}
+.travel-info .travel-reason {
+  color: var(--gold);
+  font-size: 13px;
 }
 .travel-image {
-  width: 150px;
-  height: 90px;
+  width: 100%;
+  aspect-ratio: 2 / 1;
   object-fit: cover;
+  border: 2px solid var(--brass);
 }
-.travel-pager {
-  display: flex;
-  gap: 16px;
-  margin-top: 24px;
+.travel-place:hover .travel-image,
+.travel-place:focus-visible .travel-image {
+  border-color: var(--gold);
+}
+@media (max-width: 1100px) {
+  .travel-destinations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* A line marked as a gap shows it took (play-mark-gap). */
@@ -2627,6 +2685,28 @@ body.dev .dev-ring {
   opacity: 0.55;
 }
 
+/* While a talk is open the player card gives up its Day and Week, so it never covers the talk's first reply. */
+#game:has(#talk:not([hidden])) .me .time {
+  display: none;
+}
+/* The races at the filing counter, as a menu beside the talk (ui/menu.mjs). */
+#race-menu {
+  left: var(--gutter);
+  top: var(--gutter);
+  bottom: 162px;
+  width: 340px;
+  padding: 18px 0;
+  z-index: 5;
+}
+#race-menu .sheet-head {
+  padding: 0 18px 8px;
+}
+#race-menu .choice-facts {
+  display: block;
+  font: 400 13px var(--ui);
+  color: var(--text-2);
+  margin-top: 2px;
+}
 /* A race at the filing counter, told apart under its choice. */
 #talk-choices .reply .reply-facts {
   display: block;

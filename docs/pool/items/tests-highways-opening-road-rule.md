@@ -6,11 +6,12 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/highways-opening-road
+pr: #6220
 blocked-on:
 source: laws-effects lead, Oct 26 (gate of #5986)
+claimed-at: 2026-10-27T05:24:16.655Z
 ---
 
 **What.** src/core2/law-reach/highways-road-condition.test.ts draws a place, then expects no vehicle-repair road rule before it cuts the highways line. In Nu'uuli, American Samoa (territory:AS:nua, draw seed 2aa9859b1c4d751010875138d6ced643539b05725beac122d7573dec1152d9a1, from the test's root seed 6f9beb4c4364f1455b5eaebcc6ef68acacc7270a64327238765041a9d16f9211), the opening world already holds the rule jurisdiction_cf061beda4b17c39:vehicle-repair:road at a 0.251 poor share, caused by law-reach:budget-line:highways because the line opens at 0.900 of its base. Clean main at b72ba9431e builds the same rule, so the test is red on main for any draw whose highways line opens below its base.

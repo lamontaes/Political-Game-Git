@@ -3,7 +3,7 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
-import { mountMenu } from "./ui/menu.mjs";
+import { mountMenu, fillChoiceMenu } from "./ui/menu.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
@@ -1236,8 +1236,11 @@ function renderFiling(value) {
   }));
   $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
   renderFilingOverlay(value);
-  const choices = value.visit.choices.slice(0, 6);
-  const buttons = replies(choices, async (choice) => {
+  // More races than the talk can hold open as a menu beside it, never as a long
+  // numbered list in the talk box (owner, Oct 26).
+  const races = value.visit.choices.filter((c) => c.action.kind === "pick");
+  const asMenu = races.length > 4;
+  const choose = async (choice) => {
     // Filing carries the platform and party chosen on the overlay.
     const params = new URLSearchParams({ key: choice.key });
     if (choice.action.kind === "file") {
@@ -1247,25 +1250,52 @@ function renderFiling(value) {
       params.set("party", $("filing-party").value);
     }
     renderFiling(await post(`/api/filing/choose?${params}`));
-  });
+  };
   // Each race told apart before the pick: its seat, its election day and
   // who holds the seat now, from the contest's records.
   const counter = controls.filing;
+  const factsOf = (choice) => {
+    const seat = value.seats?.[choice.action.contestId];
+    if (!seat) return "";
+    return [
+      ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
+      proseDate(seat.electionDate),
+      seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
+    ].join(" · ");
+  };
+  const choices = value.visit.choices
+    .filter((c) => !(asMenu && c.action.kind === "pick"))
+    .slice(0, 6);
+  const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
-    const seat =
-      choice.action.kind === "pick" && value.seats?.[choice.action.contestId];
-    if (!seat) return;
+    if (choice.action.kind !== "pick") return;
     buttons[i].append(
-      el("small", {
-        className: "reply-facts",
-        textContent: [
-          ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
-          proseDate(seat.electionDate),
-          seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
-        ].join(" · "),
-      }),
+      el("small", { className: "reply-facts", textContent: factsOf(choice) }),
     );
   });
+  if (asMenu) {
+    fillChoiceMenu($("race-menu"), {
+      title: counter.openRaces,
+      rows: races.map((choice) => ({
+        key: choice.key,
+        label:
+          value.visit.contests.find((c) => c.id === choice.action.contestId)
+            ?.title ?? choice.text,
+        facts: factsOf(choice),
+      })),
+      onPick: (key) => choose(races.find((c) => c.key === key)),
+      paged: (items) => menuPages(items, 8),
+    });
+    buttons.unshift(
+      makeButton({
+        className: "reply",
+        textContent: counter.chooseRace,
+        onclick: () => show("race-menu", true),
+      }),
+    );
+    if (!value.result && !value.overlay) show("race-menu", true);
+  }
+  if (!asMenu || value.overlay) show("race-menu", false);
   $("talk-choices").replaceChildren(...buttons);
   // The filing's record once it is made: its status, shown as the record's
   // label under the talk, not as words in the clerk's mouth.
@@ -2231,6 +2261,16 @@ async function seatRows() {
     );
   return rows;
 }
+
+/** The Kit 13 calendar icon a kind of dated record is drawn with. */
+const dayIcon = (kind) =>
+  ({
+    birthday: "birthday",
+    "filing-opens": "deadline",
+    "filing-deadline": "deadline",
+    primary: "election",
+    election: "election",
+  })[kind] ?? "meeting";
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
 const kindName = (kind) => {
@@ -3327,9 +3367,11 @@ const sheets = {
     return [select, content];
   },
   async calendar() {
-    const { date, items } = await api(
+    const { date: recordDate, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
+    // Today is the day the player's clock names, which the calendar opens on.
+    const date = packet?.at.date ?? recordDate;
     const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
@@ -3380,6 +3422,11 @@ const sheets = {
       b.addEventListener("click", fn);
       return b;
     };
+    const skipControl = () =>
+      skipForward(labels.advance, () => {
+        closeSheet();
+        act(`/api/advance?mode=calendar&date=${selected}`);
+      });
     const paging = (index, count, change) => {
       const back = button(labels.back, () => change(index - 1));
       const next = button(labels.next, () => change(index + 1));
@@ -3387,8 +3434,15 @@ const sheets = {
       next.disabled = (index + 1) * 3 >= count;
       return el("nav", { className: "calendar-paging" }, back, next);
     };
+    // The day panel opens only for a day that has something.
     const drawDetails = () => {
       const entries = byDate.get(selected) ?? [];
+      root.classList.toggle("has-day", entries.length > 0);
+      details.hidden = !entries.length;
+      if (!entries.length) {
+        details.replaceChildren();
+        return;
+      }
       details.replaceChildren(
         el("h3", { textContent: dateWords(selected) }),
         ...entries.slice(dayPage * 3, dayPage * 3 + 3).map(event),
@@ -3400,13 +3454,7 @@ const sheets = {
             drawDetails();
           }),
         );
-      if (selected > (packet?.at.date ?? date))
-        details.append(
-          skipForward(labels.advance, () => {
-            closeSheet();
-            act(`/api/advance?mode=calendar&date=${selected}`);
-          }),
-        );
+      if (selected > date) details.append(skipControl());
     };
     const select = (iso) => {
       selected = iso;
@@ -3449,27 +3497,44 @@ const sheets = {
         cell.setAttribute("aria-label", dateWords(iso));
         cell.setAttribute("aria-pressed", String(iso === selected));
         if (iso === date) cell.setAttribute("aria-current", "date");
+        // One small Kit 13 icon per kind of thing on the day.
         if (entries.length)
           cell.append(
-            el("span", {
-              className: "entry",
-              textContent: "•",
-              title: entries
-                .map(
-                  (i) => controls.policyNames?.[i.title] ?? slugWords(i.title),
-                )
-                .join("\n"),
-            }),
+            el(
+              "span",
+              {
+                className: "entry",
+                title: entries
+                  .map(
+                    (i) =>
+                      controls.policyNames?.[i.title] ?? slugWords(i.title),
+                  )
+                  .join("\n"),
+              },
+              ...[...new Set(entries.map((i) => dayIcon(i.kind)))].map((icon) =>
+                el("img", {
+                  src: `/ui/kit13/calendar-${icon}.png`,
+                  alt: "",
+                  className: "day-icon",
+                }),
+              ),
+            ),
           );
         grid.append(cell);
       }
       monthBox.replaceChildren(
         header,
         grid,
-        button(labels.today, () => {
-          month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-          select(date);
-        }),
+        el(
+          "div",
+          { className: "calendar-month-foot" },
+          button(labels.today, () => {
+            month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
+            select(date);
+          }),
+          // A day with nothing on it has no panel, so the skip sits here.
+          ...(selected > date && !byDate.has(selected) ? [skipControl()] : []),
+        ),
       );
     };
     const next = items
@@ -3998,17 +4063,58 @@ const sheets = {
     const search = el("input", { type: "search", placeholder: labels.search });
     search.setAttribute("aria-label", labels.search);
     const content = el("div", { className: "travel-destinations" });
-    const counters = [
-      ...new Set(government.contests.map((c) => c.filingOffice.filedWith)),
-    ].map((name) => ({ name, filing: true }));
+    // The offices that take your filings: one card each, naming the races.
+    const byOffice = new Map();
+    for (const c of government.contests) {
+      const filedWith = c.filingOffice.filedWith;
+      const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      if (!byOffice.has(name))
+        byOffice.set(name, { name, filedWith, titles: [], filing: true });
+      byOffice.get(name).titles.push(c.contest.title);
+    }
+    const counters = await Promise.all(
+      [...byOffice.values()].map(async (office) => ({
+        ...office,
+        titles: [...new Set(office.titles)],
+        presentation: {
+          imageUrl: (
+            await api(
+              `/api/goto/counter-picture?filedWith=${encodeURIComponent(office.filedWith)}`,
+            )
+          ).url,
+        },
+      })),
+    );
     const destinations = [...counters, ...places];
-    let page = 0;
+    // Why each card is listed, from the record that qualified it.
+    const reasonLine = (p) =>
+      p.filing
+        ? `${labels.reasons.filing} ${p.titles.join(", ")}`
+        : [
+            ...p.reasons.map((r) =>
+              r.kind === "known"
+                ? `${p.known.find((k) => k.personId === r.recordId)?.name} ${labels.reasons.known}`
+                : r.kind === "action"
+                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? words(r.recordId)).toLowerCase()}`
+                  : labels.reasons[r.kind],
+            ),
+          ].join(" · ");
+    const hereLine = (p) =>
+      p.filing
+        ? labels.filing
+        : p.presentCount
+          ? `${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
+          : labels.nobody;
     const draw = () => {
       const found = destinations.filter((p) =>
         p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
       );
-      const cards = found.slice(page * 5, page * 5 + 5).map((p) => {
-        const card = el("article", { className: "travel-place" });
+      const cards = found.map((p) => {
+        const go = () =>
+          p.filing ? openFiling(p.filedWith) : visit(p.organizationId);
+        const card = makeCard("travel-place", { as: "button" });
+        card.type = "button";
+        card.setAttribute("aria-label", `${labels.go}: ${p.name}`);
         if (p.presentation?.imageUrl) {
           const image = el("img", {
             src: p.presentation.imageUrl,
@@ -4018,60 +4124,31 @@ const sheets = {
           image.onerror = () => image.remove();
           card.append(image);
         }
-        const info = el(
-          "div",
-          { className: "travel-info" },
-          el("h3", { textContent: p.name }),
+        // The record behind the reason, for the specs; never shown as text.
+        card.dataset.reason = (
+          p.filing ? [p.filedWith] : p.reasons.map((r) => r.recordId)
+        ).join(" ");
+        card.append(
+          el(
+            "div",
+            { className: "travel-info" },
+            el("h3", { textContent: p.name }),
+            el("p", { className: "travel-here", textContent: hereLine(p) }),
+            el("p", { className: "travel-reason", textContent: reasonLine(p) }),
+          ),
         );
-        if (p.filing)
-          info.append(
-            el("span", { className: "label", textContent: labels.filing }),
-          );
-        else
-          info.append(
-            el("p", {
-              textContent: [
-                ...p.known.map((k) => k.name),
-                ...p.actions.map((a) => controls.actions?.[a] ?? words(a)),
-              ].join(" · "),
-            }),
-          );
-        const go = makeButton({ textContent: labels.go });
-        go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
-        go.onclick = () =>
-          p.filing ? openFiling(p.name) : visit(p.organizationId);
-        card.append(info, go);
+        card.onclick = go;
         return card;
       });
-      const back = makeButton({
-        textContent: labels.back,
-        disabled: page === 0,
-      });
-      back.onclick = () => {
-        page--;
-        draw();
-      };
-      const next = makeButton({
-        textContent: labels.next,
-        disabled: (page + 1) * 5 >= found.length,
-      });
-      next.onclick = () => {
-        page++;
-        draw();
-      };
-      content.replaceChildren(
-        ...cards,
-        ...(found.length > 5
-          ? [el("nav", { className: "travel-pager" }, back, next)]
-          : []),
-      );
+      content.replaceChildren(...cards);
     };
-    search.addEventListener("input", () => {
-      page = 0;
-      draw();
-    });
+    search.addEventListener("input", draw);
     draw();
-    return [search, content];
+    return [
+      el("p", { className: "travel-from", textContent: labels.from }),
+      search,
+      content,
+    ];
   },
   async politics() {
     return sheets.government();
