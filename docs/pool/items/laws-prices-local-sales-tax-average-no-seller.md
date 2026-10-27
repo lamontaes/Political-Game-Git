@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/sales-average-seller
 pr: #6323
 blocked-on:
