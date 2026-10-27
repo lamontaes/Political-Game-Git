@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.40.0",
+      "releasedOn": "2026-10-26",
+      "revision": "eb91a9bf2993de3b88684a29f840794d108097ae",
+      "changeIds": [
+        "play-local-races-on-screen",
+        "release-main-red-scan-dir",
+        "words-scene-party-asks-you-to-run"
+      ]
+    },
+    {
       "version": "0.39.5",
       "releasedOn": "2026-10-26",
       "revision": "13af3d227c39ad111aef52467d32ea4b57e94b9c",
