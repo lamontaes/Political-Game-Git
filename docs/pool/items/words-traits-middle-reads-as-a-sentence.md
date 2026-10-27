@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/traits-middle
-pr:
+pr: 6416
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
