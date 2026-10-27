@@ -2185,7 +2185,7 @@ async function seatRows() {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
     seatResult = r.number
-      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${
+      ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${proseDate(r.floorDate)}` : ""}${
           r.authority?.some((a) => !a.allowed)
             ? ` · ${r.authority
                 .filter((a) => !a.allowed)
@@ -2268,12 +2268,41 @@ async function seatRows() {
       ),
     );
   }
-  for (const { bill, votes } of v.bills)
+  const floor = controls.floor;
+  for (const { bill, votes, floorDate, whip } of v.bills)
     rows.push(
       listRow(
         "campaign",
         {},
-        el("b", { textContent: `${bill.number} · ${bill.status}` }),
+        el("b", {
+          textContent: `${bill.number} · ${floor.status[bill.status] ?? ""}`,
+        }),
+        // The floor: the day it is taken up, each chamber's count the day
+        // before, and how the vote came out.
+        ...(floorDate
+          ? [
+              el("div", {
+                className: "floor-date",
+                textContent: `${floor.takenUp} ${proseDate(floorDate)}`,
+              }),
+            ]
+          : []),
+        ...(bill.status === "drafted"
+          ? whip.map((count) =>
+              el("div", {
+                className: "floor-whip",
+                textContent: `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
+              }),
+            )
+          : []),
+        ...(votes.length
+          ? [
+              el("div", {
+                className: "floor-result",
+                textContent: `${floor.voted}: ${votes.filter((x) => x.vote === "yes").length} ${floor.yes}, ${votes.filter((x) => x.vote === "no").length} ${floor.no}`,
+              }),
+            ]
+          : []),
         // The title's subjects name each section (record keys, then words).
         bill.provisions
           .map((p, at) => {
