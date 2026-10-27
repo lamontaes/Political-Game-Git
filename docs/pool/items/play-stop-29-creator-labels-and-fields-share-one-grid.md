@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-29-creator-labels-and-fields-share-one-grid
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T06:15:24.821Z
 ---
 
 **What.** In the creator (Start a life) the "Gender (required)" heading is indented differently from "Your character"; the label column and the field column do not line up (the name fields sit right while the birthday sits left); and the chosen gender button grows wider and gets a gold corner tab, so the row changes size when you click. The owner: "Your character, gender required. Like, why is that off-center and stuff? Why is everything not lined up like a normal game? I still don't understand." This item puts every section heading, label and field on one left edge with one label column and one field column, and shows the chosen button with a state that does not change its size.
