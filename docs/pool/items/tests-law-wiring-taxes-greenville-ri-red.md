@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/taxes-greenville-ri
-pr:
+pr: #6207
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T01:06:24.953Z

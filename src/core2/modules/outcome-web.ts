@@ -44,7 +44,13 @@ import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { schoolsLineAboveBase } from "../school-budget-line";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
-import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
+import {
+  budgetLineAddedPct,
+  GOV_MEASURES,
+  govMeasure,
+  govMeasureRecord,
+  snapMaximumChangePct,
+} from "../gov-measures";
 import { monthEvent } from "../outcome-news";
 
 /** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
@@ -198,6 +204,17 @@ const ENGINE_READERS: Readonly<
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
   },
+  // The SNAP maximum and the budget lines the health, assistance and schools
+  // laws set, as the town's treasuries and law rows record them.
+  "snap-maximum-change": (api) => snapMaximumChangePct(api),
+  ...Object.fromEntries(
+    ["healthAndHospitals", "welfareAndMedicaid", "higherEducation"].map(
+      (line) => [
+        `budget-line-added:${line}`,
+        (api: CoreAPI) => budgetLineAddedPct(api, line),
+      ],
+    ),
+  ),
   "schools-line-above-base": (api, placeId) => {
     const line = schoolsLineAboveBase(api, placeId);
     return line ? { value: line.pct, recordId: line.recordId } : null;

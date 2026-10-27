@@ -1,6 +1,25 @@
 {
   "entries": [
     {
+      "version": "0.41.0",
+      "releasedOn": "2026-10-26",
+      "revision": "16ed292161f8aa6c2cfa91b76c1a37e71eeefb78",
+      "changeIds": [
+        "laws-nine-links-health-schools",
+        "play-stop-27-title-motion"
+      ]
+    },
+    {
+      "version": "0.40.0",
+      "releasedOn": "2026-10-26",
+      "revision": "eb91a9bf2993de3b88684a29f840794d108097ae",
+      "changeIds": [
+        "play-local-races-on-screen",
+        "release-main-red-scan-dir",
+        "words-scene-party-asks-you-to-run"
+      ]
+    },
+    {
       "version": "0.39.5",
       "releasedOn": "2026-10-26",
       "revision": "13af3d227c39ad111aef52467d32ea4b57e94b9c",
