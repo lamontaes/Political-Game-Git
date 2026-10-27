@@ -6,10 +6,10 @@
   "watched": 17,
   "counts": {
     "types": 78,
-    "rows": 125,
+    "rows": 130,
     "typesFired": 11,
-    "rowsWaitingOnProducer": 16,
-    "rowsWithoutEpisode": 54,
+    "rowsWaitingOnProducer": 13,
+    "rowsWithoutEpisode": 55,
     "ownerExamples": 112,
     "ownerScenesMissing": 8
   },
@@ -441,8 +441,8 @@
       "domain": "home-and-family",
       "type": "celebration",
       "variant": 1,
-      "trigger": "awaiting: school-finished",
-      "waiting": true,
+      "trigger": "school.finished",
+      "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
         "narrator": 9,
@@ -514,10 +514,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "asker": 13,
-        "narrator": 7,
+        "narrator": 6,
         "asked": 7
       },
-      "lines": 27,
+      "lines": 26,
       "episodes": ["funeral-of-someone-known", "news-at-the-table"],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -565,11 +565,11 @@
       "waiting": true,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 11,
+        "narrator": 10,
         "asker": 53,
         "asked": 45
       },
-      "lines": 109,
+      "lines": 108,
       "episodes": ["first-day-at-the-new-job"],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -583,11 +583,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 11,
+        "narrator": 10,
         "asker": 53,
         "asked": 45
       },
-      "lines": 109,
+      "lines": 108,
       "episodes": ["first-day-at-the-new-job"],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -597,15 +597,15 @@
       "domain": "home-and-family",
       "type": "last-day",
       "variant": 0,
-      "trigger": "awaiting: school-finished",
-      "waiting": true,
+      "trigger": "school.finished",
+      "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
         "asker": 28,
         "asked": 23,
-        "narrator": 6
+        "narrator": 5
       },
-      "lines": 57,
+      "lines": 56,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -621,9 +621,9 @@
       "speakers": {
         "asker": 28,
         "asked": 23,
-        "narrator": 6
+        "narrator": 5
       },
-      "lines": 57,
+      "lines": 56,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -852,11 +852,13 @@
       "variant": 0,
       "trigger": "household-member",
       "waiting": false,
-      "outcome": "personal conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 4
+        "narrator": 11,
+        "asker": 61,
+        "asked": 28
       },
-      "lines": 4,
+      "lines": 100,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -1129,6 +1131,29 @@
       "type": "race-lost",
       "variant": 0,
       "trigger": "election-result",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 3,
+        "asker": 28,
+        "asked": 32
+      },
+      "lines": 63,
+      "episodes": ["concession-call-received", "the-morning-after-the-race"],
+      "ownerAsked": [
+        "Election day is five minutes of scenes",
+        "Concede or celebrate",
+        "Election night with your real people",
+        "Loser's podium"
+      ],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "election-day-and-night",
+      "type": "race-lost",
+      "variant": 1,
+      "trigger": "primary-result",
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
@@ -1561,11 +1586,13 @@
       "variant": 0,
       "trigger": "public-meeting",
       "waiting": false,
-      "outcome": "political conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 3
+        "narrator": 13,
+        "asker": 116,
+        "asked": 54
       },
-      "lines": 3,
+      "lines": 183,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -1577,11 +1604,13 @@
       "variant": 1,
       "trigger": "public-meeting",
       "waiting": false,
-      "outcome": "political conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 3
+        "narrator": 13,
+        "asker": 116,
+        "asked": 54
       },
-      "lines": 3,
+      "lines": 183,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -1593,11 +1622,13 @@
       "variant": 2,
       "trigger": "case.made",
       "waiting": false,
-      "outcome": "political conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 3
+        "narrator": 13,
+        "asker": 116,
+        "asked": 54
       },
-      "lines": 3,
+      "lines": 183,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -1694,11 +1725,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 8,
+        "narrator": 7,
         "asker": 9,
         "asked": 9
       },
-      "lines": 26,
+      "lines": 25,
       "episodes": [],
       "ownerAsked": ["Money breaks the wallet"],
       "firedInYear": 0,
@@ -1712,11 +1743,11 @@
       "waiting": true,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 3,
+        "narrator": 2,
         "asker": 10,
         "asked": 10
       },
-      "lines": 23,
+      "lines": 22,
       "episodes": [],
       "ownerAsked": ["Money breaks the wallet"],
       "firedInYear": 0,
@@ -1772,8 +1803,8 @@
       "domain": "legislating",
       "type": "vote-confirmed",
       "variant": 0,
-      "trigger": "legislature.member-position",
-      "waiting": true,
+      "trigger": "vote-promise",
+      "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 3,
@@ -1809,10 +1840,53 @@
       "firedExample": null
     },
     {
+      "domain": "legislating",
+      "type": "bill-carry",
+      "variant": 1,
+      "trigger": "carry-asked",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 5,
+        "asker": 74,
+        "asked": 46
+      },
+      "lines": 125,
+      "episodes": [],
+      "ownerAsked": [
+        "Working with other candidates and officials",
+        "Carry a bill",
+        "Bill scenes at every stage"
+      ],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
       "domain": "donors-and-corruption",
       "type": "donor-ask",
       "variant": 0,
       "trigger": "cause.donated",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 5,
+        "asker": 70,
+        "asked": 36
+      },
+      "lines": 111,
+      "episodes": ["the-donor-who-wants-something"],
+      "ownerAsked": [
+        "Donor or party chair asks",
+        "Interest groups approach you"
+      ],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "donors-and-corruption",
+      "type": "donor-ask",
+      "variant": 1,
+      "trigger": "campaign-gift",
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
@@ -1951,6 +2025,27 @@
     },
     {
       "domain": "home-and-family",
+      "type": "family-loss",
+      "variant": 1,
+      "trigger": "primary-result",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 3,
+        "asker": 15,
+        "asked": 10
+      },
+      "lines": 28,
+      "episodes": ["household-after-the-loss"],
+      "ownerAsked": [
+        "Family reaction with a purpose",
+        "Family reacts to filing, win, loss, absence"
+      ],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "home-and-family",
       "type": "family-absence",
       "variant": 0,
       "trigger": "office-day",
@@ -1959,9 +2054,9 @@
       "speakers": {
         "narrator": 2,
         "asked": 18,
-        "asker": 28
+        "asker": 27
       },
-      "lines": 48,
+      "lines": 47,
       "episodes": ["owed-talk-comes-due"],
       "ownerAsked": [
         "Family absence",
@@ -2070,7 +2165,7 @@
       "domain": "the-executive",
       "type": "staff-news",
       "variant": 0,
-      "trigger": "press-story",
+      "trigger": "bill-failed",
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
@@ -2088,6 +2183,24 @@
       "domain": "the-executive",
       "type": "staff-news",
       "variant": 1,
+      "trigger": "press-story",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 5,
+        "asker": 45,
+        "asked": 29
+      },
+      "lines": 79,
+      "episodes": ["the-story-breaks"],
+      "ownerAsked": ["Election team", "Staff bring bad news"],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "the-executive",
+      "type": "staff-news",
+      "variant": 2,
       "trigger": "press-story",
       "waiting": false,
       "outcome": "scene.reply",
@@ -2314,11 +2427,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 18,
-        "asked": 10,
-        "narrator": 4
+        "asker": 23,
+        "asked": 11,
+        "narrator": 6
       },
-      "lines": 32,
+      "lines": 40,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,

@@ -26,13 +26,14 @@ import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { spokenDesignation } from "../english/bill-names";
+import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
 import {
   questionName,
   storyTopicName,
   topicInSentence,
 } from "../english/policy-names";
+import { dollars } from "../english/bill-sections";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import {
@@ -49,6 +50,7 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { ELECTIONS_MODULE_ID, ballot } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
   enlistVolunteer,
@@ -222,6 +224,27 @@ function composeBinding(
       text: `${chair.givenName} ${chair.familyName}`,
       sourceRecordIds: [moment.causeId, chair.id],
     };
+  // An executive's ask to carry their bill (legislature.ts askToCarry): the
+  // lines about a bill its asker can't introduce need it.
+  if (record?.kind === "carry-asked" && said.byExecutive === "yes")
+    facts["carry-ask"] = {
+      text: said.askerId ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // An ask to carry a bill the member turned down has no number yet: the
+  // bill goes by its name, from the policy the ask was for.
+  if (record?.kind === "carry-asked" && !said.number && said.question) {
+    const name = billNameFor(
+      said.question,
+      said.formKind ?? "",
+      said.direction === "repeal",
+    );
+    if (name)
+      facts.bill = {
+        text: `the ${name.title}`,
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
   // A vote trade puts the holdout's own section in (legislature.ts adopt()):
@@ -325,6 +348,18 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
+  // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
+  // and the lines about a gift need it.
+  if (record?.kind === "campaign-gift") {
+    const gift = {
+      text: dollars(Number(said.amountMinor)),
+      sourceRecordIds: [moment.causeId],
+    };
+    facts.money = gift;
+    facts.gift = gift;
+    // The bill the donor holds the strongest view on, when one is pending.
+    if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
+  }
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
   if (asked.familyIds.has(askerId))
@@ -335,6 +370,26 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // A committee trade coming due on the floor (legislature.ts
+  // recordPromises): the member promised their vote, and the lines about a
+  // promised vote need it.
+  if (record?.kind === "vote-promise")
+    facts["your-promise"] = {
+      text: said.traded ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // A bill that lost a vote (legislature.ts recordFailure): the lines about a
+  // lost vote need it, where it lost, and the count, against to for.
+  if (record?.kind === "bill-failed") {
+    const lost = { text: said.number ?? "", sourceRecordIds: [moment.causeId] };
+    facts["bill-lost"] = lost;
+    facts[said.stage === "committee" ? "lost-in-committee" : "lost-on-floor"] =
+      lost;
+    facts.tally = {
+      text: `${said.no} to ${said.yes}`,
+      sourceRecordIds: [moment.causeId],
+    };
+  }
   if (said.office)
     facts.office = {
       text: said.office,
@@ -352,6 +407,19 @@ function composeBinding(
       text: `${rival.givenName} ${rival.familyName}`,
       sourceRecordIds: [moment.causeId, rival.id],
     };
+  // A rival who runs under the candidate's own party label: a primary
+  // challenge. The lines that call it one need both filings to say so.
+  if (rival && said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {
+    const filings = ballot(coreAPI(core as CoreState), said.contestId);
+    const party = (id: string) =>
+      filings.find((row) => row.personId === id)?.party ?? null;
+    const theirs = party(rival.id);
+    if (theirs && theirs === party(askedId))
+      facts["same-party"] = {
+        text: theirs,
+        sourceRecordIds: [moment.causeId, said.filingId ?? moment.causeId],
+      };
+  }
   // What the relative has at stake in the run, from the household's records
   // (the cast rule chose them for it): the lines about money or time need it.
   const stake = type.stakes?.includes("household-money-or-time")
