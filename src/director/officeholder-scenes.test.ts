@@ -52,7 +52,7 @@ describe("an officeholder's desk record stages scenes", () => {
     expect(staged("bill-signed", executive, "signed")).toBe(false);
     expect(staged("veto", sponsor, "signed")).toBe(false);
   });
-  it("a town hall reaches its host as office hours with the residents who asked", () => {
+  it("a town hall reaches its host as a resident's question, not as office hours", () => {
     const core = {
       durableLog: new Map([
         [
@@ -71,14 +71,20 @@ describe("an officeholder's desk record stages scenes", () => {
         label: "cause:event:town-hall",
         causeId: "town-hall:1",
       }) as Moment;
-    const hours = SITUATION_LIBRARY.types.find(
-      (type) => type.key === "office-hours",
-    )!;
+    const of = (key: string) =>
+      SITUATION_LIBRARY.types.find((type) => type.key === key)!;
+    const question = of("town-hall-question");
     expect(
-      hours.causes.some((c) => causeMatches(c, book, at(executive), core)),
+      question.causes.some((c) => causeMatches(c, book, at(executive), core)),
     ).toBe(true);
     expect(
-      hours.causes.some((c) => causeMatches(c, book, at(sponsor), core)),
+      question.causes.some((c) => causeMatches(c, book, at(sponsor), core)),
+    ).toBe(false);
+    // Replaced, not layered: office hours no longer takes the town hall.
+    expect(
+      of("office-hours").causes.some((c) =>
+        causeMatches(c, book, at(executive), core),
+      ),
     ).toBe(false);
   });
   it("a veto reaches the sponsor as a veto", () => {

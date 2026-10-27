@@ -70,17 +70,17 @@
       "id": "outcome.job-performance",
       "title": "An ordinary worker's performance at work",
       "engine": "src/core2/modules/jobs.ts",
-      "wired": "partly",
-      "why": "An ordinary worker has no performance record once hired: nothing reads conscientiousness for output, discipline or promotion (Barrick & Mount 1991, rho 0.22).",
-      "evidence": "src/core2/modules/jobs.ts:1679 employers rank applicants by fit, which reads the applicant's reliability (jobsFitReliabilityWeight)"
+      "wired": true,
+      "evidence": "src/core2/modules/jobs.ts:1314 howTheyWork: a business values a worker by their lean toward diligence (jobs.value-worker, traitWeightJobsValueWorker sized from Barrick & Mount 1991, r 0.22) when it ranks applicants (jobs.ts:1908) and when it lets a worker go (jobs.ts:1363). Played: Oak Grove, Oregon (4153900), seed 427e8d601b48ca1ab600d7c7efb7407962876546823fbe28f7f06a1e304432fa, layoff job-change:2025-03-01:work-relationship_129ba20d7adbab65:layoff let person_43cf7cae695a94c6 go for how they work while a worker with less tenure was kept."
     },
     {
       "id": "outcome.earnings",
       "title": "Promotion and pay by temperament",
       "engine": "src/core2/modules/jobs.ts",
       "wired": "partly",
-      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:2679); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
-      "evidence": "Through hiring: reliability raises an applicant's fit (src/core2/modules/jobs.ts:1679), so reliable people are hired sooner"
+      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:1247, stopgap SG-TRAITS-pay-growth-by-performance); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
+      "evidence": "Through hiring and layoffs: how a person works raises their value to an employer (src/core2/modules/jobs.ts:1314), so diligent people are hired sooner and let go later",
+      "item": "owner-pay-growth-by-performance"
     },
     {
       "id": "outcome.health-behaviors",
@@ -153,9 +153,8 @@
       "id": "outcome.hardship-coping",
       "title": "How a person copes with hardship (job loss, debt, eviction)",
       "engine": "src/core2/emotion.ts",
-      "wired": "partly",
-      "evidence": "src/core2/modules/jobs.ts:1247 and src/core2/modules/housing.ts:1764 give a layoff and an eviction a stress impulse from Holmes and Rahe units; src/core2/emotion.ts scales it by the person (weights from Bolger and Schilling 1991)",
-      "why": "The impulse is now scaled by traits; coping after the event (seeking help, cutting back, drinking) is still not a read, and debt has no event."
+      "wired": true,
+      "evidence": "src/core2/emotion.ts:257 marks the part of a layoff's, an eviction's or a missed payment's stress that a hardship put there (Affect.hardship; kinds in content.json hardshipEventKinds), and src/core2/modules/credit.ts:1115 gives a missed loan payment the layoff's Holmes and Rahe size; src/core2/trait-decisions.ts:466 hardshipStress reads it, decayed to the day, for the three coping decisions: src/core2/jobs-benefits.ts:221 filingDecision (jobs-benefits.file-claim, weight 1.0 from Whittaker et al. 2010), src/core2/modules/credit.ts:859 personalBorrowingDecision (credit.borrow, 0.8 from Sullivan 2008 and the move and claim sizes) and src/core2/modules/moves.ts:470 pushesOf (moves.move-away, 0.6 from Huttunen, Moen and Salvanes 2018); rows outcome.hardship-coping in data/research/trait-effect-sizes.json, tests src/core2/hardship-coping.traits.test.ts. Played year on the merged head (buildBenchWorld, twoLevel, every module, 2025-01-20 to 2026-01-20), University of California-Davis, California (place key 0681302, world seed 19d99c854e45d0d7a1cf22f1a75d760532568cd88f13bd6813a7c2d08845a6d6): person_724c78e06c1255b2 lost a job on 2025-06-01 (event:work.job-lost:2025-06-01:work-relationship_b9a5a6ad766e7575), filed claim:person_724c78e06c1255b2:2025-06-01 whose reasons name hardshipStress 0.323, and left town the next day, person.moved-away:person_724c78e06c1255b2:2025-06-02, whose reasons name push:hardshipStress 0.194 beside push:housingCost 0.875 (lean toward moving +0.744). In the same month person_029993064024f0e8, evicted 2025-05-24 (event:housing.eviction:eviction:rent:household_2b191d1ce1a15f48:2025-05-06) and leaning as far as a lean goes toward staying (-1.00), stayed through the year: pulls row person_029993064024f0e8 on 2025-06-02 names push hardshipStress 0.228. A counted person reads it at the day of their layoff claim only (SG-TRAITS-counted-hardship-stress)."
     },
     {
       "id": "outcome.known-traits",

@@ -2,6 +2,14 @@
 
 Slug `household-after-the-loss`. Season: home and family. Pool item `words-family-loss-scene-the-part-they-played`. Calibration only: nothing here ships as player text; no real name or quoted line is in any bank. Stacked on episode 1 (`spouse-stake-after-filing`, #6237), whose "ask them in" reply is what makes a relative a volunteer.
 
+## Build sheet (for the director engineer)
+
+1. **Trigger:** `election-result:<contest id>`, written by the voting engine. Real record: `election-result:contest:seat:gus2025:160739:assessor:0:2025-10-07`, Port Graham, Alaska, seed `loss-a1:0` (`buildBenchWorld`; two filers lost by 3 and 4 votes).
+2. **Place kind:** home.
+3. **Cast rule:** the asker is a household adult who put something in: on the campaign row for `filing:<contest>:<person>` the relative is in `volunteerIds`, or the candidate's own gift is on the `gifts` table (`<filing>|<person>`). None, no scene.
+4. **Outcome record:** the reply "I will run again" writes the relative's answer as `backing` (behind or doubts) on its `scene.reply` event. The candidacy engine keeps one row per relative (`backing` table) and `candidacyReasons` adds `householdBacking` as a signed pull for the next contest the person weighs. Reference build with a test: branch `claude/scene-family-loss-worked-it`.
+5. **Lines:** to the words lead, drafted in the item's Notes (`words-family-loss-scene-the-part-they-played`).
+
 ## Sources read (for calibration)
 
 1. A Missouri city council race (Second Ward, Jefferson City, April 2013): a challenger lost to the incumbent by 55 votes and said he planned to run again (KBIA, "Schulte, Hussey emerge as victors in Jefferson City council races", https://www.kbia.org/politics/2013-04-03/schulte-hussey-emerge-as-victors-in-jefferson-city-council-races). A close count is the thing that gets said first.
