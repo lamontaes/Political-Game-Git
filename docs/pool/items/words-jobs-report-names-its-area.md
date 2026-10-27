@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: words/jobs-report-scope
-pr: 6315
+pr: #6315
 blocked-on:
 source: "words-and-scenes lead, Oct 27: opening-unemployment-scope red on main (seed 061786366f01af27)"
 lead: words
