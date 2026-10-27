@@ -4,7 +4,7 @@
  * (a place drawn from all 56 from a fresh seed, played over the weeks to just after its own next election), every resident a full person.
  */
 import { drawPlace } from "../../../tests/golden-path/place";
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   adultsOf,
   drawnRaceWorld,
@@ -25,6 +25,7 @@ import {
   type BallotRow,
 } from "./voting";
 import type { CoreAPI, CoreState, PersonState } from "../types";
+import { setKeepEveryonesWhy } from "../why-kept";
 
 const SEED = `${RUN_SEED}:voting`;
 /** The thirds' mean lean gap toward voting over the six places the turnout weight was found on. */
@@ -36,7 +37,16 @@ let adults: PersonState[];
 
 // Building and playing a drawn town to its election takes about 20 seconds,
 // inside the 60 second hook limit.
+let keptBefore = false;
+
+afterAll(() => {
+  setKeepEveryonesWhy(keptBefore);
+});
+
 beforeAll(() => {
+  // A voter's reasons are kept for the player's circle only; the exit-poll test
+  // reads the reasons of voters nobody deals with, so it asks for everyone's.
+  keptBefore = setKeepEveryonesWhy(true);
   ({ core, api } = drawnRaceWorld(
     (attempt) => {
       const seed = `${SEED}:${attempt}`;
