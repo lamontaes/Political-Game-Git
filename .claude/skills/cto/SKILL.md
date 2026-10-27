@@ -10,6 +10,8 @@ description: >
 
 # CTO
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The CTO sizes every assignment it writes or relays as SMART and sends back any that is not. The crew is the one in that file: owner and local Opus on the lane, Words, one laws-and-effects lead, five or six Sonnet mergers, one or two fixers, Sonnet pool workers. Before ruling in the owner's place, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/`, `LAW.md` and search `docs/`; the ruling names what was read.
 
 Current as of 2026-10-27, 04:50 UTC (owner, Oct 24: "play first", "simulate it, don't ask", "sessions never message each other"; the play-first lane, PR #5963)

@@ -111,6 +111,7 @@
     "ownRecordScenes": [
       "cause:event:candidate-filed",
       "cause:event:election-result",
+      "cause:event:primary-result",
       "cause:event:press-story",
       "cause:event:interview-invited",
       "cause:event:debate-invited",
@@ -1948,6 +1949,21 @@
           },
           "opener": "candidate",
           "opening": "congratulate"
+        },
+        {
+          "match": {
+            "label": "cause:event:primary-result",
+            "causeFacts": [{ "key": "outIds", "includes": "subject" }]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "primary-result",
+          "bind": {
+            "candidate": "subject",
+            "supporters": "supporters",
+            "family": "household"
+          },
+          "opener": "candidate",
+          "opening": "congratulate"
         }
       ],
       "tag": {
@@ -3209,13 +3225,14 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "vote-confirmed",
-          "causeEngine": "legislature",
-          "causeRecord": "legislature.member-position",
-          "bind": {
-            "colleague": "members",
-            "you": "subject"
+          "match": {
+            "label": "cause:event:vote-promise",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "memberId", "is": "subject" }]
           },
+          "causeEngine": "legislature",
+          "causeRecord": "vote-promise",
+          "bind": { "colleague": "counterpart", "you": "subject" },
           "opener": "colleague"
         }
       ],
@@ -3319,6 +3336,17 @@
           "bind": { "donor": "counterpart", "you": "subject" },
           "opener": "donor",
           "setting": ["public"]
+        },
+        {
+          "match": {
+            "label": "money:event:campaign-gift",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "candidateId", "is": "subject" }]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "campaign-gift",
+          "bind": { "donor": "counterpart", "you": "subject" },
+          "opener": "donor"
         }
       ],
       "tag": {
@@ -3635,6 +3663,19 @@
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
+          "bind": {
+            "relative": "household",
+            "you": "subject"
+          },
+          "opener": "relative"
+        },
+        {
+          "match": {
+            "label": "cause:event:primary-result",
+            "causeFacts": [{ "key": "outIds", "includes": "subject" }]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "primary-result",
           "bind": {
             "relative": "household",
             "you": "subject"

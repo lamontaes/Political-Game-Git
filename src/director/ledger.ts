@@ -901,11 +901,12 @@ export function createDirector(
         // The event's own impact reaches the people it names fully, and
         // those who learned of it through a tie by their relation.
         raw = param(rule.impactParameter);
+        // A share of it the event's own fact gives, on a sliding scale.
         if (rule.scaleFact) {
-          const scale = Number(row.event.facts?.[rule.scaleFact]);
-          raw *= Number.isFinite(scale)
-            ? Math.min(Math.max(scale, zero), one)
-            : one;
+          const share = Number(row.event.facts?.[rule.scaleFact]);
+          raw *= Number.isFinite(share)
+            ? Math.max(zero, Math.min(one, share))
+            : zero;
         }
         if (!row.event.personIds.includes(book.personId)) {
           const thread = row.event.personIds

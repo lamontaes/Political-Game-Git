@@ -66,7 +66,10 @@ export interface DirectorData {
     toFact?: string;
     /** Or a sourced impact for the event itself (filing for office). */
     impactParameter?: string;
-    /** A fact of the event, from 0 to 1, that sizes its impact parameter (an offer's weight). */
+    /**
+     * With an impact parameter: the event's own share of it, 0 to 1, from
+     * this fact (a gift's share of what others have given a campaign).
+     */
     scaleFact?: string;
     /** The fact naming who the moment is about (the baby at a birth), when not the event's people. */
     counterpartFact?: string;

@@ -38,8 +38,13 @@ import {
   speechText,
   type SpeechBuild,
 } from "../director/speech-builder";
+import { campaignParameter } from "../core2/campaign-views";
 import { backdropFile, stagePeople } from "./scene";
+import { dateWords, dollarsOf, nameList, standingLine } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+
+/** The voters a poll asks when the player commissions one from the Campaigns screen. */
+const POLL_SAMPLE = campaignParameter("pollSampleSize");
 
 const ELECTIONS = "core2-elections-v1";
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -117,6 +122,7 @@ export function campaignView(core: CoreState, personId: string) {
         contacted: number;
         answers: Record<string, number>;
       }[];
+      const causes = contestCauses(core, filing.contestId, personId);
       // The race by its own record: the office and the day it is decided.
       const contest = api
         .moduleState(ELECTIONS)
@@ -124,6 +130,9 @@ export function campaignView(core: CoreState, personId: string) {
         .get(filing.contestId) as unknown as ContestRow | undefined;
       return {
         filing,
+        // The other candidates on the contest's filings, by name: what the
+        // standing's opponents sentence names.
+        opponents: causes.filter((who) => !who.you).map((who) => who.name),
         contest: contest
           ? {
               title: contest.district
@@ -139,7 +148,11 @@ export function campaignView(core: CoreState, personId: string) {
         },
         polls: polls.slice(-3),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
-        causes: contestCauses(core, filing.contestId, personId),
+        causes,
+        // The sample a poll asks, so the screen's Poll button and the price below agree.
+        pollSample: POLL_SAMPLE,
+        // Where the race stands, in the English engine's words, from the contest's records.
+        standing: raceStanding(core, filing, polls.at(-1), causes),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
           const outing = OUTINGS[choice.kind];
@@ -183,8 +196,10 @@ export function campaignView(core: CoreState, personId: string) {
 /**
  * The causes a contest turns on: for each candidate on its ballot, the acts
  * that reached voters (doors, speeches, ads, a retelling) with how many were
- * reached and how many came away warmer or cooler. Read from the cause rows
- * the campaign engine kept; a read-only view.
+ * reached and how many came away warmer or cooler, and the same read once per
+ * voter (a voter reached by two acts counts once), which is what the race's
+ * standing sentences say. Read from the cause rows the campaign engine kept;
+ * a read-only view.
  */
 function contestCauses(core: CoreState, contestId: string, personId: string) {
   const api = coreAPI(core);
@@ -203,6 +218,8 @@ function contestCauses(core: CoreState, contestId: string, personId: string) {
       string,
       { act: string; reached: number; warmer: number; cooler: number }
     >();
+    // Each voter's warmth moved by the sum of what every act did to it.
+    const moved = new Map<string, number>();
     for (const row of rows) {
       const entry = acts.get(row.act) ?? {
         act: row.act,
@@ -214,6 +231,10 @@ function contestCauses(core: CoreState, contestId: string, personId: string) {
       if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
       else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
       acts.set(row.act, entry);
+      moved.set(
+        row.voterId,
+        (moved.get(row.voterId) ?? 0) + (row.warmthAfter - row.warmthBefore),
+      );
     }
     const person = core.people.get(filing.personId);
     return {
@@ -224,8 +245,99 @@ function contestCauses(core: CoreState, contestId: string, personId: string) {
         : filing.personId,
       you: filing.personId === personId,
       acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
+      reached: moved.size,
+      warmer: [...moved.values()].filter((d) => d > 0).length,
+      cooler: [...moved.values()].filter((d) => d < 0).length,
     };
   });
+}
+
+/**
+ * Where the race stands, as sentences from the English engine's
+ * campaign-standing bank: the voters the player reached and how many moved,
+ * the opponents on the contest's filings and how many voters each reached,
+ * the last poll's answers, and what a poll would cost (the Poll action's
+ * sample at the campaign engine's price per interview).
+ */
+export function raceStanding(
+  core: CoreState,
+  filing: FilingRow,
+  lastPoll:
+    | { date: string; contacted: number; answers: Record<string, number> }
+    | undefined,
+  causes: ReturnType<typeof contestCauses>,
+): string[] {
+  const mine = causes.find((who) => who.you);
+  const others = causes.filter((who) => !who.you);
+  const id = filing.id;
+  const perInterview = campaignParameter("pollCostPerInterviewMinor");
+  const line = (
+    move: string,
+    recordId: string,
+    slots: Readonly<Record<string, string | number>>,
+  ) => standingLine(core.seed, filing.personId, move, recordId, slots);
+  return [
+    mine && mine.reached > 0
+      ? line(mine.reached === 1 ? "reached-one" : "reached", id, {
+          reached: mine.reached,
+        })
+      : line("reached-none", id, {}),
+    ...(mine && mine.reached > 0
+      ? [
+          line(
+            mine.warmer > 0 && mine.cooler > 0
+              ? "moved-both"
+              : mine.warmer > 0
+                ? "moved-warmer"
+                : mine.cooler > 0
+                  ? "moved-cooler"
+                  : "moved-none",
+            id,
+            { warmer: mine.warmer, cooler: mine.cooler },
+          ),
+        ]
+      : []),
+    others.length
+      ? line(others.length === 1 ? "opponent-one" : "opponents", id, {
+          opponents: nameList(others.map((who) => who.name)),
+        })
+      : line("opponents-none", id, {}),
+    ...others
+      .filter((who) => who.reached > 0)
+      .map((who) =>
+        line(
+          who.reached === 1 ? "opponent-reached-one" : "opponent-reached",
+          `${id}|${who.candidateId}`,
+          { name: who.name, reached: who.reached },
+        ),
+      ),
+    ...(lastPoll
+      ? [
+          line(
+            lastPoll.contacted === 1 ? "poll-result-one" : "poll-result",
+            id,
+            {
+              date: dateWords(lastPoll.date),
+              contacted: lastPoll.contacted,
+              // The candidates' answers, by name; the bank has no words for
+              // the undecided yet, so they are left out of the tally.
+              tally: Object.entries(lastPoll.answers)
+                .flatMap(([who, n]) => {
+                  const name = causes.find((c) => c.candidateId === who)?.name;
+                  return name ? [[name, n] as const] : [];
+                })
+                .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+                .map(([name, n]) => `${name} ${n}`)
+                .join(", "),
+            },
+          ),
+        ]
+      : []),
+    line("poll-cost", id, {
+      sample: POLL_SAMPLE,
+      cost: dollarsOf(POLL_SAMPLE * perInterview),
+    }),
+  ];
 }
 
 const summary = (causes: readonly CauseRow[]) => ({
@@ -301,7 +413,7 @@ export function campaignAct(
     case "poll":
       return commissionPoll(api, {
         filingId: input.filingId,
-        sampleSize: input.sampleSize ?? 50,
+        sampleSize: input.sampleSize ?? POLL_SAMPLE,
       });
     default:
       throw new Error("Unknown campaign act.");

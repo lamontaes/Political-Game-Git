@@ -41,7 +41,14 @@ describe(`seated people at ${place}`, () => {
 
   it("puts the hip line on the seat cushion, centered on the seat", () => {
     for (const spot of seats) {
-      const { figure } = placeSeated(seated, standing, "adult", stage, spot);
+      const { figure } = placeSeated(
+        seated,
+        standing,
+        "adult",
+        place,
+        stage,
+        spot,
+      );
       const scale = figure.heightPercent / seated.height;
       expect(figure.topPercent + 560 * scale).toBeCloseTo(spot.seatY!, 6);
       // Centered on the seat, moved in only as far as the picture's sides need.
@@ -57,11 +64,9 @@ describe(`seated people at ${place}`, () => {
           100.000001,
         );
       }
-      // Behind a desk: cut off at the desk, and no shadow on a hidden floor.
-      if (spot.clipBelowY !== undefined && spot.clipBandEndY === undefined) {
-        expect(figure.clipBelowPercent).toBe(spot.clipBelowY);
-        expect(figure.shadow).toBeNull();
-      } else expect(figure.shadow).not.toBeNull();
+      // Behind a desk: no shadow on a hidden floor.
+      if (spot.behindY !== undefined) expect(figure.shadow).toBeNull();
+      else expect(figure.shadow).not.toBeNull();
     }
   });
 
