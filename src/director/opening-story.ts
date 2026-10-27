@@ -84,7 +84,7 @@ import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
-import { properName, spoken } from "./words";
+import { properName, spoken, spokenDate } from "./words";
 
 export interface OpeningSentence {
   readonly level: OpeningLevel;
@@ -105,6 +105,8 @@ export interface OpeningNewsStory {
   readonly recordId: string;
   readonly headline?: string;
   readonly lede?: string;
+  /** The story as the paper prints it: the lede, the figures, one quote. */
+  readonly paragraphs?: readonly string[];
   readonly broadcast: readonly {
     speaker: "anchor" | "reporter";
     text: string;
@@ -901,9 +903,9 @@ function townStory(
     kind: "jobs-report",
     recordId: region.id,
     facts: {
-      place: fact(townName, townId),
       // The rate is the region's (a metro, or the state outside its metros),
-      // so the story names that area, not the town.
+      // so the story names that area as its place, not the town.
+      place: area ? fact(area, region.id) : fact(townName, townId),
       ...(area ? { area: fact(area, region.id) } : {}),
       percent: fact(region.unemploymentPct.toFixed(N.decimals), region.id),
       ...(before && region.unemploymentPct < before.unemploymentPct
@@ -912,6 +914,12 @@ function townStory(
     },
   };
 }
+
+/** The facts among `keys` that `facts` carries. */
+const factsAmong = (facts: Facts, keys: readonly string[]): Facts =>
+  Object.fromEntries(
+    keys.flatMap((key) => (facts[key] ? [[key, facts[key]!] as const] : [])),
+  );
 
 function newsStory(
   core: CoreState,
@@ -1034,7 +1042,7 @@ export function composeOpeningStory(
   const allIds = [...new Set(sentences.flatMap((row) => row.sourceRecordIds))];
   // The evening news: the address, then the town's own lead story.
   const newscast: OpeningNewsStory[] = [
-    newsStory(core, "election", id, {
+    newsStory(core, "address", id, {
       name: fact(
         fullName(president),
         president.id,
@@ -1043,7 +1051,24 @@ export function composeOpeningStory(
         // world opens on Inauguration Day.
         ...(core.eventIds.has(inauguration) ? [inauguration] : []),
       ),
-      ...(elected ? { won: fact("yes", elected.id) } : {}),
+      // On Inauguration Day the story is the swearing-in, from the offices
+      // engine's record; any other year it is the address to Congress.
+      ...(kind === "inaugural"
+        ? {
+            inaugural: fact(
+              "yes",
+              ...(core.eventIds.has(inauguration) ? [inauguration] : [id]),
+            ),
+          }
+        : { "joint-session": fact("yes", id) }),
+      date: fact(spokenDate(core.date, core.date), id),
+      // The country's figures the address argued from, and the line of it
+      // the news remembers.
+      ...factsAmong(countryFacts(core, kind).facts, [
+        "unemployment-rate",
+        "wage-growth",
+      ]),
+      quote: fact(remembered.text, id, ...remembered.sourceRecordIds),
       ...(townName ? { place: fact(townName, player.placeId) } : {}),
     }),
   ];

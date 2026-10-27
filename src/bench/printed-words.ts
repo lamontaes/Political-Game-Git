@@ -1130,7 +1130,9 @@ const address: Builder = (read, f) => {
     "address",
     {
       ...read.who(id, "name", false),
-      ...(f["address:kind"] === "inaugural" ? { inaugural: read.yes() } : {}),
+      ...(f["address:kind"] === "inaugural"
+        ? { inaugural: read.yes() }
+        : { "joint-session": read.yes() }),
       date: read.date(),
     },
     ["name"],

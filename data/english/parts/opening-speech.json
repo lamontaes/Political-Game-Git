@@ -4701,6 +4701,310 @@
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
       "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.governors-ask.polished-ina-sta-there-is-a-second-law-i-d-ask-you-to-weigh-whether-your-state-should-to",
+      "move": "governors-ask",
+      "kind": "spoken",
+      "text": "There is a second law I'd ask you to weigh: whether your state should {to}.",
+      "uses": [
+        {
+          "move": "governors-ask",
+          "subject": "inaugural",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "rank-second"
+          ]
+        },
+        {
+          "move": "governors-ask",
+          "subject": "state-of-the-union",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "rank-second"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-governors-ranked-asks)",
+      "date": "2026-10-27",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.governors-ask.plain-ina-sta-i-d-also-ask-you-to-look-at-whether-your-state-should-to",
+      "move": "governors-ask",
+      "kind": "spoken",
+      "text": "I'd also ask you to look at whether your state should {to}.",
+      "uses": [
+        {
+          "move": "governors-ask",
+          "subject": "inaugural",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "rank-second"
+          ]
+        },
+        {
+          "move": "governors-ask",
+          "subject": "state-of-the-union",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "rank-second"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-governors-ranked-asks)",
+      "date": "2026-10-27",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.governors-ask.polished-ina-sta-i-d-also-ask-whether-your-state-s-law-on-about-still-serves-its-people",
+      "move": "governors-ask",
+      "kind": "spoken",
+      "text": "I'd also ask whether your state's law on {about} still serves its people.",
+      "uses": [
+        {
+          "move": "governors-ask",
+          "subject": "inaugural",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-in-force",
+            "rank-second"
+          ]
+        },
+        {
+          "move": "governors-ask",
+          "subject": "state-of-the-union",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-in-force",
+            "rank-second"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-governors-ranked-asks)",
+      "date": "2026-10-27",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.governors-ask.plain-ina-sta-and-look-again-at-your-state-s-law-on-about",
+      "move": "governors-ask",
+      "kind": "spoken",
+      "text": "And look again at your state's law on {about}.",
+      "uses": [
+        {
+          "move": "governors-ask",
+          "subject": "inaugural",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-in-force",
+            "rank-second"
+          ]
+        },
+        {
+          "move": "governors-ask",
+          "subject": "state-of-the-union",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-in-force",
+            "rank-second"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-governors-ranked-asks)",
+      "date": "2026-10-27",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.governors-ask.polished-ina-sta-one-more-consider-whether-your-state-should-to",
+      "move": "governors-ask",
+      "kind": "spoken",
+      "text": "One more: consider whether your state should {to}.",
+      "uses": [
+        {
+          "move": "governors-ask",
+          "subject": "inaugural",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "rank-third"
+          ]
+        },
+        {
+          "move": "governors-ask",
+          "subject": "state-of-the-union",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "rank-third"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-governors-ranked-asks)",
+      "date": "2026-10-27",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.governors-ask.plain-ina-sta-last-i-d-ask-whether-your-state-should-to",
+      "move": "governors-ask",
+      "kind": "spoken",
+      "text": "Last, I'd ask whether your state should {to}.",
+      "uses": [
+        {
+          "move": "governors-ask",
+          "subject": "inaugural",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "rank-third"
+          ]
+        },
+        {
+          "move": "governors-ask",
+          "subject": "state-of-the-union",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "to",
+            "stance-for",
+            "law-not-in-force",
+            "rank-third"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-governors-ranked-asks)",
+      "date": "2026-10-27",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.governors-ask.polished-ina-sta-one-more-ask-whether-your-state-s-law-on-about-is-doing-what-it-should",
+      "move": "governors-ask",
+      "kind": "spoken",
+      "text": "One more: ask whether your state's law on {about} is doing what it should.",
+      "uses": [
+        {
+          "move": "governors-ask",
+          "subject": "inaugural",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-in-force",
+            "rank-third"
+          ]
+        },
+        {
+          "move": "governors-ask",
+          "subject": "state-of-the-union",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-in-force",
+            "rank-third"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-governors-ranked-asks)",
+      "date": "2026-10-27",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.governors-ask.plain-ina-sta-last-look-hard-at-your-state-s-law-on-about",
+      "move": "governors-ask",
+      "kind": "spoken",
+      "text": "Last, look hard at your state's law on {about}.",
+      "uses": [
+        {
+          "move": "governors-ask",
+          "subject": "inaugural",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-in-force",
+            "rank-third"
+          ]
+        },
+        {
+          "move": "governors-ask",
+          "subject": "state-of-the-union",
+          "role": "governors-ask",
+          "choice": "governors-ask",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-in-force",
+            "rank-third"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-governors-ranked-asks)",
+      "date": "2026-10-27",
+      "bearing": "calm"
     }
   ]
 }

@@ -6,9 +6,9 @@ lead: laws-effects
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/local-platform-budget-lines
-pr:
+pr: #6322
 blocked-on: laws-filing-positions-are-the-seats-own-issues
 source: laws-and-effects lead, Oct 27 (the filing-positions gate)
 claimed-at: 2026-10-27T11:31:42.599Z
