@@ -6,9 +6,9 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-matrix-screens
-pr:
+pr: #6295
 blocked-on:
 source: CTO relay of the Oct 26 playtest (MERGE-FIRST.md: "your matrix row says on which screen a law shows", wiring-audit "wired is not seen")
 claimed-at: 2026-10-27T11:18:34.741Z
