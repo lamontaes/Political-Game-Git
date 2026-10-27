@@ -7,8 +7,11 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { personLean } from "../core2/campaign-views";
+import { appointmentsIn } from "../core2/modules/executive";
 import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
+import { lawChain } from "../core2/modules/laws";
 import {
   MEETINGS_MODULE_ID,
   type TownHallRow,
@@ -342,6 +345,13 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
+  // A race's result for the asked (the morning after): the lines for a
+  // winner and for the one who lost differ.
+  if (said.winnerId && said.contestId)
+    facts[said.winnerId === askedId ? "won" : "lost"] = {
+      text: "",
+      sourceRecordIds: [moment.causeId],
+    };
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {
@@ -355,6 +365,9 @@ function composeBinding(
         sourceRecordIds: [moment.causeId],
       };
   }
+
+  if (record?.kind === "budget-line-changed")
+    cutFacts(core, facts, said, moment.causeId, askerId);
 
   const result = composeSceneTalk(
     core,
@@ -388,6 +401,67 @@ function composeBinding(
       talk: result.talk,
     },
   };
+}
+
+/** A dollar amount said to two figures, the way people round a number out loud: "$410,000". */
+function roundedDollars(minor: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumSignificantDigits: P.two,
+  }).format(minor / P.minorPerDollar);
+}
+
+/**
+ * What a department head says of a cut the council adopted to the line their
+ * post draws on (budgets.ts `budget-line-changed`): how much was cut, how much
+ * of the line that was where the adopted budget is on record, their post and
+ * how many whole years they have held it, each with the records it came from.
+ */
+function cutFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  headId: PersonId,
+): void {
+  const cut = Math.abs(Number(said.deltaMinor));
+  if (!(cut > P.zero)) return;
+  facts.cut = { text: roundedDollars(cut), sourceRecordIds: [causeId] };
+  const api = coreAPI(core as CoreState);
+  const budget =
+    said.measureId && core.modules.has(BUDGETS_MODULE_ID)
+      ? (api
+          .moduleState(BUDGETS_MODULE_ID)
+          .table("budgets")
+          .get(said.measureId) as unknown as BudgetRow | undefined)
+      : undefined;
+  const left = budget?.spendingMinor[said.line ?? ""];
+  if (budget && left !== undefined) {
+    const percent = Math.round((P.percent * cut) / (left + cut));
+    if (percent >= P.one)
+      facts.percent = {
+        text: String(percent),
+        sourceRecordIds: [causeId, budget.id],
+      };
+  }
+  const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
+    (row) => row.holderId === headId,
+  );
+  if (!post) return;
+  facts.post = { text: post.title.toLowerCase(), sourceRecordIds: [post.id] };
+  const date = core.date;
+  const years =
+    Number(date.slice(P.zero, P.isoYearCharacters)) -
+    Number(post.since.slice(P.zero, P.isoYearCharacters)) -
+    (date.slice(P.isoYearCharacters) < post.since.slice(P.isoYearCharacters)
+      ? P.one
+      : P.zero);
+  if (years >= P.two)
+    facts.years = {
+      text: String(years),
+      sourceRecordIds: [post.id],
+    };
 }
 
 /**

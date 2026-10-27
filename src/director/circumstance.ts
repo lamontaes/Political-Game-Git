@@ -46,6 +46,11 @@ export interface CircumstanceRow {
   recordFacts?: readonly string[];
   /** Facts the record must carry with one of the listed values. */
   recordFactEquals?: Readonly<Record<string, readonly string[]>>;
+  /**
+   * The record's id begins with this: one producer's records among a kind
+   * several write (an interest group's lobbying case among the cases made).
+   */
+  recordIdPrefix?: string;
   /** For a story read: the tier of the outlet that printed it ("national"). */
   outletTier?: string;
   /**
@@ -53,6 +58,13 @@ export interface CircumstanceRow {
    * circumstance is what follows it, with someone else it names.
    */
   playerNamed?: boolean;
+  /**
+   * Days after the record that the circumstance comes (the morning after a
+   * count): the record waits on the director's ledger until then, and the
+   * week's spacing between scenes from circumstance does not hold it back,
+   * as it follows one thing the player lived through.
+   */
+  afterDays?: number;
   /** The kind of place it happens at: the situation type's setting. */
   place: string;
   pool: readonly string[];
@@ -105,6 +117,10 @@ export interface QueuedRecord {
    * event: it is cited by its own id.
    */
   direct?: true;
+  /** Held from an earlier day for a row that comes days after its record. */
+  later?: true;
+  /** The day a held record comes: its own day and the row's days after. */
+  dueOn?: IsoDate;
 }
 
 export function queuedOf(event: CoreEventInput): QueuedRecord {
@@ -247,12 +263,26 @@ function playerHolds(
         (!!job && core.jobs.get(job)?.endsAt === undefined)
       );
     }
+    case "heard-it":
+      // The player is among those who saw or heard the record (a case made to them).
+      return record.witnessIds.includes(playerId);
     case "voted-on-it": {
       const source = record.facts.sourceRecordId;
       return (
         !!source &&
         core.durableLog.get(source)?.personIds.includes(playerId) === true
       );
+    }
+    case "ran-in-it": {
+      // The player filed in the contest the record settled.
+      const contestId = record.facts.contestId;
+      if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
+      return (
+        coreAPI(core as CoreState)
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+      ).some((filing) => filing.contestId === contestId);
     }
     case "same-body": {
       const body = bodyOfRecord(core, record);
@@ -274,6 +304,16 @@ function poolOf(
     return record.personIds.map((id) => ({ id, named: true }));
   if (source === "witnessed")
     return record.witnessIds.map((id) => ({ id, named: false }));
+  if (source === "own-household") {
+    // The people the player lives with.
+    const player = core.people.get(playerId);
+    return [
+      ...(core.households.get(player?.householdId ?? "")?.memberIds ?? []),
+    ]
+      .filter((id) => id !== playerId)
+      .sort()
+      .map((id) => ({ id, named: false }));
+  }
   if (source === "household-of-named") {
     const first = core.people.get(record.personIds[zero] ?? ("" as PersonId));
     return [...(core.households.get(first?.householdId ?? "")?.memberIds ?? [])]
@@ -392,8 +432,12 @@ export function circumstancePicks(
     if (!record.direct && !core.durableLog.has(record.id)) continue;
     const namesPlayer = record.personIds.includes(playerId);
     for (const row of byKind.get(record.kind) ?? []) {
+      // A record held for later calls only the rows that wait for it.
+      if (!!row.afterDays !== !!record.later) continue;
       if (namesPlayer && !row.playerNamed) continue;
       if (!options.due(row)) continue;
+      if (row.recordIdPrefix && !record.id.startsWith(row.recordIdPrefix))
+        continue;
       if (row.recordFacts?.some((key) => !record.facts[key])) continue;
       if (
         Object.entries(row.recordFactEquals ?? {}).some(

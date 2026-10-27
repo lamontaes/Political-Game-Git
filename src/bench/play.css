@@ -248,6 +248,10 @@ ol {
   align-items: center;
   gap: 12px;
 }
+/* Buttons in a row share one size (owner, Oct 24): every title item is as tall as Continue. */
+#front-main .item {
+  min-height: 56px;
+}
 #front-continue .bust {
   width: 44px;
   height: 44px;
@@ -2863,6 +2867,10 @@ body.dev .dev-ring {
 /* The speech's lines and replies inside a screen read as the talk box's do. */
 .talk-sheet .reply {
   text-align: left;
+}
+/* A list of races shares one button height whatever its names' length. */
+#talk-choices:has(.reply-facts) {
+  grid-auto-rows: 1fr;
 }
 /* A race at the filing counter, told apart under its choice. */
 #talk-choices .reply .reply-facts {
