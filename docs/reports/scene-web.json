@@ -5,11 +5,11 @@
   "year": "2025-01-20 to 2026-01-20",
   "watched": 17,
   "counts": {
-    "types": 78,
+    "types": 79,
     "rows": 130,
     "typesFired": 11,
     "rowsWaitingOnProducer": 13,
-    "rowsWithoutEpisode": 55,
+    "rowsWithoutEpisode": 56,
     "ownerExamples": 112,
     "ownerScenesMissing": 8
   },
@@ -212,7 +212,7 @@
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 8,
-      "trigger": "election-result",
+      "trigger": "law.effect-learned",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
@@ -230,7 +230,7 @@
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 9,
-      "trigger": "law.effect-learned",
+      "trigger": "news.read",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
@@ -266,7 +266,7 @@
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 11,
-      "trigger": "news.read",
+      "trigger": "life.death",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
@@ -284,7 +284,7 @@
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 12,
-      "trigger": "life.death",
+      "trigger": "news.read",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
@@ -317,20 +317,20 @@
       "firedExample": null
     },
     {
-      "domain": "home-and-family",
-      "type": "news-arrives",
-      "variant": 14,
-      "trigger": "news.read",
+      "domain": "election-day-and-night",
+      "type": "race-told",
+      "variant": 0,
+      "trigger": "election-result",
       "waiting": false,
-      "outcome": "personal conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 31,
-        "hearer": 69,
-        "bearer": 26
+        "narrator": 6,
+        "asker": 59,
+        "asked": 30
       },
-      "lines": 126,
-      "episodes": ["news-at-the-table"],
-      "ownerAsked": ["Mother asks you to sit down"],
+      "lines": 95,
+      "episodes": [],
+      "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
     },
