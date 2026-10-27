@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/integration-scene-place-from-purpose
-pr:
+pr: #6439
 blocked-on:
 source: "Owner's screenshot, Oct 27, 6:10 PM Eastern (Berry, Kentucky, v0.59.0), relayed by the CTO"
 lead: director
