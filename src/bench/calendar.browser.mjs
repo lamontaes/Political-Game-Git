@@ -12,14 +12,14 @@ try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto("http://localhost:3000/play");
   await ready;
-  if (await page.locator("#front-continue").isEnabled()) {
-    await page.locator("#front-continue").click();
-  } else {
+  // Always a fresh life: a continued one has moved on from its opening day.
+  {
     const response = page.waitForResponse(
       (r) => new URL(r.url()).pathname === "/api/newlife",
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const r = await response;
     assert.equal(r.status(), 200);
@@ -37,6 +37,9 @@ try {
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
+  // A job offer held for an answer comes first in some worlds.
+  if (await page.locator("#job-offer-turn").isVisible())
+    await page.locator("#job-offer-turn").click();
   const name = await page.locator("#card-name").innerText();
   const clock = await page.locator("#card-clock").innerText();
   console.log(
@@ -85,6 +88,32 @@ try {
   assert.equal(await skip.count(), 1);
   assert.equal((await skip.innerText()).trim(), "");
   assert.ok(await skip.getAttribute("aria-label"));
+  // Nine months ahead: the tile keeps its number and is selected, the day's
+  // date shows with the skip icon, and the clock does not move until it is pressed.
+  for (let i = 0; i < 9; i++)
+    await page.getByRole("button", { name: "Next month", exact: true }).click();
+  const far = page.locator(".month .day:not(:has(.day-icon))").nth(10);
+  const farNumber = (await far.innerText()).trim();
+  assert.ok(/^\d+$/.test(farNumber), "the future tile keeps its number");
+  await far.click();
+  const selectedTile = page.locator(".month .day.selected");
+  assert.equal((await selectedTile.innerText()).trim(), farNumber);
+  const farDate = await selectedTile.getAttribute("data-date");
+  assert.ok(
+    (await page.locator(".calendar-day-date").innerText()).includes(
+      String(Number(farDate.slice(-2))),
+    ),
+    "the day's date shows beside the skip",
+  );
+  assert.equal(
+    await page.locator(".calendar-month-foot .skip-forward").count(),
+    1,
+  );
+  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  await page.screenshot({
+    path: "docs/reports/calendar-future-day-2026-10-27/future-day.png",
+  });
+  await page.getByRole("button", { name: "Today", exact: true }).click();
   // A day with a birthday, deadline or election carries an icon and opens its panel.
   for (let i = 0; i < 12; i++) {
     if (await page.locator(".month .day:has(.day-icon)").count()) break;
@@ -124,6 +153,10 @@ try {
   const target = await page
     .locator(".month .day.selected")
     .getAttribute("data-date");
+  await page
+    .locator("#job-offer-turn")
+    .click({ timeout: 2000 })
+    .catch(() => undefined);
   await page.locator(".calendar-details .skip-forward").click();
   await page.waitForFunction(
     (before) =>

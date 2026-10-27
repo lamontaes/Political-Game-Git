@@ -47,9 +47,10 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await page.waitForTimeout(1500);
   if (n === 0) await shot("title");
   await page.click("#new-life");
-  await page.click("#new-custom");
+  await page.click("#new-advanced");
   await page.fill("#seed", seed);
-  await page.click("#custom-next");
+  await page.click("#advanced-back");
+  await page.click("#new-start");
   // The creator: a drawn name and birthday, the first state and town.
   await page.waitForSelector("#cr-character:not([hidden])");
   await page.click("[data-gender=male]");
@@ -101,11 +102,8 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await sheet("calendar", `${seed}-calendar`);
   // Until needed, to election night.
   for (let i = 0; i < 60; i++) {
-    if (
-      !(await page.isHidden("#sheet")) &&
-      (await page.textContent("#sheet-title")) === "Election night"
-    )
-      break;
+    // Election night is its own pop-up: the returns for the player's race.
+    if (!(await page.isHidden("#returns"))) break;
     if (!(await page.isHidden("#continue"))) await page.click("#continue");
     else if (
       !(await page.isDisabled("#skip")) &&
@@ -114,6 +112,6 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
       await page.click("#skip");
     await page.waitForTimeout(1500);
   }
-  if (!(await page.isHidden("#sheet"))) await shot(`${seed}-election-night`);
+  if (!(await page.isHidden("#returns"))) await shot(`${seed}-election-night`);
 }
 await browser.close();
