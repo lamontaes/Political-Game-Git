@@ -207,29 +207,14 @@
       "fix": "Calibrate when a study gives the odds of an owner joining a trade association by trait (traits-wire-civic)."
     },
     "jobs-benefits.file-claim": {
-      "class": "too few calls to fit",
-      "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds), but only 6 and 14 eligible people weighed filing in a played year, so trait-calibrate has too few calls and the general weight of 1 stands. Temperament turned 1 of 6 and 1 of 14 of them.",
-      "fix": "Calibrate when a run weighs 30 or more claims (several places pooled, or a year with layoffs) (research-unemployment-claim-take-up)."
-    },
-    "press.follow-news": {
-      "class": "size, not a choice",
-      "why": "Sindermann 2021 gives extraversion r 0.16 with the number of news sources a person uses (odds ratio 1.90 between the thirds). The decision is a habit score added to the person's engagement, a size, not a yes or no, so trait-calibrate cannot fit it from the audit's kept calls and the general weight of 1 stands. At weight 1 the third leaning most toward following over the third leaning least differs by a shift of +1.26 habit-score units and a shift of +1.15 habit-score units net of flat (the trait term is larger than the whole spread of engagement between people) (26 and 103 people).",
-      "fix": "Fit the weight from the kept outcomes (the matrix's outcome thirds) once the calibration script can fit a size (traits-research-weights-civic-money)."
+      "class": "circumstances saturate the choice",
+      "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds). Pooled over seven played years (59 claims weighed, src/core2/jobs-benefits.ts), every eligible worker files with temperament off, against real take-up of 70 to 80%, and no weight up to 0.5 turns any of them; at the general weight of 1, 7% decline.",
+      "fix": "Bring the filing base down to the researched take-up (research-unemployment-claim-take-up), then fit the weight."
     },
     "speech.retell": {
       "class": "circumstances saturate the choice",
       "why": "Hibbing, Ritchie and Anderson 2011 give conscientiousness 0.63 on talking about local politics with family (odds ratio 1.49 between the thirds). The listener keeps a fixed reason to stay quiet (0.6) against a retelling reason of 0.01 to 0.04 for how far the speech moved them, so temperament alone sorts who retells: the third leaning most toward retelling retold 0.26 and the third leaning least 0.00 at weight 1, and no weight up to 0.2 in steps of 0.005 comes near the study (trait-calibrate cannot reach it). The general weight of 1 stands.",
-      "fix": "Give the retelling its own circumstances (how close the household members are, how much the speech matters to them), then calibrate to the study (traits-retell-circumstances)."
-    },
-    "views.persuasion": {
-      "class": "size, not a choice",
-      "why": "Hibbing, Ritchie and Anderson 2011 give openness 0.66 of the full range on being moved toward a discussion partner's view (odds ratio 1.37 between the thirds). The decision scales how far an argument moves a view, a size, so trait-calibrate cannot fit it and the general weight of 1 stands (stopgap SG-TRAITS-persuasion-size). At weight 1 the move is larger in the third leaning most toward yielding by a factor of 2.76 and a factor of 2.53 net of flat, within a factor of 3 of the study.",
-      "fix": "Fit the weight from the kept outcomes once the calibration script can fit a size (traits-research-weights-civic-money)."
-    },
-    "views.trust": {
-      "class": "size, not a choice",
-      "why": "Sindermann 2021 gives agreeableness r 0.20 with general trust (odds ratio 2.24 between the thirds). The decision scales a speaker's standing with the hearer, a size, so trait-calibrate cannot fit it and the general weight of 1 stands (stopgap SG-TRAITS-persuasion-size). At weight 1 the standing differs between the thirds by a factor of 1.63 and a factor of 1.38 net of flat.",
-      "fix": "Fit the weight from the kept outcomes once the calibration script can fit a size (traits-research-weights-civic-money)."
+      "fix": "Give the retelling its own circumstances, then fit the weight (traits-retell-circumstances)."
     },
     "parties.join": {
       "class": "circumstances saturate the choice",

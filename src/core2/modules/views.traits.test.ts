@@ -5,8 +5,7 @@
  * trust a speaker (outcome.trust-generalized). A drawn place's population
  * (a place drawn from all 56 from a fresh seed) hears one speech in two cores built
  * from the same input, one with the persuasion weight as it stands and one
- * with it at zero. No study gives a one-occasion size, so both run at the
- * general weight (SG-TRAITS-persuasion-size).
+ * with it at zero, both at the weights fitted to their studies.
  */
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
