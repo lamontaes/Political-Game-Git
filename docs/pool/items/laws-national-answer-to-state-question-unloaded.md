@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/national-answer-state-question
-pr:
+pr: #6326
 blocked-on:
 source: laws-and-effects lead, Oct 27 (laws-in-force-every-question)
 claimed-at: 2026-10-27T13:34:14.300Z

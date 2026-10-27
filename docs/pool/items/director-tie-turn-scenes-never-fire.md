@@ -5,14 +5,14 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-tie-turn-scenes
+pr: 6335
 blocked-on:
 source: "words-and-scenes lead, Oct 27: the scene web's meeting-people pass"
 lead: director
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T14:06:10.958Z
 ---
 
 **What.** Three situation types fire on a relationship thread's turn: `becoming-friends` (a tie grew), `argument` (a tie soured) and `reunion` (a tie's re-entry). None of them fired in a played year in either drawn place the scene web ran, with the player, their household and every official who is a full person watched. The places are New Britain, Connecticut (seed `web-morning-1`) and Charlotte Amalie East, U.S. Virgin Islands (seed `web-meeting-1`). The owner's "meeting people" season is the quietest stretch of the game for it. Either no watched thread turns in a year, or the turn is never matched to the type.
