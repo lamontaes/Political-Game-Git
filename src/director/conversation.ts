@@ -37,6 +37,7 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { sharedHistory } from "../core2/shared-history";
 import { NEWS_MODULE_ID, newsKey, storiesHeard } from "../core2/modules/news";
 import type { EntityId } from "../core2/kernel/brands";
 import {
@@ -1933,10 +1934,15 @@ function knowsTruth(
   if (known?.value === own.value) return true;
   const knower = core.people.get(knowerId);
   if (!knower) return false;
+  // What someone does for a living: their coworkers know, and so does anyone
+  // who has worked their campaign or had them work theirs (shared-history.ts).
   if (own.key.endsWith(":employer"))
     return (
-      !!knower.jobId &&
-      core.jobs.get(knower.jobId)?.organizationId === own.value
+      (!!knower.jobId &&
+        core.jobs.get(knower.jobId)?.organizationId === own.value) ||
+      sharedHistory(core, knowerId, subjectId).some(
+        (row) => row.kind === "campaign",
+      )
     );
   // Where someone lives and went to school: their household and family know.
   return (
@@ -2266,8 +2272,8 @@ function offerChoices(
 /**
  * The four replies a turn offers, ranked by the player's traits: someone who carries talk on sees
  * the replies that raise or ask first, someone who keeps it short sees plain
- * answers and acknowledgments first. Different moves come before a second
- * wording of the same move. "Say nothing" is a control beside them
+ * answers and acknowledgments first. Each is a different move: a second
+ * wording of a move offered is never one of them. "Say nothing" is a control beside them
  * (`sayNothing`), never one of the four.
  */
 function rankChoices(
@@ -2308,17 +2314,18 @@ function rankChoices(
     .sort((a, b) => place(a.row) - place(b.row) || a.at - b.at)
     .map(({ row }) => row);
   const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  // Four replies are four answers, never one reworded (owner, Oct 27, 4 PM
+  // Eastern: "four replies are four different answers"): a second wording of
+  // a move already offered is not offered.
   const moves = new Set<string>();
-  const first = ranked.filter((row) => {
-    const move = row.move.startsWith("ack:") ? "ack" : row.move;
-    if (moves.has(move)) return false;
-    moves.add(move);
-    return true;
-  });
-  return [...first, ...ranked.filter((row) => !first.includes(row))].slice(
-    zero,
-    count,
-  );
+  return ranked
+    .filter((row) => {
+      const move = row.move.startsWith("ack:") ? "ack" : row.move;
+      if (moves.has(move)) return false;
+      moves.add(move);
+      return true;
+    })
+    .slice(zero, count);
 }
 
 /**
