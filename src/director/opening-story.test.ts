@@ -96,11 +96,10 @@ describe("the opening story", () => {
       expect(sentence.text).toContain(visits.get(visit!)!.stateName);
       expect(visits.get(visit!)!.stateKey).toBe(ownState);
     }
-    // The name card: office and state, never a bare former office.
+    // The name card is the office alone: the President's home state is read
+    // as where the player is (owner, Oct 26).
     const card = openingFrames(core, playerId, story).speaker;
-    expect(card.detail).toEqual(
-      story.president.homeState ? [story.president.homeState] : [],
-    );
+    expect(card.detail).toEqual([]);
     const kinds = new Set((president.pastFacts ?? []).map((row) => row.kind));
     expect(kinds.has(PRESIDENT_FACT.homeState)).toBe(true);
     expect(kinds.has(PRESIDENT_FACT.elected)).toBe(true);
@@ -148,9 +147,9 @@ describe("the opening story", () => {
     expect(opening.news.stories).toEqual(story.newscast);
   });
 
-  it("plays over the sequence: the President's stage, Congress, the state, the family, then home", () => {
+  it("plays over the sequence: the President's stage, Congress, the state, the town, the family, then home", () => {
     const order = story.sequence.map((row) => row.stage);
-    expect(order).toEqual(["president", "congress", "state", "family"]);
+    expect(order).toEqual(["president", "congress", "state", "town", "family"]);
     const opening = openingFrames(core, playerId, story);
     // The stages come in order; a cutaway never goes back to an earlier one.
     // The first frame is the address itself, the President at the lectern
