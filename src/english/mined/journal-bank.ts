@@ -132,14 +132,16 @@ export function journalDataFromBank(
         : all;
       // A row worded by an event fact (a vote) marks each variant with the
       // stage its own words say: "I voted for it" is "yes", "against" is "no".
-      const line = row.stageWords
-        ? worded?.map((variant) => {
-            const stage = Object.entries(row.stageWords!).find(([, words]) =>
-              new RegExp(words, "i").test(variant.text),
-            )?.[0];
-            return stage ? { ...variant, stages: [stage] } : variant;
-          })
-        : worded;
+      const staged = (list: typeof worded) =>
+        row.stageWords
+          ? list?.map((variant) => {
+              const stage = Object.entries(row.stageWords!).find(([, words]) =>
+                new RegExp(words, "i").test(variant.text),
+              )?.[0];
+              return stage ? { ...variant, stages: [stage] } : variant;
+            })
+          : list;
+      const line = staged(worded);
       // A row that only counts who an event names (a household move) stays,
       // with no line of its own, so the moves it shares a day with read "we".
       // A setting (a school, a job) stays with no line: it opens a chapter.
@@ -157,7 +159,7 @@ export function journalDataFromBank(
             const stages = resultStages(variant.text);
             return stages ? { ...variant, stages } : variant;
           })
-        : mined(from, "otherLine");
+        : staged(mined(from, "otherLine"));
       // One's own race is told by how it went and by its margin.
       const ownLine = row.hasOwnLine
         ? (fields.get(`${from}|ownLine`) ?? []).map((variant) => {

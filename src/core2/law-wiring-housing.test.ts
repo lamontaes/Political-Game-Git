@@ -647,7 +647,9 @@ function play(
     );
   }
 
-  // Right to counsel: a hearing paid by the government.
+  // Right to counsel: a hearing's lawyer, paid by the government when the
+  // hearing sits or owed and paid as its cash arrives. Every hearing with a
+  // lawyer is checked, not only the paid ones.
   {
     const cases = (
       api.moduleState("housing").table("cases").rows() as unknown as {
@@ -655,20 +657,61 @@ function play(
         householdId: string;
         counselLawId?: string | null;
         counselPaidMinor?: number;
+        counselCostMinor?: number;
+        counselOwedMinor?: number;
         counselPayerId?: string;
       }[]
     ).filter((r) => r.counselLawId);
     check("counsel", cases.length > 0, "no eviction hearing had a lawyer");
     const counsel = rowsOn(api, KEYS.counsel);
-    // A treasury with no cash pays nothing for a hearing's lawyer
-    // (`laws-counsel-unpaid-is-not-owed`); the cases it paid carry the money.
-    const paidCases = cases.filter((r) => (r.counselPaidMinor ?? 0) > 0);
-    check(
-      "counsel",
-      paidCases.length > 0,
-      `no hearing's lawyer was paid (${cases.length} hearings had one)`,
+    const owedRows = api.moduleState("housing").table("counselOwed");
+    for (const row of cases) {
+      const cost = row.counselCostMinor ?? 0;
+      check(
+        "counsel",
+        cost > 0,
+        `case ${row.id}: the lawyer's cost is not recorded`,
+      );
+      const debt = owedRows.get(`counsel:${row.id}`) as unknown as
+        | { owedMinor: number; paidLaterMinor?: number; lastPaymentId?: string }
+        | undefined;
+      // Paid, plus still owed, is the cost: nothing is dropped.
+      check(
+        "counsel",
+        (row.counselPaidMinor ?? 0) + (debt?.owedMinor ?? 0) === cost,
+        `case ${row.id}: paid ${row.counselPaidMinor ?? 0} plus owed ${debt?.owedMinor ?? 0} is not the cost ${cost}`,
+      );
+      // A lawyer the treasury could not pay at the hearing is a debt that
+      // names the later payments by journal id.
+      if (debt && (debt.paidLaterMinor ?? 0) > 0)
+        check(
+          "counsel",
+          !!debt.lastPaymentId,
+          `case ${row.id}: paid later without a journal id`,
+        );
+    }
+    // The lawyers the treasury could not pay at the hearing: kept as debts,
+    // and paid later by journal entry as its cash arrived.
+    const debts = owedRows.rows() as unknown as {
+      id: string;
+      caseId: string;
+      owedMinor: number;
+      paidLaterMinor?: number;
+      lastPaymentId?: string;
+    }[];
+    const laterPaid = debts.filter((d) => (d.paidLaterMinor ?? 0) > 0);
+    process.stdout.write(
+      `counsel (${place.name}, ${place.key}, seed ${place.seed}): ${cases.length} hearings with a lawyer, ${debts.length} owed at the hearing (${debts
+        .slice(0, 3)
+        .map((d) => d.caseId)
+        .join(", ")}), ${laterPaid.length} paid later (journal ${laterPaid
+        .slice(0, 2)
+        .map((d) => d.lastPaymentId)
+        .join(
+          ", ",
+        )}), ${debts.filter((d) => d.owedMinor > 0).length} still owed\n`,
     );
-    for (const row of paidCases.slice(0, 5)) {
+    for (const row of cases.slice(0, 5)) {
       check(
         "counsel",
         counsel.some(
@@ -683,19 +726,18 @@ function play(
         ),
         `case ${row.id}: paying government has no applied row`,
       );
-      // The household's row adds up the lawyers paid for each of its cases.
-      const paidForHousehold = cases
+      // The household's row adds up the lawyers each of its cases cost.
+      const costForHousehold = cases
         .filter((x) => x.householdId === row.householdId)
-        .reduce((sum, x) => sum + (x.counselPaidMinor ?? 0), 0);
+        .reduce((sum, x) => sum + (x.counselCostMinor ?? 0), 0);
       check(
         "counsel",
-        (row.counselPaidMinor ?? 0) > 0 &&
-          counsel.some(
-            (r) =>
-              r.targetId === row.householdId &&
-              r.amountMinor === paidForHousehold,
-          ),
-        `case ${row.id}: the counsel payment was not paid, or the household's row does not add up its cases (paid ${paidForHousehold})`,
+        counsel.some(
+          (r) =>
+            r.targetId === row.householdId &&
+            r.amountMinor === costForHousehold,
+        ),
+        `case ${row.id}: the household's row does not add up its cases (cost ${costForHousehold})`,
       );
     }
     for (const row of cases) {
@@ -972,7 +1014,14 @@ describe(`housing and credit laws reach people and move money (seed ${base})`, (
     try {
       let built = 0;
       for (let attempt = 0; built < 14 && attempt < 400; attempt++) {
-        const place = drawPlace(`${base}:${attempt}`, "law-wiring-housing");
+        // GOLDEN_PATH_PLACE_KEY and GOLDEN_PATH_WORLD_SEED pin one place's world.
+        const place = process.env.GOLDEN_PATH_PLACE_KEY
+          ? {
+              ...drawPlace(`${base}:${attempt}`, "law-wiring-housing"),
+              key: process.env.GOLDEN_PATH_PLACE_KEY,
+              seed: process.env.GOLDEN_PATH_WORLD_SEED ?? base,
+            }
+          : drawPlace(`${base}:${attempt}`, "law-wiring-housing");
         // A town with fewer people than MIN_RENTERS cannot hold that many renting
         // households, so it is redrawn before a world is built for it.
         const people = placeReferencePopulation(

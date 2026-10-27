@@ -48,6 +48,8 @@
   },
   "familyFactPrefix": "family:",
   "kinFactMarker": ":family:",
+  "formerKinRelations": ["former-partner"],
+  "householdRelation": "household",
   "gaps": [
     "Opening closeness uses the average visit rate for the tie, not each pair's own history of visits.",
     "Relatives outside the town make no decisions, so they never start contact themselves.",

@@ -348,14 +348,19 @@
           "opening": "tell"
         },
         {
-          "awaitingProducer": "election-result",
-          "causeEngine": "elections",
+          "match": {
+            "label": "circumstance:race-result-known",
+            "causeFacts": [{ "key": "winnerId", "is": "other" }]
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
           "bind": {
+            "bearer": "counterpart",
             "receiver": "subject",
-            "about": "counterpart",
-            "bearer": "present"
+            "about": "winner"
           },
           "opener": "bearer",
+          "setting": ["public"],
           "opening": "tell"
         },
         {
@@ -701,13 +706,16 @@
           "opener": "host"
         },
         {
-          "awaitingProducer": "school-finished",
+          "match": { "label": "circumstance:graduation-home" },
+          "causeEngine": "circumstance",
+          "causeRecord": "school.finished",
           "bind": {
             "honoree": "subject",
-            "host": "household",
+            "host": "counterpart",
             "guests": "kin"
           },
-          "opener": "host"
+          "opener": "host",
+          "setting": ["home"]
         },
         {
           "match": {
@@ -718,16 +726,6 @@
             "honoree": "subject",
             "host": "household",
             "guests": "kin"
-          },
-          "opener": "host"
-        },
-        {
-          "awaitingProducer": "election-result",
-          "causeEngine": "elections",
-          "bind": {
-            "honoree": "subject",
-            "host": "household",
-            "guests": "present"
           },
           "opener": "host"
         },
@@ -745,7 +743,7 @@
           "opening": "tell"
         }
       ],
-      "awaiting": ["record:birthday-gathering", "record:election-win"],
+      "awaiting": ["record:birthday-gathering"],
       "tag": {
         "key": "honor",
         "endpoint": "personal",
@@ -978,8 +976,13 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "school-finished",
-          "bind": { "leaving": "subject", "staying": "classmates" }
+          "match": { "label": "circumstance:school-last-day" },
+          "causeEngine": "circumstance",
+          "causeRecord": "school.finished",
+          "bind": { "leaving": "subject", "staying": "counterpart" },
+          "opener": "staying",
+          "opening": "farewell",
+          "setting": ["school"]
         },
         {
           "match": { "label": "money:job-left" },
@@ -1383,7 +1386,11 @@
         "key": "arrival",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "housemate-arrives",
+      "asker": "newcomer",
+      "asked": "household",
+      "stakes": ["home"]
     },
     {
       "key": "care",
@@ -2694,6 +2701,9 @@
     },
     {
       "key": "hallway",
+      "purpose": "hallway-word",
+      "asker": "other",
+      "asked": "you",
       "roles": [
         {
           "key": "other",
@@ -2720,6 +2730,7 @@
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "colleague-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         },
@@ -2728,6 +2739,7 @@
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "reporter-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         },
@@ -2736,14 +2748,15 @@
           "causeEngine": "circumstance",
           "causeRecord": "case.made",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "lobbyist-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         }
       ],
       "tag": {
-        "key": "routine",
+        "key": "colleague-word",
         "endpoint": "political",
-        "registers": ["conversation", "scene-words"]
+        "registers": ["scene-talk", "scene-words"]
       }
     },
     {
@@ -3712,6 +3725,87 @@
       }
     },
     {
+      "key": "desk-visit",
+      "eachCause": true,
+      "purpose": "desk-visit",
+      "asker": "visitor",
+      "asked": "you",
+      "stakes": ["bill", "decision", "votes"],
+      "roles": [
+        {
+          "key": "visitor",
+          "fill": "sponsor",
+          "count": "one",
+          "moves": [
+            "request",
+            "answer",
+            "press",
+            "plea",
+            "threaten",
+            "accept",
+            "thank"
+          ],
+          "wants": ["change"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "ask"],
+          "wants": ["commit"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "visitor": "sponsor",
+            "you": "subject"
+          },
+          "opener": "visitor"
+        },
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "visitor": "lobbyist",
+            "you": "subject"
+          },
+          "opener": "visitor"
+        }
+      ],
+      "tag": {
+        "key": "desk-visit",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "desk-bill",
       "purpose": "desk-bill",
       "asker": "aide",
@@ -3810,6 +3904,17 @@
       "setting": ["office", "phone"],
       "timing": "at-cause",
       "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-failed",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "sponsorId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-failed",
+          "bind": { "aide": "staff", "you": "subject" },
+          "opener": "aide"
+        },
         {
           "match": {
             "label": "cause:event:press-story",

@@ -31,6 +31,7 @@ import {
 import { policyAuthority, recordHomeRule } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
+import overrideReplyMoves from "../data/legislature/override-replies.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -39,6 +40,7 @@ import type {
   ActionDefinition,
   ActOffer,
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   PersonState,
@@ -277,6 +279,10 @@ export interface MemberPosition {
   readonly consistency: number;
   /** What a bribe they took on this bill pulls them toward (the payer's side). */
   readonly bribe: number;
+  /** What replies after a veto override left with the sponsor: favors for, strains against. */
+  readonly reply?: number;
+  /** The scene replies that `reply` reads, by record id. */
+  readonly replyIds?: readonly string[];
   readonly total: number;
 }
 
@@ -294,13 +300,81 @@ export const LEGISLATURE_MODULE: CoreModule = {
       itemVetoes: {},
       projectRequests: {},
       carryAsks: {},
+      /** A reply said in a scene a veto override caused, between the bill's sponsor and a member who voted no or stayed out. */
+      overrideReplies: {
+        indexes: { byPair: { fields: ["memberId", "sponsorId"] } },
+      },
     },
   },
   onCalendarWork: legislatureCalendar,
+  eventKinds: ["scene.reply"],
+  onEvent: (api, event) => keepOverrideReply(api, event),
 };
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(LEGISLATURE_MODULE_ID).table(name);
+}
+
+/**
+ * A reply said in a scene a veto-override record caused, between the bill's
+ * sponsor and a member with an override vote on it, leaves a favor or a
+ * strain by its move (`data/legislature/override-replies.json`; any other
+ * move leaves nothing). The member's next position on the sponsor's bills
+ * reads it (`overrideReplyPull`).
+ */
+function keepOverrideReply(api: CoreAPI, event: CoreEventInput): void {
+  const causeId = String(event.facts?.causeId ?? "");
+  if (!causeId.startsWith("veto-override:")) return;
+  const move = String(event.facts?.move ?? "");
+  const sign = overrideReplyMoves.favor.includes(move)
+    ? 1
+    : overrideReplyMoves.strain.includes(move)
+      ? -1
+      : 0;
+  if (!sign) return;
+  const billId = causeId.slice("veto-override:".length);
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  if (!bill || !event.personIds.includes(bill.sponsorId)) return;
+  // Only a member who decided the override: one with a vote row on it.
+  const memberId = event.personIds.find(
+    (id) =>
+      id !== bill.sponsorId &&
+      table(api, "votes").get(`vote:${billId}:${id}:override`),
+  );
+  if (!memberId) return;
+  table(api, "overrideReplies").put({
+    id: event.id,
+    memberId,
+    sponsorId: bill.sponsorId,
+    billId,
+    move,
+    sign,
+    date: event.date,
+  } as unknown as ModuleRow);
+}
+
+/**
+ * What the replies after a veto override left between a member and a sponsor
+ * add to the member's position on the sponsor's bills: each favor a favor
+ * deal's worth, each strain the same weight against, citing the reply ids.
+ */
+function overrideReplyPull(
+  api: CoreAPI,
+  memberId: string,
+  sponsorId: string,
+): { readonly pull: number; readonly ids: readonly string[] } {
+  const rows = table(api, "overrideReplies").query("byPair", [
+    memberId,
+    sponsorId,
+  ]) as unknown as { id: string; sign: number }[];
+  if (!rows.length) return { pull: 0, ids: [] };
+  const favor = dealValue(api, "favor", memberId, sponsorId);
+  const strain = campaignParameter("dealWeight");
+  return {
+    pull: rows.reduce((sum, row) => sum + (row.sign > 0 ? favor : -strain), 0),
+    ids: rows.map((row) => row.id),
+  };
 }
 
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
@@ -2296,6 +2370,11 @@ function positionOn(
   const consistency = recordConsistency(api, memberId, bill);
   // A bribe they took on this bill, as far as it moves them.
   const bribe = bribePull(api, memberId, bill.id);
+  // What a scene after a veto override left between them and the sponsor.
+  const replies =
+    memberId === bill.sponsorId
+      ? { pull: 0, ids: [] }
+      : overrideReplyPull(api, memberId, bill.sponsorId);
   // Everything that decides the vote but personality: where they stand, home,
   // the sponsor, deals, lobbying, party, their record and any bribe.
   const bare =
@@ -2306,6 +2385,7 @@ function positionOn(
     lobby +
     consistency +
     bribe +
+    replies.pull +
     (further
       ? further.party + further.wing + further.ambition + further.press
       : 0);
@@ -2336,6 +2416,9 @@ function positionOn(
     trait,
     consistency,
     bribe,
+    ...(replies.ids.length
+      ? { reply: replies.pull, replyIds: replies.ids }
+      : {}),
     total: bare + trait,
   };
 }
@@ -2754,21 +2837,26 @@ export function chairHearsBill(
   chairId: string,
   position: number,
 ): boolean {
+  return position + chairHearingTrait(api, chairId, position) >= 0;
+}
+
+/** What the chair's temperament adds to hearing a bill over burying it (zero for a name not filled in). */
+function chairHearingTrait(
+  api: CoreAPI,
+  chairId: string,
+  position: number,
+): number {
   const chair = api.state.people.get(chairId);
-  return (
-    position +
-      (chair
-        ? leanedTerm(
-            api.state,
-            chair,
-            "legislature.hold-hearing",
-            "hear",
-            "bury",
-            position,
-          )
-        : 0) >=
-    0
-  );
+  return chair
+    ? leanedTerm(
+        api.state,
+        chair,
+        "legislature.hold-hearing",
+        "hear",
+        "bury",
+        position,
+      )
+    : 0;
 }
 
 /**
@@ -2997,6 +3085,15 @@ export interface CommitteeRecord {
   readonly chairId: string;
   readonly memberIds: readonly string[];
   readonly heard: boolean;
+  /**
+   * Why the chair heard or held the bill: their position on it and what
+   * their temperament adds to holding a hearing (heard when the sum is not
+   * below zero).
+   */
+  readonly chairReasons: {
+    readonly position: MemberPosition;
+    readonly hearingTrait: number;
+  };
   readonly votes: readonly {
     readonly memberId: string;
     readonly vote: "yes" | "no" | "abstain";
@@ -3103,7 +3200,15 @@ function committeeStage(
     }
   }
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
-  const heard = chairHearsBill(api, memberKey(chair), chairPosition.total);
+  const hearingTrait = chairHearingTrait(
+    api,
+    memberKey(chair),
+    chairPosition.total,
+  );
+  const heard = chairPosition.total + hearingTrait >= 0;
+  // The chair's reasons are kept on the committee record; no scene or story
+  // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
+  api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
   const witnesses: { personId: string; stake: string }[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
@@ -3177,6 +3282,7 @@ function committeeStage(
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),
     heard,
+    chairReasons: { position: chairPosition, hearingTrait },
     votes,
     witnesses,
     yes,
@@ -3542,6 +3648,49 @@ function runBeforeVote(
   }
 }
 
+/**
+ * A bill that lost a vote, in its committee or on the floor: a record for its
+ * sponsor, who hears it that day, with the count it lost by. A committee that
+ * never heard the bill held no vote, so it records none.
+ */
+function recordFailure(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  stage: "committee" | "floor",
+  tally: { readonly yes: number; readonly no: number },
+): void {
+  if (!api.state.people.has(bill.sponsorId)) return;
+  // The seat the sponsor holds, whose office the news reaches.
+  const seat = chambersOf(api, bill)
+    .flatMap((body) => members(api, body))
+    .find((term) => memberKey(term) === bill.sponsorId);
+  api.emit({
+    id: `bill-failed:${bill.id}:${chamber}`,
+    date: api.state.date,
+    kind: "bill-failed",
+    personIds: [bill.sponsorId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `${stage === "committee" ? "Committee vote" : "Vote"} on ${bill.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    facts: {
+      billId: bill.id,
+      number: bill.number,
+      level: billReach(api, bill).level,
+      chamber,
+      stage,
+      sponsorId: bill.sponsorId,
+      ...(seat ? { officeId: seat.officeId } : {}),
+      yes: String(tally.yes),
+      no: String(tally.no),
+    },
+  });
+}
+
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const result = countVote(api, billId);
   // Votes are on the record once a bill is anything but unvoted or blocked.
@@ -3570,6 +3719,8 @@ function countVote(api: CoreAPI, billId: string): BillRow {
     if (committee && !committee.reported) {
       const held: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(held as unknown as ModuleRow);
+      if (committee.heard)
+        recordFailure(api, held, chamber, "committee", committee);
       return held;
     }
     // The floor's vote cites the report that sent the bill to it.
@@ -3615,6 +3766,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
     if (tally.yes <= tally.no || cloture) {
       const failed: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(failed as unknown as ModuleRow);
+      recordFailure(api, failed, chamber, "floor", tally);
       return failed;
     }
   }
@@ -3913,6 +4065,10 @@ function decideAtDesk(
         tallies: override.tallies
           .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
           .join(","),
+        // Where it was decided and who there voted no or stayed out, the
+        // most movable first: the members a sponsor would ask next time.
+        chamber: override.decided.chamber,
+        members: override.decided.movable.join(","),
       },
     });
   } else status = "signed";
@@ -3994,7 +4150,22 @@ function overrideVote(
     needed: number;
     members: number;
   }[];
+  /** The chamber that decided (where it failed, else the last to vote) and its no or abstain members, nearest zero first. */
+  readonly decided: { readonly chamber: string; readonly movable: string[] };
 } {
+  // Who could still be moved: the no and abstain votes, nearest zero first.
+  const movableOf = (
+    rows: readonly { key: string; vote: string; total: number }[],
+  ) =>
+    rows
+      .filter((row) => row.vote === "no" || row.vote === "abstain")
+      .sort(
+        (a, b) =>
+          Math.abs(a.total) - Math.abs(b.total) || a.key.localeCompare(b.key),
+      )
+      .map((row) => row.key);
+  const cast: { key: string; vote: string; total: number }[] = [];
+  let chamberCast: { key: string; vote: string; total: number }[] = [];
   const tallies: {
     chamber: string;
     yes: number;
@@ -4006,6 +4177,7 @@ function overrideVote(
   let totalEntitled = 0;
   for (const chamber of chambersOf(api, bill)) {
     const roster = members(api, chamber);
+    chamberCast = [];
     let yes = 0;
     let voting = 0;
     let present = 0;
@@ -4056,6 +4228,8 @@ function overrideVote(
       if (vote !== "absent") present += 1;
       if (vote === "yes" || vote === "no") voting += 1;
       if (vote === "yes") yes += 1;
+      chamberCast.push({ key, vote, total });
+      cast.push({ key, vote, total });
       table(api, "votes").put({
         id: `vote:${bill.id}:${key}:override${itemIndex === undefined ? "" : `:item:${itemIndex}`}`,
         billId: bill.id,
@@ -4077,7 +4251,11 @@ function overrideVote(
     totalPresent += present;
     totalEntitled += entitled;
     if (!joint && yes < needed(roster.length, voting, present, entitled))
-      return { passed: false, tallies };
+      return {
+        passed: false,
+        tallies,
+        decided: { chamber, movable: movableOf(chamberCast) },
+      };
   }
   if (joint) {
     const yes = tallies.reduce((sum, row) => sum + row.yes, 0);
@@ -4086,9 +4264,17 @@ function overrideVote(
     return {
       passed: yes >= required,
       tallies: [{ chamber: "joint", yes, members, needed: required }],
+      decided: { chamber: "joint", movable: movableOf(cast) },
     };
   }
-  return { passed: true, tallies };
+  return {
+    passed: true,
+    tallies,
+    decided: {
+      chamber: tallies.at(-1)?.chamber ?? bill.bodyOfficeId,
+      movable: movableOf(chamberCast),
+    },
+  };
 }
 
 /** A member's party side: an official's caucus or party, else their term's. */
