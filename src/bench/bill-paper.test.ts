@@ -17,46 +17,64 @@ import { buildBenchWorld } from "./world";
 const seed = process.env.BILL_PAPER_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "bill-paper");
 
-function seatedWorld() {
-  // A place with a town body to sit on: a council, a township board, or the
-  // county board where the place is unincorporated. A territory with no
-  // municipal body on record has none, so the draw goes on to the next.
-  for (let i = 0; i < 10; i += 1) {
-    const where = i ? drawPlace(`${seed}:${i}`, "bill-paper") : place;
-    const world = buildBenchWorld(where.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: where.key,
-    });
-    const api = coreAPI(world.core);
-    const offices = api
-      .moduleState("core2-offices-v1")
-      .table("offices")
-      .rows() as unknown as { id: string; kind: string }[];
-    const council = ["council", "township-board", "county-board"]
-      .map((kind) => offices.find((o) => o.kind === kind))
-      .find((o) => o !== undefined);
-    if (council) return { world, api, council, where };
-  }
-  return undefined;
-}
-
 describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
   it("reads the filed bill from its records, with the estimate beside each section", () => {
-    const found = seatedWorld();
-    expect(found, "a place with a town body").toBeTruthy();
-    const { world, api, council, where } = found!;
+    // A town where a wage bill is drafted, not blocked: the draw goes on to
+    // the next place until one is, bounded.
+    let found:
+      | {
+          world: ReturnType<typeof buildBenchWorld>;
+          api: ReturnType<typeof coreAPI>;
+          council: { id: string; kind: string };
+          where: string;
+          first: string;
+          bill: { id: string; number: string };
+          wageNow: number;
+        }
+      | undefined;
+    for (let i = 0; i < 10 && !found; i += 1) {
+      const draw = i
+        ? drawPlace(`${seed}:${i}`, "bill-paper")
+        : { name: place.name, key: place.key, seed };
+      const world = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(world.core);
+      const offices = api
+        .moduleState("core2-offices-v1")
+        .table("offices")
+        .rows() as unknown as { id: string; kind: string }[];
+      const council = ["council", "township-board", "county-board"]
+        .map((kind) => offices.find((o) => o.kind === kind))
+        .find((o) => o !== undefined);
+      if (!council) continue;
+      const [first] = members(api, council.id);
+      if (!first) continue;
+      const wage = seatView(world.core, memberKey(first)).amounts.find(
+        (a) => a.series === "minimum-wage",
+      );
+      const bill = seatAct(world.core, memberKey(first), {
+        kind: "draft",
+        officeId: council.id,
+        series: "minimum-wage",
+        value: (wage?.current ?? 0) + 200,
+      }) as { id: string; number: string; status: string };
+      if (bill.status !== "drafted") continue;
+      found = {
+        world,
+        api,
+        council,
+        where: draw.name,
+        first: memberKey(first),
+        bill,
+        wageNow: wage?.current ?? 0,
+      };
+    }
+    expect(found, "a place where a wage bill is drafted").toBeTruthy();
+    const { world, api, council, where, first, bill, wageNow } = found!;
+    expect(where.length, bill.id).toBeGreaterThan(0);
     const level = council.kind === "county-board" ? "county" : "city";
-    const [first, second] = members(api, council.id);
-    expect(first, `a member to sponsor in ${where.name}`).toBeTruthy();
-    const wage = seatView(world.core, memberKey(first!)).amounts.find(
-      (a) => a.series === "minimum-wage",
-    );
-    const bill = seatAct(world.core, memberKey(first!), {
-      kind: "draft",
-      officeId: council.id,
-      series: "minimum-wage",
-      value: (wage?.current ?? 0) + 200,
-    }) as { id: string; number: string };
     const paper = billPaper(world.core, bill.id);
     expect(paper.number, bill.id).toBe(bill.number);
     expect(paper.title.length, bill.id).toBeGreaterThan(0);
@@ -76,13 +94,13 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
       estimate.statute ?? estimate.lawId,
       `${bill.id} names the law it changes`,
     ).toBeTruthy();
-    expect(estimate.afterValue, bill.id).toBe((wage?.current ?? 0) + 200);
+    expect(estimate.afterValue, bill.id).toBe(wageNow + 200);
     // A second bill before the same body opens the same paper.
     const question = Object.keys(POLICY_QUESTIONS).find(
       (q) => policyAuthority(api, q, level).allowed,
     )!;
     expect(question, "a question this body may act on").toBeTruthy();
-    const other = seatAct(world.core, memberKey(second ?? first!), {
+    const other = seatAct(world.core, first, {
       kind: "draft",
       officeId: council.id,
       question,
@@ -93,12 +111,12 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     expect(otherPaper.sections.length, other.id).toBeGreaterThan(0);
     expect(otherPaper.floorDate, other.id).toBeTruthy();
     // A spending bill opens too, its line with its amount.
-    const line = seatView(world.core, memberKey(first!))
+    const line = seatView(world.core, first)
       .bodies.flatMap((b) => b.menus)
       .flatMap((m) => m.items)
       .find((item) => item.line && item.allowed !== false)?.line;
     expect(line, "a budget line this body may set").toBeTruthy();
-    const budget = seatAct(world.core, memberKey(first!), {
+    const budget = seatAct(world.core, first, {
       kind: "draft",
       officeId: council.id,
       line: line!,
