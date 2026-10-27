@@ -3226,6 +3226,14 @@
       "timing": "at-cause",
       "causes": [
         {
+          "match": { "label": "circumstance:override-whip" },
+          "causeEngine": "circumstance",
+          "causeRecord": "veto-override",
+          "bind": { "colleague": "counterpart", "you": "subject" },
+          "opener": "colleague",
+          "setting": ["chamber", "seat"]
+        },
+        {
           "awaitingProducer": "vote-confirmed",
           "causeEngine": "legislature",
           "causeRecord": "legislature.member-position",

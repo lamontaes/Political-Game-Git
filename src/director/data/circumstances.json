@@ -369,6 +369,20 @@
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceSchoolImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "override-whip",
+      "recordKinds": ["veto-override"],
+      "recordFactEquals": { "passed": ["false"] },
+      "place": "seat",
+      "pool": ["fact:sponsorId"],
+      "where": "pool",
+      "player": "listed:members",
+      "cast": "the sponsor of a bill whose veto override failed, asking a member who voted no or stayed out (the record lists the most movable first) for the next try",
+      "typeKey": "vote-confirmed",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
     }
   ]
 }
