@@ -84,7 +84,7 @@ import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
-import { properName, spoken } from "./words";
+import { properName, spoken, spokenDate } from "./words";
 
 export interface OpeningSentence {
   readonly level: OpeningLevel;
@@ -105,6 +105,8 @@ export interface OpeningNewsStory {
   readonly recordId: string;
   readonly headline?: string;
   readonly lede?: string;
+  /** The story as the paper prints it: the lede, the figures, one quote. */
+  readonly paragraphs?: readonly string[];
   readonly broadcast: readonly {
     speaker: "anchor" | "reporter";
     text: string;
@@ -913,6 +915,12 @@ function townStory(
   };
 }
 
+/** The facts among `keys` that `facts` carries. */
+const pick = (facts: Facts, keys: readonly string[]): Facts =>
+  Object.fromEntries(
+    keys.flatMap((key) => (facts[key] ? [[key, facts[key]!] as const] : [])),
+  );
+
 function newsStory(
   core: CoreState,
   kind: StoryKind,
@@ -1034,7 +1042,7 @@ export function composeOpeningStory(
   const allIds = [...new Set(sentences.flatMap((row) => row.sourceRecordIds))];
   // The evening news: the address, then the town's own lead story.
   const newscast: OpeningNewsStory[] = [
-    newsStory(core, "election", id, {
+    newsStory(core, "address", id, {
       name: fact(
         fullName(president),
         president.id,
@@ -1043,7 +1051,24 @@ export function composeOpeningStory(
         // world opens on Inauguration Day.
         ...(core.eventIds.has(inauguration) ? [inauguration] : []),
       ),
-      ...(elected ? { won: fact("yes", elected.id) } : {}),
+      // On Inauguration Day the story is the swearing-in, from the offices
+      // engine's record; any other year it is the address to Congress.
+      ...(kind === "inaugural"
+        ? {
+            inaugural: fact(
+              "yes",
+              ...(core.eventIds.has(inauguration) ? [inauguration] : [id]),
+            ),
+          }
+        : { "joint-session": fact("yes", id) }),
+      date: fact(spokenDate(core.date, core.date), id),
+      // The country's figures the address argued from, and the line of it
+      // the news remembers.
+      ...pick(countryFacts(core, kind).facts, [
+        "unemployment-rate",
+        "wage-growth",
+      ]),
+      quote: fact(remembered.text, id, ...remembered.sourceRecordIds),
       ...(townName ? { place: fact(townName, player.placeId) } : {}),
     }),
   ];
