@@ -3500,6 +3500,7 @@
     },
     {
       "key": "desk-visit",
+      "eachCause": true,
       "purpose": "desk-visit",
       "asker": "visitor",
       "asked": "you",

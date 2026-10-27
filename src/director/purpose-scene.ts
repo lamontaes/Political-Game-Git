@@ -331,7 +331,10 @@ function deskFacts(
 ): void {
   if (said.signBy)
     facts.deadline = {
-      text: spokenDate(said.signBy, core.date),
+      text: spokenDate(
+        said.signBy,
+        core.durableLog.get(causeId)?.date ?? core.date,
+      ),
       sourceRecordIds: [causeId],
     };
   if (!said.billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return;

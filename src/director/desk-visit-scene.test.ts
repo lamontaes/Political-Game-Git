@@ -14,6 +14,7 @@ import {
 } from "../core2/modules/interest-groups";
 import { lawInForce } from "../core2/modules/laws";
 import {
+  LEGISLATURE_MODULE_ID,
   authorityFor,
   castMemberVote,
   draftBill,
@@ -327,5 +328,91 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
   }
   throw new Error(
     `no drawn place put a bill on a mayor's desk: ${tried.join("; ")} (seed ${seed})`,
+  );
+}, 3_600_000);
+
+// The governor's year, with nothing placed by the test: every bill the
+// state's chambers present to the governor names the governor and the
+// sponsor, so the sponsor comes whenever they are a living person other than
+// the governor. Places are drawn in turn until one's governor is a full person
+// and a bill reaches them.
+it(`a governor's year of presented bills brings each living sponsor in, seed ${seed}`, () => {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
+    const place = drawPlace(`${seed}:g${attempt}`, "desk-visit-governor");
+    const where = `${place.name} (${place.key}), seed ${seed}:g${attempt}`;
+    setBookkeeping(false);
+    const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const governor = townSeats(api).find(
+      (row) =>
+        row.office.kind === "governor" &&
+        core.people.get(row.holder?.personId ?? "")?.alive,
+    )?.holder?.personId as PersonId | undefined;
+    if (!governor) {
+      tried.push(`${place.name}: no governor who is a full person`);
+      continue;
+    }
+    core.playerId = governor;
+    director.watch(core, governor);
+    const start = core.date;
+    for (let day = 1; day <= 365; day += 1)
+      advanceCore(core, addDays(makeIsoDate(start), day));
+    const presented = [...core.durableLog.values()].filter(
+      (row) =>
+        row.kind === "bill-presented" && row.facts?.executiveId === governor,
+    );
+    if (!presented.length) {
+      tried.push(`${place.name}: no bill reached the governor`);
+      continue;
+    }
+    const book = director.ledger.people.get(governor)!;
+    let visits = 0;
+    let staged = 0;
+    let shown = "";
+    for (const record of presented) {
+      const sponsor = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .get(String(record.facts?.billId)) as unknown as
+        { sponsorId: string } | undefined;
+      const entry = book.schedule.find((row) =>
+        row.momentId.includes(record.id),
+      );
+      const cast = entry?.bindings.find((b) => b.typeKey === "desk-visit");
+      const comes =
+        !!sponsor &&
+        sponsor.sponsorId !== governor &&
+        core.people.get(sponsor.sponsorId)?.alive === true;
+      // The director paces its scenes, so not every presentment is staged;
+      // a staged one with a living sponsor must bring the sponsor.
+      if (entry) staged += 1;
+      if (entry && comes) {
+        expect(cast, `${where}: ${record.id} brought no sponsor`).toBeTruthy();
+        const scene = purposeScene(core, director, governor, entry);
+        expect(scene?.kind, `${where}: ${record.id}`).toBe("composed");
+        if (
+          scene?.kind === "composed" &&
+          scene.scene.typeKey === "desk-visit"
+        ) {
+          visits += 1;
+          shown ||= scene.scene.talk.lines
+            .slice(0, 4)
+            .map((row) => row.text)
+            .join(" / ");
+        }
+      }
+    }
+    expect(visits, `${where}: no visit composed`).toBeGreaterThan(0);
+    console.log(
+      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor.\n  ${shown}`,
+    );
+    return;
+  }
+  throw new Error(
+    `no drawn place put a bill on a governor's desk: ${tried.join("; ")} (seed ${seed})`,
   );
 }, 3_600_000);
