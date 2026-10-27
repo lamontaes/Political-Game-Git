@@ -308,12 +308,6 @@
       "stopgapId": "SG-LABOR-unsized-links"
     },
     {
-      "link": "road-condition-to-vehicle-costs",
-      "outcome": "household.vehicle-costs",
-      "reason": "no measure: the web does not keep household.vehicle-costs and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-household-vehicle-costs"
-    },
-    {
       "link": "incentive-deal-to-industry-jobs",
       "outcome": "labor.deal-industry-jobs",
       "reason": "no measure: the web does not keep labor.deal-industry-jobs and no engine produces it; its research gives no size the game can apply, so the web does not run it",
@@ -599,7 +593,7 @@
       "link": "parks-spending-to-exercise-access",
       "outcome": "parks.access-to-exercise",
       "reason": "engine doesn't read the factor: parks.access-to-exercise moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-parks-access-to-exercise"
+      "stopgapId": "SG-GOV-REACH-B-park-use"
     },
     {
       "link": "social-security-tax-to-unemployment",
@@ -624,6 +618,18 @@
       "outcome": "labor.unemployment-pct",
       "reason": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
       "stopgapId": "SG-WEB-unread-labor-unemployment-pct"
+    },
+    {
+      "link": "snap-maximum-to-food-insecurity",
+      "outcome": "household.food-insecurity",
+      "reason": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.snap-maximum-change-pct",
+      "stopgapId": "SG-WEB-unread-household-food-insecurity"
+    },
+    {
+      "link": "higher-education-spending-to-college-completion",
+      "outcome": "school.college-completion-pct",
+      "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
+      "stopgapId": "SG-WEB-unread-school-college-completion-pct"
     }
   ]
 }

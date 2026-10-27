@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-34-creator-skin-and-clothes-colors
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:20:02.154Z
 ---
 
 **What.** The creator's appearance step has no skin tone and no clothing color, and every figure is one skin and a gray outfit. The owner: "No clothes colors either ... No skin colors or anything like that." The ruling is arrows or a gallery for shapes and color swatches for colors with an immediate preview (PR-screens:105). The v2 figures are flat pictures in one skin tone, so this item first makes a mask for the skin and for the clothing of each figure the creator offers, then draws any swatch by shifting hue, saturation and lightness inside its mask only, adds a Skin row and a Clothes color row of swatches, saves both on the look record and draws them in the preview and the room. Randomize changes both.

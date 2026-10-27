@@ -21,6 +21,7 @@
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
+import majority from "../../../data/research/people/age-of-majority.json" with { type: "json" };
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
@@ -288,14 +289,13 @@ export function holdsOf(
   const core = api.state as CoreState;
   const zero = api.parameter("zero");
   const kin = kinOf(core);
-  const minimum = m(api, "movesMinimumAge");
   const atHome = (id: PersonId) =>
     inTown(core, id) && core.people.get(id)!.householdId === person.householdId;
   // A grown child living with a parent does not own the parent's home.
   const childAtHome = (kin.parents.get(person.id) ?? []).some(atHome);
-  // Their own children under the minimum age, living with them.
+  // Their own children not yet of age where they live, living with them.
   const children = (kin.children.get(person.id) ?? []).some(
-    (id) => atHome(id) && ageOf(api, core.people.get(id)!) < minimum,
+    (id) => atHome(id) && !decidesAlone(api, core.people.get(id)!),
   );
   // Relatives in town, at home or not, other than their own young children.
   const relatives = [...person.familyIds].filter(
@@ -303,7 +303,7 @@ export function holdsOf(
       inTown(core, id) &&
       !(
         (kin.children.get(person.id) ?? []).includes(id) &&
-        ageOf(api, core.people.get(id)!) < minimum
+        !decidesAlone(api, core.people.get(id)!)
       ),
   ).length;
   // Every trait's lean toward moving away over staying put, through the
@@ -321,8 +321,8 @@ export function holdsOf(
         ? m(api, "movesOwnerHold")
         : zero,
     children: children ? m(api, "movesChildrenHold") : zero,
-    kin:
-      m(api, "movesKinHold") * Math.min(relatives, m(api, "movesKinHoldCap")),
+    // Each relative in town holds a little less than the one before.
+    kin: m(api, "movesKinHold") * diminishing(api, relatives),
     // Holding office is a job, and the strongest hold: leaving town gives up the seat.
     job:
       person.jobId || officeholders(api).has(person.id)
@@ -390,6 +390,70 @@ function householdIncome(
   return { minor, ids };
 }
 
+/** A household's own cash, net of what its members owe on credit lines. */
+function householdNetCash(
+  api: CoreAPI,
+  householdId: string,
+): { minor: number; ids: string[] } {
+  const core = api.state as CoreState;
+  const accounts = api.accounts();
+  const ids: string[] = [];
+  let minor = api.parameter("zero");
+  for (const id of core.households.get(householdId)?.memberIds ?? []) {
+    if (!core.people.get(id)?.alive) continue;
+    const account = accounts.main(id);
+    minor += accounts.balance(account);
+    ids.push(account);
+    for (const facilityId of core.finance.facilitiesByBorrower.get(id) ?? []) {
+      const line = core.finance.facilities.get(facilityId);
+      if (!line || line.closedAt) continue;
+      minor -= line.principalMinor + line.interestArrearsMinor;
+      ids.push(line.id);
+    }
+  }
+  return { minor, ids };
+}
+
+/**
+ * How much n of something counts when each counts movesKinHoldDecay of the
+ * one before: 1 + d + d^2 + ... for n of them, (1 - d^n) / (1 - d), read
+ * the same way for a fractional amount of closeness. It keeps growing and
+ * never stops at a count.
+ */
+function diminishing(api: CoreAPI, n: number): number {
+  const d = m(api, "movesKinHoldDecay");
+  return n > api.parameter("zero") ? (1 - d ** n) / (1 - d) : 0;
+}
+
+/** The ages of majority the research table records, by state or territory. */
+const MAJORITY = majority.places as Record<string, { age: number }>;
+/** The age most places set, for a place the table cannot be read for. */
+const USUAL_MAJORITY = (() => {
+  const counts = new Map<number, number>();
+  for (const row of Object.values(MAJORITY))
+    counts.set(row.age, (counts.get(row.age) ?? 0) + 1);
+  return [...counts].sort((a, b) => b[1] - a[1] || a[0] - b[0])[0]![0];
+})();
+const majorityByPlace = new Map<string, number>();
+
+/** The age at which a parent's authority ends where a person lives, from the place's records. */
+function ageOfMajority(placeId: string): number {
+  let age = majorityByPlace.get(placeId);
+  if (age === undefined) {
+    const state = corePlaceByJurisdictionId(
+      placeId as EntityId,
+    )?.stateJurisdictionKey?.replace(/^US-/, "");
+    age = (state ? MAJORITY[state]?.age : undefined) ?? USUAL_MAJORITY;
+    majorityByPlace.set(placeId, age);
+  }
+  return age;
+}
+
+/** Whether a person decides for themselves where they live: they are of age where they live. */
+function decidesAlone(api: CoreAPI, person: Readonly<PersonState>): boolean {
+  return ageOf(api, person) >= ageOfMajority(person.placeId);
+}
+
 /**
  * What pushes this person toward leaving, each read from their own records,
  * on the same scale as what holds them (holdsOf): what their home costs
@@ -407,16 +471,22 @@ export function pushesOf(
   const zero = api.parameter("zero");
   const parts: Record<string, number> = {};
   const reads: Record<string, string[]> = {};
-  // Rent or mortgage against income, sliding: the share of income it takes,
-  // up to the cap (no income at all reads as the cap).
+  // Rent or mortgage against what the household has to pay it with, sliding:
+  // its income, and its own cash net of its debts spread over
+  // movesHousingSavingsMonths. The push is the home's cost over that cost
+  // plus those means (the share of means it takes, s, as s / (1 + s)), so it
+  // keeps rising with the share and a household with neither reads the most.
   const shelter = conditionsOf(core).shelter.get(person.householdId);
   if (shelter && shelter.minor > zero) {
     const income = householdIncome(api, person.householdId);
-    const cap = m(api, "movesHousingCostShareCap");
-    const share =
-      income.minor > zero ? Math.min(shelter.minor / income.minor, cap) : cap;
-    parts.housingCost = m(api, "movesHousingCostWeight") * share;
-    reads.housingCost = [...shelter.ids, ...income.ids];
+    const saved = householdNetCash(api, person.householdId);
+    const means =
+      income.minor +
+      Math.max(zero, saved.minor) / m(api, "movesHousingSavingsMonths");
+    parts.housingCost =
+      (m(api, "movesHousingCostWeight") * shelter.minor) /
+      (shelter.minor + means);
+    reads.housingCost = [...shelter.ids, ...income.ids, ...saved.ids];
   }
   // A job whose employer is in another place.
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
@@ -452,8 +522,7 @@ export function pushesOf(
   }
   if (away.length) {
     parts.closeElsewhere =
-      m(api, "movesCloseElsewherePull") *
-      Math.min(closeness, m(api, "movesKinHoldCap"));
+      m(api, "movesCloseElsewherePull") * diminishing(api, closeness);
     reads.closeElsewhere = away;
   }
   return { parts, reads };
@@ -565,9 +634,10 @@ function destinationFor(
 }
 
 /**
- * The people who go with a leaver: a householder's partner and children under
- * the minimum age, and any minor who would otherwise be left in the household
- * with no adult at home (they follow the guardian they live with).
+ * The people who go with a leaver: a householder's partner and children not
+ * yet of age where they live, and any minor who would otherwise be left in
+ * the household with no adult at home (they follow the guardian they live
+ * with).
  */
 function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const core = api.state as CoreState;
@@ -576,7 +646,6 @@ function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const members = new Set(
     (household?.memberIds ?? []).filter((id) => inTown(core, id)),
   );
-  const minimum = m(api, "movesMinimumAge");
   const going = [person.id];
   // A grown child living with a parent leaves on their own.
   if (!(kin.parents.get(person.id) ?? []).some((id) => members.has(id))) {
@@ -587,7 +656,7 @@ function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
         if (
           members.has(child) &&
           !going.includes(child) &&
-          ageOf(api, core.people.get(child)!) < minimum
+          !decidesAlone(api, core.people.get(child)!)
         )
           going.push(child);
   }
@@ -596,7 +665,7 @@ function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const left = [...members].filter((id) => !going.includes(id));
   if (
     left.length &&
-    left.every((id) => ageOf(api, core.people.get(id)!) < minimum)
+    left.every((id) => !decidesAlone(api, core.people.get(id)!))
   )
     going.push(...left);
   return going;
@@ -936,7 +1005,7 @@ function partnerAtHome(
   return partner &&
     inTown(core, partner.id) &&
     partner.householdId === person.householdId &&
-    ageOf(api, partner) >= m(api, "movesMinimumAge")
+    decidesAlone(api, partner)
     ? partner
     : undefined;
 }
@@ -1100,7 +1169,7 @@ export function reviewMove(
 ): Departure | null {
   const person = api.state.people.get(personId);
   if (!person?.alive || person.tier === INACTIVE_TIER) return null;
-  if (ageOf(api, person) < m(api, "movesMinimumAge")) return null;
+  if (!decidesAlone(api, person)) return null;
   accumulate(api, person, typical);
   return decide(api, person);
 }
@@ -1143,9 +1212,7 @@ function monthlyReview(api: CoreAPI): void {
   const adults = [...core.people.values()]
     .filter(
       (row) =>
-        row.alive &&
-        row.tier !== INACTIVE_TIER &&
-        ageOf(api, row) >= m(api, "movesMinimumAge"),
+        row.alive && row.tier !== INACTIVE_TIER && decidesAlone(api, row),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   // The town's typical hold for each age band, from this month's ties.
@@ -1254,7 +1321,7 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
   for (const id of named) {
     const person = core.people.get(id);
     if (!person?.alive || person.tier === INACTIVE_TIER) continue;
-    if (ageOf(api, person) < m(api, "movesMinimumAge")) continue;
+    if (!decidesAlone(api, person)) continue;
     const pull = pullOf(api, person);
     pull.value += amount;
     pull.causes = {
@@ -1333,7 +1400,7 @@ export const movesModule: CoreModule = {
         person?.alive &&
         person.tier !== INACTIVE_TIER &&
         inTown(api.state as CoreState, person.id) &&
-        ageOf(api, person) >= m(api, "movesMinimumAge")
+        decidesAlone(api, person)
       )
         decide(api, decider(api, person));
       return;
