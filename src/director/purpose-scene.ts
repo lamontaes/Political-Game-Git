@@ -357,6 +357,14 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // A committee trade coming due on the floor (legislature.ts
+  // recordPromises): the member promised their vote, and the lines about a
+  // promised vote need it.
+  if (record?.kind === "vote-promise")
+    facts["your-promise"] = {
+      text: said.traded ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
   // A bill that lost a vote (legislature.ts recordFailure): the lines about a
   // lost vote need it, where it lost, and the count, against to for.
   if (record?.kind === "bill-failed") {

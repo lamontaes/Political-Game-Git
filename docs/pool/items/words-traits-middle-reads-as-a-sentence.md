@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/traits-middle
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T21:42:15.148Z
 ---
 
 **What.** Who you are lists the player's traits as "Deliberation: Neither, much", "Keeping commitments: Neither, much", "Risk: Neither, much", "Sociability: Reserved" and "Handling disagreement: Confrontational". A trait in the middle prints the same two words each time, and none of it reads as a description of a person. The owner: "traits neither much keeping commitments neither much those aren't traits social ability risk neither much why is this delineated right and look okay." The ruling is that traits and views are in words. The label "Neither, much" is a typed constant (BALANCED_TRAIT in src/core2/people-trait-definitions.ts). This item has the English engine describe a middling trait as a tendency in a phrase a person could say, or leaves it out, and keeps the layout of the character screen.

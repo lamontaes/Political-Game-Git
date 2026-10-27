@@ -5,7 +5,7 @@ area: art
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-seat-slots-gone
 pr: #6410
 blocked-on:
