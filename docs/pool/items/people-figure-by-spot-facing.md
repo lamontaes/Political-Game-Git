@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-figure-by-facing
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T21:17:57.304Z
 ---
 
 **What.** Today a person is drawn in the three-quarter view almost everywhere: a spot that faces the viewer still gets the three-quarter figure turned toward the room's front, and only seats facing away or two people side by side get another angle. The figure set paints standing and seated people from the front, seated people from behind, and both in three-quarter. This item makes the spot's facing pick the painted angle (away is the back view, viewer is the front view, left or right is the three-quarter view turned that way), with the three-quarter view where an angle is not painted.
