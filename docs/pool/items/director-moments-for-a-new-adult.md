@@ -3,7 +3,7 @@ id: director-moments-for-a-new-adult
 title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
-priority: 3
+priority: 2
 status: open
 claimed-by:
 pr: #5644
@@ -35,3 +35,5 @@ Oct 20: Switched from blocked to the automatic after: gate on director-civic-pro
 Sent back 2026-10-20 from PR #5644 (branch claude/political-game-pool-yucp92-ak): the new test redraws past places where the director never stops the skip (Point of Rocks, Wyoming), so it passes while the bug reproduces, and the moment's trace is not asserted to resolve; the test also sits under src/director, which only the Words session edits; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5644 (branch claude/political-game-pool-yucp92-ak): The unsafe test and Words-area edits are removed, which addresses the previous review. The remaining diff is a finding only: docs/pool/items/director-moments-for-a-new-adult.md explicitly says the Point of Rocks bug and unresolved trace remain. Its done-when still requires the director moments and trace to work in play. Merging this PR under that item would automatically mark unfinished work done. Keep that item open; either finish its named proof or track this completed finding-only delivery under a separate pool item and update the PR title/body to its actual docs-only scope.; finish on that branch, merge main into it first.
+
+Checked Oct 20 (claude/political-game-pool-yucp92-ak), finding only, no test landed. The bench's default character (the resident nearest 18) skipping 245 days on the calendar from the game start, two-level `buildBenchWorld`, other engines' stops passed over: in some drawn places a story-director moment stops the skip, but in Point of Rocks, Wyoming no director moment stops it in eight months, so the bug still reproduces there. Where one did stop it, `resolveSavedTraceV1` on the stop's record id returned `record-not-found`, so the moment's record does not resolve. A test that redraws past places like Point of Rocks passes while the bug reproduces, so the fix (in the director, the Words area) should come with a test that asserts a stop with no redraw and asserts the trace resolves.

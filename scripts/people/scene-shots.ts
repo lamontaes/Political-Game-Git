@@ -4,7 +4,8 @@
 // owner plays (the opening, home with the family, a workplace, the council
 // or commission, the state chamber, the U.S. House and Senate, the Oval
 // Office, a conversation), renders each the way /play draws it, and counts
-// figures by source. Only approved whole figures may be drawn.
+// figures by source. Only the v2 standing figures (art/people-engine/v2) may
+// be drawn.
 // Usage: node --import tsx scripts/people/scene-shots.ts <out-dir> [seed ...]
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { createHash, randomBytes } from "node:crypto";
@@ -16,9 +17,21 @@ import { openingFrames } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
-import manifest from "../../art/people-whole/manifest.json" with { type: "json" };
-import rules from "../../src/bench/data/whole-figures.json" with { type: "json" };
+import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import type { PlayerPacketV1 } from "../../src/core2/player-v1";
+
+/** Each drawn person's occluder mask as a data URL, by its served path. */
+function masksOf(people: { figure: unknown }[]): Record<string, string> {
+  const masks: Record<string, string> = {};
+  for (const { figure } of people) {
+    const url = (figure as { occluder?: { url: string } | null }).occluder?.url;
+    if (url)
+      masks[url] = `data:image/png;base64,${readFileSync(
+        `art/backdrops/occluders/${url.slice("/art/backdrops/occluders/".length)}`,
+      ).toString("base64")}`;
+  }
+  return masks;
+}
 
 const [out = "scene-shots", ...given] = process.argv.slice(2);
 const seeds = given.length
@@ -39,7 +52,7 @@ interface Shot {
     figure: Record<string, unknown>;
   }[];
 }
-const BODY = scenePlaces.bodyPlaces as Record<string, string>;
+const BODY = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
 const OFFICES = "core2-offices-v1";
 
 function shotsFor(seed: string) {
@@ -96,6 +109,7 @@ function shotsFor(seed: string) {
       .map((t) => ({
         id: t.personId ?? t.id,
         name: `${t.identity.givenName} ${t.identity.familyName}`,
+        reason: "act" as const,
       }));
   for (const [label, kinds] of [
     [
@@ -111,7 +125,7 @@ function shotsFor(seed: string) {
     const placeName =
       label === "oval-office"
         ? "oval-office"
-        : (BODY[kinds.find((k) => BODY[k])!] ?? BODY.default!);
+        : (BODY[kinds.find((k) => BODY[k])!] ?? BODY.default!)[0]!;
     if (!people.length) continue;
     add(label, {
       place: placeName,
@@ -126,6 +140,7 @@ function shotsFor(seed: string) {
     const ids = [me, other].map((id) => ({
       id,
       name: core.people.get(id) ? `${core.people.get(id)!.givenName}` : id,
+      reason: id === me ? ("you" as const) : ("household" as const),
     }));
     add("conversation", {
       place: home,
@@ -148,16 +163,11 @@ const browser = await chromium.launch({
 const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 const summary: string[] = [];
 const FIGURE_LOOK = new Map(
-  manifest.figures.map((row) => [row.file, row.look] as const),
+  index.figures.map(
+    (row) => [row.file.split("/").pop()!, `${row.outfit}:${row.sex}`] as const,
+  ),
 );
-const FIGURE_ACTIVITY = new Map(
-  manifest.figures.map((row) => [row.file, row.activity] as const),
-);
-const OUTDOORS = (place: string) =>
-  rules.outdoorPlaces.includes(place) ||
-  rules.outdoorPrefixes.some((prefix) => place.startsWith(prefix));
-let twinTotal = 0,
-  propTotal = 0;
+let twinTotal = 0;
 let whole = 0,
   other = 0;
 for (const seed of seeds) {
@@ -169,7 +179,7 @@ for (const seed of seeds) {
       o0 = 0;
     const figs = s.people.map((p) => {
       let src = p.figureUrl;
-      if (src.startsWith("/art/people-whole/")) {
+      if (src.startsWith("/art/people-engine/v2/")) {
         w0++;
         src = `file://${root}${src}`;
       } else {
@@ -199,9 +209,11 @@ for (const seed of seeds) {
       html,body{margin:0;overflow:hidden} #stage{width:1672px;height:941px;left:0;top:0;transform:none}
       .label{position:absolute;left:8px;top:8px;background:#000a;color:#fff;font:13px sans-serif;padding:4px 8px;z-index:9}</style></head>
       <body><div id="game"><div id="stage"><img id="backdrop" src="file://${root}${s.backdrop.url}"><div id="people"></div></div>
-      <div class="label">${place.name}, ${place.state} · seed ${seed} · ${s.place} · whole ${w0}, other ${o0}</div></div>
+      <div class="label">${place.name}, ${place.state} · seed ${seed} · ${s.place} · v2 ${w0}, other ${o0}</div></div>
       <script>
       const people = ${JSON.stringify(figs)};
+      // A mask must be same-origin to apply, so a page opened from disk gets them inline.
+      const MASKS = ${JSON.stringify(masksOf(figs))};
       const el = document.getElementById("people");
       // As play.mjs draws it: shadows on the floor first, then the figures.
       for (const person of people) {
@@ -213,16 +225,25 @@ for (const seed of seeds) {
       }
       for (const person of people) {
         const f = person.figure;
-        const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
-        const visible = Math.max(bottom - f.topPercent, 0.1);
         const img = document.createElement("img"); img.src = person.src;
-        img.style.height = (f.heightPercent / visible) * 100 + "%";
         if (f.mirrored) img.style.transform = "scaleX(-1)";
         const box = document.createElement("div"); box.className = "figure";
         if (f.shadow === true) { const sh = document.createElement("div"); sh.className = "shadow"; box.prepend(sh); }
         box.append(img);
-        Object.assign(box.style, { left: f.leftPercent + "%", top: f.topPercent + "%", width: f.widthPercent + "%", height: visible + "%" });
+        Object.assign(box.style, { left: f.leftPercent + "%", top: f.topPercent + "%", width: f.widthPercent + "%", height: f.heightPercent + "%" });
         el.append(box);
+        // What the painting has in front of them, laid back over them (play.mjs occluderOf).
+        const o = f.occluder;
+        if (o) {
+          const along = (start, size) => (size >= 100 ? 0 : (start / (100 - size)) * 100);
+          const node = document.createElement("div"); node.className = "occluder";
+          Object.assign(node.style, { left: o.leftPercent + "%", top: o.topPercent + "%", width: o.widthPercent + "%", height: o.heightPercent + "%",
+            backgroundImage: 'url("' + document.getElementById("backdrop").src + '")',
+            backgroundSize: 10000 / o.widthPercent + "% " + 10000 / o.heightPercent + "%",
+            backgroundPosition: along(o.leftPercent, o.widthPercent) + "% " + along(o.topPercent, o.heightPercent) + "%",
+            maskImage: 'url("' + MASKS[o.url] + '")' });
+          el.append(node);
+        }
       }
       </script></body></html>`;
     const htmlFile = resolve(out, "page.html");
@@ -233,28 +254,18 @@ for (const seed of seeds) {
     );
     const file = `${out}/${tag}-${s.name}.png`;
     await page.screenshot({ path: file });
-    // Twins (two people in one look) and props where they make no sense.
+    // Twins: two people in one look.
     const looks = s.people.map((p) =>
       FIGURE_LOOK.get(p.figureUrl.split("/").pop()!),
     );
     const twins = looks.length - new Set(looks).size;
-    const indoors = !OUTDOORS(s.place)
-      ? s.people.filter((p) =>
-          ["skateboard", "basketball"].includes(
-            FIGURE_ACTIVITY.get(p.figureUrl.split("/").pop()!) ?? "",
-          ),
-        ).length
-      : 0;
     twinTotal += twins;
-    propTotal += indoors;
     summary.push(
-      `- ${s.name} (${s.place}): ${s.people.length} drawn, whole ${w0}, other ${o0}, twins ${twins}, ball or skateboard indoors ${indoors}`,
+      `- ${s.name} (${s.place}): ${s.people.length} drawn, v2 ${w0}, other ${o0}, twins ${twins}`,
     );
   }
 }
 await browser.close();
-summary.push(
-  `\nTotal: whole ${whole}, not whole ${other}, twins ${twinTotal}, ball or skateboard indoors ${propTotal}`,
-);
+summary.push(`\nTotal: v2 ${whole}, not v2 ${other}, twins ${twinTotal}`);
 writeFileSync(`${out}/counts.md`, summary.join("\n") + "\n");
 console.log(summary.join("\n"));

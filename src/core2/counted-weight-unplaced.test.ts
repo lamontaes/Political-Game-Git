@@ -18,7 +18,7 @@ function open(seed: string, key: string, countScale?: number) {
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale ? { countScale } : {}),
+    countScale: countScale ?? 1,
   });
   const rt = residentsRuntime(core)!;
   const unplaced = [...rt.flows.values()]

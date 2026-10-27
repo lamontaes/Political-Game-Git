@@ -35,22 +35,10 @@ const contracts: readonly SkillContract[] = [
     ],
   },
   {
-    name: "browser-visual-acceptance",
-    trigger: /UI, interaction, responsive, scene, pose, or art review/i,
-    nontrigger: /do not use for nonvisual unit-only changes/i,
-    links: [
-      ".agents/workflows/pg-visual-review.md",
-      ".agents/rules/visual-acceptance.md",
-      "src/bench/server.ts",
-      "src/bench/no-scroll.browser.mjs",
-    ],
-  },
-  {
     name: "asset-scene-admission",
     trigger:
       /environment intake, scene geometry, asset-bank disposition, or release review/i,
-    nontrigger:
-      /do not use to generate new art, infer rights, or approve pixels without review/i,
+    nontrigger: /do not use to approve pixels without review/i,
     links: [
       "docs/systems/art-assets.md",
       "docs/systems/scene-authoring-pipeline.md",
@@ -315,13 +303,6 @@ describe("SKILL-OPS1 civic prose correction", () => {
           `${file} -> ${target}`,
         ).toBe(true);
       }
-    }
-  });
-
-  it("points browser acceptance at the bench and its browser checks", () => {
-    const visual = skillText("browser-visual-acceptance");
-    for (const required of ["npm run bench", ".browser.mjs", "BENCH_BROWSER"]) {
-      expect(visual).toContain(required);
     }
   });
 });

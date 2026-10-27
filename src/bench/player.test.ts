@@ -15,7 +15,7 @@ const source = {
   asOf: "2020-01-01",
   citation: "Explicit bench adapter edge fixture",
 };
-function fixture() {
+function fixture(birthDate = "1980-01-01") {
   const input: CoreInput = {
     seed: "bench-adapter-edge-fixture",
     startedAt: "2021-01-01",
@@ -39,7 +39,7 @@ function fixture() {
         id: "person",
         givenName: "Fixture",
         familyName: "Resident",
-        birthDate: "1980-01-01",
+        birthDate,
         placeId: "place",
         householdId: "home",
         tier: "weekly",
@@ -159,6 +159,14 @@ describe("bench public player adapter", () => {
     const next = player.advance("week");
     expect(next.packet.kind).toBe("stop");
     expect(next.packet.at).toEqual(at);
+  });
+  it("Week stops on an 18th birthday that falls on the first day, then goes on", () => {
+    // Born 2003-01-02: the day after the fixture's 2021-01-01 start.
+    const { player } = fixture("2003-01-02");
+    const week = player.advance("week");
+    expect(week.packet.at.date).toBe("2021-01-02");
+    const onward = player.advance("week");
+    expect(onward.packet.at.date > "2021-01-02").toBe(true);
   });
   it("a calendar jump cannot go backward", () => {
     const { player } = fixture();

@@ -9,6 +9,7 @@ status: dropped
 claimed-by: claude/political-game-pool-6qjq1s
 pr: #5185
 blocked-on:
+after: people-port-traits-upbringing
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at: 2026-10-19T21:55:00.778Z
 ---
@@ -22,3 +23,5 @@ claimed-at: 2026-10-19T21:55:00.778Z
 **Files.** src/simulation/character-history.ts, src/core2/population.ts
 
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+
+Looked at Oct 19 (claude/political-game-pool-8defjq), not built. `createCharacterHistoryContextPeople` (src/simulation/character-history.ts, line 689) builds each person from the old world: appearance lineage, `startHouseholdMembership`, `householdMembershipsAt` and `assertWorldIntegrity`, so the port also needs the household-membership and integrity pieces, not only the writer. `people-port-traits-upbringing` is still in a pull request, so it is now listed in `after`. population.ts reads the result at lines 703 and 758 (`characterHistoryContextPersonId`, `createCharacterHistoryContextPeople`).

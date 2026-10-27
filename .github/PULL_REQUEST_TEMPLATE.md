@@ -16,4 +16,4 @@ Checks (changed files): <eslint, prettier, typecheck, the changed tests, zero-di
 
 **Removed.** <What this replaced and deleted (replace, never layer), or "nothing".>
 
-**OWNER DECISIONS NEEDED.** <Only if a design is the owner's call: the question in one line, and the owner-decision stopgap id. Otherwise delete this section.>
+**OWNER DECISIONS NEEDED.** <Only if a design is the owner's call: the question in one line, the owner-decision stopgap id, and the reading line `Read: OWNER-DECISIONS (<newest ruling date>), DECISION-REGISTER, prior-rulings/<file>, LAW; searched: <terms>` (owner, Oct 26; `.agents/rules/smart-and-look-first.md`). A question without the reading line is sent back. Otherwise delete this section.>

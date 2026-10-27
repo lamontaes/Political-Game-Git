@@ -24,7 +24,9 @@
  * Every line passes the owner's grades and the guard's line rules first; a
  * phrase is shown once in the batch. A scene the world does not produce is
  * written to the page's "OWNER DECISIONS NEEDED", never invented. `--cache`
- * keeps the world reading so a later run rebuilds only the selection.
+ * keeps the world reading so a later run rebuilds only the selection, and
+ * saves the year-end world beside it (`<cache>.world`, v8 format) for the
+ * grading bench (scripts/dialogue-batch/grading-bench.ts).
  */
 import { execSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -79,6 +81,7 @@ import {
   beginSpeech,
   chooseSpeechPart,
 } from "../../src/director/speech-builder";
+import { saveWorld, worldCachePath } from "./grading-bench";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
@@ -218,6 +221,10 @@ interface Place {
   seed: string;
 }
 
+/** The last world read, kept so `--cache` can also save what the grading bench reads (`<cache>.world`). */
+let lastWorld:
+  { core: CoreState; director: Director; playerId: string } | undefined;
+
 function readWorld(place: Place): {
   raws: Raw[];
   /** The player's talks and the family scenes, each turn's whole choice set. */
@@ -238,9 +245,15 @@ function readWorld(place: Place): {
   const circle = [
     ...new Set([world.playerId!, ...me.familyIds, ...me.knownIds]),
   ].slice(0, 24);
-  for (const person of circle) world.director.watch(core, person);
+  // The director watches every full person (`--watch all`, the default) so
+  // the year's records fire as many situations as the world holds; `--watch
+  // circle` watches only the player's circle, as the batches before 12 did.
+  const watched =
+    option("watch", "all") === "all" ? [...core.people.keys()] : circle;
+  for (const person of watched) world.director.watch(core, person);
   const town = place.name.split(",")[0]!;
   const talks = playYear(core, world.director, world.playerId!, town);
+  lastWorld = { core, director: world.director, playerId: world.playerId! };
   const raws: Raw[] = [];
   const gaps: string[] = [];
   const stood: string[] = [];
@@ -1399,7 +1412,25 @@ function main() {
     }
     if (!cached)
       throw new Error(`no drawn place passed a local law: ${tried.join("; ")}`);
-    if (cachePath) writeFileSync(cachePath, JSON.stringify(cached));
+    if (cachePath) {
+      writeFileSync(cachePath, JSON.stringify(cached));
+      // The year-end world too, for the grading bench (`npm run words:bench`).
+      if (lastWorld) {
+        const bytes = saveWorld(
+          worldCachePath(cachePath),
+          lastWorld.core,
+          lastWorld.director,
+          {
+            playerId: lastWorld.playerId,
+            placeName: cached.place.name,
+            seed: cached.place.seed,
+          },
+        );
+        console.error(
+          `saved the year-end world for the bench: ${worldCachePath(cachePath)} (${bytes} bytes)`,
+        );
+      }
+    }
   }
   const place = cached.place;
 

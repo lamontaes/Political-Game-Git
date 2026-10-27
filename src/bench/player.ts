@@ -1,3 +1,4 @@
+import { comingOfAgeOn } from "../director/coming-of-age";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   advancePlayerV1,
@@ -10,6 +11,7 @@ import {
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
+import { onBallotOn } from "./election-night";
 import {
   leavePollingPlace,
   markBallot,
@@ -55,6 +57,8 @@ export class BenchPlayer {
   personId?: string;
   /** True once the core's player clock is bound to `personId`. */
   private clockBound = false;
+  /** The character whose coming-of-age day has stopped an advance. */
+  private comingOfAgeShownFor?: string;
   private destination?: { through: PlayerMomentV1; mode: string };
   readonly selfChosen: SelfChosenAnswer[] = [];
   /**
@@ -62,6 +66,13 @@ export class BenchPlayer {
    * the day stops here, before the count that opens election day.
    */
   pollingPlace?: PollingVisit;
+  /**
+   * Election morning for a candidate with no polling visit (they live
+   * outside the town the count reads): the day stops for the canvass all
+   * the same, once.
+   */
+  candidateMorning?: string;
+  private readonly candidateMornings = new Set<string>();
   constructor(
     readonly core: CoreState,
     readonly director: Director,
@@ -164,6 +175,7 @@ export class BenchPlayer {
       throw new Error("Unknown time control.");
     if (this.pollingPlace)
       throw new Error("Vote or leave the polling place first.");
+    this.candidateMorning = undefined;
     const pending = this.packet && this.packet.kind !== "complete";
     if (pending && this.packet!.kind !== "choice")
       throw new Error("Answer the open choice or stop first.");
@@ -206,20 +218,28 @@ export class BenchPlayer {
    * leaving a pause can't commit anyone to the rest of a week or a year.
    */
   private run(start: PlayerPacketV1 | undefined, from: PlayerMomentV1) {
-    const { through, mode } = this.destination!;
-    const skipping = mode === "calendar";
+    const { through } = this.destination!;
+    // Coming of voting age is golden-path step one: an advance that reaches
+    // that day stops on it, so the player sees the day it happens.
+    // The first advance of a new life starts on the day after the clock shows,
+    // so a birthday on the first day is reached from inside the run.
+    const began = from.date;
+    const person = this.core.people.get(this.personId!);
+    const comesOfAge = person ? comingOfAgeOn(person.birthDate) : undefined;
     let packet = start;
     while (true) {
       if (!packet || packet.kind === "complete") {
         if (packet) from = packet.at;
+        if (packet && this.comesOfAgeStop(comesOfAge, began, from.date)) break;
         if (compareMoments(from, through) >= 0) break;
         const next = {
           date: addDays(makeIsoDate(from.date), 1),
           minuteOfDay: from.minuteOfDay,
         };
-        // Election day is a scene (owner, Oct 14, 2026): the count opens the
-        // day, so the character's day stops at the polls before the core
-        // enters it. The clock's midnight is the start of the core's next day.
+        // Election day is a scene (owner, Oct 14 and 26, 2026): the count
+        // opens the day, so election morning, with the choice to go vote,
+        // comes before the core enters it. The clock's midnight is the start
+        // of the core's next day.
         const polls = pollingVisitDue(
           this.core,
           this.director.ledger,
@@ -230,6 +250,19 @@ export class BenchPlayer {
           this.pollingPlace = polls;
           break;
         }
+        const tomorrow = addDays(makeIsoDate(this.core.date), 1);
+        if (
+          !this.candidateMornings.has(tomorrow) &&
+          // A visit kept for the day (voted, or stayed home) was its morning.
+          !this.director.ledger.pollingVisits.has(
+            `${this.personId}:${tomorrow}`,
+          ) &&
+          onBallotOn(this.core, this.personId!, tomorrow)
+        ) {
+          this.candidateMornings.add(tomorrow);
+          this.candidateMorning = tomorrow;
+          break;
+        }
         packet = advancePlayerV1(this.core, {
           controlledPersonId: this.personId!,
           through: compareMoments(next, through) < 0 ? next : through,
@@ -237,6 +270,7 @@ export class BenchPlayer {
         this.clockBound = true;
         continue;
       }
+      if (this.comesOfAgeStop(comesOfAge, began, packet.at.date)) break;
       // Day never opens a choice list (owner, Oct 14, 2026): the character
       // answers its own choices with the core's selection, and only a stop
       // (a director scene, a fixed commitment or a deadline) ends the advance.
@@ -244,23 +278,24 @@ export class BenchPlayer {
         packet = this.answerForSelf(packet, "advancing");
         continue;
       }
-      // A routine shift the character attends on its own never stops a
-      // skip (owner, Oct 12): the character answers the shift's choice itself.
-      if (
-        packet.kind === "stop" &&
-        skipping &&
-        !packet.stop.modules.length &&
-        packet.stop.work
-      ) {
-        packet = resumePlayerV1(this.core, {
-          kind: "stop",
-          pauseId: packet.pauseId,
-        });
-        continue;
-      }
       break;
     }
     if (packet) this.packet = packet;
+  }
+
+  /**
+   * True once, on the first moment of the day the character comes of voting
+   * age, unless the character began that advance already past it.
+   */
+  private comesOfAgeStop(
+    comesOfAge: string | undefined,
+    began: string,
+    reached: string,
+  ) {
+    if (!comesOfAge || this.comingOfAgeShownFor === this.personId) return false;
+    if (began > comesOfAge || reached < comesOfAge) return false;
+    this.comingOfAgeShownFor = this.personId;
+    return true;
   }
 
   /** The player's answer, then onward to the same destination. */

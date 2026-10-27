@@ -3,7 +3,7 @@
  * town's jobs are sized from.
  *
  * Reads the locked regional corpora merged in #701 and writes
- * `src/simulation/living-world/town-employment.generated.ts`:
+ * `src/core2/reference/town-employment.generated.ts`:
  *
  * - For every county in the Census 2023 County Business Patterns file, its
  *   March employment in each two-digit industry sector, in the fixed sector
@@ -22,9 +22,10 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
+import { format, resolveConfig } from "prettier";
 
 export const TOWN_EMPLOYMENT_OUTPUT_PATH =
-  "src/simulation/living-world/town-employment.generated.ts";
+  "src/core2/reference/town-employment.generated.ts";
 
 /** Two-digit NAICS sectors, in the order the county rows list them. */
 export const SECTORS = [
@@ -194,6 +195,14 @@ export const STATE_PUBLIC_EMPLOYMENT =
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  writeFileSync(TOWN_EMPLOYMENT_OUTPUT_PATH, renderTownEmploymentModule());
+  // Format with the repository's prettier config so regeneration stays clean.
+  const config = (await resolveConfig(TOWN_EMPLOYMENT_OUTPUT_PATH)) ?? {};
+  writeFileSync(
+    TOWN_EMPLOYMENT_OUTPUT_PATH,
+    await format(renderTownEmploymentModule(), {
+      ...config,
+      filepath: TOWN_EMPLOYMENT_OUTPUT_PATH,
+    }),
+  );
   console.log(`wrote ${TOWN_EMPLOYMENT_OUTPUT_PATH}`);
 }

@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/counted-housing-test
 pr: #5058
 blocked-on:

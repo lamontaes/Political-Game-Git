@@ -47,7 +47,7 @@ function play(seed: string, key: string, countScale: number) {
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale !== 1 ? { countScale } : {}),
+    countScale,
   });
   const api = coreAPI(core);
   const rt = residentsRuntime(core)!;
@@ -89,8 +89,10 @@ function play(seed: string, key: string, countScale: number) {
             weightedPerDay += pay;
             continue;
           }
-          const weight = rt.store.weightOf(
+          // A wage moves for the jobs its counted job stands for.
+          const weight = rt.store.headsOfJob(
             rt.store.households[rt.store.household[m]!]!,
+            jobId,
           );
           plain += pay;
           weighted += pay * weight;

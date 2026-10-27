@@ -1,7 +1,7 @@
 /** Aggregate evidence only: never imported by actor rules. */
 import { readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { ageOnDate } from "./kernel/dates";
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
 import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 import rates2023 from "../../data/research/renewal/natality-2023.json" with { type: "json" };
@@ -77,10 +77,7 @@ const bands = maternalBands.map((band) => {
   const [low, high] = band.split("-").map(Number);
   const denominator = openingResidents.filter(
     (person: { looks?: { gender?: string }; birthDate: string }) => {
-      const age = ageOnDate(
-        makeIsoDate(person.birthDate),
-        makeIsoDate(midyearDate),
-      );
+      const age = ageOnDate(person.birthDate, midyearDate);
       return person.looks?.gender === "female" && age >= low! && age <= high!;
     },
   ).length;
@@ -90,10 +87,7 @@ const bands = maternalBands.map((band) => {
         (person: { id: string }) => person.id === birth.motherId,
       );
       if (!mother) throw new Error("Missing recorded mother.");
-      const age = ageOnDate(
-        makeIsoDate(mother.birthDate),
-        makeIsoDate(birth.date),
-      );
+      const age = ageOnDate(mother.birthDate, birth.date);
       return age >= low! && (band === maternalBands.at(-1) || age <= high!);
     },
   ).length;

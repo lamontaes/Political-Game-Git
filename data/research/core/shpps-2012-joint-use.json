@@ -1,0 +1,94 @@
+{
+  "id": "shpps-2012-joint-use",
+  "publisher": "Centers for Disease Control and Prevention (Jones and Wendel, Preventing Chronic Disease 2015;12:140560)",
+  "vintage": "School Health Policies and Practices Study 2012 (district survey, October 2011 to August 2012)",
+  "table": "Table 2, prevalence of formal joint use agreements by district characteristic",
+  "title": "Characteristics of Joint Use Agreements in School Districts in the United States: Findings From the School Health Policies and Practices Study, 2012",
+  "universe": "Public school districts (616 analyzed, weighted to be nationally representative)",
+  "geography": "United States, by metropolitan status, district size and census region",
+  "sourceUrl": "https://www.cdc.gov/pcd/issues/2015/14_0560.htm",
+  "retrievedOn": "2026-10-23",
+  "quote": "\"Overall, 61.6% of school districts nationwide had a formal JUA.\"",
+  "limits": "A formal agreement letting outside groups use school property; it does not say which rooms, when, or for meetings rather than recreation. A district-level share, a band for the town's school meeting-place offers to land in, never a chance that one school says yes.",
+  "overall": {
+    "share": 0.616,
+    "low": 0.575,
+    "high": 0.655
+  },
+  "byMetroStatus": {
+    "urbanFringeOfCentralCity": {
+      "share": 0.78,
+      "low": 0.702,
+      "high": 0.842
+    },
+    "urbanFringeOfMidsizedCityOrLargeTown": {
+      "share": 0.733,
+      "low": 0.614,
+      "high": 0.825
+    },
+    "centralCity": {
+      "share": 0.66,
+      "low": 0.52,
+      "high": 0.777
+    },
+    "rural": {
+      "share": 0.539,
+      "low": 0.477,
+      "high": 0.6
+    },
+    "smallTown": {
+      "share": 0.529,
+      "low": 0.419,
+      "high": 0.636
+    }
+  },
+  "byDistrictStudents": {
+    "upTo299": {
+      "share": 0.499,
+      "low": 0.388,
+      "high": 0.611
+    },
+    "300to999": {
+      "share": 0.602,
+      "low": 0.526,
+      "high": 0.675
+    },
+    "1000to2499": {
+      "share": 0.521,
+      "low": 0.441,
+      "high": 0.599
+    },
+    "2500to4999": {
+      "share": 0.716,
+      "low": 0.629,
+      "high": 0.79
+    },
+    "5000orMore": {
+      "share": 0.812,
+      "low": 0.717,
+      "high": 0.881
+    }
+  },
+  "byRegion": {
+    "west": {
+      "share": 0.733,
+      "low": 0.644,
+      "high": 0.806
+    },
+    "midwest": {
+      "share": 0.613,
+      "low": 0.542,
+      "high": 0.679
+    },
+    "south": {
+      "share": 0.552,
+      "low": 0.476,
+      "high": 0.625
+    },
+    "northeast": {
+      "share": 0.63,
+      "low": 0.529,
+      "high": 0.72
+    }
+  }
+}
