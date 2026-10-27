@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peer-groups-smooth
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T03:39:07.372Z
 ---
 
 **What.** buildOpeningPeerContacts in src/core2/opening-peer-network.ts splits each recorded school cohort into Math.ceil(cohort / openingPeerGroupSize) balanced groups, so a cohort of 20 named people forms one group of 20 and a cohort of 21 forms two groups of 10.5: one more classmate halves everyone's remembered peers. In the Owings, Maryland year (seed 38e6252af62e) the 71 generated groups averaged 14.9 people, from 2 to 20, and 44 of them sat below the real class sizes of 16.9 to 22.0 students (NCES National Teacher and Principal Survey 2020-21, data/research/core/nces-ntps-2021-class-size.json). Replace the ceiling with a rule that varies smoothly with the cohort, so no single classmate flips the partition. The parameter's other read, countedKnown in src/core2/modules/candidacy.ts, is a count and stays as it is.
