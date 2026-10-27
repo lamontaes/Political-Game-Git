@@ -400,6 +400,72 @@
     {
       "view": "front",
       "facing": 0,
+      "face": 8,
+      "sex": "female",
+      "faceName": "delicate, freckles",
+      "expression": "skeptical",
+      "figure": "v2-37-f-slim",
+      "file": "faces-on-figures/front/08/v2-37-f-slim-face.png",
+      "facePx": 1079
+    },
+    {
+      "view": "front",
+      "facing": 0,
+      "face": 8,
+      "sex": "female",
+      "faceName": "delicate, freckles",
+      "expression": "skeptical",
+      "figure": "v2-37-f-medium",
+      "file": "faces-on-figures/front/08/v2-37-f-medium-face.png",
+      "facePx": 965
+    },
+    {
+      "view": "front",
+      "facing": 0,
+      "face": 8,
+      "sex": "female",
+      "faceName": "delicate, freckles",
+      "expression": "skeptical",
+      "figure": "v2-37-f-heavy",
+      "file": "faces-on-figures/front/08/v2-37-f-heavy-face.png",
+      "facePx": 1163
+    },
+    {
+      "view": "front",
+      "facing": 0,
+      "face": 8,
+      "sex": "male",
+      "faceName": "short beard and mustache",
+      "expression": "skeptical",
+      "figure": "v2-37-m-slim",
+      "file": "faces-on-figures/front/08/v2-37-m-slim-face.png",
+      "facePx": 1799
+    },
+    {
+      "view": "front",
+      "facing": 0,
+      "face": 8,
+      "sex": "male",
+      "faceName": "short beard and mustache",
+      "expression": "skeptical",
+      "figure": "v2-37-m-medium",
+      "file": "faces-on-figures/front/08/v2-37-m-medium-face.png",
+      "facePx": 2004
+    },
+    {
+      "view": "front",
+      "facing": 0,
+      "face": 8,
+      "sex": "male",
+      "faceName": "short beard and mustache",
+      "expression": "skeptical",
+      "figure": "v2-37-m-heavy",
+      "file": "faces-on-figures/front/08/v2-37-m-heavy-face.png",
+      "facePx": 2136
+    },
+    {
+      "view": "front",
+      "facing": 0,
       "face": 9,
       "sex": "female",
       "faceName": "older, deep smile lines",
@@ -792,6 +858,72 @@
       "figure": "v2-01-m-heavy",
       "file": "faces-on-figures/threeq/02/v2-01-m-heavy-face.png",
       "facePx": 2137
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 3,
+      "sex": "female",
+      "faceName": "heart-shaped, large eyes",
+      "expression": "laugh",
+      "figure": "v2-01-f-slim",
+      "file": "faces-on-figures/threeq/03/v2-01-f-slim-face.png",
+      "facePx": 1351
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 3,
+      "sex": "female",
+      "faceName": "heart-shaped, large eyes",
+      "expression": "laugh",
+      "figure": "v2-01-f-medium",
+      "file": "faces-on-figures/threeq/03/v2-01-f-medium-face.png",
+      "facePx": 1357
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 3,
+      "sex": "female",
+      "faceName": "heart-shaped, large eyes",
+      "expression": "laugh",
+      "figure": "v2-01-f-heavy",
+      "file": "faces-on-figures/threeq/03/v2-01-f-heavy-face.png",
+      "facePx": 1211
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 3,
+      "sex": "male",
+      "faceName": "round, double chin",
+      "expression": "laugh",
+      "figure": "v2-01-m-slim",
+      "file": "faces-on-figures/threeq/03/v2-01-m-slim-face.png",
+      "facePx": 2109
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 3,
+      "sex": "male",
+      "faceName": "round, double chin",
+      "expression": "laugh",
+      "figure": "v2-01-m-medium",
+      "file": "faces-on-figures/threeq/03/v2-01-m-medium-face.png",
+      "facePx": 2247
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 3,
+      "sex": "male",
+      "faceName": "round, double chin",
+      "expression": "laugh",
+      "figure": "v2-01-m-heavy",
+      "file": "faces-on-figures/threeq/03/v2-01-m-heavy-face.png",
+      "facePx": 1906
     },
     {
       "view": "threeq",
@@ -1254,6 +1386,72 @@
       "figure": "v2-01-m-heavy",
       "file": "faces-on-figures/threeq/10/v2-01-m-heavy-face.png",
       "facePx": 1690
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 11,
+      "sex": "female",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-01-f-slim",
+      "file": "faces-on-figures/threeq/11/v2-01-f-slim-face.png",
+      "facePx": 857
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 11,
+      "sex": "female",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-01-f-medium",
+      "file": "faces-on-figures/threeq/11/v2-01-f-medium-face.png",
+      "facePx": 1238
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 11,
+      "sex": "female",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-01-f-heavy",
+      "file": "faces-on-figures/threeq/11/v2-01-f-heavy-face.png",
+      "facePx": 1349
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 11,
+      "sex": "male",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-01-m-slim",
+      "file": "faces-on-figures/threeq/11/v2-01-m-slim-face.png",
+      "facePx": 1931
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 11,
+      "sex": "male",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-01-m-medium",
+      "file": "faces-on-figures/threeq/11/v2-01-m-medium-face.png",
+      "facePx": 2019
+    },
+    {
+      "view": "threeq",
+      "facing": -45,
+      "face": 11,
+      "sex": "male",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-01-m-heavy",
+      "file": "faces-on-figures/threeq/11/v2-01-m-heavy-face.png",
+      "facePx": 2297
     },
     {
       "view": "threeq",
@@ -1980,6 +2178,72 @@
       "figure": "v2-70-m-heavy",
       "file": "faces-on-figures/threeqr/10/v2-70-m-heavy-face.png",
       "facePx": 2066
+    },
+    {
+      "view": "threeqr",
+      "facing": 45,
+      "face": 11,
+      "sex": "female",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-70-f-slim",
+      "file": "faces-on-figures/threeqr/11/v2-70-f-slim-face.png",
+      "facePx": 1068
+    },
+    {
+      "view": "threeqr",
+      "facing": 45,
+      "face": 11,
+      "sex": "female",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-70-f-medium",
+      "file": "faces-on-figures/threeqr/11/v2-70-f-medium-face.png",
+      "facePx": 1297
+    },
+    {
+      "view": "threeqr",
+      "facing": 45,
+      "face": 11,
+      "sex": "female",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-70-f-heavy",
+      "file": "faces-on-figures/threeqr/11/v2-70-f-heavy-face.png",
+      "facePx": 1270
+    },
+    {
+      "view": "threeqr",
+      "facing": 45,
+      "face": 11,
+      "sex": "male",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-70-m-slim",
+      "file": "faces-on-figures/threeqr/11/v2-70-m-slim-face.png",
+      "facePx": 1924
+    },
+    {
+      "view": "threeqr",
+      "facing": 45,
+      "face": 11,
+      "sex": "male",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-70-m-medium",
+      "file": "faces-on-figures/threeqr/11/v2-70-m-medium-face.png",
+      "facePx": 1933
+    },
+    {
+      "view": "threeqr",
+      "facing": 45,
+      "face": 11,
+      "sex": "male",
+      "faceName": "angular, hooked nose",
+      "expression": "tired",
+      "figure": "v2-70-m-heavy",
+      "file": "faces-on-figures/threeqr/11/v2-70-m-heavy-face.png",
+      "facePx": 2224
     },
     {
       "view": "threeqr",

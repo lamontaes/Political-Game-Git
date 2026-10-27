@@ -40,7 +40,7 @@
       "file": "hair-on-figures/back/01/v2-06-f-slim-hair.png",
       "head": [7, 98.0, 68],
       "facing": 180,
-      "hairPx": 11080
+      "hairPx": 10953
     },
     {
       "view": "back",
@@ -51,7 +51,7 @@
       "file": "hair-on-figures/back/01/v2-06-f-medium-hair.png",
       "head": [7, 104.0, 68],
       "facing": 180,
-      "hairPx": 11200
+      "hairPx": 11093
     },
     {
       "view": "back",
@@ -62,7 +62,7 @@
       "file": "hair-on-figures/back/01/v2-06-f-heavy-hair.png",
       "head": [7, 127.5, 69],
       "facing": 180,
-      "hairPx": 10898
+      "hairPx": 10832
     },
     {
       "view": "back",
@@ -106,7 +106,7 @@
       "file": "hair-on-figures/back/02/v2-06-f-slim-hair.png",
       "head": [7, 98.0, 68],
       "facing": 180,
-      "hairPx": 13793
+      "hairPx": 13623
     },
     {
       "view": "back",
@@ -117,7 +117,7 @@
       "file": "hair-on-figures/back/02/v2-06-f-medium-hair.png",
       "head": [7, 104.0, 68],
       "facing": 180,
-      "hairPx": 14215
+      "hairPx": 14068
     },
     {
       "view": "back",
@@ -128,7 +128,7 @@
       "file": "hair-on-figures/back/02/v2-06-f-heavy-hair.png",
       "head": [7, 127.5, 69],
       "facing": 180,
-      "hairPx": 16168
+      "hairPx": 15989
     },
     {
       "view": "back",
@@ -304,7 +304,7 @@
       "file": "hair-on-figures/back/05/v2-06-f-slim-hair.png",
       "head": [7, 98.0, 68],
       "facing": 180,
-      "hairPx": 13304
+      "hairPx": 12985
     },
     {
       "view": "back",
@@ -315,7 +315,7 @@
       "file": "hair-on-figures/back/05/v2-06-f-medium-hair.png",
       "head": [7, 104.0, 68],
       "facing": 180,
-      "hairPx": 13668
+      "hairPx": 13299
     },
     {
       "view": "back",
@@ -326,7 +326,7 @@
       "file": "hair-on-figures/back/05/v2-06-f-heavy-hair.png",
       "head": [7, 127.5, 69],
       "facing": 180,
-      "hairPx": 14504
+      "hairPx": 14309
     },
     {
       "view": "back",
@@ -436,7 +436,7 @@
       "file": "hair-on-figures/back/07/v2-06-f-slim-hair.png",
       "head": [7, 98.0, 68],
       "facing": 180,
-      "hairPx": 5990
+      "hairPx": 5925
     },
     {
       "view": "back",
@@ -447,7 +447,7 @@
       "file": "hair-on-figures/back/07/v2-06-f-medium-hair.png",
       "head": [7, 104.0, 68],
       "facing": 180,
-      "hairPx": 6617
+      "hairPx": 6470
     },
     {
       "view": "back",
@@ -458,7 +458,7 @@
       "file": "hair-on-figures/back/07/v2-06-f-heavy-hair.png",
       "head": [7, 127.5, 69],
       "facing": 180,
-      "hairPx": 7297
+      "hairPx": 7194
     },
     {
       "view": "back",
@@ -568,7 +568,7 @@
       "file": "hair-on-figures/back/09/v2-06-f-slim-hair.png",
       "head": [7, 98.0, 68],
       "facing": 180,
-      "hairPx": 14986
+      "hairPx": 14857
     },
     {
       "view": "back",
@@ -579,7 +579,7 @@
       "file": "hair-on-figures/back/09/v2-06-f-medium-hair.png",
       "head": [7, 104.0, 68],
       "facing": 180,
-      "hairPx": 15212
+      "hairPx": 15059
     },
     {
       "view": "back",
@@ -590,7 +590,7 @@
       "file": "hair-on-figures/back/09/v2-06-f-heavy-hair.png",
       "head": [7, 127.5, 69],
       "facing": 180,
-      "hairPx": 15454
+      "hairPx": 15282
     },
     {
       "view": "back",
@@ -634,7 +634,7 @@
       "file": "hair-on-figures/back/10/v2-06-f-slim-hair.png",
       "head": [7, 98.0, 68],
       "facing": 180,
-      "hairPx": 15140
+      "hairPx": 14919
     },
     {
       "view": "back",
@@ -645,7 +645,7 @@
       "file": "hair-on-figures/back/10/v2-06-f-medium-hair.png",
       "head": [7, 104.0, 68],
       "facing": 180,
-      "hairPx": 16351
+      "hairPx": 15932
     },
     {
       "view": "back",
@@ -656,7 +656,7 @@
       "file": "hair-on-figures/back/10/v2-06-f-heavy-hair.png",
       "head": [7, 127.5, 69],
       "facing": 180,
-      "hairPx": 16303
+      "hairPx": 15880
     },
     {
       "view": "back",
@@ -667,7 +667,7 @@
       "file": "hair-on-figures/back/10/v2-06-m-slim-hair.png",
       "head": [6, 103.0, 74],
       "facing": 180,
-      "hairPx": 2545
+      "hairPx": 2529
     },
     {
       "view": "back",
@@ -678,7 +678,7 @@
       "file": "hair-on-figures/back/10/v2-06-m-medium-hair.png",
       "head": [6, 124.5, 77],
       "facing": 180,
-      "hairPx": 2709
+      "hairPx": 2684
     },
     {
       "view": "back",
@@ -689,7 +689,7 @@
       "file": "hair-on-figures/back/10/v2-06-m-heavy-hair.png",
       "head": [6, 144.0, 80],
       "facing": 180,
-      "hairPx": 2929
+      "hairPx": 2913
     },
     {
       "view": "back",
@@ -700,7 +700,7 @@
       "file": "hair-on-figures/back/11/v2-06-f-slim-hair.png",
       "head": [7, 98.0, 68],
       "facing": 180,
-      "hairPx": 6495
+      "hairPx": 6493
     },
     {
       "view": "back",
@@ -711,7 +711,7 @@
       "file": "hair-on-figures/back/11/v2-06-f-medium-hair.png",
       "head": [7, 104.0, 68],
       "facing": 180,
-      "hairPx": 7372
+      "hairPx": 7371
     },
     {
       "view": "back",
@@ -722,7 +722,7 @@
       "file": "hair-on-figures/back/11/v2-06-f-heavy-hair.png",
       "head": [7, 127.5, 69],
       "facing": 180,
-      "hairPx": 8071
+      "hairPx": 8070
     },
     {
       "view": "back",
@@ -766,7 +766,7 @@
       "file": "hair-on-figures/back/12/v2-06-f-slim-hair.png",
       "head": [7, 98.0, 68],
       "facing": 180,
-      "hairPx": 7335
+      "hairPx": 7327
     },
     {
       "view": "back",
@@ -777,7 +777,7 @@
       "file": "hair-on-figures/back/12/v2-06-f-medium-hair.png",
       "head": [7, 104.0, 68],
       "facing": 180,
-      "hairPx": 7893
+      "hairPx": 7880
     },
     {
       "view": "back",
@@ -788,7 +788,7 @@
       "file": "hair-on-figures/back/12/v2-06-f-heavy-hair.png",
       "head": [7, 127.5, 69],
       "facing": 180,
-      "hairPx": 8214
+      "hairPx": 8209
     },
     {
       "view": "back",
@@ -832,7 +832,7 @@
       "file": "hair-on-figures/front/01/v2-37-f-slim-hair.png",
       "head": [7, 95.5, 69],
       "facing": 0,
-      "hairPx": 6382
+      "hairPx": 6377
     },
     {
       "view": "front",
@@ -843,7 +843,7 @@
       "file": "hair-on-figures/front/01/v2-37-f-medium-hair.png",
       "head": [6, 104.0, 70],
       "facing": 0,
-      "hairPx": 6739
+      "hairPx": 6720
     },
     {
       "view": "front",
@@ -854,7 +854,7 @@
       "file": "hair-on-figures/front/01/v2-37-f-heavy-hair.png",
       "head": [7, 122.5, 71],
       "facing": 0,
-      "hairPx": 6189
+      "hairPx": 6173
     },
     {
       "view": "front",
@@ -898,7 +898,7 @@
       "file": "hair-on-figures/front/02/v2-37-f-slim-hair.png",
       "head": [7, 95.5, 69],
       "facing": 0,
-      "hairPx": 5592
+      "hairPx": 5584
     },
     {
       "view": "front",
@@ -909,7 +909,7 @@
       "file": "hair-on-figures/front/02/v2-37-f-medium-hair.png",
       "head": [6, 104.0, 70],
       "facing": 0,
-      "hairPx": 6019
+      "hairPx": 5836
     },
     {
       "view": "front",
@@ -920,7 +920,7 @@
       "file": "hair-on-figures/front/02/v2-37-f-heavy-hair.png",
       "head": [7, 122.5, 71],
       "facing": 0,
-      "hairPx": 5307
+      "hairPx": 5296
     },
     {
       "view": "front",
@@ -1030,7 +1030,7 @@
       "file": "hair-on-figures/front/04/v2-37-f-slim-hair.png",
       "head": [7, 95.5, 69],
       "facing": 0,
-      "hairPx": 4048
+      "hairPx": 4045
     },
     {
       "view": "front",
@@ -1041,7 +1041,7 @@
       "file": "hair-on-figures/front/04/v2-37-f-medium-hair.png",
       "head": [6, 104.0, 70],
       "facing": 0,
-      "hairPx": 4060
+      "hairPx": 4058
     },
     {
       "view": "front",
@@ -1096,7 +1096,7 @@
       "file": "hair-on-figures/front/05/v2-37-f-slim-hair.png",
       "head": [7, 95.5, 69],
       "facing": 0,
-      "hairPx": 4600
+      "hairPx": 4275
     },
     {
       "view": "front",
@@ -1107,7 +1107,7 @@
       "file": "hair-on-figures/front/05/v2-37-f-medium-hair.png",
       "head": [6, 104.0, 70],
       "facing": 0,
-      "hairPx": 5915
+      "hairPx": 5488
     },
     {
       "view": "front",
@@ -1118,7 +1118,7 @@
       "file": "hair-on-figures/front/05/v2-37-f-heavy-hair.png",
       "head": [7, 122.5, 71],
       "facing": 0,
-      "hairPx": 6004
+      "hairPx": 5731
     },
     {
       "view": "front",
@@ -1228,7 +1228,7 @@
       "file": "hair-on-figures/front/07/v2-37-f-slim-hair.png",
       "head": [7, 95.5, 69],
       "facing": 0,
-      "hairPx": 1593
+      "hairPx": 1590
     },
     {
       "view": "front",
@@ -1353,6 +1353,72 @@
     },
     {
       "view": "front",
+      "style": 9,
+      "sex": "female",
+      "styleName": "shoulder-length locs",
+      "figure": "v2-37-f-slim",
+      "file": "hair-on-figures/front/09/v2-37-f-slim-hair.png",
+      "head": [7, 95.5, 69],
+      "facing": 0,
+      "hairPx": 6667
+    },
+    {
+      "view": "front",
+      "style": 9,
+      "sex": "female",
+      "styleName": "shoulder-length locs",
+      "figure": "v2-37-f-medium",
+      "file": "hair-on-figures/front/09/v2-37-f-medium-hair.png",
+      "head": [6, 104.0, 70],
+      "facing": 0,
+      "hairPx": 7137
+    },
+    {
+      "view": "front",
+      "style": 9,
+      "sex": "female",
+      "styleName": "shoulder-length locs",
+      "figure": "v2-37-f-heavy",
+      "file": "hair-on-figures/front/09/v2-37-f-heavy-hair.png",
+      "head": [7, 122.5, 71],
+      "facing": 0,
+      "hairPx": 6778
+    },
+    {
+      "view": "front",
+      "style": 9,
+      "sex": "male",
+      "styleName": "short locs",
+      "figure": "v2-37-m-slim",
+      "file": "hair-on-figures/front/09/v2-37-m-slim-hair.png",
+      "head": [6, 106.5, 73],
+      "facing": 0,
+      "hairPx": 2041
+    },
+    {
+      "view": "front",
+      "style": 9,
+      "sex": "male",
+      "styleName": "short locs",
+      "figure": "v2-37-m-medium",
+      "file": "hair-on-figures/front/09/v2-37-m-medium-hair.png",
+      "head": [6, 114.5, 73],
+      "facing": 0,
+      "hairPx": 2050
+    },
+    {
+      "view": "front",
+      "style": 9,
+      "sex": "male",
+      "styleName": "short locs",
+      "figure": "v2-37-m-heavy",
+      "file": "hair-on-figures/front/09/v2-37-m-heavy-hair.png",
+      "head": [6, 131.5, 75],
+      "facing": 0,
+      "hairPx": 2234
+    },
+    {
+      "view": "front",
       "style": 10,
       "sex": "female",
       "styleName": "long loose curls",
@@ -1360,7 +1426,7 @@
       "file": "hair-on-figures/front/10/v2-37-f-slim-hair.png",
       "head": [7, 95.5, 69],
       "facing": 0,
-      "hairPx": 10850
+      "hairPx": 10777
     },
     {
       "view": "front",
@@ -1371,7 +1437,7 @@
       "file": "hair-on-figures/front/10/v2-37-f-medium-hair.png",
       "head": [6, 104.0, 70],
       "facing": 0,
-      "hairPx": 10736
+      "hairPx": 10674
     },
     {
       "view": "front",
@@ -1382,7 +1448,7 @@
       "file": "hair-on-figures/front/10/v2-37-f-heavy-hair.png",
       "head": [7, 122.5, 71],
       "facing": 0,
-      "hairPx": 9372
+      "hairPx": 9257
     },
     {
       "view": "front",
@@ -1393,7 +1459,7 @@
       "file": "hair-on-figures/front/10/v2-37-m-slim-hair.png",
       "head": [6, 106.5, 73],
       "facing": 0,
-      "hairPx": 1033
+      "hairPx": 1031
     },
     {
       "view": "front",
@@ -1404,7 +1470,7 @@
       "file": "hair-on-figures/front/10/v2-37-m-medium-hair.png",
       "head": [6, 114.5, 73],
       "facing": 0,
-      "hairPx": 1047
+      "hairPx": 1044
     },
     {
       "view": "front",
@@ -1419,6 +1485,72 @@
     },
     {
       "view": "front",
+      "style": 11,
+      "sex": "female",
+      "styleName": "short two-strand twists",
+      "figure": "v2-37-f-slim",
+      "file": "hair-on-figures/front/11/v2-37-f-slim-hair.png",
+      "head": [7, 95.5, 69],
+      "facing": 0,
+      "hairPx": 5013
+    },
+    {
+      "view": "front",
+      "style": 11,
+      "sex": "female",
+      "styleName": "short two-strand twists",
+      "figure": "v2-37-f-medium",
+      "file": "hair-on-figures/front/11/v2-37-f-medium-hair.png",
+      "head": [6, 104.0, 70],
+      "facing": 0,
+      "hairPx": 5706
+    },
+    {
+      "view": "front",
+      "style": 11,
+      "sex": "female",
+      "styleName": "short two-strand twists",
+      "figure": "v2-37-f-heavy",
+      "file": "hair-on-figures/front/11/v2-37-f-heavy-hair.png",
+      "head": [7, 122.5, 71],
+      "facing": 0,
+      "hairPx": 5424
+    },
+    {
+      "view": "front",
+      "style": 11,
+      "sex": "male",
+      "styleName": "medium wavy",
+      "figure": "v2-37-m-slim",
+      "file": "hair-on-figures/front/11/v2-37-m-slim-hair.png",
+      "head": [6, 106.5, 73],
+      "facing": 0,
+      "hairPx": 3609
+    },
+    {
+      "view": "front",
+      "style": 11,
+      "sex": "male",
+      "styleName": "medium wavy",
+      "figure": "v2-37-m-medium",
+      "file": "hair-on-figures/front/11/v2-37-m-medium-hair.png",
+      "head": [6, 114.5, 73],
+      "facing": 0,
+      "hairPx": 4060
+    },
+    {
+      "view": "front",
+      "style": 11,
+      "sex": "male",
+      "styleName": "medium wavy",
+      "figure": "v2-37-m-heavy",
+      "file": "hair-on-figures/front/11/v2-37-m-heavy-hair.png",
+      "head": [6, 131.5, 75],
+      "facing": 0,
+      "hairPx": 3987
+    },
+    {
+      "view": "front",
       "style": 12,
       "sex": "female",
       "styleName": "layered, swept to one side",
@@ -1426,7 +1558,7 @@
       "file": "hair-on-figures/front/12/v2-37-f-slim-hair.png",
       "head": [7, 95.5, 69],
       "facing": 0,
-      "hairPx": 6227
+      "hairPx": 6012
     },
     {
       "view": "front",
@@ -1437,7 +1569,7 @@
       "file": "hair-on-figures/front/12/v2-37-f-medium-hair.png",
       "head": [6, 104.0, 70],
       "facing": 0,
-      "hairPx": 5968
+      "hairPx": 5692
     },
     {
       "view": "front",
@@ -1448,7 +1580,7 @@
       "file": "hair-on-figures/front/12/v2-37-f-heavy-hair.png",
       "head": [7, 122.5, 71],
       "facing": 0,
-      "hairPx": 5170
+      "hairPx": 5144
     },
     {
       "view": "front",
@@ -1492,7 +1624,7 @@
       "file": "hair-on-figures/threeq/01/v2-01-f-slim-hair.png",
       "head": [6, 177.0, 76],
       "facing": -45,
-      "hairPx": 8106
+      "hairPx": 8015
     },
     {
       "view": "threeq",
@@ -1503,7 +1635,7 @@
       "file": "hair-on-figures/threeq/01/v2-01-f-medium-hair.png",
       "head": [6, 175.5, 79],
       "facing": -45,
-      "hairPx": 8545
+      "hairPx": 8435
     },
     {
       "view": "threeq",
@@ -1514,7 +1646,7 @@
       "file": "hair-on-figures/threeq/01/v2-01-f-heavy-hair.png",
       "head": [7, 169.0, 80],
       "facing": -45,
-      "hairPx": 7716
+      "hairPx": 7638
     },
     {
       "view": "threeq",
@@ -1558,7 +1690,7 @@
       "file": "hair-on-figures/threeq/02/v2-01-f-slim-hair.png",
       "head": [6, 177.0, 76],
       "facing": -45,
-      "hairPx": 7253
+      "hairPx": 6820
     },
     {
       "view": "threeq",
@@ -1569,7 +1701,7 @@
       "file": "hair-on-figures/threeq/02/v2-01-f-medium-hair.png",
       "head": [6, 175.5, 79],
       "facing": -45,
-      "hairPx": 7289
+      "hairPx": 7112
     },
     {
       "view": "threeq",
@@ -1580,7 +1712,7 @@
       "file": "hair-on-figures/threeq/02/v2-01-f-heavy-hair.png",
       "head": [7, 169.0, 80],
       "facing": -45,
-      "hairPx": 7013
+      "hairPx": 6785
     },
     {
       "view": "threeq",
@@ -1756,7 +1888,7 @@
       "file": "hair-on-figures/threeq/05/v2-01-f-slim-hair.png",
       "head": [6, 177.0, 76],
       "facing": -45,
-      "hairPx": 9660
+      "hairPx": 9082
     },
     {
       "view": "threeq",
@@ -1767,7 +1899,7 @@
       "file": "hair-on-figures/threeq/05/v2-01-f-medium-hair.png",
       "head": [6, 175.5, 79],
       "facing": -45,
-      "hairPx": 8231
+      "hairPx": 7732
     },
     {
       "view": "threeq",
@@ -1778,7 +1910,7 @@
       "file": "hair-on-figures/threeq/05/v2-01-f-heavy-hair.png",
       "head": [7, 169.0, 80],
       "facing": -45,
-      "hairPx": 3535
+      "hairPx": 3504
     },
     {
       "view": "threeq",
@@ -1899,7 +2031,7 @@
       "file": "hair-on-figures/threeq/07/v2-01-f-medium-hair.png",
       "head": [6, 175.5, 79],
       "facing": -45,
-      "hairPx": 3768
+      "hairPx": 3763
     },
     {
       "view": "threeq",
@@ -1910,7 +2042,7 @@
       "file": "hair-on-figures/threeq/07/v2-01-f-heavy-hair.png",
       "head": [7, 169.0, 80],
       "facing": -45,
-      "hairPx": 3970
+      "hairPx": 3968
     },
     {
       "view": "threeq",
@@ -1932,7 +2064,7 @@
       "file": "hair-on-figures/threeq/07/v2-01-m-medium-hair.png",
       "head": [7, 172.0, 76],
       "facing": -45,
-      "hairPx": 1144
+      "hairPx": 1080
     },
     {
       "view": "threeq",
@@ -2020,7 +2152,7 @@
       "file": "hair-on-figures/threeq/09/v2-01-f-slim-hair.png",
       "head": [6, 177.0, 76],
       "facing": -45,
-      "hairPx": 8015
+      "hairPx": 7920
     },
     {
       "view": "threeq",
@@ -2031,7 +2163,7 @@
       "file": "hair-on-figures/threeq/09/v2-01-f-medium-hair.png",
       "head": [6, 175.5, 79],
       "facing": -45,
-      "hairPx": 7933
+      "hairPx": 7816
     },
     {
       "view": "threeq",
@@ -2042,7 +2174,7 @@
       "file": "hair-on-figures/threeq/09/v2-01-f-heavy-hair.png",
       "head": [7, 169.0, 80],
       "facing": -45,
-      "hairPx": 6829
+      "hairPx": 6705
     },
     {
       "view": "threeq",
@@ -2086,7 +2218,7 @@
       "file": "hair-on-figures/threeq/10/v2-01-f-slim-hair.png",
       "head": [6, 177.0, 76],
       "facing": -45,
-      "hairPx": 9125
+      "hairPx": 8933
     },
     {
       "view": "threeq",
@@ -2097,7 +2229,7 @@
       "file": "hair-on-figures/threeq/10/v2-01-f-medium-hair.png",
       "head": [6, 175.5, 79],
       "facing": -45,
-      "hairPx": 10264
+      "hairPx": 10094
     },
     {
       "view": "threeq",
@@ -2108,7 +2240,7 @@
       "file": "hair-on-figures/threeq/10/v2-01-f-heavy-hair.png",
       "head": [7, 169.0, 80],
       "facing": -45,
-      "hairPx": 8421
+      "hairPx": 8255
     },
     {
       "view": "threeq",
@@ -2196,7 +2328,7 @@
       "file": "hair-on-figures/threeq/11/v2-01-m-medium-hair.png",
       "head": [7, 172.0, 76],
       "facing": -45,
-      "hairPx": 4531
+      "hairPx": 4522
     },
     {
       "view": "threeq",
@@ -2218,7 +2350,7 @@
       "file": "hair-on-figures/threeq/12/v2-01-f-slim-hair.png",
       "head": [6, 177.0, 76],
       "facing": -45,
-      "hairPx": 6861
+      "hairPx": 6636
     },
     {
       "view": "threeq",
@@ -2229,7 +2361,7 @@
       "file": "hair-on-figures/threeq/12/v2-01-f-medium-hair.png",
       "head": [6, 175.5, 79],
       "facing": -45,
-      "hairPx": 7083
+      "hairPx": 6813
     },
     {
       "view": "threeq",
@@ -2240,7 +2372,7 @@
       "file": "hair-on-figures/threeq/12/v2-01-f-heavy-hair.png",
       "head": [7, 169.0, 80],
       "facing": -45,
-      "hairPx": 5345
+      "hairPx": 5341
     },
     {
       "view": "threeq",
@@ -2284,7 +2416,7 @@
       "file": "hair-on-figures/threeqr/01/v2-70-f-slim-hair.png",
       "head": [6, 77.0, 76],
       "facing": 45,
-      "hairPx": 5886
+      "hairPx": 5789
     },
     {
       "view": "threeqr",
@@ -2295,7 +2427,7 @@
       "file": "hair-on-figures/threeqr/01/v2-70-f-medium-hair.png",
       "head": [6, 88.5, 75],
       "facing": 45,
-      "hairPx": 6777
+      "hairPx": 6342
     },
     {
       "view": "threeqr",
@@ -2306,7 +2438,7 @@
       "file": "hair-on-figures/threeqr/01/v2-70-f-heavy-hair.png",
       "head": [6, 103.0, 76],
       "facing": 45,
-      "hairPx": 5954
+      "hairPx": 5655
     },
     {
       "view": "threeqr",
@@ -2361,7 +2493,7 @@
       "file": "hair-on-figures/threeqr/02/v2-70-f-medium-hair.png",
       "head": [6, 88.5, 75],
       "facing": 45,
-      "hairPx": 5901
+      "hairPx": 5632
     },
     {
       "view": "threeqr",
@@ -2372,7 +2504,7 @@
       "file": "hair-on-figures/threeqr/02/v2-70-f-heavy-hair.png",
       "head": [6, 103.0, 76],
       "facing": 45,
-      "hairPx": 7024
+      "hairPx": 5925
     },
     {
       "view": "threeqr",
@@ -2548,7 +2680,7 @@
       "file": "hair-on-figures/threeqr/05/v2-70-f-slim-hair.png",
       "head": [6, 77.0, 76],
       "facing": 45,
-      "hairPx": 6793
+      "hairPx": 5172
     },
     {
       "view": "threeqr",
@@ -2559,7 +2691,7 @@
       "file": "hair-on-figures/threeqr/05/v2-70-f-medium-hair.png",
       "head": [6, 88.5, 75],
       "facing": 45,
-      "hairPx": 5791
+      "hairPx": 4074
     },
     {
       "view": "threeqr",
@@ -2570,7 +2702,7 @@
       "file": "hair-on-figures/threeqr/05/v2-70-f-heavy-hair.png",
       "head": [6, 103.0, 76],
       "facing": 45,
-      "hairPx": 7347
+      "hairPx": 5991
     },
     {
       "view": "threeqr",
@@ -2691,7 +2823,7 @@
       "file": "hair-on-figures/threeqr/07/v2-70-f-medium-hair.png",
       "head": [6, 88.5, 75],
       "facing": 45,
-      "hairPx": 3380
+      "hairPx": 3378
     },
     {
       "view": "threeqr",
@@ -2812,7 +2944,7 @@
       "file": "hair-on-figures/threeqr/09/v2-70-f-slim-hair.png",
       "head": [6, 77.0, 76],
       "facing": 45,
-      "hairPx": 6903
+      "hairPx": 6779
     },
     {
       "view": "threeqr",
@@ -2823,7 +2955,7 @@
       "file": "hair-on-figures/threeqr/09/v2-70-f-medium-hair.png",
       "head": [6, 88.5, 75],
       "facing": 45,
-      "hairPx": 7082
+      "hairPx": 7033
     },
     {
       "view": "threeqr",
@@ -2834,7 +2966,7 @@
       "file": "hair-on-figures/threeqr/09/v2-70-f-heavy-hair.png",
       "head": [6, 103.0, 76],
       "facing": 45,
-      "hairPx": 6331
+      "hairPx": 5985
     },
     {
       "view": "threeqr",
@@ -2878,7 +3010,7 @@
       "file": "hair-on-figures/threeqr/10/v2-70-f-slim-hair.png",
       "head": [6, 77.0, 76],
       "facing": 45,
-      "hairPx": 9416
+      "hairPx": 9133
     },
     {
       "view": "threeqr",
@@ -2889,7 +3021,7 @@
       "file": "hair-on-figures/threeqr/10/v2-70-f-medium-hair.png",
       "head": [6, 88.5, 75],
       "facing": 45,
-      "hairPx": 9621
+      "hairPx": 9284
     },
     {
       "view": "threeqr",
@@ -2900,7 +3032,7 @@
       "file": "hair-on-figures/threeqr/10/v2-70-f-heavy-hair.png",
       "head": [6, 103.0, 76],
       "facing": 45,
-      "hairPx": 8748
+      "hairPx": 8692
     },
     {
       "view": "threeqr",
@@ -3010,7 +3142,7 @@
       "file": "hair-on-figures/threeqr/12/v2-70-f-slim-hair.png",
       "head": [6, 77.0, 76],
       "facing": 45,
-      "hairPx": 6256
+      "hairPx": 5935
     },
     {
       "view": "threeqr",
@@ -3021,7 +3153,7 @@
       "file": "hair-on-figures/threeqr/12/v2-70-f-medium-hair.png",
       "head": [6, 88.5, 75],
       "facing": 45,
-      "hairPx": 6015
+      "hairPx": 5745
     },
     {
       "view": "threeqr",
@@ -3032,7 +3164,7 @@
       "file": "hair-on-figures/threeqr/12/v2-70-f-heavy-hair.png",
       "head": [6, 103.0, 76],
       "facing": 45,
-      "hairPx": 5290
+      "hairPx": 5231
     },
     {
       "view": "threeqr",
