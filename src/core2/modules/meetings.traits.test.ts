@@ -10,16 +10,13 @@ import {
   adultsOf,
   drawnRaceWorld,
   RUN_SEED,
-  netLogOdds,
   studyLogOdds,
   thirdsLogOdds,
   weightOf,
   withTraitWeight,
 } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
-import { POLICY_QUESTIONS } from "../policy-answers";
-import { questionAxis } from "../campaign-views";
-import { meetingParameter, standUpDrive, townHallDrives } from "./meetings";
+import { meetingParameter, townHallDrives } from "./meetings";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 
 const SEED = `${RUN_SEED}:meetings`;
@@ -29,6 +26,14 @@ let api: CoreAPI;
 let adults: PersonState[];
 /** The host's reasons apart from personality, for each town hall the days weighed. */
 const hostCases: number[] = [];
+/** Each resident weighed for a meeting's room that could not hold everyone driven: their lean, whether they took part, and whether they would have with temperament left out. */
+const tookPart: { lean: number; value: number; flat: number }[] = [];
+/**
+ * Fewer weighed residents than this leave the thirds' gap mostly noise. Every
+ * weighing comes from a room that turned someone away: Lonerock, Oregon's 77
+ * sat at 1.40 against the study's 1.09.
+ */
+const MIN_TAKE_PART = 60;
 /** Fewer weighed cases than this leave the thirds' gap mostly noise. */
 const MIN_HOST_CASES = 10;
 
@@ -38,6 +43,7 @@ beforeAll(() => {
   ({ core, api } = drawnRaceWorld(
     (attempt) => {
       hostCases.length = 0;
+      tookPart.length = 0;
       const seed = `${SEED}:${attempt}`;
       return { seed, place: drawPlace(seed, "trait-wiring") };
     },
@@ -50,12 +56,25 @@ beforeAll(() => {
         hostCases.push(row.bare);
     },
     2,
-    // A place whose officials weighed too few town halls has nothing for the hosting test to read.
+    // A place whose officials weighed too few town halls, or whose meetings
+    // weighed too few residents, has nothing for these tests to read. A room
+    // that holds everyone driven weighs no one: in Lonerock, Oregon (seed
+    // c8ff3f460600582a58a7bf6b9b69d5204859bbc4:meetings:6) about 29 adults
+    // filled every town hall's 40 seats, and only its public comments, 6
+    // speakers of about 26, turned anyone away.
     () => {
-      console.log(`meetings draw: ${hostCases.length} town halls weighed`);
-      return hostCases.length > MIN_HOST_CASES
-        ? null
-        : `${hostCases.length} town halls weighed`;
+      console.log(
+        `meetings draw: ${hostCases.length} town halls weighed, ${tookPart.length} residents weighed for a room`,
+      );
+      return hostCases.length <= MIN_HOST_CASES
+        ? `${hostCases.length} town halls weighed`
+        : tookPart.length < MIN_TAKE_PART
+          ? `${tookPart.length} residents weighed for a meeting's room`
+          : null;
+    },
+    (row) => {
+      if (row.decisionId === "meetings.take-part")
+        tookPart.push({ lean: row.lean, value: row.value, flat: row.flat });
     },
   ));
   adults = adultsOf(core);
@@ -63,43 +82,31 @@ beforeAll(() => {
 }, 1_800_000);
 
 describe("meetings.take-part reads one calibrated trait term", () => {
-  it("the third leaning most toward taking part stands up at public comment at Mondak's extraversion-sized odds over the third leaning least, net of circumstances", () => {
-    const questions = Object.keys(POLICY_QUESTIONS)
-      .filter((q) => questionAxis(q) !== 0)
-      .sort()
-      .slice(0, 12);
-    const lean = adults.map((p) =>
-      decisionLean(core, p, "meetings.take-part", "take-part", "stay-away"),
-    );
-    // The meeting's time lets about a tenth of the town speak on a question:
-    // the most driven tenth on each question stands up.
-    const measure = () => {
-      const stands = adults.map(() => 0);
-      for (const question of questions) {
-        const drives = adults.map(
-          (p) => standUpDrive(api, p, { question, position: 1 }).drive,
-        );
-        const cut = [...drives].sort((a, b) => b - a)[
-          Math.floor(adults.length / 10)
-        ]!;
-        drives.forEach((d, i) => {
-          if (d > cut) stands[i]! += 1;
-        });
-      }
-      return adults.map((_, i) => ({
-        lean: lean[i]!,
-        p: stands[i]! / questions.length,
-      }));
+  it("in the meetings the days held, the third leaning most toward taking part took part at public comment and in town halls' rooms at Mondak's extraversion-sized odds over the third leaning least, net of the rooms filled with temperament left out", () => {
+    const sorted = [...tookPart].sort((a, b) => a.lean - b.lean);
+    const third = Math.floor(sorted.length / 3);
+    const logOdds = (part: typeof sorted, key: "value" | "flat") => {
+      const rate =
+        (part.reduce((n, row) => n + row[key], 0) + 0.5) / (part.length + 1);
+      return Math.log(rate / (1 - rate));
     };
+    const low = sorted.slice(0, third),
+      high = sorted.slice(-third);
+    const net =
+      logOdds(high, "value") -
+      logOdds(low, "value") -
+      (logOdds(high, "flat") - logOdds(low, "flat"));
     const target = studyLogOdds("meetings.take-part", "extraversion")!;
-    const { net, flat } = netLogOdds(core, "meetings.take-part", measure);
     console.log(
-      `take-part: net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)} (circumstances alone ${flat.toFixed(3)})`,
+      `take-part: ${tookPart.length} residents weighed, net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)}`,
     );
-    // One drawn town against a size calibrated over several: towns seen so far
-    // sit from 0.45 below it to 0.61 above it; flat personality nets 0.
-    expect(net).toBeGreaterThan(target - 0.75);
-    expect(net).toBeLessThan(target + 0.75);
+    // The weight is fitted on five towns' meeting pools (its parameter row
+    // names them); at it six drawn towns sat from 0.91 to 2.06, highest where
+    // the rooms took most of who came (Crescent Springs, Oklahoma, about 40 of
+    // every 49), so one drawn town sits within a factor of two of the study.
+    // Counted over its full public comments alone, Lonerock sits at 1.40.
+    expect(net).toBeGreaterThan(target / 2);
+    expect(net).toBeLessThan(target * 2);
   });
 
   it("each resident's drive to fill a town hall's room is their drive with personality flat times one plus the weight times their lean", () => {
