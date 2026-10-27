@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.44.3",
+      "releasedOn": "2026-10-27",
+      "revision": "d140122651b09a0720884ef38863a1d2a7bbd270",
+      "changeIds": [
+        "skills-skill-lessons",
+        "traits-civic",
+        "traits-meetings-take-part-measured"
+      ]
+    },
+    {
       "version": "0.44.2",
       "releasedOn": "2026-10-27",
       "revision": "d12af85bab95b9dcdee30fdebca06cd8ef986a63",
