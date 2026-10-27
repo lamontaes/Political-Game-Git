@@ -6,11 +6,12 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-matrix-screens
 pr:
 blocked-on:
 source: CTO relay of the Oct 26 playtest (MERGE-FIRST.md: "your matrix row says on which screen a law shows", wiring-audit "wired is not seen")
+claimed-at: 2026-10-27T11:18:34.741Z
 ---
 
 **What.** The law matrix (`docs/reports/law-wiring-matrix.json`, built by `scripts/law-wiring/matrix.ts`) grades nine links measured headless, so 63 of 89 laws read "wired" while the Oct 26 playtest found that a player could not see most of them. No row says where a player sees its law. The bench's screens are pure views over the world: Issues (`governmentView`), Budgets (`budgetView`), a member's seat (`seatView` menus), Calendar (`calendarItems`) and News (heard stories and the town's public record). Each row should name the screens that show its law, with the record each screen read, in a played world.
