@@ -44,7 +44,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 11080
+   "hairPx": 10953
   },
   {
    "view": "back",
@@ -59,7 +59,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 11200
+   "hairPx": 11093
   },
   {
    "view": "back",
@@ -74,7 +74,7 @@
     69
    ],
    "facing": 180,
-   "hairPx": 10898
+   "hairPx": 10832
   },
   {
    "view": "back",
@@ -134,7 +134,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 13793
+   "hairPx": 13623
   },
   {
    "view": "back",
@@ -149,7 +149,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 14215
+   "hairPx": 14068
   },
   {
    "view": "back",
@@ -164,7 +164,7 @@
     69
    ],
    "facing": 180,
-   "hairPx": 16168
+   "hairPx": 15989
   },
   {
    "view": "back",
@@ -404,7 +404,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 13304
+   "hairPx": 12985
   },
   {
    "view": "back",
@@ -419,7 +419,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 13668
+   "hairPx": 13299
   },
   {
    "view": "back",
@@ -434,7 +434,7 @@
     69
    ],
    "facing": 180,
-   "hairPx": 14504
+   "hairPx": 14309
   },
   {
    "view": "back",
@@ -584,7 +584,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 5990
+   "hairPx": 5925
   },
   {
    "view": "back",
@@ -599,7 +599,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 6617
+   "hairPx": 6470
   },
   {
    "view": "back",
@@ -614,7 +614,7 @@
     69
    ],
    "facing": 180,
-   "hairPx": 7297
+   "hairPx": 7194
   },
   {
    "view": "back",
@@ -764,7 +764,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 14986
+   "hairPx": 14857
   },
   {
    "view": "back",
@@ -779,7 +779,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 15212
+   "hairPx": 15059
   },
   {
    "view": "back",
@@ -794,7 +794,7 @@
     69
    ],
    "facing": 180,
-   "hairPx": 15454
+   "hairPx": 15282
   },
   {
    "view": "back",
@@ -854,7 +854,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 15140
+   "hairPx": 14919
   },
   {
    "view": "back",
@@ -869,7 +869,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 16351
+   "hairPx": 15932
   },
   {
    "view": "back",
@@ -884,7 +884,7 @@
     69
    ],
    "facing": 180,
-   "hairPx": 16303
+   "hairPx": 15880
   },
   {
    "view": "back",
@@ -899,7 +899,7 @@
     74
    ],
    "facing": 180,
-   "hairPx": 2545
+   "hairPx": 2529
   },
   {
    "view": "back",
@@ -914,7 +914,7 @@
     77
    ],
    "facing": 180,
-   "hairPx": 2709
+   "hairPx": 2684
   },
   {
    "view": "back",
@@ -929,7 +929,7 @@
     80
    ],
    "facing": 180,
-   "hairPx": 2929
+   "hairPx": 2913
   },
   {
    "view": "back",
@@ -944,7 +944,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 6495
+   "hairPx": 6493
   },
   {
    "view": "back",
@@ -959,7 +959,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 7372
+   "hairPx": 7371
   },
   {
    "view": "back",
@@ -974,7 +974,7 @@
     69
    ],
    "facing": 180,
-   "hairPx": 8071
+   "hairPx": 8070
   },
   {
    "view": "back",
@@ -1034,7 +1034,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 7335
+   "hairPx": 7327
   },
   {
    "view": "back",
@@ -1049,7 +1049,7 @@
     68
    ],
    "facing": 180,
-   "hairPx": 7893
+   "hairPx": 7880
   },
   {
    "view": "back",
@@ -1064,7 +1064,7 @@
     69
    ],
    "facing": 180,
-   "hairPx": 8214
+   "hairPx": 8209
   },
   {
    "view": "back",
@@ -1124,7 +1124,7 @@
     69
    ],
    "facing": 0,
-   "hairPx": 6382
+   "hairPx": 6377
   },
   {
    "view": "front",
@@ -1139,7 +1139,7 @@
     70
    ],
    "facing": 0,
-   "hairPx": 6739
+   "hairPx": 6720
   },
   {
    "view": "front",
@@ -1154,7 +1154,7 @@
     71
    ],
    "facing": 0,
-   "hairPx": 6189
+   "hairPx": 6173
   },
   {
    "view": "front",
@@ -1214,7 +1214,7 @@
     69
    ],
    "facing": 0,
-   "hairPx": 5592
+   "hairPx": 5584
   },
   {
    "view": "front",
@@ -1229,7 +1229,7 @@
     70
    ],
    "facing": 0,
-   "hairPx": 6019
+   "hairPx": 5836
   },
   {
    "view": "front",
@@ -1244,7 +1244,7 @@
     71
    ],
    "facing": 0,
-   "hairPx": 5307
+   "hairPx": 5296
   },
   {
    "view": "front",
@@ -1394,7 +1394,7 @@
     69
    ],
    "facing": 0,
-   "hairPx": 4048
+   "hairPx": 4045
   },
   {
    "view": "front",
@@ -1409,7 +1409,7 @@
     70
    ],
    "facing": 0,
-   "hairPx": 4060
+   "hairPx": 4058
   },
   {
    "view": "front",
@@ -1484,7 +1484,7 @@
     69
    ],
    "facing": 0,
-   "hairPx": 4600
+   "hairPx": 4275
   },
   {
    "view": "front",
@@ -1499,7 +1499,7 @@
     70
    ],
    "facing": 0,
-   "hairPx": 5915
+   "hairPx": 5488
   },
   {
    "view": "front",
@@ -1514,7 +1514,7 @@
     71
    ],
    "facing": 0,
-   "hairPx": 6004
+   "hairPx": 5731
   },
   {
    "view": "front",
@@ -1664,7 +1664,7 @@
     69
    ],
    "facing": 0,
-   "hairPx": 1593
+   "hairPx": 1590
   },
   {
    "view": "front",
@@ -1844,7 +1844,7 @@
     69
    ],
    "facing": 0,
-   "hairPx": 10850
+   "hairPx": 10777
   },
   {
    "view": "front",
@@ -1859,7 +1859,7 @@
     70
    ],
    "facing": 0,
-   "hairPx": 10736
+   "hairPx": 10674
   },
   {
    "view": "front",
@@ -1874,7 +1874,7 @@
     71
    ],
    "facing": 0,
-   "hairPx": 9372
+   "hairPx": 9257
   },
   {
    "view": "front",
@@ -1889,7 +1889,7 @@
     73
    ],
    "facing": 0,
-   "hairPx": 1033
+   "hairPx": 1031
   },
   {
    "view": "front",
@@ -1904,7 +1904,7 @@
     73
    ],
    "facing": 0,
-   "hairPx": 1047
+   "hairPx": 1044
   },
   {
    "view": "front",
@@ -1923,6 +1923,96 @@
   },
   {
    "view": "front",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-37-f-slim",
+   "file": "hair-on-figures/front/11/v2-37-f-slim-hair.png",
+   "head": [
+    7,
+    95.5,
+    69
+   ],
+   "facing": 0,
+   "hairPx": 5013
+  },
+  {
+   "view": "front",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-37-f-medium",
+   "file": "hair-on-figures/front/11/v2-37-f-medium-hair.png",
+   "head": [
+    6,
+    104.0,
+    70
+   ],
+   "facing": 0,
+   "hairPx": 5706
+  },
+  {
+   "view": "front",
+   "style": 11,
+   "sex": "female",
+   "styleName": "short two-strand twists",
+   "figure": "v2-37-f-heavy",
+   "file": "hair-on-figures/front/11/v2-37-f-heavy-hair.png",
+   "head": [
+    7,
+    122.5,
+    71
+   ],
+   "facing": 0,
+   "hairPx": 5424
+  },
+  {
+   "view": "front",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-37-m-slim",
+   "file": "hair-on-figures/front/11/v2-37-m-slim-hair.png",
+   "head": [
+    6,
+    106.5,
+    73
+   ],
+   "facing": 0,
+   "hairPx": 3609
+  },
+  {
+   "view": "front",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-37-m-medium",
+   "file": "hair-on-figures/front/11/v2-37-m-medium-hair.png",
+   "head": [
+    6,
+    114.5,
+    73
+   ],
+   "facing": 0,
+   "hairPx": 4060
+  },
+  {
+   "view": "front",
+   "style": 11,
+   "sex": "male",
+   "styleName": "medium wavy",
+   "figure": "v2-37-m-heavy",
+   "file": "hair-on-figures/front/11/v2-37-m-heavy-hair.png",
+   "head": [
+    6,
+    131.5,
+    75
+   ],
+   "facing": 0,
+   "hairPx": 3987
+  },
+  {
+   "view": "front",
    "style": 12,
    "sex": "female",
    "styleName": "layered, swept to one side",
@@ -1934,7 +2024,7 @@
     69
    ],
    "facing": 0,
-   "hairPx": 6227
+   "hairPx": 6012
   },
   {
    "view": "front",
@@ -1949,7 +2039,7 @@
     70
    ],
    "facing": 0,
-   "hairPx": 5968
+   "hairPx": 5692
   },
   {
    "view": "front",
@@ -1964,7 +2054,7 @@
     71
    ],
    "facing": 0,
-   "hairPx": 5170
+   "hairPx": 5144
   },
   {
    "view": "front",
@@ -2024,7 +2114,7 @@
     76
    ],
    "facing": -45,
-   "hairPx": 8106
+   "hairPx": 8015
   },
   {
    "view": "threeq",
@@ -2039,7 +2129,7 @@
     79
    ],
    "facing": -45,
-   "hairPx": 8545
+   "hairPx": 8435
   },
   {
    "view": "threeq",
@@ -2054,7 +2144,7 @@
     80
    ],
    "facing": -45,
-   "hairPx": 7716
+   "hairPx": 7638
   },
   {
    "view": "threeq",
@@ -2114,7 +2204,7 @@
     76
    ],
    "facing": -45,
-   "hairPx": 7253
+   "hairPx": 6820
   },
   {
    "view": "threeq",
@@ -2129,7 +2219,7 @@
     79
    ],
    "facing": -45,
-   "hairPx": 7289
+   "hairPx": 7112
   },
   {
    "view": "threeq",
@@ -2144,7 +2234,7 @@
     80
    ],
    "facing": -45,
-   "hairPx": 7013
+   "hairPx": 6785
   },
   {
    "view": "threeq",
@@ -2384,7 +2474,7 @@
     76
    ],
    "facing": -45,
-   "hairPx": 9660
+   "hairPx": 9082
   },
   {
    "view": "threeq",
@@ -2399,7 +2489,7 @@
     79
    ],
    "facing": -45,
-   "hairPx": 8231
+   "hairPx": 7732
   },
   {
    "view": "threeq",
@@ -2414,7 +2504,7 @@
     80
    ],
    "facing": -45,
-   "hairPx": 3535
+   "hairPx": 3504
   },
   {
    "view": "threeq",
@@ -2579,7 +2669,7 @@
     79
    ],
    "facing": -45,
-   "hairPx": 3768
+   "hairPx": 3763
   },
   {
    "view": "threeq",
@@ -2594,7 +2684,7 @@
     80
    ],
    "facing": -45,
-   "hairPx": 3970
+   "hairPx": 3968
   },
   {
    "view": "threeq",
@@ -2624,7 +2714,7 @@
     76
    ],
    "facing": -45,
-   "hairPx": 1144
+   "hairPx": 1080
   },
   {
    "view": "threeq",
@@ -2744,7 +2834,7 @@
     76
    ],
    "facing": -45,
-   "hairPx": 8015
+   "hairPx": 7920
   },
   {
    "view": "threeq",
@@ -2759,7 +2849,7 @@
     79
    ],
    "facing": -45,
-   "hairPx": 7933
+   "hairPx": 7816
   },
   {
    "view": "threeq",
@@ -2774,7 +2864,7 @@
     80
    ],
    "facing": -45,
-   "hairPx": 6829
+   "hairPx": 6705
   },
   {
    "view": "threeq",
@@ -2834,7 +2924,7 @@
     76
    ],
    "facing": -45,
-   "hairPx": 9125
+   "hairPx": 8933
   },
   {
    "view": "threeq",
@@ -2849,7 +2939,7 @@
     79
    ],
    "facing": -45,
-   "hairPx": 10264
+   "hairPx": 10094
   },
   {
    "view": "threeq",
@@ -2864,7 +2954,7 @@
     80
    ],
    "facing": -45,
-   "hairPx": 8421
+   "hairPx": 8255
   },
   {
    "view": "threeq",
@@ -2984,7 +3074,7 @@
     76
    ],
    "facing": -45,
-   "hairPx": 4531
+   "hairPx": 4522
   },
   {
    "view": "threeq",
@@ -3014,7 +3104,7 @@
     76
    ],
    "facing": -45,
-   "hairPx": 6861
+   "hairPx": 6636
   },
   {
    "view": "threeq",
@@ -3029,7 +3119,7 @@
     79
    ],
    "facing": -45,
-   "hairPx": 7083
+   "hairPx": 6813
   },
   {
    "view": "threeq",
@@ -3044,7 +3134,7 @@
     80
    ],
    "facing": -45,
-   "hairPx": 5345
+   "hairPx": 5341
   },
   {
    "view": "threeq",
@@ -3104,7 +3194,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 5886
+   "hairPx": 5789
   },
   {
    "view": "threeqr",
@@ -3119,7 +3209,7 @@
     75
    ],
    "facing": 45,
-   "hairPx": 6777
+   "hairPx": 6342
   },
   {
    "view": "threeqr",
@@ -3134,7 +3224,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 5954
+   "hairPx": 5655
   },
   {
    "view": "threeqr",
@@ -3209,7 +3299,7 @@
     75
    ],
    "facing": 45,
-   "hairPx": 5901
+   "hairPx": 5632
   },
   {
    "view": "threeqr",
@@ -3224,7 +3314,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 7024
+   "hairPx": 5925
   },
   {
    "view": "threeqr",
@@ -3464,7 +3554,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 6793
+   "hairPx": 5172
   },
   {
    "view": "threeqr",
@@ -3479,7 +3569,7 @@
     75
    ],
    "facing": 45,
-   "hairPx": 5791
+   "hairPx": 4074
   },
   {
    "view": "threeqr",
@@ -3494,7 +3584,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 7347
+   "hairPx": 5991
   },
   {
    "view": "threeqr",
@@ -3659,7 +3749,7 @@
     75
    ],
    "facing": 45,
-   "hairPx": 3380
+   "hairPx": 3378
   },
   {
    "view": "threeqr",
@@ -3824,7 +3914,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 6903
+   "hairPx": 6779
   },
   {
    "view": "threeqr",
@@ -3839,7 +3929,7 @@
     75
    ],
    "facing": 45,
-   "hairPx": 7082
+   "hairPx": 7033
   },
   {
    "view": "threeqr",
@@ -3854,7 +3944,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 6331
+   "hairPx": 5985
   },
   {
    "view": "threeqr",
@@ -3914,7 +4004,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 9416
+   "hairPx": 9133
   },
   {
    "view": "threeqr",
@@ -3929,7 +4019,7 @@
     75
    ],
    "facing": 45,
-   "hairPx": 9621
+   "hairPx": 9284
   },
   {
    "view": "threeqr",
@@ -3944,7 +4034,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 8748
+   "hairPx": 8692
   },
   {
    "view": "threeqr",
@@ -4094,7 +4184,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 6256
+   "hairPx": 5935
   },
   {
    "view": "threeqr",
@@ -4109,7 +4199,7 @@
     75
    ],
    "facing": 45,
-   "hairPx": 6015
+   "hairPx": 5745
   },
   {
    "view": "threeqr",
@@ -4124,7 +4214,7 @@
     76
    ],
    "facing": 45,
-   "hairPx": 5290
+   "hairPx": 5231
   },
   {
    "view": "threeqr",

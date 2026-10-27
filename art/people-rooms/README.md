@@ -12,7 +12,7 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
 | `art/people-rooms/tools/` | `slots.py EMPTY PLATE OUT.json` measures a plate, `tag_spots.py TAGS SPOTS OUT` tags it, and `spotcheck.py OUT.jpg SPOTS...` draws the boxes for checking by eye. |
 | `art/people-engine/v2/hair-on-figures/` | Hair pieces painted onto the v2 figures' own heads, plus `index.json`. |
 | `art/people-engine/v2/faces-on-figures/` | Face patches (12 faces per sex, each with its own expression) painted onto the v2 figures' own heads, plus `index.json`. |
-| `art/people-engine/v2/figures/v2-sb*.png` + `figures-back.json` | Standing figures seen from behind (facing 180), for crowds facing away. |
+| `art/people-engine/v2/figures/v2-sb*.png` + `figures-back.json` | Standing figures seen from behind (facing 180) in base, polo, vest and blazer, for crowds facing away. |
 | `art/people-engine/v2/garments/` | One garment map per v2 figure, plus `index.json`. |
 | `art/people-engine/v2/outfits.json` | Outfits by dress level, where worn, role, and which sheet holds each outfit for each pose. |
 
@@ -72,8 +72,14 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
   - Faces with expressions in front and both three-quarter views.
   - Garment maps for every plain-pose outfit sheet.
   - 18 standing figures seen from behind: plain, polo and vest outfits.
+- **Oct 27, third (quality gate):**
+  - The cutter now rejects edits where Firefly moved the figures (hair drift > 12, face drift > 5, garment coverage < 90% or drift > 16); broken pieces from the second push were removed.
+  - Garment maps fill seams the markers missed from the nearest marked piece (8 px), so side panels and waistbands recolor too.
+  - The hair cut ignores faint redraw noise on clothing.
+  - Added the blazer seen from behind (6 figures, 24 from-behind figures in all), the courthouse rally with a speaker at the gazebo lectern, and the faces and garment maps that passed on re-run.
 - **Coming:**
-  - The blazer from behind, in a re-run.
-  - Three faces Firefly dropped.
+  - Front hair style 09 (shoulder-length locs; Firefly keeps moving the jacket).
+  - Face front 03.
+  - Garment maps 62 and 74.
   - Garment maps for the from-behind figures.
-  - A governor's office plate with the visitor and the governor apart (they touch and measure as one).
+- **Known:** in governor-office the front visitor and the governor touch and measure as one spot (two Firefly tries drew them overlapping); seat one person there or split it.
