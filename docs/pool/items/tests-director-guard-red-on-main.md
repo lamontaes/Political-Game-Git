@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-coming-of-age-one-rule
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T22:50:15.978Z
 ---
 
 **What.** director.test's guard that registers every stopgap and keeps numbers in data fails on clean main at 8466239598. src/director/coming-of-age.ts computes a leap year with literal numbers, and it puts a February 29 birthday's coming of age on March 1 while the core's own ageOnDate counts that person of age on February 28. The parameter directorVolunteerOfferImpact in src/director/data/director.json is TUNABLE with no stopgapId or checkRange. Every PR that runs director.test is red until this lands.
