@@ -23,6 +23,10 @@ claimed-at:
 
 **Time box.** 2 hours.
 
+**You will see.** A player who files early for a later race files once: no second filing scene when that race's filing period opens, and one result on election night.
+
+**Screenshot.** The Campaigns screen and the election-night result for the player's race, from a drawn place, in the PR body.
+
 **Files.** src/core2/modules/candidacy.ts, src/core2/modules/elections.ts, src/bench/government.ts (fileForOffice)
 
 **Notes.** Found while building the campaign-season scenes (words-campaign-season-scenes-fill-the-months-a). Not yet diagnosed. The early filing on January 20 may be stored as a pre-filing that the filing period re-files.
