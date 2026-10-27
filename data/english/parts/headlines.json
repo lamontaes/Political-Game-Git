@@ -2669,15 +2669,15 @@
       }
     },
     {
-      "key": "headlines.budget.place-adopts-its-budget",
-      "move": "budget",
+      "key": "headlines.budget-adopted.place-adopts-its-budget",
+      "move": "budget-adopted",
       "kind": "written",
       "text": "{place} adopts its budget",
       "uses": [
         {
-          "move": "budget",
+          "move": "budget-adopted",
           "subject": "headline",
-          "role": "budget",
+          "role": "budget-adopted",
           "choice": "headline"
         }
       ],
@@ -2691,15 +2691,15 @@
       }
     },
     {
-      "key": "headlines.budget.place-budget-puts-money-into-purpose",
-      "move": "budget",
+      "key": "headlines.budget-adopted.place-budget-puts-money-into-purpose",
+      "move": "budget-adopted",
       "kind": "written",
       "text": "{place} budget puts {money} into {purpose}",
       "uses": [
         {
-          "move": "budget",
+          "move": "budget-adopted",
           "subject": "headline",
-          "role": "budget",
+          "role": "budget-adopted",
           "choice": "headline"
         }
       ],
@@ -4955,6 +4955,50 @@
           "move": "estate",
           "subject": "headline",
           "role": "estate",
+          "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-rule.new-rule-on-measure-takes-effect-in-place",
+      "move": "law-rule",
+      "kind": "written",
+      "text": "New rule on {measure} takes effect in {place}",
+      "uses": [
+        {
+          "move": "law-rule",
+          "subject": "headline",
+          "role": "law-rule",
+          "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-rule.new-rule-on-measure-takes-effect",
+      "move": "law-rule",
+      "kind": "written",
+      "text": "New rule on {measure} takes effect",
+      "uses": [
+        {
+          "move": "law-rule",
+          "subject": "headline",
+          "role": "law-rule",
           "choice": "headline"
         }
       ],

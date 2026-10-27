@@ -95,7 +95,11 @@ export const STORY_KINDS = {
   hearing: { headline: ["hearing"], lede: ["hearing"] },
   introduced: { headline: ["introduced"], lede: ["introduced"] },
   "budget-line": { headline: ["budget-line"], lede: ["budget-line"] },
-  budget: { story: "vote-or-law", headline: ["budget"], lede: ["budget"] },
+  "budget-adopted": {
+    story: "vote-or-law",
+    headline: ["budget-adopted"],
+    lede: ["budget-adopted"],
+  },
   conditions: {
     story: "economy",
     headline: ["conditions"],
@@ -135,6 +139,7 @@ export const STORY_KINDS = {
   founded: { headline: ["founded"], lede: ["founded"] },
   amendment: { headline: ["amendment"], lede: ["amendment"] },
   estate: { headline: ["estate"], lede: ["estate"] },
+  "law-rule": { headline: ["law-rule"], lede: ["law-rule"] },
 } as const;
 export type StoryKind = keyof typeof STORY_KINDS;
 

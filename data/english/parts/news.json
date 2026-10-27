@@ -1596,15 +1596,15 @@
       }
     },
     {
-      "key": "news.budget.the-largest-line-in-the-new-budget-is-money-for-purpose",
-      "move": "budget",
+      "key": "news.budget-adopted.the-largest-line-in-the-new-budget-is-money-for-purpose",
+      "move": "budget-adopted",
       "kind": "written",
       "text": "The largest line in the new budget is {money} for {purpose}.",
       "uses": [
         {
-          "move": "budget",
+          "move": "budget-adopted",
           "subject": "news",
-          "role": "budget",
+          "role": "budget-adopted",
           "choice": "lede"
         }
       ],
@@ -1618,15 +1618,15 @@
       }
     },
     {
-      "key": "news.budget.the-budget-for-place-sets-aside-money-for-purpose",
-      "move": "budget",
+      "key": "news.budget-adopted.the-budget-for-place-sets-aside-money-for-purpose",
+      "move": "budget-adopted",
       "kind": "written",
       "text": "The budget for {place} sets aside {money} for {purpose}.",
       "uses": [
         {
-          "move": "budget",
+          "move": "budget-adopted",
           "subject": "news",
-          "role": "budget",
+          "role": "budget-adopted",
           "choice": "lede"
         }
       ],
@@ -4068,15 +4068,15 @@
       }
     },
     {
-      "key": "news.budget.place-adopted-its-budget-for-year",
-      "move": "budget",
+      "key": "news.budget-adopted.place-adopted-its-budget-for-year",
+      "move": "budget-adopted",
       "kind": "written",
       "text": "{place} adopted its budget for {year}.",
       "uses": [
         {
-          "move": "budget",
+          "move": "budget-adopted",
           "subject": "news",
-          "role": "budget",
+          "role": "budget-adopted",
           "choice": "lede"
         }
       ],
@@ -4090,15 +4090,15 @@
       }
     },
     {
-      "key": "news.budget.the-year-budget-for-place-is-in-place",
-      "move": "budget",
+      "key": "news.budget-adopted.the-year-budget-for-place-is-in-place",
+      "move": "budget-adopted",
       "kind": "written",
       "text": "The {year} budget for {place} is in place.",
       "uses": [
         {
-          "move": "budget",
+          "move": "budget-adopted",
           "subject": "news",
-          "role": "budget",
+          "role": "budget-adopted",
           "choice": "lede"
         }
       ],
@@ -4210,6 +4210,50 @@
           "move": "estate",
           "subject": "news",
           "role": "estate",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-rule.a-place-law-on-measure-took-effect-on-date",
+      "move": "law-rule",
+      "kind": "written",
+      "text": "A {place} law on {measure} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-rule",
+          "subject": "news",
+          "role": "law-rule",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-rule.a-new-law-on-measure-took-effect-on-date",
+      "move": "law-rule",
+      "kind": "written",
+      "text": "A new law on {measure} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-rule",
+          "subject": "news",
+          "role": "law-rule",
           "choice": "lede"
         }
       ],

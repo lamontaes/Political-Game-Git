@@ -345,6 +345,19 @@ function amount(unit: string, value: number): string | null {
   return null;
 }
 
+/** A law with no name or amount to tell: what it governs, and that it took effect. */
+function rule(
+  read: Reader,
+  f: Record<string, string>,
+  base: Facts,
+): PrintedFacts | null {
+  return story(
+    "law-rule",
+    { ...base, measure: read.fact(spaced(f.series ?? ""), f.lawId ?? "") },
+    ["measure"],
+  );
+}
+
 /** A law in force changing: a policy law, or an amount (a wage, a rate). */
 const lawTookEffect: Builder = (read, f) => {
   const series = f.series ?? "";
@@ -366,7 +379,7 @@ const lawTookEffect: Builder = (read, f) => {
         }
       : {}),
   };
-  if (f.unit) {
+  if (f.unit && f.unit !== "program") {
     // An amount: the town's law in force the day before, and now.
     const was = lawInForce(
       read.api,
@@ -376,7 +389,7 @@ const lawTookEffect: Builder = (read, f) => {
     const now = lawInForce(read.api, series, read.story.date).value;
     const to = typeof now === "number" ? amount(f.unit, now) : null;
     const from = typeof was === "number" ? amount(f.unit, was) : null;
-    if (!to || !from) return null;
+    if (!to || !from) return rule(read, f, base);
     return story(
       "law-amount",
       {
@@ -391,7 +404,7 @@ const lawTookEffect: Builder = (read, f) => {
     );
   }
   const named = billNameFor(series, form, ended);
-  if (!named) return null;
+  if (!named) return rule(read, f, base);
   return story(
     "law",
     {
@@ -536,7 +549,7 @@ const budgetAdopted: Builder = (read, f) => {
   const name = lineName(f.largestLine ?? "");
   const place = read.place(f.governmentId);
   return story(
-    "budget",
+    "budget-adopted",
     {
       ...(minor !== undefined && name
         ? {
