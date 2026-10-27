@@ -6964,5 +6964,17 @@
     "addedAt": "2026-10-24",
     "replacement": "The employer's staffing review reads the full job against its staffing need and sheds or keeps it by its own books, as for any job.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-carry-ask-no-screen",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 2454,
+    "whatItFakes": "An ask to the player to carry a bill is held as a request (the carryAsks table) and answered by answerCarryAsk, but no bench screen shows it or has Agree and Decline controls, so in play the player can never answer it and the ask never closes.",
+    "why": "The bench's Politics screens belong to the play-first lane; the engine side (the held ask, the answer that files the bill with the player as sponsor and the asker as requestedBy) is built and tested, and the screen is the lane's.",
+    "addedBy": "fixer, Merger 3's send-back of PR 6198",
+    "addedAt": "2026-10-27",
+    "replacement": "A waiting ask on Politics, Issues and Government, with Agree and Decline controls wired to answerCarryAsk, reading carryAsksAwaiting (pool item gov-carry-ask-player-decides).",
+    "status": "open"
   }
 ]
