@@ -296,6 +296,27 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.55.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **Talk about the news says what the news was** A relative who read or heard a
+  story now brings it up by its headline and the paper or station that ran it,
+  instead of asking "What do you think?" about news they never name.
+
+- **Talk at home on a quiet day says something** On a day with nothing new to
+  talk about, someone you live with now opens on the day itself (the weekday,
+  when you last spent time together, or that one of you had work) instead of
+  saying goodbye at once.
+
+### Changed
+
+- **People who stop you say why, from what happened** When someone stops you
+  about a law, a story or a meeting, they say only what they know: your own
+  vote, the law in force, what it costs them.
+
 ## PRE-ALPHA 0.55.0
 
 _Released October 27, 2026._

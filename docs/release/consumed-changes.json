@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.55.1",
+      "releasedOn": "2026-10-27",
+      "revision": "213605cc8dc9b1381770f4750c8c92721e8596ed",
+      "changeIds": [
+        "director-household-news-headline",
+        "director-household-quiet-day",
+        "words-circumstance-lines"
+      ]
+    },
+    {
       "version": "0.55.0",
       "releasedOn": "2026-10-27",
       "revision": "58bdf67fc461c9d6987d11317d7b0a109f8bfc6c",
