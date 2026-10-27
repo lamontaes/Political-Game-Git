@@ -24,3 +24,4 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-27 from PR #6191 (branch claude/screens-ui-panel-frame): Clean main integration but explicit parent merge order still unmet:6187 f86b9761,6188 8a0c9721,6189 bbc66a36 remainOPEN. Diff24files carries those implementations, not just shared header;6187 has unresolved clerk-introduction and mandatory >4race witness acceptance. Land repaired chain first then merge main and gate bounded panel slice. No runtime or merge claimed; finish on that branch, merge main into it first.
+Merged Oct 27 in PR #6191

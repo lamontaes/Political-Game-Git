@@ -146,14 +146,13 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
  * What a resident's feeling (`base`) comes to as a drive to stand up: the
  * feeling times one plus every trait's lean toward taking part in a public
  * meeting over staying away, at the decision's weight (extraversion and
- * attending meetings, Mondak et al. 2010). The audit's probe (off in play)
- * sees the drive with and without that temperament.
+ * attending meetings, Mondak et al. 2010).
  */
 function driveOf(
   base: number,
   p: Readonly<Pick<PersonState, "id" | "traits">>,
   core: Pick<CoreState, "data">,
-): number {
+): { drive: number; lean: number } {
   const lean = decisionLean(
     core,
     p,
@@ -161,15 +160,48 @@ function driveOf(
     "take-part",
     "stay-away",
   );
-  const term = decisionTraitWeight(core, "meetings.take-part") * lean;
-  reportOutcome(
-    "meetings.take-part",
-    p.id,
+  return {
+    drive: base * (1 + decisionTraitWeight(core, "meetings.take-part") * lean),
     lean,
-    "size",
-    (withTerm) => base * (1 + (withTerm ? term : 0)),
-  );
-  return base * (1 + term);
+  };
+}
+
+/**
+ * The meeting's time takes the `room` most driven of `rows`. The audit's
+ * probe (off in play) sees, for each of them, whether they took part, and
+ * whether they would have with temperament left out (the room filled by
+ * feeling alone), so the matrix shows who took part by thirds of lean. A room
+ * that holds everyone driven turns no one away, so temperament decides
+ * nothing there and the probe sees none of it.
+ */
+function takePart<
+  T extends {
+    p: Readonly<Pick<PersonState, "id" | "traits">>;
+    base: number;
+    drive: number;
+    lean: number;
+  },
+>(rows: readonly T[], room: number): readonly T[] {
+  const chosen = rows.slice(0, room);
+  const taken = new Set(chosen.map((row) => row.p.id));
+  let flat: Set<string> | undefined;
+  const takenFlat = () =>
+    (flat ??= new Set(
+      [...rows]
+        .sort((a, b) => b.base - a.base || a.p.id.localeCompare(b.p.id))
+        .slice(0, room)
+        .map((row) => row.p.id),
+    ));
+  if (rows.length > room)
+    for (const row of rows)
+      reportOutcome(
+        "meetings.take-part",
+        row.p.id,
+        row.lean,
+        "probability",
+        (withTerm) => ((withTerm ? taken : takenFlat()).has(row.p.id) ? 1 : 0),
+      );
+  return chosen;
 }
 
 export function openMeetings(core: CoreState): void {
@@ -294,11 +326,12 @@ export function standUpDrive(
   api: CoreAPI,
   p: Readonly<Pick<PersonState, "id" | "traits">>,
   stance: { readonly question: string; readonly position: number },
-): { view: number; drive: number } {
+): { view: number; base: number; drive: number; lean: number } {
   const view =
     viewOn(api, p.id, stance.question, personLean(api.state.people, p, 0)) *
     stance.position;
-  return { view, drive: driveOf(Math.abs(view), p, api.state) };
+  const base = Math.abs(view);
+  return { view, base, ...driveOf(base, p, api.state) };
 }
 
 /**
@@ -317,7 +350,9 @@ export function commentSpeakers(
 ): readonly {
   p: Readonly<Pick<PersonState, "id" | "traits">>;
   view: number;
+  base: number;
   drive: number;
+  lean: number;
 }[] {
   // The body's own members vote on the bill; public comment is the public's.
   const seated = new Set(
@@ -355,8 +390,8 @@ function publicComment(api: CoreAPI, billId: string): void {
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
   const core = api.state as CoreState;
-  const speakers = commentSpeakers(api, bill, stance).slice(
-    0,
+  const speakers = takePart(
+    commentSpeakers(api, bill, stance),
     meetingParameter("publicCommentSpeakers"),
   );
   for (const s of speakers) {
@@ -568,7 +603,13 @@ function ownView(
 export function townHallDrives(
   api: CoreAPI,
   hostId: string,
-): readonly { p: PersonState; question: string | undefined; drive: number }[] {
+): readonly {
+  p: PersonState;
+  question: string | undefined;
+  base: number;
+  drive: number;
+  lean: number;
+}[] {
   const questions = Object.keys(POLICY_QUESTIONS).filter(
     (q) => questionAxis(q) !== 0,
   );
@@ -583,11 +624,8 @@ export function townHallDrives(
       const question = questions
         .slice()
         .sort((a, b) => salience(b) - salience(a) || a.localeCompare(b))[0];
-      return {
-        p,
-        question,
-        drive: question ? driveOf(salience(question), p, api.state) : 0,
-      };
+      const base = question ? salience(question) : 0;
+      return { p, question, base, ...driveOf(base, p, api.state) };
     })
     .filter((row) => row.drive > 0)
     .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id));
@@ -611,8 +649,8 @@ export function holdTownHall(
     readonly calledFor?: TownHallRow["calledFor"];
   },
 ): TownHallRow {
-  const drives = townHallDrives(api, input.hostId).slice(
-    0,
+  const drives = takePart(
+    townHallDrives(api, input.hostId),
     meetingParameter("townHallSize"),
   );
   const attendees = drives.map((row) => row.p);

@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: play-first/play-stop-43-travel-as-place-cards
+pr: #6225
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:33:52.751Z
 ---
 
 **What.** Travel in v0.34.0 is a plain list of five names with Go buttons: "County board of elections (counter: chief clerk)", "Pennsylvania Department of State", "Erie County Farm Supply" (Daniel Valdez), "Borough of Albion" and "Albion Public Works Department". The owner: "Why have to travel farm supplied borough of Albion? What are you talking about? Public Works Department? Why?" The approved Travel screen (Oct 14, "Approved as is") is a grid of place cards, each with the room's picture, its name and who is there now, under "You are at home, <street>". This item draws that grid, drops the "(counter: ...)" text from filing-office names, and gives every card a short reason it is listed, read from the record that qualified it.
