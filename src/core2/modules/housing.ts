@@ -1509,6 +1509,17 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
       countedHousehold(c, row.householdId)?.placeId;
     const counsel = placeId ? payCounsel(api, caseId, placeId) : undefined;
     put(counsel ?? {});
+    if (counsel && counsel.counselOwedMinor > 0)
+      store(api).table("counselOwed").put({
+        id: counsel.counselPaymentId,
+        caseId,
+        householdId: row.householdId,
+        payerId: counsel.counselPayerId,
+        providerId: counsel.counselProviderId,
+        owedMinor: counsel.counselOwedMinor,
+        lawId: counsel.counselLawId,
+        since: c.date,
+      });
     const plan =
       counsel?.counselPaidMinor ===
       api.parameter("housingCounselCostPerCaseMinor")
@@ -1526,7 +1537,7 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
         count: weight,
         engine: "housing",
         what,
-        amountMinor: counsel.counselPaidMinor,
+        amountMinor: counsel.counselCostMinor,
       });
       lawApplied(api, {
         key: RIGHT_TO_COUNSEL,
@@ -1535,7 +1546,7 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
         target: "government",
         engine: "housing",
         what: "counsel-funded",
-        amountMinor: -counsel.counselPaidMinor,
+        amountMinor: -counsel.counselCostMinor,
       });
     }
     if (!plan) return judge(api, caseId, owed);
@@ -1855,13 +1866,73 @@ function payCounsel(api: CoreAPI, caseId: string, placeId: string) {
       estimatedFrom: `A tenant's lawyer for ${caseId}, paid by the city at the program's average cost per case.`,
     },
   );
+  const cost = api.parameter("housingCounselCostPerCaseMinor");
   return {
     counselLawId: statute?.governing?.id ?? null,
     counselPaymentId: paymentId,
     counselPaidMinor: paid,
+    // What the statute made the paying government liable for, paid now or owed.
+    counselCostMinor: cost,
+    counselOwedMinor: Math.max(0, cost - paid),
     counselPayerId: payer,
     counselProviderId: provider.id,
   };
+}
+
+/**
+ * A lawyer the paying treasury could not pay in full at the hearing is owed,
+ * not dropped: the shortfall is kept as a debt of the statute's government to
+ * the provider and paid, day by day, as cash arrives (even after a repeal: the
+ * cost is already incurred). Each payment is a journal entry; the case keeps
+ * what has been paid so far.
+ */
+function payCounselOwed(api: CoreAPI): void {
+  const owedTable = store(api).table("counselOwed");
+  if (!owedTable.size) return;
+  const c = core(api);
+  for (const row of owedTable.rows() as unknown as {
+    id: string;
+    caseId: string;
+    payerId: string;
+    providerId: string;
+    owedMinor: number;
+    lawId: string | null;
+  }[]) {
+    if (row.owedMinor <= 0) continue;
+    const paymentId = `${row.id}:${c.date}`;
+    const paid = transferCash(
+      api,
+      paymentId,
+      row.payerId,
+      row.providerId,
+      row.owedMinor,
+      {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: row.lawId ?? housingData.source.citation,
+        estimatedFrom: `A tenant's lawyer for ${row.caseId}, owed by the city at the program's average cost per case and paid as its cash arrived.`,
+      },
+    );
+    if (paid <= 0) continue;
+    const left = row.owedMinor - paid;
+    owedTable.put({
+      ...row,
+      owedMinor: left,
+      lastPaymentId: paymentId,
+      paidLaterMinor:
+        Number((row as { paidLaterMinor?: number }).paidLaterMinor ?? 0) + paid,
+    } as never);
+    const kept = store(api).table("cases").get(row.caseId) as unknown as
+      { counselPaidMinor?: number; counselOwedMinor?: number } | undefined;
+    if (kept)
+      store(api)
+        .table("cases")
+        .put({
+          ...kept,
+          counselPaidMinor: (kept.counselPaidMinor ?? 0) + paid,
+          counselOwedMinor: left,
+        } as never);
+  }
 }
 
 /**
@@ -2073,6 +2144,7 @@ export const HOUSING_MODULE: CoreModule = {
       settlements: {},
       dwellings: {},
       counsel: {},
+      counselOwed: {},
       assessments: {},
       taxArrears: {},
       stock: {},
@@ -2154,6 +2226,7 @@ export const HOUSING_MODULE: CoreModule = {
     } else step(api, work.sourceRecordIds[0]!, work.kind);
   },
   onDay(api) {
+    payCounselOwed(api);
     if (store(api).table("state").get("housing:state")) return;
     if (!api.state.placeMetadata?.housingState) return;
     store(api)
