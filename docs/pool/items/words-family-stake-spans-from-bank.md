@@ -5,7 +5,7 @@ area: words
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/family-stake-spans
 pr:
 blocked-on: "#6273 (director numbers in family-stake.ts) merges first; it edits the same file"
