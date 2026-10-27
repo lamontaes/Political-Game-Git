@@ -25,3 +25,4 @@ claimed-at:
 
 Sent back 2026-10-23 from PR #5792 (branch claude/pr-homeless-rent): the Done-when table explicitly leaves the renter-burden requirement Not met (72 percent versus the cited 37.5 percent); track the completed geographic-fallback slice separately while preserving the income/calibration acceptance as open; finish on that branch, merge main into it first.
 Sent back 2026-10-26 from PR #5792 (branch claude/pr-homeless-rent): its pinned Puerto Rico case now ends with 42 homeless, not 0, on merged main; find what moved it, finish on that branch, merge main into it first.
+Bisect Oct 27: the pinned case first fails at main bab77889d5 (merge of #4937 living-costs-arrears); passes at 27e6530abd.

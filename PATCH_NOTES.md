@@ -296,6 +296,82 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.39.5
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A brother or sister who lives apart asks after your parents as "Dad" and
+  "Mom".** Relatives who share a parent or grandparent now ask after them the
+  way family does, as Dad, Mom, Grandma or Grandpa, never by first name or as
+  "your father". A brother or sister you share is asked after by first name.
+  Someone who lives with that relative doesn't ask after them.
+
+## PRE-ALPHA 0.39.4
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **The sales tax no longer claims to reach far more residents than a town has**
+  The record of whom the sales tax reached counted the whole town once for every
+  household that shopped, so a village of a few hundred people showed thousands
+  reached. Each household now counts its own people, and the town's shared
+  spending counts only the rest.
+
+## PRE-ALPHA 0.39.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Department heads are chosen for the work and schooling on their record, not
+  their age.** A mayor or manager filling a department now looks at what each
+  resident has done: years in the department's own line of work, other work, and
+  schooling. Someone with none of those heads a department only in a town where
+  nobody has any, so an 18-year-old fresh out of school no longer runs Public
+  Works.
+
+- **Officials know the colleagues they serve with** State legislators, cabinet
+  secretaries, the vice president and other executive officers used to know no
+  one, so clicking one showed an empty list of ties. They now know their
+  chamber's leader or, for the executive branch, its head, and the people they
+  serve with.
+
+- **A city's budget change to its schools is sized from the teachers in place**
+  When a city changes its schools line, the district's funded teachers are sized
+  from the teachers it has, not from positions the state's own budget funded
+  there earlier.
+
+### Changed
+
+- **The icons over your card are a column of round buttons, with News** The menu
+  icons above the player card are now a straight column of seven round icons:
+  Journal, Calendar, Money, Politics, News, People and Travel. News has its own
+  icon, and a dot shows on it while a story is waiting to be read. With a screen
+  open, the Menu list on the left is the way between screens and the column
+  steps aside.
+
+## PRE-ALPHA 0.39.2
+
+_Released October 26, 2026._
+
+### Changed
+
+- **The Menu is a plain list of names** The lines of small print under some Menu
+  entries ("Today, what is next, and your time" and the rest) are gone. Each
+  entry is just its name, and the list is built by one shared menu part.
+
+- **Cards on the play screen are built by one shared part** The law, family,
+  money, job and job-offer cards now come from one shared part instead of five
+  hand-written copies. They look and work the same.
+
+- **Tabs on the play screen are built by one shared part** The tabs on the
+  sheets, the government levels, the People groups and the News papers now come
+  from one shared part instead of four hand-written copies. They look and work
+  the same.
+
 ## PRE-ALPHA 0.39.1
 
 _Released October 26, 2026._

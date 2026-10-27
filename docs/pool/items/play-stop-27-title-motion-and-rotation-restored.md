@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-stop-27-title-motion-and-rotation-restored
+pr: #6204
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T01:14:11.474Z
 ---
 
 **What.** On the installed v0.34.0 the title painting sits perfectly still and never changes while the title is open. The owner: "the screen is no longer doing the Ken Burns zoom in, and I'm no longer getting any rotating images. Again, this keeps breaking." The slow pan and zoom and the crossfade between national scenes are ruled (REG:542 and REG:734: "Title motion should retain Ken Burns-style pan/zoom and crossfades among approved eligible environments"); they lived in the old React client that PR #4036 deleted on Oct 12. The new title (src/bench/title.ts, the /api/title route in src/bench/handler.ts, and the backdrop code in src/bench/play.mjs) picks one scene per page load by the date and sets the image once; play.css has no animation on #backdrop and no timer moves to the next scene. This item brings both back, on the existing TITLE_SCENES order, and adds the guards that were never there.
