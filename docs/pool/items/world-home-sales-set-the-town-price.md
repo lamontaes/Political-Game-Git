@@ -17,7 +17,7 @@ source: split of world-home-turnover (Oct 18)
 
 **Rules.** An effect is a read: the sales table is finished only when property tax assessment and the next sale read it, named by record id. Estimate, never UNKNOWN: a town with no sales yet starts from the state's price ratio, marked as an estimate with its source. Every number is a tagged parameter.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named in the PR body) the property tax bill of a named owner household changes because of a named sale row, shown by record id, `SG-WORLD-housing-price-index` is cleared or kept with a reason, and a test in src/core2 names the place and seed.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named in the PR body) the property tax bill of a named owner household changes because of a named sale row, shown by record id, `SG-WORLD-housing-price-index` is cleared or kept with a reason, and a test in src/core2 names the place and seed. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/housing.ts, src/core2/modules/place-prices.ts, src/core2/data/stopgaps.json
 

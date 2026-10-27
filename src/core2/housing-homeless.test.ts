@@ -3,7 +3,7 @@
  * room, a shelter bed or the street, by its records; it rents again when it
  * can; and an owner who stops paying the mortgage goes through the state's
  * foreclosure to the same statuses. Recorded fixtures for the edge cases;
- * the played year is in scripts/world-proofs/world-homelessness-year.ts.
+ * the played year runs through `buildBenchWorld` in the tests below.
  */
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";

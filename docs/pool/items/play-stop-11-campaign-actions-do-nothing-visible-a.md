@@ -5,13 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: play-first/play-stop-11-campaign-actions-do-nothing-visible-a
+pr: #6114
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-27T01:39:26.263Z
 ---
 
 **What.** On the v0.22.10 release Call donors added the words "Call donors" and the total stayed $0.00 for 21 months. Hold an event stayed grayed with no reason. The owner ruled Oct 16 that an ask reads whether the person has the money and likes the candidate. This part makes Call donors reach named people, raise what they choose to give, and say why when nobody gives.
@@ -29,3 +30,4 @@ milestone: play-first
 **Files.** src/bench/campaign.ts, src/core2/modules/campaigns.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-11-campaign-actions-do-nothing-visible (Oct 24, lane). Engine changes in campaigns.ts are the laws lead's (`needs-from: laws`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+Sent back 2026-10-26 from PR #6114 (branch play-first/play-stop-11-campaign-actions-do-nothing-visible-a): code conflict with main in src/bench/play.mjs; finish on that branch, merge main into it first.

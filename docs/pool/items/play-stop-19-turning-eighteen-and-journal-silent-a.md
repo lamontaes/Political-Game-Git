@@ -7,11 +7,12 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #6108
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at:
 ---
 
 **What.** I started at 17 with a February 3 birthday on the v0.22.10 release. Coming up listed three family birthdays and not mine, and pressing Week across February 3 showed nothing. Turning 18 is golden-path step 1. This part puts the player's own birthday under Coming up and marks the day on screen.
@@ -29,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/calendar.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-19-turning-eighteen-and-journal-silent (Oct 24, lane; the work order's calendar half). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Merger 0: Sent back 2026-10-26 from PR #6108 (branch play-first/play-stop-19-turning-eighteen-and-journal-silent-a): main merge conflicts in data/english/parts/journal.json, src/director/data/journal-rows.json, and src/director/journal.ts; aborted without hand-merging banks or code; finish on that branch, merge main into it first.

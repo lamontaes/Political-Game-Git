@@ -42,9 +42,11 @@ const staged = (typeKey: string, personId: string, action: string) =>
     );
 
 describe("an officeholder's desk record stages scenes", () => {
-  it("a signing reaches the signer's press and desk and the sponsor's signing scene", () => {
+  it("a signing reaches the signer's press and the sponsor's signing scene", () => {
     expect(staged("press-interview", executive, "signed")).toBe(true);
-    expect(staged("desk-bill", executive, "signed")).toBe(true);
+    // The desk scene comes when the bill is presented, not when it is signed
+    // (desk-scene.test.ts plays it from the bill-presented record).
+    expect(staged("desk-bill", executive, "signed")).toBe(false);
     expect(staged("bill-signed", sponsor, "signed")).toBe(true);
     // The signer is not told their own signing, and a signing is no veto.
     expect(staged("bill-signed", executive, "signed")).toBe(false);
