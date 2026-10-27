@@ -7,7 +7,7 @@
  */
 import bands from "../../data/research/people/jolts-cps-turnover-absence-2025.json" with { type: "json" };
 import { residentsRuntime } from "./modules/residents";
-import { countedHeadsOf } from "./residents-economy";
+import { countedJobHeads } from "./residents-economy";
 import { JOBS_MODULE_ID } from "./modules/jobs";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -28,9 +28,9 @@ export function absenceRate(industry = "Private sector"): number | undefined {
 }
 
 export interface TurnoverReport {
-  /** People employed at the end of the year: a full person's job is one, a counted worker's is the household weight it stands for. */
+  /** People employed at the end of the year: a full person's job is one, a counted job is the heads it stands for. */
   readonly employed: number;
-  /** Changes in the year by kind, in people (a counted worker's change is the household weight it stands for), with the record ids of the first few. */
+  /** Changes in the year by kind, in people (a counted job's change is the heads it moved), with the record ids of the first few. */
   readonly counts: Readonly<Record<string, number>>;
   readonly ids: Readonly<Record<string, readonly string[]>>;
   /** Monthly rates, percent of employment: what the town did and what JOLTS says. */
@@ -72,14 +72,13 @@ export function turnoverReport(
   let employed = 0;
   for (const job of core.jobs.values()) if (!job.endsAt) employed += 1;
   for (const job of residentsRuntime(core)?.jobs.values() ?? [])
-    if (!job.endsAt) employed += countedHeadsOf(core, job.personId);
+    if (!job.endsAt) employed += countedJobHeads(core, job);
   const months = 12;
   const rate = (n: number) => (employed ? (100 * n) / months / employed : 0);
-  const separations =
-    (counts.quit ?? 0) +
-    (counts.layoff ?? 0) +
-    (counts.closure ?? 0) +
-    (counts["left-work"] ?? 0);
+  // A staff cut that sheds part of a counted job is a layoff of the heads it shed.
+  const layoffs =
+    (counts.layoff ?? 0) + (counts["staff-shed"] ?? 0) + (counts.closure ?? 0);
+  const separations = (counts.quit ?? 0) + layoffs + (counts["left-work"] ?? 0);
   return {
     employed,
     counts,
@@ -88,7 +87,7 @@ export function turnoverReport(
       hires: { town: rate(counts.hire ?? 0), jolts: joltsRate("hires") },
       quits: { town: rate(counts.quit ?? 0), jolts: joltsRate("quits") },
       layoffs: {
-        town: rate((counts.layoff ?? 0) + (counts.closure ?? 0)),
+        town: rate(layoffs),
         jolts: joltsRate("layoffsAndDischarges"),
       },
       separations: {

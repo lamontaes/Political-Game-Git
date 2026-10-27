@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The screens work order requires one shared panel frame template, while the first panel PR consolidates only close buttons and the visibility helper. Keep that first bounded change useful without calling the broader template requirement complete. Replace the remaining repeated panel frame markup through the existing shared UI part and preserve its visual appearance.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/ui/panel.mjs, src/bench/play.html, src/bench/play.mjs, src/bench/play.css, docs/work-orders/lead-screens-2026-10-26.md
 
 **Notes.** TODO
+
+Sent back 2026-10-27 from PR #6191 (branch claude/screens-ui-panel-frame): Clean main integration but explicit parent merge order still unmet:6187 f86b9761,6188 8a0c9721,6189 bbc66a36 remainOPEN. Diff24files carries those implementations, not just shared header;6187 has unresolved clerk-introduction and mandatory >4race witness acceptance. Land repaired chain first then merge main and gate bounded panel slice. No runtime or merge claimed; finish on that branch, merge main into it first.

@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-36-opening-starts-with-the-address
 pr:
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:47:47.116Z
 ---
 
 **What.** On v0.34.0 a new life opens on the player's living room at night with three unexplained figures and a News box saying "We begin with the inaugural address"; the address then plays as cutaways (an empty unemployment office, an empty grocery, an empty factory, the House chamber, a state capitol) with the President as a small portrait, and returns to the same living room, now in daytime. The owner: "why does it start in like your house and we begin with the inaugural? Again, there's just random people for the inaugural address," and "it's the right idea, wrong execution. Let's get it done." The ruling is the President's address first, with the vice president and key people behind him pointed out by name and office as the camera passes, then Congress, then the governor with a few state legislators, then the family, then home. This item makes the first frame the address itself and moves the player's home to after the governor and family chapters.
