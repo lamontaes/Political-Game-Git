@@ -250,6 +250,7 @@ interface SeatLike {
 
 it("seats each chamber at its legal size, every roster member once, in all 56 places", () => {
   const disagree: string[] = [];
+  let checked = 0;
   for (const stateKey of placeStateKeys()) {
     for (const { office, seats } of stateOffices(
       stateKey,
@@ -262,20 +263,32 @@ it("seats each chamber at its legal size, every roster member once, in all 56 pl
       expect(c.seats - c.empty, `${office.id}: roster members`).toBe(c.members);
       if (c.legal === undefined) continue;
       // A chamber with no roster (a territory's) seats its legal size empty.
-      if (
-        !c.members ||
-        c.members + c.empty === c.legal ||
-        c.members === c.legal
-      )
+      const consistent =
+        !c.members || c.members + c.empty === c.legal || c.members === c.legal;
+      if (consistent) {
         expect(c.seats, `${office.id}: legal size`).toBe(c.legal);
-      // Where the roster itself holds a different number of members than
-      // the legal size, the data disagree (gov-legislature-roster-size-data).
-      else disagree.push(`${office.id} ${c.seats}/${c.legal}`);
+        checked += 1;
+      } else {
+        // Where the roster itself holds a different number of members than
+        // the legal size, the data disagree (gov-legislature-roster-size-data).
+        disagree.push(`${office.id} ${c.seats}/${c.legal}`);
+      }
     }
   }
-  console.info(
-    `chambers whose roster disagrees with the legal size: ${disagree.join(", ")}`,
+  process.stdout.write(
+    `chambers checked against their legal size: ${checked}; whose roster disagrees with it: ${disagree.length} (${disagree.join(", ")})\n`,
   );
+  // The check ran on chambers; it is not vacuous.
+  expect(checked, "chambers checked").toBeGreaterThan(0);
+  // The four chambers whose roster data still disagree with the legal size
+  // (gov-legislature-roster-size-data): a new disagreement fails here, and
+  // fixing one of these in the data takes it off this list.
+  expect(disagree, "rosters that disagree with the legal size").toEqual([
+    "office:US-ME:legislature-lower 153/151",
+    "office:US-NH:legislature-lower 386/400",
+    "office:US-PR:legislature-upper 28/27",
+    "office:US-PR:legislature-lower 53/51",
+  ]);
 });
 
 it(`a played world seats its state's legislature by the same rule (seed ${seed})`, () => {
