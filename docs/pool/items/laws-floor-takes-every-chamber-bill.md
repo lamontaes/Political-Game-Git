@@ -6,11 +6,12 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-player-bill-floor
 pr:
 blocked-on:
 source: The core half of laws-player-bill-reaches-the-floor (laws-and-effects lead, Oct 27)
+claimed-at: 2026-10-27T05:07:57.486Z
 ---
 
 **What.** The weekly floor in `src/core2/modules/world-legislating.ts` takes up only the bills filed when a session opens, so a bill drafted later in a state chamber or in Congress (the player's, a member's carried ask) sits drafted until the session ends. The floor takes up the chamber's other drafted bills after the leader's filings, oldest first, as many a week as it sits; `floorDateOf` gives the floor week a drafted bill is on; `floorAgendaOn` names the weekly floor's bills the day before, so a federal member's whip ask and eve-of-vote stop see them; `whipCount` gives each chamber's members for, against and undecided. The stale "year-end votes" header goes.
