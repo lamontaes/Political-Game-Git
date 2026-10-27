@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-opening-address-empty-waiting-room
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T05:56:56.259Z
 ---
 
 **What.** The numeric President address plays over an empty office waiting room. Merger3 reproduced on PR6103 and the author before/after images already disclose it as existing. The numeric text fits at both checked window sizes, but the scene does not show the speaker giving the address.
