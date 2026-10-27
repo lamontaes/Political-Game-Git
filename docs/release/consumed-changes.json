@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "version": "0.46.0",
+      "releasedOn": "2026-10-27",
+      "revision": "7421844a6843b1618ddea87d33927f93596fcbbd",
+      "changeIds": [
+        "play-stop-30-creator-age-line-says-what-it-is",
+        "play-stop-31-creator-search-fields-gold-outline",
+        "tests-law-wiring-justice-restore-vote-burton",
+        "traits-coverage-table-missing-shade-answer",
+        "words-opening-address-from-records",
+        "words-scene-for-unstaged-big-moments"
+      ]
+    },
+    {
       "version": "0.45.0",
       "releasedOn": "2026-10-27",
       "revision": "209420db43cb2f6ddf2862b7bb188053541c2bad",
