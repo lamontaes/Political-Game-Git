@@ -296,6 +296,88 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.55.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **Talk about the news says what the news was** A relative who read or heard a
+  story now brings it up by its headline and the paper or station that ran it,
+  instead of asking "What do you think?" about news they never name.
+
+- **Talk at home on a quiet day says something** On a day with nothing new to
+  talk about, someone you live with now opens on the day itself (the weekday,
+  when you last spent time together, or that one of you had work) instead of
+  saying goodbye at once.
+
+### Changed
+
+- **People who stop you say why, from what happened** When someone stops you
+  about a law, a story or a meeting, they say only what they know: your own
+  vote, the law in force, what it costs them.
+
+## PRE-ALPHA 0.55.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **A bill you draft shows the day the floor takes it up, each chamber's count
+  for and against, and how the vote came out.** Your office screen now tells you
+  the day the floor takes up a bill you drafted, how many members are for,
+  against or undecided, and after the vote how it came out, in words instead of
+  a bare status.
+
+### Fixed
+
+- **Clicking a future day on the calendar keeps its tile, shows its date and a
+  skip-forward icon.** Click a day months ahead and it stays lit with its
+  number, its date shows beside a small skip icon, and pressing the icon runs
+  time to that day or to the first thing that needs you.
+
+### Changed
+
+- **Election day and night are scenes, and voting is your choice** Election day
+  no longer drops you at the polls. On election morning the narrator sets the
+  day, and if you're on the ballot, a volunteer can take you canvassing before
+  the polls close. Then the day asks whether you go vote: Go vote opens the
+  ballot, Stay home casts nothing. That night the returns for your race come in
+  place by place until the race is called, with the other states' governor races
+  that night, in a pop-up of its own. The Election Night results sheet is gone,
+  and it no longer opens again on every load.
+
+## PRE-ALPHA 0.54.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **An official can be left an offer, with five ways to answer it** When someone
+  who wants a vote or a contract leaves something for an official, the official
+  now has a scene to play: five different answers (take it, hand it back, say it
+  will be reported, put it off, or play along), the offerer pressing, pleading
+  or threatening in reply, and an ending for each. The scene waits for the
+  corruption engine to record offers as events, so it does not appear in play
+  yet.
+
+### Fixed
+
+- **The President asks Congress only for what Congress can do** The opening
+  address no longer asks Congress to change a state's law, or to keep a law your
+  state already has. Each ask now goes to the level that can answer it: Congress
+  for a federal question federal law does not yet answer, and the governors for
+  a state law your state answers the other way from the President.
+
+### Changed
+
+- **A town hall now plays as a resident's question and the answer they got**
+  When a local official holds a town hall, the resident who stood up with a
+  question now has a scene about that question: the issue they asked about, and
+  whether the official's answer agreed with their own view, opposed it, or was
+  not given. Before, the same meeting played as office hours, with a resident
+  who had lost a job or faced eviction and said nothing about the meeting.
+
 ## PRE-ALPHA 0.53.0
 
 _Released October 27, 2026._

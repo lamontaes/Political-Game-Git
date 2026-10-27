@@ -524,8 +524,9 @@ describe("story director on the new core", () => {
     // officeholder's own address, plus the party's ask that a member run, plus
     // the candidate who comes over after a speech that moved a listener in the
     // room, plus the offer an official finds left for them, plus a resident's
-    // question at a town hall (scenes from life).
-    expect(types).toHaveLength(70);
+    // question at a town hall, plus the winner's call from the runner-up after
+    // the count (`concession-received`) (scenes from life).
+    expect(types).toHaveLength(71);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
