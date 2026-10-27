@@ -20,13 +20,18 @@ import { campaignDay, campaignView } from "./campaign";
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`donor-calls:${Date.now()}`).digest("hex");
+// At least this many places are drawn; more are drawn, up to the cap, until one
+// has a donor who gives and one has a donor who does not.
 const PLACES = 5;
+const MAX_PLACES = 25;
 
 it("Call donors names each person reached with their gift or why not, and the raised total moves by the sum", () => {
   let gifts = 0;
   let refusals = 0;
   const seen: string[] = [];
-  for (let n = 0; n < PLACES; n++) {
+  const placesTried: string[] = [];
+  for (let n = 0; n < MAX_PLACES; n++) {
+    if (n >= PLACES && gifts > 0 && refusals > 0) break;
     const place = drawPlace(runSeed, `donor-calls:${n}`);
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -34,6 +39,7 @@ it("Call donors names each person reached with their gift or why not, and the ra
     });
     const api = coreAPI(core as CoreState);
     const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
+    placesTried.push(`${place.name}, ${place.state}`);
     const year = Number(core.date.slice(0, 4));
     const adults = [...core.people.values()]
       .filter((p) => p.alive && year - Number(p.birthDate.slice(0, 4)) >= 35)
@@ -134,15 +140,17 @@ it("Call donors names each person reached with their gift or why not, and the ra
     }
   }
   process.stdout.write(`donor calls:\n${seen.join("\n")}\n`);
+  const triedList = `places tried (${placesTried.length}): ${placesTried.join("; ")}`;
   expect(
     seen.length,
     "a candidate could call donors in a drawn place",
   ).toBeGreaterThan(0);
   expect(
     gifts,
-    `somebody gave in one of the drawn places: ${seen.join(" | ")}`,
+    `somebody gave in one of the drawn places; ${triedList}: ${seen.join(" | ")}`,
   ).toBeGreaterThan(0);
-  expect(refusals, "somebody did not, and the line says why").toBeGreaterThan(
-    0,
-  );
+  expect(
+    refusals,
+    `somebody did not, and the line says why; ${triedList}`,
+  ).toBeGreaterThan(0);
 }, 600_000);
