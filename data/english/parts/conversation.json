@@ -18,7 +18,11 @@
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
     "first": "The given name of someone both people know, from the person's record.",
-    "year": "A year from a dated record."
+    "year": "A year from a dated record.",
+    "headline": "A printed or broadcast story's headline, as the paper screen words it.",
+    "outlet": "The outlet's name as recorded.",
+    "weekday": "The day of the week, from the calendar.",
+    "lastTogether": "When two people last spent time together, as spoken."
   },
   "maxWords": 10,
   "mining": {
@@ -20370,6 +20374,501 @@
         "key": "household"
       },
       "bearing": "glad"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-see-the-outlet-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you see the {outlet}? {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "paper"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.i-saw-it-in-the-outlet-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "I saw it in the {outlet}: {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "paper"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.headline-it-was-in-the-outlet",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "{headline}. It was in the {outlet}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "paper"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.outlet-had-it-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "{outlet} had it: {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "broadcast"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.i-heard-it-on-outlet-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "I heard it on {outlet}: {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline", "broadcast"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.news-raise-heard.have-you-seen-this-headline",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Have you seen this? {headline}.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["headline"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.ack-reply-right.i-know-love",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "I know, love.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "acknowledge",
+        "key": "household"
+      },
+      "bearing": "tender"
+    },
+    {
+      "key": "conversation.quiet-raise-day.it-s-been-a-quiet-weekday",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "It's been a quiet {weekday}.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["weekday"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.haven-t-seen-much-of-you-since-lasttogether",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Haven't seen much of you since {lastTogether}.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["lastTogether"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.there-you-are",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "There you are.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.busy-one-at-work-today",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Busy one at work today?",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.you-were-up-early",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "You were up early.",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-raise-day.another-work-day-huh",
+      "move": "quiet-raise-day",
+      "kind": "spoken",
+      "text": "Another work day, huh?",
+      "uses": [
+        {
+          "move": "quiet-raise-day",
+          "subject": "quiet",
+          "role": "raise",
+          "choice": "day",
+          "requiresFacts": ["dayDone"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.i-m-beat-just-glad-to-be-home",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "I'm beat. Just glad to be home.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "tender"
+    },
+    {
+      "key": "conversation.quiet-answer-tired.long-i-don-t-want-to-get-into-it",
+      "move": "quiet-answer-tired",
+      "kind": "spoken",
+      "text": "Long. I don't want to get into it.",
+      "uses": [
+        {
+          "move": "quiet-answer-tired",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "tired"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.quiet-answer-fine.fine-nothing-worth-telling",
+      "move": "quiet-answer-fine",
+      "kind": "spoken",
+      "text": "Fine. Nothing worth telling.",
+      "uses": [
+        {
+          "move": "quiet-answer-fine",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "fine"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.quiet-answer-fine.pretty-good-actually",
+      "move": "quiet-answer-fine",
+      "kind": "spoken",
+      "text": "Pretty good, actually.",
+      "uses": [
+        {
+          "move": "quiet-answer-fine",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "fine"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "glad"
+    },
+    {
+      "key": "conversation.quiet-answer-talk.sit-with-me-a-minute",
+      "move": "quiet-answer-talk",
+      "kind": "spoken",
+      "text": "Sit with me a minute?",
+      "uses": [
+        {
+          "move": "quiet-answer-talk",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "talk"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "conversation.quiet-answer-talk.i-missed-you-today",
+      "move": "quiet-answer-talk",
+      "kind": "spoken",
+      "text": "I missed you today.",
+      "uses": [
+        {
+          "move": "quiet-answer-talk",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "talk"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "tender"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.i-just-need-some-quiet-right-now",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "I just need some quiet right now.",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.quiet-answer-alone.can-we-not-do-this-right-now",
+      "move": "quiet-answer-alone",
+      "kind": "spoken",
+      "text": "Can we not do this right now?",
+      "uses": [
+        {
+          "move": "quiet-answer-alone",
+          "subject": "quiet",
+          "role": "answer",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-talks-rewritten)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "reply",
+        "key": "household"
+      },
+      "bearing": "braced"
     }
   ]
 }

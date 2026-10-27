@@ -66,7 +66,11 @@ describe("home talks", () => {
       for (const choice of talk.choices) heard.set(choice.text, "choice");
     };
     for (const [playerId, otherId] of pairs.slice(0, 400)) {
-      let talk = openConversation(core, playerId, otherId);
+      // With the director, as the bench's Talk opens it: the story words
+      // that give a news subject its headline come from it.
+      let talk = openConversation(core, playerId, otherId, {
+        director: world.director,
+      });
       read(talk);
       for (let turn = 0; turn < 8 && talk.choices.length; turn += 1) {
         // An opinion when one is offered, else the first reply.
@@ -78,10 +82,34 @@ describe("home talks", () => {
         read(talk);
       }
     }
+    // A piece with slots plays when a heard line matches it with every slot
+    // filled (the headline, the outlet, the weekday).
+    const pattern = (text: string) =>
+      new RegExp(
+        `^${text
+          .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
+          .replace(/\{\w+\}/g, "[^{}]+")}$`,
+      );
+    const lines = [...heard.keys()];
     for (const [move, texts] of NEW) {
-      const played = [...texts].filter((text) => heard.has(text));
-      console.log(`home-talks ${move}: ${played.join(" / ") || "none"}`);
+      const played = [...texts].filter((text) =>
+        lines.some((line) => pattern(text).test(line)),
+      );
+      console.log(
+        `home-talks ${move}: ${
+          played
+            .map((text) => lines.find((line) => pattern(text).test(line)))
+            .join(" / ") || "none"
+        }`,
+      );
       expect(played.length, `${move} in ${where}`).toBeGreaterThan(0);
     }
+    const plays = (move: string, slot: string) =>
+      [...(NEW.get(move) ?? [])]
+        .filter((text) => text.includes(`{${slot}}`))
+        .some((text) => lines.some((line) => pattern(text).test(line)));
+    // News is raised by its headline, and a quiet day opens on the day itself.
+    expect(plays("news-raise-heard", "headline"), where).toBe(true);
+    expect(plays("quiet-raise-day", "weekday"), where).toBe(true);
   }, 900_000);
 });
