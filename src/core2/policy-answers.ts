@@ -24,7 +24,13 @@ export type StartingAnswers = Record<
     source?: string;
     answers: Record<
       string,
-      { preempts?: boolean; answer?: string; estimated?: string }
+      {
+        preempts?: boolean;
+        answer?: string;
+        estimated?: string;
+        /** The statute or rule the answer rests on, where the research names one. */
+        cite?: string;
+      }
     >;
   }
 >;

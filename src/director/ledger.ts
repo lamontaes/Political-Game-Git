@@ -921,7 +921,12 @@ export function createDirector(
       fadedBefore.set(otherId, fadingBefore);
       // Cites the relationship record; the moment id carries the date.
       const causeId = id;
-      change(causeId, `contact:${row.kind}`, "tie", Math.abs(delta), [otherId]);
+      // A tie moves a little with each contact; it turns when the change since
+      // its last turn adds up, as a friendship grows over many meetings.
+      thread.tieDrift = (thread.tieDrift ?? zero) + delta;
+      change(causeId, `contact:${row.kind}`, "tie", Math.abs(thread.tieDrift), [
+        otherId,
+      ]);
       if (
         thread.lastContact === undefined &&
         !prior &&
@@ -1250,14 +1255,21 @@ export function createDirector(
       book.momentsByOther.set(otherId, list);
       const thread = ensureThread(book, otherId);
       thread.momentIds.push(moment.id);
-      if (moment.channels.some((part) => part.channel === "tie"))
+      if (moment.channels.some((part) => part.channel === "tie")) {
+        // Which way it turned: the change since its last turn.
+        const drift = thread.tieDrift ?? zero;
         thread.turns.push({
           date,
-          turn: thread.tone === "souring" ? "soured" : "grew",
+          turn:
+            drift < zero || (drift === zero && thread.tone === "souring")
+              ? "soured"
+              : "grew",
           causeId: row.causeId,
           momentId: moment.id,
           closeness: thread.closeness,
         });
+        thread.tieDrift = zero;
+      }
       rescoreHindsight(book, otherId, date);
     }
     const filter = ledger.sceneFilters.get(moment.personId);
