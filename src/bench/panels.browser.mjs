@@ -58,7 +58,7 @@ async function solid(screen, selector) {
   assert.ok(contrast >= 4.5, `${screen}: text contrast ${contrast}`);
 }
 async function sheet(tab) {
-  await page.locator(`#menu [data-tab="${tab}"]`).click();
+  await page.locator(`#rings [data-tab="${tab}"]`).click();
   await page.locator("#sheet-body").waitFor();
   await page.waitForTimeout(800);
 }
@@ -92,19 +92,12 @@ try {
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
   await page.locator('#rings [data-tab="calendar"]').click();
-  await page.locator("#menu").waitFor({ state: "visible" });
-  // The Menu is a plain list of names: nothing is written under an entry.
-  const entries = await page.$$eval("#menu .nav-item:not(.dev-only)", (nodes) =>
-    nodes.map((node) => ({
-      text: node.textContent.trim(),
-      parts: node.children.length,
-    })),
-  );
-  assert.ok(entries.length >= 10, "the menu lists its screens");
-  for (const entry of entries)
-    assert.equal(entry.parts, 1, `"${entry.text}" has a second line`);
+  await page.locator("#sheet:not([hidden])").waitFor();
+  // One left menu: the rail stays beside an open screen and no Menu panel
+  // repeats it (owner, Oct 27).
+  assert.equal(await page.locator("#menu").count(), 0, "no Menu panel");
+  assert.ok(await page.locator("#rings").isVisible(), "the rail stays");
   await sheet("news");
-  await solid("Menu", "#menu");
   await solid("News", "#sheet");
   await sheet("politics");
   await page

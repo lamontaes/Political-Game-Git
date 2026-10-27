@@ -60,10 +60,9 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  await page
-    .locator('[data-tab="jobs"]')
-    .first()
-    .evaluate((e) => e.click());
+  // Jobs and study is a tab of Who you are, opened from the player's portrait.
+  await page.locator("#card-bust").click();
+  await page.locator('#sheet-tabs [data-tab="jobs"]').click();
   await page.locator(".work-overview").waitFor();
   assert.equal(await page.locator(".study-overview").count(), 1);
   assert.equal(await page.locator("#card-clock").innerText(), clock);
@@ -91,10 +90,9 @@ try {
     offers = [];
     return route.fulfill({ json: { answered: true } });
   });
-  await page
-    .locator('[data-tab="jobs"]')
-    .first()
-    .evaluate((e) => e.click());
+  // Jobs and study is a tab of Who you are, opened from the player's portrait.
+  await page.locator("#card-bust").click();
+  await page.locator('#sheet-tabs [data-tab="jobs"]').click();
   await page.getByRole("button", { name: "Take it", exact: true }).click();
   await page.waitForFunction(() => !document.querySelector(".job-offer"));
   assert.deepEqual(answers, ["accept"]);
@@ -107,10 +105,9 @@ try {
       deadline: "2025-02-01",
     },
   ];
-  await page
-    .locator('[data-tab="jobs"]')
-    .first()
-    .evaluate((e) => e.click());
+  // Jobs and study is a tab of Who you are, opened from the player's portrait.
+  await page.locator("#card-bust").click();
+  await page.locator('#sheet-tabs [data-tab="jobs"]').click();
   await page.getByRole("button", { name: "Turn it down", exact: true }).click();
   await page.waitForFunction(() => !document.querySelector(".job-offer"));
   assert.deepEqual(answers, ["accept", "decline"]);
