@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-occluders-depth
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T20:55:48.559Z
 ---
 
 **What.** Today the bench hides furniture with one straight horizontal crop per spot (clipBelowY in art/backdrops/staging.json, applied in src/bench/play.mjs drawPeople), which cuts legs off in a flat line across slanted desks and chair backs. The people research of Oct 27 showed a depth map per painting (Depth Anything V2 Small, offline, seconds a painting) seats a body behind desks and chair backs cleanly. This item bakes one occluder mask per staging spot from that depth map, committed as derived art naming its parent painting, and the screen lays the painting's own pixels through the mask over the person on that spot.
