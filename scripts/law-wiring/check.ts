@@ -54,6 +54,7 @@ import powerQuestions from "../../data/research/powers-catalog/question-powers.j
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { linkCoverage, WEB_LINKS } from "../../src/core2/outcome-web-model";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
+import legislaturePowers from "../../src/core2/data/legislature/series-powers.json" with { type: "json" };
 
 const ROOT = `${process.cwd()}/`;
 /** Days after a repeal (or the old amount put back) before reach is read again: a month, so an engine that applies a law at a monthly close runs once. */
@@ -595,6 +596,28 @@ interface Change {
   undo: () => void;
 }
 
+/**
+ * The levels a law may be enacted at: the catalog's levels narrowed to those
+ * that hold the power, read from the same series powers the legislature's
+ * authority check reads (`beyondPower`: a "local" power is the city, county
+ * and township). A catalog level with no power is dropped; when none is left,
+ * the levels that hold the power are used. Null where nothing is recorded.
+ */
+const POWERS = legislaturePowers as unknown as {
+  series: Record<string, { levels: string[] }>;
+  questions: Record<string, { levels: string[] }>;
+};
+function enactingLevels(law: LawEntry): readonly string[] | null {
+  const power = POWERS.questions[law.key] ?? POWERS.series[law.key];
+  const catalog = law.catalog?.levels ?? null;
+  if (!power) return catalog;
+  const held = power.levels.flatMap((l) =>
+    l === "local" ? ["city", "county", "township", "local"] : [l],
+  );
+  const both = (catalog ?? []).filter((l) => held.includes(l));
+  return both.length ? both : held;
+}
+
 function townLevel(
   api: CoreAPI,
   allowed: readonly string[] | null,
@@ -689,7 +712,7 @@ function setQuestion(
   }
   const at = townLevel(
     api,
-    AT ? [AT] : (ENACT_AT[law.key] ?? law.catalog?.levels ?? null),
+    AT ? [AT] : (ENACT_AT[law.key] ?? enactingLevels(law)),
   );
   if (!at) return "no level of the town's chain may enact it";
   const row = enactLaw(api, {
@@ -818,7 +841,7 @@ function changeAmount(
       : governing;
   const at = g
     ? { level: g.level, jurisdiction: g.jurisdiction }
-    : townLevel(api, AT ? [AT] : (law.catalog?.levels ?? null));
+    : townLevel(api, AT ? [AT] : enactingLevels(law));
   if (!at)
     return {
       lawIds: ids,
