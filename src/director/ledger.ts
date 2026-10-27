@@ -1466,7 +1466,15 @@ export function createDirector(
             ),
           byKind: circumstanceRows,
         },
-      ).sort((a, b) => b.score - a.score || a.row.id.localeCompare(b.row.id));
+      ).sort(
+        (a, b) =>
+          // What follows a record of the player's own (their race's count)
+          // comes before news of others' on the same day.
+          Number(b.record.personIds.includes(book.personId)) -
+            Number(a.record.personIds.includes(book.personId)) ||
+          b.score - a.score ||
+          a.row.id.localeCompare(b.row.id),
+      );
       const pick = picks[zero];
       if (!pick) continue;
       const base = param(pick.row.impactParameter);

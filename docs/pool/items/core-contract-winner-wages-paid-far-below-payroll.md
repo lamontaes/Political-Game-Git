@@ -19,6 +19,8 @@ claimed-at: 2026-10-27T16:16:39.192Z
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place with its seed named, a contract winner's wages paid over a year are within a stated share of its payroll, or the cause of the gap is named by record id and fixed; the check fails on the pinned world before the fix.
 
+**Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
+
 **Files.** src/core2/contracts.test.ts
 
 **Notes.** TODO
