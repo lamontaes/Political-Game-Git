@@ -6,11 +6,12 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/laws-opening-past-chosen-age
+pr: #6271
 blocked-on:
 source: laws-and-effects lead, Oct 27 (changed-file tests of laws-opening-past-fits-the-chosen-age)
+claimed-at: 2026-10-27T09:16:01.782Z
 ---
 
 **What.** On clean main (e3d9d8e6f2), `src/bench/creator.test.ts` "the New game creator > offers the figures the game draws, steps them and draws the portrait" fails in two places. Since play-stop-34 (#6229, skin and clothes color swatches) merged, `appearanceRows` returns Build, Clothes, Skin and Clothes color, and the test still expects only Build and Clothes (line 64 on main). With that line updated, the portrait check at the end still fails: `portraitPng` recolors the figure by the recipe's colors, so it no longer equals the raw v2 file byte for byte. Every PR that changes `creator.test.ts` inherits the red case.
@@ -23,4 +24,4 @@ source: laws-and-effects lead, Oct 27 (changed-file tests of laws-opening-past-f
 
 **Files.** src/bench/creator.test.ts
 
-**Notes.** Filed by the laws-and-effects lead, Oct 27. Seen in the changed-file tests of `laws-opening-past-fits-the-chosen-age`, which changes the same test file; reproduced on clean main.
+**Notes.** Filed by the laws-and-effects lead, Oct 27. Seen in the changed-file tests of `laws-opening-past-fits-the-chosen-age`, which changes the same test file; reproduced on clean main. Fixed Oct 27 in PR #6271 (commit 91bca7f45d), which changes the same test file; that PR's line 1 is `laws-opening-past-fits-the-chosen-age`, so set this item done when #6271 merges.
