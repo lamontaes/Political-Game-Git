@@ -7,10 +7,12 @@ import {
   draftBill,
   memberKey,
   votesOn,
+  whipCount,
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
+import { floorDateOf } from "../core2/modules/world-legislating";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
@@ -109,6 +111,34 @@ function incompatibilitiesOf(core: CoreState, personId: string) {
     }));
 }
 
+/**
+ * Where a bill stands on the floor: the day the floor takes it up and, from
+ * the chambers' own members, how many are for, against or undecided.
+ */
+function floorOf(core: CoreState, bill: BillRow) {
+  const api = coreAPI(core);
+  const billId = bill.id;
+  // A body with regular meetings posts the bill on its next agenda; a
+  // chamber's bill waits for the floor, which names its date.
+  const agendaDate =
+    bill.status === "drafted" && upcomingMeeting(api, bill.bodyOfficeId)
+      ? placeOnAgenda(api, billId)
+      : undefined;
+  const offices = api.moduleState(OFFICES).table("offices");
+  return {
+    agendaDate,
+    floorDate: agendaDate ?? floorDateOf(api, billId),
+    whip: whipCount(api, billId).map((row) => ({
+      chamber:
+        (offices.get(row.chamber) as { title?: string } | undefined)?.title ??
+        "",
+      yes: row.yes.length,
+      no: row.no.length,
+      undecided: row.undecided.length,
+    })),
+  };
+}
+
 /** Your seat: the bodies you sit on, what you could change, and your bills. */
 export function seatView(core: CoreState, personId: string) {
   if (!core.modules.has(LEGISLATURE))
@@ -126,6 +156,7 @@ export function seatView(core: CoreState, personId: string) {
     .filter((row) => row.sponsorId === personId)
     .map((bill) => ({
       bill,
+      ...floorOf(core, bill),
       votes: votesOn(api, bill.id).map((row) => ({
         ...row,
         name: personName(core, row.memberId),
@@ -213,11 +244,14 @@ export function seatAct(
       effective: form.effectiveSection,
       before: form.sections.map((section) => section.before),
     })?.text ?? [];
-  // A body with no regular meeting (a federal chamber votes on its floor
-  // calendar) keeps the drafted bill without an agenda date.
-  return bill.status === "drafted" && upcomingMeeting(api, bill.bodyOfficeId)
-    ? { ...bill, text, agendaDate: placeOnAgenda(api, bill.id) }
-    : { ...bill, text };
+  const floor = floorOf(core, bill);
+  return {
+    ...bill,
+    text,
+    ...(floor.agendaDate ? { agendaDate: floor.agendaDate } : {}),
+    floorDate: floor.floorDate,
+    whip: floor.whip,
+  };
 }
 
 /** The body in its meeting room: the player at the front, colleagues behind. */

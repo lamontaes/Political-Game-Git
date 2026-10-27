@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: helper-e/bribe-offer-envelope
 pr: #6224
 blocked-on:

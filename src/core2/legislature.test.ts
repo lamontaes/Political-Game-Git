@@ -369,7 +369,10 @@ describe(
           states,
           `project:${attempt}`,
           (t) =>
-            withCity(t) && governments(t.api).some((g) => g.level === "state"),
+            withCity(t) &&
+            governments(t.api).some((g) => g.level === "state") &&
+            // A bicameral state's town may be covered by no lower-chamber seat.
+            townSeats(t.api).some((s) => s.office.kind === "legislature-lower"),
         );
         const city = governments(api).find((g) => g.level === "city")!;
         const lower = townSeats(api).find(

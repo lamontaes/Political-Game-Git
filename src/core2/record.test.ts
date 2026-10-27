@@ -41,6 +41,7 @@ import {
   openVoting,
 } from "./modules/voting";
 import { openRecord, promisesOf, recordVote, votesOf } from "./modules/record";
+import { openPress } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -104,6 +105,9 @@ describe("M4-06 the record follows you", () => {
       openParties(core);
       openVoting(core);
       openRecord(core);
+      // The press, as buildBenchWorld opens it: the rival's ad is bought from an
+      // outlet's ad time, and none registered means it buys nothing.
+      openPress(core);
       const api = coreAPI(core);
       const held = new Set(
         townSeats(api)
@@ -141,6 +145,9 @@ describe("M4-06 the record follows you", () => {
       .filter(
         (p) =>
           p.id !== incumbent.id &&
+          // A resident: the press's national staff are people of the world
+          // who live elsewhere and could not file for a town seat.
+          p.placeId === incumbent.placeId &&
           Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
       )
       .sort(
@@ -189,21 +196,31 @@ describe("M4-06 the record follows you", () => {
       (f) => f.personId === challenger.id,
     );
     let attack: readonly { act: string; voterId: string }[] = [];
-    if (rivalFiling) {
-      knockDoors(api, {
-        filingId: rivalFiling.id,
-        canvasserId: challenger.id,
-        hours: 6,
-      });
-      for (const id of [...core!.people.keys()].sort())
-        askForDonation(api, rivalFiling.id, id);
-      attack = runAd(api, {
-        filingId: rivalFiling.id,
-        amountMinor: campaignFor(api, rivalFiling.id).raisedMinor,
-        attackFilingId: incumbentFiling.id,
-      });
-      expect(attack.every((c) => c.act === "attack-ad")).toBe(true);
-    }
+    const where = `${place} ${seed}:${draw}`;
+    // A challenger who is not on the ballot (a signature drive that fell
+    // short) has no ad to run: the draw is passed over, by name.
+    if (!rivalFiling)
+      return { where, skipped: "the challenger is not on the ballot" };
+    knockDoors(api, {
+      filingId: rivalFiling.id,
+      canvasserId: challenger.id,
+      hours: 6,
+    });
+    for (const id of [...core!.people.keys()].sort())
+      askForDonation(api, rivalFiling.id, id);
+    attack = runAd(api, {
+      filingId: rivalFiling.id,
+      amountMinor: campaignFor(api, rivalFiling.id).raisedMinor,
+      attackFilingId: incumbentFiling.id,
+    });
+    expect(attack.every((c) => c.act === "attack-ad")).toBe(true);
+    // `every` is true of an empty list: the ad must have reached people. A
+    // rival who raised too little to buy any airtime has no ad to check.
+    if (!attack.length)
+      return {
+        where,
+        skipped: `the rival raised ${campaignFor(api, rivalFiling.id).raisedMinor} and the ad reached no one`,
+      };
     // Election: the record is a reason on specific ballots, and changes some choices.
     holdElection(api, contest!.id);
     const ballots = [...core!.people.keys()]
@@ -216,6 +233,23 @@ describe("M4-06 the record follows you", () => {
     const broken = weighed.filter((b) =>
       b!.recordReasons![incumbent.id]!.some((r) => r.kind === "broken-promise"),
     );
+    // A voter who saw the rival's attack ad names it among the reasons: the
+    // broken promise in their ballot's record reasons is one the ad told them
+    // of (its record is the ad's source), by record id.
+    const adSource = `attack-ad:${challenger.id}:`;
+    const citingAd = broken.filter((b) =>
+      b!.recordReasons![incumbent.id]!.some(
+        (r) =>
+          r.kind === "broken-promise" &&
+          (
+            coreAPI(core!).knows(b!.voterId, r.itemId)?.sourceId ?? ""
+          ).startsWith(adSource),
+      ),
+    );
+    expect(
+      citingAd.length,
+      `${place} ${seed}: no ballot cites the rival's attack ad (${attack.length} reached)`,
+    ).toBeGreaterThan(0);
     // Whom each voter would back with the record and without it (whether
     // they turn out that day is a separate decision).
     const changed = weighed.filter((b) => {
@@ -308,11 +342,13 @@ describe("M4-06 the record follows you", () => {
         ],
         choicesChanged: changed.length,
         attackAdReached: attack.length,
+        attackAdBallots: citingAd.slice(0, 8).map((b) => b!.id),
         oneVoter: changed[0],
       }),
     );
     return {
-      where: `${place} ${seed}:${draw}`,
+      where,
+      skipped: null,
       weighed: weighed.length,
       flippable: flippable.length,
       changed: changed.length,
@@ -327,6 +363,10 @@ describe("M4-06 the record follows you", () => {
     const tried: string[] = [];
     for (let draw = 0; draw < 6; draw += 1) {
       const result = scenario(draw);
+      if (result.skipped) {
+        tried.push(`${result.where}: ${result.skipped}`);
+        continue;
+      }
       if (result.flippable === 0) {
         tried.push(
           `${result.where}: ${result.weighed} weighed, none close enough`,
