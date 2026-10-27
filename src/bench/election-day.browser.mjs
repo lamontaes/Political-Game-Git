@@ -128,6 +128,12 @@ try {
     );
     const body = await r.json().catch(() => ({}));
     if (/can't go backward/.test(JSON.stringify(body))) break;
+    if (!r.ok() && /polling place first/.test(JSON.stringify(body))) {
+      await page.request.post(
+        `${base}/api/polling-place/leave?${new URLSearchParams({ id: personId })}`,
+      );
+      continue;
+    }
     if (!r.ok())
       assert.fail(
         `${JSON.stringify(body).slice(0, 200)}; pending ${JSON.stringify(await current()).slice(0, 400)}`,
