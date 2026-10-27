@@ -1332,6 +1332,12 @@
       "source": "The race's eligible voters at which an offer of help counts half as much to the candidate's story on size alone: a town council or small-city race (a few thousand voters) keeps most of its weight, a state legislative district (tens of thousands) little and a statewide or presidential race next to none (owner, Oct 27, 4 PM Eastern: 'it shouldn't be stopped for literally every single volunteer. Maybe some that matter. And that's only when you're doing small local campaigns, or maybe your first campaign.'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
       "spread": [2500, 40000]
     },
+    "volunteerOfferFirstCampaignShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much of an offer's reach a candidate's first campaign carries whatever the race's size, halving with each campaign run before: a first statewide race keeps half the reach of a first council race, never all of it (owner, Oct 27, 4 PM Eastern: volunteers matter 'when you're doing small local campaigns, or maybe your first campaign'). Checked by src/director/volunteer-offer-weight.test.ts in a drawn place.",
+      "spread": [0.25, 0.75]
+    },
     "offerSpacingDays": {
       "value": 7,
       "tag": "TUNABLE",

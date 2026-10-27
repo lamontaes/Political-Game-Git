@@ -1235,7 +1235,6 @@ export const VOLUNTEER_OFFERED_EVENT = "volunteer-offered";
 function offersToHelp(api: CoreAPI): void {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return;
   const date = api.state.date;
-  const playerId = (api.state as CoreState).playerId;
   const stories = api.moduleState(PRESS_MODULE_ID).table("stories");
   for (const filing of elections(
     api,
@@ -1318,7 +1317,7 @@ function offersToHelp(api: CoreAPI): void {
           filingId: filing.id,
           contestId: contest.id,
           office: contest.title,
-          weight,
+          weight: String(weight),
         },
       });
     }
@@ -1504,7 +1503,8 @@ export function offerWeight(
         (api.state.durableLog.get(`candidate-filed:${filing.id}` as never)
           ?.date ?? "9999"),
   ).length;
-  const fresh = 1 / (1 + before);
+  const fresh =
+    campaignParameter("volunteerOfferFirstCampaignShare") / (1 + before);
   const reach = 1 - (1 - small) * (1 - fresh);
   const tie = closenessBetween(api.state, filing.personId, helperId);
   return reach * ((1 + tie) / 2);

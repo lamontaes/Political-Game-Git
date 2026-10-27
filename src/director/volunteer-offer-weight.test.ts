@@ -11,6 +11,9 @@
  * an offer whose moment reaches the interrupt line stops the day.
  */
 import { randomBytes } from "node:crypto";
+import { writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { campaignAct, campaignView } from "../bench/campaign";
@@ -32,6 +35,7 @@ import type { PersonId } from "../core2/types";
 import directorJson from "./data/director.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
+const proof: string[] = [];
 const params = directorJson.parameters as Record<string, { value: number }>;
 
 it("an offer of help joins the one campaign record and stops the player only by its weight", () => {
@@ -142,7 +146,7 @@ it("an offer of help joins the one campaign record and stops the player only by 
             moment!.impact,
             `${where}: ${row.id} stops only past the line`,
           ).toBeGreaterThanOrEqual(params.directorInterruptImpact!.value);
-        console.log(
+        proof.push(
           `${where}: ${row.id} weight ${weight.toFixed(3)} impact ${moment!.impact.toFixed(3)} ${entry?.outcome}`,
         );
       }
@@ -163,10 +167,17 @@ it("an offer of help joins the one campaign record and stops the player only by 
       campaignFor(api, filingId).volunteerIds.length,
     );
     expect(header?.campaign.volunteers, where).toBe(asked.volunteers);
-    console.log(
+    proof.push(
       `${where}: ${offers.length} offers, ${asked.volunteers} on the campaign`,
+    );
+    // The proof, by place, seed and record id (the runner keeps no console).
+    writeFileSync(
+      path.join(tmpdir(), "volunteer-offer-proof.txt"),
+      `${proof.join("\n")}\n`,
     );
     return;
   }
-  throw new Error(`No drawn place gave an offer of help:\n${tried.join("\n")}`);
+  throw new Error(
+    `No drawn place gave an offer of help:\n${tried.join("\n")}\n${proof.join("\n")}`,
+  );
 }, 900_000);
