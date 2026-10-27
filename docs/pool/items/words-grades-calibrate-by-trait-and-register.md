@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/grade-reach
 pr:
 blocked-on:
 source: "owner, Oct 27, to the CTO"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T05:29:30.004Z
 ---
 
 **What.** The owner, Oct 27: "when they give me like 100 lines to grade, and I grade 17, that should calibrate the entire engine, at least to some extent. If I give feedback on the opening speech, certain phrases, certain words said by a trait or whatever calibrates other parts of the engine... a butterfly effect, and calibrates a concession speech later on. That's what I mean by the English engine constantly upgrading." Today a grade sits on one bank piece (128 of 5,318 carry one) and changes nothing else. This item makes a grade attach to what the piece is made of: its pattern (the sentence shape), the speaker trait and tie it was written for, its register (newscaster, plain speaker, polished, floor speech) and its words, so that a grade on an opening-speech line moves the weight of every piece sharing that pattern, trait and register across every bank, including a concession speech never graded. The owner grades inside play: his sitting notes and a grade control on a scene (thumbs, or a one-word note) write a grade record; no batch is laid out for him.
