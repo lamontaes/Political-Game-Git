@@ -369,6 +369,36 @@
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceSchoolImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "door-first",
+      "recordKinds": ["campaign.door"],
+      "recordFactEquals": { "first": ["true"], "stake": ["true"] },
+      "lived": true,
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "anyone",
+      "cast": "a resident who opened their door to the player's own canvass for the first time and holds a stance of their own on a question the player's platform takes, scored on tie and sociability",
+      "typeKey": "first-meeting",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceDoorImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "door-again",
+      "recordKinds": ["campaign.door"],
+      "recordFactEquals": { "first": ["false"], "stake": ["true"] },
+      "lived": true,
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "anyone",
+      "cast": "a resident the player's canvass has knocked on before, who opens the door again and holds a stance of their own on a question the player's platform takes, scored on tie and sociability",
+      "typeKey": "visit",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceDoorImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
     }
   ]
 }

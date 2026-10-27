@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { campaignDay } from "../bench/campaign";
 import { fileForOffice } from "../bench/government";
 import { answerJobOffer, jobsView } from "../bench/jobs";
 import { buildBenchWorld } from "../bench/world";
@@ -42,6 +43,8 @@ import { SITUATION_LIBRARY } from "./scheduling";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 365;
 const DRAWS = 2;
+/** Days between the filed player's canvasses (the bench's campaign day, once a week). */
+const DOOR_DAYS = 7;
 
 /**
  * The families of circumstance (owner, Oct 27) that every drawn year
@@ -105,6 +108,7 @@ function playYear(
   director: Director,
   personId: PersonId,
   where: string,
+  options: { canvass?: boolean } = {},
 ): Fired[] {
   // Followed as play follows the person it controls: their records are kept.
   core.focusPersonIds.add(personId);
@@ -190,8 +194,37 @@ function playYear(
       minuteOfDay: P.zero,
     },
   });
+  // A candidate knocks doors as the bench's campaign day lets them: at a
+  // stop, once a week, while their race is still to come.
+  let canvassedOn: string | undefined;
+  const canvass = () => {
+    if (!options.canvass) return;
+    if (canvassedOn && addDays(makeIsoDate(canvassedOn), DOOR_DAYS) > core.date)
+      return;
+    const api = coreAPI(core);
+    const filing = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [personId]) as unknown as FilingRow[]
+    ).find(
+      (row) =>
+        row.status === "on-ballot" &&
+        ((
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("contests")
+            .get(row.contestId) as unknown as
+            { electionDate: string } | undefined
+        )?.electionDate ?? "") > core.date,
+    );
+    if (!filing) return;
+    campaignDay(core, personId, { filingId: filing.id, kind: "canvass" });
+    canvassedOn = core.date;
+  };
   while (packet.kind !== "complete") {
     if (packet.kind === "stop") {
+      canvass();
       for (const stop of packet.stop.modules) {
         const offer = jobsView(core, personId).offers.find((item) =>
           stop.recordId.startsWith(`${item.id}:`),
@@ -360,7 +393,11 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
       }`;
       tried.push(personId ? where : `${where}: no full-person member or race`);
       if (personId)
-        fired.push(...playYear(world.core, world.director, personId, where));
+        fired.push(
+          ...playYear(world.core, world.director, personId, where, {
+            canvass: as === "candidate",
+          }),
+        );
     }
   }
   const byRow = new Map<string, Fired[]>();

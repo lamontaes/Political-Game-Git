@@ -565,10 +565,6 @@ describe("story director on the new core", () => {
           expect(roles.has(role)).toBe(true);
       }
     }
-    const folded = (key: string, producer: string) =>
-      types
-        .find((row) => row.key === key)!
-        .causes.some((row) => row.awaitingProducer === producer);
     // A race's result reaches the player through a candidate they know; the
     // player's own win is the race-won scene, not a second celebration.
     expect(
@@ -589,8 +585,17 @@ describe("story director on the new core", () => {
             row.causeRecord === "election-result",
         ),
     ).toBe(false);
-    expect(folded("first-meeting", "canvass-visit")).toBe(true);
-    expect(folded("visit", "canvass-visit")).toBe(true);
+    // A door the player's own canvass knocked: a first meeting, or a visit
+    // to a door knocked before.
+    const knocked = (key: string) =>
+      types
+        .find((row) => row.key === key)!
+        .causes.some(
+          (row) =>
+            row.causeRecord === "campaign.door" && row.reason === "canvass",
+        );
+    expect(knocked("first-meeting")).toBe(true);
+    expect(knocked("visit")).toBe(true);
   });
 
   it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {
