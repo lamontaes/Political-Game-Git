@@ -422,24 +422,50 @@ function householdIncome(
  * (owning rises with age and income in the ACS). Renters' rent is the
  * county's median gross rent, scaled by income.
  */
-export function withHousing(input: CoreInput): CoreInput {
-  const town = townOf(input);
-  if (!town) return input;
+/** The town's owned-home share [homes, owned]: its survey share shrunk toward its county's by sample size. */
+function tenureOfTown(town: {
+  geoid: string;
+  county: string;
+}): [number, number] | undefined {
   const placeTenure = PLACE_TENURE[town.geoid];
   const countyTenure =
     COUNTY_TENURE[town.county] ??
     nationTenure(town) ??
     fallbackTenure(town.county);
-  // A small place's survey share is shrunk toward its county's by sample size.
-  const tenure: [number, number] | undefined =
-    placeTenure && countyTenure
-      ? [
-          placeTenure[0] + pv("housingTenureShrinkHomes"),
-          placeTenure[1] +
-            (pv("housingTenureShrinkHomes") * countyTenure[1]) /
-              countyTenure[0],
-        ]
-      : (placeTenure ?? countyTenure);
+  return placeTenure && countyTenure
+    ? [
+        placeTenure[0] + pv("housingTenureShrinkHomes"),
+        placeTenure[1] +
+          (pv("housingTenureShrinkHomes") * countyTenure[1]) / countyTenure[0],
+      ]
+    : (placeTenure ?? countyTenure);
+}
+
+/**
+ * The renter households the place's housing records expect among `homes`
+ * (household ids of the town's dwellings): the homes less the owners its
+ * owner share gives them, as `withHousing` seeds them. Zero where a median
+ * rent is missing (no rents are seeded) or the share leaves every home owned.
+ */
+export function expectedRenterHouseholds(
+  c: CoreState,
+  homes: readonly string[],
+): number {
+  const full = homes.flatMap((id) => c.households.get(id) ?? []);
+  const town = townOf({
+    placeMetadata: c.placeMetadata,
+    households: full,
+  } as unknown as CoreInput);
+  if (!town) return 0;
+  const tenure = tenureOfTown(town);
+  if (!tenure || !rentValueOf(town.county)[0]) return 0;
+  return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
+}
+
+export function withHousing(input: CoreInput): CoreInput {
+  const town = townOf(input);
+  if (!town) return input;
+  const tenure = tenureOfTown(town);
   const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));

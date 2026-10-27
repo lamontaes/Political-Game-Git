@@ -3813,6 +3813,48 @@
       }
     },
     {
+      "key": "scene-words.lead-news-arrives-other.other-has-been-waiting-for-you-to-get-home",
+      "move": "lead-news-arrives-other",
+      "kind": "spoken",
+      "text": "{other} has been waiting for you to get home.",
+      "uses": [
+        {
+          "move": "lead-news-arrives-other",
+          "subject": "lead",
+          "role": "news-arrives",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-news-arrives-other.other-asks-you-to-sit-down-first",
+      "move": "lead-news-arrives-other",
+      "kind": "spoken",
+      "text": "{other} asks you to sit down first.",
+      "uses": [
+        {
+          "move": "lead-news-arrives-other",
+          "subject": "lead",
+          "role": "news-arrives",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
       "key": "scene-words.lead-hallway-other.other-catches-you-on-the-way-out-of-the-meeting",
       "move": "lead-hallway-other",
       "kind": "spoken",
@@ -3870,6 +3912,174 @@
       "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-first-meeting-other.someone-wants-you-to-meet-other",
+      "move": "lead-first-meeting-other",
+      "kind": "spoken",
+      "text": "Someone wants you to meet {other}.",
+      "uses": [
+        {
+          "move": "lead-first-meeting-other",
+          "subject": "lead",
+          "role": "first-meeting",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-first-meeting-other.other-is-brought-over-to-meet-you",
+      "move": "lead-first-meeting-other",
+      "kind": "spoken",
+      "text": "{other} is brought over to meet you.",
+      "uses": [
+        {
+          "move": "lead-first-meeting-other",
+          "subject": "lead",
+          "role": "first-meeting",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-becoming-friends-other.you-and-other-keep-ending-up-at-the-same-table",
+      "move": "lead-becoming-friends-other",
+      "kind": "spoken",
+      "text": "You and {other} keep ending up at the same table.",
+      "uses": [
+        {
+          "move": "lead-becoming-friends-other",
+          "subject": "lead",
+          "role": "becoming-friends",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-becoming-friends-other.other-waves-you-over-again",
+      "move": "lead-becoming-friends-other",
+      "kind": "spoken",
+      "text": "{other} waves you over again.",
+      "uses": [
+        {
+          "move": "lead-becoming-friends-other",
+          "subject": "lead",
+          "role": "becoming-friends",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-reunion-other.other-spots-you-first-and-comes-over",
+      "move": "lead-reunion-other",
+      "kind": "spoken",
+      "text": "{other} spots you first and comes over.",
+      "uses": [
+        {
+          "move": "lead-reunion-other",
+          "subject": "lead",
+          "role": "reunion",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-reunion-other.it-s-been-a-long-while-but-other-knows-you-right-away",
+      "move": "lead-reunion-other",
+      "kind": "spoken",
+      "text": "It's been a long while, but {other} knows you right away.",
+      "uses": [
+        {
+          "move": "lead-reunion-other",
+          "subject": "lead",
+          "role": "reunion",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-argument-other.other-still-looks-put-out-with-you",
+      "move": "lead-argument-other",
+      "kind": "spoken",
+      "text": "{other} still looks put out with you.",
+      "uses": [
+        {
+          "move": "lead-argument-other",
+          "subject": "lead",
+          "role": "argument",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-argument-other.other-hasn-t-let-the-last-talk-go",
+      "move": "lead-argument-other",
+      "kind": "spoken",
+      "text": "{other} hasn't let the last talk go.",
+      "uses": [
+        {
+          "move": "lead-argument-other",
+          "subject": "lead",
+          "role": "argument",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-scene-web-meeting-pass-1)",
       "date": "2026-10-27",
       "tag": {
         "move": "narrate"
