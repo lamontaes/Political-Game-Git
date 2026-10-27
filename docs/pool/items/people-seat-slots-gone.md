@@ -5,11 +5,12 @@ area: art
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-seat-slots-gone
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T21:25:49.997Z
 ---
 
 **What.** art/seat-slots holds Firefly-painted people for every seat of twelve chambers and meeting rooms (16 MB, plus 70 MB of sources, the pipeline under tools/seat-slots and a handoff folder), and nothing in the game reads it. The owner ruled on Oct 27 that big rooms hold only who is there and a spot with nobody on it shows the original painting. The bench already draws only the people a scene stages, and the depth masks draw nothing for an empty spot, so the painted crowds are deleted.
