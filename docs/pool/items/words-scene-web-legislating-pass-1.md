@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/web-legislating
-pr:
+pr: 6329
 blocked-on:
 source: "words-and-scenes lead, Oct 27: first pass of words-scene-web-legislating"
 lead: words
