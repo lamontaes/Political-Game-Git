@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by: 
+status: claimed
+claimed-by: screens/person-card-plain
 pr:
 blocked-on:
 source: "the owner's v0.56.2 sitting, Oct 27, 3:30 PM Eastern (Carlos Washington, 35, Salida, Colorado), filed by the screens designer"
 lead: play-first
 milestone: play-first
-claimed-at: 
+claimed-at: 2026-10-27T20:15:17.597Z
 ---
 
 **What.** In v0.56.2 the owner said "Remove the goddamn talk button" of the person card, and of its traits block (Deliberation, Sociability "Neither, much", Handling disagreement, Keeping commitments, Risk): "The player is not seeing this stuff. It needs to be a plain version of what this person's like." The card loses its Talk button (talking is reached the way the mocks show, by the person in the room), and the traits block becomes one or two plain sentences from the person's traits through an English bank, never the trait names. The card keeps its portrait, name and what the person thinks of the player.
