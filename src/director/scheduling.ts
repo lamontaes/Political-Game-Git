@@ -78,6 +78,13 @@ export interface SituationCause {
   opener?: string;
   opening?: string;
   /**
+   * The key the exchange's pieces are tagged with when this cause fires the
+   * type, in place of the type's own tag key: one purpose, a different
+   * reason for each cause (a colleague, a reporter and a lobbyist each speak
+   * for their own).
+   */
+  sceneKey?: string;
+  /**
    * Where this cause stages the type, when it is not the type's own order of
    * settings: a vote trade is asked for in the chamber its record names.
    */
@@ -402,6 +409,11 @@ function fillRole(
       // death is about), never the subject.
       const id = core.durableLog.get(moment.causeId)?.personIds[zero];
       return id && id !== moment.personId && core.people.has(id) ? [id] : [];
+    }
+    case "winner": {
+      // Who a count's record says won (its winnerId), never the subject.
+      const id = core.durableLog.get(moment.causeId)?.facts?.winnerId;
+      return id && id !== moment.personId && alive(core, id) ? [id] : [];
     }
     case "kin":
       return closest(

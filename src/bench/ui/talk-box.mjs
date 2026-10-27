@@ -26,6 +26,48 @@ export function talkLine({ kind = "speech", text, who, lying, held }) {
   );
 }
 
+/**
+ * The head every speaking panel carries: a face, a name and what they are. The ids are
+ * `<prefix>-who`, `-bust`, `-name` and `-role`, which the play screen fills.
+ */
+export function speakerHead(prefix) {
+  return el(
+    "div",
+    { id: `${prefix}-who`, className: "who" },
+    el("div", { id: `${prefix}-bust`, className: "bust" }),
+    el(
+      "div",
+      {},
+      el("div", { id: `${prefix}-name`, className: "name" }),
+      el("div", { id: `${prefix}-role`, className: "role" }),
+    ),
+  );
+}
+
+/** Replace each `[data-speaker]` slot in the page with the speaker head of that prefix. */
+export function mountSpeakers(root = document) {
+  for (const slot of root.querySelectorAll("[data-speaker]"))
+    slot.replaceWith(speakerHead(slot.dataset.speaker));
+}
+
+/** Say one line in the list of lines with id `listId` (the opening box says them one at a time). */
+export function sayInBox(listId, text) {
+  $(listId).replaceChildren(talkLine({ kind: "speech", text }));
+}
+
+/**
+ * Lines and numbered replies set out in a panel of their own (the speech being built in
+ * the Campaigns screen): the same lines and replies the talk box shows, from the same parts.
+ */
+export function talkSheet({ lines, replies }) {
+  return el(
+    "div",
+    { className: "talk-sheet" },
+    el("ol", { className: "talk-lines" }, ...lines),
+    el("div", { className: "replies" }, ...replies),
+  );
+}
+
 /** A numbered reply; `label` is the words it shows, `onPick` what it does. */
 export function talkReply(choice, label, onPick) {
   const button = makeButton({

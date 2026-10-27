@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-screens-last-four
-pr:
+pr: #6357
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

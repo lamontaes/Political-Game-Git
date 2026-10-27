@@ -43,6 +43,16 @@ import {
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor, localClerkFor } from "../core2/modules/filing-clerk";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
+import {
+  EXECUTIVE_MODULE_ID,
+  appointmentsIn,
+} from "../core2/modules/executive";
+import { lawChain } from "../core2/modules/laws";
+import { lineForPost } from "../core2/budgets-treasury";
+import {
+  INTEREST_GROUPS_MODULE_ID,
+  meetingsOn,
+} from "../core2/modules/interest-groups";
 import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
@@ -65,6 +75,9 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "press",
   "press-corps",
   "staff",
+  "department-head",
+  "sponsor",
+  "lobbyist",
   "town-hall-askers",
   "supporters",
   "volunteers",
@@ -284,6 +297,59 @@ export function civicFill(
         living(
           core,
           servingStaffOf(api, moment.personId).map((row) => row.personId),
+        ),
+      );
+    }
+    case "department-head": {
+      // A cut line's department head: the person the town's appointment
+      // records seat in a post whose pay draws on the line the record cut. A
+      // line no post draws on (administration is every post's fallback), a
+      // raise, or a government that appoints no heads has none, and the
+      // scene does not fire.
+      if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
+      const cut = core.durableLog.get(moment.causeId);
+      const line = cut?.facts?.line;
+      if (
+        cut?.kind !== "budget-line-changed" ||
+        !line ||
+        line === "administration" ||
+        cut.facts?.level !== "city" ||
+        !(Number(cut.facts?.deltaMinor) < zero)
+      )
+        return [];
+      return free(
+        living(
+          core,
+          appointmentsIn(api, lawChain(api).townPlaceId)
+            .filter((row) => lineForPost("city", `town:${row.post}`) === line)
+            .map((row) => row.holderId),
+        ),
+      );
+    }
+    case "sponsor": {
+      // The bill's sponsor on its record, when it is someone other than the
+      // executive whose desk it is on.
+      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+      const bill = billOf(api, moment);
+      return bill ? free(living(core, [bill.sponsorId])) : [];
+    }
+    case "lobbyist": {
+      // The lobbyist of a group whose recorded meetings on the bill are
+      // against it: the group that costs its members most comes first.
+      if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return [];
+      const bill = billOf(api, moment);
+      if (!bill) return [];
+      const against = meetingsOn(api, bill.id)
+        .filter((row) => row.lobbyistId && (row.side ?? -one) < zero)
+        .sort(
+          (a, b) =>
+            b.annualCostMinor - a.annualCostMinor ||
+            a.groupId.localeCompare(b.groupId),
+        );
+      return free(
+        living(
+          core,
+          against.map((row) => row.lobbyistId),
         ),
       );
     }

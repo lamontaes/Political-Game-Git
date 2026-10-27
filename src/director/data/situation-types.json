@@ -348,14 +348,19 @@
           "opening": "tell"
         },
         {
-          "awaitingProducer": "election-result",
-          "causeEngine": "elections",
+          "match": {
+            "label": "circumstance:race-result-known",
+            "causeFacts": [{ "key": "winnerId", "is": "other" }]
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
           "bind": {
+            "bearer": "counterpart",
             "receiver": "subject",
-            "about": "counterpart",
-            "bearer": "present"
+            "about": "winner"
           },
           "opener": "bearer",
+          "setting": ["public"],
           "opening": "tell"
         },
         {
@@ -722,16 +727,6 @@
           "opener": "host"
         },
         {
-          "awaitingProducer": "election-result",
-          "causeEngine": "elections",
-          "bind": {
-            "honoree": "subject",
-            "host": "household",
-            "guests": "present"
-          },
-          "opener": "host"
-        },
-        {
           "match": {
             "label": "money:job-started",
             "counterpart": "some"
@@ -745,7 +740,7 @@
           "opening": "tell"
         }
       ],
-      "awaiting": ["record:birthday-gathering", "record:election-win"],
+      "awaiting": ["record:birthday-gathering"],
       "tag": {
         "key": "honor",
         "endpoint": "personal",
@@ -1383,7 +1378,11 @@
         "key": "arrival",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "housemate-arrives",
+      "asker": "newcomer",
+      "asked": "household",
+      "stakes": ["home"]
     },
     {
       "key": "care",
@@ -2593,6 +2592,48 @@
       "stakes": ["bill"]
     },
     {
+      "key": "morning-after",
+      "purpose": "morning-after",
+      "asker": "visitor",
+      "asked": "you",
+      "stakes": ["office", "opponent"],
+      "roles": [
+        {
+          "key": "visitor",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["ask", "thank", "tell", "comfort"],
+          "wants": ["engage", "help-others"],
+          "bearing": "tender"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "promise", "deflect", "tell"],
+          "wants": ["commit"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": { "label": "circumstance:morning-after" },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
+          "bind": { "visitor": "counterpart", "you": "subject" },
+          "opener": "visitor",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      }
+    },
+    {
       "key": "constituent-stop",
       "purpose": "law-reaches",
       "asker": "constituent",
@@ -2652,6 +2693,9 @@
     },
     {
       "key": "hallway",
+      "purpose": "hallway-word",
+      "asker": "other",
+      "asked": "you",
       "roles": [
         {
           "key": "other",
@@ -2678,6 +2722,7 @@
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "colleague-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         },
@@ -2686,6 +2731,7 @@
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "reporter-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         },
@@ -2694,14 +2740,15 @@
           "causeEngine": "circumstance",
           "causeRecord": "case.made",
           "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "lobbyist-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         }
       ],
       "tag": {
-        "key": "routine",
+        "key": "colleague-word",
         "endpoint": "political",
-        "registers": ["conversation", "scene-words"]
+        "registers": ["scene-talk", "scene-words"]
       }
     },
     {
@@ -3670,6 +3717,87 @@
       }
     },
     {
+      "key": "desk-visit",
+      "eachCause": true,
+      "purpose": "desk-visit",
+      "asker": "visitor",
+      "asked": "you",
+      "stakes": ["bill", "decision", "votes"],
+      "roles": [
+        {
+          "key": "visitor",
+          "fill": "sponsor",
+          "count": "one",
+          "moves": [
+            "request",
+            "answer",
+            "press",
+            "plea",
+            "threaten",
+            "accept",
+            "thank"
+          ],
+          "wants": ["change"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "ask"],
+          "wants": ["commit"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "visitor": "sponsor",
+            "you": "subject"
+          },
+          "opener": "visitor"
+        },
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "visitor": "lobbyist",
+            "you": "subject"
+          },
+          "opener": "visitor"
+        }
+      ],
+      "tag": {
+        "key": "desk-visit",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "desk-bill",
       "purpose": "desk-bill",
       "asker": "aide",
@@ -4510,6 +4638,66 @@
       "asker": "teller",
       "asked": "you",
       "stakes": ["race", "opponent"]
+    },
+    {
+      "key": "budget-cut",
+      "purpose": "cut-argument",
+      "asker": "head",
+      "asked": "you",
+      "stakes": ["cut", "department", "votes"],
+      "roles": [
+        {
+          "key": "head",
+          "fill": "department-head",
+          "count": "one",
+          "moves": [
+            "deliver-news",
+            "answer",
+            "press",
+            "plea",
+            "threaten",
+            "accept"
+          ],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "ask"],
+          "wants": ["commit"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:budget-line-changed",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "budgets",
+          "causeRecord": "budget-line-changed",
+          "bind": {
+            "head": "department-head",
+            "you": "subject"
+          },
+          "opener": "head"
+        }
+      ],
+      "tag": {
+        "key": "cut-heard",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
     }
   ]
 }

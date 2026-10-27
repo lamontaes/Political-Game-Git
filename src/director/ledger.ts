@@ -157,6 +157,16 @@ export function createDirector(
   /** Today's records some circumstance could stage, as they are recorded. */
   const circumstanceRows = rowsByKind();
   const circumstanceQueue: QueuedRecord[] = [];
+  /** Records held for rows that come days after them (the morning after), by the day they come. */
+  const circumstanceLater = new Map<string, QueuedRecord[]>();
+  /** For each record kind, the days after it that some row waits. */
+  const laterDays = new Map<string, number[]>();
+  for (const [kind, rows] of circumstanceRows) {
+    const days = [
+      ...new Set(rows.flatMap((row) => (row.afterDays ? [row.afterDays] : []))),
+    ];
+    if (days.length) laterDays.set(kind, days);
+  }
   /** The open jobs at each controlled person's employer when last measured. */
   const employerJobs = new Map<
     PersonId,
@@ -1162,14 +1172,17 @@ export function createDirector(
     label: string,
     impact: number,
     contributions: ChannelContribution[],
+    /** The day it comes, when that is not its cause's (the morning after). */
+    at?: IsoDate,
   ): void {
     // A cause met only after it happened (someone first followed partway
     // through the day it happened) keeps its own day.
     const causeDate = core.durableLog.get(row.causeId)?.date;
     const date =
-      causeDate && causeDate < core.date && causeDate >= book.watchedSince
+      at ??
+      (causeDate && causeDate < core.date && causeDate >= book.watchedSince
         ? causeDate
-        : core.date;
+        : core.date);
     const counterpartIds = [...row.counterparts].sort();
     // A cause measured twice in a day (once when its event is recorded, again
     // when the day closes) keeps one id per moment.
@@ -1378,7 +1391,15 @@ export function createDirector(
    * so scenes cluster where the records give cause and a quiet day has none.
    */
   function produceCircumstances(core: Readonly<CoreState>): void {
-    const queue = circumstanceQueue.splice(zero);
+    // Records held for a later row come on their day; a day's records are
+    // written as it closes, so one may already be due when it is recorded.
+    const due: QueuedRecord[] = [];
+    for (const [day, held] of circumstanceLater)
+      if (day <= core.date) {
+        due.push(...held);
+        circumstanceLater.delete(day);
+      }
+    const queue = [...circumstanceQueue.splice(zero), ...due];
     for (const book of ledger.people.values()) {
       if (!isExplicitlyControlledPersonV1(core, book.personId)) continue;
       const records = [
@@ -1389,8 +1410,14 @@ export function createDirector(
       if (!records.length) continue;
       const date = makeIsoDate(core.date);
       const lastAny = ledger.circumstanceLast.get(`${book.personId}|*`);
-      if (!spacingAllows(lastAny, param("directorCircumstanceEveryDays"), date))
-        continue;
+      // The week between scenes from circumstance; a row that follows one
+      // thing the player lived through (the morning after) is not held to it.
+      const weekPassed = spacingAllows(
+        lastAny,
+        param("directorCircumstanceEveryDays"),
+        date,
+      );
+      if (!weekPassed && !records.some((record) => record.later)) continue;
       // A record that already staged a scene for this person today is met
       // the ordinary way: one cause stages one scene.
       const staged = new Set<string>();
@@ -1423,6 +1450,7 @@ export function createDirector(
           },
           staged,
           due: (row) =>
+            (weekPassed || !!row.afterDays) &&
             spacingAllows(
               ledger.circumstanceLast.get(`${book.personId}|${row.id}`),
               param(row.everyParameter),
@@ -1438,7 +1466,15 @@ export function createDirector(
             ),
           byKind: circumstanceRows,
         },
-      ).sort((a, b) => b.score - a.score || a.row.id.localeCompare(b.row.id));
+      ).sort(
+        (a, b) =>
+          // What follows a record of the player's own (their race's count)
+          // comes before news of others' on the same day.
+          Number(b.record.personIds.includes(book.personId)) -
+            Number(a.record.personIds.includes(book.personId)) ||
+          b.score - a.score ||
+          a.row.id.localeCompare(b.row.id),
+      );
       const pick = picks[zero];
       if (!pick) continue;
       const base = param(pick.row.impactParameter);
@@ -1456,16 +1492,24 @@ export function createDirector(
         ...(pick.record.placeId ? { placeId: pick.record.placeId } : {}),
       };
       const label = circumstanceLabel(pick.row.id);
-      storeMoment(core, book, change, label, impact, [
-        {
-          channel: "circumstance",
-          raw,
-          scale: base,
-          traitWeight: one,
-          traits: [],
-          contribution: impact,
-        },
-      ]);
+      storeMoment(
+        core,
+        book,
+        change,
+        label,
+        impact,
+        [
+          {
+            channel: "circumstance",
+            raw,
+            scale: base,
+            traitWeight: one,
+            traits: [],
+            contribution: impact,
+          },
+        ],
+        pick.record.dueOn,
+      );
       // Spaced from the day it was written, staged or not, so a circumstance
       // met as a journal line does not come again the next day.
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
@@ -1690,8 +1734,17 @@ export function createDirector(
     eventKinds: data.eventKinds,
     onEvent(api, event, learnedBy) {
       if (!started) return;
-      if (circumstanceRows.has(event.kind))
-        circumstanceQueue.push(queuedOf(event));
+      if (circumstanceRows.has(event.kind)) {
+        const queued = queuedOf(event);
+        circumstanceQueue.push(queued);
+        for (const days of laterDays.get(event.kind) ?? []) {
+          const due = addDays(makeIsoDate(event.date), days);
+          circumstanceLater.set(due, [
+            ...(circumstanceLater.get(due) ?? []),
+            { ...queued, later: true, dueOn: due },
+          ]);
+        }
+      }
       rateNow(api.state, onEvent(api.state, event, learnedBy));
     },
     relationshipKinds: data.relationshipKinds,
