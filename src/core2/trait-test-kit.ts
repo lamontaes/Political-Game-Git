@@ -179,8 +179,16 @@ export const RUN_SEED =
 const MAX_RESIDENTS = 4000;
 /** Residents a test town needs, so a town hall or an outlet does not hold everyone. */
 const MIN_RESIDENTS = 300;
-/** Places drawn before the test fails. */
-const MAX_DRAWS = 12;
+/**
+ * Places drawn before the test fails. About half the places drawn fit the
+ * size band (11 of 24 on seed 7122ba32bc9493b3, Oct 26), and a test may pass
+ * over one that fits, as the meetings test does for a town whose officials
+ * weighed too few town halls. Twelve ran out on seed
+ * 5aa198a5a6638d8eb6ea41ca46ed21da4e193dcb: ten were too big, and Cutter,
+ * Arizona weighed 6 town halls. A place refused for its size costs only its
+ * opening build.
+ */
+const MAX_DRAWS = 24;
 
 /**
  * A place drawn from all 56 for one test file, played over the `days` that

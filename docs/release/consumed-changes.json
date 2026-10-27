@@ -1,6 +1,39 @@
 {
   "entries": [
     {
+      "version": "0.39.2",
+      "releasedOn": "2026-10-26",
+      "revision": "84a74f9939a78ddf4d650fbf44ce2ca4392b4fec",
+      "changeIds": [
+        "play-stop-40-menu-list-drops-its-subheadings",
+        "screens-ui-card",
+        "screens-ui-tab"
+      ]
+    },
+    {
+      "version": "0.39.1",
+      "releasedOn": "2026-10-26",
+      "revision": "13034532b1e0d34f42d28092af0538fff723643f",
+      "changeIds": [
+        "elections-territory-no-contest-at-18",
+        "gov-dc-mayor-budget-proposal-not-adopted",
+        "screens-ui-list-row"
+      ]
+    },
+    {
+      "version": "0.39.0",
+      "releasedOn": "2026-10-26",
+      "revision": "50327e6868cc362bbc447f725f18a0e93a81d60c",
+      "changeIds": [
+        "core-speed-counted-renewal-pass",
+        "cto-smart-assignments-oct-26",
+        "elections-incumbents-stand-again-above-band",
+        "laws-work-requirement-counts-owners-as-idle",
+        "play-official-ties-on-screen",
+        "skills-scene-screen-text-oct-26"
+      ]
+    },
+    {
       "version": "0.38.0",
       "releasedOn": "2026-10-26",
       "revision": "bf9d6382f50b46d230cf256ab518400bced18e90",

@@ -349,6 +349,12 @@
       "source": "How many of the people a bill touches most testify at its hearing; hearings commonly seat a few public witnesses per panel.",
       "spread": [1, 8]
     },
+    "wholeStateCityShare": {
+      "value": 0.9,
+      "tag": "TUNABLE",
+      "source": "The share of a state's residents a city must hold to be the whole state for budget purposes: a city with no council of its own that holds this much of its state's residents is governed by the state's legislature, which votes its budget (the District of Columbia: city 693,645 of 702,250 residents, 98.8%). Checked against the places where the city is the state; a smaller place with no council has no body to vote its budget.",
+      "spread": [0.8, 0.98]
+    },
     "budgetAdoptionDuty": {
       "value": 0.3,
       "tag": "TUNABLE",

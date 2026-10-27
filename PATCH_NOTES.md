@@ -296,6 +296,63 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.39.2
+
+_Released October 26, 2026._
+
+### Changed
+
+- **The Menu is a plain list of names** The lines of small print under some Menu
+  entries ("Today, what is next, and your time" and the rest) are gone. Each
+  entry is just its name, and the list is built by one shared menu part.
+
+- **Cards on the play screen are built by one shared part** The law, family,
+  money, job and job-offer cards now come from one shared part instead of five
+  hand-written copies. They look and work the same.
+
+- **Tabs on the play screen are built by one shared part** The tabs on the
+  sheets, the government levels, the People groups and the News papers now come
+  from one shared part instead of four hand-written copies. They look and work
+  the same.
+
+## PRE-ALPHA 0.39.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Washington, D.C.'s council now votes the city budget** In the District of
+  Columbia the mayor's proposed budget never reached a vote, because the city
+  had no council of its own in the game and the budget simply carried forward.
+  The District's council now votes the city budget the way a city council does
+  elsewhere.
+
+### Changed
+
+- **Officials in the Politics list show a face and open their card** Every line
+  the play screen shows as a row now comes from one shared part. In Politics,
+  Government, each official has a face beside their name, and clicking the name
+  opens their card.
+
+## PRE-ALPHA 0.39.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **An official's card shows the colleagues in office they know.** Clicking an
+  officeholder now shows a Knows block. It lists the people in office they're
+  tied to, closest first, each with their office and how they know them. An
+  official who knows no one in office yet says so.
+
+### Fixed
+
+- **A business owner no longer loses Medicaid for working no hours** The
+  Medicaid work requirement read a person's hours only from their job records,
+  so someone who owns and runs a business, such as a town newspaper's owner,
+  counted as working no hours and lost coverage. An owner's hours at their own
+  business now count, at the average for the self-employed.
+
 ## PRE-ALPHA 0.38.0
 
 _Released October 26, 2026._
