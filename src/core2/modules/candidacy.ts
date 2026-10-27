@@ -45,6 +45,7 @@ import type {
 import { decisionKinds } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import { candidatePlatform } from "../campaign-stances";
+import { contestPositions } from "../contest-positions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
 import {
@@ -626,16 +627,21 @@ function queuesFor(api: CoreAPI): Queues | null {
   return built;
 }
 
-/** A filing keeps the same recorded positions and strengths its campaign reads. */
+/**
+ * A filing keeps the same recorded positions and strengths its campaign reads,
+ * on the questions the contest's seat takes up (`contestPositions`).
+ */
 export function platformFromViews(
   api: CoreAPI,
   personId: PersonId,
-  party: string | null = null,
+  party: string | null,
+  positions: readonly string[],
 ): string[] {
   return candidatePlatform(
     api,
     personId,
     party,
+    positions,
     c(api, "candidacyPlatformQuestions"),
   ).map(({ question, position }) => `${question}=${position}`);
 }
@@ -656,7 +662,12 @@ function fileFor(
   const result = fileCandidacy(api, {
     personId: person.id,
     contestId: contest.id,
-    platform: platformFromViews(api, person.id, party),
+    platform: platformFromViews(
+      api,
+      person.id,
+      party,
+      contestPositions(api, contest),
+    ),
     party,
   });
   if (result.status === "refused")
@@ -1260,6 +1271,7 @@ function weighClosedContest(
     contest.level !== "state" && contest.level !== "federal",
   );
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  const positions = contestPositions(api, contest);
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
     if (!decision) continue;
@@ -1278,7 +1290,7 @@ function weighClosedContest(
       personId,
       filedOn: contest.filingDeadline,
       filedWith: rules.filedWith,
-      platform: platformFromViews(api, personId, party),
+      platform: platformFromViews(api, personId, party, positions),
       party,
       status: "on-ballot",
     };

@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/party-join-membership
-pr:
+pr: #6272
 blocked-on:
 source: laws-and-effects lead, Oct 27 (CI on #5657)
 claimed-at: 2026-10-27T09:03:30.408Z

@@ -242,6 +242,21 @@ ol {
     left bottom,
     right bottom;
 }
+/* The title's Continue: the life's face beside its name and place. */
+#front-continue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#front-continue .bust {
+  width: 44px;
+  height: 44px;
+}
+#front-main #front-continue .continue-text,
+#front-main #front-continue .continue-text b,
+#front-main #front-continue .continue-text small {
+  display: block;
+}
 /* The game's own figure, cropped to head and shoulders, fading into the glass. */
 .bust {
   flex: none;
@@ -930,6 +945,13 @@ input[type="range"]::-moz-range-thumb {
 .item.town small {
   display: block;
   font: inherit;
+}
+.item.town .town-head {
+  display: block;
+}
+.item.town .town-county {
+  color: var(--text-3);
+  margin-top: 2px;
 }
 .item.town small {
   color: var(--text-2);
@@ -1888,6 +1910,25 @@ body.dev .dev-ring {
 }
 #news-reader .heading {
   margin: 0 0 12px;
+  font: 600 34px/1.15 var(--speech);
+}
+#news-reader .paper-masthead {
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+}
+#news-reader .paper-masthead h2 {
+  margin: 0 0 6px;
+}
+#news-reader.paper {
+  padding: 26px 30px;
+}
+#news-reader-body .prose {
+  font: 18px/1.5 var(--speech);
+}
+#news-reader-more {
+  border-left: 1px solid rgba(214, 189, 132, 0.4);
+  padding-left: 18px;
 }
 #news-reader .quote {
   font-style: italic;

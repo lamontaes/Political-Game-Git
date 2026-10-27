@@ -296,6 +296,165 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.53.0
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Candidates accept a reporter's interview by what it brings them** A
+  candidate now weighs a reporter's interview by how much of the town the outlet
+  reaches and whether they already hold the seat, and temperament tips the close
+  calls. About half accept, as real candidates answer about half of voter-guide
+  requests; before, nearly every candidate accepted every interview.
+
+- **Hardship now shapes what people do next** A layoff, an eviction or a missed
+  loan payment now leaves stress that the person carries into what they do next,
+  and how hard it lands depends on who they are. A worker who has just lost a
+  job is more likely to file for unemployment, a household in a bind is more
+  likely to ask for a loan, and a person under strain is more likely to start
+  leaving town, each by a size taken from research and each fading as the stress
+  wears off. Missing a loan payment now weighs on a person less than being laid
+  off.
+
+### Fixed
+
+- **A relative's age is read from the calendar** When a relative at home weighs
+  in on your filing, their age and the child's age are now counted by the
+  calendar, not by dividing days by 365, so someone turns 18 on their birthday.
+
+- **The title's Continue shows the face you made** The title's Continue now
+  shows the character's own face and clothes from the creator beside the name
+  and place, the same portrait the player card and Who you are already show.
+
+- **The face at the center of People is always the one you made** The center of
+  the People web now reads your saved look directly, the same portrait the
+  player card and Who you are show, instead of whichever figure the current room
+  happens to draw for you.
+
+- **The clerk at the filing counter is introduced before they speak** When you
+  walk up to the counter to file, a line of narration now says who is behind it
+  and what their post is, then the clerk asks how they can help.
+
+- **A same-named town's row names its county on its own line** In the creator's
+  town list, a town whose name another town in the state shares now shows "in
+  Coosa County" on its own line under the town's count, so the county no longer
+  reads as the thing the count belongs to.
+
+- **A news story opens as the paper's front page, with its masthead, date and
+  headline.** Picking up the news on the table opens the story under the paper's
+  name and the date, with its headline in large type and the other stories
+  beside it.
+
+- **The President's address no longer claims an oath, an evening or energy
+  prices the records do not show** Three lines in the opening address said
+  things the game's records do not back: that the oath had already been taken,
+  that the address was given in the evening, and that energy bills were part of
+  the price rise. They now say only what the records show.
+
+- **Puerto Rico's municipios now pay their police, schools and offices from a
+  treasury** In Puerto Rico a town's municipio employed its police, fire, health
+  and school staff but had no treasury in the budgets, so none of them was paid
+  from public money. The municipio is now the town's county-level government
+  with a treasury and a budget.
+
+### Changed
+
+- **The President speaks from a podium and the opening's cutaways show the
+  town's own workplaces** The opening now puts the President at the lectern,
+  with the Vice President and others seated beside him, and the cutaways to
+  jobs, wages and prices go to an employer in your town of the right kind, with
+  the people who work there.
+
+## PRE-ALPHA 0.52.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A second vote trade on a new bill gets its own ask** When a colleague trades
+  votes with you on one bill and comes back the next day about another, you now
+  hear the second ask too. Before, it was taken for a repeat of the first and
+  never shown.
+
+- **A life started at 35 now has the past of a 35-year-old** When you pick a
+  birthday in the creator, the town is built around someone who really is that
+  age. A 35-year-old now has parents old enough to have had him, the schools he
+  went through in the 1990s, the household he lives in and money on hand,
+  instead of the family and school years of a teenager.
+
+## PRE-ALPHA 0.52.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A filing offers the issues that seat's own government decides** When you
+  file for office, the positions you can take are now the issues that seat's own
+  government decides in that place. A town board or council seat no longer lists
+  abortion, carbon pricing or cannabis sales, which only a state can change; it
+  lists the local issues the state lets its places act on. A governor or state
+  legislature seat still lists the issues the state decides. Candidates the
+  world files for state their positions on the same list.
+
+- **The desktop build publishes again** The desktop build checks itself again:
+  its smoke test opens Advanced before New world, where the one dev-mode start
+  moved it, so Mac and Windows packages publish.
+
+### Changed
+
+- **News tells every story the press prints in plain words** Every story your
+  town's papers and stations print during play now shows in News as a headline
+  and a first sentence, under the outlet that printed it: a law taking effect, a
+  bill signed or vetoed, a council vote and its count, a charge or a sentence, a
+  business closing, the month's unemployment, a filing, a debate. None shows as
+  a record name or a row of labeled fields any more. Papers also stop printing
+  the record kept when someone new enters the world.
+
+## PRE-ALPHA 0.51.1
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Who tells the exit pollster depends on why they voted** Voters who follow
+  politics closely and cared about the race now tell the exit pollster more
+  readily, and temperament tips only the close calls. About 45% of voters tell,
+  as real exit polls find; before, a voter's temperament alone decided, so the
+  eager and the private split by personality and nothing else.
+
+## PRE-ALPHA 0.51.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **The talk at home after you file comes from someone with something at stake**
+  After you file for office, someone at home talks to you only if the records
+  give them a stake in the run: the household's savings against how long the
+  race will last, or a young child at home while you work. They open with that
+  in their own words, you answer one of four ways (own it, bring them in, bound
+  it, put it off), and what you say counts: a relative who agrees to help is
+  counted among your campaign's volunteers, and putting it off costs you with
+  them. A household with nothing at stake no longer gets a scene.
+
+### Improved
+
+- **The news and Journal boxes fade or close** The night's news no longer sits
+  over the room from the first evening until you open it. It shows as a toast
+  top right, fades by itself after about eight seconds, and goes at once when
+  you click its close. The story stays in News either way. The Journal line at
+  the bottom right is a toast too: it fades after the same time and closes with
+  its own X.
+
+### Fixed
+
+- **A state's rent help reaches a town only in proportion to its people** When a
+  state raised its housing line, the played town used to receive rent help for
+  the whole state's extra, about a hundred times its share in a small town. The
+  town now gets the part its own residents stand for, and a tenant is helped in
+  part when a full voucher would overshoot that share.
+
 ## PRE-ALPHA 0.50.0
 
 _Released October 27, 2026._

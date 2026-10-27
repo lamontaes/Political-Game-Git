@@ -219,6 +219,8 @@ async function launch() {
     { timeout: 240000 },
   );
   await page.getByTestId("new-game").click();
+  // New world lives under Advanced since the one dev-mode start (#6232).
+  await page.getByTestId("advanced").click();
   await page.getByTestId("new-world").click();
   await page.waitForFunction(
     () => {
