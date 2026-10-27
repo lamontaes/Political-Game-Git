@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-42-news-story-opens-as-the-paper
-pr:
+pr: #6222
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
