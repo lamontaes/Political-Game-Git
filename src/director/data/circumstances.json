@@ -297,6 +297,21 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "morning-after",
+      "recordKinds": ["election-result"],
+      "playerNamed": true,
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["civic:supporters", "own-household"],
+      "where": "pool",
+      "player": "ran-in-it",
+      "cast": "the day after the count, someone who worked the candidate's campaign (its volunteers and staff) or lives with them, scored on tie and sociability",
+      "typeKey": "morning-after",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceRaceImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "lobbyist-hallway",
       "recordKinds": ["case.made"],
       "recordIdPrefix": "case:lobby:",
