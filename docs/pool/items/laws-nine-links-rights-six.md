@@ -6,9 +6,9 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/law-wiring-rights-env
-pr: "#5669"
+pr: #5669
 blocked-on:
 source: laws-effects lead, Oct 26 (Merger 1's send-back on #5669)
 claimed-at: 2026-10-27T01:22:24.746Z

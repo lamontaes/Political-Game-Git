@@ -69,12 +69,15 @@ export function lawApplied(
     if (
       held.lastOn === date &&
       held.count === count &&
+      held.target === input.target &&
       held.what === input.what &&
       amount === 0
     )
       return;
+    // The target's tier follows the record: a counted household filled in as a full one (same id) is a household from then on, and the row says so.
     table.put({
       ...held,
+      target: input.target,
       count,
       what: input.what,
       lastOn: date,
