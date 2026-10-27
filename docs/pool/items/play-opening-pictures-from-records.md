@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-opening-pictures-from-records
+pr: #6284
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T10:58:23.362Z
 ---
 
 **What.** The opening cut to fixed stock pictures chosen by topic (an unemployment office, a factory floor, a grocery store) with nobody in them, and showed the President as a portrait. The cutaways now go to the town's own employer of a kind the figure is about, pictured by that organization's own record, with the people who work there; the President speaks from the podium of the picture, in the lectern pose, with the others beside him. CTO order of Oct 27 (docs/reports/opening-root-cause-2026-10-27.md); part of what director-opening-as-a-scene will absorb.

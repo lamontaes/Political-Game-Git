@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: words/scene-web
-pr:
+pr: 6279
 blocked-on:
 source: "owner, Oct 27, to the CTO"
 lead: words

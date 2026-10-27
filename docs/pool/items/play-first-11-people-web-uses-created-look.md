@@ -5,14 +5,15 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-first-11-people-web-uses-created-look
+pr: #6286
 blocked-on:
 after:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-27T10:59:42.288Z
 ---
 
 **What.** The owner's read of the playtest screenshots: the person in the people web is the one you made. In the v0.22.10 release the People web's center showed a figure that was not the created character. This item makes the web's center portrait read the player's saved appearance.

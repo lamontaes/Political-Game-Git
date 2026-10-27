@@ -5,12 +5,13 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-president-asks-within-powers
 pr:
 blocked-on:
 lead: director
 source: CTO opening root-cause report, Oct 27
+claimed-at: 2026-10-27T11:03:58.038Z
 ---
 
 **What.** The President's asks are chosen from their views alone (presidentQuestions, src/director/opening-story.ts:323-338). In Iowa City, Iowa, seed 28c0b8150290, the address said "Congress must remove the duty to retreat before using force." and "States should restrict abortion." Both are state powers only (question-powers.json), and both are already Iowa law (Iowa Code 704.1(3) and 146C.2 in the starting-law records). The owner named this on Oct 27 as hard-coded content. Evidence: docs/reports/opening-root-cause-2026-10-27.md.
