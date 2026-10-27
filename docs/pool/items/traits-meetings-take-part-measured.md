@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/traits-wire-civic-rest
 pr: #6143
 blocked-on:
