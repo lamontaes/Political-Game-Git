@@ -2725,6 +2725,14 @@
           "bind": { "other": "counterpart", "you": "subject" },
           "opener": "other",
           "setting": ["seat", "venue"]
+        },
+        {
+          "match": { "label": "circumstance:lobbyist-hallway" },
+          "causeEngine": "circumstance",
+          "causeRecord": "case.made",
+          "bind": { "other": "counterpart", "you": "subject" },
+          "opener": "other",
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -4539,6 +4547,66 @@
       "asker": "teller",
       "asked": "you",
       "stakes": ["race", "opponent"]
+    },
+    {
+      "key": "budget-cut",
+      "purpose": "cut-argument",
+      "asker": "head",
+      "asked": "you",
+      "stakes": ["cut", "department", "votes"],
+      "roles": [
+        {
+          "key": "head",
+          "fill": "department-head",
+          "count": "one",
+          "moves": [
+            "deliver-news",
+            "answer",
+            "press",
+            "plea",
+            "threaten",
+            "accept"
+          ],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "ask"],
+          "wants": ["commit"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:budget-line-changed",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "budgets",
+          "causeRecord": "budget-line-changed",
+          "bind": {
+            "head": "department-head",
+            "you": "subject"
+          },
+          "opener": "head"
+        }
+      ],
+      "tag": {
+        "key": "cut-heard",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
     }
   ]
 }

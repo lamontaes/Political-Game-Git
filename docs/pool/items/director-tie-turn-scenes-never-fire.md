@@ -30,3 +30,6 @@ claimed-at: 2026-10-27T14:06:10.958Z
 **Files.** src/director/scheduling.ts, src/director/ledger.ts, src/director/data/situation-types.json
 
 **Notes.** The words for these types and their real-life packets are on main: `introduced-at-a-civic-event` and `neighbors-fall-out-over-a-vote` in `docs/design/scenes/from-life/`. Evidence: `npm run scene-web` reports for both seeds.
+
+
+Update (words lead, Oct 27, 16:50 UTC): with the circumstance producer on main, `becoming-friends` fired 14 times in a played year in Fort Kent, Maine (seed `home-news-1`, `npm run scene-web`). `argument` and `reunion` still fired 0 times there. The item stands for the soured and re-entry turns.
