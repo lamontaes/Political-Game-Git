@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-first-10-journal-from-day-one
-pr:
+pr: #6230
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
