@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/township-leave-draw
 pr: #6268
 blocked-on:
