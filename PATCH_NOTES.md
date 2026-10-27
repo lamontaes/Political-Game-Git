@@ -296,6 +296,24 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.44.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **When someone asks you to carry a bill, you decide** When a mayor or other
+  executive asked the member most inclined to carry a bill and that member was
+  you, the game used to decide for you and file the bill before you saw the
+  request. The ask now waits for your answer: agreeing files the bill under your
+  name, and declining files nothing.
+
+- **A bigger school budget no longer makes a senior who would have graduated
+  fail** When a school year's graduation share rose, a senior who would have
+  graduated could fail instead, because a heavier household ahead of them took
+  the share first. Seniors now clear in order of standing and the walk stops at
+  the first one the share does not cover, so more share never fails anyone.
+
 ## PRE-ALPHA 0.44.0
 
 _Released October 26, 2026._
