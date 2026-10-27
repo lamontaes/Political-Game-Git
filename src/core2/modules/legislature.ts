@@ -31,15 +31,16 @@ import {
 import { policyAuthority, recordHomeRule } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
+import overrideReplyMoves from "../data/legislature/override-replies.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
-import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import { registerModule } from "../state";
 import type {
   ActionDefinition,
   ActOffer,
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   PersonState,
@@ -54,6 +55,8 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  questionSettled,
+  type SettledQuestion,
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
@@ -214,6 +217,16 @@ export interface BillRow {
     | "blocked"
     /** Passed, on the desk of an executive who decides for themselves (the player). */
     | "awaiting-signature";
+  /**
+   * Why the floor never voted a failed bill: its law was already made (in
+   * force or waiting on its effective date), or cut across an act waiting.
+   * Names the law row it repeats or collides with.
+   */
+  readonly moot?: SettledQuestion & { readonly question: string };
+  /** Sections of an enacted bill that only repeated law already made: no new law row, the row they repeat named. */
+  readonly repeats?: readonly (SettledQuestion & {
+    readonly question: string;
+  })[];
   readonly deals: readonly {
     readonly memberId: string;
     readonly kind: string;
@@ -266,6 +279,10 @@ export interface MemberPosition {
   readonly consistency: number;
   /** What a bribe they took on this bill pulls them toward (the payer's side). */
   readonly bribe: number;
+  /** What replies after a veto override left with the sponsor: favors for, strains against. */
+  readonly reply?: number;
+  /** The scene replies that `reply` reads, by record id. */
+  readonly replyIds?: readonly string[];
   readonly total: number;
 }
 
@@ -283,13 +300,81 @@ export const LEGISLATURE_MODULE: CoreModule = {
       itemVetoes: {},
       projectRequests: {},
       carryAsks: {},
+      /** A reply said in a scene a veto override caused, between the bill's sponsor and a member who voted no or stayed out. */
+      overrideReplies: {
+        indexes: { byPair: { fields: ["memberId", "sponsorId"] } },
+      },
     },
   },
   onCalendarWork: legislatureCalendar,
+  eventKinds: ["scene.reply"],
+  onEvent: (api, event) => keepOverrideReply(api, event),
 };
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(LEGISLATURE_MODULE_ID).table(name);
+}
+
+/**
+ * A reply said in a scene a veto-override record caused, between the bill's
+ * sponsor and a member with an override vote on it, leaves a favor or a
+ * strain by its move (`data/legislature/override-replies.json`; any other
+ * move leaves nothing). The member's next position on the sponsor's bills
+ * reads it (`overrideReplyPull`).
+ */
+function keepOverrideReply(api: CoreAPI, event: CoreEventInput): void {
+  const causeId = String(event.facts?.causeId ?? "");
+  if (!causeId.startsWith("veto-override:")) return;
+  const move = String(event.facts?.move ?? "");
+  const sign = overrideReplyMoves.favor.includes(move)
+    ? 1
+    : overrideReplyMoves.strain.includes(move)
+      ? -1
+      : 0;
+  if (!sign) return;
+  const billId = causeId.slice("veto-override:".length);
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  if (!bill || !event.personIds.includes(bill.sponsorId)) return;
+  // Only a member who decided the override: one with a vote row on it.
+  const memberId = event.personIds.find(
+    (id) =>
+      id !== bill.sponsorId &&
+      table(api, "votes").get(`vote:${billId}:${id}:override`),
+  );
+  if (!memberId) return;
+  table(api, "overrideReplies").put({
+    id: event.id,
+    memberId,
+    sponsorId: bill.sponsorId,
+    billId,
+    move,
+    sign,
+    date: event.date,
+  } as unknown as ModuleRow);
+}
+
+/**
+ * What the replies after a veto override left between a member and a sponsor
+ * add to the member's position on the sponsor's bills: each favor a favor
+ * deal's worth, each strain the same weight against, citing the reply ids.
+ */
+function overrideReplyPull(
+  api: CoreAPI,
+  memberId: string,
+  sponsorId: string,
+): { readonly pull: number; readonly ids: readonly string[] } {
+  const rows = table(api, "overrideReplies").query("byPair", [
+    memberId,
+    sponsorId,
+  ]) as unknown as { id: string; sign: number }[];
+  if (!rows.length) return { pull: 0, ids: [] };
+  const favor = dealValue(api, "favor", memberId, sponsorId);
+  const strain = campaignParameter("dealWeight");
+  return {
+    pull: rows.reduce((sum, row) => sum + (row.sign > 0 ? favor : -strain), 0),
+    ids: rows.map((row) => row.id),
+  };
 }
 
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
@@ -1306,6 +1391,19 @@ export function billReach(
   return { federal, state, county, township, level };
 }
 
+/** The government whose law a bill makes: the nation, the state, or the county, township or town its body governs. */
+export function billJurisdiction(api: CoreAPI, bill: BillRow): string {
+  const chain = lawChain(api);
+  const { federal, state, county, township } = billReach(api, bill);
+  return federal
+    ? "US"
+    : state
+      ? chain.stateKey
+      : (county ??
+        township ??
+        chain.levels[chain.levels.length - 1]!.jurisdiction);
+}
+
 /**
  * Which government a body belongs to, for a story that is not about one bill
  * (a chamber organizing itself): Congress's chambers are federal, a state's
@@ -1319,72 +1417,6 @@ export function bodyReach(
   if (kind.startsWith("us-house") || kind === "us-senate") return "federal";
   if (kind.startsWith("legislature-")) return "state";
   return kind === "county-board" ? "county" : "city";
-}
-
-const FEDERAL_ANSWERS = (
-  federalAnswers as unknown as {
-    questions: Record<string, { answer: string }>;
-  }
-).questions;
-
-/** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
-export function answerIn(
-  api: CoreAPI,
-  stateKey: string,
-  question: string,
-  /** Count acts already enacted that haven't taken effect yet. */
-  enacted = false,
-): number | null {
-  const rows = (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeries", [stateKey, question]) as unknown as LawRowInput[]
-  )
-    .filter((r) => enacted || r.effectiveDate <= api.state.date)
-    // Acts taking effect the same day: the one enacted last (stored last) is the law.
-    .map((row, order) => ({ row, order }))
-    .sort(
-      (a, b) =>
-        b.row.effectiveDate.localeCompare(a.row.effectiveDate) ||
-        b.order - a.order,
-    )
-    .map(({ row }) => row);
-  if (rows[0]) return rows[0].value === 1 ? 1 : -1;
-  const answer =
-    stateKey === "US"
-      ? FEDERAL_ANSWERS[question]?.answer
-      : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
-  return answer === "yes" ? 1 : answer === "no" ? -1 : null;
-}
-
-/** The government a bill legislates for: the nation, the state, or the county, township or place its body serves. */
-function billJurisdiction(api: CoreAPI, bill: BillRow): string {
-  const chain = lawChain(api);
-  const { federal, state, county, township } = billReach(api, bill);
-  return federal
-    ? "US"
-    : state
-      ? chain.stateKey
-      : (county ??
-        township ??
-        chain.levels[chain.levels.length - 1]!.jurisdiction);
-}
-
-/**
- * Whether a section pointing this way would change the law at the bill's own
- * level: a policy wanted where it isn't law there, or wanted gone where it
- * is (an act enacted but not yet in effect counts). Nothing to undo where no
- * law stands.
- */
-function changesLaw(
-  api: CoreAPI,
-  bill: BillRow,
-  question: string,
-  direction: number,
-): boolean {
-  const yes = answerIn(api, billJurisdiction(api, bill), question, true) === 1;
-  return direction > 0 ? !yes : yes;
 }
 
 /**
@@ -2338,6 +2370,11 @@ function positionOn(
   const consistency = recordConsistency(api, memberId, bill);
   // A bribe they took on this bill, as far as it moves them.
   const bribe = bribePull(api, memberId, bill.id);
+  // What a scene after a veto override left between them and the sponsor.
+  const replies =
+    memberId === bill.sponsorId
+      ? { pull: 0, ids: [] }
+      : overrideReplyPull(api, memberId, bill.sponsorId);
   // Everything that decides the vote but personality: where they stand, home,
   // the sponsor, deals, lobbying, party, their record and any bribe.
   const bare =
@@ -2348,6 +2385,7 @@ function positionOn(
     lobby +
     consistency +
     bribe +
+    replies.pull +
     (further
       ? further.party + further.wing + further.ambition + further.press
       : 0);
@@ -2378,6 +2416,9 @@ function positionOn(
     trait,
     consistency,
     bribe,
+    ...(replies.ids.length
+      ? { reply: replies.pull, replyIds: replies.ids }
+      : {}),
     total: bare + trait,
   };
 }
@@ -3312,29 +3353,30 @@ function ownSections(
     official
       ? ownStance(official.ideal, official.signature, q)
       : viewOn(api, memberId, q, lean);
-  return (
-    Object.keys(POLICY_QUESTIONS)
-      .filter((q) => !touched.has(q))
-      .map((q) => ({ q, stance: stanceOn(q) }))
-      .filter(({ stance }) => stance !== 0)
-      .sort(
-        (a, b) =>
-          Math.abs(b.stance) - Math.abs(a.stance) || a.q.localeCompare(b.q),
-      )
-      // A section the law at this level already answers changes nothing.
-      .filter(({ q, stance }) => changesLaw(api, bill, q, Math.sign(stance)))
-      .map(({ q, stance }): Provision => ({
-        kind: "policy-question",
-        question: q,
-        value: Math.sign(stance),
-      }))
-      .filter((p) =>
-        checkedText(api, bill.bodyOfficeId, [p]).authority.every(
-          (a) => a.allowed,
-        ),
-      )
-      .slice(0, count)
-  );
+  // A member asks for a section only where it would change their body's law:
+  // not one that repeats the law in force or an act already passed, nor one
+  // that cuts across an act waiting on its effective date.
+  const makes = billJurisdiction(api, bill);
+  return Object.keys(POLICY_QUESTIONS)
+    .filter((q) => !touched.has(q))
+    .map((q) => ({ q, stance: stanceOn(q) }))
+    .filter(({ stance }) => stance !== 0)
+    .filter(({ q, stance }) => !questionSettled(api, makes, q, stance))
+    .sort(
+      (a, b) =>
+        Math.abs(b.stance) - Math.abs(a.stance) || a.q.localeCompare(b.q),
+    )
+    .map(({ q, stance }): Provision => ({
+      kind: "policy-question",
+      question: q,
+      value: Math.sign(stance),
+    }))
+    .filter((p) =>
+      checkedText(api, bill.bodyOfficeId, [p]).authority.every(
+        (a) => a.allowed,
+      ),
+    )
+    .slice(0, count);
 }
 
 /**
@@ -3597,21 +3639,6 @@ function countVote(api: CoreAPI, billId: string): BillRow {
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
   if (bill.status === "blocked") return bill;
-  // A bill whose every section another act has already made the law at its
-  // level (passed while this one waited) changes nothing: it dies unvoted,
-  // as a bill a committee holds does.
-  if (
-    bill.provisions.every(
-      (p) =>
-        p.kind === "policy-question" &&
-        !!p.question &&
-        !changesLaw(api, bill, p.question, p.value),
-    )
-  ) {
-    const moot: BillRow = { ...bill, status: "failed" };
-    table(api, "bills").put(moot as unknown as ModuleRow);
-    return moot;
-  }
   runBeforeVote(api, billId, "floor");
   bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
@@ -3969,6 +3996,10 @@ function decideAtDesk(
         tallies: override.tallies
           .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
           .join(","),
+        // Where it was decided and who there voted no or stayed out, the
+        // most movable first: the members a sponsor would ask next time.
+        chamber: override.decided.chamber,
+        members: override.decided.movable.join(","),
       },
     });
   } else status = "signed";
@@ -4050,7 +4081,22 @@ function overrideVote(
     needed: number;
     members: number;
   }[];
+  /** The chamber that decided (where it failed, else the last to vote) and its no or abstain members, nearest zero first. */
+  readonly decided: { readonly chamber: string; readonly movable: string[] };
 } {
+  // Who could still be moved: the no and abstain votes, nearest zero first.
+  const movableOf = (
+    rows: readonly { key: string; vote: string; total: number }[],
+  ) =>
+    rows
+      .filter((row) => row.vote === "no" || row.vote === "abstain")
+      .sort(
+        (a, b) =>
+          Math.abs(a.total) - Math.abs(b.total) || a.key.localeCompare(b.key),
+      )
+      .map((row) => row.key);
+  const cast: { key: string; vote: string; total: number }[] = [];
+  let chamberCast: { key: string; vote: string; total: number }[] = [];
   const tallies: {
     chamber: string;
     yes: number;
@@ -4062,6 +4108,7 @@ function overrideVote(
   let totalEntitled = 0;
   for (const chamber of chambersOf(api, bill)) {
     const roster = members(api, chamber);
+    chamberCast = [];
     let yes = 0;
     let voting = 0;
     let present = 0;
@@ -4112,6 +4159,8 @@ function overrideVote(
       if (vote !== "absent") present += 1;
       if (vote === "yes" || vote === "no") voting += 1;
       if (vote === "yes") yes += 1;
+      chamberCast.push({ key, vote, total });
+      cast.push({ key, vote, total });
       table(api, "votes").put({
         id: `vote:${bill.id}:${key}:override${itemIndex === undefined ? "" : `:item:${itemIndex}`}`,
         billId: bill.id,
@@ -4133,7 +4182,11 @@ function overrideVote(
     totalPresent += present;
     totalEntitled += entitled;
     if (!joint && yes < needed(roster.length, voting, present, entitled))
-      return { passed: false, tallies };
+      return {
+        passed: false,
+        tallies,
+        decided: { chamber, movable: movableOf(chamberCast) },
+      };
   }
   if (joint) {
     const yes = tallies.reduce((sum, row) => sum + row.yes, 0);
@@ -4142,9 +4195,17 @@ function overrideVote(
     return {
       passed: yes >= required,
       tallies: [{ chamber: "joint", yes, members, needed: required }],
+      decided: { chamber: "joint", movable: movableOf(cast) },
     };
   }
-  return { passed: true, tallies };
+  return {
+    passed: true,
+    tallies,
+    decided: {
+      chamber: tallies.at(-1)?.chamber ?? bill.bodyOfficeId,
+      movable: movableOf(chamberCast),
+    },
+  };
 }
 
 /** A member's party side: an official's caucus or party, else their term's. */
@@ -4422,6 +4483,7 @@ function enact(
         }[];
       }
     | undefined;
+  const repeats: NonNullable<BillRow["repeats"]>[number][] = [];
   for (const [index, provision] of bill.provisions.entries()) {
     if (itemVeto?.struck.includes(index)) continue;
     const itemDecision = itemVeto?.decisions.find(
@@ -4477,13 +4539,27 @@ function enact(
           measureId: bill.number,
         });
     }
-    // A section another act already made the law here (passed while this
-    // bill was pending) changes nothing and writes no law of its own.
-    if (
-      provision.kind === "policy-question" &&
-      provision.question &&
-      changesLaw(api, bill, provision.question, provision.value)
-    )
+    if (provision.kind === "policy-question" && provision.question) {
+      // A section that only repeats what is already law at this level (in
+      // force, or passed earlier and waiting on its date) changes nothing: it
+      // writes no new law and the act records the row it repeats. A bill's
+      // sections are written when it passes, not when they were added, so
+      // another bill may have made the same law in between.
+      const settled = questionSettled(
+        api,
+        jurisdiction,
+        provision.question,
+        provision.value,
+        bill.id,
+      );
+      if (
+        settled &&
+        (settled.why === "restates-in-force" ||
+          settled.why === "restates-pending")
+      ) {
+        repeats.push({ question: provision.question, ...settled });
+        continue;
+      }
       enactLaw(api, {
         jurisdiction,
         level,
@@ -4497,10 +4573,12 @@ function enact(
         // and sessions, and a recall or the record finds the bill by this.
         terms: { ...(terms ?? {}), enactedByBill: bill.id },
       });
+    }
   }
   const next: BillRow = {
     ...bill,
     status: bill.status === "overridden" ? "overridden" : "enacted",
+    ...(repeats.length ? { repeats } : {}),
   };
   table(api, "bills").put(next as unknown as ModuleRow);
   return next;

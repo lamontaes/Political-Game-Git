@@ -20,7 +20,7 @@ import {
   considerBribe,
   corruptionModule,
 } from "./modules/corruption";
-import { LAWS_MODULE_ID, lawChain, lawInForce, openLaws } from "./modules/laws";
+import { LAWS_MODULE_ID, lawInForce, openLaws } from "./modules/laws";
 import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
@@ -64,7 +64,6 @@ import {
   proposalRight,
   proposeAsExecutive,
   reviseBill,
-  answerIn,
   type Provision,
 } from "./modules/legislature";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
@@ -985,35 +984,28 @@ describe(
       const player = council[0]!.holder!.personId!;
       (core as unknown as { playerId: string }).playerId = player;
       const floor = lawInForce(api, "minimum-wage").value!;
-      // A raise where the state lets towns set a wage; elsewhere policy
-      // questions the town may answer and has not. Each bill below carries
-      // its own change: a body never passes what is already law.
-      const place = lawChain(api).levels.at(-1)!.jurisdiction;
-      const wage = (n: number): Provision => ({
+      // A raise where the state lets towns set a wage; elsewhere a policy
+      // question the town may answer.
+      const wage: Provision = {
         kind: "law-amount",
         series: "minimum-wage",
-        value: floor + 100 * (n + 1),
+        value: floor + 100,
         unit: "minor/hour",
-      });
-      const questions = PLATFORM_QUESTIONS.map((question): Provision => ({
-        kind: "policy-question",
-        question,
-        value: 1,
-      })).filter(
-        (p) =>
-          authorityFor(api, p).allowed &&
-          answerIn(api, place, p.question!, true) !== 1,
-      );
-      const section = (n: number): Provision =>
-        authorityFor(api, wage(n)).allowed
-          ? wage(n)
-          : (questions[n] ?? wage(n));
-      let drafted = 0;
-      const draft = () =>
+      };
+      const provision =
+        [
+          wage,
+          ...PLATFORM_QUESTIONS.map((question): Provision => ({
+            kind: "policy-question",
+            question,
+            value: 1,
+          })),
+        ].find((p) => authorityFor(api, p).allowed) ?? wage;
+      const draft = (p: Provision = provision) =>
         draftBill(api, {
           bodyOfficeId: council[0]!.office.id,
           sponsorId: council[1]!.holder!.personId!,
-          provisions: [section(drafted++)],
+          provisions: [p],
         });
       // Not cast: the player is never voted for, so they abstain.
       const first = draft();
@@ -1051,8 +1043,15 @@ describe(
       const decided = executiveDecision(api, third.id, true);
       expect(["signed", "enacted"]).toContain(decided.status);
       // Left on the desk past the office's window, a bill becomes law
-      // unsigned, and the law records that it did.
-      const fourth = draft();
+      // unsigned, and the law records that it did. It changes what the third
+      // enacted, since a bill that only repeats the law writes no law row.
+      const fourth = draft({
+        ...provision,
+        value:
+          provision.kind === "policy-question"
+            ? 1 - provision.value
+            : provision.value + 100,
+      });
       for (const seat of council)
         castMemberVote(api, fourth.id, seat.holder!.personId!, "yes");
       holdVote(api, fourth.id);

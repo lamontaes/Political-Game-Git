@@ -1,6 +1,36 @@
 {
   "entries": [
     {
+      "version": "0.57.0",
+      "releasedOn": "2026-10-27",
+      "revision": "9015f37ff91ba5cbec0e4725ad6cefe60b2055bb",
+      "changeIds": [
+        "american-english-sweep-green-on-main",
+        "director-scenes-from-circumstance",
+        "laws-matrix-row-names-its-screen",
+        "laws-session-passes-moot-and-opposite-bills",
+        "laws-took-effect-for-row-not-in-force",
+        "morning-report-0-56-1",
+        "research-health-resilience-scale",
+        "school-spending-per-pupil-small-town-low",
+        "traits-outcome-job-performance",
+        "words-governors-ranked-asks",
+        "words-home-talks-rewritten",
+        "words-scene-bill-held-in-committee"
+      ]
+    },
+    {
+      "version": "0.56.2",
+      "releasedOn": "2026-10-27",
+      "revision": "fabd52a0aace5fa9a2bfdc6691755e860f13dcbb",
+      "changeIds": [
+        "director-tie-turns",
+        "gov-prior-year-budgets-at-opening",
+        "justice-police-raise-arrests-fall",
+        "laws-in-force-every-question"
+      ]
+    },
+    {
       "version": "0.56.1",
       "releasedOn": "2026-10-27",
       "revision": "519667f40432b58c8746a4acf21e73142371f411",

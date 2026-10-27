@@ -178,16 +178,26 @@ export function openLaws(core: CoreState): LawChain {
   const federal = chain.levels.find((l) => l.level === "federal");
   for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
     // A question about federal law is answered for the nation, at the
-    // federal level; every other question is answered for the state.
+    // federal level; every other question is answered for the state, or, where
+    // the state gives no answer and the research answers it for the nation
+    // ("US": a federal statute the research says applies in every place), at
+    // the federal level.
     const isFederal = question.startsWith(FEDERAL_QUESTION_PREFIX);
-    const level = isFederal ? federal : { jurisdiction: chain.stateKey };
-    if (!level) continue;
-    const answer = entry.answers[level.jurisdiction];
-    if (answer?.answer !== "yes" && answer?.answer !== "no") continue;
+    const known = (jurisdiction: string) => {
+      const answer = entry.answers[jurisdiction]?.answer;
+      return answer === "yes" || answer === "no";
+    };
+    const nationLevel =
+      federal && (isFederal || !known(chain.stateKey)) ? federal : undefined;
+    const level =
+      isFederal || nationLevel ? nationLevel : { jurisdiction: chain.stateKey };
+    if (!level || !known(level.jurisdiction)) continue;
+    const answer = entry.answers[level.jurisdiction]!;
+    const atFederal = level === federal;
     const row: LawRowInput = {
-      id: `law:${level.jurisdiction}:${isFederal ? "federal" : "state"}:${question}:general:starting`,
+      id: `law:${level.jurisdiction}:${atFederal ? "federal" : "state"}:${question}:general:starting`,
       jurisdiction: level.jurisdiction,
-      level: isFederal ? "federal" : "state",
+      level: atFederal ? "federal" : "state",
       series: question,
       tier: "general",
       value: answer.answer === "yes" ? 1 : 0,
@@ -481,6 +491,61 @@ export function lawInForce(
       ? { localAverage: seriesRows(api, "local-sales-tax-average") }
       : {}),
   });
+}
+
+/** Why a change to a policy question has nothing to change, and the law row that says so. */
+export interface SettledQuestion {
+  /** The row the change would repeat or cut across. */
+  readonly lawId: string;
+  readonly why:
+    "restates-in-force" | "restates-pending" | "conflicts-with-pending";
+}
+
+/**
+ * What a government's own law already says on a policy question, for a change
+ * that would set `value` at that level: the row it would only repeat or cut
+ * across, or null when it would change the law (or no law stands there to
+ * say anything). A row in force with the same answer is repeated; an act
+ * still waiting on its effective date closes the question at that level for
+ * the rest of the sitting, whichever way the new change points, because the
+ * act has taken no effect to undo (a motion that restates or conflicts with
+ * one already adopted is out of order, Robert's Rules of Order; reconsidering
+ * it is how a body comes back). Read from the level's own rows through the
+ * series index, on the day of the vote.
+ */
+export function questionSettled(
+  api: CoreAPI,
+  jurisdiction: string,
+  question: string,
+  value: number,
+  /** A bill whose own rows don't count: the act being written reads the law as it stood before it. */
+  exceptBill?: string,
+): SettledQuestion | null {
+  const today = api.state.date;
+  let latest: LawRowInput | null = null;
+  const order = (r: LawRowInput) => Number(r.terms?.enactedSequence ?? 0);
+  for (const row of api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]) {
+    if (row.endDate !== null && row.endDate <= today) continue;
+    if (exceptBill !== undefined && row.terms?.enactedByBill === exceptBill)
+      continue;
+    if (
+      !latest ||
+      row.effectiveDate > latest.effectiveDate ||
+      (row.effectiveDate === latest.effectiveDate && order(row) > order(latest))
+    )
+      latest = row;
+  }
+  if (!latest) return null;
+  const same = (latest.value === 1) === value > 0;
+  if (latest.effectiveDate > today)
+    return {
+      lawId: latest.id,
+      why: same ? "restates-pending" : "conflicts-with-pending",
+    };
+  return same ? { lawId: latest.id, why: "restates-in-force" } : null;
 }
 
 /**

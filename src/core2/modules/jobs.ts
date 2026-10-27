@@ -183,6 +183,8 @@ interface EmployerRow {
   leavers?: { jobId: string; personId: string; heads?: number }[];
   /** The counted workers' jobs at the last review (job to worker), to find who left outside the jobs engine. */
   countedJobs?: Record<string, string>;
+  /** The full people's jobs at the last review (job to worker), to find who left outside the jobs engine (hired to a public post, appointed, taken into custody). */
+  fullJobs?: Record<string, string>;
   /** What each of those jobs stood for at the last review, in jobs (the household weight), for a worker whose household is gone. */
   countedHeads?: Record<string, number>;
 }
@@ -440,6 +442,14 @@ function noteCountedLeavers(api: CoreAPI): void {
   if (!rt) return;
   const changes = store(api).table("changes");
   const employers = store(api).table("employers");
+  // The jobs engine's own endings need no replacement beyond what it queued.
+  // A death is recorded the day before its job ends.
+  const endedByJobs = (endsAt: string, id: string) =>
+    ["layoff", "quit", "left-work", "closure", "staff-shed"].some((kind) =>
+      [endsAt, addDays(makeIsoDate(endsAt), -1)].some((date) =>
+        changes.get(`job-change:${date}:${id}:${kind}`),
+      ),
+    );
   const live = new Map<string, Record<string, string>>();
   for (const job of rt.jobs.values())
     if (!job.endsAt) {
@@ -452,22 +462,15 @@ function noteCountedLeavers(api: CoreAPI): void {
   ]) as unknown as EmployerRow[]) {
     const now = live.get(row.id) ?? {};
     const closed = c.finance.businesses.get(row.id)?.closedAt;
-    for (const id of closed ? [] : Object.keys(row.countedJobs ?? {})) {
-      if (now[id] || c.jobs.has(id)) continue;
-      const job = rt.jobs.get(id);
-      const ownEnd =
-        job?.endsAt !== undefined &&
-        ["layoff", "quit", "left-work", "closure"].some((kind) =>
-          changes.get(`job-change:${job.endsAt}:${id}:${kind}`),
-        );
-      if (!ownEnd)
-        noteLeaver(
-          api,
-          row.id,
-          id,
-          row.countedJobs![id]!,
-          row.countedHeads?.[id] ?? 1,
-        );
+    // A counted job a full person now holds counts as theirs; one they held
+    // and lost since the last review is a leaver like any other.
+    const held = { ...row.countedJobs, ...row.fullJobs };
+    for (const id of closed ? [] : Object.keys(held)) {
+      if (now[id]) continue;
+      const job = c.jobs.get(id) ?? rt.jobs.get(id);
+      if (job && c.jobs.has(id) && job.endsAt === undefined) continue;
+      if (job?.endsAt !== undefined && endedByJobs(job.endsAt, id)) continue;
+      noteLeaver(api, row.id, id, held[id]!, row.countedHeads?.[id] ?? 1);
     }
     const fresh = (employers.get(row.id) as unknown as EmployerRow) ?? row;
     const heads: Record<string, number> = {};
@@ -475,9 +478,15 @@ function noteCountedLeavers(api: CoreAPI): void {
       const weight = countedJobHeads(c, { id, personId });
       if (weight !== 1) heads[id] = weight;
     }
+    const fullNow: Record<string, string> = {};
+    for (const id of c.finance.jobsByOrganization.get(row.id) ?? []) {
+      const job = c.jobs.get(id);
+      if (job && job.endsAt === undefined) fullNow[id] = job.personId;
+    }
     employers.put({
       ...fresh,
       countedJobs: now,
+      fullJobs: fullNow,
       ...(Object.keys(heads).length ? { countedHeads: heads } : {}),
     });
   }
@@ -1314,10 +1323,11 @@ function reviewEmployers(api: CoreAPI): void {
 }
 
 /**
- * A new opening's pay: the role's own rate, moved with the place's pay level
- * since that rate was set (the region's pay), never under the wage floor in
- * force. Each role keeps its own rate above the floor; the median of whoever
- * holds the role now plays no part (owner, Oct 14).
+ * A new opening's pay: the role's own rate, moved with the region's pay level
+ * since it was set, never under the wage floor in force; the median of whoever
+ * holds the role plays no part (owner, Oct 14). What the job's holder has
+ * earned in it by tenure and how they work (`raisePay`) stays theirs: the
+ * opening is priced from the role's rate without it.
  */
 function payFor(
   api: CoreAPI,
@@ -1325,14 +1335,14 @@ function payFor(
   template: JobInput,
 ): number {
   const placeId = core(api).organizations.get(organizationId)?.placeId;
-  const set = store(api).table("pay").get(template.id) as
-    { level: number } | undefined;
-  const rate = template.hourlyMinor ?? 0;
-  const market = placeId
-    ? Math.round(
-        (rate * payLevel(api, placeId)) / (set?.level ?? api.parameter("one")),
-      )
-    : rate;
+  const set = store(api).table("pay").get(template.id) as PayRow | undefined;
+  const rate =
+    (template.hourlyMinor ?? 0) / (set?.grown ?? api.parameter("one"));
+  const market = Math.round(
+    placeId
+      ? (rate * payLevel(api, placeId)) / (set?.level ?? api.parameter("one"))
+      : rate,
+  );
   // A public employer's opening is posted at the public pay floor in force the day it is posted; a hire from it is paid what it was posted at.
   const publicFloor = core(api).modules.has(LAWS_MODULE_ID)
     ? publicPayFloorHourly(api, organizationId, template)
@@ -1385,6 +1395,43 @@ function managerOf(
     )[0]?.personId;
 }
 
+/**
+ * What an employer sees of how a person works, in years of tenure or
+ * experience: their lean toward diligence over slack (`jobs.value-worker`)
+ * times its weight, sized from conscientiousness and job performance (Barrick
+ * and Mount 1991). Hiring and layoffs both read it, and a counted worker is
+ * valued by the same rule.
+ */
+export function howTheyWork(api: CoreAPI, personId: string): number {
+  const c = core(api);
+  return (
+    decisionTraitWeight(c, "jobs.value-worker") *
+    decisionLean(
+      c,
+      { traits: traitsOf(api, personId) },
+      "jobs.value-worker",
+      "keep",
+      "let-go",
+    )
+  );
+}
+
+/**
+ * How a business values each of its workers, in years: their tenure with it
+ * and how they work. A layoff lets go of the worker valued least.
+ */
+export function workerValues(
+  api: CoreAPI,
+  organizationId: string,
+  staff: readonly JobInput[] = currentJobs(api, organizationId),
+): { job: JobInput; tenure: number; work: number }[] {
+  return staff.map((job) => ({
+    job,
+    tenure: api.parameter("jobsKeepTenureWeight") * tenureYears(api, job),
+    work: howTheyWork(api, job.personId),
+  }));
+}
+
 /** The business decides who goes: the worker whose tenure and record it values least. */
 export function layOff(
   api: CoreAPI,
@@ -1394,16 +1441,21 @@ export function layOff(
   values: Readonly<Record<string, number>>,
   tradingId?: string,
 ): { heads: number; id?: string } | "over" | undefined {
-  const c = core(api),
-    reliability = jobsData.traits.reliability;
+  const c = core(api);
+  const valued = new Map(
+    workerValues(api, organizationId, staff).map((row) => [row.job, row]),
+  );
+  const least = (score: (job: JobInput) => number) =>
+    [...staff].sort(
+      (a, b) => score(a) - score(b) || a.id.localeCompare(b.id),
+    )[0];
   const keep = (job: JobInput) =>
-    api.parameter("jobsKeepTenureWeight") * tenureYears(api, job) +
-    api.parameter("jobsFitReliabilityWeight") *
-      (traitsOf(api, job.personId)[reliability] ?? 0);
-  const job = [...staff].sort(
-    (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
-  )[0];
+    valued.get(job)!.tenure + valued.get(job)!.work;
+  const job = least(keep);
   if (!job) return;
+  // Whether how they work, not tenure alone, decided who goes: the record keeps
+  // it as a reason.
+  const workDecided = least((row) => valued.get(row)!.tenure) !== job;
   // A job ends before its day's work. The worker the business chose played
   // their day before this review ran (the controlled character): the same
   // choice is made at the next review, before that day's work.
@@ -1466,7 +1518,13 @@ export function layOff(
     kind: "layoff",
     reasonKey: jobsData.reasons.layoff,
     decidedBy: decidedBy ?? organizationId,
-    values: { ...values, keepScore },
+    values: {
+      ...values,
+      keepScore,
+      tenureScore: valued.get(job)!.tenure,
+      workScore: valued.get(job)!.work,
+      workDecided: workDecided ? 1 : 0,
+    },
     ...(tradingId ? { tradingId } : {}),
   });
   // Read before the event: an event can fill a counted worker in, after which
@@ -1748,16 +1806,103 @@ function workerSubject(c: CoreState, personId: string): Subject | undefined {
   };
 }
 
+/** A job's last pay review: the pay level it was priced at, when, since when it has been held, and what its holder has earned in it. */
+interface PayRow {
+  id: string;
+  level: number;
+  at: string;
+  since?: string;
+  /** What raises for tenure and how they work have multiplied the job's rate by, so an opening copied from it is priced without them. */
+  grown?: number;
+}
+
+/** A yearly raise a business gave a worker: the market's move and what it added for tenure and how they work, with the share its losses left. */
+export interface RaiseRow {
+  id: string;
+  date: string;
+  jobId: string;
+  personId: string;
+  organizationId: string;
+  decidedBy: string;
+  /** The jobs the record stands for: one for a full person, the household weight for a counted worker. */
+  heads: number;
+  counted: boolean;
+  values: Readonly<{
+    fromHourlyMinor: number;
+    toHourlyMinor: number;
+    /** The pay the place's pay level alone would have moved it to, unrounded. */
+    marketHourlyMinor: number;
+    levelFrom: number;
+    levelTo: number;
+    tenureYears: number;
+    sinceYears: number;
+    /** How the employer reads their work, in years (`howTheyWork`). */
+    workScore: number;
+    /** Log points of pay for tenure and for how they work (`withinJobRaise`). */
+    tenurePart: number;
+    workPart: number;
+    /** The share of what adds pay that the business gave (`raiseShare`); one for what lowers it. */
+    given: number;
+  }>;
+}
+
+/**
+ * The within-job part of a worker's yearly raise, in log points of pay, for
+ * the time since their last one: the return to tenure, on a profile that
+ * flattens with the years (full × (1 − e^(−years / span)), sized from the
+ * tenure-wage literature), and how the employer reads their work
+ * (`howTheyWork`, in years) times the merit spread per year of it, for the
+ * same time. Each slides with its input; no step is fixed and nothing is
+ * rolled.
+ */
+export function withinJobRaise(
+  p: (key: string) => number,
+  row: Readonly<{ tenureYears: number; sinceYears: number; workYears: number }>,
+): { tenure: number; work: number } {
+  const span = p("jobsTenureReturnYears");
+  const to = Math.max(p("zero"), row.tenureYears);
+  const from = Math.max(p("zero"), to - row.sinceYears);
+  return {
+    tenure:
+      p("jobsTenureReturnFull") *
+      (Math.exp(-from / span) - Math.exp(-to / span)),
+    work: p("jobsRaisePerWorkYear") * row.workYears * (to - from),
+  };
+}
+
+/**
+ * The share of what it would add for tenure and how they work that a business
+ * gives: all of it while its books carry no memory of losses, less as losses
+ * persist (1 / (1 + lossMonths), the business engine's smoothed loss memory
+ * that also drives its cuts and closing), sliding toward nothing. A single
+ * month's lumpy bills do not decide it. A business with no trading month yet
+ * has no recorded loss.
+ */
+function raiseShare(api: CoreAPI, organizationId: string): number {
+  const lossMonths =
+    businessTradingMonth(api, organizationId)?.lossMonths ??
+    api.parameter("zero");
+  return api.parameter("one") / (api.parameter("one") + lossMonths);
+}
+
 /**
  * Once a year from its last raise, each job's pay follows the place's pay
  * level since then (Employment Cost Index practice: most employers adjust
- * pay yearly). Hires start at the going rate and their own level.
+ * pay yearly), and a business adds what the worker has earned in the job:
+ * the return to their tenure and how it reads their work (`withinJobRaise`),
+ * in the share its losses leave it (`raiseShare`). Hires start at the going
+ * rate and their own level. A counted worker is raised by the same rule,
+ * their record standing for its household's weight. Each raise a business
+ * gives is a record with its parts.
  */
 function raisePay(api: CoreAPI): void {
   const c = core(api),
+    p = (key: string) => api.parameter(key),
     pay = store(api).table("pay"),
-    months = api.parameter("macroMonthsPerYear"),
-    counted = new Map<string, number>();
+    raises = store(api).table("raises"),
+    months = p("macroMonthsPerYear"),
+    counted = new Map<string, number>(),
+    shares = new Map<string, number>();
   const jobs = [
     ...[...c.jobs.values()].filter(
       (job) => job.endsAt === undefined && c.people.get(job.personId)?.alive,
@@ -1767,34 +1912,86 @@ function raisePay(api: CoreAPI): void {
   for (const job of jobs) {
     const placeId = c.organizations.get(job.organizationId)?.placeId;
     if (!placeId || !job.hourlyMinor) continue;
-    const row = pay.get(job.id) as
-      { level: number; at: string; since?: string } | undefined;
-    const level = row?.level ?? api.parameter("one"),
+    const row = pay.get(job.id) as PayRow | undefined;
+    const level = row?.level ?? p("one"),
       at = row?.at ?? api.state.startedAt;
-    if (
-      daysBetweenText(at, c.date) <
-      (api.parameter("jobsDaysPerYear") * (months - 1)) / months
-    )
+    const sinceDays = daysBetweenText(at, c.date);
+    if (sinceDays < (p("jobsDaysPerYear") * (months - p("one"))) / months)
       continue;
     const now = payLevel(api, placeId, workerSubject(c, job.personId));
-    const hourly = Math.round((job.hourlyMinor * now) / level);
-    if (hourly > 0 && hourly !== job.hourlyMinor && !c.jobs.has(job.id))
-      counted.set(job.id, hourly);
-    else if (hourly > 0 && hourly !== job.hourlyMinor)
+    const market = (job.hourlyMinor * now) / level;
+    // A business raises its workers for their tenure and how they work; an
+    // owner-operator's own pay is what the business leaves them. A public
+    // employer's pay follows its budget line.
+    const business = c.finance.businesses.has(job.organizationId);
+    if (!business) stopgap("SG-WORLD-jobs-public-pay-growth");
+    const earns = business && ownerOf(api, job.organizationId) !== job.personId;
+    const reasons = earns
+      ? {
+          tenureYears: tenureYears(api, job),
+          sinceYears: sinceDays / p("jobsDaysPerYear"),
+          workYears: howTheyWork(api, job.personId),
+        }
+      : undefined;
+    const parts = reasons ? withinJobRaise(p, reasons) : undefined;
+    const added = parts ? parts.tenure + parts.work : p("zero");
+    let share = shares.get(job.organizationId);
+    if (share === undefined && parts)
+      shares.set(
+        job.organizationId,
+        (share = raiseShare(api, job.organizationId)),
+      );
+    // Losses hold back what adds pay; what lowers it (a slack worker past
+    // their tenure gains) is not held back.
+    const given = added > p("zero") ? (share ?? p("one")) : p("one");
+    const growth = Math.exp(added * given);
+    const hourly = Math.round(market * growth);
+    const raised = hourly > p("zero") && hourly !== job.hourlyMinor;
+    const raiseId = `pay-change:${c.date}:${job.id}`;
+    if (parts && reasons && raised)
+      raises.put({
+        id: raiseId,
+        date: c.date,
+        jobId: job.id,
+        personId: job.personId,
+        organizationId: job.organizationId,
+        decidedBy: ownerOf(api, job.organizationId) ?? job.organizationId,
+        heads: headsOf(c, job),
+        counted: !c.jobs.has(job.id),
+        values: {
+          fromHourlyMinor: job.hourlyMinor,
+          toHourlyMinor: hourly,
+          marketHourlyMinor: market,
+          levelFrom: level,
+          levelTo: now,
+          tenureYears: reasons.tenureYears,
+          sinceYears: reasons.sinceYears,
+          workScore: reasons.workYears,
+          tenurePart: parts.tenure,
+          workPart: parts.work,
+          given,
+        },
+      } satisfies RaiseRow);
+    if (raised && !c.jobs.has(job.id)) counted.set(job.id, hourly);
+    else if (raised)
       api.rerateJob(
         job.id,
         hourly,
         source(
           api,
-          `A yearly raise following the place's pay level, ${level.toFixed(4)} to ${now.toFixed(4)} against the opening.`,
+          parts
+            ? `A yearly raise (${raiseId}): the place's pay level ${level} to ${now} against the opening, and ${parts.tenure} log points for tenure and ${parts.work} for how they work, ${given} of it given past the employer's losses.`
+            : `A yearly raise following the place's pay level, ${level.toFixed(4)} to ${now.toFixed(4)} against the opening.`,
         ),
       );
+    const grown = (row?.grown ?? p("one")) * growth;
     pay.put({
       id: job.id,
       level: now,
       at: c.date,
       ...(row?.since ? { since: row.since } : {}),
-    });
+      ...(grown === p("one") ? {} : { grown }),
+    } satisfies PayRow);
   }
   rerateCountedJobs(c, counted);
 }
@@ -2101,9 +2298,7 @@ function runWeek(api: CoreAPI): void {
               (isCounted(api, seeker.personId)
                 ? (countedExperience.get(key) ?? 0)
                 : experienceYears(api, seeker.personId, position.occupation)) +
-            p("jobsFitReliabilityWeight") *
-              (traitsOf(api, seeker.personId)[jobsData.traits.reliability] ??
-                0) +
+            howTheyWork(api, seeker.personId) +
             // An official's word for them counts as one more reason, and
             // fades the longer ago it was given.
             p("jobsFitReferralWeight") *
@@ -2959,14 +3154,16 @@ function countedRolesOf(rt: NonNullable<ReturnType<typeof residentsRuntime>>) {
   return roles;
 }
 
-/** Years a counted worker has held their job: from their hire here, else their opening work commitment. */
+/** Years a counted worker has held their job: from their hire here, else when they took their opening job (its commitment's heldSince). */
 function countedTenureYears(api: CoreAPI, job: JobInput): number {
   const c = core(api),
     rt = residentsRuntime(c);
+  const role = rt ? countedRolesOf(rt).byJob.get(job.id) : undefined;
   const since =
     (store(api).table("pay").get(job.id) as { since?: string } | undefined)
       ?.since ??
-    (rt ? countedRolesOf(rt).byJob.get(job.id)?.startsAt : undefined) ??
+    role?.heldSince ??
+    role?.startsAt ??
     api.state.startedAt;
   return (
     Math.max(0, daysBetweenText(since, c.date)) /
@@ -3530,6 +3727,7 @@ export const JOBS_MODULE: CoreModule = {
       seekers: { indexes: { all: { fields: ["isSeeker"] } } },
       offers: { indexes: { byPerson: { fields: ["personId", "status"] } } },
       pay: {},
+      raises: { indexes: { byPerson: { fields: ["personId"] } } },
       referrals: { indexes: { byPerson: { fields: ["personId"] } } },
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       spells: { indexes: { open: { fields: ["personId", "open"] } } },

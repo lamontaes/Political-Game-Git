@@ -296,6 +296,105 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.57.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **Things that happen in the world come to you where you are** What happens in
+  your town and beyond now reaches you through the people around you, not only
+  when it names you. A neighbor who read that a law took effect stops you in the
+  street. Someone at home brings up a story they read, and a coworker brings up
+  the national news. You hear of a death from someone who knew the person, and a
+  new hire is introduced at work. If you serve, a colleague catches you in the
+  hallway after the body meets, and an aide calls when a group starts organizing
+  in town. Each comes from a real record and a real person with a reason to
+  raise it, and these moments come about once a week at most, with quiet
+  stretches between.
+
+- **A bill held in committee is a conversation.** When a committee chair keeps a
+  bill off the calendar, its sponsor now comes to ask for a hearing, either of
+  the chair or of another member of the committee who might press the chair. You
+  choose from four answers, and what you say changes how the two of you stand.
+
+### Improved
+
+- **People in a town now die at about the rate real life tables give.** A town's
+  yearly deaths were running about 40 percent above what the Social Security
+  life table expects for the same people. The base rate is refit so that over
+  sixteen towns the deaths come out within 7 percent of the table's.
+
+- **Employers value how a person works** When a business hires or lets someone
+  go, it now weighs how diligent each worker is, at a size taken from research
+  on conscientiousness and job performance, and the people not yet named in your
+  town are judged by the same rule. A layoff's record says whether how the
+  worker worked, not only how long they had been there, decided it.
+
+### Fixed
+
+- **Legislatures stop passing laws that change nothing** A state legislature no
+  longer passes the same law over and over in one session, or undoes a law it
+  passed a few weeks earlier before that law took effect. A bill whose law is
+  already on the books, or was passed earlier in the session and is waiting for
+  its date, now ends on the floor without a vote and keeps a note of the law it
+  repeated. Members also stop trading for a section that only repeats what the
+  state already has, so the laws a session passes are the ones that change
+  something.
+
+- **A scheduled law that a later statute overrides no longer makes news when its
+  day comes** A law row scheduled in the starting law (Ohio's $11.00 wage on
+  January 1, 2026) still reported "took effect" after a statute had ended the
+  state wage, so the paper and the people's talk carried a rise that never
+  happened. A row another statute overrides now records nothing.
+
+- **A town with no city government now has its whole local budget in its
+  county** In an unincorporated town the county's budget held only the county's
+  share of local spending, because the city's share belonged to a government
+  that did not exist. Schools, police and the rest were about a tenth of what
+  the place spends. The county now carries the whole local share where there is
+  no city or township government.
+
+### Changed
+
+- **Talk at home says what people think** Talk at home says more: a reply to the
+  news can say what you think of it, a housemate leaves a talk the way people at
+  home do ("I'll be in the kitchen."), and the openers that named no news
+  ("Guess what.") are gone.
+
+## PRE-ALPHA 0.56.2
+
+_Released October 27, 2026._
+
+### Added
+
+- **Governments show their last two years' budgets before the start** Every
+  government now has its two earlier years' budgets in the history before day
+  one, estimated from the opening budget by the published growth of federal and
+  of state and local spending, each marked as an estimate with its source.
+
+### Fixed
+
+- **Becoming friends and falling out are scenes again** Spending real time with
+  someone can now turn them into a friend in a scene, and a quarrel that sours
+  the tie plays as an argument. Before, a friendship that grew over many
+  meetings never counted as a change, so these scenes never played.
+
+- **More police now lower the assaults and robberies that arrests follow**
+  Arrests for assault and robbery ignored the violent-crime link that more
+  officers move, so doubling a police line left those arrests unchanged while
+  the crime engine recorded fewer. Arrests now follow the same crime.
+
+### Changed
+
+- **Issues lists every law in force where you live** Politics → Issues now lists
+  every law in force where you live, not only taxes, wages and benefits. Each
+  policy question your state or the nation has a law on, from abortion to rent
+  stabilization, reads Yes or No, with the government whose law it is and the
+  statute it rests on where the research names one. When your city, county or
+  state passes a law, its card shows the new law from the day it takes effect.
+  Dates on Issues are written out in words.
+
 ## PRE-ALPHA 0.56.1
 
 _Released October 27, 2026._

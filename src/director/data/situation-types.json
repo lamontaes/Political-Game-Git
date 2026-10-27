@@ -70,7 +70,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, someone's offer to help their campaign, word of a rival's paid message passed on by someone it reached, a rival filing against them) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill, an outlet's invitation to an interview or the race's debate, someone's offer to help their campaign, word of a rival's paid message passed on by someone it reached, a rival filing against them) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say. metWhereYouAre: label prefixes of moments met where the player is that day, a scene from circumstance (src/director/data/circumstances.json; owner, Oct 27: any record can call a scene when the circumstances fit), staged that day whatever its impact; its producer keeps the spacing.",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -119,7 +119,8 @@
       "cause:event:rival-filed",
       "cause:event:party-asked"
     ],
-    "ownRecordSettings": ["home", "office", "phone"]
+    "ownRecordSettings": ["home", "office", "phone"],
+    "metWhereYouAre": ["circumstance:"]
   },
   "types": [
     {
@@ -154,25 +155,26 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "left-home",
-          "bind": {
-            "leaving": "subject",
-            "staying": "household"
-          },
-          "opener": "leaving",
-          "opening": "farewell"
-        },
-        {
-          "bind": {
-            "leaving": "subject",
-            "staying": "kin"
-          },
+          "bind": { "leaving": "subject", "staying": "kin" },
           "opener": "leaving",
           "opening": "farewell",
           "match": {
             "label": "feeling:event:justice.imprisoned",
             "counterpart": "none"
           }
+        },
+        {
+          "match": { "label": "circumstance:moved-away-farewell" },
+          "causeEngine": "circumstance",
+          "causeRecord": "person.moved-away",
+          "bind": {
+            "leaving": "counterpart",
+            "staying": "subject",
+            "others": "present"
+          },
+          "opener": "leaving",
+          "setting": ["other-home", "home"],
+          "opening": "farewell"
         }
       ],
       "awaiting": ["record:deployment"],
@@ -300,10 +302,7 @@
           "opening": "tell"
         },
         {
-          "match": {
-            "label": "money:job-ended",
-            "counterpart": "none"
-          },
+          "match": { "label": "money:job-ended", "counterpart": "none" },
           "bind": {
             "bearer": "subject",
             "receiver": "household",
@@ -326,10 +325,7 @@
           }
         },
         {
-          "match": {
-            "label": "money:job-ended",
-            "counterpart": "some"
-          },
+          "match": { "label": "money:job-ended", "counterpart": "some" },
           "bind": {
             "bearer": "counterpart",
             "receiver": "subject",
@@ -352,14 +348,97 @@
           "opening": "tell"
         },
         {
-          "awaitingProducer": "election-result",
-          "causeEngine": "elections",
+          "match": {
+            "label": "circumstance:race-result-known",
+            "causeFacts": [{ "key": "winnerId", "is": "other" }]
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
           "bind": {
+            "bearer": "counterpart",
             "receiver": "subject",
-            "about": "counterpart",
-            "bearer": "present"
+            "about": "winner"
           },
           "opener": "bearer",
+          "setting": ["public"],
+          "opening": "tell"
+        },
+        {
+          "match": { "label": "circumstance:price-moved-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "law.effect-learned",
+          "bind": {
+            "bearer": "counterpart",
+            "receiver": "subject",
+            "about": "counterpart"
+          },
+          "opener": "bearer",
+          "setting": ["public"],
+          "opening": "tell"
+        },
+        {
+          "match": { "label": "circumstance:story-read-home" },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": {
+            "bearer": "counterpart",
+            "receiver": "subject",
+            "about": "counterpart"
+          },
+          "opener": "bearer",
+          "setting": ["home"],
+          "opening": "tell"
+        },
+        {
+          "match": { "label": "circumstance:national-news-work" },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": {
+            "bearer": "counterpart",
+            "receiver": "subject",
+            "about": "counterpart"
+          },
+          "opener": "bearer",
+          "setting": ["workplace"],
+          "opening": "tell"
+        },
+        {
+          "match": { "label": "circumstance:death-known-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "life.death",
+          "bind": {
+            "bearer": "counterpart",
+            "receiver": "subject",
+            "about": "cause-named"
+          },
+          "opener": "bearer",
+          "setting": ["public"],
+          "opening": "tell"
+        },
+        {
+          "match": { "label": "circumstance:rent-news-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": {
+            "bearer": "counterpart",
+            "receiver": "subject",
+            "about": "counterpart"
+          },
+          "opener": "bearer",
+          "setting": ["public"],
+          "opening": "tell"
+        },
+        {
+          "match": { "label": "circumstance:national-news-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": {
+            "bearer": "counterpart",
+            "receiver": "subject",
+            "about": "counterpart"
+          },
+          "opener": "bearer",
+          "setting": ["public"],
           "opening": "tell"
         }
       ],
@@ -504,66 +583,6 @@
       "stakes": ["what-happened"]
     },
     {
-      "key": "confession",
-      "roles": [
-        {
-          "key": "telling",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["confess", "lie", "deflect", "request"],
-          "wants": ["speak-out", "take-risk"],
-          "bearing": "nervous"
-        },
-        {
-          "key": "told",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["comfort", "blame", "thank", "promise"],
-          "wants": ["trust", "engage"],
-          "bearing": "curious"
-        }
-      ],
-      "setting": ["home", "other-home"],
-      "timing": "next-together",
-      "causes": [],
-      "awaiting": ["record:private-fact-held"],
-      "tag": {
-        "key": "news-received",
-        "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
-      }
-    },
-    {
-      "key": "favor-asked",
-      "roles": [
-        {
-          "key": "asker",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["request", "offer", "promise", "thank"],
-          "wants": ["self-interest", "engage"],
-          "bearing": "hopeful"
-        },
-        {
-          "key": "asked",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["agree", "decline", "offer", "request"],
-          "wants": ["help-others", "play-safe"],
-          "bearing": "curious"
-        }
-      ],
-      "setting": ["phone", "other-home", "home"],
-      "timing": "at-cause",
-      "causes": [],
-      "awaiting": ["record:favor-request-as-moment"],
-      "tag": {
-        "key": "favor-asked",
-        "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
-      }
-    },
-    {
       "key": "reach-out",
       "roles": [
         {
@@ -587,13 +606,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "reached-out",
-          "bind": {
-            "asked": "subject",
-            "asking": "counterpart"
-          },
+          "match": { "label": "circumstance:job-lost-calls" },
+          "causeEngine": "circumstance",
+          "causeRecord": "work.job-lost",
+          "bind": { "asking": "counterpart", "asked": "subject" },
           "opener": "asking",
-          "opening": "request"
+          "setting": ["phone"]
         }
       ],
       "tag": {
@@ -644,7 +662,8 @@
         "key": "routine",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "yieldsTo": ["reconciliation"]
     },
     {
       "key": "celebration",
@@ -708,16 +727,6 @@
           "opener": "host"
         },
         {
-          "awaitingProducer": "election-result",
-          "causeEngine": "elections",
-          "bind": {
-            "honoree": "subject",
-            "host": "household",
-            "guests": "present"
-          },
-          "opener": "host"
-        },
-        {
           "match": {
             "label": "money:job-started",
             "counterpart": "some"
@@ -731,7 +740,7 @@
           "opening": "tell"
         }
       ],
-      "awaiting": ["record:birthday-gathering", "record:election-win"],
+      "awaiting": ["record:birthday-gathering"],
       "tag": {
         "key": "honor",
         "endpoint": "personal",
@@ -853,23 +862,23 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "relationship:contact:introduced:maintained",
+          "awaitingProducer": "canvass-visit",
+          "reason": "canvass",
+          "bind": { "newcomer": "subject", "met": "counterpart" },
+          "opener": "newcomer"
+        },
+        {
+          "match": { "label": "circumstance:new-coworker" },
+          "causeEngine": "circumstance",
+          "causeRecord": "job",
           "bind": {
-            "newcomer": "subject",
-            "met": "counterpart",
+            "newcomer": "counterpart",
+            "met": "subject",
             "introducer": "present"
           },
           "opener": "introducer",
+          "setting": ["workplace"],
           "opening": "tell"
-        },
-        {
-          "awaitingProducer": "canvass-visit",
-          "reason": "canvass",
-          "bind": {
-            "newcomer": "subject",
-            "met": "counterpart"
-          },
-          "opener": "newcomer"
         }
       ],
       "awaiting": ["record:new-neighbor"],
@@ -965,10 +974,16 @@
       "causes": [
         {
           "awaitingProducer": "school-finished",
-          "bind": {
-            "leaving": "subject",
-            "staying": "classmates"
-          }
+          "bind": { "leaving": "subject", "staying": "classmates" }
+        },
+        {
+          "match": { "label": "money:job-left" },
+          "causeEngine": "jobs",
+          "causeRecord": "job",
+          "bind": { "leaving": "subject", "staying": "former-coworkers" },
+          "opener": "leaving",
+          "opening": "farewell",
+          "setting": ["workplace"]
         }
       ],
       "awaiting": ["record:retirement", "record:quitting"],
@@ -981,40 +996,6 @@
       "asker": "staying",
       "asked": "leaving",
       "stakes": ["office"]
-    },
-    {
-      "key": "interview",
-      "roles": [
-        {
-          "key": "interviewer",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["tell", "offer", "decline"],
-          "wants": ["follow-rules", "distrust"],
-          "bearing": "steady"
-        },
-        {
-          "key": "candidate",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["tell", "lie", "request", "thank"],
-          "wants": ["self-interest", "take-risk"],
-          "bearing": "nervous"
-        }
-      ],
-      "setting": ["workplace", "venue"],
-      "timing": "effective-date",
-      "causes": [],
-      "awaiting": [
-        "record:job-application",
-        "record:press-interview",
-        "record:admission"
-      ],
-      "tag": {
-        "key": "favor-asked",
-        "endpoint": "money",
-        "registers": ["conversation", "scene-words", "journal"]
-      }
     },
     {
       "key": "date",
@@ -1212,7 +1193,13 @@
       ],
       "setting": ["home", "other-home", "public"],
       "timing": "next-together",
-      "causes": [],
+      "causes": [
+        {
+          "match": { "echo": "kept-fact-due" },
+          "bind": { "betrayed": "subject", "betrayer": "counterpart" },
+          "opener": "betrayed"
+        }
+      ],
       "awaiting": [
         "record:broken-undertaking",
         "record:lie-found-out",
@@ -1300,10 +1287,7 @@
       "timing": "next-together",
       "causes": [
         {
-          "bind": {
-            "cannot-come": "subject",
-            "visitor": "kin"
-          },
+          "bind": { "cannot-come": "subject", "visitor": "kin" },
           "opener": "visitor",
           "match": {
             "label": "feeling:event:justice.imprisoned",
@@ -1311,31 +1295,17 @@
           }
         },
         {
-          "awaitingProducer": "held-before-trial",
-          "bind": {
-            "cannot-come": "subject",
-            "visitor": "kin"
-          },
-          "opener": "visitor"
-        },
-        {
           "match": {
             "label": "feeling:event:health.serious-illness",
             "counterpart": "some"
           },
-          "bind": {
-            "visitor": "subject",
-            "cannot-come": "counterpart"
-          },
+          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
           "opener": "visitor"
         },
         {
           "awaitingProducer": "canvass-visit",
           "reason": "canvass",
-          "bind": {
-            "visitor": "subject",
-            "cannot-come": "counterpart"
-          },
+          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
           "opener": "visitor"
         },
         {
@@ -1343,12 +1313,25 @@
             "label": "feeling:event:health.serious-illness",
             "counterpart": "none"
           },
-          "bind": {
-            "visitor": "kin",
-            "cannot-come": "subject"
-          },
+          "bind": { "visitor": "kin", "cannot-come": "subject" },
           "opener": "visitor",
           "opening": "comfort"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.held-before-trial",
+            "counterpart": "none"
+          },
+          "bind": { "cannot-come": "subject", "visitor": "kin" },
+          "opener": "visitor"
+        },
+        {
+          "match": { "label": "circumstance:held-known-visit" },
+          "causeEngine": "circumstance",
+          "causeRecord": "justice.held-before-trial",
+          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
+          "opener": "visitor",
+          "setting": ["venue"]
         }
       ],
       "awaiting": ["record:serious-illness", "record:nursing-home"],
@@ -1382,11 +1365,12 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "family-birth",
-          "bind": {
-            "household": "subject",
-            "newcomer": "counterpart"
-          }
+          "match": { "label": "circumstance:new-housemate" },
+          "causeEngine": "circumstance",
+          "causeRecord": "household-member",
+          "bind": { "household": "subject", "newcomer": "counterpart" },
+          "opener": "newcomer",
+          "setting": ["home"]
         }
       ],
       "awaiting": ["record:stepparent-arrives", "record:housemate-moves-in"],
@@ -1394,7 +1378,11 @@
         "key": "arrival",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "housemate-arrives",
+      "asker": "newcomer",
+      "asked": "household",
+      "stakes": ["home"]
     },
     {
       "key": "care",
@@ -1555,7 +1543,16 @@
       ],
       "setting": ["home", "phone", "letter"],
       "timing": "at-cause",
-      "causes": [],
+      "causes": [
+        {
+          "match": { "label": "circumstance:organizing-warning" },
+          "causeEngine": "circumstance",
+          "causeRecord": "initiative.organizing-started",
+          "bind": { "warning": "counterpart", "at-risk": "subject" },
+          "opener": "warning",
+          "setting": ["phone"]
+        }
+      ],
       "awaiting": [
         "record:arrears",
         "record:eviction-notice",
@@ -1593,7 +1590,17 @@
       ],
       "setting": ["home", "other-home", "public"],
       "timing": "next-together",
-      "causes": [],
+      "causes": [
+        {
+          "match": {
+            "labelPrefix": "tie:",
+            "threadTurn": "grew",
+            "afterTurn": "soured"
+          },
+          "bind": { "one": "subject", "other": "counterpart" },
+          "opener": "other"
+        }
+      ],
       "awaiting": ["record:help-after-quarrel"],
       "aftermath": {
         "apologize": {
@@ -1611,36 +1618,6 @@
       "asker": "other",
       "asked": "one",
       "stakes": ["what-happened"]
-    },
-    {
-      "key": "asking-permission",
-      "roles": [
-        {
-          "key": "asking",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["request", "promise", "tell", "lie"],
-          "wants": ["take-risk", "self-interest"],
-          "bearing": "hopeful"
-        },
-        {
-          "key": "authority",
-          "fill": "authority",
-          "count": "one",
-          "moves": ["agree", "decline", "offer"],
-          "wants": ["follow-rules", "play-safe"],
-          "bearing": "steady"
-        }
-      ],
-      "setting": ["home", "school", "workplace"],
-      "timing": "at-cause",
-      "causes": [],
-      "awaiting": ["record:choice-needing-permission"],
-      "tag": {
-        "key": "favor-asked",
-        "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
-      }
     },
     {
       "key": "polling-place",
@@ -2453,38 +2430,22 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-            "causeFacts": [
-              {
-                "key": "executiveId",
-                "is": "subject"
-              }
-            ]
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
-          "bind": {
-            "reporter": "press-corps",
-            "official": "subject"
-          },
+          "bind": { "reporter": "press-corps", "official": "subject" },
           "opener": "reporter",
           "opening": "greet"
         },
         {
           "match": {
             "label": "cause:event:veto-override",
-            "causeFacts": [
-              {
-                "key": "executiveId",
-                "is": "subject"
-              }
-            ]
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
           },
           "causeEngine": "legislature",
           "causeRecord": "veto-override",
-          "bind": {
-            "reporter": "press-corps",
-            "official": "subject"
-          },
+          "bind": { "reporter": "press-corps", "official": "subject" },
           "opener": "reporter",
           "opening": "greet"
         },
@@ -2495,26 +2456,28 @@
           },
           "causeEngine": "legislature",
           "causeRecord": "office.introduced",
-          "bind": {
-            "reporter": "press-corps",
-            "official": "subject"
-          },
+          "bind": { "reporter": "press-corps", "official": "subject" },
           "opener": "reporter",
           "opening": "greet"
         },
         {
           "causeEngine": "press",
           "causeRecord": "interview-published",
-          "bind": {
-            "reporter": "press",
-            "official": "subject"
-          },
+          "bind": { "reporter": "press", "official": "subject" },
           "opener": "reporter",
           "opening": "greet",
           "match": {
             "label": "cause:event:interview-published",
             "selfNamed": true
           }
+        },
+        {
+          "match": { "label": "circumstance:hallway-reporter" },
+          "causeEngine": "circumstance",
+          "causeRecord": "bill-held-in-committee",
+          "bind": { "reporter": "counterpart", "official": "subject" },
+          "opener": "reporter",
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -2627,6 +2590,166 @@
       "asker": "teller",
       "asked": "reached",
       "stakes": ["bill"]
+    },
+    {
+      "key": "morning-after",
+      "purpose": "morning-after",
+      "asker": "visitor",
+      "asked": "you",
+      "stakes": ["office", "opponent"],
+      "roles": [
+        {
+          "key": "visitor",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["ask", "thank", "tell", "comfort"],
+          "wants": ["engage", "help-others"],
+          "bearing": "tender"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "promise", "deflect", "tell"],
+          "wants": ["commit"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": { "label": "circumstance:morning-after" },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
+          "bind": { "visitor": "counterpart", "you": "subject" },
+          "opener": "visitor",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      }
+    },
+    {
+      "key": "constituent-stop",
+      "purpose": "law-reaches",
+      "asker": "constituent",
+      "asked": "you",
+      "stakes": ["bill"],
+      "roles": [
+        {
+          "key": "constituent",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "blame", "ask", "thank"],
+          "wants": ["change"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "promise", "deflect", "blame"],
+          "wants": ["help-others"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": { "label": "circumstance:vote-read-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": { "constituent": "counterpart", "you": "subject" },
+          "opener": "constituent",
+          "setting": ["public"]
+        },
+        {
+          "match": { "label": "circumstance:law-reached-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "law.effect-learned",
+          "bind": { "constituent": "counterpart", "you": "subject" },
+          "opener": "constituent",
+          "setting": ["public"]
+        },
+        {
+          "match": { "label": "circumstance:law-news-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": { "constituent": "counterpart", "you": "subject" },
+          "opener": "constituent",
+          "setting": ["public"]
+        }
+      ],
+      "tag": {
+        "key": "news-received",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      }
+    },
+    {
+      "key": "hallway",
+      "purpose": "hallway-word",
+      "asker": "other",
+      "asked": "you",
+      "roles": [
+        {
+          "key": "other",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["greet", "ask", "tell", "request"],
+          "wants": ["engage", "change"],
+          "bearing": "curious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "tell", "deflect", "ask"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": { "label": "circumstance:meeting-colleague" },
+          "causeEngine": "circumstance",
+          "causeRecord": "public-meeting",
+          "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "colleague-word",
+          "opener": "other",
+          "setting": ["seat", "venue"]
+        },
+        {
+          "match": { "label": "circumstance:meeting-reporter" },
+          "causeEngine": "circumstance",
+          "causeRecord": "public-meeting",
+          "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "reporter-word",
+          "opener": "other",
+          "setting": ["seat", "venue"]
+        },
+        {
+          "match": { "label": "circumstance:lobbyist-hallway" },
+          "causeEngine": "circumstance",
+          "causeRecord": "case.made",
+          "bind": { "other": "counterpart", "you": "subject" },
+          "sceneKey": "lobbyist-word",
+          "opener": "other",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "colleague-word",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
     },
     {
       "key": "address",
@@ -3032,12 +3155,17 @@
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-amendment",
-          "bind": {
-            "colleague": "counterpart",
-            "you": "subject"
-          },
+          "bind": { "colleague": "counterpart", "you": "subject" },
           "opener": "colleague",
           "setting": ["chamber"]
+        },
+        {
+          "match": { "label": "circumstance:hallway-colleague" },
+          "causeEngine": "circumstance",
+          "causeRecord": "committee-hearing",
+          "bind": { "colleague": "counterpart", "you": "subject" },
+          "opener": "colleague",
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -3118,14 +3246,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "sponsor-sought",
-          "causeEngine": "legislature",
-          "causeRecord": "legislative-vote",
-          "bind": {
-            "member": "members",
-            "you": "subject"
-          },
-          "opener": "member"
+          "match": { "label": "circumstance:bill-introduced-carry" },
+          "causeEngine": "circumstance",
+          "causeRecord": "office.introduced",
+          "bind": { "member": "counterpart", "you": "subject" },
+          "opener": "member",
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -3169,14 +3295,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "donor-ask",
-          "causeEngine": "campaigns",
-          "causeRecord": "campaign-contribution",
-          "bind": {
-            "donor": "donor",
-            "you": "subject"
-          },
-          "opener": "donor"
+          "match": { "label": "circumstance:donor-ask-street" },
+          "causeEngine": "circumstance",
+          "causeRecord": "cause.donated",
+          "bind": { "donor": "counterpart", "you": "subject" },
+          "opener": "donor",
+          "setting": ["public"]
         }
       ],
       "tag": {
@@ -3235,50 +3359,6 @@
       "tag": {
         "key": "favor-asked",
         "endpoint": "money",
-        "registers": ["scene-talk", "scene-words"]
-      }
-    },
-    {
-      "key": "party-ask",
-      "purpose": "party-ask",
-      "asker": "chair",
-      "asked": "you",
-      "stakes": ["office", "party", "race"],
-      "roles": [
-        {
-          "key": "chair",
-          "fill": "party-chair",
-          "count": "one",
-          "moves": ["request", "press", "threaten", "plea", "thank", "accept"],
-          "wants": ["follow-rules"],
-          "bearing": "braced"
-        },
-        {
-          "key": "you",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
-          "wants": ["speak-out"],
-          "bearing": "guarded"
-        }
-      ],
-      "setting": ["office", "phone"],
-      "timing": "at-cause",
-      "causes": [
-        {
-          "awaitingProducer": "party-ask",
-          "causeEngine": "parties",
-          "causeRecord": "party.nomination",
-          "bind": {
-            "chair": "party-chair",
-            "you": "subject"
-          },
-          "opener": "chair"
-        }
-      ],
-      "tag": {
-        "key": "favor-asked",
-        "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
     },
@@ -3622,19 +3702,98 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "rally",
-          "causeEngine": "elections",
-          "causeRecord": "campaign-event",
-          "bind": {
-            "opponent": "opponent",
-            "you": "subject"
-          },
-          "opener": "opponent"
+          "match": { "label": "circumstance:rival-message" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign-message",
+          "bind": { "opponent": "counterpart", "you": "subject" },
+          "opener": "opponent",
+          "setting": ["public"]
         }
       ],
       "tag": {
         "key": "threat",
         "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "desk-visit",
+      "eachCause": true,
+      "purpose": "desk-visit",
+      "asker": "visitor",
+      "asked": "you",
+      "stakes": ["bill", "decision", "votes"],
+      "roles": [
+        {
+          "key": "visitor",
+          "fill": "sponsor",
+          "count": "one",
+          "moves": [
+            "request",
+            "answer",
+            "press",
+            "plea",
+            "threaten",
+            "accept",
+            "thank"
+          ],
+          "wants": ["change"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "ask"],
+          "wants": ["commit"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "visitor": "sponsor",
+            "you": "subject"
+          },
+          "opener": "visitor"
+        },
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "visitor": "lobbyist",
+            "you": "subject"
+          },
+          "opener": "visitor"
+        }
+      ],
+      "tag": {
+        "key": "desk-visit",
+        "endpoint": "bill",
         "registers": ["scene-talk", "scene-words"]
       }
     },
@@ -3777,16 +3936,6 @@
           },
           "causeEngine": "press",
           "causeRecord": "press-story",
-          "bind": {
-            "aide": "staff",
-            "you": "subject"
-          },
-          "opener": "aide"
-        },
-        {
-          "awaitingProducer": "staff-news",
-          "causeEngine": "press",
-          "causeRecord": "press.exposed",
           "bind": {
             "aide": "staff",
             "you": "subject"
@@ -4489,6 +4638,66 @@
       "asker": "teller",
       "asked": "you",
       "stakes": ["race", "opponent"]
+    },
+    {
+      "key": "budget-cut",
+      "purpose": "cut-argument",
+      "asker": "head",
+      "asked": "you",
+      "stakes": ["cut", "department", "votes"],
+      "roles": [
+        {
+          "key": "head",
+          "fill": "department-head",
+          "count": "one",
+          "moves": [
+            "deliver-news",
+            "answer",
+            "press",
+            "plea",
+            "threaten",
+            "accept"
+          ],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "ask"],
+          "wants": ["commit"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:budget-line-changed",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "budgets",
+          "causeRecord": "budget-line-changed",
+          "bind": {
+            "head": "department-head",
+            "you": "subject"
+          },
+          "opener": "head"
+        }
+      ],
+      "tag": {
+        "key": "cut-heard",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
     }
   ]
 }

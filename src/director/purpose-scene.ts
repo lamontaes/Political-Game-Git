@@ -7,8 +7,16 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { personLean } from "../core2/campaign-views";
-import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
+import { appointmentsIn } from "../core2/modules/executive";
+import { lawChain } from "../core2/modules/laws";
+import { meetingsOn } from "../core2/modules/interest-groups";
+import {
+  LEGISLATURE_MODULE_ID,
+  billOf,
+  votesOn,
+} from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
   type TownHallRow,
@@ -20,10 +28,18 @@ import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
-import { topicInSentence } from "../english/policy-names";
+import {
+  questionName,
+  storyTopicName,
+  topicInSentence,
+} from "../english/policy-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import {
+  SITUATION_LIBRARY,
+  type ScheduleEntry,
+  type SituationType,
+} from "./scheduling";
 import type { Moment } from "./types";
 import {
   composeSceneTalk,
@@ -39,7 +55,7 @@ import {
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
-import { properName, spoken } from "./words";
+import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
 
 export interface PurposeScene {
@@ -109,6 +125,17 @@ export function purposeScene(
   return skipped;
 }
 
+/**
+ * The type as its cause plays it: a cause may name its own `sceneKey`, which
+ * tags the exchange's pieces in place of the type's key, so one purpose speaks
+ * for each cause's own reason (the cause is matched by the moment's label).
+ */
+export function typeForCause(type: PurposeType, label: string): PurposeType {
+  const causes = (type as { causes?: SituationType["causes"] }).causes;
+  const sceneKey = causes?.find((row) => row.match?.label === label)?.sceneKey;
+  return sceneKey ? { ...type, tag: { ...type.tag, key: sceneKey } } : type;
+}
+
 /** One purpose scene of a moment, worded from its records. */
 function composeBinding(
   core: Readonly<CoreState>,
@@ -118,7 +145,10 @@ function composeBinding(
   binding: ScheduleEntry["bindings"][number],
   options: { includeHeld?: boolean },
 ): PurposeSceneResult {
-  const type = TYPES.get(binding.typeKey) as PurposeType;
+  const type = typeForCause(
+    TYPES.get(binding.typeKey) as PurposeType,
+    moment.label,
+  );
   const cast = (role: string | undefined) =>
     binding.roles.find((row) => row.role === role)?.personIds[P.zero];
   const askerId = cast(type.asker);
@@ -159,6 +189,29 @@ function composeBinding(
       text: spokenDesignation(number, named?.form.kind ?? ""),
       sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
     };
+  }
+  // A law in force (a story that it took effect): its policy by name, for
+  // the lines that say what took effect.
+  if (said.lawId && said.series) {
+    const topic = said.series.slice(said.series.lastIndexOf(":") + P.one);
+    const name = questionName(said.series) ?? storyTopicName(topic);
+    if (name)
+      facts.law = {
+        text: name,
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
+  }
+  // A law in force that a bill enacted (a story that it took effect): the
+  // bill by its number, cited to the law and the bill.
+  if (!said.number && said.lawId && said.enactedBy) {
+    const bill = core.modules.has(LEGISLATURE_MODULE_ID)
+      ? billOf(coreAPI(core as CoreState), said.enactedBy)
+      : undefined;
+    if (bill?.number)
+      facts.bill = {
+        text: spokenDesignation(bill.number, bill.form.kind),
+        sourceRecordIds: [bill.id, said.lawId, moment.causeId],
+      };
   }
   // The chair a committee's hold names, for a member who is asked to press them.
   const chair = said.chair
@@ -315,6 +368,13 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
+  // A race's result for the asked (the morning after): the lines for a
+  // winner and for the one who lost differ.
+  if (said.winnerId && said.contestId)
+    facts[said.winnerId === askedId ? "won" : "lost"] = {
+      text: "",
+      sourceRecordIds: [moment.causeId],
+    };
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {
@@ -328,6 +388,11 @@ function composeBinding(
         sourceRecordIds: [moment.causeId],
       };
   }
+
+  if (record?.kind === "budget-line-changed")
+    cutFacts(core, facts, said, moment.causeId, askerId);
+  if (record?.kind === "bill-presented")
+    deskFacts(core, facts, said, moment.causeId, askerId);
 
   const result = composeSceneTalk(
     core,
@@ -361,6 +426,125 @@ function composeBinding(
       talk: result.talk,
     },
   };
+}
+
+/** A dollar amount said to two figures, the way people round a number out loud: "$410,000". */
+function roundedDollars(minor: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumSignificantDigits: P.two,
+  }).format(minor / P.minorPerDollar);
+}
+
+/**
+ * What a department head says of a cut the council adopted to the line their
+ * post draws on (budgets.ts `budget-line-changed`): how much was cut, how much
+ * of the line that was where the adopted budget is on record, their post and
+ * how many whole years they have held it, each with the records it came from.
+ */
+function cutFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  headId: PersonId,
+): void {
+  const cut = Math.abs(Number(said.deltaMinor));
+  if (!(cut > P.zero)) return;
+  facts.cut = { text: roundedDollars(cut), sourceRecordIds: [causeId] };
+  const api = coreAPI(core as CoreState);
+  const budget =
+    said.measureId && core.modules.has(BUDGETS_MODULE_ID)
+      ? (api
+          .moduleState(BUDGETS_MODULE_ID)
+          .table("budgets")
+          .get(said.measureId) as unknown as BudgetRow | undefined)
+      : undefined;
+  const left = budget?.spendingMinor[said.line ?? ""];
+  if (budget && left !== undefined) {
+    const percent = Math.round((P.percent * cut) / (left + cut));
+    if (percent >= P.one)
+      facts.percent = {
+        text: String(percent),
+        sourceRecordIds: [causeId, budget.id],
+      };
+  }
+  const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
+    (row) => row.holderId === headId,
+  );
+  if (!post) return;
+  facts.post = { text: post.title.toLowerCase(), sourceRecordIds: [post.id] };
+  const date = core.date;
+  const years =
+    Number(date.slice(P.zero, P.isoYearCharacters)) -
+    Number(post.since.slice(P.zero, P.isoYearCharacters)) -
+    (date.slice(P.isoYearCharacters) < post.since.slice(P.isoYearCharacters)
+      ? P.one
+      : P.zero);
+  if (years >= P.two)
+    facts.years = {
+      text: String(years),
+      sourceRecordIds: [post.id],
+    };
+}
+
+/**
+ * What someone who comes to a bill's presentment may say of it: the day the
+ * decision is due, how the chambers voted, and whose side the visitor is on
+ * (the sponsor is for it; a group's lobbyist is against it and says what it
+ * costs the businesses they speak for), each citing the records it came from.
+ */
+function deskFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  visitorId: PersonId,
+): void {
+  if (said.signBy)
+    facts.deadline = {
+      text: spokenDate(
+        said.signBy,
+        core.durableLog.get(causeId)?.date ?? core.date,
+      ),
+      sourceRecordIds: [causeId],
+    };
+  if (!said.billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return;
+  const api = coreAPI(core as CoreState);
+  const bill = billOf(api, said.billId);
+  if (!bill) return;
+  const votes = votesOn(api, bill.id);
+  const yes = votes.filter((row) => row.vote === "yes").length;
+  const no = votes.filter((row) => row.vote === "no").length;
+  if (yes + no > P.zero)
+    facts.roll = {
+      text: `${yes} to ${no}`,
+      sourceRecordIds: [causeId, bill.id],
+    };
+  if (bill.sponsorId === visitorId) {
+    facts.for = {
+      text: said.number ?? bill.number,
+      sourceRecordIds: [causeId],
+    };
+    return;
+  }
+  const against = meetingsOn(api, bill.id)
+    .filter(
+      (row) => row.lobbyistId === visitorId && (row.side ?? -P.one) < P.zero,
+    )
+    .sort((a, b) => b.annualCostMinor - a.annualCostMinor);
+  const [largest] = against;
+  if (!largest) return;
+  facts.against = {
+    text: said.number ?? bill.number,
+    sourceRecordIds: [causeId, largest.id],
+  };
+  if (largest.annualCostMinor > P.zero)
+    facts.cost = {
+      text: roundedDollars(largest.annualCostMinor),
+      sourceRecordIds: [causeId, largest.id],
+    };
 }
 
 /**

@@ -6,7 +6,7 @@ lead: laws-effects
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/local-platform-budget-lines
 pr: #6322
 blocked-on: laws-filing-positions-are-the-seats-own-issues
