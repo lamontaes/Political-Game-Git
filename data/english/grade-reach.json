@@ -1710,6 +1710,7 @@
     "scene-talk.reply-ask.how-much-time-can-you-give-it": "ask|none|private",
     "scene-talk.reply-ask.how-sure-are-you": "ask|guarded|private",
     "scene-talk.reply-ask.how-would-you-pay-for-it": "ask|curious|private",
+    "scene-talk.reply-ask.one-of-ours-what-is-opponent-running-on": "ask|none|private",
     "scene-talk.reply-ask.self-place-can-someone-tell-me-who-asked-for-this-bill": "ask|curious|private",
     "scene-talk.reply-ask.show-me-what-s-behind-the-number": "ask|curious|private",
     "scene-talk.reply-ask.so-what-would-you-do-in-my-shoes-honestly": "ask|curious|private",

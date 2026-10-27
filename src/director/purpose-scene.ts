@@ -40,6 +40,7 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { ELECTIONS_MODULE_ID, ballot } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
   enlistVolunteer,
@@ -329,6 +330,19 @@ function composeBinding(
       text: `${rival.givenName} ${rival.familyName}`,
       sourceRecordIds: [moment.causeId, rival.id],
     };
+  // A rival who runs under the candidate's own party label: a primary
+  // challenge. The lines that call it one need both filings to say so.
+  if (rival && said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {
+    const filings = ballot(coreAPI(core as CoreState), said.contestId);
+    const party = (id: string) =>
+      filings.find((row) => row.personId === id)?.party ?? null;
+    const theirs = party(rival.id);
+    if (theirs && theirs === party(askedId))
+      facts["same-party"] = {
+        text: theirs,
+        sourceRecordIds: [moment.causeId, said.filingId ?? moment.causeId],
+      };
+  }
   // What the relative has at stake in the run, from the household's records
   // (the cast rule chose them for it): the lines about money or time need it.
   const stake = type.stakes?.includes("household-money-or-time")

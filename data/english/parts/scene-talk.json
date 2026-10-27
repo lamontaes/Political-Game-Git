@@ -97637,6 +97637,211 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-waits-until-it-s-just-the-two-of-you-it-s-about-your-own-party",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits until it's just the two of you. It's about your own party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["same-party"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-down-across-from-you-with-news-from-inside-your-own-party",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sits down across from you with news from inside your own party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["same-party"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-filed-for-office-same-party-as-you",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent} filed for {office}. Same party as you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.someone-from-your-own-side-wants-office-opponent-filed",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Someone from your own side wants {office}. {opponent} filed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-sorry-to-be-the-one-opponent-filed-for-office-and-they-re-from-your-party",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm sorry to be the one. {opponent} filed for {office}, and they're from your party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.did-you-know-opponent-wanted-office-they-filed-and-they-re-in-your-party",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Did you know {opponent} wanted {office}? They filed, and they're in your party.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-filed-for-office-they-run-under-the-same-party-you-do",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent} filed for {office}. They run under the same party you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["opponent", "office", "same-party"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.one-of-ours-what-is-opponent-running-on",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "One of ours? What is {opponent} running on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["opponent", "same-party"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
       "move": "narrate-narrate",
       "kind": "spoken",
       "shippable": true,
