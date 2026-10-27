@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: words/web-executive
-pr: pending
+pr: 6332
 blocked-on:
 source: "words-and-scenes lead, Oct 27: first pass of words-scene-web-the-executive"
 lead: words
