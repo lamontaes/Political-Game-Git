@@ -1,6 +1,65 @@
 {
   "entries": [
     {
+      "version": "0.47.0",
+      "releasedOn": "2026-10-27",
+      "revision": "57086e9be0657585ec0c7bc92a096ae582c56941",
+      "changeIds": [
+        "play-stop-36-opening-starts-with-the-address",
+        "words-grades-calibrate-by-trait-and-register"
+      ]
+    },
+    {
+      "version": "0.46.0",
+      "releasedOn": "2026-10-27",
+      "revision": "7421844a6843b1618ddea87d33927f93596fcbbd",
+      "changeIds": [
+        "play-stop-30-creator-age-line-says-what-it-is",
+        "play-stop-31-creator-search-fields-gold-outline",
+        "tests-law-wiring-justice-restore-vote-burton",
+        "traits-coverage-table-missing-shade-answer",
+        "words-opening-address-from-records",
+        "words-scene-for-unstaged-big-moments"
+      ]
+    },
+    {
+      "version": "0.45.0",
+      "releasedOn": "2026-10-27",
+      "revision": "209420db43cb2f6ddf2862b7bb188053541c2bad",
+      "changeIds": [
+        "core-contracts-test-payroll-zero-new-richmond",
+        "play-stop-43-travel-as-place-cards",
+        "play-stop-44-filing-races-open-as-a-menu",
+        "play-stop-45-talk-history-set-apart",
+        "play-stop-46-calendar-opens-on-today-and-shows-events",
+        "screens-ui-panel-frame",
+        "screens-ui-talk-box",
+        "tests-highways-opening-road-rule",
+        "traits-research-weights-civic"
+      ]
+    },
+    {
+      "version": "0.44.3",
+      "releasedOn": "2026-10-27",
+      "revision": "d140122651b09a0720884ef38863a1d2a7bbd270",
+      "changeIds": [
+        "skills-skill-lessons",
+        "traits-civic",
+        "traits-meetings-take-part-measured"
+      ]
+    },
+    {
+      "version": "0.44.2",
+      "releasedOn": "2026-10-27",
+      "revision": "d12af85bab95b9dcdee30fdebca06cd8ef986a63",
+      "changeIds": [
+        "cto-owner-scene-examples",
+        "laws-rtw-test-played-repeal-guard",
+        "skills-scenes-from-life",
+        "world-homeless-puerto-rico-far-above-hud"
+      ]
+    },
+    {
       "version": "0.44.1",
       "releasedOn": "2026-10-27",
       "revision": "8f6048a1285dcc1ab113574847ed08a6bae45d03",
