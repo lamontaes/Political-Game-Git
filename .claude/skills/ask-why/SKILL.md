@@ -21,6 +21,9 @@ Run this checklist over every result before it goes out. Each hit needs a cause,
 - A race not held.
 - An office that did nothing.
 - A person with no job and $0.
+- Four or more game weeks with no scene for the player.
+- A stop with no scene (a routine shift, a label that doesn't match what happened).
+- A player's bill, filing or request that never reaches a vote, a decision or a reply.
 - A repeated pattern across places.
 
 ## Find the cause

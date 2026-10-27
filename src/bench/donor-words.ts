@@ -1,5 +1,5 @@
 // How the Campaigns screen says what a call to donors did: the English engine
-// words each person's answer and each grayed act from the donor-calls bank,
+// words each person's answer and the call's total from the donor-calls bank,
 // every fact filled from a record and citing it.
 import bank from "../../data/english/parts/donor-calls.json" with { type: "json" };
 import { renderLine, type Fact, type Variant } from "../english/bank-line";

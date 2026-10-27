@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: an outlet's revenue must come from people and businesses paying it through the journal, the same rule as any seller, so its survival follows its readers and advertisers.
 
-**Done when.** A one-year played world (buildBenchWorld) in Cochituate, Massachusetts (seed above) and two more drawn places keeps its press outlets open unless their books fail for a recorded reason other than having no revenue line, named by organization id in the PR body; the outlets' revenue entries are on the journal by id.
+**Done when.** A one-year played world (buildBenchWorld) in Cochituate, Massachusetts (seed above) and two more drawn places keeps its press outlets open unless their books fail for a recorded reason other than having no revenue line, named by organization id in the PR body; the outlets' revenue entries are on the journal by id. **On screen.** Nothing yet: filed play-town-paper-on-screen, which puts it on News.
 
 **Files.** src/core2/modules/press.ts, src/core2/finance-state.ts
 

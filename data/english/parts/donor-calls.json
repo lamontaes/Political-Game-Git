@@ -1,14 +1,12 @@
 {
   "schema": "english-parts/1",
   "register": "donor-calls",
-  "description": "What the Campaigns screen says when the player calls donors: each person asked and what they gave or why not, the call's total, and why a campaign act is grayed. Every part is a whole sentence; the facts come from the gift rows, the person records and the campaign's account.",
+  "description": "What the Campaigns screen says when the player calls donors: each person asked and what they gave or why not, the call's total. Every part is a whole sentence; the facts come from the gift rows, the person records and the campaign's account.",
   "slots": {
     "name": "The person asked, from the person records.",
     "amount": "Dollars given, from the gift row and journal entry.",
     "gave": "How many people gave on this call.",
-    "asked": "How many people were asked on this call.",
-    "cash": "Dollars in the campaign's account.",
-    "price": "Dollars the hall costs."
+    "asked": "How many people were asked on this call."
   },
   "maxWords": 20,
   "parts": [
@@ -186,138 +184,6 @@
       "tag": {
         "move": "deliver-news",
         "key": "small"
-      }
-    },
-    {
-      "key": "donor-calls.grayed-calls-nobody.you-know-no-one-old-enough-to-ask-for-money-yet",
-      "move": "grayed-calls-nobody",
-      "kind": "written",
-      "text": "You know no one old enough to ask for money yet.",
-      "uses": [
-        {
-          "move": "grayed-calls-nobody",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "grayed-calls-nobody"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "grayed-calls-nobody"
-      }
-    },
-    {
-      "key": "donor-calls.grayed-calls-nobody.there-is-no-one-left-to-call-meet-more-people-first",
-      "move": "grayed-calls-nobody",
-      "kind": "written",
-      "text": "There is no one left to call. Meet more people first.",
-      "uses": [
-        {
-          "move": "grayed-calls-nobody",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "grayed-calls-nobody"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "grayed-calls-nobody"
-      }
-    },
-    {
-      "key": "donor-calls.grayed-event-cash.the-campaign-has-cash-and-the-hall-costs-price",
-      "move": "grayed-event-cash",
-      "kind": "written",
-      "text": "The campaign has {cash} and the hall costs {price}.",
-      "uses": [
-        {
-          "move": "grayed-event-cash",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "grayed-event-cash"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "grayed-event-cash"
-      }
-    },
-    {
-      "key": "donor-calls.grayed-event-platform.take-a-stand-on-something-first-so-there-is-something-to-spe",
-      "move": "grayed-event-platform",
-      "kind": "written",
-      "text": "Take a stand on something first, so there is something to speak about.",
-      "uses": [
-        {
-          "move": "grayed-event-platform",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "grayed-event-platform"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "grayed-event-platform"
-      }
-    },
-    {
-      "key": "donor-calls.grayed-doors.you-have-knocked-on-every-door-in-town",
-      "move": "grayed-doors",
-      "kind": "written",
-      "text": "You have knocked on every door in town.",
-      "uses": [
-        {
-          "move": "grayed-doors",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "grayed-doors"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "grayed-doors"
-      }
-    },
-    {
-      "key": "donor-calls.grayed-interview.no-paper-or-station-has-room-to-ask-you-this-week",
-      "move": "grayed-interview",
-      "kind": "written",
-      "text": "No paper or station has room to ask you this week.",
-      "uses": [
-        {
-          "move": "grayed-interview",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "grayed-interview"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "grayed-interview"
       }
     },
     {

@@ -15,9 +15,10 @@ import type { Stance } from "../core2/campaign-views";
 import {
   campaignDayChoices,
   takeCampaignDayChoice,
+  type CampaignDayChoice,
   type CampaignDayKind,
 } from "../core2/campaign-day";
-import type { FilingRow } from "../core2/modules/elections";
+import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
 import { retellingsOf } from "../core2/modules/speech";
@@ -54,6 +55,41 @@ const OUTINGS: Partial<
   interview: "interview",
 };
 
+/**
+ * Why the records keep a campaign outing from the player today, as the key of
+ * its words in the screen's controls and the record figures they show.
+ */
+function whyNot(
+  choice: CampaignDayChoice,
+): { key: string; priceMinor?: number; cashMinor?: number } | undefined {
+  switch (choice.kind) {
+    case "canvass":
+      return choice.facts.households > 0 ? undefined : { key: "noHouseholds" };
+    case "event":
+      if (choice.facts.platformStances === 0) return { key: "noPlatform" };
+      return choice.facts.cashMinor < choice.facts.venuePriceMinor
+        ? {
+            key: "eventMoney",
+            priceMinor: choice.facts.venuePriceMinor,
+            cashMinor: choice.facts.cashMinor,
+          }
+        : undefined;
+    case "interview": {
+      const { outletsHere, outletsDone, outletsFull } = choice.facts;
+      if (outletsHere === 0) return { key: "noOutlet" };
+      if (outletsDone === outletsHere) return { key: "interviewed" };
+      // The rest have no room this week, or (television) want a better-known candidate.
+      return { key: outletsFull > 0 ? "outletsFull" : "notKnown" };
+    }
+    case "raise-money":
+      return {
+        key: choice.facts.reachable === 0 ? "nobodyReached" : "allGave",
+      };
+    default:
+      return undefined;
+  }
+}
+
 /** The outlet to ask first: the town's own before a regional or national one. */
 function townFirst(api: CoreAPI, outletIds: readonly string[]) {
   const tier = new Map(outletsHere(api).map((o) => [o.id, o.tier]));
@@ -82,8 +118,21 @@ export function campaignView(core: CoreState, personId: string) {
         contacted: number;
         answers: Record<string, number>;
       }[];
+      // The race by its own record: the office and the day it is decided.
+      const contest = api
+        .moduleState(ELECTIONS)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined;
       return {
         filing,
+        contest: contest
+          ? {
+              title: contest.district
+                ? `${contest.title} (${contest.district})`
+                : contest.title,
+              electionDate: contest.electionDate,
+            }
+          : null,
         campaign: {
           ...campaign,
           volunteers: campaign.volunteerIds.length,
@@ -107,16 +156,14 @@ export function campaignView(core: CoreState, personId: string) {
                   choice.facts.outlets.map((o) => o.outletId),
                 ))
               : undefined;
+          const why = choice.available ? undefined : whyNot(choice);
           return [
             {
               outing,
               hours: choice.hours,
               available: choice.available,
-              // A grayed act says why, from the records that gray it.
-              ...(choice.available
-                ? {}
-                : { why: grayedWhy(core, personId, filing.id, choice) }),
               ...(outletId ? { outletId } : {}),
+              ...(why ? { why } : {}),
             },
           ];
         }),
@@ -132,34 +179,6 @@ export function campaignView(core: CoreState, personId: string) {
       };
     }),
   };
-}
-
-/** The sentence for an act that is grayed, from the facts the day's choice carries. */
-function grayedWhy(
-  core: CoreState,
-  personId: string,
-  filingId: string,
-  choice: ReturnType<typeof campaignDayChoices>[number],
-): string {
-  const say = (move: string, slots: Record<string, string | number> = {}) =>
-    donorLine(core.seed, personId, move, filingId, slots);
-  switch (choice.kind) {
-    case "raise-money":
-      return say("grayed-calls-nobody");
-    case "event":
-      return choice.facts.platformStances === 0
-        ? say("grayed-event-platform")
-        : say("grayed-event-cash", {
-            cash: dollarsOf(choice.facts.cashMinor),
-            price: dollarsOf(choice.facts.venuePriceMinor),
-          });
-    case "canvass":
-      return say("grayed-doors");
-    case "interview":
-      return say("grayed-interview");
-    default:
-      return "";
-  }
 }
 
 /**
@@ -307,7 +326,11 @@ function speechScene(
       place,
       ids.map((id) => {
         const row = core.people.get(id)!;
-        return { id, name: `${row.givenName} ${row.familyName}` };
+        return {
+          id,
+          name: `${row.givenName} ${row.familyName}`,
+          reason: id === personId ? ("you" as const) : ("reached" as const),
+        };
       }),
     ),
   };
@@ -376,7 +399,11 @@ function outingScene(
       place,
       ids.map((id) => {
         const row = core.people.get(id)!;
-        return { id, name: `${row.givenName} ${row.familyName}` };
+        return {
+          id,
+          name: `${row.givenName} ${row.familyName}`,
+          reason: id === personId ? ("you" as const) : ("reached" as const),
+        };
       }),
     ),
   };

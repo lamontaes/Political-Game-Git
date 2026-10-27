@@ -59,7 +59,11 @@ export type CampaignDayChoice =
   | (DayChoiceBase & {
       readonly kind: "canvass";
       readonly facts: {
+        /** The town's households, full and counted. */
+        readonly households: number;
+        /** Households whose door the campaign has not knocked yet. */
         readonly doorsLeft: number;
+        /** Every door knocked so far, a second pass included. */
         readonly doorsKnocked: number;
         readonly doorsThisShift: number;
       };
@@ -82,6 +86,10 @@ export type CampaignDayChoice =
           readonly outletId: string;
           readonly roomLeft: number;
         }[];
+        /** Outlets here; of them, those that already interviewed the candidate and those with no room left this week. */
+        readonly outletsHere: number;
+        readonly outletsDone: number;
+        readonly outletsFull: number;
       };
     })
   | (DayChoiceBase & {
@@ -257,8 +265,11 @@ export function campaignDayChoices(
   const hours = (kind: CampaignDayKind) =>
     campaignParameter(HOURS_PARAMETER[kind]);
 
-  const knocked = doorsKnockedOf(api, campaign.id).length;
-  const doorsLeft = Math.max(0, townHouseholdCount(api) - knocked);
+  const households = townHouseholdCount(api);
+  const doorsLeft = Math.max(
+    0,
+    households - doorsKnockedOf(api, campaign.id).length,
+  );
 
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
@@ -268,7 +279,10 @@ export function campaignDayChoices(
   const invited = interviewsFor(api, filing.personId)
     .filter((i) => i.filingId === filingId && i.status === "invited")
     .map((i) => i.id);
-  const outlets = outletsHere(api).flatMap((outlet) => {
+  let outletsDone = 0,
+    outletsFull = 0;
+  const here = outletsHere(api);
+  const outlets = here.flatMap((outlet) => {
     const roomLeft = weekRoom(api, outlet.id);
     const done = interviewsFor(api, filing.personId).some(
       (i) =>
@@ -276,6 +290,8 @@ export function campaignDayChoices(
         i.filingId === filingId &&
         i.status !== "declined",
     );
+    if (done) outletsDone += 1;
+    else if (roomLeft <= 0) outletsFull += 1;
     const bar =
       outlet.kind !== "television" ||
       newsworthiness(api, filing) >= pressParameter("televisionBar");
@@ -292,10 +308,13 @@ export function campaignDayChoices(
       kind: "canvass",
       filingId,
       hours: hours("canvass"),
-      available: doorsLeft > 0,
+      // Every door knocked, the canvass goes round again: open while the
+      // town has a door.
+      available: households > 0,
       facts: {
+        households,
         doorsLeft,
-        doorsKnocked: knocked,
+        doorsKnocked: campaign.doorsKnockedCount ?? 0,
         doorsThisShift: Math.floor(
           hours("canvass") * campaignParameter("doorsPerCanvasserHour"),
         ),
@@ -318,7 +337,13 @@ export function campaignDayChoices(
       filingId,
       hours: hours("interview"),
       available: invited.length > 0 || outlets.length > 0,
-      facts: { invitedInterviewIds: invited, outlets },
+      facts: {
+        invitedInterviewIds: invited,
+        outlets,
+        outletsHere: here.length,
+        outletsDone,
+        outletsFull,
+      },
     },
     {
       kind: "raise-money",
@@ -387,7 +412,7 @@ export function takeCampaignDayChoice(
   };
 
   if (choice === "canvass") {
-    const before = doorsKnockedOf(api, campaign.id).length;
+    const before = campaign.doorsKnockedCount ?? 0;
     // knockDoors records the player's hours itself.
     const met = knockDoors(api, {
       filingId,
@@ -400,7 +425,8 @@ export function takeCampaignDayChoice(
     return {
       ...base,
       causeIds: met.map((c) => c.id),
-      doorsKnocked: doorsKnockedOf(api, campaign.id).length - before,
+      doorsKnocked:
+        (campaignFor(api, filingId).doorsKnockedCount ?? 0) - before,
     };
   }
 

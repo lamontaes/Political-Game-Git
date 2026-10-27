@@ -84,8 +84,8 @@ try {
     .first();
   if (await calls.isDisabled()) {
     console.log(
-      "Call donors is grayed; the screen says:",
-      await page.locator(".row.campaign .why").allInnerTexts(),
+      "Call donors is grayed; the button says:",
+      await calls.innerText(),
     );
     await page.screenshot({ path: `${out}/${mode}-2-grayed.png` });
   } else {

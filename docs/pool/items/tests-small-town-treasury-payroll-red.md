@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5998
 blocked-on:
@@ -17,10 +17,12 @@ claimed-at:
 
 **Rules.** No dice: a treasury pays from its recorded revenue and the law in force, and the arrears follow from that. One rule, all 56 places: the fix holds for the territory case and the town case alike. Wire to the world: the pay reaches the named officials in a played world.
 
-**Done when.** src/core2/small-town-treasury-payroll.test.ts passes for both cases (Nua, American Samoa, seed 40382eac95285f11, and Brookford, North Carolina, seed brookford-1) on main without loosening either bound, with the change that broke it named by commit in the PR body, and the payroll and treasury tests pass.
+**Done when.** src/core2/small-town-treasury-payroll.test.ts passes for both cases (Nua, American Samoa, seed 40382eac95285f11, and Brookford, North Carolina, seed brookford-1) on main without loosening either bound, with the change that broke it named by commit in the PR body, and the payroll and treasury tests pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/small-town-treasury-payroll.test.ts
 
 **Notes.** Found Oct 24 by the speed lead while checking the work helper's report (the helper saw Brookford fail on an older main; checked again on f8e3b721e9, both cases fail). Not caused by the speed branches: the run is on clean main.
+
+Oct 25, 2026 (claude/small-town-treasury-payroll): bisected to e795efed7a (merge of lamontaes/Political-Game-Git#5613, core-commuter-job-fill-in), which shifted who the town finds to hire. The root is older: an aide's pay was not capped by its budget line, so Brookford's six aides drew about 30 million cents a year on an administration line with 662 cents of wage room. Aides are now capped as department heads are; Nua passes on main already.
 
 Sent back 2026-10-25 from PR #5998 (branch claude/small-town-treasury-payroll): staff.test.ts zero-cap branch loops over possibly empty serving staff then continues past dismissal/replacement and payroll checks, using the first town government cap rather than the official employer; require positive named no-room evidence plus a funded/payroll case while preserving treasury bounds; finish on that branch, merge main into it first.
