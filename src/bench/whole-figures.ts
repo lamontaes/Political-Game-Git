@@ -15,6 +15,7 @@ import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { orgPlace } from "./scene";
 import { CLOTHES_SWATCHES, DEFAULT_SKIN } from "./figure-colors";
+import { occluderFor, type Occluder } from "./occluders";
 import type { CoreState } from "../core2/types";
 
 export interface Figure {
@@ -242,8 +243,8 @@ export interface WholeFigure {
     topPercent: number;
     widthPercent: number;
     heightPercent: number;
-    clipBelowPercent: number | null;
-    clipBandEndPercent: number | null;
+    /** What in the painting stands in front of them here, drawn over them; none where nothing does. */
+    occluder: Occluder | null;
     mirrored: boolean;
     /** At the feet, as wide as the stance; none where a desk or counter hides the feet. */
     shadow: ContactShadow | null;
@@ -392,7 +393,9 @@ export function figureOn(
   if (spot.pose === "sit") {
     // Seated: the same look on this kind of chair, or nobody here.
     const seated = posedFor(front, "sit", viewOf(spot));
-    return seated ? placeSeated(seated, front, band, stage, spot, turn) : null;
+    return seated
+      ? placeSeated(seated, front, band, place, stage, spot, turn)
+      : null;
   }
   // At a podium, the lectern pose where one is painted for this person;
   // standing or leaning on a wall, the standing figure.
@@ -416,8 +419,7 @@ export function figureOn(
   const shadowWidth =
     Math.max(feetRight - feetLeft, widthPercent * 0.3) * SHADOW_SPREAD;
   const shadowHeight = shadowWidth * SHADOW_FLATNESS * BACKDROP_ASPECT;
-  const hidden =
-    spot.clipBelowY !== undefined && spot.clipBandEndY === undefined;
+  const hidden = spot.behindY !== undefined;
   return {
     file: chosen.file,
     url: `/art/people-engine/v2/${chosen.file}`,
@@ -426,11 +428,7 @@ export function figureOn(
       topPercent: spot.y - heightPercent * (chosen.footY / chosen.height),
       widthPercent,
       heightPercent,
-      clipBelowPercent: spot.clipBelowY ?? null,
-      clipBandEndPercent:
-        spot.clipBelowY !== undefined && spot.clipBandEndY !== undefined
-          ? spot.clipBandEndY
-          : null,
+      occluder: occluderFor(place, spotIdOf(place, stage, spot)),
       mirrored,
       shadow: hidden
         ? null
@@ -446,6 +444,13 @@ export function figureOn(
 
 /** Which side a figure painted turned to one side faces: toward who they're with. */
 type Turn = { toward?: "left" | "right" };
+
+/** A spot's id: its own, else its place and index (as the staging file numbers them). */
+export const spotIdOf = (
+  place: string,
+  stage: PlaceStaging,
+  spot: StagingSpot,
+) => spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
 
 /** How tall the person stands at this spot, in percent of the picture: their age band's height on the spot's floor. */
 function personPercent(
@@ -485,14 +490,15 @@ function towardOf(spot: StagingSpot, turn: Turn): "left" | "right" {
 
 /**
  * A seated figure on a seat: painted at its standing look's scale, its hip
- * line on the seat cushion (`seatY`), centered on the seat, cut off below a
- * desk at `clipBelowY`. Its shadow is under the chair, or none where a desk
- * hides the floor.
+ * line on the seat cushion (`seatY`), centered on the seat, with whatever
+ * the painting has in front of the seat drawn over it. Its shadow is under
+ * the chair, or none where a desk hides the floor.
  */
 export function placeSeated(
   seated: Figure,
   standing: Figure,
   band: Figure["ageBand"],
+  place: string,
   stage: PlaceStaging,
   spot: StagingSpot,
   turn: Turn = {},
@@ -506,8 +512,7 @@ export function placeSeated(
   const leftPercent = inFrame(spot.x - widthPercent / 2, widthPercent);
   const shadowWidth = widthPercent * SEATED_SHADOW;
   const shadowHeight = shadowWidth * SHADOW_FLATNESS * BACKDROP_ASPECT;
-  const hidden =
-    spot.clipBelowY !== undefined && spot.clipBandEndY === undefined;
+  const hidden = spot.behindY !== undefined;
   return {
     file: seated.file,
     url: `/art/people-engine/v2/${seated.file}`,
@@ -516,11 +521,7 @@ export function placeSeated(
       topPercent: (spot.seatY ?? spot.y) - hip * scale,
       widthPercent,
       heightPercent,
-      clipBelowPercent: spot.clipBelowY ?? null,
-      clipBandEndPercent:
-        spot.clipBelowY !== undefined && spot.clipBandEndY !== undefined
-          ? spot.clipBandEndY
-          : null,
+      occluder: occluderFor(place, spotIdOf(place, stage, spot)),
       mirrored: flips(seated, towardOf(spot, turn)),
       shadow: hidden
         ? null
