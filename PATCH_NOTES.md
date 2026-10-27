@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.51.1
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Who tells the exit pollster depends on why they voted** Voters who follow
+  politics closely and cared about the race now tell the exit pollster more
+  readily, and temperament tips only the close calls. About 45% of voters tell,
+  as real exit polls find; before, a voter's temperament alone decided, so the
+  eager and the private split by personality and nothing else.
+
 ## PRE-ALPHA 0.51.0
 
 _Released October 27, 2026._
