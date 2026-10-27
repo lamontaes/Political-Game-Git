@@ -705,13 +705,16 @@
           "opener": "host"
         },
         {
-          "awaitingProducer": "school-finished",
+          "match": { "label": "circumstance:graduation-home" },
+          "causeEngine": "circumstance",
+          "causeRecord": "school.finished",
           "bind": {
             "honoree": "subject",
-            "host": "household",
+            "host": "counterpart",
             "guests": "kin"
           },
-          "opener": "host"
+          "opener": "host",
+          "setting": ["home"]
         },
         {
           "match": {
@@ -972,8 +975,13 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "school-finished",
-          "bind": { "leaving": "subject", "staying": "classmates" }
+          "match": { "label": "circumstance:school-last-day" },
+          "causeEngine": "circumstance",
+          "causeRecord": "school.finished",
+          "bind": { "leaving": "subject", "staying": "counterpart" },
+          "opener": "staying",
+          "opening": "farewell",
+          "setting": ["school"]
         },
         {
           "match": { "label": "money:job-left" },
@@ -3251,6 +3259,17 @@
           "bind": { "member": "counterpart", "you": "subject" },
           "opener": "member",
           "setting": ["seat", "venue"]
+        },
+        {
+          "match": {
+            "label": "cause:event:carry-asked",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "memberId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "carry-asked",
+          "bind": { "member": "counterpart", "you": "subject" },
+          "opener": "member"
         }
       ],
       "tag": {
@@ -3895,6 +3914,17 @@
       "setting": ["office", "phone"],
       "timing": "at-cause",
       "causes": [
+        {
+          "match": {
+            "label": "cause:event:bill-failed",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "sponsorId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-failed",
+          "bind": { "aide": "staff", "you": "subject" },
+          "opener": "aide"
+        },
         {
           "match": {
             "label": "cause:event:press-story",
