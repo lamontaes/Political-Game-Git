@@ -92,6 +92,11 @@ const parts = (file: string) =>
   read<{ parts: Part[] }>(`data/english/parts/${file}`).parts;
 const talk = parts("scene-talk.json");
 const words = parts("scene-words.json");
+const conversation = parts("conversation.json");
+const { labels: talkSubjects, types: talkByType } = read<{
+  labels: Record<string, string[]>;
+  types: Record<string, string[]>;
+}>("scripts/scene-web/talk-subjects.json");
 function linesOf(type: SituationType): Record<string, number> {
   const labels = new Set(
     type.causes.map((cause) => cause.match?.label).filter(Boolean),
@@ -113,6 +118,26 @@ function linesOf(type: SituationType): Record<string, number> {
         add("narrator");
         break;
       }
+  // A type with no purpose talks through the conversation bank: the news is
+  // raised by whoever brings it, and answered by whoever hears it.
+  if (!type.purpose && talkByType[type.key]) {
+    // Staged on a tie: an ordinary conversation between the two.
+    const general = new Set(talkByType[type.key]);
+    for (const part of conversation)
+      if (part.uses.some((use) => general.has(use.subject ?? ""))) add("talk");
+  } else if (!type.purpose) {
+    const subjects = new Set(
+      [...labels].flatMap((label) => talkSubjects[label!] ?? []),
+    );
+    for (const part of conversation)
+      for (const use of part.uses) {
+        const subject = use.subject ?? "";
+        if (subjects.has(subject)) add("bearer");
+        else if (subjects.has(subject.replace(/-reply$/, ""))) add("hearer");
+        else continue;
+        break;
+      }
+  }
   return count;
 }
 

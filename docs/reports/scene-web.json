@@ -5,8 +5,8 @@
   "year": "2025-01-20 to 2026-01-20",
   "watched": 17,
   "counts": {
-    "types": 76,
-    "rows": 123,
+    "types": 77,
+    "rows": 124,
     "typesFired": 11,
     "rowsWaitingOnProducer": 18,
     "rowsWithoutEpisode": 56,
@@ -22,9 +22,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 3
+        "narrator": 3,
+        "hearer": 9,
+        "bearer": 4
       },
-      "lines": 3,
+      "lines": 16,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -38,9 +40,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 3
+        "narrator": 3,
+        "hearer": 9,
+        "bearer": 4
       },
-      "lines": 3,
+      "lines": 16,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -68,9 +72,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -84,9 +90,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -100,9 +108,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -116,9 +126,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -132,9 +144,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -148,9 +162,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -164,9 +180,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -180,9 +198,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -196,9 +216,11 @@
       "waiting": true,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -212,9 +234,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -228,9 +252,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -244,9 +270,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -260,9 +288,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -276,9 +306,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -292,9 +324,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 31
+        "narrator": 31,
+        "hearer": 69,
+        "bearer": 26
       },
-      "lines": 31,
+      "lines": 126,
       "episodes": ["news-at-the-table"],
       "ownerAsked": ["Mother asks you to sit down"],
       "firedInYear": 0,
@@ -376,9 +410,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 4
+        "narrator": 4,
+        "talk": 207
       },
-      "lines": 4,
+      "lines": 211,
       "episodes": ["introduced-at-a-civic-event"],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -392,9 +427,11 @@
       "waiting": true,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 12,
+        "bearer": 7
       },
-      "lines": 9,
+      "lines": 28,
       "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
@@ -408,9 +445,11 @@
       "waiting": true,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 12,
+        "bearer": 7
       },
-      "lines": 9,
+      "lines": 28,
       "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
@@ -424,9 +463,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 12,
+        "bearer": 7
       },
-      "lines": 9,
+      "lines": 28,
       "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
@@ -440,9 +481,11 @@
       "waiting": true,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 12,
+        "bearer": 7
       },
-      "lines": 9,
+      "lines": 28,
       "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
@@ -456,9 +499,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 12,
+        "bearer": 7
       },
-      "lines": 9,
+      "lines": 28,
       "episodes": ["win-night-at-home"],
       "ownerAsked": ["Wedding", "The world happens around you"],
       "firedInYear": 5,
@@ -504,9 +549,10 @@
       "waiting": true,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 6
+        "narrator": 6,
+        "talk": 207
       },
-      "lines": 6,
+      "lines": 213,
       "episodes": ["introduced-at-a-civic-event"],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -520,9 +566,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 6
+        "narrator": 6,
+        "talk": 207
       },
-      "lines": 6,
+      "lines": 213,
       "episodes": ["introduced-at-a-civic-event"],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -668,9 +715,10 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 4
+        "narrator": 4,
+        "talk": 207
       },
-      "lines": 4,
+      "lines": 211,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -716,9 +764,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 7
+        "narrator": 7,
+        "hearer": 17,
+        "bearer": 8
       },
-      "lines": 7,
+      "lines": 32,
       "episodes": [],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -732,9 +782,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 7
+        "narrator": 7,
+        "hearer": 17,
+        "bearer": 8
       },
-      "lines": 7,
+      "lines": 32,
       "episodes": [],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -748,9 +800,11 @@
       "waiting": true,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 7
+        "narrator": 7,
+        "hearer": 17,
+        "bearer": 8
       },
-      "lines": 7,
+      "lines": 32,
       "episodes": [],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -764,9 +818,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 7
+        "narrator": 7,
+        "hearer": 17,
+        "bearer": 8
       },
-      "lines": 7,
+      "lines": 32,
       "episodes": [],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -780,9 +836,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 7
+        "narrator": 7,
+        "hearer": 17,
+        "bearer": 8
       },
-      "lines": 7,
+      "lines": 32,
       "episodes": [],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -796,9 +854,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 7
+        "narrator": 7,
+        "hearer": 17,
+        "bearer": 8
       },
-      "lines": 7,
+      "lines": 32,
       "episodes": [],
       "ownerAsked": ["Door knocking as a montage"],
       "firedInYear": 0,
@@ -960,9 +1020,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 4
+        "narrator": 4,
+        "hearer": 15,
+        "bearer": 17
       },
-      "lines": 4,
+      "lines": 36,
       "episodes": [],
       "ownerAsked": ["Trial in scenes"],
       "firedInYear": 0,
@@ -976,9 +1038,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 4
+        "narrator": 4,
+        "hearer": 15,
+        "bearer": 17
       },
-      "lines": 4,
+      "lines": 36,
       "episodes": [],
       "ownerAsked": ["Trial in scenes"],
       "firedInYear": 0,
@@ -992,9 +1056,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 19,
+        "bearer": 20
       },
-      "lines": 9,
+      "lines": 48,
       "episodes": [],
       "ownerAsked": ["Trial in scenes"],
       "firedInYear": 0,
@@ -1008,9 +1074,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 19,
+        "bearer": 20
       },
-      "lines": 9,
+      "lines": 48,
       "episodes": [],
       "ownerAsked": ["Trial in scenes"],
       "firedInYear": 0,
@@ -1024,9 +1092,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 19,
+        "bearer": 20
       },
-      "lines": 9,
+      "lines": 48,
       "episodes": [],
       "ownerAsked": ["Trial in scenes"],
       "firedInYear": 0,
@@ -1040,9 +1110,11 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 9
+        "narrator": 9,
+        "hearer": 19,
+        "bearer": 20
       },
-      "lines": 9,
+      "lines": 48,
       "episodes": [],
       "ownerAsked": ["Trial in scenes"],
       "firedInYear": 0,
@@ -2230,6 +2302,24 @@
       },
       "lines": 32,
       "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "budget-cut",
+      "variant": 0,
+      "trigger": "budget-line-changed",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 7,
+        "asker": 48,
+        "asked": 23
+      },
+      "lines": 78,
+      "episodes": ["budget-cut-department-head"],
       "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
