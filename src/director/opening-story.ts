@@ -38,10 +38,7 @@ import {
 } from "../core2/modules/regional";
 import { openingRegionMonths } from "../core2/regional-model";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
-import {
-  corePlaceByJurisdictionId,
-  coreStateName,
-} from "../core2/place-lookup";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
 import type { LawRowInput } from "../core2/laws-starting";
@@ -399,17 +396,13 @@ function lawOn(
 }
 
 /**
- * Every question the President holds a view on, at each level the powers
- * catalog lets answer it and the world has a law for: Congress for a question
- * federal law can answer, the player's state for one the state can. Any
- * question in the bill catalog can be here, so two Presidents with different
- * views, or two worlds with different laws, say different things.
+ * Every question the President holds a view on that federal law can answer
+ * and the world has a law for. The address is national only (owner, Oct 27:
+ * "nothing about your state"). Any question in the bill catalog can be here,
+ * so two Presidents with different views, or two worlds with different laws,
+ * say different things.
  */
-function presidentStands(
-  api: CoreAPI,
-  official: OfficialRow,
-  townState: string | null,
-): { federal: Stand[]; state: Stand[] } {
+function presidentStands(api: CoreAPI, official: OfficialRow): Stand[] {
   const own = new Set(official.signature.map((row) => row.question));
   const at = (level: PolicyLevel, jurisdiction: string | null) =>
     NAMED_QUESTIONS.flatMap((question): Stand[] => {
@@ -429,7 +422,7 @@ function presidentStands(
           ]
         : [];
     });
-  return { federal: at("federal", "US"), state: at("state", townState) };
+  return at("federal", "US");
 }
 
 /** The ones they want: their own signature issues first, then by how strongly they hold them. */
@@ -454,12 +447,7 @@ function opposedOf(stands: readonly Stand[]): Stand[] {
 }
 
 /** The facts a stand is spoken with: its names, the President's side and the law. */
-function standFacts(
-  stand: Stand,
-  official: OfficialRow,
-  stateName: string | null,
-  rank: string,
-): Facts {
+function standFacts(stand: Stand, official: OfficialRow, rank: string): Facts {
   // The ask cites the powers record and the law it read (ask why).
   const asked = [
     official.id,
@@ -467,7 +455,6 @@ function standFacts(
     stand.power,
     stand.law.id,
   ];
-  const state = stand.law.jurisdiction !== "US";
   return {
     about: fact(questionAbout(stand.question)!, ...asked),
     to: fact(questionTo(stand.question)!, ...asked),
@@ -479,10 +466,7 @@ function standFacts(
       "yes",
       stand.law.id,
     ),
-    [state ? "state-level" : "federal-level"]: fact("yes", stand.law.id),
-    ...(state && stateName
-      ? { "state-name": fact(stateName, stand.law.id) }
-      : {}),
+    "federal-level": fact("yes", stand.law.id),
     [rank]: fact("yes", ...asked),
   };
 }
@@ -497,24 +481,6 @@ function voiceOf(president: PersonState): SpeechVoice {
   return sum(SHAPE.mannerTraits.plain) > sum(SHAPE.mannerTraits.polished)
     ? "plain"
     : "polished";
-}
-
-/**
- * The state the address names: the player's own state, when the President's
- * campaign went there; never another state (owner, Oct 14, 2026: "I went to
- * Minnesota" to a player in West Virginia).
- */
-function visitedPlace(
-  president: PersonState,
-  townState: string | null,
-): GroundedEnglishFact | null {
-  const chosen = (president.pastFacts ?? []).find(
-    (row) =>
-      row.kind === PRESIDENT_FACT.visit &&
-      row.facts?.stateName &&
-      row.facts?.stateKey === townState,
-  );
-  return chosen ? fact(chosen.facts!.stateName!, chosen.id) : null;
 }
 
 /** The Speaker's recorded gender, for "Mr. Speaker" or "Madam Speaker". */
@@ -542,17 +508,15 @@ const RANKS = ["rank-first", "rank-second", "rank-third"] as const;
 
 /**
  * Plan the address from the world's records: which priorities the President
- * leads with and the law on each, the line they will not cross, the state
- * law they put to the governors, which of the country's numbers the story
- * tells, and in what order. Two worlds differ in all of it.
+ * leads with and the law on each, the line they will not cross, which of the
+ * country's numbers the story tells, and in what order. Two worlds differ in
+ * all of it. Nothing in it reads the player's state or town.
  */
 function planAddress(
   core: CoreState,
   president: PersonState,
   official: OfficialRow,
   kind: OpeningSpeechKind,
-  townState: string | null,
-  onStage: ReadonlySet<string>,
 ): Block[] {
   const api = coreAPI(core);
   const voice = voiceOf(president);
@@ -561,22 +525,16 @@ function planAddress(
     options: { topic?: string; required?: boolean } = {},
   ) => openingMove(kind, voice, role, options);
   const country = countryFacts(core, kind);
-  const stateName = townState
-    ? coreStateName(townState.replace(/^US-/, ""))
-    : null;
-  const stands = presidentStands(api, official, townState);
+  const stands = presidentStands(api, official);
   // Congress hears only what it may answer and federal law does not have yet.
-  const open = stands.federal.filter((row) => !row.law.inForce);
+  const open = stands.filter((row) => !row.law.inForce);
   const wanted = wantedOf(open);
   const opposed = opposedOf(open);
   const par = SHAPE.parameters;
 
   // The priorities: the questions they want, while the conviction holds,
   // measured against the strongest want any level may answer.
-  const strongest = Math.max(
-    P.zero,
-    ...[...stands.federal, ...stands.state].map((row) => row.stance),
-  );
+  const strongest = Math.max(P.zero, ...stands.map((row) => row.stance));
   const priorities = wanted
     .filter(
       (row, at) =>
@@ -590,7 +548,6 @@ function planAddress(
     firmest && -firmest.stance >= (priorities.at(-P.one)?.stance ?? P.zero)
       ? firmest
       : undefined;
-  const used = new Set([...priorities, ...(line ? [line] : [])]);
 
   // A priority argued from a number of the country's, when its subject bears on one.
   const held = (topic: string) =>
@@ -622,7 +579,7 @@ function planAddress(
     level: "congress",
     facts: {
       ...country.facts,
-      ...standFacts(stand, official, stateName, rank),
+      ...standFacts(stand, official, rank),
     },
     moves: [
       move("lead-in"),
@@ -690,59 +647,6 @@ function planAddress(
   blocks.push(...(storyFirst ? [story, occasion] : [occasion, story]));
   blocks.push(...priorityBlocks, ...(lineBlock ? [lineBlock] : []));
 
-  // The governors hear the state law that differs from the President's view:
-  // the strongest conviction, wanted or opposed, the player's state answers
-  // the other way. Beside priorities put to Congress it must hold up against
-  // them; with none, it is the address's ask.
-  const asked = new Set([...used].map((row) => row.question));
-  const atOdds = stands.state
-    .filter(
-      (row) =>
-        (row.stance > P.zero ? !row.law.inForce : row.law.inForce) &&
-        (!priorities.length ||
-          Math.abs(row.stance) >= par.priorityStanceShare.value * strongest),
-    )
-    .sort(
-      (a, b) =>
-        Number(asked.has(a.question)) - Number(asked.has(b.question)) ||
-        Math.abs(b.stance) - Math.abs(a.stance) ||
-        a.question.localeCompare(b.question),
-    )[P.zero];
-  const governor = townState
-    ? officialsIn(api, `${townState}:governor`)[P.zero]
-    : undefined;
-  // A governor is thanked by name only when the scene introduces them by
-  // office and state (owner, Oct 14, 2026: "Thank you, Governor Munoz").
-  const governorPerson =
-    governor && onStage.has(governor.id)
-      ? core.people.get(governor.id)
-      : undefined;
-  if (atOdds)
-    blocks.push({
-      key: `governors-${atOdds.question}`,
-      level: "governors",
-      facts: {
-        ...standFacts(atOdds, official, stateName, "rank-line"),
-        ...(governorPerson
-          ? { name: fact(governorPerson.familyName, governor!.id) }
-          : {}),
-      },
-      moves: [
-        move("governors-thanks"),
-        move("governors-lead"),
-        move("law"),
-        move("governors-ask"),
-      ],
-    });
-
-  const place = visitedPlace(president, townState);
-  if (place)
-    blocks.push({
-      key: "towns",
-      level: "towns",
-      facts: { place },
-      moves: [move("towns")],
-    });
   blocks.push(
     {
       key: "families",
@@ -766,21 +670,12 @@ function composeAddressOf(
   president: PersonState,
   official: OfficialRow,
   kind: OpeningSpeechKind,
-  townState: string | null,
-  onStage: ReadonlySet<string>,
 ): OpeningSentence[] | null {
   const stage = chairStage(core);
   const sentences: OpeningSentence[] = [];
   // Pieces already said, so no wording is used twice while another can say it.
   const said: string[] = [];
-  for (const block of planAddress(
-    core,
-    president,
-    official,
-    kind,
-    townState,
-    onStage,
-  )) {
+  for (const block of planAddress(core, president, official, kind)) {
     const moves = block.moves.filter((row): row is OpeningMove => !!row);
     const base = packet(
       `opening:${core.date}:${president.id}/${block.key}`,
@@ -1010,20 +905,12 @@ export function composeOpeningStory(
   const president = official ? core.people.get(official.id) : undefined;
   if (!player || !official || !president) return null;
   const town = corePlaceByJurisdictionId(player.placeId as never);
-  const townState = town?.stateJurisdictionKey ?? null;
   const townName = town ? spoken(town) : null;
   const kind = openingSpeechKind(
     Number(core.date.slice(P.zero, core.date.indexOf("-"))),
   );
   const staged = openingSequence(core, playerId, president.id);
-  const sentences = composeAddressOf(
-    core,
-    president,
-    official,
-    kind,
-    townState,
-    new Set(staged.flatMap((stage) => stage.people.map((row) => row.id))),
-  );
+  const sentences = composeAddressOf(core, president, official, kind);
   if (!sentences?.length) return null;
   const sequence = withReasons(staged, sentences, core);
   const pastFact = (kindKey: string) =>

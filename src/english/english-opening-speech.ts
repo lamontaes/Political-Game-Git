@@ -45,14 +45,7 @@ export type SpeechVoice = "polished" | "plain";
 
 /** Where the camera is while a block is spoken. */
 export type OpeningLevel =
-  | "salutation"
-  | "occasion"
-  | "country"
-  | "congress"
-  | "governors"
-  | "towns"
-  | "families"
-  | "close";
+  "salutation" | "occasion" | "country" | "congress" | "families" | "close";
 
 /** One move of a block, with the number it reports when it reports one. */
 export type OpeningMove = AddressMove & { readonly topic?: string };
@@ -68,10 +61,6 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   stake: "tell",
   law: "tell",
   ask: "request",
-  "governors-lead": "tell",
-  "governors-thanks": "thank",
-  "governors-ask": "request",
-  towns: "tell",
   families: "comfort",
   close: "farewell",
 };
