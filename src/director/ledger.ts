@@ -28,6 +28,14 @@ import type {
   WorkResult,
 } from "../core2/types";
 import directorJson from "./data/director.json" with { type: "json" };
+import {
+  circumstanceLabel,
+  circumstancePicks,
+  queuedOf,
+  rowsByKind,
+  spacingAllows,
+  type QueuedRecord,
+} from "./circumstance";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
@@ -144,7 +152,21 @@ export function createDirector(
     stopgapHits: new Set(),
     sceneFilters: new Map(),
     pollingVisits: new Map(),
+    circumstanceLast: new Map(),
   };
+  /** Today's records some circumstance could stage, as they are recorded. */
+  const circumstanceRows = rowsByKind();
+  const circumstanceQueue: QueuedRecord[] = [];
+  /** The open jobs at each controlled person's employer when last measured. */
+  const employerJobs = new Map<
+    PersonId,
+    { orgId: string; jobs: Set<string> }
+  >();
+  /** Each controlled person's household members when last measured. */
+  const housemates = new Map<
+    PersonId,
+    { householdId: string; ids: Set<PersonId> }
+  >();
   const snapshots = new Map<PersonId, Snapshot>();
   const pending = new Map<PersonId, Pending>();
   /** Today's interrupting moments, registered as player stops once the day's measuring ends. */
@@ -1283,6 +1305,176 @@ export function createDirector(
   }
 
   /**
+   * Jobs started today at a controlled person's employer, by someone else:
+   * each is a record a circumstance can stage (a new coworker). Reads only
+   * that one employer's jobs, kept from the last measurement.
+   */
+  function newCoworkers(
+    core: Readonly<CoreState>,
+    personId: PersonId,
+  ): QueuedRecord[] {
+    const person = core.people.get(personId);
+    const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
+    if (!job || job.endsAt !== undefined) {
+      employerJobs.delete(personId);
+      return [];
+    }
+    const open = new Set(
+      [...(core.finance.jobsByOrganization.get(job.organizationId) ?? [])]
+        .map((id) => core.jobs.get(id))
+        .filter((row) => row && row.endsAt === undefined)
+        .map((row) => row!.id),
+    );
+    const before = employerJobs.get(personId);
+    employerJobs.set(personId, { orgId: job.organizationId, jobs: open });
+    if (!before || before.orgId !== job.organizationId) return [];
+    return [...open]
+      .filter((id) => !before.jobs.has(id))
+      .sort()
+      .map((id) => core.jobs.get(id)!)
+      .filter((row) => row.personId !== personId)
+      .map((row) => ({
+        id: row.id,
+        kind: "job",
+        direct: true as const,
+        personIds: [row.personId],
+        witnessIds: [],
+        facts: { organizationId: row.organizationId },
+      }));
+  }
+
+  /**
+   * Someone who joined a controlled person's household today, other than a
+   * newborn (a birth is its own scene): each is a record a circumstance can
+   * stage (a new housemate). Reads only that one household.
+   */
+  function newHousemates(
+    core: Readonly<CoreState>,
+    personId: PersonId,
+  ): QueuedRecord[] {
+    const householdId = core.people.get(personId)?.householdId ?? "";
+    const ids = new Set(core.households.get(householdId)?.memberIds ?? []);
+    const before = housemates.get(personId);
+    housemates.set(personId, { householdId, ids });
+    if (!before || before.householdId !== householdId) return [];
+    return [...ids]
+      .filter((id) => id !== personId && !before.ids.has(id))
+      .filter((id) => core.people.get(id)?.birthDate !== core.date)
+      .sort()
+      .map((id) => ({
+        id,
+        kind: "household-member",
+        direct: true as const,
+        personIds: [id],
+        witnessIds: [],
+        facts: { householdId },
+      }));
+  }
+
+  /**
+   * Scenes from circumstance (circumstance.ts): for each controlled person,
+   * the day's records that put someone with a reason where they are. At most
+   * one a day, spaced by each row's days and by the days between any two,
+   * so scenes cluster where the records give cause and a quiet day has none.
+   */
+  function produceCircumstances(core: Readonly<CoreState>): void {
+    const queue = circumstanceQueue.splice(zero);
+    for (const book of ledger.people.values()) {
+      if (!isExplicitlyControlledPersonV1(core, book.personId)) continue;
+      const records = [
+        ...queue,
+        ...newCoworkers(core, book.personId),
+        ...newHousemates(core, book.personId),
+      ];
+      if (!records.length) continue;
+      const date = makeIsoDate(core.date);
+      const lastAny = ledger.circumstanceLast.get(`${book.personId}|*`);
+      if (!spacingAllows(lastAny, param("directorCircumstanceEveryDays"), date))
+        continue;
+      // A record that already staged a scene for this person today is met
+      // the ordinary way: one cause stages one scene.
+      const staged = new Set<string>();
+      for (
+        let index = book.schedule.length - one;
+        index >= zero;
+        index -= one
+      ) {
+        const entry = book.schedule[index]!;
+        if (entry.date !== core.date) break;
+        if (!entry.bindings.length) continue;
+        const moment = book.momentsById.get(entry.momentId);
+        if (moment) staged.add(moment.causeId);
+      }
+      const picks = circumstancePicks(
+        core,
+        book,
+        records,
+        {
+          named: param("directorCircumstanceNamedScore"),
+          witnessed: param("directorCircumstanceWitnessedScore"),
+          tie: param("directorCircumstanceTieScore"),
+          sociability: param("directorCircumstanceSociabilityScore"),
+          traitScale: coreParam(core, "traitScale"),
+        },
+        {
+          importance: (otherId) => {
+            const thread = book.threads.get(otherId);
+            return thread ? importanceOf(book, thread, core.date) : zero;
+          },
+          staged,
+          due: (row) =>
+            spacingAllows(
+              ledger.circumstanceLast.get(`${book.personId}|${row.id}`),
+              param(row.everyParameter),
+              date,
+            ),
+          // The same person is not cast again inside the scheduler's window
+          // for the same scene with the same people: the next with a reason is.
+          castDue: (id) =>
+            spacingAllows(
+              ledger.circumstanceLast.get(`${book.personId}|cast|${id}`),
+              SITUATION_LIBRARY.scheduling.repeatDays,
+              date,
+            ),
+          byKind: circumstanceRows,
+        },
+      ).sort((a, b) => b.score - a.score || a.row.id.localeCompare(b.row.id));
+      const pick = picks[zero];
+      if (!pick) continue;
+      const base = param(pick.row.impactParameter);
+      const raw = one + pick.closeness;
+      const impact = base * raw;
+      const change: Change = {
+        causeId: pick.record.id,
+        causeKind:
+          pick.record.kind === "job" || pick.record.kind === "household-member"
+            ? pick.record.kind
+            : `event:${pick.record.kind}`,
+        counterparts: new Set([pick.castId]),
+        raw: new Map([["circumstance", raw]]),
+        renewals: new Set(),
+        ...(pick.record.placeId ? { placeId: pick.record.placeId } : {}),
+      };
+      const label = circumstanceLabel(pick.row.id);
+      storeMoment(core, book, change, label, impact, [
+        {
+          channel: "circumstance",
+          raw,
+          scale: base,
+          traitWeight: one,
+          traits: [],
+          contribution: impact,
+        },
+      ]);
+      // Spaced from the day it was written, staged or not, so a circumstance
+      // met as a journal line does not come again the next day.
+      ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
+      ledger.circumstanceLast.set(`${book.personId}|*`, date);
+      ledger.circumstanceLast.set(`${book.personId}|cast|${pick.castId}`, date);
+    }
+  }
+
+  /**
    * Tells the core's player clock that the controlled person's interrupting
    * moment stops it at the moment's own time: the clock's frontier when the
    * moment is measured. A moment rated as its event is recorded mid-day stops
@@ -1498,6 +1690,8 @@ export function createDirector(
     eventKinds: data.eventKinds,
     onEvent(api, event, learnedBy) {
       if (!started) return;
+      if (circumstanceRows.has(event.kind))
+        circumstanceQueue.push(queuedOf(event));
       rateNow(api.state, onEvent(api.state, event, learnedBy));
     },
     relationshipKinds: data.relationshipKinds,
@@ -1514,6 +1708,7 @@ export function createDirector(
       if (!started)
         throw new Error("The story director was installed but not started.");
       for (const book of ledger.people.values()) measureDay(api.state, book);
+      produceCircumstances(api.state);
       registerInterrupts(api.state);
       // Once a month, each watched person forgets what no longer matters.
       if (api.state.date.endsWith("-01"))

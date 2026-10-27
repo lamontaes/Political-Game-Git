@@ -6,9 +6,9 @@ lead: m0-m2
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/m013-renters
-pr:
+pr: #6343
 blocked-on:
 source: laws-and-effects lead, Oct 27 (golden-path-year on PR #6257)
 claimed-at: 2026-10-27T15:53:32.008Z
