@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-household-quiet-day
-pr:
+pr: #6312
 blocked-on:
 source: "words-and-scenes lead, Oct 27, probing the Oct 26 home talks (deliverable 7 of docs/work-orders/lead-words-scenes-2026-10-26.md)"
 lead: director
