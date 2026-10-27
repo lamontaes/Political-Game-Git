@@ -1,6 +1,6 @@
 ---
 id: words-journal-relative-office-acts-told-as-own
-title: "The journal tells a relative's bill as the player's own: \"I introduced Budget Ordinance.\""
+title: 'The journal tells a relative''s bill as the player''s own: "I introduced Budget Ordinance."'
 area: words
 kind: bug
 priority: 2
