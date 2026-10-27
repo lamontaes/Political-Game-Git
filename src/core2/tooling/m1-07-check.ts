@@ -31,10 +31,16 @@
  *     data/research/money/public-budget-bases.json calibration), and what the
  *     state's and the local treasuries really paid out in the year per
  *     resident (journal, to anyone but another government) is inside the
- *     spending range. Places the Census table does not cover (the territories)
- *     and the federal government (one budget, no cross-section in the repo)
- *     are reported unchecked, never passed.
- * Exits nonzero naming each failed clause.
+ *     spending range. An island area, which the Census table does not cover,
+ *     is held to its own published all-funds spending per resident (the median
+ *     of those that publish, where its own is not published): the state-level
+ *     budget in force within 15 percent of it, and what the treasury really
+ *     paid out within twice it. The federal government (one budget, no
+ *     cross-section in the repo) and a territory's taxes (none recorded
+ *     separately from its spending) are listed as not applicable, with the
+ *     reason; any other mandatory work left undone is listed as unchecked and
+ *     fails the run.
+ * Exits nonzero naming each failed clause and each unchecked one.
  */
 import { setJournalTrace } from "../journal-state";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
@@ -47,6 +53,11 @@ import {
   localFiscalYearStart,
 } from "../modules/budgets";
 import { buildPlayedWorld, monthsAfter, playYear } from "./m1-played-year";
+import {
+  coverageOf,
+  exitCodeOf,
+  territorySpendingPerResident,
+} from "./m1-07-coverage";
 
 const world = buildPlayedWorld();
 const { api, core } = world;
@@ -265,7 +276,11 @@ const sum = (record: Readonly<Record<string, number>>, keys?: string[]) =>
   Object.entries(record)
     .filter(([key]) => !keys || keys.includes(key))
     .reduce((n, [, v]) => n + v, 0);
-const covered = Boolean((finances.places as Record<string, unknown>)[stateKey]);
+const coverage = coverageOf(
+  stateKey,
+  finances.places as Record<string, unknown>,
+  budgetBases.places as never,
+);
 const inForce = (id: string) =>
   budgetsOf(api, id)
     .filter((row) => row.startsOn <= end)
@@ -298,12 +313,45 @@ const within = (
       `${label}: ${value.toFixed(0)} dollars per resident is outside the recorded range [${lowerToo ? low.toFixed(0) : 0}, ${high.toFixed(0)}] (Census fiscal 2022 state and local finances, by state)`,
     );
 };
-const unchecked: string[] = [
+// Clauses that do not apply, with why; never mixed with mandatory work left undone.
+const notApplicable: string[] = [
   "federal: one budget, no cross-section of governments in the repo to hold its per-resident figures to",
 ];
-if (!covered)
+const unchecked: string[] = [];
+if (coverage === "territory") {
+  notApplicable.push(
+    `${stateKey}: taxes per resident (no territory tax figure is recorded apart from its all-funds spending)`,
+  );
+  const expected = territorySpendingPerResident(
+    stateKey,
+    budgetBases.places as never,
+  );
+  const state = govs.find((g) => g.level === "state")!;
+  const stateBudget = inForce(state.id);
+  if (!(expected > 0) || !stateBudget || !(state.residents > 0))
+    unchecked.push(
+      `${stateKey}: spending per resident (no published territory figure, budget in force or residents to compare)`,
+    );
+  else {
+    const spending = sum(stateBudget.spendingMinor) / 100 / state.residents;
+    const actual = paidOut(state) / 100 / state.residents;
+    if (spending < expected * 0.85 || spending > expected * 1.15)
+      fail(
+        `territory spending (budget): ${spending.toFixed(0)} dollars per resident is outside 15 percent of the published ${expected.toFixed(0)} (ESTIMATED island-area all-funds spending, FY2025)`,
+      );
+    if (actual > expected * 2)
+      fail(
+        `territory spending paid (journal): ${actual.toFixed(0)} dollars per resident is over twice the published ${expected.toFixed(0)}`,
+      );
+    perResidentFigures.territory = {
+      spendingBudget: Math.round(spending),
+      spendingPaidJournal: Math.round(actual),
+      publishedSpendingPerResident: Math.round(expected),
+    };
+  }
+} else if (coverage === "none")
   unchecked.push(
-    `${stateKey}: not in the Census state and local finances table (territories use separately labeled estimates)`,
+    `${stateKey}: not in the Census state and local finances table and no island-area figure recorded`,
   );
 else {
   const state = govs.find((g) => g.level === "state")!;
@@ -413,10 +461,16 @@ console.log(
       ]),
     ),
     perResident: perResidentFigures,
+    notApplicable,
     unchecked,
   }),
 );
-if (failures.length) {
-  console.error(failures.join("\n"));
-  process.exit(1);
+if (failures.length || unchecked.length) {
+  console.error(
+    [
+      ...failures,
+      ...unchecked.map((text) => `unchecked mandatory clause: ${text}`),
+    ].join("\n"),
+  );
+  process.exit(exitCodeOf(failures, unchecked));
 }
