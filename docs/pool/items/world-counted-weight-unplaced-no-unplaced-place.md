@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
-pr: #5076
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T19:03:10.497Z
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T19:03:10.497Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.

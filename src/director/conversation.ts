@@ -37,6 +37,13 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { NEWS_MODULE_ID, newsKey, storiesHeard } from "../core2/modules/news";
+import type { EntityId } from "../core2/kernel/brands";
+import {
+  PRESS_MODULE_ID,
+  outletsHere,
+  type OutletKind,
+} from "../core2/modules/press";
 import { decisionLean } from "../core2/trait-decisions";
 import type {
   CoreAPI,
@@ -52,6 +59,8 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
+import { officialsIn } from "../core2/modules/officials";
+import { partySide } from "../core2/appointments";
 import {
   asksQuestion,
   conversationHas,
@@ -65,8 +74,10 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { relationPhrase } from "../english/journal-words";
+import { kinAddress, relationPhrase } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
+import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
+import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName, spoken, spokenWhen } from "./words";
 
 const zero = P.zero;
@@ -623,6 +634,135 @@ function relationsOf(
   return out;
 }
 
+/** The job a person has hours at on the core's date, by its id; none on a day off. */
+function workToday(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): string | undefined {
+  try {
+    return workSpansOnDateV1(coreAPI(core as CoreState), {
+      controlledPersonId: personId,
+      date: core.date,
+    }).owners.find((owner) => owner.plannedMinutes > zero)?.job.id;
+  } catch {
+    // Work terms that cannot be read for the date are not a work day.
+    return undefined;
+  }
+}
+
+/**
+ * A quiet evening at home as a subject: the day of the week (the household
+ * is where they are), when the two last spent time together, and whether
+ * either had work that day, each from its record.
+ */
+function quietDay(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+): Subject {
+  const day = new Date(`${core.date}T00:00:00Z`).getUTCDay();
+  const facts: Facts = {
+    weekday: {
+      text: WEEKDAYS.days[day]!,
+      sourceRecordIds: [speaker.householdId],
+    },
+  };
+  const seen = lastContact(core, speaker.id, listener.id);
+  if (seen && seen.date < core.date)
+    facts.lastTogether = {
+      text: spokenWhen(seen.date, core.date),
+      sourceRecordIds: [seen.tieId],
+    };
+  // A work day for either of them, from the job's own hours for the date.
+  for (const person of [speaker, listener]) {
+    const shift = person.jobId ? workToday(core, person.id) : undefined;
+    if (shift) {
+      facts.dayDone = { text: "", sourceRecordIds: [shift] };
+      break;
+    }
+  }
+  return { id: `quiet:${speaker.id}:${core.date}`, kind: "quiet", facts };
+}
+
+/** The news engine's kind for a story an outlet printed (press desk). */
+const PRINTED_STORY = "press.printed";
+
+/** How each kind of outlet carries a story: printed on paper or broadcast. */
+const MEDIUM: Readonly<Partial<Record<OutletKind, "paper" | "broadcast">>> = {
+  newspaper: "paper",
+  "national-paper": "paper",
+  magazine: "paper",
+  television: "broadcast",
+  radio: "broadcast",
+  cable: "broadcast",
+};
+
+/** Whether a person knows of a change or a story: learned of the change, or heard the story. */
+function knowsNews(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  aboutId: string | undefined,
+): boolean {
+  if (!aboutId) return false;
+  if (core.knowledgeByPerson.get(personId)?.has(newsKey(aboutId))) return true;
+  return changesKnownTo(core, personId).some((row) => row.eventId === aboutId);
+}
+
+/**
+ * The newest printed story a person heard within the recent window, as a
+ * news subject: its headline (worded by the director's story words), the
+ * outlet that printed it and the story's id, each citing the story.
+ */
+function printedHeard(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  director: Director | undefined,
+): Subject | null {
+  const words = director?.storyWords;
+  if (!words || !core.modules.has(NEWS_MODULE_ID)) return null;
+  const since = addDays(makeIsoDate(core.date), -recentDays());
+  for (const story of storiesHeard(coreAPI(core), speakerId, since)) {
+    if (story.kind !== PRINTED_STORY) continue;
+    const said = words(core as CoreState, story);
+    if (!said?.headline) continue;
+    const cited = [story.id, ...said.sourceRecordIds];
+    const outlet = story.outletId
+      ? core.organizations.get(story.outletId as EntityId)
+      : undefined;
+    // A paper prints it; a station has it on the air ("in the Courier", "on
+    // WMQB"); a site online is neither.
+    const row = core.modules.has(PRESS_MODULE_ID)
+      ? outletsHere(coreAPI(core as CoreState)).find(
+          (entry) => entry.organizationId === story.outletId,
+        )
+      : undefined;
+    const medium = row ? MEDIUM[row.kind] : undefined;
+    const carried = medium
+      ? { [medium]: { text: "", sourceRecordIds: [story.id, row!.id] } }
+      : {};
+    return {
+      id: `news:${story.id}`,
+      kind: "news",
+      aboutId: story.id,
+      facts: {
+        headline: { text: said.headline, sourceRecordIds: cited },
+        storyId: { text: "", sourceRecordIds: [story.id] },
+        ...carried,
+        ...(outlet
+          ? {
+              // As the paper's own masthead or call sign has it.
+              outlet: {
+                text: outlet.name,
+                sourceRecordIds: [story.id, outlet.id],
+              },
+            }
+          : {}),
+      },
+    };
+  }
+  return null;
+}
+
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
 export function subjectsBetween(
   core: Readonly<CoreState>,
@@ -888,11 +1028,8 @@ export function subjectsBetween(
       },
     });
   }
-  // The speaker's relatives the listener has not met, named by relation.
-  // stopgapId: SG-DIRECTOR-shared-relative-kin-address
-  // A relative the two share is neither introduced nor asked after: "my
-  // father", "your father" or "How's John?" is not how a brother and sister
-  // speak of their own father. Shared-kin wording replaces this suppression.
+  // The speaker's relatives the listener has not met, named by relation. A
+  // relative the two share is never introduced; they ask after them below.
   const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
@@ -924,29 +1061,42 @@ export function subjectsBetween(
       },
     });
   }
-  // The speaker's relatives the listener knows, asked after by name.
+  // The speaker's relatives the listener knows, asked after by name. One the
+  // two share is asked after as they call them ("How's Dad?"): a parent or
+  // grandparent to both by the kin address, a shared sibling by first name,
+  // and only by someone who does not live with them.
+  const listenerRelation = relationsOf(listener);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
     if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
-    if (id === listenerId || listener.familyIds.has(id) || !happened(id))
-      continue;
-    const phrase = relationPhrase(
-      row.relation,
-      relative.looks?.gender ?? "other",
-      "scene",
-    );
+    if (id === listenerId || !happened(id)) continue;
+    const gender = relative.looks?.gender ?? "other";
+    let phrase: string | undefined;
+    let sourceRecordIds = [row.factId];
+    if (listener.familyIds.has(id)) {
+      const theirs = listenerRelation.get(id);
+      if (
+        !theirs ||
+        theirs.relation !== row.relation ||
+        relative.householdId === listener.householdId
+      )
+        continue;
+      phrase =
+        kinAddress(row.relation, gender) ??
+        (row.relation === "sibling" ? relative.givenName : undefined);
+      sourceRecordIds = [row.factId, theirs.factId];
+    } else phrase = relationPhrase(row.relation, gender, "scene");
     if (!phrase) continue;
+    const shared = listener.familyIds.has(id);
     out.push({
       id: `family:${id}`,
       kind: "family",
       aboutId: id,
       facts: {
-        relation: {
-          text: phrase,
-          sourceRecordIds: [row.factId],
-        },
-        name: { text: relative.givenName, sourceRecordIds: [row.factId] },
+        relation: { text: phrase, sourceRecordIds },
+        // "I'll tell Dad you asked": a shared relative goes by what both call them.
+        name: { text: shared ? phrase : relative.givenName, sourceRecordIds },
       },
     });
   }
@@ -1001,6 +1151,10 @@ export function subjectsBetween(
       kind: "their-school",
       facts: {},
     });
+  // The newest printed story the speaker read or heard of lately, said by
+  // its headline and the outlet that printed it.
+  const printed = printedHeard(core, speakerId, director);
+  if (printed) out.push(printed);
   // The newest change the speaker learned of, as news to pass on.
   const news = changesKnownTo(core, speakerId)[zero];
   const institution = news
@@ -1020,11 +1174,16 @@ export function subjectsBetween(
     });
   // The President's address, once the speaker saw it or heard of it: its
   // remembered line is theirs to quote. Last, so it never takes the place of
-  // a subject the banks can word.
+  // a subject the banks can word. It is the day's news only while it is
+  // recent, as a recorded moment is.
   const known = core.knowledgeByPerson.get(speakerId);
   const address = known?.get(ADDRESS_FACT.event);
   const quote = known?.get(ADDRESS_FACT.remembered);
-  if (address && quote)
+  if (
+    address &&
+    quote &&
+    address.learnedAt > addDays(makeIsoDate(core.date), -recentDays())
+  ) {
     out.push({
       id: `address:${address.value}`,
       kind: "address",
@@ -1036,12 +1195,51 @@ export function subjectsBetween(
         },
       },
     });
+    // What the speaker made of it: their own lean against the President's
+    // party, both on record.
+    const take = addressTake(core, speakerId, address.value);
+    if (take)
+      out.push({
+        id: `address-view:${address.value}`,
+        kind: "address-view",
+        aboutId: address.value,
+        stage: take.stage,
+        facts: { take: take.fact },
+      });
+  }
+  // At home, the day itself: the weekday, the last time the two spent
+  // together and a work day, from records. Raised last, when
+  // nothing else opens the talk.
+  if (listener.householdId === speaker.householdId)
+    out.push(quietDay(core, speaker, listener));
   // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
     return out.filter(
       (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
     );
   return out;
+}
+
+/**
+ * What someone made of the President's address: for it when their own lean
+ * is on the side of the President's party, against it when it is on the other
+ * side; none when either is even. The views engine's lean and the officials
+ * engine's party are the records it stands on.
+ */
+function addressTake(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  eventId: string,
+): { stage: "for" | "against"; fact: Fact } | null {
+  const api = coreAPI(core as CoreState);
+  const president = officialsIn(api, "US:president")[zero];
+  const side = partySide(president?.party);
+  const lean = viewOf(api, personId)?.lean ?? zero;
+  if (!president || side === zero || lean === zero) return null;
+  return {
+    stage: Math.sign(lean) === Math.sign(side) ? "for" : "against",
+    fact: { text: "", sourceRecordIds: [eventId, president.id, personId] },
+  };
 }
 
 /** The facts the listener answers a raised subject with, from their own records. */
@@ -1138,12 +1336,15 @@ function replyFacts(
     case "news":
       return {
         facts: subject.facts,
-        stage: changesKnownTo(core, listenerId).some(
-          (row) => row.eventId === subject.aboutId,
-        )
+        stage: knowsNews(core, listenerId, subject.aboutId)
           ? "heard"
           : "not-heard",
       };
+    case "address": {
+      // Asked what they made of the address, the listener says their own take.
+      const take = addressTake(core, listenerId, subject.aboutId!);
+      return take ? { facts: { take: take.fact }, stage: take.stage } : null;
+    }
     default:
       return { facts: subject.facts, stage: "default" };
   }
@@ -1211,9 +1412,7 @@ function playerFacts(
     else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
   }
   if (last.kind === "news" && last.subject.aboutId)
-    stage = changesKnownTo(core, playerId).some(
-      (row) => row.eventId === last.subject.aboutId,
-    )
+    stage = knowsNews(core, playerId, last.subject.aboutId)
       ? "heard"
       : "not-heard";
   if (last.kind === "school") stage = schoolStage(core, player);
@@ -1429,12 +1628,14 @@ function otherAsks(
   order: readonly string[],
 ): boolean {
   const { playerId, otherId } = conversation;
+  // News is raised by whoever heard it, saying what it was; asked about by
+  // someone who may not know it, it is a "What do you think?" about nothing.
   const subjects = subjectsBetween(
     core,
     playerId,
     otherId,
     conversation.director,
-  ).filter((row) => !conversation.used.includes(row.id));
+  ).filter((row) => row.kind !== "news" && !conversation.used.includes(row.id));
   const other = core.people.get(otherId)!;
   const sameWork = order.includes("own-work")
     ? subjects.find(
@@ -1479,8 +1680,21 @@ function otherRaises(
   return false;
 }
 
-/** What the place and the occasion open with when no recorded event leads: what they share, then the player's work or home. */
-const OPENING_ORDER = ["shared-school", "shared-work", "own-work", "home"];
+/**
+ * What the place and the occasion open with when no recorded event leads:
+ * what they share, then the player's work or home, then the day's news, the
+ * President's address while it is recent (at home, where relatives don't
+ * talk about work or home, the address is what the evening gives), and last
+ * the quiet day itself.
+ */
+const OPENING_ORDER = [
+  "shared-school",
+  "shared-work",
+  "own-work",
+  "home",
+  "address",
+  "quiet",
+];
 
 /** The subjects that are the two speakers' relationship: what they share. */
 const SHARED_KINDS = ["shared-school", "shared-work"];
@@ -2497,6 +2711,11 @@ export function say(
       ALL,
       {},
       `${playerId}:${otherId}:${conversation.lines.length}:ack`,
+      // People who live together take an answer in their own way ("Fair
+      // enough." from a spouse); the farewell's stage, below.
+      core.people.get(otherId)?.householdId === player.householdId
+        ? "home"
+        : "default",
     );
     if (ack && !doubted)
       conversation.lines.push({

@@ -15,6 +15,16 @@
  * partnership holds arrested noncitizens for agents, and the police, fire and
  * corrections lines set how much service the departments give.
  *
+ * Minor quality-of-life offenses (disorderly conduct, drunkenness, liquor law
+ * violations, loitering, vagrancy and drug possession) are six more streams,
+ * one per category: police start them, so no victimization stands behind
+ * them. Their count is the state's real 2024 arrest rate for each category
+ * times the outcome web's factor for the place, and that factor is the police
+ * staffing the town's budget line funds, read through the sized
+ * police-to-low-level-arrests link (`webReach`). A larger force makes more of
+ * these arrests; a cut makes fewer. Every category takes the same ages and
+ * case outcomes (see low-level-offenses.ts for the rates).
+ *
  * Every application is recorded with `lawApplied` where the engine reads
  * the law. Nothing here is rolled: counts come from rates and the person's
  * or group's recorded facts.
@@ -30,6 +40,7 @@ import {
 } from "./firearm-ownership";
 import { transfer, transferSplit } from "./accounts";
 import { justiceParameter } from "./justice-law";
+import { lowLevelRates } from "./low-level-offenses";
 import { END_CASH_BAIL } from "./justice-pretrial";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import type { ModuleRow } from "./module-data";
@@ -43,6 +54,7 @@ import {
 } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import { baseOf } from "./outcome-web-model";
+import { webReach } from "./outcome-web-reach";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { escrowOf } from "./modules/justice";
 import { residentsRuntime } from "./modules/residents";
@@ -75,6 +87,9 @@ export function safetyParameter(key: string): number {
   return row.value;
 }
 const BANDS = parameters.ageProfile.bands;
+/** Each age band's arrest ratio for the minor offenses, aligned with `BANDS`. */
+const LOW_LEVEL_RATIOS: readonly number[] =
+  parameters.ageProfile.lowLevel.ratios;
 
 const OFFENSES = [
   {
@@ -102,7 +117,16 @@ const OFFENSES = [
     violent: false,
   },
 ] as const;
-type OffenseKey = (typeof OFFENSES)[number]["key"];
+
+/**
+ * The minor offenses police start themselves: disorderly conduct,
+ * drunkenness, liquor law violations, loitering, vagrancy and drug possession.
+ * The web keeps their arrests per 1,000 residents a year, from the state's
+ * real rates added together, moved by the police staffing link.
+ */
+export const LOW_LEVEL_MEASURE = "justice.low-level-arrests";
+const LOW_LEVEL = "lowlevel" as const;
+type OffenseKey = (typeof OFFENSES)[number]["key"] | typeof LOW_LEVEL;
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(PUBLIC_SAFETY_MODULE_ID).table(name);
@@ -502,6 +526,8 @@ export interface CaseRow {
   readonly kind: "batch" | "person";
   readonly month: string;
   readonly offense: OffenseKey;
+  /** For the minor offenses, which of the six categories (disorderly conduct, drug possession and the rest) the case is. */
+  readonly category?: string;
   readonly court: "adult" | "juvenile";
   readonly band: number;
   /** The people this record stands for. */
@@ -512,6 +538,9 @@ export interface CaseRow {
   readonly detained: number;
   readonly noncitizens: number;
   readonly bailLawId: string;
+  /** For the minor offenses, the web month row their count was read from and the officers per 1,000 the police lines funded then. */
+  readonly webRecordId?: string;
+  readonly officersPer1000?: number;
   /** Bail the case's counted defendants posted, by group index, held in the court escrow until the case closes. */
   readonly bailHeld?: Readonly<Record<string, number>>;
   /** The treasury whose court escrow holds that bail. */
@@ -539,6 +568,10 @@ export interface SafetyMonth {
   /** Sworn officers per 1,000 residents: the state's recorded rate times the town's police service. */
   readonly officersPer1000: number;
   readonly arrests: number;
+  /** The minor-offense arrests among them, the rate they were made at and the web month row that rate stood on. */
+  readonly lowLevelArrests: number;
+  readonly lowLevelRatePer1000: number;
+  readonly lowLevelWebId: string;
   readonly juvenileCases: number;
   readonly detained: number;
   readonly convicted: number;
@@ -586,6 +619,11 @@ const carryOf = (api: CoreAPI, id: string): Carry =>
 
 interface Tally {
   arrests: number;
+  /** Of those, the minor offenses (the state's rate times the web's police factor). */
+  lowLevelArrests: number;
+  /** The rate they were made at, arrests per 1,000 residents a year, and the web month it stood on. */
+  lowLevelRatePer1000: number;
+  lowLevelWebId: string;
   juvenileCases: number;
   detained: number;
   convicted: number;
@@ -643,6 +681,9 @@ export function runSafetyMonth(api: CoreAPI): void {
   ]);
   const tally: Tally = {
     arrests: 0,
+    lowLevelArrests: 0,
+    lowLevelRatePer1000: 0,
+    lowLevelWebId: "",
     juvenileCases: 0,
     detained: 0,
     convicted: 0,
@@ -701,6 +742,9 @@ export function openingSafetyMonth(api: CoreAPI): void {
     date: api.state.date,
     officersPer1000: baseOf("police.officers-per-1000", chain.stateKey).value,
     arrests: 0,
+    lowLevelArrests: 0,
+    lowLevelRatePer1000: baseOf(LOW_LEVEL_MEASURE, chain.stateKey).value,
+    lowLevelWebId: "",
     juvenileCases: 0,
     detained: 0,
     convicted: 0,
@@ -744,6 +788,66 @@ function adultCourtAge(api: CoreAPI): { age: number; lawId: string | null } {
   };
 }
 
+/** One kind of offense this month: how many arrests are expected and how the age bands share them. */
+interface Stream {
+  readonly key: OffenseKey;
+  /** Which minor-offense category the stream is (only the minor offenses have one). */
+  readonly category?: string;
+  readonly violent: boolean;
+  readonly expected: number;
+  /** Each age band's arrest ratio and the weight of the town's people under it. */
+  readonly ratios: readonly number[];
+  readonly weight: number;
+  /** What the count was read from, kept on each case (only the minor offenses read the web). */
+  readonly read?: { readonly webRecordId: string; readonly officers: number };
+}
+
+/**
+ * The minor offenses this month, one stream per category. Police start these
+ * arrests, so there is no victimization to clear: the count is the state's
+ * real 2024 rate (a check on the total) times the web's factor for the place,
+ * which the sized police-to-low-level-arrests link moves with the officers per
+ * 1,000 the police lines fund. The web holds one rate for the six categories
+ * together; each category gets its own share of it, its real rate in the state
+ * over the six added up, so the streams add to the web's month exactly. The
+ * case flow reads the factor and the web month row it stands on here, the
+ * moment it records the month's arrests.
+ */
+function lowLevelStreams(
+  api: CoreAPI,
+  census: Census,
+  police: Service,
+  tally: Tally,
+): Stream[] {
+  const reach = webReach(api, census.placeId, LOW_LEVEL_MEASURE);
+  const rate = baseOf(LOW_LEVEL_MEASURE, census.stateKey).value * reach.factor;
+  tally.lowLevelRatePer1000 = rate;
+  tally.lowLevelWebId = reach.recordId ?? "";
+  const weight = LOW_LEVEL_RATIOS.reduce(
+    (n, ratio, i) => n + ratio * census.bandTotals[i]!,
+    0,
+  );
+  const rates = lowLevelRates(census.stateKey);
+  const all = rates.reduce((n, r) => n + r.ratePer1000, 0);
+  if (weight <= 0 || all <= 0) return [];
+  const read = {
+    webRecordId: reach.recordId ?? "",
+    officers: officersPer1000(census.stateKey, police),
+  };
+  return rates.map((r) => ({
+    key: LOW_LEVEL,
+    category: r.category.key,
+    violent: false,
+    expected:
+      (rate * (r.ratePer1000 / all) * census.residents) /
+      1000 /
+      safetyParameter("monthsPerYear"),
+    ratios: LOW_LEVEL_RATIOS,
+    weight,
+    read,
+  }));
+}
+
 /** New arrests this month by offense, shared out by age and then run through charging and bail. */
 function arrest(
   api: CoreAPI,
@@ -773,6 +877,9 @@ function arrest(
   };
   const cases: CaseRow[] = [];
   const countedHolds = new Map<number, number>();
+  // Each stream is one kind of offense: its expected arrests this month and
+  // the age profile that shares them out.
+  const streams: Stream[] = [];
   for (const offense of OFFENSES) {
     const rate = rateOf(api, census.placeId, census.stateKey, offense.measure);
     const units =
@@ -782,8 +889,25 @@ function arrest(
       police.ratio,
       safetyParameter("policeServiceElasticity"),
     );
-    const expected =
-      victims * reported(offense.key) * cleared(offense.key) * service;
+    streams.push({
+      key: offense.key,
+      violent: offense.violent,
+      expected:
+        victims * reported(offense.key) * cleared(offense.key) * service,
+      ratios: BANDS.map((b) => b.ratio),
+      weight: weightTotal,
+    });
+  }
+  streams.push(...lowLevelStreams(api, census, police, tally));
+  for (const {
+    key,
+    category,
+    violent,
+    expected,
+    ratios,
+    weight,
+    read,
+  } of streams) {
     if (expected <= 0) continue;
     // Counted groups and the named residents' unnamed share, by band weights.
     const byBand = new Map<
@@ -799,7 +923,7 @@ function arrest(
       for (let b = 0; b < BANDS.length; b++) {
         const n = group.band[b]!;
         if (n <= 0) continue;
-        const share = (expected * BANDS[b]!.ratio * n) / weightTotal;
+        const share = (expected * ratios[b]! * n) / weight;
         if (share <= 0) continue;
         const row = byBand.get(b) ?? {
           groups: {},
@@ -822,8 +946,10 @@ function arrest(
       const adult = BANDS[band]!.from >= court.age;
       cases.push(
         batchCase(api, pool, {
-          offense: offense.key,
-          violent: offense.violent,
+          offense: key,
+          category,
+          violent,
+          read,
           band,
           month,
           court: adult ? "adult" : "juvenile",
@@ -842,6 +968,7 @@ function arrest(
     const c = postBail(api, pool, posted);
     caseTable.put(c as unknown as ModuleRow);
     tally.arrests += c.count;
+    if (c.offense === LOW_LEVEL) tally.lowLevelArrests += c.count;
     if (c.court === "juvenile") tally.juvenileCases += c.count;
     tally.detained += c.detained;
   }
@@ -849,6 +976,12 @@ function arrest(
   // The county pays what each adult case costs at filing.
   courtCosts(api, cases);
 }
+
+/** Days a jail term runs for an offense: the minor offenses are misdemeanors, with shorter terms than a felony's. */
+const jailDays = (offense: OffenseKey) =>
+  safetyParameter(
+    offense === LOW_LEVEL ? "jailSentenceDays.lowlevel" : "jailSentenceDays",
+  );
 
 const dueMonths = (offense: OffenseKey) =>
   Math.max(1, Math.round(safetyParameter(`dispositionMonths.${offense}`)));
@@ -939,7 +1072,9 @@ function batchCase(
   census: Census,
   input: {
     offense: OffenseKey;
+    category?: string;
     violent: boolean;
+    read?: Stream["read"];
     band: number;
     month: string;
     court: "adult" | "juvenile";
@@ -951,7 +1086,7 @@ function batchCase(
     juvenileLaw: string | null;
   },
 ): CaseRow {
-  const id = `case:${input.month}:${input.offense}:${input.court}:${input.band}`;
+  const id = `case:${input.month}:${input.offense}${input.category ? `:${input.category}` : ""}:${input.court}:${input.band}`;
   let detained = 0;
   const byId = new Map(census.groups.map((g) => [g.id, g]));
   if (input.court === "adult") {
@@ -1069,6 +1204,7 @@ function batchCase(
     kind: "batch",
     month: input.month,
     offense: input.offense,
+    ...(input.category ? { category: input.category } : {}),
     court: input.court,
     band: input.band,
     count,
@@ -1077,6 +1213,12 @@ function batchCase(
     detained,
     noncitizens: input.noncitizens,
     bailLawId: input.bailLaw ?? "",
+    ...(input.read
+      ? {
+          webRecordId: input.read.webRecordId,
+          officersPer1000: input.read.officers,
+        }
+      : {}),
     dueMonth: addMonths(input.month, dueMonths(input.offense)),
     status: "open",
     verdict: "",
@@ -1089,7 +1231,7 @@ function juvenileMinusAdultCost(offense: OffenseKey): number {
     safetyParameter("courtCostPerCaseMinor") +
     safetyParameter(`convictedShare.${offense}`) *
       safetyParameter(`incarceratedShare.${offense}`) *
-      safetyParameter("jailSentenceDays") *
+      jailDays(offense) *
       safetyParameter("jailPerDiemMinor") *
       safetyParameter("marginalCostShare");
   const juvenile =
@@ -1178,7 +1320,7 @@ const adultCaseCost = (offense: OffenseKey) =>
   safetyParameter("courtCostPerCaseMinor") +
   safetyParameter(`convictedShare.${offense}`) *
     safetyParameter(`incarceratedShare.${offense}`) *
-    safetyParameter("jailSentenceDays") *
+    jailDays(offense) *
     safetyParameter("jailPerDiemMinor") *
     safetyParameter("marginalCostShare");
 
@@ -1191,7 +1333,7 @@ function sentence(
   if (count <= 0) return;
   const days =
     court === "jail"
-      ? safetyParameter("jailSentenceDays")
+      ? jailDays(c.offense)
       : court === "prison"
         ? safetyParameter("prisonSentenceDays")
         : safetyParameter("juvenilePlacementDays");

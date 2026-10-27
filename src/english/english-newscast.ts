@@ -44,7 +44,11 @@ export const STORY_KINDS = {
     headline: ["election"],
     lede: ["election-result"],
   },
-  filing: { story: "filing", headline: [], lede: ["candidate-filed"] },
+  filing: {
+    story: "filing",
+    headline: ["candidate-filed"],
+    lede: ["candidate-filed"],
+  },
   "vote-or-law": {
     story: "vote-or-law",
     headline: ["council", "law-took-effect"],
@@ -60,17 +64,84 @@ export const STORY_KINDS = {
     story: "economy",
     only: /\{\{subject\}\} (?:is opening|opened|is hiring|plans|is expanding)/,
     headline: ["organization.opened"],
-    lede: [],
+    lede: ["organization.opened"],
   },
   "jobs-report": {
     story: "economy",
     only: /unemploy|prices|rent|gas/i,
-    headline: [],
-    lede: [],
+    headline: ["jobs-report"],
+    lede: ["jobs-report"],
   },
   grant: { story: "grant", headline: ["grant"], lede: ["budget"] },
-  hazard: { story: "hazard", headline: ["disaster"], lede: [] },
+  hazard: { story: "hazard", headline: ["disaster"], lede: ["disaster"] },
   death: { story: "death", headline: ["life.death"], lede: ["life.death"] },
+  // The stories the press prints during play, each worded by its own
+  // headline and lede pieces; one with no newscast story of its own is told
+  // in the paper only.
+  law: { story: "vote-or-law", headline: ["law"], lede: ["law"] },
+  "law-amount": {
+    story: "vote-or-law",
+    headline: ["law-amount"],
+    lede: ["law-amount"],
+  },
+  "roll-call": {
+    story: "vote-or-law",
+    headline: ["roll-call"],
+    lede: ["roll-call"],
+  },
+  committee: { headline: ["committee"], lede: ["committee"] },
+  override: { headline: ["override"], lede: ["override"] },
+  signed: { story: "vote-or-law", headline: ["signed"], lede: ["signed"] },
+  hearing: { headline: ["hearing"], lede: ["hearing"] },
+  introduced: { headline: ["introduced"], lede: ["introduced"] },
+  "budget-line": { headline: ["budget-line"], lede: ["budget-line"] },
+  "budget-adopted": {
+    story: "vote-or-law",
+    headline: ["budget-adopted"],
+    lede: ["budget-adopted"],
+  },
+  conditions: {
+    story: "economy",
+    headline: ["conditions"],
+    lede: ["conditions"],
+  },
+  rate: { story: "economy", headline: ["rate"], lede: ["rate"] },
+  "town-hall": { headline: ["town-hall"], lede: ["town-hall"] },
+  "body-meeting": { headline: ["body-meeting"], lede: ["body-meeting"] },
+  profile: { headline: ["profile"], lede: ["profile"] },
+  interview: { headline: ["interview"], lede: ["interview"] },
+  debate: { headline: ["debate"], lede: ["debate"] },
+  primary: { headline: ["primary"], lede: ["primary"] },
+  "took-office": { headline: ["took-office"], lede: ["took-office"] },
+  vacancy: { headline: ["vacancy"], lede: ["vacancy"] },
+  appointed: { headline: ["appointed"], lede: ["appointed"] },
+  chamber: { headline: ["chamber"], lede: ["chamber"] },
+  "recall-petition": {
+    headline: ["recall-petition"],
+    lede: ["recall-petition"],
+  },
+  recall: { headline: ["recall"], lede: ["recall"] },
+  "party-chair": { headline: ["party-chair"], lede: ["party-chair"] },
+  charged: { headline: ["charged"], lede: ["charged"] },
+  bail: { headline: ["bail"], lede: ["bail"] },
+  convicted: { headline: ["convicted"], lede: ["convicted"] },
+  imprisoned: { headline: ["imprisoned"], lede: ["imprisoned"] },
+  "office-act": { headline: ["office-act"], lede: ["office-act"] },
+  "staff-cut": { headline: ["staff-cut"], lede: ["staff-cut"] },
+  "owner-changed": { headline: ["owner-changed"], lede: ["owner-changed"] },
+  ad: { headline: ["ad"], lede: ["ad"] },
+  eviction: { headline: ["eviction"], lede: ["eviction"] },
+  "home-sale": { headline: ["home-sale"], lede: ["home-sale"] },
+  "homes-built": { headline: ["homes-built"], lede: ["homes-built"] },
+  "homeless-count": { headline: ["homeless-count"], lede: ["homeless-count"] },
+  birth: { headline: ["birth"], lede: ["birth"] },
+  address: { headline: ["address"], lede: ["address"] },
+  founded: { headline: ["founded"], lede: ["founded"] },
+  amendment: { headline: ["amendment"], lede: ["amendment"] },
+  estate: { headline: ["estate"], lede: ["estate"] },
+  "law-rule": { headline: ["law-rule"], lede: ["law-rule"] },
+  "member-vote": { headline: ["member-vote"], lede: ["member-vote"] },
+  "claim-check": { headline: ["claim-check"], lede: ["claim-check"] },
 } as const;
 export type StoryKind = keyof typeof STORY_KINDS;
 
@@ -263,13 +334,14 @@ export function composeNewsStory(
     as("anchor"),
   );
   const only = "only" in roles ? roles.only : undefined;
-  say(
-    "anchor",
-    `${kind}/story`,
-    "tell",
-    role("story", roles.story).filter((v) => !only || only.test(v.text)),
-    packet,
-  );
+  if ("story" in roles)
+    say(
+      "anchor",
+      `${kind}/story`,
+      "tell",
+      role("story", roles.story).filter((v) => !only || only.test(v.text)),
+      packet,
+    );
   if (packet.facts.reporter) {
     const handOff = role("anchor", "hand-off");
     const named = (pattern: RegExp) =>
@@ -313,39 +385,4 @@ export function composeNewsStory(
     broadcast,
     sourceRecordIds: [...ids],
   };
-}
-
-/**
- * The anchor's lead into a story the broadcast carries live: the greeting,
- * then "We begin with {topic}." with the story's own title in the slot. The
- * opening uses it to say what the player is watching before the address
- * plays (owner, Oct 14, 2026). Empty when the bank has no line for it.
- */
-export function composeLeadIn(
-  packet: GroundedEnglishPacket,
-): { speaker: "anchor"; text: string; sourceRecordIds: string[] }[] {
-  const open = variants(
-    NEWSCAST_BANK,
-    (use) => use.subject === "anchor" && use.role === "open",
-  );
-  const out: { speaker: "anchor"; text: string; sourceRecordIds: string[] }[] =
-    [];
-  for (const [key, act, parts] of [
-    [
-      "lead/greet",
-      "greet",
-      open.filter(
-        (v) => /^(?:Good|Welcome)/.test(v.text) && !v.text.includes("{{"),
-      ),
-    ],
-    [
-      "lead/topic",
-      "tell",
-      open.filter((v) => /^We begin with \{\{topic\}\}\.$/.test(v.text)),
-    ],
-  ] as const) {
-    const said = line(packet, key, "dialogue", act, [...parts]);
-    if (said) out.push({ speaker: "anchor", ...said });
-  }
-  return out;
 }

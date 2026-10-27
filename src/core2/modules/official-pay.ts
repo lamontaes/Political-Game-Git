@@ -272,12 +272,6 @@ function payMonth(api: CoreAPI): void {
   const outside = outsideAccountOf(api);
   for (const raw of table(api, "pay").rows()) {
     const row = raw as unknown as PayRow;
-    // An official who died is paid no more: their row ends with them, not
-    // years later with a pay date that keeps moving on.
-    if (!api.state.people.get(row.personId)?.alive) {
-      table(api, "pay").remove(row.id);
-      continue;
-    }
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
     const days = Math.max(0, daysBetweenText(row.paidFrom, through));
     const yearDays = daysBetween(
@@ -360,6 +354,17 @@ const seenOfficials = new WeakMap<object, number>();
 export const OFFICIAL_PAY_MODULE: CoreModule = {
   id: OFFICIAL_PAY_MODULE_ID,
   state: { schemaVersion: 1, tables: { pay: {} } },
+  // An official who died is paid no more: their row ends the day they die,
+  // read from the death's record, not on a later payday (one after the
+  // year's last payday left it standing) or years later.
+  eventKinds: ["life.death"],
+  onEvent(api, event) {
+    const died = new Set(event.personIds);
+    for (const raw of table(api, "pay").rows()) {
+      const row = raw as unknown as PayRow;
+      if (died.has(row.personId)) table(api, "pay").remove(row.id);
+    }
+  },
   onDay(api) {
     if (!api.state.modules.has(OFFICIALS_MODULE_ID)) return undefined;
     // New officials are seated the day the roster grows; ended terms are

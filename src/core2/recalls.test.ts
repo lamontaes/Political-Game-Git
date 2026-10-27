@@ -9,6 +9,7 @@ import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
+import { setBookkeeping } from "./bookkeeping";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
 import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
@@ -274,11 +275,22 @@ describe("M3-10 recalls", () => {
     }
     expect(checked, `no recall started in ${tried.join(", ")}`).toBe(true);
   };
+  // Each case builds and plays whole bench worlds; the why of every decision
+  // in them is play's bookkeeping, which they do not read, so it is off and
+  // the worker holds the worlds, not every reason they kept.
+  const inPlay = (check: () => void) => {
+    const before = setBookkeeping(false);
+    try {
+      check();
+    } finally {
+      setBookkeeping(before);
+    }
+  };
   it("counts the town's counted residents as signers and voters by the same rule", () => {
-    countedSigners();
+    inPlay(() => countedSigners());
   }, 900_000);
   it("counts them the same when their weights are fractions", () => {
-    countedSigners(2.5);
+    inPlay(() => countedSigners(2.5));
   }, 900_000);
 });
 
@@ -341,12 +353,19 @@ describe("each state's recall rule as its statute reads", () => {
       place = drawPlace(seed, `recall-statute:${i}`);
     expect(place.state, `seed ${seed}`).toMatch(/^US-(SD|WY)$/);
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
+    // A whole bench world played a year; its bookkeeping is not read here.
+    const before = setBookkeeping(false);
+    let core: ReturnType<typeof buildBenchWorld>["core"];
+    try {
+      core = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }).core;
+      advanceCore(core, after(core.date, 365));
+    } finally {
+      setBookkeeping(before);
+    }
     const api = coreAPI(core);
-    advanceCore(core, after(core.date, 365));
     const rule = resolveMunicipalRecallRule(place.state.slice(3));
     // Grounds of cause bar a recall over an ordinance's vote; no recall at
     // all bars every one.

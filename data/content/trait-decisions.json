@@ -285,6 +285,7 @@
       "owner": "OPUS-WORLD",
       "route": "chooser",
       "traitWeightParameter": "traitWeightCreditBorrow",
+      "hardshipWeightParameter": "hardshipWeightCreditBorrow",
       "options": [
         {
           "id": "credit-do-without",
@@ -535,8 +536,42 @@
       ]
     },
     {
+      "id": "views.persuasion",
+      "site": "src/core2/modules/views.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightViewsPersuasion",
+      "options": [
+        {
+          "id": "resist",
+          "actKinds": ["refuse", "keep-same"]
+        },
+        {
+          "id": "yield",
+          "actKinds": ["concede", "change"]
+        }
+      ]
+    },
+    {
+      "id": "views.trust",
+      "site": "src/core2/modules/views.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightViewsTrust",
+      "options": [
+        {
+          "id": "distrust",
+          "actKinds": ["distrust"]
+        },
+        {
+          "id": "trust",
+          "actKinds": ["trust"]
+        }
+      ]
+    },
+    {
       "id": "conversation.believe-claim",
-      "site": "src/director/conversation.ts",
+      "site": "src/core2/heard-claims.ts",
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "traitWeightParameter": "traitWeightConversationBelieveClaim",
@@ -718,6 +753,7 @@
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "traitWeightParameter": "traitWeightMovesMoveAway",
+      "hardshipWeightParameter": "hardshipWeightMovesMoveAway",
       "options": [
         {
           "id": "stay-put",
@@ -1261,6 +1297,7 @@
       "owner": "OPUS-WORLD",
       "route": "formula",
       "traitWeightParameter": "traitWeightJobsBenefitsFileClaim",
+      "hardshipWeightParameter": "hardshipWeightJobsBenefitsFileClaim",
       "options": [
         {
           "id": "skip",
@@ -1320,6 +1357,23 @@
         {
           "id": "accept",
           "actKinds": ["speak-out", "engage", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "press.shade-answer",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightPressShadeAnswer",
+      "options": [
+        {
+          "id": "own",
+          "actKinds": ["follow-rules", "concede"]
+        },
+        {
+          "id": "shade",
+          "actKinds": ["bend-rules", "self-interest"]
         }
       ]
     },

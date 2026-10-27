@@ -5,6 +5,7 @@
     "subject": "The person whose moment opened the situation.",
     "counterpart": "The other person the opening record names.",
     "household": "The members of the subject's household that day.",
+    "household-stake": "The members of the subject's household the filing puts something of theirs at risk for, strongest first (src/director/family-stake.ts): their savings against the length of the race, or a young child at home while the subject works. None, and the scene is not staged.",
     "kin": "The subject's relatives on record.",
     "present": "Whoever else the setting's records place there that day.",
     "classmates": "People enrolled at the subject's school.",
@@ -68,7 +69,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race) that the household meets at home the same day, as the filing and the count's records say.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race, a party chair's ask that they run, a printed story that runs against them or their bill) that are met the same day, at home or, for an officeholder, at the office or by phone (ownRecordSettings), as those records say.",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -108,8 +109,11 @@
     "householdRecordScenes": ["feeling:event:housing.eviction"],
     "ownRecordScenes": [
       "cause:event:candidate-filed",
-      "cause:event:election-result"
-    ]
+      "cause:event:election-result",
+      "cause:event:party-asked",
+      "cause:event:press-story"
+    ],
+    "ownRecordSettings": ["home", "office", "phone"]
   },
   "types": [
     {
@@ -2745,6 +2749,72 @@
       "stakes": ["race", "issue"]
     },
     {
+      "key": "speech-afterward",
+      "note": "A candidate's campaign speech, heard in person at a town hall or a campaign event, moved a listener (the listener's moment, on the cause channel, names the speaker); afterward the candidate comes over to ask for their support. The speech.heard record names the speaker, and the campaign act names the occasion. A debate is heard through the outlet's broadcast, so the candidate is not there to come over.",
+      "roles": [
+        {
+          "key": "listener",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "deflect", "leave"],
+          "wants": ["engage", "play-safe"],
+          "bearing": "curious"
+        },
+        {
+          "key": "candidate",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise",
+            "warn"
+          ],
+          "wants": ["commit"],
+          "bearing": "eager"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:speech.heard",
+            "occasion": "campaign",
+            "act": ["town-hall", "speech"],
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "views:speaker",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "speech",
+          "causeRecord": "speech.heard",
+          "bind": {
+            "listener": "subject",
+            "candidate": "counterpart"
+          },
+          "opener": "candidate",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "vote-wanted",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "ask-support",
+      "asker": "candidate",
+      "asked": "listener",
+      "stakes": ["race"]
+    },
+    {
       "key": "filing",
       "roles": [
         {
@@ -2912,6 +2982,7 @@
       "stakes": ["home", "rent"]
     },
     {
+      "repeatsBy": "bill",
       "key": "vote-asked",
       "purpose": "ask-vote",
       "asker": "colleague",
@@ -2943,8 +3014,14 @@
             "label": "cause:event:bill-amendment",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "kind", "equals": ["trade-amendment"] },
-              { "key": "movedBy", "is": "subject" }
+              {
+                "key": "kind",
+                "equals": ["trade-amendment"]
+              },
+              {
+                "key": "movedBy",
+                "is": "subject"
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -3103,6 +3180,59 @@
       }
     },
     {
+      "key": "bribe-offer",
+      "purpose": "bribe-offer",
+      "asker": "offerer",
+      "asked": "you",
+      "stakes": ["money", "favor", "record"],
+      "roles": [
+        {
+          "key": "offerer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "request",
+            "press",
+            "plea",
+            "threaten",
+            "deflect",
+            "accept",
+            "thank",
+            "confront"
+          ],
+          "wants": ["self-interest"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["accept", "refuse", "confront", "stall", "lie", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "bribe-offer",
+          "causeEngine": "corruption",
+          "causeRecord": "corruption.bribe-offered",
+          "bind": {
+            "offerer": "counterpart",
+            "you": "subject"
+          },
+          "opener": "offerer"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "party-ask",
       "purpose": "party-ask",
       "asker": "chair",
@@ -3147,6 +3277,70 @@
       }
     },
     {
+      "key": "party-recruit",
+      "note": "A party with no one filed for a partisan seat asks one of its members to run: the candidacy engine's party-asked record names the member, the chair who asks, the party and the seat. The chair comes by the member's home. Their answer is a scene reply the candidacy engine reads: a yes is the decision to run, and the filing follows.",
+      "roles": [
+        {
+          "key": "chair",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "promise",
+            "warn"
+          ],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "stall", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:party-asked",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "askedId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "candidacy",
+          "causeRecord": "party-asked",
+          "bind": {
+            "chair": "counterpart",
+            "you": "subject"
+          },
+          "opener": "chair",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "run-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "ask-to-run",
+      "asker": "chair",
+      "asked": "you",
+      "stakes": ["office", "party", "race"]
+    },
+    {
       "key": "office-hours",
       "purpose": "constituent-help",
       "asker": "constituent",
@@ -3177,7 +3371,12 @@
           "match": {
             "label": "cause:event:office.approached",
             "selfNamed": true,
-            "causeFacts": [{ "key": "officialId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "officialId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "constituent-cases",
           "causeRecord": "office.approached",
@@ -3187,16 +3386,6 @@
           },
           "opener": "constituent",
           "setting": ["office"]
-        },
-        {
-          "match": {
-            "label": "cause:event:town-hall",
-            "causeFacts": [{ "key": "hostId", "is": "subject" }]
-          },
-          "causeEngine": "meetings",
-          "causeRecord": "town-hall",
-          "bind": { "constituent": "town-hall-askers", "you": "subject" },
-          "opener": "constituent"
         }
       ],
       "tag": {
@@ -3210,7 +3399,7 @@
       "purpose": "family-filing",
       "asker": "relative",
       "asked": "you",
-      "stakes": ["office", "filing"],
+      "stakes": ["office", "filing", "household-money-or-time"],
       "roles": [
         {
           "key": "relative",
@@ -3233,11 +3422,13 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:candidate-filed" },
+          "match": {
+            "label": "cause:event:candidate-filed"
+          },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
-            "relative": "household",
+            "relative": "household-stake",
             "you": "subject"
           },
           "opener": "relative"
@@ -3279,7 +3470,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFacts": [{ "key": "winnerId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -3326,7 +3522,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFacts": [{ "key": "winnerId", "is": "other" }]
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -3462,7 +3663,12 @@
           "match": {
             "label": "cause:event:bill-presented",
             "selfNamed": true,
-            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-presented",
@@ -3476,7 +3682,12 @@
           "match": {
             "label": "cause:event:bill-presented",
             "selfNamed": true,
-            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-presented",
@@ -3521,6 +3732,52 @@
       "timing": "at-cause",
       "causes": [
         {
+          "match": {
+            "label": "cause:event:press-story",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "sponsorId",
+                "is": "subject"
+              },
+              {
+                "key": "billFraming",
+                "equals": ["against"]
+              }
+            ]
+          },
+          "causeEngine": "press",
+          "causeRecord": "press-story",
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
+          "opener": "aide"
+        },
+        {
+          "match": {
+            "label": "cause:event:press-story",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "subjectId",
+                "is": "subject"
+              },
+              {
+                "key": "subjectFraming",
+                "equals": ["against"]
+              }
+            ]
+          },
+          "causeEngine": "press",
+          "causeRecord": "press-story",
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
+          "opener": "aide"
+        },
+        {
           "awaitingProducer": "staff-news",
           "causeEngine": "press",
           "causeRecord": "press.exposed",
@@ -3538,6 +3795,7 @@
       }
     },
     {
+      "repeatsBy": "bill",
       "key": "section-bargain",
       "purpose": "section-bargain",
       "asker": "member",
@@ -3569,8 +3827,14 @@
             "label": "cause:event:bill-amendment",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "kind", "equals": ["trade-amendment"] },
-              { "key": "movedBy", "is": "other" }
+              {
+                "key": "kind",
+                "equals": ["trade-amendment"]
+              },
+              {
+                "key": "movedBy",
+                "is": "other"
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -3682,6 +3946,58 @@
       "asker": "recruiter",
       "asked": "invited",
       "stakes": ["cause"]
+    },
+    {
+      "key": "town-hall-question",
+      "purpose": "town-hall-question",
+      "asker": "resident",
+      "asked": "you",
+      "stakes": ["issue", "answer", "town"],
+      "roles": [
+        {
+          "key": "resident",
+          "fill": "town-hall-askers",
+          "count": "one",
+          "moves": ["ask", "press", "plea", "disagree", "thank", "accept"],
+          "wants": ["change"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:town-hall",
+            "causeFacts": [
+              {
+                "key": "hostId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "meetings",
+          "causeRecord": "town-hall",
+          "bind": {
+            "resident": "town-hall-askers",
+            "you": "subject"
+          },
+          "opener": "resident"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
     }
   ]
 }

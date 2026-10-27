@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-76ksvw
-pr: #5180
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:21:27.295Z
@@ -21,7 +21,7 @@ claimed-at: 2026-10-20T06:21:27.295Z
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/official-pay.ts, src/core2/opening-economy.ts, src/core2/player-money-year.test.ts
 
-**Notes.** Found Oct 20 on branch claude/player-living-cost-fraser (PR #5473) while rerunning player-money-year.test.ts in random places (run 2 of 3). Not caused by the player-home hold in that PR: the household has no one moving, the department simply has no cash. Check whether the pool items on public staffing (public-hire-staffing, official-pay-catchup) already fix this before building.
+**Notes.** Found Oct 20 on branch claude/player-living-cost-fraser (PR #5473) while rerunning player-money-year.test.ts in random places (run 2 of 3). Not caused by the player-home hold in that PR: the household has no one moving, the department simply has no cash. Check whether the pool items on public staffing (public-hire-staffing, official-pay-catchup) already fix this before building. Released from idle draft #5180 by the CTO, Oct 26.
 
 Oct 20 (claude/fixed-on-main-notes): not reproduced on current main. `GOLDEN_PATH_SEED=35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts` passes (1 test), so the staffing and pay-catch-up work that landed since fixes it. The CTO can mark this done.
 

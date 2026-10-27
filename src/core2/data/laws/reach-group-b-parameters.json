@@ -136,6 +136,11 @@
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(2): 20 hours a week of work or a work program."
     },
+    "ownerWeeklyHours": {
+      "value": 34.9,
+      "tag": "SOURCED",
+      "source": "BLS, Current Population Survey 2023 annual averages, Table 21 (Persons at work in nonagricultural industries by class of worker and usual full- or part-time status), https://www.bls.gov/cps/data/aa2023/cpsaat21.pdf, row \"Self-employed workers, unincorporated\": average hours 34.9 for all persons at work (42.2 for those usually working full time). The hours an owner who has no work commitment of their own works at their business, which a work requirement counts."
+    },
     "snapWorkTimeLimitMonths": {
       "value": 3,
       "tag": "SOURCED",
