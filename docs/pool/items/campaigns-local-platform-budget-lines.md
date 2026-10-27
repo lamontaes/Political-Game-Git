@@ -6,11 +6,12 @@ lead: laws-effects
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/local-platform-budget-lines
 pr:
 blocked-on: laws-filing-positions-are-the-seats-own-issues
 source: laws-and-effects lead, Oct 27 (the filing-positions gate)
+claimed-at: 2026-10-27T11:31:42.599Z
 ---
 
 **What.** With `laws-filing-positions-are-the-seats-own-issues`, a seat offers only the policy questions its own government may decide. In a state whose law lets its towns act on none of the 54 platform questions, a council or mayor seat offers none. In Harriman, Tennessee (4732520, seed `aa3bb7331dbb8615`) the council and mayor list 0 positions. A candidate there has an empty platform, and `src/core2/campaign-day.ts:321` opens the campaign event only for a platform with a position, so neither the player nor a computer candidate can hold an event. Real town races run on the town's own budget (police, roads, parks, schools) as much as on ordinances. The body's own budget lines, which `budgetLineStakes` already weighs member by member, should be positions a local candidate can take.
