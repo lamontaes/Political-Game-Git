@@ -20,6 +20,8 @@ claimed-at: 2026-10-27T14:20:44.537Z
 
 **Done when.** The checker prefers a pair whose payment kind the law's engine posts (or whose id cites the law) over a nearer drift pair, and a rerun of the assistance work requirement in Prescott, Michigan (seed a91c03e7d2b84f10) in a played world (`buildBenchWorld`) names the SNAP stop in `docs/reports/law-wiring-matrix.json`. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
+**Time box.** 3 hours, Sonnet, no helpers; builds against nothing.
+
 **Files.** scripts/law-wiring/own-payments.ts, scripts/law-wiring/matrix.ts
 
 **Notes.** Laws lead, Oct 26, from PR #6026's run files.
