@@ -6579,18 +6579,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-TRAITS-persuasion-size",
-    "kind": "uncalibrated-tunable",
-    "file": "src/core2/modules/views.ts",
-    "line": 400,
-    "whatItFakes": "How much a hearer's traits (openness and agreeableness side) scale the size of a view move after an argument or a story, and how much generalized trust scales a speaker's standing. Both read the hearer's trait lean at the general weight 1.",
-    "why": "The research rows (Hirsh, Kang and Bodenhausen 2012; Freitag and Bauer 2016) give a direction and no effect size for a single occasion.",
-    "addedBy": "claude/traits-civic",
-    "addedAt": "2026-10-20",
-    "replacement": "A one-occasion effect size of trait on persuasion and on trust in a speaker from a study that reports one, set in traitWeightViewsPersuasion and traitWeightViewsTrust.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-territory-budget-mix",
     "kind": "assumed-data",
     "file": "src/core2/modules/budgets.ts",
@@ -7023,6 +7011,18 @@
     "addedBy": "fixer, Merger 2's send-back of PR 5792",
     "addedAt": "2026-10-27",
     "replacement": "Correct the counted renters' income to the place's sourced ratio (world-counted-renter-income-puerto-rico-third), then remove the pin so the case meets the HUD bound.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-figure-color-masks-from-picture",
+    "kind": "faked-mechanic",
+    "file": "src/bench/figure-colors.ts",
+    "line": 61,
+    "whatItFakes": "A figure's skin and clothing regions are guessed from pixel colors (warm saturated pixels are skin, unsaturated mid-gray pixels are clothing) instead of read from a painted mask, so the gray shoes follow the clothes color and a very dark skin tone loses some facial shading.",
+    "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
+    "addedBy": "claude/play-stop-34",
+    "addedAt": "2026-10-27",
+    "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
     "status": "open"
   }
 ]
