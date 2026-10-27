@@ -242,12 +242,27 @@ ol {
     left bottom,
     right bottom;
 }
+/* The title's Continue: the life's face beside its name and place. */
+#front-continue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#front-continue .bust {
+  width: 44px;
+  height: 44px;
+}
+#front-main #front-continue .continue-text,
+#front-main #front-continue .continue-text b,
+#front-main #front-continue .continue-text small {
+  display: block;
+}
 /* The game's own figure, cropped to head and shoulders, fading into the glass. */
 .bust {
   flex: none;
   width: 62px;
   height: 62px;
-  background: 50% 3% / 230% auto no-repeat;
+  background: 50% 0 / 150% auto no-repeat;
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
 }
@@ -757,6 +772,71 @@ input[type="range"]::-moz-range-thumb {
 .field input {
   width: 170px;
 }
+/* The creator: one label column and one field column; headings, labels and the
+   fields' left edge are the same on every row. */
+#cr-character {
+  --label-col: 100px;
+}
+#cr-character .field,
+#cr-character .group.row {
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  align-items: center;
+  column-gap: 12px;
+}
+#cr-character .field input {
+  width: 100%;
+}
+#cr-character .group.row > .label {
+  line-height: 1.3;
+}
+#cr-character .choices {
+  margin-top: 0;
+  gap: 8px;
+}
+#cr-character .choices .action {
+  min-width: 0;
+  margin: 0;
+  padding: 6px 10px;
+  flex: 1 1 auto;
+}
+#cr-character .date-row {
+  margin: 0;
+  grid-template-columns: 5fr 3fr 6fr;
+  gap: 6px;
+}
+#cr-character .date-row select {
+  padding-inline: 6px;
+  font-size: 13px;
+}
+#cr-character .group.row > :not(.label):not(.date-row):not(.choices) {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+#cr-character .date-row .field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+#cr-character .choices .action {
+  white-space: nowrap;
+  padding: 6px 6px;
+}
+/* A picked button keeps its box: the brass corner shows, nothing resizes. */
+.action[aria-pressed="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
+  pointer-events: none;
+}
+.action[aria-pressed="true"] {
+  border-color: var(--gold);
+}
 /* The creator's fields always show their box, empty or filled. */
 #cr-character .field input,
 #cr-character .field select {
@@ -866,6 +946,13 @@ input[type="range"]::-moz-range-thumb {
   display: block;
   font: inherit;
 }
+.item.town .town-head {
+  display: block;
+}
+.item.town .town-county {
+  color: var(--text-3);
+  margin-top: 2px;
+}
 .item.town small {
   color: var(--text-2);
 }
@@ -931,6 +1018,38 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   gap: 6px;
   justify-content: center;
+}
+.swatch-row {
+  grid-template-columns: 110px 1fr;
+  row-gap: 2px;
+}
+.swatch-row .look-value {
+  grid-column: 2;
+  justify-content: flex-start;
+  color: var(--text-2);
+  font: 500 12px var(--ui);
+}
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.swatch-button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--brass);
+  cursor: pointer;
+}
+.swatch-button[aria-pressed="true"] {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+.swatch-button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
 }
 .swatch {
   width: 12px;
@@ -1316,40 +1435,21 @@ body.dev .dev-ring {
   font: 500 15px/1.4 var(--speech);
 }
 #sheet-body .narrative > b:first-child,
-#sheet-body .campaign > b:first-child,
-#sheet-body .race > b:first-child {
+#sheet-body .campaign > b:first-child {
   display: block;
   max-width: none;
   margin-bottom: 3px;
 }
-#sheet-body .campaign,
-#sheet-body .race {
+#sheet-body .campaign {
   display: block;
   column-span: all;
 }
-#sheet-body .campaign > div,
-#sheet-body .race > div {
+#sheet-body .campaign > div {
   margin-top: 4px;
 }
 #sheet-body .campaign select,
 #sheet-body .campaign input {
   margin-right: 12px;
-}
-/* Every other state's governor race that night, three to a line. */
-#sheet-body .nation-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 32px;
-}
-#sheet-body .nation-grid .row {
-  padding: 3px 0;
-}
-.race .winner {
-  color: var(--gold);
-  font-weight: 600;
-}
-.race .mine {
-  color: var(--text-2);
 }
 #sheet-body details summary {
   cursor: pointer;
@@ -1408,6 +1508,10 @@ body.dev .dev-ring {
       180px,
       1fr
     );
+}
+.calendar-day-date {
+  font: 600 15px var(--ui);
+  color: var(--gold);
 }
 .calendar-month-foot {
   display: flex;
@@ -1756,12 +1860,34 @@ body.dev .dev-ring {
   top: var(--gutter);
   right: var(--gutter);
   z-index: 4;
+  gap: 4px;
+  max-width: 340px;
+  padding: 12px 12px 12px 16px;
+}
+#news-surface-open {
   display: grid;
   gap: 4px;
-  max-width: 300px;
-  padding: 12px 16px;
   text-align: left;
   cursor: pointer;
+}
+/* A toast leaves by itself: it holds, then fades out over its last second. Its close
+   control and its story stay clickable for as long as it shows (ui/toast.mjs). */
+.toast {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+.toast.fading {
+  animation: toast-fade var(--toast-seconds) linear forwards;
+}
+@keyframes toast-fade {
+  0%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 #news-reader {
   inset: var(--gutter) var(--gutter) var(--gutter) calc(var(--gutter) + 300px);
@@ -1788,6 +1914,25 @@ body.dev .dev-ring {
 }
 #news-reader .heading {
   margin: 0 0 12px;
+  font: 600 34px/1.15 var(--speech);
+}
+#news-reader .paper-masthead {
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+}
+#news-reader .paper-masthead h2 {
+  margin: 0 0 6px;
+}
+#news-reader.paper {
+  padding: 26px 30px;
+}
+#news-reader-body .prose {
+  font: 18px/1.5 var(--speech);
+}
+#news-reader-more {
+  border-left: 1px solid rgba(214, 189, 132, 0.4);
+  padding-left: 18px;
 }
 #news-reader .quote {
   font-style: italic;
@@ -1850,6 +1995,8 @@ body.dev .dev-ring {
    Election day's ballot over the polling place's picture: kit12's panel,
    heading and actions; positions only. */
 #ballot,
+#election-day,
+#returns,
 #meeting,
 #desk,
 #job-offer {
@@ -1873,9 +2020,30 @@ body.dev .dev-ring {
   min-height: 18px;
   margin: 12px 0 0;
 }
-#ballot {
+#ballot,
+#election-day,
+#returns {
   display: flex;
   flex-direction: column;
+}
+#election-day-lines,
+#returns-lines {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+#election-day .acts,
+#returns .acts {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+#returns-count {
+  margin-top: 12px;
+}
+#election-day-lines p,
+#returns-lines p {
+  margin: 0 0 10px;
 }
 #ballot-races {
   flex: 1;
@@ -2743,4 +2911,16 @@ body.dev .dev-ring {
 .people-selection .circle-why,
 .people-selection .circle-none {
   color: var(--gold);
+}
+
+/* Advanced: the officeholders to play as, a button each. */
+.pick-list {
+  display: grid;
+  gap: 8px;
+  max-height: 46vh;
+  overflow-y: auto;
+  margin: 12px 0;
+}
+.pick-list button {
+  text-align: left;
 }

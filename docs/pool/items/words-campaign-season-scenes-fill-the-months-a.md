@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/campaign-season-scenes
-pr: "#6201"
+pr: #6201
 blocked-on:
 source: "split from words-campaign-season-scenes-fill-the-months by the words-and-scenes lead, Oct 27"
 lead: words

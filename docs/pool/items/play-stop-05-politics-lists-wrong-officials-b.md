@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: play-stop-05-politics-lists-wrong-officials-a
+after:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
@@ -30,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/government.ts, src/core2/modules/offices.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-05-politics-lists-wrong-officials (Oct 24, lane). Engine changes in offices.ts are the laws lead's (`needs-from: laws`). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Council terms Tammy May 2016-2028 (12 years) and George Williamson 2014-2026; the mayor (Brian Duncan) only on page 2; no party per member.
+
+CTO, Oct 27 12:00 UTC: the `after:` line is cleared so the lane can build it for the owner's build; the earlier part landed or is in PR, and a merged play item waits only on the owner's installed-build check.

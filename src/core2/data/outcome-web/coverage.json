@@ -419,6 +419,10 @@
     "voter-id-to-registration": {
       "waitingOn": ["voting.registration"]
     },
+    "housing-line-to-evictions": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/housing-assistance.ts pays the line's rent assistance into the helped household's cash; src/core2/modules/housing.ts files an eviction case only for rent owed"
+    },
     "flood-zone-limits-to-damage": {
       "waitingOn": ["disaster.flood-damage"]
     },
