@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: done
 claimed-by: scenes-c/bill-held
-pr: #6228
+pr: #6298
 blocked-on:
 lead: words
 source: added with npm run pool -- add
