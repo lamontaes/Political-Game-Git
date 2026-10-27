@@ -424,10 +424,15 @@ it(
     const tried: string[] = [];
     for (let attempt = 0; attempt < PLACES; attempt += 1) {
       const draw = drawPlace(
-        randomBytes(32).toString("hex"),
-        "unplanned-counted-tier",
+        createHash("sha256").update(`${base}:counted:${attempt}`).digest("hex"),
+        `unplanned-counted-tier:${attempt}`,
       );
       tried.push(`${draw.key} seed ${draw.seed}`);
+      // The input is on record before the world is built, so a run killed in
+      // construction or in its year can be replayed with GOLDEN_PATH_SEED.
+      console.log(
+        `renewal counted unplanned: ${draw.name} (${draw.key}), world seed ${draw.seed}, root ${base}, attempt ${attempt}`,
+      );
       // The month's counts rows (expected births) are kept only with bookkeeping on.
       setBookkeeping(true);
       const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
