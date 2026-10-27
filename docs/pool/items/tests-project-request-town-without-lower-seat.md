@@ -17,7 +17,7 @@ source: laws-and-effects lead, Oct 27 (the floor PR's changed-file tests)
 
 **Rules.** One rule, all 56 places: a test that needs a lower-chamber seat draws again until it has one, and names the place and seed when it runs out, rather than reading a seat the place may not have. Never skip or quarantine the case.
 
-**Done when.** The case's `ready` check also requires `townSeats(t.api).some((s) => s.office.kind === "legislature-lower")`, the run seed is printed in the case's failure message, and the case passes on three fresh seeds named in the PR body.
+**Done when.** The test case's `ready` check also requires a lower-chamber seat covering the town (`townSeats(t.api).some((s) => s.office.kind === "legislature-lower")`), its failure message prints the run seed, and the case passes in three drawn places on fresh seeds, each place and seed named in the PR body.
 
 **Time box.** 1 hour, any fixer.
 
