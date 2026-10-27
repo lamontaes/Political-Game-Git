@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-41-person-card-no-empty-headings
 pr: #6246
 blocked-on:
