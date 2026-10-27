@@ -1,6 +1,359 @@
 {
   "entries": [
     {
+      "version": "0.58.0",
+      "releasedOn": "2026-10-27",
+      "revision": "d9d8e866daa1b8c41e568526c2c8c87402a24401",
+      "changeIds": [
+        "campaigns-local-platform-budget-lines",
+        "core-contract-winner-wages-paid-far-below-payroll",
+        "director-lobbyist-in-the-hallway",
+        "director-morning-after-the-race",
+        "director-producer-election-result",
+        "drives-displaced-prove-oneself-over-band",
+        "drives-layoff-drives-aim-at-decider",
+        "journal-memoir-numeric-literal",
+        "laws-checker-enacts-where-no-power",
+        "laws-national-answer-to-state-question-unloaded",
+        "laws-override-record-names-members-and-reads-replies",
+        "merger-skill-nothing-waits-micro-fixes",
+        "owner-pay-growth-by-performance",
+        "parties-join-act-writes-no-membership",
+        "people-opening-job-tenure-estimate",
+        "people-stopgap-drives-missing-mechanic",
+        "people-unplanned-exposure-calibration",
+        "play-first-10-journal-memoir-opening",
+        "play-screens-last-four-on-shared-parts",
+        "press-exposes-conflicts",
+        "quiet-weeks-listener-packet",
+        "release-package-on-a-clock",
+        "release-publish-on-the-clock",
+        "release-red-research-reader-census-rerun",
+        "release-spelling-sweep-red-oct20-rest",
+        "release-touches-line-still-flips-item-done",
+        "roadmap-m1-11-flip",
+        "scene-constituent-family-in-custody",
+        "scene-endorsement-refused-packet",
+        "scene-hallway-word",
+        "scene-housemate-arrives",
+        "scenes-owner-typeless-linked",
+        "ship-each-finished-unit",
+        "skills-lessons-2026-10-27-16",
+        "tests-campaign-turn-cases-fail-on-drawn-places",
+        "tests-contest-positions-no-question-race-closed",
+        "tests-food-aid-recipient-without-household",
+        "tests-journal-clarkfield-channels-undefined",
+        "tests-m0-13-tiny-town-without-renters",
+        "tests-public-pay-no-employer-vacuous",
+        "tests-six-bench-browser-checks-red-on-main",
+        "traits-retell-circumstances",
+        "words-family-stake-spans-from-bank",
+        "words-federal-question-names",
+        "words-home-news-talk",
+        "words-scene-budget-cut-department-head",
+        "words-scene-desk-visit-sponsor-or-opponent",
+        "words-scene-web-constituents-and-cases",
+        "words-scene-web-donors-and-corruption",
+        "words-scene-web-executive-pass-1",
+        "words-scene-web-home-pass-1",
+        "words-scene-web-legislating-pass-1",
+        "words-scene-web-meeting-pass-1"
+      ]
+    },
+    {
+      "version": "0.57.0",
+      "releasedOn": "2026-10-27",
+      "revision": "9015f37ff91ba5cbec0e4725ad6cefe60b2055bb",
+      "changeIds": [
+        "american-english-sweep-green-on-main",
+        "director-scenes-from-circumstance",
+        "laws-matrix-row-names-its-screen",
+        "laws-session-passes-moot-and-opposite-bills",
+        "laws-took-effect-for-row-not-in-force",
+        "morning-report-0-56-1",
+        "research-health-resilience-scale",
+        "school-spending-per-pupil-small-town-low",
+        "traits-outcome-job-performance",
+        "words-governors-ranked-asks",
+        "words-home-talks-rewritten",
+        "words-scene-bill-held-in-committee"
+      ]
+    },
+    {
+      "version": "0.56.2",
+      "releasedOn": "2026-10-27",
+      "revision": "fabd52a0aace5fa9a2bfdc6691755e860f13dcbb",
+      "changeIds": [
+        "director-tie-turns",
+        "gov-prior-year-budgets-at-opening",
+        "justice-police-raise-arrests-fall",
+        "laws-in-force-every-question"
+      ]
+    },
+    {
+      "version": "0.56.1",
+      "releasedOn": "2026-10-27",
+      "revision": "519667f40432b58c8746a4acf21e73142371f411",
+      "changeIds": [
+        "elections-door-contacts-cool-most-voters",
+        "laws-checker-grant-change-toggles",
+        "tests-campaign-traits-ratios-out-of-band-st-paul",
+        "tests-opening-unemployment-scope-red-on-drawn-seed",
+        "tests-project-request-town-without-lower-seat",
+        "tests-world-poverty-halved-pay-small-town",
+        "words-packet-appointment-next-in-line"
+      ]
+    },
+    {
+      "version": "0.56.0",
+      "releasedOn": "2026-10-27",
+      "revision": "2840510c8b5488ba271ceb714c60fb5a14b07167",
+      "changeIds": [
+        "laws-nine-links-housing-two",
+        "laws-prices-local-sales-tax-average-no-seller",
+        "release-smoke-item-lines",
+        "words-campaign-season-scenes-fill-the-months-a",
+        "words-scene-web-election-day-and-night",
+        "world-jobs-counted-choices-one-rule",
+        "world-treasury-cut-moves-little"
+      ]
+    },
+    {
+      "version": "0.55.4",
+      "releasedOn": "2026-10-27",
+      "revision": "9a9dec7ec786b257a05136b2c331e99bf48cf123",
+      "changeIds": [
+        "roadmap-m1-housing-budgets-business-commands",
+        "tests-renewal-counted-unplanned-replay-draw",
+        "words-scene-web-the-press"
+      ]
+    },
+    {
+      "version": "0.55.3",
+      "releasedOn": "2026-10-27",
+      "revision": "2cd2bb588f28705a3d7fd2676f36e534d8edf9a2",
+      "changeIds": [
+        "director-quiet-last-together-slot",
+        "tests-office-bill-title-property-tax-null",
+        "words-scene-web-campaign-pass-1"
+      ]
+    },
+    {
+      "version": "0.55.2",
+      "releasedOn": "2026-10-27",
+      "revision": "7f4bd10a39f753441dda871162d8e4155c3b62c9",
+      "changeIds": [
+        "skills-lessons-2026-10-27-12",
+        "skills-lessons-2026-10-27-13",
+        "words-jobs-report-names-its-area",
+        "words-scene-concession-received"
+      ]
+    },
+    {
+      "version": "0.55.1",
+      "releasedOn": "2026-10-27",
+      "revision": "213605cc8dc9b1381770f4750c8c92721e8596ed",
+      "changeIds": [
+        "director-household-news-headline",
+        "director-household-quiet-day",
+        "words-circumstance-lines"
+      ]
+    },
+    {
+      "version": "0.55.0",
+      "releasedOn": "2026-10-27",
+      "revision": "58bdf67fc461c9d6987d11317d7b0a109f8bfc6c",
+      "changeIds": [
+        "play-legislature-floor-date-and-whip",
+        "play-stop-47-calendar-skip-forward-on-a-future-day",
+        "scenes-c-veto-override-whip-packet",
+        "skills-fixer-own-branch",
+        "words-election-day-and-night-scenes"
+      ]
+    },
+    {
+      "version": "0.54.0",
+      "releasedOn": "2026-10-27",
+      "revision": "946dcf65770f9642c6eb9481875ac1ce655aad28",
+      "changeIds": [
+        "director-president-asks-within-powers",
+        "tests-campaigns-candidate-doors-reach-nobody-oakley",
+        "tests-office-day-head-keeps-commuter-job",
+        "tests-record-attack-ad-checks-nothing",
+        "words-scene-bribe-offer-envelope",
+        "words-scene-town-hall-question"
+      ]
+    },
+    {
+      "version": "0.53.0",
+      "releasedOn": "2026-10-27",
+      "revision": "69734c8438ae6e0238b4bc8b663f0e5546d9b46b",
+      "changeIds": [
+        "cto-morning-report-2026-10-27",
+        "director-family-stake-literals",
+        "docs-law-table-medicaid-match-sentences",
+        "laws-effects-matrix-carries-traits",
+        "play-first-06-created-look-in-every-scene",
+        "play-first-11-people-web-uses-created-look",
+        "play-opening-pictures-from-records",
+        "play-stop-01-talk-says-nothing-b",
+        "play-stop-32-town-list-county-label",
+        "play-stop-42-news-story-opens-as-the-paper",
+        "tests-corruption-weston-mo-red",
+        "tests-township-leave-draw-finds-no-township",
+        "traits-accept-interview-reasons",
+        "traits-outcome-hardship-coping",
+        "words-opening-address-grounding",
+        "words-scene-web-from-lives",
+        "world-school-district-pay-authority-without-treasury"
+      ]
+    },
+    {
+      "version": "0.52.1",
+      "releasedOn": "2026-10-27",
+      "revision": "c4730847df956a165c0bb8fdc9c3dca49fcbff14",
+      "changeIds": [
+        "director-red-race-lost-and-vote-ask-unbound",
+        "laws-opening-past-fits-the-chosen-age",
+        "tests-record-broken-promise-keeps-reasons"
+      ]
+    },
+    {
+      "version": "0.52.0",
+      "releasedOn": "2026-10-27",
+      "revision": "5c81486befecbc0d51f15ffcbf9f2077725142fc",
+      "changeIds": [
+        "laws-filing-positions-are-the-seats-own-issues",
+        "release-smoke-advanced-new-world",
+        "words-live-news-worded"
+      ]
+    },
+    {
+      "version": "0.51.1",
+      "releasedOn": "2026-10-27",
+      "revision": "fef3b9ce00f946bfc3826dd769b46bd56eff366d",
+      "changeIds": [
+        "cto-opening-root-cause-report",
+        "tests-renewal-player-home-counts-earlier-plans",
+        "traits-exit-poll-reasons"
+      ]
+    },
+    {
+      "version": "0.51.0",
+      "releasedOn": "2026-10-27",
+      "revision": "d0654521e19d18a3c180258fb77f50d23e5abc5c",
+      "changeIds": [
+        "director-conversation-drawn-fixture-lacks-subjects",
+        "housing-state-line-rent-help-whole-state-in-one-town",
+        "play-first-08-news-box-fades-or-dismisses",
+        "words-household-filing-scene-has-a-purpose"
+      ]
+    },
+    {
+      "version": "0.50.0",
+      "releasedOn": "2026-10-27",
+      "revision": "11d3d3b4ccd1ae080ebbb9cc49b82583c0b887ce",
+      "changeIds": [
+        "core-past-laws-no-answer-gets-enactment-date",
+        "play-stop-35-people-drawn-from-their-own-look",
+        "world-census-scale-closures-large-cities",
+        "world-press-amount-law-never-printed"
+      ]
+    },
+    {
+      "version": "0.49.0",
+      "releasedOn": "2026-10-27",
+      "revision": "166e6f8f9008ea25843898e976a1b419ff0feba3",
+      "changeIds": [
+        "laws-floor-takes-every-chamber-bill",
+        "play-dev-mode-one-advanced-start",
+        "play-stop-29-creator-labels-and-fields-share-one-grid",
+        "play-stop-34-creator-skin-and-clothes-colors",
+        "play-stop-38-figures-framed-whole",
+        "play-stop-41-person-card-no-empty-headings"
+      ]
+    },
+    {
+      "version": "0.48.0",
+      "releasedOn": "2026-10-27",
+      "revision": "92a204637104c3967052caf5533bfb354295866f",
+      "changeIds": [
+        "play-opening-address-empty-waiting-room",
+        "play-stop-37-opening-tags-and-highlights-match-the-figure",
+        "words-executive-record-gaps",
+        "words-packet-disaster-first-hours"
+      ]
+    },
+    {
+      "version": "0.47.1",
+      "releasedOn": "2026-10-27",
+      "revision": "91a589a9e6b7a774eb130e31a51d662f698b71ca",
+      "changeIds": [
+        "traits-accept-appointment-vacancy-proof",
+        "traits-meetings-take-part-refit",
+        "words-packet-executive-order-voting-rights"
+      ]
+    },
+    {
+      "version": "0.47.0",
+      "releasedOn": "2026-10-27",
+      "revision": "57086e9be0657585ec0c7bc92a096ae582c56941",
+      "changeIds": [
+        "play-stop-36-opening-starts-with-the-address",
+        "words-grades-calibrate-by-trait-and-register"
+      ]
+    },
+    {
+      "version": "0.46.0",
+      "releasedOn": "2026-10-27",
+      "revision": "7421844a6843b1618ddea87d33927f93596fcbbd",
+      "changeIds": [
+        "play-stop-30-creator-age-line-says-what-it-is",
+        "play-stop-31-creator-search-fields-gold-outline",
+        "tests-law-wiring-justice-restore-vote-burton",
+        "traits-coverage-table-missing-shade-answer",
+        "words-opening-address-from-records",
+        "words-scene-for-unstaged-big-moments"
+      ]
+    },
+    {
+      "version": "0.45.0",
+      "releasedOn": "2026-10-27",
+      "revision": "209420db43cb2f6ddf2862b7bb188053541c2bad",
+      "changeIds": [
+        "core-contracts-test-payroll-zero-new-richmond",
+        "play-stop-43-travel-as-place-cards",
+        "play-stop-44-filing-races-open-as-a-menu",
+        "play-stop-45-talk-history-set-apart",
+        "play-stop-46-calendar-opens-on-today-and-shows-events",
+        "screens-ui-panel-frame",
+        "screens-ui-talk-box",
+        "tests-highways-opening-road-rule",
+        "traits-research-weights-civic"
+      ]
+    },
+    {
+      "version": "0.44.3",
+      "releasedOn": "2026-10-27",
+      "revision": "d140122651b09a0720884ef38863a1d2a7bbd270",
+      "changeIds": [
+        "skills-skill-lessons",
+        "traits-civic",
+        "traits-meetings-take-part-measured"
+      ]
+    },
+    {
+      "version": "0.44.2",
+      "releasedOn": "2026-10-27",
+      "revision": "d12af85bab95b9dcdee30fdebca06cd8ef986a63",
+      "changeIds": [
+        "cto-owner-scene-examples",
+        "laws-rtw-test-played-repeal-guard",
+        "skills-scenes-from-life",
+        "world-homeless-puerto-rico-far-above-hud"
+      ]
+    },
+    {
       "version": "0.44.1",
       "releasedOn": "2026-10-27",
       "revision": "8f6048a1285dcc1ab113574847ed08a6bae45d03",

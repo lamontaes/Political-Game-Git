@@ -101,9 +101,14 @@ try {
     "no page on running here",
   );
   assert.ok(nextFiling, "no race on record to file for");
+  // The record says "County board of elections (counter: director)"; the page
+  // says it in words, once for each tag, and never shows the tag itself.
+  const officeInWords = (filedWith) =>
+    filedWith.replace(/\s*\(counter: ([^)]*)\)/g, `, ${labels.atTheDeskOf} $1`);
+  assert.doesNotMatch(run, /\(counter:/, "the guide prints a counter tag raw");
   for (const [label, value] of [
     [labels.race, nextFiling.title],
-    [labels.filesWith, nextFiling.filedWith],
+    [labels.filesWith, officeInWords(nextFiling.filedWith)],
     [labels.filingOpens, words(nextFiling.filingOpens)],
     [labels.filingDeadline, words(nextFiling.filingDeadline)],
     [labels.election, words(nextFiling.electionDate)],
@@ -117,7 +122,7 @@ try {
   }
   assert.doesNotMatch(run, /\b\d{4}-\d{2}-\d{2}\b/, "a date reads as a code");
   console.log(
-    `  Run here: ${nextFiling.title} · ${nextFiling.filedWith} · deadline ${words(nextFiling.filingDeadline)}`,
+    `  Run here: ${nextFiling.title} · ${officeInWords(nextFiling.filedWith)} · deadline ${words(nextFiling.filingDeadline)}`,
   );
   if (shots) await page.screenshot({ path: `${shots}/guide-run-here.png` });
   assert.equal(await next.isDisabled(), true, "the guide runs past its end");

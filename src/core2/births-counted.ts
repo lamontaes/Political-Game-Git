@@ -484,7 +484,7 @@ export function applyCountedFlows(
         .filter((other) => other.id !== person.id && !dead.has(other.id))
         .map((other) => other.id);
       const estate = countedEstateOf(core, person.id);
-      for (const heir of removeCountedPerson(core, person.id))
+      for (const heir of removeCountedPerson(core, person.id, row.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       // The death taxes in force read the estate that passed to them.
       if (estate)

@@ -18,6 +18,7 @@ import {
 } from "./residents";
 import { countedPersonOf } from "../counted-actor";
 import { initialPersonState } from "../person-state";
+import { resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
 import type {
@@ -57,6 +58,11 @@ export interface ResponseRow extends ActionDefinition {
   requires: readonly string[];
   fitParameter: string;
   baselineParameter?: string;
+  /**
+   * A response that takes years to pay back (retraining, a new business):
+   * the person's capacity for it falls smoothly with age around the center.
+   */
+  capacityFades?: { centerParameter: string; widthParameter: string };
 }
 
 export interface DrivesData {
@@ -634,11 +640,30 @@ function chooserContext(
 /** The person's own decision about one perceived event; no roll, no assignment. */
 /** A counted person as the shared chooser reads them, from their counted record. */
 function countedActor(
-  state: CoreState,
+  api: CoreAPI,
   personId: PersonId,
 ): PersonState | undefined {
+  const state = api.state as CoreState;
   const row = countedPersonOf(state, personId);
-  return row ? initialPersonState(state, row, false) : undefined;
+  if (!row) return undefined;
+  const actor = initialPersonState(state, row, false);
+  // One model, two tiers: a full person's needs are evaluated from their
+  // money, work and stress every day, and the chooser reads them in every
+  // response. A counted person starts every need at zero, so the same event
+  // would score their responses without the money and time pressure a full
+  // person feels. Their needs are evaluated here by the same evaluators from
+  // the same record fields.
+  for (const definition of state.data.needs) {
+    const evaluate = resolveOperation(
+      state,
+      "needEvaluators",
+      definition.evaluator,
+    );
+    if (!evaluate)
+      throw new Error(`Unregistered need evaluator: ${definition.evaluator}`);
+    actor.needs[definition.id] = evaluate(api, actor, definition);
+  }
+  return actor;
 }
 
 /**
@@ -682,7 +707,7 @@ export function respond(
   // their counted record (the shared chooser reads them the same way).
   const counted = !api.state.people.has(actorId);
   const actor = counted
-    ? countedActor(api.state as CoreState, actorId)
+    ? countedActor(api, actorId)
     : api.state.people.get(actorId);
   if (!actor?.alive) return [];
   const out: FormationTrace[] = [];
@@ -763,6 +788,14 @@ export function respond(
           (row.baselineParameter ? p(row.baselineParameter) : p("zero")) +
           pressure *
             (row.driveKind ? agency : p("one")) *
+            (row.capacityFades
+              ? p("one") /
+                (p("one") +
+                  Math.exp(
+                    (age - p(row.capacityFades.centerParameter)) /
+                      p(row.capacityFades.widthParameter),
+                  ))
+              : p("one")) *
             Math.max(p("zero"), fit + p("responseTraitLeanGain") * lean),
       };
     });

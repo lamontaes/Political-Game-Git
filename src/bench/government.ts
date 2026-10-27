@@ -1,7 +1,7 @@
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
-import { lawHere } from "../core2/modules/laws";
+import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
 import { BUDGETS_MODULE_ID, governments } from "../core2/modules/budgets";
 import { keyPeopleOf } from "../core2/opening-key-people";
 import {
@@ -178,8 +178,11 @@ export function governmentView(core: CoreState, personId: string) {
         governmentOf.set(row.level, readable(row.name));
   return {
     date: core.date,
+    // Every law in force here: the amounts, then each policy question a level
+    // has a law on, answered yes or no.
     law: lawHere(api).map((row) => ({
       series: row.series,
+      yesNo: !AMOUNT_SERIES.includes(row.series),
       value: row.value,
       unit: row.unit,
       estimate: row.estimate,
@@ -202,7 +205,15 @@ export function governmentView(core: CoreState, personId: string) {
       seatId: seat.id,
       district: seat.district,
       // The seat's elections, oldest first, each named by the term it seated.
-      elections: pastElections(api, seat.id),
+      // Only races the world ran: the history before the opening carries an
+      // average share for the office, not a count, so it is not shown.
+      elections: pastElections(api, seat.id).filter(
+        (e) =>
+          (
+            api.moduleState(OFFICES_MODULE_ID).table("terms").get(e.termId) as
+              { reached?: string } | undefined
+          )?.reached !== "in office at the opening",
+      ),
       // Who won the seat's last race and has not taken office yet.
       elect: electOf(api, seat.id),
       holder: holder && {

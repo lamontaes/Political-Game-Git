@@ -92,6 +92,8 @@ export interface HealthData {
   onsetSeverity: Severity;
   jobLossSeverity: Severity;
   evictionSeverity: Severity;
+  /** A missed debt payment weighs as a change in financial state (pool item traits-outcome-hardship-coping), in Holmes and Rahe units. */
+  missedPaymentSeverity: Severity;
   deathSeverity: Severity;
   source: Source & { asOf?: string };
   gaps: readonly string[];

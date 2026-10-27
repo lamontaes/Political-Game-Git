@@ -11,8 +11,12 @@
  * firm's id. Nothing rolls. A member who is a counted name rather than a full
  * person weighs price and workforce only. The treasury pays the winner the
  * line's purchases each month, and the award keeps those payments.
+ *
+ * A member whose first choice carried the award to a firm they own, or a
+ * relative or a housemate of theirs owns, is a conflict of interest, kept on
+ * the award as the record of it (the press reads it: press.ts).
  */
-import { closenessBetween } from "../closeness";
+import { closenessBetween, familyRelation } from "../closeness";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import rows from "../data/contracts/parameters.json" with { type: "json" };
 import {
@@ -65,12 +69,58 @@ export interface ContractAwardRow {
   readonly boughtVotes: readonly string[];
   /** The firm the body would have chosen had no bribe been taken; absent when none was. */
   readonly withoutBribes?: string;
+  /**
+   * Members whose first choice was the winning firm while they own it or a
+   * relative or housemate does: the vote of an interested member. `relation`
+   * is "self" for the owner, else the member's family relation to the owner
+   * (closeness.ts `familyRelation`).
+   */
+  readonly conflicts: readonly {
+    readonly memberId: string;
+    readonly organizationId: string;
+    readonly ownerId: string;
+    readonly relation: string;
+  }[];
   readonly paidMinor: number;
   readonly paymentIds: readonly string[];
 }
 
 const table = (api: CoreAPI) =>
   api.moduleState(CONTRACTS_MODULE_ID).table("awards");
+
+/** The relation a conflicted member has to the firm's owner when they are the owner. */
+export const OWNER_RELATION = "self";
+
+/**
+ * The members whose first choice carried the winning firm while they, or a
+ * relative or housemate, own it. A member who is a named official not yet
+ * filled in has no kin or firm in the records, so holds no conflict.
+ */
+function interested(
+  api: CoreAPI,
+  state: CoreState,
+  organizationId: string,
+  ownerId: string | undefined,
+  votes: Readonly<Record<string, string>>,
+): ContractAwardRow["conflicts"] {
+  if (!ownerId) return [];
+  // stopgapId: SG-GOV-contract-conflict-named-members
+  if (Object.keys(votes).some((memberId) => !state.people.has(memberId)))
+    api.stopgap("SG-GOV-contract-conflict-named-members");
+  return Object.entries(votes)
+    .filter(
+      ([memberId, choice]) =>
+        choice === organizationId && state.people.has(memberId),
+    )
+    .flatMap(([memberId]) => {
+      const relation =
+        memberId === ownerId
+          ? OWNER_RELATION
+          : familyRelation(state, memberId, ownerId);
+      return relation ? [{ memberId, organizationId, ownerId, relation }] : [];
+    })
+    .sort((a, b) => a.memberId.localeCompare(b.memberId));
+}
 
 /** The award in force for a government's line, if any. */
 export function contractFor(
@@ -87,6 +137,17 @@ export function contractFor(
   ]
     .sort((a, b) => a.awardedOn.localeCompare(b.awardedOn))
     .at(-1);
+}
+
+/** The awards made on one day, in id order (the press desk reads the week's). */
+export function awardsOn(
+  api: CoreAPI,
+  date: string,
+): readonly ContractAwardRow[] {
+  if (!api.state.modules.has(CONTRACTS_MODULE_ID)) return [];
+  return [
+    ...(table(api).query("byDate", [date]) as unknown as ContractAwardRow[]),
+  ].sort((a, b) => a.id.localeCompare(b.id));
 }
 
 /** Every award a government has made. */
@@ -253,6 +314,7 @@ function award(
       .filter((b) => b.taken && votes[b.memberId] === b.organizationId)
       .map((b) => b.crimeId),
     ...(without !== winner ? { withoutBribes: without } : {}),
+    conflicts: interested(api, state, winner, owners.get(winner), votes),
     paidMinor: 0,
     paymentIds: [],
   };
@@ -269,6 +331,7 @@ export const CONTRACTS_MODULE: CoreModule = {
         indexes: {
           byLine: { fields: ["governmentId", "line"] },
           byGovernment: { fields: ["governmentId"] },
+          byDate: { fields: ["awardedOn"] },
         },
       },
     },

@@ -8,6 +8,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { healthReport } from "./modules/health";
+import { residentCounts } from "./modules/residents";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { coreAPI, fillInPerson } from "./state";
 import type { CountedIllnessRow } from "./counted-illness";
@@ -17,7 +18,12 @@ import type { CountedIllnessRow } from "./counted-illness";
 // its members' life-table shares, the one who dies was ill first, and a
 // counted person filled in while ill is ill in their health record.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "counted-illness");
+// A year's counted deaths need a counted population big enough to expect some
+// (Courtenay, North Dakota, seed 0b5c642b…, has too few to lose anyone in a
+// year): the draw moves on to the next place until the town has enough, and
+// fails loudly if none of the draws do.
+const MIN_COUNTED_PEOPLE = 500;
+const DRAWS = 8;
 
 interface CountsRow {
   id: string;
@@ -29,14 +35,37 @@ interface CountsRow {
   ill: number;
 }
 
-it(`counted deaths follow an illness, and a filled-in ill person keeps it, in ${place.name}, seed ${seed}`, () => {
+it(`counted deaths follow an illness, and a filled-in ill person keeps it, seed ${seed}`, () => {
   // The monthly counted record read below is kept only under bookkeeping.
   setBookkeeping(true);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const where = JSON.stringify({ seed, place: place.name });
+  let drawn: ReturnType<typeof drawPlace> | undefined;
+  let built: ReturnType<typeof buildBenchWorld> | undefined;
+  const passedOver: string[] = [];
+  for (let i = 0; i < DRAWS && !built; i++) {
+    const candidate = drawPlace(
+      seed,
+      i ? `counted-illness:${i}` : "counted-illness",
+    );
+    const world = buildBenchWorld(candidate.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: candidate.key,
+    });
+    const counted = residentCounts(world.core).reduce(
+      (n, r) => n + r.people,
+      0,
+    );
+    if (counted >= MIN_COUNTED_PEOPLE) {
+      drawn = candidate;
+      built = world;
+    } else passedOver.push(`${candidate.name} (${counted} counted)`);
+  }
+  expect(
+    built,
+    `no draw had ${MIN_COUNTED_PEOPLE} counted people; passed over ${passedOver.join(", ")}`,
+  ).toBeDefined();
+  const { core } = built!;
+  const place = drawn!;
+  const where = JSON.stringify({ seed, place: place.name, passedOver });
   const api = coreAPI(core);
   const renewal = api.moduleState(RENEWAL_MODULE_ID);
   advanceCore(core, addDays(makeIsoDate(core.date), 365));

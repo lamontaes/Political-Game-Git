@@ -1,5 +1,15 @@
 import { readFileSync } from "node:fs";
 import { lookFigures, type Figure } from "./whole-figures";
+import {
+  CLOTHES_SWATCHES,
+  DEFAULT_CLOTHES,
+  DEFAULT_SKIN,
+  SKIN_SWATCHES,
+  clothesSwatch,
+  recolorFigure,
+  skinSwatch,
+  type Swatch,
+} from "./figure-colors";
 
 /**
  * The creator's appearance step uses the same standing v2
@@ -11,6 +21,10 @@ export interface LookRecipe {
   sex: string;
   build: string;
   outfit: string;
+  /** A skin swatch id (figure-colors.ts); the painted tone where absent. */
+  skin?: string;
+  /** A clothing swatch id; the painted gray where absent. */
+  clothes?: string;
 }
 
 export interface AppearanceRow {
@@ -18,6 +32,8 @@ export interface AppearanceRow {
   readonly label: string;
   readonly value: string;
   readonly swatch?: string;
+  /** A row of colors to pick from, each with its worded name. */
+  readonly swatches?: readonly (Swatch & { readonly chosen: boolean })[];
 }
 
 const SEX_LABEL: Record<string, string> = { female: "Woman", male: "Man" };
@@ -86,7 +102,41 @@ export function appearanceRows(
       label: "Clothes",
       value: OUTFIT_LABEL[recipe.outfit] ?? recipe.outfit,
     },
+    colorRow("skin", "Skin", SKIN_SWATCHES, recipe.skin ?? DEFAULT_SKIN),
+    colorRow(
+      "clothes-color",
+      "Clothes color",
+      CLOTHES_SWATCHES,
+      recipe.clothes ?? DEFAULT_CLOTHES,
+    ),
   ];
+}
+
+function colorRow(
+  id: string,
+  label: string,
+  list: readonly Swatch[],
+  current: string,
+): AppearanceRow {
+  return {
+    id,
+    label,
+    value: list.find((row) => row.id === current)?.label ?? "",
+    swatches: list.map((row) => ({ ...row, chosen: row.id === current })),
+  };
+}
+
+/** Choose a swatch directly (a click on it). */
+export function setColor(
+  recipe: LookRecipe,
+  rowId: string,
+  swatchId: string,
+): LookRecipe {
+  if (rowId === "skin" && skinSwatch(swatchId))
+    return { ...recipe, skin: swatchId };
+  if (rowId === "clothes-color" && clothesSwatch(swatchId))
+    return { ...recipe, clothes: swatchId };
+  throw new Error("No such color.");
 }
 
 export function moveAppearance(
@@ -99,6 +149,14 @@ export function moveAppearance(
   if (rowId === "body" && showsBody(gender)) {
     const sex = step(sexes(), recipe.sex, turn);
     return settled({ ...recipe, sex });
+  }
+  if (rowId === "skin" || rowId === "clothes-color") {
+    const list = rowId === "skin" ? SKIN_SWATCHES : CLOTHES_SWATCHES;
+    const key = rowId === "skin" ? "skin" : "clothes";
+    const now =
+      recipe[key] ?? (key === "skin" ? DEFAULT_SKIN : DEFAULT_CLOTHES);
+    const ids = list.map((row) => row.id);
+    return { ...recipe, [key]: step(ids, now, turn) };
   }
   if (rowId === "build" || rowId === "outfit")
     return settled({
@@ -115,7 +173,7 @@ function settled(recipe: LookRecipe): LookRecipe {
   const outfits = options("outfit", recipe.sex);
   const build = builds.includes(recipe.build) ? recipe.build : builds[0]!;
   const outfit = outfits.includes(recipe.outfit) ? recipe.outfit : outfits[0]!;
-  return { sex: recipe.sex, build, outfit };
+  return { ...recipe, sex: recipe.sex, build, outfit };
 }
 
 function hash(text: string): number {
@@ -142,6 +200,14 @@ export function drawnAppearance(
     sex,
     build: pick(options("build", sex), "build"),
     outfit: pick(options("outfit", sex), "outfit"),
+    skin: pick(
+      SKIN_SWATCHES.map((row) => row.id),
+      "skin",
+    ),
+    clothes: pick(
+      CLOTHES_SWATCHES.map((row) => row.id),
+      "clothes",
+    ),
   });
 }
 
@@ -154,14 +220,26 @@ export function readRecipe(text: string): LookRecipe {
     outfit: String(input.outfit ?? ""),
   };
   if (!figureFor(recipe)) throw new Error("No such look.");
-  return recipe;
+  return {
+    ...recipe,
+    ...(input.skin && skinSwatch(String(input.skin))
+      ? { skin: String(input.skin) }
+      : {}),
+    ...(input.clothes && clothesSwatch(String(input.clothes))
+      ? { clothes: String(input.clothes) }
+      : {}),
+  };
 }
 
 /** The look's standing figure, as the game draws it. */
 export function portraitPng(recipe: LookRecipe): Buffer {
   const figure = figureFor(recipe);
   if (!figure) throw new Error("No such look.");
-  return readFileSync(
-    new URL(`../../art/people-engine/v2/${figure.file}`, import.meta.url),
+  return recolorFigure(
+    readFileSync(
+      new URL(`../../art/people-engine/v2/${figure.file}`, import.meta.url),
+    ),
+    recipe.skin,
+    recipe.clothes,
   );
 }
