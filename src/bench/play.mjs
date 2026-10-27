@@ -1708,7 +1708,6 @@ async function campaignRows() {
     pollSample,
     outings,
     standing,
-    causes,
     debates,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
@@ -1890,22 +1889,6 @@ async function campaignRows() {
         ...(standing ?? []).map((line) =>
           el("div", { className: "row", textContent: line }),
         ),
-        // What the race turns on: each candidate's acts and how the people reached came to feel.
-        ...((causes ?? []).some((who) => who.acts.length)
-          ? [el("b", { textContent: controls.campaignActs.title })]
-          : []),
-        ...(causes ?? [])
-          .filter((who) => who.acts.length)
-          .map((who) =>
-            listRow("", {
-              textContent: `${who.you ? "" : `${who.name} · `}${who.acts
-                .map(
-                  (a) =>
-                    `${controls.campaignActs[a.act] ?? a.act} ${a.reached} · +${a.warmer} · −${a.cooler}`,
-                )
-                .join(" · ")}`,
-            }),
-          ),
         campaignResult ? el("div", { textContent: campaignResult }) : "",
       ),
     );
