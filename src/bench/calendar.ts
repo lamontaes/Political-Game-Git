@@ -105,21 +105,20 @@ export function calendarItems(
   const person = core.people.get(personId);
   // The person's own birthday, beside the family's, first among the day's lines.
   const yourBirthday = screenLine("calendar", "calendar.your-birthday.1", {});
-  if (person && yourBirthday)
-    for (const year of [
-      Number(from.slice(0, 4)),
-      Number(from.slice(0, 4)) + 1,
-    ]) {
-      const date = `${year}${person.birthDate.slice(4)}`;
-      if (inWindow(date))
-        items.push({
-          date,
-          kind: "your-birthday",
-          line: yourBirthday,
-          own: true,
-          recordIds: [person.id],
-        });
-    }
+  // Only the next one: two of your own birthdays would both sort first.
+  const nextBirthday = person
+    ? [Number(from.slice(0, 4)), Number(from.slice(0, 4)) + 1]
+        .map((year) => `${year}${person.birthDate.slice(4)}`)
+        .find(inWindow)
+    : undefined;
+  if (person && yourBirthday && nextBirthday)
+    items.push({
+      date: nextBirthday,
+      kind: "your-birthday",
+      line: yourBirthday,
+      own: true,
+      recordIds: [person.id],
+    });
   const seen = new Set<string>();
   for (const fact of person?.pastFacts ?? []) {
     const otherId = fact.facts?.otherPersonId;
