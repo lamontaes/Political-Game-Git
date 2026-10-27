@@ -296,6 +296,25 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.56.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **Personality moves who answers a pollster and who retells a campaign story by
+  the researched amount** A voter's personality moved their answering a pollster
+  and their retelling a campaign story about four to twenty times too far in
+  every town, because the table of how acts pull on traits had been rebuilt
+  since the weights were set. Both weights are set again from the current table,
+  and a retelling's second-hand share is set from the new average reach.
+
+- **The evening news on opening night names the area whose unemployment rate it
+  gives** The opening night's jobs story gave the metro or state-wide
+  unemployment rate under the town's name ("Philipsburg unemployment at 2.8").
+  It now names the area the rate belongs to (for example "Montana outside the
+  Billings and Missoula areas").
+
 ## PRE-ALPHA 0.56.0
 
 _Released October 27, 2026._

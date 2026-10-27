@@ -1,6 +1,20 @@
 {
   "entries": [
     {
+      "version": "0.56.1",
+      "releasedOn": "2026-10-27",
+      "revision": "519667f40432b58c8746a4acf21e73142371f411",
+      "changeIds": [
+        "elections-door-contacts-cool-most-voters",
+        "laws-checker-grant-change-toggles",
+        "tests-campaign-traits-ratios-out-of-band-st-paul",
+        "tests-opening-unemployment-scope-red-on-drawn-seed",
+        "tests-project-request-town-without-lower-seat",
+        "tests-world-poverty-halved-pay-small-town",
+        "words-packet-appointment-next-in-line"
+      ]
+    },
+    {
       "version": "0.56.0",
       "releasedOn": "2026-10-27",
       "revision": "2840510c8b5488ba271ceb714c60fb5a14b07167",
