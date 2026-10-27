@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/rent-help-town-share
-pr:
+pr: #6219
 blocked-on:
 source: laws-effects lead, Oct 26 (helper's finding on #6011)
 claimed-at: 2026-10-27T05:06:04.461Z
