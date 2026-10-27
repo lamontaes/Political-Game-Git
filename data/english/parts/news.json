@@ -20,7 +20,29 @@
     "measure": "The measure, as its record names it.",
     "action": "What the body voted to do, from the measure record.",
     "money": "A dollar amount, from the budget record.",
-    "purpose": "What the money is for, from the budget record."
+    "purpose": "What the money is for, from the budget record.",
+    "against": "How many spoke against, from the hearing record.",
+    "body": "The governing body, from its record.",
+    "by": "Who made the appointment, from its record.",
+    "committee": "A committee, from the committee record.",
+    "crime": "An offense, from the charge record.",
+    "designation": "A bill's designation, as its body numbers it.",
+    "family": "A family's name, from the household record.",
+    "for": "How many spoke for, from the hearing record.",
+    "from": "The amount before, from the law record.",
+    "law": "The law, as its record names it.",
+    "month": "A month, from the record.",
+    "nation": "The national rate, from the jobs record.",
+    "other": "The other parent, by name, from the birth record.",
+    "outlet": "A newspaper or station, from the press records.",
+    "parent": "A parent, by name, from the birth record.",
+    "party": "A party, from the party records.",
+    "post": "A public post, from the appointment record.",
+    "term": "A prison term, from the sentence record.",
+    "to": "The amount now in force, from the law record.",
+    "when": "The election's date, from the contest record.",
+    "issue": "A policy question, by its name.",
+    "incident": "The kind of disaster, from the declaration record."
   },
   "maxWords": 14,
   "mining": {
@@ -636,6 +658,3565 @@
         "url": "https://www.govinfo.gov/content/pkg/FR-2019-04-02/html/2019-06348.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-law-took-effect-in-place-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} took effect in {place} on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-law-took-effect-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.as-of-date-the-law-is-the-law-in-place",
+      "move": "law",
+      "kind": "written",
+      "text": "As of {date}, the {law} is the law in {place}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.designation-the-law-took-effect-on-date",
+      "move": "law",
+      "kind": "written",
+      "text": "{designation}, the {law}, took effect on {date}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.place-now-has-purpose-under-the-law",
+      "move": "law",
+      "kind": "written",
+      "text": "{place} now has {purpose} under the {law}.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede",
+          "requiresFacts": ["effective"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law.the-law-took-effect-on-date-ending-the-rule-it-replaced",
+      "move": "law",
+      "kind": "written",
+      "text": "The {law} took effect on {date}, ending the rule it replaced.",
+      "uses": [
+        {
+          "move": "law",
+          "subject": "news",
+          "role": "law",
+          "choice": "lede",
+          "requiresFacts": ["ended"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.a-measure-of-to-took-effect-on-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "A {measure} of {to} took effect on {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-measure-in-place-went-from-from-to-to-on-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} in {place} went from {from} to {to} on {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-the-measure-in-place-fell-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, the {measure} in {place} fell from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-the-measure-in-place-rose-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, the {measure} in {place} rose from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-measure-in-place-is-now-to-down-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} in {place} is now {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-measure-in-place-is-now-to-up-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} in {place} is now {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.a-new-measure-of-to-took-effect-in-place-on-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "A new {measure} of {to} took effect in {place} on {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call.the-law-passed-count",
+      "move": "roll-call",
+      "kind": "written",
+      "text": "The {law} passed {count}.",
+      "uses": [
+        {
+          "move": "roll-call",
+          "subject": "news",
+          "role": "roll-call",
+          "choice": "lede",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call.designation-passed-on-a-vote-of-count",
+      "move": "roll-call",
+      "kind": "written",
+      "text": "{designation} passed on a vote of {count}.",
+      "uses": [
+        {
+          "move": "roll-call",
+          "subject": "news",
+          "role": "roll-call",
+          "choice": "lede",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call.designation-failed-on-a-vote-of-count",
+      "move": "roll-call",
+      "kind": "written",
+      "text": "{designation} failed on a vote of {count}.",
+      "uses": [
+        {
+          "move": "roll-call",
+          "subject": "news",
+          "role": "roll-call",
+          "choice": "lede",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call.the-law-failed-count",
+      "move": "roll-call",
+      "kind": "written",
+      "text": "The {law} failed, {count}.",
+      "uses": [
+        {
+          "move": "roll-call",
+          "subject": "news",
+          "role": "roll-call",
+          "choice": "lede",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call.the-body-voted-count-on-the-law-and-it-failed",
+      "move": "roll-call",
+      "kind": "written",
+      "text": "The {body} voted {count} on the {law}, and it failed.",
+      "uses": [
+        {
+          "move": "roll-call",
+          "subject": "news",
+          "role": "roll-call",
+          "choice": "lede",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.roll-call.the-body-voted-count-for-the-law-and-it-passed",
+      "move": "roll-call",
+      "kind": "written",
+      "text": "The {body} voted {count} for the {law}, and it passed.",
+      "uses": [
+        {
+          "move": "roll-call",
+          "subject": "news",
+          "role": "roll-call",
+          "choice": "lede",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee.the-committee-committee-voted-count-to-send-designation-to-t",
+      "move": "committee",
+      "kind": "written",
+      "text": "The {committee} committee voted {count} to send {designation} to the floor.",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "news",
+          "role": "committee",
+          "choice": "lede",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee.the-committee-committee-voted-count-against-designation",
+      "move": "committee",
+      "kind": "written",
+      "text": "The {committee} committee voted {count} against {designation}.",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "news",
+          "role": "committee",
+          "choice": "lede",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee.designation-sits-in-the-committee-committee-without-a-vote",
+      "move": "committee",
+      "kind": "written",
+      "text": "{designation} sits in the {committee} committee without a vote.",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "news",
+          "role": "committee",
+          "choice": "lede",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee.the-committee-committee-has-not-taken-up-the-law",
+      "move": "committee",
+      "kind": "written",
+      "text": "The {committee} committee has not taken up the {law}.",
+      "uses": [
+        {
+          "move": "committee",
+          "subject": "news",
+          "role": "committee",
+          "choice": "lede",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override.lawmakers-voted-to-override-the-veto-of-the-law",
+      "move": "override",
+      "kind": "written",
+      "text": "Lawmakers voted to override the veto of the {law}.",
+      "uses": [
+        {
+          "move": "override",
+          "subject": "news",
+          "role": "override",
+          "choice": "lede",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override.designation-becomes-law-over-the-executive-s-veto",
+      "move": "override",
+      "kind": "written",
+      "text": "{designation} becomes law over the executive's veto.",
+      "uses": [
+        {
+          "move": "override",
+          "subject": "news",
+          "role": "override",
+          "choice": "lede",
+          "requiresFacts": ["passed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override.lawmakers-could-not-muster-the-votes-to-override-the-veto-of",
+      "move": "override",
+      "kind": "written",
+      "text": "Lawmakers could not muster the votes to override the veto of {designation}.",
+      "uses": [
+        {
+          "move": "override",
+          "subject": "news",
+          "role": "override",
+          "choice": "lede",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.override.the-veto-of-the-law-stands-after-an-override-vote-came-up-sh",
+      "move": "override",
+      "kind": "written",
+      "text": "The veto of the {law} stands after an override vote came up short.",
+      "uses": [
+        {
+          "move": "override",
+          "subject": "news",
+          "role": "override",
+          "choice": "lede",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed.name-signed-designation-the-law-on-date",
+      "move": "signed",
+      "kind": "written",
+      "text": "{name} signed {designation}, the {law}, on {date}.",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "news",
+          "role": "signed",
+          "choice": "lede",
+          "requiresFacts": ["signed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed.name-signed-designation-on-date",
+      "move": "signed",
+      "kind": "written",
+      "text": "{name} signed {designation} on {date}.",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "news",
+          "role": "signed",
+          "choice": "lede",
+          "requiresFacts": ["signed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed.the-law-is-headed-into-law-with-name-s-signature",
+      "move": "signed",
+      "kind": "written",
+      "text": "The {law} is headed into law with {name}'s signature.",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "news",
+          "role": "signed",
+          "choice": "lede",
+          "requiresFacts": ["signed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed.name-vetoed-designation-the-law-on-date",
+      "move": "signed",
+      "kind": "written",
+      "text": "{name} vetoed {designation}, the {law}, on {date}.",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "news",
+          "role": "signed",
+          "choice": "lede",
+          "requiresFacts": ["vetoed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.signed.name-vetoed-designation-on-date",
+      "move": "signed",
+      "kind": "written",
+      "text": "{name} vetoed {designation} on {date}.",
+      "uses": [
+        {
+          "move": "signed",
+          "subject": "news",
+          "role": "signed",
+          "choice": "lede",
+          "requiresFacts": ["vetoed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hearing.at-the-hearing-on-designation-for-spoke-for-it-and-against-a",
+      "move": "hearing",
+      "kind": "written",
+      "text": "At the hearing on {designation}, {for} spoke for it and {against} against it.",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "news",
+          "role": "hearing",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.hearing.number-people-spoke-on-the-law-for-for-against-against",
+      "move": "hearing",
+      "kind": "written",
+      "text": "{number} people spoke on the {law}: {for} for, {against} against.",
+      "uses": [
+        {
+          "move": "hearing",
+          "subject": "news",
+          "role": "hearing",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.introduced.name-introduced-designation-the-law",
+      "move": "introduced",
+      "kind": "written",
+      "text": "{name} introduced {designation}, the {law}.",
+      "uses": [
+        {
+          "move": "introduced",
+          "subject": "news",
+          "role": "introduced",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.introduced.designation-the-law-was-introduced",
+      "move": "introduced",
+      "kind": "written",
+      "text": "{designation}, the {law}, was introduced.",
+      "uses": [
+        {
+          "move": "introduced",
+          "subject": "news",
+          "role": "introduced",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.introduced.designation-was-introduced-and-sent-to-committee",
+      "move": "introduced",
+      "kind": "written",
+      "text": "{designation} was introduced and sent to committee.",
+      "uses": [
+        {
+          "move": "introduced",
+          "subject": "news",
+          "role": "introduced",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-line.spending-on-purpose-in-place-goes-down-by-money",
+      "move": "budget-line",
+      "kind": "written",
+      "text": "Spending on {purpose} in {place} goes down by {money}.",
+      "uses": [
+        {
+          "move": "budget-line",
+          "subject": "news",
+          "role": "budget-line",
+          "choice": "lede",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-line.spending-on-purpose-in-place-goes-up-by-money",
+      "move": "budget-line",
+      "kind": "written",
+      "text": "Spending on {purpose} in {place} goes up by {money}.",
+      "uses": [
+        {
+          "move": "budget-line",
+          "subject": "news",
+          "role": "budget-line",
+          "choice": "lede",
+          "requiresFacts": ["added"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-line.the-budget-for-purpose-was-cut-by-money",
+      "move": "budget-line",
+      "kind": "written",
+      "text": "The budget for {purpose} was cut by {money}.",
+      "uses": [
+        {
+          "move": "budget-line",
+          "subject": "news",
+          "role": "budget-line",
+          "choice": "lede",
+          "requiresFacts": ["cut"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget-line.the-budget-for-purpose-grew-by-money",
+      "move": "budget-line",
+      "kind": "written",
+      "text": "The budget for {purpose} grew by {money}.",
+      "uses": [
+        {
+          "move": "budget-line",
+          "subject": "news",
+          "role": "budget-line",
+          "choice": "lede",
+          "requiresFacts": ["added"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget.the-largest-line-in-the-new-budget-is-money-for-purpose",
+      "move": "budget",
+      "kind": "written",
+      "text": "The largest line in the new budget is {money} for {purpose}.",
+      "uses": [
+        {
+          "move": "budget",
+          "subject": "news",
+          "role": "budget",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget.the-budget-for-place-sets-aside-money-for-purpose",
+      "move": "budget",
+      "kind": "written",
+      "text": "The budget for {place} sets aside {money} for {purpose}.",
+      "uses": [
+        {
+          "move": "budget",
+          "subject": "news",
+          "role": "budget",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.jobs-report.the-unemployment-rate-in-place-was-percent-in-month",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "The unemployment rate in {place} was {percent} in {month}.",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "news",
+          "role": "jobs-report",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.jobs-report.unemployment-in-place-stood-at-percent-against-nation-for-th",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "Unemployment in {place} stood at {percent}, against {nation} for the nation.",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "news",
+          "role": "jobs-report",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.jobs-report.the-jobless-rate-in-place-was-percent-in-month-the-national-",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "The jobless rate in {place} was {percent} in {month}; the national rate was {nation}.",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "news",
+          "role": "jobs-report",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.the-unemployment-rate-in-place-rose-to-percent-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "The unemployment rate in {place} rose to {percent}, from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.the-unemployment-rate-in-place-fell-to-percent-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "The unemployment rate in {place} fell to {percent}, from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-homes-in-place-were-broken-into-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More homes in {place} were broken into this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-homes-in-place-were-broken-into-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer homes in {place} were broken into this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-saw-more-robberies-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} saw more robberies this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-saw-fewer-robberies-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} saw fewer robberies this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.reports-of-assault-in-place-rose-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Reports of assault in {place} rose this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.reports-of-assault-in-place-dropped-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Reports of assault in {place} dropped this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.reports-of-vandalism-in-place-rose-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Reports of vandalism in {place} rose this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.reports-of-vandalism-in-place-dropped-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Reports of vandalism in {place} dropped this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate.the-federal-reserve-raised-its-key-interest-rate-to-percent-",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve raised its key interest rate to {percent} on {date}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate.the-federal-reserve-cut-its-key-interest-rate-to-percent-on-",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve cut its key interest rate to {percent} on {date}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate.the-federal-reserve-left-its-key-interest-rate-at-percent-on",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve left its key interest rate at {percent} on {date}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.town-hall.number-people-came-to-name-s-town-hall-on-date",
+      "move": "town-hall",
+      "kind": "written",
+      "text": "{number} people came to {name}'s town hall on {date}.",
+      "uses": [
+        {
+          "move": "town-hall",
+          "subject": "news",
+          "role": "town-hall",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.town-hall.office-name-took-questions-from-residents-on-date",
+      "move": "town-hall",
+      "kind": "written",
+      "text": "{office} {name} took questions from residents on {date}.",
+      "uses": [
+        {
+          "move": "town-hall",
+          "subject": "news",
+          "role": "town-hall",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.town-hall.name-held-a-town-hall-on-date",
+      "move": "town-hall",
+      "kind": "written",
+      "text": "{name} held a town hall on {date}.",
+      "uses": [
+        {
+          "move": "town-hall",
+          "subject": "news",
+          "role": "town-hall",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.body-meeting.the-body-met-on-date-with-number-items-before-it",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "The {body} met on {date}, with {number} items before it.",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "news",
+          "role": "body-meeting",
+          "choice": "lede",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.body-meeting.the-body-met-on-date-with-nothing-on-its-agenda",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "The {body} met on {date}, with nothing on its agenda.",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "news",
+          "role": "body-meeting",
+          "choice": "lede",
+          "requiresFacts": ["none"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.body-meeting.the-body-held-its-regular-meeting-on-date",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "The {body} held its regular meeting on {date}.",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "news",
+          "role": "body-meeting",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile.name-office-in-profile",
+      "move": "profile",
+      "kind": "written",
+      "text": "{name}, {office}, in profile.",
+      "uses": [
+        {
+          "move": "profile",
+          "subject": "news",
+          "role": "profile",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.profile.a-look-at-the-record-of-office-name",
+      "move": "profile",
+      "kind": "written",
+      "text": "A look at the record of {office} {name}.",
+      "uses": [
+        {
+          "move": "profile",
+          "subject": "news",
+          "role": "profile",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.interview.we-asked-name-about-issue",
+      "move": "interview",
+      "kind": "written",
+      "text": "We asked {name} about {issue}.",
+      "uses": [
+        {
+          "move": "interview",
+          "subject": "news",
+          "role": "interview",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.interview.name-sat-down-with-us-to-talk-about-issue",
+      "move": "interview",
+      "kind": "written",
+      "text": "{name} sat down with us to talk about {issue}.",
+      "uses": [
+        {
+          "move": "interview",
+          "subject": "news",
+          "role": "interview",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.debate.number-candidates-for-office-met-in-a-debate-on-outlet",
+      "move": "debate",
+      "kind": "written",
+      "text": "{number} candidates for {office} met in a debate on {outlet}.",
+      "uses": [
+        {
+          "move": "debate",
+          "subject": "news",
+          "role": "debate",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.debate.the-candidates-for-office-debated-on-date",
+      "move": "debate",
+      "kind": "written",
+      "text": "The candidates for {office} debated on {date}.",
+      "uses": [
+        {
+          "move": "debate",
+          "subject": "news",
+          "role": "debate",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.debate.outlet-hosted-the-debate-for-office-on-date",
+      "move": "debate",
+      "kind": "written",
+      "text": "{outlet} hosted the debate for {office} on {date}.",
+      "uses": [
+        {
+          "move": "debate",
+          "subject": "news",
+          "role": "debate",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.candidate-filed.name-filed-to-run-for-office",
+      "move": "candidate-filed",
+      "kind": "written",
+      "text": "{name} filed to run for {office}.",
+      "uses": [
+        {
+          "move": "candidate-filed",
+          "subject": "news",
+          "role": "candidate-filed",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.candidate-filed.name-is-running-for-office-the-election-is-when",
+      "move": "candidate-filed",
+      "kind": "written",
+      "text": "{name} is running for {office}. The election is {when}.",
+      "uses": [
+        {
+          "move": "candidate-filed",
+          "subject": "news",
+          "role": "candidate-filed",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.candidate-filed.name-has-filed-for-office-ahead-of-the-election-on-when",
+      "move": "candidate-filed",
+      "kind": "written",
+      "text": "{name} has filed for {office} ahead of the election on {when}.",
+      "uses": [
+        {
+          "move": "candidate-filed",
+          "subject": "news",
+          "role": "candidate-filed",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.primary.the-primary-for-office-was-held-on-date",
+      "move": "primary",
+      "kind": "written",
+      "text": "The primary for {office} was held on {date}.",
+      "uses": [
+        {
+          "move": "primary",
+          "subject": "news",
+          "role": "primary",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.primary.voters-chose-their-nominees-for-office-on-date",
+      "move": "primary",
+      "kind": "written",
+      "text": "Voters chose their nominees for {office} on {date}.",
+      "uses": [
+        {
+          "move": "primary",
+          "subject": "news",
+          "role": "primary",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office.name-took-the-oath-of-office-as-office",
+      "move": "took-office",
+      "kind": "written",
+      "text": "{name} took the oath of office as {office}.",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "news",
+          "role": "took-office",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.name-s-death-leaves-a-office-seat-empty",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "{name}'s death leaves a {office} seat empty.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["died"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.name-has-left-the-office-seat",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "{name} has left the {office} seat.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["left"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.a-special-election-will-fill-the-seat",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "A special election will fill the seat.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["special"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.the-office-seat-is-empty-until-it-is-filled",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "The {office} seat is empty until it is filled.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.appointed.by-named-name-post",
+      "move": "appointed",
+      "kind": "written",
+      "text": "{by} named {name} {post}.",
+      "uses": [
+        {
+          "move": "appointed",
+          "subject": "news",
+          "role": "appointed",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.appointed.name-is-the-new-post",
+      "move": "appointed",
+      "kind": "written",
+      "text": "{name} is the new {post}.",
+      "uses": [
+        {
+          "move": "appointed",
+          "subject": "news",
+          "role": "appointed",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber.name-was-chosen-to-preside-over-the-body",
+      "move": "chamber",
+      "kind": "written",
+      "text": "{name} was chosen to preside over the {body}.",
+      "uses": [
+        {
+          "move": "chamber",
+          "subject": "news",
+          "role": "chamber",
+          "choice": "lede",
+          "requiresFacts": ["presides"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber.the-body-organized-and-chose-name-to-lead-it",
+      "move": "chamber",
+      "kind": "written",
+      "text": "The {body} organized and chose {name} to lead it.",
+      "uses": [
+        {
+          "move": "chamber",
+          "subject": "news",
+          "role": "chamber",
+          "choice": "lede",
+          "requiresFacts": ["presides"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber.name-is-the-body-s-new-post",
+      "move": "chamber",
+      "kind": "written",
+      "text": "{name} is the {body}'s new {post}.",
+      "uses": [
+        {
+          "move": "chamber",
+          "subject": "news",
+          "role": "chamber",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber.the-body-chose-name-as-post",
+      "move": "chamber",
+      "kind": "written",
+      "text": "The {body} chose {name} as {post}.",
+      "uses": [
+        {
+          "move": "chamber",
+          "subject": "news",
+          "role": "chamber",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.chamber.name-was-chosen-as-post",
+      "move": "chamber",
+      "kind": "written",
+      "text": "{name} was chosen as {post}.",
+      "uses": [
+        {
+          "move": "chamber",
+          "subject": "news",
+          "role": "chamber",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall-petition.a-petition-to-recall-office-name-has-been-filed",
+      "move": "recall-petition",
+      "kind": "written",
+      "text": "A petition to recall {office} {name} has been filed.",
+      "uses": [
+        {
+          "move": "recall-petition",
+          "subject": "news",
+          "role": "recall-petition",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall-petition.residents-filed-to-recall-name",
+      "move": "recall-petition",
+      "kind": "written",
+      "text": "Residents filed to recall {name}.",
+      "uses": [
+        {
+          "move": "recall-petition",
+          "subject": "news",
+          "role": "recall-petition",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall.voters-kept-name-in-office-count",
+      "move": "recall",
+      "kind": "written",
+      "text": "Voters kept {name} in office, {count}.",
+      "uses": [
+        {
+          "move": "recall",
+          "subject": "news",
+          "role": "recall",
+          "choice": "lede",
+          "requiresFacts": ["kept"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall.voters-removed-name-from-office",
+      "move": "recall",
+      "kind": "written",
+      "text": "Voters removed {name} from office.",
+      "uses": [
+        {
+          "move": "recall",
+          "subject": "news",
+          "role": "recall",
+          "choice": "lede",
+          "requiresFacts": ["removed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall.name-keeps-the-seat-after-the-recall-vote",
+      "move": "recall",
+      "kind": "written",
+      "text": "{name} keeps the seat after the recall vote.",
+      "uses": [
+        {
+          "move": "recall",
+          "subject": "news",
+          "role": "recall",
+          "choice": "lede",
+          "requiresFacts": ["kept"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.party-chair.the-party-party-chose-name-as-its-chair",
+      "move": "party-chair",
+      "kind": "written",
+      "text": "The {party} Party chose {name} as its chair.",
+      "uses": [
+        {
+          "move": "party-chair",
+          "subject": "news",
+          "role": "party-chair",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.party-chair.name-is-the-new-chair-of-the-party-party",
+      "move": "party-chair",
+      "kind": "written",
+      "text": "{name} is the new chair of the {party} Party.",
+      "uses": [
+        {
+          "move": "party-chair",
+          "subject": "news",
+          "role": "party-chair",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.charged.name-has-been-charged-with-crime",
+      "move": "charged",
+      "kind": "written",
+      "text": "{name} has been charged with {crime}.",
+      "uses": [
+        {
+          "move": "charged",
+          "subject": "news",
+          "role": "charged",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.charged.prosecutors-charged-name-with-crime",
+      "move": "charged",
+      "kind": "written",
+      "text": "Prosecutors charged {name} with {crime}.",
+      "uses": [
+        {
+          "move": "charged",
+          "subject": "news",
+          "role": "charged",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bail.name-was-released-while-the-case-goes-on",
+      "move": "bail",
+      "kind": "written",
+      "text": "{name} was released while the case goes on.",
+      "uses": [
+        {
+          "move": "bail",
+          "subject": "news",
+          "role": "bail",
+          "choice": "lede",
+          "requiresFacts": ["released"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bail.a-judge-set-bail-for-name-at-money",
+      "move": "bail",
+      "kind": "written",
+      "text": "A judge set bail for {name} at {money}.",
+      "uses": [
+        {
+          "move": "bail",
+          "subject": "news",
+          "role": "bail",
+          "choice": "lede",
+          "requiresFacts": ["money"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.convicted.name-was-convicted-of-crime",
+      "move": "convicted",
+      "kind": "written",
+      "text": "{name} was convicted of {crime}.",
+      "uses": [
+        {
+          "move": "convicted",
+          "subject": "news",
+          "role": "convicted",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.convicted.name-was-convicted-of-crime-and-sentenced-to-term",
+      "move": "convicted",
+      "kind": "written",
+      "text": "{name} was convicted of {crime} and sentenced to {term}.",
+      "uses": [
+        {
+          "move": "convicted",
+          "subject": "news",
+          "role": "convicted",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.imprisoned.name-began-serving-a-sentence-of-term",
+      "move": "imprisoned",
+      "kind": "written",
+      "text": "{name} began serving a sentence of {term}.",
+      "uses": [
+        {
+          "move": "imprisoned",
+          "subject": "news",
+          "role": "imprisoned",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.imprisoned.name-will-serve-term-in-prison",
+      "move": "imprisoned",
+      "kind": "written",
+      "text": "{name} will serve {term} in prison.",
+      "uses": [
+        {
+          "move": "imprisoned",
+          "subject": "news",
+          "role": "imprisoned",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-missed-the-day-s-floor-session",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} missed the day's floor session.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["floor-session", "missed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-was-in-the-chamber-for-the-floor-session",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} was in the chamber for the floor session.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["floor-session", "attended"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-sat-in-on-the-committee-s-meeting",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} sat in on the committee's meeting.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["committee", "attended"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-was-absent-from-the-committee-s-meeting",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} was absent from the committee's meeting.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["committee", "missed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-delivered-the-state-of-the-state-address",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} delivered the State of the State address.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["state-of-the-state"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-signed-an-executive-order",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} signed an executive order.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["executive-order", "issued"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-withdrew-an-executive-order",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} withdrew an executive order.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["executive-order", "revoked"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-sent-a-proposed-budget-to-lawmakers",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} sent a proposed budget to lawmakers.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["budget-proposal"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-granted-a-request-for-clemency",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} granted a request for clemency.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["clemency", "granted"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-turned-down-a-request-for-clemency",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} turned down a request for clemency.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["clemency", "denied"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-met-with-the-legislature-s-leaders",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} met with the legislature's leaders.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["legislative-leaders", "attended"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-skipped-a-meeting-with-the-legislature-s-leaders",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} skipped a meeting with the legislature's leaders.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["legislative-leaders", "missed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-met-with-the-party-caucus",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} met with the party caucus.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["caucus", "attended"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-was-absent-from-the-party-caucus",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} was absent from the party caucus.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["caucus", "missed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-sat-in-on-an-interim-committee",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} sat in on an interim committee.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["interim-committee", "attended"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.office-act.office-name-missed-an-interim-committee-meeting",
+      "move": "office-act",
+      "kind": "written",
+      "text": "{office} {name} missed an interim committee meeting.",
+      "uses": [
+        {
+          "move": "office-act",
+          "subject": "news",
+          "role": "office-act",
+          "choice": "lede",
+          "requiresFacts": ["interim-committee", "missed"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization-closed.subject-has-closed-its-doors",
+      "move": "organization-closed",
+      "kind": "written",
+      "text": "{subject} has closed its doors.",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "news",
+          "role": "organization.closed",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.staff-cut.subject-laid-off-number-workers",
+      "move": "staff-cut",
+      "kind": "written",
+      "text": "{subject} laid off {number} workers.",
+      "uses": [
+        {
+          "move": "staff-cut",
+          "subject": "news",
+          "role": "staff-cut",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.staff-cut.subject-let-number-people-go-this-month",
+      "move": "staff-cut",
+      "kind": "written",
+      "text": "{subject} let {number} people go this month.",
+      "uses": [
+        {
+          "move": "staff-cut",
+          "subject": "news",
+          "role": "staff-cut",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.staff-cut.subject-has-laid-off-workers",
+      "move": "staff-cut",
+      "kind": "written",
+      "text": "{subject} has laid off workers.",
+      "uses": [
+        {
+          "move": "staff-cut",
+          "subject": "news",
+          "role": "staff-cut",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.owner-changed.subject-has-a-new-owner",
+      "move": "owner-changed",
+      "kind": "written",
+      "text": "{subject} has a new owner.",
+      "uses": [
+        {
+          "move": "owner-changed",
+          "subject": "news",
+          "role": "owner-changed",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.owner-changed.subject-was-sold",
+      "move": "owner-changed",
+      "kind": "written",
+      "text": "{subject} was sold.",
+      "uses": [
+        {
+          "move": "owner-changed",
+          "subject": "news",
+          "role": "owner-changed",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization-opened.subject-opened-in-year",
+      "move": "organization-opened",
+      "kind": "written",
+      "text": "{subject} opened in {year}.",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.organization-opened.subject-is-open-for-business",
+      "move": "organization-opened",
+      "kind": "written",
+      "text": "{subject} is open for business.",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "news",
+          "role": "organization.opened",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.founded.name-has-started-a-new-business-in-place",
+      "move": "founded",
+      "kind": "written",
+      "text": "{name} has started a new business in {place}.",
+      "uses": [
+        {
+          "move": "founded",
+          "subject": "news",
+          "role": "founded",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.founded.name-opened-a-new-business-on-date",
+      "move": "founded",
+      "kind": "written",
+      "text": "{name} opened a new business on {date}.",
+      "uses": [
+        {
+          "move": "founded",
+          "subject": "news",
+          "role": "founded",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.ad.subject-paid-for-ads-making-its-case-on-purpose",
+      "move": "ad",
+      "kind": "written",
+      "text": "{subject} paid for ads making its case on {purpose}.",
+      "uses": [
+        {
+          "move": "ad",
+          "subject": "news",
+          "role": "ad",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.ad.a-group-formed-by-name-paid-for-ads-on-purpose",
+      "move": "ad",
+      "kind": "written",
+      "text": "A group formed by {name} paid for ads on {purpose}.",
+      "uses": [
+        {
+          "move": "ad",
+          "subject": "news",
+          "role": "ad",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.ad.new-ads-from-subject-take-a-side-on-purpose",
+      "move": "ad",
+      "kind": "written",
+      "text": "New ads from {subject} take a side on {purpose}.",
+      "uses": [
+        {
+          "move": "ad",
+          "subject": "news",
+          "role": "ad",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.eviction.a-household-in-place-was-evicted-on-date",
+      "move": "eviction",
+      "kind": "written",
+      "text": "A household in {place} was evicted on {date}.",
+      "uses": [
+        {
+          "move": "eviction",
+          "subject": "news",
+          "role": "eviction",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.eviction.a-landlord-in-place-evicted-a-household-on-date",
+      "move": "eviction",
+      "kind": "written",
+      "text": "A landlord in {place} evicted a household on {date}.",
+      "uses": [
+        {
+          "move": "eviction",
+          "subject": "news",
+          "role": "eviction",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.home-sale.the-family-family-bought-a-home-in-place",
+      "move": "home-sale",
+      "kind": "written",
+      "text": "The {family} family bought a home in {place}.",
+      "uses": [
+        {
+          "move": "home-sale",
+          "subject": "news",
+          "role": "home-sale",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.home-sale.a-home-in-place-sold-to-the-family-family-on-date",
+      "move": "home-sale",
+      "kind": "written",
+      "text": "A home in {place} sold to the {family} family on {date}.",
+      "uses": [
+        {
+          "move": "home-sale",
+          "subject": "news",
+          "role": "home-sale",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.builders-finished-number-new-homes-in-place",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "Builders finished {number} new homes in {place}.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homes-built.a-new-home-was-finished-in-place-on-date",
+      "move": "homes-built",
+      "kind": "written",
+      "text": "A new home was finished in {place} on {date}.",
+      "uses": [
+        {
+          "move": "homes-built",
+          "subject": "news",
+          "role": "homes-built",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homeless-count.place-has-counted-the-people-living-without-a-home",
+      "move": "homeless-count",
+      "kind": "written",
+      "text": "{place} has counted the people living without a home.",
+      "uses": [
+        {
+          "move": "homeless-count",
+          "subject": "news",
+          "role": "homeless-count",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homeless-count.the-count-found-number-people-without-a-home-in-place",
+      "move": "homeless-count",
+      "kind": "written",
+      "text": "The count found {number} people without a home in {place}.",
+      "uses": [
+        {
+          "move": "homeless-count",
+          "subject": "news",
+          "role": "homeless-count",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.homeless-count.number-people-in-place-have-no-home-of-their-own-the-count-f",
+      "move": "homeless-count",
+      "kind": "written",
+      "text": "{number} people in {place} have no home of their own, the count found.",
+      "uses": [
+        {
+          "move": "homeless-count",
+          "subject": "news",
+          "role": "homeless-count",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birth.name-was-born-on-date-to-parent-and-other",
+      "move": "birth",
+      "kind": "written",
+      "text": "{name} was born on {date}, to {parent} and {other}.",
+      "uses": [
+        {
+          "move": "birth",
+          "subject": "news",
+          "role": "birth",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birth.parent-and-other-welcomed-name-on-date",
+      "move": "birth",
+      "kind": "written",
+      "text": "{parent} and {other} welcomed {name} on {date}.",
+      "uses": [
+        {
+          "move": "birth",
+          "subject": "news",
+          "role": "birth",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birth.name-was-born-to-parent-on-date",
+      "move": "birth",
+      "kind": "written",
+      "text": "{name} was born to {parent} on {date}.",
+      "uses": [
+        {
+          "move": "birth",
+          "subject": "news",
+          "role": "birth",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.name-gave-the-inaugural-address-on-date",
+      "move": "address",
+      "kind": "written",
+      "text": "{name} gave the inaugural address on {date}.",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address",
+          "choice": "lede",
+          "requiresFacts": ["inaugural"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address.name-spoke-to-the-nation-on-date",
+      "move": "address",
+      "kind": "written",
+      "text": "{name} spoke to the nation on {date}.",
+      "uses": [
+        {
+          "move": "address",
+          "subject": "news",
+          "role": "address",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.amendment.office-name-amended-designation-the-law",
+      "move": "amendment",
+      "kind": "written",
+      "text": "{office} {name} amended {designation}, the {law}.",
+      "uses": [
+        {
+          "move": "amendment",
+          "subject": "news",
+          "role": "amendment",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.amendment.designation-was-amended-on-a-motion-by-name",
+      "move": "amendment",
+      "kind": "written",
+      "text": "{designation} was amended on a motion by {name}.",
+      "uses": [
+        {
+          "move": "amendment",
+          "subject": "news",
+          "role": "amendment",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall.the-petition-to-recall-name-has-enough-signatures-for-a-vote",
+      "move": "recall",
+      "kind": "written",
+      "text": "The petition to recall {name} has enough signatures for a vote.",
+      "uses": [
+        {
+          "move": "recall",
+          "subject": "news",
+          "role": "recall",
+          "choice": "lede",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.recall.the-petition-to-recall-name-did-not-get-enough-signatures",
+      "move": "recall",
+      "kind": "written",
+      "text": "The petition to recall {name} did not get enough signatures.",
+      "uses": [
+        {
+          "move": "recall",
+          "subject": "news",
+          "role": "recall",
+          "choice": "lede",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget.place-adopted-its-budget-for-year",
+      "move": "budget",
+      "kind": "written",
+      "text": "{place} adopted its budget for {year}.",
+      "uses": [
+        {
+          "move": "budget",
+          "subject": "news",
+          "role": "budget",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.budget.the-year-budget-for-place-is-in-place",
+      "move": "budget",
+      "kind": "written",
+      "text": "The {year} budget for {place} is in place.",
+      "uses": [
+        {
+          "move": "budget",
+          "subject": "news",
+          "role": "budget",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.disaster.a-federal-disaster-was-declared-for-place-after-the-incident",
+      "move": "disaster",
+      "kind": "written",
+      "text": "A federal disaster was declared for {place} after the {incident}.",
+      "uses": [
+        {
+          "move": "disaster",
+          "subject": "news",
+          "role": "disaster",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.disaster.the-incident-damaged-number-homes-in-place",
+      "move": "disaster",
+      "kind": "written",
+      "text": "The {incident} damaged {number} homes in {place}.",
+      "uses": [
+        {
+          "move": "disaster",
+          "subject": "news",
+          "role": "disaster",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.disaster.place-is-under-a-federal-disaster-declaration-as-of-date",
+      "move": "disaster",
+      "kind": "written",
+      "text": "{place} is under a federal disaster declaration as of {date}.",
+      "uses": [
+        {
+          "move": "disaster",
+          "subject": "news",
+          "role": "disaster",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.estate.the-estate-of-name-was-settled-in-probate-on-date",
+      "move": "estate",
+      "kind": "written",
+      "text": "The estate of {name} was settled in probate on {date}.",
+      "uses": [
+        {
+          "move": "estate",
+          "subject": "news",
+          "role": "estate",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.estate.probate-of-the-estate-of-name-is-closed",
+      "move": "estate",
+      "kind": "written",
+      "text": "Probate of the estate of {name} is closed.",
+      "uses": [
+        {
+          "move": "estate",
+          "subject": "news",
+          "role": "estate",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
