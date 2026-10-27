@@ -296,6 +296,52 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.45.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **The calendar opens on today, marks birthdays and deadlines on their days,
+  and opens a day panel only for a day with something.** The Calendar opens on
+  the day your card names, draws a small icon on each day with a birthday,
+  filing deadline, election or law taking effect, and keeps the middle day panel
+  closed for a day with nothing on it.
+
+### Changed
+
+- **Travel shows pictured place cards that say who is there and why each is
+  listed.** Travel is a grid of pictured places. Each card names the place, who
+  is there now and why it is on your list (you work or study there, someone you
+  know works there, you can do something there, or you file there for a named
+  race). Town departments are no longer listed just for being town offices, and
+  filing offices are named without the record's parenthetical.
+
+- **Running for office opens the races as a menu** Where a filing office has
+  many races, they now open as a menu beside the conversation, one row each with
+  the office, the seat, the election day and who holds it, instead of a long
+  numbered list in the clerk's talk box. The "(2025, 1)" codes are gone from the
+  races. Your player card also steps out of the way of a conversation.
+
+- **What was said before sits apart from what is being said now** In a
+  conversation, your earlier line is now its own quieter block above the line
+  being said, with your name over it and a rule under it, so a reply from a
+  minute ago never reads as part of what is being said now.
+
+- **Sheet panels share one header** The title and close button at the top of a
+  screen, and of the filing races menu, are now made by one shared part instead
+  of two copies. They look and work the same.
+
+- **Every conversation box is filled by one shared part** Conversations, the
+  filing counter and the scenes now fill the talk box through one shared part
+  instead of five hand-written places. It looks and works the same.
+
+- **Trust, persuasion and news habits weigh temperament at the size research
+  finds** How far a resident trusts a speaker, how far an argument moves them,
+  and how closely they keep up with the news now lean on their temperament at
+  the sizes studies of trust, political discussion and news use find, where
+  before temperament weighed at a general size several times larger.
+
 ## PRE-ALPHA 0.44.3
 
 _Released October 27, 2026._
