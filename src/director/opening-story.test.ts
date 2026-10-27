@@ -11,7 +11,6 @@ import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { NEWSCAST_BANK } from "../english/english-newscast";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { keyPeopleOf } from "../core2/opening-key-people";
 import { subjectsBetween } from "./conversation";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
@@ -77,26 +76,14 @@ describe("the opening story", () => {
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });
 
-  it("names a place only from a campaign visit to the player's own state", () => {
+  it("names no place of the player's: the address is national only", () => {
     const president = core.people.get(story.president.id)!;
-    const ownState = corePlaceByJurisdictionId(
-      core.people.get(playerId)!.placeId as never,
-    )?.stateJurisdictionKey;
-    const visits = new Map(
-      (president.pastFacts ?? [])
-        .filter((row) => row.kind === PRESIDENT_FACT.visit)
-        .map((row) => [row.id, row.facts!]),
-    );
-    expect(visits.size).toBeGreaterThan(0);
-    for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "towns",
-    )) {
-      const visit = sentence.sourceRecordIds.find((id) => visits.has(id));
-      if (!/\{place\}/.test(sentence.text) && !visit) continue;
-      expect(visit, sentence.text).toBeTruthy();
-      expect(sentence.text).toContain(visits.get(visit!)!.stateName);
-      expect(visits.get(visit!)!.stateKey).toBe(ownState);
-    }
+    // Owner, Oct 27: "nothing about your state". No sentence is put to the
+    // governors or names a town the President visited.
+    for (const sentence of story.address.sentences)
+      expect(String(sentence.level), sentence.text).not.toMatch(
+        /^(governors|towns)$/,
+      );
     // The name card is the office alone: the President's home state is read
     // as where the player is (owner, Oct 26).
     const card = openingFrames(core, playerId, story).speaker;
