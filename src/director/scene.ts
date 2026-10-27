@@ -4,7 +4,6 @@ import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { relationPhrase } from "../english/journal-words";
 import {
-  sceneNameList,
   sceneParagraph,
   wordSceneLine,
   type Fact,
@@ -17,7 +16,6 @@ import type { SceneBinding, ScheduleEntry } from "./scheduling";
 import { properName, spoken } from "./words";
 
 const zero = P.zero;
-const one = P.one;
 
 /** `data/scene-rows.json`: the scene's structure, holding no sentences. */
 export interface SceneRows {
@@ -126,8 +124,8 @@ export function composeScene(
   // Where you are, from the setting's record.
   const { kind, recordId } = binding.setting;
   const settingFacts: Record<string, Fact> = {};
-  if (kind === "home" || kind === "public" || kind === "venue") {
-    const town = place(kind === "home" ? person.placeId : recordId);
+  if (kind === "public" || kind === "venue") {
+    const town = place(recordId);
     if (town) settingFacts.place = town;
   }
   if (kind === "workplace") {
@@ -149,80 +147,21 @@ export function composeScene(
         sourceRecordIds: [recordId, named.id],
       };
   }
+  // The narrator never restates what the screen shows (owner, Oct 26: "it
+  // shouldn't say you're at home in Albion or it's Tuesday in November.
+  // Obviously, it says that in the bottom right."): no day, and no setting
+  // when it is the player's own home; another's house, a workplace or a
+  // venue is said, since only the narration names it.
   const sentences: SceneLine[] = [];
-  const dayAt = new Date(`${moment.date}T00:00:00Z`);
-  const frame = render(
-    { part: "frame" },
-    {
-      weekday: {
-        text: dayAt.toLocaleString("en-US", {
-          weekday: "long",
-          timeZone: "UTC",
-        }),
-        sourceRecordIds: [moment.causeId],
-      },
-      month: {
-        text: dayAt.toLocaleString("en-US", {
-          month: "long",
-          timeZone: "UTC",
-        }),
-        sourceRecordIds: [moment.causeId],
-      },
-    },
-    `${moment.id}:frame`,
-  );
-  if (frame) sentences.push(frame);
-  const setting = render(
-    { part: "setting", kind },
-    settingFacts,
-    `${moment.id}:setting`,
-  );
+  const setting =
+    kind === "home"
+      ? null
+      : render({ part: "setting", kind }, settingFacts, `${moment.id}:setting`);
   if (setting) sentences.push(setting);
 
-  // Who is there. Two people with the same relation ("your son", "your
-  // son") are said by their given names instead, so each is someone.
-  // Only the people the scene is about are named: the one who opens it and
-  // whoever its record names, never a roll call of everyone in the house
-  // (batch 11: "Timothy, your daughter, Ahmad, your father, ... are here.").
+  // Nobody is announced as merely there;
+  // the scene's lead says who came and why.
   const opener = binding.roles.find((row) => row.role === binding.opener);
-  const about = new Set<string>([
-    ...(opener?.personIds ?? []),
-    ...moment.counterpartIds,
-  ]);
-  const here = binding.presentIds.filter(
-    (id) => id !== personId && core.people.get(id)?.alive && about.has(id),
-  );
-  const said = here.map(who);
-  const counts = new Map<string, number>();
-  for (const row of said)
-    if (row) counts.set(row.text, (counts.get(row.text) ?? zero) + one);
-  const present = said
-    .map((row, at) =>
-      row && (counts.get(row.text) ?? zero) > one
-        ? {
-            text: core.people.get(here[at]!)!.givenName,
-            sourceRecordIds: [...row.sourceRecordIds, here[at]!],
-          }
-        : row,
-    )
-    .filter((row): row is Fact => row !== null);
-  if (present.length) {
-    const line = render(
-      { part: "present" },
-      {
-        who: {
-          text: sceneNameList(
-            present.map((row) => row.text),
-            words,
-          ),
-          sourceRecordIds: present.flatMap((row) => row.sourceRecordIds),
-        },
-      },
-      `${moment.id}:present`,
-      () => (present.length === one ? "one" : "many"),
-    );
-    if (line) sentences.push(line);
-  }
 
   // What is happening, from the staged situation's type. It names only
   // someone the scene places in the room: not the person a funeral is for.
@@ -255,7 +194,7 @@ export function composeScene(
   // what they came to do ("Your mother has something to tell you.").
   const openerId = opener?.personIds.find((id) => id !== personId);
   const openerFact = openerId ? who(openerId) : null;
-  const opening =
+  const openingLine =
     binding.opening && openerFact
       ? render(
           { part: "opening", move: binding.opening },
@@ -263,10 +202,18 @@ export function composeScene(
           `${moment.id}:opening`,
         )
       : null;
+  // A lead that names the one who opens the scene has already said who came
+  // and why; the opening would say it again ("Your mother has news for you.
+  // Your mother has something to tell you.").
+  const leadNamedOpener =
+    !!openerId &&
+    openerId === talkToId &&
+    !!lead?.usedFactKeys?.includes("other");
+  const opening = leadNamedOpener ? null : openingLine;
 
   // What led here, from the moment's cause, about someone else or the
   // player. News the opener is about to tell is left to them to tell.
-  const toTell = opening !== null && binding.opening === "tell";
+  const toTell = openingLine !== null && binding.opening === "tell";
   const otherId = moment.counterpartIds[zero];
   const cause = toTell
     ? null

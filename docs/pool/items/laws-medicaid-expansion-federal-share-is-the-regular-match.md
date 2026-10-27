@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Estimate, never unknown, and research before building: the share is a sourced parameter quoted from the statute, the same rule in all 56 places, with territories handled by their own capped financing.
 
-**Done when.** The statute's expansion match is quoted from a fetched page into a parameter table as SOURCED, the expansion's federal share reads it in `buildBenchWorld` worlds, and a year run of the health-schools family in Prescott, Michigan (seed a91c03e7d2b84f10) shows the expansion's federal share at that rate by journal id, with the territories' treatment stated.
+**Done when.** The statute's expansion match is quoted from a fetched page into a parameter table as SOURCED, the expansion's federal share reads it in `buildBenchWorld` worlds, and a year run of the health-schools family in Prescott, Michigan (seed a91c03e7d2b84f10) shows the expansion's federal share at that rate by journal id, with the territories' treatment stated. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-b-money.ts, src/core2/data/laws/
 

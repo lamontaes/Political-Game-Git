@@ -3,7 +3,7 @@ id: research-elections-sourced-parameters
 title: "Research: sourced parameters for elections, campaigns and voting"
 area: elections
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -34,3 +34,5 @@ claimed-at:
 Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-elections-sourced-parameters.md (7 rows: 3 sourced, 4 estimated, 0 mechanic).
 
 Oct 24, 2026: split. PR 5851 (item research-elections-filing-ballot-counts) delivers two sourced filing deadlines (Guam, Puerto Rico) and New York's party date (row ESTIMATED), the House registration rule and Vermont's legislature age, four ballot-order rows, and two county-count research files. Still open here: all seven stopgaps, each narrowed. The three seller stopgaps wait on builder item elections-campaign-sellers-beyond-town (no public hall fee schedule was sourced), and SG-GOV-polling-place-kind waits on elections-polling-places-by-building-kind (EAVS does not ask building kinds). Four charter-place deadlines, 39 ESTIMATED deadline rows, 35 registration rules and three territory ballot orders remain with research-elections-filing-rules-statutes, because the cloud could not read those codes.
+
+Deferred Oct 25: nothing on screen reads it yet.

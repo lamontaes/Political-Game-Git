@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: play-first/play-first-03-creator-date-fields-aligned
+status: open
+claimed-by:
 pr: #6087
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T19:18:58.544Z
+claimed-at:
 ---
 
 **What.** The owner's read of the playtest screenshots: the creator's month, day and year line up. In the v0.22.10 creator the birthday fields sit unevenly and the first-name field has no visible box until filled. This item lines up the three date fields and gives every creator field its box.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-25T19:18:58.544Z
 **Files.** src/bench/play.css, src/bench/play.html
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+Merger3,October26: bench implementation and native pointer/keyboard acceptance reviewed in PR6087 under play-creator-date-fields-ui-implementation. This original item remains open for the installed-build check under the October25 owner ruling; no owner screenshot is requested as a PR merge gate.

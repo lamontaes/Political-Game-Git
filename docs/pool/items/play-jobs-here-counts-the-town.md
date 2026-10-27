@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/play-stop-09-jobs-here
 pr: #6037
 blocked-on:

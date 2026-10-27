@@ -62,7 +62,7 @@ interface ChoiceRow {
 export interface OfficeSceneRows {
   version: string;
   goal: { kind: string };
-  narration: { setting: PartRef; present: PartRef; lead: PartRef };
+  narration: { setting: PartRef; lead: PartRef };
   choices: readonly ChoiceRow[];
   reply: {
     bank: string;
@@ -271,8 +271,8 @@ export function composeOfficeScene(
       fallbackSourceId: bill.id,
     });
 
-  // Where you are and who is there. The chamber itself has no mined
-  // sentence yet; the town's does.
+  // Where you are and the consequential lead. The chamber itself has no
+  // mined sentence yet; the town's does.
   const narration: RenderedLine[] = [];
   const setting = say(
     "scene",
@@ -284,16 +284,6 @@ export function composeOfficeScene(
     "setting",
   );
   if (setting) narration.push(setting);
-  const present = say(
-    "scene",
-    playerId,
-    "office-scene:present",
-    rows.narration.present,
-    rows.narration.present.keys,
-    { who: facts.name! },
-    "present",
-  );
-  if (present) narration.push(present);
   const lead = say(
     "scene",
     playerId,

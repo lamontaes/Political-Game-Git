@@ -14,6 +14,7 @@ import {
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { orgPlace } from "./scene";
+import { CLOTHES_SWATCHES, DEFAULT_SKIN } from "./figure-colors";
 import type { CoreState } from "../core2/types";
 
 export interface Figure {
@@ -26,7 +27,7 @@ export interface Figure {
   ageBand: "child" | "teen" | "adult" | "older";
   outfit: string;
   angle: string;
-  pose: "stand" | "sit";
+  pose: "stand" | "sit" | "lectern";
   /** A seated figure's hip line on the cushion, in pixels from the top. */
   seatY?: number;
   /** Which way the figure is painted facing: a front or back view faces the viewer or away. */
@@ -58,7 +59,23 @@ interface V2Row {
   flag?: string;
 }
 // Figures holding a cup or a tablet, and the six back views painted facing the
-// wrong way (README "Known problems"), are not drawn; nor is the lectern pose.
+// wrong way (README "Known problems"), are not drawn as standing people; the
+// lectern pose is drawn only at a picture's podium.
+const toFigure = (row: V2Row): Figure => ({
+  file: row.file,
+  look: `${row.outfit}:${row.sex}`,
+  build: row.build,
+  sex: row.sex,
+  ageBand: row.ageBand,
+  outfit: row.outfit,
+  angle: row.angle,
+  pose: row.pose as Figure["pose"],
+  ...(row.seatY !== undefined ? { seatY: row.seatY } : {}),
+  facing: row.facing,
+  width: row.width,
+  height: row.height,
+  footY: row.footY,
+});
 const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
   .filter(
     (row) =>
@@ -66,21 +83,25 @@ const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
       !row.flag &&
       (row.pose === "stand" || row.pose === "sit"),
   )
-  .map((row) => ({
-    file: row.file,
-    look: `${row.outfit}:${row.sex}`,
-    build: row.build,
-    sex: row.sex,
-    ageBand: row.ageBand,
-    outfit: row.outfit,
-    angle: row.angle,
-    pose: row.pose as Figure["pose"],
-    ...(row.seatY !== undefined ? { seatY: row.seatY } : {}),
-    facing: row.facing,
-    width: row.width,
-    height: row.height,
-    footY: row.footY,
-  }));
+  .map(toFigure);
+/** The lectern pose: facing the room, hands forward on the podium the picture has. */
+const LECTERNS: Figure[] = (index.figures as unknown as V2Row[])
+  .filter((row) => row.prop === "none" && !row.flag && row.pose === "lectern")
+  .map(toFigure);
+/** The same person at a lectern: their sex and age band, their outfit and build where painted. */
+function lecternFor(front: Figure, band: Figure["ageBand"]): Figure | null {
+  const same = LECTERNS.filter(
+    (row) => row.sex === front.sex && row.ageBand === band,
+  );
+  return (
+    same.find(
+      (row) => row.outfit === front.outfit && row.build === front.build,
+    ) ??
+    same.find((row) => row.outfit === front.outfit) ??
+    same[0] ??
+    null
+  );
+}
 /** Looks are chosen from the standing three-quarter views; the front and back views are the same look turned. */
 const FIGURES = PAINTED.filter(
   (row) => row.angle === "three-quarter" && row.pose === "stand",
@@ -136,6 +157,16 @@ function hash(text: string): number {
   let value = 0;
   for (const char of text) value = (value * 31 + char.charCodeAt(0)) >>> 0;
   return value;
+}
+
+/** A well-mixed hash, so neighbors with alike ids still get unalike colors. */
+function mixed(text: string): number {
+  let h = 2166136261;
+  for (const char of text) h = Math.imul(h ^ char.charCodeAt(0), 16777619);
+  h ^= h >>> 15;
+  h = Math.imul(h, 2246822519);
+  h ^= h >>> 13;
+  return h >>> 0;
 }
 
 /** A person's age band on the game's date. */
@@ -217,27 +248,80 @@ export interface WholeFigure {
   };
 }
 
+// How common each skin tone is among the people the world makes, a rough
+// ESTIMATE of the United States' spread (source: Census race and ethnicity
+// counts, folded into the eight tones; spread about 5 points a tone), so a
+// street looks like America and not like an even draw. Registered as
+// stopgapId: SG-PLAY-people-skin-tone-weights, until a place's own demographics decide it.
+const SKIN_WEIGHTS: Readonly<Record<string, number>> = {
+  fair: 12,
+  light: 22,
+  tan: 22,
+  olive: 16,
+  brown: 12,
+  deep: 9,
+  dark: 5,
+  ebony: 2,
+};
+
+/**
+ * The skin and clothes color a person wears: the ones they chose in the
+ * creator, else ones set once from their own appearance record's seed (their
+ * id where the record has none), so the same person is the same color in every
+ * scene and neighbors differ.
+ */
+export function colorsFor(person: FigurePerson): {
+  skin: string;
+  clothes: string;
+} {
+  const seed = person.seed ?? person.id;
+  const total = Object.values(SKIN_WEIGHTS).reduce((a, b) => a + b, 0);
+  let at = mixed(`${seed}:skin`) % total;
+  let skin = DEFAULT_SKIN;
+  for (const [id, weight] of Object.entries(SKIN_WEIGHTS)) {
+    if (at < weight) {
+      skin = id;
+      break;
+    }
+    at -= weight;
+  }
+  const clothes =
+    CLOTHES_SWATCHES[mixed(`${seed}:clothes`) % CLOTHES_SWATCHES.length]!.id;
+  return {
+    skin: person.look?.skin ?? skin,
+    clothes: person.look?.clothes ?? clothes,
+  };
+}
+
 /** Who is being drawn: their record, and whether they hold office. */
 export interface FigurePerson {
   id: string;
   birthDate: string;
   gender?: string;
   official: boolean;
+  /** The seed of the person's own appearance record, where they have one. */
+  seed?: string;
   /** A look the person chose in the creator (the player), worn everywhere. */
-  look?: { sex: string; build: string; outfit: string };
+  look?: {
+    sex: string;
+    build: string;
+    outfit: string;
+    skin?: string;
+    clothes?: string;
+  };
 }
 
 /**
  * The person's look here (a standing three-quarter figure), or null where
  * none fits (a child: the set paints adults only). Each person has a stable
  * look and build from their id among the looks of their sex dressed for where
- * they are, and takes one that nobody else in the scene wears (`taken`).
+ * they are. Nobody else in the scene changes it: neighbors differ by their own
+ * look, build and colors (`colorsFor`), never by being pushed off a look.
  */
 export function pickLook(
   core: CoreState,
   person: FigurePerson,
   place: string,
-  taken: ReadonlySet<string> = new Set(),
 ): Figure | null {
   const band = ageBandOf(core, person.birthDate);
   if (band === "child") return null;
@@ -250,12 +334,12 @@ export function pickLook(
         row.build === chosen.build &&
         row.outfit === chosen.outfit,
     );
-  if (own && !taken.has(own.look)) return own;
+  if (own) return own;
   const outfits = dressFor(core, person.id, place, band, person.official);
   // A person whose sex has no looks painted (nonbinary) may wear any look.
   const sexOk = (row: Figure) =>
     !person.gender || !SEXES.has(person.gender) || row.sex === person.gender;
-  const fits = FIGURES.filter((row) => sexOk(row) && !taken.has(row.look));
+  const fits = FIGURES.filter(sexOk);
   const dressed = fits.filter((row) => outfits.includes(row.outfit));
   const from = dressed.length ? dressed : fits;
   if (!from.length) return null;
@@ -281,9 +365,8 @@ export function wholeFigureFor(
   spot: StagingSpot,
   /** Who they're with: which way to turn, and whether to show their side or back. */
   turn: Turn = {},
-  taken?: ReadonlySet<string>,
 ): WholeFigure | null {
-  const front = pickLook(core, person, place, taken);
+  const front = pickLook(core, person, place);
   if (!front) return null;
   return figureOn(
     front,
@@ -309,14 +392,16 @@ export function figureOn(
     const seated = seatedFor(front, turn.view);
     return seated ? placeSeated(seated, front, band, stage, spot, turn) : null;
   }
-  // Standing, leaning on a wall or at a podium: the standing figure.
-  const chosen = (turn.view && turned(front, turn.view)) || front;
+  // At a podium, the lectern pose where one is painted for this person;
+  // standing or leaning on a wall, the standing figure.
+  const lectern = spot.pose === "podium" ? lecternFor(front, band) : null;
+  const chosen = lectern ?? ((turn.view && turned(front, turn.view)) || front);
   const heightPercent =
     personPercent(band, stage, spot) * (chosen.height / chosen.footY);
   const widthPercent =
     (heightPercent * (chosen.width / chosen.height)) / BACKDROP_ASPECT;
   const mirrored = flips(chosen, towardOf(spot, turn));
-  const leftPercent = spot.x - widthPercent / 2;
+  const leftPercent = inFrame(spot.x - widthPercent / 2, widthPercent);
   // The shadow sits on the foot point, under the feet as drawn (mirrored
   // with the figure), unless a desk or counter hides the feet.
   const stance = stanceOf(chosen);
@@ -370,8 +455,18 @@ function personPercent(
     (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
     stage.metersPercent;
   const horizonY = spot.floorHorizonY ?? stage.horizonY;
-  return rules.heightMeters[band] * meters * (spot.y - horizonY);
+  // The one framing rule: a close-up room never puts the head above the frame.
+  return Math.min(
+    rules.heightMeters[band] * meters * (spot.y - horizonY),
+    spot.y - HEADROOM,
+  );
 }
+
+/** Percent of the picture kept above a standing head (presentation, TUNABLE by eye). */
+const HEADROOM = 2;
+/** A figure's left edge, moved in from the picture's sides where its spot would cut it. */
+const inFrame = (left: number, width: number) =>
+  Math.max(0, Math.min(left, 100 - width));
 
 /** Turned toward who they're with; alone, the spot's own facing, else the middle. */
 function towardOf(spot: StagingSpot, turn: Turn): "left" | "right" {
@@ -405,7 +500,7 @@ export function placeSeated(
   const widthPercent =
     (heightPercent * (seated.width / seated.height)) / BACKDROP_ASPECT;
   const hip = seated.seatY ?? seated.height * SEATED_HIP;
-  const leftPercent = spot.x - widthPercent / 2;
+  const leftPercent = inFrame(spot.x - widthPercent / 2, widthPercent);
   const shadowWidth = widthPercent * SEATED_SHADOW;
   const shadowHeight = shadowWidth * SHADOW_FLATNESS * BACKDROP_ASPECT;
   const hidden =
@@ -427,7 +522,7 @@ export function placeSeated(
       shadow: hidden
         ? null
         : {
-            leftPercent: spot.x - shadowWidth / 2,
+            leftPercent: leftPercent + widthPercent / 2 - shadowWidth / 2,
             topPercent: spot.y - shadowHeight / 2,
             widthPercent: shadowWidth,
             heightPercent: shadowHeight,

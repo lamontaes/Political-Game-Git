@@ -4,7 +4,7 @@ title: "Government and economy stand-ins replaced or removed (#4146)"
 area: gov
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #4146
 blocked-on: "gov-standins-laws, gov-standins-jobs, gov-standins-housing, gov-standins-elections, gov-standins-other"
@@ -42,3 +42,5 @@ Sent back 2026-10-23 from PR #4146 (branch stopgaps/gov-world): Missing Done-whe
 Sent back 2026-10-23 from PR #4146 (branch stopgaps/gov-world): src/core2/data/stopgaps.json:2204 adds a dated CTO note in shipped data; retain the mechanical resolution and move the dated decision citation to documentation; local test attempts ended after container OOM kills, so no test pass is claimed; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 UTC from PR #4146 (branch stopgaps/gov-world): New src/core2/jobs-benefits.test.ts imports ../simulation/life-places; replace it with the current core place lookup/draw path while preserving the independent draw and unemployment-law assertions, without an allowlist bypass; finish on that branch, merge main into it first.
+
+Dropped by the Oct 25 audit: a roll-up whose children are done or tracked (world-stopgap-jobs-faked-mechanic and the per-engine stopgap rows); PR #4146 is stale.

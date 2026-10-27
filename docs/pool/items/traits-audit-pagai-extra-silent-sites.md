@@ -17,7 +17,7 @@ source: Merger 2 independent audit of PR #5886, October 25
 
 **Rules.** One rule, all 56 places: read the territory and venue records and shared guards instead of naming a place in engine logic. Wire to the world: each explanation cites the actual producer, file and line, or a decision record from a generated year. No dice: do not manufacture random triggers to make the audit count nonzero.
 
-**Done when.** The trait audit on buildBenchWorld reproduces seed 2351539a9f00bfa5 in territory:AS:pagai for 2025-12-03 through 2026-12-03, and a fresh drawn-place case is checked beside it. Each of the four sites has an actual decision or owning result record id, or a gap row giving the exact file and line, the place records that prevent it in that year, and any bounded work needed; the PR body distinguishes measured causes from inference.
+**Done when.** The trait audit on buildBenchWorld reproduces seed 2351539a9f00bfa5 in territory:AS:pagai for 2025-12-03 through 2026-12-03, and a fresh drawn-place case is checked beside it. Each of the four sites has an actual decision or owning result record id, or a gap row giving the exact file and line, the place records that prevent it in that year, and any bounded work needed; the PR body distinguishes measured causes from inference. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** scripts/traits/trait-wiring-audit.ts, scripts/traits/trait-wiring-matrix.ts, data/content/trait-decision-gaps.json, src/core2/modules/parties.ts, src/core2/modules/meetings.ts, src/core2/modules/campaigns.ts
 

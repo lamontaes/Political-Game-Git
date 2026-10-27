@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** An effect is a read, not a record: the employer the line funds posts openings that the jobs engine fills, and each hire is recorded through lawApplied. Sliding scales and causes: positions follow the money (the line's change over the cost of a position, publicPositionAnnualMinor) where the opening staff gives no base. One model, two tiers: named and counted seekers are hired by the same rule.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place whose fire or police employer has no paid staff, raising the line by at least one position's cost posts an opening the jobs engine fills, recorded by lawApplied with the hire's record id, and putting the line back lays that hire off; the test names the place and seed.
+**Done when.** In a played world (buildBenchWorld) in a drawn place whose fire or police employer has no paid staff, raising the line by at least one position's cost posts an opening the jobs engine fills, recorded by lawApplied with the hire's record id, and putting the line back lays that hire off; the test names the place and seed. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-a-staffing.ts, src/core2/budget-line-staffing.test.ts
 

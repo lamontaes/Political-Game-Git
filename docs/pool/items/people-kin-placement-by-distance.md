@@ -3,7 +3,7 @@ id: people-kin-placement-by-distance
 title: "Relatives live as near as real families do, place by place"
 area: people
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/opening-kin.ts, src/core2/data/opening-kin.json, data/research/people/pew-extended-family-proximity-2021.json, data/research/people/pew-parent-proximity-2005.json
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

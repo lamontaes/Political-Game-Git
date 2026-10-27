@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/executive.ts, src/core2/executive.test.ts
 
 **Notes.** Filed Oct 25 by the traits lead while counting the opening's appointment weighings (traits-audit-opening-appointments).
+
+Duplicate of gov-appointments-weigh-counted-adults (Oct 25 audit). Same seam: townPostInput in executive.ts reads full people only.

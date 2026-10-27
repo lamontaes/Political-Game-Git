@@ -4,7 +4,7 @@ title: "Stopgaps in past-elections (generated-identity): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** First row: The prior election's challenger, a law's sponsor or signer who left office before day one, and the predecessors who held a seat are names drawn from the seed, not people of the world.
 
 Oct 20 (pool feeder): spec written; fillInIdentity already exists for state and federal officials (state.ts, with SG-CORE-identity-fill-in-traits resolved), so the work is registering the challengers and predecessors as identities and routing the click through personOrFillIn. The sponsor-or-signer and predecessor names are in past-bodies.ts and the past laws; the builder covers every name that pastIdentityName produces.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

@@ -23,3 +23,5 @@ source: split from gov-stopgap-world-legislating-missing-mechanic by pool feeder
 **Files.** src/core2/data/legislature/federal-answers.json, src/core2/modules/world-legislating.ts, src/core2/modules/officials.ts, src/core2/federal-answers.test.ts
 
 **Notes.** Oct 20 (pool feeder): part 1 of 4 of gov-stopgap-world-legislating-missing-mechanic.
+
+Oct 27 (director lead, #6300): evidence. In five drawn worlds the President's `ownStance` (src/core2/officials-roster.ts) is exactly 0 on every federal question, and all three signature issues are state questions, so since #6300 (Congress hears only what federal law can answer) the opening address has no Congress ask in 12 of 12 drawn places. A President's stance on each federal question, beside the members', brings the Congress section back with no director code.

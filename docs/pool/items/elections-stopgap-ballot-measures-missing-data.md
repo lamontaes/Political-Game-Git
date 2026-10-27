@@ -4,7 +4,7 @@ title: "Stopgaps in ballot-measures (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** First row: On a statewide ballot measure, the voters the world doesn't name vote as even lean bands around the state's 2024 presidential lean, sized by the state's 2024 vote, each band voting its own view of the question (no separa
 
 Oct 20 (pool feeder): spec written; it waits on the counted-group stance rule (elections-counted-voters-read-group-stances, in a PR), which is what 'CORE voter groups populated and PEOPLE's views' now means; the old blocker text is stale since voter groups are populated by statePlaces blocks.
+
+Dropped by the Oct 25 audit: stopgap bookkeeping at priority 3. The row stays in src/core2/data/stopgaps.json and the register, where the engine work is found when it is scheduled; nothing on screen reads this item.

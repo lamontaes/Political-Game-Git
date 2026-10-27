@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: core-private-tuition-yearly-reenrollment
@@ -23,3 +23,5 @@ source: Split from core-stopgap-opening-private-tuition-aggregate-spending by po
 **Files.** src/core2/modules/school.ts, src/core2/opening-private-tuition.ts, src/core2/data/opening-private-tuition.json, src/core2/data/parameters.json, src/core2/private-tuition-choice.test.ts
 
 **Notes.** Split from core-stopgap-opening-private-tuition-aggregate-spending by pool feeder Oct 20; implements the owner ruling of Oct 20 (OWNER-DECISIONS.md, private school); supersedes the question in people-school-choice-views-and-nearby.
+
+Duplicate of core-private-tuition-beliefs-and-schools (Oct 25 audit). Same yearly private-school choice reading faith and nearby schools.

@@ -3,7 +3,7 @@ id: research-people-sourced-parameters
 title: "Research: sourced parameters for births, drives, kin and views"
 area: people
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -34,3 +34,5 @@ claimed-at:
 Oct 24, 2026: split. PR 5868 (item research-people-births-volunteer-rows) delivers the birth age, spacing, gestation and income-fallback rows, volunteer hours and two personality correlations, with nine research files. Still open here: the 14 behavior weights and pulls have no convertible source, and renewalReviewDays is a fixed step, filed as people-renewal-renewalReviewDays-as-cause. All seven stopgaps stay open because each still fakes something its replacement names. No appraisal study with an effect that converts to a channel weight was found for the perception channels, and norms on the five personality dimensions themselves remain. Five builder items on main will read the new research.
 
 Sent back 2026-10-23 from PR #5868 (branch claude/dreamy-tesla-bgi3ui-people): The table leaves renewalReviewDays, fourteen weights and all seven stopgap resolutions unmet; route the completed parameter subset to bounded acceptance while retaining unidentified and mechanic work open; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

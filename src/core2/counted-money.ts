@@ -23,6 +23,7 @@ import {
   paidLeavePremium,
 } from "./paid-leave";
 import { withholdingFor } from "./tax-withholding";
+import { recordIncomeTaxApplied } from "./tax-applied";
 import {
   BUDGETS_MODULE_ID,
   governments,
@@ -91,6 +92,25 @@ function householdById(
   const ix = rt.store.householdOf.get(id);
   const h = ix === undefined ? undefined : rt.store.households[ix];
   return h && !h.gone ? h : undefined;
+}
+
+/**
+ * The people (counted members times weight) and real households a counted
+ * household record stands for, or nothing when the id is not a counted
+ * household here. Engines that apply a law to one record it with this count.
+ */
+export function countedHouseholdStands(
+  api: CoreAPI,
+  householdId: string,
+): { readonly people: number; readonly households: number } | undefined {
+  const rt = residentsRuntime(api.state as CoreState);
+  const h = rt ? householdById(rt, householdId) : undefined;
+  return h
+    ? {
+        people: Math.max(1, rt!.store.weightedCount(h)),
+        households: rt!.store.weightOf(h),
+      }
+    : undefined;
 }
 
 /** The counted household a flow part belongs to, from its key. */
@@ -172,9 +192,18 @@ function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
   let unkeyed = 0;
   let plain = 0;
   let weighted = 0;
-  const add = (h: CountedHousehold | undefined, amount: number) => {
+  const add = (
+    h: CountedHousehold | undefined,
+    amount: number,
+    jobId?: string,
+  ) => {
     if (h && !h.gone && h.group >= 0) {
-      const times = rt.store.weightOf(h);
+      // A wage moves for the jobs its counted job stands for; anything else
+      // for the households its record stands for.
+      const times =
+        jobId === undefined
+          ? rt.store.weightOf(h)
+          : rt.store.headsOfJob(h, jobId);
       out.set(h.group, (out.get(h.group) ?? 0) + amount * times);
       plain += amount;
       weighted += amount * times;
@@ -204,6 +233,7 @@ function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
           ? undefined
           : rt.store.households[rt.store.household[m]!],
         perDay,
+        jobId,
       );
     }
   } else if (flow.amountByContract) {
@@ -432,10 +462,12 @@ export function groupWithholding(
   });
   rt.withholdingYtd.set(ytdKey, ytd + perWorker);
   const out: Withheld[] = [];
+  const kept: (typeof lines)[number][] = [];
   for (const line of lines) {
     if (row.placeId !== town && line.level === "city") continue;
     const accountId = accounts.get(line.jurisdiction);
     if (!accountId) continue;
+    kept.push(line);
     const series = PAYROLL_TAX_SERIES[line.tax];
     if (series && line.minor > 0)
       lawApplied(api, {
@@ -455,6 +487,13 @@ export function groupWithholding(
       tax: line.tax,
     });
   }
+  // The group's workers were taxed by the law in force, as a full worker is.
+  recordIncomeTaxApplied(api, {
+    targetId: row.id,
+    target: "group",
+    count: workers,
+    lines: kept,
+  });
   return out;
 }
 
@@ -478,7 +517,8 @@ export function workersByGroup(
     const m = job ? rt.store.countedMember(job.personId) : undefined;
     if (m === undefined) continue;
     const h = rt.store.households[rt.store.household[m]!]!;
-    out.set(h.group, (out.get(h.group) ?? 0) + rt.store.weightOf(h));
+    // As many workers as the job is paid for (`weighFlow`).
+    out.set(h.group, (out.get(h.group) ?? 0) + rt.store.headsOfJob(h, jobId));
   }
   return out;
 }
@@ -719,6 +759,20 @@ export function countedHousingInArrears(
   if (!rt || ix === undefined) return false;
   const row = rt.housingMonth.get(rt.store.households[ix]!.group);
   return !!row && row.paid < row.asked;
+}
+
+/**
+ * The counted group, by its own id, that holds a counted household's money: the
+ * name an engine records a payment under when it says whom it reached (the
+ * group's fund account carries the same id).
+ */
+export function countedGroupIdOf(
+  api: CoreAPI,
+  householdId: string,
+): string | undefined {
+  const rt = residentsRuntime(api.state as CoreState);
+  const h = rt ? householdById(rt, householdId) : undefined;
+  return rt && h ? rt.store.groups[h.group]?.id : undefined;
 }
 
 /**

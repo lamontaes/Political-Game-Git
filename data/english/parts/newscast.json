@@ -24,7 +24,8 @@
     "age": "An age, computed from the birth record.",
     "years": "A count of years, computed from dated records.",
     "alert": "A weather alert from the hazard record, as the Weather Service names it (\"Tornado Watch\").",
-    "until": "When the alert ends, from the hazard record (\"5 PM EDT\")."
+    "until": "When the alert ends, from the hazard record (\"5 PM EDT\").",
+    "area": "The area an economy figure covers, from the regional record: a metro area, a state outside its metros, or a state or territory."
   },
   "maxWords": 16,
   "mining": {
@@ -2458,10 +2459,10 @@
       }
     },
     {
-      "key": "newscast.story-economy.the-unemployment-rate-is-percent-percent",
+      "key": "newscast.story-economy.the-unemployment-rate-in-area-is-percent-percent",
       "move": "story-economy",
       "kind": "spoken",
-      "text": "The unemployment rate is {percent} percent.",
+      "text": "The unemployment rate in {area} is {percent} percent.",
       "uses": [
         {
           "move": "story-economy",
@@ -2470,49 +2471,33 @@
           "choice": "economy"
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 6
-      },
       "shippable": true,
-      "source": {
-        "document": "Statement on the Bureau of Labor Statistics Report on the Employment Situation in July",
-        "date": "2023-08-04",
-        "granule": "DCPD-202300673",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202300673",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
       }
     },
     {
-      "key": "newscast.story-economy.the-unemployment-rate-fell-to-percent-percent",
+      "key": "newscast.story-economy.the-unemployment-rate-in-area-fell-to-percent-percent",
       "move": "story-economy",
       "kind": "spoken",
-      "text": "The unemployment rate fell to {percent} percent.",
+      "text": "The unemployment rate in {area} fell to {percent} percent.",
       "uses": [
         {
           "move": "story-economy",
           "subject": "story",
           "role": "economy",
-          "choice": "economy"
+          "choice": "economy",
+          "requiresFacts": ["unemployment-down"]
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
       "shippable": true,
-      "source": {
-        "document": "Administration of Barack Obama, 2015 Remarks on the Keystone XL Pipeline Project November 6, 2015 Good morning, everybody. Several years ago, the State Department began a review process for the propos",
-        "date": "2015-11-06",
-        "granule": "DCPD-201500787",
-        "url": "https://www.govinfo.gov/app/details/DCPD-201500787",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Opus (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

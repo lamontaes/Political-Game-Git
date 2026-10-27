@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Sliding scales and causes: the flat rate comes from the sponsor's views and the place's own old schedule, never one national number, and the sourced conversion band only checks the totals. Wire to the world: withholding for full and counted workers reads the enacted rate, and an affected worker receives the explanation with a director line.
 
-**Done when.** In a drawn place from all 56 in the played world (buildBenchWorld, seed named in the PR), a repeal of a graduated income tax enacts the sponsor's rate from the provision, the law row id shows that rate, a named worker's withholding record reads it, and SG-GOV-REACH-B-flat-tax-replacement is resolved in src/core2/data/stopgaps.json, shown by src/core2/law-reach-group-b.test.ts.
+**Done when.** In a drawn place from all 56 in the played world (buildBenchWorld, seed named in the PR), a repeal of a graduated income tax enacts the sponsor's rate from the provision, the law row id shows that rate, a named worker's withholding record reads it, and SG-GOV-REACH-B-flat-tax-replacement is resolved in src/core2/data/stopgaps.json, shown by src/core2/law-reach-group-b.test.ts. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/law-reach/group-b-money.ts, src/core2/modules/legislature.ts, src/core2/data/laws/reach-group-b-parameters.json, data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json
 

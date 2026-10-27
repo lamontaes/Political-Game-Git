@@ -3,7 +3,7 @@ id: people-coverage-commuter-employer-size
 title: "Employer health coverage ranks a commuter's outside employer by its commuters in town, so a spouse's new commuter job takes the household's policy"
 area: people
 kind: bug
-priority: 2
+priority: 3
 size: S
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/coverage.ts, src/core2/health-coverage-counted.test.ts
 
 **Notes.** TODO
+
+Deferred Oct 25: nothing on screen reads it yet.

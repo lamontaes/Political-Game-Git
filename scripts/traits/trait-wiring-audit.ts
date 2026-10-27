@@ -13,6 +13,11 @@
  * election in the first year, so voting, canvassing, donating, polls and the
  * press only run in such a window. The window goes in the output's `span`.
  *
+ * Decisions weighed while the world is built (the opening's appointments,
+ * for one) are counted apart, in the output's `opening`, with the first
+ * records of each kind the build left: the played year's counts never
+ * include them.
+ *
  * node --import tsx scripts/traits/trait-wiring-audit.ts <seed> <played|flat|mirror> <out.json> [days] [placeKey]
  */
 import { writeFileSync } from "node:fs";
@@ -51,8 +56,31 @@ const MAX_RACE_WAIT_DAYS = 730;
 const DAYS_AFTER_RACE = 30;
 const electionWindow = process.env.TRAIT_AUDIT_ELECTION === "1";
 
+/** Up to this many example calls (and opening records) are kept for each decision id, chooser site or record kind. */
+const EXAMPLES_PER_SITE = 3;
+/** Decisions weighed while the world is built, apart from the played year. */
+const openingFormula = new Map<string, { calls: number }>();
+const openingChooser = new Map<string, { calls: number }>();
+/** Counts the build's decisions; off with TRAIT_PROBE=off, like the year's. */
+function countOpening(): void {
+  openingFormula.clear();
+  openingChooser.clear();
+  if (process.env.TRAIT_PROBE === "off") return;
+  const tally = (into: Map<string, { calls: number }>, key: string) => {
+    const row = into.get(key);
+    if (row) row.calls++;
+    else into.set(key, { calls: 1 });
+  };
+  setTraitProbe({
+    chooser: (row) =>
+      tally(openingChooser, [...new Set(row.actionIds)].sort().join("|")),
+    formula: (row) => tally(openingFormula, row.decisionId),
+  });
+}
+
 const t0 = performance.now();
 let start = gameStart;
+countOpening();
 let world = buildBenchWorld(seed, gameStart, { twoLevel: true, placeKey });
 let nextRace: string | null = null;
 if (electionWindow) {
@@ -75,10 +103,19 @@ if (electionWindow) {
     .sort()
     .at(-1)!;
   // The window's world is built on its first day, as the game builds a world.
-  if (start !== gameStart)
+  if (start !== gameStart) {
+    countOpening();
     world = buildBenchWorld(seed, start, { twoLevel: true, placeKey });
+  }
 }
+setTraitProbe(undefined);
 const core = world.core;
+/** The first ids of each kind of record the build left (the opening's appointments, for one). */
+const openingRecords: Record<string, string[]> = {};
+for (const record of core.durableLog.values()) {
+  const kept = (openingRecords[record.kind] ??= []);
+  if (kept.length < EXAMPLES_PER_SITE) kept.push(record.id);
+}
 const buildSeconds = (performance.now() - t0) / 1000;
 
 /**
@@ -141,8 +178,6 @@ interface SiteTally {
   byLean: Record<string, { lean: number; picked: boolean }[]>;
 }
 const chooser = new Map<string, SiteTally>();
-/** Up to this many example calls are kept for each decision id and chooser site. */
-const EXAMPLES_PER_SITE = 3;
 interface Example {
   actorId: string | null;
   date: string;
@@ -207,6 +242,13 @@ interface FormulaTally {
   samples: { bare: number; lean: number }[];
 }
 const formula = new Map<string, FormulaTally>();
+/** Decisions whose trait term joins a sum or scales a size: kept results with and without the term, by lean. */
+interface OutcomeTally {
+  unit: "probability" | "size";
+  calls: number;
+  samples: { lean: number; value: number; flat: number }[];
+}
+const outcomes = new Map<string, OutcomeTally>();
 /** Each full person's picks by action id (opening people only: twins share them). */
 const picks = new Map<string, Map<string, number>>();
 
@@ -313,6 +355,25 @@ if (process.env.TRAIT_PROBE !== "off")
           lean: Math.round(row.lean * 1e4) / 1e4,
         });
     },
+    outcome(row) {
+      let t = outcomes.get(row.decisionId);
+      if (!t)
+        outcomes.set(
+          row.decisionId,
+          (t = { unit: row.unit, calls: 0, samples: [] }),
+        );
+      t.calls++;
+      // Every call while few, then every tenth, as the formula samples are kept.
+      if (
+        t.samples.length < SAMPLE_CAP &&
+        (t.calls < SAMPLE_CAP / 2 || t.calls % 10 === 0)
+      )
+        t.samples.push({
+          lean: Math.round(row.lean * 1e4) / 1e4,
+          value: Math.round(row.value * 1e6) / 1e6,
+          flat: Math.round(row.flat * 1e6) / 1e6,
+        });
+    },
   });
 
 const t1 = performance.now();
@@ -415,6 +476,11 @@ writeFileSync(
     // Only with TRAIT_AUDIT_ELECTION=1: the race the window was drawn around.
     ...(electionWindow ? { electionWindow: { nextRace, gameStart } } : {}),
     buildSeconds: Math.round(buildSeconds),
+    opening: {
+      chooser: Object.fromEntries(openingChooser),
+      formula: Object.fromEntries(openingFormula),
+      records: openingRecords,
+    },
     yearSeconds: Math.round(yearSeconds),
     fullPeopleStart: opening.size,
     fullPeopleEnd: core.people.size,
@@ -425,6 +491,7 @@ writeFileSync(
       ]),
     ),
     formula: Object.fromEntries(formula),
+    outcomes: Object.fromEntries(outcomes),
     events,
     records: recordsOfYear(core),
     examples: {

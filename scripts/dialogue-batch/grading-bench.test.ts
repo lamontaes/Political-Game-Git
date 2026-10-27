@@ -141,6 +141,9 @@ describe("the bench's dedupe rules (Order 2, section 2)", () => {
     expect(DATE_IN_SPEECH.test("I started on March 3.")).toBe(true);
     expect(DATE_IN_SPEECH.test("It was 2019.")).toBe(true);
     expect(DATE_IN_SPEECH.test("A few months ago.")).toBe(false);
+    // A month's name alone is a given name, not a date.
+    expect(DATE_IN_SPEECH.test("Hey, April.")).toBe(false);
+    expect(DATE_IN_SPEECH.test("I started in February 2015.")).toBe(true);
     expect(BARE_ACK.test("Okay.")).toBe(true);
     expect(BARE_ACK.test("Okay, what happened?")).toBe(false);
   });

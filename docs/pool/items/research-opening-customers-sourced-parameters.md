@@ -3,7 +3,7 @@ id: research-opening-customers-sourced-parameters
 title: "Research: sourced parameters for the opening's customers and public buyers"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -32,3 +32,5 @@ claimed-at:
 Oct 24, 2026: split. PR 5864 (item research-opening-customers-cleaning-coverage) delivers the public cleaning share (0.124), the buyer coverage (0.8), sampling intervals for the 60 household service means, and four research files for buyer classes, county identity and public building spending. Still open here: openingCustomerPeriodMonths and openingCustomerAgreementLeadDays stay TUNABLE because no published table gives them. The 8 national service components, the size top code and the 104 Census and BEA rows have no spread to give. All five stopgaps stay open as estimates or mechanics, and the cleaning share and coverage were not yet seen in a played year, because the drawn town had no building-services firm.
 
 Sent back 2026-10-23 from PR #5864 (branch claude/dreamy-tesla-bgi3ui-opening-customers): Two parameter rows, required spreads and all five stopgap resolutions remain unmet, and the year has no public-cleaning reader; give the completed research bounded acceptance with positive generated-world proof; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

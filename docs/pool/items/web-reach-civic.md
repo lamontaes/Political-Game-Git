@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: a link counts only when the owning engine reads the factor at the moment it decides or pays. One model, two tiers: full and counted people take the same factor by the same rule, with researched moderators. Research before building: size, lag and spread come from the link's citation, never a tuned guess.
 
-**Done when.** `src/core2/outcome-web-twins.test.ts` in a drawn place (seed named) shows each link in this family moving a record kind outside the web's own tables after its lag, and `scripts/outcome-web/effect-matrix.ts` on a played year of `buildBenchWorld` grades it as reaching, with one record id per link in the PR body; any link that stays unwired keeps a specific stopgap row in the unwired list.
+**Done when.** `src/core2/outcome-web-twins.test.ts` in a drawn place (seed named) shows each link in this family moving a record kind outside the web's own tables after its lag, and `scripts/outcome-web/effect-matrix.ts` on a played year of `buildBenchWorld` grades it as reaching, with one record id per link in the PR body; any link that stays unwired keeps a specific stopgap row in the unwired list. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/voting.ts, src/core2/electorate-inputs.ts, src/core2/outcome-web-reach.ts
 
@@ -26,3 +26,7 @@ claimed-at:
 Sent back 2026-10-24 from PR #5927 (branch claude/web-reach-civic): First Done-when row admits a hand-inserted scandal story and no played year; static carriedBy/source-string checks supply neither annual engine-read/voter record IDs nor the second-row proof; provide annual witnesses for existing readers or bound audit-only completion while retaining this acceptance open; finish on that branch, merge main into it first.
 
 Oct 24, effects lead: the carried-link audit moved to `web-civic-carried-links-recorded` (#5927). This item's played-year acceptance stays open: the two readers act only in a race, and a played year from January 20, 2025 had no world race in Shawnee, Ohio (seed `civic24a`). The economy term reaches only the president's party's candidates, so most places' first witness is the November 2026 general election, about two years of play; the scandal term needs a candidate whose bribe or conviction story reached voters before that race.
+
+Sent back 2026-10-25 from PR #6020 (branch claude/web-reach-civic-played): the new test checks only candidate-key presence in ballot appeal, not the economy-bearing standing being read, and has no positive assertion when a scandal story exists; add the claimed causal assertions and give a completed economy-only slice its own item while the full family stays open; finish on that branch, merge main into it first.
+
+Oct 26: PR #6020 merged at 1192581c861f4206895c93413e9f9a06c809e021 only for completed web-civic-economy-played-witness. Merger 0 independently passed Poipu HI and failed the same full test/input by removing the economy term from the actual ballot consumer, leaving result rows and assertions unchanged. No heard-story positive was observed; this family and web-civic-scandal-played-witness remain open.

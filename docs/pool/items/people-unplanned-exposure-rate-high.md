@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/data/renewal/parameters.json, src/core2/births-counted.ts, src/core2/modules/renewal.ts
 
 **Notes.** Measured on PR #5757's branch (claude/unplanned-counted-tier) over eight drawn towns: decisions per counted woman ranged 0.05 to 0.31 a year where women were counted.
+
+Duplicate of people-unplanned-exposure-calibration (Oct 25 audit). Same parameter, renewalUnplannedExposure.

@@ -5,6 +5,8 @@ import {
   condenseCircleDecisions,
   queueDecisionDetail,
 } from "./decision-detail";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { parameter } from "./parameters";
 import { generatedOpening } from "./tooling/generated-world";
@@ -72,5 +74,67 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
     expect(kept.reasonKey).toBeDefined();
     expect(kept.actorId).toBe(core.playerId);
     expect(recent.some((row) => row.decision!.scores !== undefined)).toBe(true);
+  }, 300_000);
+
+  it("drops a circle member's weighed choices after the detail window and their other entries after circleActRetentionMonths, keeping the player's own", () => {
+    // Every module installed, so drives, campaigns and the news write the
+    // circle's weighed choices and entries as in play.
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      placeKey: place.key,
+      twoLevel: true,
+      settings: { population: 1500 },
+    });
+    advanceCore(core, daysAfterStart(120));
+    const player = core.playerId!;
+    const routine = [...core.durableLog.values()].filter(
+      (row) =>
+        row.visibility === "circle" &&
+        !row.publicRecord &&
+        !row.news &&
+        row.actorId !== player &&
+        !row.personIds.includes(player),
+    );
+    const weighed = routine.filter((row) => row.kind === "person.weighed");
+    const entries = routine.filter((row) => !row.decision);
+    const own = [...core.durableLog.values()].filter(
+      (row) => row.actorId === player || row.personIds.includes(player),
+    );
+    expect(weighed.length, "weighed choices by the circle").toBeGreaterThan(0);
+    expect(entries.length, "circle entries without a decision").toBeGreaterThan(
+      0,
+    );
+    expect(own.length, "the player's own entries").toBeGreaterThan(0);
+    const later = (move: (day: Date) => void) => {
+      const day = new Date(`${core.date}T00:00:00Z`);
+      move(day);
+      core.date = day.toISOString().slice(0, 10);
+      condenseCircleDecisions(core);
+    };
+    const gone = (rows: typeof routine) => {
+      for (const row of rows) {
+        expect(core.durableLog.has(row.id), row.id).toBe(false);
+        expect(core.logByKind.get(row.kind)?.has(row.id) ?? false, row.id).toBe(
+          false,
+        );
+      }
+    };
+    // Past the detail window the weighed choices are gone, the entries stay.
+    later((day) =>
+      day.setUTCDate(
+        day.getUTCDate() + parameter("circleDecisionDetailDays") + 1,
+      ),
+    );
+    gone(weighed);
+    for (const row of entries)
+      expect(core.durableLog.has(row.id), row.id).toBe(true);
+    // Past the retention months the entries are gone too.
+    later((day) =>
+      day.setUTCMonth(
+        day.getUTCMonth() + parameter("circleActRetentionMonths") + 1,
+      ),
+    );
+    gone(entries);
+    for (const row of own)
+      expect(core.durableLog.has(row.id), row.id).toBe(true);
   }, 300_000);
 });

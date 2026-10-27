@@ -3,7 +3,7 @@ id: gov-fee-level-by-bill
 title: "A council bill can set a government fee's level (a park or transit fee), and the charges paid move with it"
 area: gov
 kind: feature
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/budgets-service-charges.ts,src/core2/modules/budgets.ts,src/core2/data/stopgaps.json
 
 **Notes.** Split from gov-outside-revenue-fees (#5926). The owner question is under Open in docs/coordination/OWNER-DECISIONS.md.
+
+Deferred Oct 25: nothing on screen reads it yet.

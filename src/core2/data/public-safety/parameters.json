@@ -326,6 +326,58 @@
         "citation": "BJS felony sentences by offense."
       }
     },
+    "convictedShare.lowlevel": {
+      "value": 0.333,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Data on Adjudication of Misdemeanor Offenses: Results from a Feasibility Study (NCJ 305157, November 2022, https://bjs.ojp.gov/media/67951/download), table 8: across the 8 courts with disposition data, a mean of 33.3 percent of misdemeanor cases ended in conviction, 58.0 percent in dismissal and 5.1 percent in deferred adjudication.",
+      "estimatedFrom": "Mean conviction share of misdemeanor dispositions across eight courts; all misdemeanors, not only the six offenses of the low-level class, drug possession included. The study gives dispositions and sentences for all misdemeanors together and none by offense, so drug possession takes the same row as the other five.",
+      "spread": {
+        "low": 0.043,
+        "high": 0.599,
+        "unit": "share of cases",
+        "citation": "BJS NCJ 305157 table 8, the lowest and highest court."
+      }
+    },
+    "dispositionMonths.lowlevel": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "The shortest the monthly case flow can take to close a case (it closes cases on the sixth of a month). The BJS misdemeanor feasibility study (NCJ 305157) reports no time from arrest to disposition.",
+      "spread": {
+        "low": 1,
+        "high": 3,
+        "unit": "months",
+        "citation": "Checked against the felony months above (2 to 4) and the monthly step; a minor charge is not slower than a felony."
+      }
+    },
+    "incarceratedShare.lowlevel": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Data on Adjudication of Misdemeanor Offenses (NCJ 305157, November 2022), page 11: \"For the remaining five courts, the average percentage of cases resulting in a sentence of imprisonment was 50%, with a range of 16% to 82%\"; probation in 25 percent and a fine in 36 percent.",
+      "estimatedFrom": "Mean share of sentenced misdemeanor cases with a jail term across five courts; all misdemeanors, not only the six offenses of the low-level class, drug possession included. The study gives dispositions and sentences for all misdemeanors together and none by offense, so drug possession takes the same row as the other five.",
+      "spread": {
+        "low": 0.16,
+        "high": 0.82,
+        "unit": "share of convictions",
+        "citation": "BJS NCJ 305157, the lowest and highest of the five courts."
+      }
+    },
+    "prisonShare.lowlevel": {
+      "value": 0,
+      "tag": "SOURCED",
+      "citation": "Bureau of Justice Statistics, Data on Adjudication of Misdemeanor Offenses (NCJ 305157, November 2022): \"BJS defined a misdemeanor as any offense that has a maximum sentence of incarceration between 1 day and 1 year in jail.\" A misdemeanor term is a jail term, never prison."
+    },
+    "jailSentenceDays.lowlevel": {
+      "value": 32,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Jail Inmates in 2022 - Statistical Tables (December 2023, https://bjs.ojp.gov/document/ji22st.pdf): \"persons admitted to jails spent an average of 32 days in custody before release\" (July 2021 to June 2022).",
+      "estimatedFrom": "Average time in jail of everyone admitted, pretrial included, for all offenses; a low-level term is no longer than the average, so this overstates it.",
+      "spread": {
+        "low": 19,
+        "high": 36,
+        "unit": "days",
+        "citation": "BJS Jail Inmates in 2022, average time in jail for females (19 days) and males (36 days)."
+      }
+    },
     "jailSentenceDays": {
       "value": 45,
       "tag": "ESTIMATED",
@@ -672,6 +724,12 @@
     }
   },
   "ageProfile": {
+    "lowLevel": {
+      "tag": "ESTIMATED",
+      "source": "FBI, Crime in the United States 2019, Table 38 (arrests by age; copy read at https://learninglink.oup.com/protected/files/content/file/1621790390873-1--Arrests-by-Age-2019.pdf): each band's share of arrests for disorderly conduct, drunkenness, liquor laws, vagrancy and curfew and loitering violations, over its share of arrests for violent and property crime, times the band's ratio in bands below. Drug possession takes the same ratios: the table's only drug row, 'Drug abuse violations' (1,067,764 arrests), counts sale and possession together and gives possession no row of its own. Age 12 is taken as a third of the table's 10 to 12 group.",
+      "spread": "plus or minus 30 percent per band",
+      "ratios": [0.98, 2.92, 3.37, 2.15, 1.25, 0.76, 0.36]
+    },
     "tag": "ESTIMATED",
     "source": "FBI, Crime in the United States 2019, Table 38 (arrests by age) against Census population by age: each age band's arrest share over its population share, for violent and property offenses together.",
     "spread": "plus or minus 30 percent per band",
