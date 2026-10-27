@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-dev-mode-one-advanced-start
 pr: #6232
 blocked-on:
