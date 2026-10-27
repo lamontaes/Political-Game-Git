@@ -5,14 +5,14 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/director-household-quiet-day
+pr: #6312
 blocked-on:
 source: "words-and-scenes lead, Oct 27, probing the Oct 26 home talks (deliverable 7 of docs/work-orders/lead-words-scenes-2026-10-26.md)"
 lead: director
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T12:16:26.251Z
 ---
 
 **What.** In Fananganan, Northern Mariana Islands (seed `home-a:0`, February 9, 2025), Talk with either household member is a single line: "We can pick this up later." On a day when nothing new is on record, the conversation has no subject. So it closes at once. The owner heard talks that said nothing on Oct 26. A player who presses Talk expects the person to say something about the two of them or the day they had.
@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json
 
 **Notes.** The lines are drafted and ship on the words side, keyed to the facts above: "Long day?" [dayDone] / "You were up early." [dayDone] / "Haven't seen much of you since {lastTogether}." / "It's been a quiet {weekday}." The replies are tired, fine, wanting to talk, and wanting to be left alone.
+
+The full drafted set (words lead, Oct 27) is on branch `words/home-talk-lines` at e356f24e71, in `data/english/parts/conversation.json`. The words lead ships it in the same change that passes the facts.

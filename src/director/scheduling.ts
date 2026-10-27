@@ -18,6 +18,7 @@ import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
+import { stakeholders } from "./family-stake";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -42,6 +43,8 @@ export interface SituationCause {
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
+    /** With threadTurn: the thread took this turn earlier (a tie that grew back after it soured). */
+    afterTurn?: string;
     /** The cause's record names the moment's person among its own people. */
     selfNamed?: boolean;
     /**
@@ -68,6 +71,8 @@ export interface SituationCause {
   };
   awaitingProducer?: string;
   causeEngine?: string;
+  /** The record kind (or kinds, comma-joined) the cause reads, for the scene web. */
+  causeRecord?: string;
   reason?: string;
   bind?: Readonly<Record<string, string>>;
   opener?: string;
@@ -97,6 +102,12 @@ export interface SituationType {
    * by the repeat window.
    */
   eachCause?: boolean;
+  /**
+   * What the repeat window tells scenes apart by besides the cast: "bill"
+   * for a scene about one bill (a vote asked for), so the same two people
+   * about another bill on a later day is a new scene.
+   */
+  repeatsBy?: string;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -124,6 +135,12 @@ export interface SituationLibrary {
     ownRecordScenes?: readonly string[];
     /** Where an own-record scene is met that day (home by default). */
     ownRecordSettings?: readonly string[];
+    /**
+     * Label prefixes of moments met where the player is that day (scenes
+     * from circumstance): staged on the day whatever their impact, their
+     * spacing kept by their producer (circumstance.ts).
+     */
+    metWhereYouAre?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -301,6 +318,17 @@ export function causeMatches(
         ),
     );
     if (!turned) return false;
+    if (match.afterTurn !== undefined) {
+      const earlier = moment.counterpartIds.some((id) =>
+        book.threads
+          .get(id)
+          ?.turns.some(
+            (turn) =>
+              turn.momentId !== moment.id && turn.turn === match.afterTurn,
+          ),
+      );
+      if (!earlier) return false;
+    }
   }
   return true;
 }
@@ -360,10 +388,20 @@ function fillRole(
       return moment.counterpartIds.slice(zero, one);
     case "household":
       return household();
+    case "household-stake":
+      // The household members the filing puts something of theirs at risk
+      // for, strongest first; none, and the scene is not staged.
+      return stakeholders(core, moment.personId, moment.causeId, household());
     case "decider": {
       // Who decided the cause, from its record's facts (a layoff's owner): a living person, never the subject.
       const id = core.durableLog.get(moment.causeId)?.facts?.decidedBy;
       return id && id !== moment.personId && alive(core, id) ? [id] : [];
+    }
+    case "cause-named": {
+      // The first person the cause record names, living or not (whom a
+      // death is about), never the subject.
+      const id = core.durableLog.get(moment.causeId)?.personIds[zero];
+      return id && id !== moment.personId && core.people.has(id) ? [id] : [];
     }
     case "kin":
       return closest(
@@ -378,6 +416,24 @@ function fillRole(
       );
     case "coworkers":
       return coworkers();
+    case "former-coworkers": {
+      // The people still working where the cause's job was (a last day).
+      const left = core.jobs.get(moment.causeId);
+      if (!left) return [];
+      return [
+        ...(core.finance.jobsByOrganization.get(left.organizationId) ?? []),
+      ]
+        .map((id) => core.jobs.get(id)!)
+        .filter(
+          (row) =>
+            row.endsAt === undefined &&
+            row.personId !== moment.personId &&
+            !taken.has(row.personId),
+        )
+        .map((row) => row.personId)
+        .filter((id) => alive(core, id))
+        .sort();
+    }
     case "present":
       return setting === "home"
         ? household()
@@ -433,7 +489,9 @@ function resolveSetting(
         : undefined;
     case "workplace": {
       // A job that just ended is no longer on the person; the cause's record names the employer.
+      // A moment caused by a job (a first or last day) is at that job's employer.
       const employer =
+        core.jobs.get(moment.causeId)?.organizationId ??
         job?.organizationId ??
         core.durableLog.get(moment.causeId)?.facts?.organizationId;
       return employer ? { kind, recordId: employer } : undefined;
@@ -629,6 +687,17 @@ export function scheduleMoment(
       .flatMap((role) => role.personIds)
       .sort()
       .join(",")}`;
+  // A type whose scene is about one bill (a vote asked for) repeats by the
+  // bill: on an earlier day in the window the same people about another bill
+  // is a new scene; the same day still folds into one sitting.
+  const byBill = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.repeatsBy ===
+    "bill";
+  const billOf = (momentId: string) =>
+    core.durableLog.get(book.momentsById.get(momentId)?.causeId ?? "")?.facts
+      ?.billId ?? "";
+  const windowKey = (row: SceneBinding, momentId: string) =>
+    byBill(row) ? `${castOf(row)}|${billOf(momentId)}` : castOf(row);
   const sittingToday = new Set(
     book.schedule
       .filter(
@@ -639,7 +708,13 @@ export function scheduleMoment(
           entry.momentId !== moment.id &&
           entry.outcome !== "journal-line",
       )
-      .flatMap((entry) => entry.bindings.map(castOf)),
+      .flatMap((entry) =>
+        entry.bindings.map((row) =>
+          entry.date === moment.date
+            ? castOf(row)
+            : windowKey(row, entry.momentId),
+        ),
+      ),
   );
   const wanted = allowed
     ? staged.filter((row) => allowed.has(row.typeKey))
@@ -647,7 +722,10 @@ export function scheduleMoment(
   const eachCause = (row: SceneBinding) =>
     library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
   const bindings = wanted.filter(
-    (row) => eachCause(row) || !sittingToday.has(castOf(row)),
+    (row) =>
+      eachCause(row) ||
+      (!sittingToday.has(castOf(row)) &&
+        !sittingToday.has(windowKey(row, moment.id))),
   );
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:
@@ -694,6 +772,17 @@ export function scheduleMoment(
     ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
       moment.selfNamed === true &&
       bindings.some((row) => met.has(row.setting.kind)));
+  // A tie that turned with someone the person spent time with (a friendship
+  // grown over many meetings, a falling-out) is met then, with them: its
+  // cause is the relationship record, contacted on the day its change was
+  // measured or the day before, as a day's ties are read once it closes.
+  const contacted = moment.label.startsWith("tie:")
+    ? core.relationships.get(moment.causeId)?.lastContactDate
+    : undefined;
+  const tieMet =
+    !!contacted &&
+    contacted >= addDays(makeIsoDate(moment.date), -one) &&
+    contacted <= moment.date;
   const waits =
     bindings.length > zero &&
     bindings.every(
@@ -701,9 +790,15 @@ export function scheduleMoment(
     );
   // Only a staged scene stops the day: a moment no situation stages has
   // nothing to show or answer, so it is the journal's line, never a stop.
+  const metHere = (library.scheduling.metWhereYouAre ?? []).some((prefix) =>
+    moment.label.startsWith(prefix),
+  );
   const interrupt =
     bindings.length > zero &&
-    (moment.impact >= options.interruptImpact || familyNews) &&
+    (moment.impact >= options.interruptImpact ||
+      familyNews ||
+      metHere ||
+      tieMet) &&
     !waits;
   if (!found.length)
     coverage ??= {
