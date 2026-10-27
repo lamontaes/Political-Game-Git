@@ -6,6 +6,9 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
+- 2026-10-27 11:05 · Claude Sonnet 5.5 · play-first-06-created-look-in-every-scene · play-first/play-first-06-created-look-in-every-scene · 8b1d706e26 · PR opened #6283 · a merger checks #6283 (title Continue shows the created face); gap: the player's own person card and the opening's family chapter not separately checked or screenshotted · none
+- 2026-10-27 11:05 · Claude Sonnet 5.5 · play-first-11-people-web-uses-created-look · play-first/play-first-11-people-web-uses-created-look · e050ab8aee · PR opened #6286 · a merger checks #6286 (web center reads the saved look; main already passed in the home room) · none
+- 2026-10-27 11:05 · Claude Sonnet 5.5 · play-stop-33-creator-offers-hair · none · none · blocked · waits on art-hair-pieces-fit-the-figure-heads (filed, lead: art); play-stop-15 stays with #6096 · art lead
 - 2026-10-27 11:30 · Claude Sonnet 5.5 (lane agent 5) · play-legislature-floor-date-and-whip · play-first/play-legislature-floor-date-and-whip · PR opened #6285 · a merger checks #6285; the state-legislator and House drafts need a seatable person (needs-from: laws-effects, same as #6232); the "voted" line is wired but not captured past a floor week · none
 - 2026-10-27 11:10 · Claude Sonnet 5.5 (lane agent 5) · play-stop-47-calendar-skip-forward-on-a-future-day · play-first/play-stop-47-calendar-skip-forward-on-a-future-day · PR opened #6281 · a merger checks #6281 · none
 - 2026-10-27 10:55 · Claude Sonnet 5.5 (lane agent 5) · play-stop-42-news-story-opens-as-the-paper · play-first/play-stop-42-news-story-opens-as-the-paper · ready for recheck #6222 · took the fixer's locator commit, merged main; news.browser passes; continue-news.browser fails on clean main too (line 108, region-rate sentence not in the kept record; tied to main's storyHeadline change): needs its own item · continue-news red on main

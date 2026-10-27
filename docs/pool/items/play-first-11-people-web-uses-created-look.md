@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-first-11-people-web-uses-created-look
-pr:
+pr: #6286
 blocked-on:
 after:
 source: added with npm run pool -- add
