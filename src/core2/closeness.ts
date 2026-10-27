@@ -235,6 +235,53 @@ export function openingClosenessHours(
 }
 
 /**
+ * The relation one person's own past facts record for a relative
+ * (`family:<relation>` naming the other): the latest one recorded, since a
+ * partnership that ended is a later fact than the partnership. Undefined when
+ * none, or when the latest is a tie that has ended (a former partner).
+ */
+function recordedRelation(
+  person: Pick<PersonState, "pastFacts"> | undefined,
+  otherId: PersonId,
+): string | undefined {
+  const facts = person?.pastFacts ?? [];
+  for (let index = facts.length - 1; index >= 0; index -= 1) {
+    const fact = facts[index]!;
+    if (
+      fact.facts?.otherPersonId !== otherId ||
+      !fact.kind.startsWith(data.familyFactPrefix)
+    )
+      continue;
+    const relation = fact.kind.slice(data.familyFactPrefix.length);
+    return data.formerKinRelations.includes(relation) ? undefined : relation;
+  }
+  return undefined;
+}
+
+/**
+ * How two people are family today, from the records: the relation either one
+ * records for the other (parent, sibling, partner, aunt-or-uncle and the
+ * rest of the opening family, and the partners and children that come after),
+ * else the household relation for two people who share a home. Null when
+ * nothing joins them. A relative still in the wider population is read from
+ * the full person's own facts, so a counted relative counts the same.
+ */
+export function familyRelation(
+  core: Pick<CoreState, "people">,
+  a: PersonId,
+  b: PersonId,
+): string | null {
+  if (a === b) return null;
+  const left = core.people.get(a),
+    right = core.people.get(b);
+  const recorded = recordedRelation(left, b) ?? recordedRelation(right, a);
+  if (recorded) return recorded;
+  return left && right && left.householdId === right.householdId
+    ? data.householdRelation
+    : null;
+}
+
+/**
  * Opening closeness between two people the records say shared a school class
  * or a workgroup (the opening peer circles), in hours of time together: the
  * hours it takes to become a casual friend, faded since the day the shared

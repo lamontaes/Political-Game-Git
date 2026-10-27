@@ -54,6 +54,7 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
    - `>= 0`, or a loop over a set that can be empty;
    - a `continue` that can skip every case;
    - a fixture you built by hand standing in for the generated world.
+   - **A row you marked Not done or Not shown is not a finished PR.** Before opening it, run the row (screen drawn places first for one where the count is above zero, then name the place, seed and record id), or amend the item's Done-when to the slice you built and file a bounded item for the rest. A fixture is not the played chain, and a row whose evidence the body itself contradicts ("reach 0") fails the same way (Oct 27: #6216, #6326 and #6331, each sent back for one such row).
 3. **Never weaken a test to get green.** No skips, early returns, narrowed ranges, raised timeouts without a measured reason, or exemptions for the cases that fail. If an existing test fails, find out why.
 4. **Claims match the diff.**
    - **The release declaration:** if any engine reads what you changed (a price, a payment, a choice, a count), the impact is `patch` or `minor`, not `none`. "No screen shows it" doesn't make it `none`.
