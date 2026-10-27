@@ -1,6 +1,7 @@
 ---
 id: words-bill-number-in-scene-title-in-journal
 title: "One bill, two names: the ask scene says HB 9, the journal says the Income Tax Act"
+lead: words
 area: play
 kind: bug
 priority: 2
