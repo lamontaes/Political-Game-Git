@@ -6,6 +6,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 27: rulings (owner, to the CTO, overnight)
+
+- **Real lives calibrate the scenes (owner, Oct 26, late: "use real life people's as examples. It can be a known American, unknown American, president, congressman, mayor, city councilman, school member, anyone... It can be copyrighted material because you're just using it as calibration, and take scenes from their life. See if the engine can produce it. If not, work the framework of the dialogue in, and that will affect other scenes").** Every new scene starts from an episode in a real American political life: a fact packet, the engine asked whether its records would fire it, each gap turned into a producer, lines or an engine item. Copyrighted sources are read for calibration only; no real name, line or likeness ships. Skill: `scenes-from-life`.
+- **Lines ship per scene; batch grading is over (owner, Oct 26: "Is October 15th batch 22?").** Batch 22 was the Oct 15 lines; no newer writing existed. Each scene lands with its own new lines and the old ones are deleted in the same PR; the owner's sitting notes are the grade.
+- **The skills learn every iteration (owner, Oct 26-27: "update skills, make new skills, etc. That's how this is supposed to work. So that way this will run smoother every iteration").** A repeated send-back reason, a red-main cause, an already-ruled question asked again, or a gap the owner names becomes a skill line or a new skill in the same CTO pass (`cto`, Lessons loop).
+- **Not enough scenes is the problem (owner, Oct 26, late).** The owner's scene examples from every playtest are collected in `docs/design/scenes/owner-scene-examples.md`; the words-and-scenes lead works them season by season, one real-life episode per pass.
+
 ## Oct 26, evening: rulings from the playtest sitting (owner, via his local Opus session; `docs/coordination/playtest/2026-10-26-1.md`)
 
 The owner played v0.34.0 for about six hours (Albion, Pennsylvania, council race, lost 214 to 159; then a year as a U.S. Representative in a custom world). His verdict: "I see the biggest problem being words and scenes." Each ruling below is his, recorded by the CTO the same day.
