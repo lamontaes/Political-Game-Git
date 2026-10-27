@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/flow-churn
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-27T17:42:16.696Z
+claimed-at:
 ---
 
 **What.** On the bench's play screen in Anson, Texas with the playtest's seed, a council candidate who knocks 36 doors every week finds 36 households their campaign has never knocked every single week from February 2025 to June 2026: 2,520 distinct household ids, on main and on the fix branch alike. The same town run by the engine alone (buildBenchWorld, then advanceCore a week at a time) opens with 1,147 households and has about 1,240 by October 2026, about one new household a week. So the play flow (player-v1 with the director, scenes and fill-ins) creates or re-keys households at a rate of dozens a week. Every reader keyed by household id (a campaign's doors, rent, property tax, arrears) then sees the same families as new ones.
