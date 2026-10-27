@@ -25,3 +25,4 @@ claimed-at:
 **Files.** scripts/outcome-web/effect-matrix.ts, docs/reports/effect-web-matrix-2026-10-20.json, docs/reports/trait-wiring-2026-10-20.json, docs/reports/trait-wiring-2026-10-20.md
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27, after #5657, #5715 and #6143 merged. Branch laws-effects/effects-matrix-traits.
+Sent back 2026-10-27 from PR #6257 (branch laws-effects/effects-matrix-traits): report lead of trait-wiring-2026-10-20.md is 172 words (limit 120); finish on that branch, merge main into it first.
