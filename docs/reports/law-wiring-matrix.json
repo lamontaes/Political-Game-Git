@@ -79,6 +79,21 @@
     "wired": 63,
     "partly": 13,
     "stopgapped": 13,
+    "shownOnAScreen": 87,
+    "screensRead": [
+      {
+        "place": "Washington, District of Columbia (1150000)",
+        "runSeed": "9246f46a75bc0b4f",
+        "from": "2025-01-20",
+        "through": "2025-07-19"
+      },
+      {
+        "place": "Franklin, Idaho (1628810)",
+        "runSeed": "8e4f04d8a07a95e4",
+        "from": "2025-01-20",
+        "through": "2025-07-19"
+      }
+    ],
     "byLink": {
       "exists": {
         "wired": 89,
@@ -201,6 +216,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: highways"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:highways:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -270,6 +299,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.fare-free-transit:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -339,6 +378,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -408,6 +457,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.public-broadband:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-07-01:H 3"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -477,6 +540,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu infrastructure"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-08-04:HB 29"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 29:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -546,6 +627,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US:federal:medicare-tax:general:2013-01-01"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu healthcare"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -615,6 +706,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:federal:medicaid-match:general:2024-10-01"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:federal:medicaid-match:general:2025-10-01"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu healthcare"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -684,6 +789,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu healthcare"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-21:official:term:seat:US-ID:lower:027:0:2025-01-20:5:office:US-ID:legislature-upper"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -753,6 +872,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu healthcare"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:federal:us-house:2025-01-21:official:seat:US-ID:us-house:01:0:federal:us-house"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -822,6 +955,12 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu healthcare"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -891,6 +1030,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: healthAndHospitals"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu healthcare"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:healthAndHospitals:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -960,6 +1113,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.universal-preschool:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.universal-preschool:general:2025-08-04:HB 18"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 18:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1029,6 +1200,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: schools"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:schools:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1098,6 +1283,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.public-funds-for-private-schooling:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.public-funds-for-private-schooling:general:2025-08-04:HB 1"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-01-21:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:1:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1167,6 +1370,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1241,6 +1454,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: higherEducation"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu education"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:higherEducation:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1310,6 +1537,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US:federal:income-tax:general:2025-01-01"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US:federal:income-tax:general:2026-01-01"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Franklin, Idaho: local member person_23cc6604bb00e435, office:gus2025:124658:council, menu taxes-finance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1379,6 +1620,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:sales-tax:general:2025-01-01"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:sales-tax:general:2026-01-01"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Franklin, Idaho: local member person_23cc6604bb00e435, office:gus2025:124658:council, menu taxes-finance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1448,6 +1703,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:county:11001:county:property-tax:general:2026-01-01:from-start"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:county:11001:county:property-tax:general:2026-01-01"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1517,6 +1786,12 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1587,6 +1862,12 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1661,6 +1942,12 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1735,6 +2022,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.adopt-income-tax:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-24:official:term:seat:US-ID:lower:027:0:2025-01-20:9:office:US-ID:legislature-upper"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1809,6 +2110,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.cap-property-tax-growth:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-07-01:H 35"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1878,6 +2193,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-07-01:H 14"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -1952,6 +2281,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.graduated-income-tax:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2021,6 +2360,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2095,6 +2444,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-08-04:HB 13"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 13:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2169,6 +2536,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.minimum-reserve-balance:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu taxes-finance"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-08-04:HB 14"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 14:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2238,6 +2623,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:federal:snap-maximum:general:2024-10-01"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:federal:snap-maximum:general:2025-10-01"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu assistance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2307,6 +2706,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: welfareAndMedicaid"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu assistance"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:welfareAndMedicaid:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2376,6 +2789,12 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu assistance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2445,6 +2864,12 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu assistance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2514,6 +2939,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:unemployment-weekly-maximum:general:2025-01-01"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu assistance"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:unemployment-weekly-maximum:general:2026-01-01"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2583,6 +3022,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US:federal:social-security-tax:general:2025-01-01"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US:federal:social-security-tax:general:2026-01-01"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu assistance"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2652,6 +3105,20 @@
           "why": "reaches nobody anywhere"
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: law-took-effect:law:county:16041:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-20:2025-2"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2722,6 +3189,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: housing"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: committee:bill:office:US-DC:legislature-unicameral:2025-03-04:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:12:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2792,6 +3273,20 @@
           "why": "reaches nobody anywhere"
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:housing-land-use.inclusionary-requirement:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-01-25:official:term:seat:US-DC:unicameral:003:0:2025-01-20:2:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2861,6 +3356,20 @@
           "why": "reaches nobody anywhere"
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-amendment:bill:office:US-DC:legislature-unicameral:2025-04-14:official:term:seat:US-DC:unicameral:005:0:2025-01-20:23:office:US-DC:legislature-unicameral:committee:1"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2930,6 +3439,20 @@
           "why": "reaches nobody anywhere"
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu housing"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: vote-recorded:vote:2025-2:person_ed98df3ad3c47dc0"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -2999,6 +3522,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US:federal:minimum-wage:general:2009-07-24"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:minimum-wage:general:2026-07-01"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: law-took-effect:law:US-DC:state:minimum-wage:general:2025-07-01"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3068,6 +3609,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Franklin, Idaho: federal member official:term:seat:US-ID:us-senate:0:2025-01-20, office:US-ID:us-senate, menu labor"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3138,6 +3689,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3207,6 +3768,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3281,6 +3852,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: printed:outlet:cable:0:national:law-took-effect:law:US-ID:state:us-policy-positions:labor-workforce.paid-family-leave:general:2025-07-01:H 15"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3350,6 +3935,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-08-04:HB 14"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-amendment:bill:office:US-DC:legislature-unicameral:2025-04-07:official:term:seat:US-DC:unicameral:003:0:2025-01-20:21:office:US-DC:legislature-unicameral:committee:1"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3424,6 +4027,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:labor-workforce.right-to-work:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu labor"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3493,6 +4106,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu business"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-08-04:HB 5"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-05:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:5:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3562,6 +4193,16 @@
           "why": "reaches nobody anywhere"
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu business"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3631,6 +4272,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3700,6 +4351,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-08-04:HB 18"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: printed:outlet:newspaper:2:jurisdiction_7691c6e3ae48f824:bill-amendment:bill:office:US-DC:legislature-unicameral:2025-05-07:official:term:seat:US-DC:unicameral:003:0:2025-01-20:29:office:US-DC:legislature-unicameral:committee:1"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3769,6 +4438,24 @@
           "why": "reached people in one drawn place and not the other"
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-08-04:HB 16"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 16:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3843,6 +4530,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: naturalResources"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:naturalResources:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3912,6 +4613,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.bottle-deposit:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.bottle-deposit:general:2025-08-04:HB 10"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-24:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:10:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -3981,6 +4700,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.price-carbon:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu energy-environment"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:environment-energy.price-carbon:general:2025-08-04:HB 8"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-16:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:8:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4050,6 +4787,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: police"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:police:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4119,6 +4870,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: bill-amendment:bill:office:gus2025:124658:council:2025-05-06:person_ed98df3ad3c47dc0:57:office:gus2025:124658:council:floor:1"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4188,6 +4953,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: bill-amendment:bill:office:gus2025:162022:board:2025-03-18:person_1f213c99c17407f4:56:office:gus2025:162022:board:floor:1"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4257,6 +5036,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.end-cash-bail:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-13:official:term:seat:US-DC:unicameral:004:0:2025-01-20:7:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4327,6 +5120,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: corrections"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:corrections:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4397,6 +5204,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-24:official:term:seat:US-ID:lower:027:0:2025-01-20:10:office:US-ID:legislature-upper"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4471,6 +5292,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-07-01:H 19"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4540,6 +5375,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4609,6 +5454,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4678,6 +5533,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-08-04:HB 13"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-amendment:bill:office:US-DC:legislature-unicameral:2025-03-23:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:17:office:US-DC:legislature-unicameral:committee:1"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4747,6 +5620,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:justice-public-safety.stand-your-ground:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4816,6 +5699,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: fire"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu justice"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4885,6 +5778,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.all-mail-voting:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.all-mail-voting:general:2025-08-04:HB 20"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 20:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -4954,6 +5865,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.automatic-voter-registration:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5023,6 +5944,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.independent-redistricting:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.independent-redistricting:general:2025-08-04:HB 17"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 17:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5092,6 +6031,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5161,6 +6110,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.same-day-voter-registration:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-07-01:H 2"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5231,6 +6194,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-08-04:HB 15"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-03-15:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:15:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5300,6 +6281,12 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5369,6 +6356,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: administration"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:administration:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5439,6 +6440,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.broaden-local-authority:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 23:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5509,6 +6524,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:government-operations.legislative-term-limits:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu government"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: law-took-effect:law:US-ID:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-07-01:H 4"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5578,6 +6607,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu rights"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5647,6 +6686,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu rights"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5721,6 +6770,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu rights"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:civil-family-community.restrict-abortion:general:2025-08-04:HB 21"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: vote-recorded:vote:HB 21:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5790,6 +6857,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu technology"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-27:official:term:seat:US-ID:lower:027:0:2025-01-20:15:office:US-ID:legislature-upper"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5859,6 +6940,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu technology"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-08-04:HB 6"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-09:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:6:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5928,6 +7027,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu technology"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-08-04:HB 9"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-20:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:9:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -5997,6 +7114,20 @@
           "why": "reached people in one drawn place and not the other"
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu agriculture"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: bill-vote:bill:office:US-ID:legislature-lower:2025-01-25:official:term:seat:US-ID:lower:027:0:2025-01-20:11:office:US-ID:legislature-upper"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -6071,6 +7202,24 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu agriculture"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-08-04:HB 4"
+        },
+        {
+          "screen": "News",
+          "evidence": "Washington, District of Columbia: bill-vote:bill:office:US-DC:legislature-unicameral:2025-02-01:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:4:office:US-DC:legislature-unicameral"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -6140,6 +7289,20 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Budgets",
+          "evidence": "Washington, District of Columbia: US-DC fiscal year 2024: parks"
+        },
+        {
+          "screen": "Politics → Your office",
+          "evidence": "Washington, District of Columbia: state member official:term:seat:US-DC:unicameral:005:0:2025-01-20, office:US-DC:legislature-unicameral, menu parks-culture"
+        },
+        {
+          "screen": "News",
+          "evidence": "Franklin, Idaho: budget-line-changed:budget:US-ID:2025:parks:adopted"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -6210,6 +7373,7 @@
           "why": ""
         }
       },
+      "screens": [],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -6280,6 +7444,7 @@
           "why": ""
         }
       },
+      "screens": [],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
@@ -6349,6 +7514,16 @@
           "why": ""
         }
       },
+      "screens": [
+        {
+          "screen": "Politics → Issues",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:unemployment-insurance:general:2026-01-01:from-start"
+        },
+        {
+          "screen": "Calendar",
+          "evidence": "Washington, District of Columbia: law:US-DC:state:unemployment-insurance:general:2026-01-01"
+        }
+      ],
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
