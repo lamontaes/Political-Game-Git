@@ -6,9 +6,9 @@ lead: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/local-income-tax-authority
-pr:
+pr: 6432
 blocked-on:
 source: laws lead, Oct 26
 claimed-at: 2026-10-27T22:43:18.223Z
