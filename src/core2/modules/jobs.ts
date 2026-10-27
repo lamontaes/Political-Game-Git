@@ -399,6 +399,16 @@ function workerMoved(
   }>,
 ): void {
   for (const personId of event.personIds) {
+    // Someone who moved away is no longer looking for work here: their search
+    // ends with the move, in whichever tier it was held.
+    for (const table of ["seekers", "countedSeekers"] as const)
+      store(api).table(table).remove(personId);
+    for (const row of store(api)
+      .table("spells")
+      .query("open", [personId, true]))
+      store(api)
+        .table("spells")
+        .put({ ...row, endedAt: api.state.date, open: false });
     const jobId = event.facts?.[`person:${personId}:job`];
     if (typeof jobId !== "string") continue;
     const job = jobById(api, jobId);
@@ -3364,6 +3374,9 @@ function hire(
     );
   fundedHire(api, position, person.id, "person", 1, job.wageDailyMinor);
   store(api).table("seekers").remove(person.id);
+  // A counted seeker who was met and filled in before being hired keeps its
+  // counted row; it must not outlive the hire.
+  store(api).table("countedSeekers").remove(person.id);
   endSpell(api, person.id);
   // The new hire meets the full people already working there.
   meetAtWork(

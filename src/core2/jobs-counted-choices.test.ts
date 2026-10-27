@@ -23,7 +23,10 @@ import {
 import { residentPerson } from "./modules/residents";
 import { coreAPI } from "./state";
 
-const seed = process.env.JOBS_COUNTED_SEED ?? randomBytes(8).toString("hex");
+const seed =
+  process.env.JOBS_COUNTED_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 const DRAWS = 6;
 
 interface Change {
@@ -165,12 +168,22 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
             .filter((row) => row.open)
             .map((row) => row.personId),
         );
-        // A witness found on an earlier day may have been hired or have lost
-        // its row since: only one whose search is still open today counts.
-        const open = (witness: Seeker | undefined, table: string) =>
-          witness && jobs.table(table).get(witness.personId)
-            ? witness
-            : undefined;
+        // A witness found on an earlier day may have been hired, lost its row,
+        // or changed tier since (a counted person met and filled in keeps
+        // its counted row; the review weighs only the people still counted):
+        // only one whose search is still open, in the tier it was found in,
+        // counts today.
+        const open = (witness: Seeker | undefined, table: string) => {
+          if (!witness || !jobs.table(table).get(witness.personId))
+            return undefined;
+          return table === "seekers"
+            ? world.core.people.get(witness.personId)?.jobId === undefined
+              ? witness
+              : undefined
+            : residentPerson(world.core, witness.personId)
+              ? witness
+              : undefined;
+        };
         full = open(full, "seekers");
         counted = open(counted, "countedSeekers");
         fullLost = open(fullLost, "seekers");
