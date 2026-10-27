@@ -102994,7 +102994,7 @@
       "key": "scene-talk.narrate-narrate.name-has-just-joined-your-household-and-comes-to-find-you-first",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has just joined your household and comes to find you first.",
+      "text": "{name} moved in today and wants to know how things work.",
       "uses": [
         {
           "subject": "scene",
@@ -103006,31 +103006,6 @@
         }
       ],
       "bearing": "curious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (housemate)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.as-of-today-name-lives-with-you-and-stands-there-waiting-to-see-what-y",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "As of today {name} lives with you, and stands there waiting to see what you'll say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "housemate-arrives",
-          "key": "arrival"
-        }
-      ],
-      "bearing": "calm",
       "shippable": true,
       "origin": "authored",
       "author": "Finisher helper (housemate)",
@@ -103069,7 +103044,7 @@
       "key": "scene-talk.narrate-narrate.name-one-of-your-own-has-moved-in-with-your-household-it-s-different-h",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name}, one of your own, has moved in with your household. It's different, having family under the same roof.",
+      "text": "{name}, one of your own, moved in today. Family is different when it's every day.",
       "uses": [
         {
           "subject": "scene",
@@ -103341,32 +103316,6 @@
         }
       ],
       "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (housemate)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.well-here-we-are-all-under-one-roof",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Well, here we are, all under one roof.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival",
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "bearing": "glad",
       "shippable": true,
       "origin": "authored",
       "author": "Finisher helper (housemate)",
@@ -108513,32 +108462,7 @@
       "key": "scene-talk.narrate-narrate.name-sat-through-the-meeting-with-you-and-stays-behind-as-the-room-emp",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} sat through the meeting with you and stays behind as the room empties, plainly waiting for you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "hallway-word",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (hallway)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-others-scatter-name-who-was-at-the-meeting-with-you-steps-over-bef",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The others scatter. {name}, who was at the meeting with you, steps over before you can leave.",
+      "text": "{name} serves on the same body as you and wants to know which way you lean.",
       "uses": [
         {
           "subject": "scene",
@@ -108563,7 +108487,7 @@
       "key": "scene-talk.narrate-narrate.name-was-at-the-meeting-with-you-and-has-more-to-say-than-the-meeting",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} was at the meeting with you and has more to say than the meeting had room for.",
+      "text": "{name} has more to say than the meeting had room for.",
       "uses": [
         {
           "subject": "scene",
@@ -108588,7 +108512,7 @@
       "key": "scene-talk.narrate-narrate.name-reports-on-the-town-for-the-local-press-and-the-notebook-is-alrea",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} reports on the town for the local press, and the notebook is already out as you come through.",
+      "text": "{name} reports on the town for the local press and wants something for the story.",
       "uses": [
         {
           "subject": "scene",
@@ -108689,7 +108613,7 @@
       "key": "scene-talk.narrate-narrate.name-speaks-for-a-group-with-a-stake-in-cause-and-name-has-followed-yo",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} speaks for a group with a stake in {cause}, and has followed you down the hall.",
+      "text": "{name} speaks for a group with a stake in {cause}, and wants your answer.",
       "uses": [
         {
           "subject": "scene",
@@ -108766,7 +108690,7 @@
       "key": "scene-talk.narrate-narrate.name-speaks-for-a-group-that-wants-your-vote-and-name-has-caught-up-wi",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} speaks for a group that wants your vote, and has caught up with you.",
+      "text": "{name} speaks for a group that wants your vote.",
       "uses": [
         {
           "subject": "scene",
