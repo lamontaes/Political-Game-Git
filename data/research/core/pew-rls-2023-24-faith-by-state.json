@@ -1,0 +1,1212 @@
+{
+  "id": "pew-rls-2023-24-faith-by-state",
+  "publisher": "Pew Research Center",
+  "vintage": "2023-24 Religious Landscape Study",
+  "table": "Religious composition by state (state pages of the study database)",
+  "title": "Religious composition of adults in each state, 2023-24",
+  "universe": "Adults 18 and over",
+  "geography": "United States, the 50 states and D.C.; Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands take the median of the 50 states and D.C.",
+  "sourceUrl": "https://www.pewresearch.org/religious-landscape-study/state/{state}/",
+  "nationalSourceUrl": "https://www.pewresearch.org/religious-landscape-study/region/united-states",
+  "summaryUrl": "https://www.pewresearch.org/religion/2025/02/26/religious-landscape-study-executive-summary/",
+  "retrievedOn": "2026-10-23",
+  "quote": "National page: 62% \"of U.S. adults identify as Christians\", 7% \"identify with other religions\", 29% \"identify as religiously unaffiliated\"; the executive summary: \"40% are Protestant\", \"19% are Catholic\".",
+  "limits": "Shares come from the weighted adult counts each state page embeds for each tradition (Evangelical, Mainline and Historically Black Protestant are protestant; Catholic is catholic; Latter-day Saint, Orthodox, Jehovah's Witness, other Christian and every other religion are other-faith; atheist, agnostic and nothing in particular are none, the CES 2024 grouping), divided by the adults who answered (about 1% did not). Calibration only; the study is copyrighted and its denomination detail is not kept here. A check on totals, never a draw for one person.",
+  "pageSha256": {
+    "AL": "5bb44104847eec19e1b70c682fde9a0223d96258518447fa1ac2530084424cf9",
+    "AK": "ff123f6b800224c03808270156868d001c1c4628cfeba0acdc2ab68147bd7802",
+    "AZ": "9dfdc1e9176decf762fc42e0d56193b501ffd7699ccef841bfa1de53f806411b",
+    "AR": "0bc00692a60abc6b7cbb375618a2723bc43b4908dd17dae2b06d1955163fe8f3",
+    "CA": "3ebca5584e54860237e99d4e86e42137f9edefcc17dc3b0f60426c73706659f9",
+    "CO": "41b5945fbcc1039803008c591708b409d101b554daa9e0321f664884c8fc08ce",
+    "CT": "e117ef7745322457c216bc37352051b66f8c1a1707267ba1ac92387582536448",
+    "DE": "d6843d712b5121fa078a79a3d757a9865e0967fdeecdaa2114a0c615096ae3a1",
+    "DC": "80e84170f06fdf7cf79dc8e758ec30efdbe35475007c277b85a7baf961f0c44f",
+    "FL": "94146c043a9bb612cfe806092cd962dd82efef3f15aca5c9db9ce9637a139c0c",
+    "GA": "b616957545ff099b8e8d858bcc9581928effe2104098dc73350c8def2961c5fc",
+    "HI": "3bede6c6ffc943f4f9866cf4ca85373f550c602575832247f56ce4af22db0e01",
+    "ID": "786cc07ad6dbc9f2a669b9692672e5b5395d7aa91e41f475e35fb05b86ea0060",
+    "IL": "05cc1f5e4481c4a9f9cce5ccaf34a262a9617f6259835f252373dc928d97d0df",
+    "IN": "db5e480bc55094a7b7f16c95eb566f234455666e9e278eccaf4b2cf14ca7f722",
+    "IA": "b97be3985f51d082b59129dc0375bf3e34ea77aea018be70b24a389dcb5e757e",
+    "KS": "aefaaa7f0f7226f855eb6a13e8159bdfab82977ff45780266314ce24884c0673",
+    "KY": "0ff56787d29166c9e4ca88cf9459403c5e0384dcc7bfefa75a6bd0ad7d12d11a",
+    "LA": "c429c721334351658e5f0020ed0bc67f884ebe10f79b4c6e00c3f1792ba31945",
+    "ME": "1a35f20151862e783b5b1eeb54f4d7ee156e9cde797adf12f96227872e58d8c4",
+    "MD": "5cc385b14a85cda04eefa05846349c65f8c1b81d2e6dae5006873ce1efd9eb7a",
+    "MA": "924c053816e65b1839b82443b2d0453d699132dbcaae37c255585fcc856f5eea",
+    "MI": "dbbdfadb3f63362e987ebc3d75ac3094c5f0118e1c9dfe7495f9d77674805570",
+    "MN": "950c808f814132d59377d81db9c03efca285b79800eaae84f60618f37730944e",
+    "MS": "9a7650ad1865fd8207440f3624114d88790627d8cb139ea328ab28aaa259e269",
+    "MO": "abd78555d7226f4ea97e7ef5ea037f9d602f983860f2a60c7a2cd6f369bdcc2f",
+    "MT": "f1d8d0b4bc39a204f5998f26f7a3d11b14d957f1e72ca7bafe381ac8779a6a4b",
+    "NE": "71f5a2b0d65aa8d6afe49423fa8bcc6c615e5e02e24b8b3c831bf6bbda48b92e",
+    "NV": "0b3dfb778eb0448c62edd01d07966516da18292aa83a074b5c746948fcaa49ce",
+    "NH": "3a96c716ae8b5d94a87b93aba3be4747d93a7baa5c8e6725bd7baaf830cededd",
+    "NJ": "923412115c9056ef3e8cf5c0988f4c4dc465bad68f9e7aa3f4bd374b36185453",
+    "NM": "f811703c08e6e428550bb4f0d6fd1c964547b04b0895f7fd3d8b8ac08a371e28",
+    "NY": "a640ea857c9459553226cacb55db3e6d64e50461c29e7875869b92e2dc8f36dd",
+    "NC": "48152c6b1717289d3243a2b4261afb77468c3a24318b671422ea21b4a04883ca",
+    "ND": "091a11afcc25784f286c6e87a08c56c147d97aa5750fcd94c51f5e85bdc447a2",
+    "OH": "6f5746e7e9ee03eb6920d1e9ee3d015baa14bf984eca130496fa0e134a7165cb",
+    "OK": "5ce225e73f4fb72e1d4a8a4a43494df4b457cadefd0cc77886e646ac2db4959c",
+    "OR": "1145afdbeccf2c4b5331371e363067043f329ed8289222a333f33cac7b1eff23",
+    "PA": "2f4304cc6104af3c242576b4461ed52dc6dcecb93b98d3a6bfa9aadba494e799",
+    "RI": "7a39f17af974f639a94d7c12573004a339356efb7fe3abe890ec9a18b665e27c",
+    "SC": "8ad96d93e33e1d3c924b30631123c45688e5f85c2dba0cf52cfc84bdbc01e758",
+    "SD": "7e565ed9752ff7e7853f1e35b0e995e2f41509ec8146c1e06c8a6fab0f90e13d",
+    "TN": "5959f16c8e27140123eb5bc473d17fa97961e784326516abd1a36b2e527ea9ac",
+    "TX": "ca368379bf9768103e9bd4db59965bfa6976ebac1287a6e1cce8677d38e580a0",
+    "UT": "ecd055b061680ecd30ea92b1ef92c1a2b09ea8fbab298ae81a52f59b0fa2f1eb",
+    "VT": "267f8861bfe514694fa4acaaef87ec0cb387f0bb3d2a133db7ef8dea9b459a27",
+    "VA": "89f95269203e18578ba51e0adb9fd9d766348e1cdff0192325b177596d823634",
+    "WA": "3a347ed55c13d2617e9501d7cfb66e0b05d875b6c3c0003e446076c643dec421",
+    "WV": "728dfa515b21abb7fbb0d1130409c6b0170b3ce85f0dd952b8223020b713ad0b",
+    "WI": "0cc41fb65eceb97d870b50e3601dc520245f0bbb670310774b9bb7415ae01f12",
+    "WY": "7e0aded5be72a3dfee29cd00f66e038598801b5cd32c3d56a0dcff5b8930086f"
+  },
+  "places": {
+    "AL": {
+      "tag": "SOURCED",
+      "adults": 3898443,
+      "answeredShare": 0.9892,
+      "headline": {
+        "Christians": 73,
+        "Other religions": 3,
+        "Religiously unaffiliated": 22
+      },
+      "studyGroupShares": {
+        "protestant": 0.6697,
+        "catholic": 0.0621,
+        "other-faith": 0.0414,
+        "none": 0.2267
+      },
+      "samples": {
+        "Christians": 382,
+        "Other religions": 12,
+        "Religiously unaffiliated": 100
+      }
+    },
+    "AK": {
+      "tag": "SOURCED",
+      "adults": 552679,
+      "answeredShare": 0.9512,
+      "headline": {
+        "Christians": 56,
+        "Other religions": 6,
+        "Religiously unaffiliated": 33
+      },
+      "studyGroupShares": {
+        "protestant": 0.3845,
+        "catholic": 0.155,
+        "other-faith": 0.1181,
+        "none": 0.3424
+      },
+      "samples": {
+        "Christians": 211,
+        "Other religions": 19,
+        "Religiously unaffiliated": 114
+      }
+    },
+    "AZ": {
+      "tag": "SOURCED",
+      "adults": 5689815,
+      "answeredShare": 0.9838,
+      "headline": {
+        "Christians": 58,
+        "Other religions": 10,
+        "Religiously unaffiliated": 31
+      },
+      "studyGroupShares": {
+        "protestant": 0.304,
+        "catholic": 0.2129,
+        "other-faith": 0.1693,
+        "none": 0.3138
+      },
+      "samples": {
+        "Christians": 430,
+        "Other religions": 47,
+        "Religiously unaffiliated": 222
+      }
+    },
+    "AR": {
+      "tag": "SOURCED",
+      "adults": 2304197,
+      "answeredShare": 0.9964,
+      "headline": {
+        "Christians": 79,
+        "Other religions": 3,
+        "Religiously unaffiliated": 18
+      },
+      "studyGroupShares": {
+        "protestant": 0.7138,
+        "catholic": 0.0525,
+        "other-faith": 0.0527,
+        "none": 0.1809
+      },
+      "samples": {
+        "Christians": 272,
+        "Other religions": 14,
+        "Religiously unaffiliated": 60
+      }
+    },
+    "CA": {
+      "tag": "SOURCED",
+      "adults": 30237756,
+      "answeredShare": 0.9756,
+      "headline": {
+        "Christians": 55,
+        "Other religions": 9,
+        "Religiously unaffiliated": 33
+      },
+      "studyGroupShares": {
+        "protestant": 0.2683,
+        "catholic": 0.2609,
+        "other-faith": 0.1276,
+        "none": 0.3433
+      },
+      "samples": {
+        "Christians": 1918,
+        "Other religions": 391,
+        "Religiously unaffiliated": 1372
+      }
+    },
+    "CO": {
+      "tag": "SOURCED",
+      "adults": 4578794,
+      "answeredShare": 0.9931,
+      "headline": {
+        "Christians": 52,
+        "Other religions": 7,
+        "Religiously unaffiliated": 40
+      },
+      "studyGroupShares": {
+        "protestant": 0.3074,
+        "catholic": 0.1452,
+        "other-faith": 0.1417,
+        "none": 0.4057
+      },
+      "samples": {
+        "Christians": 309,
+        "Other religions": 51,
+        "Religiously unaffiliated": 233
+      }
+    },
+    "CT": {
+      "tag": "SOURCED",
+      "adults": 2861029,
+      "answeredShare": 0.9941,
+      "headline": {
+        "Christians": 57,
+        "Other religions": 11,
+        "Religiously unaffiliated": 31
+      },
+      "studyGroupShares": {
+        "protestant": 0.1964,
+        "catholic": 0.3505,
+        "other-faith": 0.1422,
+        "none": 0.311
+      },
+      "samples": {
+        "Christians": 224,
+        "Other religions": 33,
+        "Religiously unaffiliated": 111
+      }
+    },
+    "DE": {
+      "tag": "SOURCED",
+      "adults": 801033,
+      "answeredShare": 0.9917,
+      "headline": {
+        "Christians": 70,
+        "Other religions": 6,
+        "Religiously unaffiliated": 24
+      },
+      "studyGroupShares": {
+        "protestant": 0.4961,
+        "catholic": 0.1932,
+        "other-faith": 0.072,
+        "none": 0.2387
+      },
+      "samples": {
+        "Christians": 219,
+        "Other religions": 27,
+        "Religiously unaffiliated": 94
+      }
+    },
+    "DC": {
+      "tag": "SOURCED",
+      "adults": 542588,
+      "answeredShare": 0.9857,
+      "headline": {
+        "Christians": 57,
+        "Other religions": 9,
+        "Religiously unaffiliated": 33
+      },
+      "studyGroupShares": {
+        "protestant": 0.4038,
+        "catholic": 0.1367,
+        "other-faith": 0.1219,
+        "none": 0.3376
+      },
+      "samples": {
+        "Christians": 158,
+        "Other religions": 48,
+        "Religiously unaffiliated": 133
+      }
+    },
+    "FL": {
+      "tag": "SOURCED",
+      "adults": 17698984,
+      "answeredShare": 0.9891,
+      "headline": {
+        "Christians": 64,
+        "Other religions": 7,
+        "Religiously unaffiliated": 27
+      },
+      "studyGroupShares": {
+        "protestant": 0.3923,
+        "catholic": 0.219,
+        "other-faith": 0.1153,
+        "none": 0.2734
+      },
+      "samples": {
+        "Christians": 1344,
+        "Other religions": 170,
+        "Religiously unaffiliated": 575
+      }
+    },
+    "GA": {
+      "tag": "SOURCED",
+      "adults": 8276766,
+      "answeredShare": 0.9971,
+      "headline": {
+        "Christians": 67,
+        "Other religions": 7,
+        "Religiously unaffiliated": 26
+      },
+      "studyGroupShares": {
+        "protestant": 0.5701,
+        "catholic": 0.0754,
+        "other-faith": 0.0923,
+        "none": 0.2622
+      },
+      "samples": {
+        "Christians": 616,
+        "Other religions": 52,
+        "Religiously unaffiliated": 185
+      }
+    },
+    "HI": {
+      "tag": "SOURCED",
+      "adults": 1134091,
+      "answeredShare": 0.9926,
+      "headline": {
+        "Christians": 60,
+        "Other religions": 9,
+        "Religiously unaffiliated": 30
+      },
+      "studyGroupShares": {
+        "protestant": 0.3778,
+        "catholic": 0.161,
+        "other-faith": 0.1605,
+        "none": 0.3008
+      },
+      "samples": {
+        "Christians": 182,
+        "Other religions": 38,
+        "Religiously unaffiliated": 122
+      }
+    },
+    "ID": {
+      "tag": "SOURCED",
+      "adults": 1453163,
+      "answeredShare": 0.9903,
+      "headline": {
+        "Christians": 62,
+        "Other religions": 4,
+        "Religiously unaffiliated": 33
+      },
+      "studyGroupShares": {
+        "protestant": 0.3824,
+        "catholic": 0.0951,
+        "other-faith": 0.1846,
+        "none": 0.3379
+      },
+      "samples": {
+        "Christians": 211,
+        "Other religions": 16,
+        "Religiously unaffiliated": 115
+      }
+    },
+    "IL": {
+      "tag": "SOURCED",
+      "adults": 9724822,
+      "answeredShare": 0.9887,
+      "headline": {
+        "Christians": 62,
+        "Other religions": 8,
+        "Religiously unaffiliated": 29
+      },
+      "studyGroupShares": {
+        "protestant": 0.3643,
+        "catholic": 0.2338,
+        "other-faith": 0.1057,
+        "none": 0.2962
+      },
+      "samples": {
+        "Christians": 516,
+        "Other religions": 61,
+        "Religiously unaffiliated": 249
+      }
+    },
+    "IN": {
+      "tag": "SOURCED",
+      "adults": 5178798,
+      "answeredShare": 0.988,
+      "headline": {
+        "Christians": 65,
+        "Other religions": 3,
+        "Religiously unaffiliated": 31
+      },
+      "studyGroupShares": {
+        "protestant": 0.4732,
+        "catholic": 0.1588,
+        "other-faith": 0.0567,
+        "none": 0.3113
+      },
+      "samples": {
+        "Christians": 441,
+        "Other religions": 24,
+        "Religiously unaffiliated": 185
+      }
+    },
+    "IA": {
+      "tag": "SOURCED",
+      "adults": 2443406,
+      "answeredShare": 0.979,
+      "headline": {
+        "Christians": 62,
+        "Other religions": 5,
+        "Religiously unaffiliated": 31
+      },
+      "studyGroupShares": {
+        "protestant": 0.4681,
+        "catholic": 0.1532,
+        "other-faith": 0.0661,
+        "none": 0.3126
+      },
+      "samples": {
+        "Christians": 229,
+        "Other religions": 8,
+        "Religiously unaffiliated": 72
+      }
+    },
+    "KS": {
+      "tag": "SOURCED",
+      "adults": 2211403,
+      "answeredShare": 0.9926,
+      "headline": {
+        "Christians": 70,
+        "Other religions": 0,
+        "Religiously unaffiliated": 28
+      },
+      "studyGroupShares": {
+        "protestant": 0.482,
+        "catholic": 0.1917,
+        "other-faith": 0.0407,
+        "none": 0.2856
+      },
+      "samples": {
+        "Christians": 256,
+        "Other religions": 5,
+        "Religiously unaffiliated": 87
+      }
+    },
+    "KY": {
+      "tag": "SOURCED",
+      "adults": 3442463,
+      "answeredShare": 0.9923,
+      "headline": {
+        "Christians": 72,
+        "Other religions": 4,
+        "Religiously unaffiliated": 23
+      },
+      "studyGroupShares": {
+        "protestant": 0.6041,
+        "catholic": 0.1084,
+        "other-faith": 0.0528,
+        "none": 0.2346
+      },
+      "samples": {
+        "Christians": 320,
+        "Other religions": 13,
+        "Religiously unaffiliated": 93
+      }
+    },
+    "LA": {
+      "tag": "SOURCED",
+      "adults": 3456362,
+      "answeredShare": 0.9968,
+      "headline": {
+        "Christians": 74,
+        "Other religions": 4,
+        "Religiously unaffiliated": 21
+      },
+      "studyGroupShares": {
+        "protestant": 0.4926,
+        "catholic": 0.2301,
+        "other-faith": 0.0626,
+        "none": 0.2147
+      },
+      "samples": {
+        "Christians": 348,
+        "Other religions": 19,
+        "Religiously unaffiliated": 85
+      }
+    },
+    "ME": {
+      "tag": "SOURCED",
+      "adults": 1126907,
+      "answeredShare": 0.9875,
+      "headline": {
+        "Christians": 51,
+        "Other religions": 9,
+        "Religiously unaffiliated": 39
+      },
+      "studyGroupShares": {
+        "protestant": 0.3608,
+        "catholic": 0.1406,
+        "other-faith": 0.1067,
+        "none": 0.3919
+      },
+      "samples": {
+        "Christians": 182,
+        "Other religions": 28,
+        "Religiously unaffiliated": 128
+      }
+    },
+    "MD": {
+      "tag": "SOURCED",
+      "adults": 4759777,
+      "answeredShare": 0.9914,
+      "headline": {
+        "Christians": 58,
+        "Other religions": 9,
+        "Religiously unaffiliated": 32
+      },
+      "studyGroupShares": {
+        "protestant": 0.4327,
+        "catholic": 0.1235,
+        "other-faith": 0.1205,
+        "none": 0.3233
+      },
+      "samples": {
+        "Christians": 332,
+        "Other religions": 62,
+        "Religiously unaffiliated": 165
+      }
+    },
+    "MA": {
+      "tag": "SOURCED",
+      "adults": 5591844,
+      "answeredShare": 0.9991,
+      "headline": {
+        "Christians": 52,
+        "Other religions": 11,
+        "Religiously unaffiliated": 37
+      },
+      "studyGroupShares": {
+        "protestant": 0.2044,
+        "catholic": 0.286,
+        "other-faith": 0.1357,
+        "none": 0.3739
+      },
+      "samples": {
+        "Christians": 288,
+        "Other religions": 72,
+        "Religiously unaffiliated": 211
+      }
+    },
+    "MI": {
+      "tag": "SOURCED",
+      "adults": 7834125,
+      "answeredShare": 0.9843,
+      "headline": {
+        "Christians": 61,
+        "Other religions": 6,
+        "Religiously unaffiliated": 31
+      },
+      "studyGroupShares": {
+        "protestant": 0.4127,
+        "catholic": 0.1922,
+        "other-faith": 0.081,
+        "none": 0.3141
+      },
+      "samples": {
+        "Christians": 646,
+        "Other religions": 54,
+        "Religiously unaffiliated": 292
+      }
+    },
+    "MN": {
+      "tag": "SOURCED",
+      "adults": 4384413,
+      "answeredShare": 0.9888,
+      "headline": {
+        "Christians": 63,
+        "Other religions": 7,
+        "Religiously unaffiliated": 29
+      },
+      "studyGroupShares": {
+        "protestant": 0.4321,
+        "catholic": 0.1869,
+        "other-faith": 0.0894,
+        "none": 0.2916
+      },
+      "samples": {
+        "Christians": 343,
+        "Other religions": 32,
+        "Religiously unaffiliated": 152
+      }
+    },
+    "MS": {
+      "tag": "SOURCED",
+      "adults": 2212441,
+      "answeredShare": 0.9699,
+      "headline": {
+        "Christians": 77,
+        "Other religions": 1,
+        "Religiously unaffiliated": 18
+      },
+      "studyGroupShares": {
+        "protestant": 0.7314,
+        "catholic": 0.0563,
+        "other-faith": 0.0222,
+        "none": 0.1901
+      },
+      "samples": {
+        "Christians": 279,
+        "Other religions": 3,
+        "Religiously unaffiliated": 52
+      }
+    },
+    "MO": {
+      "tag": "SOURCED",
+      "adults": 4737846,
+      "answeredShare": 0.9944,
+      "headline": {
+        "Christians": 62,
+        "Other religions": 4,
+        "Religiously unaffiliated": 33
+      },
+      "studyGroupShares": {
+        "protestant": 0.4597,
+        "catholic": 0.1387,
+        "other-faith": 0.0658,
+        "none": 0.3358
+      },
+      "samples": {
+        "Christians": 418,
+        "Other religions": 25,
+        "Religiously unaffiliated": 188
+      }
+    },
+    "MT": {
+      "tag": "SOURCED",
+      "adults": 876250,
+      "answeredShare": 0.9955,
+      "headline": {
+        "Christians": 55,
+        "Other religions": 6,
+        "Religiously unaffiliated": 39
+      },
+      "studyGroupShares": {
+        "protestant": 0.3912,
+        "catholic": 0.1201,
+        "other-faith": 0.0986,
+        "none": 0.3902
+      },
+      "samples": {
+        "Christians": 202,
+        "Other religions": 15,
+        "Religiously unaffiliated": 143
+      }
+    },
+    "NE": {
+      "tag": "SOURCED",
+      "adults": 1474124,
+      "answeredShare": 0.9901,
+      "headline": {
+        "Christians": 74,
+        "Other religions": 3,
+        "Religiously unaffiliated": 21
+      },
+      "studyGroupShares": {
+        "protestant": 0.5349,
+        "catholic": 0.1972,
+        "other-faith": 0.0518,
+        "none": 0.2161
+      },
+      "samples": {
+        "Christians": 252,
+        "Other religions": 12,
+        "Religiously unaffiliated": 62
+      }
+    },
+    "NV": {
+      "tag": "SOURCED",
+      "adults": 2465096,
+      "answeredShare": 0.9935,
+      "headline": {
+        "Christians": 60,
+        "Other religions": 5,
+        "Religiously unaffiliated": 35
+      },
+      "studyGroupShares": {
+        "protestant": 0.3336,
+        "catholic": 0.207,
+        "other-faith": 0.1092,
+        "none": 0.3503
+      },
+      "samples": {
+        "Christians": 209,
+        "Other religions": 21,
+        "Religiously unaffiliated": 130
+      }
+    },
+    "NH": {
+      "tag": "SOURCED",
+      "adults": 1131796,
+      "answeredShare": 0.9736,
+      "headline": {
+        "Christians": 45,
+        "Other religions": 5,
+        "Religiously unaffiliated": 48
+      },
+      "studyGroupShares": {
+        "protestant": 0.2446,
+        "catholic": 0.2014,
+        "other-faith": 0.0659,
+        "none": 0.488
+      },
+      "samples": {
+        "Christians": 163,
+        "Other religions": 20,
+        "Religiously unaffiliated": 127
+      }
+    },
+    "NJ": {
+      "tag": "SOURCED",
+      "adults": 7194555,
+      "answeredShare": 0.9867,
+      "headline": {
+        "Christians": 59,
+        "Other religions": 12,
+        "Religiously unaffiliated": 27
+      },
+      "studyGroupShares": {
+        "protestant": 0.2486,
+        "catholic": 0.3337,
+        "other-faith": 0.1403,
+        "none": 0.2775
+      },
+      "samples": {
+        "Christians": 531,
+        "Other religions": 116,
+        "Religiously unaffiliated": 242
+      }
+    },
+    "NM": {
+      "tag": "SOURCED",
+      "adults": 1636807,
+      "answeredShare": 0.9728,
+      "headline": {
+        "Christians": 63,
+        "Other religions": 5,
+        "Religiously unaffiliated": 30
+      },
+      "studyGroupShares": {
+        "protestant": 0.3296,
+        "catholic": 0.2771,
+        "other-faith": 0.0846,
+        "none": 0.3086
+      },
+      "samples": {
+        "Christians": 192,
+        "Other religions": 17,
+        "Religiously unaffiliated": 133
+      }
+    },
+    "NY": {
+      "tag": "SOURCED",
+      "adults": 15529074,
+      "answeredShare": 0.9733,
+      "headline": {
+        "Christians": 57,
+        "Other religions": 13,
+        "Religiously unaffiliated": 27
+      },
+      "studyGroupShares": {
+        "protestant": 0.2632,
+        "catholic": 0.2992,
+        "other-faith": 0.1621,
+        "none": 0.2755
+      },
+      "samples": {
+        "Christians": 1114,
+        "Other religions": 294,
+        "Religiously unaffiliated": 568
+      }
+    },
+    "NC": {
+      "tag": "SOURCED",
+      "adults": 8301909,
+      "answeredShare": 0.9951,
+      "headline": {
+        "Christians": 69,
+        "Other religions": 5,
+        "Religiously unaffiliated": 26
+      },
+      "studyGroupShares": {
+        "protestant": 0.5908,
+        "catholic": 0.0746,
+        "other-faith": 0.0726,
+        "none": 0.2621
+      },
+      "samples": {
+        "Christians": 765,
+        "Other religions": 58,
+        "Religiously unaffiliated": 282
+      }
+    },
+    "ND": {
+      "tag": "SOURCED",
+      "adults": 589420,
+      "answeredShare": 0.9868,
+      "headline": {
+        "Christians": 73,
+        "Other religions": 2,
+        "Religiously unaffiliated": 23
+      },
+      "studyGroupShares": {
+        "protestant": 0.4983,
+        "catholic": 0.2339,
+        "other-faith": 0.0345,
+        "none": 0.2333
+      },
+      "samples": {
+        "Christians": 273,
+        "Other religions": 12,
+        "Religiously unaffiliated": 78
+      }
+    },
+    "OH": {
+      "tag": "SOURCED",
+      "adults": 9051612,
+      "answeredShare": 0.9871,
+      "headline": {
+        "Christians": 64,
+        "Other religions": 5,
+        "Religiously unaffiliated": 29
+      },
+      "studyGroupShares": {
+        "protestant": 0.4648,
+        "catholic": 0.1586,
+        "other-faith": 0.0809,
+        "none": 0.2957
+      },
+      "samples": {
+        "Christians": 1031,
+        "Other religions": 83,
+        "Religiously unaffiliated": 406
+      }
+    },
+    "OK": {
+      "tag": "SOURCED",
+      "adults": 3004459,
+      "answeredShare": 0.9901,
+      "headline": {
+        "Christians": 70,
+        "Other religions": 2,
+        "Religiously unaffiliated": 26
+      },
+      "studyGroupShares": {
+        "protestant": 0.6157,
+        "catholic": 0.0787,
+        "other-faith": 0.0426,
+        "none": 0.2631
+      },
+      "samples": {
+        "Christians": 280,
+        "Other religions": 13,
+        "Religiously unaffiliated": 80
+      }
+    },
+    "OR": {
+      "tag": "SOURCED",
+      "adults": 3371480,
+      "answeredShare": 0.9733,
+      "headline": {
+        "Christians": 43,
+        "Other religions": 10,
+        "Religiously unaffiliated": 43
+      },
+      "studyGroupShares": {
+        "protestant": 0.3411,
+        "catholic": 0.0795,
+        "other-faith": 0.1325,
+        "none": 0.4469
+      },
+      "samples": {
+        "Christians": 182,
+        "Other religions": 50,
+        "Religiously unaffiliated": 224
+      }
+    },
+    "PA": {
+      "tag": "SOURCED",
+      "adults": 10188998,
+      "answeredShare": 0.9776,
+      "headline": {
+        "Christians": 62,
+        "Other religions": 6,
+        "Religiously unaffiliated": 30
+      },
+      "studyGroupShares": {
+        "protestant": 0.3939,
+        "catholic": 0.2293,
+        "other-faith": 0.0739,
+        "none": 0.3029
+      },
+      "samples": {
+        "Christians": 957,
+        "Other religions": 94,
+        "Religiously unaffiliated": 378
+      }
+    },
+    "RI": {
+      "tag": "SOURCED",
+      "adults": 878872,
+      "answeredShare": 0.9889,
+      "headline": {
+        "Christians": 63,
+        "Other religions": 5,
+        "Religiously unaffiliated": 31
+      },
+      "studyGroupShares": {
+        "protestant": 0.2234,
+        "catholic": 0.3951,
+        "other-faith": 0.0696,
+        "none": 0.3118
+      },
+      "samples": {
+        "Christians": 239,
+        "Other religions": 19,
+        "Religiously unaffiliated": 120
+      }
+    },
+    "SC": {
+      "tag": "SOURCED",
+      "adults": 4112340,
+      "answeredShare": 0.9936,
+      "headline": {
+        "Christians": 77,
+        "Other religions": 6,
+        "Religiously unaffiliated": 16
+      },
+      "studyGroupShares": {
+        "protestant": 0.6951,
+        "catholic": 0.0666,
+        "other-faith": 0.0782,
+        "none": 0.1601
+      },
+      "samples": {
+        "Christians": 416,
+        "Other religions": 18,
+        "Religiously unaffiliated": 79
+      }
+    },
+    "SD": {
+      "tag": "SOURCED",
+      "adults": 675787,
+      "answeredShare": 0.9943,
+      "headline": {
+        "Christians": 79,
+        "Other religions": 2,
+        "Religiously unaffiliated": 18
+      },
+      "studyGroupShares": {
+        "protestant": 0.6089,
+        "catholic": 0.1633,
+        "other-faith": 0.0467,
+        "none": 0.1811
+      },
+      "samples": {
+        "Christians": 288,
+        "Other religions": 14,
+        "Religiously unaffiliated": 62
+      }
+    },
+    "TN": {
+      "tag": "SOURCED",
+      "adults": 5442579,
+      "answeredShare": 0.9962,
+      "headline": {
+        "Christians": 72,
+        "Other religions": 3,
+        "Religiously unaffiliated": 24
+      },
+      "studyGroupShares": {
+        "protestant": 0.6287,
+        "catholic": 0.0713,
+        "other-faith": 0.062,
+        "none": 0.2379
+      },
+      "samples": {
+        "Christians": 672,
+        "Other religions": 28,
+        "Religiously unaffiliated": 194
+      }
+    },
+    "TX": {
+      "tag": "SOURCED",
+      "adults": 22240833,
+      "answeredShare": 0.9902,
+      "headline": {
+        "Christians": 67,
+        "Other religions": 6,
+        "Religiously unaffiliated": 26
+      },
+      "studyGroupShares": {
+        "protestant": 0.4298,
+        "catholic": 0.2258,
+        "other-faith": 0.0813,
+        "none": 0.263
+      },
+      "samples": {
+        "Christians": 2087,
+        "Other religions": 148,
+        "Religiously unaffiliated": 728
+      }
+    },
+    "UT": {
+      "tag": "SOURCED",
+      "adults": 2436546,
+      "answeredShare": 0.9877,
+      "headline": {
+        "Christians": 63,
+        "Other religions": 2,
+        "Religiously unaffiliated": 34
+      },
+      "studyGroupShares": {
+        "protestant": 0.085,
+        "catholic": 0.0394,
+        "other-faith": 0.5292,
+        "none": 0.3465
+      },
+      "samples": {
+        "Christians": 223,
+        "Other religions": 6,
+        "Religiously unaffiliated": 109
+      }
+    },
+    "VT": {
+      "tag": "SOURCED",
+      "adults": 527861,
+      "answeredShare": 0.9935,
+      "headline": {
+        "Christians": 45,
+        "Other religions": 8,
+        "Religiously unaffiliated": 46
+      },
+      "studyGroupShares": {
+        "protestant": 0.2573,
+        "catholic": 0.1834,
+        "other-faith": 0.1001,
+        "none": 0.4592
+      },
+      "samples": {
+        "Christians": 170,
+        "Other religions": 38,
+        "Religiously unaffiliated": 162
+      }
+    },
+    "VA": {
+      "tag": "SOURCED",
+      "adults": 6725922,
+      "answeredShare": 0.9755,
+      "headline": {
+        "Christians": 62,
+        "Other religions": 7,
+        "Religiously unaffiliated": 28
+      },
+      "studyGroupShares": {
+        "protestant": 0.5086,
+        "catholic": 0.1022,
+        "other-faith": 0.1024,
+        "none": 0.2868
+      },
+      "samples": {
+        "Christians": 575,
+        "Other religions": 59,
+        "Religiously unaffiliated": 257
+      }
+    },
+    "WA": {
+      "tag": "SOURCED",
+      "adults": 6092738,
+      "answeredShare": 0.979,
+      "headline": {
+        "Christians": 51,
+        "Other religions": 10,
+        "Religiously unaffiliated": 38
+      },
+      "studyGroupShares": {
+        "protestant": 0.337,
+        "catholic": 0.145,
+        "other-faith": 0.1337,
+        "none": 0.3843
+      },
+      "samples": {
+        "Christians": 432,
+        "Other religions": 68,
+        "Religiously unaffiliated": 363
+      }
+    },
+    "WV": {
+      "tag": "SOURCED",
+      "adults": 1392984,
+      "answeredShare": 0.9886,
+      "headline": {
+        "Christians": 64,
+        "Other religions": 3,
+        "Religiously unaffiliated": 31
+      },
+      "studyGroupShares": {
+        "protestant": 0.605,
+        "catholic": 0.03,
+        "other-faith": 0.0468,
+        "none": 0.3181
+      },
+      "samples": {
+        "Christians": 229,
+        "Other religions": 10,
+        "Religiously unaffiliated": 90
+      }
+    },
+    "WI": {
+      "tag": "SOURCED",
+      "adults": 4598653,
+      "answeredShare": 0.995,
+      "headline": {
+        "Christians": 61,
+        "Other religions": 4,
+        "Religiously unaffiliated": 34
+      },
+      "studyGroupShares": {
+        "protestant": 0.3934,
+        "catholic": 0.2031,
+        "other-faith": 0.0596,
+        "none": 0.3439
+      },
+      "samples": {
+        "Christians": 399,
+        "Other religions": 29,
+        "Religiously unaffiliated": 195
+      }
+    },
+    "WY": {
+      "tag": "SOURCED",
+      "adults": 445385,
+      "answeredShare": 0.9875,
+      "headline": {
+        "Christians": 62,
+        "Other religions": 3,
+        "Religiously unaffiliated": 34
+      },
+      "studyGroupShares": {
+        "protestant": 0.429,
+        "catholic": 0.1235,
+        "other-faith": 0.1058,
+        "none": 0.3416
+      },
+      "samples": {
+        "Christians": 231,
+        "Other religions": 12,
+        "Religiously unaffiliated": 122
+      }
+    },
+    "US": {
+      "tag": "SOURCED",
+      "adults": 257520024,
+      "answeredShare": 0.986,
+      "headline": {
+        "Christians": 62,
+        "Other religions": 7,
+        "Religiously unaffiliated": 29
+      },
+      "studyGroupShares": {
+        "protestant": 0.4052,
+        "catholic": 0.1916,
+        "other-faith": 0.105,
+        "none": 0.2983
+      },
+      "samples": {
+        "Christians": 23186,
+        "Other religions": 2578,
+        "Religiously unaffiliated": 10729
+      }
+    },
+    "PR": {
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the 50 states and D.C. for each group, rescaled to add to 1; the Religious Landscape Study does not survey this territory.",
+      "studyGroupShares": {
+        "protestant": 0.4278,
+        "catholic": 0.1646,
+        "other-faith": 0.0877,
+        "none": 0.3199
+      }
+    },
+    "GU": {
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the 50 states and D.C. for each group, rescaled to add to 1; the Religious Landscape Study does not survey this territory.",
+      "studyGroupShares": {
+        "protestant": 0.4278,
+        "catholic": 0.1646,
+        "other-faith": 0.0877,
+        "none": 0.3199
+      }
+    },
+    "VI": {
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the 50 states and D.C. for each group, rescaled to add to 1; the Religious Landscape Study does not survey this territory.",
+      "studyGroupShares": {
+        "protestant": 0.4278,
+        "catholic": 0.1646,
+        "other-faith": 0.0877,
+        "none": 0.3199
+      }
+    },
+    "AS": {
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the 50 states and D.C. for each group, rescaled to add to 1; the Religious Landscape Study does not survey this territory.",
+      "studyGroupShares": {
+        "protestant": 0.4278,
+        "catholic": 0.1646,
+        "other-faith": 0.0877,
+        "none": 0.3199
+      }
+    },
+    "MP": {
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Median of the 50 states and D.C. for each group, rescaled to add to 1; the Religious Landscape Study does not survey this territory.",
+      "studyGroupShares": {
+        "protestant": 0.4278,
+        "catholic": 0.1646,
+        "other-faith": 0.0877,
+        "none": 0.3199
+      }
+    }
+  }
+}

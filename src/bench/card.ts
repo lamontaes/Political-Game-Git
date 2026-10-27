@@ -7,6 +7,8 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
+import { circleChanges } from "./circle";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
 import {
@@ -14,8 +16,9 @@ import {
   PEOPLE_TRAITS,
   TRAIT_SHAPES,
   PEOPLE_MIND_VERSION,
-} from "../simulation/people-trait-definitions";
+} from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
+import { preStartHistory } from "../core2/pre-start";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
@@ -74,10 +77,23 @@ export function personCard(core: CoreState, personId: string) {
       actCount: row.actCount,
       sourceEventId: row.sourceEventId,
     }));
+  // How they came to hold a seat before the start, from the government's
+  // history before day one, each with the term record it stands on.
+  const seats = preStartHistory(core, {
+    kind: "office.seat-reached",
+    personId,
+  }).map((row) => ({
+    recordId: row.id,
+    termId: String(row.facts.termId),
+    officeId: String(row.facts.officeId),
+    reached: String(row.facts.reached),
+    since: row.date,
+  }));
   return {
     id: person.id,
     name: name(person.id),
     birthDate: person.birthDate,
+    seats,
     age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
     alive: person.alive,
     home: household && {
@@ -137,6 +153,8 @@ export function personCard(core: CoreState, personId: string) {
     affect: person.affect,
     needs: person.needs,
     ties,
+    // Who joined or left their five closest this year, from the tie records.
+    circle: circleChanges(core, personId),
     drives,
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
@@ -166,6 +184,56 @@ export function personCard(core: CoreState, personId: string) {
  * how they're related, the tie between you, and, for family and coworkers,
  * where they work. Nothing private (money, mood, drives) shows.
  */
+const OFFICES = "core2-offices-v1";
+
+/** The offices a person serves in now, by title. */
+function servingOffices(core: CoreState, personId: string): string[] {
+  if (!core.modules.has(OFFICES)) return [];
+  const offices = coreAPI(core).moduleState(OFFICES);
+  return (
+    offices.table("terms").query("byPerson", [personId]) as unknown as {
+      status: string;
+      officeId: string;
+    }[]
+  )
+    .filter((term) => term.status === "serving")
+    .flatMap((term) => {
+      const office = offices.table("offices").get(term.officeId) as
+        { title?: string } | undefined;
+      return office?.title ? [office.title] : [];
+    });
+}
+
+/**
+ * An officeholder's colleagues: their ties to others serving in office,
+ * closest first, each with that person's office and the tie's record. Null
+ * for someone who holds no office.
+ */
+function colleaguesOf(core: CoreState, personId: string) {
+  if (!servingOffices(core, personId).length) return null;
+  return [...(core.relationshipsByPerson.get(personId) ?? [])]
+    .map((id) => core.relationships.get(id))
+    .filter((row) => row !== undefined)
+    .flatMap((row) => {
+      const otherId = row.actorId === personId ? row.otherId : row.actorId;
+      const other = core.people.get(otherId);
+      const offices = other?.alive ? servingOffices(core, otherId) : [];
+      if (!other || !offices.length) return [];
+      return [
+        {
+          personId: otherId,
+          name: `${other.givenName} ${other.familyName}`,
+          office: offices[0]!,
+          kind: row.kind,
+          level: currentCloseness(core, row),
+          recordId: row.id,
+        },
+      ];
+    })
+    .sort((a, b) => b.level - a.level || a.recordId.localeCompare(b.recordId))
+    .slice(0, CLOSEST);
+}
+
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const viewer = core.people.get(viewerId);
   const other = core.people.get(otherId);
@@ -199,6 +267,21 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         ? ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date))
         : null,
     alive: other.alive,
+    // Where family, housemates and coworkers live, by their record.
+    placeName:
+      (family || housemate || coworker) &&
+      corePlaceByJurisdictionId(other.placeId as never)
+        ? corePlaceByJurisdictionId(other.placeId as never)!.displayName
+        : null,
+    // The school a child or teen is at now, from the school their past records.
+    school:
+      (family || housemate) &&
+      ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
+        coreAPI(core).parameter("benchmarkAdultMinimumAge")
+        ? (schoolsOf(core, otherId)
+            .filter((row) => row.date <= core.date)
+            .at(-1) ?? null)
+        : null,
     work:
       (family || housemate || coworker) && job
         ? {
@@ -214,6 +297,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
+    // An officeholder's colleagues in office, by their tie records.
+    colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the
     // past module's public tier); null for anyone else.
     publicKnowledge: core.modules.has(PAST_MODULE_ID)
@@ -222,7 +307,11 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [
-        { id: otherId, name: `${other.givenName} ${other.familyName}` },
+        {
+          id: otherId,
+          name: `${other.givenName} ${other.familyName}`,
+          reason: "subject",
+        },
       ]).people[0]?.figureUrl ?? null,
   };
 }

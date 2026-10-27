@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted household's income is read by the same rule as a full household's, times its count. Estimate, never UNKNOWN: incomes start from the place's sourced figures with a spread. Wire to the world: what changes is shown by the households' rent burdens and court cases in a played year.
 
-**Done when.** In the Puerto Rico world above and two places drawn from all 56 (seeds named), built with buildBenchWorld, counted renter households' median rent-to-income ratio on day one is within 10 points of the place's sourced ratio, quoted from a fetched page, and housing-calibration.test.ts still passes.
+**Done when.** In the Puerto Rico world above and two places drawn from all 56 (seeds named), built with buildBenchWorld, counted renter households' median rent-to-income ratio on day one is within 10 points of the place's sourced ratio, quoted from a fetched page, and housing-calibration.test.ts still passes. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/residents.ts, src/core2/residents.ts, src/core2/housing-calibration.test.ts
 

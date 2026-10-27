@@ -1,0 +1,45 @@
+{
+  "id": "termination-claims-1998",
+  "publisher": "The Ohio State University (research news release of May 27, 1998, on the Academy of Management Best Paper by Greenberg, Lind, Scott and Welchans; published as Lind, Greenberg, Scott and Welchans 2000, Administrative Science Quarterly 45(3):557-590, doi 10.2307/2667109)",
+  "vintage": "996 workers interviewed in central Ohio, 1990s; 163 re-interviewed four months later",
+  "table": "Release text, 'The results showed' (two findings)",
+  "title": "Bad treatment at termination leads many ex-employees to file suit",
+  "universe": "Unemployed adults who had been fired or laid off from their last job, recruited as they left state employment offices; unemployed an average of three months",
+  "geography": "Central Ohio",
+  "sourceUrl": "https://news.osu.edu/bad-treatment-at-termination---/",
+  "retrievedOn": "2026-10-24",
+  "limits": "Filing a claim is the costly end of a grievance, so these rates sit below the share who hold a grudge; the release gives the rate by how the worker was treated and not the overall rate, so the band below is the span of the subgroup rates, which any weighted mix of the same workers must fall inside. One state's offices, 1990s; self-reported filing.",
+  "filedClaimPercent": {
+    "byDignityAtDismissal": [
+      {
+        "answer": "very much dignity and respect",
+        "percent": 0.4
+      },
+      {
+        "answer": "not at all respectful and dignified",
+        "percent": 14.9
+      }
+    ],
+    "byExplanationGiven": [
+      {
+        "answer": "a complete explanation",
+        "percent": 1.7
+      },
+      {
+        "answer": "no explanation at all",
+        "percent": 20.3
+      }
+    ]
+  },
+  "bandPercent": {
+    "low": 1.7,
+    "high": 14.9,
+    "derivedFrom": "The overall share who filed is a weighted average of the subgroup rates in each pair, so it lies between 0.4 and 14.9 percent by dignity and between 1.7 and 20.3 percent by explanation, hence between 1.7 and 14.9 percent."
+  },
+  "quotes": [
+    "Of those participants who felt they were treated with very much dignity and respect at the time of their dismissal, only 0.4 percent reported filing claims against their ex-employer. However, of those who said they had not at all received respectful and dignified treatment, 14.9 percent reported filing claims.",
+    "Only 1.7 percent of those who said they received a complete explanation of why they were being dismissed reported filing suit. In contrast, 20.3 percent of those who said they received no explanation at all reported filing a claim.",
+    "But there was also a revenge factor among workers who believed they were treated in an unfair or undignified manner at their firing, Greenberg said."
+  ],
+  "use": "SG-P10-response-model: the band the share of laid-off workers who form a grudge (hold-grudge response to work.job-lost and organization.closed) is reported against, and the check that a grievance grows with unfair treatment (scripts/research/people-year.ts, src/core2/drives.test.ts). The population share who hold a grudge is not published; this is the nearest measured act on one."
+}

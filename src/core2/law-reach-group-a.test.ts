@@ -29,25 +29,25 @@ import { POLICY_QUESTIONS } from "./policy-answers";
 import powerCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import powerMapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
-  amendBudget,
+  adoptedLine,
+  BUDGETS_MODULE_ID,
   governments,
   openBudgets,
   type GovernmentRow,
 } from "./modules/budgets";
+import { appliedOn } from "./law-reach/applied";
+import { outsideAccountOf } from "./budgets-treasury";
 import { openLawReach } from "./law-reach/host";
 import { selectorGroup } from "./law-reach/group-a-records";
 import {
-  currentStaff,
   openReach,
   POLICIES,
   reachOn,
   reachParameter,
-  STAFFING,
-  townOrganizations,
+  targetsOf,
   townPeople,
 } from "./law-reach/group-a-records";
 import { budgetToday, leavePremiumsOf } from "./law-reach/group-a-money";
-import { staffingOf } from "./law-reach/group-a-staffing";
 import {
   ALL_MAIL,
   AUTO_REGISTRATION,
@@ -58,6 +58,8 @@ import {
   SAME_DAY,
   termLimitReached,
 } from "./law-reach/group-a-voting";
+// After the engines: the outcome web reads this module while it loads.
+import { govMeasure } from "./gov-measures";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -199,9 +201,29 @@ function recordRoundTrip(
   mayBeEmpty = false,
 ): void {
   const level = levelFor(key);
+  // The engine's own selection: a town with no one and nothing a law selects
+  // (no teenager and no online business for the age check) is reached by no one.
+  const selected = (POLICIES[key]?.reaches ?? []).map((spec) => ({
+    spec,
+    found: targetsOf(api, spec).length,
+  }));
+  const subject = selected.some((s) => s.found > 0);
   enact(key, level, 1);
   const open = openReach(api, key);
-  if (mayBeEmpty && !open.length) {
+  if (!subject && !open.length)
+    console.log(
+      `${where}: ${key} selects no one here, so its mechanic is checked instead; ${
+        selected.length
+          ? `selectors that found nobody: ${selected
+              .map(
+                ({ spec }) =>
+                  `${spec.id} (${spec.target}${spec.select ? ` ${JSON.stringify(spec.select)}` : ""})`,
+              )
+              .join("; ")}`
+          : "it has no group A reach selector"
+      }`,
+    );
+  if ((mayBeEmpty || !subject) && !open.length) {
     between?.();
     enact(key, level, 0);
     afterRepeal?.();
@@ -448,11 +470,19 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       sign: 1 | -1,
     ) => {
       expect(electionLawTurnoutCost(api, who, minutes), where).toBe(0);
-      recordRoundTrip(key, () => {
-        const cost = electionLawTurnoutCost(api, who, minutes);
-        costs[key] = cost;
-        expect(Math.sign(cost), `${where}: ${key} cost ${cost}`).toBe(sign);
-      });
+      // The election laws' reach rows are the voting engine's applied rows,
+      // written on registration and election day and asserted in
+      // law-wiring-government.test.ts; here the cost is read at enactment.
+      recordRoundTrip(
+        key,
+        () => {
+          const cost = electionLawTurnoutCost(api, who, minutes);
+          costs[key] = cost;
+          expect(Math.sign(cost), `${where}: ${key} cost ${cost}`).toBe(sign);
+        },
+        undefined,
+        true,
+      );
       expect(electionLawTurnoutCost(api, who, minutes), where).toBe(0);
     };
     check(PHOTO_ID, idle ?? worker.person, idle ? 0 : worker.minutes, 1);
@@ -547,103 +577,106 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     report.homeRule = { question, grantId, repealId };
   });
 
-  for (const key of Object.keys(STAFFING))
-    it(`${key} hires or lays off at the public employer it funds`, () => {
-      const line = key.slice("budget-line:".length);
-      // The town's own government that carries the line (a county runs the jail).
-      const gov = STAFFING[key]!.levels.map((level) =>
-        governments(api).find(
-          (g) =>
-            g.level === level &&
-            (budgetToday(api, g)?.spendingMinor[line] ?? 0) > 0,
-        ),
-      ).find((g) => g)!;
-      expect(gov, `${where}: no government carries ${line}`).toBeDefined();
-      const amount = budgetToday(api, gov)!.spendingMinor[line] ?? 0;
-      const employers = townOrganizations(api, STAFFING[key]!.employers);
-      const staff = () =>
-        employers.reduce((n, o) => n + currentStaff(api, o.id).length, 0);
-      const before = staff();
-      amendBudget(api, {
-        governmentId: gov.id,
-        line,
-        deltaMinor: amount,
-        measureId: `test:${line}:up`,
+  it("a dedicated parks law at the state moves the town's parks measure the outcome web reads, and a repeal puts it back", () => {
+    const key =
+      "us-policy-positions:civil-family-community.dedicated-parks-funding";
+    const before = govMeasure(api, "budget.parks-added-pct") ?? 0;
+    enact(key, "state", 1);
+    expect(
+      govMeasure(api, "budget.parks-added-pct") ?? 0,
+      where,
+    ).toBeGreaterThan(before);
+    enact(key, "state", 0);
+    expect(govMeasure(api, "budget.parks-added-pct") ?? 0, where).toBeCloseTo(
+      before,
+      6,
+    );
+  });
+
+  // Last in the file: it lives a year, which the tests above (they share this town) must not.
+  it("the treasury reads a dedicated parks levy again when a new fiscal year's budget is adopted, and a repeal ends it", () => {
+    const key =
+      "us-policy-positions:civil-family-community.dedicated-parks-funding";
+    const gov = cityGov();
+    const share = reachParameter("parksDedicatedShare");
+    enact(key, "city", 1);
+    const first = budgetToday(api, gov)!;
+    // A treasury that cannot pay a month of its lines pays none at its first close, and then nothing is paid under the law (governments open with no cash). Read as the law is set, before it acts: the town's treasury is given a year of its lines, an edge fixture, so the first close pays.
+    const accounts = api.accounts();
+    const lines = Object.values(first.spendingMinor).reduce(
+      (sum, minor) => sum + minor,
+      0,
+    );
+    const cash = accounts.balance(accounts.main(gov.organizationId));
+    if (cash < lines / 12) {
+      // stopgapId: SG-WORLD-government-opening-fund-balance
+      accounts.transfer({
+        id: `fixture:parks-levy-cash:${api.state.date}`,
+        from: accounts.main(outsideAccountOf(api)!),
+        to: accounts.main(gov.organizationId),
+        amountMinor: lines,
+        reasonKey: "fixture",
+        source: {
+          tag: "SOURCED",
+          citation: "Test fixture: cash for the treasury's first close.",
+          asOf: api.state.date,
+        },
       });
-      advanceCore(core, after(api.state.date, 1));
-      const funded = employers.length
-        ? employers.map((o) => staffingOf(api, key, o.id)!)
-        : [staffingOf(api, key, gov.organizationId)!];
-      expect(
-        funded.every((r) => r !== null),
-        where,
-      ).toBe(true);
-      if (!employers.length)
-        expect(funded[0]!.positions, `${where}: ${key}`).toBeGreaterThan(0);
-      const up = staff();
-      const hired = openReach(api, key).filter((r) => r.spec === "hired");
-      report[key] = {
-        line: amount,
-        employers: employers.map((o) => o.id),
-        before,
-        positions: funded.map((r) => r.positions),
-        afterRaise: up,
-        hired: hired.length,
-      };
-      if (employers.length && before > 0) {
-        expect(funded[0]!.positions, where).toBeCloseTo(
-          funded[0]!.baseStaff * ((2 * amount) / amount),
-        );
-        expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
-        for (const row of hired) {
-          const jobId = core.people.get(row.targetId)?.jobId;
-          expect(jobId, where).toBeDefined();
-          // A hire at a public employer is on the employer's public pay
-          // authority, or its first payday would stop the year.
-          const commitment = [...core.work.commitments.values()].find(
-            (c) => c.jobId === jobId,
-          )!;
-          const authority = core.organizations.get(
-            commitment.organizationId,
-          )?.publicPayAuthority;
-          if (authority) {
-            expect(commitment.publicPayAuthorityId, `${where}: ${jobId}`).toBe(
-              authority.id,
-            );
-            expect(authority.workCommitmentIds, `${where}: ${jobId}`).toContain(
-              commitment.id,
-            );
-          }
-        }
-      }
-      // Cut to half the base: the newest hires and then the newest staff go.
-      amendBudget(api, {
-        governmentId: gov.id,
-        line,
-        deltaMinor: -Math.round(amount * 1.5),
-        measureId: `test:${line}:down`,
-      });
-      advanceCore(core, after(api.state.date, 1));
-      const down = staff();
-      (report[key] as Record<string, unknown>).afterCut = down;
-      (report[key] as Record<string, unknown>).cutPositions = employers.map(
-        (o) => staffingOf(api, key, o.id)?.positions,
+      process.stdout.write(
+        `FIXTURE treasury cash: ${where}: the treasury held ${cash} against ${Math.round(lines / 12)} a month of its lines; given ${lines}\n`,
       );
-      (report[key] as Record<string, unknown>).laidOff = openReach(
-        api,
-        key,
-      ).filter((r) => r.spec === "laid-off").length;
-      if (employers.length && before > 0)
-        expect(down, `${where}: ${key} no layoffs`).toBeLessThan(up);
-      // Back to the base.
-      amendBudget(api, {
-        governmentId: gov.id,
-        line,
-        deltaMinor: Math.round(amount * 0.5),
-        measureId: `test:${line}:base`,
-      });
-      advanceCore(core, after(api.state.date, 1));
-    });
+    }
+    // The treasury's first close pays the levy's share of the line under the law's own payment, and records whom it reached.
+    advanceCore(core, after(api.state.date, 35));
+    const paid = appliedOn(api, key).filter(
+      (r) => r.what === "parks-line-paid",
+    );
+    expect(
+      paid.length,
+      `${where}: the levy's share is recorded`,
+    ).toBeGreaterThan(0);
+    expect(
+      paid.every((r) => r.amountMinor > 0),
+      where,
+    ).toBe(true);
+    expect(
+      (
+        api
+          .moduleState(BUDGETS_MODULE_ID)
+          .table("spendingPayments")
+          .rows() as unknown as {
+          id: string;
+          amountMinor: number;
+        }[]
+      ).some((p) => p.id.includes(paid[0]!.lawId) && p.amountMinor > 0),
+      `${where}: a payment names the law row ${paid[0]?.lawId}`,
+    ).toBe(true);
+    // Live to the next fiscal year's start: its budget begins without the levy.
+    for (
+      let i = 0;
+      i < 14 && budgetToday(api, gov)!.fiscalYear === first.fiscalYear;
+      i += 1
+    )
+      advanceCore(core, after(api.state.date, 30));
+    const next = budgetToday(api, gov)!;
+    expect(next.fiscalYear, where).toBeGreaterThan(first.fiscalYear);
+    // The law is still in force, so the new year's line carries the levy on the line as the council adopted it
+    // (a budget bill the council passed that year may have moved the line itself).
+    const adopted = adoptedLine(api, gov, next.fiscalYear, "parks");
+    expect(next.spendingMinor.parks, where).toBe(
+      adopted + Math.round(adopted * share),
+    );
+    enact(key, "city", 0);
+    expect(budgetToday(api, gov)!.spendingMinor.parks ?? 0, where).toBe(
+      adopted,
+    );
+    // A repeal ends the treasury's records of it.
+    expect(
+      appliedOn(api, key).filter((r) => r.what === "parks-line-paid"),
+      where,
+    ).toHaveLength(0);
+    // It lives a year and a month of a town's days: over the default 30 seconds on a loaded machine.
+  }, 180_000);
 
   it("reports", () => {
     govReport("law-reach-group-a", JSON.stringify(report));

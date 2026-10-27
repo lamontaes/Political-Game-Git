@@ -1,0 +1,82 @@
+{
+  "schema": "director-scene-talk-rules/1",
+  "note": "How a scene with a purpose picks the player's path. Moves only, no sentence. The player's character leans toward the reply whose act kinds (`scene-talk.move` in data/content/trait-decisions.json) its traits pull toward most, by the same lean the asker's answers read. Nothing here is a roll; a tie goes to the stable hash of the scene.",
+  "terminalFollow": ["thank", "accept"],
+  "tree": {
+    "about": "Owner, Oct 15, night: a scene is a tree, a branch for each thing the player might say. The bounds keep a page readable: past maxNodes only the branch the player's traits lean toward is kept.",
+    "maxReplies": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "spread": [3, 6],
+      "checkedAgainst": "The owner's four dynamic choices a turn (OWNER-DECISIONS, Oct 14) plus the lie, which he asked for as a fifth reply on the purposes that allow one (Oct 15, night); three read thin, six crowd a page."
+    },
+    "maxNodes": {
+      "value": 600,
+      "tag": "TUNABLE",
+      "spread": [300, 1000],
+      "checkedAgainst": "The review page plays one scene at a time, one path at a time, so every branch must be whole: a pruned branch is a button that leads nowhere. Six hundred nodes holds a five-wide tree five deep with its lie branches."
+    }
+  },
+  "grounds": {
+    "about": "A request needs its ground on record (owner, Oct 15, night). A donor leans on you only above this share of the money a campaign raised; below it the donor scene is not staged.",
+    "donorShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.33, 0.67],
+      "checkedAgainst": "'Most of' is more than half; a third is the least a donor could claim as 'a lot of what you raised'."
+    },
+    "donorFloorMinor": {
+      "value": 50000,
+      "tag": "TUNABLE",
+      "spread": [25000, 250000],
+      "checkedAgainst": "A gift big enough that leaning on it reads as pressure, not a joke. Under it the donor is 'one of your donors', with no amount said."
+    }
+  },
+  "screens": {
+    "about": "The game screens a scene's ending can hand the player to, by the key the game screen uses.",
+    "desk": "The desk: sign or veto the bill.",
+    "filing": "The filing office: file to run.",
+    "office": "Your office: bills, cases and staff.",
+    "meeting": "The meeting: the vote on the floor.",
+    "campaigns": "Campaigns: the campaign's week."
+  },
+  "bluntGreeting": {
+    "about": "So scenes do not all open the same way: an asker whose sociability is at or below minus this level skips the greeting and opens on why they came; trait levels run from -2 to 2.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "spread": [0.5, 1.5],
+    "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut."
+  },
+  "familyStakes": {
+    "about": "Who at home has a stake in a filing (scenes-from-life, spouse-stake-after-filing). A relative reacts to a filing only when the household's records give them one; the strongest stake casts the relative and gives the scene its facts, and with none the scene is not staged. Read from the household's savings and costs, the filing's election date, and the children's birth dates; nothing is rolled.",
+    "adultAge": {
+      "value": 18,
+      "tag": "SOURCED",
+      "citation": "Age of majority in 48 states and D.C. (the people module's adult line); who can carry a household's worry."
+    },
+    "runwayShortfall": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": [0.1, 0.5],
+      "checkedAgainst": "The share of the race the household's savings fail to cover before a relative has money to say about it; at a quarter, savings cover three-quarters of the race. Checked against drawn bench places: household runways run from under two months to most of a year against a race 9 to 10 months away, so the gate admits some households and not others."
+    },
+    "youngChildAge": {
+      "value": 13,
+      "tag": "TUNABLE",
+      "spread": [12, 14],
+      "checkedAgainst": "The age under which a child at home is not left alone in the evening in most households; local-candidate accounts name young children as the main cost of a run (Toledo Parent, Winston-Salem Chronicle; docs/design/scenes/from-life/spouse-stake-after-filing.md)."
+    },
+    "timeStrength": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 0.75],
+      "checkedAgainst": "Where a child at home and a working filer rank against a money shortfall when a relative has both: a half shortfall in savings outranks it, a quarter shortfall does not."
+    },
+    "putOffHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": [0.5, 2],
+      "checkedAgainst": "Hours of quarrel a night of putting off a relative's stated cost counts for on the tie (the closeness engine reads negative hours as a quarrel, tempered by who holds on to it); one hour is about one talk's length, so a put-off cancels one talk's worth of time together. Checked in the played-world test: the tie ends lower than it began."
+    }
+  }
+}

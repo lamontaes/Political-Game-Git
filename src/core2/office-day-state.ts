@@ -53,6 +53,7 @@ import {
 } from "./modules/justice";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { holderOf } from "./modules/officials";
 import {
   billOf,
   hasSitting,
@@ -1227,16 +1228,23 @@ function computerGovernorsDay(api: CoreAPI): void {
   const today = api.state.date;
   if (weekday(today) !== stateDayParameter("clemencyReviewWeekday")) return;
   const playerId = controlled(api);
-  const governors = new Set(
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .rows() as unknown as TermRow[]
-    )
-      .filter((t) => t.status === "serving" && t.personId)
-      .map((t) => t.personId!),
-  );
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const governors = new Set<string>();
+  for (const term of api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .rows() as unknown as TermRow[]) {
+    if (term.status !== "serving") continue;
+    // A governor seated after the opening (a successor in line, a race's
+    // winner) is a person from the first day the office acts: their seat is
+    // read here, as every other engine reads a seat's holder.
+    const kind = (
+      offices.get(term.officeId) as unknown as { kind?: string } | undefined
+    )?.kind;
+    const held =
+      term.personId || kind !== "governor" ? term : holderOf(api, term);
+    if (held.personId) governors.add(held.personId);
+  }
   for (const personId of [...governors].sort()) {
     if (personId === playerId || !api.state.people.get(personId)?.alive)
       continue;

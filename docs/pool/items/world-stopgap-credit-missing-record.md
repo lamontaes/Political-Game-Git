@@ -3,7 +3,7 @@ id: world-stopgap-credit-missing-record
 title: "Stopgaps in credit (missing-record): 1 open"
 area: world
 kind: stopgap
-priority: 2
+priority: 3
 status: open
 claimed-by:
 pr:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: The bank holds opening mortgages whose original funding is an unmatched opening liability, not named customer deposits. New savings deposits are actual journal transfers and are accounted for separately. Claim released Oct 23: branch gone.
 
 Measured Oct 19 (claude/mortgage-funding, not built): Ingram, Texas, seed bank-probe-7a1, 40 days in. Bank deposits $0.95M; opening mortgage funding (the unmatched liability) $12.30M; mortgages held $12.26M; bank cash $6.15M; the 1,856 people hold $31.7M in cash between them. So the money to back the mortgages is in the town (39 percent of its cash), but moving it into deposit records takes it out of people's cash with nothing to offset it on the bank's side: the bank's cash does not rise because the mortgages were paid out long ago. Doing it needs a decision on the opening offset (the ledger's opening-balance entry, or a one-time cut to every household's opening cash in proportion to its savings, a deposit-to-loan ratio from FDIC data with a spread) before the code, and every test that sums opening cash will move. Suggested first step: the ratio, sourced, as an ESTIMATED parameter; then deposit records at the opening taken from households in proportion to their savings.
+
+Deferred Oct 25: nothing on screen reads it yet.

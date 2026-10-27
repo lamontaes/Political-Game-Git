@@ -1,6 +1,6 @@
 /**
  * Dev mode's routes: the page, its script, Kit 12's styles, and the controls
- * in `dev-mode.ts`. Mounted from `server.ts` with one hook; it holds no world
+ * in `dev-mode.ts` (follow and unfollow a resident among them). Mounted from `server.ts` with one hook; it holds no world
  * of its own and reads the bench's current core, director and player.
  */
 import type { IncomingMessage } from "node:http";
@@ -162,6 +162,24 @@ export async function handleDev(
           })),
       );
       return true;
+    case "GET following":
+      send(
+        200,
+        q("personId")
+          ? mode.followStatus(q("personId"))
+          : { followed: mode.followed() },
+      );
+      return true;
+    case "POST follow": {
+      const input = await body(request);
+      send(200, mode.follow(String(input.personId)));
+      return true;
+    }
+    case "POST unfollow": {
+      const input = await body(request);
+      send(200, mode.unfollow(String(input.personId)));
+      return true;
+    }
     case "GET offers":
       send(200, mode.offers(q("personId")));
       return true;

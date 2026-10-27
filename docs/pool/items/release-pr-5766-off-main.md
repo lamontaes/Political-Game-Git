@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/sleepy-carson-f8omzd-5766
 pr: #5850
 blocked-on:

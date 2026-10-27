@@ -9,11 +9,10 @@
  * contract already paid). A law that stood at the opening is already in the
  * pay the jobs were set from.
  */
-import type { CoreAPI, CoreState, Source } from "../types";
+import type { CoreAPI } from "../types";
 import type { ModuleRow } from "../module-data";
-import { PUBLIC_EMPLOYER_CLASSES } from "../public-pay-floor";
+import { bargainingStands, holdBargainedPay } from "../public-bargaining";
 import type { PolicyHandler } from "./host";
-import { jobsAt } from "./group-b-money";
 import { onReachCalendar } from "./reach-workers";
 import {
   ensureReachA,
@@ -71,26 +70,14 @@ function save(api: CoreAPI, row: BargainingRow, active: boolean): void {
 
 /** Raise each public job toward its bargained pay; returns the row with new bases. */
 function apply(api: CoreAPI, row: BargainingRow): BargainingRow {
-  const core = api.state as CoreState;
-  const share = premiumShare(row, core.date);
-  const premium = reachParameter("publicBargainingPayPremium");
-  const base: Record<string, number> = { ...row.baseMinor };
-  const source: Source = {
-    tag: "ESTIMATED",
-    asOf: core.date,
-    citation: `${row.lawId}; public-sector union wage premium`,
-    estimatedFrom:
-      "Public workers who bargain through a union are paid about five percent more than those who do not.",
+  return {
+    ...row,
+    baseMinor: holdBargainedPay(api, {
+      lawId: row.lawId,
+      share: premiumShare(row, api.state.date),
+      baseMinor: row.baseMinor,
+    }),
   };
-  for (const job of jobsAt(api, PUBLIC_EMPLOYER_CLASSES)) {
-    const hourly = job.hourlyMinor ?? 0;
-    if (hourly <= 0) continue;
-    base[job.id] ??= hourly;
-    const target = Math.ceil(base[job.id]! * (1 + premium * share));
-    // Pay already above the bargained level (a floor, a raise) stays.
-    if (target > hourly) api.rerateJob(job.id, target, source);
-  }
-  return { ...row, baseMinor: base };
 }
 
 function schedule(api: CoreAPI, row: BargainingRow): void {
@@ -117,8 +104,9 @@ function schedule(api: CoreAPI, row: BargainingRow): void {
 export const publicBargaining: PolicyHandler = (api, change) => {
   ensureReachA(api);
   const prior = bargainingRow(api);
-  if (!change.inForce) {
-    // A repeal ends the phase-in; pay already bargained stays.
+  // The pay engine reads the law itself: a law no level has in force ends the
+  // phase-in; pay already bargained stays.
+  if (!bargainingStands(api)) {
     if (prior?.active) save(api, prior.facts, false);
     return;
   }

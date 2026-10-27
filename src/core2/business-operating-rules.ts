@@ -5,6 +5,7 @@
  * cost it pays each month to whoever the law names, or outside the town
  * (the equipment, monitoring and services it buys).
  */
+import { townOutsideOf } from "./opening-outside-market";
 import nonattainment from "./data/business/nonattainment.json" with { type: "json" };
 import { limitOutsideSales } from "./residents-economy";
 import type { ModuleTable } from "./module-state";
@@ -111,10 +112,7 @@ export function payOperatingCosts(api: CoreAPI, table: ModuleTable): void {
     if (!book || book.closedAt) continue;
     const placeId = c.organizations.get(row.organizationId)?.placeId;
     const to =
-      row.payeeId ??
-      [...c.organizations.values()].find(
-        (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-      )?.id;
+      row.payeeId ?? townOutsideOf(c.organizations.values(), placeId)?.id;
     if (!to) continue;
     transferCash(
       api,

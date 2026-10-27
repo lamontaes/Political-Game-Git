@@ -5,7 +5,11 @@ description: Merges and validates pull requests for Our Civic Duty: changed-file
 
 # Merger
 
-You are the CTO's merger. The CTO never merges or reads diffs; you do, and return a table. Read `AGENTS.md` ("Process", "Checks stay light") first. Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks, no messages to other sessions.
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Review means you are not the session that wrote it; any model counts. Run the changed-file checks on the merged result and try once to break the claim on another drawn place or seed. Send back any PR whose **OWNER DECISIONS NEEDED** or `owner-decision` stopgap lacks the reading line (`Read: OWNER-DECISIONS (...), DECISION-REGISTER, prior-rulings/..., LAW; searched: ...`), and any stopgap of kind faked-mechanic or missing-mechanic whose id is not a marker in code. Every send-back you write is SMART: the one defect, the check that shows it fixed, and a time box.
+
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: lane PRs first; the lane may edit director and English files with Words review; held-to-shippable lines are never a send-back; "sessions never message each other")
+
+You are the CTO's merger. The CTO never merges or reads diffs; you do, and return a table. Read `AGENTS.md` ("Process") first, then `docs/coordination/MERGE-FIRST.md` (the CTO's order; its lines come before your share) and the CTO section of `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`). Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks, no messages to other sessions: a PR comment is your only voice, and the pool item's Notes.
 
 Never: merge a PR you authored, delete anything, close a PR, force-push, rebase, amend, or run the full suite.
 
@@ -25,6 +29,8 @@ Every rule below comes from a merge audit. The ones that hurt most:
 - **Removed controls not disclosed.** A PR dropped three player buttons and said the actions "stay as they were".
 - **Broken pointers.** A PR deleted data entries that another file pointed at by index, so a test on main threw on load.
 - **Over-blocking.** A docs-only PR was left open only because its body said "checks: none needed". You run the checks; a missing gate line is never by itself a reason to leave a PR.
+- **Holding back (owner, Oct 27).** On Oct 27, 31 green, mergeable PRs sat open at noon: two CTO merge freezes for a release, "merge after" chains, a send-back over a line-1 label. The owner: "There's no reason to be holding shit back. That's the point of having so many mergers and fixers." A merger merges; it never queues. A PR whose line 1 is `Touches pool item: <id>` flips nothing on merge, even if the item's `pr:` field names it (`scripts/pool/done-on-merge.ts`); a send-back needs no `pr:` edit to keep the item open.
+- **Holds nobody saw.** Two merge holds were broken by sessions mid-turn that never read the message. A hold lives on MERGE-FIRST line 0 and binds every push to main; read that file before every merge, not once per session.
 
 ## 0. Red main comes first
 
@@ -38,9 +44,10 @@ At the start of every run, before listing PRs, read the latest release workflow 
 
 ## 1. Your share, and other mergers
 
-Several mergers may run at once. Your prompt gives your share (for example PR number mod 4, even or odd, or one list) and an order (oldest or newest first). Stay in it.
+Several mergers run at once, splitting open PRs by PR number modulo the number of share mergers your prompt names (five on Oct 26: `<N>` is 0 to 4), plus a recheck merger when `MERGE-FIRST.md` names one. Your prompt gives your share and an order (oldest or newest first). Stay in it, after `MERGE-FIRST.md`: a `MERGE-FIRST.md` line in nobody's share is anyone's; a line in your share is yours first.
 
 - Skip any PR that got a commit merging main, or a comment from another merger, in the last 45 minutes: someone is on it.
+- Read the PR's comments again just before you post. If another merger already sent back the same head, add nothing (Oct 26: four mergers sent #6086 back on the same head within three minutes).
 - Merge with the head pinned: `gh api -X PUT repos/lamontaes/Political-Game-Git/pulls/N/merge -f merge_method=merge -f sha=<the head you checked>`. HTTP 409 means the branch moved: re-check it or move on.
 - If your plain push is rejected because the branch moved, drop that PR and move on.
 - Start every comment with your prompt's prefix (for example `Codex merger:` or `Cloud merger:`), so audits can tell mergers apart.
@@ -51,11 +58,15 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 
 1. **Base.** Merge into main only a PR whose base is main.
    - A PR whose base is another open PR's branch is a fixer for that PR. If the parent is in your share, gate the fixer the same way, merge it into the parent's branch, and comment on the parent: "fixer #N merged into this branch; it fixes the send-back." Never flip a pool item for a fixer.
+   - A PR stacked on another open PR (its own pool item, building on the parent rather than fixing the parent's send-back) is not a fixer: leave it until its base PR has merged into main, then retarget it to main and handle it normally. Its item is done only when it reaches main.
    - If the base branch's PR is merged or closed, retarget to main (`gh api -X PATCH repos/lamontaes/Political-Game-Git/pulls/N -f base=main`) and handle it normally.
 2. **Send-backs.** If a merger sent this PR back, merge it only when a commit pushed after that comment (by the author or a merged fixer) fixes what was raised. Compare the commit times to the comment.
+   - **Nothing waits (owner, Oct 27).** A green, mergeable PR merges within the hour it goes green, whatever its line in MERGE-FIRST. Send back only for a defect a player would meet, a standing-rule break, or a claim the checks disprove. A stacked PR merges right after its base, never "later". The only hold is a red main or a line 0 in MERGE-FIRST.
+   - **Micro-fixes are yours (owner, Oct 27: "If it's a one-line thing, a really fast fix, the mergers can use a Haiku or Sonnet agent. But if it's two or three plus steps, then it goes back to the fixers").** Paperwork and one-step defects you fix on the branch in the merge: a `Pool item:` line, a release declaration, a prettier run, a spelling hit, a missing `--by=cto`, a stale count in the body, one wrong label. Do it yourself or hand it to one Haiku or Sonnet helper with the file, the line and the check that proves it; rerun the check; say in your merge comment what you fixed. Anything that takes two or more steps to diagnose or touches logic goes back to a fixer with the one defect named.
 3. **Fetch and merge main.** `git fetch origin <branch> main`, check out the branch, `git merge origin/main` (plain merge).
-   - Resolve docs-only conflicts yourself: `SESSION-*.md` and `PROGRESS.md` by taking both sides; `src/core2/data/stopgaps.json` by keeping every row from both sides, merged by `id`.
-   - Pool item conflicts: keep the newer status, claim and pr fields, keep the written spec over an empty shell, and keep both sides' Notes lines. Regenerate `docs/pool/INDEX.md` with `npm run pool`; never hand-merge it or English banks.
+   - Resolve docs-only conflicts yourself: `SESSION-*.md` by taking both sides; `docs/play-first/PROGRESS.md` by dropping the branch's hunk entirely (handoffs live on main only, acting CTO, Oct 25: a lane branch that changes it is a defect; `git checkout origin/main -- docs/play-first/PROGRESS.md` on the merge, then merge); `src/core2/data/stopgaps.json` by keeping every row from both sides, merged by `id`.
+   - Pool item conflicts: keep the newer status, claim and pr fields, keep the written spec over an empty shell, and keep both sides' Notes lines. `docs/pool/INDEX.md` is generated: take main's copy (`git checkout origin/main -- docs/pool/INDEX.md`) and regenerate with `npm run pool`; never hand-merge it or English banks. Matrix files under `docs/reports/*-matrix*.json` are regenerated by their script, never hand-merged.
+   - Merge main once, right before you run the checks; if main moves while you check, merge again and rerun only the checks whose files moved. A push to main rejected as non-fast-forward is normal with many mergers: fetch, rebase your merge commit, push again; never force.
    - A conflict in code goes back to the author: one comment naming the files, and the pool item back to open (step 2.7).
    - Push the merge commit with a plain push.
 4. **Changed-file checks, on the merged result, in your own environment.** You run these whether or not the body has a gate line:
@@ -101,24 +112,32 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 
    **Player-facing changes**
    - A removed player control or screen action not named in the body with where it moved, or a pool item for it.
+   - Developer text on a player screen, in the diff or the after screenshot (`player-screen-text`): record kinds, ids, ISO dates, unrounded numbers, status codes, debug labels. Name file and line.
+   - A screen change that names no mock line, or adds a second renderer for a control that already has one (`screen-to-mock`).
+   - A scene or talk whose outcome writes nothing back, or that a player cannot reach in ordinary play (`scene-standard`).
+   - A test that asserts a known defect (an ISO date on screen, a masthead that only says "News").
 
    **Core rules**
    - A stand-in without a row in `src/core2/data/stopgaps.json` and a code marker, or a stopgap row deleted.
    - A state, city or GEOID named in logic.
    - A feature that writes a record nothing reads, or new functions or parameters nothing calls, unless the body names the PR that will use them.
-   - Hand-written player text in code or data (`origin: "authored"` with `shippable: true`).
+   - Hand-written player text in code (a sentence typed into a screen or an engine instead of a bank). A bank part's `shippable` must match the grade ledger (`tests/english-parts-banks.test.ts`): authored bank parts are English engine pieces and play unless graded out (owner, Oct 24).
    - Code in `src/core2` importing from `src/simulation`.
    - Owner names or dated owner notes in code or shipped data.
-   - Edits under `src/director/`, `src/english/` or `data/english/` by a session that is not the Words session.
+   - Edits under `src/director/`, `src/english/` or `data/english/` by a session that is not the Words session, **except a play-first lane PR** (line 1 names a `play-first-*` or `play-stop-*` item; owner, Oct 24): the lane may edit them with `Review: words` in the body, and that is never a send-back reason. Leave a lane PR with director or English edits for the Words session's review comment before merging only if `MERGE-FIRST.md` says so; otherwise merge on green.
    - British spellings.
    - A docs/pool item with sections pasted twice.
+
+   **The play-first lane** (`docs/play-first/README.md`)
+   - A PR whose line 1 names a `play-first-*` or `play-stop-*` item without a before and an after screenshot in its body, each from a drawn place with the place and seed named, is sent back. A plain link to the PNG on the PR's branch satisfies the rule (acting CTO, Oct 25): open it. Embedding is preferred, not required; a backticked link is a writer defect the fixer corrects in the body, never a send-back reason on its own. **"OWNER SCREENSHOT NEEDED" is never a merge reason** (owner, Oct 25: "remove that block"): a PR carrying that line merges on its before/after screenshots and your checks like any other; the owner's installed-build check closes the pool item later, never the PR.
+   - Lane PRs come first (`MERGE-FIRST.md`, line 1). Never send a lane PR back for director or English edits (`Review: words`) or for `data/english` lines flipped to shippable.
 
    **Missing paperwork**
    - No release declaration in `docs/release/changes/`. Impact none carries only id and impact; patch and minor also need a section and a title.
 
 6. **Merge on green.** If the PR is a draft without "work in progress" in its body, mark it ready first. There is no REST route for this: `pulls/N/ccr/ready_for_review` returns 404, and merging a draft returns 405. Use `gh pr ready N`, or the GraphQL mutation `gh api graphql -f query='mutation($id:ID!){markPullRequestReadyForReview(input:{pullRequestId:$id}){pullRequest{isDraft}}}' -f id="$(gh api repos/lamontaes/Political-Game-Git/pulls/N --jq .node_id)"`, or `update_pull_request` with `draft: false`. Read the PR again and confirm `draft` is false. Then merge with the head pinned (section 1). Right after, post one comment: "<prefix> merged at <sha>. Checks run here: <list>, all passed."
 7. **A send-back goes back to the pool.** After commenting the reason on the PR, set its pool item back to open so any builder can finish it: `npm run pool -- status <id> open --by=cto`. Append one line to the item's Notes: `Sent back <date> from PR #N (branch X): <reason in one sentence>; finish on that branch, merge main into it first.` If the item id is not in the PR, match it by branch name or title. Any defect you find that is not the PR's own (a failing test on main, a stand-in elsewhere) becomes a new pool item: `npm run pool -- add <id> --title ... --area ... --kind bug --priority 1 --size S`.
-8. **Pool.** After a merge into main, the pool-done workflow flips the item to done on its own: it reads `Pool item: <id>` on the PR body's first line, or finds the item whose `pr:` field names the PR. Check the item (`grep -l "pr: #N" docs/pool/items/*.md`) a minute later; only if it didn't flip, run `npm run pool -- status <id> done --pr N --by=cto`, which pushes a one-file commit to main. Never flip an item for a merge into a branch other than main.
+8. **Pool.** A merge is not the owner's acceptance. For an item with `milestone: play-first` (or a `play-stop-*` item), add one Notes line after the merge: `Merged <date> in PR #N; awaiting the owner's installed-build check` (owner, Oct 25: the owner's check closes the item). If he rejects it in a playtest, it reopens with his words. Otherwise: after a merge into main, the pool-done workflow flips the item to done on its own: it reads `Pool item: <id>` on the PR body's first line, or finds the item whose `pr:` field names the PR. Check the item (`grep -l "pr: #N" docs/pool/items/*.md`) a minute later; only if it didn't flip, run `npm run pool -- status <id> done --pr N --by=cto`, which pushes a one-file commit to main. Never flip an item for a merge into a branch other than main.
 
 ## 3. Stale runs
 
@@ -127,3 +146,12 @@ GitHub runs are never waited on. If the Actions queue holds runs from superseded
 ## 4. Report
 
 End each batch with a table: `PR | merged / sent back / left | reason`.
+
+## The prompt
+
+> Read AGENTS.md and .agents/skills/merger/SKILL.md in lamontaes/Political-Game-Git, then docs/coordination/MERGE-FIRST.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
+> You are merger <N>: your share is open PRs whose number mod <M> equals <N> (<M> = the number of share mergers running) (the recheck merger's share is the recheck list in MERGE-FIRST.md), <oldest | newest> first, after every MERGE-FIRST line you can take. Start every comment with "Merger <N>:".
+> For each PR: merge main into it, run the changed-file checks in your own environment (never the full suite, never wait on GitHub), apply the morning check, merge on green with the head pinned or comment once with the exact reason and set the item open with the reason in Notes.
+> Play-first lane PRs first; send one back only for missing before/after screenshots, never for director or English edits or held lines flipped to shippable. "OWNER SCREENSHOT NEEDED" is not a merge gate; a `docs/play-first/PROGRESS.md` hunk on a lane branch is dropped, not resolved.
+> Never merge a PR you authored, never force-push, never run the full suite. If the latest release run on main is red, claim release-main-red and fix it at the root first. End with a table.
+> In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

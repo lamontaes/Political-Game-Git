@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-after: world-jobs-counted-chooser
+after: world-jobs-counted-choices-one-rule
 blocked-on:
 milestone:
 source: split from world-jobs-counted-choices by pool feeder Oct 20
@@ -18,7 +18,7 @@ source: split from world-jobs-counted-choices by pool feeder Oct 20
 
 **Rules.** One model, two tiers: a counted owner is weighed by the same offers as a full one, times the group's count. No dice: shares come from scored offers and a carried remainder. Replace, never layer: `strongestPulls` and the SG-WORLD-jobs-counted-choices marker are deleted and the row is marked resolved in the same change. An effect is a read, not a record: the credit engine reads the borrowers chosen and the business engine reads the closings. Speed: no whole-world scan; groups, not people.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body) counted businesses close, start and borrow through the aggregate chooser, each as a business or credit record id with its group's reasons, with no call of strongestPulls remaining in src, shown by src/core2/business.test.ts and src/core2/credit.test.ts.
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body) counted businesses close, start and borrow through the aggregate chooser, each as a business or credit record id with its group's reasons, with no call of strongestPulls remaining in src, shown by src/core2/business.test.ts and src/core2/credit.test.ts. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/core2/modules/business.ts, src/core2/modules/credit.ts, src/core2/modules/jobs.ts, src/core2/data/stopgaps.json
 

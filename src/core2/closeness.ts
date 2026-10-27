@@ -235,6 +235,87 @@ export function openingClosenessHours(
 }
 
 /**
+ * The relation one person's own past facts record for a relative
+ * (`family:<relation>` naming the other): the latest one recorded, since a
+ * partnership that ended is a later fact than the partnership. Undefined when
+ * none, or when the latest is a tie that has ended (a former partner).
+ */
+function recordedRelation(
+  person: Pick<PersonState, "pastFacts"> | undefined,
+  otherId: PersonId,
+): string | undefined {
+  const facts = person?.pastFacts ?? [];
+  for (let index = facts.length - 1; index >= 0; index -= 1) {
+    const fact = facts[index]!;
+    if (
+      fact.facts?.otherPersonId !== otherId ||
+      !fact.kind.startsWith(data.familyFactPrefix)
+    )
+      continue;
+    const relation = fact.kind.slice(data.familyFactPrefix.length);
+    return data.formerKinRelations.includes(relation) ? undefined : relation;
+  }
+  return undefined;
+}
+
+/**
+ * How two people are family today, from the records: the relation either one
+ * records for the other (parent, sibling, partner, aunt-or-uncle and the
+ * rest of the opening family, and the partners and children that come after),
+ * else the household relation for two people who share a home. Null when
+ * nothing joins them. A relative still in the wider population is read from
+ * the full person's own facts, so a counted relative counts the same.
+ */
+export function familyRelation(
+  core: Pick<CoreState, "people">,
+  a: PersonId,
+  b: PersonId,
+): string | null {
+  if (a === b) return null;
+  const left = core.people.get(a),
+    right = core.people.get(b);
+  const recorded = recordedRelation(left, b) ?? recordedRelation(right, a);
+  if (recorded) return recorded;
+  return left && right && left.householdId === right.householdId
+    ? data.householdRelation
+    : null;
+}
+
+/**
+ * Opening closeness between two people the records say shared a school class
+ * or a workgroup (the opening peer circles), in hours of time together: the
+ * hours it takes to become a casual friend, faded since the day the shared
+ * context began. Zero when no recorded peer fact joins them. Read the same
+ * for a full person and a counted one: only the recorded facts decide.
+ */
+export function openingPeerHours(
+  core: Pick<CoreState, "data" | "date">,
+  actor: Pick<PersonState, "pastFacts">,
+  otherId: PersonId,
+): number {
+  stopgap(data.stopgapId);
+  const p = lookup(core);
+  let hours = p("zero");
+  for (const fact of actor.pastFacts ?? []) {
+    if (
+      fact.facts?.otherPersonId !== otherId ||
+      !data.peerTies.factKinds.includes(fact.kind)
+    )
+      continue;
+    hours = Math.max(
+      hours,
+      faded(
+        p,
+        p(data.peerTies.hoursParameter),
+        elapsed(p, fact.date, core.date),
+        data.peerTies.kind,
+      ),
+    );
+  }
+  return hours;
+}
+
+/**
  * The hours a contact counts for, by the two people's temperaments: time
  * together builds closeness faster between warm, outgoing people and slower
  * between reserved ones (relationships.warm-to), and a falling-out (negative

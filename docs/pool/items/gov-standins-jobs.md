@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -32,3 +32,5 @@ Sent back 2026-10-21 from PR #5193 (branch claude/standins-jobs): The code-confl
 Oct 19 branch report (claude/standins-jobs): earlier runs reported 37 of 37, 15 of 16 and 3 of 3 layoffs naming the current owner; those historical counts have no seeds or record IDs here and are not this PR's acceptance proof. SG-WORLD-jobs-layoff-decider is already resolved on main: the code uses the recorded owner, then a remaining worker as manager, and only a firm with nobody left falls back to itself. The new jobs-layoff-owner.test.ts covers the owned-business case only. Left open: SG-WORLD-jobs-opening-seekers (the PR #4146 resolution says the two-level population now holds the labor force as counts; the marker is still on two lines in jobs.ts and needs a played-year check before it closes), SG-WORLD-jobs-counted-choices (#4146 called it "by design"; counted workers still decide by summed pulls, not the shared chooser, which AGENTS.md "one model, two tiers" says to replace), and the rest of the family.
 
 Oct 21 (claude): the layoff-owner test in PR 5193 is tracked as jobs-layoff-owner-decides-test; this item (its stopgap rows and the named layoff and benefit-claim chain) stays open.
+
+Duplicate of world-stopgap-jobs-faked-mechanic (Oct 25 audit). Same six jobs stopgap rows.
