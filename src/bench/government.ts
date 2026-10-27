@@ -31,6 +31,7 @@ import {
   partyTie,
 } from "../core2/modules/parties";
 import type { CoreState } from "../core2/types";
+import { ownRace } from "./results";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 
@@ -222,9 +223,69 @@ export function governmentView(core: CoreState, personId: string) {
         : [],
     })),
     filings,
+    // The newest race the person ran in that has a result, for its seat's row.
+    ownRace: ownRace(core, personId),
     ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
   };
+}
+
+/**
+ * The town's next local ballot: each city, township or county seat on it,
+ * with every candidate who filed, by the filing records. A race whose filing
+ * is still open says when it closes; the screen marks one with a single name
+ * as unopposed and one with none as unfilled.
+ */
+export function localRaces(core: CoreState) {
+  const api = coreAPI(core);
+  if (!core.modules.has(ELECTIONS)) return { date: null, races: [] };
+  const elections = api.moduleState(ELECTIONS);
+  const contests = (
+    elections.table("contests").rows() as unknown as ContestRow[]
+  ).filter(
+    (contest) =>
+      LOCAL_LEVELS.has(contest.level) && contest.electionDate >= core.date,
+  );
+  const date = contests.reduce<string | null>(
+    (first, contest) =>
+      !first || contest.electionDate < first ? contest.electionDate : first,
+    null,
+  );
+  const races = contests
+    .filter((contest) => contest.electionDate === date)
+    .map((contest) => {
+      const filers = (
+        elections
+          .table("filings")
+          .query("byContest", [contest.id]) as unknown as FilingRow[]
+      )
+        .filter((row) => row.status === "on-ballot")
+        .map((row) => {
+          const who = candidateIdentity(api, row.personId);
+          return {
+            filingId: row.id,
+            personId: row.personId,
+            name: who ? `${who.givenName} ${who.familyName}` : null,
+            party: row.party ?? null,
+          };
+        })
+        .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+      return {
+        contestId: contest.id,
+        title: contest.district
+          ? `${contest.title} (${contest.district})`
+          : contest.title,
+        filingDeadline: contest.filingDeadline,
+        filingClosed: contest.filingDeadline < core.date,
+        filers,
+      };
+    })
+    .sort(
+      (a, b) =>
+        a.title.localeCompare(b.title) ||
+        a.contestId.localeCompare(b.contestId),
+    );
+  return { date, races };
 }
 
 /**

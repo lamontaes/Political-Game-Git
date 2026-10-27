@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/speed-counted-renewal
 pr: #6072
 blocked-on:

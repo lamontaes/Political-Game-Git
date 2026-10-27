@@ -832,8 +832,8 @@ function leaders(all: readonly Spec[]): Map<string, string> {
 
 /**
  * Officials who serve together know each other: a state's delegation to
- * Congress and its governor, and each chamber's members with their party's
- * leader. Their time together is their shared years of service.
+ * Congress and its governor, each chamber's members (a state legislature's
+ * too) with their party's leader, and the executive branch with its head. Their time together is their shared years of service.
  */
 function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
   const rows = table(api, "officials").rows() as unknown as OfficialRow[];
@@ -876,11 +876,58 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
         .filter((m) => m.leadership)
         .map((m) => [partySide(m.party), m] as const),
     );
+    // The chamber's leaders by id, for a member whose own side has none (an
+    // independent, a one-member side) or who is their side's leader.
+    // A chamber with no designated leader (a nonpartisan legislature) is
+    // led, for who knows whom, by its longest-serving member.
+    const leaders = leadersBySide.size
+      ? [...leadersBySide.values()].sort((a, b) => a.id.localeCompare(b.id))
+      : [...members]
+          .sort(
+            (a, b) =>
+              a.serviceStart.localeCompare(b.serviceStart) ||
+              a.id.localeCompare(b.id),
+          )
+          .slice(0, 1);
     for (const m of members) {
-      const leader = leadersBySide.get(partySide(m.party));
-      if (leader && leader.id !== m.id && leader.stateKey !== m.stateKey)
+      const own = leadersBySide.get(partySide(m.party));
+      const leader =
+        own && own.id !== m.id ? own : leaders.find((l) => l.id !== m.id);
+      // Congress's same-state pairs are already tied as a delegation.
+      const delegation =
+        leader?.stateKey === m.stateKey &&
+        (m.bodyKind === "us-house" || m.bodyKind === "us-senate");
+      if (leader && leader.id !== m.id && !delegation)
         tie(m, leader, "served in the chamber under their party's leader");
     }
+  }
+  // The executive branch serves under its head: the president for the
+  // administration (vice president, cabinet), a state's governor for its
+  // other executive officers (lieutenant governor, attorney general, board).
+  const president = rows.find((row) => row.officeKind === "president");
+  const governors = new Map(
+    rows
+      .filter((row) => row.officeKind === "governor")
+      .map((row) => [row.stateKey, row] as const),
+  );
+  for (const row of rows) {
+    if (
+      row.bodyKind !== "executive" ||
+      row.officeKind === "president" ||
+      row.officeKind === "governor"
+    )
+      continue;
+    const head = row.body.startsWith("US:")
+      ? president
+      : governors.get(row.stateKey);
+    if (head)
+      tie(
+        row,
+        head,
+        row.body.startsWith("US:")
+          ? "served in the president's administration"
+          : "served in the governor's administration",
+      );
   }
 }
 

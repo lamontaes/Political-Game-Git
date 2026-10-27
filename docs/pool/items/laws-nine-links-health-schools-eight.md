@@ -6,12 +6,12 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/laws-nine-links-health-schools
-pr: #6026
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: laws lead, Oct 26
-claimed-at: 2026-10-26T17:54:50.182Z
+claimed-at:
 ---
 
 **What.** A bounded part of `laws-nine-links-health-schools`. Eight of the family's twelve laws grade wired on all nine links on the law checker that credits a law only with its own payment: medicaid-match, expand-medicaid-eligibility, medicaid-work-requirement, work-requirement-for-assistance, universal-preschool, snap-maximum, budget-line:welfareAndMedicaid and raise-teacher-minimum-salary. The family item stays open for four. The healthAndHospitals, schools and higherEducation budget lines are cited by the payments they fund but pay nothing under their own law id; they wait for the treasury change in PR #5669, which pays each law's share of a line under the law's own id. Public funds for private schooling reached nobody in Prescott, Michigan, so it waits for a place where a private school and an eligible family both exist at the opening.
@@ -25,3 +25,7 @@ claimed-at: 2026-10-26T17:54:50.182Z
 **Notes.** Laws lead, Oct 26. PR #6026 moves to this item; `laws-nine-links-health-schools` stays open for the three lines and vouchers.
 
 Merger 2: Sent back 2026-10-26 from PR #6026 (branch claude/laws-nine-links-health-schools), checked author348daf28e1bde98298068a130aee2adc64479ecb: the first Done-when row counts SNAP maximum as wired even though unwired.json611-614 and SG-WEB-unread-household-food-insecurity explicitly say its food-insecurity factor has no production reader or changed person/household/organization record; matrix2200-2201 credits monthly ledger rows only, contrary to this item Rules19 and Done-when21. Complete the reader/generated-world record proof or route a genuinely completed smaller slice while this item and the four-law remainder stay OPEN; preserve the honest unread row/stopgap, finish on that branch and merge main first. Code merged cleanly; allowed registry/generated-report conflicts were not the return reason. No local green/runtime-failure claim. Exact return: https://github.com/lamontaes/Political-Game-Git/pull/6026#issuecomment-6420457298.
+
+Fixer, Oct 26: the seven laws other than the SNAP maximum moved to `laws-nine-links-health-schools-seven` (PR #6026). This item stays open for the SNAP maximum, which needs an engine that reads `household.food-insecurity` (stopgap `SG-WEB-unread-household-food-insecurity`) and names a changed household record. Branch: claude/laws-nine-links-health-schools.
+
+Laws-effects lead, Oct 26 22:00 UTC: PR #6026 moved to laws-nine-links-health-schools-six on its branch (a fixer had made it -seven there first). This item's eight cannot be met as written: SNAP maximum waits on a reader of household.food-insecurity and the Medicaid expansion on a reader of medical debt (SG-EW-HEALTH-medical-debt-reader). The CTO may drop it; both stay on laws-nine-links-health-schools.

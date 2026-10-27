@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-7xkkii
-pr: #5196
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:13:49.604Z
@@ -21,6 +21,6 @@ claimed-at: 2026-10-20T07:13:49.604Z
 
 **Files.** data/english/parts/hearing.json, scripts/english-mining/mine-hearings.py, src/director/office-scene.ts, src/core2/office-day-state.ts
 
-**Notes.** Split from office-committee-assignments-and-hearings-as-stops-and, which waits on it.
+**Notes.** Split from office-committee-assignments-and-hearings-as-stops-and, which waits on it. Released from idle draft #5196 by the CTO, Oct 26.
 
 Sent back 2026-10-20 from PR #5572 (branch claude/hearing-chair-question): six authored hearing question parts are shippable and the new hearing test catches all build/advance exceptions then redraws; hold authored lines non-shippable or source them, and diagnose failures instead of swallowing them; finish on that branch, merge main into it first.

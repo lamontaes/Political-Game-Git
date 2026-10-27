@@ -1,6 +1,136 @@
 {
   "entries": [
     {
+      "version": "0.40.0",
+      "releasedOn": "2026-10-26",
+      "revision": "eb91a9bf2993de3b88684a29f840794d108097ae",
+      "changeIds": [
+        "play-local-races-on-screen",
+        "release-main-red-scan-dir",
+        "words-scene-party-asks-you-to-run"
+      ]
+    },
+    {
+      "version": "0.39.5",
+      "releasedOn": "2026-10-26",
+      "revision": "13af3d227c39ad111aef52467d32ea4b57e94b9c",
+      "changeIds": ["words-family-talk-kin-address"]
+    },
+    {
+      "version": "0.39.4",
+      "releasedOn": "2026-10-26",
+      "revision": "a35056b6b5e079fc4d8e2dd896eb1f7c0cfa0a33",
+      "changeIds": ["laws-sales-tax-counted-reach-exceeds-town"]
+    },
+    {
+      "version": "0.39.3",
+      "releasedOn": "2026-10-26",
+      "revision": "4552f5a1863b3df8852da6fc43ca9cc9bf524fab",
+      "changeIds": [
+        "gov-department-head-qualified-by-record",
+        "gov-officials-legislators-know-no-one",
+        "play-stop-39-rail-vertical-round-with-news",
+        "tests-schools-line-base-staff-fairport"
+      ]
+    },
+    {
+      "version": "0.39.2",
+      "releasedOn": "2026-10-26",
+      "revision": "84a74f9939a78ddf4d650fbf44ce2ca4392b4fec",
+      "changeIds": [
+        "play-stop-40-menu-list-drops-its-subheadings",
+        "screens-ui-card",
+        "screens-ui-tab"
+      ]
+    },
+    {
+      "version": "0.39.1",
+      "releasedOn": "2026-10-26",
+      "revision": "13034532b1e0d34f42d28092af0538fff723643f",
+      "changeIds": [
+        "elections-territory-no-contest-at-18",
+        "gov-dc-mayor-budget-proposal-not-adopted",
+        "screens-ui-list-row"
+      ]
+    },
+    {
+      "version": "0.39.0",
+      "releasedOn": "2026-10-26",
+      "revision": "50327e6868cc362bbc447f725f18a0e93a81d60c",
+      "changeIds": [
+        "core-speed-counted-renewal-pass",
+        "cto-smart-assignments-oct-26",
+        "elections-incumbents-stand-again-above-band",
+        "laws-work-requirement-counts-owners-as-idle",
+        "play-official-ties-on-screen",
+        "skills-scene-screen-text-oct-26"
+      ]
+    },
+    {
+      "version": "0.38.0",
+      "releasedOn": "2026-10-26",
+      "revision": "bf9d6382f50b46d230cf256ab518400bced18e90",
+      "changeIds": [
+        "docs-law-wiring-report-long-reach-sentence",
+        "gov-recall-for-cause-start",
+        "laws-zero-top-rate-retains-withholding",
+        "people-corruption-take-calibrated",
+        "play-stop-21-ballot-stuck-on-first-page",
+        "traits-integrity",
+        "web-reach-schools"
+      ]
+    },
+    {
+      "version": "0.37.0",
+      "releasedOn": "2026-10-26",
+      "revision": "7d8a8481091e55b54501b6c2d36ef77184858c58",
+      "changeIds": [
+        "gov-standins-other-split",
+        "outcome-causes-split",
+        "play-stop-22-election-win-never-shown-b",
+        "pool-old-imports-bodies",
+        "words-journal-law-title-needs-article",
+        "words-law-effect-learned-journal"
+      ]
+    },
+    {
+      "version": "0.36.5",
+      "releasedOn": "2026-10-26",
+      "revision": "8f62029e2f5528ffeeaa03974ab274ec456b3e4c",
+      "changeIds": ["screens-ui-button", "screens-ui-panel"]
+    },
+    {
+      "version": "0.36.4",
+      "releasedOn": "2026-10-26",
+      "revision": "b39a1d42402ad5196717b049fe4287ac3e797c38",
+      "changeIds": ["gov-town-officers-paid-under-minimum-wage"]
+    },
+    {
+      "version": "0.36.3",
+      "releasedOn": "2026-10-26",
+      "revision": "e75949aefe9a9284b7cbfca64ab61d01c44f0003",
+      "changeIds": [
+        "outcome-web-snap-stopped-heads-still-paid",
+        "play-stop-02-developer-text-on-play-screens-a",
+        "web-gov-measure-causes-and-places"
+      ]
+    },
+    {
+      "version": "0.36.2",
+      "releasedOn": "2026-10-26",
+      "revision": "329f2d013f76826352fb2b7a4e27856d4c46b2a3",
+      "changeIds": [
+        "laws-starting-rows-next-year-override-play",
+        "merger0-returns-2026-10-25-1455",
+        "play-stop-02-developer-text-on-play-screens-b",
+        "play-stop-26-empty-something-needs-you",
+        "release-repo-sweep-unread-files",
+        "research-stopgaps-oct19-apply-spreads",
+        "web-twins-skip-gov-measures",
+        "world-employer-callback-table-data"
+      ]
+    },
+    {
       "version": "0.36.1",
       "releasedOn": "2026-10-26",
       "revision": "1418c3ea103177de44ebf53ae084c00241f12ffc",
