@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/highways-opening-road
-pr:
+pr: #6220
 blocked-on:
 source: laws-effects lead, Oct 26 (gate of #5986)
 claimed-at: 2026-10-27T05:24:16.655Z
