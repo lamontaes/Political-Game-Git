@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-opening-address-empty-waiting-room
-pr:
+pr: #6238
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T05:56:56.259Z

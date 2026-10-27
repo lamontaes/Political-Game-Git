@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: helper-e/town-hall-pushback
-pr:
+pr: #6239
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T05:39:21.075Z
