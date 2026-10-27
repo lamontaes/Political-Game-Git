@@ -48,6 +48,9 @@ WIDE = 0.7  # a figure's width as a share of its height, with room to spare
 SEATED_TOP = 0.8  # a seated figure's top, as a share of the standing height above the cushion
 SEATED_BELOW = 0.6  # how far below its line a seated figure's feet may reach, the same way
 SEATED_WIDE = 1.0  # a seated figure's width as a share of its standing height
+ADULT = 1.72  # meters, an adult's height (src/bench/data/whole-figures.json)
+SHOULDERS = 0.8  # a standing person's shoulder line, as a share of their height
+SEATED_SHOULDERS = 0.3  # a seated person's, as a share of the standing height above the cushion
 MIN_PIXELS = 40  # fewer covered pixels than this is noise, and no mask is kept
 
 
@@ -109,6 +112,22 @@ def region(stage: dict, spot: dict) -> tuple[float, float, float, float]:
     return left, max(0.0, top), right, min(100.0, bottom)
 
 
+def shown_above(stage: dict, spot: dict) -> float:
+    """The line above which a person here is never covered: their head and
+    shoulders. A spot placed inside furniture (staging off by a row) still
+    shows who is there instead of hiding them whole."""
+    meters = (
+        spot.get("floorMetersPercent")
+        or stage.get("floors", {}).get(spot.get("floor"), None)
+        or stage["metersPercent"]
+    )
+    horizon = spot.get("floorHorizonY", stage["horizonY"])
+    tall = min(ADULT * meters * (spot["y"] - horizon), spot["y"] - 2)
+    if spot.get("pose") == "sit":
+        return spot.get("seatY", spot["y"]) - SEATED_SHOULDERS * tall
+    return spot["y"] - SHOULDERS * tall
+
+
 def anchor(spot: dict) -> tuple[float, float]:
     """Where in the empty painting the person's own depth is read."""
     if "behindY" in spot:
@@ -156,6 +175,8 @@ def bake(place: str, stage: dict, near: np.ndarray, file: Path) -> dict:
             t = np.clip((rows - cy) / max(fy - cy, 1), 0, 1)
             line = (own + (feet - own) * t).astype(np.float32)[:, None]
         cover = np.clip((part - line) / SOFT + 0.5, 0, 1)
+        shown = int(np.ceil(shown_above(stage, spot) / 100 * height)) - y0
+        cover[: max(shown, 0)] = 0
         alpha = Image.fromarray((cover * 255).astype(np.uint8)).filter(
             ImageFilter.MedianFilter(3)
         )

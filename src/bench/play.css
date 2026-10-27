@@ -954,6 +954,15 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-2);
   margin-top: 2px;
 }
+/* A dimmed title entry says why; an enabled one shows no reason. */
+#front-main .item small.reason {
+  display: block;
+  margin: 2px 0 0;
+  color: var(--text-3);
+}
+#front-main .item:not(:disabled) small.reason {
+  display: none;
+}
 /* A town in the creator's list reads in the state buttons' own font. */
 .item.town span,
 .item.town small {
@@ -2837,6 +2846,18 @@ body.dev .dev-ring {
   opacity: 0.55;
 }
 
+/* Politics' guide: one tab's purpose a page, then the race a player could file for. */
+.politics-guide-page {
+  max-width: 640px;
+}
+.politics-guide-page .guide-fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
+}
+
 /* While a talk is open the player card gives up its Day and Week, so it never covers the talk's first reply. */
 #game:has(#talk:not([hidden])) .me .time {
   display: none;
@@ -2898,4 +2919,31 @@ body.dev .dev-ring {
 }
 .pick-list button {
   text-align: left;
+}
+
+/* The bill on paper: the document and its estimate side by side. */
+.bill-paper {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.bill-doc {
+  display: grid;
+  gap: 8px;
+}
+.bill-doc .prose {
+  font-size: 17px;
+}
+.bill-section {
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--brass);
+  text-underline-offset: 3px;
+}
+.bill-estimate {
+  display: grid;
+  gap: 8px;
+  position: sticky;
+  top: 0;
 }
