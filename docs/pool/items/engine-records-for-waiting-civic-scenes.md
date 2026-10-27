@@ -9,10 +9,13 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: laws-effects
 source: added with npm run pool -- add
 ---
 
 **What.** Four situation types wait on records no engine writes in a played year (same measured year as engine-records-for-waiting-life-scenes). rescue: no incident record with someone present (public safety writes none in the year). accusation: no incident at work or school. vote-confirmed: no record of a member promising a vote before the floor (vote-asked fires from a trade amendment, but the promise kept or broken is not recorded). eviction-notice: the housing engine records the removal (housing.eviction, its topic the landlord organization) but no notice served before it, so the landlord and tenant cannot talk terms while the home can still be kept. Each owning engine writes its record from its own causes; the director lead adds the match.
+
+**Time box.** 4 hours, Sonnet worker or the laws-effects lead.
 
 **Rules.** Simulate it, don't ask (owner, Oct 24). No dice. Sliding scales and causes: an incident follows from a hazard or crime record, never a monthly chance. One rule, all 56 places.
 
