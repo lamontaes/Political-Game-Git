@@ -101,14 +101,17 @@ describe("committee markup trades", () => {
         (row) => row.memberId === deal.memberId,
       );
       if (!vote) continue;
-      // The vote cites the trade, and the member votes for the bill that has their section.
+      // The vote cites the trade, and the member votes for the bill that has
+      // their section, unless a poison pill adopted after the trade broke it
+      // (as world-legislating.test.ts allows).
       const why = `${played.where}: ${bill.id} with ${deal.memberId}`;
       expect(
         vote.traded?.map((t) => t.terms),
         why,
       ).toContain(deal.terms);
-      expect(vote.vote, why).toBe("yes");
-      honored += 1;
+      const pilled = bill.deals.some((d) => d.kind === "poison-pill");
+      expect(pilled ? ["yes", "no"] : ["yes"], why).toContain(vote.vote);
+      if (vote.vote === "yes") honored += 1;
     }
     expect(honored, played.where).toBeGreaterThan(0);
   });

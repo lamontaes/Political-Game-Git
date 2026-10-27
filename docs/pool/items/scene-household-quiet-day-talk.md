@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/director-household-quiet-day
-pr:
+pr: #6312
 blocked-on:
 source: "words-and-scenes lead, Oct 27, probing the Oct 26 home talks (deliverable 7 of docs/work-orders/lead-words-scenes-2026-10-26.md)"
 lead: director
@@ -30,3 +30,5 @@ claimed-at: 2026-10-27T12:16:26.251Z
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json
 
 **Notes.** The lines are drafted and ship on the words side, keyed to the facts above: "Long day?" [dayDone] / "You were up early." [dayDone] / "Haven't seen much of you since {lastTogether}." / "It's been a quiet {weekday}." The replies are tired, fine, wanting to talk, and wanting to be left alone.
+
+The full drafted set (words lead, Oct 27) is on branch `words/home-talk-lines` at e356f24e71, in `data/english/parts/conversation.json`. The words lead ships it in the same change that passes the facts.

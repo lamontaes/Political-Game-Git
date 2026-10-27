@@ -24,6 +24,7 @@ import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
+import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
@@ -110,6 +111,8 @@ export interface GovernmentRow {
   readonly organizationId: string;
   readonly fiscalYearStart: string;
   readonly residents: number;
+  /** A county-level government of a town with no city or township government of its own: it carries the whole local share of every function. */
+  readonly carriesWholeLocal?: boolean;
 }
 
 export interface BudgetRow {
@@ -205,16 +208,30 @@ function withholdingSlot(
   return slot;
 }
 
+/** Prior fiscal years the history shows before the opening budget. */
+const PRIOR_BUDGET_YEARS = 2;
+
+/** The same month and day `years` earlier (February 29 falls back to the 28th). */
+function yearsEarlier(date: string, years: number): string {
+  const day = date.slice(5) === "02-29" ? "02-28" : date.slice(5);
+  return `${Number(date.slice(0, 4)) - years}-${day}`;
+}
+
 /**
  * Pre-start government pass (M1-14): a budget adopted between the window's
- * start and day one is entered in the history, from the budget's own record.
- * Nothing is generated.
+ * start and day one is entered in the history, from the budget's own record,
+ * and so are its prior years' budgets, each the opening budget's lines taken
+ * back by the level's published spending growth (prior-year-growth.json, an
+ * estimate with its spread; the record names the growth and its source).
  */
 function budgetHistory(
   api: CoreAPI,
   window: PreStartWindow,
   history: HistoryWriter,
 ): void {
+  const governmentsById = new Map(
+    governments(api).map((gov) => [gov.id, gov] as const),
+  );
   for (const row of table(api, "budgets").rows()) {
     const budget = row as unknown as BudgetRow;
     if (budget.adoptedOn < window.from || budget.adoptedOn > window.through)
@@ -238,6 +255,54 @@ function budgetHistory(
           "The opening's carried budget and its adoption date, as the world recorded them.",
       },
     });
+    const gov = governmentsById.get(budget.governmentId);
+    if (!gov) continue;
+    const growth =
+      gov.level === "federal"
+        ? priorGrowth.levels.federal
+        : priorGrowth.levels["state-and-local"];
+    for (let back = 1; back <= PRIOR_BUDGET_YEARS; back += 1) {
+      const adoptedOn = yearsEarlier(budget.adoptedOn, back);
+      if (adoptedOn < window.from) break;
+      const divisor = (1 + growth.annualGrowth) ** back;
+      // Each line as a fact of its own (`spending.schools`), taken back.
+      const scale = (
+        kind: "spending" | "revenue",
+        lines: Readonly<Record<string, number>>,
+      ) =>
+        Object.fromEntries(
+          Object.entries(lines).map(([line, minor]) => [
+            `${kind}.${line}`,
+            Math.round(minor / divisor),
+          ]),
+        );
+      const fiscalYear = budget.fiscalYear - back;
+      history.record({
+        id: `budget-adopted:budget:${budget.governmentId}:${fiscalYear}`,
+        date: makeIsoDate(adoptedOn),
+        kind: "budget.adopted",
+        facts: {
+          budgetId: `budget:${budget.governmentId}:${fiscalYear}`,
+          governmentId: budget.governmentId,
+          fiscalYear,
+          adoptedBy: budget.adoptedBy,
+          openingBudgetId: budget.id,
+          yearsBack: back,
+          annualGrowth: growth.annualGrowth,
+          growthLow: growth.spread.low,
+          growthHigh: growth.spread.high,
+          ...scale("spending", budget.spendingMinor),
+          ...scale("revenue", budget.revenueMinor),
+        },
+        publicRecord: true,
+        source: {
+          tag: "ESTIMATED",
+          asOf: api.state.date,
+          citation: growth.citation,
+          estimatedFrom: `The opening budget ${budget.id} taken back ${back} year${back === 1 ? "" : "s"} at ${(growth.annualGrowth * 100).toFixed(1)} percent growth a year (single years ran ${(growth.spread.low * 100).toFixed(1)} to ${(growth.spread.high * 100).toFixed(1)} percent).`,
+        },
+      });
+    }
   }
 }
 
@@ -520,7 +585,7 @@ function budgetFor(
     const county = gov.level === "county";
     for (const [k, v] of Object.entries(place.local.spending)) {
       const share = countyShare(stateKey, k);
-      const mine = county ? share : 1 - share;
+      const mine = county ? (gov.carriesWholeLocal ? 1 : share) : 1 - share;
       if (mine > 0) spending[k] = minor(v * mine, gov.residents, factor);
     }
     const share =
@@ -609,6 +674,14 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       residents: residentsOfPlace(place),
     }),
   ];
+  const geoid = chain.levels[chain.levels.length - 1]!.jurisdiction.slice(
+    "place:".length,
+  );
+  // The town's own government: its city or village, or where the place has
+  // none, the township that governs it.
+  // (the same units the town's offices are seated for).
+  const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+  const city = local.municipal[0] ?? local.townships[0];
   const county = chain.countyGeoids[0];
   const countyUnit = county ? countyGovernmentUnit(county) : null;
   if (countyUnit)
@@ -625,17 +698,12 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             bases.countyPopulation2024[county!] ?? townResidents,
           ),
           residents: bases.countyPopulation2024[county!] ?? townResidents,
+          ...(city ? {} : { carriesWholeLocal: true }),
         },
         countyUnit.id,
       ),
     );
-  const geoid = chain.levels[chain.levels.length - 1]!.jurisdiction.slice(
-    "place:".length,
-  );
-  // The town's own government: its city or village, or where the place has
-  // none, the township that governs it.
-  // (the same units the town's offices are seated for).
-  const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+
   // A municipio (Puerto Rico) is its own government and the employer of the
   // town's police, schools and offices, though the law chain holds no county
   // for it: its treasury is the county-level government of the town.
@@ -654,11 +722,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
             townResidents,
           ),
           residents: townResidents,
+          ...(city ? {} : { carriesWholeLocal: true }),
         },
         municipio.id,
       ),
     );
-  const city = local.municipal[0] ?? local.townships[0];
   if (city)
     govs.push(
       government(

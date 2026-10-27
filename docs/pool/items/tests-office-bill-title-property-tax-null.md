@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/bill-title-property-tax
-pr:
+pr: #6313
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T12:10:48.784Z
