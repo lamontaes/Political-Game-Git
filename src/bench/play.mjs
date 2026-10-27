@@ -3,6 +3,9 @@
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
+import { mountMenu } from "./ui/menu.mjs";
+import { mountRail } from "./ui/rail.mjs";
+import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons } from "./ui/panel.mjs";
@@ -632,7 +635,12 @@ async function renderJournalNote() {
   $("journal-line").textContent = line;
 }
 async function refresh() {
-  await Promise.all([renderScene(), renderCard(), renderJournalNote()]);
+  await Promise.all([
+    renderScene(),
+    renderCard(),
+    renderJournalNote(),
+    markNews(false),
+  ]);
   // When your character dies, carry on as someone connected to them.
   if (me.card && me.card.alive === false) {
     await openSheet("handoff");
@@ -1029,6 +1037,20 @@ for (const mode of ["day", "week"])
   });
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
+// Stories News held when it was last open: a dot on the rail's News icon until it is read.
+let seenNews = 0;
+async function newsCount() {
+  const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
+  // Every row News lists (its public records), the same rows its screen draws.
+  return rows.length;
+}
+async function markNews(read) {
+  const count = await newsCount();
+  if (read) seenNews = count;
+  document
+    .querySelector('#rings [data-tab="news"]')
+    ?.classList.toggle("unread", count > seenNews);
+}
 async function changeCount() {
   const { ahead, took } = await api(
     `/api/changes?id=${encodeURIComponent(me.id)}`,
@@ -2457,19 +2479,20 @@ const sheets = {
       });
       next.disabled = (page + 1) * 8 >= found.length;
       pager.replaceChildren(...(found.length > 8 ? [back, next] : []));
-      for (const b of filters.querySelectorAll("[data-group]")) {
-        b.classList.toggle("on", b.dataset.group === group);
-        b.setAttribute("aria-pressed", String(b.dataset.group === group));
-      }
+      chooseTab(filters, "group", group);
     };
     for (const key of ["all", "family", "friends", "work", "politics"]) {
-      const b = button(labels[key], () => {
-        group = key;
-        draw();
-      });
-      b.dataset.group = key;
-      b.className = "tab";
-      filters.append(b);
+      filters.append(
+        makeTab({
+          key,
+          attr: "group",
+          label: labels[key],
+          onSelect: () => {
+            group = key;
+            draw();
+          },
+        }),
+      );
     }
     const mode = button(labels.list, () => {
       listMode = !listMode;
@@ -3704,21 +3727,22 @@ const sheets = {
         paper.append(el("nav", { className: "paper-pager" }, back, next));
       }
       paper.append(publicRecords());
-      for (const b of outletPicker.children) {
-        b.classList.toggle("on", b.dataset.outlet === chosen);
-        b.setAttribute("aria-pressed", String(b.dataset.outlet === chosen));
-      }
+      chooseTab(outletPicker, "outlet", chosen);
     };
     if (outlets.size > 1)
       for (const [key, outlet] of outlets) {
-        const b = button(outlet.name, () => {
-          chosen = key;
-          page = 0;
-          draw();
-        });
-        b.dataset.outlet = key;
-        b.className = "tab";
-        outletPicker.append(b);
+        outletPicker.append(
+          makeTab({
+            key,
+            attr: "outlet",
+            label: outlet.name,
+            onSelect: () => {
+              chosen = key;
+              page = 0;
+              draw();
+            },
+          }),
+        );
       }
     draw();
     return [...economy, outletPicker, paper];
@@ -4057,8 +4081,7 @@ const sheets = {
       statePick.hidden = level === "local";
       if (level !== "local" && otherState) {
         drawOtherState();
-        for (const b of picker.querySelectorAll("button"))
-          b.classList.toggle("on", b.dataset.level === level);
+        chooseTab(picker, "level", level);
         return;
       }
       const offices = new Map();
@@ -4194,20 +4217,20 @@ const sheets = {
           raceOffice,
         ),
       );
-      for (const b of picker.children)
-        b.classList.toggle("on", b.dataset.level === level);
+      chooseTab(picker, "level", level);
     };
     for (const key of ["local", "state", "federal"]) {
-      const b = makeButton({
-        className: "tab",
-        textContent: controls.levels?.[key] ?? words(key),
-      });
-      b.dataset.level = key;
-      b.addEventListener("click", () => {
-        level = key;
-        draw();
-      });
-      picker.append(b);
+      picker.append(
+        makeTab({
+          key,
+          attr: "level",
+          label: controls.levels?.[key] ?? words(key),
+          onSelect: () => {
+            level = key;
+            draw();
+          },
+        }),
+      );
     }
     // Which state's legislature the State view shows: the player's own, or any other.
     const { states } = await api(`/api/government/state?state=`);
@@ -4424,6 +4447,7 @@ async function openSheet(tab) {
   if (tab === "politics") tab = "government";
   if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
+  if (tab === "news") markNews(true);
   show("tip", false);
   const group = groupOf(tab);
   const politics =
@@ -4447,14 +4471,14 @@ async function openSheet(tab) {
             politics.filings.length > 0 ||
             politics.ofVotingAge),
       )
-      .map((name) => {
-        const b = makeButton({
-          className: `tab${name === tab ? " on" : ""}`,
-          textContent: titles[name],
-        });
-        b.addEventListener("click", () => openSheet(name));
-        return b;
-      }),
+      .map((name) =>
+        makeTab({
+          key: name,
+          label: titles[name],
+          active: name === tab,
+          onSelect: () => openSheet(name),
+        }),
+      ),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
@@ -4486,6 +4510,28 @@ async function openSheet(tab) {
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
+// The Menu list: the screens by name, in this order, nothing under the names.
+// The rail over the player card: a column of round icons, News among them.
+mountRail(
+  $("rings"),
+  ["journal", "calendar", "money", "politics", "news", "people", "travel"],
+  titles,
+);
+mountMenu(
+  [
+    "calendar",
+    "people",
+    "politics",
+    "news",
+    "journal",
+    "who",
+    "money",
+    "jobs",
+    "travel",
+    "guide",
+    "options",
+  ].map((key) => ({ key, label: titles[key] })),
+);
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")

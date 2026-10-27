@@ -1,6 +1,37 @@
 {
   "entries": [
     {
+      "version": "0.39.3",
+      "releasedOn": "2026-10-26",
+      "revision": "4552f5a1863b3df8852da6fc43ca9cc9bf524fab",
+      "changeIds": [
+        "gov-department-head-qualified-by-record",
+        "gov-officials-legislators-know-no-one",
+        "play-stop-39-rail-vertical-round-with-news",
+        "tests-schools-line-base-staff-fairport"
+      ]
+    },
+    {
+      "version": "0.39.2",
+      "releasedOn": "2026-10-26",
+      "revision": "84a74f9939a78ddf4d650fbf44ce2ca4392b4fec",
+      "changeIds": [
+        "play-stop-40-menu-list-drops-its-subheadings",
+        "screens-ui-card",
+        "screens-ui-tab"
+      ]
+    },
+    {
+      "version": "0.39.1",
+      "releasedOn": "2026-10-26",
+      "revision": "13034532b1e0d34f42d28092af0538fff723643f",
+      "changeIds": [
+        "elections-territory-no-contest-at-18",
+        "gov-dc-mayor-budget-proposal-not-adopted",
+        "screens-ui-list-row"
+      ]
+    },
+    {
       "version": "0.39.0",
       "releasedOn": "2026-10-26",
       "revision": "50327e6868cc362bbc447f725f18a0e93a81d60c",
