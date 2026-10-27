@@ -617,7 +617,7 @@ it("as mayor, a budget the council amends is voted at the amended amount, and th
       .get(hearing!.billId) as unknown as BillRow;
     expect(bill.sponsorId, where).toBe(mayorId);
     // The amended amount: what the vote reduced it to, which is not what was sent.
-    const amended = 1_000_000 / 2 ** Number(halved[1]);
+    const amended = 1_000_000 / Number(halved[1]);
     expect(amended, where).toBeLessThan(1_000_000);
     // The bill the council voted carries the amended amount, not the one sent
     // (the sent amount is the one the mayor's priorities held, asserted above).
