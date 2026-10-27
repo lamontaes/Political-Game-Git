@@ -1347,6 +1347,19 @@ body.dev .dev-ring {
   display: flex;
   flex-direction: column;
 }
+/* A screen with little in it ends under its content; one with more grows to
+   the window's height and pages (principles rule 1). */
+#game.in-play #sheet.fits {
+  bottom: auto;
+  right: auto;
+  width: fit-content;
+  min-width: min(560px, calc(100vw - var(--gutter) - 330px));
+  max-width: min(1040px, calc(100vw - var(--gutter) - 330px));
+  max-height: calc(100vh - var(--gutter) - 26px);
+}
+#sheet.fits #sheet-body {
+  flex: 0 1 auto;
+}
 #game:not(.in-play) #sheet {
   left: 50%;
   transform: translateX(-50%);
@@ -2282,12 +2295,24 @@ body.dev .dev-ring {
   font-size: clamp(24px, 2.5vw, 40px);
 }
 .character-meta,
-.character-relation,
-.character-trait-label {
+.character-relation {
   color: var(--text-2);
 }
 .character-meta {
-  margin: 8px 0 24px;
+  margin: 8px 0 16px;
+}
+/* What you're like, as a short paragraph under your name. */
+#sheet-body .character-sketch {
+  font: 400 19px/1.45 var(--speech);
+  max-width: 46ch;
+  margin: 0 0 26px;
+}
+/* The record sections of the character sheet, two across. */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 40px;
+  align-items: start;
 }
 .record-section {
   margin: 0 0 24px;
@@ -2298,24 +2323,18 @@ body.dev .dev-ring {
 .record-feature {
   font: 500 21px var(--speech);
 }
-.character-traits,
 .character-household {
   list-style: none;
   margin: 10px 0 0;
   padding: 0;
   display: grid;
-  gap: 14px 24px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 6px 24px;
+  grid-template-columns: 1fr;
 }
-.character-traits li,
 .character-household li {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
-.character-traits {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 10px;
 }
 .character-money {
   display: flex;
@@ -2325,7 +2344,6 @@ body.dev .dev-ring {
 .character-money strong {
   font: 500 24px var(--ui);
 }
-.character-trait-label,
 .character-relation {
   font-size: 13px;
 }
@@ -2349,7 +2367,6 @@ body.dev .dev-ring {
     grid-template-columns: minmax(100px, 24%) minmax(0, 1fr);
     column-gap: 18px;
   }
-  .character-traits,
   .character-household {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }

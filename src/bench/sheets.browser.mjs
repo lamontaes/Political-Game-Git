@@ -72,6 +72,30 @@ try {
       for (const line of text.split("\n"))
         if (RECORD_ID.test(line) || MISSING.test(line))
           bad.push(`${when} · ${tab}: ${line.trim().slice(0, 160)}`);
+      // No dead space (owner, Oct 27): a reading screen ends under what it
+      // holds, a hand's width of chrome at most beyond its content.
+      if (["journal", "jobs", "money"].includes(tab)) {
+        const fit = await page.evaluate(() => {
+          const sheet = document
+            .getElementById("sheet")
+            .getBoundingClientRect();
+          const body = document.getElementById("sheet-body");
+          const last = [...body.children].at(-1)?.getBoundingClientRect();
+          return { sheet: sheet.bottom, content: last?.bottom ?? sheet.top };
+        });
+        if (fit.sheet - fit.content > 120)
+          bad.push(
+            `${when} · ${tab}: ${Math.round(fit.sheet - fit.content)}px empty under the content`,
+          );
+      }
+      // What you're like is said in sentences, never as trait names and scores.
+      if (
+        tab === "who" &&
+        /Deliberation|Sociability|Neither, much|Handling disagreement|Keeping commitments/.test(
+          text,
+        )
+      )
+        bad.push(`${when} · who: trait names on screen`);
       await page.keyboard.press("Escape");
     }
   };
