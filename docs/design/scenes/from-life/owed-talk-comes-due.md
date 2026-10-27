@@ -4,7 +4,7 @@ Slug `owed-talk-comes-due`. Season: home and family. Researcher packet (Scene re
 
 ## Build sheet (for the director engineer)
 
-1. **Trigger:** an owed-talk record, which no engine writes yet: engine item `people-owed-talk-record`, lead effects. No real record id exists; the nearest written record is the `scene.reply` event of the put-off reply, for example `scene-reply:person_01a319696aec9436:...:candidate-filed:filing:contest:seat:gus2025:164887:council:0:2025-11-04:person_01a319696aec9436:2` in Selden, Kansas, seed `loss-a1` family (a deflect path in `family-stake-scene.test.ts`), which carries the line and move but no due day.
+1. **Trigger:** an owed-talk record, which no engine writes yet: engine item `people-owed-talk-record`, lead effects. No real record id exists; the nearest written record is the `scene.reply` event of the put-off reply, for example `scene-reply:person_01a319696aec9436:...:candidate-filed:filing:contest:seat:gus2025:164887:council:0:2025-11-04:person_01a319696aec9436:2` in Selden, Kansas, seed `scene-a2-1` (the deflect path in `family-stake-scene.test.ts`), which carries the line and move but no due day.
 2. **Place kind:** home.
 3. **Cast rule:** the person the talk was promised to, named on the owed-talk record; present only if they live in the household and the two have no recorded time together since the reply.
 4. **Outcome record:** the owed record closed (they talked: time together written by the relationship writer) or moved (a new day, marked once-moved) or dropped with a quarrel on the tie; read by the relationship engine and by the next filing or campaign talk.
