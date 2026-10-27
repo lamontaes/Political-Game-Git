@@ -27,6 +27,7 @@
   "creator": {
     "people": "people",
     "about": "about",
+    "countyLine": "in {county}",
     "ageLine": "You will be {age} on {date}, the day your life begins."
   },
   "endedBy": {

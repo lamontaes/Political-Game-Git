@@ -33,6 +33,7 @@
     "issue": "The bill's question, named as the bill catalog records it.",
     "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
     "reporter": "The reporter who wrote a story, by name, from the press record.",
+    "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
     "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
     "child": "The youngest child at home, by name, from the household record."
@@ -85951,6 +85952,58 @@
       "tag": {
         "move": "request",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-come-in-to-file-for-office-name-the-post-looks-up-from-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You come in to file for {office}. {name}, the {post}, looks up from the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["office", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Play-first lane",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-come-in-with-your-forms-name-the-post-is-the-one-behind-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You come in with your forms in a folder. {name}, the {post}, is the one behind the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["post"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Play-first lane",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
       }
     },
     {

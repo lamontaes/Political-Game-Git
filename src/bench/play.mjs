@@ -15,6 +15,7 @@ import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
+import { townRow } from "./ui/town-row.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -1270,7 +1271,17 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  fillTalk({ lines: spokenLines(lines, (line) => line.text) });
+  // The narrator sets the counter up before the clerk speaks (the opening call only).
+  fillTalk({
+    lines: [
+      ...(lines.length <= 1
+        ? (value.intro ?? []).map((line) =>
+            el("li", { className: "speech narration", textContent: line.text }),
+          )
+        : []),
+      ...spokenLines(lines, (line) => line.text),
+    ],
+  });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
@@ -5095,23 +5106,17 @@ async function listTowns() {
   const count = new Intl.NumberFormat("en-US");
   const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
-    ...towns.map((t) => {
-      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
-      const b = el(
-        "button",
-        // In the state buttons' font, name and count alike.
-        { type: "button", className: "item town" },
-        el("span", { textContent: t.name }),
-        el("small", {
-          textContent: t.county ? `${t.county}, ${size}` : size,
-        }),
-      );
-      b.addEventListener("click", () => {
-        setup.town = t;
-        void openLook();
-      });
-      return b;
-    }),
+    ...towns.map((t) =>
+      townRow(
+        t,
+        words,
+        (n) => count.format(n),
+        (town) => {
+          setup.town = town;
+          void openLook();
+        },
+      ),
+    ),
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
