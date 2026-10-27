@@ -206,7 +206,7 @@ function composeBinding(
     };
   // What the relative has at stake in the run, from the household's records
   // (the cast rule chose them for it): the lines about money or time need it.
-  const stake = type.stakes?.includes("household-money-or-time")
+  const stake = type.stakes?.some((row) => row.startsWith("household-"))
     ? stakeOf(core, askedId, moment.causeId, askerId)
     : null;
   for (const [key, fact] of Object.entries(stake?.facts ?? {}))
@@ -306,6 +306,20 @@ export function replyInScene(
     answer?.move === "promise" &&
     core.modules.has(CAMPAIGNS_MODULE_ID) &&
     enlistVolunteer(coreAPI(core), filingId, scene.askerId);
+  // After a lost race, saying they will run again meets the relative's own
+  // answer; the candidacy engine keeps it for the next contest the person
+  // weighs (a relative behind the run pulls toward it, one who doubts it away).
+  const lossPart = scene.facts.some(
+    (row) => row.key === "stake-worked" || row.key === "stake-gave",
+  );
+  const backing =
+    lossPart && line.move === "promise" && answer
+      ? rulesFile.familyStakes.behindMoves.includes(answer.move)
+        ? "behind"
+        : rulesFile.familyStakes.doubtMoves.includes(answer.move)
+          ? "doubts"
+          : undefined
+      : undefined;
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -319,6 +333,7 @@ export function replyInScene(
       line: line.text,
       ...(stakeKind ? { stake: stakeKind } : {}),
       ...(enlists && filingId ? { enlisted: filingId } : {}),
+      ...(backing ? { backing } : {}),
     },
     source: {
       tag: "SOURCED",

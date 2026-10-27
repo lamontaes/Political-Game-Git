@@ -35,7 +35,9 @@
     "reporter": "The reporter who wrote a story, by name, from the press record.",
     "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
     "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
-    "child": "The youngest child at home, by name, from the household record."
+    "child": "The youngest child at home, by name, from the household record.",
+    "margin": "How many votes the race was lost by, as people round it, from the race's result record.",
+    "given": "What the candidate gave their own campaign, as people round it, from the campaign's gift record."
   },
   "maxWords": 70,
   "parts": [
@@ -439,56 +441,6 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-lost-the-race-for-office-the-house-is-quiet-when-you-get-home-and-",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You lost the race for {office}. The house is quiet when you get home, and {name} is still up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-race-for-office-is-over-and-you-lost-it-name-sits-down-across-from",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The race for {office} is over, and you lost it. {name} sits down across from you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
       }
     },
     {
@@ -2485,81 +2437,6 @@
       "tag": {
         "move": "congratulate",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.i-m-sorry-about-the-race",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry about the race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.you-ran-a-good-race",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "You ran a good race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.you-don-t-have-to-talk-about-it",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "You don't have to talk about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
       }
     },
     {
@@ -17090,157 +16967,6 @@
       }
     },
     {
-      "key": "scene-talk.state-comfort.do-you-want-to-call-your-mother-or-should-i",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "Do you want to call your mother, or should I?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.your-phone-s-off-your-sister-called-twice",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "Your phone's off. Your sister called twice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.eat-something-first",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "Eat something first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.you-knocked-every-door-on-our-street-i-watched",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "You knocked every door on our street. I watched.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.come-to-bed-it-ll-still-be-true-in-the-morning",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Come to bed. It'll still be true in the morning.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.you-call-her-i-can-t-tonight",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "You call her. I can't tonight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.do-you-want-to-call-your-mother-or-should-i"
-        }
-      ],
-      "bearing": "hurt",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.state-confront.four-nights-this-week",
       "move": "state-confront",
       "kind": "spoken",
@@ -18694,31 +18420,6 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.somebody-has-to-get-the-signs-back",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Somebody has to get the signs back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "loss"
       }
     },
     {
@@ -86261,6 +85962,968 @@
       "tag": {
         "move": "thank",
         "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-lost-the-race-for-office-by-margin-name-worked-it-with-you-and-is-up-when-yo",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You lost the race for {office} by {margin}. {name} worked it with you and is up when you get in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-office-lost-by-margin-name-who-worked-the-campaign-beside-you-is",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in: {office}, lost by {margin}. {name}, who worked the campaign beside you, is waiting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-lost-the-race-for-office-by-margin-you-put-given-of-your-own-into-it-and-nam",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You lost the race for {office} by {margin}. You put {given} of your own into it, and {name} is up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-worked-this-race-with-you-we-lost-by-margin-and-i-d-work-it-again",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I worked this race with you. We lost by {margin}, and I'd work it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.we-lost-by-margin-i-gave-that-campaign-my-time-and-i-d-like-to-know-what-we-do-w",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "We lost by {margin}. I gave that campaign my time, and I'd like to know what we do with that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.we-lost-by-margin-i-put-my-time-in-too-so-tell-me-what-you-want-from-me-next",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "We lost by {margin}. I put my time in too, so tell me what you want from me next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-worked-this-race-with-you-and-now-it-s-over-what-do-we-do-with-all-of-it",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I worked this race with you, and now it's over. What do we do with all of it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.we-lost-by-margin-you-put-given-of-ours-in-and-i-d-do-it-again",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "We lost by {margin}. You put {given} of ours in, and I'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.given-of-ours-went-in-and-we-lost-by-margin-say-something-to-me",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "{given} of ours went in, and we lost by {margin}. Say something to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.we-lost-by-margin-and-given-of-ours-went-into-it-don-t-tell-me-it-was-nothing",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "We lost by {margin} and {given} of ours went into it. Don't tell me it was nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.given-is-spent-and-the-race-is-lost-by-margin-tell-me-what-happens-now",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "{given} is spent and the race is lost by {margin}. Tell me what happens now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You gave it your time when you didn't have to. I won't forget that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I couldn't have run it without you. Not one day of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.we-lost-by-margin-that-s-on-me-not-on-you",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "We lost by {margin}. That's on me, not on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-should-have-asked-for-more-help-sooner-margin-is-not-much-to-lose-by",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I should have asked for more help sooner. {margin} is not much to lose by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-tonight-ask-me-in-the-morning",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not tonight. Ask me in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-count-it-yet-give-me-a-day",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't count it yet. Give me a day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm running again, and I want you in it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-run-again-next-time-we-start-earlier-and-count-what-it-costs-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll run again. Next time we start earlier and count what it costs first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You stood behind me while I spent it. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You never once told me to stop. I know what that was worth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I put {given} in and lost. That's on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-margin-is-all-it-came-to",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I spent more than I should have, and {margin} is all it came to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Don't ask me about the money tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me a day before we add it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll run again, and next time I'll tell you before I put in a dollar of ours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-run-again-this-time-we-agree-on-a-number-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll run again. This time we agree on a number first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it-and-the-count-was-margin",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "It isn't on you. We both worked it, and the count was {margin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.don-t-carry-it-by-yourself-i-was-in-it-too",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Don't carry it by yourself. I was in it too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.talk-to-me-i-worked-this-race-and-tonight-i-d-like-to-hear-you-say-something",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Talk to me. I worked this race, and tonight I'd like to hear you say something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.again-tell-me-what-s-different-next-time",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Again? Tell me what's different next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then count me in. Tell me when you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "It isn't on you. We put it in knowing it might not come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-re-counting-what-we-spent-not-what-we-tried",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You're counting what we spent, not what we tried.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Talk to me. That was ours, and I'd like to hear you say something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.again-with-what-tell-me-what-we-have-left-to-put-in",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Again, with what? Tell me what we have left to put in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then we do it with a number before we start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
       }
     }
   ]

@@ -7,6 +7,8 @@
  * gives the scene its facts; with none, the scene is not staged. The stake is
  * read from persons and the filing record; nothing is rolled.
  */
+import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
+import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
@@ -31,7 +33,7 @@ const MONTH_WORDS = [
   "twelve months",
 ];
 
-export type StakeKind = "money" | "time";
+export type StakeKind = "money" | "time" | "worked" | "gave";
 
 export interface StakeFact {
   text: string;
@@ -65,7 +67,7 @@ export function monthsSaid(days: number): string {
  * The stake one relative has in the filing, or null. `causeId` is the filing's
  * own record (`candidate-filed:<id>`), which names the election date.
  */
-export function stakeOf(
+function filingStakeOf(
   core: Readonly<CoreState>,
   filerId: PersonId,
   causeId: string,
@@ -158,4 +160,96 @@ export function stakeholders(
     .filter((row): row is { id: PersonId; stake: Stake } => !!row.stake)
     .sort((a, b) => b.stake.strength - a.stake.strength)
     .map((row) => row.id);
+}
+
+/** A count of votes as people round it: "about 60 votes", never the exact tally. */
+function votesSaid(votes: number): string {
+  const count = Math.max(1, votes);
+  if (count < RULES.exactVotesBelow.value)
+    return `${count} ${count === 1 ? "vote" : "votes"}`;
+  const step = count < 100 ? 5 : count < 1000 ? 10 : 100;
+  return `about ${Math.round(count / step) * step} votes`;
+}
+
+/** A sum of money as people round it: "about $400", never the exact amount. */
+function moneySaid(minor: number): string {
+  const dollars = minor / 100;
+  const step = dollars < 1000 ? 50 : 100;
+  return `about $${Math.max(step, Math.round(dollars / step) * step).toLocaleString("en-US")}`;
+}
+
+/**
+ * The stake one relative has in a lost race, or null: they are counted among
+ * the campaign's volunteers (they worked it), or the candidate gave their own
+ * money to it (the household's savings went in). `causeId` is the race's
+ * result record (`election-result:<contest>`), which holds each candidate's
+ * votes. The facts say how close the count was.
+ */
+function lossStakeOf(
+  core: Readonly<CoreState>,
+  filerId: PersonId,
+  causeId: string,
+  relativeId: PersonId,
+): Stake | null {
+  const filer = core.people.get(filerId);
+  const relative = core.people.get(relativeId);
+  if (!filer || !relative || relative.id === filer.id || !relative.alive)
+    return null;
+  if (relative.householdId !== filer.householdId) return null;
+  if (ageOn(relative.birthDate, core.date) < RULES.adultAge.value) return null;
+  if (!core.modules.has(CAMPAIGNS_MODULE_ID)) return null;
+  const record = core.durableLog.get(causeId);
+  const contestId = causeId.slice("election-result:".length);
+  const filingId = `filing:${contestId}:${filerId}`;
+  const tables = coreAPI(core as CoreState).moduleState(CAMPAIGNS_MODULE_ID);
+  const campaign = tables.table("campaigns").get(filingId) as unknown as
+    { volunteerIds: readonly string[] } | undefined;
+  const gift = tables
+    .table("gifts")
+    .get(`${filingId}|${filerId}`) as unknown as
+    { totalMinor: number } | undefined;
+  const totals = JSON.parse(String(record?.facts?.totals ?? "{}")) as Record<
+    string,
+    number
+  >;
+  const own = totals[filerId] ?? 0;
+  const best = Math.max(0, ...Object.values(totals));
+  const facts: Record<string, StakeFact> = {
+    margin: { text: votesSaid(best - own), recordIds: [causeId] },
+  };
+  if (campaign?.volunteerIds.includes(relativeId))
+    return {
+      kind: "worked",
+      strength: 1,
+      facts: {
+        ...facts,
+        "stake-worked": {
+          text: "worked",
+          recordIds: [filingId, relativeId, causeId],
+        },
+      },
+    };
+  if ((gift?.totalMinor ?? 0) > 0)
+    return {
+      kind: "gave",
+      strength: RULES.gaveStrength.value,
+      facts: {
+        ...facts,
+        "stake-gave": { text: "gave", recordIds: [filingId, causeId] },
+        given: { text: moneySaid(gift!.totalMinor), recordIds: [filingId] },
+      },
+    };
+  return null;
+}
+
+/** The stake a relative has in what a record says happened: a filing or a lost race. */
+export function stakeOf(
+  core: Readonly<CoreState>,
+  filerId: PersonId,
+  causeId: string,
+  relativeId: PersonId,
+): Stake | null {
+  return causeId.startsWith("election-result:")
+    ? lossStakeOf(core, filerId, causeId, relativeId)
+    : filingStakeOf(core, filerId, causeId, relativeId);
 }

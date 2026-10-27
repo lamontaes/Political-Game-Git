@@ -247,6 +247,26 @@ const run = (drawSeed: string): string | null => {
       alone += 1;
       continue;
     }
+    // A lost race is met at home only by a relative who put work or money
+    // into it (family-stake.ts); a filer whose household did neither has the
+    // race's own scene and the journal.
+    if (!won) {
+      const mates =
+        core.households.get(core.people.get(filer)!.householdId)?.memberIds ??
+        [];
+      const part = mates.some(
+        (id) =>
+          stakeOf(core, filer, `election-result:${contest.id}`, id) !== null,
+      );
+      if (!part) {
+        expect(
+          sitting("family-loss"),
+          `${here}: a loss scene with no part played`,
+        ).toBeUndefined();
+        counted += 1;
+        continue;
+      }
+    }
     const staged = sitting(won ? "family-win" : "family-loss");
     expect(
       staged,

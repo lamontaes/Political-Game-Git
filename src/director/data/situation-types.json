@@ -3369,7 +3369,7 @@
       "purpose": "family-loss",
       "asker": "relative",
       "asked": "you",
-      "stakes": ["office", "votes", "opponent"],
+      "stakes": ["office", "votes", "opponent", "household-part"],
       "roles": [
         {
           "key": "relative",
@@ -3399,7 +3399,7 @@
           "causeEngine": "elections",
           "causeRecord": "election-result",
           "bind": {
-            "relative": "household",
+            "relative": "household-stake",
             "you": "subject"
           },
           "opener": "relative"

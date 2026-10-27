@@ -5,11 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/scene-family-loss-worked-it
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: director
+milestone: play-first
 claimed-at: 2026-10-27T06:07:27.504Z
 ---
 
@@ -22,3 +24,9 @@ claimed-at: 2026-10-27T06:07:27.504Z
 **Files.** src/director/family-stake.ts, src/director/purpose-scene.ts, src/core2/modules/candidacy.ts, data/english/parts/scene-talk.json
 
 **Notes.** Lead: words. Scene builder A, episode 2, stacked on #6237 (episode 1). Packet: docs/design/scenes/from-life/household-after-the-loss.md.
+
+**Notes.** Researcher hand-off (Scene researcher A, Oct 27, after the CTO's change of role). Packet: `docs/design/scenes/from-life/household-after-the-loss.md`.
+- **Trigger record:** `election-result:<contest>` (voting engine), a loss for a person with a household. **Place kind:** home. **Cast rule:** a household adult who put something in, read from records: `volunteerIds` on the campaign row (`filing:<contest>:<person>`) or the candidate's own gift (`gifts` table, `<filing>|<person>`); none, no scene. **Outcome write:** the reply "I will run again" carries the relative's answer as `backing` (behind or doubts) on `scene.reply`; the candidacy engine keeps it and `candidacyReasons` adds `householdBacking` for the next contest.
+- **Reference build, not for merge as is:** branch `claude/scene-family-loss-worked-it` (stacked on `claude/scene-family-filing-stake`, #6237) holds a working version with tests (`family-loss-stake-scene.test.ts`, drawn places, green): `family-stake.ts` (stakes from records), a `household-stake` fill in `scheduling.ts`, the outcome write in `purpose-scene.ts`, `noteHouseholdBacking` in `candidacy.ts`. The director engineer may lift, rewrite or discard it; the packet and this list are the finding.
+- **Lines drafted to scene-standard rule 4** (in the branch's `data/english/parts/scene-talk.json`, `family-loss`, requiring `stake-worked` or `stake-gave`; versions by bearing; four stances thank / blame / deflect / promise). Examples: opener (worked, tender) "I worked this race with you. We lost by {margin}, and I'd work it again."; (worked, guarded) "We lost by {margin}. I put my time in too, so tell me what you want from me next."; (gave, hurt) "{given} of ours went in, and we lost by {margin}. Say something to me."; replies "You gave it your time when you didn't have to. I won't forget that." / "We lost by {margin}. That's on me, not on you." / "Not tonight. Ask me in the morning." / "I'll run again. Next time we start earlier and count what it costs first."; answers behind "Then count me in. Tell me when you decide." and doubting "Again? Tell me what's different next time."
+- Deleted in the branch (Oct 15 lines the scene replaces): "Come to bed. It'll still be true in the morning.", "Your phone's off. Your sister called twice." (a sister the record never names), "You knocked every door on our street. I watched.", and nine more.

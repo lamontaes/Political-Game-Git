@@ -77,6 +77,21 @@
       "tag": "TUNABLE",
       "spread": [0.5, 2],
       "checkedAgainst": "Hours of quarrel a night of putting off a relative's stated cost counts for on the tie (the closeness engine reads negative hours as a quarrel, tempered by who holds on to it); one hour is about one talk's length, so a put-off cancels one talk's worth of time together. Checked in the played-world test: the tie ends lower than it began."
-    }
+    },
+    "exactVotesBelow": {
+      "value": 20,
+      "tag": "TUNABLE",
+      "spread": [10, 50],
+      "checkedAgainst": "Below this many votes a close count is said exactly (a loss by 7 is 7); above it a count is said as people round it (\"about 60\"). Local counts in the sources run from a few dozen votes to a few hundred (Jefferson City 2013, 55; Raincross 2019, 222)."
+    },
+    "gaveStrength": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 0.75],
+      "checkedAgainst": "Where a candidate's own money in a lost race ranks against a relative who worked it (1): working it is the stronger claim to speak about the loss; money given is half."
+    },
+    "behindMoves": ["thank", "accept", "comfort", "promise"],
+    "doubtMoves": ["ask", "disagree", "plea", "press"],
+    "answersNote": "Which of the relative's answer moves, to a candidate who says they will run again after a loss, mean they are behind the run and which mean they doubt it. Moves only; no sentence."
   }
 }

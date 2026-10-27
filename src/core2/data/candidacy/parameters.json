@@ -223,5 +223,11 @@
     "tag": "TUNABLE",
     "citation": "How many of its members a local party asks in turn, those the most people know first, for a partisan seat it has no one filed for, before it leaves the seat. Spread 1 to 5.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyHouseholdPull": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Encouragement from people close to a would-be candidate is among the strongest pushes toward running (Lawless and Fox 2010, It Still Takes a Candidate, Cambridge University Press, ch. 5, the recruitment finding that the party-ask pull above reads); the household's own answer after a loss is read the same way, at half the party's strength because it is one relative's word, raised by how close they are. Spread 0.25 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }
