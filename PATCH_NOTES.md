@@ -296,6 +296,23 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.52.1
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A second vote trade on a new bill gets its own ask** When a colleague trades
+  votes with you on one bill and comes back the next day about another, you now
+  hear the second ask too. Before, it was taken for a repeat of the first and
+  never shown.
+
+- **A life started at 35 now has the past of a 35-year-old** When you pick a
+  birthday in the creator, the town is built around someone who really is that
+  age. A 35-year-old now has parents old enough to have had him, the schools he
+  went through in the 1990s, the household he lives in and money on hand,
+  instead of the family and school years of a teenager.
+
 ## PRE-ALPHA 0.52.0
 
 _Released October 27, 2026._

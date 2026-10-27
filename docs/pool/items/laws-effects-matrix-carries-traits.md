@@ -6,7 +6,7 @@ lead: laws-effects
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: laws-effects/effects-matrix-traits
 pr: #6257
 blocked-on:
