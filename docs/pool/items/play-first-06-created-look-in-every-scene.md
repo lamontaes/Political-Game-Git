@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-first-06-created-look-in-every-scene
-pr:
+pr: #6283
 blocked-on:
 after:
 source: added with npm run pool -- add
