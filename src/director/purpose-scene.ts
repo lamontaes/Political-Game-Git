@@ -251,6 +251,26 @@ function composeBinding(
     } else if (said.subjectId === askedId && said.subjectFraming === "against")
       facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
   }
+  // An outlet any other cause names (an invitation to an interview or a
+  // debate), by name.
+  if (record?.kind !== PRESS_STORY_EVENT && said.outletId) {
+    const outlet = core.organizations.get(said.outletId);
+    if (outlet)
+      facts.outlet = {
+        text: properName(outlet.name),
+        sourceRecordIds: [moment.causeId, outlet.id],
+      };
+  }
+  // How the two stand, so a line can fit the tie: the asked person's known
+  // people (`acquainted`, else `stranger`), and family (`kin`).
+  if (asked.familyIds.has(askerId))
+    facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
+  if (asked.knownIds.has(askerId))
+    facts.acquainted = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId, askedId],
+    };
+  else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
   if (said.office)
     facts.office = {
       text: said.office,
@@ -258,6 +278,15 @@ function composeBinding(
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
       ],
+    };
+  // A rival in the race the record names, by name.
+  const rival = said.rivalId
+    ? core.people.get(said.rivalId as PersonId)
+    : undefined;
+  if (rival)
+    facts.opponent = {
+      text: `${rival.givenName} ${rival.familyName}`,
+      sourceRecordIds: [moment.causeId, rival.id],
     };
   // What the relative has at stake in the run, from the household's records
   // (the cast rule chose them for it): the lines about money or time need it.
