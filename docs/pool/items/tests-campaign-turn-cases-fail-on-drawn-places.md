@@ -6,11 +6,12 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/campaign-turn-draws
+pr: #6344
 blocked-on:
 source: laws-and-effects lead, Oct 27 (changed-file tests of campaigns-local-platform-budget-lines)
+claimed-at: 2026-10-27T15:50:28.906Z
 ---
 
 **What.** `src/core2/campaign-turn.test.ts` fails on clean main (88bdea10f4) in three of five fresh runs, each a different case, each reproduced with the same `GOLDEN_PATH_SEED` on main and on the platform branch. "A world candidate's turn is a campaign day taken through the player's own choices" asks no one for money in Miller, South Dakota (4642460, seed c309b8ddbc38aa36d771e3a83be4c4054aec68d5ccf695bd915f18c9cc23947b): "expected 0 to be greater than 0". "A rich rival holds an event on a day it is offered" finds no event offered in Londonderry, Vermont (5040150, seed 1185bef2c956d421f00ba41feef01ad37712f029a36c2a04ad0e4ae188de24be), although its seats there list 12 and 3 positions. "An ad is a message the views engine reads" reaches no one in South Woodstock, Vermont (5069250, seed d404056ccd9a86cb48c4c67d343ecf83a2d4cdf92fcaeb0442674a31a7871545).

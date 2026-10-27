@@ -20,7 +20,11 @@ import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
 import { questionAbout } from "../english/question-names";
-import { topicInSentence } from "../english/policy-names";
+import {
+  questionName,
+  storyTopicName,
+  topicInSentence,
+} from "../english/policy-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -147,17 +151,51 @@ function composeBinding(
   const cause = record?.topic ? topicInSentence(record.topic) : null;
   if (cause) facts.cause = { text: cause, sourceRecordIds: [moment.causeId] };
   // A bill the record names, by its number, and the section a trade added.
-  if (said.number) {
+  // A committee's hold names its bill by id only; the bill row has the number.
+  const named =
+    said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
+      ? billOf(coreAPI(core as CoreState), said.billId)
+      : undefined;
+  const number = said.number ?? named?.number;
+  if (number) {
     // Said as a clerk reads it: a bare number takes its form's word first.
-    const bill =
-      said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
-        ? billOf(coreAPI(core as CoreState), said.billId)
-        : undefined;
     facts.bill = {
-      text: spokenDesignation(said.number, bill?.form.kind ?? ""),
+      text: spokenDesignation(number, named?.form.kind ?? ""),
       sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
     };
   }
+  // A law in force (a story that it took effect): its policy by name, for
+  // the lines that say what took effect.
+  if (said.lawId && said.series) {
+    const topic = said.series.slice(said.series.lastIndexOf(":") + P.one);
+    const name = questionName(said.series) ?? storyTopicName(topic);
+    if (name)
+      facts.law = {
+        text: name,
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
+  }
+  // A law in force that a bill enacted (a story that it took effect): the
+  // bill by its number, cited to the law and the bill.
+  if (!said.number && said.lawId && said.enactedBy) {
+    const bill = core.modules.has(LEGISLATURE_MODULE_ID)
+      ? billOf(coreAPI(core as CoreState), said.enactedBy)
+      : undefined;
+    if (bill?.number)
+      facts.bill = {
+        text: spokenDesignation(bill.number, bill.form.kind),
+        sourceRecordIds: [bill.id, said.lawId, moment.causeId],
+      };
+  }
+  // The chair a committee's hold names, for a member who is asked to press them.
+  const chair = said.chair
+    ? core.people.get(said.chair as PersonId)
+    : undefined;
+  if (chair && chair.id !== askedId)
+    facts.chair = {
+      text: `${chair.givenName} ${chair.familyName}`,
+      sourceRecordIds: [moment.causeId, chair.id],
+    };
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
   // A vote trade puts the holdout's own section in (legislature.ts adopt()):

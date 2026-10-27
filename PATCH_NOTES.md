@@ -296,6 +296,39 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.56.2
+
+_Released October 27, 2026._
+
+### Added
+
+- **Governments show their last two years' budgets before the start** Every
+  government now has its two earlier years' budgets in the history before day
+  one, estimated from the opening budget by the published growth of federal and
+  of state and local spending, each marked as an estimate with its source.
+
+### Fixed
+
+- **Becoming friends and falling out are scenes again** Spending real time with
+  someone can now turn them into a friend in a scene, and a quarrel that sours
+  the tie plays as an argument. Before, a friendship that grew over many
+  meetings never counted as a change, so these scenes never played.
+
+- **More police now lower the assaults and robberies that arrests follow**
+  Arrests for assault and robbery ignored the violent-crime link that more
+  officers move, so doubling a police line left those arrests unchanged while
+  the crime engine recorded fewer. Arrests now follow the same crime.
+
+### Changed
+
+- **Issues lists every law in force where you live** Politics → Issues now lists
+  every law in force where you live, not only taxes, wages and benefits. Each
+  policy question your state or the nation has a law on, from abortion to rent
+  stabilization, reads Yes or No, with the government whose law it is and the
+  statute it rests on where the research names one. When your city, county or
+  state passes a law, its card shows the new law from the day it takes effect.
+  Dates on Issues are written out in words.
+
 ## PRE-ALPHA 0.56.1
 
 _Released October 27, 2026._
