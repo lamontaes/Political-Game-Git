@@ -5,8 +5,8 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: done
-claimed-by: claude/m0-06-parent-age
+status: open
+claimed-by:
 pr: #6063
 blocked-on:
 source: added with npm run pool -- add
@@ -21,4 +21,4 @@ claimed-at: 2026-10-25T17:08:18.851Z
 
 **Files.** src/core2/m0-life-at-18.test.ts, src/core2/population.ts
 
-**Notes.** TODO
+**Notes.** Reopened Oct 27 by the laws-and-effects lead: after #6063 merged, M0-06 fails again the same way on clean main (69028b6155) in Hebron, Wisconsin (5533675), seed ed0fcb9d5fe8c4fc405921ee692d31ba212d34a236b449fb2c63040a79e143bb: "gives them parents of child-bearing age at their birth" expected 14 to be greater than or equal to 15 (measured). First seen in the golden-path job of PR #5657 (job 122026050728, head 427e58b558), which changes no kin or birth code. #6063's fix (branch claude/m0-06-parent-age) covers some draws but not this one.

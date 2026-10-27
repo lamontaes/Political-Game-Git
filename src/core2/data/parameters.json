@@ -5882,6 +5882,42 @@
       "citation": "Jokela's interval for openness, 1.04 to 1.36 per standard deviation, gives weights 0.08 to 0.65."
     }
   },
+  "hardshipWeightMovesMoveAway": {
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "citation": "Huttunen, Moen and Salvanes 2018, Job loss and regional mobility (Journal of Labor Economics 36(2); IZA DP 8780, Table 2 and p. 5): job displacement raises the probability of moving to a new region within two years by 0.6 percentage points for men (2% base) and 0.7 for women, about 30 percent, an odds ratio of 1.31 and 1.34. How much a lost job or a lost home speeds a person's pull to leave, per unit of the stress it left them, on the log scale the holds and pushes are added on (moves.ts pushesOf). The study sets only the mean effect of a job loss; the layoff stress it is divided by is the model's, not the study's. The studies of personality and moving (Jokela 2009) find no neuroticism effect, so the temperament in this term comes only from how hard the person is hit.",
+    "estimatedFrom": "ln(1.325), the mean log odds ratio of the two sexes, 0.284, divided by the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.47,
+      "high": 0.78,
+      "unit": "log hazard of leaving per unit of stress",
+      "citation": "Women's interval in Table 2, 0.007 with standard error 0.001 on a 2.10% base: odds ratios 1.25 to 1.44, log 0.22 to 0.36, over 0.47."
+    }
+  },
+  "hardshipWeightJobsBenefitsFileClaim": {
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "Whittaker, Der, Cook and Saunders 2010, Predicting which people with psychosocial distress are at risk of becoming dependent on state benefits (BMJ 341:c3838): GHQ-12 psychological distress caseness rose before people started claiming incapacity benefit, odds ratio 1.6 (95% CI 1.3 to 1.9) from two years before. No study of stress and filing for unemployment insurance was found; this is the closest published size for how much distress raises claiming a state benefit, from a British panel of a disability benefit, so it names the direction (stress pulls toward claiming) and a size, not a measured effect on this filing. How much the stress a layoff left pulls an eligible worker toward filing, in the same score as the base and the traits' lean (jobs-benefits.ts fileClaim).",
+    "estimatedFrom": "ln(1.6), 0.47, for the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.56,
+      "high": 1.37,
+      "unit": "score per unit of stress",
+      "citation": "The study's interval, odds ratios 1.3 to 1.9, log 0.26 to 0.64, over 0.47."
+    }
+  },
+  "hardshipWeightCreditBorrow": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "Sullivan 2008, Borrowing during unemployment: unsecured debt as a safety net (Journal of Human Resources 43(2)): households with some assets that lose earnings to unemployment borrow, raising unsecured debt by more than 11 cents per dollar lost, while the poorest and the wealthy do not. The study gives an amount, not odds, so it sets the direction (a hardship pulls toward borrowing) and the size comes from the two studies that convert: the mean of the move weight's and the claim weight's log odds, 0.28 and 0.47. How much the stress a layoff, an eviction or a missed payment left pulls a household with a shortfall toward asking for a loan (credit.ts personalBorrowingDecision), in the same score as the baseline, need and cost.",
+    "estimatedFrom": "The mean of ln(1.325) and ln(1.6), 0.377, over the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.6,
+      "high": 1.0,
+      "unit": "score per unit of stress",
+      "citation": "The move weight (0.6) and the claim weight (1.0) it averages."
+    }
+  },
   "traitWeightVotingTurnout": {
     "value": 0.79,
     "tag": "ESTIMATED",
@@ -5903,12 +5939,14 @@
     }
   },
   "traitWeightVotingExitPoll": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.exit-poll decision. A voter tells the exit pollster who they voted for when their lean toward telling is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.094,
+    "tag": "ESTIMATED",
+    "citation": "Kostadintcheva, Kuha and Sturgis 2025, Survey Experience and Nonresponse in an Online Probability Panel (arXiv 2505.03971), Table 3: conscientiousness -0.095 log odds of not responding per point of a 1-5 scale; \"The least Conscientious panel members have a nonresponse probability of 21% compared to 15% for the most\"), row voting.exit-poll in data/research/trait-effect-sizes.json, carried to the thirds as an odds ratio of 1.18. Fitted with the exit poll's case (exitPollBase, exitPollEngagementWeight, exitPollInterestWeight) on the named voters of three drawn race towns, Finklea, South Carolina (4525405, seed 100a9eddd8c1), Silver City, Nevada (3266800, 62fd4b12c74d) and Douglas, Nebraska (3113505, d6f5f50c5452): crossed net odds 1.18 pooled, 1.14 to 1.35 by town; temperament turns 3.6% of answers. At the general weight of 1 with a case of 0 the thirds ran at 35.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.06,
+      "high": 0.13,
+      "unit": "weight",
+      "citation": "The conscientiousness standard deviation behind the target is assumed (0.15 to 0.25 of the scale's range), which moves the target from 1.13 to 1.23."
     }
   },
   "traitWeightVotingStandAgain": {
@@ -6003,9 +6041,9 @@
     }
   },
   "traitWeightCampaignsRetell": {
-    "value": 5.8,
+    "value": 1.13,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.70 between thirds (2.47 before the rescale below). A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target grows by 1.1 (log odds 0.903 to 0.993). A retelling's reach is 1 plus the weight times the lean, so it does not scale exactly with the target; the weight is found again the same way on the adults of Newfane VT (seed c1): the top third's mean reach is 2.45 times the bottom's at 4.9 and 2.71 times at 5.8, against the new 2.70, and a plain 1.1 scale (5.39) would reach only 2.59. 4.9 became 5.8. That lifts the town's mean reach from 1.65 to 1.77 times, which the campaign's second-hand weight is set from.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), Table 2, tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for telling family a campaign story (no study of retelling by personality was found): target ratio 2.70 between thirds (2.47 before the rescale below). A retelling's reach is 1 plus this weight times the lean, so the weight is the one at which the top third's mean reach is 2.45 times the bottom third's across the adults of Newfane VT (seed c1). The campaign's second-hand weight was lowered to keep the town's mean reach where it was. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target grows by 1.1 (log odds 0.903 to 0.993). A retelling's reach is 1 plus the weight times the lean, so it does not scale exactly with the target; the weight is found again the same way on the adults of Newfane VT (seed c1): the top third's mean reach is 2.45 times the bottom's at 4.9 and 2.71 times at 5.8, against the new 2.70, and a plain 1.1 scale (5.39) would reach only 2.59. 4.9 became 5.8. That lifts the town's mean reach from 1.65 to 1.77 times, which the campaign's second-hand weight is set from. Found again Oct 27 (tests-campaign-traits-ratios-out-of-band-st-paul): the act-kind pull table (data/content/trait-act-pulls.json) was rebuilt after the Oct 24 weight, which left the lean of speaking out against staying quiet about five times wider, so at 5.8 the top third's reach was 21 to 29 times the bottom's in every one of six drawn towns (seed scratch:0 to scratch:5, adults at the opening). The weight at which the ratio is 2.70 is 1.09 to 1.17 in each of the six towns, 1.13 pooled. That lowers the town's mean reach to 1.23 times, and the campaign's second-hand weight is set again from it.",
     "spread": {
       "low": 3.9,
       "high": 7.8,
@@ -6014,9 +6052,9 @@
     }
   },
   "traitWeightCampaignsAnswerPoll": {
-    "value": 0.1235,
+    "value": 0.0092,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.66 between thirds (1.48 before the rescale below). Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.095 became 0.1235.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), contacted a member of Congress, extraversion (proxy for answering a pollster's call; no study of poll response by personality was found): target odds ratio 1.66 between thirds (1.48 before the rescale below). Found by the same cross-product method on the age reasons of every adult of Newfane VT (seed c1) met with their trait leans, with the threshold moved so the share who answer is unchanged. Reached 1.46. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.095 became 0.1235. Found again Oct 27 (tests-campaign-traits-ratios-out-of-band-st-paul) by the same method on the adults of six drawn towns at the opening (seed scratch:0 to scratch:5): the act-kind pull table (data/content/trait-act-pulls.json) was rebuilt after the Oct 24 weight, so at 0.1235 the odds ratio was 3.3 to 5.1 against 1.66; the weight that reaches 1.66 is 0.0082 to 0.0107 in each town, 0.0092 in the middle.",
     "spread": {
       "low": 0.052,
       "high": 0.195,
@@ -6215,23 +6253,25 @@
     }
   },
   "traitWeightPressFollowNews": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the press.follow-news decision. How much a person keeps up with the news is their political engagement plus their lean toward following over skipping. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt and others 2021 (rows press.follow-news in data/research/trait-effect-sizes.json): extraversion correlates 0.16 with the number of news sources a German adult follows (openness 0.12, neuroticism -0.09). A person's habit is their political engagement plus the weighted lean, and each kind of news (local paper, television, radio, and the national kinds) takes the top of each age band by habit at its researched share, so the weight is set so the lean correlates 0.16 with the number of kinds a person follows. Fitted by rebuilding the audiences at each weight over every adult of two played towns (buildBenchWorld, every module): Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, 57 adults) reaches 0.16 at about 0.02 and Jagual, Puerto Rico (7237166, seed d29d296abf1f, 112 adults) at about 0.11; pooled, 0.08.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.02,
+      "high": 0.11,
+      "unit": "weight",
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightPressAcceptInterview": {
-    "value": 2.18,
+    "value": 1.1,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.70 between thirds (2.47 before the rescale below). Nearly every candidate has no closeness or grudge with the asking reporter, so no circumstance varies and the weight is set on the latent-logit scale: the study's log odds divided by the gap between the top and bottom third's mean lean (0.456) across the adults of Newfane VT (seed c1). Only a candidate strongly averse to a reporter declines. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1 (the weight is the study's log odds over the thirds' lean gap, so it scales exactly): 1.98 became 2.18.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson (2010), Personality and Civic Engagement, American Political Science Review 104(1), tried to convince people how to vote, openness logit 2.07 (interval 1.40 to 2.74), as the proxy for speaking to a reporter: target odds ratio 2.70 between thirds, with the trait's own spread from the paper's Table 1 (0.22 of its full range). Fitted on the interview asks of two played election-window years (Halfway, Missouri, seed 3e9ed70a5fb7; Marblehead, Ohio, seed 7772ab1c8196), every kept case (the base, the outlet's reach and the seat, src/core2/data/press/parameters.json) crossed with every candidate's lean: odds 3.06 and 3.48 between the thirds at 1.1. In small drawn towns whose residents are all named, where nearly every candidate is known to the whole town, 0.57 reaches the same odds.",
     "spread": {
-      "low": 1.43,
-      "high": 2.97,
+      "low": 0.744,
+      "high": 1.456,
       "unit": "weight",
-      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
+      "citation": "Scaled from the study's interval for the coefficient, 1.40 to 2.74 around 2.07."
     }
   },
   "traitWeightPressDig": {
@@ -6264,14 +6304,14 @@
     }
   },
   "traitWeightMeetingsTakePart": {
-    "value": 0.32,
+    "value": 0.26,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES; the trait's spread is 0.26 of its range, Table 1), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward taking part, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found in played years, on every meeting's whole pool of residents (each one's feeling about the question and their lean, and the room's size), so the room can be refilled at any weight: who took part at a bill's public comment and in a town hall's room, by thirds of lean over every resident weighed, net of the room filled with temperament left out. In five drawn places' election windows (seed poolfit1: Heron, Montana; Days Creek, Oregon; Everett, Georgia; Losantville, Indiana; Jennette, Arkansas; 88 meetings, 12,038 residents weighed) the net log odds at 0.32 are 1.29, 0.91, 1.19, 0.98 and 1.15 (geometric mean 1.093; every town within a factor of 1.5 of the study's odds), against 1.94 at 0.5 and 0.67 at 0.2. A fifth to a third of residents feel as strongly as anyone can about a question, and among them temperament alone sets who fills the room, which is why the weight sits below the 0.5 that two towns' audit years first gave (Halfway, Missouri and Marblehead, Ohio: net odds 2.01 and 4.16 at 0.5, 1.62 and 2.95 at 0.35).",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES; the trait's spread is 0.26 of its range, Table 1), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward taking part, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found in played years, on every meeting's whole pool of residents (each one's feeling about the question and their lean, and the room's size), so the room can be refilled at any weight: who took part at a bill's public comment and in a town hall's room, by thirds of lean over every resident weighed, net of the room filled with temperament left out. Refilled at 0.32, 0.285 and 0.26 in twenty drawn places' election windows on fresh random seeds (Oct 27, 2026, at #6143's head 99fc0b1579, one seed per place, each with its run seed, attempt and the different residents weighed): Jeromesville, Ohio (4565776ec6bbd777753e60793e3adb75d8170e85:meetings:0, 390 residents); Calumet, Oklahoma (4a3b742ed67a678280bb52c5e07946e6e056e99a:meetings:2, 388 residents); Loa, Utah (5b9f5133d4f09b48c17a1400ad9997c407f6a142:meetings:2, 386 residents); Grantsville, West Virginia (d85ba81c178988779216ba453c4d543af4d73826:meetings:0, 380 residents); Coopers Plains, New York (346297ca0c6347ebfe6283a726b7412fed002820:meetings:3, 359 residents); Richfield, Idaho (bf0c8cccea59d47b0486b8429ab231660fa1e2cf:meetings:0, 354 residents); Giltner, Nebraska (4171548db447be0cfb2f201f22f696e0cc6ad026:meetings:1, 335 residents); Pine Valley, Utah (290e684e1f4554f4ad97658260426b08a21bb8ce:meetings:4, 333 residents); Wyoming, Rhode Island (2e0a45586bc2a827a0ef4372ab71387d6e507c8c:meetings:0, 302 residents); Swan Valley, Idaho (2f234763e0a847d5c8cd10891133cf5d6b01b22e:meetings:0, 284 residents); Bruce Crossing, Michigan (80299d07892cb4e564190c33540ba3a9b18da828:meetings:0, 222 residents); Candlewood Lake Club, Connecticut (4f9c09e5328fcba61e895d18e33cd25308834fb3:meetings:1, 220 residents); Harrison, Idaho (22bb62bc23a274d0b1d405e6b0c7705d455c1077:meetings:1, 220 residents); Nikep, Maryland (32a42565139ff132b9992b2c0147d78c7875c620:meetings:2, 205 residents); Henry, Nebraska (6ac4606bddc97bbafb62c8157cf9ae99e1d60582:meetings:0, 141 residents); Garvin, Oklahoma (9cf6b1d5763b91a28c6b92e45d99332f2878e938:meetings:4, 138 residents); Leadore, Idaho (7bdcc2cf53d4d7f38de0cdacbbe82137ad6725d5:meetings:1, 75 residents); Whitney, Nebraska (5b9f5133d4f09b48c17a1400ad9997c407f6a142:meetings:1, 59 residents); Antelope Hills, Wyoming (c2ef691f6254c1bafe3eab93d9fd2b7522e5a6a1:meetings:0, 54 residents); Solen, North Dakota (7edd8f59102f8f866da350644620baf5e6ca3e0f:meetings:1, 50 residents). A refill matched the played run to within 0.08 in seven real runs at 0.285 and 0.26. In the 16 places with 100 or more different residents weighed the net log odds at 0.26 have geometric mean 1.077 against the study's 1.088 (0.52 to 2.04 singly; 1.410 at 0.32, 1.229 at 0.285), and all 20 together 0.961 (1.206 at 0.32). Antelope Hills and Whitney stay flat (0.31 and 0.35 at any weight below 0.4, and 0.306 and 0.329 at 0.26): their rooms of 40 fill from about 55 residents driven, the same people at every town hall, so temperament has almost nobody to turn away and the 418 and 1,068 weighings are 54 and 59 different residents; they would need weights of 0.445 and 0.785 to reach 1.088, which put 8 of the first 17 places over the band at 0.45. One town's thirds still swing from about 0.5 to 2.4 around the study's 1.088, nearly the width of the test's band, which is why the meetings test pools two towns. A fifth to a third of residents feel as strongly as anyone can about a question, and among them temperament alone sets who fills the room, which is why the weight sits below the 0.5 that two towns' audit years first gave (Halfway, Missouri and Marblehead, Ohio: net odds 2.01 and 4.16 at 0.5, 1.62 and 2.95 at 0.35).",
     "spread": {
-      "low": 0.199,
-      "high": 0.441,
+      "low": 0.15,
+      "high": 0.45,
       "unit": "weight",
-      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 1.195 to 2.645."
+      "citation": "The 10th to 90th percentile (0.152 to 0.447) of the weights at which each of the twenty drawn places' own net first reaches the study's 1.088 (the places' weights ran 0.06 to 0.785, median 0.278); the study's own 95% interval for the extraversion coefficient, 1.195 to 2.645, scales to 0.16 to 0.36 at this weight."
     }
   },
   "traitWeightSchoolAttend": {
@@ -6575,6 +6615,11 @@
     "tag": "SOURCED",
     "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 22, foreclosure of mortgage or loan: 30 units (stands for losing a home to eviction)."
   },
+  "srrsChangeInFinancialState": {
+    "value": 38,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 16, change in financial state: 38 units (stands for falling behind on a loan payment)."
+  },
   "healthConscientiousnessLogHazardPerLevel": {
     "value": -0.128,
     "tag": "ESTIMATED",
@@ -6624,23 +6669,25 @@
     }
   },
   "traitWeightViewsPersuasion": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the views.persuasion outcome: the hearer's traits toward yielding (openness and agreeableness) scale how far an argument or a story moves their view. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
-    "stopgapId": "SG-TRAITS-persuasion-size",
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "Hibbing, Ritchie and Anderson 2011 (rows views.persuasion in data/research/trait-effect-sizes.json): openness raises the log odds of being moved toward a discussion partner's view by 0.66 across the trait's range (trait sd 0.22), an odds ratio of 1.37 between the thirds. A move is a size, so the weight is set so the most yielding third's mean move over the least yielding third's, net of the same ratio without the trait term, is 1.37. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). At 0.3 the ratio is 1.36 in Lookeba and 1.35 in Jagual.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "weight",
+      "citation": "The fit's neighbors: 0.2 gives 1.22 to 1.23 and 0.4 gives 1.49 to 1.51."
     }
   },
   "traitWeightViewsTrust": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the views.trust outcome: the hearer's traits toward trusting (agreeableness) scale how far they trust a speaker. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
-    "stopgapId": "SG-TRAITS-persuasion-size",
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt and others 2021 (row views.trust in data/research/trait-effect-sizes.json): agreeableness correlates 0.20 with the Interpersonal Trust Scale among German adults (neuroticism -0.17; Thielmann et al. 2020 give 0.09 to 0.11 for trust-game sending). The weight is set so the hearer's lean correlates 0.20 with how far they trust a speaker. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). Pooled over 29,256 trust readings, 0.25 gives 0.203 (0.119 in Lookeba, 0.302 in Jagual: how far near ties already track the lean differs by town).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.15,
+      "high": 0.35,
+      "unit": "weight",
+      "citation": "The pooled fit's neighbors: 0.15 gives 0.141 and 0.35 gives 0.256."
     }
   },
   "workAbsenceIllnessWeight": {

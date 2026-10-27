@@ -5,14 +5,14 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/laws-opening-past-chosen-age
+pr: #6271
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: laws-effects
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T07:10:01.057Z
 ---
 
 **What.** The owner opened the creator on its default birthday (August 6, 1954, age 70) and set August 6, 1989, so Jackson Knox is 35 on January 20, 2025. In the played world his parent Kendall Roberts is 47, only 12 years older than he is; his brother Leo is 21; Who you are lists only "Northwestern MS" and "Northwestern El Sch" (no high school, college or job); Money reads $0.00 and he has no work. "Why, every time": a defect until a record answers why (OD:190). The likeliest cause is the registered stopgap SG-PLAY-creator-age-keeps-past in src/bench/creator.ts: changing the age moves only the birth date and the generated past (schooling, work, household, family ages) stays as drawn for the original age. This item makes a chosen birthday build the family, schooling, work and money for the chosen age before Begin.

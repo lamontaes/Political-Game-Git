@@ -120,6 +120,11 @@ export function wireItem(
     facts: { ...facts },
   };
   switch (event.kind) {
+    // Who or what entered the world is the trace's record of the two-level
+    // population filling in, not news: no paper prints it.
+    case "person.recorded":
+    case "organization.recorded":
+      return null;
     case "law-took-effect": {
       const topic = facts.series ?? event.kind;
       // A policy law at 0, or an amount set to nothing, ends what stood.
