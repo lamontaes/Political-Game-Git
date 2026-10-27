@@ -140,6 +140,19 @@ function shotsFor(seed: string) {
       backdrop: scene.backdropFile(placeName, 11 * 60),
       ...scene.stagePeople(core, placeName, people),
     });
+    // The Oval Office with the Resolute desk, the opening's President's room:
+    // the President with the Vice President and the Speaker.
+    if (label === "oval-office") {
+      const guests = cast(["vice-president", "us-house"]).slice(0, 2);
+      add("oval-office-resolute", {
+        place: "oval-office-resolute",
+        backdrop: scene.backdropFile("oval-office-resolute", 11 * 60),
+        ...scene.stagePeople(core, "oval-office-resolute", [
+          ...people,
+          ...guests,
+        ]),
+      });
+    }
   }
   // A conversation: the player and the first other person in the household, at home.
   const other = household.find((id) => id !== me) ?? terms[0]?.personId;
