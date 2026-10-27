@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-28-title-panel-header-separated
 pr: #6205
 blocked-on:
