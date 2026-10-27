@@ -6,9 +6,9 @@ lead: laws-effects
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-coverage-shade-answer
-pr:
+pr: #6245
 blocked-on:
 source: laws-and-effects lead, Oct 27 (seen by helper D on PR #6143, reproduced on clean main)
 claimed-at: 2026-10-27T06:20:02.766Z
