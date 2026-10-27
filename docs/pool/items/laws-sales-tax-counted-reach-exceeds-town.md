@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/sales-tax-counted-reach
-pr:
+pr: #6200
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T23:54:13.205Z
