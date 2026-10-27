@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 3
 size: L
-status: in-pr
+status: open
 claimed-by: claude/peaceful-ritchie-03780x
-pr: #5076
+pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind uncalibrated-tunable"
@@ -22,4 +22,4 @@ claimed-at: 2026-10-19T23:07:36.109Z
 
 **Files.** src/core2/data/parameters.json
 
-**Notes.** First row: Prototype opening baseline on a normalized stress channel. No claim of a US population norm.
+**Notes.** First row: Prototype opening baseline on a normalized stress channel. No claim of a US population norm. Released from idle draft #5076 by the CTO, Oct 26.

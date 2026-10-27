@@ -1,3 +1,4 @@
+import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
@@ -54,7 +55,6 @@ import {
   LAWS_MODULE_ID,
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
-import { lawApplied } from "../law-reach/applied";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
@@ -281,6 +281,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       choices: {},
       itemVetoes: {},
       projectRequests: {},
+      carryAsks: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -771,17 +772,24 @@ function budgetChambers(
       ? offices.find((o) => o.kind === "county-board" && o.level === "county")
       : (offices.find((o) => o.kind === "council" && o.level === "city") ??
         offices.find((o) => o.kind === "township-board"));
-  return body
-    ? {
-        chambers: [body.id],
-        introducedIn: body.id,
-        body:
-          body.kind === "county-board"
-            ? "the county board"
-            : body.kind === "township-board"
-              ? "the township board"
-              : "the council",
-      }
+  if (body)
+    return {
+      chambers: [body.id],
+      introducedIn: body.id,
+      body:
+        body.kind === "county-board"
+          ? "the county board"
+          : body.kind === "township-board"
+            ? "the township board"
+            : "the council",
+    };
+  // A city with no council of its own that is the whole state (it holds nearly all the state's residents) is governed by the state's legislature, which votes its
+  // budget; a smaller place with no council has none to vote it.
+  const state = governments(api).find((g) => g.level === "state");
+  return state &&
+    gov.level === "city" &&
+    gov.residents >= state.residents * campaignParameter("wholeStateCityShare")
+    ? budgetChambers(api, state)
     : null;
 }
 
@@ -920,13 +928,20 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
     provision.kind === "law-amount" &&
     (provision.series === "income-tax" || provision.series === "sales-tax")
   ) {
-    const key =
+    // The state's grant of local income-tax authority is the row in force
+    // today (a later row withdraws what an earlier one granted); a local sales
+    // tax needs only that the state records one. No bill offers the grant yet
+    // (stopgapId: SG-LAW-local-income-tax-authority-change).
+    const rows =
       provision.series === "income-tax"
-        ? "local-income-tax-authority"
-        : "local-sales-tax-average";
-    const rows = (
-      laws.query("bySeriesOnly", [key]) as unknown as LawRowInput[]
-    ).filter((r) => r.jurisdiction === chain.stateKey);
+        ? lawInForce(api, "local-income-tax-authority")
+            .levels.filter((l) => l.level === "state" && l.row)
+            .map((l) => l.row!)
+        : (
+            laws.query("bySeriesOnly", [
+              "local-sales-tax-average",
+            ]) as unknown as LawRowInput[]
+          ).filter((r) => r.jurisdiction === chain.stateKey);
     const allowed =
       provision.series === "income-tax"
         ? rows.some((r) => r.value === 1)
@@ -1716,6 +1731,21 @@ function checkedText(
             } as Authority)
           : authorityFor(api, p))),
   );
+  // The state's grant (or refusal) of local income-tax authority was read for
+  // this body: it is the body the law lets tax, or keeps from taxing.
+  if (!stateBody)
+    for (const [index, p] of provisions.entries()) {
+      const read = authority[index]!;
+      if (p.kind === "law-amount" && p.series === "income-tax" && read.source)
+        lawApplied(api, {
+          key: "local-income-tax-authority",
+          lawId: read.source,
+          targetId: bodyOfficeId,
+          target: "organization",
+          engine: LEGISLATURE_MODULE_ID,
+          what: read.allowed ? "local-tax-allowed" : "local-tax-barred",
+        });
+    }
   // A local minimum wage drafted under the state's grant (or refused by
   // its preemption) reaches the body that drafted it, on the law that
   // decided it: the state's authority answer or the question that enacted it.
@@ -2327,6 +2357,8 @@ export interface CarryRequest {
   readonly carried: boolean;
   /** The bill the member filed, when they carried it. */
   readonly billId: string | null;
+  /** The member is the player: the ask waits for their answer (`answerCarryAsk`) and nothing is filed until then. */
+  readonly awaitingPlayer?: boolean;
 }
 
 /**
@@ -2389,13 +2421,17 @@ export function askToCarry(
           asker!.knownIds.size / campaignParameter("carryStandingCircle"),
         ));
   const carried = position.total + standing > 0;
-  const bill = carried
-    ? draftBill(api, {
-        bodyOfficeId: input.bodyOfficeId,
-        sponsorId: input.memberId,
-        provisions: input.provisions,
-      })
-    : null;
+  // The engine offers, the player decides: an ask to the controlled member is
+  // held as a request, and nothing is filed or dropped until they answer.
+  const toPlayer = input.memberId === (api.state as CoreState).playerId;
+  const bill =
+    carried && !toPlayer
+      ? draftBill(api, {
+          bodyOfficeId: input.bodyOfficeId,
+          sponsorId: input.memberId,
+          provisions: input.provisions,
+        })
+      : null;
   if (bill)
     table(api, "bills").put({
       ...bill,
@@ -2410,10 +2446,59 @@ export function askToCarry(
     provisions: input.provisions,
     position,
     standing,
-    carried,
+    carried: toPlayer ? false : carried,
     billId: bill?.id ?? null,
+    ...(toPlayer ? { awaitingPlayer: true } : {}),
   };
+  if (toPlayer) {
+    // stopgapId: SG-GOV-carry-ask-no-screen (the held ask has no bench screen yet)
+    api.stopgap("SG-GOV-carry-ask-no-screen");
+    table(api, "carryAsks").put(row as unknown as ModuleRow);
+  }
   return row;
+}
+
+/** The asks waiting on the player's answer, oldest first. */
+export function carryAsksAwaiting(api: CoreAPI): readonly CarryRequest[] {
+  return (table(api, "carryAsks").rows() as unknown as CarryRequest[])
+    .filter((r) => r.awaitingPlayer)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+}
+
+/**
+ * The player's answer to a waiting ask: agreeing files the bill with the
+ * player as its sponsor and the asker as `requestedBy`; declining files
+ * nothing. Returns the closed request, with its bill when one was filed.
+ */
+export function answerCarryAsk(
+  api: CoreAPI,
+  requestId: string,
+  agree: boolean,
+): CarryRequest {
+  const waiting = table(api, "carryAsks").get(requestId) as unknown as
+    CarryRequest | undefined;
+  if (!waiting?.awaitingPlayer)
+    throw new Error(`No ask is waiting on the player: ${requestId}`);
+  const bill = agree
+    ? draftBill(api, {
+        bodyOfficeId: waiting.bodyOfficeId,
+        sponsorId: waiting.memberId,
+        provisions: waiting.provisions,
+      })
+    : null;
+  if (bill)
+    table(api, "bills").put({
+      ...bill,
+      requestedBy: waiting.askerId,
+    } as unknown as ModuleRow);
+  const closed: CarryRequest = {
+    ...waiting,
+    carried: agree,
+    billId: bill?.id ?? null,
+    awaitingPlayer: false,
+  };
+  table(api, "carryAsks").put(closed as unknown as ModuleRow);
+  return closed;
 }
 
 /** How an executive brings a bill of their own to the body, by office (data). */

@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by: claude/political-game-pool-76ksvw
-pr: #5180
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:08:03.624Z
@@ -17,10 +17,10 @@ claimed-at: 2026-10-20T03:08:03.624Z
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base. Never scan the whole world or a whole history every day; use indexes or act on the day something changed. Replace, never layer: the per-market rebuild is removed, not kept beside a cache.
 
-**Done when.** In the played world (buildBenchWorld), a CPU profile of npm run speed:year -- --seed m7b --exclusive before and after shows foundings below 2 percent of the year, and the business tests, including a founding in a drawn place, pass unchanged.
+**Done when.** In the played world (buildBenchWorld), a CPU profile of npm run speed:year -- --seed m7b --exclusive before and after shows foundings below 2 percent of the year, and the business tests, including a founding in a drawn place, pass unchanged. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/core2/modules/business.ts
 
-**Notes.** TODO
+**Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
 
 Oct 20 (claude): duplicate of `core-speed-foundings-per-place` (branch `claude/speed-foundings`, another session), which already restructures the same function more widely (it weighs the town's counted founders once a month rather than once per kind of business). I found it after writing the same cut (pay table and sorted people built once per pass, `foundings` 9.0 -> 5.3 seconds in the profile), so I dropped mine unpushed. For the CTO to drop this item.

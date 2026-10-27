@@ -4,7 +4,10 @@
  * each national month. A town's conditions combine the nation with its region.
  */
 import { countyPopulationSharesForPlace } from "../reference/government-units";
-import { corePlaceByJurisdictionId } from "../place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "../place-lookup";
 import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
 import type { MacroMonth } from "../macro-model";
 import type { Parameter } from "../parameters";
@@ -15,6 +18,7 @@ import {
   openingRegionMonths,
   stepRegionMonth,
   type RegionMonth,
+  type RegionRow,
 } from "../regional-model";
 import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
@@ -209,8 +213,31 @@ export function regionalLevel(
   return state ? regionalMonth(api, placeId, state.latestMonth) : undefined;
 }
 
+/**
+ * The area a region's figures cover, as people say it: a metro by its first
+ * city ("the Dallas area"), the rest of a state by the metros it leaves out
+ * ("Texas outside the Dallas and Houston areas"), else the state or
+ * territory itself.
+ */
 export function regionName(regionId: string): string | undefined {
-  return REGION_BY_ID.get(regionId)?.title;
+  const region = REGION_BY_ID.get(regionId);
+  if (!region) return undefined;
+  if (region.kind === "metro") return `the ${firstCity(region)} area`;
+  const state =
+    corePlaceStateIdentities().find((row) => row.usps === region.stateUsps)
+      ?.name ?? region.stateUsps;
+  const metros = REGIONS.filter(
+    (row) => row.stateUsps === region.stateUsps && row.kind === "metro",
+  ).map(firstCity);
+  if (!metros.length) return state;
+  const last = metros.pop()!;
+  const listed = metros.length ? `${metros.join(", ")} and ${last}` : last;
+  return `${state} outside the ${listed} area${metros.length ? "s" : ""}`;
+}
+
+/** A metro's first-named city: "Dallas" in "Dallas-Fort Worth-Arlington, TX". */
+function firstCity(region: RegionRow): string {
+  return (region.title ?? region.id).split(",")[0]!.split(/[-/]/)[0]!.trim();
 }
 
 export const REGIONAL_MODULE: CoreModule = {
