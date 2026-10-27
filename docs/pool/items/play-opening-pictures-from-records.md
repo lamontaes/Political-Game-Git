@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-opening-pictures-from-records
-pr:
+pr: #6284
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T10:58:23.362Z
