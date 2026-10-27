@@ -47,7 +47,11 @@ export function payRentAssistance(api: CoreAPI): void {
     // town receives the part its own people stand for (1 for the city's own
     // line). ESTIMATED from the population share, as renter households are
     // not recorded for the whole government.
-    let slots = (extra * townShare(api, gov)) / annual;
+    const share = townShare(api, gov);
+    // stopgapId: SG-GOV-rent-help-population-share
+    if (share < 1 && extra > 0)
+      api.stopgap("SG-GOV-rent-help-population-share");
+    let slots = (extra * share) / annual;
     if (!(slots > 0)) continue;
     // The measure that last changed this line is the law the help is paid under.
     const lawId = String(
