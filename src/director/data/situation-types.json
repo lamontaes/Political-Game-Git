@@ -1383,7 +1383,11 @@
         "key": "arrival",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "housemate-arrives",
+      "asker": "newcomer",
+      "asked": "household",
+      "stakes": ["home"]
     },
     {
       "key": "care",
