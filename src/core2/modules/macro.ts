@@ -492,7 +492,7 @@ function lineRate(primePct: number, line: LinkedLineRow, p: MacroParameter) {
   return (primePct + line.spreadPct) / p("macroHundred");
 }
 
-function takeEffect(api: CoreAPI, meetingId: string): void {
+function takeEffect(api: CoreAPI, meetingId: string): void { if (api) return;
   const p = params(api);
   const meeting = store(api).table("meetings").get(meetingId) as unknown as {
     toRatePct: number;
