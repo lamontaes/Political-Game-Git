@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/officers-minimum-wage
+status: open
+claimed-by:
 pr: #6190
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T20:58:53.247Z
+claimed-at:
 ---
 
 **What.** In Prescott, Michigan (2666300, seed a91c03e7d2b84f10, the laws lead's audit town), the town government's officers open as eight-hour-a-day jobs at a few cents to a few dollars an hour, under Michigan's $10.33 floor: the planning director at $0.81 an hour (`person_a66a51fc6585ef0a`), the chief administrative officer, finance director, city attorney and city clerk at $1.73, the public works director at $3.41 and the fire chief at $10.21 (measured at the opening, Oct 25). A small town's officers are part-time, often paid a stipend, so the pay is right in total but wrong per hour. When a minimum wage rises, the wage engine raises each of them to the new floor (`src/core2/wage-floor.ts:159`), and the core scales the job's daily pay by the ratio of the hourly rates (`src/core2/state.ts:1803`). So a 10% raise of the state wage made the chief administrative officer's biweekly paycheck $363.52 instead of $55.36, and the planning director's $363.52 instead of $25.92 (law-wiring year run, `docs/reports/law-wiring/families/labor-year-US-MI-2666300.json`). Federal wage law also leaves elected officials and their policymaking appointees out of "employee" (29 U.S.C. 203(e)(2)(C), recalled, check before building), so a minimum wage should not reach them at all.
@@ -18,6 +18,8 @@ claimed-at: 2026-10-26T20:58:53.247Z
 **Rules.** Estimate, never UNKNOWN: an officer's hours and pay start from the place's real figures with a spread and source. One model, two tiers. No dice. One rule, all 56 places: the exemption comes from the law's text in data, not a named state.
 
 **Done when.** In a played year of `buildBenchWorld` in two drawn places (seeds named), including a small town, every officer job holds hours and pay that match its source (a part-time stipend where the place pays one), no officer's hourly pay sits under the floor unless the law exempts the office, and a minimum wage raise in that town leaves exempt officers' pay unchanged while raising covered workers by the floor's change, named by record id. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
+
+**Time box.** 3 hours. Model: Sonnet, no helpers.
 
 **Files.** src/core2/public-payroll.ts, src/core2/wage-floor.ts, src/core2/state.ts
 

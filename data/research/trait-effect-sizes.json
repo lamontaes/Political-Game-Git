@@ -2486,6 +2486,157 @@
       "quote": "Abstract: \"The results show a medium to large effect of HH (odds ratio = 0.53)\". Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2, honesty-humility: \"0.53\", 2.5% \"0.47\", 97.5% \"0.60\". Section 3: \"The odds ratio for a z-standardized predictor quantifies how strongly the odds in favor of dishonesty change\". \"Across studies, the overall probability d was estimated to be 26.1%, with a 95% Bayesian credibility interval (BCI) of [19.2%; 34.4%].\" Big Five Agreeableness: \"OR = 0.75\", with no incremental validity beyond HH.",
       "quoteVerified": true,
       "notes": "Odds ratio per standard deviation of honesty-humility for being a liar (lower honesty, more lying); the calibration reads its size and the lean's direction. The base rate is the share prepared to lie when it pays, used for shadeBase at the largest gap between vote and town a town's stand allows."
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "trait": "openness to experience",
+      "outcome": "contacted a House member or senator in the past two years (citizen-side measure of bringing a problem to an official)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 1.06,
+        "low": 0.433,
+        "high": 1.687,
+        "traitSd": 0.22
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/mondak_et_al._2010.pdf"
+      },
+      "quote": "Table 2, row \"Contacted House member or senator in past two years (1,065)\", column Openness to Experience: \"1.06∗∗\", standard error \"(0.32)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Openness to experience: Scale Mean (SD) \"0.46\" \"(0.22)\".",
+      "quoteVerified": true,
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,065; controls age, female, black); traits are scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation the coefficient is multiplied by Table 1's SD, 0.22. Proxy: the survey item asks about any contact with a member of Congress, not specifically a casework request, so it measures the willingness to approach an official with something. Same row, other traits: conscientiousness -0.84 (SE .29, p<.01; traitSd 0.25), extraversion 0.92 (SE .27; traitSd 0.26), agreeableness 0.39 (ns), emotional stability -0.84 (SE .33, p<.05; traitSd 0.22). The paper's own illustration: predicted probability of having contacted a member of Congress rises from 0.28 to 0.45 across openness and from 0.27 to 0.49 across extraversion (Appendix B full models)."
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "trait": "extraversion",
+      "outcome": "contacted a House member or senator in the past two years (citizen-side measure of bringing a problem to an official)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.92,
+        "low": 0.391,
+        "high": 1.449,
+        "traitSd": 0.26
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/mondak_et_al._2010.pdf"
+      },
+      "quote": "Table 2, row \"Contacted House member or senator in past two years (1,065)\", column Extraversion: \"0.92∗∗\", standard error \"(0.27)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
+      "quoteVerified": true,
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,065; controls age, female, black); traits are scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per standard deviation multiply by 0.26 (Table 1). Same row as the openness entry; see its note for the other traits (conscientiousness is negative, -0.84)."
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "trait": "extraversion",
+      "outcome": "contacted a local official (CT Survey, 2008; sample mean 33.3 percent)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.627,
+        "low": 0.272,
+        "high": 0.982,
+        "traitSd": 0.29
+      },
+      "source": {
+        "authors": "Gerber, A. S., Huber, G. A., Doherty, D., Dowling, C. M., Raso, C., & Ha, S. E.",
+        "year": 2011,
+        "title": "Personality Traits and Participation in Political Processes (On-line Appendix, Tables A12a and A13)",
+        "venue": "Journal of Politics 73(3), 692-706 (on-line appendix)",
+        "url": "https://huber.research.yale.edu/materials/21_appendix.pdf"
+      },
+      "quote": "Table A12a, column (4) \"Contact Local Official\", row Extraversion (0-1): \"0.627\" with robust standard error \"[0.181]***\". Note: \"Logit coefficients with robust standard errors in brackets.\" Table A1, CT Survey, Extraversion (0-1): mean \"0.607\" and SD \"[.29]\". Table A12a \"Mean\" row, Contact Local Official: \"0.333\".",
+      "quoteVerified": true,
+      "notes": "Logit coefficient from Table A12a of the on-line appendix to Gerber et al. (2011, Journal of Politics 73(3):692-706; DOI 10.1017/S0022381611000399), CT Survey (2008 Connecticut telephone-recruited survey, N = 1,924; controls race, age, age squared, income, education); trait scaled 0 to 1, so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x robust SE. Per SD multiply by the CT-survey SD from Table A1. Contacting a local official is the nearest measured act to a resident bringing a problem to an official. Same column: agreeableness -0.662 [0.249]***, openness 0.477 [0.235]**, conscientiousness -0.024 [0.277], emotional stability 0.176 [0.229]. Table A12b marginal effects for a 2 SD increase: extraversion +27.0 percent, agreeableness -20.6 percent, openness +17.4 percent of the 25.6 percent baseline."
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "trait": "agreeableness",
+      "outcome": "contacted a local official (CT Survey, 2008; sample mean 33.3 percent)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": -0.662,
+        "low": -1.15,
+        "high": -0.174,
+        "traitSd": 0.2088
+      },
+      "source": {
+        "authors": "Gerber, A. S., Huber, G. A., Doherty, D., Dowling, C. M., Raso, C., & Ha, S. E.",
+        "year": 2011,
+        "title": "Personality Traits and Participation in Political Processes (On-line Appendix, Tables A12a and A13)",
+        "venue": "Journal of Politics 73(3), 692-706 (on-line appendix)",
+        "url": "https://huber.research.yale.edu/materials/21_appendix.pdf"
+      },
+      "quote": "Table A12a, column (4) \"Contact Local Official\", row Agreeableness (0-1): \"-0.662\" with robust standard error \"[0.249]***\". Table A1, CT Survey, Agreeableness (0-1): mean \"0.791\" and SD \"[.2088]\". Text: \"An increase in Agreeableness is also associated with a decreased probability of contacting a local official (-20.6%). We interpret this as evidence that Agreeable individuals are disinclined to complain to elected officials\"",
+      "quoteVerified": true,
+      "notes": "Logit coefficient from Table A12a of the on-line appendix to Gerber et al. (2011, Journal of Politics 73(3):692-706; DOI 10.1017/S0022381611000399), CT Survey (2008 Connecticut telephone-recruited survey, N = 1,924; controls race, age, age squared, income, education); trait scaled 0 to 1, so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x robust SE. Per SD multiply by the CT-survey SD from Table A1. Negative sign: more agreeable residents are less likely to contact a local official, which the authors read as reluctance to complain to elected officials; this matches the bring-case lean, which pushes confrontation and speaking out toward low agreeableness."
+    },
+    {
+      "id": "staff.hire",
+      "trait": "extraversion",
+      "outcome": "running a business with at least one employee rather than alone (entrepreneurs, SOEP 2019, N = 2,473; logit of being solo, sign reversed)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 1.162,
+        "low": 1.042,
+        "high": 1.296
+      },
+      "source": {
+        "authors": "Kardaslar, B., Kritikos, A. S., & Menkhoff, L.",
+        "year": 2026,
+        "title": "Personality Traits of Entrepreneurs and the Size of Their Firms",
+        "venue": "DIW Discussion Paper 2173 (DIW Berlin)",
+        "url": "https://www.diw.de/documents/publikationen/73/diw_01.c.1015593.de/dp2173.pdf"
+      },
+      "quote": "Table 6, column (1) \"Solo\", row Extraversion: \"-0.134∗∗∗\" with p-value \"(0.007)\". Table 6 note: \"In column (1), a logit regression is conducted with the dependent variable being 1 if the entrepreneur is solo and 0 if she has at least one employee.\" Text: \"Solo-entrepreneurs are also more open to new experiences than entrepreneurs who hire employees.\" Traits: \"Participants rate the extent to which each characteristic applies to them by assigning a score between 1 and 7 for fifteen items - three items for each trait.\" SD of the same SOEP 1-7 scales, from a second fetched paper (Fritsch & Rusakova 2010, SOEPpaper 343, Table A2, SOEP 2005): extraversion \"1.122\" (SD column of Table A2).",
+      "quoteVerified": true,
+      "notes": "DERIVED by the research helper from two fetched papers. (1) Kardaslar et al. print logit coefficients per point of the raw 1-7 trait score (not standardized) for being a SOLO entrepreneur versus one with at least one employee; the sign is reversed here so that a positive log-odds means hiring. (2) The paper prints no trait SD, so the SD of the same SOEP three-item scales in points was taken from Fritsch & Rusakova (2010) Table A2 (SOEP 2005 adults: conscientiousness 0.864, extraversion 1.122, agreeableness 0.961, openness 1.161, neuroticism 1.204); the 2019 entrepreneur sample's SD may differ. odds-ratio-per-sd = exp(-coef_solo x SD in points). low/high from the SE implied by the printed p-value (openness p printed as 0.000, treated as 0.0005). Proxy: an entrepreneur taking on a first employee, not an elected official hiring a staff member; no study of officials was found. Same table: risk tolerance -0.145 (p<.01), agreeableness 0.004 (ns), neuroticism 0.020 (ns). The firm-size regressions (Table 5) point the same way: extraversion +0.108 per point on firm size, openness -0.107. Extraverts are less often solo, i.e. more likely to hire."
+    },
+    {
+      "id": "staff.hire",
+      "trait": "conscientiousness",
+      "outcome": "running a business with at least one employee rather than alone (entrepreneurs, SOEP 2019, N = 2,473; logit of being solo, sign reversed)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 1.138,
+        "low": 1.029,
+        "high": 1.26
+      },
+      "source": {
+        "authors": "Kardaslar, B., Kritikos, A. S., & Menkhoff, L.",
+        "year": 2026,
+        "title": "Personality Traits of Entrepreneurs and the Size of Their Firms",
+        "venue": "DIW Discussion Paper 2173 (DIW Berlin)",
+        "url": "https://www.diw.de/documents/publikationen/73/diw_01.c.1015593.de/dp2173.pdf"
+      },
+      "quote": "Table 6, column (1) \"Solo\", row Conscientiousness: \"-0.150∗∗\" with p-value \"(0.012)\". Table 6 note: \"In column (1), a logit regression is conducted with the dependent variable being 1 if the entrepreneur is solo and 0 if she has at least one employee.\" Text: \"Solo-entrepreneurs are also more open to new experiences than entrepreneurs who hire employees.\" Traits: \"Participants rate the extent to which each characteristic applies to them by assigning a score between 1 and 7 for fifteen items - three items for each trait.\" SD of the same SOEP 1-7 scales, from a second fetched paper (Fritsch & Rusakova 2010, SOEPpaper 343, Table A2, SOEP 2005): conscientiousness \"0.864\".",
+      "quoteVerified": true,
+      "notes": "DERIVED by the research helper from two fetched papers. (1) Kardaslar et al. print logit coefficients per point of the raw 1-7 trait score (not standardized) for being a SOLO entrepreneur versus one with at least one employee; the sign is reversed here so that a positive log-odds means hiring. (2) The paper prints no trait SD, so the SD of the same SOEP three-item scales in points was taken from Fritsch & Rusakova (2010) Table A2 (SOEP 2005 adults: conscientiousness 0.864, extraversion 1.122, agreeableness 0.961, openness 1.161, neuroticism 1.204); the 2019 entrepreneur sample's SD may differ. odds-ratio-per-sd = exp(-coef_solo x SD in points). low/high from the SE implied by the printed p-value (openness p printed as 0.000, treated as 0.0005). Proxy: an entrepreneur taking on a first employee, not an elected official hiring a staff member; no study of officials was found. Same table: risk tolerance -0.145 (p<.01), agreeableness 0.004 (ns), neuroticism 0.020 (ns). The firm-size regressions (Table 5) point the same way: extraversion +0.108 per point on firm size, openness -0.107. More conscientious entrepreneurs are less often solo."
+    },
+    {
+      "id": "staff.hire",
+      "trait": "openness to experience",
+      "outcome": "running a business with at least one employee rather than alone (entrepreneurs, SOEP 2019, N = 2,473; logit of being solo, sign reversed)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.776,
+        "low": 0.673,
+        "high": 0.895
+      },
+      "source": {
+        "authors": "Kardaslar, B., Kritikos, A. S., & Menkhoff, L.",
+        "year": 2026,
+        "title": "Personality Traits of Entrepreneurs and the Size of Their Firms",
+        "venue": "DIW Discussion Paper 2173 (DIW Berlin)",
+        "url": "https://www.diw.de/documents/publikationen/73/diw_01.c.1015593.de/dp2173.pdf"
+      },
+      "quote": "Table 6, column (1) \"Solo\", row Openness: \"0.218∗∗∗\" with p-value \"(0.000)\". Table 6 note: \"In column (1), a logit regression is conducted with the dependent variable being 1 if the entrepreneur is solo and 0 if she has at least one employee.\" Text: \"Solo-entrepreneurs are also more open to new experiences than entrepreneurs who hire employees.\" Traits: \"Participants rate the extent to which each characteristic applies to them by assigning a score between 1 and 7 for fifteen items - three items for each trait.\" SD of the same SOEP 1-7 scales, from a second fetched paper (Fritsch & Rusakova 2010, SOEPpaper 343, Table A2, SOEP 2005): openness to experience \"1.161\".",
+      "quoteVerified": true,
+      "notes": "DERIVED by the research helper from two fetched papers. (1) Kardaslar et al. print logit coefficients per point of the raw 1-7 trait score (not standardized) for being a SOLO entrepreneur versus one with at least one employee; the sign is reversed here so that a positive log-odds means hiring. (2) The paper prints no trait SD, so the SD of the same SOEP three-item scales in points was taken from Fritsch & Rusakova (2010) Table A2 (SOEP 2005 adults: conscientiousness 0.864, extraversion 1.122, agreeableness 0.961, openness 1.161, neuroticism 1.204); the 2019 entrepreneur sample's SD may differ. odds-ratio-per-sd = exp(-coef_solo x SD in points). low/high from the SE implied by the printed p-value (openness p printed as 0.000, treated as 0.0005). Proxy: an entrepreneur taking on a first employee, not an elected official hiring a staff member; no study of officials was found. Same table: risk tolerance -0.145 (p<.01), agreeableness 0.004 (ns), neuroticism 0.020 (ns). The firm-size regressions (Table 5) point the same way: extraversion +0.108 per point on firm size, openness -0.107. More open entrepreneurs are more often solo; the paper reads this as openness driving founding of ventures, not their growth."
     }
   ]
 }

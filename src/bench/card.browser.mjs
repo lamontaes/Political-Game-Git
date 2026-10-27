@@ -80,6 +80,17 @@ try {
             ...rings.map((ring) => ring.getBoundingClientRect().bottom),
           ),
           rings: rings.length,
+          rail: rings.map((ring) => {
+            const r = ring.getBoundingClientRect();
+            return {
+              tab: ring.dataset.tab,
+              x: Math.round(r.left),
+              y: r.top,
+              round:
+                Math.abs(r.width - r.height) < 1 &&
+                getComputedStyle(ring).borderRadius === "50%",
+            };
+          }),
           blocked,
           nameLines: Math.round(name.getBoundingClientRect().height / line),
         };
@@ -88,9 +99,36 @@ try {
       console.log(`${at}:`, JSON.stringify(read));
       assert.equal(
         read.rings,
-        6,
-        `${at}: the six menu icons are not all there`,
+        7,
+        `${at}: the seven rail icons are not all there`,
       );
+      // The rail (MOCKS:24): one column of round icons, News among them, no Options.
+      assert.deepEqual(
+        read.rail.map((ring) => ring.tab),
+        [
+          "journal",
+          "calendar",
+          "money",
+          "politics",
+          "news",
+          "people",
+          "travel",
+        ],
+        `${at}: the rail's icons and their order`,
+      );
+      assert.equal(
+        new Set(read.rail.map((ring) => ring.x)).size,
+        1,
+        `${at}: not one column`,
+      );
+      read.rail.forEach((ring, index) => {
+        assert.ok(ring.round, `${at}: ${ring.tab} is not round`);
+        if (index > 0)
+          assert.ok(
+            ring.y > read.rail[index - 1].y,
+            `${at}: ${ring.tab} is not below the one before`,
+          );
+      });
       assert.deepEqual(read.blocked, [], `${at}: icons covered`);
       assert.ok(
         read.cardTop >= read.ringsBottom,
@@ -103,7 +141,7 @@ try {
       path: `docs/reports/card-2026-10-25/card-${size.width}x${size.height}.png`,
     });
     // With the door-knocking status line on the card, an ordinary pointer
-    // click opens each of the six icons' screens; the keyboard opens Calendar.
+    // click opens each of the seven icons' screens; the keyboard opens Calendar.
     await page.evaluate((text) => {
       document.getElementById("card-why").textContent = text;
     }, "Knock on doors · 36 doors · 5 reached");
@@ -131,7 +169,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the menu icons, its text inside it, name on one line; each icon opens by pointer, Calendar by keyboard",
+    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the round rail icons, a column of seven with News, its text inside it, name on one line; each icon opens by pointer, Calendar by keyboard",
   );
 } finally {
   await browser.close();
