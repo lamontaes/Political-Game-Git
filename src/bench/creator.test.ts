@@ -19,6 +19,7 @@ import {
   portraitPng,
   readRecipe,
 } from "./appearance";
+import { recolorFigure } from "./figure-colors";
 import { lookFigures } from "./whole-figures";
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
@@ -76,7 +77,7 @@ describe("the New game creator", () => {
     const recipe = drawnAppearance("female", "seed", 0);
     expect(recipe.sex).toBe("female");
     const labels = appearanceRows(recipe, "female").map((row) => row.label);
-    expect(labels).toEqual(["Build", "Clothes"]);
+    expect(labels).toEqual(["Build", "Clothes", "Skin", "Clothes color"]);
     expect(appearanceRows(recipe, "nonbinary")[0]!.label).toBe("Body");
     const next = moveAppearance(recipe, "female", "outfit", 1);
     expect(next.outfit).not.toBe(recipe.outfit);
@@ -84,7 +85,8 @@ describe("the New game creator", () => {
     expect(() =>
       readRecipe(JSON.stringify({ ...next, outfit: "hair" })),
     ).toThrow();
-    // The portrait is the standing v2 figure itself, as rooms draw it.
+    // The portrait is the standing v2 figure in the look's own colors, through
+    // the same recolor the rooms draw it with.
     const png = portraitPng(next);
     expect(png.subarray(1, 4).toString()).toBe("PNG");
     const file = lookFigures().find(
@@ -95,8 +97,12 @@ describe("the New game creator", () => {
     )!.file;
     expect(
       png.equals(
-        readFileSync(
-          new URL(`../../art/people-engine/v2/${file}`, import.meta.url),
+        recolorFigure(
+          readFileSync(
+            new URL(`../../art/people-engine/v2/${file}`, import.meta.url),
+          ),
+          next.skin,
+          next.clothes,
         ),
       ),
     ).toBe(true);
