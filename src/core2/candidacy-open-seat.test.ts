@@ -27,7 +27,11 @@ import type { CoreState } from "./types";
 const ST_JOHNSBURY = {
   key: "5062125",
   seed: "f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4",
-  treasurer: "contest:seat:gus2025:176534:treasurer:0:2025-11-04",
+  // The county treasurer decided to stand down in an earlier build of the
+  // game; on the current one the treasurer runs again (stand-again 0.9), and
+  // the stand-down this pinned world holds is the Vermont House seat for
+  // Caledonia-Essex, whose incumbent weighs standing again below zero.
+  stoodDown: "contest:seat:US-VT:lower:CAE:0:2026-11-03",
 };
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const OPEN_SEAT = Number(CANDIDACY_PARAMETERS.candidacyOpenSeatWeight!.value);
@@ -71,7 +75,7 @@ function openSeatsHold(core: CoreState, where: string): CandidacyDecision[] {
   return stoodDown;
 }
 
-it("St. Johnsbury, Vermont: the county treasurer stands down, and the open seat carries a filing whose decision cites it", () => {
+it("St. Johnsbury, Vermont: the Caledonia-Essex House incumbent stands down, and the open seat carries a filing whose decision cites it", () => {
   setBookkeeping(false);
   const { core } = buildBenchWorld(ST_JOHNSBURY.seed, gameStartDate(), {
     twoLevel: true,
@@ -82,20 +86,18 @@ it("St. Johnsbury, Vermont: the county treasurer stands down, and the open seat 
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
-    .get(ST_JOHNSBURY.treasurer) as unknown as { filingDeadline: string };
+    .get(ST_JOHNSBURY.stoodDown) as unknown as { filingDeadline: string };
   expect(contest, where).toBeDefined();
   advanceCore(core, addDays(makeIsoDate(contest.filingDeadline), 1));
   const rows = decisions(core as CoreState).filter(
-    (row) => row.contestId === ST_JOHNSBURY.treasurer,
+    (row) => row.contestId === ST_JOHNSBURY.stoodDown,
   );
   const down = rows.find((row) => row.reasons.standAgain !== undefined);
-  expect(down?.run, `${where}: the treasurer's decision to stand again`).toBe(
+  expect(down?.run, `${where}: the incumbent's decision to stand again`).toBe(
     false,
   );
-  const filed = ballot(api, ST_JOHNSBURY.treasurer);
-  expect(filed.length, `${where}: filings for the treasurer`).toBeGreaterThan(
-    0,
-  );
+  const filed = ballot(api, ST_JOHNSBURY.stoodDown);
+  expect(filed.length, `${where}: filings for the seat`).toBeGreaterThan(0);
   const lines: string[] = [];
   for (const filing of filed) {
     const decision = rows.find((row) => row.personId === filing.personId)!;
