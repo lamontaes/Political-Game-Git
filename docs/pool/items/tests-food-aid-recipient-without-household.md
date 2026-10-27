@@ -25,3 +25,5 @@ claimed-at: 2026-10-27T08:35:36.221Z
 **Files.** src/core2/law-reach/group-b-food-aid.test.ts, src/core2/law-reach/group-b-food-aid.ts, src/core2/law-reach/group-b-money.ts
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27: found in PR #6011's gate and replayed on clean main with the same seed (same place, same person).
+
+Worker check (Claude, Oct 27): no longer reproduces on main. With `FOOD_AID_SEED=8ed706d9b6250495d08e35f371f1ddf6c576e2b18202c832a78b800f30edd8e6` (now read by the test) the first draw is place 2575050, world seed 49d5401d…0df97ae1, and all six cases pass, every SNAP recipient in a household; a fresh seed `fa-fresh-1` draws place 1150000 and passes. The seed is now pinnable through `FOOD_AID_SEED`. The fix that closed it was not traced.
