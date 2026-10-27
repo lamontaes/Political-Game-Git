@@ -52,6 +52,8 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
+import { officialsIn } from "../core2/modules/officials";
+import { partySide } from "../core2/appointments";
 import {
   asksQuestion,
   conversationHas,
@@ -65,7 +67,7 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { relationPhrase } from "../english/journal-words";
+import { kinAddress, relationPhrase } from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { properName, spoken, spokenWhen } from "./words";
 
@@ -888,11 +890,8 @@ export function subjectsBetween(
       },
     });
   }
-  // The speaker's relatives the listener has not met, named by relation.
-  // stopgapId: SG-DIRECTOR-shared-relative-kin-address
-  // A relative the two share is neither introduced nor asked after: "my
-  // father", "your father" or "How's John?" is not how a brother and sister
-  // speak of their own father. Shared-kin wording replaces this suppression.
+  // The speaker's relatives the listener has not met, named by relation. A
+  // relative the two share is never introduced; they ask after them below.
   const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
@@ -924,29 +923,42 @@ export function subjectsBetween(
       },
     });
   }
-  // The speaker's relatives the listener knows, asked after by name.
+  // The speaker's relatives the listener knows, asked after by name. One the
+  // two share is asked after as they call them ("How's Dad?"): a parent or
+  // grandparent to both by the kin address, a shared sibling by first name,
+  // and only by someone who does not live with them.
+  const listenerRelation = relationsOf(listener);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
     if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
-    if (id === listenerId || listener.familyIds.has(id) || !happened(id))
-      continue;
-    const phrase = relationPhrase(
-      row.relation,
-      relative.looks?.gender ?? "other",
-      "scene",
-    );
+    if (id === listenerId || !happened(id)) continue;
+    const gender = relative.looks?.gender ?? "other";
+    let phrase: string | undefined;
+    let sourceRecordIds = [row.factId];
+    if (listener.familyIds.has(id)) {
+      const theirs = listenerRelation.get(id);
+      if (
+        !theirs ||
+        theirs.relation !== row.relation ||
+        relative.householdId === listener.householdId
+      )
+        continue;
+      phrase =
+        kinAddress(row.relation, gender) ??
+        (row.relation === "sibling" ? relative.givenName : undefined);
+      sourceRecordIds = [row.factId, theirs.factId];
+    } else phrase = relationPhrase(row.relation, gender, "scene");
     if (!phrase) continue;
+    const shared = listener.familyIds.has(id);
     out.push({
       id: `family:${id}`,
       kind: "family",
       aboutId: id,
       facts: {
-        relation: {
-          text: phrase,
-          sourceRecordIds: [row.factId],
-        },
-        name: { text: relative.givenName, sourceRecordIds: [row.factId] },
+        relation: { text: phrase, sourceRecordIds },
+        // "I'll tell Dad you asked": a shared relative goes by what both call them.
+        name: { text: shared ? phrase : relative.givenName, sourceRecordIds },
       },
     });
   }
@@ -1020,11 +1032,16 @@ export function subjectsBetween(
     });
   // The President's address, once the speaker saw it or heard of it: its
   // remembered line is theirs to quote. Last, so it never takes the place of
-  // a subject the banks can word.
+  // a subject the banks can word. It is the day's news only while it is
+  // recent, as a recorded moment is.
   const known = core.knowledgeByPerson.get(speakerId);
   const address = known?.get(ADDRESS_FACT.event);
   const quote = known?.get(ADDRESS_FACT.remembered);
-  if (address && quote)
+  if (
+    address &&
+    quote &&
+    address.learnedAt > addDays(makeIsoDate(core.date), -recentDays())
+  ) {
     out.push({
       id: `address:${address.value}`,
       kind: "address",
@@ -1036,12 +1053,46 @@ export function subjectsBetween(
         },
       },
     });
+    // What the speaker made of it: their own lean against the President's
+    // party, both on record.
+    const take = addressTake(core, speakerId, address.value);
+    if (take)
+      out.push({
+        id: `address-view:${address.value}`,
+        kind: "address-view",
+        aboutId: address.value,
+        stage: take.stage,
+        facts: { take: take.fact },
+      });
+  }
   // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
     return out.filter(
       (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
     );
   return out;
+}
+
+/**
+ * What someone made of the President's address: for it when their own lean
+ * is on the side of the President's party, against it when it is on the other
+ * side; none when either is even. The views engine's lean and the officials
+ * engine's party are the records it stands on.
+ */
+function addressTake(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  eventId: string,
+): { stage: "for" | "against"; fact: Fact } | null {
+  const api = coreAPI(core as CoreState);
+  const president = officialsIn(api, "US:president")[zero];
+  const side = partySide(president?.party);
+  const lean = viewOf(api, personId)?.lean ?? zero;
+  if (!president || side === zero || lean === zero) return null;
+  return {
+    stage: Math.sign(lean) === Math.sign(side) ? "for" : "against",
+    fact: { text: "", sourceRecordIds: [eventId, president.id, personId] },
+  };
 }
 
 /** The facts the listener answers a raised subject with, from their own records. */
@@ -1144,6 +1195,11 @@ function replyFacts(
           ? "heard"
           : "not-heard",
       };
+    case "address": {
+      // Asked what they made of the address, the listener says their own take.
+      const take = addressTake(core, listenerId, subject.aboutId!);
+      return take ? { facts: { take: take.fact }, stage: take.stage } : null;
+    }
     default:
       return { facts: subject.facts, stage: "default" };
   }
@@ -1479,8 +1535,19 @@ function otherRaises(
   return false;
 }
 
-/** What the place and the occasion open with when no recorded event leads: what they share, then the player's work or home. */
-const OPENING_ORDER = ["shared-school", "shared-work", "own-work", "home"];
+/**
+ * What the place and the occasion open with when no recorded event leads:
+ * what they share, then the player's work or home, then the day's news, the
+ * President's address while it is recent (at home, where relatives don't
+ * talk about work or home, the address is what the evening gives).
+ */
+const OPENING_ORDER = [
+  "shared-school",
+  "shared-work",
+  "own-work",
+  "home",
+  "address",
+];
 
 /** The subjects that are the two speakers' relationship: what they share. */
 const SHARED_KINDS = ["shared-school", "shared-work"];

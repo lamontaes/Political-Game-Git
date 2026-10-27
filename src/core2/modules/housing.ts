@@ -28,6 +28,8 @@ import { countedHousingInArrears, countedPayment } from "../counted-money";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
+import { formerHome } from "../housing-former-home";
+import type { ModuleRow } from "../module-data";
 import { bankYes, lendMortgage, monthlyIncome } from "./credit";
 import { chooseAct } from "../choice";
 import { CREDIT_PARAMETERS } from "./credit";
@@ -1949,18 +1951,21 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
     });
   store(api)
     .table("dwellings")
-    .put({
-      id: `dwelling:${row.householdId}`,
-      householdId: row.householdId,
-      tenure: "removed",
-      kind:
-        (
-          store(api).table("dwellings").get(`dwelling:${row.householdId}`) as
-            { kind?: string } | undefined
-        )?.kind ?? "house",
-      since: c.date,
-      basis: "eviction",
-    });
+    .put(
+      formerHome(
+        store(api)
+          .table("dwellings")
+          .get(`dwelling:${row.householdId}`) as Parameters<
+          typeof formerHome
+        >[0],
+        {
+          householdId: row.householdId,
+          tenure: "removed",
+          basis: "eviction",
+          date: c.date,
+        },
+      ) as unknown as ModuleRow,
+    );
   const household = c.households.get(row.householdId);
   api.emit({
     id: `event:housing.eviction:${caseId}`,
