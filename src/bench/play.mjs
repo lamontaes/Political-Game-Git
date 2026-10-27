@@ -733,10 +733,9 @@ async function refresh() {
     await electionNight(night);
     return;
   }
-  // A law that took effect: what changed in town.
-  // A short notice on the card, not a screen taken over mid-play.
-  if (newChanges(await changeCount()))
-    $("card-why").textContent = controls.endedBy?.law ?? "";
+  // No card notice that "a law took effect" (owner, Oct 27: "Why am I getting a
+  // notification that a law took effect?"): a law that reaches the player is
+  // told by its own scene and story, which say how.
   if (openTab) await openSheet(openTab);
 }
 
@@ -1265,8 +1264,6 @@ for (const mode of ["day", "week"])
     coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
-// Laws enacted and laws taken effect so far: a new one of either opens What changed.
-let seenChanges = { ahead: 0, took: 0 };
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
 let seenNews = 0;
 async function newsCount() {
@@ -1281,14 +1278,6 @@ async function markNews(read) {
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
 }
-async function changeCount() {
-  const { ahead, took } = await api(
-    `/api/changes?id=${encodeURIComponent(me.id)}`,
-  );
-  return { ahead: ahead.length, took: took.length };
-}
-const newChanges = (now) =>
-  now.took > seenChanges.took || now.ahead > seenChanges.ahead;
 $("continue").addEventListener("click", () => {
   show("talk", false);
   return act(
@@ -4028,7 +4017,6 @@ const sheets = {
     const { ahead, took } = await api(
       `/api/changes?id=${encodeURIComponent(me.id)}`,
     );
-    seenChanges = { ahead: ahead.length, took: took.length };
     // Enacted, waiting for its date: the measure, what it sets, and when.
     const coming = ahead.map((law) =>
       listRow(
@@ -4918,7 +4906,6 @@ $("front-continue").addEventListener("click", async () => {
     names: {},
     portrait: life.portrait,
   };
-  seenChanges = await changeCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5410,7 +5397,6 @@ async function enterAs(life, personId) {
     names: life.names,
     portrait: false,
   };
-  seenChanges = await changeCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5505,8 +5491,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       names: life.names,
       portrait: Boolean(person?.recipe),
     };
-    // What was already law at the start isn't news; only what changes after.
-    seenChanges = await changeCount();
     show("front", false);
     await playOpening();
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
