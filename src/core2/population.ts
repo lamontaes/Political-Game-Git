@@ -143,6 +143,13 @@ export interface PopulationOptions {
    * player is a 17-year-old who turns 18 in play).
    */
   cohortAge?: number;
+  /**
+   * The age the New game creator chose for the player. Unlike `cohortAge`
+   * the opening may not hold it (a hamlet's few households), and a grown
+   * resident lives in any kind of household, so the search draws every shape
+   * the place shows, not only families with children.
+   */
+  playerAge?: number;
 }
 
 interface CountyContext {
@@ -751,12 +758,17 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   // families, in the place's split of couples and single parents with children
   // (the nation's where the place shows neither), and the first holding a
   // person that age moves in, every member aged from the place's records as above.
-  const cohorts: { age: number; required: boolean }[] = [
+  // A third age, the one the New game creator chose (`playerAge`), is kept the
+  // same way from households of every shape, and may go without.
+  const cohorts: { age: number; required: boolean; anyShape?: boolean }[] = [
     ...(options.cohortAge !== undefined
       ? [{ age: options.cohortAge, required: true }]
       : []),
     ...(options.cohortAge !== p("playerEntryAge")
       ? [{ age: p("playerEntryAge"), required: false }]
+      : []),
+    ...(options.playerAge !== undefined
+      ? [{ age: options.playerAge, required: false, anyShape: true }]
       : []),
   ];
   const familyShares = (shares: HouseholdMix["shares"]) =>
@@ -768,8 +780,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const families = familyShares(mix.shares).length
     ? familyShares(mix.shares)
     : familyShares(householdMixForJurisdiction(null).shares);
-  const total = families.reduce((sum, [, share]) => sum + share, p("zero"));
-  for (const { age: cohortAge, required } of cohorts) {
+  const everyShape = mix.shares.some(([, share]) => share > p("zero"))
+    ? mix.shares.filter(([, share]) => share > p("zero"))
+    : householdMixForJurisdiction(null).shares;
+  const totalOf = (shares: HouseholdMix["shares"]) =>
+    shares.reduce((sum, [, share]) => sum + share, p("zero"));
+  for (const { age: cohortAge, required, anyShape } of cohorts) {
+    const shares = anyShape ? everyShape : families;
+    const total = totalOf(shares);
     const ofCohort = (person: CharacterHistoryContextPersonInput) =>
       ageOnDate(makeIsoDate(person.birthDate), startedAt) === cohortAge;
     if (inputs.some(ofCohort)) continue;
@@ -790,8 +808,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           .fork(`${TOWN_RESIDENTS_VERSION}:${town}:household:${index}:cohort`)
           .next() * total;
       const shape =
-        families.find(([, share]) => (point -= share) < p("zero"))?.[0] ??
-        families.at(-1)![0];
+        shares.find(([, share]) => (point -= share) < p("zero"))?.[0] ??
+        shares.at(-1)![0];
       const drawn = drawHousehold(index, shape);
       if (drawn.people.some(ofCohort)) {
         addHousehold(index, drawn);

@@ -3,6 +3,7 @@ import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
 import { lineName } from "./budget";
+import { printedFacts } from "./printed-words";
 import type { ownRace } from "./results";
 import { policyNames } from "./words";
 
@@ -120,6 +121,56 @@ export function wordArchiveStory(
   return worded(core, story.id, kind, speaker, facts, options);
 }
 
+/** The paper each kind of outlet prints in: a paper's columns, or a station's page. */
+const LAYOUTS: Readonly<Record<string, string>> = {
+  newspaper: "broadsheet",
+  "national-paper": "broadsheet",
+  magazine: "modern",
+  online: "modern",
+  television: "modern",
+  cable: "modern",
+  radio: "modern",
+};
+
+/**
+ * The words for a story the press printed during play, by the outlet that
+ * printed it: the English engine words it from the record it was printed from
+ * (printed-words), and News files it under that outlet's name.
+ */
+export function wordPrintedStory(
+  core: CoreState,
+  story: StoredStory & { readonly outletId?: string },
+):
+  | (WordedStory & { outlet?: { id: string; name: string; layout: string } })
+  | null {
+  const read = printedFacts(core, story);
+  if (!read) return null;
+  const text = worded(
+    core,
+    story.id,
+    read.kind,
+    read.speaker || story.id,
+    read.facts,
+  );
+  if (!text) return null;
+  const organization = story.outletId
+    ? core.organizations.get(story.outletId as EntityId)
+    : undefined;
+  const kind = story.outletId?.split(":")[2] ?? "";
+  return {
+    ...text,
+    ...(organization
+      ? {
+          outlet: {
+            id: organization.id,
+            name: organization.name,
+            layout: LAYOUTS[kind] ?? "broadsheet",
+          },
+        }
+      : {}),
+  };
+}
+
 type StoryFact = { text: string; sourceRecordIds: EntityId[] };
 
 /** One story worded by the English engine from its record's facts. */
@@ -148,9 +199,11 @@ function worded(
   };
   const composed = composeNewsStory(packet, kind, options);
   if (!composed.headline && !composed.lede) return null;
+  // A headline or sentence opens with a capital, whatever fact starts it.
+  const opened = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
   return {
-    ...(composed.headline ? { headline: composed.headline } : {}),
-    ...(composed.lede ? { lede: composed.lede } : {}),
+    ...(composed.headline ? { headline: opened(composed.headline) } : {}),
+    ...(composed.lede ? { lede: opened(composed.lede) } : {}),
     sourceRecordIds: composed.sourceRecordIds,
   };
 }

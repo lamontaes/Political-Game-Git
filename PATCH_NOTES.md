@@ -296,6 +296,46 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.52.0
+
+_Released October 27, 2026._
+
+### Fixed
+
+- **A filing offers the issues that seat's own government decides** When you
+  file for office, the positions you can take are now the issues that seat's own
+  government decides in that place. A town board or council seat no longer lists
+  abortion, carbon pricing or cannabis sales, which only a state can change; it
+  lists the local issues the state lets its places act on. A governor or state
+  legislature seat still lists the issues the state decides. Candidates the
+  world files for state their positions on the same list.
+
+- **The desktop build publishes again** The desktop build checks itself again:
+  its smoke test opens Advanced before New world, where the one dev-mode start
+  moved it, so Mac and Windows packages publish.
+
+### Changed
+
+- **News tells every story the press prints in plain words** Every story your
+  town's papers and stations print during play now shows in News as a headline
+  and a first sentence, under the outlet that printed it: a law taking effect, a
+  bill signed or vetoed, a council vote and its count, a charge or a sentence, a
+  business closing, the month's unemployment, a filing, a debate. None shows as
+  a record name or a row of labeled fields any more. Papers also stop printing
+  the record kept when someone new enters the world.
+
+## PRE-ALPHA 0.51.1
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Who tells the exit pollster depends on why they voted** Voters who follow
+  politics closely and cared about the race now tell the exit pollster more
+  readily, and temperament tips only the close calls. About 45% of voters tell,
+  as real exit polls find; before, a voter's temperament alone decided, so the
+  eager and the private split by personality and nothing else.
+
 ## PRE-ALPHA 0.51.0
 
 _Released October 27, 2026._

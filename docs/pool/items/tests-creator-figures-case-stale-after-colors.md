@@ -25,3 +25,5 @@ claimed-at: 2026-10-27T09:16:01.782Z
 **Files.** src/bench/creator.test.ts
 
 **Notes.** Filed by the laws-and-effects lead, Oct 27. Seen in the changed-file tests of `laws-opening-past-fits-the-chosen-age`, which changes the same test file; reproduced on clean main. Fixed Oct 27 in PR #6271 (commit 91bca7f45d), which changes the same test file; that PR's line 1 is `laws-opening-past-fits-the-chosen-age`, so set this item done when #6271 merges.
+
+Landed in #6271 (merged 10:11 UTC, Oct 27, laws-and-effects lead): the case expects the four appearance rows and the recolored portrait; it is a second item of that PR, so the merge did not flip it, and done is the CTO's to set.

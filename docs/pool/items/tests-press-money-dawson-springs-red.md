@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-money-dawson
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T10:46:46.396Z
 ---
 
 **What.** src/core2/press-money.test.ts fails on main with GOLDEN_PATH_SEED=87f9d8a36f733083. Its first draw, Dawson Springs, Kentucky (2120224), place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, never has a month when the paper's readers and its revenue both rise, so the check that revenue follows the audience fails over March 2025 to January 2026. Either the outlet's revenue there truly does not follow its readers (a defect in the press money rule) or the town is too small for the check's shape and the test needs to say so from the record. The test draws its place at random, so CI turns red on any change whose run lands here.
