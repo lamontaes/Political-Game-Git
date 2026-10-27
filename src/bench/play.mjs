@@ -4,6 +4,7 @@
 import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers } from "./ui/button.mjs";
 import { mountMenu } from "./ui/menu.mjs";
+import { mountRail } from "./ui/rail.mjs";
 import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
@@ -637,7 +638,12 @@ async function renderJournalNote() {
   $("journal-line").textContent = line;
 }
 async function refresh() {
-  await Promise.all([renderScene(), renderCard(), renderJournalNote()]);
+  await Promise.all([
+    renderScene(),
+    renderCard(),
+    renderJournalNote(),
+    markNews(false),
+  ]);
   // When your character dies, carry on as someone connected to them.
   if (me.card && me.card.alive === false) {
     await openSheet("handoff");
@@ -1034,6 +1040,20 @@ for (const mode of ["day", "week"])
   });
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
+// Stories News held when it was last open: a dot on the rail's News icon until it is read.
+let seenNews = 0;
+async function newsCount() {
+  const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
+  // Every row News lists (its public records), the same rows its screen draws.
+  return rows.length;
+}
+async function markNews(read) {
+  const count = await newsCount();
+  if (read) seenNews = count;
+  document
+    .querySelector('#rings [data-tab="news"]')
+    ?.classList.toggle("unread", count > seenNews);
+}
 async function changeCount() {
   const { ahead, took } = await api(
     `/api/changes?id=${encodeURIComponent(me.id)}`,
@@ -4430,6 +4450,7 @@ async function openSheet(tab) {
   if (tab === "politics") tab = "government";
   if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
+  if (tab === "news") markNews(true);
   show("tip", false);
   const group = groupOf(tab);
   const politics =
@@ -4493,6 +4514,12 @@ async function openSheet(tab) {
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
 // The Menu list: the screens by name, in this order, nothing under the names.
+// The rail over the player card: a column of round icons, News among them.
+mountRail(
+  $("rings"),
+  ["journal", "calendar", "money", "politics", "news", "people", "travel"],
+  titles,
+);
 mountMenu(
   [
     "calendar",
