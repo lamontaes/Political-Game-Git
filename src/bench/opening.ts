@@ -12,7 +12,6 @@ import {
 } from "./scene";
 import { fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import pictures from "./data/opening-pictures.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import type { OpeningSentence, OpeningStory } from "../director/opening-story";
@@ -41,7 +40,7 @@ const PICTURED = new Set(
 
 interface Picture {
   places: string[];
-  /** Who stands in it: a key of "cast" (offices), or "workers" or "jobless" (the town's own people). */
+  /** Who stands in it: a key of "cast" (the offices' holders). */
   cast?: string;
 }
 const RULES = pictures as unknown as {
@@ -49,19 +48,12 @@ const RULES = pictures as unknown as {
   /** A stage's picture for one kind of address, where it differs (the State of the Union is given on the House floor). */
   stagesByKind?: Record<string, Record<string, Picture>>;
   facts: (Picture & { facts: string[] })[];
+  /** A figure the town has, and the kinds of employer whose own picture shows it. */
+  cutaways: { facts: string[]; kinds: string[] }[];
   levels: Record<string, Picture>;
   cast: Record<string, string[][]>;
   hour: number;
 };
-
-/** A cutaway's picture: its first matching fact, else its part of the address's. */
-function cutawayFor(sentence: OpeningSentence): Picture | undefined {
-  return (
-    RULES.facts.find((rule) =>
-      rule.facts.some((key) => sentence.facts.includes(key)),
-    ) ?? RULES.levels[sentence.level]
-  );
-}
 
 /**
  * The opening's frames: one per change of picture, each with the sentences
@@ -100,62 +92,55 @@ export function openingFrames(
     picture?.places
       .map((row) => resolve(row, sentence))
       .find((row) => PICTURED.has(row));
-  // A cutaway shows the town's own people, never an empty room: the people
-  // with jobs at an organization of the town whose own picture it is, or the
-  // adults of the town with no job.
+  // A cutaway shows the town's own employer for the figure and the people who
+  // work there, never an empty room (owner, Oct 26): the largest employer of
+  // a listed kind in the player's town or county, pictured by its own record.
   const town = new Set<string>(
     [player.placeId, player.countyId].filter(
       (id): id is NonNullable<typeof id> => Boolean(id),
     ),
   );
-  const workersBy = new Map<string, string[]>();
-  const workersOf = (place: string) => {
-    if (!workersBy.size) {
-      const orgs = new Map(
-        [...core.organizations.values()]
-          .filter((org) => town.has(org.placeId))
-          .map((org) => [org.id, orgPlace(core, org.id)] as const),
-      );
-      const add = (orgId: string, personId: string) => {
-        const where = orgs.get(orgId);
-        if (where)
-          workersBy.set(where, [...(workersBy.get(where) ?? []), personId]);
-      };
-      for (const job of core.jobs.values())
-        if (!job.endsAt) add(job.organizationId, job.personId);
-      for (const job of residentsRuntime(core)?.jobs.values() ?? [])
-        add(job.organizationId, job.personId);
-      workersBy.set("", []);
-    }
-    const ids = [...new Set(workersBy.get(place) ?? [])].sort();
-    return ids.slice(0, MOST_IN_A_CUTAWAY).flatMap((id) => {
+  let employers:
+    { classification: string; place: string; workers: string[] }[] | undefined;
+  const employersOf = () => {
+    if (employers) return employers;
+    const jobsAt = new Map<string, Set<string>>();
+    const add = (orgId: string, personId: string) =>
+      jobsAt.set(orgId, (jobsAt.get(orgId) ?? new Set()).add(personId));
+    for (const job of core.jobs.values())
+      if (!job.endsAt) add(job.organizationId, job.personId);
+    for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+      add(job.organizationId, job.personId);
+    employers = [...core.organizations.values()]
+      .filter((org) => town.has(org.placeId) && jobsAt.has(org.id))
+      .sort(
+        (a, b) =>
+          jobsAt.get(b.id)!.size - jobsAt.get(a.id)!.size ||
+          a.id.localeCompare(b.id),
+      )
+      .flatMap((org) => {
+        const place = orgPlace(core, org.id);
+        return place && PICTURED.has(place) && org.classification
+          ? [
+              {
+                classification: org.classification,
+                place,
+                workers: [...jobsAt.get(org.id)!].sort(),
+              },
+            ]
+          : [];
+      });
+    return employers;
+  };
+  const workersOf = (ids: readonly string[]) =>
+    ids.slice(0, MOST_IN_A_CUTAWAY).flatMap((id) => {
       if (!core.people.has(id)) fillInPerson(core, id);
       const person = core.people.get(id);
       return person?.alive
         ? [{ id, name: `${person.givenName} ${person.familyName}` }]
         : [];
     });
-  };
-  const joblessIn = () =>
-    [...core.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          town.has(row.placeId) &&
-          !row.jobId &&
-          ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >=
-            api.parameter("benchmarkAdultMinimumAge") &&
-          ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) <
-            api.parameter("openingRetirementClaimAgeYears"),
-      )
-      .slice(0, MOST_IN_A_CUTAWAY)
-      .map((row) => ({
-        id: row.id,
-        name: `${row.givenName} ${row.familyName}`,
-      }));
-  const castOf = (key: string | undefined, place: string) => {
-    if (key === "workers") return workersOf(place);
-    if (key === "jobless") return joblessIn();
+  const castOf = (key: string | undefined) => {
     for (const kinds of (key && RULES.cast[key]) || []) {
       const cast = seats
         .filter((row) => kinds.includes(row.office.kind) && row.holder)
@@ -167,6 +152,31 @@ export function openingFrames(
       if (cast.length) return cast;
     }
     return [];
+  };
+  /** A sentence's cutaway: the town's employer for its figure, else its part of the address's picture. */
+  const cutawayOf = (
+    sentence: OpeningSentence,
+  ):
+    | { place: string; cast: { id: string; name: string; title?: string }[] }
+    | undefined => {
+    const rule = RULES.cutaways.find((row) =>
+      row.facts.some((key) => sentence.facts.includes(key)),
+    );
+    if (rule) {
+      const employer = employersOf().find((row) =>
+        rule.kinds.includes(row.classification),
+      );
+      const cast = employer ? workersOf(employer.workers) : [];
+      return employer && cast.length
+        ? { place: employer.place, cast }
+        : undefined;
+    }
+    const picture =
+      RULES.facts.find((row) =>
+        row.facts.some((key) => sentence.facts.includes(key)),
+      ) ?? RULES.levels[sentence.level];
+    const place = placeOf(picture, sentence);
+    return place ? { place, cast: castOf(picture?.cast) } : undefined;
   };
   const stageOf = stageOfLevel(story.sequence);
   const stages = new Map(story.sequence.map((row) => [row.stage, row]));
@@ -233,7 +243,12 @@ export function openingFrames(
         .filter((row) => !ids.has(row.id))
         .map(({ id, name, office }) => ({ id, name, title: office ?? "" })),
     ];
-    const people = stagePeople(core, place, withReasons(all)).people;
+    const people = stagePeople(
+      core,
+      place,
+      withReasons(all),
+      story.president.id,
+    ).people;
     return { all, people };
   };
   const push = (
@@ -282,27 +297,24 @@ export function openingFrames(
     next = Math.max(next, order.indexOf(stage));
     const first = !opened.has(stage);
     const onStage = first ? openStage(stage, sentence) : stagePlace.get(stage)!;
-    const place = first
-      ? onStage
-      : (placeOf(cutawayFor(sentence), sentence) ?? onStage);
-    if (!place) {
+    if (!onStage) {
       frames.at(-1)?.lines.push(sentence);
       continue;
     }
-    const cut = place !== onStage;
-    const cast = cut ? castOf(cutawayFor(sentence)?.cast, place) : [];
-    // A cutaway with nobody in it is not shown: the line stays on the stage.
-    if (cut && !cast.length) {
-      push(stage, onStage, stageCast(stage), [], [sentence]);
-      continue;
-    }
-    push(
-      stage,
-      place,
-      cut ? cast : stageCast(stage),
-      first ? [...(stages.get(stage)?.people ?? [])] : [],
-      [sentence],
-    );
+    // After a stage's own picture, a sentence about the town's figures or a
+    // part of the address cuts away, when the records give it somewhere with
+    // somebody in it; otherwise it stays on the stage.
+    const cut = first ? undefined : cutawayOf(sentence);
+    if (cut && cut.place !== onStage && cut.cast.length)
+      push(stage, cut.place, cut.cast, [], [sentence]);
+    else
+      push(
+        stage,
+        onStage,
+        stageCast(stage),
+        first ? [...(stages.get(stage)?.people ?? [])] : [],
+        [sentence],
+      );
   }
   // Each person named in the address is pointed out on the line naming them.
   for (const frame of frames)
