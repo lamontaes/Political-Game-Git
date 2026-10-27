@@ -5,9 +5,9 @@ area: art
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-seat-slots-gone
-pr:
+pr: #6410
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T21:25:49.997Z
