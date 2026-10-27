@@ -6,11 +6,12 @@ lead: play-first
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-opening-past-chosen-age
 pr:
 blocked-on:
 source: laws-and-effects lead, Oct 27 (changed-file tests of laws-opening-past-fits-the-chosen-age)
+claimed-at: 2026-10-27T09:16:01.782Z
 ---
 
 **What.** On clean main (e3d9d8e6f2), `src/bench/creator.test.ts` "the New game creator > offers the figures the game draws, steps them and draws the portrait" fails in two places. Since play-stop-34 (#6229, skin and clothes color swatches) merged, `appearanceRows` returns Build, Clothes, Skin and Clothes color, and the test still expects only Build and Clothes (line 64 on main). With that line updated, the portrait check at the end still fails: `portraitPng` recolors the figure by the recipe's colors, so it no longer equals the raw v2 file byte for byte. Every PR that changes `creator.test.ts` inherits the red case.
