@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** scene-standard and civic-prose: lines from real hiring calls, worded from the record's facts (the job's title, the employer's name, the pay, the deadline, who calls), varying by the caller's traits; four replies that are four different answers (owner, Oct 27). No hand-written player text in code. The narration never says where the player is or who is there (the English ban, tests/guards/no-place-or-presence-restated.test.ts).
 
-**Done when.** In a drawn place the test src/core2/job-offer-through-person.test.ts reaches a `job-offered` record and `purposeScene` for its `job-offer` entry returns `composed` (not skipped), with a lead line, the caller's statement naming the job and pay from the record, and replies whose moves are distinct; a yes through `replyInScene` hires the player (person.jobId names the offered position); SG-DIR-job-offer-lines is resolved.
+**Done when.** In a drawn place the test src/core2/job-offer-through-person.test.ts reaches a `job-offered` record and `purposeScene` for its `job-offer` entry returns `composed` (not skipped), with a lead line, the caller's statement naming the job and pay from the record, and replies whose moves are distinct; a yes through `replyInScene` hires the player (person.jobId names the offered position); SG-DIR-job-offer-lines is resolved and `cause:event:job-offered` is added to scheduling.ownRecordScenes in src/director/data/situation-types.json, so the call stops the day.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
