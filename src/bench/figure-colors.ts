@@ -53,6 +53,11 @@ export const skinSwatch = (id: string) => find(SKIN_SWATCHES, id);
 export const clothesSwatch = (id: string) => find(CLOTHES_SWATCHES, id);
 
 type Region = "skin" | "clothes" | "other";
+/**
+ * The skin and clothing masks are found from the picture's own colors (warm
+ * and saturated, or unsaturated mid-gray), not painted per figure.
+ * stopgapId: SG-PLAY-figure-color-masks-from-picture
+ */
 function regionOf(r: number, g: number, b: number): Region {
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
