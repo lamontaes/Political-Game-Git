@@ -527,7 +527,14 @@ describe("story director on the new core", () => {
     // question at a town hall, plus the winner's call from the runner-up after
     // the count (`concession-received`) (scenes from life), plus the campaign
     // season's five (an interview and a debate invitation, an offer to help, a
-    // rival's filing, word of a rival's campaign; owner, Oct 26).
+    // rival's filing, word of a rival's campaign; owner, Oct 26), plus the
+    // constituent who stops an officeholder in the street and the hallway
+    // after a body sits (scenes from circumstance, owner, Oct 27); less the
+    // five the director lead deleted on Oct 27: a job interview (the press
+    // interview is the one with a record), the party's ask (the party's
+    // recruit is the same ask), and the three the player starts (asking a
+    // favor or permission, confessing), which the talk box offers rather than
+    // the director.
     expect(types).toHaveLength(
       (
         JSON.parse(

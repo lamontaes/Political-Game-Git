@@ -390,6 +390,33 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "household:siblings-older",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:siblings-born",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:school-started:elementary",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "household:school-started:high",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "household:livelihood",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "household:sibling-older",
       "turn": false,
       "entry": "story"
