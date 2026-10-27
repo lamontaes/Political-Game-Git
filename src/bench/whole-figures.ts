@@ -14,6 +14,7 @@ import {
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { orgPlace } from "./scene";
+import { CLOTHES_SWATCHES, DEFAULT_SKIN } from "./figure-colors";
 import type { CoreState } from "../core2/types";
 
 export interface Figure {
@@ -138,6 +139,16 @@ function hash(text: string): number {
   return value;
 }
 
+/** A well-mixed hash, so neighbors with alike ids still get unalike colors. */
+function mixed(text: string): number {
+  let h = 2166136261;
+  for (const char of text) h = Math.imul(h ^ char.charCodeAt(0), 16777619);
+  h ^= h >>> 15;
+  h = Math.imul(h, 2246822519);
+  h ^= h >>> 13;
+  return h >>> 0;
+}
+
 /** A person's age band on the game's date. */
 export function ageBandOf(
   core: CoreState,
@@ -217,12 +228,59 @@ export interface WholeFigure {
   };
 }
 
+// How common each skin tone is among the people the world makes, a rough
+// ESTIMATE of the United States' spread (source: Census race and ethnicity
+// counts, folded into the eight tones; spread about 5 points a tone), so a
+// street looks like America and not like an even draw. Registered as
+// stopgapId: SG-PLAY-people-skin-tone-weights, until a place's own demographics decide it.
+const SKIN_WEIGHTS: Readonly<Record<string, number>> = {
+  fair: 12,
+  light: 22,
+  tan: 22,
+  olive: 16,
+  brown: 12,
+  deep: 9,
+  dark: 5,
+  ebony: 2,
+};
+
+/**
+ * The skin and clothes color a person wears: the ones they chose in the
+ * creator, else ones set once from their own appearance record's seed (their
+ * id where the record has none), so the same person is the same color in every
+ * scene and neighbors differ.
+ */
+export function colorsFor(person: FigurePerson): {
+  skin: string;
+  clothes: string;
+} {
+  const seed = person.seed ?? person.id;
+  const total = Object.values(SKIN_WEIGHTS).reduce((a, b) => a + b, 0);
+  let at = mixed(`${seed}:skin`) % total;
+  let skin = DEFAULT_SKIN;
+  for (const [id, weight] of Object.entries(SKIN_WEIGHTS)) {
+    if (at < weight) {
+      skin = id;
+      break;
+    }
+    at -= weight;
+  }
+  const clothes =
+    CLOTHES_SWATCHES[mixed(`${seed}:clothes`) % CLOTHES_SWATCHES.length]!.id;
+  return {
+    skin: person.look?.skin ?? skin,
+    clothes: person.look?.clothes ?? clothes,
+  };
+}
+
 /** Who is being drawn: their record, and whether they hold office. */
 export interface FigurePerson {
   id: string;
   birthDate: string;
   gender?: string;
   official: boolean;
+  /** The seed of the person's own appearance record, where they have one. */
+  seed?: string;
   /** A look the person chose in the creator (the player), worn everywhere. */
   look?: {
     sex: string;
@@ -237,13 +295,13 @@ export interface FigurePerson {
  * The person's look here (a standing three-quarter figure), or null where
  * none fits (a child: the set paints adults only). Each person has a stable
  * look and build from their id among the looks of their sex dressed for where
- * they are, and takes one that nobody else in the scene wears (`taken`).
+ * they are. Nobody else in the scene changes it: neighbors differ by their own
+ * look, build and colors (`colorsFor`), never by being pushed off a look.
  */
 export function pickLook(
   core: CoreState,
   person: FigurePerson,
   place: string,
-  taken: ReadonlySet<string> = new Set(),
 ): Figure | null {
   const band = ageBandOf(core, person.birthDate);
   if (band === "child") return null;
@@ -256,12 +314,12 @@ export function pickLook(
         row.build === chosen.build &&
         row.outfit === chosen.outfit,
     );
-  if (own && !taken.has(own.look)) return own;
+  if (own) return own;
   const outfits = dressFor(core, person.id, place, band, person.official);
   // A person whose sex has no looks painted (nonbinary) may wear any look.
   const sexOk = (row: Figure) =>
     !person.gender || !SEXES.has(person.gender) || row.sex === person.gender;
-  const fits = FIGURES.filter((row) => sexOk(row) && !taken.has(row.look));
+  const fits = FIGURES.filter(sexOk);
   const dressed = fits.filter((row) => outfits.includes(row.outfit));
   const from = dressed.length ? dressed : fits;
   if (!from.length) return null;
@@ -287,9 +345,8 @@ export function wholeFigureFor(
   spot: StagingSpot,
   /** Who they're with: which way to turn, and whether to show their side or back. */
   turn: Turn = {},
-  taken?: ReadonlySet<string>,
 ): WholeFigure | null {
-  const front = pickLook(core, person, place, taken);
+  const front = pickLook(core, person, place);
   if (!front) return null;
   return figureOn(
     front,

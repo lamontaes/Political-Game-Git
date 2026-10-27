@@ -17,6 +17,7 @@ import figureRules from "./data/whole-figures.json" with { type: "json" };
 import {
   ageBandOf,
   figureOn,
+  colorsFor,
   pickLook,
   type Figure,
   type FigurePerson,
@@ -513,6 +514,8 @@ interface Looks {
   id: string;
   birthDate: string;
   gender?: string;
+  /** The seed of the person's appearance record, when it holds one. */
+  seed?: string;
   /** The look chosen in the creator (the player), when there is one. */
   look?: FigurePerson["look"];
 }
@@ -548,6 +551,9 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       id: person.id,
       birthDate: person.birthDate,
       ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
+      ...(person.looks?.appearanceSeed
+        ? { seed: person.looks.appearanceSeed }
+        : {}),
       ...(look ? { look } : {}),
     };
   }
@@ -606,8 +612,6 @@ export function stagePeople(
     band: Parameters<typeof figureOn>[1];
     spot: StagingSpot;
   }[] = [];
-  // No twins: each look is worn by one person in the scene, the lead first.
-  const taken = new Set<string>();
   for (const { id, name, reason } of ids) {
     if (!reason) {
       unplaced.push({ personId: id, reason: "no-reason" });
@@ -623,9 +627,10 @@ export function stagePeople(
       birthDate: looks.birthDate,
       ...(looks.gender ? { gender: looks.gender } : {}),
       official: isOfficial(core, id),
+      ...(looks.seed ? { seed: looks.seed } : {}),
       ...(looks.look ? { look: looks.look } : {}),
     };
-    const look = pickLook(core, who, place, taken);
+    const look = pickLook(core, who, place);
     if (!look) {
       unplaced.push({ personId: id, reason: "no-whole-figure" });
       continue;
@@ -646,11 +651,7 @@ export function stagePeople(
       });
       continue;
     }
-    taken.add(look.look);
-    const colors = new URLSearchParams({
-      ...(looks.look?.skin ? { skin: looks.look.skin } : {}),
-      ...(looks.look?.clothes ? { clothes: looks.look.clothes } : {}),
-    }).toString();
+    const colors = new URLSearchParams(colorsFor(who)).toString();
     placed.push({
       id,
       name,
