@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: screens/sheets-sized-to-content
 pr: #6394
 blocked-on:
