@@ -5,11 +5,12 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-producer-school-finished
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T18:17:19.931Z
 ---
 
 **What.** The scene web counts two rows waiting on a school-finished producer: last-day, a farewell with a classmate, and celebration, the household marking a diploma. The school engine already writes every senior's graduation result on the last school day, and the new adult who opens the game is a senior in most draws. No director row reads that result, so the player's last day of high school passes with nothing. The scene should come from the result record and cast someone from the player's own school that year, or from their household.
