@@ -1,7 +1,8 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { openingFrames } from "../bench/opening";
+import { openingFrames, OPENING_EVENING_MINUTE } from "../bench/opening";
+import { homeOf } from "../bench/scene";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
@@ -152,18 +153,30 @@ describe("the opening story", () => {
     expect(order).toEqual(["president", "congress", "state", "family"]);
     const opening = openingFrames(core, playerId, story);
     // The stages come in order; a cutaway never goes back to an earlier one.
-    // First, what the player is watching: their own household at home, the
-    // anchor leading into the address by its title.
-    const [lead, ...address] = opening.frames;
-    expect(lead!.speaker).toBe("anchor");
-    expect(lead!.stage).toBe("home");
-    expect(lead!.lines.map((row) => row.text).join(" ")).toMatch(
-      /We begin with the (?:State of the Union|inaugural address)\./,
-    );
+    // The first frame is the address itself, the President at the lectern
+    // (owner, Oct 26): no stage at the player's home comes before the address
+    // or the state's chapter.
+    const { frames } = opening;
     const household = new Set(
       core.households.get(core.people.get(playerId)!.householdId)?.memberIds,
     );
-    for (const row of lead!.pointOut) expect(household.has(row.id)).toBe(true);
+    expect(frames[0]!.stage).toBe("president");
+    expect(frames[0]!.lines.length).toBeGreaterThan(0);
+    const home = homeOf(core, playerId, OPENING_EVENING_MINUTE);
+    const governorAt = frames.findIndex((frame) => frame.stage === "state");
+    for (const frame of frames.slice(
+      0,
+      governorAt < 0 ? frames.length : governorAt,
+    )) {
+      expect(
+        frame.place,
+        `${frame.stage} frame is at the player's home`,
+      ).not.toBe(home);
+      expect(frame.people.some((row) => household.has(row.personId))).toBe(
+        false,
+      );
+    }
+    const address = frames;
     const keyIds = new Set(keyPeopleOf(core, playerId).map((row) => row.id));
     const reached = address.map((frame) => order.indexOf(frame.stage));
     expect(reached).toEqual([...reached].sort((a, b) => a - b));
@@ -232,7 +245,6 @@ describe("the opening story", () => {
     );
     console.log(
       [
-        ...story.lead.map((row) => `anchor: ${row.text}`),
         ...story.address.sentences.map((row) => `${row.level}: ${row.text}`),
       ].join("\n"),
     );
