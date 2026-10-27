@@ -3777,6 +3777,60 @@
       "asker": "recruiter",
       "asked": "invited",
       "stakes": ["cause"]
+    },
+    {
+      "key": "concession-received",
+      "note": "The winner's side of the call after the count: the candidate who finished behind the player rings to say what comes next. The elections engine's result record names the winner and the totals; the runner-up on those totals is the caller. It plays on the phone, as the loser's concession-call does from the other side. How the winner answers is a scene reply: a promise to meet is a promise on record, a hold on the count strains the tie.",
+      "roles": [
+        {
+          "key": "loser",
+          "fill": "opponent",
+          "count": "one",
+          "moves": [
+            "congratulate",
+            "thank",
+            "ask",
+            "request",
+            "refuse",
+            "accept",
+            "warn"
+          ],
+          "wants": ["engage", "help-others"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "offer", "press", "stall", "promise"],
+          "wants": ["commit"],
+          "bearing": "proud"
+        }
+      ],
+      "setting": ["phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:election-result",
+            "causeFacts": [{ "key": "winnerId", "is": "subject" }]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "election-result",
+          "bind": { "loser": "opponent", "you": "subject" },
+          "opener": "loser",
+          "opening": "congratulate"
+        }
+      ],
+      "tag": {
+        "key": "call-in",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "concession-received",
+      "asker": "loser",
+      "asked": "you",
+      "stakes": ["opponent", "office", "race"]
     }
   ]
 }

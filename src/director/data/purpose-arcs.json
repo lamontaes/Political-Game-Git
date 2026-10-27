@@ -2779,6 +2779,80 @@
           "when": {}
         }
       ]
+    },
+    "concession-received": {
+      "state": "congratulate",
+      "replies": ["thank", "offer", "press", "stall"],
+      "follow": {
+        "thank": ["request", "promise"],
+        "offer": ["accept", "thank"],
+        "press": ["accept", "refuse"],
+        "stall": ["ask", "accept"]
+      },
+      "again": {
+        "request": ["promise", "offer", "decline", "stall"],
+        "refuse": ["press", "accept", "warn", "leave"],
+        "ask": ["answer", "press", "stall", "leave"]
+      },
+      "endings": [
+        {
+          "id": "meeting-set",
+          "label": "A meeting on the calendar",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["offer"],
+            "asker": ["accept", "thank"]
+          }
+        },
+        {
+          "id": "promised-a-say",
+          "label": "You promised their people a say",
+          "keeps": "promise",
+          "when": {
+            "reply": ["promise"]
+          }
+        },
+        {
+          "id": "said-it-publicly",
+          "label": "They'll say it in public tonight",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["press"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "not-conceding-yet",
+          "label": "They won't say it until the count is certified",
+          "keeps": "relationship-strained",
+          "when": {
+            "anyReply": ["press"],
+            "asker": ["refuse"]
+          }
+        },
+        {
+          "id": "waiting-on-the-county",
+          "label": "You left it to the count",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "decline"]
+          }
+        },
+        {
+          "id": "gracious",
+          "label": "A gracious call",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {
