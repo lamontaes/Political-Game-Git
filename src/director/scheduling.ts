@@ -43,6 +43,8 @@ export interface SituationCause {
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
+    /** With threadTurn: the thread took this turn earlier (a tie that grew back after it soured). */
+    afterTurn?: string;
     /** The cause's record names the moment's person among its own people. */
     selfNamed?: boolean;
     /**
@@ -69,6 +71,8 @@ export interface SituationCause {
   };
   awaitingProducer?: string;
   causeEngine?: string;
+  /** The record kind (or kinds, comma-joined) the cause reads, for the scene web. */
+  causeRecord?: string;
   reason?: string;
   bind?: Readonly<Record<string, string>>;
   opener?: string;
@@ -131,6 +135,12 @@ export interface SituationLibrary {
     ownRecordScenes?: readonly string[];
     /** Where an own-record scene is met that day (home by default). */
     ownRecordSettings?: readonly string[];
+    /**
+     * Label prefixes of moments met where the player is that day (scenes
+     * from circumstance): staged on the day whatever their impact, their
+     * spacing kept by their producer (circumstance.ts).
+     */
+    metWhereYouAre?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -308,6 +318,17 @@ export function causeMatches(
         ),
     );
     if (!turned) return false;
+    if (match.afterTurn !== undefined) {
+      const earlier = moment.counterpartIds.some((id) =>
+        book.threads
+          .get(id)
+          ?.turns.some(
+            (turn) =>
+              turn.momentId !== moment.id && turn.turn === match.afterTurn,
+          ),
+      );
+      if (!earlier) return false;
+    }
   }
   return true;
 }
@@ -376,6 +397,12 @@ function fillRole(
       const id = core.durableLog.get(moment.causeId)?.facts?.decidedBy;
       return id && id !== moment.personId && alive(core, id) ? [id] : [];
     }
+    case "cause-named": {
+      // The first person the cause record names, living or not (whom a
+      // death is about), never the subject.
+      const id = core.durableLog.get(moment.causeId)?.personIds[zero];
+      return id && id !== moment.personId && core.people.has(id) ? [id] : [];
+    }
     case "kin":
       return closest(
         [...book.threads.values()]
@@ -389,6 +416,24 @@ function fillRole(
       );
     case "coworkers":
       return coworkers();
+    case "former-coworkers": {
+      // The people still working where the cause's job was (a last day).
+      const left = core.jobs.get(moment.causeId);
+      if (!left) return [];
+      return [
+        ...(core.finance.jobsByOrganization.get(left.organizationId) ?? []),
+      ]
+        .map((id) => core.jobs.get(id)!)
+        .filter(
+          (row) =>
+            row.endsAt === undefined &&
+            row.personId !== moment.personId &&
+            !taken.has(row.personId),
+        )
+        .map((row) => row.personId)
+        .filter((id) => alive(core, id))
+        .sort();
+    }
     case "present":
       return setting === "home"
         ? household()
@@ -444,7 +489,9 @@ function resolveSetting(
         : undefined;
     case "workplace": {
       // A job that just ended is no longer on the person; the cause's record names the employer.
+      // A moment caused by a job (a first or last day) is at that job's employer.
       const employer =
+        core.jobs.get(moment.causeId)?.organizationId ??
         job?.organizationId ??
         core.durableLog.get(moment.causeId)?.facts?.organizationId;
       return employer ? { kind, recordId: employer } : undefined;
@@ -743,9 +790,15 @@ export function scheduleMoment(
     );
   // Only a staged scene stops the day: a moment no situation stages has
   // nothing to show or answer, so it is the journal's line, never a stop.
+  const metHere = (library.scheduling.metWhereYouAre ?? []).some((prefix) =>
+    moment.label.startsWith(prefix),
+  );
   const interrupt =
     bindings.length > zero &&
-    (moment.impact >= options.interruptImpact || familyNews || tieMet) &&
+    (moment.impact >= options.interruptImpact ||
+      familyNews ||
+      metHere ||
+      tieMet) &&
     !waits;
   if (!found.length)
     coverage ??= {
