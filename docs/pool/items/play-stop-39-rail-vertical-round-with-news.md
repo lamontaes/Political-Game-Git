@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6185
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first

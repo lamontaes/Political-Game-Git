@@ -1496,6 +1496,52 @@ function speechPanel(filing, venue) {
     ),
   );
 }
+/**
+ * The town's next local ballot: every city, township and county seat on it
+ * with each filer by name, from the filing records, marked unopposed or
+ * unfilled where that is what the records hold.
+ */
+async function localRacesBlock() {
+  const { date, races } = await api("/api/government/local-races");
+  const labels = controls.localRaces;
+  const block = el(
+    "div",
+    { className: "row race local-races" },
+    el("b", {
+      textContent: date ? `${labels.title} · ${proseDate(date)}` : labels.title,
+    }),
+  );
+  if (!races.length)
+    block.append(
+      el("div", { className: "label", textContent: labels.noBallot }),
+    );
+  for (const race of races) {
+    const names = race.filers.map(
+      (f) => `${f.name ?? ""}${f.party ? ` (${f.party})` : ""}`,
+    );
+    const mark = !race.filers.length
+      ? labels.noFilers
+      : race.filers.length === 1 && race.filingClosed
+        ? labels.unopposed
+        : null;
+    const line = row(
+      race.title,
+      [
+        names.join(", "),
+        mark,
+        race.filingClosed
+          ? null
+          : `${labels.filingCloses} ${proseDate(race.filingDeadline)}`,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    );
+    line.classList.add("local-race");
+    line.dataset.contest = race.contestId;
+    block.append(line);
+  }
+  return block;
+}
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
@@ -4042,6 +4088,7 @@ const sheets = {
     const labels = controls.results;
     return [
       ...(await campaignRows()),
+      await localRacesBlock(),
       ...v.filings.map((f) =>
         row(
           decided.has(f.contestId)
