@@ -1,6 +1,30 @@
 {
   "entries": [
     {
+      "version": "0.56.0",
+      "releasedOn": "2026-10-27",
+      "revision": "2840510c8b5488ba271ceb714c60fb5a14b07167",
+      "changeIds": [
+        "laws-nine-links-housing-two",
+        "laws-prices-local-sales-tax-average-no-seller",
+        "release-smoke-item-lines",
+        "words-campaign-season-scenes-fill-the-months-a",
+        "words-scene-web-election-day-and-night",
+        "world-jobs-counted-choices-one-rule",
+        "world-treasury-cut-moves-little"
+      ]
+    },
+    {
+      "version": "0.55.4",
+      "releasedOn": "2026-10-27",
+      "revision": "9a9dec7ec786b257a05136b2c331e99bf48cf123",
+      "changeIds": [
+        "roadmap-m1-housing-budgets-business-commands",
+        "tests-renewal-counted-unplanned-replay-draw",
+        "words-scene-web-the-press"
+      ]
+    },
+    {
       "version": "0.55.3",
       "releasedOn": "2026-10-27",
       "revision": "2cd2bb588f28705a3d7fd2676f36e534d8edf9a2",
