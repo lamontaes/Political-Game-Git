@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by: 
+status: claimed
+claimed-by: screens/news-a-newspaper
 pr:
 blocked-on:
 source: "the owner's v0.56.2 sitting, Oct 27, 3:30 PM Eastern (Carlos Washington, 35, Salida, Colorado), filed by the screens designer"
 lead: play-first
 milestone: play-first
-claimed-at: 
+claimed-at: 2026-10-27T20:33:58.712Z
 ---
 
 **What.** In v0.56.2 the owner said "There is still no newspapers, even though UI was made for them. I've talked about stories having actual text but there is none." News lists headlines only, and a public-record row reads "Law took effect / Series Local sales tax average · Jurisdiction Colorado". News must be a front page: masthead and date, a lead story with headline and several sentences of story text from the English engine's printed-news pieces, smaller stories below, and no record kinds, series names or jurisdiction labels.
