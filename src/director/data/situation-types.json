@@ -980,6 +980,7 @@
           "causeEngine": "circumstance",
           "causeRecord": "school.finished",
           "bind": { "leaving": "subject", "staying": "counterpart" },
+          "sceneKey": "school-goodbye",
           "opener": "staying",
           "opening": "farewell",
           "setting": ["school"]
