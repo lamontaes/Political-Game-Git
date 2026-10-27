@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/sales-average-seller
-pr:
+pr: #6323
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T13:25:35.538Z
