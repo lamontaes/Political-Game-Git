@@ -143,6 +143,72 @@
         "estimatedFrom": "The national 2023 rate, taken from a secondary report of the BJS tables; it is a national figure for every place."
       }
     },
+    "justice.low-level-arrests": {
+      "scale": "rate",
+      "unit": "arrests for disorderly conduct, drunkenness, liquor law violations, curfew and loitering violations, vagrancy and drug possession per 1,000 residents a year",
+      "national": 3.258,
+      "places": {
+        "US-AK": 2.421,
+        "US-AL": 5.277,
+        "US-AR": 5.582,
+        "US-AZ": 6.296,
+        "US-CA": 2.689,
+        "US-CO": 3.271,
+        "US-CT": 3.52,
+        "US-DC": 2.965,
+        "US-DE": 3.327,
+        "US-FL": 1.577,
+        "US-GA": 3.367,
+        "US-GU": 3.933,
+        "US-HI": 3.05,
+        "US-IA": 3.817,
+        "US-ID": 6.012,
+        "US-IL": 2.038,
+        "US-IN": 3.965,
+        "US-KS": 4.518,
+        "US-KY": 3.669,
+        "US-LA": 5.188,
+        "US-MA": 0.979,
+        "US-MD": 1.189,
+        "US-ME": 2.869,
+        "US-MI": 1.664,
+        "US-MN": 2.745,
+        "US-MO": 2.903,
+        "US-MS": 7.197,
+        "US-MT": 4.874,
+        "US-NC": 3.237,
+        "US-ND": 9.566,
+        "US-NE": 7.254,
+        "US-NH": 3.375,
+        "US-NJ": 1.952,
+        "US-NM": 3.965,
+        "US-NV": 4.354,
+        "US-NY": 1.876,
+        "US-OH": 2.219,
+        "US-OK": 3.522,
+        "US-OR": 3.202,
+        "US-PA": 5.15,
+        "US-RI": 3.13,
+        "US-SC": 5.729,
+        "US-SD": 13.116,
+        "US-TN": 5.081,
+        "US-TX": 3.237,
+        "US-UT": 6.182,
+        "US-VA": 2.547,
+        "US-VT": 2.031,
+        "US-WA": 1.632,
+        "US-WI": 8.782,
+        "US-WV": 3.958,
+        "US-WY": 10.41
+      },
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "FBI Crime Data Explorer, arrest data, 2024: the sum of the 12 monthly arrest rates of the six offenses for the agencies that reported in each state (https://cde.ucr.cjis.gov/LATEST/arrest/state/{ST}/{offenseCode}?type=counts&from=01-2024&to=12-2024; offense codes 290, 280, 270, 330 and 300 read Oct. 25, 2026, and drug possession as the sum of codes 156, 157, 158, 159 and 160 read Oct. 26, 2026), kept with every offense's counts and coverage in data/research/justice/low-level-arrests-2024.json.",
+        "estimatedFrom": "Five of the six categories are the FBI's own series (SOURCED). Drug possession is ESTIMATED (laws lead ruling, Oct. 25, 2026): the FBI has no single drug possession series, so it is the sum of five, and arrests booked only as 'Drug Abuse Violations' (no split between sale and possession) are left out. The data file tags each category."
+      },
+      "estimatedFrom": "The national 2024 rate for all reporting agencies (the same source's United States row, the six categories together); the source holds no arrests in these categories for this place, so it starts from the national figure and the web moves it from there."
+    },
     "justice.pretrial-detained": {
       "scale": "rate",
       "unit": "people held in local jails without a conviction per 100,000 residents",
@@ -232,13 +298,13 @@
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.medianHouseholdEarningsMinor (the middle earning household's yearly earnings), in thousands of dollars",
       "field": "medianHouseholdEarningsMinor",
-      "unitScale": 1e-5
+      "unitScale": 0.00001
     },
     "housing.home-prices": {
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.medianHomeValueMinor (the housing engine's typical owned home), in tens of thousands of dollars",
       "field": "medianHomeValueMinor",
-      "unitScale": 1e-6
+      "unitScale": 0.000001
     },
     "housing.rent-to-income-pct": {
       "owner": "OPUS-WORLD",
@@ -280,7 +346,60 @@
       "record": "the property tax rate in force for the town (the budgets module's law row the housing engine bills owners by), as a percent of home value",
       "reader": "property-tax-rate",
       "field": "",
-      "unitScale": 100
+      "unitScale": 100,
+      "baselineReader": "property-tax-rate"
+    },
+    "tax.state-corporate-rate-in-force": {
+      "owner": "OPUS-GOV",
+      "record": "the state corporate income tax rate in force for the town (the laws module's state row of corporate-income-tax), in percent of taxable corporate income; 0 where the state levies none",
+      "reader": "state-corporate-rate",
+      "field": "",
+      "unitScale": 1,
+      "baselineReader": "state-corporate-rate"
+    },
+    "program.snap-maximum-change-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",
+      "reader": "snap-maximum-change",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.healthAndHospitals-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the health and hospitals line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:healthAndHospitals",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.welfareAndMedicaid-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the welfare and Medicaid line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:welfareAndMedicaid",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.higherEducation-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the higher education line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:higherEducation",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.schools-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
+      "reader": "schools-line-above-base",
+      "field": "",
+      "unitScale": 1
+    },
+    "police.officers-per-1000": {
+      "owner": "OPUS-GOV",
+      "record": "public-safety months.officersPer1000 (sworn officers per 1,000 residents: the state's recorded rate times the town's police service, its police lines against where they began the year)",
+      "module": "core2-public-safety-v1",
+      "table": "months",
+      "field": "officersPer1000",
+      "unitScale": 1,
+      "ownsOutcome": true
     }
   },
   "measureOwners": {

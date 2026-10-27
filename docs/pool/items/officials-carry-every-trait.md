@@ -1,0 +1,28 @@
+---
+id: officials-carry-every-trait
+title: "State and federal officials carry a level on every trait in residents' units, not nine faint facets"
+area: gov
+kind: bug
+priority: 2
+size: M
+status: done
+claimed-by:
+pr: #5964
+blocked-on:
+source: added with npm run pool -- add
+claimed-at:
+---
+
+**What.** drawOfficial (src/core2/officials-roster.ts:217) gives each state and federal official nine traits drawn in -1..1 with a spread of about 0.35 (src/core2/data/officials/officials.json, traits.keys), and src/core2/modules/officials.ts:717 passes them to fillInIdentity, which then skips the residents' temperament model. Residents carry a level from -2 to 2 on every trait (src/core2/opening-personality.ts: 'a full person carries a level on every trait, low as well as high', OPUS-TRAITS Oct 12). Measured Oct 24 in Layton, New Jersey (3439600, seed 971e14bd6b58): 1,557 calendar-tier adults (the officials) hold 9 traits each and their lean toward any decision spreads 0.45 between thirds, against 1.25 to 1.31 for the town's weekly and monthly people. Officials' personality reaches every decision they make (legislative votes, interviews, appointments) at a third of a resident's size, and 89 of the 98 traits never reach them.
+
+**Rules.** One model, two tiers: an official is a full person read by the same trait table as a resident. Seeded generation of who exists is allowed; no dice decides what they do. The selection effect (Dietrich, Lasley, Mondak, Remmel and Turner 2012: legislators above the public on extraversion and conscientiousness) stays, as a shift in residents' units. Loyalty and ambition keep reading the person's own traits.
+
+**Done when.** In one buildBenchWorld of a drawn place, seed named, every state and federal official holds a level on every trait of data/content/trait-act-pulls.json, their lean's spread between thirds sits within 15% of the town's residents', the legislature tests pass, and a played year shows the party-line vote share inside its existing band.
+
+**Files.** src/core2/officials-roster.ts, src/core2/modules/officials.ts, src/core2/data/officials/officials.json
+
+**Notes.** TODO
+
+Sent back 2026-10-24 from PR #5964 (branch claude/officials-carry-every-trait): CTO explicitly orders #5582 before every traits PR (comment 6386070636), and #5582 remains open with its recorded return; finish on that branch, merge main into it first after #5582 lands.
+
+Sent back 2026-10-25 from PR #5964 (branch claude/officials-carry-every-trait): current-main head 679b85eced regresses officials.test.ts:234 in Fenwick WV (5427196), seed 3e556e7e162eca8baf7052af5494da02, with independent-caucus alignment 0.6111111111111112 below the existing >0.75 assertion, while clean main 8a00ebd7aa passes 2/2 on the same seed; preserve the full-trait model and this draw, repair without weakening the assertion, and correct the body to the existing pooled 0.85-0.98 party-unity band; finish on that branch, merge main into it first.

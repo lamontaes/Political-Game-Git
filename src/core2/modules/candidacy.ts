@@ -36,6 +36,7 @@ import type {
   ActionDefinition,
   ActOffer,
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   PersonId,
@@ -57,12 +58,20 @@ import {
   type OfficeFamily,
 } from "./elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
+import {
+  PARTIES_MODULE_ID,
+  partiesHere,
+  partyTie,
+  type PartyRow,
+  type TieRow,
+} from "./parties";
 import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
+import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
+import { standAgainReason, standsAgain } from "../stand-again";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -81,6 +90,8 @@ export interface OpenContest {
   runners?: number;
   poolFacts?: ReadonlyMap<PersonId, PoolFacts>;
   wideScope?: RaceScope;
+  /** The party asked them to run for it: the ask's record and the chair who made it. */
+  askedBy?: { readonly recordId: string; readonly chairId: PersonId };
   sourceIds: readonly string[];
 }
 
@@ -174,6 +185,12 @@ export function candidacyReasons(
     },
     contest,
   );
+  // Being asked by the party draws a person to run, the more so the closer
+  // they are to the chair who asked.
+  if (contest.askedBy)
+    reasons.partyAsked =
+      c(api, "candidacyPartyAskPull") *
+      (one + closenessBetween(api.state, person.id, contest.askedBy.chairId));
   const pool = contest.poolFacts?.get(person.id);
   if (
     !api.state.modules.has(ELECTIONS_MODULE_ID) ||
@@ -339,10 +356,6 @@ function reasonsFrom(
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
     time: -c(api, "candidacyTimeWeight") * Math.min(one, hours),
-    incumbency:
-      contest.incumbentId === person.id
-        ? c(api, "candidacyIncumbencyWeight")
-        : zero,
     incumbentTie: -c(api, "candidacyIncumbentTieWeight") * person.incumbentTie,
     // A seat no one holds draws people in; an incumbent whose record goes
     // against one's views draws a challenge.
@@ -356,6 +369,13 @@ function reasonsFrom(
       (two * Math.exp(-distance * distance) - one),
     // A countywide race: more ground and more voters to reach than a town seat.
     reach: contest.countywide ? -c(api, "candidacyCountywideWeight") : zero,
+    // A revolving-door law in force: a legislative seat is worth less to a
+    // newcomer who could not lobby for a time after leaving it.
+    afterOffice:
+      contest.incumbentId !== person.id &&
+      revolvingDoorFor(api, contest.contestId)
+        ? -c(api, "candidacyRevolvingDoorWeight")
+        : zero,
   };
 }
 
@@ -402,6 +422,23 @@ export function decideToRun(
   const id = `${contest.contestId}:${personId}`;
   const held = table(api).get(id) as unknown as CandidacyDecision | undefined;
   if (held && (held.run || !reconsider)) return held;
+  // A serving incumbent's choice is whether to stand again: their age and
+  // temperament, the one rule for it (voting.stand-again, calibrated so about
+  // four in five stand), not a newcomer's case for entering the race.
+  if (contest.incumbentId === personId) {
+    const row: CandidacyDecision = {
+      id,
+      personId,
+      contestId: contest.contestId,
+      date: api.state.date,
+      run: standsAgain(api, person),
+      reasons: { standAgain: standAgainReason(api, person) },
+      scores: [],
+      sourceIds: [...contest.sourceIds, person.id, person.householdId],
+    };
+    table(api).put(row as unknown as { id: string });
+    return row;
+  }
   pending.set(api.state, contest);
   const offers: ActOffer[] = [STAY_OUT, RUN].map((definition) => ({
     definition,
@@ -663,12 +700,21 @@ export function weighContest(
     .moduleState(ELECTIONS_MODULE_ID)
     .table("town")
     .get("town") as unknown as { townPlaceId: string };
-  const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-    : undefined;
+  // Whoever serves the seat today, so a member seated by a special election
+  // after the contest was recorded is its incumbent; else the term the
+  // contest names.
+  const termTable = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const incumbent =
+    (
+      termTable.query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+    )[0] ??
+    (contest.incumbentTermId
+      ? (termTable.get(contest.incumbentTermId) as unknown as
+          TermRow | undefined)
+      : undefined);
   const incumbentId =
     incumbent?.status === "serving"
       ? (incumbent.personId ?? undefined)
@@ -838,7 +884,9 @@ function countedScreen(
             filingDeadline: open.filingDeadline,
             sourceIds: open.sourceIds,
           });
-          let base = api.parameter("zero");
+          // A seat's own law (a revolving-door law) only lowers the pull,
+          // so it is left out of the bound.
+          let base = -(reasons.afterOffice ?? api.parameter("zero"));
           for (const value of Object.values(reasons)) base += value;
           return { voter, base };
         })
@@ -908,9 +956,242 @@ export function fileRunners(
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
   }
+  // A runner the filing day's weighing no longer holds (gone from the town,
+  // dead) is refused for the rules they no longer meet, so every decision to
+  // run ends with a filing or a refusal.
+  for (const decision of candidatesFor(api, contest.id)) {
+    if (decision.filing || row.runIds.includes(decision.personId)) continue;
+    const person = api.state.people.get(decision.personId);
+    const unmet = person?.alive
+      ? checkEligibility(api, decision.personId, contest.id, null)
+          .filter((check) => !check.met)
+          .map((check) => check.rule)
+      : [];
+    table(api).put({
+      ...decision,
+      filing: {
+        status: "refused",
+        filingId: null,
+        unmet: unmet.length ? unmet : ["not-available"],
+      },
+    } as unknown as { id: string });
+  }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
   });
+  askForCandidates(api, contest);
+}
+
+/** The kind of a party's ask that someone run for a seat. */
+export const PARTY_ASKED_EVENT = "party-asked";
+/** The replies in an ask's scene that mean yes. */
+const AGREEING_MOVES: ReadonlySet<string> = new Set(["agree", "relent"]);
+
+/**
+ * A party with no one filed for a partisan seat looks for someone to run
+ * (owner, Oct 14 and Oct 25: the Pendergast approach). The day filing opens,
+ * once the town's runners have filed, its chair asks the party's own members
+ * in town who could hold the seat (those who file under its label, by the
+ * filing's own membership rule): those the chair is closest to first, then
+ * those the most people know (the party's read of who can carry it). Each ask
+ * is a record for the member and the chair. The member weighs running again with the ask as a reason; the
+ * first who decides to run files, and the party asks no one else. A member
+ * whose choices are the player's answers in the scene the ask stages.
+ */
+/** Members asked today, so a chair asks one member to run for one seat a day. */
+const askedOn = new WeakMap<object, { date: string; ids: Set<string> }>();
+function askedToday(api: CoreAPI): Set<string> {
+  const held = askedOn.get(api.state);
+  if (held?.date === api.state.date) return held.ids;
+  const today = { date: api.state.date, ids: new Set<string>() };
+  askedOn.set(api.state, today);
+  return today.ids;
+}
+
+/**
+ * A seat's open asks: each party in town with no one filed under its label
+ * for a partisan seat, its chair, and the members it would ask in turn (none
+ * already asked today for another seat).
+ */
+export function partyProspects(
+  api: CoreAPI,
+  contest: ContestRow,
+): {
+  readonly party: PartyRow;
+  readonly chairId: PersonId;
+  readonly members: readonly PersonState[];
+}[] {
+  if (!api.state.modules.has(PARTIES_MODULE_ID) || !seatParty(api, contest))
+    return [];
+  const date = api.state.date;
+  const town = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("town")
+    .get("town") as unknown as { townPlaceId: string };
+  const filings = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byContest", [contest.id]) as unknown as FilingRow[];
+  const committed = committedOn(api, contest.electionDate, contest.id);
+  const ties = api.moduleState(PARTIES_MODULE_ID).table("ties");
+  const rules = filingRulesFor(api, contest, "party");
+  const asked = askedToday(api);
+  const out: {
+    party: PartyRow;
+    chairId: PersonId;
+    members: PersonState[];
+  }[] = [];
+  for (const party of partiesHere(api)) {
+    const chairId = party.leaderId as PersonId | null;
+    if (!chairId || !api.state.people.has(chairId)) continue;
+    const named = party.name.toLowerCase();
+    if (filings.some((row) => row.party?.toLowerCase() === named)) continue;
+    const members = (ties.query("byParty", [party.id]) as unknown as TieRow[])
+      .filter((tie) => tie.tie === "party")
+      .map((tie) => api.state.people.get(tie.personId as PersonId))
+      .filter(
+        (person): person is PersonState =>
+          !!person?.alive &&
+          person.id !== chairId &&
+          person.placeId === town.townPlaceId &&
+          !asked.has(person.id) &&
+          ageOnDate(person.birthDate, date) >= rules.minimumAge &&
+          !committed.has(person.id) &&
+          !filings.some((row) => row.personId === person.id) &&
+          !checkEligibility(api, person.id, contest.id, party.name).some(
+            (check) => !check.met,
+          ),
+      )
+      // Inroads first, then standing (owner, Oct 15: "The party asks someone
+      // to run only with some inroads on record"; Oct 14: a high-standing
+      // member may be propositioned).
+      .map((person) => ({
+        person,
+        closeness: closenessBetween(api.state, person.id, chairId),
+      }))
+      .sort(
+        (a, b) =>
+          b.closeness - a.closeness ||
+          b.person.knownIds.size - a.person.knownIds.size ||
+          a.person.id.localeCompare(b.person.id),
+      )
+      .map((row) => row.person)
+      .slice(0, c(api, "candidacyPartyAskTries"));
+    out.push({ party, chairId, members });
+  }
+  return out;
+}
+
+function askForCandidates(api: CoreAPI, contest: ContestRow): void {
+  const date = api.state.date;
+  const town = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("town")
+    .get("town") as unknown as { townPlaceId: string };
+  const rules = filingRulesFor(api, contest, "party");
+  const incumbent = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+  )[0];
+  for (const { party, chairId, members } of partyProspects(api, contest)) {
+    for (const person of members) {
+      const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
+      if (api.state.eventIds.has(recordId)) continue;
+      askedToday(api).add(person.id);
+      api.emit({
+        id: recordId,
+        date,
+        kind: PARTY_ASKED_EVENT,
+        personIds: [person.id, chairId],
+        placeId: town.townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `The ${party.name} party's chair asks a member to run for ${contest.title}`,
+          asOf: date,
+        },
+        facts: {
+          askedId: person.id,
+          chairId,
+          partyId: party.id,
+          party: party.name,
+          contestId: contest.id,
+          office: contest.title,
+          filingDeadline: rules.deadline ?? contest.filingDeadline,
+        },
+      });
+      // The player answers in the scene the ask stages, and the party waits
+      // on that answer.
+      if (isExplicitlyControlledPersonV1(api.state, person.id)) {
+        // stopgapId: SG-P15-party-ask-after-player
+        api.stopgap("SG-P15-party-ask-after-player");
+        break;
+      }
+      const decision = decideToRun(
+        api,
+        person.id,
+        {
+          contestId: contest.id,
+          officeName: contest.title,
+          filingDeadline: rules.deadline ?? contest.filingDeadline,
+          ...(incumbent?.personId
+            ? { incumbentId: incumbent.personId as PersonId }
+            : {}),
+          askedBy: { recordId, chairId },
+          sourceIds: [contest.id, recordId],
+        },
+        true,
+      );
+      if (!decision?.run) continue;
+      const filing = fileFor(api, person, contest, true);
+      table(api).put({ ...decision, filing } as unknown as { id: string });
+      if (filing.status !== "refused") break;
+    }
+  }
+}
+
+/**
+ * The answer to a party's ask, said in its scene: a yes is the decision to
+ * run, recorded with the ask and the reply as its reasons, and the filing
+ * follows with the office the place's rules name. Any other reply leaves the
+ * seat to the party's next ask.
+ */
+function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  const ask = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (
+    ask?.kind !== PARTY_ASKED_EVENT ||
+    !AGREEING_MOVES.has(String(facts.move))
+  )
+    return;
+  const personId = ask.facts?.askedId as PersonId | undefined;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(String(ask.facts?.contestId ?? "")) as unknown as
+    ContestRow | undefined;
+  const person = personId ? api.state.people.get(personId) : undefined;
+  if (!contest || !person?.alive || !event.personIds.includes(person.id))
+    return;
+  if (decisionOf(api, contest.id, person.id)?.filing?.filingId) return;
+  const row: CandidacyDecision = {
+    id: `${contest.id}:${person.id}`,
+    personId: person.id,
+    contestId: contest.id,
+    date: api.state.date,
+    run: true,
+    reasons: { partyAsked: c(api, "candidacyPartyAskPull") },
+    scores: [],
+    sourceIds: [contest.id, ask.id, event.id],
+  };
+  table(api).put({
+    ...row,
+    filing: fileFor(api, person, contest, true),
+  } as unknown as { id: string });
 }
 
 /**
@@ -1000,6 +1281,8 @@ export const candidacyModule: CoreModule = {
   onDay: (api) => {
     candidacyDay(api);
   },
+  eventKinds: ["scene.reply"],
+  onEvent: (api, event) => answerPartyAsk(api, event),
   reasonProviders: {
     "candidacy-circumstances": (api, actor, offer, binding) => {
       const contest = pending.get(api.state);

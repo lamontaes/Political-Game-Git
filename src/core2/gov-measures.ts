@@ -23,6 +23,7 @@
  * - `voting.party-share`: the Democratic share of the two-party vote in the
  *   latest decided partisan race covering the town (0 to 1).
  */
+import { GOV_MEASURES } from "./gov-measure-keys";
 import type { CoreAPI, CoreState } from "./types";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import {
@@ -38,19 +39,9 @@ import {
   budgetsOf,
   governments,
 } from "./modules/budgets";
+import { townShare } from "./law-reach/group-b-money";
 
-export const GOV_MEASURES = [
-  "labor.minimum-wage-change-pct",
-  "labor.minimum-wage-gap-to-15",
-  "election.incumbent-vote",
-  "election.incumbent-reelection",
-  "voting.local-turnout",
-  "budget.parks-added-pct",
-  "labor.minimum-wage",
-  "labor.minimum-wage-to-median",
-  "voting.youth-turnout",
-  "voting.party-share",
-] as const;
+export { GOV_MEASURES };
 
 const daysBefore = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) - days * 86_400_000)
@@ -263,4 +254,64 @@ export function govMeasureRecord(api: CoreAPI, measure: string): string | null {
     );
   }
   return null;
+}
+
+/**
+ * A budget line above its Census base, for the town: the town's share of the
+ * line across the governments that carry it, in force today, against the same
+ * share of its base, in percent. Every bill and act that changed the line
+ * counts, in this year and the years after (a passed bill's change carries).
+ * Null where no government carries the line. The record is the budget of the
+ * government whose line moved most.
+ */
+export function budgetLineAddedPct(
+  api: CoreAPI,
+  line: string,
+): { value: number; recordId: string | null } | null {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const date = api.state.date;
+  let base = 0;
+  let now = 0;
+  let recordId: string | null = null;
+  let moved = 0;
+  for (const gov of governments(api)) {
+    const budget = [...budgetsOf(api, gov.id)]
+      .filter((b) => b.startsOn <= date)
+      .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
+      .at(-1);
+    const share = budget ? townShare(api, gov) : 0;
+    if (!budget || !share) continue;
+    const was =
+      baseBudget(api, gov, budget.fiscalYear).spendingMinor[line] ?? 0;
+    const is = budget.spendingMinor[line] ?? 0;
+    base += was * share;
+    now += is * share;
+    if (Math.abs(is - was) * share > moved) {
+      moved = Math.abs(is - was) * share;
+      recordId = budget.id;
+    }
+  }
+  return base > 0 ? { value: ((now - base) / base) * 100, recordId } : null;
+}
+
+/**
+ * The SNAP one-person maximum allotment in force, against the one in force at
+ * the opening, in percent. Null where the law engine has no amount.
+ */
+export function snapMaximumChangePct(
+  api: CoreAPI,
+): { value: number; recordId: string | null } | null {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return null;
+  const now = lawInForce(api, "snap-maximum", api.state.date);
+  const opening = lawInForce(
+    api,
+    "snap-maximum",
+    (api.state as CoreState).startedAt,
+  );
+  return now.value && opening.value
+    ? {
+        value: ((now.value - opening.value) / opening.value) * 100,
+        recordId: now.governing?.id ?? null,
+      }
+    : null;
 }

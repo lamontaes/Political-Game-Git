@@ -7,6 +7,8 @@
  * adults choose whether to found one. Chains are repeated growth, never
  * scripted. Every payment moves through the ledger.
  */
+import { BUSINESS_MODULE_ID } from "../business-module-id";
+import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
@@ -18,7 +20,7 @@ import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import { traitLeanBetween } from "../trait-decisions";
+import { decisionTraitTerm } from "../trait-decisions";
 import type {
   ActOffer,
   CoreAPI,
@@ -62,7 +64,7 @@ import {
   setOperatingLimit,
 } from "../business-operating-rules";
 
-export const BUSINESS_MODULE_ID = "business";
+export { BUSINESS_MODULE_ID };
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -91,6 +93,8 @@ interface OwnerRow {
   lossMonths?: number;
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
+  /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
+  splitThrough?: number;
   tradingId?: string;
 }
 
@@ -191,9 +195,7 @@ function outsideOwned(api: CoreAPI): Map<string, string> {
   for (const row of sized) {
     // Stop where one more would overshoot the share by more than it falls short.
     if (taken + row.staff / 2 > share * total) break;
-    const parent = [...c.organizations.values()].find(
-      (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-    )?.id;
+    const parent = townOutsideOf(c.organizations.values(), row.placeId)?.id;
     if (!parent) continue;
     out.set(row.id, parent);
     taken += row.staff;
@@ -287,7 +289,7 @@ function scheduleMonth(api: CoreAPI): void {
 }
 
 /** A business's cash less what it owes on its credit lines and to its suppliers. */
-function netCash(c: CoreState, organizationId: string): number {
+export function netCash(c: CoreState, organizationId: string): number {
   // Supplier bills accrued on its sales are owed already, though not yet billed.
   // Whole cents: the books never carry a fraction of a cent.
   let owed = Math.floor(supplierBillsOwed(c, organizationId));
@@ -453,11 +455,7 @@ export function estateHeir(
     .sort();
   if (kin[0]) return kin[0];
   const placeId = c.organizations.get(organizationId)?.placeId;
-  return (
-    [...c.organizations.values()].find(
-      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-    )?.id ?? ownerId
-  );
+  return townOutsideOf(c.organizations.values(), placeId)?.id ?? ownerId;
 }
 
 function succeed(api: CoreAPI): void {
@@ -531,9 +529,7 @@ function membershipPayouts(api: CoreAPI): void {
       "membership:labor-union"
     )
       continue;
-    const outside = [...c.organizations.values()].find(
-      (row) => row.placeId === org.placeId && row.outsideFlow !== undefined,
-    );
+    const outside = townOutsideOf(c.organizations.values(), org.placeId);
     if (!outside) continue;
     let daily = 0;
     for (const id of c.finance.jobsByOrganization.get(org.id) ?? []) {
@@ -849,6 +845,7 @@ function bookedMonth(
   | "wagesThrough"
   | "operatingThrough"
   | "outsideThrough"
+  | "splitThrough"
   | "lossMonths"
   | "tradingId"
 > {
@@ -896,6 +893,9 @@ function bookedMonth(
     wagesThrough: book.wagesPaidMinor,
     operatingThrough: book.operatingPaidMinor,
     outsideThrough: outsidePaid,
+    splitThrough:
+      residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
+        ?.splitPaidMinor ?? 0,
     lossMonths,
     tradingId,
   };
@@ -991,9 +991,7 @@ function payCompliance(api: CoreAPI): void {
     const book = c.finance.businesses.get(row.organizationId);
     if (!book || book.closedAt) continue;
     const placeId = c.organizations.get(row.organizationId)?.placeId;
-    const outside = [...c.organizations.values()].find(
-      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-    )?.id;
+    const outside = townOutsideOf(c.organizations.values(), placeId)?.id;
     const to = row.payeeId ?? outside;
     if (!to) continue;
     const requested = Math.floor(
@@ -1083,9 +1081,11 @@ function recordOutsideCosts(api: CoreAPI): void {
         payeeId: flow.payeeId,
         paidInTown: inTown,
       });
+    // What it paid elsewhere (its ads in the town's outlets) was not the seller's sale.
+    const elsewhere = (flow.splitPaidMinor ?? 0) - (row.splitThrough ?? 0);
     if (inTown) {
-      seller.receivedMinor += amount;
-      seller.salesReceivedMinor += amount;
+      seller.receivedMinor += amount - elsewhere;
+      seller.salesReceivedMinor += amount - elsewhere;
     }
   }
 }
@@ -1287,14 +1287,15 @@ function month(api: CoreAPI): void {
     const cushion = Math.round(
       (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
     );
-    const ownerDays =
-      owner.livingCostDailyMinor > 0
-        ? owner.liquidMinor / owner.livingCostDailyMinor
-        : Number.POSITIVE_INFINITY;
-    const short = cushion > 0 ? Math.max(0, 1 - cash / cushion) : 0;
-    // Cash beyond the cushion is profit the business doesn't need: on a sliding scale toward 1.
-    const spare = cash > cushion ? 1 - cushion / cash : 0;
-    const need = 1 / (1 + ownerDays / p("businessDaysPerMonth"));
+    const { need, short, spare } = ownerDrawCase(p, {
+      cashMinor: cash,
+      payrollCushionMinor: cushion,
+      annualOutflowsMinor: annualOutflowsMinor(api, book),
+      ownerDays:
+        owner.livingCostDailyMinor > 0
+          ? owner.liquidMinor / owner.livingCostDailyMinor
+          : Number.POSITIVE_INFINITY,
+    });
     let drawn = 0,
       share = 0;
     if (retained > 0) {
@@ -1302,12 +1303,7 @@ function month(api: CoreAPI): void {
         c,
         owner.id,
         businessData.drawShares.map((s) =>
-          option(s, {
-            need: p("businessDrawNeedWeight") * need * s,
-            keep: -p("businessDrawKeepWeight") * short * s,
-            surplus: p("businessDrawSurplusWeight") * spare * s,
-            size: -p("businessDrawSizeWeight") * s * s,
-          }),
+          option(s, ownerDrawReasons(p, { need, short, spare }, s)),
         ),
       ).selected!;
       share = Number(selected.targetId.split(":").at(-1));
@@ -1363,6 +1359,73 @@ function month(api: CoreAPI): void {
         netThrough: net - drawn,
       });
   }
+}
+
+/**
+ * The three circumstances an owner's draw weighs, each sliding with the cash
+ * in hand and none a bar. `need`: the owner's cash against a month of their
+ * living costs (1 with none, toward 0 as it grows). `short` and `spare`: the
+ * business's cash against a buffer of a month of everything it pays out, not
+ * only payroll (a firm with no payroll would otherwise have no cushion and
+ * all its cash spare, so every owner drew), the shortfall below it and the
+ * share above it.
+ */
+export function ownerDrawCase(
+  p: (key: string) => number,
+  c: {
+    cashMinor: number;
+    payrollCushionMinor: number;
+    annualOutflowsMinor: number;
+    ownerDays: number;
+  },
+): { need: number; short: number; spare: number } {
+  const buffer = Math.max(
+    c.payrollCushionMinor,
+    Math.round(
+      (c.annualOutflowsMinor / p("macroMonthsPerYear")) *
+        p("businessCushionMonths"),
+    ),
+  );
+  return {
+    need: 1 / (1 + c.ownerDays / p("businessDaysPerMonth")),
+    short: buffer > 0 ? Math.max(0, 1 - c.cashMinor / buffer) : 0,
+    spare: c.cashMinor > buffer ? 1 - buffer / c.cashMinor : 0,
+  };
+}
+
+/**
+ * Why an owner draws a share of the profit the business has kept, each reason
+ * sliding with the owner's and the business's own cash and none a bar: the
+ * owner's need (their cash against a month of living costs, `need`, 1 when
+ * they have none and toward 0 as it grows), the business's shortfall against
+ * its buffer (`short`, a reason to keep it in), its cash beyond the buffer
+ * (`spare`), and a reason against taking everything. Keeping is a share of 0.
+ */
+export function ownerDrawReasons(
+  p: (key: string) => number,
+  c: { need: number; short: number; spare: number },
+  share: number,
+): Record<string, number> {
+  return {
+    need: p("businessDrawNeedWeight") * c.need * share,
+    keep: -p("businessDrawKeepWeight") * c.short * share,
+    surplus: p("businessDrawSurplusWeight") * c.spare * share,
+    size: -p("businessDrawSizeWeight") * share * share,
+  };
+}
+
+/** What a business pays out in a year to run (payroll, supplies and the rest): the share of its demand its kind does not keep as margin. */
+function annualOutflowsMinor(
+  api: CoreAPI,
+  book: { kindId: string; annualDemandMinor: number },
+): number {
+  const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
+    (row) => row.id === book.kindId,
+  );
+  return kind
+    ? book.annualDemandMinor *
+        (api.parameter("one") - api.parameter(kind.marginParameter))
+    : 0;
 }
 
 /** Room in each place's market for each kind: incumbents' demand above their capacity, as a share of capacity. */
@@ -1538,11 +1601,12 @@ function foundings(api: CoreAPI): void {
         (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
       );
   const incomeOf = (personId: string) => monthlyPay.get(personId) ?? 0;
-  // Counted people have no chooser, so their personality enters here once, on the chooser's weight; full people get it from the chooser alone.
-  const foundLean = (person: Pick<PersonState, "traits">) =>
-    traitLeanBetween(
+  // Counted people have no chooser, so their personality enters here once, on the counted-founding decision's calibrated weight; full people get it from the chooser alone.
+  const foundTerm = (person: Pick<PersonState, "traits">) =>
+    decisionTraitTerm(
       c,
       person,
+      "business.counted-found",
       businessData.actions.found.actKinds,
       businessData.actions.notFound.actKinds,
     );
@@ -1561,7 +1625,7 @@ function foundings(api: CoreAPI): void {
     string,
     {
       id: string;
-      lean: number;
+      trait: number;
       unemployed: number;
       income: number;
       cash: number;
@@ -1572,7 +1636,7 @@ function foundings(api: CoreAPI): void {
     if (held) return held;
     const out: {
       id: string;
-      lean: number;
+      trait: number;
       unemployed: number;
       income: number;
       cash: number;
@@ -1597,7 +1661,7 @@ function foundings(api: CoreAPI): void {
           { employed: boolean } | undefined;
         out.push({
           id: personId,
-          lean: foundLean({ traits: counted!.packedTraits(m) }),
+          trait: foundTerm({ traits: counted!.packedTraits(m) }),
           unemployed: seeker && !seeker.employed ? 1 : 0,
           income: incomeOf(personId),
           cash: counted!.liquid[m]! + founderSavings(c, personId).minor,
@@ -1698,7 +1762,7 @@ function foundings(api: CoreAPI): void {
         score:
           p("businessCountedFoundBaseline") +
           p("businessFoundRoomWeight") * gaps +
-          p("traitWeight") * row.lean +
+          row.trait +
           p("businessFoundUnemployedWeight") * row.unemployed +
           p("businessFoundProspectWeight") * prospect(market, row.income) -
           p("businessFoundCapitalWeight") *

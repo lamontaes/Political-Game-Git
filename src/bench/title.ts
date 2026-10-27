@@ -1,12 +1,12 @@
 import { backdropFile } from "./scene";
 
 /**
- * The title's scenes: national places and events that hold people (owner,
- * Oct 8 and Oct 14, 2026: a rally, the convention, the White House at night;
- * never a state capitol, the community room, an office or a parking lot).
+ * The title rotates through national places and events: the White House,
+ * Lincoln Memorial, conventions and rallies, rather than local rooms.
  */
 export const TITLE_SCENES = [
   "white-house-exterior",
+  "lincoln-memorial",
   "national-convention-floor",
   "national-convention-stage",
   "rally-stage",
@@ -35,4 +35,15 @@ function dayNumber(day: string) {
 export function titleScene(day: string, visit: number) {
   const place = TITLE_SCENES[(dayNumber(day) + visit) % TITLE_SCENES.length]!;
   return { place, backdrop: backdropFile(place, TITLE_MINUTE) };
+}
+
+/** Seconds each national scene holds before the next one fades in. */
+export const TITLE_ROTATE_SECONDS = 20;
+
+/**
+ * The whole rotation for one visit, in the order the title plays it: the
+ * scene the visit starts on, then each next scene round the list.
+ */
+export function titleRotation(day: string, visit: number) {
+  return TITLE_SCENES.map((_, step) => titleScene(day, visit + step));
 }

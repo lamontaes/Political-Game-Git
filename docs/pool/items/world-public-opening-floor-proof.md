@@ -17,10 +17,11 @@ claimed-at:
 
 **Rules.** No dice. Wire to the world: proven in buildBenchWorld with a drawn place. Replace, never layer.
 
-**Done when.** In a drawn place (named in the PR body), a public employer's leaver is replaced by an opening posted through the jobs engine within a year, a test in src/core2/public-pay-floor-hire.test.ts enacts a floor, then asserts by record id that the opening and its hire are paid at or above publicPayFloorHourly, and SG-GOV-public-pay-floor-owner's text matches what is proven.
+**Done when.** In a drawn place (named in the PR body), a public employer's leaver is replaced by an opening posted through the jobs engine within a year, a test in src/core2/public-pay-floor-hire.test.ts enacts a floor, then asserts by record id that the opening and its hire are paid at or above publicPayFloorHourly, and SG-GOV-public-pay-floor-owner's text matches what is proven. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/public-pay-floor-hire.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Split from release-merge-audit-oct20-morning-fixes fix 3 (PR #5285). Found Oct 20 by claude/political-game-pool-yucp92-aq.
 
 Sent back 2026-10-23 from PR #5679 (branch claude/opening-floor-proof): The public-refill design conflicts with main's staff-hire route and the old owner/date code note remains; the author must reconcile the current engines before this can land. Rechecked unchanged head 139b028f98; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5679#issuecomment-6311786454; finish on that branch, merge main into it first.
+Stale 2026-10-26: PR #5679 closed (no push since Oct 20, handed back for a design conflict with main's public-pay-floor-hire test); the work is on branch claude/opening-floor-proof; claim the item and merge main into that branch.
