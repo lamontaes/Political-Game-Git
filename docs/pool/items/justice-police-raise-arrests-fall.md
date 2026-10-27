@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/police-raise-arrests
+pr: #6321
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T12:45:49.188Z
 ---
 
 **What.** In a played year of Agat, Guam (seed 103451a0fb375d47) with the local police lines doubled the day after the opening, all arrests fell from 56.9 to 35.2 against the control world, while minor-offense arrests rose from 4.47 to 6.60 (measured by the low-level offenses helper, Oct 25, on branch claude/justice-low-level-offenses; scratch file out/year3-guam.json). In Presidential Lakes Estates, New Jersey (seed 5ce7a243f4e018db) they fell from 16.1 to 12.2. More officers lower violent and property crime through the outcome web's police links (Chalfin and McCrary 2018), and the case flow's police service raises the share of crimes cleared (`policeServiceElasticity`); whether the two together should cut arrests this much is not traced.
