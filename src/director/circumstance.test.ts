@@ -126,7 +126,12 @@ function playYear(
       (item) => `circumstance:${item.id}` === moment.label,
     )!;
     if (record) {
-      expect(record.date, moment.id).toBe(moment.date);
+      // Its record is the day's own, or a row's days after it (the morning
+      // after the count).
+      expect(
+        addDays(makeIsoDate(record.date), row.afterDays ?? 0),
+        moment.id,
+      ).toBe(moment.date);
       if (!row.playerNamed)
         expect(record.personIds, moment.id).not.toContain(personId);
     }
@@ -259,11 +264,13 @@ function stateLegislator(core: CoreState): PersonId | null {
 
 /**
  * The new adult filed for a race the town's records let them enter (one with
- * a rival filed first, else the soonest), once they turn 18 (the golden path's filing step), or null when none is
- * open to them. The days before 18 run as the world's own.
+ * a rival filed first, else the soonest; with `inYear`, only one held inside
+ * the played year), once they turn 18 (the golden path's filing step), or
+ * null when none is open to them. The days before 18 run as the world's own.
  */
 function fileNewAdult(
   world: ReturnType<typeof buildBenchWorld>,
+  inYear = false,
 ): PersonId | null {
   const { core, playerId } = world;
   const born = core.people.get(playerId as PersonId)!.birthDate;
@@ -280,6 +287,7 @@ function fileNewAdult(
     if (row.personId !== playerId)
       rivals.set(row.contestId, (rivals.get(row.contestId) ?? 0) + 1);
   const filed = [...openContests(coreAPI(core))]
+    .filter((contest) => !inYear || contest.electionDate <= lastDayOfRace())
     .sort(
       (a, b) =>
         Number(rivals.has(b.id)) - Number(rivals.has(a.id)) ||
@@ -363,6 +371,64 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
   );
   expect(unfired(), tried.join("; ")).toEqual([]);
   // Up to six played years, each about a minute: the budget for all of them.
+}, 1_800_000);
+
+/** The last day a race may be held and still have its morning after inside the played year. */
+const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 2);
+
+/** Places the morning-after test may build before one holds a race the new adult can enter that year. */
+const MORNING_TRIES = 12;
+
+// The morning after the player's own race (owner's "Morning after"): a
+// place is drawn until one holds a race after the new adult turns 18 and
+// inside the year (read from its contests, before anything is played; many
+// places hold none that year), the new adult files, and the year is played.
+// The day after the count, someone who worked the campaign or lives with
+// them comes by, cited to the result, and the reply is kept.
+it(`the morning after the player's race is a scene, cited to the count (seed ${seed})`, () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  for (let at = 0; at < MORNING_TRIES; at += 1) {
+    const place = drawPlace(seed, `circumstance-morning:${at}`);
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const born = world.core.people.get(world.playerId as PersonId)!.birthDate;
+    const eighteen = `${Number(born.slice(0, 4)) + 18}${born.slice(4)}`;
+    const ahead = (
+      coreAPI(world.core)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as { electionDate: string }[]
+    ).some(
+      (row) =>
+        row.electionDate > eighteen && row.electionDate <= lastDayOfRace(),
+    );
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const personId = ahead ? fileNewAdult(world, true) : null;
+    if (!personId) {
+      tried.push(`${where}: no race to enter that year`);
+      continue;
+    }
+    const fired = playYear(world.core, world.director, personId, where).filter(
+      (row) => row.row === "morning-after",
+    );
+    expect(fired.length, `${where}: no morning after`).toBeGreaterThan(0);
+    for (const row of fired) {
+      const result = world.core.durableLog.get(row.recordId)!;
+      expect(result.kind).toBe("election-result");
+      expect(row.date).toBe(addDays(makeIsoDate(result.date), 1));
+      expect(row.replyId, `${row.recordId}: the reply is kept`).toBeTruthy();
+    }
+    process.stdout.write(
+      `MORNING AFTER ${where}${tried.length ? ` after ${tried.join("; ")}` : ""}: ${fired.map((row) => `${row.date} ${row.recordId}, cast ${row.castId}, reply ${row.replyId}`).join("; ")}\n`,
+    );
+    return;
+  }
+  throw new Error(
+    `no place in ${MORNING_TRIES} draws held a race the new adult could enter that year: ${tried.join("; ")}`,
+  );
 }, 1_800_000);
 
 it("gives every circumstance a situation type cause and a scene-web row", () => {

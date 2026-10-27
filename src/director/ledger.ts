@@ -1142,14 +1142,17 @@ export function createDirector(
     label: string,
     impact: number,
     contributions: ChannelContribution[],
+    /** The day it comes, when that is not its cause's (the morning after). */
+    at?: IsoDate,
   ): void {
     // A cause met only after it happened (someone first followed partway
     // through the day it happened) keeps its own day.
     const causeDate = core.durableLog.get(row.causeId)?.date;
     const date =
-      causeDate && causeDate < core.date && causeDate >= book.watchedSince
+      at ??
+      (causeDate && causeDate < core.date && causeDate >= book.watchedSince
         ? causeDate
-        : core.date;
+        : core.date);
     const counterpartIds = [...row.counterparts].sort();
     // A cause measured twice in a day (once when its event is recorded, again
     // when the day closes) keeps one id per moment.
@@ -1351,11 +1354,15 @@ export function createDirector(
    * so scenes cluster where the records give cause and a quiet day has none.
    */
   function produceCircumstances(core: Readonly<CoreState>): void {
-    const queue = [
-      ...circumstanceQueue.splice(zero),
-      ...(circumstanceLater.get(core.date) ?? []),
-    ];
-    circumstanceLater.delete(core.date);
+    // Records held for a later row come on their day; a day's records are
+    // written as it closes, so one may already be due when it is recorded.
+    const due: QueuedRecord[] = [];
+    for (const [day, held] of circumstanceLater)
+      if (day <= core.date) {
+        due.push(...held);
+        circumstanceLater.delete(day);
+      }
+    const queue = [...circumstanceQueue.splice(zero), ...due];
     for (const book of ledger.people.values()) {
       if (!isExplicitlyControlledPersonV1(core, book.personId)) continue;
       const records = [
@@ -1440,16 +1447,24 @@ export function createDirector(
         ...(pick.record.placeId ? { placeId: pick.record.placeId } : {}),
       };
       const label = circumstanceLabel(pick.row.id);
-      storeMoment(core, book, change, label, impact, [
-        {
-          channel: "circumstance",
-          raw,
-          scale: base,
-          traitWeight: one,
-          traits: [],
-          contribution: impact,
-        },
-      ]);
+      storeMoment(
+        core,
+        book,
+        change,
+        label,
+        impact,
+        [
+          {
+            channel: "circumstance",
+            raw,
+            scale: base,
+            traitWeight: one,
+            traits: [],
+            contribution: impact,
+          },
+        ],
+        pick.record.dueOn,
+      );
       // Spaced from the day it was written, staged or not, so a circumstance
       // met as a journal line does not come again the next day.
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
@@ -1681,7 +1696,7 @@ export function createDirector(
           const due = addDays(makeIsoDate(event.date), days);
           circumstanceLater.set(due, [
             ...(circumstanceLater.get(due) ?? []),
-            { ...queued, later: true },
+            { ...queued, later: true, dueOn: due },
           ]);
         }
       }

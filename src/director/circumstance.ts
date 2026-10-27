@@ -114,6 +114,8 @@ export interface QueuedRecord {
   direct?: true;
   /** Held from an earlier day for a row that comes days after its record. */
   later?: true;
+  /** The day a held record comes: its own day and the row's days after. */
+  dueOn?: IsoDate;
 }
 
 export function queuedOf(event: CoreEventInput): QueuedRecord {
