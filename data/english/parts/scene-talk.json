@@ -97644,7 +97644,7 @@
       "key": "scene-talk.narrate-narrate.name-waits-until-it-s-just-the-two-of-you-it-s-about-your-own-party",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has heard who filed for your seat, and it's someone from your own party.",
+      "text": "{name} has heard who else filed in your race, and it's someone from your own party.",
       "uses": [
         {
           "subject": "scene",

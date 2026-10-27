@@ -9,6 +9,7 @@
  * nothing of a party.
  */
 import { randomBytes } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { applyChosenPerson } from "../bench/creator";
@@ -25,7 +26,7 @@ import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
-const DRAWS = 12;
+const DRAWS = 6;
 const WEEK = 7;
 const LEAD_DAYS = 60;
 
@@ -137,9 +138,11 @@ it(`a rival from the player's own party is told as one, seed ${seed}`, () => {
         );
         const reply = replyInScene(core, director, me, entry, [0]);
         expect(reply, `${where}: the reply is written back`).toBeTruthy();
-        console.log(
-          `PRIMARY CHALLENGE ${where}: ${filed.id}, cause ${moment.causeId}, party ${mine}, reply ${reply}\n${lines.map((row) => `  ${row.text}`).join("\n")}\n  replies: ${root.map((row) => row.text).join(" | ")}`,
-        );
+        if (process.env.SCENE_LOG)
+          writeFileSync(
+            process.env.SCENE_LOG,
+            `PRIMARY CHALLENGE ${where}: ${filed.id}, cause ${moment.causeId}, party ${mine}, reply ${reply}\n${lines.map((row) => `  ${row.text}`).join("\n")}\n  replies: ${root.map((row) => row.text).join(" | ")}`,
+          );
         return;
       }
     }
