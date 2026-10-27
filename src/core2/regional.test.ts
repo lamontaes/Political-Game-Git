@@ -4,7 +4,11 @@ import { describe, expect, it } from "vitest";
 import regionsData from "./data/regional/regions.json" with { type: "json" };
 import stats from "../../data/research/regional/series/stats.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
-import { historyMonths, stepMacroMonth, type MacroMonth } from "./macro-model";
+import {
+  publishedMonths,
+  stepMacroMonth,
+  type MacroMonth,
+} from "./macro-model";
 import { macroCoreData } from "./modules/macro";
 import { regionOfPlace } from "./modules/regional";
 import { parameter } from "./parameters";
@@ -20,7 +24,7 @@ const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
 
 function year(start: string, rate?: number) {
-  const nation: MacroMonth[] = historyMonths(start, p);
+  const nation: MacroMonth[] = publishedMonths(start, p);
   let months: RegionMonth[] = openingRegionMonths(nation.at(-1)!, p);
   const opening = months;
   for (let i = 0; i < 12; i++) {
