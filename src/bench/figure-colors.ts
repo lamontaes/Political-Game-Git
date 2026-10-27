@@ -1,11 +1,14 @@
 // Skin and clothing colors for the people-engine figures. The v2 figures are
-// painted in one skin tone and gray clothes, so a figure is recolored from two
-// masks found in the picture itself: skin is the warm, saturated pixels and
-// clothing the unsaturated mid-gray ones. Outlines, eyes and shadows are
-// neither, so they never change. One recolor path serves the creator's preview
+// painted in one skin tone and gray clothes. Each piece of clothing (jacket or
+// vest, shirt, pants, shoes) has its own color, read from the figure's garment
+// map (art/people-engine/v2/garments, painted by the art session: only pixels
+// that were clothing are marked, so eyes, skin and hair never change). Skin is
+// the warm, saturated pixels. One recolor path serves the creator's preview
 // and every room; a color is a record field the player or the world's people
 // set, never something rolled at draw time.
+import { existsSync, readFileSync } from "node:fs";
 import { PNG } from "pngjs";
+import heads from "./data/figure-heads.json" with { type: "json" };
 
 export interface Swatch {
   readonly id: string;
@@ -42,6 +45,20 @@ export const CLOTHES_SWATCHES: readonly Swatch[] = [
 export const DEFAULT_SKIN = "tan";
 export const DEFAULT_CLOTHES = "gray";
 
+/** The pieces of clothing a figure's garment map marks, in its colors. */
+export const GARMENTS = ["jacket", "shirt", "pants", "shoes"] as const;
+export type Garment = (typeof GARMENTS)[number];
+const MAP_COLORS: Readonly<Record<Garment, readonly [number, number, number]>> =
+  {
+    jacket: [255, 0, 0],
+    shirt: [255, 255, 0],
+    pants: [0, 0, 255],
+    shoes: [0, 255, 0],
+  };
+
+/** A person's colors: their skin, and each piece of clothing; a piece left out keeps its painted gray. */
+export type FigureColors = { skin?: string } & Partial<Record<Garment, string>>;
+
 const rgb = (hex: string): [number, number, number] => [
   parseInt(hex.slice(1, 3), 16),
   parseInt(hex.slice(3, 5), 16),
@@ -54,8 +71,9 @@ export const clothesSwatch = (id: string) => find(CLOTHES_SWATCHES, id);
 
 type Region = "skin" | "clothes" | "other";
 /**
- * The skin and clothing masks are found from the picture's own colors (warm
- * and saturated, or unsaturated mid-gray), not painted per figure.
+ * Skin is found from the picture's own colors (warm and saturated). Clothing
+ * is read from the figure's garment map; a figure the art session has not
+ * mapped yet falls back to the unsaturated mid-gray pixels below its head.
  * stopgapId: SG-PLAY-figure-color-masks-from-picture
  */
 function regionOf(r: number, g: number, b: number): Region {
@@ -75,53 +93,101 @@ function regionOf(r: number, g: number, b: number): Region {
   return "other";
 }
 
-/** The picture's own mean luminance in each region, so a swatch keeps the painted shading. */
-function means(png: PNG) {
-  const sum = { skin: 0, clothes: 0, other: 0 };
-  const count = { skin: 0, clothes: 0, other: 0 };
-  for (let i = 0; i < png.data.length; i += 4) {
-    if (png.data[i + 3]! < 200) continue;
-    const r = png.data[i]!;
-    const g = png.data[i + 1]!;
-    const b = png.data[i + 2]!;
-    const region = regionOf(r, g, b);
-    sum[region] += 0.299 * r + 0.587 * g + 0.114 * b;
-    count[region]++;
+const maps = new Map<string, PNG | null>();
+/** The figure's garment map, or null where the art session has not painted one yet. */
+function garmentMap(name: string): PNG | null {
+  if (!maps.has(name)) {
+    const file = new URL(
+      `../../art/people-engine/v2/garments/${name}-garments.png`,
+      import.meta.url,
+    );
+    maps.set(name, existsSync(file) ? PNG.sync.read(readFileSync(file)) : null);
   }
-  return {
-    skin: sum.skin / Math.max(1, count.skin),
-    clothes: sum.clothes / Math.max(1, count.clothes),
-  };
+  return maps.get(name)!;
 }
 
-/** The figure's masks recolored: pixels outside the skin and clothing masks are returned unchanged. */
+function garmentAt(map: PNG, i: number): Garment | null {
+  const [r, g, b] = [map.data[i]!, map.data[i + 1]!, map.data[i + 2]!];
+  for (const garment of GARMENTS) {
+    const [mr, mg, mb] = MAP_COLORS[garment];
+    if (
+      Math.abs(r - mr) + Math.abs(g - mg) + Math.abs(b - mb) < 60 &&
+      map.data[i + 3]! > 0
+    )
+      return garment;
+  }
+  return null;
+}
+
+const luminance = (data: Uint8Array, i: number) =>
+  0.299 * data[i]! + 0.587 * data[i + 1]! + 0.114 * data[i + 2]!;
+const median = (values: number[]) =>
+  values.length ? values.sort((a, b) => a - b)[values.length >> 1]! : 1;
+
+/**
+ * The figure recolored: skin to the skin swatch, each piece of clothing to its
+ * own swatch with the painted folds kept (color times the pixel's luminance
+ * over the piece's median). Everything else is returned unchanged.
+ */
 export function recolorFigure(
   source: Buffer,
-  skinId: string = DEFAULT_SKIN,
-  clothesId: string = DEFAULT_CLOTHES,
+  /** The figure's name in the set (`v2-01-m-medium`), to find its garment map. */
+  name: string,
+  colors: FigureColors = {},
 ): Buffer {
-  const skin = skinSwatch(skinId);
-  const clothes = clothesSwatch(clothesId);
-  if (!skin || !clothes) throw new Error("No such color.");
-  if (skin.id === DEFAULT_SKIN && clothes.id === DEFAULT_CLOTHES) return source;
+  const skin = skinSwatch(colors.skin ?? DEFAULT_SKIN);
+  if (!skin) throw new Error("No such color.");
+  const wanted = new Map<Garment, [number, number, number]>();
+  for (const garment of GARMENTS) {
+    const id = colors[garment];
+    if (!id || id === DEFAULT_CLOTHES) continue;
+    const swatch = clothesSwatch(id);
+    if (!swatch) throw new Error("No such color.");
+    wanted.set(garment, rgb(swatch.color));
+  }
+  if (skin.id === DEFAULT_SKIN && !wanted.size) return source;
   const png = PNG.sync.read(source);
-  const mean = means(png);
-  const skinTo = rgb(skin.color);
-  const clothesTo = rgb(clothes.color);
+  const map = garmentMap(name);
+  // Without a map: everything below the head that reads as gray cloth is
+  // one piece, worn in the top's color (the jacket's, else the shirt's).
+  const head = (heads.heads as Record<string, number[]>)[name];
+  const below = head ? head[0]! + head[2]! * 1.3 : 0;
+  const pieceOf = (i: number): Garment | null => {
+    if (map) return garmentAt(map, i);
+    const y = Math.floor(i / 4 / png.width);
+    if (y < below) return null;
+    const region = regionOf(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!);
+    return region === "clothes" ? "shirt" : null;
+  };
+  if (!map) {
+    const top = colors.jacket ?? colors.shirt;
+    wanted.clear();
+    if (top && top !== DEFAULT_CLOTHES)
+      wanted.set("shirt", rgb(clothesSwatch(top)!.color));
+  }
+  // Each piece's own median luminance, and the skin's.
+  const lums = new Map<Garment | "skin", number[]>();
+  const pieces = new Array<Garment | "skin" | null>(png.width * png.height);
   for (let i = 0; i < png.data.length; i += 4) {
     if (png.data[i + 3]! < 200) continue;
-    const r = png.data[i]!;
-    const g = png.data[i + 1]!;
-    const b = png.data[i + 2]!;
-    const region = regionOf(r, g, b);
-    if (region === "other") continue;
-    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
-    if (region === "skin" && skin.id === DEFAULT_SKIN) continue;
-    if (region === "clothes" && clothes.id === DEFAULT_CLOTHES) continue;
-    const [to, base0] =
-      region === "skin" ? [skinTo, mean.skin] : [clothesTo, mean.clothes];
-    // Shading: the pixel's brightness against the region's mean, applied to the swatch.
-    const shade = lum / base0;
+    const piece =
+      pieceOf(i) ??
+      (regionOf(png.data[i]!, png.data[i + 1]!, png.data[i + 2]!) === "skin"
+        ? "skin"
+        : null);
+    if (!piece) continue;
+    pieces[i / 4] = piece;
+    if (!lums.has(piece)) lums.set(piece, []);
+    lums.get(piece)!.push(luminance(png.data, i));
+  }
+  const mid = new Map([...lums].map(([piece, list]) => [piece, median(list)]));
+  const skinTo = skin.id === DEFAULT_SKIN ? null : rgb(skin.color);
+  for (let i = 0; i < png.data.length; i += 4) {
+    const piece = pieces[i / 4];
+    if (!piece) continue;
+    const to = piece === "skin" ? skinTo : wanted.get(piece);
+    if (!to) continue;
+    const shade = luminance(png.data, i) / mid.get(piece)!;
     for (let c = 0; c < 3; c++)
       png.data[i + c] = Math.max(0, Math.min(255, Math.round(to[c]! * shade)));
   }

@@ -14,6 +14,7 @@ import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
+import { GARMENTS } from "./figure-colors";
 import {
   ageBandOf,
   figureOn,
@@ -524,10 +525,8 @@ interface Looks {
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { sex, build, outfit, skin, clothes } = JSON.parse(text) as Record<
-      string,
-      unknown
-    >;
+    const record = JSON.parse(text) as Record<string, unknown>;
+    const { sex, build, outfit } = record;
     return typeof sex === "string" &&
       typeof build === "string" &&
       typeof outfit === "string"
@@ -535,8 +534,11 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
           sex,
           build,
           outfit,
-          ...(typeof skin === "string" ? { skin } : {}),
-          ...(typeof clothes === "string" ? { clothes } : {}),
+          ...Object.fromEntries(
+            ["skin", ...GARMENTS].flatMap((key) =>
+              typeof record[key] === "string" ? [[key, record[key]]] : [],
+            ),
+          ),
         }
       : undefined;
   } catch {

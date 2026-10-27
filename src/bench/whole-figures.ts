@@ -14,7 +14,12 @@ import {
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { orgPlace } from "./scene";
-import { CLOTHES_SWATCHES, DEFAULT_SKIN } from "./figure-colors";
+import {
+  CLOTHES_SWATCHES,
+  DEFAULT_SKIN,
+  GARMENTS,
+  type FigureColors,
+} from "./figure-colors";
 import { occluderFor, type Occluder } from "./occluders";
 import type { CoreState } from "../core2/types";
 
@@ -268,15 +273,12 @@ const SKIN_WEIGHTS: Readonly<Record<string, number>> = {
 };
 
 /**
- * The skin and clothes color a person wears: the ones they chose in the
- * creator, else ones set once from their own appearance record's seed (their
+ * The skin and each piece of clothing's color a person wears: the ones they
+ * chose in the creator, else ones set once from their own appearance record's seed (their
  * id where the record has none), so the same person is the same color in every
  * scene and neighbors differ.
  */
-export function colorsFor(person: FigurePerson): {
-  skin: string;
-  clothes: string;
-} {
+export function colorsFor(person: FigurePerson): FigureColors {
   const seed = person.seed ?? person.id;
   const total = Object.values(SKIN_WEIGHTS).reduce((a, b) => a + b, 0);
   let at = mixed(`${seed}:skin`) % total;
@@ -288,12 +290,16 @@ export function colorsFor(person: FigurePerson): {
     }
     at -= weight;
   }
-  const clothes =
-    CLOTHES_SWATCHES[mixed(`${seed}:clothes`) % CLOTHES_SWATCHES.length]!.id;
-  return {
-    skin: person.look?.skin ?? skin,
-    clothes: person.look?.clothes ?? clothes,
-  };
+  // Each piece of clothing its own color, set once from the person's seed.
+  const garments = Object.fromEntries(
+    GARMENTS.map((garment) => [
+      garment,
+      person.look?.[garment] ??
+        CLOTHES_SWATCHES[mixed(`${seed}:${garment}`) % CLOTHES_SWATCHES.length]!
+          .id,
+    ]),
+  );
+  return { skin: person.look?.skin ?? skin, ...garments };
 }
 
 /** Who is being drawn: their record, and whether they hold office. */
@@ -310,7 +316,10 @@ export interface FigurePerson {
     build: string;
     outfit: string;
     skin?: string;
-    clothes?: string;
+    jacket?: string;
+    shirt?: string;
+    pants?: string;
+    shoes?: string;
   };
 }
 
