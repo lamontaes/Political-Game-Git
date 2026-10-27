@@ -254,7 +254,8 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
       "\n",
   );
   expect(unfired(), tried.join("; ")).toEqual([]);
-});
+  // Up to six played years, each about a minute: the budget for all of them.
+}, 1_800_000);
 
 it("gives every circumstance a situation type cause and a scene-web row", () => {
   const labels = new Set(
