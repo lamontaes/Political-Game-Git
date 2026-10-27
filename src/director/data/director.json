@@ -1434,6 +1434,31 @@
       "eventKind": "budget-line-changed",
       "channel": "cause",
       "impactParameter": "directorOfficeActImpact"
+    },
+    {
+      "eventKind": "interview-invited",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "debate-invited",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "volunteer-offered",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "rival-word",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "rival-filed",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
     }
   ]
 }

@@ -74,6 +74,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "town-hall-askers",
   "supporters",
   "volunteers",
+  "opponent",
   "audience",
   "staff",
 ]);
@@ -162,6 +163,27 @@ export function civicFill(
           ...(campaign?.staffIds ?? []),
         ]),
       );
+    }
+    case "opponent": {
+      // The candidate who finished behind the moment's subject in the count
+      // the cause settled: the runner-up on the result record's totals, living
+      // and not the subject. Where the subject did not win, or nobody else
+      // stood, the role stays unfilled and the scene does not fire.
+      const facts = core.durableLog.get(moment.causeId)?.facts;
+      if (!facts?.totals || facts.winnerId !== moment.personId) return [];
+      const totals = JSON.parse(String(facts.totals)) as Record<string, number>;
+      return free(
+        living(
+          core,
+          Object.entries(totals)
+            .filter(([id]) => id !== moment.personId)
+            .sort(
+              ([idA, votesA], [idB, votesB]) =>
+                votesB - votesA || idA.localeCompare(idB),
+            )
+            .map(([id]) => id),
+        ),
+      ).slice(zero, one);
     }
     case "volunteers": {
       // The volunteers of a campaign the candidate is running now, from the

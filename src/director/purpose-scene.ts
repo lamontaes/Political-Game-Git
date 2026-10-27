@@ -8,14 +8,21 @@
  * came from.
  */
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
+import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
 import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { lawChain } from "../core2/modules/laws";
+import {
+  MEETINGS_MODULE_ID,
+  type TownHallRow,
+} from "../core2/modules/meetings";
+import { viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
+import { questionAbout } from "../english/question-names";
 import { topicInSentence } from "../english/policy-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
@@ -169,6 +176,49 @@ function composeBinding(
       text: said.problem,
       sourceRecordIds: [moment.causeId],
     };
+  // A town hall (meetings.ts holdTownHall): the question this resident stood up with,
+  // and whether the host's answer to it agreed with the resident's own stand,
+  // opposed it, or was not given.
+  if (said.townHallId && core.modules.has(MEETINGS_MODULE_ID)) {
+    const api = coreAPI(core as CoreState);
+    const hall = api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("townHalls")
+      .get(said.townHallId) as unknown as TownHallRow | undefined;
+    const asking = hall?.questions.find((row) => row.askedBy === askerId);
+    const issue = asking ? questionAbout(asking.question) : null;
+    if (hall && asking && issue) {
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [said.townHallId, moment.causeId],
+      };
+      const stand = hall.answers.find(
+        (row) => row.question === asking.question,
+      )?.position;
+      const own = viewOn(
+        api,
+        askerId,
+        asking.question,
+        personLean(core.people, asker, P.zero),
+      );
+      const reading =
+        stand === null || stand === undefined
+          ? "host-declined"
+          : stand * own < P.zero
+            ? "host-opposed"
+            : "host-agreed";
+      facts[reading] = {
+        text: reading,
+        sourceRecordIds: [said.townHallId, askerId],
+      };
+    }
+  }
+  // What an offer asks in return (a vote, a contract): the lines about that favor need it.
+  if (said.favor)
+    facts[`favor-${said.favor}`] = {
+      text: said.favor,
+      sourceRecordIds: [moment.causeId],
+    };
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {
@@ -204,6 +254,26 @@ function composeBinding(
     } else if (said.subjectId === askedId && said.subjectFraming === "against")
       facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
   }
+  // An outlet any other cause names (an invitation to an interview or a
+  // debate), by name.
+  if (record?.kind !== PRESS_STORY_EVENT && said.outletId) {
+    const outlet = core.organizations.get(said.outletId);
+    if (outlet)
+      facts.outlet = {
+        text: properName(outlet.name),
+        sourceRecordIds: [moment.causeId, outlet.id],
+      };
+  }
+  // How the two stand, so a line can fit the tie: the asked person's known
+  // people (`acquainted`, else `stranger`), and family (`kin`).
+  if (asked.familyIds.has(askerId))
+    facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
+  if (asked.knownIds.has(askerId))
+    facts.acquainted = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId, askedId],
+    };
+  else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
   if (said.office)
     facts.office = {
       text: said.office,
@@ -211,6 +281,15 @@ function composeBinding(
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
       ],
+    };
+  // A rival in the race the record names, by name.
+  const rival = said.rivalId
+    ? core.people.get(said.rivalId as PersonId)
+    : undefined;
+  if (rival)
+    facts.opponent = {
+      text: `${rival.givenName} ${rival.familyName}`,
+      sourceRecordIds: [moment.causeId, rival.id],
     };
   // What the relative has at stake in the run, from the household's records
   // (the cast rule chose them for it): the lines about money or time need it.
@@ -228,6 +307,19 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
+  // The winner's side of a count: how far ahead they finished, from the
+  // result record's totals (votes, exact: a count is an integer).
+  if (said.totals && said.winnerId === askedId) {
+    const counts = Object.values(
+      JSON.parse(said.totals) as Record<string, number>,
+    ).sort((a, b) => b - a);
+    const ahead = (counts[P.zero] ?? P.zero) - (counts[P.one] ?? P.zero);
+    if (counts.length > P.one && ahead > P.zero)
+      facts.lead = {
+        text: `${ahead.toLocaleString("en-US")} ${ahead === P.one ? "vote" : "votes"}`,
+        sourceRecordIds: [moment.causeId],
+      };
+  }
 
   if (record?.kind === "budget-line-changed")
     cutFacts(core, facts, said, moment.causeId, askerId);
@@ -341,7 +433,7 @@ export function replyInScene(
   personId: PersonId,
   entry: ScheduleEntry,
   path: readonly number[],
-  options: { includeHeld?: boolean } = {},
+  options: { includeHeld?: boolean; typeKey?: string } = {},
 ): string | null {
   const result = purposeScene(core, director, personId, entry, options);
   if (result?.kind !== "composed" || !path.length) return null;

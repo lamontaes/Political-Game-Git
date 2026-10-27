@@ -149,6 +149,19 @@ describe("price and sales-tax laws reach people and move money", () => {
       // A place with no sales tax in force has nothing for the tax laws to
       // collect on: draw again (every place tried is named on failure).
       let ran = false;
+      // PRICES_WORLD_SEED with PRICES_PLACE_KEY replays one recorded draw first.
+      const pinnedSeed = process.env.PRICES_WORLD_SEED;
+      const pinnedKey = process.env.PRICES_PLACE_KEY;
+      if (pinnedSeed && pinnedKey) {
+        const pinned = {
+          seed: pinnedSeed,
+          key: pinnedKey,
+          name: "pinned",
+          state: "",
+        } as ReturnType<typeof drawPlace>;
+        tried.push(`${pinned.key} (pinned, seed ${pinned.seed})`);
+        ran = run(pinned, tried);
+      }
       for (let attempt = 0; attempt < 4 && !ran; attempt += 1) {
         const drawn = drawPlace(seed, `law-wiring-prices:${attempt}`);
         tried.push(`${drawn.key} (${drawn.state}, seed ${drawn.seed})`);

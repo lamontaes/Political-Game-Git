@@ -1,0 +1,27 @@
+{
+  "about": "How much a government's budget grew from one year to the next, for the prior years the world shows before day one (budgetHistory in src/core2/modules/budgets.ts). A prior year's lines are the opening budget's lines divided by one plus this growth, once per year back. Each level carries its estimate from published totals and the spread those totals show; the history records name them. The prior years are estimates of what the budgets were, never decisions: nothing in play reads them to decide an outcome.",
+  "levels": {
+    "federal": {
+      "annualGrowth": 0.0376,
+      "tag": "ESTIMATED",
+      "citation": "U.S. Treasury, Combined Statement and Monthly Treasury Statement: total outlays $6,271.6 billion in fiscal 2022, $6,134.5 billion in fiscal 2023 (a 2.2 percent decrease), $6,752 billion in fiscal 2024; the two-year compound rate is 3.76 percent a year. https://fiscal.treasury.gov/files/reports-statements/mts/mts0923.pdf and https://fiscal.treasury.gov/files/reports-statements/mts/mts0924.pdf",
+      "spread": {
+        "low": -0.022,
+        "high": 0.101,
+        "unit": "share per year",
+        "citation": "The single-year changes in the same series: fiscal 2023 against 2022 (-2.2 percent) and fiscal 2024 against 2023 (+10.1 percent)."
+      }
+    },
+    "state-and-local": {
+      "annualGrowth": 0.063,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Economic Analysis, state and local government total expenditures, annual averages: $3,477.5 billion in 2021, $3,729.2 billion in 2022, $3,946.4 billion in 2023, $4,181.9 billion in 2024; the three-year compound rate is 6.3 percent a year (FRED series W079RCQ027SBEA, https://fred.stlouisfed.org/series/W079RCQ027SBEA). Used for states, counties and cities alike: the series does not split them.",
+      "spread": {
+        "low": 0.058,
+        "high": 0.072,
+        "unit": "share per year",
+        "citation": "The single-year changes in the same series: 2023 against 2022 (+5.8 percent), 2024 against 2023 (+6.0 percent) and 2022 against 2021 (+7.2 percent)."
+      }
+    }
+  }
+}
