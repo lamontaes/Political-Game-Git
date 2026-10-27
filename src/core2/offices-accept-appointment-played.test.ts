@@ -15,7 +15,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { setTraitProbe, type FormulaProbeRow } from "./trait-probe";
-import type { CoreState } from "./types";
+import type { CoreState, LogRecord } from "./types";
 
 const DECISION = "offices.accept-appointment";
 const PLACE = {
@@ -27,10 +27,19 @@ const PLACE = {
 it("an appointee's acceptance is weighed, kept as its own record, and followed by taking office", () => {
   setBookkeeping(false);
   const rows: FormulaProbeRow[] = [];
+  // The log forgets a weighed choice's detail after a while, so each record
+  // is read the moment the decision keeps it.
+  const recordsAt = new Map<string, LogRecord>();
+  let live: CoreState | undefined;
   setTraitProbe({
     keepWeighed: true,
     formula: (row) => {
-      if (row.decisionId === DECISION) rows.push({ ...row });
+      if (row.decisionId !== DECISION) return;
+      rows.push({ ...row });
+      const record = row.recordId
+        ? live?.durableLog.get(row.recordId)
+        : undefined;
+      if (row.recordId && record) recordsAt.set(row.recordId, record);
     },
   });
   try {
@@ -38,7 +47,9 @@ it("an appointee's acceptance is weighed, kept as its own record, and followed b
       twoLevel: true,
       placeKey: PLACE.key,
     });
+    live = core as CoreState;
     rows.length = 0; // the opening's appointments are not the played vacancy
+    recordsAt.clear();
     const start = core.date;
     advanceCore(core, addDays(makeIsoDate(start), 365));
     const where = `${PLACE.name} (${PLACE.key}), seed ${PLACE.seed}, ${start} to ${core.date}`;
@@ -48,11 +59,8 @@ it("an appointee's acceptance is weighed, kept as its own record, and followed b
     expect(kept.length, `${where}: calls that kept a record`).toBe(rows.length);
     const lines: string[] = [];
     for (const row of kept) {
-      const record = c.durableLog.get(row.recordId!) as
-        | {
-            id: string;
-            kind: string;
-            date: string;
+      const record = recordsAt.get(row.recordId!) as
+        | (LogRecord & {
             actorId?: string;
             reasonKey?: string;
             actionId?: string;
@@ -61,7 +69,7 @@ it("an appointee's acceptance is weighed, kept as its own record, and followed b
               date: string;
               selectedReasons: Record<string, number>;
             };
-          }
+          })
         | undefined;
       expect(record, `${where}: ${row.recordId}`).toBeDefined();
       expect(record!.kind, row.recordId).toBe("person.weighed");
@@ -91,7 +99,7 @@ it("an appointee's acceptance is weighed, kept as its own record, and followed b
         (log) =>
           log.id.startsWith("took-office:") &&
           (log.personIds ?? []).includes(row.actorId as never) &&
-          log.date >= (c.durableLog.get(row.recordId!)?.date ?? ""),
+          log.date >= (recordsAt.get(row.recordId!)?.date ?? ""),
       ),
     );
     expect(
