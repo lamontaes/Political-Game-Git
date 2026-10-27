@@ -66,6 +66,13 @@ import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+import { familyRelation } from "../closeness";
+import {
+  awardsOn,
+  CONTRACTS_MODULE_ID,
+  OWNER_RELATION,
+  type ContractAwardRow,
+} from "./contracts";
 import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -312,6 +319,11 @@ export const PRESS_MODULE: CoreModule = {
   },
   eventKinds: ["*"],
   onEvent(api, event) {
+    // The one invited answers in the scene the invitation stages.
+    if (event.kind === "scene.reply") {
+      answerInvitation(api, event);
+      return;
+    }
     // A hidden act someone was just told of may reach a reporter.
     if (event.kind === "crime.told") {
       const crimeKey = Object.keys(event.facts ?? {}).find((k) =>
@@ -2338,7 +2350,7 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       )[0];
     if (!reporterId) continue;
     const row = weighTip(api, {
-      crimeId,
+      act: bribeAct(crimeId),
       officialId,
       knowerId,
       reporterId,
@@ -2358,6 +2370,28 @@ function reportersHere(api: CoreAPI): Map<string, OutletRow> {
 }
 
 /**
+ * An act the press can expose, named on the tip, the exposure and the story:
+ * the id the tip is kept under, the fact that names the act and says what it
+ * was, any more facts the exposure carries, the citation, and the fields that
+ * name the act on the tip's row.
+ */
+interface ExposableAct {
+  readonly id: string;
+  readonly fact: readonly [key: string, word: string];
+  readonly facts?: Readonly<Record<string, string>>;
+  readonly citation: string;
+  readonly row: Readonly<Record<string, unknown>>;
+}
+
+/** A bribe an official took: the crime record on the cash journal. */
+const bribeAct = (crimeId: string): ExposableAct => ({
+  id: crimeId,
+  fact: [`crime:${crimeId}`, "bribe-taken"],
+  citation: `A reporter's story on recorded bribe ${crimeId}`,
+  row: { crimeId },
+});
+
+/**
  * One person's tip of a hidden act to a reporter, weighed in order: whether
  * the one who knows takes it (their lean toward tipping off over keeping
  * quiet, their closeness to the reporter, their regard for the official; a
@@ -2369,7 +2403,7 @@ function reportersHere(api: CoreAPI): Map<string, OutletRow> {
 function weighTip(
   api: CoreAPI,
   input: {
-    readonly crimeId: string;
+    readonly act: ExposableAct;
     readonly officialId: string;
     readonly knowerId: string;
     readonly reporterId: string;
@@ -2377,7 +2411,7 @@ function weighTip(
     readonly leak: boolean;
   },
 ): Record<string, unknown> | null {
-  const { crimeId, officialId, knowerId, reporterId, staff } = input;
+  const { act, officialId, knowerId, reporterId, staff } = input;
   const knower = api.state.people.get(knowerId);
   const reporter = api.state.people.get(reporterId);
   const outlet = staff.get(reporterId);
@@ -2398,8 +2432,8 @@ function weighTip(
             regard(api, p, knowerId, officialId),
         );
   const row: Record<string, unknown> = {
-    id: crimeId,
-    crimeId,
+    id: act.id,
+    ...act.row,
     knowerId,
     reporterId,
     officialId,
@@ -2414,7 +2448,8 @@ function weighTip(
     table(api, "tips").put(row as unknown as ModuleRow);
     return row;
   }
-  // The paper trail: the payment is on the cash journal.
+  // The paper trail: the payment is on the cash journal, the award on the
+  // government's books.
   const dig =
     decisionLean(api.state, reporter, "press.dig", "dig", "let-go") +
     grudge(api, reporterId, officialId) -
@@ -2429,7 +2464,7 @@ function weighTip(
       (outlet.headId ? regard(api, p, outlet.headId, officialId) : 0);
   row.run = dig > 0 ? run : null;
   if (dig > 0 && run > 0) {
-    const exposedId = `press.exposed:${crimeId}:${outlet.id}`;
+    const exposedId = `press.exposed:${act.id}:${outlet.id}`;
     api.emit({
       id: exposedId,
       date: api.state.date,
@@ -2439,10 +2474,14 @@ function weighTip(
       publicRecord: true,
       news: true,
       topic: `conduct:${officialId}`,
-      facts: { [`crime:${crimeId}`]: "bribe-taken", outletId: outlet.id },
+      facts: {
+        [act.fact[0]]: act.fact[1],
+        ...act.facts,
+        outletId: outlet.id,
+      },
       source: {
         tag: "SOURCED",
-        citation: `A reporter's story on recorded bribe ${crimeId}`,
+        citation: act.citation,
         asOf: api.state.date,
       },
     });
@@ -2468,7 +2507,7 @@ function weighTip(
           slant: -Math.min(1, run),
           reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
         },
-        facts: { [`crime:${crimeId}`]: "bribe-taken" },
+        facts: { [act.fact[0]]: act.fact[1] },
       },
     );
     row.storyId = story.id;
@@ -2485,6 +2524,94 @@ function weighTip(
   }
   table(api, "tips").put(row as unknown as ModuleRow);
   return row;
+}
+
+/**
+ * The week's conflicts of interest reach the desk. An award a government
+ * made in the last week whose record names a member who chose a firm they
+ * own, or a relative or housemate owns (contracts.ts `conflicts`), is public
+ * business the local reporters can read: the award on the government's books
+ * is the paper trail. Each reporter of the town's local outlets, in outlet and
+ * id order, weighs it as they weigh a tip they came to themself (nobody to
+ * take it to): whether to dig, then whether the outlet's owner and head let
+ * it run. The first to run it prints it and the others see it on the wire. A
+ * reporter never covers themself, the firm's owner or either one's relatives.
+ * Every conflict the desk weighs keeps a tip row under its award and member;
+ * nothing rolls.
+ */
+function conflictBeat(api: CoreAPI): void {
+  if (!api.state.modules.has(CONTRACTS_MODULE_ID)) return;
+  // stopgapId: SG-PEOPLE-press-conflict-beat
+  const local = outletsHere(api).filter((o) => o.tier !== "national");
+  const staff = new Map<string, OutletRow>();
+  for (const outlet of local)
+    for (const id of outlet.reporterIds ?? []) staff.set(id, outlet);
+  if (!staff.size) return;
+  // Awards made since the desk last sat (it sits weekly; a conflict already
+  // weighed keeps its tip row and is not weighed again).
+  const awards = new Map<string, ContractAwardRow>();
+  for (let back = 0; back <= api.parameter("daysPerWeek"); back += 1)
+    for (const award of awardsOn(
+      api,
+      addDays(makeIsoDate(api.state.date), -back),
+    ))
+      if (award.conflicts.length) awards.set(award.id, award);
+  for (const award of [...awards.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  ))
+    for (const conflict of award.conflicts) {
+      const act = conflictAct(award, conflict);
+      if (
+        !api.state.people.has(conflict.memberId) ||
+        table(api, "tips").get(act.id)
+      )
+        continue;
+      const reporters = local
+        .flatMap((o) => [...(o.reporterIds ?? [])].sort())
+        .filter(
+          (id) =>
+            ![conflict.memberId, conflict.ownerId].some(
+              (party) =>
+                id === party || familyRelation(api.state, id, party) !== null,
+            ),
+        );
+      for (const reporterId of reporters) {
+        api.stopgap("SG-PEOPLE-press-conflict-beat");
+        const row = weighTip(api, {
+          act,
+          officialId: conflict.memberId,
+          knowerId: reporterId,
+          reporterId,
+          staff,
+          leak: false,
+        });
+        if (row?.storyId) break;
+      }
+    }
+}
+
+/** A member's vote for a firm their family owns, as an act the press can expose. */
+function conflictAct(
+  award: ContractAwardRow,
+  conflict: ContractAwardRow["conflicts"][number],
+): ExposableAct {
+  return {
+    id: `${award.id}:${conflict.memberId}`,
+    fact: [`award:${award.id}`, "conflict-of-interest"],
+    facts: {
+      memberId: conflict.memberId,
+      organizationId: conflict.organizationId,
+      ownerId: conflict.ownerId,
+      relation: conflict.relation,
+    },
+    citation: `A reporter's story on contract award ${award.id}: ${conflict.memberId} chose a firm owned by ${conflict.relation === OWNER_RELATION ? "themself" : `their ${conflict.relation}`}.`,
+    row: {
+      awardId: award.id,
+      memberId: conflict.memberId,
+      organizationId: conflict.organizationId,
+      relation: conflict.relation,
+    },
+  };
 }
 
 /**
@@ -2527,7 +2654,7 @@ export function leakToReporter(
     Record<string, unknown> | undefined;
   if (had?.storyId) return had;
   const row = weighTip(api, {
-    crimeId: input.crimeId,
+    act: bribeAct(input.crimeId),
     officialId: crime.officialId,
     knowerId: input.leakerId,
     reporterId: input.reporterId,
@@ -2904,6 +3031,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     Number(api.state.date.slice(8, 10)) <= api.parameter("daysPerWeek"),
   );
   ownersLive(api);
+  conflictBeat(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
@@ -2946,6 +3074,8 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     .flatMap((c) => ballot(api, c.id))
     .filter((f) => f.status === "on-ballot")
     .map((f) => ({ f, worth: newsworthiness(api, f) }));
+  // The player's invitations this week, put to them as one.
+  const invitedThisWeek = new Map<string, InterviewRow[]>();
   const townAdults =
     api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
   for (const outlet of outletsHere(api))
@@ -2970,6 +3100,11 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (already(api, outlet.id, f.id)) continue;
       if (worth < newsworthyBar(outlet)) continue;
       const row = arrange(api, f.id, outlet.id, "outlet");
+      if (row.status === "invited" && f.personId === playerId)
+        invitedThisWeek.set(row.candidateId, [
+          ...(invitedThisWeek.get(row.candidateId) ?? []),
+          row,
+        ]);
       if (row.status !== "invited" || f.personId === playerId) continue;
       const person = api.state.people.get(f.personId);
       const reporter = row.reporterId ?? "";
@@ -3013,6 +3148,15 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (!accepts) refuse(api, weighed);
       else publish(api, weighed, candidateAnswers(api, row.questions, f));
     }
+  // Those still waiting on the player's answer reach them as one call.
+  if (playerId) {
+    const open = (invitedThisWeek.get(playerId) ?? []).filter(
+      (row) =>
+        (table(api, "interviews").get(row.id) as unknown as InterviewRow)
+          ?.status === "invited",
+    );
+    if (open.length) invited(api, open);
+  }
 }
 
 /**
@@ -3062,6 +3206,109 @@ function snubbed(
       asOf: api.state.date,
     },
   });
+}
+
+/** The kind of an outlet's invitation to a candidate to sit for an interview. */
+export const INTERVIEW_INVITED_EVENT = "interview-invited";
+/** The replies in an invitation's scene that accept it. */
+export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
+  "agree",
+  "relent",
+]);
+/** The replies in an invitation's scene that turn it down. */
+export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
+
+/**
+ * The outlets' invitations of the week to the player, on the record as one
+ * for the candidate and the first outlet's reporter who asks: the director
+ * stages it as a call from that reporter, and the answer there is read back
+ * here for every outlet that asked (`answerInvitation`).
+ */
+function invited(api: CoreAPI, rows: readonly InterviewRow[]): void {
+  const row = rows[0]!;
+  const ids = [row.candidateId, row.reporterId ?? ""].filter((id) =>
+    api.state.people.has(id),
+  );
+  if (!ids.includes(row.candidateId)) return;
+  const contest = row.contestId ? contestOf(api, row.contestId) : null;
+  // The outlet by its organization, as the press's other records name it.
+  const outlet = outletsHere(api).find((o) => o.id === row.outletId);
+  api.emit({
+    id: `${INTERVIEW_INVITED_EVENT}:${row.id}`,
+    date: api.state.date,
+    kind: INTERVIEW_INVITED_EVENT,
+    personIds: ids,
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Interviews ${rows.map((r) => r.id).join(", ")}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      interviewId: row.id,
+      // Every outlet that asked this week; the answer goes to each.
+      interviewIds: rows.map((r) => r.id).join(" "),
+      outlets: String(rows.length),
+      invitedId: row.candidateId,
+      outletId: outlet?.organizationId ?? row.outletId,
+      ...(row.reporterId ? { reporterId: row.reporterId } : {}),
+      ...(row.contestId ? { contestId: row.contestId } : {}),
+      ...(contest ? { office: contest.title } : {}),
+    },
+  });
+}
+
+/**
+ * A candidate's own answers to a sitting's questions (an interview, a
+ * debate): what their filed platform states, and no answer where it states
+ * nothing. The engine never answers for them.
+ */
+export function platformAnswers(
+  api: CoreAPI,
+  filingId: string | null,
+  questions: readonly string[],
+): readonly InterviewAnswer[] {
+  const filing = filingId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as FilingRow | undefined)
+    : undefined;
+  const platform = filing ? platformOf(api, filing) : [];
+  return questions.map((question): InterviewAnswer => {
+    const stated = platform.find((s) => s.question === question);
+    return {
+      question,
+      position: stated ? stated.position : null,
+      move: "plain",
+    };
+  });
+}
+
+/**
+ * The answer to an outlet's invitation, said in its scene: a yes sits for the
+ * interview with the candidate's filed platform as their answers, a no is a
+ * refusal on the record (the outlet's people may take it as a snub), and
+ * anything else leaves it open until the race is over.
+ */
+function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (cause?.kind !== INTERVIEW_INVITED_EVENT) return;
+  const move = String(facts.move);
+  for (const id of String(cause.facts?.interviewIds ?? "").split(" ")) {
+    const row = table(api, "interviews").get(id) as unknown as
+      InterviewRow | undefined;
+    if (row?.status !== "invited" || !event.personIds.includes(row.candidateId))
+      continue;
+    if (ACCEPTING_MOVES.has(move))
+      answerInterview(
+        api,
+        row.id,
+        platformAnswers(api, row.filingId, row.questions),
+      );
+    else if (REFUSING_MOVES.has(move)) refuse(api, row);
+  }
 }
 
 /** The player turns down an interview an outlet offered. */

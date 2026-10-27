@@ -6,11 +6,12 @@ lead: m0-m2
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/m013-renters
+pr: #6343
 blocked-on:
 source: laws-and-effects lead, Oct 27 (golden-path-year on PR #6257)
+claimed-at: 2026-10-27T15:53:32.008Z
 ---
 
 **What.** The `golden-path-year` check failed on PR #6257 (job 122147212463) at M0-13, "homes have values and rents", in Portage Creek, Alaska (0262285), seed 1c57f150e0b820f7e96c7299801afa5f4ec0c9bc016e1625974539f89f723ff0. It reproduces on clean main (9555303c10) with `GOLDEN_PATH_SEED=1c57f150e0b820f7e96c7299801afa5f4ec0c9bc016e1625974539f89f723ff0 GOLDEN_PATH_PLACE_KEY=0262285 node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts`: "0 of 3 homes have no value or rent, and 0 are rented". Every home is priced; the check (`tests/golden-path/played-world.node-test.ts:835`) also requires at least one rented home, and all three of the town's homes are owned. The runner draws the place from the commit hash, so the check fails only on commits whose draw lands on a town this small, and PRs that touch no housing code go red.

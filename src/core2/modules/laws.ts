@@ -209,6 +209,8 @@ export function openLaws(core: CoreState): LawChain {
       source: entry.source ?? "data/research/laws/starting-law-2026",
       retrieved: ANSWERS_AS_OF,
       estimate: answer.estimated !== undefined,
+      // The statute the answer rests on, which Issues shows beside it.
+      ...(answer.cite ? { terms: { cite: answer.cite } } : {}),
     };
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
@@ -491,6 +493,61 @@ export function lawInForce(
   });
 }
 
+/** Why a change to a policy question has nothing to change, and the law row that says so. */
+export interface SettledQuestion {
+  /** The row the change would repeat or cut across. */
+  readonly lawId: string;
+  readonly why:
+    "restates-in-force" | "restates-pending" | "conflicts-with-pending";
+}
+
+/**
+ * What a government's own law already says on a policy question, for a change
+ * that would set `value` at that level: the row it would only repeat or cut
+ * across, or null when it would change the law (or no law stands there to
+ * say anything). A row in force with the same answer is repeated; an act
+ * still waiting on its effective date closes the question at that level for
+ * the rest of the sitting, whichever way the new change points, because the
+ * act has taken no effect to undo (a motion that restates or conflicts with
+ * one already adopted is out of order, Robert's Rules of Order; reconsidering
+ * it is how a body comes back). Read from the level's own rows through the
+ * series index, on the day of the vote.
+ */
+export function questionSettled(
+  api: CoreAPI,
+  jurisdiction: string,
+  question: string,
+  value: number,
+  /** A bill whose own rows don't count: the act being written reads the law as it stood before it. */
+  exceptBill?: string,
+): SettledQuestion | null {
+  const today = api.state.date;
+  let latest: LawRowInput | null = null;
+  const order = (r: LawRowInput) => Number(r.terms?.enactedSequence ?? 0);
+  for (const row of api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]) {
+    if (row.endDate !== null && row.endDate <= today) continue;
+    if (exceptBill !== undefined && row.terms?.enactedByBill === exceptBill)
+      continue;
+    if (
+      !latest ||
+      row.effectiveDate > latest.effectiveDate ||
+      (row.effectiveDate === latest.effectiveDate && order(row) > order(latest))
+    )
+      latest = row;
+  }
+  if (!latest) return null;
+  const same = (latest.value === 1) === value > 0;
+  if (latest.effectiveDate > today)
+    return {
+      lawId: latest.id,
+      why: same ? "restates-pending" : "conflicts-with-pending",
+    };
+  return same ? { lawId: latest.id, why: "restates-in-force" } : null;
+}
+
 /**
  * An enacted law: a new dated row at its level, read by `lawInForce` from its
  * effective date like any starting row, and put on the calendar so it takes
@@ -590,23 +647,45 @@ export function enactLaw(
   return row;
 }
 
-/** Every tracked series for the town on a date: the bench's "law here" view. */
+/** The laws set by an amount (a wage floor, a tax rate, a benefit), which a seat's bill can change. */
+export const AMOUNT_SERIES: readonly string[] = [
+  "minimum-wage",
+  "income-tax",
+  "sales-tax",
+  "property-tax",
+  "snap-maximum",
+  "unemployment-weekly-maximum",
+  "unemployment-insurance",
+  "medicaid-match",
+  "social-security-tax",
+  "medicare-tax",
+];
+const AMOUNTS = new Set(AMOUNT_SERIES);
+
+/**
+ * Every law in force for the town on a date (today by default), one answer
+ * per law with each level's row, its record id and citation: the amount laws,
+ * then each policy question a level of the town's chain has a law on. The
+ * researched starting answers and the laws passed in play are the same rows,
+ * so a law enacted in play replaces its level's starting row the day it takes
+ * effect. `series` narrows it to those laws (a seat's amounts).
+ */
 export function lawHere(
   api: CoreAPI,
   date: string = api.state.date,
+  series: readonly string[] = [
+    ...AMOUNT_SERIES,
+    ...Object.keys(POLICY_QUESTIONS),
+  ],
 ): readonly LawInForceAnswer[] {
-  return [
-    "minimum-wage",
-    "income-tax",
-    "sales-tax",
-    "property-tax",
-    "snap-maximum",
-    "unemployment-weekly-maximum",
-    "unemployment-insurance",
-    "medicaid-match",
-    "social-security-tax",
-    "medicare-tax",
-  ].map((series) => lawInForce(api, series, date));
+  return series
+    .map((name) => lawInForce(api, name, date))
+    .filter(
+      (answer) =>
+        AMOUNTS.has(answer.series) ||
+        answer.levels.some((level) => level.row) ||
+        answer.pending.length > 0,
+    );
 }
 
 function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
@@ -615,6 +694,14 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(id) as
     LawRowInput | undefined;
   if (!row || !inForceOn(row, api.state.date)) return;
+  // A row a later statute overrides never governs, so nothing took effect: the
+  // level's law in force today is another row (a repeal enacted over a
+  // scheduled rise).
+  const governing = lawInForce(api, row.series).levels.find(
+    (level) =>
+      level.jurisdiction === row.jurisdiction && level.level === row.level,
+  )?.row;
+  if (governing && governing.id !== row.id) return;
   const town = lawChain(api).townPlaceId;
   // What it replaced: the law in force on the series the day before. A
   // policy question set to 0 ends that law (a repeal).

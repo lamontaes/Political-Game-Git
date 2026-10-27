@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/sales-average-seller
 pr: #6323
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at: 2026-10-27T13:25:35.538Z
 **Files.** src/core2/law-wiring-prices.test.ts
 
 **Notes.** TODO
+
+Worker note (Claude, Oct 27): the town's rate comes from another row, and the test now reads the row in force. In West Wildwood, New Jersey the state's local-sales-tax-average row is at or below zero (Tax Foundation's New Jersey average is -0.02 because Salem County charges half the state rate), and `syncSalesTax` collects under positive rates only, so the row taxes no sale and reaches no seller. `law-wiring-prices.test.ts` already expects zero rows for a non-positive row (the 'taxes no sale, so it reaches nobody' branch). With the draw pinned (new `PRICES_WORLD_SEED` and `PRICES_PLACE_KEY`: seed f1bb51c2…a43a305, place 3480210) the case passes; fresh seeds lpf1 and lpf2 pass.

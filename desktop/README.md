@@ -86,11 +86,11 @@ the canonical version and exist only for throwaway artifacts.
 
 ## Updates
 
-- Every release the release workflow publishes onto `main` is packaged on
-  macOS (Apple Silicon dmg + zip) and Windows (NSIS), launched and played
+- The newest release the release workflow published onto `main` is packaged
+  every two hours, or on request, on macOS (Apple Silicon dmg + zip) and Windows (NSIS), launched and played
   once, and published to this repository's GitHub Releases as `v<version>`
   with the installers, the zip, `latest.yml` / `latest-mac.yml` and the
-  blockmaps (`.github/workflows/release.yml`, jobs `desktop_package` and
+  blockmaps (`.github/workflows/release-package.yml`, jobs `desktop_package` and
   `desktop_publish`; the release is a draft until every file is uploaded).
   Packaging itself never uploads: `scripts/package.mjs` passes
   `--publish never`. `update-config.json` ships enabled with that feed

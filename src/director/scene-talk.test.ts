@@ -55,12 +55,14 @@ const flags = [
   "absence",
   "in-office",
   "bill-lost",
+  "for",
 ];
 const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
   section: fact("2"),
+  chair: fact("Lee Ortiz"),
   office: fact("county commissioner"),
   place: fact("the town"),
   money: fact("$500"),
@@ -78,6 +80,8 @@ const facts: Record<string, Fact> = {
   petition: fact("the recall petition"),
   minutes: fact("three minutes"),
   tally: fact("4 to 3"),
+  roll: fact("5 to 2"),
+  deadline: fact("January 30"),
   years: fact("six"),
   home: fact("apartment"),
   rent: fact("$900 a month"),
