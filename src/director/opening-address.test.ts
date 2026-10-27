@@ -64,12 +64,10 @@ describe("the opening address from a world's records", () => {
       expect(levels[0], where).toBe("salutation");
       expect(levels.at(-1), where).toBe("close");
       expect(levels, where).toContain("country");
-      // Each priority goes to the level that may answer it: Congress for a
-      // question federal law can answer and has not, the governors for one the
-      // player's state answers the other way (opening-asks.test.ts).
+      // Each priority goes to Congress, for a question federal law can answer
+      // and has not; the address is national only (opening-asks.test.ts).
       expect(
-        levels.filter((level) => level === "congress" || level === "governors")
-          .length,
+        levels.filter((level) => level === "congress").length,
         where,
       ).toBeGreaterThan(0);
     }
