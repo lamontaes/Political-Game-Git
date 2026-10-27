@@ -21,7 +21,7 @@ claimed-at:
 
 **Done when.** A grade written on one piece in a drawn place's played year (place and seed named) changes the selection weight of at least ten other pieces that share its pattern, trait and register across at least three banks, shown by `docs/reports/grade-reach.md` naming the graded piece id and the pieces moved with their before and after weights; a scene rendered after the grade picks differently from before on a fixed seed, and a test fails when the grade's reach is removed; the 128 existing grades are re-applied through this path and the report shows their reach.
 
-**Time box.** 6 hours; if not done, push what exists, open the draft PR, write the handoff.
+**Time box.** 4 hours for the grade record, the reach across banks and the report; the in-play grade control is its own 2-hour follow-up item if it does not fit. If not done, push what exists, open the draft PR, write the handoff.
 
 **You will see.** When you grade a line or leave a note on a scene, the next scenes of that kind, by that kind of person, change with it, not just that one line.
 

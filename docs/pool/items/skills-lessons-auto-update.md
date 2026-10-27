@@ -1,7 +1,7 @@
 ---
 id: skills-lessons-auto-update
 title: "Skills update themselves: a scheduled job turns every failure seen twice into a skill line, as a PR the CTO merges"
-area: process
+area: docs
 kind: feature
 priority: 1
 size: M
