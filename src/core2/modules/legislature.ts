@@ -281,6 +281,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       choices: {},
       itemVetoes: {},
       projectRequests: {},
+      carryAsks: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -2356,6 +2357,8 @@ export interface CarryRequest {
   readonly carried: boolean;
   /** The bill the member filed, when they carried it. */
   readonly billId: string | null;
+  /** The member is the player: the ask waits for their answer (`answerCarryAsk`) and nothing is filed until then. */
+  readonly awaitingPlayer?: boolean;
 }
 
 /**
@@ -2418,13 +2421,17 @@ export function askToCarry(
           asker!.knownIds.size / campaignParameter("carryStandingCircle"),
         ));
   const carried = position.total + standing > 0;
-  const bill = carried
-    ? draftBill(api, {
-        bodyOfficeId: input.bodyOfficeId,
-        sponsorId: input.memberId,
-        provisions: input.provisions,
-      })
-    : null;
+  // The engine offers, the player decides: an ask to the controlled member is
+  // held as a request, and nothing is filed or dropped until they answer.
+  const toPlayer = input.memberId === (api.state as CoreState).playerId;
+  const bill =
+    carried && !toPlayer
+      ? draftBill(api, {
+          bodyOfficeId: input.bodyOfficeId,
+          sponsorId: input.memberId,
+          provisions: input.provisions,
+        })
+      : null;
   if (bill)
     table(api, "bills").put({
       ...bill,
@@ -2439,10 +2446,59 @@ export function askToCarry(
     provisions: input.provisions,
     position,
     standing,
-    carried,
+    carried: toPlayer ? false : carried,
     billId: bill?.id ?? null,
+    ...(toPlayer ? { awaitingPlayer: true } : {}),
   };
+  if (toPlayer) {
+    // stopgapId: SG-GOV-carry-ask-no-screen (the held ask has no bench screen yet)
+    api.stopgap("SG-GOV-carry-ask-no-screen");
+    table(api, "carryAsks").put(row as unknown as ModuleRow);
+  }
   return row;
+}
+
+/** The asks waiting on the player's answer, oldest first. */
+export function carryAsksAwaiting(api: CoreAPI): readonly CarryRequest[] {
+  return (table(api, "carryAsks").rows() as unknown as CarryRequest[])
+    .filter((r) => r.awaitingPlayer)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+}
+
+/**
+ * The player's answer to a waiting ask: agreeing files the bill with the
+ * player as its sponsor and the asker as `requestedBy`; declining files
+ * nothing. Returns the closed request, with its bill when one was filed.
+ */
+export function answerCarryAsk(
+  api: CoreAPI,
+  requestId: string,
+  agree: boolean,
+): CarryRequest {
+  const waiting = table(api, "carryAsks").get(requestId) as unknown as
+    CarryRequest | undefined;
+  if (!waiting?.awaitingPlayer)
+    throw new Error(`No ask is waiting on the player: ${requestId}`);
+  const bill = agree
+    ? draftBill(api, {
+        bodyOfficeId: waiting.bodyOfficeId,
+        sponsorId: waiting.memberId,
+        provisions: waiting.provisions,
+      })
+    : null;
+  if (bill)
+    table(api, "bills").put({
+      ...bill,
+      requestedBy: waiting.askerId,
+    } as unknown as ModuleRow);
+  const closed: CarryRequest = {
+    ...waiting,
+    carried: agree,
+    billId: bill?.id ?? null,
+    awaitingPlayer: false,
+  };
+  table(api, "carryAsks").put(closed as unknown as ModuleRow);
+  return closed;
 }
 
 /** How an executive brings a bill of their own to the body, by office (data). */
@@ -4586,24 +4642,79 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
   return sitting.date;
 }
 
+let weeklyFloorReader:
+  ((api: CoreAPI, date: string) => readonly string[]) | null = null;
+/** The engine that runs the legislatures' sessions says which bills a floor week ahead takes up. */
+export function registerWeeklyFloorReader(
+  reader: (api: CoreAPI, date: string) => readonly string[],
+): void {
+  weeklyFloorReader = reader;
+}
+
 /**
  * The floor's agenda for a date: the drafted bills whose vote is scheduled
- * for it, in id order. A member reads what the floor takes up ahead of the
- * vote here, not from the calendar's keys.
+ * for it, and those a legislature's weekly floor takes up that day, in id
+ * order. A member reads what the floor takes up ahead of the vote here, not
+ * from the calendar's keys.
  */
 export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
   const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
+  const weekly = new Set(weeklyFloorReader?.(api, date) ?? []);
   return (table(api, "bills").rows() as unknown as BillRow[])
     .filter(
       (b) =>
         b.status === "drafted" &&
-        calendar.get(`meeting:${b.id}`)?.date === date,
+        (weekly.has(b.id) || calendar.get(`meeting:${b.id}`)?.date === date),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {
   return table(api, "bills").get(billId) as unknown as BillRow;
+}
+
+/**
+ * The whip count before a bill's floor vote: in each chamber it goes
+ * through, the members whose own positions lean for it, against it or
+ * neither today (`positionOn`, the reasons `chamberVote` casts), so the
+ * count moves as views, deals and the whip's asks do. A member who chose
+ * their vote counts as they chose; the player who has not is undecided.
+ */
+export function whipCount(
+  api: CoreAPI,
+  billId: string,
+): readonly {
+  chamber: string;
+  yes: readonly string[];
+  no: readonly string[];
+  undecided: readonly string[];
+}[] {
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  const player =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  return chambersOf(api, bill).map((chamber) => {
+    const count = { chamber, yes: [] as string[], no: [] as string[] };
+    const undecided: string[] = [];
+    for (const member of members(api, chamber)) {
+      const key = memberKey(member);
+      const chosen = (
+        table(api, "choices").get(`${bill.id}|${key}`) as unknown as
+          { vote: "yes" | "no" | "abstain" } | undefined
+      )?.vote;
+      const lean = chosen
+        ? chosen === "yes"
+          ? 1
+          : chosen === "no"
+            ? -1
+            : 0
+        : key === player
+          ? 0
+          : positionOn(api, bill, key).total;
+      (lean > 0 ? count.yes : lean < 0 ? count.no : undecided).push(key);
+    }
+    return { ...count, undecided };
+  });
 }
 
 export function votesOn(
