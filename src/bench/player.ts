@@ -11,6 +11,7 @@ import {
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
+import { onBallotOn } from "./election-night";
 import {
   leavePollingPlace,
   markBallot,
@@ -63,6 +64,13 @@ export class BenchPlayer {
    * the day stops here, before the count that opens election day.
    */
   pollingPlace?: PollingVisit;
+  /**
+   * Election morning for a candidate with no polling visit (they live
+   * outside the town the count reads): the day stops for the canvass all
+   * the same, once.
+   */
+  candidateMorning?: string;
+  private readonly candidateMornings = new Set<string>();
   constructor(
     readonly core: CoreState,
     readonly director: Director,
@@ -165,6 +173,7 @@ export class BenchPlayer {
       throw new Error("Unknown time control.");
     if (this.pollingPlace)
       throw new Error("Vote or leave the polling place first.");
+    this.candidateMorning = undefined;
     const pending = this.packet && this.packet.kind !== "complete";
     if (pending && this.packet!.kind !== "choice")
       throw new Error("Answer the open choice or stop first.");
@@ -223,9 +232,10 @@ export class BenchPlayer {
           date: addDays(makeIsoDate(from.date), 1),
           minuteOfDay: from.minuteOfDay,
         };
-        // Election day is a scene (owner, Oct 14, 2026): the count opens the
-        // day, so the character's day stops at the polls before the core
-        // enters it. The clock's midnight is the start of the core's next day.
+        // Election day is a scene (owner, Oct 14 and 26, 2026): the count
+        // opens the day, so election morning, with the choice to go vote,
+        // comes before the core enters it. The clock's midnight is the start
+        // of the core's next day.
         const polls = pollingVisitDue(
           this.core,
           this.director.ledger,
@@ -234,6 +244,19 @@ export class BenchPlayer {
         );
         if (polls) {
           this.pollingPlace = polls;
+          break;
+        }
+        const tomorrow = addDays(makeIsoDate(this.core.date), 1);
+        if (
+          !this.candidateMornings.has(tomorrow) &&
+          // A visit kept for the day (voted, or stayed home) was its morning.
+          !this.director.ledger.pollingVisits.has(
+            `${this.personId}:${tomorrow}`,
+          ) &&
+          onBallotOn(this.core, this.personId!, tomorrow)
+        ) {
+          this.candidateMornings.add(tomorrow);
+          this.candidateMorning = tomorrow;
           break;
         }
         packet = advancePlayerV1(this.core, {
