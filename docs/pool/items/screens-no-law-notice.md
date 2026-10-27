@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/no-law-notice
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T20:42:37.436Z
 ---
 
 **What.** The owner, Oct 27 4 PM sitting: "Why am I getting a notification that a law took effect?" The player card shows a bare 'A law took effect' line whenever any law in force changes. It names no law and no effect on the player. A law that reaches the player is already told by the law-takes-effect scene and its story.
