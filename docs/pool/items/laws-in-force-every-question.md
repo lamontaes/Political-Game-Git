@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-in-force-every-question
 pr: #6289
 blocked-on:
