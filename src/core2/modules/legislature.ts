@@ -3123,6 +3123,9 @@ function committeeStage(
     chairPosition.total,
   );
   const heard = chairPosition.total + hearingTrait >= 0;
+  // The chair's reasons are kept on the committee record; no scene or story
+  // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
+  api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
   const witnesses: { personId: string; stake: string }[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
