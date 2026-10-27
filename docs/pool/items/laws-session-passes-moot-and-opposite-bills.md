@@ -6,7 +6,7 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-session-moot-bills
 pr: #6336
 blocked-on:

@@ -6,7 +6,7 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-matrix-screens
 pr: #6295
 blocked-on:
