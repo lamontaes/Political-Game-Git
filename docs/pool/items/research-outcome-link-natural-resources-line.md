@@ -23,3 +23,5 @@ claimed-at:
 **Files.** data/research/outcome-web/links.json, src/core2/data/laws/outcome-research-gaps.json
 
 **Notes.** Laws lead, Oct 26. Part of `laws-nine-links-rights-env`.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `laws-outcome-links-unresearched`; close into it and carry any line it lacks there. (one of the 27)

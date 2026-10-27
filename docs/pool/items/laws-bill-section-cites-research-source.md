@@ -23,3 +23,5 @@ claimed-at: 2026-10-27T23:53:33.952Z
 **Files.** src/core2/modules/legislature.ts, src/core2/bill-sections.test.ts
 
 **Notes.** Found Oct 27 by the laws-and-effects lead at the CTO's request to check law rows for real figures; the Issues sheet's citations and dates are play-issues-real-statutes-and-dates.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: keep real statute codes for starting law; remove only research-source/survey titles; a law passed in play cites its own record.
