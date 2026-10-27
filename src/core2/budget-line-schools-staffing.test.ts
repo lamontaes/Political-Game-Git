@@ -270,6 +270,28 @@ function baseDay(
   );
 }
 
+/**
+ * The base the engine funds against: the staff in place on the eve of the day
+ * the line takes effect, unless this government's own earlier row carries one
+ * (within its fiscal year the base it took, in a new year the positions it
+ * funded). Another government's row (a state's schools line beside the city's)
+ * funded its own positions, so it carries nothing here.
+ */
+function expectedBase(
+  r: ReturnType<typeof amendSchoolsLine>,
+  row: NonNullable<ReturnType<typeof staffingOf>>,
+): number {
+  const own =
+    r.earlier &&
+    (r.earlier.governmentId === undefined ||
+      row.governmentId === undefined ||
+      r.earlier.governmentId === row.governmentId);
+  if (!r.earlier || !own) return baseDay(r, row.setOn);
+  return r.earlier.fiscalYear === row.fiscalYear
+    ? r.earlier.baseStaff
+    : r.earlier.positions;
+}
+
 it("a cut to the city's schools line ends named teachers' jobs at the public schools", () => {
   const r = amendSchoolsLine(-1);
   const laidOff = r.staffBefore.filter(
@@ -279,13 +301,7 @@ it("a cut to the city's schools line ends named teachers' jobs at the public sch
   // or counted) times the line after the bill against the line before it.
   const row = staffingOf(r.api, "budget-line:schools", r.district.id);
   expect(row, r.where).not.toBeNull();
-  expect(row!.baseStaff, r.where).toBe(
-    !r.earlier
-      ? baseDay(r, row!.setOn)
-      : r.earlier.fiscalYear === row!.fiscalYear
-        ? r.earlier.baseStaff
-        : r.earlier.positions,
-  );
+  expect(row!.baseStaff, r.where).toBe(expectedBase(r, row!));
   expect(row!.positions, r.where).toBeCloseTo(
     row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
   );
@@ -307,13 +323,7 @@ it("a raise to the city's schools line hires named adults who had no work at the
     .map((j) => j.id);
   const row = staffingOf(r.api, "budget-line:schools", r.district.id);
   expect(row, r.where).not.toBeNull();
-  expect(row!.baseStaff, r.where).toBe(
-    !r.earlier
-      ? baseDay(r, row!.setOn)
-      : r.earlier.fiscalYear === row!.fiscalYear
-        ? r.earlier.baseStaff
-        : r.earlier.positions,
-  );
+  expect(row!.baseStaff, r.where).toBe(expectedBase(r, row!));
   expect(row!.positions, r.where).toBeCloseTo(
     row!.baseStaff * ((r.priorLine + r.change) / r.priorLine),
   );
