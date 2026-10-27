@@ -6,11 +6,12 @@ lead: laws-effects
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-coverage-shade-answer
 pr:
 blocked-on:
 source: laws-and-effects lead, Oct 27 (seen by helper D on PR #6143, reproduced on clean main)
+claimed-at: 2026-10-27T06:20:02.766Z
 ---
 
 **What.** On clean main (69028b6155), `src/core2/trait-coverage.test.ts` fails "keeps the coverage table current, with every trait side changing a decision". The decision table and the code weigh traits in `press.shade-answer`, but `data/content/trait-coverage.json` was not regenerated when that decision arrived. Running its writer, `scripts/traits/trait-coverage.ts`, adds exactly 97 `press.shade-answer` entries and nothing else. Every PR whose changed-file tests include the coverage test is red until main carries the regenerated table.
