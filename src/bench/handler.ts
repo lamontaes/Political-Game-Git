@@ -34,7 +34,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
-import { seatAct, seatView } from "./legislature";
+import { billPaper, seatAct, seatView } from "./legislature";
 import {
   deskDecide,
   deskView,
@@ -78,6 +78,7 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
   portraitPng,
   readRecipe,
@@ -472,6 +473,11 @@ export async function benchRequest(
             requireCore(),
             director,
             url.searchParams.get("id") ?? "",
+            // The player's own journal reads to their clock, which stands at
+            // the start of a day the core has yet to run (a birthday morning).
+            player?.packet && player.personId === url.searchParams.get("id")
+              ? { through: player.packet.at.date }
+              : {},
           ),
         );
         return;
@@ -513,7 +519,8 @@ export async function benchRequest(
                   )
               : readRecipe(q.get("recipe")!)
             : drawnAppearance(gender, seed, draw);
-          send(200, { recipe, rows: appearanceRows(recipe, gender) });
+          const fitted = lookForGender(recipe, gender);
+          send(200, { recipe: fitted, rows: appearanceRows(fitted, gender) });
         } else send(404, { error: "Unknown bench route." });
         return;
       }
@@ -728,6 +735,14 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/seat") {
         send(200, seatView(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      // A bill as one paper document, read from its own records.
+      if (request.method === "GET" && url.pathname === "/api/bill") {
+        send(
+          200,
+          billPaper(requireCore(), url.searchParams.get("billId") ?? ""),
+        );
         return;
       }
       // The officeholder's day (OFFICE-LOCAL): the meeting scene, the desk and the stops.
