@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { fileForOffice } from "../bench/government";
 import { answerJobOffer, jobsView } from "../bench/jobs";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -8,6 +9,8 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATURE_MODULE_ID, members } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import { openContests } from "../core2/modules/elections";
+import { advanceCore } from "../core2/life";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -21,7 +24,8 @@ import { SITUATION_LIBRARY } from "./scheduling";
 // Scenes from circumstance (owner, Oct 27, 01:30 Eastern: "if the
 // circumstances are right in the simulation, they should be callable"). A
 // played year in a drawn place as the town's new adult (the ordinary player),
-// and another as a sitting member of a local body, each played through the
+// another as a sitting member of a council or board, and another as the new
+// adult filed for the soonest race once they turn 18, each played through the
 // player clock as the bench plays it. Each scene from circumstance is
 // checked at its stop: its record was written that day and, unless the row
 // follows a sitting, does not name the player; the person cast is someone
@@ -47,12 +51,27 @@ const FAMILIES: Readonly<Record<string, readonly string[]>> = {
     "national-news-work",
     "national-news-street",
   ],
+  "a rival in the player's own race": ["rival-message"],
   "a hallway after a sitting": [
     "hallway-colleague",
     "hallway-reporter",
     "meeting-colleague",
     "meeting-reporter",
   ],
+};
+
+/** The families each way of playing can show; a way is played only while one is unfired. */
+const SHOWS: Readonly<
+  Record<"resident" | "member" | "candidate", readonly string[]>
+> = {
+  resident: [
+    "a printed story",
+    "a price change",
+    "a death",
+    "a national event in the news",
+  ],
+  member: ["a law passed or in force", "a hallway after a sitting"],
+  candidate: ["a rival in the player's own race", "a law passed or in force"],
 };
 
 interface Fired {
@@ -208,6 +227,36 @@ function localMember(core: CoreState): PersonId | null {
   return (local[0]?.personId as PersonId | undefined) ?? null;
 }
 
+/**
+ * The new adult filed for the soonest race the town's records let them enter,
+ * once they turn 18 (the golden path's filing step), or null when none is
+ * open to them. The days before 18 run as the world's own.
+ */
+function fileNewAdult(
+  world: ReturnType<typeof buildBenchWorld>,
+): PersonId | null {
+  const { core, playerId } = world;
+  const born = core.people.get(playerId as PersonId)!.birthDate;
+  const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
+  const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
+  if (eighteen > core.date) advanceCore(core, eighteen);
+  const filed = [...openContests(coreAPI(core))]
+    .sort(
+      (a, b) =>
+        a.electionDate.localeCompare(b.electionDate) ||
+        a.id.localeCompare(b.id),
+    )
+    .find(
+      (contest) =>
+        (
+          fileForOffice(core, playerId!, contest.id) as {
+            filing?: { status?: string };
+          }
+        ).filing?.status === "on-ballot",
+    );
+  return filed ? (playerId as PersonId) : null;
+}
+
 it(`a record anywhere in the world calls a scene where the player is (seed ${seed})`, () => {
   setBookkeeping(false);
   const fired: Fired[] = [];
@@ -217,7 +266,8 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
       .filter(([, rows]) => !fired.some((row) => rows.includes(row.row)))
       .map(([family]) => family);
   for (let draw = 0; draw < DRAWS && unfired().length; draw += 1) {
-    for (const as of ["resident", "member"] as const) {
+    for (const as of ["resident", "member", "candidate"] as const) {
+      if (!SHOWS[as].some((family) => unfired().includes(family))) continue;
       const place = drawPlace(seed, `circumstance-${as}:${draw}`);
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
@@ -226,11 +276,17 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
       const personId =
         as === "resident"
           ? (world.playerId as PersonId)
-          : localMember(world.core);
+          : as === "member"
+            ? localMember(world.core)
+            : fileNewAdult(world);
       const where = `${place.name} (${place.key}), seed ${place.seed}, as ${
-        as === "resident" ? "the new adult" : "a sitting member"
+        as === "resident"
+          ? "the new adult"
+          : as === "member"
+            ? "a sitting member"
+            : "the new adult, filed"
       }`;
-      tried.push(personId ? where : `${where}: no full-person member`);
+      tried.push(personId ? where : `${where}: no full-person member or race`);
       if (personId)
         fired.push(...playYear(world.core, world.director, personId, where));
     }
