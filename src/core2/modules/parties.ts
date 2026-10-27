@@ -349,7 +349,9 @@ export function openParties(core: CoreState): void {
       .table("parties")
       .put({
         ...party,
-        leaderId: members[0]?.id ?? null,
+        // Never the player, who leads a party only if its members choose them
+        // in play (a player the creator made an adult is one of its members).
+        leaderId: members.find((m) => m.id !== core.playerId)?.id ?? null,
       } as unknown as ModuleRow);
   }
   scheduleMeeting(api, core.date);

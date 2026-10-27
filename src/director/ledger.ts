@@ -83,9 +83,30 @@ interface Change {
   renewals: Set<PersonId>;
 }
 
+/**
+ * How a printed story is said: its headline, as the screen that prints the
+ * paper words it, citing the story and the record it was printed from. Given
+ * by whoever builds the director; a director without it raises no story by
+ * its headline.
+ */
+export type StoryWords = (
+  core: CoreState,
+  story: {
+    readonly id: string;
+    readonly kind: string;
+    readonly date: string;
+    readonly facts: Readonly<Record<string, unknown>>;
+  },
+) => {
+  readonly headline?: string;
+  readonly sourceRecordIds: readonly string[];
+} | null;
+
 export interface Director {
   module: CoreModule;
   ledger: Ledger;
+  /** How a printed story is said, when the director was given it. */
+  storyWords?: StoryWords;
   /** Snapshot every watched person; call once after the core is created. */
   start(core: Readonly<CoreState>): void;
   /** Begin watching another person, such as someone the player clicks into. */
@@ -108,7 +129,11 @@ export interface Director {
 }
 
 export function createDirector(
-  options: { watch: readonly PersonId[]; data?: DirectorData } = { watch: [] },
+  options: {
+    watch: readonly PersonId[];
+    data?: DirectorData;
+    storyWords?: StoryWords;
+  } = { watch: [] },
 ): Director {
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
   const ledger: Ledger = {
@@ -1487,6 +1512,7 @@ export function createDirector(
   return {
     module,
     ledger,
+    ...(options.storyWords ? { storyWords: options.storyWords } : {}),
     start(core) {
       if (started) return;
       started = true;

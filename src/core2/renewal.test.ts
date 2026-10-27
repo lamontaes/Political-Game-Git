@@ -390,6 +390,9 @@ it(
       if (!waiting) continue;
       core.playerId = String(waiting.motherId);
       const playerHome = core.people.get(core.playerId)!.householdId;
+      // Only plans from the day the player took the household count: an
+      // earlier one (the opening's) was the household's before it was hers.
+      const tookOn = core.date;
       renewal.table("exposure").put({ id: waiting.id, carry: 1 });
       advanceCore(core, addDays(makeIsoDate(core.date), 100));
       const atHome = renewal
@@ -398,9 +401,13 @@ it(
         .filter(
           (row) =>
             row.unplanned === true &&
+            String(row.date) >= tookOn &&
             core.people.get(String(row.motherId))?.householdId === playerHome,
         );
-      expect(atHome, label).toEqual([]);
+      expect(
+        atHome.map((row) => `${row.id} (couple ${row.coupleId}, ${row.date})`),
+        `${label}: unplanned plans in the player's household from ${tookOn}`,
+      ).toEqual([]);
       expect(
         Number(renewal.table("exposure").get(waiting.id)?.carry),
         `${label} ${waiting.id} is never reviewed into a pregnancy`,
@@ -424,10 +431,15 @@ it(
     const tried: string[] = [];
     for (let attempt = 0; attempt < PLACES; attempt += 1) {
       const draw = drawPlace(
-        randomBytes(32).toString("hex"),
-        "unplanned-counted-tier",
+        createHash("sha256").update(`${base}:counted:${attempt}`).digest("hex"),
+        `unplanned-counted-tier:${attempt}`,
       );
       tried.push(`${draw.key} seed ${draw.seed}`);
+      // The input is on record before the world is built, so a run killed in
+      // construction or in its year can be replayed with GOLDEN_PATH_SEED.
+      process.stdout.write(
+        `renewal counted unplanned: ${draw.name} (${draw.key}), world seed ${draw.seed}, root ${base}, attempt ${attempt}\n`,
+      );
       // The month's counts rows (expected births) are kept only with bookkeeping on.
       setBookkeeping(true);
       const { core } = buildBenchWorld(draw.seed, gameStartDate(), {

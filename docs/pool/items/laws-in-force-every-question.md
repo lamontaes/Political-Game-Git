@@ -5,12 +5,13 @@ area: laws
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/laws-in-force-every-question
+pr: #6289
 blocked-on:
 lead: laws-effects
 source: CTO opening root-cause report, Oct 27
+claimed-at: 2026-10-27T10:07:03.633Z
 ---
 
 **What.** The only reader of laws in force returns 10 money series (lawHere, src/core2/modules/laws.ts:584-598). The starting-law records answer 121 policy questions per place (58 of them state powers), and nothing returns them as laws in force with their level and citation. So the opening address can name no law, and Issues lists only laws with a dollar amount. The owner's Oct 27 words: if there are 58 laws, there are 58 choices in the speech. Evidence: docs/reports/opening-root-cause-2026-10-27.md.

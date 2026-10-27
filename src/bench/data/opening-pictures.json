@@ -1,5 +1,5 @@
 {
-  "about": "What the opening shows while the President speaks (owner, Oct 14, 2026: full screen, cinematic; the picture cuts when the speech's subject changes). The address plays over the director's sequence of stages (the President's, Congress, the state, the family; src/director/opening-sequence.ts): each stage opens on its own picture, where the people it points out stand; after that each sentence takes the picture of the first rule below whose facts it said, else its part of the address's picture under 'levels', else its stage's. Consecutive sentences with the same picture stay on it. '@visited-capitol' is the capitol of the state a place line names (from the President's campaign-visit record), 'capitol' the player's own state's, '@home' the player's home. Each picture lists places to try in order; the first with a picture wins. 'cast' names who stands in a cutaway, from the offices records.",
+  "about": "What the opening shows while the President speaks (owner, Oct 14 and Oct 27, 2026). The address plays over the director's sequence of stages (src/director/opening-sequence.ts): each stage opens on its own picture, where the people it points out stand. A sentence about a figure the town has (jobs, wages, prices, crime) cuts to the town's own employer of a kind listed under 'cutaways', pictured by that organization's own record (orgPlace) with the people who work there; a town with no such employer, or one nobody works at, keeps the address on its stage. '@visited-capitol' is the capitol of the state a place line names, 'capitol' the player's own state's, '@home' the player's home. The President speaks from the podium where the picture has one, in the lectern pose. SG-PLAY-opening-venue-has-no-inauguration-record: an inauguration is staged at the House rostrum (the one national picture with a podium and seats behind it) until the inauguration record carries its venue and the Capitol steps have a podium.",
   "stages": {
     "president": {
       "places": ["white-house-exterior", "oval-office-resolute"]
@@ -10,6 +10,9 @@
     "state": {
       "places": ["capitol", "governor-office"]
     },
+    "town": {
+      "places": ["council-chamber", "town-hall"]
+    },
     "family": {
       "places": ["@home"]
     }
@@ -19,56 +22,17 @@
       "president": {
         "places": ["us-house-floor", "us-capitol-exterior"]
       }
+    },
+    "inaugural": {
+      "president": {
+        "places": ["us-house-floor"]
+      }
     }
   },
   "facts": [
     {
       "facts": ["place"],
       "places": ["@visited-capitol"]
-    },
-    {
-      "facts": [
-        "unemployment-rate",
-        "unemployment-down",
-        "jobless",
-        "unemployment-up"
-      ],
-      "places": ["unemployment-office", "workforce-center"]
-    },
-    {
-      "facts": ["jobs-up", "jobs-added", "factory-jobs-up"],
-      "places": ["factory-floor", "construction-site"]
-    },
-    {
-      "facts": ["wages-up", "wage-growth"],
-      "places": ["factory-floor", "workforce-center"]
-    },
-    {
-      "facts": ["gas-down"],
-      "places": ["gas-station"]
-    },
-    {
-      "facts": [
-        "inflation-rate",
-        "inflation-down",
-        "inflation-up",
-        "prices-high",
-        "prices-up",
-        "prices-down"
-      ],
-      "places": ["grocery-store", "general-store"]
-    },
-    {
-      "facts": ["growth-up", "growth-high", "growth-rate", "mortgage-rate"],
-      "places": ["main-street", "downtown-sidewalk"]
-    },
-    {
-      "facts": ["crime-down"],
-      "places": ["police-station"]
-    },
-    {
-      "facts": ["deficit-down", "deficit-cut", "national-debt"],
-      "places": ["us-capitol-exterior"]
     }
   ],
   "levels": {
@@ -81,5 +45,56 @@
     "congress": [["us-senate", "us-house"]],
     "town": [["mayor", "municipal-council"], ["county-board"]]
   },
-  "hour": 12
+  "hour": 12,
+  "cutaways": [
+    {
+      "facts": [
+        "unemployment-rate",
+        "unemployment-down",
+        "jobless",
+        "unemployment-up"
+      ],
+      "kinds": ["sector:state-government-office"]
+    },
+    {
+      "facts": [
+        "jobs-up",
+        "jobs-added",
+        "factory-jobs-up",
+        "wages-up",
+        "wage-growth"
+      ],
+      "kinds": [
+        "enterprise:manufacturing",
+        "enterprise:construction",
+        "enterprise:wholesale",
+        "enterprise:transportation"
+      ]
+    },
+    {
+      "facts": [
+        "gas-down",
+        "inflation-rate",
+        "inflation-down",
+        "inflation-up",
+        "prices-high",
+        "prices-up",
+        "prices-down"
+      ],
+      "kinds": ["enterprise:retail", "enterprise:food-service"]
+    },
+    {
+      "facts": ["growth-up", "growth-high", "growth-rate", "mortgage-rate"],
+      "kinds": [
+        "enterprise:professional-services",
+        "enterprise:insurance",
+        "enterprise:real-estate",
+        "enterprise:retail"
+      ]
+    },
+    {
+      "facts": ["crime-down"],
+      "kinds": ["service:police"]
+    }
+  ]
 }

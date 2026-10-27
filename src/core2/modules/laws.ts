@@ -613,6 +613,15 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     row.series,
     addDays(makeIsoDate(api.state.date), -1),
   ).governing;
+  // The amount in force on the series, the day before and today, which the
+  // press sizes the move by (a wage floor is the highest level's; one level's
+  // row ending can leave another's in force).
+  const wasInForce = lawInForce(
+    api,
+    row.series,
+    addDays(makeIsoDate(api.state.date), -1),
+  ).value;
+  const nowInForce = lawInForce(api, row.series, api.state.date).value;
   const ends =
     before &&
     before.id !== row.id &&
@@ -642,6 +651,10 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           ? "replaced"
           : "new",
       ...(before && before.id !== row.id ? { replacesLawId: before.id } : {}),
+      // The amount it replaces, for the press to size the move by.
+      ...(wasInForce !== null && nowInForce !== null
+        ? { priorValue: String(wasInForce), inForceValue: String(nowInForce) }
+        : {}),
       ...(row.terms?.enactedBy
         ? { enactedBy: String(row.terms.enactedBy) }
         : {}),

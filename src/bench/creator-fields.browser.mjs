@@ -77,6 +77,51 @@ try {
   for (const f of fields)
     assert.ok(f.alpha > 0, `${f.id} shows no box at rest`);
   await checkHeader("creator", "#cr-character button, #cr-character input");
+  // One grid: the headings and labels share a left edge, and the name fields
+  // and the birthday fields share the field column's left edge.
+  const edges = await page.evaluate(() => {
+    const left = (sel) =>
+      document.querySelector(sel).getBoundingClientRect().left;
+    return {
+      labels: [
+        "#cr-character > h2.label",
+        "#cr-gender-label, [data-testid=gender-choices] > legend",
+        "#cr-character .group:not(.row) > .label",
+        "#cr-birthday-label, [data-testid=creator-birthday] > legend",
+        "#cr-character .field",
+      ].map(left),
+      fields: ["#cr-given", "#cr-family", "#cr-month"].map(left),
+    };
+  });
+  console.log("label edges", edges.labels, "field edges", edges.fields);
+  assert.equal(
+    new Set(edges.labels.map((x) => x.toFixed(0))).size,
+    1,
+    "headings and labels do not share one left edge",
+  );
+  assert.equal(
+    new Set(edges.fields.map((x) => x.toFixed(0))).size,
+    1,
+    "the name and birthday fields do not share one left edge",
+  );
+  // Picking a gender changes no button's size.
+  const sizes = () =>
+    page.evaluate(() =>
+      [...document.querySelectorAll("[data-gender]")].map((b) => {
+        const r = b.getBoundingClientRect();
+        return `${r.width.toFixed(1)}x${r.height.toFixed(1)}`;
+      }),
+    );
+  const before = await sizes();
+  for (const gender of ["female", "male", "nonbinary"]) {
+    await page.locator(`[data-gender=${gender}]`).click();
+    assert.deepEqual(
+      await sizes(),
+      before,
+      `picking ${gender} resized a gender button`,
+    );
+  }
+  await page.locator("[data-gender=male]").click();
   if (process.env.SHOT) await page.screenshot({ path: process.env.SHOT });
   assert.deepEqual(errors, []);
   console.log(
