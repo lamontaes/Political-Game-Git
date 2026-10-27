@@ -4,7 +4,7 @@ Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief: "executiv
 
 ## How it was asked
 
-A played year (`buildBenchWorld`, two-level, a drawn place and seed) with the player as the place's mayor or governor, counting the durable records that name them (`personIds`) and the moments the director held for them. Mayors: Riverton, Wyoming; Prospect, Kentucky; East Bend, North Carolina; Woodway, Texas. Governors: Graball, Tennessee; Hindman, Kentucky; Bismarck, North Dakota; Woodway, Texas; Siesta Acres, Texas.
+A played year (`buildBenchWorld`, two-level, a drawn place and seed) with the player as the place's mayor or governor, counting the durable records that name them (`personIds`) and the moments the director held for them. Mayors: Riverton, Wyoming; Prospect, Kentucky; East Bend, North Carolina; Woodway, Texas. Governors: Si'ufaga, American Samoa; Graball, Tennessee; Hindman, Kentucky; Bismarck, North Dakota; Woodway, Texas; Siesta Acres, Texas; Louisiana, Missouri; South Union, South Carolina.
 
 ## What an executive's records already carry
 
