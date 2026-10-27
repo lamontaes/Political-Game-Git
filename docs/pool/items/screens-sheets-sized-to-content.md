@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by: 
-pr:
+status: in-pr
+claimed-by: screens/sheets-sized-to-content
+pr: #6394
 blocked-on:
 source: "the owner's v0.56.2 sitting, Oct 27, 3:30 PM Eastern (Carlos Washington, 35, Salida, Colorado), filed by the screens designer"
 lead: play-first
 milestone: play-first
-claimed-at: 
+claimed-at: 2026-10-27T20:22:09.526Z
 ---
 
 **What.** In v0.56.2 the owner said "there's so much dead space and empty space in these menus": Journal, Jobs and study and Who you are show a few lines top left of a full-height sheet. He also said "Remove all those fucking subheadings. I hate them all." Each of these screens must either size its panel to its content or lay its content out to fill the panel, and every subheading that restates the screen or a state is removed.

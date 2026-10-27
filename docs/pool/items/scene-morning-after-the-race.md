@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/director-morning-after-the-race
 pr: #6342
 blocked-on:
