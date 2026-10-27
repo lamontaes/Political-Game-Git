@@ -5,9 +5,9 @@ area: laws
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-in-force-every-question
-pr:
+pr: #6289
 blocked-on:
 lead: laws-effects
 source: CTO opening root-cause report, Oct 27

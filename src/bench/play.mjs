@@ -2512,8 +2512,8 @@ const sheets = {
             { className: "people-center" },
             portrait({
               name: me.card.name,
-              figureUrl: me.scene?.people?.find((p) => p.personId === me.id)
-                ?.figureUrl,
+              // The saved look, as the card and Who you are read it: not whatever room's figure.
+              figureUrl: portraitUrl(),
             }),
             el("b", { textContent: me.card.name }),
           ),
@@ -4800,6 +4800,13 @@ api("/api/title").then((title) => {
   $("front-continue-life").textContent = titleLife
     ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
     : "";
+  // The life's own face: the look the creator saved, as every other view of the player reads it.
+  setBust(
+    "front-continue-bust",
+    titleLife?.portrait
+      ? `/api/portrait?id=${encodeURIComponent(titleLife.personId)}`
+      : "",
+  );
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));

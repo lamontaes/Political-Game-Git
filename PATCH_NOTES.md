@@ -296,6 +296,76 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.53.0
+
+_Released October 27, 2026._
+
+### Improved
+
+- **Candidates accept a reporter's interview by what it brings them** A
+  candidate now weighs a reporter's interview by how much of the town the outlet
+  reaches and whether they already hold the seat, and temperament tips the close
+  calls. About half accept, as real candidates answer about half of voter-guide
+  requests; before, nearly every candidate accepted every interview.
+
+- **Hardship now shapes what people do next** A layoff, an eviction or a missed
+  loan payment now leaves stress that the person carries into what they do next,
+  and how hard it lands depends on who they are. A worker who has just lost a
+  job is more likely to file for unemployment, a household in a bind is more
+  likely to ask for a loan, and a person under strain is more likely to start
+  leaving town, each by a size taken from research and each fading as the stress
+  wears off. Missing a loan payment now weighs on a person less than being laid
+  off.
+
+### Fixed
+
+- **A relative's age is read from the calendar** When a relative at home weighs
+  in on your filing, their age and the child's age are now counted by the
+  calendar, not by dividing days by 365, so someone turns 18 on their birthday.
+
+- **The title's Continue shows the face you made** The title's Continue now
+  shows the character's own face and clothes from the creator beside the name
+  and place, the same portrait the player card and Who you are already show.
+
+- **The face at the center of People is always the one you made** The center of
+  the People web now reads your saved look directly, the same portrait the
+  player card and Who you are show, instead of whichever figure the current room
+  happens to draw for you.
+
+- **The clerk at the filing counter is introduced before they speak** When you
+  walk up to the counter to file, a line of narration now says who is behind it
+  and what their post is, then the clerk asks how they can help.
+
+- **A same-named town's row names its county on its own line** In the creator's
+  town list, a town whose name another town in the state shares now shows "in
+  Coosa County" on its own line under the town's count, so the county no longer
+  reads as the thing the count belongs to.
+
+- **A news story opens as the paper's front page, with its masthead, date and
+  headline.** Picking up the news on the table opens the story under the paper's
+  name and the date, with its headline in large type and the other stories
+  beside it.
+
+- **The President's address no longer claims an oath, an evening or energy
+  prices the records do not show** Three lines in the opening address said
+  things the game's records do not back: that the oath had already been taken,
+  that the address was given in the evening, and that energy bills were part of
+  the price rise. They now say only what the records show.
+
+- **Puerto Rico's municipios now pay their police, schools and offices from a
+  treasury** In Puerto Rico a town's municipio employed its police, fire, health
+  and school staff but had no treasury in the budgets, so none of them was paid
+  from public money. The municipio is now the town's county-level government
+  with a treasury and a budget.
+
+### Changed
+
+- **The President speaks from a podium and the opening's cutaways show the
+  town's own workplaces** The opening now puts the President at the lectern,
+  with the Vice President and others seated beside him, and the cutaways to
+  jobs, wages and prices go to an employer in your town of the right kind, with
+  the people who work there.
+
 ## PRE-ALPHA 0.52.1
 
 _Released October 27, 2026._

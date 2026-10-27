@@ -170,7 +170,10 @@ export function civicFill(
           core,
           Object.entries(totals)
             .filter(([id]) => id !== moment.personId)
-            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+            .sort(
+              ([idA, votesA], [idB, votesB]) =>
+                votesB - votesA || idA.localeCompare(idB),
+            )
             .map(([id]) => id),
         ),
       ).slice(zero, one);

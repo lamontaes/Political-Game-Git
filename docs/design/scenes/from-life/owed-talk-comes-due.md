@@ -2,6 +2,14 @@
 
 Slug `owed-talk-comes-due`. Season: home and family. Researcher packet (Scene researcher A, Oct 27): a packet, a gap list and a SMART item for the director; no code. Calibration only: no real name or quoted line ships.
 
+## Build sheet (for the director engineer)
+
+1. **Trigger:** an owed-talk record, which no engine writes yet: engine item `people-owed-talk-record`, lead effects. No real record id exists; the nearest written record is the `scene.reply` event of the put-off reply, for example `scene-reply:person_01a319696aec9436:...:candidate-filed:filing:contest:seat:gus2025:164887:council:0:2025-11-04:person_01a319696aec9436:2` in Selden, Kansas, seed `scene-a2-1` (the deflect path in `family-stake-scene.test.ts`), which carries the line and move but no due day.
+2. **Place kind:** home.
+3. **Cast rule:** the person the talk was promised to, named on the owed-talk record; present only if they live in the household and the two have no recorded time together since the reply.
+4. **Outcome record:** the owed record closed (they talked: time together written by the relationship writer) or moved (a new day, marked once-moved) or dropped with a quarrel on the tie; read by the relationship engine and by the next filing or campaign talk.
+5. **Lines:** to the words lead, drafted in the packet below.
+
 ## Why this episode
 
 At the Oct 26 sitting the owner heard home talks end on "I'll see you later", "We'll talk more later" and "Come to bed. It'll still be true in the morning" (`docs/design/scenes/owner-scene-examples.md`, Home and family). They are closing lines of a talk. The first two are generic farewells in the conversation bank (`conversation.farewell-leave-bye.*`, `conversation.farewell-leave-home.we-ll-talk-more-later`); nothing is written when they are said, so nothing can come of them. Scene standard rule 1: no consequence, no scene. A promise to talk later is worth saying only if the later arrives.
