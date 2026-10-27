@@ -6,11 +6,12 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-player-bill-floor
 pr:
 blocked-on:
 source: CTO's relay of the owner's Oct 26 playtest (MERGE-FIRST.md, Oct 26, 23:05 UTC)
+claimed-at: 2026-10-27T04:54:02.288Z
 ---
 
 **What.** In the owner's Oct 26 playtest his H.R. 1 sat drafted for a year. src/bench/legislature.ts (around lines 215-219, since c53327dea, Oct 17) places a bill on an agenda only when its body has a regular meeting, so a bill in a chamber that votes on its floor calendar is kept drafted and never handed to scheduleVote (src/core2/modules/legislature.ts:4546). The weekly floor in src/core2/modules/world-legislating.ts takes up only the bills filed when the sitting opened, so a bill filed later is never on the floor leader's calendar, and its header still says Congress votes at year end. Every player bill gets a floor date through the same floor leader's calendar the members' bills use, members file through the whole sitting, and the floor vote and the whip count show on the legislature screen.
