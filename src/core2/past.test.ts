@@ -17,8 +17,7 @@ import type { PastClosureRow } from "./past-business";
 import { businessesIn, stateExitShare } from "./modules/business";
 import { publicKnowledgeOf } from "./past-public";
 import { openThePast } from "./past";
-import { noSuchLaw } from "./past-laws";
-import type { LawRowInput } from "./laws-starting";
+import { POLICY_QUESTIONS } from "./policy-answers";
 import { coreAPI } from "./state";
 
 // The world has a past (owner, Oct 14, 2026), in the world the owner plays:
@@ -38,26 +37,39 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws").rows();
     expect(laws.length).toBeGreaterThan(0);
     const histories = rows<{ id: string; lawIds: string[] }>("laws");
+    // The recorded answer behind a starting law row, read from the research
+    // file by the state and question in the row's id, not from the engine's
+    // own idea of which rows are absent.
+    const recorded = (id: string) => {
+      const match =
+        /^law:([^:]+):(?:federal|state):(.+):general:starting$/.exec(id);
+      return match
+        ? POLICY_QUESTIONS[match[2]!]?.answers[match[1]!]?.answer
+        : undefined;
+    };
     const noAnswers: string[] = [];
+    let yesAnswers = 0;
     for (const law of laws) {
-      const history = lawHistory(api, law.id as string);
-      // A starting answer of no: the place has no such law, so nothing
+      const id = law.id as string;
+      const history = lawHistory(api, id);
+      const shared = histories.some((h) => h.lawIds.includes(id));
+      // A recorded answer of no: the place has no such law, so nothing
       // records its passage, a roll call or a signer.
-      if (noSuchLaw(law as unknown as LawRowInput)) {
-        expect(history, law.id as string).toBeUndefined();
-        expect(
-          histories.some((h) => h.lawIds.includes(law.id as string)),
-          law.id as string,
-        ).toBe(false);
-        noAnswers.push(law.id as string);
+      if (recorded(id) === "no") {
+        expect(history, id).toBeUndefined();
+        expect(shared, id).toBe(false);
+        noAnswers.push(id);
         continue;
+      }
+      // A recorded answer of yes is a real law with a history, its own or
+      // that of the enactment its row shares.
+      if (recorded(id) === "yes") {
+        yesAnswers += 1;
+        expect(history !== undefined || shared, id).toBe(true);
       }
       if (!history) {
         // Rows of one enactment share the history of its first row.
-        const shared = rows<{ lawIds: string[] }>("laws").some((h) =>
-          h.lawIds.includes(law.id as string),
-        );
-        expect(shared, law.id as string).toBe(true);
+        expect(shared, id).toBe(true);
         continue;
       }
       expect(history.enactedOn < opening).toBe(true);
@@ -65,10 +77,11 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
       for (const call of history.rollCalls)
         expect(call.yes, `${history.id} ${call.body}`).toBeGreaterThan(call.no);
     }
-    // Every state answers some policy questions no.
+    // Every state answers some policy questions no and some yes.
     expect(noAnswers.length).toBeGreaterThan(0);
+    expect(yesAnswers).toBeGreaterThan(0);
     process.stdout.write(
-      `past laws: ${noAnswers.length} starting answers of no, none with a history (for example ${noAnswers.slice(0, 2).join(", ")})\n`,
+      `past laws: ${noAnswers.length} recorded answers of no, none with a history (for example ${noAnswers.slice(0, 2).join(", ")}); ${yesAnswers} of yes, each with one\n`,
     );
   });
 
