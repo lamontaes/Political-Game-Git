@@ -296,6 +296,285 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.39.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Department heads are chosen for the work and schooling on their record, not
+  their age.** A mayor or manager filling a department now looks at what each
+  resident has done: years in the department's own line of work, other work, and
+  schooling. Someone with none of those heads a department only in a town where
+  nobody has any, so an 18-year-old fresh out of school no longer runs Public
+  Works.
+
+- **Officials know the colleagues they serve with** State legislators, cabinet
+  secretaries, the vice president and other executive officers used to know no
+  one, so clicking one showed an empty list of ties. They now know their
+  chamber's leader or, for the executive branch, its head, and the people they
+  serve with.
+
+- **A city's budget change to its schools is sized from the teachers in place**
+  When a city changes its schools line, the district's funded teachers are sized
+  from the teachers it has, not from positions the state's own budget funded
+  there earlier.
+
+### Changed
+
+- **The icons over your card are a column of round buttons, with News** The menu
+  icons above the player card are now a straight column of seven round icons:
+  Journal, Calendar, Money, Politics, News, People and Travel. News has its own
+  icon, and a dot shows on it while a story is waiting to be read. With a screen
+  open, the Menu list on the left is the way between screens and the column
+  steps aside.
+
+## PRE-ALPHA 0.39.2
+
+_Released October 26, 2026._
+
+### Changed
+
+- **The Menu is a plain list of names** The lines of small print under some Menu
+  entries ("Today, what is next, and your time" and the rest) are gone. Each
+  entry is just its name, and the list is built by one shared menu part.
+
+- **Cards on the play screen are built by one shared part** The law, family,
+  money, job and job-offer cards now come from one shared part instead of five
+  hand-written copies. They look and work the same.
+
+- **Tabs on the play screen are built by one shared part** The tabs on the
+  sheets, the government levels, the People groups and the News papers now come
+  from one shared part instead of four hand-written copies. They look and work
+  the same.
+
+## PRE-ALPHA 0.39.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Washington, D.C.'s council now votes the city budget** In the District of
+  Columbia the mayor's proposed budget never reached a vote, because the city
+  had no council of its own in the game and the budget simply carried forward.
+  The District's council now votes the city budget the way a city council does
+  elsewhere.
+
+### Changed
+
+- **Officials in the Politics list show a face and open their card** Every line
+  the play screen shows as a row now comes from one shared part. In Politics,
+  Government, each official has a face beside their name, and clicking the name
+  opens their card.
+
+## PRE-ALPHA 0.39.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **An official's card shows the colleagues in office they know.** Clicking an
+  officeholder now shows a Knows block. It lists the people in office they're
+  tied to, closest first, each with their office and how they know them. An
+  official who knows no one in office yet says so.
+
+### Fixed
+
+- **A business owner no longer loses Medicaid for working no hours** The
+  Medicaid work requirement read a person's hours only from their job records,
+  so someone who owns and runs a business, such as a town newspaper's owner,
+  counted as working no hours and lost coverage. An owner's hours at their own
+  business now count, at the average for the self-employed.
+
+## PRE-ALPHA 0.38.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **A charge or an exposure can start a recall of a local official.** When a
+  serving city, county or township official is charged with a crime or exposed
+  by the press, the residents who heard about it may organize a recall petition,
+  sign it and vote, each by their own grievance, their ties to the official and
+  their temperament. This holds in states that allow a recall only for cause,
+  where a vote on an ordinance is no ground for one.
+
+### Improved
+
+- **An official's own sense of duty decides what their staff does with a case**
+  When a resident brings a problem to an official with staff, the official's own
+  temperament now decides whether the office helps, and the staffer carries that
+  out as far as their own work allows. Whether someone brings a problem at all,
+  tips a reporter, reports a crime, signs a recall or votes in one now follows
+  their personality at each decision's own weight.
+
+- **A bigger schools budget raises graduation, class by class** When a mayor or
+  council raises the schools line of the city or county budget, the town's
+  graduation rate follows as classes pass through: each senior class gains in
+  proportion to how many of its twelve school years had the higher spending, and
+  children from low-income households gain most. A cut works the same way in the
+  other direction.
+
+### Fixed
+
+- **A state income tax set to zero stops coming out of paychecks** When a
+  legislature repealed a state income tax by setting its rate to zero but the
+  old rate table stayed on the books, paychecks kept paying tax at the old
+  rates. A zero rate now withholds nothing, for named workers and for the town's
+  other workers alike.
+
+- **The ballot on election day turns its pages to your own race** On election
+  day the ballot no longer sticks on its first page. Continue turns the pages
+  until your own race, and marking it records your vote.
+
+## PRE-ALPHA 0.37.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **A resident's journal says when they learn a law changed what they pay** When
+  someone hears a story about a law and ties it to a change in what they pay,
+  their journal now says so, naming the law by the bill that enacted it: "I
+  found out the Free Fares for Riders Act changed what I pay." Before, the
+  journal said nothing about it.
+
+### Fixed
+
+- **The morning after your race, the Journal, News and Government each tell you
+  whether you won.** The day after an election you ran in, your journal says
+  whether you won or lost. The news leads with your race, naming the office and
+  who you ran against. Politics opens on that seat with your result and each
+  side's votes.
+
+- **The journal names a bill with its article** An officeholder's journal now
+  reads "I voted for the Bottle Deposit Act." and "I introduced the Police
+  Oversight Board Repeal Ordinance." Before, it dropped the "the" ("I voted for
+  Bottle Deposit Act.").
+
+## PRE-ALPHA 0.36.5
+
+_Released October 26, 2026._
+
+### Changed
+
+- **Every button on the play screen is built by one shared part** The play
+  screen's buttons, and the Back and Continue pair that pages a long list, now
+  come from one shared part instead of dozens of hand-written copies. They look
+  and work the same.
+
+- **Every window on the play screen closes with the same control** The close
+  button on the sheets, the person card and the news reader now comes from one
+  shared part instead of three hand-written copies. It looks and works the same.
+
+## PRE-ALPHA 0.36.4
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A minimum wage raise no longer multiplies the pay of a town's appointed
+  officers** When a state raised its minimum wage, a small town's department
+  heads, city clerk and attorney could see their paychecks jump several times
+  over, because their part-time stipend was counted as a full-time hourly wage.
+  Elected officials, their staff and their appointed policy heads are now left
+  out of the minimum wage, as the federal wage law leaves them out, so their pay
+  stays what the town budgets for it.
+
+## PRE-ALPHA 0.36.3
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **News reads in plain words** News names the region's numbers as a reader
+  would ("Unemployment 3.5% · Jobs 1,455,895 · Hourly pay $27.86"), gives months
+  in words, and names who each public record is about, with its dates in words,
+  instead of record keys and field names.
+
+## PRE-ALPHA 0.36.2
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **Play screens show dates and statuses in words** News, Politics, the filing
+  counter and Campaigns now show dates as "November 3, 2026" and a filing as
+  "You are on the ballot", never a record's code or field name. Archived public
+  records are named by what they record, and the Mark gap button is gone from
+  the player's talk box.
+
+- **The day no longer stops for a moment with nothing to show** A big moment the
+  story had no scene for, such as hearing a parent's speech or a candidate at a
+  debate, stopped the day under "Something needs you" with an empty box: only
+  the day and the place, and no one to answer. Such a moment is now a line in
+  the journal and no longer stops the day. Every stop left has a scene with
+  someone to talk to.
+
+## PRE-ALPHA 0.36.1
+
+_Released October 26, 2026._
+
+### Fixed
+
+- **A minimum wage taking effect no longer stops the game over a job that ended
+  before it began.** A commuter's job could end the day before it was to start
+  while its schedule still ran to that start day, and the minimum wage tried to
+  raise it and stopped the game. The wage now raises only jobs whose own record
+  is still open.
+
+## PRE-ALPHA 0.36.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **Election night also shows who won the governor races around the country.**
+  After your own races, the election results now list every other state's
+  governor race that night: which party won and by how many points. Before the
+  first governor races are counted, the results say so.
+
+## PRE-ALPHA 0.35.0
+
+_Released October 26, 2026._
+
+### Added
+
+- **The People web marks who came closer this year and who drifted away** The
+  People web marks the people who joined your five closest in the last year and
+  those who left it, and names why on selecting them: a visit, a move away, a
+  death or no time together lately, each read from the tie's record. When your
+  five closest are the same as a year ago, it says so.
+
+- **When the press runs a story against an officeholder or their bill, one of
+  their aides brings it in** When a paper or station runs a story that comes out
+  against an officeholder, or against a bill they sponsored, one of their own
+  aides comes in with it: which outlet ran it, what it's about, and who wrote
+  it. They can ask about it, push back, take it, or put it off, and their day
+  stops for it. A story in their favor brings no one in, and an officeholder
+  without an aide hears it the usual way. You can't hire an aide yet, so for now
+  this plays for the town's other officeholders.
+
+### Fixed
+
+- **Buttons in a row are the same size** Every button in the game now follows
+  one size, so a row of buttons shares one height: the talk box's Say nothing
+  beside Leave, the creator's Back beside Continue, the menu's entries with and
+  without a description line, and Continue on the title with its saved life
+  beside it.
+
+- **Menu screens and person cards are solid** The menu, every menu screen and a
+  person's card are now drawn on a solid panel, so the room behind them no
+  longer shows through the text. Panels over a scene, such as the talk box, keep
+  their glass.
+
+- **Talking to your family at home has something to say on the first evening**
+  On the first evening, your mother, father or sibling asks whether you saw the
+  President's speech, the household having watched it together, and you have
+  four replies. Whatever you say, they tell you what they made of it, for or
+  against, and you have four more replies. Before, Talk at home gave one goodbye
+  line and nothing to say.
+
 ## PRE-ALPHA 0.34.4
 
 _Released October 26, 2026._

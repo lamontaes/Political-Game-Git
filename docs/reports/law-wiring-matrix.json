@@ -64,9 +64,9 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 57,
-    "partly": 27,
-    "stopgapped": 5,
+    "wired": 51,
+    "partly": 28,
+    "stopgapped": 10,
     "byLink": {
       "exists": {
         "wired": 89,
@@ -104,10 +104,10 @@
         "n/a": 7
       },
       "web": {
-        "wired": 53,
-        "partial": 0,
+        "wired": 44,
+        "partial": 1,
         "missing": 4,
-        "stopgap": 16,
+        "stopgap": 24,
         "n/a": 16
       },
       "knowing": {
@@ -1002,8 +1002,8 @@
         },
         "web": {
           "status": "missing",
-          "evidence": "school-spending-to-attainment: person-level",
-          "why": "every link is unbuilt: person-level"
+          "evidence": "school-spending-to-attainment",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
         },
         "knowing": {
           "status": "missing",
@@ -1819,7 +1819,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "records",
-      "overall": "wired",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -1847,9 +1847,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-08 grocery-exemption-to-food-insecurity -0.0200; Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-09 grocery-exemption-to-food-insecurity -0.0200; Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-10 grocery-exemption-to-food-insecurity -0.0200",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-08 grocery-exemption-to-food-insecurity -0.0200 (ledger row only); Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-09 grocery-exemption-to-food-insecurity -0.0200 (ledger row only); Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-10 grocery-exemption-to-food-insecurity -0.0200 (ledger row only)",
+          "why": "no production reader: grocery-exemption-to-food-insecurity (SG-WEB-unread-household-food-insecurity) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -1962,7 +1962,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "balanced-budget",
-      "overall": "wired",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -1990,9 +1990,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 balanced-budget-to-borrowing-cost 8.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 balanced-budget-to-borrowing-cost 8.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 balanced-budget-to-borrowing-cost 8.0000",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 balanced-budget-to-borrowing-cost 8.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 balanced-budget-to-borrowing-cost 8.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 balanced-budget-to-borrowing-cost 8.0000 (ledger row only)",
+          "why": "no production reader: balanced-budget-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -2036,7 +2036,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "pension-funding",
-      "overall": "wired",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -2064,9 +2064,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 pension-funding-to-borrowing-cost 3.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 pension-funding-to-borrowing-cost 3.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 pension-funding-to-borrowing-cost 3.0000",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 pension-funding-to-borrowing-cost 3.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 pension-funding-to-borrowing-cost 3.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 pension-funding-to-borrowing-cost 3.0000 (ledger row only)",
+          "why": "no production reader: pension-funding-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -2110,7 +2110,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "reserve",
-      "overall": "wired",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -2138,9 +2138,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 reserve-balance-to-borrowing-cost 3.0000; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 reserve-balance-to-borrowing-cost 3.0000; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 reserve-balance-to-borrowing-cost 3.0000",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 reserve-balance-to-borrowing-cost 3.0000 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 reserve-balance-to-borrowing-cost 3.0000 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 reserve-balance-to-borrowing-cost 3.0000 (ledger row only)",
+          "why": "no production reader: reserve-balance-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -3461,7 +3461,7 @@
       "family": "business",
       "reachGroup": "A",
       "mechanic": "none",
-      "overall": "wired",
+      "overall": "partly",
       "links": {
         "exists": {
           "status": "wired",
@@ -3489,9 +3489,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 cannabis-sales-to-youth-use 0.0400; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 cannabis-sales-to-youth-use 0.0400; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 cannabis-sales-to-youth-use 0.0400",
-          "why": ""
+          "status": "partial",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-01 cannabis-sales-to-overdose-deaths -0.0500",
+          "why": "links not built or not read: cannabis-sales-to-youth-use (no reader, SG-EW-HEALTH-condition-record)"
         },
         "knowing": {
           "status": "wired",
@@ -3559,9 +3559,9 @@
           "untraced": true
         },
         "web": {
-          "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 loan-rate-cap-to-high-cost-borrowing 0.3200; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 loan-rate-cap-to-high-cost-borrowing 0.3200; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 loan-rate-cap-to-high-cost-borrowing 0.3200",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 loan-rate-cap-to-high-cost-borrowing 0.3200 (ledger row only)",
+          "why": "no production reader: loan-rate-cap-to-high-cost-borrowing (SG-WEB-unread-finance-high-cost-loans) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -4158,7 +4158,7 @@
       "family": "justice",
       "reachGroup": "A",
       "mechanic": "public-safety",
-      "overall": "wired",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -4186,9 +4186,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 enforcement-to-undocumented-employment -0.0570; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 enforcement-to-us-born-employment -0.0050; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 enforcement-to-undocumented-employment -0.0570",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 enforcement-to-undocumented-employment -0.0570 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 enforcement-to-us-born-employment -0.0050 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 enforcement-to-undocumented-employment -0.0570 (ledger row only)",
+          "why": "no production reader: enforcement-to-undocumented-employment (SG-LABOR-no-legal-status), enforcement-to-us-born-employment (SG-LABOR-no-legal-status) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -4391,7 +4391,7 @@
         "money": {
           "status": "n/a",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1282 1293841516 -> 1287515967 (journal:2025-01-21:1606); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1264 657308258 -> 663620229 (journal:2025-02-01:2669); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/counted-demotion.ts:309 3137619 -> 3181437 (journal:2025-10-01:63591)",
-          "why": "the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who may vote, read by the board of elections when it builds the roll)",
+          "why": "the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it. What it changes is who may vote, read by the board of elections when it builds the roll",
           "untraced": true
         },
         "web": {
@@ -5215,7 +5215,7 @@
         "reach": {
           "status": "n/a",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 190 open (full 190, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_0e958e70e62d2b8a:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 open (full 81, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_588e191aff272692:2025-01-21",
-          "why": "the ban binds former officeholders (a cooling-off period before they may lobby), and every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence"
+          "why": "the ban binds former officeholders (a cooling-off period before they may lobby). Every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach. The full people it reached are named in the evidence"
         },
         "systems": {
           "status": "wired",
@@ -5992,9 +5992,9 @@
           "untraced": true
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 groundwater-limits-to-irrigation-pumping 0.3100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 groundwater-limits-to-irrigation-pumping 0.3100",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only)",
+          "why": "no production reader: groundwater-limits-to-irrigation-pumping (SG-WEB-unread-water-irrigation-groundwater) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -6062,9 +6062,9 @@
           "untraced": true
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 farmland-easements-to-farmland-lost 0.4700; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 farmland-easements-to-farmland-lost 0.4700",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 farmland-easements-to-farmland-lost 0.4700 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 farmland-easements-to-farmland-lost 0.4700 (ledger row only)",
+          "why": "no production reader: farmland-easements-to-farmland-lost (SG-WEB-unread-farmland-developed-acres) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -6198,7 +6198,7 @@
         "money": {
           "status": "n/a",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 373201924 -> 360073809 (journal:2025-01-27:1666); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:574 348934695 -> 352551593 (journal:2025-01-23:1639); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:927 710208788552157 -> 710208791770786 (journal:2025-02-01:1741)",
-          "why": "the law only grants or withholds a power: a state's permission for its localities to levy an income tax; the grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)",
+          "why": "the law only grants or withholds a power: a state's permission for its localities to levy an income tax. The grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)",
           "untraced": true
         },
         "web": {

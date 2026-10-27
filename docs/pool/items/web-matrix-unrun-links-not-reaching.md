@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/web-matrix-unrun-links
 pr: #6008
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T18:54:56.096Z
 **Files.** scripts/outcome-web/effect-matrix.ts, scripts/outcome-web/write-unwired.ts, src/core2/outcome-web-unwired.test.ts
 
 **Notes.** Filed Oct 25 by the effects lead while writing the health family's played proof: 29 links are waiting in coverage.json and pass the reach point, of which about a dozen are not carried.
+
+Sent back 2026-10-25 from PR #6008 (branch claude/web-matrix-unrun-links): the eight new generated stopgap rows claim ledger movement for waiting links the web never runs; make write-unwired.ts generate the actual missing cause or size for those rows, preserving the truthful ledger-only description for links that do run; finish on that branch, merge main into it first. The regenerated 118 reaching and 108 unwired counts are correct, and all writers finish with the carried load-cycle fix.
