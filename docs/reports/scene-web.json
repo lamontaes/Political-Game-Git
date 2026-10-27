@@ -9,7 +9,7 @@
     "rows": 121,
     "typesFired": 7,
     "rowsWaitingOnProducer": 18,
-    "rowsWithoutEpisode": 86,
+    "rowsWithoutEpisode": 83,
     "ownerExamples": 112,
     "ownerScenesMissing": 15
   },
@@ -1128,7 +1128,7 @@
         "narrator": 3
       },
       "lines": 56,
-      "episodes": [],
+      "episodes": ["the-signing"],
       "ownerAsked": ["Bill scenes at every stage"],
       "firedInYear": 1,
       "firedExample": "official:term:seat:US-VI:unicameral:At-large:6:2025-01-20:2025-02-11:executive-action:bill:office:US-VI:legislature-unicameral:2025-01-21:official:term:seat:US-VI:unicameral:At-large:6:2025-01-20:1"
@@ -1218,7 +1218,7 @@
         "asked": 45
       },
       "lines": 97,
-      "episodes": [],
+      "episodes": ["the-recall-petition"],
       "ownerAsked": ["Recall"],
       "firedInYear": 0,
       "firedExample": null
@@ -1236,7 +1236,7 @@
         "asked": 45
       },
       "lines": 97,
-      "episodes": [],
+      "episodes": ["the-recall-petition"],
       "ownerAsked": ["Recall"],
       "firedInYear": 0,
       "firedExample": null
