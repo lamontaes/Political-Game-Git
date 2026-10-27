@@ -83236,7 +83236,7 @@
       "key": "scene-talk.narrate-narrate.the-debate-is-over-and-the-candidates-are-leaving-the-stage-name-stops",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The debate is over, and the candidates are leaving the stage. {name} stops you on the way out.",
+      "text": "{name} debated you tonight and isn't finished with you.",
       "uses": [
         {
           "subject": "scene",
@@ -83262,7 +83262,7 @@
       "key": "scene-talk.narrate-narrate.the-cameras-are-off-name-walks-over-before-you-reach-the-door",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The cameras are off. {name} walks over before you reach the door.",
+      "text": "{name} has something to say that wasn't for the cameras.",
       "uses": [
         {
           "subject": "scene",
