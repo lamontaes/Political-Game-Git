@@ -3,7 +3,7 @@ id: housing-rent-help-income-omits-benefits
 title: "Rent help ranks renters by wages and pensions only, so a household living on benefits counts as having no income"
 area: housing
 lead: laws-effects
-kind: defect
+kind: bug
 priority: 3
 size: S
 status: open
