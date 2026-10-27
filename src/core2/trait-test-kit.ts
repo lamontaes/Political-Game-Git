@@ -15,7 +15,11 @@ import { advanceCore } from "./life";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
-import { setTraitProbe, type FormulaProbeRow } from "./trait-probe";
+import {
+  setTraitProbe,
+  type FormulaProbeRow,
+  type OutcomeProbeRow,
+} from "./trait-probe";
 import type { CoreAPI, CoreState, PersonState } from "./types";
 
 /** The top and bottom thirds of a normal trait sit about 2.18 standard deviations apart. */
@@ -136,12 +140,21 @@ export function drawnWorld(
   onFormula?: (row: FormulaProbeRow) => void,
   /** The first day of play (the game's start unless a race window moves it). */
   start = gameStartDate(),
+  /** Sees every decision reported as an outcome with and without the trait term. */
+  onOutcome?: (row: OutcomeProbeRow) => void,
 ): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
   const world = buildBenchWorld(seed, start, {
     twoLevel: false,
     placeKey: place.key,
   });
-  setTraitProbe(onFormula ? { formula: onFormula } : undefined);
+  setTraitProbe(
+    onFormula || onOutcome
+      ? {
+          ...(onFormula ? { formula: onFormula } : {}),
+          ...(onOutcome ? { outcome: onOutcome } : {}),
+        }
+      : undefined,
+  );
   try {
     advanceCore(world.core, until);
   } finally {
@@ -196,6 +209,8 @@ export function drawnRaceWorld(
   after = 2,
   /** Whether the played window gave the test something to weigh; the draw moves on when it says why not. */
   accept?: (world: { core: CoreState; api: CoreAPI }) => string | null,
+  /** Sees every decision reported as an outcome with and without the trait term. */
+  onOutcome?: (row: OutcomeProbeRow) => void,
 ): { core: CoreState; api: CoreAPI; placeName: string; placeKey: string } {
   const opening = gameStartDate();
   const shift = (date: string, by: number) => {
@@ -235,6 +250,7 @@ export function drawnRaceWorld(
       shift(start, days),
       onFormula,
       makeIsoDate(start),
+      onOutcome,
     );
     const refused = accept?.(world) ?? null;
     if (refused === null) return world;
