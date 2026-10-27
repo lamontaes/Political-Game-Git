@@ -84655,10 +84655,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-from-outlet-is-on-the-line",
+      "key": "scene-talk.narrate-narrate.name-has-questions-ready",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} from {outlet} is on the line.",
+      "text": "{name} has questions ready.",
       "uses": [
         {
           "subject": "scene",
@@ -84680,10 +84680,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-a-reporter-at-outlet",
+      "key": "scene-talk.narrate-narrate.name-gets-straight-to-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The phone rings. It's {name}, a reporter at {outlet}.",
+      "text": "{name} gets straight to it.",
       "uses": [
         {
           "subject": "scene",
@@ -85453,10 +85453,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-from-outlet-is-calling-about-the-debate",
+      "key": "scene-talk.narrate-narrate.name-has-the-date-and-the-format-in-hand",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} from {outlet} is calling about the debate.",
+      "text": "{name} has the date and the format in hand.",
       "uses": [
         {
           "subject": "scene",
@@ -85478,10 +85478,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-who-s-hosting-the-office-debate",
+      "key": "scene-talk.narrate-narrate.name-is-hosting-the-office-debate",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The phone rings. It's {name}, who's hosting the {office} debate.",
+      "text": "{name} is hosting the {office} debate.",
       "uses": [
         {
           "subject": "scene",
@@ -86201,10 +86201,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-come-by",
+      "key": "scene-talk.narrate-narrate.name-stands-on-the-doorstep",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has come by.",
+      "text": "{name} stands on the doorstep.",
       "uses": [
         {
           "subject": "scene",
@@ -86225,19 +86225,11 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.there-s-a-knock-at-the-door-it-s-name",
+      "key": "scene-talk.narrate-narrate.name-has-the-look-of-someone-who-just-heard-something",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "There's a knock at the door. It's {name}.",
+      "text": "{name} has the look of someone who just heard something.",
       "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator"
-        },
         {
           "subject": "scene",
           "purpose": "rival-word",
@@ -86987,10 +86979,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-calling-about-the-race",
+      "key": "scene-talk.narrate-narrate.name-has-a-notebook-open",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The phone rings. It's {name}, calling about the race.",
+      "text": "{name} has a notebook open.",
       "uses": [
         {
           "subject": "scene",
@@ -87011,10 +87003,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-phone-rings-it-s-name-calling-about-the-debate",
+      "key": "scene-talk.narrate-narrate.name-keeps-it-short",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The phone rings. It's {name}, calling about the debate.",
+      "text": "{name} keeps it short.",
       "uses": [
         {
           "subject": "scene",
@@ -87035,10 +87027,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-come-by-with-news-from-the-race",
+      "key": "scene-talk.narrate-narrate.name-doesn-t-take-off-their-coat",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has come by, with news from the race.",
+      "text": "{name} doesn't take off their coat.",
       "uses": [
         {
           "subject": "scene",
@@ -87807,10 +87799,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-comes-in-with-news-about-the-race",
+      "key": "scene-talk.narrate-narrate.name-sits-down-across-from-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} comes in with news about the race.",
+      "text": "{name} sits down across from you.",
       "uses": [
         {
           "subject": "scene",
@@ -87831,10 +87823,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-something-to-tell-you",
+      "key": "scene-talk.narrate-narrate.name-waits-until-you-ve-put-your-things-down",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has something to tell you.",
+      "text": "{name} waits until you've put your things down.",
       "uses": [
         {
           "subject": "scene",
@@ -88499,6 +88491,30 @@
         "move": "press",
         "key": "news-received"
       }
+    },
+    {
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "shippable": true,
+      "origin": "authored",
+      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.narrate-narrate.name-doesn-t-come-in-just-leans-in-the-doorway",
+      "text": "{name} doesn't come in, just leans in the doorway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ]
     }
   ]
 }
