@@ -1,6 +1,7 @@
 ---
 id: laws-checker-own-payment-counts-drift
 title: "The law checker's own-payment path grades a law's money wired on a few cents of twin-world drift where the law held nothing"
+lead: laws-effects
 area: laws
 kind: bug
 priority: 2
