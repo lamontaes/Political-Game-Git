@@ -195,6 +195,18 @@ export function moveAppearance(
   throw new Error("No such appearance row.");
 }
 
+/**
+ * A look whose body matches the chosen gender: a man or a woman always has
+ * that body, so a look carried over from before the gender changed (Undo,
+ * Reset, an old page) is redrawn on the right body, keeping its build,
+ * clothes and colors where that body has them. Any other gender keeps the
+ * body chosen on the Body row.
+ */
+export function lookForGender(recipe: LookRecipe, gender: string): LookRecipe {
+  if (showsBody(gender) || recipe.sex === gender) return recipe;
+  return settled({ ...recipe, sex: gender });
+}
+
 /** A look the set paints: a build or clothes the body lacks fall back to the first it has. */
 function settled(recipe: LookRecipe): LookRecipe {
   if (figureFor(recipe)) return recipe;

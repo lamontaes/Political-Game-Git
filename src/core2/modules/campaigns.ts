@@ -15,7 +15,11 @@
  */
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
-import { customPolitics, registerElectorate } from "../electorate";
+import {
+  countedResidents,
+  customPolitics,
+  registerElectorate,
+} from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
@@ -76,6 +80,7 @@ import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   ACCEPTING_MOVES,
+  REFUSING_MOVES,
   answerInterview,
   candidateAnswers,
   PRESS_MODULE_ID,
@@ -1235,7 +1240,6 @@ export const VOLUNTEER_OFFERED_EVENT = "volunteer-offered";
 function offersToHelp(api: CoreAPI): void {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return;
   const date = api.state.date;
-  const playerId = (api.state as CoreState).playerId;
   const stories = api.moduleState(PRESS_MODULE_ID).table("stories");
   for (const filing of elections(
     api,
@@ -1299,6 +1303,7 @@ function offersToHelp(api: CoreAPI): void {
       )
         continue;
       offered = id;
+      const weight = offerWeight(api, filing, contest, id);
       api.emit({
         id: `${VOLUNTEER_OFFERED_EVENT}:${filing.id}:${id}`,
         date,
@@ -1317,6 +1322,7 @@ function offersToHelp(api: CoreAPI): void {
           filingId: filing.id,
           contestId: contest.id,
           office: contest.title,
+          weight: String(weight),
         },
       });
     }
@@ -1326,11 +1332,12 @@ function offersToHelp(api: CoreAPI): void {
       ...current,
       offerWeighedIds: [...weighed],
       ...(offered ? { lastOfferOn: date } : {}),
-      // A candidate who isn't the player takes the help offered.
-      volunteerIds:
-        offered && candidate.id !== playerId
-          ? [...current.volunteerIds, offered]
-          : current.volunteerIds,
+      // The help offered is taken, the player's campaign's too: the offer
+      // stops the player only as a scene its weight earns, where the player
+      // may still turn it down (`answerOffer`).
+      volunteerIds: offered
+        ? [...current.volunteerIds, offered]
+        : current.volunteerIds,
     });
   }
 }
@@ -1449,25 +1456,89 @@ export function offerReason(
 }
 
 /**
- * The candidate's answer to an offer of help, said in its scene: a yes puts
- * the one who offered on the campaign's volunteers; anything else leaves them
- * off it.
+ * The candidate's answer to an offer of help, said in its scene: the one who
+ * offered is already on the campaign's volunteers, and a refusal takes them
+ * off it; a yes, or no answer, keeps them.
  */
 function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   const offer = api.state.durableLog.get(String(facts.causeId ?? ""));
   if (offer?.kind !== VOLUNTEER_OFFERED_EVENT) return;
-  if (!ACCEPTING_MOVES.has(String(facts.move))) return;
+  const move = String(facts.move);
+  if (ACCEPTING_MOVES.has(move) || !REFUSING_MOVES.has(move)) return;
   const filingId = String(offer.facts?.filingId ?? "");
   const helperId = String(offer.facts?.offeredBy ?? "");
   const candidateId = String(offer.facts?.invitedId ?? "");
   if (!event.personIds.includes(candidateId)) return;
   const campaign = campaignFor(api, filingId);
-  if (campaign.volunteerIds.includes(helperId)) return;
+  if (!campaign.volunteerIds.includes(helperId)) return;
   save(api, {
     ...campaign,
-    volunteerIds: [...campaign.volunteerIds, helperId],
+    volunteerIds: campaign.volunteerIds.filter((id) => id !== helperId),
   });
+}
+
+/**
+ * How much one offer of help matters to the candidate's story, from 0 to 1
+ * (owner, Oct 27, 4 PM Eastern: "it shouldn't be stopped for literally every
+ * single volunteer. Maybe some that matter. And that's only when you're doing
+ * small local campaigns, or maybe your first campaign."). The race's reach on
+ * the story falls smoothly with its eligible voters and with each campaign the
+ * candidate ran before; within that, a close tie counts twice a stranger. The
+ * director sizes the offer's moment by it, so a friend's offer in a first
+ * council race is a scene and a stranger's in a statewide race a journal line,
+ * with no size or count at which it flips.
+ */
+export function offerWeight(
+  api: CoreAPI,
+  filing: FilingRow,
+  contest: ContestRow,
+  helperId: string,
+): number {
+  const half = campaignParameter("volunteerOfferHalfElectorate");
+  const small = half / (half + raceElectorate(api, contest));
+  const before = (
+    elections(api, "filings").rows() as unknown as FilingRow[]
+  ).filter(
+    (row) =>
+      row.personId === filing.personId &&
+      row.id !== filing.id &&
+      (api.state.durableLog.get(`candidate-filed:${row.id}` as never)?.date ??
+        "9999") <
+        (api.state.durableLog.get(`candidate-filed:${filing.id}` as never)
+          ?.date ?? "9999"),
+  ).length;
+  const fresh =
+    campaignParameter("volunteerOfferFirstCampaignShare") / (1 + before);
+  const reach = 1 - (1 - small) * (1 - fresh);
+  const tie = closenessBetween(api.state, filing.personId, helperId);
+  return reach * ((1 + tie) / 2);
+}
+
+/**
+ * A race's eligible voters: the places its electorate lives in (a district,
+ * the state's counties), or for a local race the town's own adults, named
+ * and counted.
+ */
+function raceElectorate(api: CoreAPI, contest: ContestRow): number {
+  const { places } = basePlaces(api, contest);
+  if (places.length)
+    return places.reduce((sum, place) => sum + place.eligible, 0);
+  const core = api.state as CoreState;
+  const { townPlaceId } = townRow(api);
+  const adult = api.parameter("votingAge");
+  let total = 0;
+  for (const person of core.people.values())
+    if (
+      person.alive &&
+      person.placeId === townPlaceId &&
+      ageOn(person, core.date) >= adult
+    )
+      total += 1;
+  for (const row of countedResidents(core))
+    if (row.placeId === townPlaceId && ageOn(row, core.date) >= adult)
+      total += row.weight;
+  return total;
 }
 
 /**

@@ -1,4 +1,3 @@
-import { jobsView, answerJobOffer } from "./jobs";
 import { GARMENTS, recolorFigure } from "./figure-colors";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
@@ -78,6 +77,7 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
   portraitPng,
   readRecipe,
@@ -524,7 +524,8 @@ export async function benchRequest(
                   )
               : readRecipe(q.get("recipe")!)
             : drawnAppearance(gender, seed, draw);
-          send(200, { recipe, rows: appearanceRows(recipe, gender) });
+          const fitted = lookForGender(recipe, gender);
+          send(200, { recipe: fitted, rows: appearanceRows(fitted, gender) });
         } else send(404, { error: "Unknown bench route." });
         return;
       }
@@ -1183,24 +1184,6 @@ export async function benchRequest(
             url.searchParams.get("id") ?? "",
             personOrFillIn(requireCore(), url.searchParams.get("other") ?? "")
               ?.id ?? "",
-          ),
-        );
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/jobs") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(200, jobsView(requireCore(), player.personId));
-        return;
-      }
-      if (request.method === "POST" && url.pathname === "/api/jobs/answer") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          answerJobOffer(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("offerId") ?? "",
-            url.searchParams.get("answer") ?? "",
           ),
         );
         return;
