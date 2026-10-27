@@ -6,7 +6,7 @@ lead: effects
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/poverty-halved-pay
 pr: #6251
 blocked-on:
