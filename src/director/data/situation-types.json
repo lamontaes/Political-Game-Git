@@ -3386,24 +3386,6 @@
           },
           "opener": "constituent",
           "setting": ["office"]
-        },
-        {
-          "match": {
-            "label": "cause:event:town-hall",
-            "causeFacts": [
-              {
-                "key": "hostId",
-                "is": "subject"
-              }
-            ]
-          },
-          "causeEngine": "meetings",
-          "causeRecord": "town-hall",
-          "bind": {
-            "constituent": "town-hall-askers",
-            "you": "subject"
-          },
-          "opener": "constituent"
         }
       ],
       "tag": {
@@ -4000,11 +3982,19 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFacts": [{ "key": "winnerId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
-          "bind": { "loser": "opponent", "you": "subject" },
+          "bind": {
+            "loser": "opponent",
+            "you": "subject"
+          },
           "opener": "loser",
           "opening": "congratulate"
         }
@@ -4018,6 +4008,58 @@
       "asker": "loser",
       "asked": "you",
       "stakes": ["opponent", "office", "race"]
+    },
+    {
+      "key": "town-hall-question",
+      "purpose": "town-hall-question",
+      "asker": "resident",
+      "asked": "you",
+      "stakes": ["issue", "answer", "town"],
+      "roles": [
+        {
+          "key": "resident",
+          "fill": "town-hall-askers",
+          "count": "one",
+          "moves": ["ask", "press", "plea", "disagree", "thank", "accept"],
+          "wants": ["change"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:town-hall",
+            "causeFacts": [
+              {
+                "key": "hostId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "meetings",
+          "causeRecord": "town-hall",
+          "bind": {
+            "resident": "town-hall-askers",
+            "you": "subject"
+          },
+          "opener": "resident"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
     }
   ]
 }

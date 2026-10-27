@@ -2989,6 +2989,76 @@
           "when": {}
         }
       ]
+    },
+    "town-hall-question": {
+      "state": "ask",
+      "replies": ["answer", "relent", "offer", "deflect", "lie"],
+      "follow": {
+        "answer": ["press", "accept"],
+        "relent": ["thank"],
+        "offer": ["thank", "press"],
+        "deflect": ["press", "plea"]
+      },
+      "again": {
+        "press": ["answer", "relent", "offer", "leave"],
+        "plea": ["answer", "relent", "offer", "leave"]
+      },
+      "endings": [
+        {
+          "id": "gave-ground",
+          "label": "You gave some ground",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["relent"]
+          }
+        },
+        {
+          "id": "met-after",
+          "label": "You'll talk after",
+          "keeps": "meeting-set",
+          "when": {
+            "anyReply": ["offer"]
+          }
+        },
+        {
+          "id": "stood-by",
+          "label": "You stood by your answer",
+          "keeps": "none",
+          "when": {
+            "reply": ["answer"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "false-comfort",
+          "label": "A comfort you didn't mean",
+          "keeps": "promise",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "brushed-off",
+          "label": "Brushed off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

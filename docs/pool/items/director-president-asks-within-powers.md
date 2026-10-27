@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/director-president-asks-within-powers
-pr: 6300
+pr: #6300
 blocked-on:
 lead: director
 source: CTO opening root-cause report, Oct 27
