@@ -22,7 +22,7 @@
     "headline": "A printed or broadcast story's headline, as the paper screen words it.",
     "outlet": "The outlet's name as recorded.",
     "weekday": "The day of the week, from the calendar.",
-    "lastTogether": "When two people last spent time together, as spoken."
+    "last-together": "When two people last spent time together, as spoken."
   },
   "maxWords": 10,
   "mining": {
@@ -20571,14 +20571,14 @@
       "key": "conversation.quiet-raise-day.haven-t-seen-much-of-you-since-lasttogether",
       "move": "quiet-raise-day",
       "kind": "spoken",
-      "text": "Haven't seen much of you since {lastTogether}.",
+      "text": "Haven't seen much of you since {last-together}.",
       "uses": [
         {
           "move": "quiet-raise-day",
           "subject": "quiet",
           "role": "raise",
           "choice": "day",
-          "requiresFacts": ["lastTogether"]
+          "requiresFacts": ["last-together"]
         }
       ],
       "shippable": true,
