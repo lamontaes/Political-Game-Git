@@ -103143,7 +103143,7 @@
       "key": "scene-talk.narrate-narrate.name-is-someone-you-don-t-know-yet-and-from-today-name-is-part-of-your",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is someone you don't know yet, and from today {name} is part of your household.",
+      "text": "{name} is someone you don't know yet, and from today they are part of your household.",
       "uses": [
         {
           "subject": "scene",
