@@ -113,6 +113,7 @@ One edit per outfit sheet; six maps per sheet, one per figure id.
 | sb03 | v2-sb03-f/m-slim/medium/heavy | stand back, polo |
 | sb20 | v2-sb20-f/m-slim/medium/heavy | stand back, vest |
 | sb32 | v2-sb32-f/m-slim/medium/heavy | stand back, blazer |
+| sb45 | v2-sb45-f/m-slim/medium/heavy | stand back, base |
 | x3 | v2-x3-f/m-slim/medium/heavy | sit back, base |
 
 ## Prompts

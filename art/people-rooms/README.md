@@ -78,5 +78,6 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
   - The hair cut ignores faint redraw noise on clothing.
   - Added the blazer seen from behind (6 figures, 24 from-behind figures in all), the courthouse rally with a speaker at the gazebo lectern, and the faces and garment maps that passed on re-run.
 - **Oct 27, fourth:** front hair style 09 (hair is now complete: 12 styles in front, three-quarter left, three-quarter right and back); garment maps 62 and 74; garment maps for the vest and blazer figures seen from behind (sb20, sb32); the four from-behind sheets themselves under `art/people-engine/v2/sheets-back/`.
-- **Coming:** garment maps for the base and polo figures seen from behind (sb45, sb03; re-running), and face front 03 (Firefly has dropped it three times).
+- **Oct 27, fifth:** garment maps for the base and polo figures seen from behind (sb45, sb03): all 24 from-behind figures recolor now.
+- **Not delivered:** face front 03 (heart-shaped face / round face, laughing). Firefly dropped it three times and moved the figures on the fourth, so it fails the drift gate; 35 of 36 face sets are here.
 - **Known:** in governor-office the front visitor and the governor touch and measure as one spot (two Firefly tries drew them overlapping); seat one person there or split it.
