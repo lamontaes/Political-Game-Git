@@ -637,6 +637,11 @@ input[type="search"]:focus,
 input#place:focus {
   background-color: rgba(8, 8, 9, 0.72);
 }
+/* The creator's state and town searches keep the slight gold edge at rest, as the
+   other panels do; focus makes it solid (the shared input:focus rule). */
+#front input[type="search"]:not(:focus) {
+  border-color: rgba(214, 189, 132, 0.55);
+}
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
