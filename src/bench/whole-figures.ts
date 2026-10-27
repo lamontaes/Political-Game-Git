@@ -13,8 +13,16 @@ import {
 } from "./staging";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
+import heads from "./data/figure-heads.json" with { type: "json" };
 import { orgPlace } from "./scene";
-import { CLOTHES_SWATCHES, DEFAULT_SKIN } from "./figure-colors";
+import {
+  DEFAULT_SKIN,
+  GARMENTS,
+  GARMENT_SWATCHES,
+  hasGarmentMap,
+  type FigureColors,
+} from "./figure-colors";
+import { occluderFor, type Occluder } from "./occluders";
 import type { CoreState } from "../core2/types";
 
 export interface Figure {
@@ -76,6 +84,13 @@ const toFigure = (row: V2Row): Figure => ({
   height: row.height,
   footY: row.footY,
 });
+/**
+ * A look painted turned each way is mirrored on screen to face anyone, so the
+ * figure with a garment map (each piece its own color) is drawn first.
+ */
+function mappedFirst(a: Figure, b: Figure): number {
+  return Number(hasGarmentMap(b.file)) - Number(hasGarmentMap(a.file));
+}
 const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
   .filter(
     (row) =>
@@ -83,11 +98,13 @@ const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
       !row.flag &&
       (row.pose === "stand" || row.pose === "sit"),
   )
-  .map(toFigure);
+  .map(toFigure)
+  .sort(mappedFirst);
 /** The lectern pose: facing the room, hands forward on the podium the picture has. */
 const LECTERNS: Figure[] = (index.figures as unknown as V2Row[])
   .filter((row) => row.prop === "none" && !row.flag && row.pose === "lectern")
-  .map(toFigure);
+  .map(toFigure)
+  .sort(mappedFirst);
 /** The same person at a lectern: their sex and age band, their outfit and build where painted. */
 function lecternFor(front: Figure, band: Figure["ageBand"]): Figure | null {
   const same = LECTERNS.filter(
@@ -106,35 +123,37 @@ function lecternFor(front: Figure, band: Figure["ageBand"]): Figure | null {
 const FIGURES = PAINTED.filter(
   (row) => row.angle === "three-quarter" && row.pose === "stand",
 );
-const SEATED = PAINTED.filter((row) => row.pose === "sit");
 
 /** The standing looks the creator offers: the same figures the game draws. */
 export function lookFigures(): readonly Figure[] {
   return FIGURES;
 }
-/** A look and build seen from the front, or from behind, where painted. */
-function turned(figure: Figure, view: "profile" | "back"): Figure | undefined {
-  return PAINTED.find(
-    (row) =>
-      row.look === figure.look &&
-      row.build === figure.build &&
-      row.angle === (view === "back" ? "back" : "front") &&
-      row.pose === "stand",
-  );
+/** Which painted angle a spot asks for: a back to the viewer, a face to the viewer, or turned to a side. */
+export type View = "back" | "front" | "three-quarter";
+export function viewOf(spot: StagingSpot): View {
+  return spot.facing === "away"
+    ? "back"
+    : spot.facing === "viewer"
+      ? "front"
+      : "three-quarter";
 }
 
-/** The person's own look and build seated, seen from where they face. */
-function seatedFor(
+/**
+ * The person's own look and build in this pose, seen at the spot's angle;
+ * where that angle is not painted (the set has no standing back view), the
+ * three-quarter view, turned.
+ */
+function posedFor(
   front: Figure,
-  view?: "profile" | "back",
+  pose: "stand" | "sit",
+  view: View,
 ): Figure | undefined {
-  const rows = SEATED.filter(
-    (row) => row.look === front.look && row.build === front.build,
+  const rows = PAINTED.filter(
+    (row) =>
+      row.look === front.look && row.build === front.build && row.pose === pose,
   );
   return (
-    rows.find(
-      (row) => row.angle === (view === "back" ? "back" : "three-quarter"),
-    ) ??
+    rows.find((row) => row.angle === view) ??
     rows.find((row) => row.angle === "three-quarter") ??
     rows[0]
   );
@@ -240,8 +259,8 @@ export interface WholeFigure {
     topPercent: number;
     widthPercent: number;
     heightPercent: number;
-    clipBelowPercent: number | null;
-    clipBandEndPercent: number | null;
+    /** What in the painting stands in front of them here, drawn over them; none where nothing does. */
+    occluder: Occluder | null;
     mirrored: boolean;
     /** At the feet, as wide as the stance; none where a desk or counter hides the feet. */
     shadow: ContactShadow | null;
@@ -265,15 +284,12 @@ const SKIN_WEIGHTS: Readonly<Record<string, number>> = {
 };
 
 /**
- * The skin and clothes color a person wears: the ones they chose in the
- * creator, else ones set once from their own appearance record's seed (their
+ * The skin and each piece of clothing's color a person wears: the ones they
+ * chose in the creator, else ones set once from their own appearance record's seed (their
  * id where the record has none), so the same person is the same color in every
  * scene and neighbors differ.
  */
-export function colorsFor(person: FigurePerson): {
-  skin: string;
-  clothes: string;
-} {
+export function colorsFor(person: FigurePerson): FigureColors {
   const seed = person.seed ?? person.id;
   const total = Object.values(SKIN_WEIGHTS).reduce((a, b) => a + b, 0);
   let at = mixed(`${seed}:skin`) % total;
@@ -285,12 +301,17 @@ export function colorsFor(person: FigurePerson): {
     }
     at -= weight;
   }
-  const clothes =
-    CLOTHES_SWATCHES[mixed(`${seed}:clothes`) % CLOTHES_SWATCHES.length]!.id;
-  return {
-    skin: person.look?.skin ?? skin,
-    clothes: person.look?.clothes ?? clothes,
-  };
+  // Each piece of clothing its own color, set once from the person's seed.
+  const garments = Object.fromEntries(
+    GARMENTS.map((garment) => [
+      garment,
+      person.look?.[garment] ??
+        GARMENT_SWATCHES[garment][
+          mixed(`${seed}:${garment}`) % GARMENT_SWATCHES[garment].length
+        ]!.id,
+    ]),
+  );
+  return { skin: person.look?.skin ?? skin, ...garments };
 }
 
 /** Who is being drawn: their record, and whether they hold office. */
@@ -307,7 +328,10 @@ export interface FigurePerson {
     build: string;
     outfit: string;
     skin?: string;
-    clothes?: string;
+    jacket?: string;
+    shirt?: string;
+    pants?: string;
+    shoes?: string;
   };
 }
 
@@ -363,7 +387,7 @@ export function wholeFigureFor(
   place: string,
   stage: PlaceStaging,
   spot: StagingSpot,
-  /** Who they're with: which way to turn, and whether to show their side or back. */
+  /** Who they're with: which way to turn. */
   turn: Turn = {},
 ): WholeFigure | null {
   const front = pickLook(core, person, place);
@@ -389,19 +413,25 @@ export function figureOn(
 ): WholeFigure | null {
   if (spot.pose === "sit") {
     // Seated: the same look on this kind of chair, or nobody here.
-    const seated = seatedFor(front, turn.view);
-    return seated ? placeSeated(seated, front, band, stage, spot, turn) : null;
+    const seated = posedFor(front, "sit", viewOf(spot));
+    return seated
+      ? placeSeated(seated, front, band, place, stage, spot, turn)
+      : null;
   }
   // At a podium, the lectern pose where one is painted for this person;
   // standing or leaning on a wall, the standing figure.
   const lectern = spot.pose === "podium" ? lecternFor(front, band) : null;
-  const chosen = lectern ?? ((turn.view && turned(front, turn.view)) || front);
+  const chosen = lectern ?? posedFor(front, "stand", viewOf(spot)) ?? front;
+  const mirrored = flips(chosen, towardOf(spot, turn));
+  const onHead = headBox(chosen, spot, mirrored);
   const heightPercent =
+    onHead?.heightPercent ??
     personPercent(band, stage, spot) * (chosen.height / chosen.footY);
   const widthPercent =
+    onHead?.widthPercent ??
     (heightPercent * (chosen.width / chosen.height)) / BACKDROP_ASPECT;
-  const mirrored = flips(chosen, towardOf(spot, turn));
-  const leftPercent = inFrame(spot.x - widthPercent / 2, widthPercent);
+  const leftPercent =
+    onHead?.leftPercent ?? inFrame(spot.x - widthPercent / 2, widthPercent);
   // The shadow sits on the foot point, under the feet as drawn (mirrored
   // with the figure), unless a desk or counter hides the feet.
   const stance = stanceOf(chosen);
@@ -414,27 +444,30 @@ export function figureOn(
   const shadowWidth =
     Math.max(feetRight - feetLeft, widthPercent * 0.3) * SHADOW_SPREAD;
   const shadowHeight = shadowWidth * SHADOW_FLATNESS * BACKDROP_ASPECT;
-  const hidden =
-    spot.clipBelowY !== undefined && spot.clipBandEndY === undefined;
+  const hidden = spot.behindY !== undefined;
   return {
     file: chosen.file,
     url: `/art/people-engine/v2/${chosen.file}`,
     figure: {
       leftPercent,
-      topPercent: spot.y - heightPercent * (chosen.footY / chosen.height),
+      topPercent:
+        onHead?.topPercent ??
+        spot.y - heightPercent * (chosen.footY / chosen.height),
       widthPercent,
       heightPercent,
-      clipBelowPercent: spot.clipBelowY ?? null,
-      clipBandEndPercent:
-        spot.clipBelowY !== undefined && spot.clipBandEndY !== undefined
-          ? spot.clipBandEndY
-          : null,
+      occluder: occluderFor(place, spotIdOf(place, stage, spot)),
       mirrored,
       shadow: hidden
         ? null
         : {
             leftPercent: (feetLeft + feetRight) / 2 - shadowWidth / 2,
-            topPercent: spot.y - shadowHeight / 2,
+            // On a plate's spot, under the feet as drawn.
+            topPercent:
+              (onHead
+                ? onHead.topPercent +
+                  (onHead.heightPercent * chosen.footY) / chosen.height
+                : spot.y) -
+              shadowHeight / 2,
             widthPercent: shadowWidth,
             heightPercent: shadowHeight,
           },
@@ -442,7 +475,15 @@ export function figureOn(
   };
 }
 
-type Turn = { toward?: "left" | "right"; view?: "profile" | "back" };
+/** Which side a figure painted turned to one side faces: toward who they're with. */
+type Turn = { toward?: "left" | "right" };
+
+/** A spot's id: its own, else its place and index (as the staging file numbers them). */
+export const spotIdOf = (
+  place: string,
+  stage: PlaceStaging,
+  spot: StagingSpot,
+) => spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
 
 /** How tall the person stands at this spot, in percent of the picture: their age band's height on the spot's floor. */
 function personPercent(
@@ -462,11 +503,47 @@ function personPercent(
   );
 }
 
+/**
+ * On a spot measured from a mannequin plate, the figure as the plate's
+ * mannequin: scaled so its head is the mannequin's head width, its head top
+ * and middle on the mannequin's (art/people-rooms/README.md). Elsewhere null,
+ * and the floor's scale places it.
+ */
+function headBox(figure: Figure, spot: StagingSpot, mirrored: boolean) {
+  const head =
+    HEADS[
+      figure.file
+        .split("/")
+        .pop()!
+        .replace(/\.png$/, "")
+    ];
+  if (!spot.head || !head) return null;
+  const [top, middle, width] = head;
+  // Pixels of the picture per pixel of the figure.
+  const scale = (spot.head.width * PICTURE_WIDTH) / 100 / width;
+  const across = (pixels: number) => ((pixels * scale) / PICTURE_WIDTH) * 100;
+  const down = (pixels: number) => ((pixels * scale) / PICTURE_HEIGHT) * 100;
+  return {
+    leftPercent:
+      spot.head.x - across(mirrored ? figure.width - 1 - middle : middle),
+    topPercent: spot.head.top - down(top),
+    widthPercent: across(figure.width),
+    heightPercent: down(figure.height),
+  };
+}
+const HEADS = heads.heads as unknown as Readonly<
+  Record<string, readonly [number, number, number]>
+>;
+const PICTURE_WIDTH = 1672;
+const PICTURE_HEIGHT = 941;
+
 /** Percent of the picture kept above a standing head (presentation, TUNABLE by eye). */
-const HEADROOM = 2;
-/** A figure's left edge, moved in from the picture's sides where its spot would cut it. */
+const HEADROOM = 5;
+/** Percent of the picture kept beside a figure at either side (presentation, TUNABLE by eye). */
+const SIDE_ROOM = 4;
+/** A figure's left edge, moved in from the picture's sides where its spot would crowd it. */
 const inFrame = (left: number, width: number) =>
-  Math.max(0, Math.min(left, 100 - width));
+  Math.max(SIDE_ROOM, Math.min(left, 100 - width - SIDE_ROOM));
 
 /** Turned toward who they're with; alone, the spot's own facing, else the middle. */
 function towardOf(spot: StagingSpot, turn: Turn): "left" | "right" {
@@ -482,43 +559,43 @@ function towardOf(spot: StagingSpot, turn: Turn): "left" | "right" {
 
 /**
  * A seated figure on a seat: painted at its standing look's scale, its hip
- * line on the seat cushion (`seatY`), centered on the seat, cut off below a
- * desk at `clipBelowY`. Its shadow is under the chair, or none where a desk
- * hides the floor.
+ * line on the seat cushion (`seatY`), centered on the seat, with whatever
+ * the painting has in front of the seat drawn over it. Its shadow is under
+ * the chair, or none where a desk hides the floor.
  */
 export function placeSeated(
   seated: Figure,
   standing: Figure,
   band: Figure["ageBand"],
+  place: string,
   stage: PlaceStaging,
   spot: StagingSpot,
   turn: Turn = {},
 ): WholeFigure {
   // Percent of the picture per pixel: the standing look's feet-to-head is the person's height.
   const scale = personPercent(band, stage, spot) / standing.footY;
-  const heightPercent = seated.height * scale;
+  const mirrored = flips(seated, towardOf(spot, turn));
+  const onHead = headBox(seated, spot, mirrored);
+  const heightPercent = onHead?.heightPercent ?? seated.height * scale;
   const widthPercent =
+    onHead?.widthPercent ??
     (heightPercent * (seated.width / seated.height)) / BACKDROP_ASPECT;
   const hip = seated.seatY ?? seated.height * SEATED_HIP;
-  const leftPercent = inFrame(spot.x - widthPercent / 2, widthPercent);
+  const leftPercent =
+    onHead?.leftPercent ?? inFrame(spot.x - widthPercent / 2, widthPercent);
   const shadowWidth = widthPercent * SEATED_SHADOW;
   const shadowHeight = shadowWidth * SHADOW_FLATNESS * BACKDROP_ASPECT;
-  const hidden =
-    spot.clipBelowY !== undefined && spot.clipBandEndY === undefined;
+  const hidden = spot.behindY !== undefined;
   return {
     file: seated.file,
     url: `/art/people-engine/v2/${seated.file}`,
     figure: {
       leftPercent,
-      topPercent: (spot.seatY ?? spot.y) - hip * scale,
+      topPercent: onHead?.topPercent ?? (spot.seatY ?? spot.y) - hip * scale,
       widthPercent,
       heightPercent,
-      clipBelowPercent: spot.clipBelowY ?? null,
-      clipBandEndPercent:
-        spot.clipBelowY !== undefined && spot.clipBandEndY !== undefined
-          ? spot.clipBandEndY
-          : null,
-      mirrored: flips(seated, towardOf(spot, turn)),
+      occluder: occluderFor(place, spotIdOf(place, stage, spot)),
+      mirrored,
       shadow: hidden
         ? null
         : {

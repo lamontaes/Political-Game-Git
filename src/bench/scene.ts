@@ -14,6 +14,7 @@ import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
+import { GARMENTS } from "./figure-colors";
 import {
   ageBandOf,
   figureOn,
@@ -22,6 +23,7 @@ import {
   type Figure,
   type FigurePerson,
   type WholeFigure,
+  spotIdOf,
 } from "./whole-figures";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
@@ -523,10 +525,8 @@ interface Looks {
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { sex, build, outfit, skin, clothes } = JSON.parse(text) as Record<
-      string,
-      unknown
-    >;
+    const record = JSON.parse(text) as Record<string, unknown>;
+    const { sex, build, outfit } = record;
     return typeof sex === "string" &&
       typeof build === "string" &&
       typeof outfit === "string"
@@ -534,8 +534,11 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
           sex,
           build,
           outfit,
-          ...(typeof skin === "string" ? { skin } : {}),
-          ...(typeof clothes === "string" ? { clothes } : {}),
+          ...Object.fromEntries(
+            ["skin", ...GARMENTS].flatMap((key) =>
+              typeof record[key] === "string" ? [[key, record[key]]] : [],
+            ),
+          ),
         }
       : undefined;
   } catch {
@@ -543,6 +546,10 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
   }
 }
 const OFFICES = "core2-offices-v1";
+/** Which seats a room keeps for each kind of office (data/whole-figures.json). */
+const SEAT_ROLES = figureRules.seatRoles as unknown as Readonly<
+  Record<string, readonly string[]>
+>;
 export function looksOf(core: CoreState, id: string): Looks | null {
   const person = core.people.get(id);
   if (person) {
@@ -574,6 +581,27 @@ function isOfficial(core: CoreState, id: string): boolean {
   return (
     terms.query("byPerson", [id]) as unknown as { status: string }[]
   ).some((row) => row.status === "serving");
+}
+
+/** The kinds of office someone serves in: by their own term, or by the person's serving terms. */
+function officeKinds(core: CoreState, id: string): string[] {
+  if (!core.modules.has(OFFICES)) return [];
+  const state = coreAPI(core).moduleState(OFFICES);
+  const terms = state.table("terms");
+  const own = terms.get(id) as { officeId: string } | undefined;
+  const serving = own
+    ? [own]
+    : (
+        terms.query("byPerson", [id]) as unknown as {
+          officeId: string;
+          status: string;
+        }[]
+      ).filter((row) => row.status === "serving");
+  return serving.flatMap((row) => {
+    const office = state.table("offices").get(row.officeId) as
+      { kind: string } | undefined;
+    return office ? [office.kind] : [];
+  });
 }
 
 /**
@@ -670,7 +698,16 @@ export function stagePeople(
       });
       continue;
     }
-    let index = free.findIndex((spot) => clear(spot) && fits(spot));
+    // A seat the room keeps for an office (the Resolute desk's chair) goes to
+    // whoever holds it.
+    const kept = officeKinds(core, id).flatMap(
+      (kind) => SEAT_ROLES[kind] ?? [],
+    );
+    const own = kept.length
+      ? free.findIndex((spot) => kept.includes(spot.role ?? "") && fits(spot))
+      : -1;
+    let index =
+      own >= 0 ? own : free.findIndex((spot) => clear(spot) && fits(spot));
     if (index < 0) index = free.findIndex(fits);
     if (index < 0) {
       unplaced.push({
@@ -705,7 +742,7 @@ export function stagePeople(
       personId: id,
       name,
       reason,
-      spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
+      spotId: spotIdOf(place, stage, spot),
       figure: whole.figure,
       figureUrl: colors ? `${whole.url}?${colors}` : whole.url,
       art: "whole",
@@ -729,9 +766,7 @@ function outline(stage: PlaceStaging, spot: StagingSpot) {
     top: spot.y - height,
     // Behind a counter or desk, only what shows above its front can be covered.
     bottom:
-      spot.clipBelowY !== undefined
-        ? Math.min(spot.y, spot.clipBelowY)
-        : spot.y,
+      spot.behindY !== undefined ? Math.min(spot.y, spot.behindY) : spot.y,
   };
 }
 /** Whether two people on these spots would cover much of one another. */
@@ -756,12 +791,10 @@ export function hides(
 type Who = FigurePerson;
 type Turn = NonNullable<Parameters<typeof figureOn>[5]>;
 // Presentation choices, TUNABLE by eye: how far below the lead a spot counts
-// as in front of them, how much farther that makes it, how near in depth two
-// people are to be side by side, and how near the front's line a person is
-// to keep their own facing.
+// as in front of them, how much farther that makes it, and how near the
+// front's line a person is to keep their own facing.
 const IN_FRONT = 3;
 const FRONT_PENALTY = 25;
-const SIDE_BY_SIDE = 6;
 const ON_THE_LINE = 3;
 // An adult's height for the outline, a body's width as a share of its
 // height (measured on the v2 figures: arms and stance make a standing figure
@@ -772,9 +805,9 @@ const BODY_WIDTH = 0.4;
 const HIDDEN_SHARE = 0.25;
 
 /**
- * Which way a person turns: in a room with a front (a chamber, a dais, a
- * classroom) toward the front, from behind where the spot faces away; else
- * toward the nearest person they're with, side-on when level with them;
+ * Which way a person turned to one side faces (the spot's facing picks
+ * the angle, `viewOf`): in a room with a front (a chamber, a dais, a
+ * classroom) toward the front; else toward the nearest person they're with;
  * alone, the spot's own facing.
  */
 export function turnOf(
@@ -782,14 +815,10 @@ export function turnOf(
   spots: readonly StagingSpot[],
   front: number | undefined,
 ): Turn {
-  if (front !== undefined) {
-    const view = spot.facing === "away" ? ("back" as const) : undefined;
-    if (Math.abs(front - spot.x) < ON_THE_LINE) return view ? { view } : {};
-    return {
-      toward: front > spot.x ? "right" : "left",
-      ...(view ? { view } : {}),
-    };
-  }
+  if (front !== undefined)
+    return Math.abs(front - spot.x) < ON_THE_LINE
+      ? {}
+      : { toward: front > spot.x ? "right" : "left" };
   const others = spots.filter((other) => other !== spot);
   if (!others.length) return {};
   const nearest = others.reduce((a, b) =>
@@ -798,12 +827,7 @@ export function turnOf(
       ? a
       : b,
   );
-  return {
-    toward: nearest.x >= spot.x ? "right" : "left",
-    ...(Math.abs(nearest.y - spot.y) < SIDE_BY_SIDE
-      ? { view: "profile" as const }
-      : {}),
-  };
+  return { toward: nearest.x >= spot.x ? "right" : "left" };
 }
 
 export function benchScene(

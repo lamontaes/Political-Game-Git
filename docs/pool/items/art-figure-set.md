@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** None.
 
 Sent back 2026-10-23 from PR #4283 (branch codex/seat-slots-person-masks): No fixing commit follows the Prettier/release-check send-back on this head. Rechecked unchanged head acb62cfcd1; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/4283#issuecomment-6281003298; finish on that branch, merge main into it first.
+
+Note 2026-10-27 (people-in-rooms builder): the owner's Oct 27 order deletes art/seat-slots (nothing read it). What in a room stands in front of a person now comes from a depth map per painting (art/backdrops/occluders, scripts/people/occluders.py) and the seats' position, size and facing come from the owner's mannequin plates into art/backdrops/staging.json; the chair maps and furniture masks this item meant to keep are replaced by those, and the cut-out people are gone with the folder. PR #4283's seat-slots branch is superseded on that part.

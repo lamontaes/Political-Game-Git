@@ -8,6 +8,8 @@ description: >
 
 # Ask why
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 Run this checklist over every result before it goes out. Each hit needs a cause, or it is a defect you file.
 
 ## The checklist
