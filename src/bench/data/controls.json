@@ -26,7 +26,8 @@
   },
   "creator": {
     "people": "people",
-    "about": "about"
+    "about": "about",
+    "ageLine": "You will be {age} on {date}, the day your life begins."
   },
   "endedBy": {
     "moment": "Something needs you",

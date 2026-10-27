@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: words/election-day-scenes
-pr:
+pr: #6252
 blocked-on:
 source: "words-and-scenes work order, deliverable 5 (docs/work-orders/lead-words-scenes-2026-10-26.md); the owner's Oct 26 rulings in OWNER-DECISIONS.md (election day is about five minutes of scenes; going to vote is the player's choice)"
 lead: words

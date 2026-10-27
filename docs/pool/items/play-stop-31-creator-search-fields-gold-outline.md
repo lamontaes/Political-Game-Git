@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-stop-31-creator-search-fields-gold-outline
-pr:
+pr: #6244
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: play-first
