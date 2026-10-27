@@ -296,10 +296,22 @@
     "member": "Your party",
     "agreement": "Views fit",
     "fit": [
-      { "atLeast": 0.6, "label": "Close" },
-      { "atLeast": 0.2, "label": "Mostly" },
-      { "atLeast": -0.2, "label": "Mixed" },
-      { "atLeast": -1, "label": "Far apart" }
+      {
+        "atLeast": 0.6,
+        "label": "Close"
+      },
+      {
+        "atLeast": 0.2,
+        "label": "Mostly"
+      },
+      {
+        "atLeast": -0.2,
+        "label": "Mixed"
+      },
+      {
+        "atLeast": -1,
+        "label": "Far apart"
+      }
     ]
   },
   "leanWords": {
@@ -361,10 +373,22 @@
       "looking": "looking",
       "open": "open",
       "series": {
-        "unemploymentPct": { "label": "Unemployment", "unit": "percent" },
-        "jobsThousands": { "label": "Jobs", "unit": "thousands" },
-        "hourlyEarnings": { "label": "Hourly pay", "unit": "dollars" },
-        "priceLevelPct": { "label": "Price level", "unit": "index" }
+        "unemploymentPct": {
+          "label": "Unemployment",
+          "unit": "percent"
+        },
+        "jobsThousands": {
+          "label": "Jobs",
+          "unit": "thousands"
+        },
+        "hourlyEarnings": {
+          "label": "Hourly pay",
+          "unit": "dollars"
+        },
+        "priceLevelPct": {
+          "label": "Price level",
+          "unit": "index"
+        }
       }
     },
     "back": "Back to front page",
@@ -488,5 +512,8 @@
     "noFilers": "No one has filed",
     "filingCloses": "Filing closes",
     "noBallot": "No local election is on the calendar"
+  },
+  "talkBox": {
+    "continue": "Continue"
   }
 }
