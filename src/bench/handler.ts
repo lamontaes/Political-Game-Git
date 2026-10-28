@@ -106,6 +106,7 @@ import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
+import { governmentMap } from "./map";
 import { budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -622,6 +623,12 @@ export async function benchRequest(
           ),
         );
         send(200, { version });
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/map") {
+        // The state's map with the player's districts and who holds each,
+        // for Parties (owner, Oct 28, point 20: "bring it back").
+        send(200, governmentMap(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/patch-notes") {

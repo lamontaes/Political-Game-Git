@@ -51,15 +51,22 @@ const districtShare = new Map<string, number>(
     .map((row) => [row.districtGeoid, row.democraticTwoPartyShare!]),
 );
 
-/** The town's starting lean: right minus left share of its House district's 2024 vote, in [-1, 1]. */
+/**
+ * The town's starting lean: right minus left share of its House district's
+ * 2024 vote as this world's swing moved it (`worldSwing`, right positive), in
+ * [-1, 1].
+ */
 export function districtLean(
   districtGeoid: string | null,
   stateKey: string,
+  swing: number,
 ): number {
   const share =
     (districtGeoid ? districtShare.get(districtGeoid) : undefined) ??
     delegateShare(stateKey);
-  return share === undefined ? 0 : 1 - 2 * share;
+  return share === undefined
+    ? 0
+    : Math.max(-1, Math.min(1, 1 - 2 * (share - swing)));
 }
 
 function delegateShare(stateKey: string): number | undefined {
