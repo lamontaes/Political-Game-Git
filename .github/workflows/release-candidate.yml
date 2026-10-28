@@ -21,6 +21,10 @@ on:
         description: Concurrency group for the build and validation jobs.
         type: string
         required: true
+    secrets:
+      RELEASE_PUSH_TOKEN:
+        description: The owner's token for pushing the version commit past branch protection; the caller that publishes passes it.
+        required: false
     outputs:
       outcome:
         description: release, no-op or blocked.

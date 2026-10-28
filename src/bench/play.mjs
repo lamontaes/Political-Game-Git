@@ -2410,16 +2410,6 @@ const sheets = {
     const deductions = Object.entries(budget.withholding?.byLine ?? {});
     // Cash, spending, assets and debts: the ledger's, the credit engine's and
     // the housing engine's records for the household, served by /api/bank.
-    const monthName = (iso) =>
-      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      });
-    const dayName = (iso) =>
-      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-      });
     const named = (table, key) =>
       table?.[key] ?? words(String(key).split(".").pop());
     const owedWords = (paid, asked) =>
@@ -2460,7 +2450,7 @@ const sheets = {
           title: labels.cashByMonth,
           items: facts(
             bank.cash.months.map((entry) => [
-              monthName(entry.date),
+              monthWords(entry.date),
               moneyWords(entry.cashMinor),
             ]),
           ),
@@ -2473,7 +2463,7 @@ const sheets = {
               owedWords(line.paidMinor, line.requestedMinor),
             ]),
             ...(bank.loanPayments ?? []).map((payment) => [
-              `${labels.loanPayments} · ${dayName(payment.date)}`,
+              `${labels.loanPayments} · ${dateWords(payment.date, { year: false })}`,
               owedWords(payment.paidMinor, payment.dueMinor),
             ]),
           ]),
