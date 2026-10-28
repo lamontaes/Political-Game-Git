@@ -1,0 +1,20 @@
+{
+ "canvas": [
+  2048,
+  2048
+ ],
+ "order": [
+  "body",
+  "trousers",
+  "shoes",
+  "hands",
+  "top",
+  "hair"
+ ],
+ "recolor": [
+  "top",
+  "trousers",
+  "shoes"
+ ],
+ "views": "top row: back three-quarter left, back, back three-quarter right; sides: left and right profiles; bottom row: front three-quarter left, front, front three-quarter right"
+}
