@@ -69,7 +69,8 @@ def main():
         band = lambda a, b: cell & (rows >= top + a * Hh) & (rows <= top + b * Hh)
         def save(m, src, name):
             m = m & cell; a = (ndimage.gaussian_filter(m.astype(float), 0.5) * 255).clip(0, 255).astype(np.uint8)
-            Image.fromarray(np.dstack([src.astype(np.uint8), a])[Y0:Y1, X0:X1]).save(f'{od}/{name}.png'); return int(m.sum())
+            rgb = np.where(a[..., None] > 0, src, 0).astype(np.uint8)                       # nothing kept under transparent pixels
+            Image.fromarray(np.dstack([rgb, a])[Y0:Y1, X0:X1]).save(f'{od}/{name}.png', optimize=True); return int(m.sum())
         info = {'box': [int(X0), int(Y0), int(X1), int(Y1)], 'parts': {}}
         # leftovers below the chin that are neither skin nor marked clothing (belt, cuffs, buttons) belong to the nearest garment
         rest = keep & ~clothes & ~skinB & cell & (rows > top + 0.16 * Hh)
