@@ -18,7 +18,9 @@ import {
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
 import { publishedPlaceReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
+import { realLocalities } from "../core2/places";
 import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
+import { selectBenchPlace } from "./place-selection.mjs";
 
 /**
  * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
@@ -195,6 +197,34 @@ export function creatorTowns(stateKey: string, query: string) {
       ...(county ? { county } : {}),
     };
   });
+}
+
+/**
+ * Random place: the world's own draw of a state and a town from all 56
+ * (`selectBenchPlace`, the draw New world uses), by the creator's seed and
+ * how many times the button was pressed, so the same seed gives the same
+ * places in the same order. Seeded generation of where a life starts.
+ */
+export function creatorRandomPlace(seed: string, draw: number) {
+  const place = selectBenchPlace(
+    `${seed || "creator"}:place:${draw}`,
+    corePlaceStateIdentities(),
+    realLocalities(),
+  );
+  const state = corePlaceStateIdentities().find(
+    (row) => row.jurisdictionKey === place.stateJurisdictionKey,
+  );
+  const stateKey = place.stateJurisdictionKey;
+  const town = creatorTowns(stateKey, "").find((row) => row.key === place.key);
+  return {
+    state: { key: stateKey, name: state?.name ?? stateKey },
+    town: town ?? {
+      key: place.key,
+      name: place.displayName,
+      population: parameter("targetPopulation"),
+      estimated: true,
+    },
+  };
 }
 
 export interface ChosenPerson {
