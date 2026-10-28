@@ -30,6 +30,7 @@ People are built the way Reddit builds avatars: "it uses the same model, and all
 
 1. **Pick the pose** for the spot (tags: pose, facing, seat) and the figure (sex, build).
 2. **Draw the layers in order:** body, pants, shoes, dress, shirt, tie, jacket, hair. A dress replaces both the shirt and the pants. Each layer is drawn at the figure's box. Nothing is moved or scaled relative to the body, because every part was painted on that body.
+   - `body.png` is only the head and bare skin. The base clothes are parts too (`shirt-1`, `pants-1`, `shoes-1`). If a style isn't painted for a pose yet, draw style 1 of that layer instead of nothing, or the person has no feet. Jacket, tie, dress and hair may simply be left off.
 3. **Recolor each layer.** For plain or green pixels: the new color × (pixel brightness ÷ that layer's typical brightness), which keeps the folds. Warm pixels are skin: bare forearms in a tee, legs in shorts, scalp between curls. They take the person's skin color the same way. `stack.py dress()` is the reference.
 4. **Size the whole stack to the spot:** scale so the body's head width matches the spot's `headWidth`. All layers scale together.
 5. **Draw furniture in front** with the spot's `frontLine`.
@@ -59,7 +60,10 @@ The wardrobe replaces the outfit sheets with parts:
 5. **Rooms:** `figureOn` / `placeSeated` choose a wardrobe pose from the spot's tags using `index.json`, then draw with the same stack.
    - Facing per sex: flip when the figure and spot point opposite ways.
    - Seat and covered-by come from the spot.
-   - `tools/scene_people.py` sizes people (standing: the mannequin's full height; seated: head width × 1.18) and handles the front line.
+   - **Size** (`tools/scene_people.py`): a person standing on open floor fills the mannequin from head to feet. A seated person, or one behind a stage, desk or counter, is sized by head width × 1.18 (the mannequin's head has no ears). A speaker whose feet show beside a lectern (box at least six head widths tall) is sized head to floor.
+   - **What hides a person:** only a real object in front, named in the spot's `coveredBy` (desk, table, counter, chair back, railing, stage, dais, lectern). On open floor, on a couch or on a bed, the legs are in front of everything, so nothing is cut. Behind a stage, desk or counter, its top edge runs straight across the whole person. A lectern keeps its measured shape and runs a little past the mannequin's sides. Fill the gap between the mannequin's legs before using its line, or the person loses the inside of their legs.
+   - **Head sizes:** two overlapping mannequins measured as one blob. `tools/fix_heads.py` brought those spots down to the size of their row (people behind a stage or in a chamber row at the same height in the picture are about the same distance away). The old value is kept in `headWidthMeasured`.
+   - **Crowds** (`tools/autocast.py`): in a room with a `speaker` spot, the standing spots without a role are the audience. Most clap, cheer or hold a sign; a few just watch. Clapping never goes to a visitor in an ordinary room.
 
 ## Making a pose (Firefly, about 32 jobs, 5–6 minutes on four tabs)
 
@@ -86,7 +90,7 @@ The wardrobe replaces the outfit sheets with parts:
 - **Rate limit:** after several hundred jobs, a tab can hit Firefly's limit screen ("Whoa there, speed racer! ... Please try again later"). Its jobs then fail with `refs {"refs":5}` because the leftover picture strip counts as references. Move that tab's jobs to the others and rest it.
 - **Failures cluster by tab.** Jobs are dealt to tabs in turn, so one broken tab loses the same part on every pose. Check each tab's `__jobStatus` for errors, not only the asset list.
 
-## What exists (Oct 28, 08:15 UTC)
+## What exists (Oct 28, 09:10 UTC)
 
 - **Poses** (`wardrobe/index.json` has facing per sex, hands, seat, covered-by, age band):
   - **standing:** `nat-s1` relaxed, front (the creator pose); `s2` relaxed, three-quarter; `s3` talking; `s4` arms folded; `s5` on the phone; `s6` walking; `s7` talking to the viewer; `l1` at a lectern; `p1` profile;
@@ -103,7 +107,7 @@ The wardrobe replaces the outfit sheets with parts:
   - dress 1;
   - hair 1–12.
   - About 90 pieces that failed are being repainted; a part that came out too thin is left out of `parts.json` until it's redone.
-- **Crowd poses being painted:** clapping, cheering, holding a blank sign, seated audience clapping, clapping from behind, sitting on a bench.
+- **Crowd poses:** clapping (`nat-r1`) is cut and cast at rallies. Cheering (`r2`), holding a blank sign (`r3`, the sign is a live surface for campaign text), clapping from behind (`r5`) and sitting forward on a bench (`c5`) are painting.
 - **Proofs** in `art/people-rooms/wardrobe-proof/`:
   - creator sheets for a woman and a man;
   - everyday and women's outfits on all six bodies;
