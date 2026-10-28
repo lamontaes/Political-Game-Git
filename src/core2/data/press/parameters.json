@@ -97,11 +97,23 @@
       "source": "How much less a question draws each time this candidate has already answered it on the record: a reporter looks for what the candidate hasn't said yet.",
       "spread": [0.5, 2]
     },
-    "interviewShyness": {
-      "value": -1,
+    "interviewAcceptBase": {
+      "value": 1.8,
+      "tag": "ESTIMATED",
+      "source": "Fitted so that about half the candidates a reporter asks accept: the League of Women Voters' VOTE411 2024 report, \"Nationally, the median candidate response rate was 51%\" (my.lwv.org/node/65462; federal races 63%, Connecticut General Assembly races 32%), a voter guide's request standing in for an interview's. Fitted on the interview asks of two played election-window years (Halfway, Missouri, place key 2929962, seed 3e9ed70a5fb7; Marblehead, Ohio, 3947502, seed 7772ab1c8196) with the reach, incumbency and trait weights: 49% and 54% accept. The spread is the base at which 39% and 61% of those asks accept.",
+      "spread": [1.5, 2.05]
+    },
+    "interviewReachWeight": {
+      "value": 13.5,
       "tag": "TUNABLE",
-      "source": "A candidate declines a reporter only when shy and averse to conflict and risk together (sociability plus half of conflict and risk below this).",
-      "spread": [-1.5, -0.5]
+      "source": "How much more a candidate wants an interview from an outlet more of the town follows (the share of town adults who follow it). No study gives its size, so a standard deviation of reach weighs the same as one of incumbency among 591 asks in six drawn race windows (run seed acceptfit1; 0.073 and 0.291), as the exit poll weighs its two reasons.",
+      "spread": [6.75, 20]
+    },
+    "interviewIncumbentReluctance": {
+      "value": 3.4,
+      "tag": "TUNABLE",
+      "source": "A sitting official's reluctance to give an interview: they need the coverage least and risk their record. Checked against Vote Smart's 2016 Political Courage Test returns, 32 of 416 incumbents against 261 of 784 challengers, a share ratio of about 0.25 (from a search snippet of Vote Smart's release; its page was not fetched), a long survey rather than an interview. Fitted with the other weights on 591 asks in six drawn race windows (run seed acceptfit1), where incumbents accept about 46% of asks and challengers all of theirs (a ratio near 0.47).",
+      "spread": [2, 5]
     },
     "reportersPerNewspaper": {
       "value": 1,
@@ -272,6 +284,24 @@
       "tag": "TUNABLE",
       "source": "Days a reporter takes to check a candidate's claim against the record before printing what they found.",
       "spread": [7, 42]
+    },
+    "shadeBase": {
+      "value": -1.82,
+      "tag": "ESTIMATED",
+      "source": "Where a candidate asked about their own vote starts, before how far the vote stands from where the town stands and their temperament. A town's stand on a question is read against how far towns stand at the furthest (townStandReach), so a town standing that far reads as half way to an end, and the largest gap between vote and town is 0.75. Fitted so that at that gap the share of adults who would shade matches the share prepared to lie for gain in an incentivized one-shot cheating task: 26.1% (95% interval 19.2% to 34.4%), Heck, Thielmann, Moshagen and Hilbig (2018), Who lies? A large-scale reanalysis linking basic personality traits to unethical decision making, Judgment and Decision Making 13(4):356-371, 16 studies, N = 5,002. Measured across the 9,561 adults of 16 towns drawn from all 56 places (seeds shadefit1 and shadefit2) at shadeGapWeight 2: 26% shade where the town stands as far against the vote as a town can, 8% where the town is split (gap 0.5), none where the town stands fully with the vote (gap 0.25). The study's interval gives the spread.",
+      "spread": [-1.97, -1.65]
+    },
+    "shadeGapWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much more a candidate leans toward shading an answer about their own vote the further the vote stands from where the town stands on the question (half the distance between the two positions): the vote costs more with the people listening the further it sits from them. Checked with shadeBase moved to keep the share at the largest gap at the study's (16 towns, seeds shadefit1 and shadefit2): at 1.5, 3.7% shade a vote the town fully agrees with and 11.6% where the town is split; at 2, none and 8.3%; at 2.5, none and 5.8%.",
+      "spread": [1.5, 2.5]
+    },
+    "townStandReach": {
+      "value": 0.12,
+      "tag": "ESTIMATED",
+      "source": "How far from the middle a town stands on a question at the furthest, as a candidate weighs it: a town's stand is the mean of its adults' leans on the question's axis in both tiers (each counted record by the people it stands for), and a candidate reads the town's stand against this reach, so a town standing this far reads as half way to an end, where shadeBase's calibration sits. Measured on the 54 questions with a left-right direction in 12 towns drawn from all 56 places, built two-level (seed standfit1, Oct 26): the 95th percentile of how far a town stood is 0.12 (median 0.031; Washington, District of Columbia reached 0.26).",
+      "spread": [0.086, 0.227]
     },
     "moveWeightPlain": {
       "value": 1,

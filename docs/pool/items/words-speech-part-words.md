@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/political-game-pool-7xkkii
-pr: #5196
+pr:
 blocked-on:
 source: "split from gov-next, Oct 16"
 claimed-at: 2026-10-19T21:58:19.907Z
@@ -21,4 +21,6 @@ claimed-at: 2026-10-19T21:58:19.907Z
 
 **Files.** src/english/english-composition.ts, src/director/speech-builder.ts, data/english/parts/address.json
 
-**Notes.** Split from gov-next. The owner's rally choice set (batch 11) is the shape to build on.
+**Notes.** Split from gov-next. The owner's rally choice set (batch 11) is the shape to build on. Released from idle draft #5196 by the CTO, Oct 26.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built.

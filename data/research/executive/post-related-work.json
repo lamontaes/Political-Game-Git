@@ -1,0 +1,42 @@
+{
+  "version": "post-related-work-v1",
+  "source": {
+    "tag": "ESTIMATED",
+    "citation": "BLS Occupational Outlook Handbook, Top Executives (https://www.bls.gov/ooh/management/top-executives.htm, fetched 2026-10-26): Quick Facts, \"Work experience in a related occupation: 5 years or more\"; How to Become One, \"Top executives typically need at least a bachelor's degree and considerable work experience to enter the occupation.\" Each town post's related work is the field the department does, read from the professions town workplaces record (town-workplaces.ts)."
+  },
+  "posts": {
+    "city-administrator": [
+      "profession:business-analyst",
+      "profession:budget-analyst",
+      "profession:financial-manager",
+      "profession:municipal-clerk",
+      "profession:county-clerk",
+      "profession:urban-planner"
+    ],
+    "city-manager": [
+      "profession:business-analyst",
+      "profession:budget-analyst",
+      "profession:financial-manager",
+      "profession:municipal-clerk",
+      "profession:county-clerk",
+      "profession:urban-planner"
+    ],
+    "police-chief": ["profession:police-officer"],
+    "fire-chief": ["profession:firefighter"],
+    "finance-director": [
+      "profession:accountant",
+      "profession:accountant-auditor",
+      "profession:budget-analyst",
+      "profession:financial-manager"
+    ],
+    "public-works": ["profession:construction-manager", "profession:engineer"],
+    "planning": ["profession:urban-planner", "profession:engineer"],
+    "city-attorney": ["profession:lawyer", "profession:attorney"],
+    "city-clerk": ["profession:municipal-clerk", "profession:county-clerk"],
+    "library-parks": [
+      "profession:teacher",
+      "profession:school-principal",
+      "profession:community-organizer"
+    ]
+  }
+}

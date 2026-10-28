@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
-const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(30000);
 await page.route("**/api/controls", async (route) => {
   const response = await route.fetch();
@@ -34,6 +34,7 @@ try {
       { timeout: 300000 },
     );
     await page.locator("#new-life").click();
+    await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
     const r = await response;
     assert.equal(r.status(), 200);
@@ -59,14 +60,79 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
+  // The news on the first evening's table opens as the paper's front page.
+  if (await page.locator("#news-surface").isVisible()) {
+    await page.locator("#news-surface").click();
+    await page.locator("#news-reader:not([hidden])").waitFor();
+    assert.ok(
+      (
+        await page.locator("#news-reader .paper-masthead h2").innerText()
+      ).trim(),
+      "the story reader has a masthead",
+    );
+    assert.ok(
+      (await page.locator("#news-reader .heading").innerText()).trim(),
+      "the story reader has a headline",
+    );
+    assert.equal(await page.locator("#news-reader.paper").count(), 1);
+    await page.evaluate(() => document.fonts.ready);
+    await page.screenshot({
+      path: "docs/reports/news-story-paper-2026-10-27/story.png",
+    });
+    await page.locator("#news-reader-close").click();
+  }
+  // The rail's News icon carries a dot while News holds rows the player has not read.
+  const dot = () =>
+    page.evaluate(() =>
+      document
+        .querySelector('#rings [data-tab="news"]')
+        .classList.contains("unread"),
+    );
+  await page.waitForFunction(() =>
+    document
+      .querySelector('#rings [data-tab="news"]')
+      .classList.contains("unread"),
+  );
+  assert.equal(await dot(), true, "no unread dot on the first evening");
   await page
     .locator('[data-tab="news"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".paper").waitFor();
+  await page.locator("#sheet-body .paper").waitFor();
+  await page.locator("#sheet-close").click();
+  await page.waitForFunction(
+    () =>
+      !document
+        .querySelector('#rings [data-tab="news"]')
+        .classList.contains("unread"),
+  );
+  assert.equal(await dot(), false, "the dot stayed after News was read");
+  await page
+    .locator('[data-tab="news"]')
+    .first()
+    .evaluate((e) => e.click());
+  await page.locator("#sheet-body .paper").waitFor();
   assert.ok((await page.locator(".story-headline").count()) > 0);
-  assert.equal(await page.locator(".paper-masthead h2").innerText(), "News");
+  assert.equal(
+    await page.locator("#sheet-body .paper-masthead h2").innerText(),
+    "News",
+  );
   assert.equal(await page.locator(".story-image").count(), 0);
+  // A newspaper with story text (owner, Oct 27): the lead story is printed with
+  // at least two sentences under its headline, and no record row with a kind,
+  // series or jurisdiction label is on the page.
+  const leadText = (
+    await page.locator(".paper-story.lead p").allInnerTexts()
+  ).join(" ");
+  console.log("Lead story text:", leadText.slice(0, 200));
+  assert.ok(
+    (leadText.match(/[.!?]["”]?(\s|$)/g) ?? []).length >= 2,
+    `the lead story has under two sentences: ${leadText}`,
+  );
+  assert.doesNotMatch(
+    await page.locator("#sheet-body .paper").innerText(),
+    /\bSeries\b|\bJurisdiction\b|Public record/,
+  );
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: "docs/reports/news-front-page-2026-10-14/news.png",

@@ -121,60 +121,14 @@ export function composeScene(
       ...(words ? { words } : {}),
     });
 
-  // Where you are, from the setting's record.
-  const { kind, recordId } = binding.setting;
-  const settingFacts: Record<string, Fact> = {};
-  if (kind === "home" || kind === "public" || kind === "venue") {
-    const town = place(kind === "home" ? person.placeId : recordId);
-    if (town) settingFacts.place = town;
-  }
-  if (kind === "workplace") {
-    const org = core.organizations.get(recordId);
-    if (org)
-      settingFacts.employer = {
-        text: properName(org.name),
-        sourceRecordIds: [org.id],
-      };
-  }
-  if (kind === "other-home") {
-    const host = binding.roles
-      .flatMap((row) => row.personIds)
-      .find((id) => core.people.get(id)?.householdId === recordId);
-    const named = host ? core.people.get(host) : undefined;
-    if (named)
-      settingFacts.host = {
-        text: named.givenName,
-        sourceRecordIds: [recordId, named.id],
-      };
-  }
+  // The narrator never restates what the screen shows (owner, Oct 26: "it
+  // shouldn't say you're at home in Albion or it's Tuesday in November";
+  // Oct 27: "When it says you're in place or person is with you, I hate
+  // those"): no day, no place and nobody announced as there. Only how the
+  // scene reaches the player is said: a call or a letter.
   const sentences: SceneLine[] = [];
-  const dayAt = new Date(`${moment.date}T00:00:00Z`);
-  const frame = render(
-    { part: "frame" },
-    {
-      weekday: {
-        text: dayAt.toLocaleString("en-US", {
-          weekday: "long",
-          timeZone: "UTC",
-        }),
-        sourceRecordIds: [moment.causeId],
-      },
-      month: {
-        text: dayAt.toLocaleString("en-US", {
-          month: "long",
-          timeZone: "UTC",
-        }),
-        sourceRecordIds: [moment.causeId],
-      },
-    },
-    `${moment.id}:frame`,
-  );
-  if (frame) sentences.push(frame);
-  const setting = render(
-    { part: "setting", kind },
-    settingFacts,
-    `${moment.id}:setting`,
-  );
+  const { kind } = binding.setting;
+  const setting = render({ part: "setting", kind }, {}, `${moment.id}:setting`);
   if (setting) sentences.push(setting);
 
   // Nobody is announced as merely there;
@@ -187,7 +141,7 @@ export function composeScene(
     opener?.personIds.find((id) => id !== personId) ??
     moment.counterpartIds.find((id) => binding.presentIds.includes(id));
   const lead = render(
-    { part: "lead", typeKey: binding.typeKey },
+    { part: "lead", typeKey: binding.typeKey, setting: binding.setting.kind },
     () => {
       const facts: Record<string, Fact> = {};
       const other = talkToId ? who(talkToId) : null;
@@ -212,7 +166,7 @@ export function composeScene(
   // what they came to do ("Your mother has something to tell you.").
   const openerId = opener?.personIds.find((id) => id !== personId);
   const openerFact = openerId ? who(openerId) : null;
-  const opening =
+  const openingLine =
     binding.opening && openerFact
       ? render(
           { part: "opening", move: binding.opening },
@@ -220,10 +174,18 @@ export function composeScene(
           `${moment.id}:opening`,
         )
       : null;
+  // A lead that names the one who opens the scene has already said who came
+  // and why; the opening would say it again ("Your mother has news for you.
+  // Your mother has something to tell you.").
+  const leadNamedOpener =
+    !!openerId &&
+    openerId === talkToId &&
+    !!lead?.usedFactKeys?.includes("other");
+  const opening = leadNamedOpener ? null : openingLine;
 
   // What led here, from the moment's cause, about someone else or the
   // player. News the opener is about to tell is left to them to tell.
-  const toTell = opening !== null && binding.opening === "tell";
+  const toTell = openingLine !== null && binding.opening === "tell";
   const otherId = moment.counterpartIds[zero];
   const cause = toTell
     ? null
@@ -262,6 +224,7 @@ export function composeScene(
     ? [
         {
           text: sceneParagraph(sentences),
+          parts: sentences.flatMap((line) => line.parts ?? []),
           // A sitting that took in a later cause the same day cites it too.
           sourceRecordIds: [
             ...new Set([

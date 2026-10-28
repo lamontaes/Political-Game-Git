@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/traits-ratios-st-paul
+pr: #6261
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-27T06:57:43.136Z
 ---
 
 **What.** src/core2/modules/campaigns.traits.test.ts fails twice when its draw lands on St. Paul, Oregon (4164850, base seed 174063ebf76ebfbc632befa6193ec00525ce6df2, played from June 16, 2026 to just after the November 3 race). The pollster case reads an odds ratio of 4.06 between the top and bottom thirds of lean, against a ceiling of 3.65 around the researched 1.66. The retelling case reads a reach ratio of 24.8 against a ceiling of 5.9, which means the bottom third's mean retelling multiplier is close to zero there. Both read the town's adults and their traits only, and both fail with the same numbers whether the door rule of lamontaes/Political-Game-Git#6065 is in or out.

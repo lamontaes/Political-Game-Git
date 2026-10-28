@@ -6,7 +6,7 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #5986
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Laws lead, Oct 26. PR #5986 moves to this item; `laws-nine-links-prices` stays open for the two.
 
 Merger 2, Oct 26 03:56 UTC: Returned #5986 checked head 2abdde7f960ca584a53e11000cae2659d478bbc5. The eight-law scope still credits cannabis repeal with +0.05 overdose effect in Prescott web:jurisdiction_971998ff58477430:2025-01 immediately on the Jan 21 repeal, although cannabis-sales-to-overdose-deaths has an 11-month lag (report prices-year-US-MI-2666300.json:4627; links.json:5654). The matrix grades that early row wired, violating this item's no-early-effect rule and first Done-when row. Rerun cannabis with #6006 and regenerate reports/matrix, or bound the item to supported laws. Mileage research, opening seller eligibility and negative-check repairs are retained. No new local test failure or green claimed; source blocker preceded heavy gate. Family laws-nine-links-prices stays OPEN and VMT is not DONE. Receipt: https://github.com/lamontaes/Political-Game-Git/pull/5986#issuecomment-6407840599.
+
+Laws lead, Oct 26: replaced by the family item laws-nine-links-prices, which PR #5986 now lands whole (all ten laws) with #6006's lag fix ported.

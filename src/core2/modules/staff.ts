@@ -15,6 +15,8 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
+import { townLean } from "./campaigns";
+import { openBusinessOwnerIds } from "./business";
 import { workedToday } from "../job-lifecycle";
 import {
   coreAPI,
@@ -37,8 +39,11 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
 import { keepsWhy } from "../why-kept";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  leanedYes,
+} from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
@@ -52,6 +57,8 @@ import {
   publicPayRoom,
   treasuryParameter,
 } from "../budgets-treasury";
+// The cases engine imports this one; these are read only when a review runs.
+import { caseLoad, recentCasesOf } from "./constituent-cases";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -393,8 +400,13 @@ export function staffCandidates(
   );
   const postHourly = campaignParameter("staffHourlyMinor");
   const out: StaffCandidate[] = [];
+  // Someone who runs an open business cannot take a post and keep it open:
+  // taking it closes the firm (Dickens, Iowa: four owners hired as aides on
+  // 2025-02-19, their firms closed with no successor on 2025-03-01).
+  const owners = openBusinessOwnerIds(api);
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
+    if (owners.has(person.id)) continue;
     const facts = personFacts(api, person, minimum, review);
     if (!facts.open) continue;
     if (person.tier === HUSK_TIER) {
@@ -425,7 +437,8 @@ export function staffCandidates(
   }
   // The town's counted adults who earn less than the post pays apply too.
   for (const voter of countedPool(api, town, minimum)) {
-    if (hired.has(voter.id) || inCustody(api, voter.id)) continue;
+    if (hired.has(voter.id) || owners.has(voter.id) || inCustody(api, voter.id))
+      continue;
     const known =
       official.knownIds.has(voter.id) || official.familyIds.has(voter.id);
     const link = official.familyIds.has(voter.id)
@@ -865,17 +878,6 @@ export function workQuality(
   return { quality, parts: { reliability, deliberation, experience, passion } };
 }
 
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
-}
-
 function record(
   api: CoreAPI,
   staffer: StafferRow,
@@ -893,7 +895,7 @@ function record(
     result,
   };
   // The row says why this work was good or poor; it is kept for the people
-  // the player deals with (everyone's when bookkeeping is on). The count of
+  // the player deals with (everyone's under the keep-everyone's-why switch). The count of
   // tasks stays on the staffer for everyone.
   if (keepsWhy(api.state as CoreState, staffer.officialId, staffer.personId))
     table(api, "work").put(work as unknown as ModuleRow);
@@ -1008,6 +1010,9 @@ export function adviseOnBudget(
 export function staffDecision(
   api: CoreAPI,
   officialId: string,
+  told: "help" | "decline" = "help",
+  /** The share of the office's time other open cases take (`caseLoad`). */
+  load = 0,
 ): { stafferId: string; help: boolean; work: WorkRecord } | null {
   const staffer = [...servingStaffOf(api, officialId)].sort(
     (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
@@ -1018,16 +1023,17 @@ export function staffDecision(
   // every trait they have.
   const person = api.state.people.get(staffer.personId)!;
   const help =
-    q.quality +
-      parameter("traitDecisionWeight") *
-        decisionLean(
-          api.state,
-          person,
-          "staff.follow-through",
-          "follow-through",
-          "decline",
-        ) >=
-    campaignParameter("staffCaseFollowThrough");
+    told === "help" &&
+    leanedYes(
+      api.state,
+      person,
+      "staff.follow-through",
+      "follow-through",
+      "decline",
+      q.quality -
+        campaignParameter("staffCaseFollowThrough") -
+        campaignParameter("staffCaseLoadWeight") * load,
+    );
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
 }
@@ -1090,7 +1096,7 @@ function reviewAttendance(
       scheduled > 0 &&
       absentShare >
         campaignParameter("staffAbsenceTolerance") *
-          (1 - parameter("traitDecisionWeight") * lean)
+          (1 - decisionTraitWeight(api.state, "staff.dismiss") * lean)
     ) {
       const decision: Dismissal = {
         on: api.state.date,
@@ -1209,11 +1215,24 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     )
       continue;
     if (
-      campaignParameter("staffHireBase") +
-        parameter("traitDecisionWeight") *
-          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") +
-        budgetLean(api, officialId) <=
-      0
+      !leanedYes(
+        api.state,
+        official,
+        "staff.hire",
+        "hire",
+        "do-alone",
+        campaignParameter("staffHireBase") +
+          budgetLean(api, officialId) +
+          campaignParameter("staffHireLoadWeight") *
+            caseLoad(
+              api,
+              recentCasesOf(
+                api,
+                officialId,
+                campaignParameter("staffHireCaseDays"),
+              ),
+            ),
+      )
     )
       continue;
     // Anyone the post pays more than they earn now would apply, an employed

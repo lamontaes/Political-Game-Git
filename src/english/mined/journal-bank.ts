@@ -52,6 +52,26 @@ function resultStages(text: string): string[] | undefined {
   return undefined;
 }
 
+/** How a race was decided, as the result record's totals show it. */
+export const RACE_MARGINS = ["close", "wide", "middle", "alone"] as const;
+
+/**
+ * One's own race, said by result and by margin ("won:close"): a line that
+ * claims a close race ("It was very close.") or a wide one ("It wasn't
+ * close.") fits only the margin it claims; a line that claims none fits any.
+ */
+function ownRaceStages(text: string): string[] {
+  const results = resultStages(text) ?? ["won", "lost"];
+  const margins = /\b(?:wasn't|was not|not) close\b|\blandslide\b/i.test(text)
+    ? ["wide"]
+    : /\bclose\b/i.test(text)
+      ? ["close"]
+      : [...RACE_MARGINS];
+  return results.flatMap((result) =>
+    margins.map((margin) => `${result}:${margin}`),
+  );
+}
+
 /** A mined sentence in the first person plural, told when the event names a group. */
 const plural = (text: string) => /^We\b/.test(text);
 
@@ -93,6 +113,7 @@ export function journalDataFromBank(
   return {
     version: rows.version,
     relationWords: rows.relationWords,
+    ...(rows.kinAddress ? { kinAddress: rows.kinAddress } : {}),
     possessive: rows.possessive,
     possessivePronoun: rows.possessivePronoun,
     countWords: rows.countWords,
@@ -111,14 +132,16 @@ export function journalDataFromBank(
         : all;
       // A row worded by an event fact (a vote) marks each variant with the
       // stage its own words say: "I voted for it" is "yes", "against" is "no".
-      const line = row.stageWords
-        ? worded?.map((variant) => {
-            const stage = Object.entries(row.stageWords!).find(([, words]) =>
-              new RegExp(words, "i").test(variant.text),
-            )?.[0];
-            return stage ? { ...variant, stages: [stage] } : variant;
-          })
-        : worded;
+      const staged = (list: typeof worded) =>
+        row.stageWords
+          ? list?.map((variant) => {
+              const stage = Object.entries(row.stageWords!).find(([, words]) =>
+                new RegExp(words, "i").test(variant.text),
+              )?.[0];
+              return stage ? { ...variant, stages: [stage] } : variant;
+            })
+          : list;
+      const line = staged(worded);
       // A row that only counts who an event names (a household move) stays,
       // with no line of its own, so the moves it shares a day with read "we".
       // A setting (a school, a job) stays with no line: it opens a chapter.
@@ -136,11 +159,12 @@ export function journalDataFromBank(
             const stages = resultStages(variant.text);
             return stages ? { ...variant, stages } : variant;
           })
-        : mined(from, "otherLine");
+        : staged(mined(from, "otherLine"));
+      // One's own race is told by how it went and by its margin.
       const ownLine = row.hasOwnLine
         ? (fields.get(`${from}|ownLine`) ?? []).map((variant) => {
-            const stages = resultStages(variant.text);
-            return stages ? { ...variant, stages } : variant;
+            const stages = ownRaceStages(variant.text);
+            return { ...variant, stages };
           })
         : undefined;
       const repeat = mined(from, "repeatLine");

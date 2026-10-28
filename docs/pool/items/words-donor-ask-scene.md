@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: in-pr
-claimed-by: words/donor-ask-scene
-pr: #6002
+status: done
+claimed-by: finisher/words-donor-ask-scene
+pr: #6381
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T07:52:05.837Z
+claimed-at:
 ---
 
 **What.** The donor-ask scene (situation-types.json) waits on a campaign-contribution record nobody writes, so a donor never comes back to the candidate. The campaigns engine moves a gift through the journal and keeps the donor's running total, but writes no core record the director reads. Make each gift from someone other than the candidate a public record naming the candidate and the donor, the amount, and its share of what the campaign has raised, plus the pending bill before the seat's body the donor holds the strongest view on, when there is one. The director sizes the moment by that share, and the donor-ask scene fires from it with the donor as the one who comes in.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T07:52:05.837Z
 **Files.** src/core2/modules/campaigns.ts, src/director/data/situation-types.json, src/director/data/director.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json
 
 **Notes.** TODO
+
+Evidence (words lead, Oct 27): the packet `docs/design/scenes/from-life/the-donor-who-wants-something.md` (local cases in Gilbert, Arizona and Prince George's County, Maryland, calibration only). The `gifts` table names the donor (`donorId`, `totalMinor`) but no event is emitted and no gift is tied to a matter the donor cares about; the legislature keeps no recusal record and reads no gift.

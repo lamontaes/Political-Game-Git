@@ -10,6 +10,8 @@
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 
 export interface BillNameBook {
+  /** The article a sentence says a short title with: "the Fair Wage Act". */
+  readonly article: string;
   readonly forms: Readonly<Record<string, string>>;
   readonly list: { readonly conjunction: string };
   /** A budget bill's name and purpose: it sets amounts for spending lines, with no direction. */
@@ -44,6 +46,18 @@ export interface BillName {
   readonly purpose: string;
   /** Whether the bill undoes or lessens its policy (a repeal, a cut). */
   readonly reverses: boolean;
+}
+
+/**
+ * A bill's short title as a sentence says it, with the book's article: "I
+ * voted for the Fair Wage Act." A title is always a name and its form word,
+ * so it takes the article as any named act or ordinance does.
+ */
+export function billTitleSaid(
+  title: string,
+  book: BillNameBook = billNames as BillNameBook,
+): string {
+  return `${book.article} ${title}`;
 }
 
 /**
@@ -186,4 +200,17 @@ export function spokenDesignation(
   return form && !/[A-Za-z]/.test(designation)
     ? `${form} ${designation}`
     : designation;
+}
+
+/**
+ * A bill by its number and its title together, so a line that says one ties
+ * to a scene that said the other: "HB 9, the Income Tax Act".
+ */
+export function billNumberAndTitle(
+  designation: string,
+  formKind: string,
+  title: string,
+  book: BillNameBook = billNames as BillNameBook,
+): string {
+  return `${spokenDesignation(designation, formKind, book)}, ${billTitleSaid(title, book)}`;
 }

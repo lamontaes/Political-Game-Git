@@ -1,7 +1,8 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { openingFrames } from "../bench/opening";
+import { openingFrames, OPENING_EVENING_MINUTE } from "../bench/opening";
+import { homeOf } from "../bench/scene";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
@@ -9,7 +10,7 @@ import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { NEWSCAST_BANK } from "../english/english-newscast";
 import { keyPeopleOf } from "../core2/opening-key-people";
 import { subjectsBetween } from "./conversation";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
@@ -32,7 +33,7 @@ const sentencePatterns = OPENING_SPEECH_BANK.parts.map(
     new RegExp(
       `^${part.text
         .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-        .replace(/\{\w+\}/g, ".+")}$`,
+        .replace(/\{[\w-]+\}/g, ".+")}$`,
     ),
 );
 
@@ -45,11 +46,11 @@ describe("the opening story", () => {
   const playerId = world.playerId!;
   const story = director.ledger.opening!;
 
-  it("composes the address from mined sentences and the world's records", () => {
+  it("composes the address from authored pieces and the world's records", () => {
     expect(story, "no opening story").toBeTruthy();
     expect(story.date).toBe(core.date);
     const levels = story.address.sentences.map((row) => row.level);
-    expect(levels[0]).toBe("occasion");
+    expect(levels[0]).toBe("salutation");
     expect(levels.at(-1)).toBe("close");
     for (const sentence of story.address.sentences) {
       expect(
@@ -60,46 +61,33 @@ describe("the opening story", () => {
     }
     // A number or claim about the country cites the macro engine's months.
     for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "country",
+      (row) => row.level === "country" && row.facts.length,
     ))
       expect(
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
         sentence.text,
       ).toBe(true);
     // A figure with what it is, never a bare claim ("Prices are too high").
-    for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "country",
+    for (const sentence of story.address.sentences.filter((row) =>
+      row.facts.some((key) => /-rate$|-growth$|-added$/.test(key)),
     ))
       expect(sentence.text, sentence.text).toMatch(/\d/);
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });
 
-  it("names a place only from a campaign visit to the player's own state", () => {
+  it("names no place of the player's: the address is national only", () => {
     const president = core.people.get(story.president.id)!;
-    const ownState = corePlaceByJurisdictionId(
-      core.people.get(playerId)!.placeId as never,
-    )?.stateJurisdictionKey;
-    const visits = new Map(
-      (president.pastFacts ?? [])
-        .filter((row) => row.kind === PRESIDENT_FACT.visit)
-        .map((row) => [row.id, row.facts!]),
-    );
-    expect(visits.size).toBeGreaterThan(0);
-    for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "towns",
-    )) {
-      const visit = sentence.sourceRecordIds.find((id) => visits.has(id));
-      if (!/\{place\}/.test(sentence.text) && !visit) continue;
-      expect(visit, sentence.text).toBeTruthy();
-      expect(sentence.text).toContain(visits.get(visit!)!.stateName);
-      expect(visits.get(visit!)!.stateKey).toBe(ownState);
-    }
-    // The name card: office and state, never a bare former office.
+    // Owner, Oct 27: "nothing about your state". No sentence is put to the
+    // governors or names a town the President visited.
+    for (const sentence of story.address.sentences)
+      expect(String(sentence.level), sentence.text).not.toMatch(
+        /^(governors|towns)$/,
+      );
+    // The name card is the office alone: the President's home state is read
+    // as where the player is (owner, Oct 26).
     const card = openingFrames(core, playerId, story).speaker;
-    expect(card.detail).toEqual(
-      story.president.homeState ? [story.president.homeState] : [],
-    );
+    expect(card.detail).toEqual([]);
     const kinds = new Set((president.pastFacts ?? []).map((row) => row.kind));
     expect(kinds.has(PRESIDENT_FACT.homeState)).toBe(true);
     expect(kinds.has(PRESIDENT_FACT.elected)).toBe(true);
@@ -147,23 +135,80 @@ describe("the opening story", () => {
     expect(opening.news.stories).toEqual(story.newscast);
   });
 
+  it("leads the news with a news story: the swearing-in, a lede, the figures and one quote", () => {
+    const lead = story.newscast[0]!;
+    const where = `${place.name}, seed ${seed}, ${date}`;
+    expect(lead.kind, where).toBe("address");
+    expect(lead.headline, where).toBeTruthy();
+    // The election was in November: on Inauguration Day no headline or
+    // sentence claims a win, and the headline names the swearing-in.
+    expect(lead.headline, where).not.toMatch(
+      /\b(?:won|wins|elected|beats|victory)\b/i,
+    );
+    for (const text of lead.paragraphs ?? [])
+      expect(text, where).not.toMatch(/\b(?:won|wins|elected)\b/i);
+    if (story.speechKind === "inaugural") {
+      expect(lead.headline, where).toMatch(/sworn in|oath/i);
+      expect(lead.sourceRecordIds, where).toContain(story.president.id);
+    }
+    // A lede, then two or three sentences, at most one of them a quote.
+    const paragraphs = lead.paragraphs ?? [];
+    expect(paragraphs[0], where).toBe(lead.lede);
+    expect(paragraphs.length, where).toBeGreaterThanOrEqual(3);
+    expect(paragraphs.length, where).toBeLessThanOrEqual(4);
+    expect(
+      paragraphs.filter((text) => text.includes('"')).length,
+      where,
+    ).toBeLessThanOrEqual(1);
+    // No anchor's sign-off, and no line that only says where someone was.
+    const closes = new Set(
+      NEWSCAST_BANK.parts
+        .filter((part) =>
+          part.uses.some(
+            (use) => use.subject === "anchor" && use.role === "close",
+          ),
+        )
+        .map((part) => part.text),
+    );
+    for (const text of paragraphs) {
+      expect(closes.has(text), `${where}: ${text}`).toBe(false);
+      expect(text, where).not.toMatch(/^(?:I was in|I'm from) /);
+    }
+    console.log(`${where}: ${lead.headline} | ${paragraphs.join(" | ")}`);
+  });
+
   it("plays over the sequence: the President's stage, Congress, the state, the family, then home", () => {
     const order = story.sequence.map((row) => row.stage);
+    // No town stage: the opening points out national people, not the player's
+    // council or state legislators (owner, Oct 27).
     expect(order).toEqual(["president", "congress", "state", "family"]);
     const opening = openingFrames(core, playerId, story);
     // The stages come in order; a cutaway never goes back to an earlier one.
-    // First, what the player is watching: their own household at home, the
-    // anchor leading into the address by its title.
-    const [lead, ...address] = opening.frames;
-    expect(lead!.speaker).toBe("anchor");
-    expect(lead!.stage).toBe("home");
-    expect(lead!.lines.map((row) => row.text).join(" ")).toMatch(
-      /We begin with the (?:State of the Union|inaugural address)\./,
-    );
+    // The first frame is the address itself, the President at the lectern
+    // (owner, Oct 26): no stage at the player's home comes before the address
+    // or the state's chapter.
+    const { frames } = opening;
     const household = new Set(
       core.households.get(core.people.get(playerId)!.householdId)?.memberIds,
     );
-    for (const row of lead!.pointOut) expect(household.has(row.id)).toBe(true);
+    expect(frames[0]!.stage).toBe("president");
+    expect(frames[0]!.lines.length).toBeGreaterThan(0);
+    const home = homeOf(core, playerId, OPENING_EVENING_MINUTE);
+    // Everything before the family's frame (home) is away from home; the state's
+    // stage shows only where it has a line or a person to point out.
+    const homeAt = frames.findIndex(
+      (frame) => frame.stage === "state" || frame.stage === "family",
+    );
+    for (const frame of frames.slice(0, homeAt < 0 ? frames.length : homeAt)) {
+      expect(
+        frame.place,
+        `${frame.stage} frame is at the player's home`,
+      ).not.toBe(home);
+      expect(frame.people.some((row) => household.has(row.personId))).toBe(
+        false,
+      );
+    }
+    const address = frames;
     const keyIds = new Set(keyPeopleOf(core, playerId).map((row) => row.id));
     const reached = address.map((frame) => order.indexOf(frame.stage));
     expect(reached).toEqual([...reached].sort((a, b) => a - b));
@@ -232,7 +277,6 @@ describe("the opening story", () => {
     );
     console.log(
       [
-        ...story.lead.map((row) => `anchor: ${row.text}`),
         ...story.address.sentences.map((row) => `${row.level}: ${row.text}`),
       ].join("\n"),
     );

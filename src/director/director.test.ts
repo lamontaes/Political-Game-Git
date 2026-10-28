@@ -5,7 +5,7 @@ import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../core2/life";
-import { P } from "../core2/parameters";
+import { P, parameter } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { comparePlayerMomentsV1 } from "../core2/player-stops-v1";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
@@ -521,8 +521,39 @@ describe("story director on the new core", () => {
     // to carry, a donor, the party, office hours, family, a rally, the desk,
     // staff, a bargain), plus the life moments with a purpose of their own
     // (a new baby, a cause shared), plus an
-    // officeholder's own address.
-    expect(types).toHaveLength(66);
+    // officeholder's own address, plus the party's ask that a member run, plus
+    // the candidate who comes over after a speech that moved a listener in the
+    // room, plus the offer an official finds left for them, plus a resident's
+    // question at a town hall, plus the winner's call from the runner-up after
+    // the count (`concession-received`) (scenes from life), plus the campaign
+    // season's five (an interview and a debate invitation, an offer to help, a
+    // rival's filing, word of a rival's campaign; owner, Oct 26), plus the
+    // department head who argues a cut, plus the sponsor or the group against a
+    // bill who comes to the desk, plus the constituent who stops an officeholder in the street and the hallway
+    // after a body sits (scenes from circumstance, owner, Oct 27); less the
+    // five the director lead deleted on Oct 27: a job interview (the press
+    // interview is the one with a record), the party's ask (the party's
+    // recruit is the same ask), and the three the player starts (asking a
+    // favor or permission, confessing), which the talk box offers rather than
+    // the director.
+    // The count is read from the catalog file itself, so a scene that adds a
+    // type does not collide here.
+    expect(types).toHaveLength(
+      (
+        JSON.parse(
+          readFileSync(
+            join(
+              process.cwd(),
+              "src",
+              "director",
+              "data",
+              "situation-types.json",
+            ),
+            "utf8",
+          ),
+        ) as { types: unknown[] }
+      ).types.length,
+    );
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
@@ -534,14 +565,37 @@ describe("story director on the new core", () => {
           expect(roles.has(role)).toBe(true);
       }
     }
-    const folded = (key: string, producer: string) =>
+    // A race's result reaches the player through a candidate they know; the
+    // player's own win is the race-won scene, not a second celebration.
+    expect(
+      types
+        .find((row) => row.key === "race-told")!
+        .causes.some(
+          (row) =>
+            row.match?.label === "circumstance:race-result-known" &&
+            row.causeRecord === "election-result",
+        ),
+    ).toBe(true);
+    expect(
+      types
+        .find((row) => row.key === "celebration")!
+        .causes.some(
+          (row) =>
+            row.awaitingProducer === "election-result" ||
+            row.causeRecord === "election-result",
+        ),
+    ).toBe(false);
+    // A door the player's own canvass knocked: a first meeting, or a visit
+    // to a door knocked before.
+    const knocked = (key: string) =>
       types
         .find((row) => row.key === key)!
-        .causes.some((row) => row.awaitingProducer === producer);
-    expect(folded("news-arrives", "election-result")).toBe(true);
-    expect(folded("celebration", "election-result")).toBe(true);
-    expect(folded("first-meeting", "canvass-visit")).toBe(true);
-    expect(folded("visit", "canvass-visit")).toBe(true);
+        .causes.some(
+          (row) =>
+            row.causeRecord === "campaign.door" && row.reason === "canvass",
+        );
+    expect(knocked("first-meeting")).toBe(true);
+    expect(knocked("visit")).toBe(true);
   });
 
   it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {
@@ -1105,11 +1159,12 @@ describe("story director on the new core", () => {
     const directorStops = worker.stops.filter((packet) =>
       packet.stop.modules.some((row) => row.moduleId === "p13-story-director"),
     );
-    // One stop, at the midnight after the closure, before 2021-01-11 runs.
+    // One stop, on the morning after the closure: the family scene is at
+    // home, which holds it from the person's day start, never at midnight.
     expect(directorStops).toHaveLength(1);
     expect(directorStops[0]!.at).toEqual({
       date: "2021-01-11",
-      minuteOfDay: P.zero,
+      minuteOfDay: parameter("playerDayStartMinute"),
     });
     expect(directorStops[0]!.stop.modules).toEqual([
       expect.objectContaining({
@@ -1238,9 +1293,17 @@ describe("story director on the new core", () => {
         row.kind === "stop" &&
         row.stop.modules.some((stop) => stop.moduleId === "p13-story-director"),
     );
-    // One stop, at the minute the closure was recorded, not the next midnight.
+    // One stop, at the minute the closure was recorded, not the next
+    // midnight; a minute before the household is up waits for its morning.
     expect(directorStops).toHaveLength(1);
-    expect(directorStops[0]!.at).toEqual(actEnd);
+    const heldAt = {
+      date: actEnd!.date,
+      minuteOfDay: Math.max(
+        actEnd!.minuteOfDay,
+        parameter("playerDayStartMinute"),
+      ),
+    };
+    expect(directorStops[0]!.at).toEqual(heldAt);
     const momentId = `person:worker:${day}:fixture-closed-midday:${day}`;
     expect(directorStops[0]!.stop.modules).toEqual([
       expect.objectContaining({ recordId: momentId, kind: "interrupt" }),
@@ -1260,7 +1323,7 @@ describe("story director on the new core", () => {
       worker.schedule.find((row) => row.momentId === momentId),
     ).toMatchObject({
       interrupt: true,
-      stop: { recordId: momentId, at: actEnd },
+      stop: { recordId: momentId, at: heldAt },
     });
   });
 

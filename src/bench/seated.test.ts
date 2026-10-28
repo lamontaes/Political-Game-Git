@@ -41,18 +41,32 @@ describe(`seated people at ${place}`, () => {
 
   it("puts the hip line on the seat cushion, centered on the seat", () => {
     for (const spot of seats) {
-      const { figure } = placeSeated(seated, standing, "adult", stage, spot);
+      const { figure } = placeSeated(
+        seated,
+        standing,
+        "adult",
+        place,
+        stage,
+        spot,
+      );
       const scale = figure.heightPercent / seated.height;
       expect(figure.topPercent + 560 * scale).toBeCloseTo(spot.seatY!, 6);
-      expect(figure.leftPercent + figure.widthPercent / 2).toBeCloseTo(
-        spot.x,
-        6,
-      );
-      // Behind a desk: cut off at the desk, and no shadow on a hidden floor.
-      if (spot.clipBelowY !== undefined && spot.clipBandEndY === undefined) {
-        expect(figure.clipBelowPercent).toBe(spot.clipBelowY);
-        expect(figure.shadow).toBeNull();
-      } else expect(figure.shadow).not.toBeNull();
+      // Centered on the seat, moved in only as far as the picture's sides need.
+      const center = figure.leftPercent + figure.widthPercent / 2;
+      if (
+        spot.x - figure.widthPercent / 2 >= 0 &&
+        spot.x + figure.widthPercent / 2 <= 100
+      )
+        expect(center).toBeCloseTo(spot.x, 6);
+      else {
+        expect(figure.leftPercent).toBeGreaterThanOrEqual(0);
+        expect(figure.leftPercent + figure.widthPercent).toBeLessThanOrEqual(
+          100.000001,
+        );
+      }
+      // Behind a desk: no shadow on a hidden floor.
+      if (spot.behindY !== undefined) expect(figure.shadow).toBeNull();
+      else expect(figure.shadow).not.toBeNull();
     }
   });
 

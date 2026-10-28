@@ -1,0 +1,552 @@
+{
+  "seed": "ebeaebd8504c670c",
+  "place": {
+    "seed": "ff9f86424ae744d07c822e8fde62f06287481184b293cca63b8f10069043327b",
+    "key": "3439630",
+    "name": "Lebanon, New Jersey",
+    "state": "US-NJ"
+  },
+  "window": 400,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+      "kind": "question",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2026-02-26",
+      "lawIds": [
+        "law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+        "law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2026-02-26:law-wiring-fbc8b216-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e",
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e176247754c4e1",
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_2bf73e822188c0dc"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e",
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e176247754c4e1",
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_2bf73e822188c0dc"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 367,
+        "src/core2/modules/world-legislating.ts:253": 320,
+        "src/core2/modules/legislature.ts:2133": 203,
+        "src/core2/modules/world-legislating.ts:183": 96,
+        "src/core2/modules/business.ts:1340": 78,
+        "src/core2/modules/business.ts:921": 26,
+        "src/core2/life.ts:556": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-NJ:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 6410228085,
+            "control": 6405618842,
+            "ids": [
+              "journal:2025-01-25:1676",
+              "journal:2025-01-25:1678",
+              "journal:2025-01-25:1680"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 5260480940,
+            "control": 5256063384,
+            "ids": [
+              "journal:2025-02-01:3622",
+              "journal:2025-02-01:3623",
+              "journal:2025-02-01:3624"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 7533749036,
+            "control": 7537467057,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:698",
+            "treatment": 3835165473,
+            "control": 3831522890,
+            "ids": [
+              "journal:2025-02-01:3296",
+              "journal:2025-02-01:3297",
+              "journal:2025-02-01:3298"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 767514535,
+            "control": 770104955,
+            "ids": [
+              "journal:2025-01-28:1707",
+              "journal:2025-01-28:1711",
+              "journal:2025-01-28:1715"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1104",
+            "treatment": 770455695495675,
+            "control": 770455693049237,
+            "ids": [
+              "journal:2025-02-01:1810",
+              "journal:2025-02-01:1811",
+              "journal:2025-02-01:1812"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 2009192273,
+            "control": 2006860115,
+            "ids": [
+              "journal:2025-02-01:2025",
+              "journal:2025-02-01:2026",
+              "journal:2025-02-01:2027"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1825514034,
+            "control": 1827702222,
+            "ids": [
+              "journal:2025-01-21:1643",
+              "journal:2025-01-21:1660",
+              "journal:2025-02-01:1975"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1603",
+            "treatment": 3704112239,
+            "control": 3706057217,
+            "ids": [
+              "journal:2025-01-28:1708",
+              "journal:2025-01-28:1712",
+              "journal:2025-01-28:1716"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:309",
+            "treatment": 47463331,
+            "control": 45882110,
+            "ids": [
+              "journal:2025-10-01:95932",
+              "journal:2025-10-01:95933",
+              "journal:2025-10-01:95934"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:2677",
+            "treatment": 7440619,
+            "control": 6454717,
+            "ids": [
+              "journal:2025-04-01:24968",
+              "journal:2025-04-01:24969",
+              "journal:2025-04-01:24970"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:807",
+            "treatment": 195817239487622,
+            "control": 195817238825337,
+            "ids": [
+              "journal:2025-02-01:1800",
+              "journal:2025-02-01:1801",
+              "journal:2025-02-01:1802"
+            ]
+          }
+        ],
+        "diffKinds": 41,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 3,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+              "way": "in",
+              "targets": 3,
+              "moved": 150000,
+              "earliest": "2025-04-18",
+              "sample": [
+                {
+                  "target": "organization_2bf73e822188c0dc",
+                  "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_2bf73e822188c0dc",
+                  "date": "2025-04-18",
+                  "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -50000,
+                  "journal": ""
+                },
+                {
+                  "target": "organization_e9e175247754c32e",
+                  "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e",
+                  "date": "2025-04-18",
+                  "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -50000,
+                  "journal": ""
+                },
+                {
+                  "target": "organization_e9e176247754c4e1",
+                  "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e176247754c4e1",
+                  "date": "2025-04-18",
+                  "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -50000,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+              "way": "out",
+              "targets": 2,
+              "moved": 99999,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "organization_2bf73e822188c0dc",
+                  "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_2bf73e822188c0dc",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+                  "way": "out",
+                  "treatment": -1380546,
+                  "control": -1330546,
+                  "journal": "journal:2025-05-01:33702"
+                },
+                {
+                  "target": "organization_e9e175247754c32e",
+                  "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+                  "way": "out",
+                  "treatment": -3048494,
+                  "control": -2998495,
+                  "journal": "journal:2025-05-01:33691"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "out",
+              "targets": 1,
+              "moved": 16163,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "organization_e9e176247754c4e1",
+                  "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e176247754c4e1",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": -16320453,
+                  "control": -16304290,
+                  "journal": "journal:2025-04-01:22320"
+                }
+              ]
+            },
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 1,
+              "moved": 14569,
+              "earliest": "2025-03-30",
+              "sample": [
+                {
+                  "target": "organization_e9e176247754c4e1",
+                  "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e176247754c4e1",
+                  "date": "2025-03-30",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": -215874,
+                  "control": -230443,
+                  "journal": "journal:2025-03-30:21770"
+                }
+              ]
+            },
+            {
+              "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+              "way": "in",
+              "targets": 1,
+              "moved": 1594,
+              "earliest": "2025-03-30",
+              "sample": [
+                {
+                  "target": "organization_e9e176247754c4e1",
+                  "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e176247754c4e1",
+                  "date": "2025-03-30",
+                  "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+                  "way": "in",
+                  "treatment": -203842,
+                  "control": -205436,
+                  "journal": "journal:2025-03-30:21772"
+                }
+              ]
+            }
+          ],
+          "paid": 3,
+          "pick": "interest-group-dues @ src/core2/modules/interest-groups.ts:433|in",
+          "sample": [
+            {
+              "target": "organization_2bf73e822188c0dc",
+              "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_2bf73e822188c0dc",
+              "date": "2025-04-18",
+              "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+              "way": "in",
+              "treatment": 0,
+              "control": -50000,
+              "journal": ""
+            },
+            {
+              "target": "organization_e9e175247754c32e",
+              "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e175247754c32e",
+              "date": "2025-04-18",
+              "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+              "way": "in",
+              "treatment": 0,
+              "control": -50000,
+              "journal": ""
+            },
+            {
+              "target": "organization_e9e176247754c4e1",
+              "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e9e176247754c4e1",
+              "date": "2025-04-18",
+              "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+              "way": "in",
+              "treatment": 0,
+              "control": -50000,
+              "journal": ""
+            }
+          ],
+          "near": [
+            {
+              "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+              "way": "in",
+              "targets": 3,
+              "first": {
+                "target": "organization_2bf73e822188c0dc",
+                "row": "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_2bf73e822188c0dc",
+                "date": "2025-04-18",
+                "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+                "way": "in",
+                "treatment": 0,
+                "control": -50000,
+                "journal": ""
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "emission-rules-to-particulates",
+            "status": "built",
+            "to": "env.particulates"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2026-02",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          }
+        ],
+        "firedCount": 1,
+        "windowDays": 400,
+        "cause": [
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-01",
+            "month": "2025-01",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-02",
+            "month": "2025-02",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-03",
+            "month": "2025-03",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-04",
+            "month": "2025-04",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-05",
+            "month": "2025-05",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-06",
+            "month": "2025-06",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-07",
+            "month": "2025-07",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-08",
+            "month": "2025-08",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-09",
+            "month": "2025-09",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-10",
+            "month": "2025-10",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-11",
+            "month": "2025-11",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7303b6b2477005c1:2025-12",
+            "month": "2025-12",
+            "link": "emission-rules-to-particulates",
+            "from": "law:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 144,
+        "sample": [
+          "person_0ea5c71948f2853c:printed:outlet:newspaper:0:jurisdiction_7303b6b2477005c1:law-took-effect:law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+          "person_2d0d60cb95de15fd:printed:outlet:newspaper:0:jurisdiction_7303b6b2477005c1:law-took-effect:law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+          "person_678200aacb1ce921:printed:outlet:newspaper:0:jurisdiction_7303b6b2477005c1:law-took-effect:law:place:3439630:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 176
+    }
+  ]
+}

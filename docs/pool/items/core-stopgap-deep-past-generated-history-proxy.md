@@ -4,7 +4,7 @@ title: "Stopgaps in deep-past (generated-history-proxy): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: dropped
+status: open
 claimed-by:
 pr:
 blocked-on: research-deep-past-sourced-parameters
