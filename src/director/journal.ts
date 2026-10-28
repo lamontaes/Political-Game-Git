@@ -343,10 +343,7 @@ function householdMoments(
       pastParameter(null, "pastEarliestMemoryAge") * P.daysPerMeanYear,
     ),
   );
-  const grown = addDays(
-    bornOn,
-    Math.round(P.votingAge * P.daysPerMeanYear),
-  );
+  const grown = addDays(bornOn, Math.round(P.votingAge * P.daysPerMeanYear));
   for (const id of parents)
     for (const row of pastWorkOf(core as CoreState, id as PersonId)) {
       if (row.kind !== PAST_WORK_SPELL) continue;
