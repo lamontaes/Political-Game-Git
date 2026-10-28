@@ -1831,7 +1831,7 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 346,
-    "whatItFakes": "Farmland protection is a rule record on farms, builders and real-estate firms; no parcel or development changes.",
+    "whatItFakes": "Farmland protection is a rule record on farms, builders and real-estate firms; no land parcel is recorded. The builders carry the outcome web's researched cut in farmland loss (farmland-easements-to-farmland-lost, Liu and Lynch 2011) as less land open to single-family starts, from the law's effective date rather than after the research's five-year lag.",
     "why": "Land parcels and development aren't modeled.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
@@ -6179,7 +6179,7 @@
     "id": "SG-WEB-unread-labor-unemployment-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 584,
+    "line": 578,
     "whatItFakes": "social-security-tax-to-unemployment, medicare-tax-to-unemployment, federal-unemployment-tax-to-unemployment, state-unemployment-tax-to-unemployment move labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6515,7 +6515,7 @@
     "id": "SG-WEB-unread-school-college-completion-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 614,
+    "line": 608,
     "whatItFakes": "higher-education-spending-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6544,8 +6544,8 @@
     "why": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts) reads this law and cuts the town's single-family starts by its own land elasticity, not this row's size and five-year lag, and no engine keeps the acres converted",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns farmland.developed-acres multiplies its own person, household or organization rate by webReach(api, placeId, \"farmland.developed-acres\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-water-irrigation-groundwater",
@@ -6563,7 +6563,7 @@
     "id": "SG-WEB-unread-farmland-value-per-acre",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 560,
+    "line": 554,
     "whatItFakes": "farm-payments-cut-to-land-values moves farmland.value-per-acre only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6575,7 +6575,7 @@
     "id": "SG-WEB-unread-rail-intercity-ridership",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 572,
+    "line": 566,
     "whatItFakes": "federal-rail-expansion-to-riders moves rail.intercity-ridership only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -7261,6 +7261,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-draw-helpers-three",
+    "kind": "rule-copy",
+    "file": "src/core2/macro-model.ts",
+    "line": 185,
+    "whatItFakes": "Three helpers draw a world's offset around a published figure with the same rule (macro-model worldOffset, the budgets module's budgetWorldFactor, world-draw's worldOffsetShare), each with its own floor parameter of the same value.",
+    "why": "Each source table was drawn in its own PR the same night; folding the macro and budget draws into world-draw would touch two merged readers and their tests in a statistics PR.",
+    "addedBy": "realistic-money-and-population-per-world (Claude Opus, wire-office)",
+    "addedAt": "2026-10-28",
+    "replacement": "world-draw.ts is the one draw: worldOffset and budgetWorldFactor call it and the macro and budget floor parameters are deleted for worldDrawOffsetFloorShare.",
+    "status": "open"
+  },
+  {
     "id": "SG-WIRE-PEOPLE-SCHOOLMATES",
     "kind": "history-gap",
     "file": "src/core2/state.ts",
@@ -7270,6 +7282,18 @@
     "addedBy": "wire-people-and-director",
     "addedAt": "2026-10-28",
     "replacement": "The pre-start schooling pass (engine map line 7) records each person's school and school years in the school engine's attended records; sharedHistory reads schoolmates from them and the opening meets each student's class through the encounters engine.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-plate-overflow-spots",
+    "kind": "placeholder-art",
+    "file": "scripts/people/room-spots.ts",
+    "line": 231,
+    "whatItFakes": "Where a room holds more people than its mannequin plate painted (a council's gallery, an election-night crowd, a big household), the old hand-typed spots the plate does not cover stay after the plate's own spots, with their depth masks, instead of measured ones.",
+    "why": "The plates for the opening rooms paint a few people each (art/people-rooms/spots, Oct 28); the rooms seat more, and dropping the old spots would leave people unplaced.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
     "status": "open"
   }
 ]

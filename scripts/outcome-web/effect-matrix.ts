@@ -243,14 +243,7 @@ function researchBlocker(
 function reaches(link: WebLink & { carriedBy?: string }): Point {
   const point = unrun(link, reachPoint(link));
   if (point.status === "pass") return point;
-  // An engine that reads the same cause by its own mechanic does not carry
-  // this row's size and lag; the link stays unwired and says so.
-  const why = [
-    point.why,
-    researchBlocker(link),
-    link.engineGap &&
-      `an engine reads the cause its own way: ${link.engineGap}`,
-  ].filter(Boolean);
+  const why = [point.why, researchBlocker(link)].filter(Boolean);
   return { ...point, why: why.join("; ") };
 }
 
