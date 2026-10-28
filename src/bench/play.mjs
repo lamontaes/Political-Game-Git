@@ -968,14 +968,6 @@ function billBlock(item, buttons, onPaper) {
         .filter(Boolean)
         .join(" · "),
     }),
-    el("div", {
-      textContent: item.provisions
-        .map(
-          (p) =>
-            `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
-        )
-        .join("; "),
-    }),
     item.remarks.length
       ? el("div", {
           textContent: item.remarks

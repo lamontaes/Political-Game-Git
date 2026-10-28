@@ -36,7 +36,7 @@ import { budgetProposalDue } from "../core2/office-day-acts";
 import { budgetsOf, governments } from "../core2/modules/budgets";
 import { lineName } from "./budget";
 
-/** A bill as the meeting and the desk show it: its real name, number, sponsor, sections, remarks and votes. */
+/** A bill as the meeting and the desk show it: its real name, number, sponsor, remarks and votes; its sections are on the paper (Read the bill). */
 export function billItem(core: CoreState, bill: BillRow) {
   const api = coreAPI(core);
   return {
@@ -46,7 +46,6 @@ export function billItem(core: CoreState, bill: BillRow) {
     number: bill.number,
     status: bill.status,
     sponsor: personName(core, bill.sponsorId),
-    provisions: bill.provisions,
     remarks: remarksOn(api, bill.id).map((r) => ({
       name: personName(core, r.personId),
       position: r.position,
