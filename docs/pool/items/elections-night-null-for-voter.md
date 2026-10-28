@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/elections-night-for-voter
-pr:
+pr: #6632
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T15:26:04.693Z
