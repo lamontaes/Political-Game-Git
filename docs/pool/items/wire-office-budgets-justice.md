@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 1
 size: L
-status: claimed
-claimed-by: claude/wire-office-budgets
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T05:25:11.160Z
+claimed-at:
 ---
 
 **What.** Engine map lines 5 and 27 to 30. The 38 statistics still copied into every world (docs/reports/real-statistics-in-play-2026-10-27.md) are drawn per world, one source table per PR, using the existing per-world draw (seededUnit, the pattern of #6446). src/core2/office-day-state.ts's own term writer folds into the one in src/core2/modules/offices.ts. The 14 level branches in src/core2/modules/legislature.ts become body rows (chambers, veto holder, term years) the one engine reads. Budget bases (src/core2/modules/budgets.ts around 610-650) become one row per government in data/research/money/public-budget-bases.json. One case-and-sentence engine: src/core2/modules/public-safety.ts reads the crime engine's victims and src/core2/modules/justice.ts's cases, its own copies deleted. Time box: 6 hours.
