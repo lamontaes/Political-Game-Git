@@ -1236,9 +1236,9 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
     (provision.series === "income-tax" || provision.series === "sales-tax")
   ) {
     // The state's grant of local income-tax authority is the row in force
-    // today (a later row withdraws what an earlier one granted); a local sales
-    // tax needs only that the state records one. No bill offers the grant yet
-    // (stopgapId: SG-LAW-local-income-tax-authority-change).
+    // today (a later row withdraws what an earlier one granted, by a state
+    // bill from the catalog's law:local-income-tax-authority); a local sales
+    // tax needs only that the state records one.
     const rows =
       provision.series === "income-tax"
         ? lawInForce(api, "local-income-tax-authority")
@@ -1489,8 +1489,8 @@ export function shapedRate(
 /**
  * One section of a bill as the record holds it, for the paper to word: what
  * it changes (the series, question or budget line), the law in force before
- * (its value, shape and the statute it cites), what the section makes it, and
- * the terms the player may edit (the number, the date, the shape).
+ * (its value, shape and the measure that enacted it), what the section makes
+ * it, and the terms the player may edit (the number, the date, the shape).
  */
 export interface BillSection {
   readonly index: number;
@@ -1501,7 +1501,18 @@ export interface BillSection {
     readonly unit: string | null;
     readonly shape: "flat" | "graduated" | null;
     readonly lawId: string | null;
+    /**
+     * What the section cites as the law it amends, for the English engine:
+     * the designation of the bill, passed in play, that enacted it, with
+     * that bill's form; or, for a law in force when the game began, the
+     * statute its research recorded (`terms.cite`), since laws in force stay
+     * the real starting law (owner, Oct 27). Null where neither is on record:
+     * a starting row's research source (a web page, a survey, a note on how
+     * it was estimated) only calibrated the row and is never said in play.
+     */
     readonly statute: string | null;
+    /** The enacting bill's form; null for a recorded statute. */
+    readonly statuteForm: BillFormKind | null;
   };
   readonly after: {
     readonly value: number;
@@ -1535,6 +1546,19 @@ export function billSections(
           ? "flat"
           : null
       : null;
+    // The bill that enacted the law in force, when one on record did: an
+    // order or a ballot measure has no designation a section cites. A
+    // starting law cites the statute its research recorded, if any.
+    const enactedByBill = row?.terms?.enactedByBill;
+    const enacting =
+      typeof enactedByBill === "string"
+        ? (table(api, "bills").get(enactedByBill) as unknown as
+            BillRow | undefined)
+        : undefined;
+    const recorded =
+      typeof row?.terms?.cite === "string" && row.terms.cite
+        ? row.terms.cite
+        : null;
     const before: BillSection["before"] =
       p.kind === "budget-line"
         ? {
@@ -1543,17 +1567,15 @@ export function billSections(
             shape: null,
             lawId: null,
             statute: null,
+            statuteForm: null,
           }
         : {
             value: row?.value ?? null,
             unit: row?.unit ?? null,
             shape: shapeBefore,
             lawId: row?.id ?? null,
-            statute: row
-              ? Array.isArray(row.source)
-                ? row.source.join("; ")
-                : String(row.source)
-              : null,
+            statute: enacting?.number || recorded,
+            statuteForm: enacting?.number ? enacting.form.kind : null,
           };
     return {
       index,
@@ -3015,6 +3037,19 @@ function dealValue(
     ? closenessBetween(api.state as CoreState, memberId, sponsorId)
     : 0;
   return weight * (1 + Math.max(0, tie));
+}
+
+/**
+ * What a yes given as a favor to `askerId` is worth on `memberId`'s position:
+ * the weight a scene reply's favor carries at the roll (`replyPull`), so an
+ * answer in a scene can be weighed by what the roll call will read.
+ */
+export function favorWorth(
+  api: CoreAPI,
+  memberId: string,
+  askerId: string,
+): number {
+  return dealValue(api, "favor", memberId, askerId);
 }
 
 /** What a sponsor owes the members who took their deals (favors, backing their items). */

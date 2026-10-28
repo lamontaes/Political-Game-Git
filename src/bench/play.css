@@ -1695,77 +1695,6 @@ body.dev .dev-ring {
   margin: 0;
 }
 
-/* Family: each member where they are now. */
-#sheet-body:has(.family-card) {
-  max-width: none;
-  columns: 4 220px;
-}
-.family-card {
-  font-size: 12.5px;
-  margin-bottom: 16px;
-}
-.family-card b {
-  display: block;
-  font: 800 14px var(--name);
-  letter-spacing: 0.05em;
-}
-.family-card div {
-  color: var(--text-2);
-}
-.family-pic {
-  position: relative;
-  aspect-ratio: 1672 / 941;
-  overflow: hidden;
-  border: 1px solid rgba(214, 189, 132, 0.3);
-  margin-bottom: 6px;
-}
-.family-pic img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.family-pic img.family-figure {
-  left: 30%;
-  width: 40%;
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom;
-}
-
-/* The map of who represents you. */
-#sheet-body:has(.map) {
-  max-width: none;
-}
-#sheet-body .row.map {
-  display: block;
-  column-span: all;
-  border: 0;
-}
-.gov-map {
-  width: 100%;
-  max-height: 38vh;
-}
-.gov-map .state {
-  fill: rgba(242, 237, 228, 0.06);
-  stroke: var(--brass);
-  stroke-width: 0.4;
-}
-.gov-map .county {
-  fill: none;
-  stroke: rgba(242, 237, 228, 0.25);
-  stroke-width: 0.12;
-}
-.gov-map .yours {
-  fill: rgba(214, 189, 132, 0.18);
-  stroke: var(--gold);
-  stroke-width: 0.25;
-}
-.gov-map .yours.place {
-  fill: var(--gold);
-}
-
 /* Person cards share the character screen's large side figure and Kit 13 panel. */
 .dossier {
   left: 50%;
@@ -2152,8 +2081,9 @@ body.dev .dev-ring {
 }
 .story-image {
   width: 100%;
-  max-height: 200px;
+  max-height: 260px;
   object-fit: cover;
+  object-position: center 35%;
   margin-bottom: 14px;
 }
 /* The front page: a rule under the masthead, the lead story's text in the
@@ -2234,6 +2164,43 @@ body.dev .dev-ring {
 }
 .paper-weekly .paper-story.lead {
   grid-row: auto;
+}
+/* The engraved masthead (art/newspaper-mockups): the paper's name in ink,
+   set in the plate; play.mjs engraveMasthead sizes the strip and the plate. */
+.paper-masthead h2.engraved {
+  position: relative;
+  width: min(100%, 720px);
+  margin: 0 auto 8px;
+  background: center / 100% 100% no-repeat;
+  color: #2b241b;
+  font-size: clamp(18px, 2.2vw, 38px);
+  line-height: 1;
+}
+.paper-masthead h2.engraved .plate {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.paper-story.lead .story-image,
+#news-reader-body .story-image {
+  float: right;
+  width: 46%;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-position: center 20%;
+  margin: 4px 0 10px 18px;
+}
+/* A story with only its headline runs its photo across the column. */
+.paper-story.lead .story-image:last-child {
+  float: none;
+  width: 100%;
+  margin: 8px 0 0;
+}
+.paper-masthead:has(h2.engraved) {
+  border-bottom: none;
+  padding-bottom: 6px;
 }
 .article-title {
   font: 600 32px var(--speech);
@@ -2445,42 +2412,80 @@ body.dev .dev-ring {
   height: 100%;
   overflow: visible;
 }
+/* The People map as the owner liked it (Oct 28: the earlier web): a round
+   face in a ring colored by kind, and lines you can see, in the same color. */
+.people-node,
+.people-key span {
+  --kind: rgba(200, 185, 151, 0.6);
+}
+.people-node.family,
+.people-key .family {
+  --kind: rgba(194, 155, 72, 0.9);
+}
+.people-node.household,
+.people-key .household {
+  --kind: rgba(200, 185, 151, 0.8);
+}
+.people-node.friends,
+.people-key .friends {
+  --kind: rgba(132, 176, 128, 0.85);
+}
+.people-node.work,
+.people-key .work {
+  --kind: rgba(140, 170, 190, 0.85);
+}
+.people-node.politics,
+.people-key .politics {
+  --kind: rgba(176, 120, 96, 0.9);
+}
 .people-edge {
-  stroke: #887f72;
-  stroke-width: 0.25;
+  stroke: rgba(200, 185, 151, 0.45);
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
 }
 .people-edge.family {
-  stroke: var(--gold);
+  stroke: rgba(194, 155, 72, 0.85);
 }
 .people-edge.household {
-  stroke: var(--gold);
-  stroke-dasharray: 1 1;
+  stroke: rgba(200, 185, 151, 0.7);
+  stroke-dasharray: 4 3;
+}
+.people-edge.friends {
+  stroke: rgba(132, 176, 128, 0.8);
 }
 .people-edge.work {
-  stroke: #819bad;
+  stroke: rgba(140, 170, 190, 0.8);
 }
 .people-edge.politics {
-  stroke: #ba8068;
+  stroke: rgba(176, 120, 96, 0.85);
 }
 .people-edge.selected {
-  stroke-width: 0.6;
+  stroke-width: 3px;
 }
 .people-node.dim,
 .people-edge.dim {
-  opacity: 0.25;
+  opacity: 0.32;
 }
+/* The face's center sits on the point; names hang below, or above for the
+   people in the top half. */
 #sheet-body .people-node {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -30px);
   width: 155px;
   display: grid;
   justify-items: center;
-  gap: 4px;
+  gap: 3px;
   background: none;
   border: none;
   box-shadow: none;
   padding: 0;
   margin: 0;
+}
+#sheet-body .people-node.above {
+  transform: translate(-50%, calc(-100% + 30px));
+}
+.people-node.above > :first-child {
+  order: 9;
 }
 .people-node::after {
   display: none;
@@ -2492,14 +2497,38 @@ body.dev .dev-ring {
   font: 12px var(--ui);
   color: var(--text-2);
 }
+.people-node b,
+.people-node span,
+.people-node em,
+.people-center b {
+  text-shadow:
+    0 0 3px var(--iron),
+    0 0 3px var(--iron);
+}
 .people-node img,
 .people-center img,
-.people-initial {
-  width: 48px;
-  height: 54px;
+.people-initial,
+.headshot {
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid var(--kind, var(--gold));
   object-fit: cover;
-  object-position: top;
+  object-position: center top;
   background: var(--iron);
+}
+.people-center img,
+.people-center .people-initial,
+.people-center .headshot {
+  width: 72px;
+  height: 72px;
+  border-color: var(--gold);
+}
+/* The headshot's figure is placed inside the round frame by play.mjs. */
+.headshot {
+  display: block;
+  background-repeat: no-repeat;
 }
 .people-node .people-initial,
 .people-center .people-initial {
@@ -2507,6 +2536,12 @@ body.dev .dev-ring {
   place-items: center;
   color: var(--gold);
   font: 20px var(--name);
+}
+.people-node.selected img,
+.people-node.selected .people-initial,
+.people-node.selected .headshot {
+  border-width: 4px;
+  border-color: var(--gold);
 }
 .people-node.selected b {
   color: var(--gold);
@@ -2534,18 +2569,15 @@ body.dev .dev-ring {
   margin: 12px 0;
 }
 .people-key span::before {
-  content: "—";
-  padding-right: 7px;
+  content: "";
+  display: inline-block;
+  width: 22px;
+  margin-right: 7px;
+  vertical-align: middle;
+  border-top: 2px solid var(--kind);
 }
-.people-key .family,
-.people-key .household {
-  color: var(--gold);
-}
-.people-key .work {
-  color: #819bad;
-}
-.people-key .politics {
-  color: #ba8068;
+.people-key .household::before {
+  border-top-style: dashed;
 }
 .people-list {
   display: grid;
@@ -2562,6 +2594,13 @@ body.dev .dev-ring {
 }
 .people-list .people-node > :first-child {
   grid-row: span 2;
+  order: 0;
+}
+.people-list .people-node img,
+.people-list .people-initial,
+.people-list .headshot {
+  width: 48px;
+  height: 48px;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(

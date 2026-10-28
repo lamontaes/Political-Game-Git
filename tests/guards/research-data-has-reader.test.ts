@@ -34,7 +34,7 @@ interface AllowEntry {
 // where it skipped the reader guard; it waits for the hiring engine to read it.
 const AWAITING_READER_CEILING = 8;
 /** The same for the files found unread on Oct 16 (see `unreadFound`). */
-const UNREAD_FOUND_CEILING = 364;
+const UNREAD_FOUND_CEILING = 354;
 
 const allowlist = JSON.parse(
   readFileSync(

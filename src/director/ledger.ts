@@ -12,6 +12,7 @@
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
 import { closenessBetween } from "../core2/closeness";
+import { sharedHistory } from "../core2/shared-history";
 import { P, parameterValues } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
@@ -627,8 +628,8 @@ export function createDirector(
       daysBetween(makeIsoDate(last), makeIsoDate(date)),
     );
     const halfLife = thread.kin.length
-      ? param("directorKinHalfLifeDays")
-      : param("directorFriendHalfLifeDays");
+      ? P.closenessKinHalfLifeDays
+      : P.closenessOtherHalfLifeDays;
     return one - Math.pow(P.two, -days / halfLife);
   }
 
@@ -965,7 +966,17 @@ export function createDirector(
       // A tie moves a little with each contact; it turns when the change since
       // its last turn adds up, as a friendship grows over many meetings.
       thread.tieDrift = (thread.tieDrift ?? zero) + delta;
-      change(causeId, `contact:${row.kind}`, "tie", Math.abs(thread.tieDrift), [
+      // A tie made working on one's campaign is that history, not chance
+      // meetings around town: its label names it (shared-history.ts), so a
+      // known volunteer is never cast in a stranger's scene.
+      const made =
+        row.kind === "contact" &&
+        sharedHistory(core, book.personId, otherId).some(
+          (row) => row.kind === "campaign",
+        )
+          ? "campaign"
+          : row.kind;
+      change(causeId, `contact:${made}`, "tie", Math.abs(thread.tieDrift), [
         otherId,
       ]);
       if (

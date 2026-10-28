@@ -1078,7 +1078,7 @@ function webUse(
     const placeKey = (api.state as CoreState).placeMetadata.placeKey ?? "";
     const level =
       webLevel(api, rule.placeId, RECYCLED, subject)?.level ??
-      baseOf(RECYCLED, stateOfPlaceKey(placeKey) ?? "").value;
+      baseOf(RECYCLED, stateOfPlaceKey(placeKey) ?? "", api.state.seed).value;
     return { ...same, redemption: Math.min(1, Math.max(0, level / PERCENT)) };
   }
   if (rule.good === "transit-fare" && rule.kind === "price")

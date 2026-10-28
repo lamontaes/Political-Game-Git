@@ -13,6 +13,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
+import backs from "../../art/people-engine/v2/figures-back.json" with { type: "json" };
 
 const HAIR = "art/people-engine/v2/hair-on-figures/index.json";
 const OUT = "src/bench/data/figure-heads.json";
@@ -65,7 +66,7 @@ if (existsSync(HAIR))
     given.set(piece.figure, piece.head);
 
 const heads: Record<string, [number, number, number]> = {};
-for (const row of index.figures as { file: string }[]) {
+for (const row of [...index.figures, ...backs.figures] as { file: string }[]) {
   const name = row.file
     .split("/")
     .pop()!

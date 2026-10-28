@@ -1,0 +1,99 @@
+{
+ "scene": "governor-office",
+ "plate": "sg-gov",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "business"
+ },
+ "zones": [
+  {
+   "name": "stray legs under the visitor chairs",
+   "box": [
+    100,
+    470,
+    640,
+    720
+   ],
+   "drop": true
+  },
+  {
+   "name": "stray pieces by the coffee table",
+   "box": [
+    1240,
+    395,
+    1390,
+    560
+   ],
+   "drop": true
+  },
+  {
+   "name": "governor's desk",
+   "box": [
+    440,
+    230,
+    600,
+    330
+   ],
+   "pose": "sit",
+   "seat": "desk-chair",
+   "facing": 0,
+   "coveredBy": "desk",
+   "hands": "on desk",
+   "role": "governor",
+   "dress": "formal"
+  },
+  {
+   "name": "visitor chairs",
+   "box": [
+    150,
+    330,
+    620,
+    470
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": 180,
+   "coveredBy": "chair-back"
+  },
+  {
+   "name": "standing",
+   "box": [
+    800,
+    180,
+    960,
+    700
+   ],
+   "pose": "stand",
+   "facing": 0
+  },
+  {
+   "name": "couch",
+   "box": [
+    1060,
+    240,
+    1360,
+    395
+   ],
+   "pose": "sit",
+   "seat": "couch",
+   "facing": 0,
+   "coveredBy": "coffee-table"
+  },
+  {
+   "name": "armchair",
+   "box": [
+    1400,
+    260,
+    1680,
+    620
+   ],
+   "pose": "sit",
+   "seat": "armchair",
+   "facing": -45
+  }
+ ]
+}
