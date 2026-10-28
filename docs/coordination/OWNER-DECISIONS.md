@@ -6,6 +6,12 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 02:00 UTC: one UI package (owner, 9:55 PM Eastern Oct 27)
+
+- **One engine per mechanic, for the whole game (owner, 10:10 PM Eastern Oct 27: "There's one election engine. They all work the same, except some of them are assigned different things because they're state or a congressional thing. You shouldn't need a million different election levers"; and: "don't just take election specifically. The game generally").** Every mechanic has one engine; levels, offices, bodies, places and laws are rows it reads. The duplicates session inventories every family at once and collapses each to one; AGENTS.md carries the rule.
+- **One UI package: a few menu types, one renderer each, every screen a definition (owner: "Why are there so many individual UI elements? There needs to be one for every menu, and then a menu type, and then just insert it... How hard is it to just put in one UI package that I can update? It should not take 7 hours to change the menus when everything's already been designed"; and on Budgets: "It should not just be words on this blank background").** No screen draws itself; a screen is data (its type, sections, labels, readers) and the type's renderer draws it; changing a type changes every menu of that type. The screens designer builds it, Budgets and Jobs first; a lint fails any screen outside the package.
+- **UI is not done until the owner's build shows it:** eleven screens merged Oct 27 after v0.59.0 packaged, so he saw none of them; the CTO dispatches a build after every batch of screen merges rather than waiting for the two-hour cron.
+
 ## Oct 28, 01:00 UTC: the People screen (owner, 9 PM Eastern Oct 27, with a screenshot of v0.59.0)
 
 - **The people map is the earlier one he liked, restored, not redesigned (owner: "There was a people map that had already been made that I had already really liked. There's no reason to try to reinvent it. It had different colors for different people").** Colors per kind of person; visible lines.

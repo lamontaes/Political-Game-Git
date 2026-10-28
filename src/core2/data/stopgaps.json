@@ -7126,18 +7126,6 @@
     "status": "open"
   },
   {
-    "id": "SG-PLAY-hair-back-view-nearest-style",
-    "kind": "data-gap",
-    "file": "src/bench/figure-hair.ts",
-    "line": 65,
-    "whatItFakes": "A hair style the art session has not painted from behind (4 of 12 styles per sex are) is drawn on a back view with the back piece of the nearest-numbered painted style, so the same person's hair can differ from behind.",
-    "why": "The first hair delivery (Oct 27) painted front and three-quarter pieces for most styles and back pieces for only four; the rest are coming from the owner's local art session.",
-    "addedBy": "claude/people-hair",
-    "addedAt": "2026-10-27",
-    "replacement": "Back pieces for every style in art/people-engine/v2/hair-on-figures, read as painted.",
-    "status": "open"
-  },
-  {
     "id": "SG-TRAITS-counted-hardship-stress",
     "kind": "partial-model",
     "file": "src/core2/trait-decisions.ts",
