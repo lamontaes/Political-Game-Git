@@ -16,6 +16,14 @@ import { buildPublicFigures } from "./past-public";
 import { pastTown } from "./past-bodies";
 import { openPastModule, pastTable, putPast } from "./past-module";
 
+// The one history and what two people share, for readers outside the family.
+export { preStartHistory } from "./pre-start";
+export {
+  attendedSchool,
+  sharedHistory,
+  type AttendedRow,
+} from "./shared-history";
+
 export interface PastSummary {
   readonly elections: number;
   readonly bills: number;

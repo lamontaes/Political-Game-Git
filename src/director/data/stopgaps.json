@@ -257,11 +257,11 @@
     "file": "src/director/opening-story.ts",
     "line": 1,
     "whatItFakes": "The register card the evening news composes under: the press briefing's card stands in for a newscast.",
-    "why": "The engine has no register card for a newscast yet (docs/coordination/words.md); the opening's evening news composes now.",
+    "why": "Resolved Oct 28 by deletion: the opening's own newscast writer (newsStory, townStory) is gone (trim-main-every-duplicate-deleted, row W2 of docs/reports/duplicates-on-main-2026-10-28.md); the night's news is to come from the press path's stories. It stood in because the engine had no register card for a newscast (docs/coordination/words.md).",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
     "replacement": "A newscast register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-poll-workers",

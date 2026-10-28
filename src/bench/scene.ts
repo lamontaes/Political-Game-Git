@@ -1,4 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
+import { hash as fnv } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
@@ -331,9 +332,7 @@ function roomAt(minuteOfDay: number): Room {
 
 /** A stable pick from a list by an id, so the same home always looks the same. */
 function pickFor(id: string, options: readonly string[]): string {
-  let hash = 2166136261;
-  for (const char of id)
-    hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0;
+  const hash = fnv(id);
   return options[hash % options.length]!;
 }
 
