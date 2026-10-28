@@ -120,10 +120,26 @@ function researchTarget(decisionId: string) {
       }
     : null;
 }
-/** Every study row for a decision (several when a study reports more than one trait). */
-const researchById = new Map<string, { id: string }[]>();
-for (const row of research.rows)
-  researchById.set(row.id, [...(researchById.get(row.id) ?? []), row]);
+/**
+ * Every study row for a decision (several when a study reports more than one
+ * trait), as a pointer into the research file: the quotes and notes stay
+ * there, the one record of what each paper says.
+ */
+const researchById = new Map<string, unknown[]>();
+for (const row of research.rows as (ResearchRow & {
+  trait?: string;
+  outcome?: string;
+  source?: { authors?: string; year?: number } | null;
+})[])
+  researchById.set(row.id, [
+    ...(researchById.get(row.id) ?? []),
+    {
+      trait: row.trait ?? null,
+      outcome: row.outcome ?? null,
+      effect: row.effect ?? null,
+      source: row.source ? `${row.source.authors} ${row.source.year}` : null,
+    },
+  ]);
 
 /**
  * Whether a chooser site (its sorted action ids) is this decision's: every
