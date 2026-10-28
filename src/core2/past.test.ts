@@ -7,10 +7,15 @@ import { LAWS_MODULE_ID } from "./modules/laws";
 import { NEWS_MODULE_ID } from "./modules/news";
 import { outletsHere, PRESS_MODULE_ID, townOutlet } from "./modules/press";
 import { ARCHIVE_STORY_KIND } from "./press-desk";
+import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./modules/campaigns";
+import {
+  OFFICES_MODULE_ID,
+  pastElections,
+  type TermRow,
+} from "./modules/offices";
 import {
   lawHistory,
   PAST_MODULE_ID,
-  type PastElectionRow,
   type PublicFigureRow,
 } from "./past-module";
 import { businessesIn, stateExitShare } from "./modules/business";
@@ -84,34 +89,83 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
     );
   });
 
-  it("seats every elected officeholder by an election with votes that add up", () => {
-    const elections = rows<PastElectionRow>("elections");
-    expect(elections.length).toBeGreaterThan(0);
-    for (const election of elections) {
-      expect(election.date < opening).toBe(true);
-      const [winner, challenger] = election.candidates;
-      expect(winner!.votes).toBeGreaterThan(challenger!.votes);
-      expect(winner!.votes + challenger!.votes).toBe(election.totalVotes);
+  // The past's elections, as the paper printed them: the archive's stories
+  // of the races in the year before day one.
+  const printedElections = () =>
+    api
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows()
+      .map((row) => row.facts as Record<string, string>)
+      .filter((facts) => facts.recordKind === "election-result");
+  // Every prior race's campaign promises, as the campaigns engine keeps them.
+  const pastPromises = () =>
+    (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("promises")
+        .rows() as unknown as PromiseRow[]
+    ).filter((p) => p.contestId.startsWith("prior-election:"));
+
+  it("seats every elected officeholder by the one election the offices engine recorded", () => {
+    // The offices engine is the one writer of how each holder was elected
+    // (wire-opening line 31): every elected term carries its race, won.
+    const elected = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .rows() as unknown as TermRow[]
+    ).filter((t) => t.elected);
+    expect(elected.length).toBeGreaterThan(0);
+    for (const term of elected) {
+      expect(term.elected!.date < opening, term.id).toBe(true);
+      expect(term.elected!.date <= term.startDate, term.id).toBe(true);
+      expect(term.elected!.share, term.id).toBeGreaterThan(0.5);
+      expect(term.elected!.share, term.id).toBeLessThan(1);
     }
+    // The paper prints those same races: the winner's votes are the share
+    // the offices engine recorded, in whole votes, and add up to a win.
+    const printed = printedElections();
+    expect(printed.length).toBeGreaterThan(0);
+    let matched = 0;
+    for (const facts of printed) {
+      const winner = Number(facts.winnerVotes);
+      const total = Number(facts.totalVotes);
+      expect(winner * 2, facts.contestId).toBeGreaterThan(total);
+      expect(winner, facts.contestId).toBeLessThanOrEqual(total);
+      const date = facts.contestId!.slice(-10);
+      const race = pastElections(api, facts.seatId!).find(
+        (e) => e.date === date,
+      );
+      // Only the federal executive's race has no seat record of its own.
+      if (!race) continue;
+      matched += 1;
+      expect(winner, facts.contestId).toBe(
+        Math.min(
+          total,
+          Math.max(Math.round(total * race.share), Math.floor(total / 2) + 1),
+        ),
+      );
+    }
+    expect(matched).toBeGreaterThan(0);
   });
 
   it("gives officeholders a prior-term voting record the record engine reads", () => {
-    const elections = rows<PastElectionRow>("elections");
+    const promises = pastPromises();
+    expect(promises.length).toBeGreaterThan(0);
+    const winners = [...new Set(promises.map((p) => p.candidateId))];
     // A territory's delegate casts no floor vote; a place with any chamber
     // covering it has members with a record.
     if (rows<PublicFigureRow>("figures").some((f) => f.votesOnRecord > 0)) {
-      const withVotes = elections.filter(
-        (e) => votesOf(api, e.winnerId).length > 0,
-      );
+      const withVotes = winners.filter((id) => votesOf(api, id).length > 0);
       expect(withVotes.length).toBeGreaterThan(0);
-      for (const election of withVotes)
-        for (const vote of votesOf(api, election.winnerId))
+      for (const id of withVotes)
+        for (const vote of votesOf(api, id))
           expect(vote.date < opening).toBe(true);
     }
     // The record engine reads every winner's campaign promises.
-    const promised = elections.filter((e) => e.promiseIds.length);
-    for (const election of promised)
-      expect(promisesOf(api, election.winnerId).length).toBeGreaterThan(0);
+    for (const id of winners)
+      expect(promisesOf(api, id).length, id).toBeGreaterThan(0);
   });
 
   it("has a news archive from the year before day one", () => {
@@ -279,7 +333,14 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
   });
 
   it("opens once", () => {
+    const stories = api.moduleState(NEWS_MODULE_ID).table("stories").size;
+    const promises = pastPromises().length;
     const summary = openThePast(world.core, seed);
-    expect(summary.elections).toBe(rows("elections").length);
+    expect(summary.elections).toBeGreaterThan(0);
+    expect(summary.elections).toBeGreaterThanOrEqual(printedElections().length);
+    // A second opening reads the first one's summary and writes nothing.
+    expect(openThePast(world.core, seed)).toEqual(summary);
+    expect(api.moduleState(NEWS_MODULE_ID).table("stories").size).toBe(stories);
+    expect(pastPromises().length).toBe(promises);
   });
 });
