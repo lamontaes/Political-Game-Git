@@ -6,8 +6,8 @@ window.__keyParts = (sheet, baseUrl) => {
  const keep = (part) => `Edit the reference picture. Keep all six people exactly the same, pixel for pixel, except ${part}: the same heads, faces, hands, skin, bodies, poses, positions and sizes stay identical. `;
  const tail = ' Draw it in the same clean dark-outline style, fitted to each body\'s own build, but color it one flat bright green (#22C55E) with soft darker-green shading, so it stands apart from everything else. Nothing else changes. No text.';
  const P = [
-  ['sh2', 'their shirt', 'Change only the shirt: everyone wears a short-sleeve polo shirt, untucked.'],
-  ['sh3', 'their shirt', 'Change only the shirt: everyone wears a plain short-sleeve crew-neck tee, untucked.'],
+  ['sh2', 'their shirt', 'Change only the shirt: everyone wears a short-sleeve polo shirt, untucked, the hem hanging over the belt.'],
+  ['sh3', 'their shirt', 'Change only the shirt: everyone wears a plain short-sleeve crew-neck tee, untucked, the hem hanging over the belt.'],
   ['sh4', 'their shirt', 'Change only the shirt: everyone wears a plain crew-neck knit sweater.'],
   ['sh5', 'their shirt', 'Change only the shirt: everyone wears a short-sleeve collared button shirt, tucked in.'],
   ['jk1', 'that they now wear a jacket', 'Add only a buttoned suit jacket over each person\'s shirt; the gray shirt collar shows at the neck; the pants, shoes and everything else stay identical.'],
@@ -16,10 +16,11 @@ window.__keyParts = (sheet, baseUrl) => {
   ['jk4', 'that they now wear a vest', 'Add only a work vest with chest pockets over each person\'s shirt; the gray shirt sleeves still show; everything else stays identical.'],
   ['jk5', 'that they now wear a jacket', 'Add only a zip-up casual jacket, half open, over each person\'s shirt; everything else stays identical.'],
   ['ti1', 'that they now wear a tie', 'Add only a plain necktie at each person\'s shirt collar, hanging down the front of the gray shirt; everything else stays identical.'],
-  ['pa2', 'their pants', 'Change only the pants: everyone wears straight-leg jeans.'],
-  ['pa3', 'their pants', 'Change only the pants: everyone wears chino khakis.'],
-  ['pa4', 'their pants', 'Change only the pants: everyone wears knee-length shorts, showing their bare lower legs.'],
-  ['pa5', 'their pants', 'Change only the pants: everyone wears loose work pants with side pockets.'],
+  ['pa1', 'their pants', 'Change only the pants: everyone wears plain dress slacks with a belt. The shirt stays tucked in tightly, so the whole waistband of the pants shows.'],
+  ['pa2', 'their pants', 'Change only the pants: everyone wears straight-leg jeans. The shirt stays tucked in tightly, so the whole waistband of the pants shows.'],
+  ['pa3', 'their pants', 'Change only the pants: everyone wears chino khakis. The shirt stays tucked in tightly, so the whole waistband of the pants shows.'],
+  ['pa4', 'their pants', 'Change only the pants: everyone wears knee-length shorts, showing their bare lower legs. The shirt stays tucked in tightly, so the whole waistband of the pants shows.'],
+  ['pa5', 'their pants', 'Change only the pants: everyone wears loose work pants with side pockets. The shirt stays tucked in tightly, so the whole waistband of the pants shows.'],
   ['ft2', 'their shoes', 'Change only the shoes: everyone wears canvas sneakers.'],
   ['ft3', 'their shoes', 'Change only the shoes: everyone wears leather work boots.'],
   ['ft4', 'their shoes', 'Change only the shoes: everyone wears casual loafers.'],
