@@ -20,17 +20,6 @@
         "citation": "data/research/outcome-web/place-outcome-bases-2024.json sources."
       }
     },
-    "floorShare": {
-      "value": 0.34,
-      "tag": "TUNABLE",
-      "citation": "The smallest share of the spread a world's offset takes, so no world opens on the published level.",
-      "spread": {
-        "low": 0.25,
-        "high": 0.5,
-        "unit": "share of the spread",
-        "citation": "Matches macroWorldOffsetFloorShare."
-      }
-    },
     "lawMeasures": [
       "roads.rural-interstate-speed-limit",
       "tax.state-corporate-rate",
