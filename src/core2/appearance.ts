@@ -1,6 +1,6 @@
 /**
  * A person's look (the stored appearance): one writer for residents, people
- * filled in later and officials. Moved from src/simulation/person-appearance.ts,
+ * filled in later and officials. Moved from the old engine's person-appearance.ts,
  * which re-exports it.
  */
 import { stableHash } from "./kernel/ids";
