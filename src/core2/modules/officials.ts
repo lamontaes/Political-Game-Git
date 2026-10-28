@@ -48,7 +48,7 @@ import {
   type SignatureIssue,
 } from "../officials-roster";
 import { nationalHomeState, recordPresident } from "../officials-president";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow, vacateUnheldSeat } from "./offices";
 import { filingRequirements } from "./elections";
 import { VIEWS_DATA, stanceOn } from "./views";
 
@@ -110,26 +110,78 @@ export const OFFICIALS_MODULE: CoreModule = {
   eventKinds: ["took-office", "life.death"],
   onEvent: (api, event) => {
     // An official who dies leaves the seat that day; the pay and the seat's
-    // next holder follow from the row's end.
+    // next holder follow from the row's end. A seat the offices engine keeps
+    // no term for (a sample member of another state's legislature) opens its
+    // vacancy there, under its chamber's own rule.
     if (event.kind === "life.death") {
       for (const personId of event.personIds) {
         const row = officialOf(api, personId);
-        if (row && row.ended === null)
-          table(api, "officials").put({
-            ...row,
-            ended: api.state.date,
-          } as unknown as ModuleRow);
+        if (!row || row.ended !== null) continue;
+        table(api, "officials").put({
+          ...row,
+          ended: api.state.date,
+        } as unknown as ModuleRow);
+        if (unheld(row))
+          vacateUnheldSeat(api, {
+            seatId: row.seatId,
+            stateKey: row.stateKey,
+            officeKind: row.officeKind,
+            cause: "death",
+          });
       }
       return;
     }
     const seatId = event.facts?.["seatId"];
     const winner = event.personIds[0];
     if (typeof seatId === "string" && winner) tookOffice(api, winner, seatId);
+    else if (typeof seatId === "string") seatUnheldFiller(api, seatId);
   },
 };
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(OFFICIALS_MODULE_ID).table(name);
+
+/**
+ * An official the officials engine seats with no term in the offices engine
+ * whose seat the state's own vacancy law fills: a sample member of another
+ * state's legislature, another state's governor. (Members of Congress outside
+ * the town are seated by the legislature when their chamber next sits.)
+ */
+const unheld = (row: OfficialRow) =>
+  row.termId === null &&
+  (row.bodyKind === "legislature" || row.officeKind === "governor");
+
+/**
+ * The offices engine filled a seat it keeps no term for: the new holder
+ * takes the seat as a person, in the party and with the weight in the
+ * chamber of the one they replace (who leaves it today).
+ */
+function seatUnheldFiller(api: CoreAPI, seatId: string): void {
+  const rows = table(api, "officials").query("bySeat", [
+    seatId,
+  ]) as unknown as OfficialRow[];
+  if (!rows.length || !rows.every(unheld)) return;
+  const last = [...rows].sort(
+    (a, b) =>
+      (a.ended ?? "9999").localeCompare(b.ended ?? "9999") ||
+      a.id.localeCompare(b.id),
+  )[rows.length - 1]!;
+  // stopgapId: SG-GOV-unheld-filler-party (the new holder takes the party of the one they replace)
+  api.stopgap("SG-GOV-unheld-filler-party");
+  seatOfficial(api, {
+    key: `${seatId}:${api.state.date}`,
+    seatId,
+    term: null,
+    body: last.body,
+    officeKind: last.officeKind,
+    stateKey: last.stateKey,
+    district: last.district,
+    party: last.party,
+    ...(last.partySource ? { partySource: last.partySource } : {}),
+    termYears: last.termYears,
+    standsFor: last.standsFor,
+  });
+}
 
 const weight = (key: keyof typeof OFFICIALS_DATA.weights) =>
   OFFICIALS_DATA.weights[key].value;
@@ -544,7 +596,7 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
             term: null,
             body,
             bodyKind: "legislature",
-            officeKind: `legislature-${chamber}`,
+            officeKind: `legislature-${chamber === "legislature" ? "unicameral" : chamber}`,
             stateKey,
             district: null,
             party: partyName(q.party),
@@ -1041,6 +1093,8 @@ export function seatOfficial(
     readonly party: string | null;
     readonly partySource?: string;
     readonly termYears: number | null;
+    /** How many members the seat stands for (a sample member's weight); one by default. */
+    readonly standsFor?: number;
   },
 ): OfficialRow {
   const personId = input.term
@@ -1073,7 +1127,7 @@ export function seatOfficial(
         nextElectionYear: input.termYears
           ? Number(api.state.date.slice(0, 4)) + input.termYears
           : null,
-        standsFor: 1,
+        standsFor: input.standsFor ?? 1,
         role:
           bodyKind === "executive"
             ? "executive-officeholder-at-opening"
