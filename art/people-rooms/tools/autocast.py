@@ -68,7 +68,8 @@ if __name__ == '__main__':
         colors = {k: rng.choice(pal(k)) for k in o['parts']}
         for a, b in [tuple(x) for x in o.get('sameColor', []) and [o['sameColor']]]: colors[b] = colors[a]
         hairs = [n for n in range(1, 13) if f'hair-{n}' in have]
+        hc = rng.choice([[120, 120, 120], [175, 175, 170], [215, 215, 210]] if IDX[pose].get('ageBand') == 'older' else HAIR)   # older adults go gray
         people.append({'spot': i, 'pose': pose, 'fig': f'{sex}-{build}', 'outfit': o['id'], 'colors': colors, 'skin': rng.choice(SKIN),
-                       'hair': [rng.choice(hairs), rng.choice(HAIR)] if hairs else None})
+                       'hair': [rng.choice(hairs), hc] if hairs else None})
     json.dump({'spots': spots_p, 'room': room_p, 'wardrobe': WD, 'outfits': f'{WD}/outfits.json', 'people': people}, open(out_p, 'w'), indent=1)
     print(out_p, len(people), 'people')
