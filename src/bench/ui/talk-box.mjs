@@ -8,9 +8,9 @@ import { makeButton } from "./button.mjs";
 const $ = (id) => document.getElementById(id);
 
 /**
- * One line of the box. `kind` is `history` (what was said before, quieter, apart, with
- * `who` named over it), `speech` (what is being said now), `narration` or `label` (a
- * record's status). A lying line is red; a held one is underlined in the grading view.
+ * One line of the box. `kind` is `history mine` or `history theirs` (what the player or
+ * the other person said before, quieter, apart, with `who` named over it), `speech` (what
+ * is being said now), `narration` or `label` (a record's status). A lying line is red; a held one is underlined in the grading view.
  */
 export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
   const classes = [kind];
@@ -25,6 +25,30 @@ export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
     text,
     ...(grade ? [gradeControl(grade)] : []),
   );
+}
+
+/**
+ * A talk's lines in the three kinds the box tells apart (owner, Oct 28 sitting, 39:
+ * "not enough delineation between what the player said, what was said before, and what is
+ * being said now"): the player's past lines (`history mine`, named), the other person's
+ * past lines (`history theirs`, named), and what is said now (`speech`, everything after
+ * the player's last line). `lines` are `{ text, mine, lying, held, grade }`, oldest first;
+ * `keep` is how many past lines stay above the line said now.
+ */
+export function transcript(lines, { mineWho, theirWho, keep = 3 }) {
+  const lastMine = lines.findLastIndex((line) => line.mine);
+  const past = lastMine < 0 ? [] : lines.slice(0, lastMine + 1).slice(-keep);
+  const now = lines.slice(lastMine + 1);
+  return [
+    ...past.map((line) =>
+      talkLine({
+        ...line,
+        kind: `history ${line.mine ? "mine" : "theirs"}`,
+        who: line.mine ? mineWho : theirWho,
+      }),
+    ),
+    ...now.map((line) => talkLine({ ...line, kind: "speech" })),
+  ];
 }
 
 /**

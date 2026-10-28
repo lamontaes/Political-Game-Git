@@ -6,8 +6,8 @@
  * Reads every grading batch in data/english/batches/ and every grade file in
  * data/english/grades/ with the same name, joins each grade to its batch item
  * by number, and counts the grade against the part keys that made the line.
- * Writes data/english/part-grades.json, which `src/presentation/
- * english-grades.ts` reads. A grade file whose batch is missing, or a grade
+ * Writes data/english/part-grades.json, which the old engine's
+ * english-grades.ts read. A grade file whose batch is missing, or a grade
  * that names no item, stops the run with the file and number, so no grade is
  * silently lost.
  *
