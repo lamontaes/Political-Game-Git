@@ -15,8 +15,11 @@ import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
+  favorWorth,
+  memberPosition,
   votesOn,
 } from "../core2/modules/legislature";
+import { composeAskTalk, lastAnswer, type AskStanding } from "./ask-talk";
 import {
   MEETINGS_MODULE_ID,
   type DebateRow,
@@ -66,6 +69,11 @@ export interface PurposeScene {
   purpose: string;
   askerId: PersonId;
   askedId: PersonId;
+  /**
+   * The player asks (`ask-talk.ts`): `askedId` is still the player's seat,
+   * and the reply kept is the colleague's answer, said by the colleague.
+   */
+  playerAsks?: boolean;
   /** Why it is happening: the record that fired it. */
   cause: {
     id: string;
@@ -507,15 +515,31 @@ function composeBinding(
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
 
-  const result = composeSceneTalk(
-    core,
-    director,
-    { askerId, askedId },
-    type,
-    facts,
-    {},
-    options.includeHeld ? { includeHeld: true } : {},
-  );
+  const wording = options.includeHeld ? { includeHeld: true } : {};
+  const standing = type.playerAsks
+    ? askStanding(core, said, askerId, askedId)
+    : undefined;
+  if (type.playerAsks && !standing)
+    return { kind: "skipped", reason: "no bill on record to ask about" };
+  // The player asks: their lines speak to the colleague by name.
+  if (standing) {
+    facts.name = {
+      text: `${asked.givenName} ${asked.familyName}`,
+      sourceRecordIds: [askedId],
+    };
+    facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
+  }
+  const result = standing
+    ? composeAskTalk(core, { askerId, askedId }, type, facts, standing, wording)
+    : composeSceneTalk(
+        core,
+        director,
+        { askerId, askedId },
+        type,
+        facts,
+        {},
+        wording,
+      );
   if (result.kind !== "composed") return result;
   return {
     kind: "composed",
@@ -524,6 +548,7 @@ function composeBinding(
       purpose: result.talk.purpose,
       askerId,
       askedId,
+      ...(standing ? { playerAsks: true } : {}),
       cause: {
         id: moment.causeId,
         kind: moment.causeKind,
@@ -538,6 +563,27 @@ function composeBinding(
       })),
       talk: result.talk,
     },
+  };
+}
+
+/**
+ * Where a colleague the player asks stands on the bill the record names: their
+ * position today and what a yes given as a favor to the player is worth at
+ * the roll (`favorWorth`), the two things their answer weighs.
+ */
+function askStanding(
+  core: Readonly<CoreState>,
+  said: Readonly<Record<string, string>>,
+  colleagueId: PersonId,
+  playerId: PersonId,
+): AskStanding | undefined {
+  if (!said.billId || !core.modules.has(LEGISLATURE_MODULE_ID))
+    return undefined;
+  const api = coreAPI(core as CoreState);
+  if (!billOf(api, said.billId)) return undefined;
+  return {
+    lean: memberPosition(api, said.billId, colleagueId).total,
+    favor: favorWorth(api, colleagueId, playerId),
   };
 }
 
@@ -746,16 +792,24 @@ export function replyInScene(
     answer?.move === "promise" &&
     core.modules.has(CAMPAIGNS_MODULE_ID) &&
     enlistVolunteer(coreAPI(core), filingId, scene.askerId);
+  // Where the player asks, the reply kept is the colleague's answer, theirs
+  // to the player (the one asked first, as the legislature reads it).
+  const theirs = scene.playerAsks
+    ? lastAnswer(scene.talk.tree, path)
+    : undefined;
   applyCoreEvent(core, {
     id,
     date: core.date,
     kind: "scene.reply",
-    personIds: [scene.askedId, scene.askerId],
+    personIds: scene.playerAsks
+      ? [scene.askerId, scene.askedId]
+      : [scene.askedId, scene.askerId],
     placeId: core.people.get(scene.askedId)!.placeId,
     facts: {
       typeKey: scene.typeKey,
       causeId: scene.cause.id,
-      move: line.move,
+      move: theirs ?? line.move,
+      ...(theirs ? { asked: line.move } : {}),
       line: line.text,
       ...(stakeKind ? { stake: stakeKind } : {}),
       ...(enlists && filingId ? { enlisted: filingId } : {}),

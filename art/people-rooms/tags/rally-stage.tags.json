@@ -1,0 +1,42 @@
+{
+ "scene": "rally-stage",
+ "plate": "sg-rallystage",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "lectern",
+   "box": [
+    280,
+    200,
+    420,
+    360
+   ],
+   "pose": "lectern",
+   "facing": 45,
+   "coveredBy": "lectern",
+   "role": "speaker",
+   "hands": "on lectern",
+   "dress": "business"
+  },
+  {
+   "name": "bleachers",
+   "box": [
+    900,
+    200,
+    1672,
+    520
+   ],
+   "pose": "sit",
+   "seat": "bench",
+   "facing": -45,
+   "coveredBy": "railing"
+  }
+ ]
+}

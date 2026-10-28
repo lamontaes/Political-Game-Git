@@ -1,4 +1,5 @@
-import { GARMENTS, recolorFigure } from "./figure-colors";
+import { GARMENTS } from "./figure-colors";
+import { drawnFigure } from "./figure-hair";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
@@ -336,19 +337,15 @@ export async function benchRequest(
         // written out so the desktop build copies it (it reads the fixed part
         // of this path, desktop/scripts/build-play-api.mjs).
         const file = url.pathname.split("/").at(-1)!;
-        const content = recolorFigure(
-          await readFile(
-            new URL(
-              `../../art/people-engine/v2/figures/${file}`,
-              import.meta.url,
-            ),
-          ),
+        const content = drawnFigure(
           file.replace(/\.png$/, ""),
           Object.fromEntries(
-            ["skin", ...GARMENTS].flatMap((key) => {
-              const value = url.searchParams.get(key);
-              return value ? [[key, value]] : [];
-            }),
+            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap(
+              (key) => {
+                const value = url.searchParams.get(key);
+                return value ? [[key, value]] : [];
+              },
+            ),
           ),
         );
         response.writeHead(200, {
