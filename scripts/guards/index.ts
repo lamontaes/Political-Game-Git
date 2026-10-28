@@ -89,6 +89,12 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/american-english-sweep.test.ts"),
   },
   {
+    id: "kit-only-ui",
+    rule: "Every piece of UI comes from the UI kit in src/bench/ui/, nothing invented; the known markup outside it only shrinks.",
+    readMore: ".claude/skills/screen-to-mock/SKILL.md",
+    command: vitest("tests/guards/kit-only-ui.test.ts"),
+  },
+  {
     id: "canned-content",
     rule: "No hand-written player text in code; removed canned content stays removed.",
     readMore: ".claude/skills/player-screen-text/SKILL.md",
