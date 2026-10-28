@@ -7,10 +7,6 @@
  * read here: the English engine (`src/english/speech-stage-words.ts`) gives
  * the pieces for each stage, filled from the speaker's records, and a subject
  * with no record for its slots is never offered.
- *
- * Giving the speech (`giveBuiltSpeech`) hands each stand the speaker took to
- * the speech engine, so the audience's views move by the speaker's standing
- * with them: the chosen words are read by another engine, not only shown.
  */
 import { heldSinceRecord } from "../core2/past-work";
 import {
@@ -22,7 +18,6 @@ import {
 } from "../english/speech-stage-words";
 import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { deliverSpeech } from "../core2/modules/speech";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { viewOf, viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -356,33 +351,4 @@ export function chooseSpeechPart(
 /** The speech as given so far, parts in order. */
 export function speechText(build: Pick<SpeechBuild, "picked">): string {
   return speechWords(build.picked);
-}
-
-/**
- * Give the finished speech to an audience. Each stand in it goes to the
- * speech engine as its own heard speech, so the audience's stance on that
- * question moves by the speaker's standing with each listener; a speech with
- * no stand moves no one.
- */
-export function giveBuiltSpeech(
-  core: CoreState,
-  build: SpeechBuild,
-  audienceIds: readonly PersonId[],
-): string[] {
-  const api = coreAPI(core);
-  const ids: string[] = [];
-  build.picked.forEach((part, at) => {
-    if (!part.stand) return;
-    const id = `speech:${build.speakerId}:${build.startedOn}:${at}`;
-    deliverSpeech(api, {
-      id,
-      speakerId: build.speakerId,
-      placeId: build.placeId,
-      topic: part.stand.question,
-      desiredChange: part.stand.desiredChange,
-      audienceIds,
-    });
-    ids.push(id);
-  });
-  return ids;
 }

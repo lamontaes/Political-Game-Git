@@ -33,7 +33,6 @@ try {
   await page.locator("#new-world").click();
   const response = await newLife;
   assert.equal(response.status(), 200, await response.text());
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
 
   const progress = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/progress",

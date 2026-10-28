@@ -130,8 +130,3 @@ export function openingMove(
     ...(options.topic ? { topic: options.topic } : {}),
   };
 }
-
-/** The inaugural address in an inauguration year, otherwise the State of the Union. */
-export function openingSpeechKind(year: number): OpeningSpeechKind {
-  return year % 4 === 1 ? "inaugural" : "state-of-the-union";
-}
