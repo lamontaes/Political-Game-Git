@@ -14,6 +14,19 @@ export function listRow(variant, props = {}, ...children) {
   );
 }
 
+/** One labeled line: the label (a term word) and its value; a value the screen could not
+ * word (null) hides the line, so nothing half-printed shows. */
+export function factRow(label, value) {
+  const line = listRow(
+    "",
+    {},
+    label,
+    el("span", { className: "record-value", textContent: value ?? "" }),
+  );
+  if (value === null) line.hidden = true;
+  return line;
+}
+
 /** A person in a list: a face (initials until the figure's headshot is known), the name
  * as a control that opens their card, then their office and party. */
 export function personRow({ name, detail, party, portraitUrl, onOpen }) {

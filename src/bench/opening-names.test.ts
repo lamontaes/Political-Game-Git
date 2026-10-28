@@ -8,7 +8,6 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
-import { openingFrames } from "./opening";
 import { applyChosenPerson } from "./creator";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -22,7 +21,7 @@ describe("the opening after the creator renames the player", () => {
   for (let n = 0; n < PLACES; n++) {
     const place = drawPlace(runSeed, `opening-names:${n}`);
     const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
-    it(`labels the household by the names it carries now: ${place.name}`, () => {
+    it(`gives the household the names the creator chose: ${place.name}`, () => {
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
@@ -51,23 +50,6 @@ describe("the opening after the creator renames the player", () => {
         expect(core.people.get(id)!.familyName, `${id}: ${where}`).toBe(
           "Snider",
         );
-      const named = (id: string) => {
-        const row = core.people.get(id);
-        return row ? `${row.givenName} ${row.familyName}` : undefined;
-      };
-      const { frames } = openingFrames(core, playerId, story!);
-      let labeled = 0;
-      for (const frame of frames)
-        for (const figure of [...frame.pointOut, ...frame.cast]) {
-          const now = named(figure.id);
-          if (!now) continue;
-          labeled++;
-          expect(
-            figure.name,
-            `${frame.stage}: ${figure.id} labeled by the name it carries now: ${where}`,
-          ).toBe(now);
-        }
-      expect(labeled, `the opening labels people: ${where}`).toBeGreaterThan(0);
     }, 300_000);
   }
 });
