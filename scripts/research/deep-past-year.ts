@@ -106,12 +106,7 @@ function cohorts(filter: (person: PersonState) => boolean): Cohort[] {
             year: Number(row.facts.schoolYear),
             age: ageOnDate(person.birthDate, row.date),
             factId: row.id,
-            proxy:
-              where === person.id
-                ? "opening locality"
-                : where.endsWith(":birthplace")
-                  ? "birthplace"
-                  : "residence",
+            proxy: where === person.id ? "opening locality" : "residence",
           };
         },
       ),
@@ -288,7 +283,7 @@ for (const [stage, key] of [
       );
     }, 0) / Math.max(rows.length, 1);
   console.log(
-    `\nSchooling place (the school engine's run, SG-HIST-moves-from-kin-line): ${pct(local.length / Math.max(rows.length, 1))} of ${rows.length} elementary school records place school in the opening locality with no recorded residence or birthplace; ACS 2019-2023 B05002 puts the share of residents born in their own state at ${pct(expected)} for these people's states (${townState} ${pct(bornInState.places[townState]?.bornWhereTheyLiveShare ?? 0)}). Records: ${ids(local.map((c) => c.factId))}.`,
+    `\nSchooling place (the school engine's run, history-past-moves): ${pct(local.length / Math.max(rows.length, 1))} of ${rows.length} elementary school records place school in the opening locality with no recorded move; ACS 2019-2023 B05002 puts the share of residents born in their own state at ${pct(expected)} for these people's states (${townState} ${pct(bornInState.places[townState]?.bornWhereTheyLiveShare ?? 0)}). Records: ${ids(local.map((c) => c.factId))}.`,
   );
 }
 
