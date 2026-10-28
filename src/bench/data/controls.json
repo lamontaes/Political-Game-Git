@@ -468,8 +468,6 @@
   },
   "money": {
     "cash": "Cash available",
-    "history": "Balance history",
-    "spending": "Where the money went",
     "home": "Home",
     "householdHome": "Your household’s home",
     "tenure": "Tenure",
@@ -479,8 +477,6 @@
     "rent": "Rent",
     "monthly": "per month",
     "deductions": "Paycheck deductions",
-    "assets": "Assets",
-    "debts": "Debts",
     "lastMonth": "Last month",
     "monthHousing": "Home costs",
     "monthEveryday": "Everyday living",

@@ -66,47 +66,11 @@ try {
     .evaluate((e) => e.click());
   await page.locator(".cash-total").waitFor();
   assert.ok((await page.locator(".cash-total").innerText()).includes("$"));
-  assert.equal(await page.locator(".money-history").count(), 0);
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: "docs/reports/money-layout/money.png" });
   assert.equal(await page.locator("#card-clock").innerText(), clock);
-  await page.route("**/api/card?*", async (route) => {
-    const r = await route.fetch();
-    const json = await r.json();
-    await route.fulfill({
-      json: {
-        ...json,
-        finances: {
-          balances: [
-            { month: "January", minor: 12000 },
-            { month: "February", minor: 18000 },
-          ],
-          spending: [
-            { label: "Housing", minor: 10000 },
-            { label: "Food", minor: 5000 },
-          ],
-          debts: [{ name: "Loan", minor: 45000 }],
-        },
-      },
-    });
-  });
-  await page.reload();
-  await page.locator("#front-continue:not([disabled])").click();
-  await page.waitForFunction(() =>
-    document.getElementById("card-name").textContent.trim(),
-  );
-  await page
-    .locator('[data-tab="money"]')
-    .first()
-    .evaluate((e) => e.click());
-  await page.locator(".money-history").waitFor();
-  assert.equal(await page.locator(".balance-bar").count(), 2);
-  assert.equal(await page.locator(".money-donut").count(), 1);
-  assert.ok((await page.locator("#sheet-body").innerText()).includes("Loan"));
   assert.deepEqual(errors, []);
-  console.log(
-    "PASS actual balance view without time, optional history/spending/debt contract fixtures",
-  );
+  console.log("PASS actual balance view without time");
 } finally {
   await browser.close();
 }

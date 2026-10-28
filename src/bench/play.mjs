@@ -3221,7 +3221,6 @@ const sheets = {
       api(`/api/bank?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.money;
-    const finances = me.card.finances ?? {};
     const root = el("div", { className: "money-layout" });
     const cash = el(
       "section",
@@ -3233,62 +3232,6 @@ const sheets = {
       }),
     );
     root.append(cash);
-    const history = (finances.balances ?? []).slice(-6);
-    if (history.length) {
-      const max = Math.max(1, ...history.map((r) => Math.abs(r.minor)));
-      const chart = el(
-        "section",
-        { className: "money-history" },
-        el("h3", { textContent: labels.history }),
-      );
-      const bars = el("div", { className: "balance-bars" });
-      for (const record of history) {
-        const bar = el("div", { className: "balance-bar" });
-        bar.style.height = `${(Math.abs(record.minor) / max) * 130}px`;
-        bars.append(
-          el(
-            "div",
-            { className: "balance-column" },
-            el("span", { textContent: dollars(record.minor) }),
-            bar,
-            el("span", { textContent: record.month }),
-          ),
-        );
-      }
-      chart.append(bars);
-      root.append(chart);
-    }
-    const spending = (finances.spending ?? []).filter((r) => r.minor > 0);
-    if (spending.length) {
-      const total = spending.reduce((n, r) => n + r.minor, 0);
-      const colors = ["#d6bd84", "#819bad", "#ba8068", "#998c70", "#b6b29d"];
-      let offset = 0;
-      const stops = spending.map((r, i) => {
-        const start = offset;
-        offset += (r.minor / total) * 100;
-        return `${colors[i % colors.length]} ${start}% ${offset}%`;
-      });
-      const donut = el("div", {
-        className: "money-donut",
-        role: "img",
-        ariaLabel: labels.spending,
-      });
-      donut.style.background = `conic-gradient(${stops.join(",")})`;
-      const details = el(
-        "div",
-        {},
-        ...spending.map((r) => row(r.label, dollars(r.minor))),
-      );
-      root.append(
-        el(
-          "section",
-          { className: "money-spending" },
-          el("h3", { textContent: labels.spending }),
-          donut,
-          details,
-        ),
-      );
-    }
     const dwelling = me.card.dwelling;
     if (dwelling) {
       const home = el(
@@ -3395,20 +3338,6 @@ const sheets = {
           ),
         ),
       );
-    for (const [key, label] of [
-      ["assets", labels.assets],
-      ["debts", labels.debts],
-    ])
-      for (const item of finances[key] ?? [])
-        root.append(
-          makeCard(
-            "money-item",
-            { as: "section" },
-            el("span", { className: "label", textContent: label }),
-            el("h3", { textContent: item.name }),
-            el("strong", { textContent: dollars(item.minor) }),
-          ),
-        );
     return [...root.children].map((node) => {
       node.classList.add("money-section");
       return node;
