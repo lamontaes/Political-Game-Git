@@ -307,9 +307,11 @@ document.addEventListener("keydown", (event) => {
   else if ($("front").hidden) openSheet("options");
 });
 
-async function renderScene() {
+async function renderScene({ keepBackdrop = false } = {}) {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
-  $("backdrop").src = scene.backdrop.url;
+  // The opening's staged story sets the backdrop itself; setting the room's
+  // here first would load two pictures in a row (owner, Oct 28, point 2).
+  if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawPeople(scene.people, (p) => talkTo(p.personId));
@@ -495,9 +497,9 @@ async function renderJournalNote() {
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
   shownJournalLine = line;
 }
-async function refresh() {
+async function refresh(scene = {}) {
   await Promise.all([
-    renderScene(),
+    renderScene(scene),
     renderCard(),
     renderJournalNote(),
     markNews(false),
@@ -3572,15 +3574,18 @@ let titleLife = null;
 function rotateTitle(scenes, seconds) {
   let at = 0;
   const next = $("backdrop-next");
+  // The rotation runs only on the title menu itself: a creator panel keeps the
+  // painting it opened on (owner, Oct 28: "the double background jump").
+  const onTitleMenu = () => !$("front").hidden && !$("front-main").hidden;
   setInterval(() => {
-    if ($("front").hidden) return;
+    if (!onTitleMenu()) return;
     at = (at + 1) % scenes.length;
     next.src = scenes[at].backdrop.url;
     next.onload = () => {
       next.onload = null;
       next.classList.add("fading");
       setTimeout(() => {
-        if ($("front").hidden) return next.classList.remove("fading");
+        if (!onTitleMenu()) return next.classList.remove("fading");
         const back = $("backdrop");
         back.src = next.src;
         back.style.animation = "none";
@@ -4144,9 +4149,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     for (const id of ["rings", "card"]) show(id, true);
     $("game").classList.add("in-play");
     renderPacket(life.packet);
-    await refresh();
+    await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
     showNewsSurface(await nightsNews(life.personId));
-    // The scene the director staged for the evening (the address) plays first.
+    // The scene the director staged for the evening (the address) plays first
+    // and sets the one backdrop the opening loads.
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     coachFirstChoices();
   } catch (error) {
