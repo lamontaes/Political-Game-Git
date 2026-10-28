@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: fixer/red-main-health-traits
-pr:
+pr: #6694
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T20:21:46.103Z
