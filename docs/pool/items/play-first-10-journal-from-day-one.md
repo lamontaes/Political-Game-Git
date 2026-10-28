@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr: #6230
+pr: #6345
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

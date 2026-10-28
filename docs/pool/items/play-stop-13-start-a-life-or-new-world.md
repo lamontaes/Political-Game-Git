@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr: #6092
+pr: #6415
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
@@ -35,3 +35,5 @@ claimed-at:
 Sent back 2026-10-25 ~22:25 UTC from PR #6092 (branch play-first/play-stop-13-start-a-life-or-new-world, head 6808a793b7 with main merged in): all three body screenshots are wrapped in backticks so none render as images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
 
 Left open 2026-10-26 from PR #6092 at 6808a793b7858b2c20716a870b520250a62b1b8e: its explicit stacked prerequisite #6091 is still open at e1038f16fd374735c7788602bb9962ff04675eb2 (checked 06:51 UTC), outside Merger 0 lane. Recheck when #6091 merges even if #6092 head is unchanged, then merge current main and run local/browser checks. Screenshot backticks and the owner-check label were corrected in the body; neither is the blocker under the October 25 ruling. No screenshot inspection or local green gate is claimed on this attempt.
+
+Fixer 6 (Oct 27): superseded by PR #6415 (dimmed title entries say why, rebuilt on current main).

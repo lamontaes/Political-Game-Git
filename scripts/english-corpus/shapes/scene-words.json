@@ -14,102 +14,6 @@
   "minDocuments": 2,
   "groups": [
     {
-      "move": "setting-home-home",
-      "subject": "setting",
-      "role": "home",
-      "choice": "home",
-      "candidates": [
-        "You're at home.",
-        "You're home.",
-        "You're at home in {place}.",
-        "You are at home.",
-        "You are home.",
-        "You're back home.",
-        "You're at your house.",
-        "You're at the house.",
-        "You are in your home.",
-        "You're in your home.",
-        "You are inside your home.",
-        "You're inside your home."
-      ]
-    },
-    {
-      "move": "setting-other-home-their-home",
-      "subject": "setting",
-      "role": "other-home",
-      "choice": "their-home",
-      "candidates": [
-        "You're at {host} house.",
-        "You're at {host} home.",
-        "You're at {host} place.",
-        "You're over at {host} house.",
-        "You're at {host}.",
-        "You are at {host} home.",
-        "You are at {host} house.",
-        "You are in {host} home.",
-        "You're in {host} home."
-      ]
-    },
-    {
-      "move": "setting-workplace-work",
-      "subject": "setting",
-      "role": "workplace",
-      "choice": "work",
-      "candidates": [
-        "You're at work.",
-        "You're at {employer}.",
-        "You are at work.",
-        "You're at the office.",
-        "You're at the plant.",
-        "You're on the job.",
-        "You're at {employer} today.",
-        "You are at {employer}.",
-        "You are now at {employer}.",
-        "You're at your workplace.",
-        "You are at your workplace."
-      ]
-    },
-    {
-      "move": "setting-school-school",
-      "subject": "setting",
-      "role": "school",
-      "choice": "school",
-      "candidates": [
-        "You're at school.",
-        "You're at {school}.",
-        "You are in school.",
-        "You're in class.",
-        "You are at school.",
-        "You are at {school}.",
-        "You are in a classroom.",
-        "You're in a classroom."
-      ]
-    },
-    {
-      "move": "setting-public-out",
-      "subject": "setting",
-      "role": "public",
-      "choice": "out",
-      "candidates": [
-        "You're out in {place}.",
-        "You're in town.",
-        "You're downtown.",
-        "You're in {place}.",
-        "You're out and about.",
-        "You are in {place}.",
-        "You are standing in {place}.",
-        "You're standing in {place}.",
-        "You are now in {place}.",
-        "You are in downtown {place}.",
-        "You are on Main Street.",
-        "You're on Main Street.",
-        "You are outside.",
-        "You're outside.",
-        "You are standing on Main Street.",
-        "Welcome to {place}."
-      ]
-    },
-    {
       "move": "setting-phone-phone",
       "subject": "setting",
       "role": "phone",
@@ -146,33 +50,6 @@
         "You receive a letter in the mail.",
         "A letter arrives in the mail.",
         "You get mail."
-      ]
-    },
-    {
-      "move": "present-one-one",
-      "subject": "present",
-      "role": "one",
-      "choice": "one",
-      "candidates": [
-        "{who} is here.",
-        "{who} is there.",
-        "{who} is with you.",
-        "{who} is there too.",
-        "{who} is here too.",
-        "{who} is waiting for you.",
-        "{who} is waiting."
-      ]
-    },
-    {
-      "move": "present-many-many",
-      "subject": "present",
-      "role": "many",
-      "choice": "many",
-      "candidates": [
-        "{who_many} are here.",
-        "{who_many} are there.",
-        "{who_many} are with you.",
-        "{who_many} are waiting for you."
       ]
     },
     {
@@ -254,20 +131,6 @@
         "You are new to {place}.",
         "You're new to {place}.",
         "You have just moved."
-      ]
-    },
-    {
-      "move": "setting-venue-venue",
-      "subject": "setting",
-      "role": "venue",
-      "choice": "venue",
-      "candidates": [
-        "You are in {place}.",
-        "You are now in {place}.",
-        "You are standing in {place}.",
-        "You're standing in {place}.",
-        "You are inside {place}.",
-        "You're inside {place}."
       ]
     }
   ]

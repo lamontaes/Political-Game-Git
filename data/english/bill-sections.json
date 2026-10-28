@@ -454,6 +454,12 @@
       "lower": "the maximum weekly unemployment benefit shall be lowered from {before} to {value}",
       "raiseTo": "the maximum weekly unemployment benefit shall be raised to {value}",
       "lowerTo": "the maximum weekly unemployment benefit shall be lowered to {value}"
+    },
+    "local-income-tax-authority": {
+      "subject": "local governments' power to tax income",
+      "purpose": "decide whether local governments may tax income",
+      "grant": "each city, town and county may levy a tax on income, at a rate its governing body sets by ordinance",
+      "withdraw": "no city, town or county shall levy a tax on income, and any such tax in force shall end"
     }
   },
   "units": {

@@ -5,7 +5,7 @@ Usage:
 
 Each spot is drawn at its foot point with a bar as tall as a 1.7 m adult there
 (1.7 x metersPercent x (y - horizonY) percent of the picture, or the spot's
-floor scale), a seat line at seatY, a clip line at clipBelowY, and a label with
+floor scale), a seat line at seatY, a desk-edge line at behindY, and a label with
 its index, pose and facing. The horizon is a dashed line. An optional staging
 file lets a draft be checked before it is merged into art/backdrops/staging.json.
 """
@@ -39,8 +39,8 @@ def main(place: str, out: str, staging_path: str | None = None, variant: str = "
         if "seatY" in spot:
             sy = spot["seatY"] / 100 * h
             d.line([(x - 30, sy), (x + 30, sy)], fill=(255, 220, 0), width=3)
-        if "clipBelowY" in spot:
-            cy = spot["clipBelowY"] / 100 * h
+        if "behindY" in spot:
+            cy = spot["behindY"] / 100 * h
             d.line([(x - 40, cy), (x + 40, cy)], fill=(0, 255, 0), width=2)
         label = f"{i} {spot.get('pose', 'stand')[:3]} {spot.get('facing', 'viewer')[:4]}"
         d.rectangle([x + 8, y - 18, x + 8 + 7 * len(label), y - 2], fill=(0, 0, 0))

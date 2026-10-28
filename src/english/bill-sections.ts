@@ -21,12 +21,15 @@ interface PolicyWords {
   enact: string;
 }
 interface AmountWords {
-  raiseTo: string;
-  lowerTo: string;
   subject: string;
   purpose: string;
-  raise: string;
-  lower: string;
+  raiseTo?: string;
+  lowerTo?: string;
+  raise?: string;
+  lower?: string;
+  /** A switch (1 grants, 0 withdraws), worded by what each does, never "raised to 1". */
+  grant?: string;
+  withdraw?: string;
 }
 interface FormWords {
   title: string;
@@ -109,7 +112,8 @@ const longDate = (iso: string) =>
     timeZone: "UTC",
   });
 
-const dollars = (minor: number) =>
+/** An amount of money as it is said: "$250", "$12.50". */
+export const dollars = (minor: number) =>
   `$${(minor / 100).toLocaleString("en-US", {
     minimumFractionDigits: Number.isInteger(minor / 100) ? 0 : 2,
   })}`;
@@ -160,6 +164,14 @@ function wordsOf(
   if (p.kind === "law-amount" && p.series) {
     const row = BILL_SECTIONS.amounts[p.series];
     if (!row) return null;
+    if (row.grant && row.withdraw)
+      return {
+        key: p.series,
+        subject: row.subject,
+        purpose: row.purpose,
+        clause: p.value > 0 ? row.grant : row.withdraw,
+        repeal: false,
+      };
     const was = input.before?.[index] ?? null;
     const old = was?.value ?? null;
     const lower = p.operation
@@ -170,16 +182,16 @@ function wordsOf(
       value: valueWords(p.value, p.unit),
       before: old != null ? valueWords(old, was?.unit ?? p.unit) : "",
     };
-    const clause = fill(
+    const words =
       old != null
         ? lower
           ? row.lower
           : row.raise
         : lower
           ? row.lowerTo
-          : row.raiseTo,
-      slots,
-    );
+          : row.raiseTo;
+    if (!words) return null;
+    const clause = fill(words, slots);
     return {
       key: p.series,
       subject: row.subject,

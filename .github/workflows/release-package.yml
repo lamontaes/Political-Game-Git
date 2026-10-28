@@ -2,21 +2,26 @@ name: Release package
 
 # WHEN THIS RUNS, AND HOW TO ASK FOR IT (owner, Oct 27, 2026)
 #
-# Packages the Mac and Windows desktop apps and publishes the GitHub release
-# the installed app's Check for Updates reads. It runs:
+# Builds, validates and PUBLISHES the newest main, then packages the Mac and
+# Windows desktop apps and publishes the GitHub release the installed app's
+# Check for Updates reads. It runs:
 #   - every two hours on a schedule (GitHub cron can lag; that is fine), and
 #   - on workflow_dispatch: Actions > "Release package" > Run workflow, or
 #     `gh workflow run release-package.yml --ref main`.
 # It is never started by a push to main, so merges cannot starve it, and one
 # concurrency group that never cancels means a merge, another schedule tick or
-# a second request cannot cancel or supersede a package already running.
+# a second request cannot cancel or supersede a run already going. The per-push
+# Release run (release.yml) only validates; publishing happens here.
 #
-# It packages exactly the newest published candidate: the newest
-# `publish-record` artifact left by a successful Release run (release.yml),
-# carrying the version, candidateSha, bundleSha256 and the published commit,
-# never a newer main. If that version already has a GitHub release, it exits
-# cleanly and says so. The smoke test (desktop/scripts/smoke-test.mjs) runs
-# unchanged. See docs/release/README.md.
+# Steps: (1) `candidate` (release-candidate.yml, publish true) builds and
+# validates the newest main and pushes the version commit, retrying when main
+# moved, and writes the `publish-record` artifact (version, candidateSha,
+# bundleSha256, sourceSha, published commit). A red candidate stops the run.
+# (2) `find_candidate` takes that candidate, or, when nothing new needed a
+# version commit, the newest earlier record not yet released. If its version
+# already has a GitHub release it exits cleanly and says so. (3) The apps are
+# packaged from exactly that published commit, never a newer main, played
+# once by the smoke test (unchanged) and published. See docs/release/README.md.
 
 on:
   schedule:
@@ -26,7 +31,7 @@ on:
 permissions:
   contents: read
 
-# One package at a time, and a running one is never cancelled: a later tick or
+# One package at a time, and a running one is never canceled: a later tick or
 # request waits (GitHub keeps only the newest pending), and no push to main
 # starts this workflow at all.
 concurrency:
@@ -34,8 +39,23 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  candidate:
+    name: Build, validate and publish the newest main
+    # The called workflow's publish job writes the version commit to main and
+    # lists runs; its build and validation jobs stay read only.
+    permissions:
+      actions: read
+      contents: write
+    uses: ./.github/workflows/release-candidate.yml
+    with:
+      publish: true
+      # Not the push workflow's group, and not this workflow's own: a merge
+      # can never take this run's place in the queue.
+      concurrency_group: release-package-candidate
+
   find_candidate:
     name: Find the newest published candidate (read only)
+    needs: candidate
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -52,12 +72,26 @@ jobs:
         id: find
         env:
           GH_TOKEN: ${{ github.token }}
+          THIS_PUBLISHED: ${{ needs.candidate.outputs.published }}
+          THIS_VERSION: ${{ needs.candidate.outputs.version }}
+          THIS_PUBLISHED_SHA: ${{ needs.candidate.outputs.published_sha }}
+          THIS_CANDIDATE_SHA: ${{ needs.candidate.outputs.candidate_sha }}
+          THIS_BUNDLE_SHA256: ${{ needs.candidate.outputs.bundle_sha256 }}
         shell: bash
         run: |
           set -euo pipefail
           dir="$RUNNER_TEMP/records"
           mkdir -p "$dir"
-          runs="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/release.yml/runs?branch=main&status=success&per_page=40" --jq '.workflow_runs[].id')"
+          if [[ "$THIS_PUBLISHED" == "true" ]]; then
+            # Published a moment ago by this run: package exactly it.
+            echo "Packaging the candidate this run just published." >> "$GITHUB_STEP_SUMMARY"
+            jq -n --arg v "$THIS_VERSION" --arg p "$THIS_PUBLISHED_SHA" --arg c "$THIS_CANDIDATE_SHA" --arg b "$THIS_BUNDLE_SHA256" \
+              '{version:$v,publishedSha:$p,candidateSha:$c,bundleSha256:$b}' > "$dir/this.json"
+            printf '%s\t%s\n' "$THIS_VERSION" this >> "$dir/index"
+          else
+          # Nothing new needed a version commit: look for the newest earlier
+          # record that never got its release (a package that failed or lagged).
+          runs="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/release-package.yml/runs?branch=main&status=completed&per_page=40" --jq '.workflow_runs[].id')"
           for id in $runs; do
             artifact="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/artifacts?name=publish-record" --jq '.artifacts | map(select(.expired == false)) | .[0].id // empty')"
             [[ -n "$artifact" ]] || continue
@@ -65,9 +99,10 @@ jobs:
             unzip -p "$dir/$id.zip" publish-record.json > "$dir/$id.json"
             printf '%s\t%s\n' "$(jq -er '.version' "$dir/$id.json")" "$id" >> "$dir/index"
           done
+          fi
           if [[ ! -s "$dir/index" ]]; then
             echo "package=false" >> "$GITHUB_OUTPUT"
-            echo "Nothing to package: no published candidate has a publish record yet." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "Nothing to package: no candidate was published by this run or recorded by an earlier one." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           # The newest published candidate is the highest published version.

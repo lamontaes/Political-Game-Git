@@ -5,14 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/inauguration-news
+pr: #6368
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T18:17:36.381Z
 ---
 
 **What.** The News toast on Inauguration Day reads "Michael Tanner won the election." (the election was in November), and the story it opens is the whole address as a list of lines, including "I was in Pennsylvania." and a side column ending "Take care." A news story should read as a news story. The owner: "This isn't news." This item makes the story read as news: a headline true on January 20 (the swearing-in, naming the President by record), a lede with who, what and when, two or three sentences of context from the world's own numbers, at most one pulled quote from the address, and no sign-off or line that states only where the speaker was. The story is built from the same records the address uses.

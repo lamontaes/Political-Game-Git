@@ -312,6 +312,20 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "race-result-known",
+      "recordKinds": ["election-result"],
+      "afterDays": 1,
+      "place": "public",
+      "pool": ["ties-of-each-named"],
+      "where": "known",
+      "player": "anyone",
+      "cast": "the day after the count, someone the player knows who ran in the race or is tied to a candidate in it (their family, household or the people they knew), telling who won; scored on tie and sociability",
+      "typeKey": "news-arrives",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceRaceImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "lobbyist-hallway",
       "recordKinds": ["case.made"],
       "recordIdPrefix": "case:lobby:",
@@ -324,6 +338,37 @@
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceHallwayImpact",
       "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
+      "id": "school-last-day",
+      "recordKinds": ["school.finished"],
+      "playerNamed": true,
+      "lived": true,
+      "place": "school",
+      "pool": ["classmates"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "on the last day of the player's school year as a senior, someone who attended the same school that year, scored on tie and sociability",
+      "typeKey": "last-day",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceSchoolImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "graduation-home",
+      "recordKinds": ["school.finished"],
+      "recordFactEquals": { "passed": ["true"] },
+      "playerNamed": true,
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "the day after the player graduated, someone they live with, scored on tie and sociability",
+      "typeKey": "celebration",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceSchoolImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
     }
   ]
 }
