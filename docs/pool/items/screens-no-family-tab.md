@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/no-family-tab
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:52:18.350Z
 ---
 
 **What.** The owner at 9 PM on Oct 27, relayed by the CTO, said there shouldn't be a separate family tab when you can sort by family. The Family tab only showed each relative standing in a room picture, with raw place kinds like house-suburban-living. Family is already one of the people map's filters.
