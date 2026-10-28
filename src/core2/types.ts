@@ -745,14 +745,6 @@ export interface CoreInput {
   visiblePlaceIds?: readonly PlaceId[];
   calendarDates: readonly IsoDate[];
   gaps: readonly string[];
-  priorFactsSource?: readonly {
-    personId: PersonId;
-    field: string;
-    status: "filled" | "preserved" | "unresolved";
-    factIds: readonly string[];
-    source?: Source;
-    reason: string;
-  }[];
   familyLinks?: readonly {
     id: string;
     kind: "parent-child" | "partner";

@@ -10,6 +10,7 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
+import { familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
@@ -19,7 +20,7 @@ import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
-import { attendedSchool } from "./school";
+import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -81,6 +82,8 @@ export interface SituationCause {
   bind?: Readonly<Record<string, string>>;
   opener?: string;
   opening?: string;
+  /** The role whose recorded speech the scene plays, said in its words. */
+  said?: string;
   /**
    * The key the exchange's pieces are tagged with when this cause fires the
    * type, in place of the type's own tag key: one purpose, a different
@@ -137,6 +140,8 @@ export interface SituationLibrary {
     trailingDays: number;
     /** Days within which the same scene with the same people is staged once. */
     repeatDays: number;
+    /** The most scenes of one type in a season's window of days. */
+    seasonCap: { value: number; days: number };
     openDays: Readonly<Record<string, number>>;
     /** Moments that stage their family scene when a household member is in them. */
     householdScenes: readonly string[];
@@ -168,6 +173,8 @@ export interface SceneBinding {
   opener?: string;
   opening?: string;
   reason?: string;
+  /** The role whose recorded speech the scene plays (the address heard at home). */
+  said?: string;
   openUntil: IsoDate;
   /** Later moments of the same day this sitting took in, each with its cause record. */
   joined?: { momentId: string; causeId: string }[];
@@ -198,6 +205,11 @@ export interface ScheduleEntry {
   rank: number;
   pace: number;
   bindings: SceneBinding[];
+  /**
+   * The bound scenes with a purpose the player has answered, by type: a
+   * record that stages several plays each in turn, the next once one ends.
+   */
+  answered?: string[];
   coverage?: CoverageRow;
 }
 
@@ -386,6 +398,12 @@ function fillRole(
         ...(core.households.get(subject?.householdId ?? "")?.memberIds ?? []),
       ].filter((id) => alive(core, id) && !taken.has(id)),
     );
+  const otherHousehold = () => {
+    const other = core.people.get(moment.counterpartIds[zero] ?? "");
+    return [...(core.households.get(other?.householdId ?? "")?.memberIds ?? [])]
+      .filter((id) => alive(core, id) && !taken.has(id))
+      .sort();
+  };
   const coworkers = () => {
     const job = subject?.jobId ? core.jobs.get(subject.jobId) : undefined;
     if (!job) return [];
@@ -460,21 +478,18 @@ function fillRole(
         ? household()
         : setting === "workplace"
           ? coworkers()
-          : [];
+          : setting === "other-home"
+            ? // At someone else's home (a door knocked): who else lives there.
+              otherHousehold()
+            : [];
     case "authority": {
       // At home: the subject's parent on record who lives with them, else
       // another older relative in the household (a guardian).
-      const kinIn = new Map<PersonId, string>();
-      for (const fact of subject?.pastFacts ?? [])
-        if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-          kinIn.set(
-            fact.facts.otherPersonId as PersonId,
-            fact.kind.slice("family:".length),
-          );
+      const kinIn = familyFactsOf(subject);
       const members = household();
       for (const relations of GUARDIAN_RELATIONS) {
         const found = members.filter((id) =>
-          relations.includes(kinIn.get(id) ?? ""),
+          relations.includes(kinIn.get(id)?.relation ?? ""),
         );
         if (found.length) return found;
       }
@@ -642,6 +657,7 @@ function bindType(
       ...(cause.opener ? { opener: cause.opener } : {}),
       ...(cause.opening ? { opening: cause.opening } : {}),
       ...(cause.reason ? { reason: cause.reason } : {}),
+      ...(cause.said ? { said: cause.said } : {}),
       openUntil: addDays(
         makeIsoDate(moment.date),
         library.scheduling.openDays[type.timing] ?? zero,
@@ -747,11 +763,30 @@ export function scheduleMoment(
     : staged;
   const eachCause = (row: SceneBinding) =>
     library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
+  // One type cannot take a season: past its cap of scenes in the season's
+  // window, its causes go to the journal (the plan of Oct 28, section 3: the
+  // floor vote fired 121 times in one played year).
+  const seasonStart = addDays(
+    makeIsoDate(moment.date),
+    -library.scheduling.seasonCap.days,
+  );
+  const inSeason = new Map<string, number>();
+  for (const entry of book.schedule)
+    if (
+      entry.date > seasonStart &&
+      entry.date <= moment.date &&
+      entry.momentId !== moment.id &&
+      entry.outcome !== "journal-line"
+    )
+      for (const typeKey of new Set(entry.bindings.map((row) => row.typeKey)))
+        inSeason.set(typeKey, (inSeason.get(typeKey) ?? zero) + one);
   const bindings = wanted.filter(
     (row) =>
-      eachCause(row) ||
-      (!sittingToday.has(castOf(row)) &&
-        !sittingToday.has(windowKey(row, moment.id))),
+      (inSeason.get(row.typeKey) ?? zero) <
+        library.scheduling.seasonCap.value &&
+      (eachCause(row) ||
+        (!sittingToday.has(castOf(row)) &&
+          !sittingToday.has(windowKey(row, moment.id)))),
   );
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:

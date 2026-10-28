@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { buildDeepPast } from "./deep-past";
 import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import { P } from "./parameters";
 import { buildPopulation } from "./population";
@@ -56,14 +55,12 @@ const place = drawPlace(seed, "sibling-births");
 
 describe("brothers and sisters at home in a drawn town", () => {
   it(`are born at least nine months apart, in ${place.name} (${place.key}), seed ${seed}`, () => {
-    const input = buildDeepPast(
-      buildPopulation({
-        seed: place.seed,
-        placeKey: place.key,
-        startedAt: "2025-01-20",
-        minimumPeople: 1000,
-      }),
-    );
+    const input = buildPopulation({
+      seed: place.seed,
+      placeKey: place.key,
+      startedAt: "2025-01-20",
+      minimumPeople: 1000,
+    });
     const byId = new Map(input.people.map((person) => [person.id, person]));
     let pairs = 0;
     for (const person of input.people)

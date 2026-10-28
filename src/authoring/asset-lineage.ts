@@ -26,7 +26,7 @@
 import {
   ENVIRONMENT_MASTER_MINIMUM_WIDTH,
   ENVIRONMENT_MASTER_RECOMMENDED_WIDTH,
-} from "../presentation/component-masters";
+} from "../appearance/component-masters";
 
 // ---------------------------------------------------------------------------
 // Lineage vocabulary

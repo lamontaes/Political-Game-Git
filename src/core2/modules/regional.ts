@@ -65,10 +65,9 @@ export function openRegional(
   national: Readonly<MacroMonth>,
   placeIds: readonly string[],
   history: readonly Readonly<MacroMonth>[] = [],
-  /** A custom world's national unemployment against the real opening month, in points: every region opens shifted by it. */
-  unemploymentShiftPts = 0,
 ): void {
   const p = (key: string) => api.parameter(key);
+  const { startedAt, seed } = api.state;
   // The coarse years' real regional months (M1-14), then the opening month
   // the regions step from. Retention (MEMORY-FLAT): the year before the
   // opening in full, and only each year's December before that.
@@ -78,20 +77,14 @@ export function openRegional(
       month.month !== national.month &&
       (month.month > kept || month.month.endsWith("-12"))
     )
-      for (const row of openingRegionMonths(month, p))
+      for (const row of openingRegionMonths(month, startedAt, seed, p))
         store(api)
           .table("months")
           .put({ ...row });
-  for (const row of openingRegionMonths(national, p))
+  for (const row of openingRegionMonths(national, startedAt, seed, p))
     store(api)
       .table("months")
-      .put({
-        ...row,
-        unemploymentPct: Math.max(
-          p("zero"),
-          row.unemploymentPct + unemploymentShiftPts,
-        ),
-      });
+      .put({ ...row });
   for (const placeId of placeIds) {
     const regionId = regionOfPlace(placeId);
     if (regionId) store(api).table("places").put({ id: placeId, regionId });
@@ -233,6 +226,27 @@ export function regionName(regionId: string): string | undefined {
   const last = metros.pop()!;
   const listed = metros.length ? `${metros.join(", ")} and ${last}` : last;
   return `${state} outside the ${listed} area${metros.length ? "s" : ""}`;
+}
+
+/**
+ * The state's name when a region is the state outside its metro areas, so a
+ * line can say "outside Kentucky's largest cities" rather than put the
+ * state's name where a reader looks for their town; undefined for a metro.
+ */
+export function regionOutsideState(regionId: string): string | undefined {
+  const region = REGION_BY_ID.get(regionId);
+  if (!region || region.kind === "metro") return undefined;
+  // A state or territory with no metro area is the whole of itself.
+  if (
+    !REGIONS.some(
+      (row) => row.stateUsps === region.stateUsps && row.kind === "metro",
+    )
+  )
+    return undefined;
+  return (
+    corePlaceStateIdentities().find((row) => row.usps === region.stateUsps)
+      ?.name ?? undefined
+  );
 }
 
 /** A metro's first-named city: "Dallas" in "Dallas-Fort Worth-Arlington, TX". */

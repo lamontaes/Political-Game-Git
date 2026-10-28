@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
-import { answerJobOffer, jobsView } from "../bench/jobs";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -78,20 +77,15 @@ function lastDay(
   });
   while (packet.kind !== "complete" && !found) {
     if (packet.kind === "stop") {
-      for (const stop of packet.stop.modules) {
-        const offer = jobsView(core, personId).offers.find((item) =>
-          stop.recordId.startsWith(`${item.id}:`),
-        );
-        if (offer) answerJobOffer(core, personId, offer.id, "accept");
-      }
       open();
       if (found) break;
       packet = resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId });
     } else
+      // As the bench plays a day: the character makes its own pick (on a
+      // school day, school), so the diploma is earned in class.
       packet = resumePlayerV1(core, {
-        kind: "choice",
+        kind: "own-choice",
         pauseId: packet.pauseId,
-        offerId: packet.offers[P.zero]!.offerId,
       });
   }
   open();

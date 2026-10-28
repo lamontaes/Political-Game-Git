@@ -1,6 +1,0 @@
-Santa Rita, Guam, US-GU (territory:GU:santa-rita), seed 6f539fcfdf6d96f9-5, 2025-12-05
-the talk person_97eee31ce6e6d376 opens with person_72c671bd8e04ee0e (Trevor Lyons)
-the scene: house-suburban-living (at home), figures person_97eee21ce6e6d1c3, person_97eee11ce6e6d010, person_97eee41ce6e6d529, person_97eee71ce6e6da42, person_97eee31ce6e6d376, person_72c671bd8e04ee0e
-the moment: person_72c671bd8e04ee0e:2025-12-04:crime.victimized:assault:household_7016a06122c47837:2025-12-04 from crime.victimized:assault:household_7016a06122c47837:2025-12-04
-the line raised: "I got attacked." (crime.victimized:assault:household_7016a06122c47837:2025-12-04)
-lines shown: speech: I got attacked.

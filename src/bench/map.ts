@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { coreAPI } from "../core2/state";
-import { townDistrict } from "../core2/offices-state";
-import { townSeats } from "../core2/modules/offices";
+import { townDistrict, townSeats } from "../core2/modules/offices";
 import type { CoreState } from "../core2/types";
 
 const GEOMETRY = new URL("../maps/geometry/states/", import.meta.url);
@@ -95,10 +94,12 @@ export function governmentMap(core: CoreState) {
             ? row.office.kind === kind
             : kind.test(row.office.kind)) && row.holder,
       )
-      .map(
-        (row) =>
-          `${row.holder!.identity.givenName} ${row.holder!.identity.familyName}`,
-      );
+      // Each holder with their party: the map colors a district by the party
+      // that holds it (owner, Oct 28: Parties illustrated with the map).
+      .map((row) => ({
+        name: `${row.holder!.identity.givenName} ${row.holder!.identity.familyName}`,
+        party: row.holder!.party ?? null,
+      }));
   const shape = (layer: string, geoid?: string | null) => {
     const feature = p.layers[layer]?.find((row) => row.geoid === geoid);
     return feature

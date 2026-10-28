@@ -1,6 +1,11 @@
 /** Completed rentals are occupied by households choosing a cheaper home. */
 import { regionalLevel, regionalRegistered } from "./modules/regional";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  yesLevels,
+} from "./modules/laws";
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ProjectRow, StockRow } from "./housing-construction";
@@ -15,7 +20,6 @@ import { stableHash } from "./kernel/ids";
 import { nextDue } from "./housing-homeless";
 import { addResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
-import { inForceHere } from "./law-reach/host";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction";
 import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState } from "./types";
@@ -194,7 +198,8 @@ function appliedSetAside(
 ): void {
   const lawId = project.lawIds?.inclusionary;
   // A repealed law reaches no one new; the unit's rent stays what it was.
-  if (!lawId || !inForceHere(api, CONSTRUCTION_LAW_KEYS.inclusionary)) return;
+  if (!lawId || !yesLevels(api, CONSTRUCTION_LAW_KEYS.inclusionary).length)
+    return;
   lawApplied(api, {
     key: CONSTRUCTION_LAW_KEYS.inclusionary,
     lawId,
@@ -226,7 +231,8 @@ function appliedByRight(
   },
 ): void {
   const lawId = project.lawIds?.multifamily;
-  if (!lawId || !inForceHere(api, CONSTRUCTION_LAW_KEYS.multifamily)) return;
+  if (!lawId || !yesLevels(api, CONSTRUCTION_LAW_KEYS.multifamily).length)
+    return;
   lawApplied(api, {
     key: CONSTRUCTION_LAW_KEYS.multifamily,
     lawId,
@@ -586,7 +592,7 @@ function noticeRentRenewal(
       (p) =>
         p?.alive &&
         ageOnDate(makeIsoDate(p.birthDate), today) >=
-          lawParameters.parameters.adultAge.value,
+          api.parameter("votingAge"),
     )
     .sort(
       (a, b) =>

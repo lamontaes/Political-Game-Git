@@ -4,12 +4,8 @@
  *
  * - `laws`: each law row's history (enactment, body, session, roll call,
  *   sponsor, signer, amendments), keyed `law-history:<law row id>`.
- * - `bills`: each body's recorded votes of the prior term, the bills behind
- *   them, and who sponsored them.
  * - `elections`: the election that seated each officeholder, with both
  *   candidates, the votes, turnout and the town's voter groups' split.
- * - `closures`: each business of the town that closed in the year before day
- *   one, with its kind, former owner, workers and date.
  * - `figures`: what the public knows about each public figure: office,
  *   positions, record, prior election and the reputation a public sees.
  *
@@ -19,7 +15,7 @@
  * what happened is generated once from the world's seed, and every choice in
  * it (a vote, a split) follows a person's or group's recorded lean.
  */
-import { createHash } from "node:crypto";
+import { seededUnit } from "./seeded";
 import rows from "./data/past/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import { registerModule } from "./state";
@@ -44,10 +40,7 @@ export const PAST_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       laws: { indexes: { byLaw: { fields: ["lawId"] } } },
-      bills: { indexes: { byBody: { fields: ["body"] } } },
-      elections: { indexes: { bySeat: { fields: ["seatId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
-      closures: { indexes: { byOwner: { fields: ["ownerId"] } } },
       loaded: {},
     },
   },
@@ -65,14 +58,41 @@ export function putPast(api: CoreAPI, name: string, row: object): void {
   pastTable(api, name).put(row as unknown as ModuleRow);
 }
 
-/**
- * A number in [0, 1) fixed by the world's seed and a key: generation of who
- * existed and what happened before day one, never a choice in play.
- */
-export function seededUnit(seed: string, key: string): number {
-  const hex = createHash("sha256").update(`${seed}:${key}`).digest("hex");
-  return parseInt(hex.slice(0, 8), 16) / 0x1_0000_0000;
-}
+export { seededUnit } from "./seeded";
+
+// The one history, for the engines that run or read it (light imports only:
+// the engines load this entry while the core is still loading).
+export {
+  pastForLater,
+  preStartHistory,
+  type HistoryRecord,
+  type HistoryWriter,
+  type PreStartModule,
+  type PreStartWindow,
+} from "./pre-start";
+export {
+  PAST_WORK_OUT,
+  PAST_WORK_SPELL,
+  heldSinceRecord,
+  pastWorkFor,
+  pastWorkHistory,
+  pastWorkOf,
+} from "./past-work";
+export {
+  PERSON_MOVED_IN,
+  pastMovesHistory,
+  residenceOn,
+  type DepartureRate,
+} from "./past-moves";
+export {
+  SCHOOL_STARTED,
+  schoolHistory,
+  schoolHistoryFor,
+  schoolName,
+  schoolOfPlace,
+  schoolsAttended,
+  type SchoolAttended,
+} from "./past-school";
 
 /** A value inside [low, high], fixed by the seed and key. */
 export function seededBetween(
@@ -198,27 +218,4 @@ export function lawHistory(
     pastTable(api, "laws").query("byLaw", [lawId]) as unknown as
       LawHistoryRow[] | undefined
   )?.[0];
-}
-
-/** The elections that seated a seat's holders before day one, oldest first. */
-export function priorElections(
-  api: CoreAPI,
-  seatId: string,
-): readonly PastElectionRow[] {
-  if (!api.state.modules.has(PAST_MODULE_ID)) return [];
-  return (
-    pastTable(api, "elections").query("bySeat", [
-      seatId,
-    ]) as unknown as PastElectionRow[]
-  )
-    .slice()
-    .sort((a, b) => a.date.localeCompare(b.date));
-}
-
-/** A body's recorded bills of the prior term. */
-export function pastBills(api: CoreAPI, body: string): readonly PastBillRow[] {
-  if (!api.state.modules.has(PAST_MODULE_ID)) return [];
-  return pastTable(api, "bills").query("byBody", [
-    body,
-  ]) as unknown as PastBillRow[];
 }

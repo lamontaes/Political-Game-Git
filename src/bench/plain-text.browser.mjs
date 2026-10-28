@@ -102,25 +102,20 @@ try {
     ...(asked.get("placeKey") ? { placeKey: asked.get("placeKey") } : {}),
   };
   console.log("Seed:", world.seed, "date:", world.date);
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
   console.log("Place:", await page.locator("#card-place").innerText());
   await sheet("news");
   await read("News", "#sheet");
-  // Every public record names who it is about.
-  const nameless = await page
-    .locator(".paper-records article")
-    .evaluateAll((rows) =>
-      rows
-        .filter((row) => !row.querySelector("p")?.textContent.trim())
-        .map((row) => row.querySelector("h4")?.textContent),
-    );
-  for (const kind of nameless)
-    found.push(`News: a public record names no one: "${kind}"`);
+  // News prints stories, never record rows with kinds, series or
+  // jurisdiction labels (owner, Oct 27).
+  if (
+    /\bSeries\b|\bJurisdiction\b|Public record/.test(
+      await page.locator("#sheet").innerText(),
+    )
+  )
+    found.push("News: a record row with its kind or series labels");
   await sheet("politics");
   const tabs = page.locator("#sheet-tabs button");
   for (let i = 0; i < (await tabs.count()); i++) {
@@ -192,7 +187,7 @@ try {
     .click();
   await page.locator(".row.campaign").first().waitFor();
   await read("Politics Campaigns after filing", "#sheet");
-  // Two weeks on, News carries the region's numbers and the month's records.
+  // Two weeks on, News carries the region's numbers and the month's stories.
   await page.locator("#sheet-close").click();
   for (let week = 0; week < 2; week++) {
     const moved = page.waitForResponse(
@@ -218,15 +213,14 @@ try {
   }
   await sheet("news");
   await read("News two weeks on", "#sheet");
-  const namelessLater = await page
-    .locator(".paper-records article")
-    .evaluateAll((rows) =>
-      rows
-        .filter((row) => !row.querySelector("p")?.textContent.trim())
-        .map((row) => row.querySelector("h4")?.textContent),
+  if (
+    /\bSeries\b|\bJurisdiction\b|Public record/.test(
+      await page.locator("#sheet").innerText(),
+    )
+  )
+    found.push(
+      "News two weeks on: a record row with its kind or series labels",
     );
-  for (const kind of namelessLater)
-    found.push(`News two weeks on: a public record names no one: "${kind}"`);
   for (const line of found) console.log(line);
   assert.deepEqual(found, [], "developer text on the player's screens");
   assert.deepEqual(errors, []);

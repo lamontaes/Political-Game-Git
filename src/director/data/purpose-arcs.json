@@ -1887,6 +1887,60 @@
         }
       ]
     },
+    "race-told": {
+      "state": "tell",
+      "replies": ["ask", "comfort", "tell", "deflect"],
+      "follow": {
+        "ask": ["answer"],
+        "comfort": ["thank"],
+        "tell": ["accept", "press"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "answer": ["comfort", "tell", "deflect", "leave"],
+        "press": ["tell", "deflect", "leave"]
+      },
+      "endings": [
+        {
+          "id": "shared-it",
+          "label": "You said what it means for you",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell"]
+          }
+        },
+        {
+          "id": "stood-with-them",
+          "label": "You stood with them",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["comfort"]
+          }
+        },
+        {
+          "id": "shrugged-it-off",
+          "label": "You shrugged it off",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect"]
+          }
+        },
+        {
+          "id": "asked-how",
+          "label": "You asked how it happened",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "conflict-accuse": {
       "state": "confront",
       "replies": ["tell", "deny", "confront", "offer", "lie"],
@@ -3199,6 +3253,52 @@
         {
           "id": "not-needed",
           "label": "You thanked them and passed",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "job-offer": {
+      "state": "request",
+      "replies": ["ask", "agree", "decline", "stall"],
+      "follow": {
+        "ask": ["answer"],
+        "agree": ["thank"],
+        "decline": ["press", "accept"],
+        "stall": ["accept", "press"]
+      },
+      "again": {
+        "answer": ["agree", "decline", "leave"],
+        "press": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "hired",
+          "label": "You took the job",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "thinking",
+          "label": "You'll let them know",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall"]
+          }
+        },
+        {
+          "id": "turned-down",
+          "label": "You turned it down",
           "keeps": "none",
           "when": {
             "reply": ["decline"]

@@ -6,7 +6,7 @@ How the game is built, as it is today. Written for someone who will open files b
 
 `src/core2` is the engine. It holds the world: the date, every person, every account, every office, and the record of what happened. Everything else in the repository is a client of it: the game screen, Dev mode, the story director, the English engine, the desktop shell, the tests.
 
-The old core, `src/simulation`, is being removed. It is still used only to build the opening town (people, households, workplaces and schedules): a handful of `src/core2` opening files and three bench files import it. `npm run old-imports` lists exactly what still keeps it alive. The plan is `docs/design/old-core-retirement-map.md`; what moved and how is `docs/design/core2-porting-plan.md`. Nothing new goes into `src/simulation`, and `src/presentation` (the old appearance engine, still used by the character creator and the art pipeline) is on the same path.
+The old core (`src/simulation`) and the old appearance folder (`src/presentation`) were deleted on Oct 28, 2026. The opening town is built by the core's own opening files into a plain draft (`src/core2/opening-draft.ts`), and the art pipeline's character components live in `src/appearance/`. `npm run old-imports` still refuses any file that imports the deleted folders; what moved and how is `docs/design/core2-porting-plan.md`.
 
 ## Building a world
 
@@ -88,11 +88,9 @@ Every shortcut is a row in `src/core2/data/stopgaps.json` (the director has its 
   - `world.ts` builds the world. `src/bench/*.browser.mjs` are the browser checks.
 - **`desktop/`: the Electron shell and updater.** It bundles the bench handler; no game logic.
 - **Political geography:** `src/districts/` and `src/maps/`.
-- **Old or unused folders, to be removed with the old core:**
-  - `src/presentation/` (appearance engine, garment fit, pose families);
-  - `src/fiscal-authority/` and `src/education/` (used only by `src/simulation`);
+- **`src/appearance/`: the art pipeline's character components, garment fit and pose families**, outside the engine; the art scripts and their tests read it, and it reads only the core's stored appearance.
+- **Old or unused folders, to be removed:**
   - `src/authoring/` (the art-bench event model, used by one dev script);
-  - `src/source/` (three unused type files);
   - `src/release/` (an old build-identity copy; the live one is `scripts/release/`, and the bug report is `src/core2/bug-report.ts`).
 
 ## Data

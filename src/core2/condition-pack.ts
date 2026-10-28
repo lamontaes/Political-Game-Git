@@ -32,6 +32,7 @@ interface PackCondition {
   readonly prevalence: readonly PrevalenceBand[];
   readonly bySex?: { readonly male: number; readonly female: number };
   readonly mortalityWeight: { readonly value: number; readonly status: string };
+  /** Read only by the old engine's condition onsets; goes with src/simulation. */
   readonly onsetScale: {
     readonly value: number;
     readonly status: string;
@@ -66,6 +67,19 @@ export function conditionLabel(key: string): string | null {
  * past the last it holds. The infant row covers the first year of life only.
  */
 export function conditionPrevalence(
+  condition: PackCondition,
+  age: number,
+  category: MortalityCalibrationCategory,
+  /** The world's chronic-condition factor (world-base-rates.ts); one is the published table. */
+  worldFactor = 1,
+): number {
+  return Math.min(
+    1,
+    conditionPublished(condition, age, category) * worldFactor,
+  );
+}
+
+function conditionPublished(
   condition: PackCondition,
   age: number,
   category: MortalityCalibrationCategory,
@@ -105,6 +119,41 @@ export function conditionPrevalence(
   return share * sex;
 }
 
+/** The search bounds and steps for the place's shift in `personalityShares`: log odds far past any level's reach, halved to well under a millionth. */
+const SHIFT_BOUND = 40;
+const SHIFT_STEPS = 60;
+
+/**
+ * Each person's chance of a behavior-driven condition: their age's prevalence
+ * on the log-odds scale, moved by their personality's log odds and by one
+ * shift for the whole place, chosen so the chances add up to `expected` (the
+ * place's count at the published prevalence). A prevalence of zero or one
+ * stays as it is.
+ */
+function personalityShares(
+  shares: readonly number[],
+  logOdds: readonly number[],
+  expected: number,
+): number[] {
+  const at = (shift: number) =>
+    shares.map((share, i) =>
+      share <= 0 || share >= 1
+        ? share
+        : 1 /
+          (1 +
+            Math.exp(-(Math.log(share / (1 - share)) + logOdds[i]! - shift))),
+    );
+  const sum = (list: readonly number[]) => list.reduce((a, b) => a + b, 0);
+  // The sum falls as the shift grows, so halving the interval finds it.
+  let low = -SHIFT_BOUND;
+  let high = SHIFT_BOUND;
+  for (let step = 0; step < SHIFT_STEPS; step += 1) {
+    const middle = (low + high) / 2;
+    if (sum(at(middle)) > expected) low = middle;
+    else high = middle;
+  }
+  return at((low + high) / 2);
+}
 export interface StartingConditionSubject {
   readonly personId: EntityId;
   readonly placeKey: string;
@@ -124,11 +173,14 @@ export function startingConditionAssignments(
   subjects: readonly StartingConditionSubject[],
   /**
    * Log odds per conscientiousness level for behavior-driven conditions
-   * (smoking, drug use): within a cell their holders are spread by each
-   * person's weight, exp(slope times level), so the count is the prevalence's
-   * and personality decides only who.
+   * (smoking, drug use): their holders are spread across each place's people
+   * by each person's chance, their age's prevalence moved on the log-odds
+   * scale by slope times level, so the count is the prevalence's and
+   * personality decides only who.
    */
   behaviorSlopes: ReadonlyMap<string, number> = new Map(),
+  /** The world's chronic-condition factor (world-base-rates.ts). */
+  worldFactor = 1,
 ): ReadonlyMap<EntityId, readonly string[]> {
   const assignments = new Map<EntityId, string[]>(
     subjects.map(({ personId }) => [personId, []]),
@@ -150,7 +202,8 @@ export function startingConditionAssignments(
   // full people of a town). The fraction carries to the next cell, in a fixed
   // cell order, so the set holds the condition at its prevalence in total.
   const carried = new Map<string, number>();
-  for (const [, cell] of [...cells].sort((a, b) => a[0].localeCompare(b[0]))) {
+  const ordered = [...cells].sort((a, b) => a[0].localeCompare(b[0]));
+  for (const [, cell] of ordered) {
     cell.sort((left, right) => {
       const leftIncome = left.monthlyHouseholdIncomeMinor;
       const rightIncome = right.monthlyHouseholdIncomeMinor;
@@ -169,12 +222,20 @@ export function startingConditionAssignments(
           : 0;
     });
     for (const [conditionIndex, condition] of CONDITION_PACK.entries()) {
+      // Behavior-driven conditions are spread across the place, below.
+      if (behaviorSlopes.has(condition.key)) continue;
       // PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack
       // has no condition-specific income gradient; keep even spacing until one
       // is sourced.
       const expected = cell.reduce(
         (total, person) =>
-          total + conditionPrevalence(condition, person.age, person.category),
+          total +
+          conditionPrevalence(
+            condition,
+            person.age,
+            person.category,
+            worldFactor,
+          ),
         0,
       );
       const owed = expected + (carried.get(condition.key) ?? 0);
@@ -187,30 +248,62 @@ export function startingConditionAssignments(
         continue;
       }
       const offset = conditionIndex / conditionCount;
-      const slope = behaviorSlopes.get(condition.key);
-      if (slope !== undefined) {
-        // Weighted even spacing: the running share of the condition's count
-        // each person's weight earns; a person holds it when the running
-        // total passes a whole number.
-        const weights = cell.map((person) =>
-          Math.exp(slope * (person.conscientiousness ?? 0)),
-        );
-        const total = weights.reduce((sum, weight) => sum + weight, 0);
-        let running = offset;
-        for (const [position, person] of cell.entries()) {
-          const before = Math.floor(running);
-          running += (count * weights[position]!) / total;
-          if (Math.floor(running) > before)
-            assignments.get(person.personId)!.push(condition.key);
-        }
-        continue;
-      }
       for (let index = 0; index < count; index += 1) {
         const position = Math.min(
           cell.length - 1,
           Math.round(((index + offset) * cell.length) / count),
         );
         assignments.get(cell[position]!.personId)!.push(condition.key);
+      }
+    }
+  }
+  // A behavior-driven condition is spread across each place's people, not
+  // within one age cell: a town's full people make cells of one or two, where
+  // personality has no one to choose between (traits-health-test: the median
+  // cell held one person). Each person's share is their age's prevalence on
+  // the log-odds scale moved by slope times level (`personalityShares`); the
+  // place's count is the prevalence's, with the fraction carried to the next
+  // place, and a person holds the condition where the running share of that
+  // count passes a whole number.
+  const places = new Map<string, StartingConditionSubject[]>();
+  for (const [, cell] of ordered)
+    for (const person of cell) {
+      const list = places.get(person.placeKey) ?? [];
+      list.push(person);
+      places.set(person.placeKey, list);
+    }
+  for (const [conditionIndex, condition] of CONDITION_PACK.entries()) {
+    const slope = behaviorSlopes.get(condition.key);
+    if (slope === undefined) continue;
+    const offset = conditionIndex / conditionCount;
+    let carry = 0;
+    for (const [, people] of places) {
+      const shares = people.map((person) =>
+        conditionPrevalence(
+          condition,
+          person.age,
+          person.category,
+          worldFactor,
+        ),
+      );
+      const expected = shares.reduce((sum, share) => sum + share, 0);
+      const owed = expected + carry;
+      const count = Math.min(people.length, Math.max(0, Math.round(owed)));
+      carry = owed - count;
+      if (count === 0) continue;
+      const weights = personalityShares(
+        shares,
+        people.map((person) => slope * (person.conscientiousness ?? 0)),
+        expected,
+      );
+      const total = weights.reduce((sum, weight) => sum + weight, 0);
+      if (total <= 0) continue;
+      let running = offset;
+      for (const [position, person] of people.entries()) {
+        const before = Math.floor(running);
+        running += (count * weights[position]!) / total;
+        if (Math.floor(running) > before)
+          assignments.get(person.personId)!.push(condition.key);
       }
     }
   }
@@ -227,8 +320,6 @@ interface SeverityGrade {
 export const SEVERITY_GRADES: readonly SeverityGrade[] =
   pack.severityGrades.grades;
 const AGE_FACTOR = pack.ageFactor;
-/** The scale at which the life table's hazard counts as strain (./mortality.ts). */
-export const BASE_RATE_SCALE: number = pack.baseRateScale.value;
 
 /**
  * The grade this person holds a condition at: their seeded place among the

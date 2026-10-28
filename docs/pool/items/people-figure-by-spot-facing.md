@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-figure-by-facing
 pr: #6408
 blocked-on:

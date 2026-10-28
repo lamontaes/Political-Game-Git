@@ -24,13 +24,12 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
+import { enactLaw, lawChain, lawInForce } from "../modules/laws";
 import {
-  enactLaw,
-  lawChain,
-  lawInForce,
-  LAWS_MODULE_ID,
-} from "../modules/laws";
-import { countedJob, residentsRuntime } from "../modules/residents";
+  countedJob,
+  residentsRuntime,
+  worldPrivateTuitionAnnualUsd,
+} from "../modules/residents";
 import type { LawRowInput } from "../laws-starting";
 import {
   graduatedSchedule,
@@ -79,24 +78,6 @@ export function recordApplied(
     engine: APPLIED_ENGINE,
     amountMinor: paidToday ? 0 : (input.amountMinor ?? 0),
   });
-}
-
-/** The row that makes a policy question law for the town at some level (the latest row there says yes). */
-export function questionRow(
-  api: CoreAPI,
-  key: string,
-): LawRowInput | undefined {
-  const date = api.state.date;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  for (const { jurisdiction } of lawChain(api).levels) {
-    const latest = (
-      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    if (latest?.value === 1) return latest;
-  }
-  return undefined;
 }
 
 /** The government at a law's or budget's level, if the town has one there. */
@@ -859,7 +840,7 @@ export function payPreschool(
     );
     const heads = new Map<string, ResidentFacts>();
     for (const r of input.residents) {
-      if (!r.named || r.age < reachParameter("adultAge")) continue;
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
       const prior = heads.get(r.householdId);
       if (
         !prior ||
@@ -927,7 +908,7 @@ export function voucherShare(api: CoreAPI): number {
   return Math.min(
     1,
     reachParameter("voucherAmountDollars") /
-      api.parameter("openingPrivateTuitionAnnualUsd"),
+      worldPrivateTuitionAnnualUsd(api.state.seed),
   );
 }
 
@@ -1223,6 +1204,9 @@ interface ReserveRow {
   readonly governmentId: string;
   readonly accountId: string;
   readonly targetMinor: number;
+  /** The day of the last set-aside, and how many were made that day. */
+  readonly setAsideOn?: string;
+  readonly setAsidesThatDay?: number;
 }
 
 /**
@@ -1285,10 +1269,17 @@ export function holdReserve(
       input.modeledShare,
   );
   const need = Math.max(0, target - held);
+  // The law can be read twice in a day (the day it takes effect is often the
+  // first of the fiscal year, when the treasury's close reads it again); a
+  // set-aside the treasury could pay only in part tops up at the second
+  // read, under its own transfer id.
+  const prior = getRow<ReserveRow>(api, "taken", id);
+  const sameDay = prior?.setAsideOn === api.state.date;
+  const count = sameDay ? (prior?.setAsidesThatDay ?? 1) : 0;
   const receipt =
     need > 0
       ? accounts.transfer({
-          id: `reach-b:reserve:${input.key}:${gov.id}:${api.state.date}`,
+          id: `reach-b:reserve:${input.key}:${gov.id}:${api.state.date}${count ? `:${count + 1}` : ""}`,
           from: main,
           to: accountId,
           amountMinor: need,
@@ -1303,6 +1294,11 @@ export function holdReserve(
     governmentId: gov.id,
     accountId,
     targetMinor: target,
+    ...(receipt
+      ? { setAsideOn: api.state.date, setAsidesThatDay: count + 1 }
+      : sameDay
+        ? { setAsideOn: prior!.setAsideOn, setAsidesThatDay: count }
+        : {}),
   } satisfies ReserveRow);
   // The treasury was held to the reserve: the balance set aside is the money.
   if (input.lawId)

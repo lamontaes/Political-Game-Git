@@ -3,13 +3,16 @@ import {
   ballotOf,
   candidateIdentity,
   placesOf,
+  racesOf,
+  raceVotes,
   resultOf,
+  worldRacesOpen,
 } from "../core2/modules/voting";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
-import { racesOf, WORLD_RACES_MODULE_ID } from "../core2/modules/world-races";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
-import { backdropFile, hasBackdrop, stagePeople } from "./scene";
+import { backdropFor, stagePeople } from "./scene";
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const ELECTIONS = "core2-elections-v1";
@@ -155,15 +158,17 @@ export function ownRace(core: CoreState, personId: string) {
 
 /**
  * The governor races the world held on the newest election night so far,
- * every state's by its race record: the party that won, each party's votes
- * and the margin. Empty before any governor race has been counted.
+ * every state's by its race record and its count's result: the party that
+ * won, each party's votes and the margin. Empty before any governor race has been counted.
  */
 export function governorRacesTonight(core: CoreState) {
   const api = coreAPI(core);
-  if (!core.modules.has(WORLD_RACES_MODULE_ID)) return [];
+  if (!worldRacesOpen(api)) return [];
   const held = racesOf(api).filter(
     (race) =>
-      race.office === "governor" && race.date <= core.date && race.votes,
+      race.office === "governor" &&
+      race.date <= core.date &&
+      resultOf(api, race.id) !== null,
   );
   const night = held.reduce(
     (last, race) => (race.date > last ? race.date : last),
@@ -176,7 +181,7 @@ export function governorRacesTonight(core: CoreState) {
     .filter((race) => race.date === night)
     .map((race) => {
       const stateKey = race.seatId.split(":")[1] ?? "";
-      const { republican, democratic } = race.votes!;
+      const { republican, democratic } = raceVotes(api, race);
       const cast = republican + democratic;
       return {
         id: race.id,
@@ -227,7 +232,7 @@ export function resultsScene(core: CoreState, playerId: string) {
   });
   return {
     place,
-    backdrop: backdropFile(place, ran ? 22 * 60 : 18 * 60),
+    backdrop: backdropFor(core, place, ran ? 22 * 60 : 18 * 60),
     people: stagePeople(core, place, cast).people,
   };
 }

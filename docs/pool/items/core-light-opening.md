@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr: #5079
 blocked-on:
+after: core-light-opening-kin-at-fill-in
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at:
 ---
@@ -32,4 +33,5 @@ Two ways forward that change no output: speed up `buildOpeningKin` (`moveHazard`
 
 Oct 22, merger A: PR #5079 splits the proposed kin-opening work into three tasks; it does not implement the opening or fill-in acceptance. This parent stays open with its own Done when intact.
 
+Split Oct 19 (claude): proposed parts, in order: core-light-opening-kin-households, core-light-opening-kin-only-kept, core-light-opening-kin-at-fill-in. This parent retains its own Done when; child statuses alone do not waive its opening-time, count/trait consistency or named fill-in proof.
 Sent back 2026-10-24 from planning PR #5079 (branch claude/light-opening): own-environment applicable checks passed on f4ffec899c079efa446665c56e02005f232b83c1, but the head-pinned merge returned 405 merge conflicts after main advanced; implementation acceptance remains open. Finish the planning merge on that branch, merge current main into it first and rerun the changed-file checks.

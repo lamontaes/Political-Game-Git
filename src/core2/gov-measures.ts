@@ -44,6 +44,7 @@ import {
   townShareOf,
 } from "./modules/budgets";
 import { townShare } from "./law-reach/group-b-money";
+import { parameter } from "./parameters";
 
 export { GOV_MEASURES };
 
@@ -242,7 +243,7 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
         const age =
           Number(race.contest.electionDate.slice(0, 4)) -
           Number(p.birthDate.slice(0, 4));
-        return age >= 18 && age <= 24;
+        return age >= parameter("votingAge") && age <= 24;
       });
       return youth.length
         ? youth.filter((b) => b.voted).length / youth.length

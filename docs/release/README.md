@@ -182,6 +182,57 @@ so a push to `main` cannot take its place in the queue either.
   `GITHUB_TOKEN`, and GitHub does not start workflow runs from events that token
   creates. The workflow also skips its own commit subject as a second guard.
 
+## Required checks
+
+Once the checks are required, the release workflow's own push of the version
+commit to main is refused (the workflow token is not an admin). The owner adds
+a repository secret `RELEASE_PUSH_TOKEN`: a fine-grained personal access token
+for this repository with Contents read and write, no expiry needed beyond the
+owner's comfort. `release-candidate.yml` uses it when present and falls back to
+the workflow token otherwise. Until the secret exists, no release publishes.
+
+**Set on main on Oct 28, 2026 at 03:47 UTC** from the owner's Mac with the owner's account (the command below), and read back: `validate` and `golden-path` required, up to date off, admins not enforced, force pushes and deletions off.
+
+Two checks hold main: `validate` (the aggregate in
+`.github/workflows/validate.yml`, which requires the `guards` job and the
+changed-file checks) and `golden-path` (`.github/workflows/m0-guard.yml`).
+Sessions cannot set branch protection (the GitHub proxy refuses that API path),
+so the owner sets it once by hand:
+
+1. GitHub, the repository, **Settings**, **Branches**, **Add branch protection
+   rule** (or edit the rule for `main`). Branch name pattern: `main`.
+2. Turn on **Require status checks to pass before merging**. Leave **Require
+   branches to be up to date** off (with dozens of merges an hour, every PR
+   would rerun forever). Add the checks `validate` and `golden-path`.
+3. Leave **Do not allow bypassing the above settings** off. Every session
+   pushes pool claims, statuses and channel blocks straight to main as the
+   owner's account, and a bare pool commit carries no check results, so a
+   protection that binds the owner's account stops the whole pool. The checks
+   still show as required on every PR, and a merge with a red required check
+   needs an explicit bypass.
+4. Leave **Allow force pushes** and **Allow deletions** off.
+5. **Save changes.**
+
+The same settings from a terminal with the owner's own token:
+
+```sh
+gh api -X PUT repos/lamontaes/Political-Game-Git/branches/main/protection --input - <<'JSON'
+{
+  "required_status_checks": { "strict": false, "contexts": ["validate", "golden-path"] },
+  "enforce_admins": false,
+  "required_pull_request_reviews": null,
+  "restrictions": null,
+  "allow_force_pushes": false,
+  "allow_deletions": false
+}
+JSON
+```
+
+Because the owner's account can bypass, a red required check shows on the PR
+but does not by itself stop a merge made with the owner's token; the mergers'
+own checks on the merged result (`merger` skill) remain the line. Each guard
+behind `validate` is described in `docs/design/guards.md`.
+
 ## Build identity
 
 The accepted version answers "which release is this?". It cannot answer "which

@@ -808,48 +808,6 @@
       }
     },
     {
-      "key": "scene-words.lead-argument-alone.there-is-a-disagreement-in-the-room",
-      "move": "lead-argument-alone",
-      "kind": "spoken",
-      "text": "There is a disagreement in the room.",
-      "uses": [
-        {
-          "move": "lead-argument-alone",
-          "subject": "lead",
-          "role": "argument",
-          "choice": "alone"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-celebration-other.other-is-part-of-what-is-being-marked-today",
-      "move": "lead-celebration-other",
-      "kind": "spoken",
-      "text": "{other} is part of what is being marked today.",
-      "uses": [
-        {
-          "move": "lead-celebration-other",
-          "subject": "lead",
-          "role": "celebration",
-          "choice": "other"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.lead-celebration-alone.there-is-something-to-mark-today",
       "move": "lead-celebration-alone",
       "kind": "spoken",
@@ -1102,10 +1060,10 @@
       }
     },
     {
-      "key": "scene-words.lead-eviction-notice-any.a-notice-has-come-that-you-must-leave-your-home",
+      "key": "scene-words.lead-eviction-notice-any.a-notice-has-come-you-have-to-leave-your-home",
       "move": "lead-eviction-notice-any",
       "kind": "spoken",
-      "text": "A notice has come that you must leave your home.",
+      "text": "A notice has come: you have to leave your home.",
       "uses": [
         {
           "move": "lead-eviction-notice-any",
@@ -1116,8 +1074,8 @@
       ],
       "shippable": true,
       "origin": "authored",
-      "author": "Claude Code, director session",
-      "date": "2026-10-15",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "narrate"
       }
@@ -1725,28 +1683,6 @@
       "move": "cause-feeling:event:housing.eviction-self",
       "kind": "spoken",
       "text": "Your household has been evicted.",
-      "uses": [
-        {
-          "move": "cause-feeling:event:housing.eviction-self",
-          "subject": "cause",
-          "role": "feeling:event:housing.eviction",
-          "choice": "self",
-          "stages": ["self"]
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deliver-news"
-      }
-    },
-    {
-      "key": "scene-words.cause-feeling:event:housing.eviction-self.you-have-to-move-out-of-your-home-in-place",
-      "move": "cause-feeling:event:housing.eviction-self",
-      "kind": "spoken",
-      "text": "You have to move out of your home in {place}.",
       "uses": [
         {
           "move": "cause-feeling:event:housing.eviction-self",
@@ -3345,7 +3281,8 @@
           "move": "lead-news-arrives-other",
           "subject": "lead",
           "role": "news-arrives",
-          "choice": "other"
+          "choice": "other",
+          "settings": ["home"]
         }
       ],
       "shippable": true,
@@ -3366,7 +3303,8 @@
           "move": "lead-news-arrives-other",
           "subject": "lead",
           "role": "news-arrives",
-          "choice": "other"
+          "choice": "other",
+          "settings": ["home"]
         }
       ],
       "shippable": true,

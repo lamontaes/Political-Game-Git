@@ -6,6 +6,7 @@
  */
 import parameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { parameter } from "../parameters";
 import { BUSINESS_MODULE_ID } from "../business-module-id";
 import {
   countedJob,
@@ -37,8 +38,12 @@ const table = parameters as unknown as {
   >;
 };
 
-/** A number from the group B parameter table. */
+/**
+ * A number from the group B parameter table. The voting age is the elections
+ * data's one row (`votingAge`, the Twenty-Sixth Amendment), never a copy here.
+ */
 export function reachParameter(key: string): number {
+  if (key === "votingAge") return parameter(key);
   const row = table.parameters[key];
   if (!row) throw new Error(`Unknown law-reach parameter: ${key}`);
   return row.value;
@@ -316,7 +321,7 @@ export function selectResidents(
           reachParameter("weeksPerYear")
         : undefined;
   const childBelow = p(selector.noChildBelow);
-  const adult = reachParameter("adultAge");
+  const adult = reachParameter("votingAge");
   const out: ResidentFacts[] = [];
   for (const r of facts.residents) {
     if (ageFrom !== undefined && r.age < ageFrom) continue;

@@ -332,19 +332,6 @@ const UNWIRED: ReadonlyArray<{
   readonly reason: string;
 }> = [
   {
-    outcome: "gov.borrowing-cost",
-    links: [
-      "balanced-budget-to-borrowing-cost",
-      "pension-funding-to-borrowing-cost",
-      "reserve-balance-to-borrowing-cost",
-      "federal-deficit-to-borrowing-cost",
-      "newspaper-closure-to-borrowing-cost",
-    ],
-    stopgap: "SG-EFFECT-WEB-prices-gov-borrowing",
-    reason:
-      "no state or local government borrows; the federal treasury's net interest is a budget line, not a rate a state bond spread sets",
-  },
-  {
     outcome: "finance.high-cost-loans",
     links: [
       "loan-rate-cap-to-high-cost-borrowing",
@@ -363,7 +350,7 @@ const UNWIRED: ReadonlyArray<{
   },
   {
     outcome: "household.food-insecurity",
-    links: ["snap-to-food-insecurity", "grocery-exemption-to-food-insecurity"],
+    links: ["snap-to-food-insecurity"],
     stopgap: "SG-WEB-food-insecurity-ledger",
     reason:
       "no engine records a household's food spending against its income or its SNAP benefit",

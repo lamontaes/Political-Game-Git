@@ -17,6 +17,7 @@
       "derivation": "Estimated at about one fifth of a U.S. letter stamp using the project's $0.73 2024 USPS rate; no unit price found in the single campaign-material search."
     },
     "postage": {
+      "setByLaw": true,
       "label": "Postage",
       "unit": "piece",
       "priceMinorUnits": 73,
@@ -45,6 +46,7 @@
       "derivation": "A community hall, restaurant back room or lodge room for an evening rents for about $150 to $500 in small and mid-sized towns (municipal facility fee schedules and venue listings, 2024); midpoint taken."
     },
     "filing-fee": {
+      "setByLaw": true,
       "label": "Candidate filing fee",
       "unit": "filing",
       "priceMinorUnits": 7500,

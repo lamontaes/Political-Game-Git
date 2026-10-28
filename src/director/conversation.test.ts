@@ -1,7 +1,10 @@
+import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
+import { defaultPreStart } from "../core2/saves";
+import { preStartWindow, runPreStart } from "../core2/pre-start";
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { financeIndex } from "../core2/finance-state";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import {
@@ -37,18 +40,20 @@ import type { PersonId } from "../core2/types";
 // traits give it the benefit of the doubt, and
 // is found out when someone who knows the truth talks to them.
 const seed = process.env.GOLDEN_PATH_SEED ?? "conversation-test";
-const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 500,
-    }),
-  ),
+// With the town's public school district, as a played world opens.
+const base = withSchools(
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 500,
+  }),
 );
+function withSchools(input: Parameters<typeof enrichCivicInputs>[0]) {
+  return withPublicSchoolDistrict(enrichCivicInputs(input)).input;
+}
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
 const orgOf = (jobId: string | undefined) =>
@@ -81,8 +86,22 @@ const recordedRelative = (personId: string, id: string) => {
  * after relatives have a pair to start from. Read from the opening records,
  * never from a conversation's output.
  */
+/** Everyone the person may know at the opening: who they know, and their employer's staff. */
+const peersOf = (person: (typeof base.people)[number]) => [
+  ...new Set([
+    ...person.knownIds,
+    ...base.jobs
+      .filter(
+        (job) =>
+          job.personId !== person.id &&
+          person.jobId !== undefined &&
+          job.organizationId === orgOf(person.jobId),
+      )
+      .map((job) => job.personId),
+  ]),
+];
 const hasRelativePair = (person: (typeof base.people)[number]) =>
-  person.knownIds.some((otherId) => {
+  peersOf(person).some((otherId) => {
     const other = byId.get(otherId);
     if (!other || !fullAlive(otherId)) return false;
     const mine = person.familyIds.find(
@@ -111,7 +130,7 @@ const player = base.people.find(
     age(person.birthDate) >= 25 &&
     age(person.birthDate) < 60 &&
     person.jobId &&
-    person.knownIds.length > 4 &&
+    peersOf(person).length > 4 &&
     base.households.find((row) => row.id === person.householdId)!.memberIds
       .length > 1 &&
     base.jobs.some(
@@ -125,6 +144,11 @@ const director = createDirector({ watch: [...initialFocusPeople(input)] });
 const core = createLifeCore(input, {
   modules: [viewsModule, newsModule, beliefsModule, director.module],
 });
+// The years before the start, run from the player's birth year as a new game
+// runs them (the school years people talk about are the school engine's).
+const history = defaultPreStart(core);
+if (history)
+  runPreStart(core, preStartWindow(core, history.from, history.step));
 director.start(core);
 advanceCore(core, "2021-01-03");
 const api = coreAPI(core);
@@ -207,8 +231,14 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        // Four replies, always, each saying something else.
+        // Up to four replies, each a different move: never one answer
+        // reworded (owner, Oct 27, 4 PM Eastern: "four replies are four
+        // different answers"), so a stage with fewer moves offers fewer.
         const texts = talk.choices.map((row) => row.text);
+        const moves = talk.choices.map((row) =>
+          row.move.startsWith("ack:") ? "ack" : row.move,
+        );
+        expect(new Set(moves).size, texts.join(" / ")).toBe(moves.length);
         // An acknowledgment ("Okay.", "All right.") takes in a statement; it
         // is never a reply to a question, which every reply moves on
         //. Where a question has fewer than four real
@@ -219,7 +249,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           for (const choice of talk.choices)
             expect(choice.move, choice.text).not.toMatch(/^ack:/);
           expect(texts.length).toBeGreaterThanOrEqual(P.two);
-        } else expect(texts).toHaveLength(four);
+        } else expect(texts.length).toBeGreaterThanOrEqual(P.two);
         expect(texts.length).toBeLessThanOrEqual(four);
         expect(new Set(texts).size).toBe(texts.length);
         // A second move only follows from the first (owner, batch 6): the
@@ -539,7 +569,37 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       checked += 1;
       if (checked >= 3) break;
     }
-    expect(checked).toBeGreaterThan(0);
+    // Edge case by hand: shared work that ended decades ago. The opening
+    // keeps few ended jobs, so a job record the player held long ago at
+    // another person's employer is put on that employer's books for this check.
+    const known = [...core.people.values()]
+      .filter((row) => row.alive && row.tier !== "husk" && row.id !== me.id)
+      .map((row) => row.id)
+      .sort()
+      .find((id) => {
+        const job = core.people.get(id)?.jobId;
+        const org = job ? core.jobs.get(job)?.organizationId : undefined;
+        return org && org !== myOrg();
+      })!;
+    expect(known, "nobody works elsewhere").toBeDefined();
+    const theirOrg = core.jobs.get(
+      core.people.get(known)!.jobId!,
+    )!.organizationId;
+    const formerId = `test-former-job:${player.id}`;
+    core.jobs.set(formerId, {
+      ...core.jobs.get(me.jobId!)!,
+      id: formerId,
+      organizationId: theirOrg,
+      endsAt: makeIsoDate("1995-06-30"),
+    });
+    financeIndex(core.finance.jobsByOrganization, theirOrg, formerId);
+    const work = subjectsBetween(core, player.id, known, director).find(
+      (row) => row.kind === "shared-work",
+    );
+    core.jobs.delete(formerId);
+    core.finance.jobsByOrganization.get(theirOrg)!.delete(formerId);
+    expect(work?.aboutId).toBe(theirOrg);
+    expect(work?.facts["long-ago"]).toBeTruthy();
   });
   it("never asks the player what the asker already knows (a relative, where they live)", () => {
     const kin = [...me.familyIds].filter((id) => core.people.get(id)?.alive);

@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { buildDeepPast } from "./deep-past";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { OPENING_KIN } from "./opening-kin";
 import { buildPopulation } from "./population";
@@ -173,14 +172,12 @@ describe("parents in a drawn town's homes", () => {
   const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
   const place = drawPlace(seed, "opening-parent-age");
   it(`were the youngest parent's age on the day each child was born, in ${place.name} (${place.key}), seed ${seed}`, () => {
-    const input = buildDeepPast(
-      buildPopulation({
-        seed: place.seed,
-        placeKey: place.key,
-        startedAt: "2021-01-01",
-        minimumPeople: 1000,
-      }),
-    );
+    const input = buildPopulation({
+      seed: place.seed,
+      placeKey: place.key,
+      startedAt: "2021-01-01",
+      minimumPeople: 1000,
+    });
     const byId = new Map(input.people.map((person) => [person.id, person]));
     const minAge = OPENING_KIN.fertilityByAge.rows[0]!.minAge;
     let pairs = 0;

@@ -383,7 +383,7 @@ function causeAt(r: Reading, measure: string, index: number): number | null {
       ? rowAt(r, Math.min(index, r.index - 1))
       : undefined;
   if (keptOutcome(kept)) {
-    const base = baseOf(kept, r.stateKey).value;
+    const base = baseOf(kept, r.stateKey, r.api.state.seed).value;
     const value = row?.values[kept] ?? base;
     if (!derived) return value;
     if (derived.suffix === ":pct-of-start")
@@ -424,7 +424,7 @@ function baselineOf(r: Reading, measure: string): number | undefined {
       : undefined;
   if (lawLevel !== undefined) return lawLevel;
   return (
-    fixedBaseline(measure, r.stateKey) ??
+    fixedBaseline(measure, r.stateKey, r.api.state.seed) ??
     (
       store(r.api).table("baselines").get(r.placeId) as unknown as
         { values: Record<string, number> } | undefined
@@ -527,7 +527,7 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     r.values[measure] = lawValue(api, measure.slice(LAW_PREFIX.length), date);
   const effects: Record<string, number> = {};
   for (const outcome of KEPT_OUTCOMES) {
-    const base = baseOf(outcome, state.stateKey).value;
+    const base = baseOf(outcome, state.stateKey, api.state.seed).value;
     // An engine's own record of the outcome stands as read (poverty).
     if (engineOwned(outcome) && r.values[outcome] !== undefined) {
       bases[outcome] = base;
@@ -721,4 +721,16 @@ export function outcomeWebFactor(
   const record = placeOutcome(api, placeId, measure);
   if (!record || !record.base) return 1;
   return scaleOf(measure) === "level" ? 1 : record.value / record.base;
+}
+
+/**
+ * A researched link's row, for the engine that carries it (the row's
+ * `carriedBy` names that engine): the engine applies the row's size to its
+ * own records and the web does not run the link.
+ */
+export function carriedLink(key: string): WebLink {
+  const link = WEB_LINKS.find((row) => row.key === key);
+  if (!link?.carriedBy || link.size === null)
+    throw new Error(`${key} is not a carried link with a researched size`);
+  return link;
 }

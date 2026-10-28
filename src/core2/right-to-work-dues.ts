@@ -11,7 +11,8 @@
  * workers who no longer have to pay a fee (the people they stand for).
  * stopgapId: SG-GOV-REACH-A-union-dues
  */
-import unionData from "./data/business/union-membership.json" with { type: "json" };
+import { daysBetweenText as daysBetween } from "./kernel/dates";
+import { worldUnionRatePct } from "./union-rate";
 import type { CoreAPI, CoreState } from "./types";
 import { lawChain, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
@@ -20,11 +21,6 @@ import { lawApplied } from "./law-reach/applied";
 import { reachParameter, REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 
 export const RTW_KEY = "us-policy-positions:labor-workforce.right-to-work";
-const UNION_RATES = (
-  unionData as { states: Record<string, { membersPct: number }> }
-).states;
-const UNION_NATION_PCT = (unionData as { nationMembersPct: number })
-  .nationMembersPct;
 
 export interface RtwRow {
   readonly id: string;
@@ -38,10 +34,6 @@ export interface RtwRow {
   /** Each local's dues before any change from this law. */
   readonly baseMinor: Readonly<Record<string, number>>;
 }
-
-const daysBetween = (from: string, to: string) =>
-  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-  86_400_000;
 
 /** The law's effect on union membership in points, `date` days into its phase-in. */
 export function membershipPoints(row: RtwRow, date: string): number {
@@ -57,8 +49,8 @@ export function membershipPoints(row: RtwRow, date: string): number {
 }
 
 function localRate(api: CoreAPI): number {
-  const state = (api.state as CoreState).placeMetadata?.housingState ?? "";
-  return UNION_RATES[state]?.membersPct ?? UNION_NATION_PCT;
+  const core = api.state as CoreState;
+  return worldUnionRatePct(core.seed, core.placeMetadata?.housingState);
 }
 
 /** Whether a level of the town's chain has the right-to-work law in force today. */

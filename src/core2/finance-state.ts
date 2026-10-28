@@ -11,6 +11,7 @@ import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import { webFactorFor } from "./outcome-web-reach";
+import { sellerTaxShare } from "./modules/purchase-tax";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
@@ -801,7 +802,7 @@ export function moveHouseholdPayers(
 ): string[] {
   const moving = new Set(personIds);
   const today = makeIsoDate(core.date);
-  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const adultAge = api.parameter("votingAge");
   // Who stays and can take a lease over: the oldest living adult first.
   const heir = (core.households.get(fromId)?.memberIds ?? [])
     .map((id) => core.people.get(id))
@@ -968,7 +969,7 @@ export function handOverContractsAtDeath(
   api: CoreAPI,
   personId: string,
 ): ContractHandOver[] {
-  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const adultAge = api.parameter("votingAge");
   const today = makeIsoDate(core.date);
   const home = core.households.get(
     core.people.get(personId)?.householdId ?? "",
@@ -1362,7 +1363,7 @@ export function reviewBusiness(
     throw new Error("Business review is absent, closed or not due.");
   const data = core.data.businessBooks ?? DEFAULT_BUSINESS_BOOKS_DATA;
   for (const stopgapId of data.stopgapIds) api.stopgap(stopgapId);
-  const options = { data, parameters: core.data.parameters },
+  const options = { data, parameters: core.data.parameters, seed: core.seed },
     place = core.organizations.get(id)!.placeId;
   const date = new Date(`${core.date}T00:00:00.000Z`);
   date.setUTCDate(p("one"));
@@ -1429,6 +1430,20 @@ export function reviewBusiness(
   // What laws and other causes the outcome web carries into prices moves the
   // business's own price by the change in that factor since its last review.
   const webPrice = webFactorFor(api, place, "household.prices");
+  // The sales tax the business collects reaches its price: what it keeps of
+  // each dollar (one less the share of its sales the tax takes) changed since
+  // its last review, passed into the tax-inclusive price at the researched
+  // rate. At a rate of one the price before tax holds still, so a higher
+  // rate raises what buyers pay and an exemption lowers it.
+  const taxShare = sellerTaxShare(core, id, "now");
+  const kept =
+    (p("one") -
+      (book.lastSalesTaxShare ?? sellerTaxShare(core, id, "opening"))) /
+    (p("one") - taxShare);
+  const taxStep = Math.max(
+    p("zero"),
+    p("one") + p("salesTaxPassThrough") * (kept - p("one")),
+  );
   const price =
     projectBusinessPrice(
       {
@@ -1445,7 +1460,8 @@ export function reviewBusiness(
       },
       options,
     ) *
-    (webPrice / (book.lastWebPriceFactor ?? p("one")));
+    (webPrice / (book.lastWebPriceFactor ?? p("one"))) *
+    taxStep;
   const next = financeNextDate(
     api,
     book.nextReviewedAt,
@@ -1468,6 +1484,7 @@ export function reviewBusiness(
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
   book.lastWebPriceFactor = webPrice;
+  book.lastSalesTaxShare = taxShare;
   book.lastWagePriceFactor = wagePrice;
   book.lastHourlyByJob = pay.hourly;
   financeIndex(core.finance.reviewsDueAt, next, id);

@@ -15,6 +15,7 @@
  *   law returns; `barredFromVoting` for a named person.
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
+import { yesLevels } from "../modules/laws";
 import {
   PHOTO_ID,
   AUTO_REGISTRATION,
@@ -69,7 +70,6 @@ import {
   reachParameter,
   selectorGroup,
   tomorrow,
-  yesLevels,
 } from "./group-a-records";
 
 const ELECTION_KEYS = [PHOTO_ID, AUTO_REGISTRATION, SAME_DAY, ALL_MAIL];
@@ -180,7 +180,7 @@ function electionLawParts(
     const birthDate =
       voter.birthDate ?? api.state.people.get(voter.id)?.birthDate;
     const years = birthDate
-      ? ageOn(birthDate, api.state.date) - reachParameter("adultAge")
+      ? ageOn(birthDate, api.state.date) - reachParameter("votingAge")
       : 0;
     parts.sameDay = -(
       reachParameter("sameDayRegistrationRelief") * sameDayWeight(years)
@@ -259,7 +259,7 @@ const SPECS: readonly LawSpec[] = [
     paidAt: "vote",
     share: (api, v) =>
       sameDayWeight(
-        ageOn(v.birthDate, api.state.date) - reachParameter("adultAge"),
+        ageOn(v.birthDate, api.state.date) - reachParameter("votingAge"),
       ),
   },
   {

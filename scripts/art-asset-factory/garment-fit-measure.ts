@@ -10,7 +10,7 @@ import {
   type CharacterComponentManifestRecord,
   type CharacterRecipe,
   type ProjectedCharacterLayer,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 import {
   createGarmentFitBank,
   deriveAffineFit,
@@ -23,7 +23,7 @@ import {
   type GarmentFitClass,
   type GarmentFitGovernedKind,
   type GarmentFitTransform,
-} from "../../src/presentation/garment-fit";
+} from "../../src/appearance/garment-fit";
 
 /**
  * Measuring what a fit actually buys, in pixels, against the real compositor.

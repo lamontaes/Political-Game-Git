@@ -88,7 +88,12 @@
   },
   "lines": [
     {
-      "kindPrefix": "school:",
+      "kindPrefix": "person.birth",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "school.started",
       "turn": false,
       "oncePer": "school",
       "entry": "setting"
@@ -97,6 +102,38 @@
       "kindPrefix": "work:opening",
       "turn": false,
       "entry": "setting"
+    },
+    {
+      "kindPrefix": "job-started:first",
+      "turn": false,
+      "entry": "story",
+      "wordsFrom": "job-started"
+    },
+    {
+      "kindPrefix": "job-started:again",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:let-go",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "job-ended:moved-on",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:child",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:retired",
+      "turn": false,
+      "entry": "story"
     },
     {
       "kindPrefix": "job-started",
@@ -298,7 +335,7 @@
       "eventFacts": {
         "law": {
           "fact": "billId",
-          "format": "billName"
+          "format": "billNumberAndName"
         }
       }
     },
@@ -310,7 +347,7 @@
       "eventFacts": {
         "law": {
           "fact": "billId",
-          "format": "billName"
+          "format": "billNumberAndName"
         }
       }
     },
@@ -430,6 +467,11 @@
     },
     {
       "kindPrefix": "household:sibling-born",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "life:came-of-age",
       "turn": false,
       "entry": "story"
     }

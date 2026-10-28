@@ -9,7 +9,7 @@
  * Every player action goes through `runCommand`, so it is recorded. Engines
  * register their own command kinds with `registerCommand`.
  */
-import { makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { CORE_API_VERSION } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import {
@@ -44,8 +44,9 @@ export interface GameRecipe {
   settings?: WorldSettings;
   /**
    * History before the start: each engine's pre-start pass from this date
-   * (M1-14). Left out, it runs from the parameter table's year
-   * (`preStartFromYear`, `preStartStepMonths`); `false` skips it.
+   * (M1-14). Left out, it runs from the player's birth year (owner, Oct 28,
+   * 2026) at the parameter table's step (`preStartStepMonths`); `false`
+   * skips it.
    */
   preStart?: { from: string; step?: "month" | "quarter" } | false;
 }
@@ -124,16 +125,42 @@ registerCommand<Parameters<typeof fillInIdentity>[1]>(
   (core, payload) => fillInIdentity(core, payload),
 );
 
-/** The owner's default: coarse history from the parameter table's year to the start. */
+/**
+ * The year the one history starts (owner, Oct 28, 2026: "simulate to the
+ * birth year... general to make the game flow"): the player's birth year, in
+ * every drawn place. A world with no player (a test world) starts at the
+ * birth year of its youngest adult, the resident a player would be; a world
+ * with nobody has no history.
+ */
+export function preStartFromYear(core: CoreState): number | undefined {
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  if (player) return Number(player.birthDate.slice(0, 4));
+  const adultAge = coreAPI(core).parameter("votingAge");
+  let youngest: string | undefined;
+  for (const person of core.people.values()) {
+    if (person.tier === "husk") continue;
+    if (
+      ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) <
+      adultAge
+    )
+      continue;
+    if (!youngest || person.birthDate > youngest) youngest = person.birthDate;
+  }
+  return youngest ? Number(youngest.slice(0, 4)) : undefined;
+}
+
+/** The owner's default: coarse history from the player's birth year to the start. */
 export function defaultPreStart(
   core: Game["core"],
 ): { from: string; step: "month" | "quarter" } | false {
-  const api = coreAPI(core);
-  const from = `${api.parameter("preStartFromYear")}-01-01`;
+  const year = preStartFromYear(core);
+  if (year === undefined) return false;
+  const from = `${year}-01-01`;
   if (from >= core.date) return false;
   return {
     from,
-    step: api.parameter("preStartStepMonths") === 1 ? "month" : "quarter",
+    step:
+      coreAPI(core).parameter("preStartStepMonths") === 1 ? "month" : "quarter",
   };
 }
 

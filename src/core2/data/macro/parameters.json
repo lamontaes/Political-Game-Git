@@ -462,5 +462,106 @@
       "unit": "months",
       "citation": "One month reads paydays as growth; six leaves the town out of the national step for most of its first year and a half."
     }
+  },
+  "macroWorldUnemploymentSpreadPoints": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's unemployment rate sits from the published series: about the median size of a year's move in the rate (BLS LNS14000000; the 12-month change band is -1.3 to +2.6 points).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.4,
+      "high": 1.3,
+      "unit": "percentage points",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldInflationSpreadPoints": {
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's 12-month inflation sits from the published series (BLS CUSR0000SA0; the 12-month change band is 0.3% to 5.7%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.6,
+      "high": 2.0,
+      "unit": "percentage points of 12-month CPI change",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldJobsGrowthSpreadPoints": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's payroll-job growth runs from the published series (BLS CES0000000001; the 12-month change band is -3.6% to +3.4%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.4,
+      "high": 1.5,
+      "unit": "percentage points of annual payroll growth",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldWageGrowthSpreadPoints": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's hourly-earnings growth runs from the published series (BLS CES0500000003; 12-month growth 2006-2026 ranged about 1.5% to 8%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.4,
+      "high": 1.5,
+      "unit": "percentage points of annual hourly-earnings growth",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldOutputGrowthSpreadPoints": {
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's real output growth runs from the published series (BEA NIPA A191RX; the annualized quarterly growth band is -1.7% to +6.7%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "percentage points of annual real output growth",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldPolicyRateSpreadPoints": {
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's policy rate sits from the published effective rate (Fed H.15): three of the board's quarter-point steps, about a year of normal moves.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.25,
+      "high": 1.25,
+      "unit": "percentage points",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldLongRateSpreadPoints": {
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's 10-year Treasury and 30-year mortgage rates sit from the published series (Fed H.15, FHFA MIRS); the 10-year's 12-month change has a median size of about 0.6 points since 1990.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.3,
+      "high": 1.0,
+      "unit": "percentage points",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldLevelSpreadShare": {
+    "value": 0.03,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's price, payroll, earnings and output levels sit from the published levels at the opening month, besides their growth: about one to two years of trend growth in each.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published series is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published month.",
+    "spread": {
+      "low": 0.015,
+      "high": 0.05,
+      "unit": "share of the published level",
+      "citation": "src/core2/data/macro/history.json bands (5th to 95th percentile of each measure's 12-month change, 1990 to 2026; data/research/macro/series/bands.json)"
+    }
+  },
+  "macroWorldUnemploymentLowestPct": {
+    "value": 2.5,
+    "tag": "SOURCED",
+    "citation": "The lowest published monthly U.S. unemployment rate, 2.5% (May and June 1953; BLS LNS14000000): no world's offset takes the rate below it."
   }
 }

@@ -120,10 +120,26 @@ function researchTarget(decisionId: string) {
       }
     : null;
 }
-/** Every study row for a decision (several when a study reports more than one trait). */
-const researchById = new Map<string, { id: string }[]>();
-for (const row of research.rows)
-  researchById.set(row.id, [...(researchById.get(row.id) ?? []), row]);
+/**
+ * Every study row for a decision (several when a study reports more than one
+ * trait), as a pointer into the research file: the quotes and notes stay
+ * there, the one record of what each paper says.
+ */
+const researchById = new Map<string, unknown[]>();
+for (const row of research.rows as (ResearchRow & {
+  trait?: string;
+  outcome?: string;
+  source?: { authors?: string; year?: number } | null;
+})[])
+  researchById.set(row.id, [
+    ...(researchById.get(row.id) ?? []),
+    {
+      trait: row.trait ?? null,
+      outcome: row.outcome ?? null,
+      effect: row.effect ?? null,
+      source: row.source ? `${row.source.authors} ${row.source.year}` : null,
+    },
+  ]);
 
 /**
  * Whether a chooser site (its sorted action ids) is this decision's: every
@@ -219,11 +235,31 @@ function formulaThirds(run: Run, decision: DecisionRow, weight: number) {
     };
     return Math.log(odds(high) / odds(low));
   };
+  // The same with every kept case crossed with every decider's lean (each
+  // distinct lean is one decider), so the thirds face the same cases. A
+  // decision few people make, such as an official's call on each case, is
+  // then not read off which of them happened to get which case.
+  const leans = [...new Set(samples.map((s) => s.lean))].sort((a, b) => a - b);
+  const m = Math.floor(leans.length / 3);
+  const crossed = (w: number) => {
+    const odds = (part: number[]) => {
+      let yes = 0;
+      for (const lean of part)
+        for (const s of samples) if (s.bare + lean * w > 0) yes += 1;
+      const r = (yes + 0.5) / (part.length * samples.length + 1);
+      return r / (1 - r);
+    };
+    return Math.log(
+      odds(leans.slice(leans.length - m)) / odds(leans.slice(0, m)),
+    );
+  };
   return {
     calls: samples.length,
     lowThird: rate(low, weight),
     highThird: rate(high, weight),
     netOddsRatio: Math.exp(logOdds(weight) - logOdds(0)),
+    deciders: leans.length,
+    crossedNetOddsRatio: m ? Math.exp(crossed(weight) - crossed(0)) : null,
   };
 }
 

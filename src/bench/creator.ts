@@ -16,9 +16,11 @@ import {
   governmentUnitsForPlace,
 } from "../core2/reference/government-units";
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
-import { placeReferencePopulation } from "../core2/gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
-import type { LookRecipe } from "./appearance";
+import { realLocalities } from "../core2/places";
+import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
+import { selectBenchPlace } from "./place-selection.mjs";
 
 /**
  * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
@@ -31,12 +33,6 @@ export type CreatorGender = (typeof GENDERS)[number];
 export const CREATOR_MIN_AGE = 17;
 /** The old creator's upper bound (MAXIMUM_START_AGE). */
 export const CREATOR_MAX_AGE = 70;
-
-function hash(text: string): number {
-  let h = 2166136261;
-  for (const ch of text) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
-  return h;
-}
 
 /**
  * A name from the national corpus, drawn by seed and draw number. With no
@@ -181,6 +177,7 @@ function stateTownFacts(stateKey: string) {
  * opens at the model's own size, so it reads that, marked `estimated`; a name
  * the state repeats carries its county.
  * stopgapId: SG-PLAY-town-count-estimate
+ * stopgapId: SG-WORLD-creator-town-count-published
  */
 export function creatorTowns(stateKey: string, query: string) {
   const apart = stateTownFacts(stateKey);
@@ -189,7 +186,7 @@ export function creatorTowns(stateKey: string, query: string) {
     scope: "locality",
   }).map((place) => {
     const population = place.sourceGeoid
-      ? placeReferencePopulation(place.sourceGeoid)
+      ? publishedPlaceReferencePopulation(place.sourceGeoid)
       : null;
     const county = apart.get(place.key);
     return {
@@ -200,6 +197,35 @@ export function creatorTowns(stateKey: string, query: string) {
       ...(county ? { county } : {}),
     };
   });
+}
+
+/**
+ * Random place: the world's own draw of a state and a town from all 56
+ * (`selectBenchPlace`, the draw New world uses), by the creator's seed and
+ * how many times the button was pressed, so the same seed gives the same
+ * places in the same order. Seeded generation of where a life starts.
+ */
+export function creatorRandomPlace(seed: string, draw: number) {
+  const place = selectBenchPlace(
+    `${seed || "creator"}:place:${draw}`,
+    corePlaceStateIdentities(),
+    realLocalities(),
+  );
+  const state = corePlaceStateIdentities().find(
+    (row) => row.jurisdictionKey === place.stateJurisdictionKey,
+  );
+  // A locality the draw returns always sits in a state (the draw groups by it).
+  const stateKey = place.stateJurisdictionKey ?? "";
+  const town = creatorTowns(stateKey, "").find((row) => row.key === place.key);
+  return {
+    state: { key: stateKey, name: state?.name ?? stateKey },
+    town: town ?? {
+      key: place.key,
+      name: place.displayName,
+      population: parameter("targetPopulation"),
+      estimated: true,
+    },
+  };
 }
 
 export interface ChosenPerson {
@@ -241,7 +267,16 @@ export function readChosenPerson(text: string): ChosenPerson {
     birthYear: year,
     birthMonth: month,
     birthDay: day,
-    ...(input.recipe ? { recipe: input.recipe } : {}),
+    // The look is checked against the set and redrawn on the chosen
+    // gender's body, whatever the page sent.
+    ...(input.recipe
+      ? {
+          recipe: lookForGender(
+            readRecipe(JSON.stringify(input.recipe)),
+            input.gender,
+          ),
+        }
+      : {}),
   };
 }
 

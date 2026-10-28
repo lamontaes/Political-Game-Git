@@ -135,23 +135,28 @@ function ageRowsOf(
 /** A place's coarse population, or null where the place has no Census population. */
 export function coarsePlace(
   placeKey: string,
+  seed: string,
   data: ResidentEmploymentData = DEFAULT_RESIDENT_EMPLOYMENT,
 ): CoarsePlace | null {
-  const cached = cache.get(placeKey);
+  // Its jobs and pay are this world's (drawn from the seed), so the cache is per world.
+  const cacheKey = `${seed}|${placeKey}`;
+  const cached = cache.get(cacheKey);
   if (cached !== undefined && data === DEFAULT_RESIDENT_EMPLOYMENT)
     return cached;
   const place = corePlaceByKey(placeKey);
   const geoid = place?.sourceGeoid;
-  const residents = geoid ? placeReferencePopulation(geoid)?.value : undefined;
+  const residents = geoid
+    ? placeReferencePopulation(geoid, seed)?.value
+    : undefined;
   if (!place || !geoid || !residents || residents <= 0) {
-    cache.set(placeKey, null);
+    cache.set(cacheKey, null);
     return null;
   }
   const jurisdictionId = place.context.jurisdiction.id;
   const county = countyGeoidsForPlace(geoid)[0];
   const { rows, basis } = ageRowsOf(data, county, residents);
   const workers = rows.reduce((sum, row) => sum + row.workers, 0);
-  const weights = townWorkplaceWeights(jurisdictionId);
+  const weights = townWorkplaceWeights(jurisdictionId, seed);
   const weightTotal = [...weights.values()].reduce(
     (sum, value) => sum + Math.max(0, value),
     0,
@@ -166,6 +171,8 @@ export function coarsePlace(
         role.occupation,
         jurisdictionId,
         wagePercentile(),
+        undefined,
+        seed,
       );
       jobs.push({
         workplace: workplace.key,
@@ -189,7 +196,7 @@ export function coarsePlace(
     jobs,
     basis,
   };
-  if (data === DEFAULT_RESIDENT_EMPLOYMENT) cache.set(placeKey, result);
+  if (data === DEFAULT_RESIDENT_EMPLOYMENT) cache.set(cacheKey, result);
   return result;
 }
 

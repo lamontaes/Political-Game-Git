@@ -45,14 +45,7 @@ export type SpeechVoice = "polished" | "plain";
 
 /** Where the camera is while a block is spoken. */
 export type OpeningLevel =
-  | "salutation"
-  | "occasion"
-  | "country"
-  | "congress"
-  | "governors"
-  | "towns"
-  | "families"
-  | "close";
+  "salutation" | "occasion" | "country" | "congress" | "families" | "close";
 
 /** One move of a block, with the number it reports when it reports one. */
 export type OpeningMove = AddressMove & { readonly topic?: string };
@@ -61,17 +54,16 @@ export type OpeningMove = AddressMove & { readonly topic?: string };
 const ACTS: Readonly<Record<string, SpeechAct>> = {
   salutation: "greet",
   occasion: "tell",
+  creed: "tell",
+  unity: "promise",
   "story-open": "tell",
   "story-fig": "tell",
   "story-turn": "tell",
+  pledge: "promise",
   "lead-in": "tell",
   stake: "tell",
   law: "tell",
   ask: "request",
-  "governors-lead": "tell",
-  "governors-thanks": "thank",
-  "governors-ask": "request",
-  towns: "tell",
   families: "comfort",
   close: "farewell",
 };
@@ -140,9 +132,4 @@ export function openingMove(
     ...(options.required ? { required: true } : {}),
     ...(options.topic ? { topic: options.topic } : {}),
   };
-}
-
-/** The inaugural address in an inauguration year, otherwise the State of the Union. */
-export function openingSpeechKind(year: number): OpeningSpeechKind {
-  return year % 4 === 1 ? "inaugural" : "state-of-the-union";
 }

@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/relocation-job-held
+status: open
+claimed-by:
 pr: #5404
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T02:26:14.306Z
+claimed-at:
 ---
 
 **What.** One played year in a drawn place stopped with 'Invalid relocation: one living household, no job held', thrown by `relocatePeopleV1` in src/core2/state.ts when a mover still holds a job that has not ended. The place and seed were lost, and eight later runs of the same test did not reproduce it. Find which caller moves a person whose job is still live, reproduce it from a captured place and seed, and make that caller end the job first or not move the person.
@@ -26,3 +26,9 @@ claimed-at: 2026-10-21T02:26:14.306Z
 Sent back 2026-10-20 from PR #5404 (branch claude/relocation-moves-whole-s14): docs/pool/items/core-relocation-job-held-intermittent.md:20 requires the captured failing played year to finish and a regression held by person record id. This PR documents only an interrupted two-year Dover replay, and says it added no test for the moves.ts half. Passing the old stop is useful evidence, but does not show completion of the required year or a regression exercising this wrapper with the dead member. Add that record-id case and completed replay result; the open parent remains #5149.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5149 (branch claude/relocation-dead-member): The required played-world replay is still missing. The body says no seed was captured, but the PR comments supply Dover NH 3318820, seed ee04c2985f301a47, and report that this fix gets past Invalid relocation then stops at moves.ts with A whole household moves under its own id. Finish that ordinary generated-world route and name the moved household/records on a completed year; the hand-built one-living/one-dead state.test.ts fixture does not prove the eviction route stops crashing. Preserve the household identity and all living/dead membership invariants rather than narrowing the check.; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (cannot reproduce; reopen with a captured seed).
+
+Merge-first: stale, back to the pool (Merger 4, Oct 28): PR #5149 closed; branch claude/relocation-dead-member, last push Oct 19, sent back twice. Claiming this item transfers that branch to you.
+
+Seed captured (wire-opening-and-home, Oct 28): `GOLDEN_PATH_SEED=0dd4dafa1edf35e8681a232b9ca4c09a npx vitest run src/core2/counted-demotion.test.ts` fails on clean main d4f61f3c07 with 'Invalid relocation: one living household, no job held', thrown at `relocatePeopleV1` (src/core2/state.ts:1643) from the test's own move of a filled-in household (src/core2/counted-demotion.test.ts:171). The test picks a counted household without a job; after `fillInPerson` the move is refused, so a filled-in member holds a job or the household is not one living household.

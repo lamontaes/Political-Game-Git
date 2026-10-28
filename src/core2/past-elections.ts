@@ -41,7 +41,6 @@ import {
 } from "./past-bodies";
 import {
   pastParameter,
-  putPast,
   seededBetween,
   shiftDays,
   type PastCandidate,
@@ -51,6 +50,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countedResidents } from "./electorate";
 import { cpsAgeBand, cpsTurnout } from "./electorate-places";
 import { viewOf } from "./modules/views";
+import { worldLevel } from "./world-draw";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 
@@ -220,7 +220,7 @@ function townBands(
   const hit = byDate.get(date);
   if (hit) return hit;
   const at = makeIsoDate(date);
-  const voting = pastParameter(api, "pastVotingAge");
+  const voting = api.parameter("votingAge");
   const counts = new Map<
     string,
     { adults: number; lean: number; leans: number }
@@ -435,24 +435,37 @@ export function buildPriorElections(
         const id = `prior-election:${seat.id}:${date}`;
         const key = `${seat.id}:${date}`;
         const real = realResult(town, office, seat, term.party, date);
+        // The share the offices engine recorded when it seated the holder is
+        // the one record of how the race went (wire-opening line 31: one
+        // past-elections writer); only a term with no such record (the
+        // federal executive's) is sized here, around the real result.
         const drift = pastParameter(api, "pastRealShareDrift");
         const spread = pastParameter(api, "pastWinnerShareSpread");
-        const base = real?.share ?? term.elected?.share ?? averageShare(office);
-        const share = Math.min(
-          pastParameter(api, "pastWinnerShareMax"),
-          Math.max(
-            pastParameter(api, "pastWinnerShareMin"),
-            seededBetween(
-              town.seed,
-              `${key}:share`,
-              base - (real ? drift : spread),
-              base + (real ? drift : spread),
+        const base = real?.share ?? averageShare(office);
+        const share =
+          term.elected?.share ??
+          Math.min(
+            pastParameter(api, "pastWinnerShareMax"),
+            Math.max(
+              pastParameter(api, "pastWinnerShareMin"),
+              seededBetween(
+                town.seed,
+                `${key}:share`,
+                base - (real ? drift : spread),
+                base + (real ? drift : spread),
+              ),
             ),
-          ),
-        );
+          );
         const ratio = turnoutRatio(date);
+        // This world's votes cast (realistic, not real; owner, Oct 27): the
+        // recorded or estimated total moved once by the world's offset.
         const total = Math.round(
-          real?.total ?? electorateBallots(api, town, office, date) * ratio,
+          worldLevel(
+            real?.total ?? electorateBallots(api, town, office, date) * ratio,
+            town.seed,
+            `past-votes:${key}`,
+            "worldPastVotesSpreadShare",
+          ),
         );
         const winnerLean = leanOf(api, winnerId);
         const side = partySide(term.party);
@@ -544,7 +557,6 @@ export function buildPriorElections(
                   "src/core2/data/offices/tenure.json winner shares within pastWinnerShareSpread; ballots from the state's or county's 2024 presidential total or the town's voter groups, scaled by pastMidtermTurnoutRatio or pastLocalTurnoutRatio",
               },
         };
-        putPast(api, "elections", row);
         out.push(row);
       }
     }
