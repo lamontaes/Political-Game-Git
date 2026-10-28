@@ -6,11 +6,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/printed-paragraphs
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:43:16.149Z
 ---
 
 **What.** The screens designer (channel, Oct 27) and the CTO's 02:10 relay of the owner's 9 PM findings: News prints briefs today, a headline and one sentence per story. The English engine already composes extra sentences for a story kind that has context roles (the address since Oct 27), but no printed story kind had any, and the archive's words passed only headline and lede.
