@@ -12,11 +12,6 @@
       "simulatedBy": null
     },
     {
-      "kind": "work:tenure-summary",
-      "writer": "src/core2/data/deep-past.json",
-      "simulatedBy": "person.work-spell"
-    },
-    {
       "kind": "era:public-context",
       "writer": "src/core2/data/deep-past.json",
       "simulatedBy": null
