@@ -104,6 +104,18 @@
       "state": "US-RI"
     },
     {
+      "seed": "393f73ee1c08140503117d6af7eea026ada4377080860846258968a73c13b710",
+      "key": "0834960",
+      "name": "Haxtun, Colorado",
+      "state": "US-CO"
+    },
+    {
+      "seed": "651d2e97b7aad1cc70505c49df5fee9c7e3e8a8efd5ede9eb6ffb4740673046b",
+      "key": "4063450",
+      "name": "Ringwood, Oklahoma",
+      "state": "US-OK"
+    },
+    {
       "seed": "ec94ec098d15063188c5046481c610a7f2695cb5feae6e614c6168e8125eb42e",
       "key": "0104852",
       "name": "Bear Creek, Alabama",
@@ -118,9 +130,9 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 73,
+    "wired": 75,
     "partly": 7,
-    "stopgapped": 9,
+    "stopgapped": 7,
     "shownOnAScreen": 87,
     "screensRead": [
       {
@@ -173,10 +185,10 @@
         "n/a": 7
       },
       "web": {
-        "wired": 62,
+        "wired": 64,
         "partial": 2,
         "missing": 0,
-        "stopgap": 9,
+        "stopgap": 7,
         "n/a": 16
       },
       "knowing": {
@@ -239,7 +251,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 highways-spending-to-poor-roads -0.0582; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 highways-spending-to-poor-roads -0.0582; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 highways-spending-to-poor-roads -0.0582",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431",
           "why": ""
         },
         "knowing": {
@@ -322,7 +334,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247",
           "why": ""
         },
         "knowing": {
@@ -401,7 +413,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 mileage-fee-to-vehicle-miles 0.0001; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 mileage-fee-to-vehicle-miles 0.0001; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 mileage-fee-to-vehicle-miles 0.0001",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 mileage-fee-to-vehicle-miles 0.0001, read by src/core2/modules/place-prices.ts:1201; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 mileage-fee-to-vehicle-miles 0.0001, read by src/core2/modules/place-prices.ts:1201; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 mileage-fee-to-vehicle-miles 0.0001, read by src/core2/modules/place-prices.ts:1201",
           "why": ""
         },
         "knowing": {
@@ -812,7 +824,7 @@
         },
         "web": {
           "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 medicaid-expansion-to-coverage 0.1500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 medicaid-expansion-to-coverage 0.1500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 medicaid-expansion-to-coverage 0.1500",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:222; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:222; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 medicaid-expansion-to-coverage 0.1500, read by src/core2/modules/coverage.ts:222",
           "why": "links not built or not read: medicaid-expansion-to-medical-debt (no reader, SG-EW-HEALTH-medical-debt-reader)"
         },
         "knowing": {
@@ -895,7 +907,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 work-requirement-to-coverage 0.3200; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 work-requirement-to-coverage 0.3200; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 work-requirement-to-coverage 0.3200",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:222; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:222; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 work-requirement-to-coverage 0.3200, read by src/core2/modules/coverage.ts:222",
           "why": ""
         },
         "knowing": {
@@ -1053,7 +1065,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 health-hospitals-spending-to-infant-mortality -0.1713; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 health-hospitals-spending-to-infant-mortality -0.1713; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 health-hospitals-spending-to-infant-mortality -0.1713",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:58; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:58; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 health-hospitals-spending-to-infant-mortality -0.1713, read by src/core2/health-web.ts:58",
           "why": ""
         },
         "knowing": {
@@ -1726,7 +1738,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-to-rent 0.0095; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-to-rent 0.0095; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-to-rent 0.0095",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-to-rent 0.0095, read by src/core2/housing-occupancy.ts:445; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-to-rent 0.0095, read by src/core2/housing-occupancy.ts:445; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-to-rent 0.0095, read by src/core2/housing-occupancy.ts:445",
           "why": ""
         },
         "knowing": {
@@ -1809,7 +1821,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 corporate-tax-incidence -0.0390; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 corporate-tax-incidence -0.0390; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 corporate-tax-incidence -0.0390",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 corporate-tax-incidence -0.0390, read by src/core2/modules/jobs.ts:1818; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 corporate-tax-incidence -0.0390, read by src/core2/modules/jobs.ts:1818; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 corporate-tax-incidence -0.0390, read by src/core2/modules/jobs.ts:1818",
           "why": ""
         },
         "knowing": {
@@ -2204,7 +2216,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-cap-to-math 0.0500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-cap-to-math 0.0500; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-cap-to-math 0.0500",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:35; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:35; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 property-tax-cap-to-math 0.0500, read by src/core2/school-outcomes.ts:35",
           "why": ""
         },
         "knowing": {
@@ -2454,7 +2466,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 balanced-budget-to-borrowing-cost 8.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 balanced-budget-to-borrowing-cost 8.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 balanced-budget-to-borrowing-cost 8.0000",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 balanced-budget-to-borrowing-cost 8.0000, read by src/core2/budgets-treasury.ts:189; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 balanced-budget-to-borrowing-cost 8.0000, read by src/core2/budgets-treasury.ts:189; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 balanced-budget-to-borrowing-cost 8.0000, read by src/core2/budgets-treasury.ts:189",
           "why": ""
         },
         "knowing": {
@@ -2538,7 +2550,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 pension-funding-to-borrowing-cost 3.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 pension-funding-to-borrowing-cost 3.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 pension-funding-to-borrowing-cost 3.0000",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 pension-funding-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 pension-funding-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 pension-funding-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189",
           "why": ""
         },
         "knowing": {
@@ -2630,7 +2642,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 reserve-balance-to-borrowing-cost 3.0000; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 reserve-balance-to-borrowing-cost 3.0000; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 reserve-balance-to-borrowing-cost 3.0000",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 reserve-balance-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 reserve-balance-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 reserve-balance-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189",
           "why": ""
         },
         "knowing": {
@@ -3199,7 +3211,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-01 housing-by-right-to-new-buildings -1.0000; North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-02 housing-by-right-to-new-buildings -1.0000; North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-03 housing-by-right-to-new-buildings -1.0000",
+          "evidence": "North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-01 housing-by-right-to-new-buildings -1.0000, read by src/core2/housing-construction.ts:302; North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-02 housing-by-right-to-new-buildings -1.0000, read by src/core2/housing-construction.ts:302; North Pownal, Vermont, US-VT (seed f72df05648f09350): web:jurisdiction_ad8bfc17f930c028:2025-03 housing-by-right-to-new-buildings -1.0000, read by src/core2/housing-construction.ts:302",
           "why": ""
         },
         "knowing": {
@@ -3464,7 +3476,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 rent-control-to-tenant-stays -0.2000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 rent-control-to-tenant-stays -0.2000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 rent-control-to-tenant-stays -0.2000",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914",
           "why": ""
         },
         "knowing": {
@@ -3553,7 +3565,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 right-to-counsel-to-evictions -0.6200",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-08 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 right-to-counsel-to-evictions -0.6200, read by src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79",
           "why": ""
         },
         "knowing": {
@@ -3641,7 +3653,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 minimum-wage-to-low-wage-jobs -0.0182; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 minimum-wage-to-low-wage-jobs -0.0182; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 minimum-wage-to-low-wage-jobs -0.0182",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 minimum-wage-to-low-wage-jobs -0.0182, read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928",
           "why": ""
         },
         "knowing": {
@@ -3728,7 +3740,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2027-02 federal-minimum-wage-to-low-wage-jobs -0.0800; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2027-02 federal-minimum-wage-to-low-wage-jobs -0.0800",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2027-02 federal-minimum-wage-to-low-wage-jobs -0.0800, read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2027-02 federal-minimum-wage-to-low-wage-jobs -0.0800, read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928",
           "why": ""
         },
         "knowing": {
@@ -3887,7 +3899,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 minimum-wage-to-low-wage-jobs 0.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 minimum-wage-to-low-wage-jobs 0.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 minimum-wage-to-low-wage-jobs 0.0000",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 minimum-wage-to-low-wage-jobs 0.0000, read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928",
           "why": ""
         },
         "knowing": {
@@ -3971,7 +3983,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 paid-leave-to-mothers-work 0.0200; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 paid-leave-to-mothers-work 0.0200",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 paid-leave-to-mothers-work 0.0200, read by src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 paid-leave-to-mothers-work 0.0200, read by src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870",
           "why": ""
         },
         "knowing": {
@@ -4054,7 +4066,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 public-bargaining-to-earnings 0.0100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 public-bargaining-to-earnings 0.0100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 public-bargaining-to-earnings 0.0100",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 public-bargaining-to-earnings 0.0100, read by src/core2/modules/jobs.ts:1819; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 public-bargaining-to-earnings 0.0100, read by src/core2/modules/jobs.ts:1819; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 public-bargaining-to-earnings 0.0100, read by src/core2/modules/jobs.ts:1819",
           "why": ""
         },
         "knowing": {
@@ -4146,7 +4158,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 right-to-work-to-turnout 0.0310; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 right-to-work-to-turnout 0.0310; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 right-to-work-to-turnout 0.0310",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 right-to-work-to-turnout 0.0310, read by src/core2/turnout-web.ts:66; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 right-to-work-to-turnout 0.0310, read by src/core2/turnout-web.ts:66; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 right-to-work-to-turnout 0.0310, read by src/core2/turnout-web.ts:66",
           "why": ""
         },
         "knowing": {
@@ -4225,7 +4237,7 @@
         },
         "web": {
           "status": "partial",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-01 cannabis-sales-to-overdose-deaths -0.0500",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-01 cannabis-sales-to-overdose-deaths -0.0500, read by src/core2/death-cause.ts:334",
           "why": "links not built or not read: cannabis-sales-to-youth-use (no reader, SG-EW-HEALTH-condition-record)"
         },
         "knowing": {
@@ -4563,7 +4575,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): web:jurisdiction_7303b6b2477005c1:2026-02 emission-rules-to-particulates -0.0230",
+          "evidence": "Lebanon, New Jersey, US-NJ (seed ebeaebd8504c670c): web:jurisdiction_7303b6b2477005c1:2026-02 emission-rules-to-particulates -0.0230, read by through particles-to-infant-deaths: src/core2/health-web.ts:58",
           "why": ""
         },
         "knowing": {
@@ -4738,7 +4750,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 container-deposit-to-prices -0.0005; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 container-deposit-to-prices -0.0005; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 container-deposit-to-prices -0.0005",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431",
           "why": ""
         },
         "knowing": {
@@ -4912,7 +4924,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-violent-crime -0.0241; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-property-crime -0.0120; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 police-to-violent-crime -0.0241",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-property-crime -0.0120, read by src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106",
           "why": ""
         },
         "knowing": {
@@ -5509,7 +5521,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 child-access-law-to-youth-gun-deaths -0.1300",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956",
           "why": ""
         },
         "knowing": {
@@ -5588,7 +5600,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 concealed-carry-permit-to-firearm-homicide 0.0800; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 carry-permit-to-violent-crime 0.1000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 concealed-carry-permit-to-firearm-homicide 0.0800",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 carry-permit-to-violent-crime 0.1000, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393",
           "why": ""
         },
         "knowing": {
@@ -5667,7 +5679,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 min-age-to-youth-gun-suicide -0.1800",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966",
           "why": ""
         },
         "knowing": {
@@ -5754,7 +5766,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 stand-your-ground-to-homicide -0.0800; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 stand-your-ground-to-homicide -0.0800; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 stand-your-ground-to-homicide -0.0800",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 stand-your-ground-to-homicide -0.0800, read by src/core2/death-cause.ts:393; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 stand-your-ground-to-homicide -0.0800, read by src/core2/death-cause.ts:393; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 stand-your-ground-to-homicide -0.0800, read by src/core2/death-cause.ts:393",
           "why": ""
         },
         "knowing": {
@@ -6078,7 +6090,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 independent-redistricting-to-turnout -0.0050; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 independent-redistricting-to-turnout -0.0050; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 independent-redistricting-to-turnout -0.0050",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 independent-redistricting-to-turnout -0.0050, read by src/core2/turnout-web.ts:66; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 independent-redistricting-to-turnout -0.0050, read by src/core2/turnout-web.ts:66; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 independent-redistricting-to-turnout -0.0050, read by src/core2/turnout-web.ts:66",
           "why": ""
         },
         "knowing": {
@@ -6791,7 +6803,7 @@
       "family": "rights",
       "reachGroup": "A",
       "mechanic": "parks-funding",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -6805,37 +6817,37 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 55 open (full 49, counted groups 2/10140638 people, households 0, orgs 3, govts 1) e.g. reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_6bfeefad73e308c6:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 74 open (full 68, counted groups 2/2005624 people, households 0, orgs 3, govts 1) e.g. reach:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_cbfc5223476b3c20:2025-01-20; Colome, South Dakota, US-SD (seed 8a0a30a37a501): 96 open (full 90, counted groups 2/585 people, households 0, orgs 3, govts 1) e.g. reach:law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4:recreation:organization_e0e550931000cecf:2025-01-21",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 55 open (full 49, counted groups 2/10140638 people, households 0, orgs 3, govts 1) e.g. reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_6bfeefad73e308c6:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 74 open (full 68, counted groups 2/2005624 people, households 0, orgs 3, govts 1) e.g. reach:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_cbfc5223476b3c20:2025-01-20; Colome, South Dakota, US-SD (seed 8a0a30a37a501): 96 open (full 90, counted groups 2/585 people, households 0, orgs 3, govts 1) e.g. reach:law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4:recreation:organization_e0e550931000cecf:2025-01-21; Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef): 56 open (full 51, counted groups 2/5958416 people, households 0, orgs 2, govts 1) e.g. reach:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_1760ff25eecd9029:2025-01-20; Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): 94 open (full 89, counted groups 2/693 people, households 0, orgs 2, govts 1) e.g. reach:law:place:4063450:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4:residents:person_3a8ba1347e59a35c:2025-01-21",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:1255, src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:1255",
+          "evidence": "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:730, src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:1255, src/core2/law-reach/group-a-records.ts:260 <- src/core2/modules/budgets.ts:1255, src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:819, src/core2/law-reach/group-a-money.ts:220 <- src/core2/modules/budgets.ts:819",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Colome, South Dakota, US-SD (seed 8a0a30a37a501): posts citing law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4: 368631 (journal:2025-03-01:9044); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:civil-family-community.dedicated-parks-funding: 4315112244 (journal:2025-02-01:1844); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:civil-family-community.dedicated-parks-funding: 1530570870 (journal:2025-02-01:1804); Colome, South Dakota, US-SD (seed 8a0a30a37a501): of 2 the law paid or charged, the payments that changed first: 2 accounts.transfer paid in (src/core2/budgets-treasury.ts:1104 under us-policy-positions:civil-family-community.dedicated-parks-funding; e.g. jurisdiction_309b0ef82ebd0e42 on 2025-03-01: 0 in the control world, 15305 here, journal:2025-03-01:9046); 2 accounts.transfer paid out (src/core2/budgets-treasury.ts:1104; e.g. jurisdiction_309b0ef82ebd0e42 on 2025-03-01: 58442400608771 in the control world, 58442400590206 here, journal:2025-03-01:8813)",
+          "evidence": "Colome, South Dakota, US-SD (seed 8a0a30a37a501): posts citing law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4: 368631 (journal:2025-03-01:9044); Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): posts citing law:place:4063450:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4: 5082 (journal:2025-02-01:1903); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): in force in the control world, posts citing us-policy-positions:civil-family-community.dedicated-parks-funding: 4315112244 (journal:2025-02-01:1844); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:civil-family-community.dedicated-parks-funding: 1530570870 (journal:2025-02-01:1804); Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef): in force in the control world, posts citing us-policy-positions:civil-family-community.dedicated-parks-funding: 202152955 (journal:2025-02-01:1855); Colome, South Dakota, US-SD (seed 8a0a30a37a501): of 2 the law paid or charged, the payments that changed first: 2 accounts.transfer paid in (src/core2/budgets-treasury.ts:1104 under us-policy-positions:civil-family-community.dedicated-parks-funding; e.g. jurisdiction_309b0ef82ebd0e42 on 2025-03-01: 0 in the control world, 15305 here, journal:2025-03-01:9046); 2 accounts.transfer paid out (src/core2/budgets-treasury.ts:1104; e.g. jurisdiction_309b0ef82ebd0e42 on 2025-03-01: 58442400608771 in the control world, 58442400590206 here, journal:2025-03-01:8813); Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): of 2 the law paid or charged, the payments that changed first: 2 accounts.transfer paid in (src/core2/budgets-treasury.ts:1158 under us-policy-positions:civil-family-community.dedicated-parks-funding; e.g. jurisdiction_d738fe01b90c4a65 on 2025-02-01: 0 in the control world, 3812 here, journal:2025-02-01:1905); 2 accounts.transfer paid out (src/core2/budgets-treasury.ts:1158; e.g. jurisdiction_d738fe01b90c4a65 on 2025-02-01: 57673462056996 in the control world, 57673462052301 here, journal:2025-02-01:1780)",
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 parks-spending-to-exercise-access 0.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 parks-spending-to-exercise-access 0.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 parks-spending-to-exercise-access 0.0000 (ledger row only)",
-          "why": "no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 parks-spending-to-exercise-access 0.0000, read by src/core2/modules/life.ts:28; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 parks-spending-to-exercise-access 0.0000, read by src/core2/modules/life.ts:28; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 parks-spending-to-exercise-access 0.0000, read by src/core2/modules/life.ts:28",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 71 people heard (person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 78 people heard (person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Colome, South Dakota, US-SD (seed 8a0a30a37a501): 108 people heard (person_0f191d3cca699b51:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:budget-line-changed:budget:place:4613300:2025:parks:law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 71 people heard (person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 78 people heard (person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Colome, South Dakota, US-SD (seed 8a0a30a37a501): 108 people heard (person_0f191d3cca699b51:printed:outlet:television:2:jurisdiction_309b0ef82ebd0e42:budget-line-changed:budget:place:4613300:2025:parks:law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4); Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef): 105 people heard (person_32ae1da76fa35145:budget-line-changed:budget:US-CO:2024:parks:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): 85 people heard (person_3a8ba1347e59a35c:printed:outlet:television:2:jurisdiction_d738fe01b90c4a65:budget-line-changed:budget:place:4063450:2024:parks:law:place:4063450:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 55 -> after repeal 0 -> re-enacted 138; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 74 -> after repeal 0 -> re-enacted 127; Colome, South Dakota, US-SD (seed 8a0a30a37a501): 96 open -> after repeal 0 open, 92 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 55 -> after repeal 0 -> re-enacted 138; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 74 -> after repeal 0 -> re-enacted 127; Colome, South Dakota, US-SD (seed 8a0a30a37a501): 96 open -> after repeal 0 open, 92 ended; Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef): opening 56 -> after repeal 0 -> re-enacted 139; Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): 94 open -> after repeal 0 open, 90 ended",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Colome, South Dakota, US-SD (seed 8a0a30a37a501)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Colome, South Dakota, US-SD (seed 8a0a30a37a501); Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef); Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27)",
           "why": ""
         }
       },
@@ -6863,6 +6875,16 @@
         {
           "place": "Colome, South Dakota, US-SD (seed 8a0a30a37a501)",
           "change": "enacted at city (law:place:4613300:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4) effective 2025-01-21; then repealed at city effective 2026-01-22",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef)",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27)",
+          "change": "enacted at city (law:place:4063450:city:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4) effective 2025-01-21; then repealed at city effective 2025-02-26",
           "inForceAtOpening": false
         }
       ],
@@ -6904,7 +6926,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-09 abortion-ban-to-infant-deaths 0.0600, read by src/core2/health-web.ts:58; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-10 abortion-ban-to-births 0.0230, read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
           "why": ""
         },
         "knowing": {
@@ -7074,7 +7096,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 facial-recognition-limit-to-crime 0.0100; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 facial-recognition-limit-to-crime 0.0100",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106",
           "why": ""
         },
         "knowing": {
@@ -7414,7 +7436,7 @@
       "family": "parks-culture",
       "reachGroup": "B",
       "mechanic": null,
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -7428,7 +7450,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 116 open (full 113, counted groups 1/0 people, households 0, orgs 2, govts 0) e.g. budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 128 open (full 124, counted groups 1/0 people, households 0, orgs 3, govts 0) e.g. budget-line:parks|person_00a28a6650e55809|2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 116 open (full 113, counted groups 1/0 people, households 0, orgs 2, govts 0) e.g. budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 128 open (full 124, counted groups 1/0 people, households 0, orgs 3, govts 0) e.g. budget-line:parks|person_00a28a6650e55809|2025-01-20; Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef): 137 open (full 134, counted groups 1/0 people, households 0, orgs 2, govts 0) e.g. budget-line:parks|person_008ecc913e2f0294|2025-01-20; Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): 157 open (full 154, counted groups 1/0 people, households 0, orgs 2, govts 0) e.g. budget-line:parks|person_00d766ebc1c7b2a2|2025-01-20",
           "why": ""
         },
         "systems": {
@@ -7438,27 +7460,27 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing law-wiring-17ac6c1b: 7142548 (journal:2025-02-01:1916); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing law-wiring-17ac6c1b: 4934776 (journal:2025-03-01:8657); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 2 the law paid or charged, the payments that changed first: 2 accounts.transfer paid in (src/core2/credit-deposits.ts:159; e.g. jurisdiction_971998ff58477430 on 2025-02-01: 2152993 in the control world, 2198507 here, journal:2025-02-01:1938)",
+          "evidence": "Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef): the place:0834960 treasury's payments on parks, which the raise moved by 10000000: 688578 without the raise, 915205 with it (journal:2025-02-01:1924); Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): the place:4063450 treasury's payments on parks, which the raise moved by 10000000: 25577 without the raise, 74334 with it (journal:2025-02-01:1903)",
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 parks-spending-to-exercise-access 0.0546 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 parks-spending-to-exercise-access 0.0546 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 parks-spending-to-exercise-access 0.0546 (ledger row only)",
-          "why": "no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 parks-spending-to-exercise-access 0.0546, read by src/core2/modules/life.ts:28; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 parks-spending-to-exercise-access 0.0546, read by src/core2/modules/life.ts:28; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 parks-spending-to-exercise-access 0.0546, read by src/core2/modules/life.ts:28",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 57 people heard (person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 130 people heard (person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 57 people heard (person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 130 people heard (person_eadfea9a418d1c87:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef): 86 people heard (person_32ae1da76fa35145:budget-line-changed:budget:US-CO:2024:parks:law:US-CO:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting); Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): 84 people heard (person_3a8ba1347e59a35c:printed:outlet:television:2:jurisdiction_d738fe01b90c4a65:budget-line-changed:budget:place:4063450:2024:parks:law-wiring-17ac6c1b)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 116 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 128 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 116 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 128 open under the changed row -> after the old amount is put back 0 still cite it; Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef): 137 open under the changed row -> after the old amount is put back 0 still cite it; Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27): 157 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef); Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27)",
           "why": ""
         }
       },
@@ -7485,6 +7507,16 @@
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "place:3149425 parks 3599296 -> 13599296 by law-wiring-17ac6c1b",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Haxtun, Colorado, US-CO (seed 4eecc7ab3472e0ef)",
+          "change": "place:0834960 parks 28459532 -> 38459532 by law-wiring-17ac6c1b",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Ringwood, Oklahoma, US-OK (seed 140374f7859c6f27)",
+          "change": "place:4063450 parks 4771409 -> 14771409 by law-wiring-17ac6c1b",
           "inForceAtOpening": false
         }
       ],

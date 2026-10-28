@@ -83,14 +83,14 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | broaden local authority                      | government         | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | legislative term limits                      | government         | yes    | yes    | n/a   | yes     | n/a   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | ban discrimination in housing and work       | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
-| dedicated parks funding                      | rights             | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office                 |
+| dedicated parks funding                      | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | restrict abortion                            | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | age verification for social media            | technology         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | restrict government facial recognition       | technology         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     | Issues, Your office, News           |
 | protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
-| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Budgets, Your office, News          |
+| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | none                                |
 | unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | yes  | yes     | n/a    | yes       | wired      | Issues, Calendar                    |
 
@@ -225,10 +225,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - money: term limits bar a legislator who has served the limit from filing again; the statute charges, pays and taxes no one, so no money flows because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**dedicated parks funding** (`us-policy-positions:civil-family-community.dedicated-parks-funding`)
-
-- web: no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger
-
 **age verification for social media** (`us-policy-positions:technology-privacy.age-verification-for-social-media`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure youth social media use and mental health (SG-LAW-outcome-link-unresearched)
@@ -241,10 +237,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
 - allPlaces: reached people in one drawn place and not the other
-
-**Spending: parks** (`budget-line:parks`)
-
-- web: no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger
 
 **local-minimum-wage-authority** (`local-minimum-wage-authority`)
 

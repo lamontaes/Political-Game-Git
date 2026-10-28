@@ -53,6 +53,7 @@ import {
 } from "./law-reach/group-a-records";
 import { outsideAccountOf } from "./budgets-treasury";
 import { drawPlace } from "../../tests/golden-path/place";
+import { realLocalities } from "./places";
 import { jobsAt } from "./law-reach/group-b-money";
 import { countedJob, residentsRuntime } from "./modules/residents";
 import { PUBLIC_EMPLOYER_CLASSES, PUBLIC_PAY_FLOOR } from "./public-pay-floor";
@@ -79,6 +80,9 @@ const DRAWS = 12;
  * from the councils whose own charter sets ward seats.
  */
 function wardPlace(attempt: number) {
+  // Only a place the bench world can build: a charter municipality the
+  // place corpus does not list as a locality would throw at the build.
+  const buildable = new Set(realLocalities().map((row) => row.key));
   const keys = allGovernmentUnits()
     .filter((unit) => {
       if (unit.unitType !== "municipality" || !unit.functionalActive)
@@ -87,7 +91,7 @@ function wardPlace(attempt: number) {
       return method?.basis === "charter" && method.wardSeats > 0;
     })
     .map((unit) => unit.placeGeoid)
-    .filter((key): key is string => !!key)
+    .filter((key): key is string => !!key && buildable.has(key))
     .sort();
   const hash = createHash("sha256")
     .update(`${seed}:ward-place:${attempt}`)
@@ -504,7 +508,9 @@ describe(`government operations laws are applied by their engines (seed ${seed})
             `${where}: ${id} charged twice for one ballot`,
           ).toBe(amount);
 
-        // The outcome web read the laws.
+        // The voting laws' turnout links are carried by the law reach's
+        // turnout relief (electionLawTurnoutCost), which the voting engine
+        // takes off each voter's cost, so the outcome web does not run them.
         const months = (
           api
             .moduleState(OUTCOME_WEB_MODULE_ID)
@@ -513,30 +519,14 @@ describe(`government operations laws are applied by their engines (seed ${seed})
             effects: Record<string, number>;
           }[]
         ).filter((m) => m.effects);
-        const fired = (link: string) =>
-          months.some((m) => (m.effects[link] ?? 0) !== 0);
-        // A link moves its measure only where the law differs from the one
-        // the place really had: the research's base levels include that law.
-        const startedYes = (key: string) =>
-          (
-            api
-              .moduleState(LAWS_MODULE_ID)
-              .table("laws")
-              .rows() as unknown as LawRowInput[]
-          ).some(
-            (row) =>
-              row.series === key &&
-              row.value === 1 &&
-              row.id.endsWith(":starting"),
-          );
-        for (const [link, key] of [
-          ["all-mail-voting-to-turnout", ALL_MAIL],
-          ["same-day-registration-to-youth-turnout", SAME_DAY],
-        ] as const)
-          if (!startedYes(key))
-            expect(fired(link), `${where}: ${link} (law began as no)`).toBe(
-              true,
-            );
+        for (const link of [
+          "all-mail-voting-to-turnout",
+          "same-day-registration-to-youth-turnout",
+        ])
+          expect(
+            months.some((m) => m.effects[link] !== undefined),
+            `${where}: the web leaves the carried ${link} alone`,
+          ).toBe(false);
 
         // The lobbying ban: a council member resigns through the offices
         // engine, and the interest-groups engine's own question is asked.

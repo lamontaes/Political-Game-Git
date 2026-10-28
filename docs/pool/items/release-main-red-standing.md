@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T14:39:05.792Z
 **Files.** src/core2/realistic-not-real.test.ts,src/core2/world-draw.ts,src/core2/law-reach/group-a-bargaining.ts,tests/golden-path/runner.mjs,docs/coordination/LEADS-2026-10-24.md
 
 **Notes.** lead: fixer. Standing item; stays open while reds remain. Read: OWNER-DECISIONS (through Oct 28 05:30 UTC), DECISION-REGISTER, LAW; searched docs/pool/items for release-main-red: six earlier incidents, all done or in-pr.
+
+Old engine session, Oct 28, 15:50 UTC: `src/core2/opening-key-people.test.ts` is red on clean main (a72d9e3c95). With GOLDEN_PATH_SEED=83517470d3ae82d8, Sparta, Missouri and Fort Belvoir, Virginia fail the last assertion, "The Politics screen reads the same list the opening does": the screen's list (`politicsKeyPeople` in src/bench/government.ts) filters and reorders by POLITICS_KEY_ORDER, so it holds 16 and 10 people against the opening's 209 and 147. Newport, Oregon runs out of memory on main before the assertion. The screen's filter is play-stop-05's design, so the test's equality looks stale rather than the screen wrong; the owner of that call is the play-first lane.
