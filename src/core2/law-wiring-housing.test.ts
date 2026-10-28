@@ -13,7 +13,7 @@ import { randomBytes } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../tests/golden-path/place";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
 import { townFigures } from "./modules/housing";
 import { tenants, type Tenant } from "./housing-occupancy";
@@ -1033,7 +1033,7 @@ describe(`housing and credit laws reach people and move money (seed ${base})`, (
           : drawPlace(`${base}:${attempt}`, "law-wiring-housing");
         // A town with fewer people than MIN_RENTERS cannot hold that many renting
         // households, so it is redrawn before a world is built for it.
-        const people = placeReferencePopulation(
+        const people = publishedPlaceReferencePopulation(
           corePlaceByKey(place.key)?.sourceGeoid ?? place.key,
         )?.value;
         if (

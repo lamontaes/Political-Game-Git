@@ -10,7 +10,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
 import { SAMPLE, compareClosures } from "./census-scale-closures-support";
 import { buildBenchWorld } from "../bench/world";
@@ -55,7 +55,7 @@ interface Town {
  */
 function* towns(purpose: string, tried: string[]): Generator<Town> {
   if (pinned) {
-    const reference = placeReferencePopulation(pinned.key)!.value;
+    const reference = publishedPlaceReferencePopulation(pinned.key)!.value;
     yield {
       key: pinned.key,
       seed: base,
@@ -70,7 +70,9 @@ function* towns(purpose: string, tried: string[]): Generator<Town> {
       purpose,
     );
     const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
-    const reference = geoid ? placeReferencePopulation(geoid)?.value : null;
+    const reference = geoid
+      ? publishedPlaceReferencePopulation(geoid)?.value
+      : null;
     if (reference && reference > SAMPLE && reference <= LARGEST)
       yield {
         key: draw.key,

@@ -250,6 +250,7 @@ function townRow(rt: Runtime, disaster: Disaster): TownRow | undefined {
 function townShare(core: CoreState, town: PlaceId): number {
   const recorded = placePopulation(
     (core.placeMetadata.placeKey ?? "").replace(/^.*:/, ""),
+    core.seed,
   );
   let people = 0;
   for (const person of core.people.values())
