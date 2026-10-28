@@ -1787,11 +1787,11 @@ async function showPerson(person) {
         // No "Last talked" (owner, Oct 27, 5 PM: never shown).
         known && {
           items: [
-            row("party", known.party),
-            row("since", known.serviceStart),
-            row("votes", known.votesOnRecord),
-            row("sponsored", known.lawsSponsored),
-            row("signed", known.lawsSigned),
+            row(labels.publicRecord.party, known.party),
+            row(labels.publicRecord.since, dateOrValue(known.serviceStart)),
+            row(labels.publicRecord.votes, known.votesOnRecord),
+            row(labels.publicRecord.sponsored, known.lawsSponsored),
+            row(labels.publicRecord.signed, known.lawsSigned),
             ...known.positions.map((p) =>
               row(
                 policyLabel(p.question),
@@ -2792,7 +2792,7 @@ const sheets = {
       paged: true,
       sections: [
         ...["government", "issues", "parties", "campaigns"].map((tab) => ({
-          title: titles[tab],
+          title: controls.titles[tab],
           items: [{ text: labels[tab] }],
         })),
         {
@@ -3341,27 +3341,6 @@ const sheets = {
     });
   },
 };
-const titles = {
-  people: "People",
-  who: "Who you are",
-  money: "Money and property",
-  jobs: "Jobs and study",
-  journal: "Journal",
-  politics: "Politics",
-  government: "Government",
-  office: "Your office",
-  campaigns: "Campaigns",
-  parties: "Parties",
-  issues: "Issues",
-  calendar: "Calendar",
-  budgets: "Budgets",
-  travel: "Travel",
-  options: "Options",
-  guide: "Guide",
-  politicsGuide: "Guide",
-  handoff: "Carry on as",
-  news: "News",
-};
 // Screens shown as tabs across the top of one menu screen.
 const groups = {
   politics: [
@@ -3392,7 +3371,7 @@ async function openSheet(tab) {
   const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
-  $("sheet-title").textContent = titles[group];
+  $("sheet-title").textContent = controls.titles[group];
   $("sheet-tabs").replaceChildren(
     ...(groups[group] ?? [])
       .filter(
@@ -3408,7 +3387,7 @@ async function openSheet(tab) {
       .map((name) =>
         makeTab({
           key: name,
-          label: titles[name],
+          label: controls.titles[name],
           active: name === tab,
           onSelect: () => openSheet(name),
         }),
@@ -3454,26 +3433,29 @@ pageWhenChanged($("ballot-races"), $("ballot-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
 // the one menu, Who you are among them. The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
-mountRail(
-  $("rings"),
-  [
-    "who",
-    "journal",
-    "calendar",
-    "money",
-    "politics",
-    "news",
-    "people",
-    "travel",
-  ],
-  titles,
-);
-for (const b of document.querySelectorAll("[data-tab]"))
-  b.addEventListener("click", () =>
-    groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
-      ? closeSheet()
-      : openSheet(b.dataset.tab),
+// The rail is named from the controls file, so it is mounted once that loads.
+void controlsReady.then(() => {
+  mountRail(
+    $("rings"),
+    [
+      "who",
+      "journal",
+      "calendar",
+      "money",
+      "politics",
+      "news",
+      "people",
+      "travel",
+    ],
+    controls.titles,
   );
+  for (const b of document.querySelectorAll("[data-tab]"))
+    b.addEventListener("click", () =>
+      groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
+        ? closeSheet()
+        : openSheet(b.dataset.tab),
+    );
+});
 function closeSheet() {
   openTab = undefined;
   show("tip", false);
