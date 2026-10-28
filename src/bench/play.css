@@ -1021,10 +1021,18 @@ input[type="range"]::-moz-range-thumb {
 #cr-character .group.missing input {
   border-color: var(--red);
 }
+/* The states and towns: a box of rows that pages with Back and Continue under
+   it; nothing in a menu scrolls (kit13 APPROVED), so no native scroller. */
 .choice-list {
-  max-height: 300px;
-  overflow-y: auto;
+  position: relative; /* the pager measures the rows from the box's top */
+  max-height: 400px;
+  overflow: hidden;
   margin-top: 6px;
+}
+/* While rows are paged out, the box keeps its full height: a box sized to
+   the rows it shows would shrink the page each time it turned. */
+.choice-list:has(.paged-out) {
+  height: 400px;
 }
 #front input[type="search"] {
   width: 100%;
