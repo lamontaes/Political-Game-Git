@@ -1,6 +1,7 @@
 ---
 id: laws-local-income-tax-grant-by-bill
 title: "A state legislature can grant or withdraw its towns' power to tax income by bill"
+lead: laws-effects
 area: laws
 kind: wiring
 priority: 2
