@@ -331,7 +331,7 @@
               </button>
             </div>
           </div>
-          <div class="group">
+          <div class="group" data-testid="creator-name">
             <span class="label">Name</span>
             <label class="field"
               >First name
@@ -426,6 +426,7 @@
               class="choice-list"
               data-testid="state-choices"
             ></div>
+            <div id="cr-states-pager" class="acts" data-pager hidden></div>
           </div>
           <div id="cr-town-pick" hidden>
             <button
@@ -449,14 +450,31 @@
               class="choice-list"
               data-testid="place-choices"
             ></div>
+            <div id="cr-towns-pager" class="acts" data-pager hidden></div>
           </div>
           <div class="acts">
             <button id="cr-place-back" class="action small" type="button">
               Back
             </button>
+            <button
+              id="cr-place-random"
+              class="action small"
+              type="button"
+              data-testid="creator-random-place"
+              data-label="creator.randomPlace"
+            ></button>
           </div>
         </div>
         <div id="cr-look" data-testid="creator-stage-appearance" hidden>
+          <button
+            id="cr-place-summary"
+            class="summary"
+            type="button"
+            data-testid="creator-summary-place"
+          >
+            <span id="cr-place-summary-name" class="summary-value"></span
+            ><span class="summary-edit">Change</span>
+          </button>
           <img
             id="cr-portrait"
             class="portrait"

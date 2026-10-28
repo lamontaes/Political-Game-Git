@@ -6,6 +6,7 @@ import territoryBallots from "../../data/research/elections/territory-ballots.js
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { NEWS_MODULE_ID } from "./modules/news";
+import { parameter } from "./parameters";
 import { coreAPI } from "./state";
 
 const places = territoryBallots.places as Record<
@@ -43,10 +44,15 @@ it("keeps a territory's prior delegate race within the delegate ballots reported
       }));
     const where = `seed ${draw.seed}, place ${draw.key} (${usps})`;
     expect(delegateRaces.length, where).toBeGreaterThan(0);
+    // Each world draws its own count around the reported one (realistic, not
+    // real; owner, Oct 27), within the spread of its parameter row.
+    const most = Math.round(
+      delegate * (1 + parameter("worldPastVotesSpreadShare")),
+    );
     for (const race of delegateRaces) {
       expect(race.totalVotes, `${where}: ${race.seatId}`).toBeGreaterThan(0);
       expect(race.totalVotes, `${where}: ${race.seatId}`).toBeLessThanOrEqual(
-        delegate,
+        most,
       );
     }
     // The territory's own total is the base, not the town's few ballots: the

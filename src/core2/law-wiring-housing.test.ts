@@ -669,6 +669,7 @@ function play(
         counselCostMinor?: number;
         counselOwedMinor?: number;
         counselPayerId?: string;
+        counselPaymentId?: string;
       }[]
     ).filter((r) => r.counselLawId);
     check("counsel", cases.length > 0, "no eviction hearing had a lawyer");
@@ -681,7 +682,7 @@ function play(
         cost > 0,
         `case ${row.id}: the lawyer's cost is not recorded`,
       );
-      const debt = owedRows.get(`counsel:${row.id}`) as unknown as
+      const debt = owedRows.get(row.counselPaymentId ?? "") as unknown as
         | { owedMinor: number; paidLaterMinor?: number; lastPaymentId?: string }
         | undefined;
       // Paid, plus still owed, is the cost: nothing is dropped.
@@ -754,7 +755,7 @@ function play(
         (r) => r.targetId === row.householdId && r.target !== "government",
       );
       const paid = posts.find(
-        (p) => p.ref === `counsel:${row.id}` && p.gross > 0,
+        (p) => p.ref === row.counselPaymentId && p.gross > 0,
       );
       if (!applied || !paid) continue;
       trails.counsel = {

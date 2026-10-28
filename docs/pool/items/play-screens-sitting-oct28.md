@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: screens/sitting-oct28
-pr:
+pr: #6703
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T17:39:05.370Z

@@ -3,8 +3,10 @@
 // Words on screen are record data, engine text and control names only.
 import { makeButton, mountPagers, buttonRow } from "./ui/button.mjs";
 import { fillChoiceMenu } from "./ui/menu.mjs";
+import { headshot } from "./ui/headshot.mjs";
 import {
   talkLine,
+  transcript,
   talkReply,
   fillTalk,
   talkControls,
@@ -14,7 +16,8 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { headshot } from "./ui/headshot.mjs";
+import { districtMap, partyLegend } from "./ui/map.mjs";
+import { faceGrid } from "./ui/face-grid.mjs";
 import { makeTab, tabBar } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -31,6 +34,7 @@ import { fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import {
   select,
+  searchBox,
   checkboxSetting,
   optionsOf,
   statusLine,
@@ -306,9 +310,11 @@ document.addEventListener("keydown", (event) => {
   else if ($("front").hidden) openSheet("options");
 });
 
-async function renderScene() {
+async function renderScene({ keepBackdrop = false } = {}) {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
-  $("backdrop").src = scene.backdrop.url;
+  // The opening's staged story sets the backdrop itself; setting the room's
+  // here first would load two pictures in a row (owner, Oct 28, point 2).
+  if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawPeople(scene.people, (p) => talkTo(p.personId));
@@ -419,31 +425,13 @@ const words = (key) => {
 const amount = (value, unit) => {
   if (unit?.startsWith("minor"))
     return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+  // A rate as a person would say it: at most two decimals (a combined sales
+  // tax of 8.773% reads 8.77%; Medicare's 1.45% stays itself).
   if (unit?.startsWith("percent"))
-    return `${value}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
+    return `${Number(Number(value).toFixed(2))}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
-/**
- * Who sets a level's rate: the level and the government its seats name
- * ("State · Texas"). A stand-in row from another series (a state's average
- * local sales tax where the town records none) says what it is instead.
- */
-const lawLevelLabel = (law, level) =>
-  [
-    controls.levels?.[level.level] ?? words(level.level),
-    level.row.series !== law.series
-      ? `${words(level.row.series)}${level.row.estimate ? ` · ${words("estimate")}` : ""}`
-      : level.government,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-/** A law's later phase as a level row, with the government its level names. */
-const pendingLevel = (law, row) => ({
-  level: row.level,
-  row,
-  government: law.levels.find((l) => l.level === row.level)?.government,
-});
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -494,9 +482,9 @@ async function renderJournalNote() {
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
   shownJournalLine = line;
 }
-async function refresh() {
+async function refresh(scene = {}) {
   await Promise.all([
-    renderScene(),
+    renderScene(scene),
     renderCard(),
     renderJournalNote(),
     markNews(false),
@@ -988,24 +976,32 @@ async function setWho(personId, name) {
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   setFace("talk-bust", c.face);
 }
-/** The newest lines: yours, dim, then what was said back to you. */
-function spokenLines(lines, speakerOf) {
-  const lastMine = lines.findLastIndex((line) => line.speakerId === me.id);
-  const theirs = lines.slice(lastMine + 1).slice(-3);
-  return [
-    // What was said before sits apart from the line being said now (owner, Oct 26).
-    ...(lastMine >= 0
-      ? [
-          talkLine({
-            kind: "history",
-            who: $("card-name").textContent,
-            text: lines[lastMine].text,
-            lying: lines[lastMine].act === "lie",
-          }),
-        ]
-      : []),
-    ...theirs.map((line) => talkLine({ text: speakerOf(line) })),
-  ];
+/** A talk's lines: what you said before, what they said before, and what is said now. */
+function spokenLines(lines) {
+  return transcript(
+    lines.map((line) => ({
+      text: line.text,
+      mine: line.speakerId === me.id,
+      lying: line.act === "lie",
+    })),
+    {
+      mineWho: $("card-name").textContent,
+      theirWho: $("talk-name").textContent,
+    },
+  );
+}
+// The narrator speaks first and alone; Continue, then the person talks (owner,
+// Oct 28 sitting, 36: "The narrator shows first, Continue, then the person
+// talks"). What comes next (the person, the next part of a speech) waits
+// here for that Continue.
+let onContinue;
+/** The narration alone with one Continue, then `then`; no narration, `then` at once. */
+function narrateFirst(setting, then) {
+  if (!setting.length) return then();
+  onContinue = then;
+  talkControls({ silent: false, leave: false });
+  fillTalk({ lines: setting, replies: [] });
+  setScales({ available: false });
 }
 /** Numbered replies; a key press of the number says it. */
 function replies(choices, onPick) {
@@ -1025,17 +1021,12 @@ function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
 }
-// The narration of the scene that opened this talk, kept above its lines.
-let talkSetting = [];
 function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
   gapButton.classList.remove("marked");
-  if (!value) {
-    talkSetting = [];
-    return;
-  }
+  if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
     other?.speaker !== $("talk-name").textContent ||
@@ -1047,7 +1038,7 @@ function renderTalk(value) {
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
   talkControls({ silent: true, leave: true });
   fillTalk({
-    lines: [...talkSetting, ...spokenLines(value.lines, (line) => line.text)],
+    lines: spokenLines(value.lines),
     replies: replies(choices, (choice) => sayLine(choice.key)),
   });
   // Dim when there is nothing false to say; tipped and red while lying.
@@ -1057,11 +1048,10 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId, momentId, setting = []) {
+async function talkTo(otherId, momentId) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
-  talkSetting = setting;
   $("talk-name").textContent = "";
   // From a scene, the talk is about the scene's moment.
   const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
@@ -1101,6 +1091,12 @@ $("talk-lie").addEventListener("click", () => {
 // Continue, bottom left, when there is nothing to answer: the beat is over, and
 // a stop that held the clock for it goes on.
 $("talk-next").addEventListener("click", async () => {
+  if (onContinue) {
+    const then = onContinue;
+    onContinue = undefined;
+    await then();
+    return;
+  }
   if (filing) {
     $("talk-leave").click();
     return;
@@ -1114,6 +1110,7 @@ $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
     filing = undefined;
+    filingNarrated = false;
     show("filing-overlay", false);
     $("game").classList.remove("filing-open");
     delete $("filing-title").dataset.contest;
@@ -1122,12 +1119,15 @@ $("talk-leave").addEventListener("click", async () => {
     renderPacket();
     return;
   }
+  onContinue = undefined;
   await post("/api/talk/leave");
   renderTalk(undefined);
 });
 
 // ---- The filing office (step 3), a visit in the clerk's words ----
 let filing;
+// The counter's narration has played its beat for this visit.
+let filingNarrated = false;
 function renderFiling(value) {
   filing = value;
   if (!value) return;
@@ -1143,19 +1143,21 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
+  // The narrator sets the counter up first, alone; Continue, then the clerk
+  // speaks (the opening call only).
+  if (lines.length <= 1 && value.intro?.length && !filingNarrated) {
+    filingNarrated = true;
+    narrateFirst(
+      value.intro.map((line) =>
+        talkLine({ kind: "speech narration", text: line.text }),
+      ),
+      () => renderFiling(value),
+    );
+    return;
+  }
   // At the counter you can walk out; silence there is not an answer.
   talkControls({ silent: false, leave: true });
-  // The narrator sets the counter up before the clerk speaks (the opening call only).
-  fillTalk({
-    lines: [
-      ...(lines.length <= 1
-        ? (value.intro ?? []).map((line) =>
-            talkLine({ kind: "speech narration", text: line.text }),
-          )
-        : []),
-      ...spokenLines(lines, (line) => line.text),
-    ],
-  });
+  fillTalk({ lines: spokenLines(lines) });
   renderFilingOverlay(value);
   // More races than the talk can hold open as a menu beside it, never as a long
   // numbered list in the talk box (owner, Oct 26).
@@ -1603,8 +1605,7 @@ async function showStory(momentId) {
   show("talk-who", false);
   $("talk-name").textContent = "";
   // A scene with a purpose is its own exchange; any other opens a talk.
-  // The narrator sets the scene and the person speaks at once beneath it:
-  // no step between them (owner, Oct 27: clicking a person starts the talk).
+  // The narrator sets the scene alone; Continue, then the person speaks.
   const withId = story.talk?.askerId ?? story.talkToId;
   const setting = story.narration.map((line) =>
     talkLine({
@@ -1617,21 +1618,28 @@ async function showStory(momentId) {
   // A speech heard (the address on the evening news): its speaker's own
   // words from the record, then Continue.
   if (story.speech) {
-    setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
-    talkControls({ silent: false, leave: false });
-    fillTalk({
-      lines: [
-        ...setting,
-        talkLine({ kind: "speech", text: story.speech.text }),
-      ],
-      replies: [],
-    });
-    setScales({ available: false });
+    // The speech plays one part per Continue (owner, Oct 28 sitting, 11:
+    // "Each Continue can carry a paragraph"); the last Continue ends it.
+    const parts = story.speech.parts?.length
+      ? story.speech.parts
+      : [story.speech.text];
+    const sayPart = (at) => {
+      setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      talkControls({ silent: false, leave: false });
+      fillTalk({
+        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        replies: [],
+      });
+      setScales({ available: false });
+      if (at + 1 < parts.length) onContinue = () => sayPart(at + 1);
+    };
+    narrateFirst(setting, () => sayPart(0));
     return;
   }
   if (withId) {
-    if (story.talk) playExchange(story, setting);
-    else await talkTo(withId, momentId, setting);
+    narrateFirst(setting, () =>
+      story.talk ? playExchange(story) : talkTo(withId, momentId),
+    );
     return;
   }
   // The narrator alone is a Continue.
@@ -1646,24 +1654,29 @@ async function showStory(momentId) {
   setScales({ available: false });
 }
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
-function playExchange(story, setting = []) {
+function playExchange(story) {
   const { talk } = story;
   setWho(talk.askerId, story.names[talk.askerId]);
   const said = [...talk.opening];
-  const lineOf = (line) =>
-    talkLine({
-      kind: line.role === "asked" ? "history" : "speech",
-      who: line.role === "asked" ? $("card-name").textContent : undefined,
-      text: line.text,
-      held: line.held,
-      ...gradeOf(line, story.momentId),
-    });
+  const shown = () =>
+    transcript(
+      said.map((line) => ({
+        text: line.text,
+        mine: line.role === "asked",
+        held: line.held,
+        ...gradeOf(line, story.momentId),
+      })),
+      {
+        mineWho: $("card-name").textContent,
+        theirWho: story.names[talk.askerId],
+      },
+    );
   // The path is the index of each reply chosen, from the first.
   // The asker follows up: no walking away mid-exchange, no silence as a reply.
   talkControls({ silent: false, leave: false });
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    fillTalk({ lines: [...setting, ...said.slice(-4).map(lineOf)] });
+    fillTalk({ lines: shown() });
     fillTalk({
       replies: replies(
         node.replies.map((reply, index) => ({
@@ -1683,10 +1696,7 @@ function playExchange(story, setting = []) {
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
           else {
-            fillTalk({
-              lines: [...setting, ...said.slice(-4).map(lineOf)],
-              replies: [],
-            });
+            fillTalk({ lines: shown(), replies: [] });
             // A moment that staged another scene plays it next.
             kept.then(() => nextScene(story));
           }
@@ -2521,15 +2531,19 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
-    // A chapter's title heads it only when there is more than one chapter: a
-    // lone title over the only story restates the screen (principles rule 3).
+    // One story from birth, a paragraph to each turn of the life, with no
+    // heading over any part of it (owner, Oct 27: "written like a story,
+    // not individual sections... from birth"; "remove all those
+    // subheadings").
     return recordScreen({
-      sections: chapters.map((c) => ({
-        title: chapters.length > 1 ? c.title : undefined,
-        items: [
-          { text: c.lines.map((l) => l.text).join(" "), tone: "narrative" },
-        ],
-      })),
+      sections: [
+        {
+          items: chapters.map((c) => ({
+            text: c.lines.map((l) => l.text).join(" "),
+            tone: "narrative",
+          })),
+        },
+      ],
     });
   },
   async handoff() {
@@ -2618,18 +2632,15 @@ const sheets = {
       title: label,
       items: [
         {
-          pages: [
-            ...barChart(
-              lines.map((r) => ({
-                label: r.name ?? r.line,
-                value: r.minor,
-                steps: withSteps ? steps(r) : [],
-              })),
-              label,
-              roundedMoney,
-            ).children,
-          ].map((node) => ({ node })),
-          size: 6,
+          node: barChart(
+            lines.map((r) => ({
+              label: r.name ?? r.line,
+              value: r.minor,
+              steps: withSteps ? steps(r) : [],
+            })),
+            label,
+            roundedMoney,
+          ),
         },
       ],
     });
@@ -2697,54 +2708,6 @@ const sheets = {
     ];
   },
   async news() {
-    // The nation, region and job numbers above the paper, from the economy's records.
-    const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
-    const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
-    const econ = controls.news?.economy ?? {};
-    // A region's series by its control name and unit; a series with no
-    // control name is not shown.
-    const count = new Intl.NumberFormat("en-US");
-    const value = (unit, v) =>
-      unit === "percent"
-        ? `${v.toFixed(1)}%`
-        : unit === "thousands"
-          ? count.format(Math.round(v * 1000))
-          : unit === "dollars"
-            ? moneyWords(Math.round(v * 100))
-            : v.toFixed(1);
-    const economy = e.nation
-      ? [
-          row(
-            `${econ.nation} · ${monthWords(e.nation.month)}`,
-            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
-          ),
-          ...(e.region
-            ? [
-                // The region's rate under the area it covers, beside the nation's.
-                row(
-                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
-                  Object.entries(e.region)
-                    .filter(
-                      ([k, v]) => typeof v === "number" && econ.series?.[k],
-                    )
-                    .map(
-                      ([k, v]) =>
-                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
-                    )
-                    .join(" · "),
-                ),
-              ]
-            : []),
-          ...(e.jobs
-            ? [
-                row(
-                  econ.jobsHere,
-                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
-                ),
-              ]
-            : []),
-        ]
-      : [];
     const labels = controls.news;
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
@@ -2767,7 +2730,6 @@ const sheets = {
         stories: [],
       });
     return [
-      ...economy,
       ...newspaperScreen({
         outlets,
         labels,
@@ -2776,56 +2738,6 @@ const sheets = {
         photoOf: storyPhoto,
       }),
     ];
-  },
-  /**
-   * Politics' own guide: what each tab is for, a page each, then how a
-   * player could run here, from the filing records: the race, the office
-   * that takes filings, and the dates.
-   */
-  async politicsGuide() {
-    const labels = controls.politics.guide;
-    const [government, terms] = await Promise.all([
-      api(`/api/government?id=${encodeURIComponent(me.id)}`),
-      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
-    ]);
-    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const next = government.nextFiling;
-    return recordScreen({
-      paged: true,
-      sections: [
-        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
-          title: controls.titles[tab],
-          items: [{ text: labels[tab] }],
-        })),
-        {
-          title: labels.runHere,
-          items: next
-            ? [
-                { fact: [labels.race, next.title] },
-                {
-                  fact: [
-                    labels.filesWith,
-                    next.filedWith.replace(
-                      /\s*\(counter: ([^)]*)\)/g,
-                      `, ${labels.atTheDeskOf} $1`,
-                    ),
-                  ],
-                },
-                { fact: [labels.filingOpens, dateWords(next.filingOpens)] },
-                {
-                  fact: [labels.filingDeadline, dateWords(next.filingDeadline)],
-                },
-                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
-                next.primaryDate && {
-                  fact: [labels.primary, dateWords(next.primaryDate)],
-                },
-                { fact: [labels.election, dateWords(next.electionDate)] },
-                next.estimated && { text: labels.estimated, tone: "small" },
-              ]
-            : [{ text: labels.noRace }],
-        },
-      ],
-    });
   },
   async guide() {
     return listScreen({
@@ -2901,7 +2813,6 @@ const sheets = {
             {
               actions: [
                 { label: labels.continue, onClick: closeSheet },
-                { label: labels.guide, onClick: () => openSheet("guide") },
                 // Dev mode, for a developer's session only.
                 {
                   label: labels.devMode,
@@ -3215,22 +3126,27 @@ const sheets = {
           },
         })),
       });
-      if (level !== "local")
-        picker.append(
-          select({
-            className: "government-state",
-            label: labels.stateFilter,
-            value: otherState,
-            options: [
-              { value: "", label: labels.ownState },
-              ...states.map((st) => ({ value: st.key, label: st.name })),
-            ],
-            onChange: (state) => {
-              governmentState = state;
-              void redraw();
-            },
-          }),
-        );
+      // The state filter under the level tabs: the kit's dropdown in its own
+      // box, reading the player's state by name, never "Your state" (owner,
+      // Oct 28, point 15).
+      const stateFilter =
+        level !== "local"
+          ? select({
+              className: "government-state",
+              label: labels.stateFilter,
+              value: otherState,
+              options: [
+                { value: "", label: v.homeState?.name ?? labels.ownState },
+                ...states
+                  .filter((st) => st.key !== v.homeState?.key)
+                  .map((st) => ({ value: st.key, label: st.name })),
+              ],
+              onChange: (state) => {
+                governmentState = state;
+                void redraw();
+              },
+            })
+          : null;
       const holderName = (s) =>
         s.holder
           ? `${s.holder.givenName} ${s.holder.familyName}`
@@ -3255,8 +3171,8 @@ const sheets = {
               },
             })
           : row(holderName(s), "");
-      const member = (s) => {
-        const line = holderRow(s);
+      const member = (s, withOffice = false) => {
+        const line = holderRow(s, withOffice ? s.title : undefined);
         const won =
           s.holder && s.elections.find((e) => e.termId === s.holder.termId);
         const result = controls.results;
@@ -3315,7 +3231,6 @@ const sheets = {
         );
       };
       let bodies;
-      let start = 0;
       if (otherState) {
         // Another state's members at this level, its legislature or its members
         // of Congress: every sitting member, by chamber.
@@ -3330,11 +3245,8 @@ const sheets = {
         bodies = [...chambers.values()].map((seats) => ({
           title: seats[0].title,
           items: [
-            { text: seats[0].government ?? "", tone: "place" },
-            {
-              pages: seats.map((s) => ({ node: holderRow(s) })),
-              size: 6,
-            },
+            // The state is the one the filter names; no line repeating it.
+            ...seats.map((s) => ({ node: holderRow(s) })),
           ],
         }));
       } else {
@@ -3343,33 +3255,65 @@ const sheets = {
           if (!offices.has(s.officeId)) offices.set(s.officeId, []);
           offices.get(s.officeId).push(s);
         }
-        start = Math.max(
-          0,
-          [...offices.values()].findIndex((seats) =>
-            seats.some((s) => s.seatId === race?.seatId),
-          ),
-        );
-        bodies = [...offices.values()].map((seats) => {
+        // A body of several seats is its own section; the one-seat offices
+        // of one government (a county's sheriff, clerk, assessor) share a
+        // section named for it, each row naming the office, so the screen
+        // holds every office at once (owner, Oct 28, point 22).
+        const body = (seats, title, detail) => {
           const first = seats[0];
           const parties = v.partySeatsByOffice[first.officeId] ?? [];
           return {
-            title: first.title,
+            title,
             items: [
-              { text: first.body ?? first.government ?? "", tone: "place" },
+              // A local one-seat office is named under its body ("Clerk /
+              // Apache County"); a state or federal office's government is
+              // the state the filter already names, so no "Governor / Ohio"
+              // line (owner, Oct 28, point 16).
+              level === "local" && first.body && first.body !== title
+                ? { text: first.body, tone: "place" }
+                : null,
               first.presentation?.chamberUrl && {
                 picture: first.presentation.chamberUrl,
               },
-              parties.length && {
-                node: barChart(
-                  parties.map((p) => ({ label: p.party, value: p.seats })),
-                  labels.seats,
-                ),
-              },
-              {
-                pages: seats.map((s) => ({ node: member(s) })),
-                size: 6,
-                start: seats.findIndex((s) => s.seatId === race?.seatId),
-              },
+              // The parties' seats, for a body of more than one seat: one
+              // governor gets no bar with a 1 on it (owner, Oct 28, point 17),
+              // and neither does a government's group of one-seat offices.
+              parties.length && seats.length > 1 && !detail
+                ? {
+                    node: barChart(
+                      parties.map((p) => ({ label: p.party, value: p.seats })),
+                      labels.seats,
+                    ),
+                  }
+                : null,
+              // A body of more than twelve seats (a legislature) shows its
+              // members as a grid of headshots, each opening their card.
+              ...(seats.length > 12
+                ? [
+                    {
+                      node: faceGrid(
+                        seats.map((s) => ({
+                          name: holderName(s),
+                          party: s.holder?.party ?? null,
+                          face: s.holder?.face ?? null,
+                          district: s.district,
+                          onOpen: () => {
+                            if (!s.holder) return;
+                            closeSheet();
+                            showPerson({
+                              personId: s.holder.cardId,
+                              figureUrl: s.holder.face?.url,
+                            });
+                          },
+                        })),
+                        (person) =>
+                          [person.name, person.party, person.district]
+                            .filter(Boolean)
+                            .join(", "),
+                      ),
+                    },
+                  ]
+                : seats.map((s) => ({ node: member(s, detail) }))),
               // Future public view records can supply these without changing the layout.
               ...(first.votes ?? []).flatMap((vote) => [
                 { text: vote.title, tone: "subhead" },
@@ -3388,7 +3332,28 @@ const sheets = {
               })),
             ],
           };
-        });
+        };
+        const several = [...offices.values()].filter((s) => s.length > 1);
+        const single = new Map();
+        for (const seats of [...offices.values()].filter(
+          (s) => s.length === 1,
+        )) {
+          const key = seats[0].body ?? seats[0].government ?? seats[0].title;
+          if (!single.has(key)) single.set(key, []);
+          single.get(key).push(seats[0]);
+        }
+        bodies = [
+          // A body of several seats is titled with its name ("Taos County
+          // Board of Commissioners", a state's "Senate").
+          ...several.map((seats) =>
+            body(seats, seats[0].body ?? seats[0].government ?? seats[0].title),
+          ),
+          ...[...single].map(([name, seats]) =>
+            seats.length === 1
+              ? body(seats, seats[0].title)
+              : body(seats, name, true),
+          ),
+        ];
       }
       // The key people: the player's own members first, then the President,
       // the Vice President and each chamber's leader by post and chamber (a
@@ -3399,13 +3364,14 @@ const sheets = {
       // and the notes (owner, Oct 28: real rows, not printed lines; every
       // member clickable).
       const keyLine = (k) => {
+        // A leader's post is a Guide term (Speaker, Majority leader): the
+        // carbon-copy underline, its definition on hover (owner, Oct 28,
+        // point 23); the chamber follows as a note.
+        const lead = k.post && !k.own;
         const line = withNotes(
           personRow({
             name: k.name,
-            detail:
-              k.post && !k.own
-                ? `${words(k.post)}, ${k.chamber ?? k.officeTitle}`
-                : k.officeTitle,
+            detail: lead ? termLabel(words(k.post)) : k.officeTitle,
             face: k.face,
             onOpen: () => {
               closeSheet();
@@ -3413,6 +3379,7 @@ const sheets = {
             },
           }),
           [
+            lead ? (k.chamber ?? k.officeTitle) : null,
             k.own && k.post ? words(k.post) : null,
             k.stateName,
             // The President and Vice President a territory's voters do not choose.
@@ -3435,18 +3402,12 @@ const sheets = {
       // unaffiliated.
       const party = v.party ? partyRows(v.party) : [];
       return recordScreen({
-        controls: [picker],
+        controls: [picker, stateFilter].filter(Boolean),
+        // Every body and every member on the screen at once, side by side:
+        // no Back and Continue in a menu (owner, Oct 28, point 22).
+        grid: true,
         sections: [
-          {
-            wide: true,
-            items: [
-              {
-                pages: bodies.map((body) => ({ section: body })),
-                size: 1,
-                start,
-              },
-            ],
-          },
+          ...bodies,
           ...[
             [labels.yourMembers, v.keyPeople.filter((k) => k.own)],
             [labels.leaders, v.keyPeople.filter((k) => !k.own)],
@@ -3462,22 +3423,63 @@ const sheets = {
     };
     return screen();
   },
+  /**
+   * Parties, illustrated: the state's map with the player's districts and
+   * town filled in the color of the party that holds each, a legend of the
+   * parties by seats, then each party's seats as person rows (owner, Oct
+   * 28, point 20: the map that once existed, brought back).
+   */
   async parties() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const [v, m] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api("/api/map"),
+    ]);
+    const labels = controls.politics;
+    const seatWords = (n) =>
+      `${n} ${n === 1 ? labels.seat : labels.seats.toLowerCase()}`;
+    // A district's hover title: its name and who holds it, by party; a
+    // district with no holder on record is its name alone.
+    const wordHolders = (district) =>
+      district.holders.length
+        ? `${district.name}: ${district.holders
+            .map((h) => (h.party ? `${h.name}, ${h.party}` : h.name))
+            .join("; ")}`
+        : district.name;
+    const parties = v.parties.map(({ party, seats }) => ({
+      party,
+      seats: seats.length,
+    }));
     return recordScreen({
+      controls: m
+        ? [districtMap(m, { wordHolders }), partyLegend(parties, seatWords)]
+        : [],
       grid: true,
       sections: v.parties.map(({ party, seats }) => ({
         title: party,
         items: [
-          { total: [String(seats.length), controls.politics.seats] },
-          {
-            pages: seats.map((s) => ({ node: row(s.name, s.title) })),
-            size: 6,
-          },
+          ...seats.map((s) => ({
+            node: personRow({
+              name: s.name,
+              detail: s.title,
+              face: s.face,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: s.cardId, figureUrl: s.face?.url });
+              },
+            }),
+          })),
         ],
       })),
     });
   },
+  /**
+   * Issues: the law in force here as cards by subject (owner, Oct 28, point
+   * 21: "click an issue (minimum wage) and see the law itself and find the
+   * law"), each card opening the law's own screen: what is in force at each
+   * level and since when, the statute it rests on, the measure that enacted
+   * it, what is coming, and who voted. No row repeats the state the filter
+   * and the card already name.
+   */
   async issues() {
     const [v, changes] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
@@ -3487,55 +3489,187 @@ const sheets = {
     // A policy question's law reads yes or no; every other law, its amount.
     const lawText = (law, value, unit) =>
       law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
-    return listScreen({
-      search: { placeholder: labels.searchIssues },
-      size: 4,
-      labelOf: termLabel,
-      entries: (query) =>
-        v.law
-          .filter((l) =>
-            policyLabel(l.series).toLowerCase().includes(query.toLowerCase()),
-          )
-          .map((law) => ({
-            title: policyLabel(law.series),
-            value: law.text ?? lawText(law, law.value, law.unit),
-            opens: true,
-            facts: [
-              // A level's law and when it took effect; a starting answer to a
-              // question names its statute instead, as its research did not
-              // record the day it took effect.
-              ...law.levels
-                .filter((l) => l.row)
-                .map((level) => [
-                  lawLevelLabel(law, level),
-                  [
-                    lawText(law, level.row.value, level.row.unit),
-                    !law.yesNo || level.row.terms?.enactedBy
-                      ? dateWords(level.row.effectiveDate)
-                      : level.row.terms?.cite,
-                  ]
-                    .filter(Boolean)
-                    .join(" · "),
-                ]),
-              ...law.pending.map((pending) => [
-                `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
-                lawText(law, pending.value, pending.unit),
-              ]),
-              ...[...changes.took, ...changes.ahead]
-                .filter((c) => c.series === law.series)
-                .map((change) => [
-                  dateWords(change.date),
-                  [change.measure, change.jurisdiction, change.what]
-                    .filter(Boolean)
-                    .join(" · "),
-                ]),
-              ...(law.votes ?? []).map((vote) => [
-                vote.name,
-                controls.meeting?.[vote.vote] ?? "",
-              ]),
-            ].map(([label, value]) => [label, plain(value)]),
+    // Who sets it, by level: "Federal law", "State law", the local body's.
+    const setBy = (level) => labels.issueSetBy?.[level] ?? words(level);
+    // The subject a series belongs to: the policy question's own domain
+    // ("us-policy-positions:fiscal.adopt-income-tax"), or the table's for an amount.
+    const groupOf = (series) =>
+      series.includes(":")
+        ? series.split(":")[1].split(".")[0]
+        : (labels.issueGroupOf?.[series] ?? "fiscal");
+    const governingLevel = (law) =>
+      law.governing?.level ?? law.levels.find((l) => l.row)?.level ?? null;
+    const governingRow = (law) =>
+      law.levels.find((l) => l.level === governingLevel(law))?.row ??
+      law.governing;
+    const valueText = (law) =>
+      law.text ??
+      (law.value !== null && law.value !== undefined
+        ? lawText(law, law.value, law.unit)
+        : null);
+    // The law's own screen.
+    const showLaw = async (law) => {
+      const level = governingLevel(law);
+      const inForce = law.levels
+        .filter((l) => l.row)
+        .map((l) => ({
+          fact: [
+            setBy(l.level),
+            [
+              lawText(law, l.row.value, l.row.unit),
+              l.row.effectiveDate
+                ? `${labels.since} ${dateWords(l.row.effectiveDate)}`
+                : null,
+            ]
+              .filter(Boolean)
+              .join(" · "),
+          ],
+        }));
+      // The law itself: the statute the answer rests on, and the measure
+      // of this world that enacted it, read as its paper.
+      const statutes = law.levels
+        .filter((l) => l.row?.terms?.cite)
+        .map((l) => ({ fact: [labels.statute, l.row.terms.cite] }));
+      const measures = (
+        await Promise.all(
+          law.levels
+            .filter((l) => l.row?.terms?.enactedBy)
+            .map(async (l) => {
+              const billId = l.row.terms.enactedBy;
+              const paper = await api(
+                `/api/bill?billId=${encodeURIComponent(billId)}`,
+              ).catch(() => null);
+              return paper
+                ? {
+                    actions: [
+                      {
+                        label: `${labels.enactedBy} ${paper.title}`,
+                        onClick: () =>
+                          openBillPaper(
+                            billId,
+                            (...nodes) =>
+                              $("sheet-body").replaceChildren(...nodes),
+                            () => showLaw(law),
+                          ),
+                      },
+                    ],
+                  }
+                : null;
+            }),
+        )
+      ).filter(Boolean);
+      const coming = law.pending.map((pending) => ({
+        fact: [
+          `${setBy(pending.level)} · ${dateWords(pending.effectiveDate)}`,
+          lawText(law, pending.value, pending.unit),
+        ],
+      }));
+      const changed = [...changes.took, ...changes.ahead]
+        .filter((c) => c.series === law.series)
+        .map((change) => ({
+          fact: [
+            dateWords(change.date),
+            [change.measure, change.what].filter(Boolean).join(" · "),
+          ],
+        }));
+      const votes = (law.votes ?? []).map((vote) => ({
+        fact: [vote.name, controls.meeting?.[vote.vote] ?? ""],
+      }));
+      if (openTab !== "issues") return;
+      // One law reads in one column, in a panel that ends under it.
+      $("sheet-body").classList.remove("cols");
+      $("sheet").classList.add("fits");
+      $("sheet-body").replaceChildren(
+        ...recordScreen({
+          heading: {
+            name: policyLabel(law.series),
+            meta: level ? setBy(level) : "",
+          },
+          lede: valueText(law),
+          sections: [
+            {
+              title: labels.inForce,
+              items: [...inForce, ...statutes, ...measures],
+            },
+            coming.length && { title: labels.coming, items: coming },
+            changed.length && { title: labels.changed, items: changed },
+            votes.length && { title: labels.votes, items: votes },
+          ].filter(Boolean),
+        }),
+      );
+    };
+    // The cards, by subject, narrowed by the search.
+    const card = (law) => {
+      const level = governingLevel(law);
+      const row = governingRow(law);
+      return {
+        title: policyLabel(law.series),
+        value: valueText(law),
+        lines: [
+          level
+            ? `${setBy(level)}${row?.effectiveDate ? ` ${labels.since} ${row.effectiveDate.slice(0, 4)}` : ""}`
+            : null,
+        ],
+        label: policyLabel(law.series),
+        onSelect: () => void showLaw(law),
+        data: { series: law.series },
+      };
+    };
+    const order = Object.keys(labels.issueGroups ?? {});
+    const screen = async (query) => {
+      const match = (law) =>
+        policyLabel(law.series).toLowerCase().includes(query.toLowerCase());
+      const groups = new Map();
+      for (const law of v.law.filter(match)) {
+        const key = groupOf(law.series);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(law);
+      }
+      const sections = await Promise.all(
+        [...groups]
+          .sort(([a], [b]) => order.indexOf(a) - order.indexOf(b))
+          .map(async ([key, laws]) => ({
+            title: labels.issueGroups?.[key] ?? words(key),
+            items: [
+              {
+                node: (
+                  await listScreen({
+                    entries: () =>
+                      laws
+                        .sort((a, b) =>
+                          policyLabel(a.series).localeCompare(
+                            policyLabel(b.series),
+                          ),
+                        )
+                        .map(card),
+                    layout: "cards",
+                  })
+                )[0],
+              },
+            ],
           })),
-    });
+      );
+      return recordScreen({
+        controls: [
+          searchBox({
+            value: query,
+            placeholder: labels.searchIssues,
+            onInput: async (text) => {
+              const nodes = await screen(text);
+              if (openTab !== "issues") return;
+              // The sheet's own rule: many sections flow in columns across
+              // the window, a few sit in a panel that ends under them.
+              const cols = nodes.length > 12;
+              $("sheet-body").classList.toggle("cols", cols);
+              $("sheet").classList.toggle("fits", !cols);
+              $("sheet-body").replaceChildren(...nodes);
+            },
+          }),
+        ],
+        sections,
+      });
+    };
+    return screen("");
   },
 };
 // Screens shown as tabs across the top of one menu screen.
@@ -3547,7 +3681,6 @@ const groups = {
     "parties",
     "issues",
     "budgets",
-    "politicsGuide",
   ],
   who: ["who", "jobs"],
 };
@@ -3600,6 +3733,9 @@ async function openSheet(tab) {
   );
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
+  // News is the paper itself: the sheet is the page, its masthead the title
+  // (owner, Oct 28, point 25).
+  $("sheet").classList.toggle("paper-sheet", tab === "news");
   $("sheet-media").hidden = !character;
   fillArtwork(
     $("sheet-media"),
@@ -3622,18 +3758,26 @@ async function openSheet(tab) {
   );
   // A screen is as tall as what it holds (owner, Oct 27: "so much dead space");
   // the calendar, the people web and two-column readers fill the window.
+  // A screen that ends under its content fits; one that flows in columns or
+  // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who"].includes(tab) &&
-      !$("sheet-body").classList.contains("cols"),
+    !["calendar", "people", "who", "news"].includes(tab) &&
+      !$("sheet-body").classList.contains("cols") &&
+      !$("sheet-body").querySelector(".screen-grid"),
   );
   show("sheet", true);
   $("game").classList.add("sheet-open");
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
+// The creator's states and towns page like every other list; nothing in a
+// menu scrolls (kit13 APPROVED; owner, Oct 28: "the Mac's native scroller").
+pageWhenChanged($("cr-states"), $("cr-states-pager"));
+pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu, Who you are among them. The card under it shows only the date
+// the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,
+// point 23: not a tab in Politics). The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 // The rail is named from the controls file, so it is mounted once that loads.
 void controlsReady.then(() => {
@@ -3648,6 +3792,7 @@ void controlsReady.then(() => {
       "news",
       "people",
       "travel",
+      "guide",
     ],
     controls.titles,
   );
@@ -3681,15 +3826,18 @@ let titleLife = null;
 function rotateTitle(scenes, seconds) {
   let at = 0;
   const next = $("backdrop-next");
+  // The rotation runs only on the title menu itself: a creator panel keeps the
+  // painting it opened on (owner, Oct 28: "the double background jump").
+  const onTitleMenu = () => !$("front").hidden && !$("front-main").hidden;
   setInterval(() => {
-    if ($("front").hidden) return;
+    if (!onTitleMenu()) return;
     at = (at + 1) % scenes.length;
     next.src = scenes[at].backdrop.url;
     next.onload = () => {
       next.onload = null;
       next.classList.add("fading");
       setTimeout(() => {
-        if ($("front").hidden) return next.classList.remove("fading");
+        if (!onTitleMenu()) return next.classList.remove("fading");
         const back = $("backdrop");
         back.src = next.src;
         back.style.animation = "none";
@@ -3812,6 +3960,7 @@ const setup = {
   appearanceDraws: 0,
   state: null,
   town: null,
+  placeDraws: 0,
   recipe: null,
   initial: null,
   previous: [],
@@ -3876,8 +4025,17 @@ $("cr-month").addEventListener("change", async () => {
 });
 $("cr-day").addEventListener("change", () => fillYears());
 $("cr-year").addEventListener("change", derivedAge);
+/** A filled field drops its missing mark and the line at the bottom. */
+function filledIn() {
+  for (const group of document.querySelectorAll("#cr-character .missing"))
+    group.classList.remove("missing");
+  $("front-status").textContent = "";
+}
+for (const id of ["cr-given", "cr-family"])
+  $(id).addEventListener("input", filledIn);
 function pickGender(g) {
   setup.gender = g;
+  filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
@@ -3929,10 +4087,19 @@ $("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
 $("cr-character-next").addEventListener("click", () => {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
-  if (!setup.gender || !given || !family) {
-    $("front-status").textContent = !setup.gender
-      ? $("cr-character").querySelector("legend").textContent
-      : $("cr-random-name").textContent;
+  // A field left empty is named at the bottom and its group marked until it
+  // is filled (owner, Oct 28: "It should flash red, or say what is missing
+  // at the bottom").
+  const missing = !setup.gender
+    ? { group: "gender-choices", text: controls.creator.missingGender }
+    : !given || !family
+      ? { group: "creator-name", text: controls.creator.missingName }
+      : null;
+  if (missing) {
+    $("front-status").textContent = missing.text;
+    document
+      .querySelector(`[data-testid="${missing.group}"]`)
+      .classList.add("missing");
     return;
   }
   $("front-status").textContent = "";
@@ -3950,7 +4117,17 @@ $("cr-character-next").addEventListener("click", () => {
   void showStates();
 });
 $("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
-$("cr-place-back").addEventListener("click", () => frontPanel("cr-character"));
+$("cr-place-back").addEventListener("click", () => {
+  // After a state is picked, Back returns to the states, not to the name
+  // and birthday (owner, Oct 28, point 5).
+  if (setup.state) {
+    setup.state = null;
+    setup.town = null;
+    void showStates();
+    return;
+  }
+  frontPanel("cr-character");
+});
 
 // Where are you from: a state, then a city or town with its population.
 let states = [];
@@ -4013,6 +4190,19 @@ async function listTowns() {
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
+// Random place: the world's own draw of a state and town from all 56, then
+// on to the look, as picking the town does (owner, Oct 28: "Add a Random
+// button to picking where you live").
+$("cr-place-random").addEventListener("click", async () => {
+  setup.placeDraws++;
+  const { state, town } = await api(
+    `/api/creator/place?${new URLSearchParams({ seed: setup.seed, draw: setup.placeDraws })}`,
+  );
+  setup.state = state;
+  setup.town = town;
+  $("cr-state-name").textContent = state.name;
+  await openLook();
+});
 
 // A row of color swatches: each a button named for its color, the chosen one marked.
 async function pickColor(row, value) {
@@ -4065,6 +4255,13 @@ async function openLook() {
         `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe) })}`,
       ),
     );
+  // The place chosen or drawn, named over the look; Change returns to the states.
+  // A town record's name may already carry its state ("Pewaukee, Wisconsin").
+  $("cr-place-summary-name").textContent = setup.town.name.includes(
+    setup.state.name,
+  )
+    ? setup.town.name
+    : `${setup.town.name}, ${setup.state.name}`;
   frontPanel("cr-look");
 }
 async function moveLook(row, by) {
@@ -4096,10 +4293,11 @@ $("cr-undo").addEventListener("click", () => {
   const last = setup.previous.pop();
   if (last) void setLook(last, false);
 });
-$("cr-look-back").addEventListener("click", () => {
-  frontPanel("cr-place");
-  void showStates();
-});
+for (const id of ["cr-look-back", "cr-place-summary"])
+  $(id).addEventListener("click", () => {
+    frontPanel("cr-place");
+    void showStates();
+  });
 $("cr-begin").addEventListener("click", () =>
   startLife({
     placeKey: setup.town.key,
@@ -4231,9 +4429,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     for (const id of ["rings", "card"]) show(id, true);
     $("game").classList.add("in-play");
     renderPacket(life.packet);
-    await refresh();
+    await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
     showNewsSurface(await nightsNews(life.personId));
-    // The scene the director staged for the evening (the address) plays first.
+    // The scene the director staged for the evening (the address) plays first
+    // and sets the one backdrop the opening loads.
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     coachFirstChoices();
   } catch (error) {

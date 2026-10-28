@@ -68,6 +68,7 @@ import {
   chosenBirthDate,
   creatorStates,
   creatorTowns,
+  creatorRandomPlace,
   drawBirthday,
   drawName,
   readChosenPerson,
@@ -105,6 +106,7 @@ import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
+import { governmentMap } from "./map";
 import { budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -533,6 +535,7 @@ export async function benchRequest(
         else if (route === "states") send(200, creatorStates());
         else if (route === "towns")
           send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? ""));
+        else if (route === "place") send(200, creatorRandomPlace(seed, draw));
         else if (route === "appearance") {
           const recipe = q.get("recipe")
             ? request.method === "POST"
@@ -620,6 +623,12 @@ export async function benchRequest(
           ),
         );
         send(200, { version });
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/map") {
+        // The state's map with the player's districts and who holds each,
+        // for Parties (owner, Oct 28, point 20: "bring it back").
+        send(200, governmentMap(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/patch-notes") {

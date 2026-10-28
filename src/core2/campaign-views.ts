@@ -19,6 +19,7 @@ import delegates from "../../data/research/elections/house-delegates-2024.json" 
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
 import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
+import { worldRate } from "./world-draw";
 import type { PersonState } from "./types";
 
 /** One stated position: support (+1) or oppose (-1) a policy question. */
@@ -50,15 +51,22 @@ const districtShare = new Map<string, number>(
     .map((row) => [row.districtGeoid, row.democraticTwoPartyShare!]),
 );
 
-/** The town's starting lean: right minus left share of its House district's 2024 vote, in [-1, 1]. */
+/**
+ * The town's starting lean: right minus left share of its House district's
+ * 2024 vote as this world's swing moved it (`worldSwing`, right positive), in
+ * [-1, 1].
+ */
 export function districtLean(
   districtGeoid: string | null,
   stateKey: string,
+  swing: number,
 ): number {
   const share =
     (districtGeoid ? districtShare.get(districtGeoid) : undefined) ??
     delegateShare(stateKey);
-  return share === undefined ? 0 : 1 - 2 * share;
+  return share === undefined
+    ? 0
+    : Math.max(-1, Math.min(1, 1 - 2 * (share - swing)));
 }
 
 function delegateShare(stateKey: string): number | undefined {
@@ -297,24 +305,51 @@ const supportOf = (
   support as unknown as { questions: Record<string, { support: number }> }
 ).questions;
 
+/** The national polled share for a question's "yes", as published (calibration only). */
+export function publishedSupportShare(question: string): number | undefined {
+  return supportOf[question]?.support;
+}
+
+/**
+ * This world's national polled share for a question's "yes" (owner, Oct 27:
+ * realistic, not real): the published share moved once by the world's offset,
+ * relative to its nearer bound so it stays a share. Even where no poll is
+ * recorded.
+ */
+export function supportShare(seed: string, question: string): number {
+  const published = publishedSupportShare(question);
+  return published === undefined
+    ? 0.5
+    : worldRate(
+        published,
+        seed,
+        `policy-support:${question}`,
+        "worldPolicySupportSpreadShare",
+      );
+}
+
 /**
  * How strongly a person supports a question's "yes" as a voter deciding it
  * directly (a ballot measure, a recall over it), in [-2, 2]: their own lean
  * on the question plus how popular the policy is across the country, set so
- * that a country spread evenly from left to right favors it in the polled
- * share (`data/research/campaigns/policy-support-2026.json`).
+ * that a country spread evenly from left to right favors it in this world's
+ * polled share (`supportShare`).
  */
-export function publicSupport(lean: number, question: string): number {
+export function publicSupport(
+  lean: number,
+  question: string,
+  seed: string,
+): number {
   const axis = axisOf[question]?.axis ?? 0;
-  const share = supportOf[question]?.support ?? 0.5;
-  return lean * axis + publicOffset(question, axis, share);
+  return lean * axis + publicOffset(question, seed, axis);
 }
 
-/** The popularity term alone: |axis| × (2 × polled share − 1). */
+/** The popularity term alone: |axis| × (2 × this world's polled share − 1). */
 export function publicOffset(
   question: string,
+  seed: string,
   axis = axisOf[question]?.axis ?? 0,
-  share = supportOf[question]?.support ?? 0.5,
+  share = supportShare(seed, question),
 ): number {
   return Math.abs(axis) * (2 * share - 1);
 }

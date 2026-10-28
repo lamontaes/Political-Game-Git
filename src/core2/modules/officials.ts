@@ -32,6 +32,7 @@ import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { worldSwing } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
@@ -48,7 +49,7 @@ import {
   type SignatureIssue,
 } from "../officials-roster";
 import { nationalHomeState, recordPresident } from "../officials-president";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow, vacateUnheldSeat } from "./offices";
 import { filingRequirements } from "./elections";
 import { VIEWS_DATA, stanceOn } from "./views";
 
@@ -110,26 +111,81 @@ export const OFFICIALS_MODULE: CoreModule = {
   eventKinds: ["took-office", "life.death"],
   onEvent: (api, event) => {
     // An official who dies leaves the seat that day; the pay and the seat's
-    // next holder follow from the row's end.
+    // next holder follow from the row's end. A seat the offices engine keeps
+    // no term for (a sample member of another state's legislature) opens its
+    // vacancy there, under its chamber's own rule.
     if (event.kind === "life.death") {
       for (const personId of event.personIds) {
         const row = officialOf(api, personId);
-        if (row && row.ended === null)
-          table(api, "officials").put({
-            ...row,
-            ended: api.state.date,
-          } as unknown as ModuleRow);
+        if (!row || row.ended !== null) continue;
+        table(api, "officials").put({
+          ...row,
+          ended: api.state.date,
+        } as unknown as ModuleRow);
+        if (unheld(row))
+          vacateUnheldSeat(api, {
+            seatId: row.seatId,
+            stateKey: row.stateKey,
+            officeKind: row.officeKind,
+            cause: "death",
+          });
       }
       return;
     }
     const seatId = event.facts?.["seatId"];
     const winner = event.personIds[0];
     if (typeof seatId === "string" && winner) tookOffice(api, winner, seatId);
+    else if (typeof seatId === "string") seatUnheldFiller(api, seatId);
   },
 };
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(OFFICIALS_MODULE_ID).table(name);
+
+/**
+ * An official the officials engine seats with no term in the offices engine
+ * whose seat the vacancy law fills: a sample member of another state's
+ * legislature, another state's governor, a member of Congress outside the
+ * town.
+ */
+const unheld = (row: OfficialRow) =>
+  row.termId === null &&
+  (row.bodyKind === "legislature" ||
+    row.bodyKind === "us-house" ||
+    row.bodyKind === "us-senate" ||
+    row.officeKind === "governor");
+
+/**
+ * The offices engine filled a seat it keeps no term for: the new holder
+ * takes the seat as a person, in the party and with the weight in the
+ * chamber of the one they replace (who leaves it today).
+ */
+function seatUnheldFiller(api: CoreAPI, seatId: string): void {
+  const rows = table(api, "officials").query("bySeat", [
+    seatId,
+  ]) as unknown as OfficialRow[];
+  if (!rows.length || !rows.every(unheld)) return;
+  const last = [...rows].sort(
+    (a, b) =>
+      (a.ended ?? "9999").localeCompare(b.ended ?? "9999") ||
+      a.id.localeCompare(b.id),
+  )[rows.length - 1]!;
+  // stopgapId: SG-GOV-unheld-filler-party (the new holder takes the party of the one they replace)
+  api.stopgap("SG-GOV-unheld-filler-party");
+  seatOfficial(api, {
+    key: `${seatId}:${api.state.date}`,
+    seatId,
+    term: null,
+    body: last.body,
+    officeKind: last.officeKind,
+    stateKey: last.stateKey,
+    district: last.district,
+    party: last.party,
+    ...(last.partySource ? { partySource: last.partySource } : {}),
+    termYears: last.termYears,
+    standsFor: last.standsFor,
+  });
+}
 
 const weight = (key: keyof typeof OFFICIALS_DATA.weights) =>
   OFFICIALS_DATA.weights[key].value;
@@ -191,21 +247,25 @@ const source = (date: string): Source => ({
   estimatedFrom: "data/officials/officials.json",
 });
 
-/** A state's lean, right positive: its 2024 presidential two-party vote. */
-function stateLeanOf(stateKey: string): number {
+/** A state's lean, right positive: its 2024 presidential two-party vote, as this world's swing moved it. */
+function stateLeanOf(stateKey: string, seed: string): number {
   const share = stateShare.get(stateKey.slice(3));
-  return share === null || share === undefined ? 0 : 1 - 2 * share;
+  return share === null || share === undefined
+    ? 0
+    : 1 - 2 * (share - worldSwing(seed, stateKey.slice(3)));
 }
 
 /** A seat's lean and where it's read from. */
 function seatLean(
+  seed: string,
   stateKey: string,
   bodyKind: BodyKind,
   district: string | null,
   party: string | null,
   officeKind = "",
 ): { lean: number; source: string } {
-  const state = stateLeanOf(stateKey);
+  const state = stateLeanOf(stateKey, seed);
+  const swing = worldSwing(seed, stateKey.slice(3));
   const chamber = /^legislature-(upper|lower|unicameral)$/.exec(
     officeKind,
   )?.[1];
@@ -218,7 +278,7 @@ function seatLean(
     if (own)
       return {
         lean:
-          (own.republican - own.democratic) / (own.republican + own.democratic),
+          2 * (own.republican / (own.republican + own.democratic) + swing) - 1,
         source: "2024 state legislative vote in the district (MEDSL)",
       };
   }
@@ -226,7 +286,10 @@ function seatLean(
     const code = /^\d+$/.test(district) ? district.padStart(2, "0") : "00";
     const share = houseShare.get(`${stateKey.slice(3)}-${code}`);
     if (share !== null && share !== undefined)
-      return { lean: 1 - 2 * share, source: "2024 House vote (Clerk)" };
+      return {
+        lean: 1 - 2 * (share - swing),
+        source: "2024 House vote (Clerk)",
+      };
   }
   if (bodyKind === "us-house" || bodyKind === "legislature")
     // A district without a read result leans to its holder's party by the
@@ -391,7 +454,8 @@ function unrecordedParty(
   // stopgapId: SG-OFFICIALS-unrecorded-party
   api.stopgap("SG-OFFICIALS-unrecorded-party");
   return {
-    party: stateLeanOf(stateKey) > 0 ? "Republican" : "Democratic",
+    party:
+      stateLeanOf(stateKey, api.state.seed) > 0 ? "Republican" : "Democratic",
     partySource: "estimated: the party that carried the state in 2024",
   };
 }
@@ -544,7 +608,7 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
             term: null,
             body,
             bodyKind: "legislature",
-            officeKind: `legislature-${chamber}`,
+            officeKind: `legislature-${chamber === "legislature" ? "unicameral" : chamber}`,
             stateKey,
             district: null,
             party: partyName(q.party),
@@ -660,7 +724,14 @@ function seatAll(
   const leans = new Map(
     all.map((s) => [
       s.key,
-      seatLean(s.stateKey, s.bodyKind, s.district, s.party, s.officeKind),
+      seatLean(
+        api.state.seed,
+        s.stateKey,
+        s.bodyKind,
+        s.district,
+        s.party,
+        s.officeKind,
+      ),
     ]),
   );
   const groups = new Map<string, number[]>();
@@ -750,7 +821,7 @@ function seatAll(
       leadership: roles.get(spec.key) ?? null,
       districtLean: lean.lean,
       leanSource: lean.source,
-      stateLean: stateLeanOf(spec.stateKey),
+      stateLean: stateLeanOf(spec.stateKey, api.state.seed),
       serviceStart: spec.serviceStart,
       nextElectionYear: spec.nextElectionYear,
       termYears: spec.termYears,
@@ -1041,6 +1112,8 @@ export function seatOfficial(
     readonly party: string | null;
     readonly partySource?: string;
     readonly termYears: number | null;
+    /** How many members the seat stands for (a sample member's weight); one by default. */
+    readonly standsFor?: number;
   },
 ): OfficialRow {
   const personId = input.term
@@ -1073,7 +1146,7 @@ export function seatOfficial(
         nextElectionYear: input.termYears
           ? Number(api.state.date.slice(0, 4)) + input.termYears
           : null,
-        standsFor: 1,
+        standsFor: input.standsFor ?? 1,
         role:
           bodyKind === "executive"
             ? "executive-officeholder-at-opening"
@@ -1207,11 +1280,14 @@ export function officialParts(
   );
   const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
-    (sum, s) => sum + supportAt(row.districtLean, s.question) * s.position,
+    (sum, s) =>
+      sum +
+      supportAt(row.districtLean, s.question, api.state.seed) * s.position,
     0,
   );
   const state = stances.reduce(
-    (sum, s) => sum + supportAt(row.stateLean, s.question) * s.position,
+    (sum, s) =>
+      sum + supportAt(row.stateLean, s.question, api.state.seed) * s.position,
     0,
   );
   // A member of Congress also weighs what a budget line sends their state
@@ -1282,7 +1358,10 @@ export function officialParts(
   const press =
     weight("press") *
     visibility *
-    stances.reduce((sum, s) => sum + publicOffset(s.question) * s.position, 0);
+    stances.reduce(
+      (sum, s) => sum + publicOffset(s.question, api.state.seed) * s.position,
+      0,
+    );
   return {
     views,
     constituents,
@@ -1389,6 +1468,7 @@ export function officialCandidate(
       : facts.bodyKind;
   const pool = new Set(candidacy.ladder[ladderKey] ?? []);
   const seatLeanNow = seatLean(
+    api.state.seed,
     facts.stateKey,
     facts.bodyKind,
     facts.seat.district,
@@ -1546,6 +1626,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
   if (!base) return;
   const party = term.party ?? held?.party ?? ran?.party ?? null;
   const lean = seatLean(
+    api.state.seed,
     facts.stateKey,
     facts.bodyKind,
     facts.seat.district,
@@ -1572,7 +1653,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
     leadership: null,
     districtLean: lean.lean,
     leanSource: lean.source,
-    stateLean: stateLeanOf(facts.stateKey),
+    stateLean: stateLeanOf(facts.stateKey, api.state.seed),
     serviceStart: api.state.date,
     nextElectionYear,
     termYears: facts.office.termYears,

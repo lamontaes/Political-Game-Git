@@ -20,6 +20,7 @@ import {
   checkEligibility,
   fileCandidacy,
   filingOfficeFor,
+  incumbentOf,
   openContests,
   type ContestRow,
   type FilingRow,
@@ -226,6 +227,8 @@ export function governmentView(core: CoreState, personId: string) {
       {
         name: `${holder.identity.givenName} ${holder.identity.familyName}`,
         title: office.title,
+        // Their headshot and the id a click opens, as every person row has.
+        ...holderFace(core, holder, place),
       },
     ]);
   }
@@ -304,7 +307,18 @@ export function governmentView(core: CoreState, personId: string) {
     ownRace: race && { ...race, tier: tierOf(race.level) },
     ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
+    // The player's own state, by name, for the State and Federal filter.
+    homeState: homeState(api),
   };
+}
+
+/** The state the player's town is in: its key and its name. */
+function homeState(api: ReturnType<typeof coreAPI>) {
+  const key = lawChain(api).stateKey;
+  const state = corePlaceStateIdentities().find(
+    (row) => row.jurisdictionKey === key,
+  );
+  return { key, name: state?.name ?? key };
 }
 
 /**
@@ -418,6 +432,19 @@ export function localRaces(core: CoreState) {
         filedWith: office?.filedWith ?? null,
         filers,
       };
+    })
+    // Two seats of one office on the ballot (two council seats) read the same;
+    // each is told apart by whoever holds it now, from its term record.
+    .map((race, _at, all) => {
+      if (all.filter((other) => other.title === race.title).length < 2)
+        return race;
+      const holder = incumbentOf(api, race.contestId);
+      return holder
+        ? {
+            ...race,
+            title: `${race.title} (${holder.identity.givenName} ${holder.identity.familyName})`,
+          }
+        : race;
     })
     .sort(
       (a, b) =>

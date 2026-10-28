@@ -3,12 +3,13 @@
  *
  *   node --import tsx scripts/dialogue-batch/apply-grades.ts
  *
- * Reads every grading batch in data/english/batches/ and every grade file in
- * data/english/grades/ with the same name, joins each grade to its batch item
- * by number, and counts the grade against the part keys that made the line.
- * Writes data/english/part-grades.json, which the old engine's
- * english-grades.ts read. A grade file whose batch is missing, or a grade
- * that names no item, stops the run with the file and number, so no grade is
+ * Reads every grade file in data/english/grades/ (one per set of voice notes,
+ * plus the file the in-play grade control writes), and counts each grade
+ * against the part keys of the line it names. Writes
+ * data/english/part-grades.json, which the English engine's english-grades.ts
+ * reads. A grade file whose rows carry no part keys needs a batch file of the
+ * same name in data/english/batches/ to join them by number; a grade that
+ * names no item stops the run with the file and number, so no grade is
  * silently lost.
  *
  * A development tool. It never words anything.
@@ -41,7 +42,7 @@ export interface BatchFileVariant {
   readonly parts: readonly string[];
 }
 
-/** One line of a bench item with the features the calibration table folds (data/english/batches/batch-12.json). */
+/** One line of a bench item with the features the calibration table folds. */
 export interface BatchFileLine {
   /** Its number in the item, from 1. */
   readonly n: number;

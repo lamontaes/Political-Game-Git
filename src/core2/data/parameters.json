@@ -1985,6 +1985,17 @@
     },
     "estimatedFrom": "US import varieties by source country, used for rival local sellers of one kind; close local substitutes are likely more elastic than the median."
   },
+  "salesTaxPassThrough": {
+    "value": 1,
+    "tag": "SOURCED",
+    "citation": "Poterba, 'Retail Price Reactions to Changes in State and Local Sales Taxes', National Tax Journal 49(2), 1996, pp. 165-176, abstract: 'retail prices rise by approximately the amount of the sales tax', and the paper finds it 'never possible to reject the null hypothesis that prices rise point-for-point with changes in the retail sales tax'; Besley and Rosen, National Tax Journal 52(2), 1999 (NBER Working Paper 6667): 'For some commodities, the after-tax price increases by exactly the amount of the tax.' Read by the business price review (src/core2/finance-state.ts): a change in what a seller keeps of each dollar of its tax-inclusive sales moves its tax-inclusive price by this many times that change, so at one the price before tax holds still (the outcome web's sales-tax-to-prices row).",
+    "spread": {
+      "low": 0.6,
+      "high": 1.44,
+      "unit": "change in the tax-inclusive price per unit change in the tax",
+      "citation": "From Poterba's 1925-39 estimate (0.62) and Gracner et al. (2022), about 60% pass-through of taxes on energy-dense food in Mexico 2012-2016, to Zhao, Barrett, Zheng and Kaiser, 'The Incidence of Grocery Taxes in U.S. Food and Factor Markets' (Cornell University, August 2025 revision; https://barrett.dyson.cornell.edu/files/papers/Incidence_of_Grocery_Taxes_AJAE_Revision_R2.pdf): 'a grocery tax that generates $1 in grocery tax revenue leads to a $1.44 rise in tax-inclusive consumer food prices.'"
+    }
+  },
   "businessRepaymentShare": {
     "value": 0.5,
     "tag": "TUNABLE",
@@ -5820,24 +5831,6 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
-  "traitWeightJobsCountedRetire": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-retire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
-  },
-  "traitWeightJobsCountedLook": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-look decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
-  },
   "traitWeightJobsCountedApply": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6275,10 +6268,10 @@
   "traitWeightJobsBenefitsFileClaim": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs-benefits.file-claim decision. An eligible worker files for unemployment when the base reason plus their lean toward filing is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "citation": "The trait weight of the jobs-benefits.file-claim decision, at the general traitWeight (1). Vella, Richiardi and van de Ven 2025 give an odds ratio of 1.32 between the thirds (row jobs-benefits.file-claim in data/research/trait-effect-sizes.json), but no weight reaches it: within a town the benefit replaces the same share of pay for nearly every worker, so temperament and the layoff's stress (itself read through temperament) are the only reasons that vary, and the thirds' odds run 6 to 20 at any weight from 0.1 to 1.2 once take-up is near 0.73 (SG-TRAITS-file-claim-circumstances-tie).",
     "spread": {
       "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "reason": "No weight fits the study until the filing reads circumstances that vary between workers; until then, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightNewsPassOn": {
@@ -7146,6 +7139,18 @@
       "citation": "Federal Reserve SCF Bulletins 2016, 2019 and 2022, median transaction-account balance of families holding accounts, in constant dollars (approximate; a researcher should confirm the figures)"
     }
   },
+  "officialSavingsSpreadSigma": {
+    "value": 2,
+    "tag": "ESTIMATED",
+    "citation": "How widely one seated official's savings sit around the median a family at their pay keeps (the log-normal standard deviation; the median itself is unchanged). Officials at one pay were all given the same balance, so a body of 190 legislators had no one with a thin cushion and the bribe engine's money pressure never moved between them. The Survey of Consumer Finances 2022 puts the median transaction-account balance of holders at $8,000 and the mean at $62,500 (Federal Reserve Bulletin, Changes in U.S. Family Finances from 2019 to 2022, table of holdings by asset type), which a log-normal reads as a standard deviation of 2.0 across all families. An official at one pay holds a narrower range than all families, but the mean is carried by a few large balances while the lower tail, which the bribe engine reads, is wide, so the all-family figure is used and its lower half is the spread.",
+    "estimatedFrom": "Federal Reserve SCF 2022 median $8,000 and mean $62,500 of transaction accounts (pdftotext of scf23.pdf): sigma = sqrt(2 ln(62500/8000)) = 2.03 for all families.",
+    "spread": {
+      "low": 1,
+      "high": 2,
+      "unit": "log-normal standard deviation",
+      "citation": "From half the all-family dispersion the SCF median and mean imply (2.03) up to that dispersion; the bribe take rate in a played year is measured at this value in the PR."
+    }
+  },
   "worldLivingCostSpreadShare": {
     "value": 0.1,
     "tag": "ESTIMATED",
@@ -7593,5 +7598,77 @@
     "value": 10,
     "tag": "SOURCED",
     "citation": "Unit conversion: a published percent to whole tenths, so a stable sample weighs each category by its share to one decimal."
+  },
+  "worldPolicySupportSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's national polled share for a policy question sits from the published one, relative to its nearer bound (none or all): about the spread between pollsters and months for the same question (Pew, Gallup, AP-NORC and YouGov readings of the same policy in 2024 to 2026 differ by 3 to 8 points; for a 60% question that is 0.08 to 0.2 of the 40% room).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published share is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.06,
+      "high": 0.2,
+      "unit": "share of the room to the nearer bound",
+      "citation": "Differences between pollsters for one question (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldPastVotesSpreadShare": {
+    "value": 0.04,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's count of votes cast in a race before the start sits from the recorded or estimated one, as a share of it: about the change in turnout between comparable elections (state presidential turnout moved by a few percent between 2020 and 2024; midterm turnout by more between 2018 and 2022; U.S. Elections Project).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The recorded total is the center; a world's offset per race is drawn once from its seed, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the votes cast",
+      "citation": "U.S. Elections Project turnout by state, 2018 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldNationalSwingSpreadShare": {
+    "value": 0.025,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's national Republican two-party share of the 2024 vote sits from the real one: about the swing between recent presidential elections (the Democratic two-party share went from 51.1% in 2016 to 52.3% in 2020, about 1 point, and to 49.3% in 2024, about 3 points the other way; MIT Election Data and Science Lab presidential returns).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.04,
+      "unit": "two-party share",
+      "citation": "National two-party swings between the 2016, 2020 and 2024 presidential elections, 1.2 and 3.0 points (MIT Election Data and Science Lab, U.S. President 1976-2020 and 2024 returns)"
+    }
+  },
+  "worldStateSwingSpreadShare": {
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "How far a state's 2024 two-party share moves from the national swing in a world: about the spread of states' swings around the national one between presidential elections (most states within 2 points of the national swing, 2020 to 2024).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.03,
+      "unit": "two-party share",
+      "citation": "State swings against the national swing, 2016 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldTurnoutSpreadShare": {
+    "value": 0.04,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's 2024 votes cast in a state sit from the real count, as a share of it: about the change in a state's presidential turnout between elections (2020 to 2024 within about 5% in most states; U.S. Elections Project).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the votes cast",
+      "citation": "U.S. Elections Project state turnout, 2016 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldCitizenShareSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's citizen share of a town's adults sits from the survey's, relative to its nearer bound: about the ACS five-year margin of error for a place's noncitizen count.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.1,
+      "unit": "share of the room to the nearer bound",
+      "citation": "ACS 2020-2024 B05001 place margins (approximate; a researcher should confirm the figures)"
+    }
   }
 }
