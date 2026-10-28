@@ -40,7 +40,6 @@ export const PAST_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       laws: { indexes: { byLaw: { fields: ["lawId"] } } },
-      elections: { indexes: { bySeat: { fields: ["seatId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
       loaded: {},
     },
