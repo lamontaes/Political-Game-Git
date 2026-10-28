@@ -272,19 +272,7 @@
       "stopgapId": "SG-EW-HEALTH-unsized-links"
     },
     {
-      "link": "new-apartments-to-nearby-rent",
-      "outcome": "housing.rent",
-      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-housing-rent"
-    },
-    {
       "link": "rent-burden-to-homelessness",
-      "outcome": "housing.homelessness",
-      "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-housing-homelessness"
-    },
-    {
-      "link": "eviction-to-homelessness",
       "outcome": "housing.homelessness",
       "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-housing-homelessness"
@@ -552,12 +540,6 @@
       "outcome": "school.reading-proficient-pct",
       "reason": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-school-reading-proficient-pct"
-    },
-    {
-      "link": "farmland-easements-to-farmland-lost",
-      "outcome": "farmland.developed-acres",
-      "reason": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts) reads this law and cuts the town's single-family starts by its own land elasticity, not this row's size and five-year lag, and no engine keeps the acres converted",
-      "stopgapId": "SG-WEB-unread-farmland-developed-acres"
     },
     {
       "link": "defense-contracts-to-earnings",

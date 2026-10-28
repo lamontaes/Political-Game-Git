@@ -168,6 +168,10 @@
     {
       "file": "data/research/stand-in-figures-2026-10-12.json",
       "reason": "Research on the number stand-ins open on Oct 12, 2026 (class, current value, recommended value or bounds, source); builders apply rows into the parameter tables."
+    },
+    {
+      "file": "data/research/budgets/local-spending-by-type.json",
+      "reason": "Raw Census 2022 shares of local spending by type of government; scripts/research/export-public-budget-bases.py measures each place's county and city base rows from it into data/research/money/public-budget-bases.json, which the budgets engine reads."
     }
   ],
   "awaitingReader": [
