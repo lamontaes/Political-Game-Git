@@ -605,7 +605,7 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       displacementFactor({
         displaced: displaced.get(id),
         today,
-        daysPerYear: p("jobsDaysPerYear"),
+        daysPerYear: p("daysPerMeanYear"),
       }),
       longHoursFactor({
         weeklyHours: held ? held.hoursDaily * p("daysPerWeek") : undefined,

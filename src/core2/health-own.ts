@@ -189,7 +189,7 @@ export function displacementExcess(yearsSince: number): number {
 export function displacementsOfPeople(
   api: CoreAPI,
 ): ReadonlyMap<string, readonly Displacement[]> {
-  return displacementsNow(api, api.parameter("jobsDaysPerYear"));
+  return displacementsNow(api, api.parameter("daysPerMeanYear"));
 }
 
 /**
