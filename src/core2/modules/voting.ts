@@ -4420,8 +4420,9 @@ function decide(
   // The two parties' votes decide it; where no one in the race's places
   // could be counted, the places' own lean does, and an even split keeps
   // the seat with its holder's side.
-  let winnerParty =
-    race.incumbentParty ?? partyOnSideIn(stateKey, side, api.state.seed);
+  // Named by the count's decision; a seat with no holder (a special
+  // election's vacancy) has no side until the count gives it one.
+  let winnerParty = race.incumbentParty ?? "";
   const result = keepCount(api, {
     id: raceId,
     date,
@@ -4433,11 +4434,13 @@ function decide(
         dem = counted.votes["party:D"] ?? 0;
       const share = rep + dem ? rep / (rep + dem) : lean;
       const winnerSide = share > 0.5 ? 1 : share < 0.5 ? -1 : side;
+      // An even split of a seat with no holder's side names no winner.
+      if (!winnerSide) return null;
       winnerParty =
         winnerSide === side && race.incumbentParty
           ? race.incumbentParty
           : partyOnSideIn(stateKey, winnerSide, api.state.seed);
-      return winnerSide ? `party:${winnerSide > 0 ? "R" : "D"}` : null;
+      return `party:${winnerSide > 0 ? "R" : "D"}`;
     },
     winnerOf: () => `${raceId}:${winnerParty}`,
     takesOffice: race.seatedOn,
@@ -4461,6 +4464,8 @@ function decide(
       ? { special, candidates: specialCandidates(api, race, parties, row.id) }
       : {}),
   } as unknown as ModuleRow);
+  // An even split with no holder's side seats no one.
+  if (!winnerParty) return;
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
     key: `seat:${row.id}`,
     date: race.seatedOn > api.state.date ? race.seatedOn : api.state.date,
