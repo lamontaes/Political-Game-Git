@@ -302,7 +302,7 @@ document.addEventListener("keydown", (event) => {
     closePerson();
     return;
   }
-  if (openTab === "options") closeSheet();
+  if (openTab === "options" || (openTab && !$("front").hidden)) closeSheet();
   else if ($("front").hidden) openSheet("options");
 });
 
@@ -2860,6 +2860,26 @@ const sheets = {
       },
     });
   },
+  /**
+   * The title's Patch notes: the release machinery's file, one release a page,
+   * newest first (owner, Oct 28: "No reason anymore; get them in").
+   */
+  async patchNotes() {
+    const { releases } = await api("/api/patch-notes");
+    return recordScreen({
+      paged: true,
+      sections: releases.map((release) => ({
+        title: release.title,
+        items: [
+          release.released && { text: release.released, tone: "small" },
+          ...release.groups.flatMap((group) => [
+            { text: group.heading, tone: "subhead" },
+            ...group.lines.map((text) => ({ text })),
+          ]),
+        ],
+      })),
+    });
+  },
   async options() {
     await controlsReady;
     const labels = controls.options;
@@ -3412,7 +3432,11 @@ async function openSheet(tab) {
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
-  $("sheet").classList.toggle("options-sheet", tab === "options");
+  // A sheet opened from the title (Options, Patch notes) sits centered over the painting.
+  $("sheet").classList.toggle(
+    "options-sheet",
+    tab === "options" || !$("front").hidden,
+  );
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
   $("sheet-media").hidden = !character;
@@ -3593,6 +3617,7 @@ function worldSettings() {
   return Object.keys(settings).length ? settings : undefined;
 }
 $("front-options").addEventListener("click", () => openSheet("options"));
+$("front-patch-notes").addEventListener("click", () => openSheet("patchNotes"));
 // The bench's developer controls sit behind one faint ring, off by default.
 $("dev-toggle").addEventListener("click", () => {
   const dev = document.body.classList.toggle("dev");

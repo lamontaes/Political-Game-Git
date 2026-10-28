@@ -71,7 +71,7 @@ export function homePlaceFor(
     case "residential:mobile-home":
     case "residential:other-mobile":
       return "mobile-home";
-    // The town's homes record these kinds (`simulation/living-world/town-homes.ts`).
+    // The town's homes record these kinds (the old engine's town-homes.ts).
     case "residential:rowhouse":
       return "rowhouse";
     case "residential:large-house":

@@ -1476,15 +1476,6 @@ function openingFamilies(input: OpeningFamilyInput): {
     estimatedFrom:
       "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people.",
   };
-  // P15 part 3: each recorded move is a dated fact on the person who moved.
-  const movesOf = new Map<string, typeof kin.moves>();
-  for (const move of kin.moves)
-    movesOf.set(move.personId, [...(movesOf.get(move.personId) ?? []), move]);
-  const moveSource: Source = {
-    ...source,
-    citation: `${source.citation} ${OPENING_KIN.moves.source}`,
-    estimatedFrom: OPENING_KIN.moves.source,
-  };
   // A parent who died in the year before day one is a dated fact on the
   // resident who survives them; the news archive reports it.
   const diedOf = new Map<string, typeof kin.deaths>();
@@ -1516,19 +1507,6 @@ function openingFamilies(input: OpeningFamilyInput): {
         summary: `${names.get(row.otherId)} is recorded as this person's ${row.relation} in the generated opening family.`,
         source: kinSource,
         facts: { otherPersonId: row.otherId },
-      })),
-      ...(movesOf.get(personId) ?? []).map((move) => ({
-        id: `${personId}:move:${move.date}`,
-        date: move.date,
-        kind:
-          move.kind === "in"
-            ? OPENING_KIN.moves.movedInKind
-            : OPENING_KIN.moves.movedAwayKind,
-        summary:
-          move.kind === "in"
-            ? OPENING_KIN.moves.movedInSummary
-            : OPENING_KIN.moves.movedAwaySummary,
-        source: moveSource,
       })),
     ];
     const knownIdSources = Object.fromEntries(
