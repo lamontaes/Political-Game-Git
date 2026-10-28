@@ -1,4 +1,4 @@
-import { ADDRESS_FACT } from "./opening-facts";
+import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
 import { familyFactsOf } from "../core2/modules/people";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
@@ -46,7 +46,11 @@ export interface Scene {
    * A speech the scene is about, in the words its record kept (the address
    * the English engine composed): the speaker gives it in the scene.
    */
-  speech?: SceneLine & { speakerId: PersonId };
+  speech?: SceneLine & {
+    speakerId: PersonId;
+    /** The speech in the parts the talk box plays, one per Continue. */
+    parts: readonly string[];
+  };
 }
 
 export function composeScene(
@@ -264,6 +268,10 @@ export function composeScene(
       ? {
           speakerId: speakerId as PersonId,
           text: speechText,
+          // Played one part per Continue; a speech kept whole is one part.
+          parts: String(record!.facts?.[ADDRESS_FACT.parts] ?? speechText)
+            .split(ADDRESS_PART_BREAK)
+            .filter(Boolean),
           sourceRecordIds: [record!.id],
         }
       : undefined;
