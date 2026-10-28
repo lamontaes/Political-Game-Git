@@ -3729,14 +3729,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "away-from-home",
-          "causeEngine": "offices",
-          "causeRecord": "office-day",
+          "match": { "label": "circumstance:away-evening" },
+          "causeEngine": "circumstance",
+          "causeRecord": "public-meeting",
           "bind": {
-            "relative": "household",
+            "relative": "counterpart",
             "you": "subject"
           },
-          "opener": "relative"
+          "opener": "relative",
+          "setting": ["home"]
         }
       ],
       "tag": {
