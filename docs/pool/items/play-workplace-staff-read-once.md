@@ -5,11 +5,12 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-who-works-here
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:23:48.641Z
 ---
 
 **What.** The scene picker (presentIds, for coworkers at a shift) and the town's places (staffOf, for who is there and a visit) each built the staff of an organization from the open full jobs and the counted residents' jobs. Two readers of one fact that can drift (duplicates report row M3). The opening's own employer list is the third and goes with director-opening-as-a-scene.
