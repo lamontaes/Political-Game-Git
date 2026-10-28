@@ -12,9 +12,9 @@
  */
 import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-views";
-import unitPrices from "../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import {
   CAMPAIGNS_MODULE_ID,
+  unitPrice,
   askForDonation,
   campaignFor,
   doorsKnockedOf,
@@ -158,13 +158,6 @@ const daysBetween = (from: string, to: string) =>
       86_400_000,
   );
 
-const eventVenuePrice = () =>
-  (
-    unitPrices as unknown as {
-      prices: Record<string, { priceMinorUnits: number }>;
-    }
-  ).prices["event-venue"]!.priceMinorUnits;
-
 /** The town's households, full and counted, as the campaign engine's doors walk them. */
 function townHouseholdCount(api: CoreAPI): number {
   const core = api.state as CoreState;
@@ -266,7 +259,7 @@ export function campaignDayChoices(
 
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
-  const price = eventVenuePrice();
+  const price = unitPrice(api, "event-venue");
   const candidateAlive = !!api.state.people.get(campaign.candidateId)?.alive;
 
   const invited = interviewsFor(api, filing.personId)

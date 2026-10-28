@@ -12,6 +12,7 @@ import type { EntityId } from "./kernel/brands";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
   projectOpeningBusiness,
+  worldBookRatio,
   type BusinessBooksOptions,
 } from "./business-books";
 import dataJson from "./data/opening-finance.json" with { type: "json" };
@@ -95,7 +96,10 @@ export function createOpeningFinance(
   options: OpeningFinanceOptions = {},
 ): FinanceInput {
   const data = options.data ?? DEFAULT_OPENING_FINANCE_DATA;
-  const booksOptions = options.books ?? {};
+  const booksOptions: BusinessBooksOptions = {
+    ...options.books,
+    seed: input.seed,
+  };
   const bookData = booksOptions.data ?? DEFAULT_BUSINESS_BOOKS_DATA;
   const registry = booksOptions.parameters ?? PARAMETERS;
   const p = (key: string) => parameter(key, registry);
@@ -1077,7 +1081,12 @@ export function createOpeningFinance(
       (sum, row) => sum + monthlyEquivalent(row),
       zero,
     );
-    const salesCostShare = p(kind.salesCostShareParameter);
+    const salesCostShare = worldBookRatio(
+      input.seed,
+      kind,
+      "salesCostShare",
+      p,
+    );
     if (salesCostShare < zero || salesCostShare > one)
       throw new Error(
         `Invalid source sales-sensitive cost share: ${business.kindId}`,

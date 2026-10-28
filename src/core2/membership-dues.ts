@@ -7,10 +7,11 @@
 import businessParameters from "./data/business/parameters.json" with { type: "json" };
 import unionData from "./data/business/union-membership.json" with { type: "json" };
 import { makeIsoDate } from "./kernel/dates";
-import type { Parameter } from "./parameters";
+import { parameter, type Parameter } from "./parameters";
 import type { ResidentFlowInput } from "./residents";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, Source } from "./types";
+import { drawnShare } from "./world-draw";
 
 const UNION_RATES = (
   unionData as { states: Record<string, { membersPct: number }> }
@@ -21,7 +22,33 @@ const P = businessParameters as unknown as Readonly<Record<string, Parameter>>;
 const p = (key: string) => P[key]!.value;
 const UNION = "membership:labor-union";
 const DAYS_PER_YEAR = 365,
-  MONTHS_PER_YEAR = 12;
+  MONTHS_PER_YEAR = 12,
+  PERCENT = 100;
+
+/** The state's published union membership rate in percent (BLS, 2025), the nation's where BLS has no row: calibration for the world's draw and its checks. */
+export function publishedUnionRatePct(housingState: string | undefined) {
+  return UNION_RATES[housingState ?? ""]?.membersPct ?? UNION_NATION_PCT;
+}
+
+/**
+ * This world's union membership rate in percent: the published state rate
+ * moved by the world's own draw (owner, Oct 27: realistic, not real). Only
+ * the rate is a statistic; what a right-to-work law does to it is law.
+ */
+export function worldUnionRatePct(
+  seed: string,
+  housingState: string | undefined,
+): number {
+  return (
+    PERCENT *
+    drawnShare(
+      publishedUnionRatePct(housingState) / PERCENT,
+      seed,
+      "business-world:union-rate",
+      parameter("businessWorldUnionRateSpreadShare"),
+    )
+  );
+}
 
 export function withMembershipDues(input: CoreInput): CoreInput {
   const residents = input.residents;
@@ -53,10 +80,11 @@ export function withMembershipDues(input: CoreInput): CoreInput {
     );
     const list = [...(pay.get(union.placeId) ?? [])].sort((a, b) => a - b);
     if (!account || !list.length) continue;
-    // The state's membership rate (BLS, 2025), else the nation's.
-    const rate =
-      UNION_RATES[input.placeMetadata?.housingState ?? ""]?.membersPct ??
-      UNION_NATION_PCT;
+    // This world's membership rate, drawn around the state's (BLS, 2025) or the nation's.
+    const rate = worldUnionRatePct(
+      input.seed,
+      input.placeMetadata?.housingState,
+    );
     const members = Math.round((list.length * rate) / 100);
     const medianMonthly =
       (list[Math.floor(list.length / 2)]! * DAYS_PER_YEAR) / MONTHS_PER_YEAR;
