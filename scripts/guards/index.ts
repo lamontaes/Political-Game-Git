@@ -76,6 +76,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/no-module-load-registries.test.ts"),
   },
   {
+    id: "one-history",
+    rule: "One history: no new reader of the generated past, and no reader of a generated kind once its simulated kind exists; the proxy list only shrinks.",
+    readMore:
+      "tests/guards/one-history-proxies.json, its about line; docs/coordination/OWNER-DECISIONS.md, One history",
+    command: vitest("tests/guards/one-history.test.ts"),
+  },
+  {
     id: "american-english",
     rule: "American English everywhere.",
     readMore: "AGENTS.md, Standing owner rules, American English",
@@ -109,6 +116,13 @@ export const GUARDS: readonly Guard[] = [
       "--check",
       "--changed",
     ],
+  },
+  {
+    id: "reading-line",
+    rule: "A question for the owner shows the look-first search: an OWNER DECISIONS NEEDED section that is not none carries the reading line.",
+    readMore:
+      ".agents/rules/smart-and-look-first.md; .claude/skills/look-first/SKILL.md",
+    command: ["node", "scripts/guards/reading-line.mjs"],
   },
   {
     id: "secrets",
