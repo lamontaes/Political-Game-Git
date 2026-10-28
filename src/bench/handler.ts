@@ -50,7 +50,6 @@ import {
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
-import { governmentMap } from "./map";
 import {
   chooseAtCounter,
   officePlace,
@@ -601,10 +600,6 @@ export async function benchRequest(
           ),
         );
         send(200, { version });
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/map") {
-        send(200, governmentMap(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/bank") {

@@ -16,7 +16,6 @@ import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { buildBenchWorld } from "../../src/bench/world";
-import { openingFrames } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
@@ -75,9 +74,6 @@ function shotsFor(seed: string) {
       name: `${String(shots.length + 1).padStart(2, "0")}-${name}`,
       ...s,
     });
-  const story = w.director.ledger.opening;
-  for (const s of story ? openingFrames(core, me, story).frames : [])
-    add(`intro-${s.place}`, s);
   add("home", scene.benchScene(core, me));
   // The player alone in the close-up bedroom (the January 22 bedroom scene).
   add("bedroom", {

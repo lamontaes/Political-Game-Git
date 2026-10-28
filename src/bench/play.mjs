@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
@@ -12,7 +12,6 @@ import {
   addTalkLine,
   mountTalkKeys,
   mountSpeakers,
-  sayInBox,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
@@ -20,7 +19,19 @@ import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
-import { listRow, personRow } from "./ui/list-row.mjs";
+import { listRow, personRow, factRow } from "./ui/list-row.mjs";
+import {
+  pageIn,
+  pageWhenChanged,
+  menuPages,
+  stepPages,
+  pagerWords,
+} from "./ui/pager.mjs";
+import { picture, fillArtwork } from "./ui/picture.mjs";
+import { barChart } from "./ui/chart.mjs";
+import { section as recordSection } from "./ui/section.mjs";
+import { searchBox, select, checkboxSetting } from "./ui/fields.mjs";
+import { termWord } from "./ui/term.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -49,88 +60,6 @@ async function displayVersion() {
   return `v${number}`;
 }
 const post = (path) => api(path, "POST");
-/**
- * Nothing inside a menu scrolls: what does not fit in `box` is split into pages, and the
- * pager's Back and Continue turn them. Columns flow sideways; a plain list pages at a row.
- *
- * A pager keeps its page when only the measure changes (paging itself resizes the box,
- * which must not throw the player back to the first page); new content starts at page 0.
- */
-const pagerPage = new WeakMap();
-function pageIn(box, pager, keepPage = false) {
-  box.scrollTo(0, 0);
-  const [back, next] = pager.querySelectorAll("button");
-  // Measure with every row showing; a page then hides the rows that are not its own.
-  for (const hidden of box.querySelectorAll(".paged-out"))
-    hidden.classList.remove("paged-out");
-  // A block taller than the box (a grid of cards, a long screen) would be one page of its own
-  // and hide behind a Continue; its children are the rows instead, so page 0 shows the first of them.
-  const rowsIn = (parent) =>
-    [...parent.children].flatMap((kid) =>
-      kid.classList.contains("flow") ||
-      (kid.offsetHeight > box.clientHeight && kid.children.length > 1)
-        ? rowsIn(kid)
-        : [kid],
-    );
-  const rows = rowsIn(box);
-  const tops = rows.map((row) => row.offsetTop);
-  const stops = [0];
-  let sideways = false;
-  if (box.clientHeight > 0) {
-    if (box.scrollWidth > box.clientWidth + 2) {
-      sideways = true;
-      const step =
-        box.clientWidth + (parseFloat(getComputedStyle(box).columnGap) || 0);
-      for (let x = step; x < box.scrollWidth - 2; x += step) stops.push(x);
-    } else if (box.scrollHeight > box.clientHeight + 2) {
-      let top = 0;
-      rows.forEach((kid, index) => {
-        // A row taller than the box starts no page of its own at the top: a second stop at
-        // 0 would make page 0 empty and hide every row.
-        if (
-          tops[index] > top &&
-          tops[index] + kid.offsetHeight - top > box.clientHeight
-        ) {
-          top = tops[index];
-          stops.push(top);
-        }
-      });
-    }
-  }
-  let at = keepPage ? (pagerPage.get(pager) ?? 0) : 0;
-  const go = (index) => {
-    at = index;
-    pagerPage.set(pager, at);
-    if (sideways) box.scrollTo(stops[at], 0);
-    else {
-      // A plain list shows one page of rows: the rest are out of the box, not scrolled past.
-      const from = stops[at];
-      const to = stops[at + 1] ?? Infinity;
-      rows.forEach((row, index) =>
-        row.classList.toggle(
-          "paged-out",
-          stops.length > 1 && (tops[index] < from || tops[index] >= to),
-        ),
-      );
-      box.scrollTo(0, 0);
-    }
-    back.hidden = at === 0;
-    next.hidden = at === stops.length - 1;
-  };
-  back.onclick = () => go(at - 1);
-  next.onclick = () => go(at + 1);
-  pager.hidden = stops.length === 1;
-  go(Math.min(at, stops.length - 1));
-}
-/** Pages again whenever the box's contents change (a search narrowing a list, a redrawn ballot). */
-function pageWhenChanged(box, pager) {
-  new MutationObserver(() =>
-    requestAnimationFrame(() => pageIn(box, pager)),
-  ).observe(box, { childList: true, subtree: true });
-  new ResizeObserver(() =>
-    requestAnimationFrame(() => pageIn(box, pager, true)),
-  ).observe(box);
-}
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 const compactWords = new Intl.NumberFormat("en-US", {
@@ -191,43 +120,7 @@ function plain(value) {
 }
 /** One labeled line; a value that can't be put in a reader's words hides the line. */
 function row(label, value) {
-  const text = plain(value);
-  const line = listRow(
-    "",
-    {},
-    termLabel(label),
-    el("span", { className: "record-value", textContent: text ?? "" }),
-  );
-  if (text === null) line.hidden = true;
-  return line;
-}
-/** Layout only: labels and content are supplied by the screen's record adapter. */
-function recordSection(title, ...content) {
-  return el(
-    "section",
-    { className: "record-section" },
-    el("h3", { className: "label", textContent: title }),
-    ...content,
-  );
-}
-/** Optional artwork slots. No sample person, room, or fallback artwork. */
-function screenArtwork({
-  portraitUrl,
-  backgroundUrl,
-  name,
-  into = $("sheet-media"),
-}) {
-  const media = into;
-  media.replaceChildren();
-  for (const [src, className, alt] of [
-    [backgroundUrl, "screen-backdrop", ""],
-    [portraitUrl, "screen-portrait", name],
-  ]) {
-    if (!src) continue;
-    const img = el("img", { src, className, alt });
-    img.addEventListener("error", () => img.remove(), { once: true });
-    media.append(img);
-  }
+  return factRow(termLabel(label), plain(value));
 }
 
 /**
@@ -327,125 +220,6 @@ function drawPeople(people, onClick) {
       return f.occluder ? [box, occluderOf(f.occluder)] : [box];
     }),
   );
-}
-
-// ---- The opening (owner, Oct 14, 2026) ----
-// The President's address, full screen, sentence by sentence in the speech
-// box, the picture cutting when what the sentence is about changes; then
-// home that evening, where the night's news can be picked up, and the first
-// controls pointed out. Every word is the director's opening story.
-let skipOpening;
-// The opening, fetched and its pictures loaded during loading.
-let openingReady;
-/** How long a spoken line stays up: a beat plus reading time. */
-const lineMs = (text) => 1800 + text.length * 45;
-/** How long the camera stays on each person it points out. */
-const POINT_MS = 2400;
-/** Wait, cut short by a click; resolves true when Skip ends the address. */
-function holdOpening(ms) {
-  return new Promise((resolve) => {
-    const timer = setTimeout(() => resolve(false), ms);
-    skipOpening = () => {
-      clearTimeout(timer);
-      resolve(true);
-    };
-    $("opening-box").onclick = () => {
-      clearTimeout(timer);
-      resolve(false);
-    };
-  });
-}
-/** The camera passes the people on a stage, pointing each out by name and office. */
-function pointOut(figures) {
-  let timer;
-  const step = (index) => {
-    for (const node of document.querySelectorAll("#people .figure.pointed"))
-      node.classList.remove("pointed");
-    const figure = figures[index];
-    show("opening-point", Boolean(figure));
-    if (!figure) return;
-    $("opening-point-name").textContent = figure.name;
-    $("opening-point-role").textContent = [
-      figure.relation,
-      figure.post,
-      figure.office,
-      figure.state,
-    ]
-      .filter(Boolean)
-      .join(" · ");
-    const box = $("opening-point");
-    box.style.animation = "none";
-    void box.offsetWidth;
-    box.style.animation = "";
-    // Only the one person pointed out is lit.
-    [...document.querySelectorAll("#people .figure")]
-      .find((node) => node.dataset.person === figure.id)
-      ?.classList.add("pointed");
-    timer = setTimeout(() => step(index + 1), POINT_MS);
-  };
-  step(0);
-  const endsAt = Date.now() + figures.length * POINT_MS;
-  return {
-    left: () => Math.max(0, endsAt - Date.now()),
-    stop: () => {
-      clearTimeout(timer);
-      step(figures.length);
-    },
-  };
-}
-async function playOpening() {
-  const opening =
-    openingReady ?? (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
-  openingReady = undefined;
-  if (!opening?.frames?.length) return opening;
-  const { speaker } = opening;
-  // Who is speaking: the President, from the first frame.
-  $("opening-bust").style.backgroundImage = speaker.figureUrl
-    ? `url("${speaker.figureUrl}")`
-    : "";
-  $("opening-name").textContent = speaker.name;
-  $("opening-role").textContent = [speaker.title, ...speaker.detail]
-    .filter(Boolean)
-    .join(" · ");
-  show("opening-box", true);
-  $("game").classList.add("letterbox", "cinema");
-  frames: for (const frame of opening.frames) {
-    $("backdrop").src = frame.backdrop.url;
-    drawPeople(frame.people);
-    $("stage").classList.remove("cut");
-    void $("stage").offsetWidth;
-    $("stage").classList.add("cut");
-    // Who the camera points out: a household as the frame opens, anyone the
-    // address names on the line that names them.
-    const figures = frame.pointOut ?? [];
-    let camera = pointOut(figures.filter((row) => row.line === undefined));
-    // A stage the President says nothing over shows without the speech box.
-    show("opening-box", frame.lines.length > 0);
-    // A click moves on to the next sentence; Skip ends the address. The
-    // picture holds until the camera has passed everyone on it.
-    for (const [at, line] of frame.lines.entries()) {
-      sayInBox("opening-speech", line.text);
-      const named = figures.filter((row) => row.line === at);
-      if (named.length) {
-        camera.stop();
-        camera = pointOut(named);
-      }
-      const hold = Math.max(lineMs(line.text), camera.left());
-      if (await holdOpening(hold)) {
-        camera.stop();
-        break frames;
-      }
-    }
-    const left = camera.left();
-    const skipped = left > 0 && (await holdOpening(left));
-    camera.stop();
-    if (skipped) break;
-  }
-  skipOpening = undefined;
-  $("opening-box").onclick = null;
-  show("opening-box", false);
-  $("game").classList.remove("letterbox", "cinema");
-  return opening;
 }
 
 /**
@@ -685,13 +459,6 @@ async function renderScene() {
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawPeople(scene.people, (p) => talkTo(p.personId));
   me.scene = scene;
-  // The look chosen in the creator is the player's own portrait.
-  setBust(
-    "card-bust",
-    me.portrait
-      ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-      : scene.people.find((p) => p.personId === me.id)?.figureUrl,
-  );
 }
 
 async function renderCard() {
@@ -763,21 +530,18 @@ $("tip-learned").addEventListener("click", () => {
  */
 function termLabel(text) {
   const key = String(text).trim().toLowerCase();
-  if (!guideTerms.has(key)) return el("b", { textContent: text });
-  const b = el("b", {
-    className: learned.has(key) ? "" : "term",
-    textContent: text,
+  return termWord({
+    text,
+    isTerm: guideTerms.has(key),
+    learned: learned.has(key),
+    onHover: (b) => showTip(b, key),
+    onLeave: hideTipSoon,
+    onOpen: () => {
+      show("tip", false);
+      guideQuery = text;
+      openSheet("guide");
+    },
   });
-  b.addEventListener("mouseenter", () => {
-    if (b.classList.contains("term")) showTip(b, key);
-  });
-  b.addEventListener("mouseleave", hideTipSoon);
-  b.addEventListener("click", () => {
-    show("tip", false);
-    guideQuery = text;
-    openSheet("guide");
-  });
-  return b;
 }
 
 let controls = {};
@@ -826,6 +590,7 @@ const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
   controls = value;
+  pagerWords(controls.politics);
   // A dimmed title entry's reason is a control name from data, never typed here.
   for (const el of document.querySelectorAll("[data-label]"))
     el.textContent =
@@ -967,14 +732,6 @@ function billBlock(item, buttons, onPaper) {
       textContent: [item.title, item.number, item.sponsor]
         .filter(Boolean)
         .join(" · "),
-    }),
-    el("div", {
-      textContent: item.provisions
-        .map(
-          (p) =>
-            `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
-        )
-        .join("; "),
     }),
     item.remarks.length
       ? el("div", {
@@ -2155,14 +1912,13 @@ async function showPerson(person) {
   closeSheet();
   const labels = controls.person;
   // Only this person's supplied artwork. Null deliberately leaves a clear slot.
-  screenArtwork({
+  fillArtwork($("person-media"), {
     portraitUrl:
       c.presentation?.portraitUrl !== undefined
         ? c.presentation.portraitUrl
         : (c.figureUrl ?? person.figureUrl),
     backgroundUrl: c.presentation?.backgroundUrl,
     name: c.name,
-    into: $("person-media"),
   });
   $("person-name").textContent = c.name;
   $("person-role").textContent = [
@@ -2735,61 +2491,6 @@ function portraitUrl() {
     : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
 }
 /** A record image has no substitute when its producer has not supplied one. */
-function recordImage(url, className) {
-  const image = el("img", { src: url, alt: "", className });
-  image.addEventListener("error", () => image.remove());
-  return image;
-}
-/** Small pages keep all records reachable without scrolling a menu. */
-function menuPages(items, size = 5, start = 0) {
-  let at = Math.floor(Math.max(0, start) / size);
-  const box = el("div", { className: "record-pages" });
-  const draw = () => {
-    const back = makeButton({
-      textContent: controls.politics.back,
-      disabled: at === 0,
-    });
-    const next = makeButton({
-      textContent: controls.politics.next,
-      disabled: (at + 1) * size >= items.length,
-    });
-    back.onclick = () => {
-      at--;
-      draw();
-    };
-    next.onclick = () => {
-      at++;
-      draw();
-    };
-    box.replaceChildren(
-      ...items.slice(at * size, at * size + size),
-      ...(items.length > size
-        ? [el("nav", { className: "record-pager" }, back, next)]
-        : []),
-    );
-  };
-  draw();
-  return box;
-}
-/** Bars compare actual record amounts; no invented historical series. */
-function comparison(items, label, format = (value) => String(value)) {
-  const max = Math.max(0, ...items.map((i) => Math.abs(i.value)));
-  return el(
-    "div",
-    { className: "record-chart", role: "img", ariaLabel: label },
-    ...items.map((item) => {
-      const bar = el("span", { className: "record-bar" });
-      bar.style.width = `${max ? (Math.abs(item.value) / max) * 100 : 0}%`;
-      return el(
-        "div",
-        { className: "record-chart-line" },
-        el("span", { textContent: item.label }),
-        el("div", { className: "record-track" }, bar),
-        el("strong", { textContent: format(item.value) }),
-      );
-    }),
-  );
-}
 
 // ---- Menus ----
 const sheets = {
@@ -3496,39 +3197,6 @@ const sheets = {
       ),
     );
   },
-  async map() {
-    const m = await api("/api/map");
-    if (!m) return [];
-    const ns = "http://www.w3.org/2000/svg";
-    const svg = document.createElementNS(ns, "svg");
-    const [x0, y0, x1, y1] = m.bbox;
-    svg.setAttribute("viewBox", `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
-    svg.setAttribute("class", "gov-map");
-    const shape = (d, cls, title) => {
-      const el2 = document.createElementNS(ns, "path");
-      el2.setAttribute("d", d);
-      el2.setAttribute("class", cls);
-      if (title) {
-        const t = document.createElementNS(ns, "title");
-        t.textContent = title;
-        el2.append(t);
-      }
-      svg.append(el2);
-    };
-    if (m.state) shape(m.state.d, "state");
-    for (const c of m.counties) shape(c.d, "county", c.name);
-    const legend = [];
-    for (const [layer, district] of Object.entries(m.yours)) {
-      if (!district?.d) continue;
-      shape(
-        district.d,
-        `yours ${layer}`,
-        `${district.name}: ${district.holders.join(", ")}`,
-      );
-      legend.push(row(district.name, district.holders.join(" · ")));
-    }
-    return [listRow("map", {}, svg), ...legend];
-  },
   async handoff() {
     const people = [
       ...(me.card.home?.members ?? []).map((m) => ({
@@ -3561,13 +3229,13 @@ const sheets = {
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    const select = el("select");
-    select.setAttribute("aria-label", labels.budget);
-    for (const gov of view.governments)
-      select.append(el("option", { value: gov.id, textContent: gov.name }));
+    const pick = select({
+      options: view.governments.map((g) => ({ value: g.id, label: g.name })),
+      label: labels.budget,
+    });
     const content = el("section", { className: "budget-content" });
     const draw = () => {
-      const gov = view.governments.find((g) => g.id === select.value);
+      const gov = view.governments.find((g) => g.id === pick.value);
       content.replaceChildren();
       if (!gov?.latest) return;
       const latest = gov.latest;
@@ -3626,7 +3294,7 @@ const sheets = {
         [labels.revenue, latest.revenue],
         [labels.spending, latest.spending],
       ]) {
-        const chart = comparison(
+        const chart = barChart(
           lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
           roundedDollars,
@@ -3678,10 +3346,10 @@ const sheets = {
       view.governments.find((g) => g.level === level && g.latest),
     );
     const town = local.find(Boolean);
-    if (town) select.value = town.id;
-    select.addEventListener("change", draw);
+    if (town) pick.value = town.id;
+    pick.addEventListener("change", draw);
     draw();
-    return [select, content];
+    return [pick, content];
   },
   async calendar() {
     const { date: recordDate, items } = await api(
@@ -4169,73 +3837,6 @@ const sheets = {
     draw();
     return [...economy, outletPicker, paper];
   },
-  async law() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    // What the law in force puts on your own record.
-    const yours = me.card.lawEffects
-      .filter((e) => !e.endedOn)
-      .map((e) => row(policyLabel(e.question), `${e.what} · ${e.since}`));
-    return [
-      ...yours,
-      ...v.law.map((law) =>
-        listRow(
-          "narrative",
-          {},
-          termLabel(policyLabel(law.series)),
-          ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
-          el(
-            "div",
-            {},
-            ...law.levels
-              .filter((level) => level.row)
-              .map((level) =>
-                el("div", {
-                  textContent: `${lawLevelLabel(law, level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
-                }),
-              ),
-            ...law.pending.map((row) =>
-              el("div", {
-                textContent: `${lawLevelLabel(law, pendingLevel(law, row))} · ${row.effectiveDate} → ${amount(row.value, row.unit)}`,
-              }),
-            ),
-          ),
-        ),
-      ),
-    ];
-  },
-  async changes() {
-    const { ahead, took } = await api(
-      `/api/changes?id=${encodeURIComponent(me.id)}`,
-    );
-    // Enacted, waiting for its date: the measure, what it sets, and when.
-    const coming = ahead.map((law) =>
-      listRow(
-        "narrative",
-        {},
-        el("b", {
-          textContent: `${law.date} · ${policyLabel(law.series)} · ${amount(law.value, law.unit)}`,
-        }),
-        `${law.measure} · ${law.jurisdiction}`,
-      ),
-    );
-    return [
-      ...coming,
-      ...took.map((law) =>
-        listRow(
-          "narrative",
-          {},
-          el("b", {
-            textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
-          }),
-          [
-            `${law.jurisdiction} · ${law.reached}`,
-            ...(law.you ? [`${me.card?.name ?? ""}: ${law.you}`] : []),
-            ...law.names.map((n) => `${n.name}: ${n.what}`),
-          ].join(" · "),
-        ),
-      ),
-    ];
-  },
   /**
    * Politics' own guide: what each tab is for, a page each, then how a
    * player could run here, from the filing records: the race, the office
@@ -4305,47 +3906,13 @@ const sheets = {
           : [el("p", { textContent: labels.noRace })]),
       ),
     );
-    let at = 0;
-    const box = el("div", { className: "politics-guide" });
-    const draw = () => {
-      const back = el("button", {
-        type: "button",
-        textContent: controls.politics.back,
-        disabled: at === 0,
-      });
-      const forward = el("button", {
-        type: "button",
-        textContent: controls.politics.next,
-        disabled: at === pages.length - 1,
-      });
-      back.onclick = () => {
-        at--;
-        draw();
-      };
-      forward.onclick = () => {
-        at++;
-        draw();
-      };
-      box.replaceChildren(
-        pages[at],
-        el("nav", { className: "record-pager" }, back, forward),
-      );
-    };
-    draw();
-    return [box];
+    return [stepPages(pages, "politics-guide")];
   },
   async guide() {
-    const search = el("input", {
-      type: "search",
-      value: guideQuery,
-      placeholder: "Search",
-    });
     const list = el("div", { className: "flow" });
-    const fill = async () => {
-      guideQuery = search.value;
-      const rows = await api(
-        `/api/guide?q=${encodeURIComponent(search.value)}`,
-      );
+    const fill = async (query) => {
+      guideQuery = query;
+      const rows = await api(`/api/guide?q=${encodeURIComponent(query)}`);
       list.replaceChildren(
         ...rows.map((t) => {
           const line = listRow(
@@ -4360,8 +3927,12 @@ const sheets = {
         }),
       );
     };
-    search.addEventListener("input", fill);
-    await fill();
+    const search = searchBox({
+      value: guideQuery,
+      placeholder: controls.guide.search,
+      onInput: fill,
+    });
+    await fill(guideQuery);
     return [search, list];
   },
   async options() {
@@ -4376,11 +3947,11 @@ const sheets = {
       ),
     ];
     if (document.fullscreenEnabled) {
-      const fullScreen = el("input", {
-        type: "checkbox",
-        checked: Boolean(document.fullscreenElement),
+      const { line, box: fullScreen } = checkboxSetting({
+        label: labels.fullScreen,
+        checked: document.fullscreenElement,
+        testid: "options-fullscreen",
       });
-      fullScreen.dataset.testid = "options-fullscreen";
       const status = el("p", { role: "status", className: "option-status" });
       fullScreen.addEventListener("change", async () => {
         fullScreen.disabled = true;
@@ -4396,15 +3967,7 @@ const sheets = {
           fullScreen.disabled = false;
         }
       });
-      rows.push(
-        el(
-          "label",
-          { className: "option-setting" },
-          el("span", { textContent: labels.fullScreen }),
-          fullScreen,
-        ),
-        status,
-      );
+      rows.push(line, status);
     }
     const actions = el("div", { className: "acts options-actions" });
     const resume = makeButton({
@@ -4412,16 +3975,6 @@ const sheets = {
     });
     resume.addEventListener("click", closeSheet);
     actions.append(resume);
-    if (skipOpening) {
-      const skip = makeButton({
-        textContent: labels.skipOpening,
-      });
-      skip.addEventListener("click", () => {
-        closeSheet();
-        skipOpening?.();
-      });
-      actions.append(skip);
-    }
     const guide = makeButton({ textContent: labels.guide });
     guide.addEventListener("click", () => openSheet("guide"));
     actions.append(guide);
@@ -4668,14 +4221,14 @@ const sheets = {
             );
             if (first.presentation?.chamberUrl)
               card.append(
-                recordImage(
-                  first.presentation.chamberUrl,
-                  "government-chamber",
-                ),
+                picture({
+                  src: first.presentation.chamberUrl,
+                  className: "government-chamber",
+                }),
               );
             if (parties.size)
               card.append(
-                comparison(
+                barChart(
                   [...parties].map(([label, value]) => ({ label, value })),
                   labels.seats,
                 ),
@@ -4769,7 +4322,7 @@ const sheets = {
             for (const vote of first.votes ?? [])
               card.append(
                 el("h4", { textContent: vote.title }),
-                comparison(
+                barChart(
                   [
                     { label: labels.yes, value: vote.yes },
                     { label: labels.no, value: vote.no },
@@ -5008,10 +4561,7 @@ const titles = {
   options: "Options",
   guide: "Guide",
   politicsGuide: "Guide",
-  changes: "What changed",
-  law: "Law here",
   handoff: "Carry on as",
-  map: "Map",
   news: "News",
 };
 // Screens shown as tabs across the top of one menu screen.
@@ -5073,7 +4623,8 @@ async function openSheet(tab) {
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
   $("sheet-media").hidden = !character;
-  screenArtwork(
+  fillArtwork(
+    $("sheet-media"),
     character
       ? {
           portraitUrl:
@@ -5094,7 +4645,7 @@ async function openSheet(tab) {
   // the calendar, the people web and two-column readers fill the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "map", "who"].includes(tab) &&
+    !["calendar", "people", "who"].includes(tab) &&
       !$("sheet-body").classList.contains("cols"),
   );
   show("sheet", true);
@@ -5103,21 +4654,22 @@ async function openSheet(tab) {
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu. The player's portrait opens Who you are (owner, Oct 20 and 27).
+// the one menu, Who you are among them. The card under it shows only the date
+// and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 mountRail(
   $("rings"),
-  ["journal", "calendar", "money", "politics", "news", "people", "travel"],
+  [
+    "who",
+    "journal",
+    "calendar",
+    "money",
+    "politics",
+    "news",
+    "people",
+    "travel",
+  ],
   titles,
 );
-// The portrait is the way to Who you are: named from the screen's title, and a
-// key opens it as a click does.
-$("card-bust").title = titles.who;
-$("card-bust").setAttribute("aria-label", titles.who);
-$("card-bust").addEventListener("keydown", (event) => {
-  if (event.key !== "Enter" && event.key !== " ") return;
-  event.preventDefault();
-  $("card-bust").click();
-});
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
@@ -5741,36 +5293,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       await offerPlayAs(life);
       return;
     }
-    // Every picture the opening shows is loaded before it plays.
     const opening = await api(
       `/api/opening?id=${encodeURIComponent(life.personId)}`,
     );
-    const urls = [
-      ...new Set(
-        (opening?.frames ?? []).flatMap((frame) => [
-          frame.backdrop.url,
-          ...frame.people.map((person) => person.figureUrl),
-        ]),
-      ),
-    ];
-    let loaded = 0;
-    await Promise.all(
-      urls.map(
-        (src) =>
-          new Promise((resolve) => {
-            const img = new Image();
-            img.onload = img.onerror = () => {
-              loaded++;
-              bar.style.width = `${Math.round(((STEPS.length + loaded / urls.length) / (STEPS.length + 1)) * 100)}%`;
-              $("front-status").textContent =
-                `${controls.loading?.pictures ?? ""} ${loaded} / ${urls.length}`;
-              resolve();
-            };
-            img.src = src;
-          }),
-      ),
-    );
-    openingReady = opening;
     me = {
       id: life.personId,
       placeName: life.placeName,
@@ -5779,7 +5304,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       portrait: Boolean(person?.recipe),
     };
     show("front", false);
-    await playOpening();
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.
