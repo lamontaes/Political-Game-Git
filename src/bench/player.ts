@@ -297,6 +297,9 @@ export class BenchPlayer {
               ),
             },
           });
+          // This can be the run's first call into the core, which binds its
+          // clock to this character.
+          this.clockBound = true;
           continue;
         }
         if (packet && this.comesOfAgeStop(comesOfAge, began, from.date)) break;
