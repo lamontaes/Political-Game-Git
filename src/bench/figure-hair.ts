@@ -14,6 +14,7 @@ import index from "../../art/people-engine/v2/hair-on-figures/index.json" with {
 import faceIndex from "../../art/people-engine/v2/faces-on-figures/index.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
 import figures from "../../art/people-engine/v2/index.json" with { type: "json" };
+import backs from "../../art/people-engine/v2/figures-back.json" with { type: "json" };
 import { recolorFigure, type FigureColors, type Swatch } from "./figure-colors";
 
 /** Light to dark, then gray and white (presentation, TUNABLE by eye). */
@@ -240,9 +241,10 @@ const isBeard = (r: number, g: number, b: number) => {
   );
 };
 
+// Every figure the rooms draw: the set and the people seen from behind.
 const ROWS = new Map(
   (
-    figures.figures as {
+    [...figures.figures, ...backs.figures] as unknown as {
       file: string;
       sex: string;
       angle: string;

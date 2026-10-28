@@ -46,8 +46,7 @@ it(`every unemployment rate on the opening night names its scope, seed ${seed}`,
     const outside = regionOutsideState(regionOfPlace(placeId) ?? "");
     const scope = outside ? `outside ${possessive(outside)}` : area;
     const rate = /\bunemploy\w*\b.*\d/i;
-    const speech = opening.frames
-      .flatMap((frame) => frame.lines)
+    const speech = story.address.sentences
       .map((line) => line.text)
       .filter((text) => rate.test(text));
     const news = opening.news.stories
@@ -83,7 +82,7 @@ it(`every unemployment rate on the opening night names its scope, seed ${seed}`,
     // News's economy rows a week on, once the region has a month: the
     // region's rate under the same area.
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
-    const economy = economyView(core, placeId, world.playerId!);
+    const economy = economyView(core, placeId);
     expect(economy.region?.name, where).toBe(area);
     process.stdout.write(
       `opening unemployment scope: ${where}: President "${speech.join(" | ")}"; news "${news.join(" | ")}"; News row "${economy.region?.name}" on ${core.date}; passed over: ${tried.join("; ") || "none"}\n`,

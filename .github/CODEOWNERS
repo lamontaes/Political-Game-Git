@@ -9,6 +9,7 @@
 /src/core2/tooling/** @lamontaes
 /src/core2/types.ts @lamontaes
 /src/core2/state.ts @lamontaes
+/src/core2/appearance.ts @lamontaes
 /src/core2/parameters.ts @lamontaes
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes

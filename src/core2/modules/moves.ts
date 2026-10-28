@@ -132,6 +132,8 @@ interface Pull {
   webRecord?: string;
   /** At the opening: the pushes less the holds the opening pull was ranked by. */
   openingNet?: number;
+  /** Months to go at the opening, before their own pace: the most pushed have the fewest. */
+  openingMonths?: number;
 }
 
 function pullOf(api: CoreAPI, person: Readonly<PersonState>): Pull {
@@ -972,14 +974,29 @@ function accumulate(
  * been running for years) and the first to go are the ones their records
  * push hardest. Equal records stand at the same place.
  */
-function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
+function openingPulls(
+  api: CoreAPI,
+  adults: readonly PersonState[],
+  typical: ReadonlyMap<string, number>,
+): void {
   const zero = api.parameter("zero");
   const one = api.parameter("one");
   const seated = officeholders(api);
   const rows = adults
     .filter((person) => bandOf(api, person) && !seated.has(person.id))
-    .map((person) => ({ person, ...netFactor(api, person) }))
+    .map((person) => {
+      const band = bandOf(api, person)!;
+      const net = netFactor(api, person);
+      // How fast their pull will build each month once the town runs.
+      const gain =
+        (lifeStageRate(api, person, band) / api.parameter("monthsPerYear")) *
+        m(api, "movesLifeStageScale") *
+        (net.factor / (typical.get(band) ?? net.factor));
+      return { person, ...net, gain };
+    })
     .sort((a, b) => a.net - b.net);
+  const meanGain =
+    rows.reduce((total, row) => total + row.gain, zero) / (rows.length || one);
   const stay = m(api, "movesStayPull");
   let start = zero;
   while (start < rows.length) {
@@ -991,7 +1008,12 @@ function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
     for (let index = start; index <= end; index += one) {
       const row = rows[index]!;
       const pull = pullOf(api, row.person);
-      const opening = at * stay;
+      // The months to go are spread evenly with the records' push (the most
+      // pushed go first), the town's departures a year running at the rate
+      // its adults' ages give; the pull left to build is the months to go at
+      // this person's own pace, so a fast builder is not also nearer the bar.
+      const toGo = (one - at) * (row.gain / meanGain);
+      const opening = Math.max(zero, one - toGo) * stay;
       pull.value += opening;
       pull.causes = { ...pull.causes, opening };
       pull.reads = {
@@ -1004,6 +1026,7 @@ function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
           .sort(),
       };
       pull.openingNet = row.net;
+      pull.openingMonths = (one - at) / meanGain;
       savePull(api, pull);
     }
     start = end + one;
@@ -1251,7 +1274,7 @@ function monthlyReview(api: CoreAPI): void {
   const state = store(api).table("state").get("moves:state") as
     { id: string; openingRanked?: boolean } | undefined;
   if (state && !state.openingRanked) {
-    openingPulls(api, adults);
+    openingPulls(api, adults, typical);
     store(api)
       .table("state")
       .put({ ...state, openingRanked: true });
