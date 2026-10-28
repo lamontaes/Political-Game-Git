@@ -70,10 +70,18 @@ it(`a vacant cabinet post is refilled by the governor's weighing, seed ${seed}`,
     `${where}: ${after.id}`,
   ).toBeDefined();
   expect(weighed, `${where}: appointments.weigh ran`).toBeGreaterThan(0);
-  // The other posts keep their holders.
-  for (const row of before.slice(1))
-    expect(
-      appointmentsIn(api, state).find((a) => a.post === row.post)!.holderId,
-      where,
-    ).toBe(row.holderId);
+  // The other posts keep their holders while those holders still serve; a
+  // holder who died or left in the window (the world's own health and moves
+  // engines) is refilled the same way.
+  for (const row of before.slice(1)) {
+    const holder = core.people.get(row.holderId);
+    const now = appointmentsIn(api, state).find((a) => a.post === row.post)!;
+    if (holder?.alive && holder.placeId === state)
+      expect(now.holderId, `${where}: ${row.post}`).toBe(row.holderId);
+    else
+      expect(
+        now.holderId,
+        `${where}: ${row.post} lost its holder in the window`,
+      ).not.toBe(row.holderId);
+  }
 }, 900_000);
