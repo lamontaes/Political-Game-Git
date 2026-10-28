@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/old-engine-delete
-pr: #5797
+pr: #6659
 blocked-on:
 source: "core-needs-fixer-51 triage, Oct 15"
 claimed-at: 2026-10-28T17:50:29.121Z
