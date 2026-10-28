@@ -18,7 +18,7 @@ import {
   pickContest,
   type FilingVisit,
 } from "../director/filing-visit";
-import { backdropFile, stagePeople, type StageReason } from "./scene";
+import { backdropFor, stagePeople, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -40,7 +40,7 @@ export interface BenchFilingVisit {
   visit: FilingVisit;
   filedWith: string;
   place: string;
-  backdrop: ReturnType<typeof backdropFile>;
+  backdrop: ReturnType<typeof backdropFor>;
   people: ReturnType<typeof stagePeople>["people"];
   names: Record<string, string>;
   /**
@@ -248,7 +248,7 @@ export function openBenchFilingVisit(
           contests,
         )
       : [],
-    backdrop: backdropFile(place, minuteOfDay),
+    backdrop: backdropFor(core, place, minuteOfDay),
     people: stagePeople(core, place, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,

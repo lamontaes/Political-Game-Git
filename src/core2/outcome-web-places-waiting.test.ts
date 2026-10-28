@@ -1,11 +1,12 @@
 /**
- * The housing, transit, roads, parks and family links that wait, each with
- * the one reason it cannot reach a person's records yet
- * (web-reach-places-services). Each is on the unwired list under an open row
- * that names it, and the reason holds in the code: the web does not run it
- * because its cause is not recorded or it has no size, or it runs into an
- * outcome no engine reads. The day an engine names a cause or an outcome here, or a link
- * gets a size, this test fails and says to wire the link.
+ * The housing, transit, roads and family links that wait, each with the one
+ * reason it cannot reach a person's records yet (web-reach-places-services).
+ * Each is on the unwired list under an open row that names it, and the reason
+ * holds in the code: the web does not run it because its cause is not
+ * recorded or it has no size. The day an engine names a cause or an outcome
+ * here, or a link gets a size, this test fails and says to wire the link.
+ * (The parks link left this list when the rest act began reading it,
+ * src/core2/modules/life.ts.)
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -19,8 +20,6 @@ const WAITING: Readonly<
   Record<
     string,
     {
-      /** The web runs it, and only the outcome's reader is missing. */
-      readonly runs?: true;
       readonly waitingOn: readonly string[];
       readonly needsSize: boolean;
       /** Engine files that read the outcome; the link still moves nothing until it runs. */
@@ -51,12 +50,6 @@ const WAITING: Readonly<
   /** No engine records federal rail spending or intercity riders. */
   "federal-rail-expansion-to-riders": {
     waitingOn: ["federal.rail-expansion-pct"],
-    needsSize: false,
-  },
-  /** The web runs it from the city's parks line (gov-measures.ts), but no engine records access to exercise. */
-  "parks-spending-to-exercise-access": {
-    runs: true,
-    waitingOn: [],
     needsSize: false,
   },
 };
@@ -105,10 +98,9 @@ describe("places and services links that wait, and why", () => {
       ).find((one) => one.id === listed!.stopgapId)!;
       expect(row.status, row.id).toBe("open");
       expect(row.whatItFakes, row.id).toContain(key);
-      // The web does not run it, for these reasons and no others (or runs
-      // it into an outcome no engine reads).
+      // The web does not run it, for these reasons and no others.
       const coverage = linkCoverage(web);
-      expect(coverage.wired, key).toBe(want.runs === true);
+      expect(coverage.wired, key).toBe(false);
       expect(
         "waitingOn" in coverage ? [...coverage.waitingOn].sort() : [],
         `${key}: what it waits on`,
