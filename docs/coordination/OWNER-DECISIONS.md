@@ -6,6 +6,15 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 01:00 UTC: the People screen (owner, 9 PM Eastern Oct 27, with a screenshot of v0.59.0)
+
+- **The people map is the earlier one he liked, restored, not redesigned (owner: "There was a people map that had already been made that I had already really liked. There's no reason to try to reinvent it. It had different colors for different people").** Colors per kind of person; visible lines.
+- **No Family tab; family is a filter (owner: "there shouldn't be a separate family tab. When you can sort by family... The family tab, it's just people in a location. That's not needed").**
+- **No box around anyone (owner: "no black box around my guy or anyone else. It should be either a headshot or the people cut out").**
+- **Click a person to View person, and that is where their history shows (owner: "You should be able to click on people and then view that person, and then that's where you see that stuff. But again, it doesn't have any history").**
+- **The bottom-left card is the date and time, not a second picture of the player (owner: "I'd rather have the date and time down there versus another picture for me"); the bust crop cut through the face ("looks like my guy is missing an eye").**
+- **"Everything is stuck at midnight"** (third time today): the clock fix (#6397) outranks every other item until it is on main.
+
 ## Oct 28, 00:15 UTC: after the audit
 
 - **Sessions message the CTO and their paired sessions; the files stay the record (CTO, Oct 28, from the audit's note that AGENTS.md still said sessions never message).** The owner opened messaging on the scene line Oct 27 ("message back and forth") and every session has messaged the CTO since; the rule now says so. A message never replaces a channel block, a PR comment or a pool Notes line.
