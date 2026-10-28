@@ -103,6 +103,7 @@ def main():
         dp = ndimage.distance_transform_edt(lab != 2)
         near = np.where(rest & (dp <= 12), 2, near)                                      # the belt and waistband go with the pants
         own = {k: (regions[k] & keep) | (near == n) for n, k in enumerate(('shirt', 'pants', 'shoes'), 1)}
+        for k in ('pants', 'shoes'): own[k] &= ~((B.min(2) > 225) & (B.max(2) - B.min(2) < 18))   # background at the hem and between the shoes (the base shirt is white on purpose)
         info['parts']['body'] = save(keep & ~clothes & ~(near > 0), B, 'body')
         for part in ('shirt', 'pants', 'shoes'): info['parts'][f'{part}-1'] = save(own[part], B, f'{part}-1')
         for (part, i), (E, figE, ch, key) in edits.items():
@@ -116,6 +117,7 @@ def main():
                 if part == 'pants':                                                       # the belt Firefly left unpainted just above the green
                     g2 = ch & cell; top_g = np.where(g2.any(0), g2.argmax(0), FRAME[1])
                     m |= figE & ~warm(E) & (rows >= top_g[None, :] - 28) & (rows < top_g[None, :]) & cell & ndimage.binary_dilation(g2, iterations=28)   # runs up under the shirt, so no waist gap
+                m &= ~((E.min(2) > 225) & (E.max(2) - E.min(2) < 18))                  # background showing through a gap (between the calves under a skirt) is never part of a garment
                 m = ndimage.binary_opening(m, iterations=1)
                 if (ch & cell).sum() < 400: continue                                    # this figure's garment did not change (women-only pieces on the men)
                 ref = (regions[{'shoes': 'shoes', 'pants': 'pants'}.get(part, 'shirt')] & keep).sum()

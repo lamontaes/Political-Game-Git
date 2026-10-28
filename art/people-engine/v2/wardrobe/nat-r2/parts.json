@@ -1,0 +1,139 @@
+{
+ "sheet": "nat-r2",
+ "frame": [
+  1536,
+  1024
+ ],
+ "order": [
+  "body",
+  "pants",
+  "shoes",
+  "dress",
+  "shirt",
+  "tie",
+  "jacket",
+  "hair"
+ ],
+ "figures": {
+  "v2-nat-r2-f-slim": {
+   "box": [
+    250,
+    0,
+    540,
+    522
+   ],
+   "parts": {
+    "body": 6793,
+    "shirt-1": 15868,
+    "pants-1": 21996,
+    "shoes-1": 2524,
+    "shirt-3": 15020,
+    "shirt-4": 18162,
+    "jacket-1": 18548,
+    "jacket-2": 15105,
+    "jacket-4": 10164,
+    "jacket-5": 17748
+   }
+  },
+  "v2-nat-r2-f-medium": {
+   "box": [
+    623,
+    0,
+    931,
+    522
+   ],
+   "parts": {
+    "body": 7200,
+    "shirt-1": 19256,
+    "pants-1": 25756,
+    "shoes-1": 2699,
+    "shirt-3": 18283,
+    "shirt-4": 22068,
+    "jacket-1": 22641,
+    "jacket-2": 18023,
+    "jacket-4": 12462,
+    "jacket-5": 21775
+   }
+  },
+  "v2-nat-r2-f-heavy": {
+   "box": [
+    991,
+    0,
+    1327,
+    522
+   ],
+   "parts": {
+    "body": 8178,
+    "shirt-1": 32891,
+    "pants-1": 23778,
+    "shoes-1": 3037,
+    "shirt-3": 33099,
+    "shirt-4": 33713,
+    "jacket-1": 29993,
+    "jacket-2": 26278,
+    "jacket-4": 20521,
+    "jacket-5": 32926
+   }
+  },
+  "v2-nat-r2-m-slim": {
+   "box": [
+    244,
+    440,
+    555,
+    1024
+   ],
+   "parts": {
+    "body": 7088,
+    "shirt-1": 26377,
+    "pants-1": 17287,
+    "shoes-1": 3044,
+    "shirt-3": 25645,
+    "shirt-4": 25874,
+    "jacket-1": 23738,
+    "jacket-2": 19837,
+    "jacket-4": 16387,
+    "jacket-5": 25400
+   }
+  },
+  "v2-nat-r2-m-medium": {
+   "box": [
+    615,
+    440,
+    945,
+    1024
+   ],
+   "parts": {
+    "body": 7553,
+    "shirt-1": 31712,
+    "pants-1": 19274,
+    "shoes-1": 3454,
+    "shirt-3": 31270,
+    "shirt-4": 31522,
+    "jacket-1": 28523,
+    "jacket-2": 23852,
+    "jacket-4": 19920,
+    "jacket-5": 30386
+   }
+  },
+  "v2-nat-r2-m-heavy": {
+   "box": [
+    978,
+    440,
+    1340,
+    1024
+   ],
+   "parts": {
+    "body": 8500,
+    "shirt-1": 42230,
+    "pants-1": 21758,
+    "shoes-1": 3802,
+    "shirt-3": 41623,
+    "shirt-4": 41778,
+    "jacket-1": 38254,
+    "jacket-2": 31323,
+    "jacket-4": 28030,
+    "jacket-5": 40075
+   }
+  }
+ }
+}
