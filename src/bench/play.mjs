@@ -15,6 +15,7 @@ import {
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { headshot } from "./ui/headshot.mjs";
+import { districtMap, partyLegend } from "./ui/map.mjs";
 import { makeTab, tabBar } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -3327,16 +3328,52 @@ const sheets = {
     };
     return screen();
   },
+  /**
+   * Parties, illustrated: the state's map with the player's districts and
+   * town filled in the color of the party that holds each, a legend of the
+   * parties by seats, then each party's seats as person rows (owner, Oct
+   * 28, point 20: the map that once existed, brought back).
+   */
   async parties() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const [v, m] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api("/api/map"),
+    ]);
+    const labels = controls.politics;
+    const seatWords = (n) =>
+      `${n} ${n === 1 ? labels.seat : labels.seats.toLowerCase()}`;
+    // A district's hover title: its name and who holds it, by party; a
+    // district with no holder on record is its name alone.
+    const wordHolders = (district) =>
+      district.holders.length
+        ? `${district.name}: ${district.holders
+            .map((h) => (h.party ? `${h.name}, ${h.party}` : h.name))
+            .join("; ")}`
+        : district.name;
+    const parties = v.parties.map(({ party, seats }) => ({
+      party,
+      seats: seats.length,
+    }));
     return recordScreen({
+      controls: m
+        ? [districtMap(m, { wordHolders }), partyLegend(parties, seatWords)]
+        : [],
       grid: true,
       sections: v.parties.map(({ party, seats }) => ({
         title: party,
         items: [
-          { total: [String(seats.length), controls.politics.seats] },
           {
-            pages: seats.map((s) => ({ node: row(s.name, s.title) })),
+            pages: seats.map((s) => ({
+              node: personRow({
+                name: s.name,
+                detail: s.title,
+                face: s.face,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson({ personId: s.cardId, figureUrl: s.face?.url });
+                },
+              }),
+            })),
             size: 6,
           },
         ],

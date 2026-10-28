@@ -4127,3 +4127,69 @@ details.entry[open] {
 .row.seat-draft {
   justify-content: flex-start;
 }
+
+/* The districts map on Parties: the state, its counties, the player's own
+   districts and town, each district filled with the color of the party that
+   holds it; the legend's swatches use the same colors. */
+.gov-map {
+  display: block;
+  width: 100%;
+  max-height: 44vh;
+  margin: 0 0 12px;
+}
+.gov-map .state {
+  fill: var(--party, rgba(242, 237, 228, 0.06));
+  fill-opacity: 0.18;
+  stroke: var(--brass);
+  stroke-width: 0.4;
+}
+.gov-map .county {
+  fill: none;
+  stroke: rgba(242, 237, 228, 0.25);
+  stroke-width: 0.12;
+}
+.gov-map .yours {
+  fill: var(--party, rgba(214, 189, 132, 0.18));
+  fill-opacity: 0.55;
+  stroke: var(--gold);
+  stroke-width: 0.25;
+}
+.gov-map .yours.place {
+  fill: var(--gold);
+  fill-opacity: 1;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  font: 15px var(--ui);
+}
+.map-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  background: var(--party, var(--text-3));
+  vertical-align: -1px;
+}
+/* The parties' colors, by the party's name on the record. */
+.party-democratic {
+  --party: #3f6fb5;
+}
+.party-republican {
+  --party: #b9584a;
+}
+.party-independent,
+.party-unaffiliated,
+.party-nonpartisan {
+  --party: #8f8c86;
+}
+.party-libertarian {
+  --party: #c9a227;
+}
+.party-green {
+  --party: #4f8a4f;
+}
