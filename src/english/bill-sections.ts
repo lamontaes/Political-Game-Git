@@ -12,6 +12,7 @@
  * for a local measure. A law amount reads its new value in its unit, and a
  * raise from a lower one reads differently from a cut.
  */
+import { spokenDate } from "../core2/kernel/dates";
 import { properName } from "../director/words";
 import { spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
@@ -106,14 +107,6 @@ const fill = (template: string, slots: Record<string, string | number>) =>
   );
 const upperFirst = (text: string) =>
   text.charAt(0).toUpperCase() + text.slice(1);
-
-const longDate = (iso: string) =>
-  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 
 /** An amount of money as it is said: "$250", "$12.50". */
 export const dollars = (minor: number) =>
@@ -264,7 +257,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   const effective = eff
     ? fill(form.effective[date ? "date" : eff.kind], {
         days: eff.days ?? "",
-        date: date ? longDate(date) : "",
+        date: date ? spokenDate(date) : "",
       })
     : null;
   return {
