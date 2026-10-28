@@ -18,10 +18,10 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { lawChainForPlace } from "../laws-starting";
-import { LAWS_MODULE_ID, lawChain } from "../modules/laws";
+import { LAWS_MODULE_ID, lawChain, yesLevels } from "../modules/laws";
 import { coreAPI } from "../state";
 import type { ModuleRow } from "../module-data";
-import { mechanicRow, yesLevels } from "./group-a-records";
+import { mechanicRow } from "./group-a-records";
 import { LEAVE_KEY, paidLeave } from "./group-a-money";
 
 /** Places drawn (records only) and places built among them. */
@@ -76,7 +76,7 @@ it("a township-only paid-leave law selects the township treasury", () => {
           jurisdiction: township.jurisdiction,
           level: "township",
           series: LEAVE_KEY,
-          tier: "test",
+          tier: "general",
           value: 1,
           effectiveDate: api.state.date,
           endDate: null,

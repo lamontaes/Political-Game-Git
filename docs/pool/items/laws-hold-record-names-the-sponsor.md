@@ -5,12 +5,13 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/held-bill-names-sponsor
 pr:
 blocked-on:
 lead: laws-effects
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:57:53.360Z
 ---
 
 **What.** The committee record bill-held-in-committee (src/core2/modules/legislature.ts, committeeStage) lists the committee's members and chair but not the bill's sponsor, so the sponsor never meets the hold as a moment and no scene can be theirs. It also carries news false, so the paper never says a bill died without a hearing, and nothing reads the scene.reply that the sponsor-asks-chair scene writes, so a chair who says yes in the scene does not set a hearing. Add the sponsor to the record's personIds with a sponsorId fact, set news so the press engine can run a held-bill line, and have the chair's hold decision read a scene.reply of type bill-held-chair that agreed.

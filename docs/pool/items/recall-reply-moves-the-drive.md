@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/recall-reply-moves-drive
-pr:
+pr: #6495
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web executive pass (packet the-recall-petition)"
 lead: laws-effects
