@@ -34,6 +34,33 @@ People are built the way Reddit builds avatars: "it uses the same model, and all
 4. **Size the whole stack to the spot:** scale so the body's head width matches the spot's `headWidth`. All layers scale together.
 5. **Draw furniture in front** with the spot's `frontLine`.
 
+## Wiring the character creator (for the builder)
+
+Today's creator (`src/bench/appearance.ts`, `figure-hair.ts`, `figure-colors.ts`, `whole-figures.ts` on main) works like this:
+
+- **The look:** sex, build and one of four outfit sheets (base, shirt, vest, blazer), plus a color per garment.
+- **The drawing:** `drawnFigure(name, colors)` lays a face on the figure, recolors it, then scales hair painted on another figure onto it by head width. That scaling is the misfit the owner saw.
+
+The wardrobe replaces the outfit sheets with parts:
+
+1. **`LookRecipe`:**
+   - Add `pose` (default `nat-s1`) and a style number for each part: `shirtStyle` (1–6), `jacketStyle` (none or 1–5), `tie` (none or 1), `pantsStyle` (1–6), `shoesStyle` (1–6), `dress` (none or 1).
+   - Keep `outfit` as a preset: choosing it fills the style numbers from `outfits.json`.
+   - Colors stay as they are (skin, jacket, shirt, pants, shoes, hairColor). Add `tieColor` and `dressColor`.
+2. **`appearanceRows` and `moveAppearance`:**
+   - One arrow row per part: Top, Jacket, Tie, Bottoms, Shoes, plus Dress for women.
+   - Each row steps only through the numbers that figure has in `<pose>/parts.json`, and keeps its color row.
+   - Hair steps 1–12 (and bald). Its piece is `hair-<n>.png` of the same figure, never scaled from another figure.
+3. **Drawing:** a wardrobe path beside `drawnFigure`.
+   - Read `<pose>/parts.json` and take the figure `v2-<pose>-<f|m>-<build>`.
+   - Draw body, pants, shoes, dress, shirt, tie, jacket, hair at the figure's box. A dress hides shirt and pants.
+   - Recolor each layer as `stack.py dress()` does: garment pixels become color × (brightness ÷ the layer's 60th-percentile brightness); warm pixels take the skin swatch the same way. `figure-colors.ts` already has the swatches and the brightness recolor.
+4. **Faces:** the wardrobe bodies have their own painted faces. More faces come the same way as hair: face edits per pose, not patches fitted from other figures.
+5. **Rooms:** `figureOn` / `placeSeated` choose a wardrobe pose from the spot's tags using `index.json`, then draw with the same stack.
+   - Facing per sex: flip when the figure and spot point opposite ways.
+   - Seat and covered-by come from the spot.
+   - `tools/scene_people.py` sizes people (standing: the mannequin's full height; seated: head width × 1.18) and handles the front line.
+
 ## Making a pose (Firefly, about 32 jobs, 5–6 minutes on four tabs)
 
 1. **Base:** `__natBases(baseUrl)` edits the standing base into a natural pose, or use any existing base.
@@ -70,6 +97,6 @@ People are built the way Reddit builds avatars: "it uses the same model, and all
 
 ## Not done yet
 
-- **Wiring is not done.** No code yet uses `wardrobe/` in the character creator or in rooms; that's the people-in-rooms builder's job.
+- **Wiring is not done.** No code uses `wardrobe/` yet; the section above says where it plugs in.
 - **Missing pieces:** coats for winter, hats, uniforms (police, nurse, judge's robe), and more dresses and skirts.
 - **Out for scenes:** the four upright sitting sheets (37, 01, 70, 06) have marker and gray parts from before the green rule. They are stiff and shouldn't be used.
