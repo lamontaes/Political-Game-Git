@@ -107,6 +107,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 
    **Guards**
    - Run `npm run guards` on the merged result; `docs/design/guards.md` names the rule each guard holds. A count in a guard's list may only go down: a raised count is a send-back unless the PR names why the rule allows it.
+   - A PR that adds or changes a guard counted its baseline at its own head: merge main in and rerun `npm run guards` right before merging, or a merge that landed in between turns main red under the guard.
    - A change to a guard's allowlist, ceiling or skip list (`scripts/audit/*allowlist*`, `scripts/zero-dice-allowlist.json`, `AWAITING_READER_CEILING`, any test skip list) without the right category and a stated reason.
    - A file added to a bypass list to clear a red guard is always a send-back.
 

@@ -69,7 +69,8 @@ export const GUARDS: readonly Guard[] = [
     rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
     readMore:
       "src/core2/realistic-not-real.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Realistic not real",
-    command: vitest("src/core2/realistic-not-real.test.ts"),
+    // Two played worlds: its npm script gives it the heap it needs.
+    command: ["npm", "run", "-s", "zero-real-data"],
   },
   {
     id: "research-data-has-reader",
