@@ -3,12 +3,12 @@
   "summary": {
     "links": 244,
     "lawLinks": 134,
-    "webCoverageWired": 125,
+    "webCoverageWired": 124,
     "allEightPoints": 0,
-    "reachesOrCarried": 143,
+    "reachesOrCarried": 144,
     "namedInAStopgap": 116,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 143,
+    "reachesTheWorld": 144,
     "withAnyModerator": 23,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 143,
+        "pass": 144,
         "partial": 0,
-        "fail": 101,
+        "fail": 100,
         "n/a": 0
       },
       "varied": {
@@ -82,7 +82,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:579, src/core2/public-safety.ts:111"
+          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112"
         },
         "varied": {
           "status": "fail",
@@ -176,7 +176,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/public-safety.ts:104"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:105"
         },
         "varied": {
           "status": "fail",
@@ -222,7 +222,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:617, src/core2/public-safety.ts:97"
+          "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98"
         },
         "varied": {
           "status": "fail",
@@ -268,7 +268,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -315,7 +315,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:579, src/core2/modules/crime.ts:592, src/core2/public-safety.ts:117"
+          "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118"
         },
         "varied": {
           "status": "fail",
@@ -361,7 +361,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/public-safety.ts:129"
+          "evidence": "src/core2/public-safety.ts:130"
         },
         "varied": {
           "status": "fail",
@@ -755,7 +755,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1950"
+          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956"
         },
         "varied": {
           "status": "fail",
@@ -849,7 +849,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1960"
+          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966"
         },
         "varied": {
           "status": "fail",
@@ -896,7 +896,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:494, src/core2/modules/moves.ts:907"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:909"
         },
         "varied": {
           "status": "pass",
@@ -1326,7 +1326,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger energy.electricity-price, which src/core2/modules/place-prices.ts:1053, src/core2/modules/place-prices.ts:1140 reads into its own records"
+          "evidence": "web ledger energy.electricity-price, which src/core2/modules/place-prices.ts:1156, src/core2/modules/place-prices.ts:1243 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -1433,7 +1433,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/modules/counted-moves.ts:494, src/core2/modules/moves.ts:907",
+          "evidence": "outcome read by src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:909",
           "why": "the web does not run it: it waits on disaster.severe; nothing in the core records its cause, disaster.severe"
         },
         "varied": {
@@ -2268,7 +2268,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2825, src/core2/modules/jobs.ts:2834, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2865, src/core2/modules/jobs.ts:2887, src/core2/modules/jobs.ts:2889"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
         },
         "varied": {
           "status": "fail",
@@ -2996,7 +2996,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:1092 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:1195 reads into its own records"
         },
         "size": {
           "status": "partial",
@@ -3252,7 +3252,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -3341,7 +3341,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.new-large-buildings, which src/core2/housing-construction.ts:278 reads into its own records"
+          "evidence": "web ledger housing.new-large-buildings, which src/core2/housing-construction.ts:302 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3397,7 +3397,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-construction.ts:283"
+          "evidence": "src/core2/housing-construction.ts:307"
         },
         "varied": {
           "status": "fail",
@@ -3444,7 +3444,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:496, src/core2/modules/moves.ts:912"
+          "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914"
         },
         "varied": {
           "status": "pass",
@@ -3491,7 +3491,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/housing-homeless.ts:389",
+          "evidence": "outcome read by src/core2/housing-homeless.ts:404",
           "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -3531,7 +3531,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:715, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3579,7 +3579,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:715, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3636,7 +3636,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:343, src/core2/births-counted.ts:346, src/core2/births-counted.ts:775, src/core2/births-plan.ts:228"
+          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -3682,7 +3682,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:343, src/core2/births-counted.ts:346, src/core2/births-counted.ts:775, src/core2/births-plan.ts:228"
+          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -3818,7 +3818,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:1092 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:1195 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3867,7 +3867,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:1092 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:1195 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -3875,7 +3875,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2823, src/core2/modules/jobs.ts:2832"
+          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871"
         },
         "varied": {
           "status": "pass",
@@ -3921,7 +3921,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1779"
+          "evidence": "src/core2/modules/jobs.ts:1818"
         },
         "varied": {
           "status": "pass",
@@ -4067,7 +4067,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:343, src/core2/births-counted.ts:346, src/core2/births-counted.ts:775, src/core2/births-plan.ts:228"
+          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -4211,7 +4211,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/births-counted.ts:343, src/core2/births-counted.ts:346, src/core2/births-counted.ts:775, src/core2/births-plan.ts:228",
+          "evidence": "outcome read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
           "why": "the web does not run it: it waits on program.child-benefit-dollars; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
@@ -4261,7 +4261,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/births-counted.ts:343, src/core2/births-counted.ts:346, src/core2/births-counted.ts:775, src/core2/births-plan.ts:228",
+          "evidence": "outcome read by src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
           "why": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -4408,7 +4408,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:343, src/core2/births-counted.ts:346, src/core2/births-counted.ts:775, src/core2/births-plan.ts:228"
+          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "pass",
@@ -4550,7 +4550,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2822, src/core2/modules/jobs.ts:2831"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
         },
         "varied": {
           "status": "fail",
@@ -4597,7 +4597,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -5755,7 +5755,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-construction.ts:278"
+          "evidence": "src/core2/housing-construction.ts:302"
         },
         "varied": {
           "status": "fail",
@@ -5802,7 +5802,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/health.ts:715, src/core2/modules/moves.ts:78"
+          "evidence": "src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79"
         },
         "varied": {
           "status": "fail",
@@ -5849,7 +5849,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:389"
+          "evidence": "src/core2/housing-homeless.ts:404"
         },
         "varied": {
           "status": "fail",
@@ -6040,7 +6040,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2822, src/core2/modules/jobs.ts:2831"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
         },
         "varied": {
           "status": "fail",
@@ -6087,7 +6087,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:72"
+          "evidence": "src/core2/modules/place-prices.ts:174"
         },
         "varied": {
           "status": "fail",
@@ -6229,7 +6229,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:1053, src/core2/modules/place-prices.ts:1140"
+          "evidence": "src/core2/modules/place-prices.ts:1156, src/core2/modules/place-prices.ts:1243"
         },
         "varied": {
           "status": "fail",
@@ -6324,7 +6324,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:73"
+          "evidence": "src/core2/modules/place-prices.ts:175"
         },
         "varied": {
           "status": "fail",
@@ -6465,7 +6465,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2825, src/core2/modules/jobs.ts:2834, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2865, src/core2/modules/jobs.ts:2887, src/core2/modules/jobs.ts:2889"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
         },
         "varied": {
           "status": "fail",
@@ -6560,7 +6560,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:72"
+          "evidence": "src/core2/modules/place-prices.ts:174"
         },
         "varied": {
           "status": "fail",
@@ -6702,7 +6702,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:389"
+          "evidence": "src/core2/housing-homeless.ts:404"
         },
         "varied": {
           "status": "fail",
@@ -6749,7 +6749,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2824, src/core2/modules/jobs.ts:2833, src/core2/modules/jobs.ts:2853"
+          "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892"
         },
         "varied": {
           "status": "pass",
@@ -7083,7 +7083,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -7458,7 +7458,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:579, src/core2/public-safety.ts:111"
+          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112"
         },
         "varied": {
           "status": "fail",
@@ -7645,7 +7645,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:343, src/core2/births-counted.ts:346, src/core2/births-counted.ts:775, src/core2/births-plan.ts:228"
+          "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229"
         },
         "varied": {
           "status": "fail",
@@ -7692,7 +7692,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -7786,7 +7786,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -7833,7 +7833,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8069,7 +8069,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8116,7 +8116,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8211,7 +8211,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -8258,7 +8258,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -8448,7 +8448,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8591,7 +8591,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:389"
+          "evidence": "src/core2/housing-homeless.ts:404"
         },
         "varied": {
           "status": "fail",
@@ -8638,7 +8638,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:389"
+          "evidence": "src/core2/housing-homeless.ts:404"
         },
         "varied": {
           "status": "partial",
@@ -8685,7 +8685,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:389"
+          "evidence": "src/core2/housing-homeless.ts:404"
         },
         "varied": {
           "status": "fail",
@@ -8732,7 +8732,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8779,7 +8779,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8826,7 +8826,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8920,7 +8920,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -9498,7 +9498,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1780"
+          "evidence": "src/core2/modules/jobs.ts:1819"
         },
         "varied": {
           "status": "pass",
@@ -9591,7 +9591,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:1092"
+          "evidence": "src/core2/modules/place-prices.ts:1195"
         },
         "varied": {
           "status": "pass",
@@ -9733,7 +9733,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:494, src/core2/modules/moves.ts:907"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:909"
         },
         "varied": {
           "status": "fail",
@@ -9780,7 +9780,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:494, src/core2/modules/moves.ts:907"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:909"
         },
         "varied": {
           "status": "fail",
@@ -9827,7 +9827,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:494, src/core2/modules/moves.ts:907"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:909"
         },
         "varied": {
           "status": "fail",
@@ -9874,7 +9874,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:494, src/core2/modules/moves.ts:907"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:909"
         },
         "varied": {
           "status": "fail",
@@ -9921,7 +9921,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:494, src/core2/modules/moves.ts:907"
+          "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:909"
         },
         "varied": {
           "status": "fail",
@@ -10112,7 +10112,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:1087, src/core2/modules/place-prices.ts:1144"
+          "evidence": "src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247"
         },
         "varied": {
           "status": "fail",
@@ -10255,7 +10255,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1780"
+          "evidence": "src/core2/modules/jobs.ts:1819"
         },
         "varied": {
           "status": "fail",
@@ -10399,7 +10399,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through transit-service-to-ridership: src/core2/modules/place-prices.ts:1087, src/core2/modules/place-prices.ts:1144"
+          "evidence": "through transit-service-to-ridership: src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247"
         },
         "varied": {
           "status": "fail",
@@ -10543,7 +10543,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/modules/jobs.ts:1780",
+          "evidence": "outcome read by src/core2/modules/jobs.ts:1819",
           "why": "the web does not run it: it waits on federal.defense-boost-pct"
         },
         "varied": {
@@ -10641,7 +10641,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:1087, src/core2/modules/place-prices.ts:1144"
+          "evidence": "src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247"
         },
         "varied": {
           "status": "fail",
@@ -10737,7 +10737,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:1098"
+          "evidence": "src/core2/modules/place-prices.ts:1201"
         },
         "varied": {
           "status": "fail",
@@ -11591,7 +11591,7 @@
       "to": "household.food-insecurity",
       "causeKind": "engine",
       "lawLink": false,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -11602,9 +11602,8 @@
           "evidence": "data/research/outcome-web/links.json:6413 size -0.00148, range [-0.00185, -0.00111], Nord and Prell 2011, USDA ERS Amber Waves (June 13, 2011) \"Food Security of SNAP Recipients Improved Following the 2009 Stimulus Package\" and Economic Research Report 116; Nord 2013, USDA ERS Amber Waves (October 24, 2013) \"Effects of Changes in SNAP Benefits on Food Security\" (ERR-151); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 2"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.snap-maximum-change-pct"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
         },
         "varied": {
           "status": "fail",
@@ -11630,8 +11629,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-household-food-insecurity"
+      "wiredPoints": 5,
+      "stopgap": "SG-WEB-food-insecurity-ledger"
     },
     {
       "key": "health-hospitals-spending-to-infant-mortality",
@@ -11647,7 +11646,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6456 size -0.00685, range [-0.00856, -0.00514], Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3"
+          "evidence": "data/research/outcome-web/links.json:6457 size -0.00685, range [-0.00856, -0.00514], Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3"
         },
         "reaches": {
           "status": "pass",
@@ -11664,7 +11663,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6456 lag 9 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6457 lag 9 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11694,7 +11693,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6500 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
+          "evidence": "data/research/outcome-web/links.json:6501 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
         },
         "reaches": {
           "status": "fail",
@@ -11712,7 +11711,7 @@
         },
         "timing": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6500 lag 0, phase-in 24, fade none"
+          "evidence": "data/research/outcome-web/links.json:6501 lag 0, phase-in 24, fade none"
         },
         "knowing": {
           "status": "fail",
@@ -11741,7 +11740,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6546",
+          "evidence": "data/research/outcome-web/links.json:6547",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -11760,7 +11759,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6546 lag 0 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6547 lag 0 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11790,7 +11789,7 @@
     {
       "measure": "births.rate",
       "status": "engine-reads-web",
-      "evidence": "src/core2/births-counted.ts:343, src/core2/births-counted.ts:346, src/core2/births-counted.ts:775, src/core2/births-plan.ts:228",
+      "evidence": "src/core2/births-counted.ts:351, src/core2/births-counted.ts:354, src/core2/births-counted.ts:784, src/core2/births-plan.ts:229",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11815,7 +11814,7 @@
     {
       "measure": "broadband.home-access",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:1092",
+      "evidence": "src/core2/modules/place-prices.ts:1195",
       "countedTwice": false,
       "asCause": [
         "home-internet-to-scores",
@@ -11923,7 +11922,7 @@
     {
       "measure": "crime.assault",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:617, src/core2/public-safety.ts:97",
+      "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-assault", "crime-level-to-assault"]
@@ -11931,7 +11930,7 @@
     {
       "measure": "crime.burglary",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:579, src/core2/public-safety.ts:111",
+      "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-burglary", "crime-level-to-burglary"]
@@ -11968,7 +11967,7 @@
     {
       "measure": "crime.property",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:579, src/core2/modules/crime.ts:592, src/core2/public-safety.ts:117",
+      "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-property-crime"]
@@ -12006,7 +12005,7 @@
     {
       "measure": "crime.robbery",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:605, src/core2/public-safety.ts:104",
+      "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:105",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-robbery", "crime-level-to-robbery"]
@@ -12023,7 +12022,7 @@
     {
       "measure": "crime.violent",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:605, src/core2/modules/crime.ts:617, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105",
+      "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12142,7 +12141,7 @@
     {
       "measure": "energy.electricity-price",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:1053, src/core2/modules/place-prices.ts:1140",
+      "evidence": "src/core2/modules/place-prices.ts:1156, src/core2/modules/place-prices.ts:1243",
       "countedTwice": false,
       "asCause": ["energy-price-to-ac-use"],
       "asOutcome": ["clean-electricity-to-price"]
@@ -12159,7 +12158,7 @@
     {
       "measure": "env.container-recycling-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:73",
+      "evidence": "src/core2/modules/place-prices.ts:175",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["container-deposit-to-recycling"]
@@ -12176,7 +12175,7 @@
     {
       "measure": "env.emissions",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:72",
+      "evidence": "src/core2/modules/place-prices.ts:174",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12621,7 +12620,7 @@
     {
       "measure": "health.youth-firearm-deaths",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1950",
+      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["child-access-law-to-youth-gun-deaths"]
@@ -12629,7 +12628,7 @@
     {
       "measure": "health.youth-firearm-suicide",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1960",
+      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["min-age-to-youth-gun-suicide"]
@@ -12717,7 +12716,7 @@
     {
       "measure": "housing.eviction",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/health.ts:715, src/core2/modules/moves.ts:78",
+      "evidence": "src/core2/modules/health.ts:726, src/core2/modules/moves.ts:79",
       "countedTwice": false,
       "asCause": ["eviction-to-homelessness", "eviction-to-hospital-visits"],
       "asOutcome": [
@@ -12739,7 +12738,7 @@
     {
       "measure": "housing.homelessness",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-homeless.ts:389",
+      "evidence": "src/core2/housing-homeless.ts:404",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12764,7 +12763,7 @@
     {
       "measure": "housing.new-large-buildings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-construction.ts:278",
+      "evidence": "src/core2/housing-construction.ts:302",
       "countedTwice": false,
       "asCause": ["new-apartments-to-nearby-rent"],
       "asOutcome": ["housing-by-right-to-new-buildings"]
@@ -12796,7 +12795,7 @@
     {
       "measure": "housing.rental-supply",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-construction.ts:283",
+      "evidence": "src/core2/housing-construction.ts:307",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-rental-supply"]
@@ -12804,7 +12803,7 @@
     {
       "measure": "housing.renter-moves",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:496, src/core2/modules/moves.ts:912",
+      "evidence": "src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-tenant-stays"]
@@ -12857,7 +12856,7 @@
     {
       "measure": "justice.low-level-arrests",
       "status": "engine-reads-web",
-      "evidence": "src/core2/public-safety.ts:129",
+      "evidence": "src/core2/public-safety.ts:130",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-low-level-arrests"]
@@ -12950,7 +12949,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2825, src/core2/modules/jobs.ts:2834, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2865, src/core2/modules/jobs.ts:2887, src/core2/modules/jobs.ts:2889",
+      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12961,7 +12960,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2823, src/core2/modules/jobs.ts:2832",
+      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -12969,7 +12968,7 @@
     {
       "measure": "labor.median-earnings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1780",
+      "evidence": "src/core2/modules/jobs.ts:1819",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13005,7 +13004,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2822, src/core2/modules/jobs.ts:2831",
+      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13016,7 +13015,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2824, src/core2/modules/jobs.ts:2833, src/core2/modules/jobs.ts:2853",
+      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -13075,7 +13074,7 @@
     {
       "measure": "labor.wages",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1779",
+      "evidence": "src/core2/modules/jobs.ts:1818",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13192,7 +13191,7 @@
     {
       "measure": "population.out-migration",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:494, src/core2/modules/moves.ts:907",
+      "evidence": "src/core2/modules/counted-moves.ts:504, src/core2/modules/moves.ts:909",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13542,7 +13541,7 @@
     {
       "measure": "traffic.vehicle-miles",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:1098",
+      "evidence": "src/core2/modules/place-prices.ts:1201",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["mileage-fee-to-vehicle-miles"]
@@ -13550,7 +13549,7 @@
     {
       "measure": "transit.ridership",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:1087, src/core2/modules/place-prices.ts:1144",
+      "evidence": "src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13598,7 +13597,7 @@
     {
       "measure": "voting.turnout-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/turnout-web.ts:65",
+      "evidence": "src/core2/turnout-web.ts:66",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
