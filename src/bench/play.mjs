@@ -3475,38 +3475,6 @@ const sheets = {
       }),
     ];
   },
-  async family() {
-    const members = await api(`/api/family?id=${encodeURIComponent(me.id)}`);
-    return members
-      .filter((m) => m.name)
-      .map((m) => {
-        const card = makeCard("family-card", {});
-        if (m.backdrop) {
-          const pic = el(
-            "div",
-            { className: "family-pic" },
-            el("img", { src: m.backdrop, alt: "" }),
-          );
-          if (m.figureUrl)
-            pic.append(
-              el("img", {
-                className: "family-figure",
-                src: m.figureUrl,
-                alt: m.name,
-              }),
-            );
-          card.append(pic);
-        }
-        card.append(
-          el("b", { textContent: m.name }),
-          el("div", {
-            textContent: `${m.relation ? `${m.relation} · ` : ""}${m.age}${m.alive === false ? " · †" : ""}`,
-          }),
-          el("div", { textContent: m.place ? `${m.place} · ${m.doing}` : "" }),
-        );
-        return card;
-      });
-  },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
@@ -4950,7 +4918,6 @@ const titles = {
   issues: "Issues",
   calendar: "Calendar",
   budgets: "Budgets",
-  family: "Family",
   travel: "Travel",
   options: "Options",
   guide: "Guide",
@@ -4972,7 +4939,6 @@ const groups = {
     "budgets",
     "politicsGuide",
   ],
-  people: ["people", "family"],
   who: ["who", "jobs"],
 };
 const groupOf = (tab) =>
@@ -5042,7 +5008,7 @@ async function openSheet(tab) {
   // the calendar, the people web and two-column readers fill the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "family", "map", "who"].includes(tab) &&
+    !["calendar", "people", "map", "who"].includes(tab) &&
       !$("sheet-body").classList.contains("cols"),
   );
   show("sheet", true);

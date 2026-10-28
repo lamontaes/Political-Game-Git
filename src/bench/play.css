@@ -1699,45 +1699,6 @@ body.dev .dev-ring {
   margin: 0;
 }
 
-/* Family: each member where they are now. */
-#sheet-body:has(.family-card) {
-  max-width: none;
-  columns: 4 220px;
-}
-.family-card {
-  font-size: 12.5px;
-  margin-bottom: 16px;
-}
-.family-card b {
-  display: block;
-  font: 800 14px var(--name);
-  letter-spacing: 0.05em;
-}
-.family-card div {
-  color: var(--text-2);
-}
-.family-pic {
-  position: relative;
-  aspect-ratio: 1672 / 941;
-  overflow: hidden;
-  border: 1px solid rgba(214, 189, 132, 0.3);
-  margin-bottom: 6px;
-}
-.family-pic img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.family-pic img.family-figure {
-  left: 30%;
-  width: 40%;
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom;
-}
-
 /* The map of who represents you. */
 #sheet-body:has(.map) {
   max-width: none;
