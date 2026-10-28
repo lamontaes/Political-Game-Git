@@ -20,9 +20,6 @@ import {
   type PollingVisit,
 } from "../director/polling-place";
 
-// Spec interrupt line, shown on screen; the director owns the stop itself.
-export const INTERRUPT_LINE = 0.5;
-
 type ChoicePacket = Extract<PlayerPacketV1, { kind: "choice" }>;
 const compareMoments = (a: PlayerMomentV1, b: PlayerMomentV1) =>
   a.date < b.date ? -1 : a.date > b.date ? 1 : a.minuteOfDay - b.minuteOfDay;

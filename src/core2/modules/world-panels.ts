@@ -44,13 +44,6 @@ export function regionPanel(api: CoreAPI, placeId: string) {
   };
 }
 
-/** One person's job history: every change with its reason and who decided it. */
-export function jobHistory(api: CoreAPI, personId: string) {
-  return has(api, "jobs")
-    ? api.moduleState("jobs").table("changes").query("byPerson", [personId])
-    : [];
-}
-
 /**
  * The town's own labor market today: its residents at work and looking, a
  * counted resident standing for its household's weight and a full person for

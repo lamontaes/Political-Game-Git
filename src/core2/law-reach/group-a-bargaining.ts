@@ -10,7 +10,11 @@
  * stops the next contract; pay already raised stays.
  */
 import data from "../data/laws/public-bargaining.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  makeIsoDate,
+  daysBetweenText as daysBetween,
+} from "../kernel/dates";
 import {
   budgetsOf,
   fiscalYearOf,
@@ -38,9 +42,6 @@ const UNITS = data.units as Readonly<Record<string, { line: string }>>;
 const ABOVE = data.levelsUp as readonly string[];
 const RETRY_DAYS = 7;
 const SEASON_DAYS = 120;
-const daysBetween = (from: string, to: string) =>
-  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-  86_400_000;
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
 
 /** The government that pays a unit's line: the employer's own level, else the nearest above that budgets it. */
