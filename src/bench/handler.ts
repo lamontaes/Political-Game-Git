@@ -43,9 +43,7 @@ import {
   meetingItem,
   meetingSpeak,
   meetingSceneView,
-  officeStops,
   colleagueDeal,
-  interviewOutlet,
   nameHeadPick,
   budgetLinePick,
   officeView,
@@ -837,32 +835,6 @@ export async function benchRequest(
         send(200, officeView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
-      if (request.method === "POST" && url.pathname === "/api/office/stops") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        officeStops(
-          requireCore(),
-          player.personId,
-          url.searchParams.get("kind") ?? "",
-          url.searchParams.get("on") === "true",
-        );
-        send(200, officeView(requireCore(), player.personId));
-        return;
-      }
-      if (
-        request.method === "POST" &&
-        url.pathname === "/api/office/interview-outlet"
-      ) {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          interviewOutlet(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("outletId") ?? "",
-          ),
-        );
-        return;
-      }
       if (
         request.method === "POST" &&
         url.pathname === "/api/office/name-head-pick"
@@ -1308,13 +1280,18 @@ export async function benchRequest(
         send(
           200,
           date && player?.personId
-            ? electionDay(
-                requireCore(),
-                player.personId,
-                visit ?? null,
-                canvassedOn.has(`${player.personId}|${date}`),
-                date,
-              )
+            ? {
+                ...electionDay(
+                  requireCore(),
+                  player.personId,
+                  visit ?? null,
+                  canvassedOn.has(`${player.personId}|${date}`),
+                  date,
+                ),
+                // The card shows election morning, not the midnight the
+                // clock stopped at to ask.
+                at: { date, minuteOfDay: player.dayStartMinute() },
+              }
             : null,
         );
         return;
