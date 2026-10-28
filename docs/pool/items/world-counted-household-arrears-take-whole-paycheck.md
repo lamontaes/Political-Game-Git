@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/arrears-paycheck
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T00:15:48.853Z
+claimed-at:
 ---
 
 **What.** M0-13's 'pay reaches a spendable account' reads 7 of 42 people paid in the last month with no cash at the end in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4); the other two drawn places pass it. The pay does reach them (0 of 665 paychecks failed to raise cash). One is a legitimate departure: person_1f0bfb6557f8ebe2 moved away on 2026-01-16 and mover-departure took 759,852 minor units. The other six are filled-in counted households: for example person_4470e4e4584d4139 was paid 17,941 on 2026-01-12, 1,372 was withheld, and residents:outside-living:household_47910ceefee0e58a took 16,569 the same day; person_5e422385823e7a3d was paid 50,160 on 2025-12-11, 4,567 withheld, and residents:outside-living:household_35c3b0eef4a8dea6 took 45,593 that day and again on 2025-12-25; person_a0a4eb96a5ecacdb was paid 31,830 on 2026-01-05 after a 61,986 outside-living and a 61,989 mortgage payment on 2026-01-01. Cause located to the flow, not yet to its sizing: src/core2/modules/residents.ts:968-980 carries a household's unpaid living cost as arrears and asks again every day (requested = base + arrearsMinor), so each wage is swept by the household's arrears the day it arrives; the household's living cost is larger than its income, so the arrears never clear and it holds no cash.
