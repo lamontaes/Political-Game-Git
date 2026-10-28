@@ -44,7 +44,6 @@
   "src/districts/members-per-district.test.ts",
   "tests/character-components-validation.test.ts",
   "tests/core-opening-org-profile.test.ts",
-  "tests/data-tables.test.ts",
   "tests/fixtures/synthetic-cohort.ts",
   "tests/garment-fit-measure.test.ts",
   "tests/garment-fit-row-correspondence.test.ts",
