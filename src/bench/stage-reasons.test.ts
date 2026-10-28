@@ -14,7 +14,6 @@ import { buildBenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
 import { benchScene, stagePeople, type BenchScenePerson } from "./scene";
 import { storyScene } from "./story";
-import { answerJobOffer, jobsView } from "./jobs";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 
@@ -114,10 +113,6 @@ describe("people in a room", () => {
           );
         }
         if (packet.kind === "stop") {
-          for (const offer of (
-            jobsView(core, me) as { offers?: { id: string }[] }
-          ).offers ?? [])
-            answerJobOffer(core, me, offer.id, "decline");
           if (player.pollingPlace) player.leavePolls();
           r = player.resume({ kind: "stop", pauseId: packet.pauseId! });
         } else if (packet.kind === "choice") {
