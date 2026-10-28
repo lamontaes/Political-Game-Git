@@ -494,30 +494,32 @@
     "tenure": "Tenure",
     "owned": "Owned",
     "rented": "Rented",
-    "value": "Value",
     "rent": "Rent",
     "monthly": "per month",
     "deductions": "Paycheck deductions",
     "lastMonth": "Last month",
-    "monthHousing": "Home costs",
-    "monthEveryday": "Everyday living",
-    "monthPaid": "Paid",
-    "monthUnpaid": "Left unpaid",
     "loanPayments": "Loan payments",
-    "loanDue": "due",
     "loanPaid": "paid",
-    "bank": "Bank",
-    "householdSavings": "Household savings",
-    "bankBooks": "Bank books",
-    "bankCash": "Bank cash",
-    "businessLoans": "Business loans",
-    "householdLoans": "Household loans",
-    "mortgages": "Mortgages",
-    "totalAssets": "Total assets",
-    "depositsOwed": "Deposits owed",
-    "mortgageFunding": "Mortgage funding",
-    "bankEquity": "Bank equity",
-    "liabilitiesAndEquity": "Liabilities and equity"
+    "unpaid": "left unpaid",
+    "pastDue": "past due",
+    "cashByMonth": "Cash at each month’s review",
+    "assets": "What you own",
+    "assetKinds": {
+      "savings": "Savings",
+      "home": "Your home"
+    },
+    "debts": "What you owe",
+    "debtKinds": {
+      "personal": "Personal loan",
+      "startup": "Startup loan",
+      "mortgage": "Mortgage"
+    },
+    "reasons": {
+      "household.rent": "Rent",
+      "household.mortgage": "Mortgage payment",
+      "household.everyday-living": "Everyday living",
+      "household-purchase": "Purchases"
+    }
   },
   "localRaces": {
     "title": "Local races on the ballot",
