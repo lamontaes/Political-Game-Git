@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/scene-narration-once.test.ts,src/director/scene.ts,data/english
 
-**Notes.** Filed by wire-people-and-director (Oct 28). Read: OWNER-DECISIONS (Oct 28), the engine map line 12; searched the pool for narration-once, lead, opener.
+**Notes.** Twin of `tests-journal-margin-and-narration-once-flaky-on-drawn-seeds` (found after filing); the evidence is in that item. CTO: drop this one. Filed by wire-people-and-director (Oct 28). Read: OWNER-DECISIONS (Oct 28), the engine map line 12; searched the pool for narration-once, lead, opener.
