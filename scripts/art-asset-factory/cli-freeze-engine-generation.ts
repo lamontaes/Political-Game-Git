@@ -6,7 +6,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { computeCharacterGenerationSignature } from "../../src/presentation/character-components";
+import { computeCharacterGenerationSignature } from "../../src/appearance/character-components";
 
 const [pack, generationArg] = process.argv.slice(2);
 if (!pack || !generationArg) throw new Error("usage: <pack> <generation>");

@@ -1,7 +1,6 @@
 /** The guard's world preparation (scripts/core2-guard/month.mjs), with a chosen start date. */
 import { ageOnDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
-import { buildDeepPast } from "../deep-past";
 import { initialFocusPeople } from "../focus";
 import { parameter } from "../parameters";
 import { buildPopulation } from "../population";
@@ -20,7 +19,7 @@ export function prepareWorldAt(options: {
     openingEmployment: true,
     scheduledWork: true,
   });
-  let input = enrichCivicInputs(buildDeepPast(population));
+  let input = enrichCivicInputs(population);
   const player = input.people
     .filter(
       (person) =>

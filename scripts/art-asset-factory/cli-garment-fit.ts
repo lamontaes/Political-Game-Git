@@ -3,7 +3,7 @@ import path from "path";
 import prettier from "prettier";
 
 import assetManifest from "../../art/manifest/asset_manifest.json";
-import type { CharacterComponentDefinition } from "../../src/presentation/character-components";
+import type { CharacterComponentDefinition } from "../../src/appearance/character-components";
 import {
   GARMENT_FIT_AFFINE_DERIVATION,
   GARMENT_FIT_BANK_SCHEMA,
@@ -13,7 +13,7 @@ import {
   type GarmentFitClass,
   type GarmentFitGarmentData,
   type GarmentFitProfileData,
-} from "../../src/presentation/garment-fit";
+} from "../../src/appearance/garment-fit";
 import {
   BODY_REFERENCE_ROWS_BY_POSE,
   garmentExtent,
