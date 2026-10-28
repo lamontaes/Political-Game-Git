@@ -7331,5 +7331,17 @@
     "addedAt": "2026-10-28",
     "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-region-states",
+    "kind": "estimate",
+    "file": "src/bench/scene.ts",
+    "line": 314,
+    "whatItFakes": "Which states take a place's regional rebuild (New England, Mountain West, Southwest, Plains, Deep South, Alaska, Puerto Rico, Pacific islands) is a list in data drawn from the Census Bureau's divisions and common usage; states no region names show the plain painting.",
+    "why": "The art session painted eight regional rebuilds of four places (Oct 28); no record of a place's regional character exists to read.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "Each place's own architectural region in the place records (or a finer list per county), read here in place of the state list.",
+    "status": "open"
   }
 ]
