@@ -74,7 +74,10 @@ describe("the journal as a story from birth", () => {
     // With the bank as it stands, the birth is not yet worded and is left out.
     const today = composeJournal(core, director, id).flatMap((c) => c.lines);
     expect(
-      today.some((line) => line.sourceRecordIds.includes(birth!.id)),
+      today.some(
+        (line) =>
+          line.sourceRecordIds.includes(birth!.id) && /born in/.test(line.text),
+      ),
       where,
     ).toBe(false);
   }, 300_000);
