@@ -112,6 +112,9 @@ function weeklyContacts(
   return tied.filter((id) => ids.has(id));
 }
 
+// The one reader of a person's relatives, for readers outside the family.
+export { familyFactsOf, familyRelation, type FamilyFact } from "../closeness";
+
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {
   officeAffordance: "known-office",
