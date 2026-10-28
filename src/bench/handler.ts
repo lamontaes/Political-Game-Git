@@ -1,5 +1,5 @@
-import { jobsView, answerJobOffer } from "./jobs";
-import { recolorFigure } from "./figure-colors";
+import { GARMENTS, recolorFigure } from "./figure-colors";
+import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
@@ -78,6 +78,7 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
   portraitPng,
   readRecipe,
@@ -335,15 +336,21 @@ export async function benchRequest(
         // Standing people: the v2 figures, served as they are. The folder is
         // written out so the desktop build copies it (it reads the fixed part
         // of this path, desktop/scripts/build-play-api.mjs).
+        const file = url.pathname.split("/").at(-1)!;
         const content = recolorFigure(
           await readFile(
             new URL(
-              `../../art/people-engine/v2/figures/${url.pathname.split("/").at(-1)}`,
+              `../../art/people-engine/v2/figures/${file}`,
               import.meta.url,
             ),
           ),
-          url.searchParams.get("skin") ?? undefined,
-          url.searchParams.get("clothes") ?? undefined,
+          file.replace(/\.png$/, ""),
+          Object.fromEntries(
+            ["skin", ...GARMENTS].flatMap((key) => {
+              const value = url.searchParams.get(key);
+              return value ? [[key, value]] : [];
+            }),
+          ),
         );
         response.writeHead(200, {
           "Content-Type": "image/png",
@@ -518,7 +525,8 @@ export async function benchRequest(
                   )
               : readRecipe(q.get("recipe")!)
             : drawnAppearance(gender, seed, draw);
-          send(200, { recipe, rows: appearanceRows(recipe, gender) });
+          const fitted = lookForGender(recipe, gender);
+          send(200, { recipe: fitted, rows: appearanceRows(fitted, gender) });
         } else send(404, { error: "Unknown bench route." });
         return;
       }
@@ -963,6 +971,23 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "POST" && url.pathname === "/api/grade") {
+        const grade = url.searchParams.get("grade");
+        if (grade !== "good" && grade !== "bad")
+          throw new Error("A grade is good or bad.");
+        send(200, {
+          i: writeLineGrade({
+            parts: (url.searchParams.get("parts") ?? "")
+              .split(",")
+              .filter(Boolean),
+            grade,
+            note: url.searchParams.get("note") ?? undefined,
+            text: url.searchParams.get("text") ?? undefined,
+            momentId: url.searchParams.get("momentId") ?? undefined,
+          }),
+        });
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/story/reply") {
         if (!player?.personId || !director)
           throw new Error("Choose a resident first.");
@@ -977,7 +1002,12 @@ export async function benchRequest(
               .split(".")
               .filter(Boolean)
               .map(Number),
-            { held: url.searchParams.get("held") === "1" },
+            {
+              held: url.searchParams.get("held") === "1",
+              ...(url.searchParams.get("typeKey")
+                ? { typeKey: url.searchParams.get("typeKey")! }
+                : {}),
+            },
           ),
         );
         return;
@@ -1042,14 +1072,19 @@ export async function benchRequest(
       }
       if (request.method === "POST" && url.pathname === "/api/campaign/day") {
         if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          campaignDay(requireCore(), player.personId, {
-            filingId: url.searchParams.get("filingId") ?? "",
-            kind: url.searchParams.get("kind") ?? "",
-            outletId: url.searchParams.get("outletId") ?? undefined,
-          }),
-        );
+        const day = campaignDay(requireCore(), player.personId, {
+          filingId: url.searchParams.get("filingId") ?? "",
+          kind: url.searchParams.get("kind") ?? "",
+          outletId: url.searchParams.get("outletId") ?? undefined,
+        });
+        // The outing's hours come off the same clock the packet reports.
+        const spent = player.spend(day.hours);
+        send(200, {
+          ...day,
+          ...(spent
+            ? { packet: spent.packet, names: namesFor(spent.packet) }
+            : {}),
+        });
         return;
       }
       if (
@@ -1177,24 +1212,6 @@ export async function benchRequest(
             url.searchParams.get("id") ?? "",
             personOrFillIn(requireCore(), url.searchParams.get("other") ?? "")
               ?.id ?? "",
-          ),
-        );
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/jobs") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(200, jobsView(requireCore(), player.personId));
-        return;
-      }
-      if (request.method === "POST" && url.pathname === "/api/jobs/answer") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          answerJobOffer(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("offerId") ?? "",
-            url.searchParams.get("answer") ?? "",
           ),
         );
         return;

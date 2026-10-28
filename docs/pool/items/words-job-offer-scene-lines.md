@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** scene-standard and civic-prose: lines from real hiring calls, worded from the record's facts (the job's title, the employer's name, the pay, the deadline, who calls), varying by the caller's traits; four replies that are four different answers (owner, Oct 27). No hand-written player text in code. The narration never says where the player is or who is there (the English ban, tests/guards/no-place-or-presence-restated.test.ts).
 
-**Done when.** In a drawn place the test src/core2/job-offer-through-person.test.ts reaches a `job-offered` record and `purposeScene` for its `job-offer` entry returns `composed` (not skipped), with a lead line, the caller's statement naming the job and pay from the record, and replies whose moves are distinct; a yes through `replyInScene` hires the player (person.jobId names the offered position); SG-DIR-job-offer-lines is resolved.
+**Done when.** In a drawn place the test src/core2/job-offer-through-person.test.ts reaches a `job-offered` record and `purposeScene` for its `job-offer` entry returns `composed` (not skipped), with a lead line, the caller's statement naming the job and pay from the record, and replies whose moves are distinct; a yes through `replyInScene` hires the player (person.jobId names the offered position); SG-DIR-job-offer-lines is resolved and `cause:event:job-offered` is added to scheduling.ownRecordScenes in src/director/data/situation-types.json, so the call stops the day.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -30,3 +30,5 @@ claimed-at:
 **Files.** data/english/parts/scene-talk.json, data/english/parts/scene-words.json, data/english/scene-talk-tags.json, src/director/data/purpose-arcs.json
 
 **Notes.** Data path by the integrator (claude/integration-one-employment). Owner, Oct 27, 4 PM Eastern: "Sessions should not be building their own shit." Read: OWNER-DECISIONS (Oct 27, afternoon), DECISION-REGISTER, prior-rulings/words.md, LAW; searched: job offer, offered, hiring.
+
+Oct 28, 00:50 UTC, director lead: the missing lines also keep `src/director/scene-talk.test.ts` red on main. Three tests (composes every purpose, plays every purpose in play, composes a tree) stop at job-offer with "no narration for job-offer can be worded from the records given", so every purpose type after job-offer goes unchecked until these lines land. Filed as `director-scene-talk-job-offer-skipped`, now dropped into this item.

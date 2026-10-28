@@ -36,6 +36,27 @@ describe("figures are framed whole", () => {
     expect(outside).toEqual([]);
   });
 
+  it("leaves every room's hero spot with room at the head and both sides (the January 22 bedroom scene)", () => {
+    const crowded: string[] = [];
+    for (const place of Object.keys(staging.places)) {
+      const stage = backdropStaging(place)!;
+      const hero = stage.spots.find((spot) => spot.hero);
+      if (!hero) continue;
+      const drawn = figureOn(look, "adult", place, stage, hero);
+      if (!drawn) continue;
+      const { topPercent, leftPercent, widthPercent } = drawn.figure;
+      if (
+        topPercent < 4 ||
+        leftPercent < 4 ||
+        leftPercent + widthPercent > 96.0001
+      )
+        crowded.push(
+          `${place} top ${topPercent.toFixed(1)} left ${leftPercent.toFixed(1)}`,
+        );
+    }
+    expect(crowded).toEqual([]);
+  });
+
   it("leaves the close-up bedroom's hero with head room (the January 22 bedroom scene)", () => {
     const stage = backdropStaging("bedroom-plain")!;
     const hero = stage.spots.find((spot) => spot.hero)!;

@@ -147,6 +147,9 @@ export function personCard(core: CoreState, personId: string) {
         },
       ];
     }),
+    // What they're like, in plain sentences from their strongest leanings
+    // (owner, Oct 27), never the traits' names.
+    sketch: personSketch(person.traits),
     // Where they place themselves politically, as the views engine's label.
     view: core.modules.has(VIEWS_MODULE_ID)
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
@@ -235,12 +238,33 @@ function colleaguesOf(core: CoreState, personId: string) {
     .slice(0, CLOSEST);
 }
 
-/** "Quinn Supply Company" said as people say it: "Quinn Supply". */
-function shortEmployer(name: string): string {
-  return name.replace(
-    /,?\s+(Company|Co\.|Inc\.?|LLC|Corporation|Corp\.?)$/i,
-    "",
-  );
+// Engineering bands for the sketch: a lean under the first is not said; one
+// past the second takes the strong line. Display wording only, never a choice.
+const SKETCH_SAID = 0.15;
+const SKETCH_STRONG = 0.5;
+const SKETCH_SENTENCES = 3;
+
+/** Up to three sentences of what a person is like, strongest leaning first. */
+function personSketch(traits: Readonly<Record<string, number>>): string {
+  const said = PEOPLE_TRAITS.flatMap((trait) => {
+    const value = traits[`${PEOPLE_MIND_VERSION}:${trait}`];
+    if (value === undefined || Math.abs(value) < SKETCH_SAID) return [];
+    const shape = TRAIT_SHAPES[trait];
+    const pole = value < 0 ? shape.low.key : shape.high.key;
+    const strength = Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
+    const line = screenLine(
+      "person-sketch",
+      `person-sketch.${pole}.${strength}`,
+      {},
+    );
+    return line ? [{ line, weight: Math.abs(value) }] : [];
+  })
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, SKETCH_SENTENCES)
+    .map((row) => row.line);
+  return said.length
+    ? said.join(" ")
+    : (screenLine("person-sketch", "person-sketch.balanced.1", {}) ?? "");
 }
 
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
@@ -271,9 +295,6 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     otherId,
     kin?.kind.slice("family:".length),
   );
-  const employer = job
-    ? core.organizations.get(job.organizationId)?.name
-    : undefined;
   const school =
     (family || housemate) &&
     ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
@@ -282,32 +303,10 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
       : null;
-  const shownWork = (family || housemate || coworker) && job && employer;
   return {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
     relation,
-    // Who this is to the viewer, said as a person would ("Your partner. Works
-    // at Quinn Supply."), from the kin, job and school records (owner, Oct 27).
-    who: [
-      relation
-        ? screenLine("talk-who", "talk-who.relation.1", { relation })
-        : null,
-      shownWork
-        ? relation
-          ? screenLine("talk-who", "talk-who.work.known", {
-              employer: shortEmployer(employer),
-            })
-          : screenLine("talk-who", "talk-who.work.title", {
-              title: job.title,
-              employer: shortEmployer(employer),
-            })
-        : school
-          ? screenLine("talk-who", "talk-who.school.1", { school: school.name })
-          : null,
-    ]
-      .filter(Boolean)
-      .join(" "),
     // Family and housemates know each other's ages; others are known by sight.
     age:
       family || housemate

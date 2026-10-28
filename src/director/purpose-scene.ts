@@ -101,16 +101,25 @@ export function purposeScene(
   director: Director,
   personId: PersonId,
   entry: ScheduleEntry,
-  options: { includeHeld?: boolean; typeKey?: string } = {},
+  options: {
+    includeHeld?: boolean;
+    typeKey?: string;
+    /** The moment's next scene: the first the player has not answered. */
+    next?: boolean;
+  } = {},
 ): PurposeSceneResult | null {
   const moment = director.ledger.people
     .get(personId)
     ?.momentsById.get(entry.momentId);
   if (!moment) return null;
+  // Named, that scene; as the moment's next, the first the player has not
+  // answered, so a record that stages several plays each in turn.
   const bindings = entry.bindings.filter(
     (row) =>
       (TYPES.get(row.typeKey) as PurposeType | undefined)?.purpose &&
-      (!options.typeKey || row.typeKey === options.typeKey),
+      (options.typeKey
+        ? row.typeKey === options.typeKey
+        : !options.next || !entry.answered?.includes(row.typeKey)),
   );
   let skipped: PurposeSceneResult | null = null;
   for (const binding of bindings) {
@@ -472,6 +481,13 @@ function composeBinding(
       text: "",
       sourceRecordIds: [moment.causeId],
     };
+  // A count told by someone tied to a candidate: who won by name, and which of
+  // the two ran (the record's people are the candidates), so a friend who lost
+  // says it differently from a neighbor.
+  if (record?.kind === "election-result" && winner)
+    resultFacts(facts, record.personIds, winner, askerId, askedId, {
+      id: moment.causeId,
+    });
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {
@@ -523,6 +539,37 @@ function composeBinding(
       talk: result.talk,
     },
   };
+}
+
+/**
+ * What a count's result record says about the two in the scene: the winner by
+ * name (`winner`), whether the one told ran (`you-ran`), and whether the one
+ * who tells ran (`bearer-ran`) and won (`bearer-won`) or lost (`bearer-lost`);
+ * `winner-is-other` says the one who tells is not the winner.
+ */
+function resultFacts(
+  facts: Record<string, Fact>,
+  candidateIds: readonly string[],
+  winner: { id: string; givenName: string; familyName: string },
+  askerId: PersonId,
+  askedId: PersonId,
+  cause: { id: string },
+): void {
+  const mark = (ids: string[]): Fact => ({
+    text: "",
+    sourceRecordIds: [cause.id, ...ids],
+  });
+  facts.winner = {
+    text: `${winner.givenName} ${winner.familyName}`,
+    sourceRecordIds: [cause.id, winner.id],
+  };
+  if (candidateIds.includes(askedId)) facts["you-ran"] = mark([askedId]);
+  if (winner.id === askerId) facts["bearer-won"] = mark([askerId]);
+  else {
+    facts["winner-is-other"] = mark([winner.id]);
+    if (candidateIds.includes(askerId)) facts["bearer-lost"] = mark([askerId]);
+  }
+  if (candidateIds.includes(askerId)) facts["bearer-ran"] = mark([askerId]);
 }
 
 /** A dollar amount said to two figures, the way people round a number out loud: "$410,000". */
@@ -671,9 +718,13 @@ export function replyInScene(
     node = reply.next;
   }
   const line = reply!.line;
-  const id = `scene-reply:${entry.momentId}:${path.join(".")}`;
+  // One record per scene of the moment and reply path: a record that stages
+  // several scenes keeps each one's replies apart.
+  const id = `scene-reply:${entry.momentId}:${scene.typeKey}:${path.join(".")}`;
   // Said once: the same reply again (a page reloaded) keeps the record.
   if (core.eventIds.has(id)) return id;
+  if (!entry.answered?.includes(scene.typeKey))
+    entry.answered = [...(entry.answered ?? []), scene.typeKey];
   // STOPGAP SG-WORDS-family-limit-unread: a reply that bounds the cost (a
   // limit on savings, evenings kept for a child) is recorded as said and as
   // time together; no engine reads the limit yet.

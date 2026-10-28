@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/drives.ts, src/bench/m1-11-check.ts
 
 **Notes.** TODO
+
+
+Evidence (integrator, Oct 27, 23:55 UTC): red on main at 5e91d81dd1 in Waimanalo, Hawaii: GOLDEN_PATH_SEED=42d24355021f2f81ea874d86a02d00959f83148b52996a86deb64475e1b44e2f GOLDEN_PATH_PLACE_KEY=1578050 (drawn for PR #6397 head 4f608298), "36.4% of 165 displaced workers set out to prove themselves, outside 2.3-31.7%"; identical on clean main and on the PR.
+Evidence 2026-10-28 (Merger 1): M1-11 also fails in Dededo, Guam (territory:GU:dededo), seed 6a86a6dce59e3f55fab7eeabe27d76b9a19ff18368eda204d32f48739a1dffa2: 33.0% of 370 displaced workers set out to prove themselves, outside 3.5-29.5%. Reproduce: GOLDEN_PATH_SEED=<seed> GOLDEN_PATH_PLACE_KEY=territory:GU:dededo node --import tsx src/bench/m1-11-check.ts. It failed golden-path on PR #6386 (not that PR's files); `drives-economy.test.ts` passes at the same seed.

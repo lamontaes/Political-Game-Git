@@ -52,10 +52,13 @@ it(`every unemployment rate on the opening night names its scope, seed ${seed}`,
       expect(text, `${where}: ${text}`).toMatch(
         /\bnational\b|\bacross the country\b/i,
       );
-    // The news gives the region's rate under the region's name.
+    // The news gives the region's rate under the region's name, never as the nation's.
     for (const text of news) {
       expect(area, where).toBeTruthy();
       expect(text, `${where}: ${text}`).toContain(area!);
+      expect(text, `${where}: ${text}`).not.toMatch(
+        /\bnational\b|\bnationwide\b|\bacross the country\b/i,
+      );
     }
     if (!speech.length || !news.length) {
       tried.push(

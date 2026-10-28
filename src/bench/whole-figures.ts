@@ -15,7 +15,13 @@ import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
 import { orgPlace } from "./scene";
-import { CLOTHES_SWATCHES, DEFAULT_SKIN } from "./figure-colors";
+import {
+  DEFAULT_SKIN,
+  GARMENTS,
+  GARMENT_SWATCHES,
+  hasGarmentMap,
+  type FigureColors,
+} from "./figure-colors";
 import { occluderFor, type Occluder } from "./occluders";
 import type { CoreState } from "../core2/types";
 
@@ -78,6 +84,13 @@ const toFigure = (row: V2Row): Figure => ({
   height: row.height,
   footY: row.footY,
 });
+/**
+ * A look painted turned each way is mirrored on screen to face anyone, so the
+ * figure with a garment map (each piece its own color) is drawn first.
+ */
+function mappedFirst(a: Figure, b: Figure): number {
+  return Number(hasGarmentMap(b.file)) - Number(hasGarmentMap(a.file));
+}
 const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
   .filter(
     (row) =>
@@ -85,11 +98,13 @@ const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
       !row.flag &&
       (row.pose === "stand" || row.pose === "sit"),
   )
-  .map(toFigure);
+  .map(toFigure)
+  .sort(mappedFirst);
 /** The lectern pose: facing the room, hands forward on the podium the picture has. */
 const LECTERNS: Figure[] = (index.figures as unknown as V2Row[])
   .filter((row) => row.prop === "none" && !row.flag && row.pose === "lectern")
-  .map(toFigure);
+  .map(toFigure)
+  .sort(mappedFirst);
 /** The same person at a lectern: their sex and age band, their outfit and build where painted. */
 function lecternFor(front: Figure, band: Figure["ageBand"]): Figure | null {
   const same = LECTERNS.filter(
@@ -269,15 +284,12 @@ const SKIN_WEIGHTS: Readonly<Record<string, number>> = {
 };
 
 /**
- * The skin and clothes color a person wears: the ones they chose in the
- * creator, else ones set once from their own appearance record's seed (their
+ * The skin and each piece of clothing's color a person wears: the ones they
+ * chose in the creator, else ones set once from their own appearance record's seed (their
  * id where the record has none), so the same person is the same color in every
  * scene and neighbors differ.
  */
-export function colorsFor(person: FigurePerson): {
-  skin: string;
-  clothes: string;
-} {
+export function colorsFor(person: FigurePerson): FigureColors {
   const seed = person.seed ?? person.id;
   const total = Object.values(SKIN_WEIGHTS).reduce((a, b) => a + b, 0);
   let at = mixed(`${seed}:skin`) % total;
@@ -289,12 +301,17 @@ export function colorsFor(person: FigurePerson): {
     }
     at -= weight;
   }
-  const clothes =
-    CLOTHES_SWATCHES[mixed(`${seed}:clothes`) % CLOTHES_SWATCHES.length]!.id;
-  return {
-    skin: person.look?.skin ?? skin,
-    clothes: person.look?.clothes ?? clothes,
-  };
+  // Each piece of clothing its own color, set once from the person's seed.
+  const garments = Object.fromEntries(
+    GARMENTS.map((garment) => [
+      garment,
+      person.look?.[garment] ??
+        GARMENT_SWATCHES[garment][
+          mixed(`${seed}:${garment}`) % GARMENT_SWATCHES[garment].length
+        ]!.id,
+    ]),
+  );
+  return { skin: person.look?.skin ?? skin, ...garments };
 }
 
 /** Who is being drawn: their record, and whether they hold office. */
@@ -311,7 +328,10 @@ export interface FigurePerson {
     build: string;
     outfit: string;
     skin?: string;
-    clothes?: string;
+    jacket?: string;
+    shirt?: string;
+    pants?: string;
+    shoes?: string;
   };
 }
 
@@ -518,10 +538,12 @@ const PICTURE_WIDTH = 1672;
 const PICTURE_HEIGHT = 941;
 
 /** Percent of the picture kept above a standing head (presentation, TUNABLE by eye). */
-const HEADROOM = 2;
-/** A figure's left edge, moved in from the picture's sides where its spot would cut it. */
+const HEADROOM = 5;
+/** Percent of the picture kept beside a figure at either side (presentation, TUNABLE by eye). */
+const SIDE_ROOM = 4;
+/** A figure's left edge, moved in from the picture's sides where its spot would crowd it. */
 const inFrame = (left: number, width: number) =>
-  Math.max(0, Math.min(left, 100 - width));
+  Math.max(SIDE_ROOM, Math.min(left, 100 - width - SIDE_ROOM));
 
 /** Turned toward who they're with; alone, the spot's own facing, else the middle. */
 function towardOf(spot: StagingSpot, turn: Turn): "left" | "right" {
