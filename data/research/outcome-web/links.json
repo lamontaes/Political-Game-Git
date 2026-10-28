@@ -1793,6 +1793,7 @@
       "source": "Asquith, Mast and Reed 2023 (REStat)",
       "from": "housing.new-large-buildings",
       "evidence": "researched",
+      "carriedBy": "the housing engine's lease renewal (renewRentalLeases in src/core2/housing-occupancy.ts), which moves each renewing lease by the place's change in rental vacancy raised to the rental elasticity, so the units a new building adds lower the rents tenants renew at; the research measures one building within about 250 meters, a scale the game does not keep, so the engine's own vacancy response stands for it",
       "notes": "Unsupported until a unit adapter exists: the study measures one large building's effect within about 250 meters, but the game reads new buildings per resident across a whole place. The housing engine already produces this: new buildings raise the rental vacancy rate and each lease renews by the vacancy change raised to the rental elasticity (src/core2/housing-occupancy.ts renewRentalLeases), so a web factor would count it twice."
     },
     {
@@ -1937,6 +1938,7 @@
           "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
         ]
       },
+      "carriedBy": "the housing engine's removal (placeRemovedHousehold in src/core2/housing-homeless.ts, called from src/core2/modules/housing.ts on each eviction judgment), which puts every evicted household with a relative who has room, in a shelter bed in the place, or on the street, named and counted households alike; the research measures one tenant's shelter use after an order, so the engine's own placement stands for it",
       "notes": "Unsupported until a unit and exposure adapter exists: the study measures one tenant's shelter use after an eviction order, and the game keeps no eviction rate by place; see researchSizing. The housing engine already produces this from its own records: every eviction judgment removes a household and placeRemovedHousehold puts it with kin, in a shelter bed or on the street (src/core2/housing-homeless.ts), so a web factor on entry would count it twice. The engine's judgments are the web's housing.eviction-orders measure."
     },
     {
@@ -5909,7 +5911,7 @@
       "anchor": "Kansas's first Local Enhanced Management Area (Sheridan 6, 2013 to 2017), where irrigators pumped under capped five-year allocations (55 inches of water over five years), cut pumping 31% against a modeled business-as-usual over its first five years (95% interval 21% to 40%). A state law that meters and limits large withdrawals is read as putting such a cap on irrigation pumping; where the cap binds less than it did there, the cut is smaller, so the evidence is provisional. The spread is the paper's interval. The lag is one year, the next irrigation season.",
       "source": "Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)",
       "range": [-0.4, -0.21],
-      "engineGap": "the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts) reads this law and cuts each farm's water by its own estimated share the day the law takes effect, not this row's size and one-year lag, and no engine keeps the groundwater pumped"
+      "carriedBy": "the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts), which reads this law in force and cuts each town farm's groundwater input by this row's size (1 + size of what the farm would pump), so the farm's outside sales fall by the irrigation-output elasticity and each month's loss is recorded as the law applied (groundwater-output-limited). It applies from the law's effective date rather than after this row's one-year lag (stopgap SG-GOV-REACH-B-business-cost)"
     },
     {
       "key": "defense-contracts-to-earnings",
