@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: words
 ---
 
 **What.** src/director/journal-law-effect.test.ts fails on clean main with GOLDEN_PATH_SEED=e27ddbf44d3f2d4eb844f02493895cdc43718647: Randolph, Maine (2361735), seed 5ef6c0df7ff16cd2e5aa641ecc12d40b248a3df463da723a1415cfd513f60f5e. The resident learned on February 3, 2025 that the state's clean electricity standard (event:law.effect-learned:2025-02-03:person_cec9cb5c80bb2b17:law:US-ME:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting) changed what they pay, and no journal line cites it. The law is a starting law with no enacting bill, so the journal row's lawName read finds no name and the moment is skipped; the same day's Free Fares for Riders Act line is told.
