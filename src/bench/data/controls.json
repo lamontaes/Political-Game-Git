@@ -123,7 +123,15 @@
       "group": "In a group with",
       "family": "Family"
     },
-    "rival": "Rival"
+    "rival": "Rival",
+    "together": "With you",
+    "sharedWords": {
+      "household": "Lives with you",
+      "coworker": "Works with you",
+      "campaign": "On a campaign with you"
+    },
+    "seats": "Seats held",
+    "since": "Since"
   },
   "options": {
     "version": "Version",
@@ -545,5 +553,8 @@
   },
   "seat": {
     "draft": "Draft"
+  },
+  "guide": {
+    "search": "Search"
   }
 }
