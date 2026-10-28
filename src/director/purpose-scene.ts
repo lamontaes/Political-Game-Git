@@ -121,8 +121,7 @@ export function purposeScene(
   // evening): each is its own exchange, about its own record.
   const units = entry.bindings.flatMap((binding) => {
     const type = TYPES.get(binding.typeKey) as
-      | (PurposeType & { repeatsBy?: string })
-      | undefined;
+      (PurposeType & { repeatsBy?: string }) | undefined;
     if (!type?.purpose) return [];
     const joined =
       type.repeatsBy === "bill"
