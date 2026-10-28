@@ -131,8 +131,9 @@ for (const seed of seeds) {
     const school = (person.pastFacts ?? []).find(
       (fact) => fact.facts?.schoolName,
     );
+    // The opening job's own start (this batch builds no pre-start run).
     const tenure = (person.pastFacts ?? []).find(
-      (fact) => fact.kind === "work:tenure-summary",
+      (fact) => fact.kind === "work:opening",
     );
     const place = lifePlaceByJurisdictionId(person.placeId as never);
     const other = adults[(n + 3) % adults.length]!;
@@ -167,10 +168,10 @@ for (const seed of seeds) {
             },
           }
         : {}),
-      ...(tenure?.facts?.startedAt
+      ...(tenure?.date
         ? {
             years: {
-              text: String(2021 - Number(tenure.facts.startedAt.slice(0, 4))),
+              text: String(2021 - Number(tenure.date.slice(0, 4))),
               sourceRecordIds: [tenure.id],
             },
           }

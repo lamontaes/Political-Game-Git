@@ -7247,5 +7247,17 @@
     "addedAt": "2026-10-28",
     "replacement": "A dwelling condition the housing module keeps (repairs, landlord upkeep, age of the building), read here in place of the third.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-past-work-day-one-town",
+    "kind": "partial-model",
+    "file": "src/core2/past-work.ts",
+    "line": 175,
+    "whatItFakes": "The working life before the start runs in the person's day-one town, against its businesses' day-one size and going pay and the nation's unemployment rate; people who moved in are run as if they had always lived there, and officials living outside the town are not run.",
+    "why": "Moves before the start, past business sizes and the regional series are not yet simulated before the start; the unit that runs them replaces each part.",
+    "addedBy": "history-past-work (Claude Opus)",
+    "addedAt": "2026-10-28",
+    "replacement": "history-past-moves (each move before the start a record, so a spell runs in the place the person lived), the regional economy series in the economy pass, business sizes from the business pass's history, and history-past-officials for officials' careers.",
+    "status": "open"
   }
 ]
