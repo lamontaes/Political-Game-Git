@@ -328,10 +328,10 @@
       }
     },
     {
-      "key": "filing-visit.clerk-rule-live.you-must-file-your-qualifying-papers-with-filing",
+      "key": "filing-visit.clerk-rule-live.you-have-to-file-your-papers-with-filing-office-in-the-count",
       "move": "clerk-rule-live",
       "kind": "spoken",
-      "text": "You must file your qualifying papers with {filing_office} in the county where you reside.",
+      "text": "You have to file your papers with {filing_office} in the county where you live.",
       "uses": [
         {
           "move": "clerk-rule-live",
@@ -355,13 +355,16 @@
       "tag": {
         "move": "tell",
         "key": "routine"
-      }
+      },
+      "date": "2026-10-28",
+      "author": "Words and director session",
+      "origin": "authored"
     },
     {
-      "key": "filing-visit.clerk-rule-register.you-must-be-a-registered-or-pre-registered-voter",
+      "key": "filing-visit.clerk-rule-register.you-have-to-be-a-registered-voter-in-the-county-where-you-wa",
       "move": "clerk-rule-register",
       "kind": "spoken",
-      "text": "You must be a registered or pre-registered voter in the county in which you want to serve.",
+      "text": "You have to be a registered voter in the county where you want to serve.",
       "uses": [
         {
           "move": "clerk-rule-register",
@@ -385,7 +388,10 @@
       "tag": {
         "move": "tell",
         "key": "routine"
-      }
+      },
+      "date": "2026-10-28",
+      "author": "Words and director session",
+      "origin": "authored"
     },
     {
       "key": "filing-visit.clerk-rule-short-fee.thats-not-enough",

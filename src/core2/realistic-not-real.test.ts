@@ -103,18 +103,33 @@ import {
   publishedStateExitShare,
   stateExitShare,
 } from "./modules/business";
-import { publishedUnitPrice, unitPrice } from "./modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  publishedUnitPrice,
+  unitPrice,
+} from "./modules/campaigns";
 import {
   publishedOutletLevels,
   worldOutletCounts,
   type PlaceNews,
 } from "./modules/press";
+import { schoolsAttended } from "./past";
+import { NEWS_MODULE_ID } from "./modules/news";
+import { publishedSupportShare, supportShare } from "./campaign-views";
+import supportData from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
+import electoralCorpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
+import {
+  citizenShareOf,
+  publishedCitizenShareOf,
+  stateRightShare,
+  stateTwoPartyVotes,
+} from "./electorate-places";
+import { contestedStates2024 } from "./officials-president";
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-elections-per-world": [42, 44, 45, 48],
-  "realistic-school-names-generated": [37],
+  "realistic-elections-per-world": [45],
   "world-disasters-from-conditions": [41],
 };
 // Drawn, each with its own two-world test: row 6 in housing-world.test.ts,
@@ -533,7 +548,11 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const size = (core: CoreState) =>
       Number(core.placeMetadata.referencePopulation);
     if (real === undefined || !town) return;
-    expect(size(a), `${where} referencePopulation: published`).not.toBe(real);
+    // A place the Census holds as empty stays 0 in every world: there is
+    // nothing to spread around zero (worldPopulationOf). Every place with
+    // people opens off its published count.
+    if (real > 0)
+      expect(size(a), `${where} referencePopulation: published`).not.toBe(real);
     expect(size(a), `${where} referencePopulation: the engine's draw`).toBe(
       placeReferencePopulation(geoid!, a.seed)?.value,
     );
@@ -740,6 +759,144 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     process.stdout.write(
       `TREASURY ${where}: ${da.size} debt holders, ${ca.size} charge shares, ${stakes} stakes\n`,
+    );
+  });
+
+  it("the schools people went to are their world's own (audit row 37)", () => {
+    // The real school directory is gone from play: a school a person went to
+    // is a school organization of the world, named by its own record.
+    for (const core of [a, b]) {
+      const named = [...core.people.keys()].flatMap((id) =>
+        schoolsAttended(core, id).filter((row) => row.name),
+      );
+      expect(named.length, `${where} row 37: named schools`).toBeGreaterThan(0);
+      for (const row of named)
+        expect(
+          core.organizations.get(row.schoolId)?.name,
+          `${where} row 37 ${row.recordId}`,
+        ).toBe(row.name);
+    }
+    const first = [...a.people.keys()]
+      .flatMap((id) => schoolsAttended(a, id).filter((row) => row.name))
+      .at(0)!;
+    process.stdout.write(
+      `SCHOOLS ${where}: ${first.recordId} names ${first.name} (${first.schoolId})\n`,
+    );
+  });
+
+  it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {
+    // Row 44: every race before the start both worlds hold, as the paper
+    // printed it (the one place the game keeps a past race's votes cast). A
+    // recorded total (a House, Senate or presidential race) is the same in
+    // every world unless drawn, so each race of a thousand votes or more must
+    // differ (a race of a few hundred can land on the same count twice).
+    const races = (core: CoreState) =>
+      new Map(
+        coreAPI(core)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows()
+          .map((row) => row.facts as Record<string, string>)
+          .filter((facts) => facts.recordKind === "election-result")
+          .map((facts) => [facts.contestId!, Number(facts.totalVotes)]),
+      );
+    const racesA = races(a),
+      racesB = races(b);
+    const shared = [...racesA.keys()].filter((id) => racesB.has(id));
+    expect(shared.length, `${where} row 44: past races`).toBeGreaterThan(0);
+    const large = shared.filter(
+      (id) => racesA.get(id)! >= 1000 && racesB.get(id)! >= 1000,
+    );
+    for (const id of large)
+      expect(racesA.get(id), `${where} row 44 ${id}`).not.toBe(racesB.get(id));
+    const cast = (held: Map<string, number>) =>
+      shared.reduce((n, id) => n + held.get(id)!, 0);
+    // Row 48: every question's national polled share.
+    const questions = Object.keys(
+      (supportData as unknown as { questions: Record<string, unknown> })
+        .questions,
+    );
+    expect(questions.length, where).toBeGreaterThan(0);
+    for (const question of questions) {
+      expect(
+        supportShare(a.seed, question),
+        `${where} row 48 ${question}`,
+      ).not.toBe(publishedSupportShare(question));
+      expect(
+        supportShare(a.seed, question),
+        `${where} row 48 ${question}`,
+      ).not.toBe(supportShare(b.seed, question));
+    }
+    process.stdout.write(
+      `VOTES-AND-POLLS ${where}: ${shared.length} past races (${large.length} of a thousand votes or more) cast ${cast(racesA)} and ${cast(racesB)} votes; ${questions[0]} polls ${supportShare(a.seed, questions[0]!).toFixed(3)} and ${supportShare(b.seed, questions[0]!).toFixed(3)} against ${publishedSupportShare(questions[0]!)}\n`,
+    );
+  });
+
+  it("the 2024 vote by state and county, its turnout, the town's citizen share and the contested map (audit row 42)", () => {
+    const states = (
+      electoralCorpus as unknown as {
+        presidentialByState: {
+          stateUsps: string;
+          totalsByParty: Record<string, number>;
+        }[];
+      }
+    ).presidentialByState;
+    expect(states.length, where).toBeGreaterThan(0);
+    for (const { stateUsps: usps, totalsByParty } of states) {
+      const dem = totalsByParty.democratic ?? 0,
+        rep = totalsByParty.republican ?? 0;
+      const shareA = stateRightShare(usps, a.seed)!,
+        shareB = stateRightShare(usps, b.seed)!;
+      expect(shareA, `${where} row 42 ${usps} share`).not.toBeCloseTo(
+        rep / (dem + rep),
+        6,
+      );
+      expect(shareA, `${where} row 42 ${usps} share`).not.toBe(shareB);
+      expect(
+        stateTwoPartyVotes(usps, a.seed),
+        `${where} row 42 ${usps} votes`,
+      ).not.toBe(stateTwoPartyVotes(usps, b.seed));
+    }
+    const usps = lawChain(coreAPI(a)).stateKey.slice(3);
+    const placeKey = a.placeMetadata.placeKey as string | undefined;
+    const published = publishedCitizenShareOf(placeKey, usps);
+    if (published < 1) {
+      expect(
+        citizenShareOf(placeKey, usps, a.seed),
+        `${where} row 42 citizens`,
+      ).not.toBe(published);
+      expect(
+        citizenShareOf(placeKey, usps, a.seed),
+        `${where} row 42 citizens`,
+      ).not.toBe(citizenShareOf(placeKey, usps, b.seed));
+    }
+    // The campaigns engine's starting town lean: the House district's 2024
+    // vote as each world's swing moved it.
+    const townLean = (core: CoreState) =>
+      (
+        coreAPI(core)
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("town")
+          .get("town") as unknown as { lean: number } | undefined
+      )?.lean;
+    const leanA = townLean(a),
+      leanB = townLean(b);
+    expect(leanA, `${where} row 42 town lean`).toBeDefined();
+    if (leanA !== 0 && Math.abs(leanA!) < 1)
+      expect(leanA, `${where} row 42 town lean`).not.toBe(leanB);
+    const map = (seed: string) =>
+      contestedStates2024(seed)
+        .map((s) => `${s.usps}:${s.democraticTwoPartyShare.toFixed(6)}`)
+        .join(" ");
+    expect(map(a.seed), `${where} row 42 contested map`).not.toBe(map(b.seed));
+    process.stdout.write(
+      `VOTE-2024 ${where}: town lean ${leanA?.toFixed(4)} and ${leanB?.toFixed(4)}; ${usps} opens at ${stateRightShare(usps, a.seed)?.toFixed(4)} and ${stateRightShare(usps, b.seed)?.toFixed(4)} Republican; contested ${contestedStates2024(
+        a.seed,
+      )
+        .map((s) => s.usps)
+        .join(",")} and ${contestedStates2024(b.seed)
+        .map((s) => s.usps)
+        .join(",")}\n`,
     );
   });
 

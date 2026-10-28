@@ -50,6 +50,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countedResidents } from "./electorate";
 import { cpsAgeBand, cpsTurnout } from "./electorate-places";
 import { viewOf } from "./modules/views";
+import { worldLevel } from "./world-draw";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 
@@ -456,8 +457,15 @@ export function buildPriorElections(
             ),
           );
         const ratio = turnoutRatio(date);
+        // This world's votes cast (realistic, not real; owner, Oct 27): the
+        // recorded or estimated total moved once by the world's offset.
         const total = Math.round(
-          real?.total ?? electorateBallots(api, town, office, date) * ratio,
+          worldLevel(
+            real?.total ?? electorateBallots(api, town, office, date) * ratio,
+            town.seed,
+            `past-votes:${key}`,
+            "worldPastVotesSpreadShare",
+          ),
         );
         const winnerLean = leanOf(api, winnerId);
         const side = partySide(term.party);

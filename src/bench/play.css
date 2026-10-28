@@ -440,6 +440,29 @@ select:focus-visible {
     0 3px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
+/* A tab inside a sheet (the Local, State, Federal picker) is the kit's tab,
+   not a key: plain text at rest, the raised glass box only while chosen
+   (kit13 APPROVED; owner, Oct 28: "no clear delineation once one is picked"). */
+#sheet-body .tab:not(.on),
+#sheet-body .tab:not(.on):hover {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--text-2);
+}
+#sheet-body .tab:not(.on):hover {
+  color: #fff;
+  text-shadow: var(--glow);
+}
+#sheet-body .tab.on,
+#sheet-body .tab.on:hover {
+  color: var(--gold);
+  background: var(--raised);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
 /* Icons: gold line icons on round glass keys, a column over the player card (MOCKS:24). */
 .ring {
   position: relative;
@@ -1013,10 +1036,26 @@ input[type="range"]::-moz-range-thumb {
   gap: 8px;
   margin-top: 6px;
 }
+/* A creator field left empty when Continue is pressed: its label and box turn
+   the warning color until it is filled, and the line at the bottom says which. */
+#cr-character .group.missing > .label {
+  color: var(--red);
+}
+#cr-character .group.missing input {
+  border-color: var(--red);
+}
+/* The states and towns: a box of rows that pages with Back and Continue under
+   it; nothing in a menu scrolls (kit13 APPROVED), so no native scroller. */
 .choice-list {
-  max-height: 300px;
-  overflow-y: auto;
+  position: relative; /* the pager measures the rows from the box's top */
+  max-height: 400px;
+  overflow: hidden;
   margin-top: 6px;
+}
+/* While rows are paged out, the box keeps its full height: a box sized to
+   the rows it shows would shrink the page each time it turned. */
+.choice-list:has(.paged-out) {
+  height: 400px;
 }
 #front input[type="search"] {
   width: 100%;
@@ -1268,6 +1307,20 @@ body.dev .dev-ring {
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--text-3);
+}
+/* Several past lines stack as one block; the rule sits under the last of them. */
+.talk-lines .history:has(+ .history) {
+  padding-bottom: 0;
+  margin-bottom: 6px;
+  border-bottom: 0;
+}
+/* The other person's past lines lean left of the player's own, so the three kinds read
+   apart: your past lines, theirs, and what is said now (owner, Oct 28 sitting, 39). */
+.talk-lines .history.theirs {
+  font-style: italic;
+}
+.talk-lines .history.mine {
+  padding-left: 14px;
 }
 .talk-lines .history.lying {
   color: var(--lying);
@@ -2589,6 +2642,14 @@ body.dev .dev-ring {
   gap: 14px;
   margin: 12px 0 22px;
 }
+/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
+   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
+   main menu's"), reading the state's name. */
+select.government-state {
+  display: block;
+  margin: -10px 0 22px;
+  border-color: rgba(214, 189, 132, 0.55);
+}
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
@@ -3803,6 +3864,14 @@ details.entry[open] {
   gap: 14px;
   margin: 12px 0 22px;
 }
+/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
+   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
+   main menu's"), reading the state's name. */
+select.government-state {
+  display: block;
+  margin: -10px 0 22px;
+  border-color: rgba(214, 189, 132, 0.55);
+}
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
@@ -4274,4 +4343,21 @@ details.entry[open] {
 }
 .face-cell:hover .face-cell-face {
   box-shadow: 0 0 0 2px #fff;
+}
+/* An issue card's value: large but wrapping inside its card, never past its
+   edge; the cards are as wide as a value needs, so a word is not cut. */
+.record-section .entries-cards {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.entries-cards .entry .entry-value {
+  display: block;
+  font-size: 20px;
+  line-height: 1.15;
+  overflow-wrap: break-word;
+  margin: 2px 0 4px;
+}
+.entries-cards .entry .entry-line {
+  font: 13px var(--ui);
+  color: var(--text-2);
+  margin: 0;
 }
