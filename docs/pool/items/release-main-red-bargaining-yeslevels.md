@@ -22,4 +22,4 @@ claimed-at: 2026-10-28T03:15:34.029Z
 
 **Files.** src/core2/law-reach/group-a-bargaining.ts, src/core2/law-reach-bargaining.test.ts
 
-**Notes.** TODO
+**Notes.** Fixed on main by 271af7fa54 (03:18 UTC Oct 28), the same two imports moved to modules/laws, pushed while I was building #6511; #6511 is closed as superseded, since merging it beside that commit would import yesLevels twice. Nothing is left to build; the CTO sets it done.

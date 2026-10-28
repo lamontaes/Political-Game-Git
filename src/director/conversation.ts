@@ -1173,15 +1173,22 @@ export function subjectsBetween(
     });
   // The President's address, once the speaker saw it or heard of it: its
   // remembered line is theirs to quote. Last, so it never takes the place of
-  // a subject the banks can word. It is the day's news only while it is
-  // recent, as a recorded moment is.
+  // a subject the banks can word. It is the day's news only for the weeks
+  // after it was given (its record's date), however late someone heard it.
   const known = core.knowledgeByPerson.get(speakerId);
   const address = known?.get(ADDRESS_FACT.event);
   const quote = known?.get(ADDRESS_FACT.remembered);
+  const givenOn =
+    address?.value.match(/\d{4}-\d{2}-\d{2}$/)?.[zero] ?? address?.learnedAt;
   if (
     address &&
     quote &&
-    address.learnedAt > addDays(makeIsoDate(core.date), -recentDays())
+    givenOn &&
+    givenOn >
+      addDays(
+        makeIsoDate(core.date),
+        -DEFAULT_DIRECTOR_DATA.parameters.directorTalkAddressDays!.value,
+      )
   ) {
     out.push({
       id: `address:${address.value}`,
