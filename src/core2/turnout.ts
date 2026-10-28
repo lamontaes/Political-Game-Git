@@ -151,5 +151,11 @@ export function openingVoterCarry(voterId: string): number {
     h ^= voterId.charCodeAt(i);
     h = Math.imul(h, 16777619);
   }
+  // Finish with an avalanche so ids that differ in a few characters start far apart.
+  h ^= h >>> 16;
+  h = Math.imul(h, 2246822507);
+  h ^= h >>> 13;
+  h = Math.imul(h, 3266489909);
+  h ^= h >>> 16;
   return (h >>> 0) / 4294967296;
 }
