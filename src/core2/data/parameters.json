@@ -6985,5 +6985,145 @@
       "unit": "elasticity",
       "citation": "Manning (2003); Webber, D. A. (2015), \"Firm market power and the earnings distribution\": firm-level separation elasticities about -1."
     }
+  },
+  "worldDrawOffsetFloorShare": {
+    "value": 0.34,
+    "tag": "TUNABLE",
+    "citation": "The smallest share of a spread a world's starting offset takes, so no world opens on the published figure.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "share of the spread",
+      "citation": "Matches macroWorldOffsetFloorShare."
+    }
+  },
+  "jobsWorldAgeRateSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's unemployment rate for an age band sits from the published CPS annual average, relative to the rate (the nearer bound): band rates move about a tenth from one year to the next outside a recession (BLS CPS Table A-10, unemployment rate by age, annual averages).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "share of the published rate",
+      "citation": "BLS CPS Table A-10 and Table 3 annual averages; year-to-year change of each age band rate."
+    }
+  },
+  "jobsWorldSeasonalSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's seasonal swing in an industry's staffing sits from the published 2010-2019 swing, as a share of the swing (BLS CES not seasonally adjusted over seasonally adjusted employment, by month).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the published monthly deviation from 1",
+      "citation": "BLS CES seasonal factors by supersector; the swing for construction and retail differs by a fifth or more between 2000-2009 and 2010-2019."
+    }
+  },
+  "jobsWorldEmploymentRateSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's share of an age band that is employed in a county sits from the ACS 2020-2024 share, relative to its nearer bound: about the ACS five-year county margin of error on employment counts plus a year of change (B23001).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.1,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "ACS B23001 county margins of error; BLS LAUS county employment-population change year to year."
+    }
+  },
+  "jobsWorldPaySpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's pay for an occupation in an area sits from the BLS OEWS May 2025 wage there: about the OEWS relative standard error of an area median (2% to 8%) plus a year of wage growth (3% to 5%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published wage",
+      "citation": "BLS OEWS May 2025 relative standard errors; BLS Employment Cost Index 12-month change."
+    }
+  },
+  "jobsWorldTenurePercentileSpreadPoints": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's pay percentile for a new hire and for a long-serving worker sit from the 25th and 75th that the game assumes: the OEWS tables publish quartile points, and an employer's pay scale runs a few percentile points either way.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 3,
+      "high": 10,
+      "unit": "percentile points",
+      "citation": "BLS OEWS percentile tables (10th, 25th, 50th, 75th, 90th); spacing of the published points."
+    }
+  },
+  "jobsWorldTenureYearsSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's years of tenure to the top of its pay range sit from the 20 years the game assumes, as a share of them (BLS Employee Tenure survey: median tenure by age band runs from 2.8 years for 25 to 34 to 9.9 years for 55 to 64).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.35,
+      "unit": "share of the tenure years",
+      "citation": "BLS Employee Tenure in 2024, Table 1."
+    }
+  },
+  "townPayStartPercentile": {
+    "value": 25,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: where in its occupation's wage distribution a new hire starts, before the world's offset.",
+    "spread": {
+      "low": 10,
+      "high": 50,
+      "unit": "percentile",
+      "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles."
+    }
+  },
+  "townPayEndPercentile": {
+    "value": 75,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: where a worker with the full tenure sits in the wage distribution, before the world's offset.",
+    "spread": {
+      "low": 50,
+      "high": 90,
+      "unit": "percentile",
+      "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles."
+    }
+  },
+  "townPayTenureYears": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: years at an employer from the starting to the ending pay percentile, before the world's offset.",
+    "spread": {
+      "low": 10,
+      "high": 30,
+      "unit": "years",
+      "citation": "BLS Employee Tenure: median tenure runs 9.9 years for 55 to 64 and the 90th percentile of tenure is well over 20."
+    }
+  },
+  "jobsWorldSectorMixSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's jobs in a sector or public group in a town sit from the Census County Business Patterns 2023 and BLS state ownership counts: sector employment in a county moves 2% to 10% a year and CBP withholds or rounds small cells.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.2,
+      "unit": "share of the published sector jobs",
+      "citation": "Census CBP year-to-year change by county sector; BLS state employment by ownership."
+    }
+  },
+  "jobsWorldPlaceEarningsSpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's median earnings of a place's workers sit from the ACS 2024 median: the ACS place margin of error on median earnings (3% to 10% in small places) plus a year of wage growth.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published median earnings",
+      "citation": "ACS B20002 place margins of error; BLS Employment Cost Index 12-month change."
+    }
   }
 }

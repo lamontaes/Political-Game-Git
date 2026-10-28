@@ -863,15 +863,17 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     const hoursDaily = weeklyHoursOf(role) / p("daysPerWeek");
     const percentile = townPayPercentile(
       daysBetween(relationship.startedAt, startedAt) / p("daysPerMeanYear"),
+      options.seed,
     );
     const rate = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
       percentile,
       startMinimumHourly,
+      options.seed,
     );
     const fallbackAnnual = role.occupationClassification
-      ? nationalMedianAnnualWage(role.occupationClassification)
+      ? nationalMedianAnnualWage(role.occupationClassification, options.seed)
       : null;
     const hourlyMinor =
       rate?.hourlyMinor ??
