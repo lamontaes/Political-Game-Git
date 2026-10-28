@@ -121,42 +121,14 @@ export function composeScene(
       ...(words ? { words } : {}),
     });
 
-  // Where you are, from the setting's record.
-  const { kind, recordId } = binding.setting;
-  const settingFacts: Record<string, Fact> = {};
-  if (kind === "public" || kind === "venue") {
-    const town = place(recordId);
-    if (town) settingFacts.place = town;
-  }
-  if (kind === "workplace") {
-    const org = core.organizations.get(recordId);
-    if (org)
-      settingFacts.employer = {
-        text: properName(org.name),
-        sourceRecordIds: [org.id],
-      };
-  }
-  if (kind === "other-home") {
-    const host = binding.roles
-      .flatMap((row) => row.personIds)
-      .find((id) => core.people.get(id)?.householdId === recordId);
-    const named = host ? core.people.get(host) : undefined;
-    if (named)
-      settingFacts.host = {
-        text: named.givenName,
-        sourceRecordIds: [recordId, named.id],
-      };
-  }
   // The narrator never restates what the screen shows (owner, Oct 26: "it
-  // shouldn't say you're at home in Albion or it's Tuesday in November.
-  // Obviously, it says that in the bottom right."): no day, and no setting
-  // when it is the player's own home; another's house, a workplace or a
-  // venue is said, since only the narration names it.
+  // shouldn't say you're at home in Albion or it's Tuesday in November";
+  // Oct 27: "When it says you're in place or person is with you, I hate
+  // those"): no day, no place and nobody announced as there. Only how the
+  // scene reaches the player is said: a call or a letter.
   const sentences: SceneLine[] = [];
-  const setting =
-    kind === "home"
-      ? null
-      : render({ part: "setting", kind }, settingFacts, `${moment.id}:setting`);
+  const { kind } = binding.setting;
+  const setting = render({ part: "setting", kind }, {}, `${moment.id}:setting`);
   if (setting) sentences.push(setting);
 
   // Nobody is announced as merely there;
@@ -169,7 +141,7 @@ export function composeScene(
     opener?.personIds.find((id) => id !== personId) ??
     moment.counterpartIds.find((id) => binding.presentIds.includes(id));
   const lead = render(
-    { part: "lead", typeKey: binding.typeKey },
+    { part: "lead", typeKey: binding.typeKey, setting: binding.setting.kind },
     () => {
       const facts: Record<string, Fact> = {};
       const other = talkToId ? who(talkToId) : null;

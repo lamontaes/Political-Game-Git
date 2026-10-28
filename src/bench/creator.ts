@@ -18,7 +18,7 @@ import {
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
-import type { LookRecipe } from "./appearance";
+import { lookForGender, readRecipe, type LookRecipe } from "./appearance";
 
 /**
  * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
@@ -241,7 +241,16 @@ export function readChosenPerson(text: string): ChosenPerson {
     birthYear: year,
     birthMonth: month,
     birthDay: day,
-    ...(input.recipe ? { recipe: input.recipe } : {}),
+    // The look is checked against the set and redrawn on the chosen
+    // gender's body, whatever the page sent.
+    ...(input.recipe
+      ? {
+          recipe: lookForGender(
+            readRecipe(JSON.stringify(input.recipe)),
+            input.gender,
+          ),
+        }
+      : {}),
   };
 }
 

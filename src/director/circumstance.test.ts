@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { fileForOffice } from "../bench/government";
-import { answerJobOffer, jobsView } from "../bench/jobs";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -183,25 +182,34 @@ function playYear(
       ...(replyId ? { replyId } : {}),
     });
   };
-  let packet = advancePlayerV1(core, {
-    controlledPersonId: personId,
-    through: {
-      date: addDays(makeIsoDate(core.date), DAYS),
-      minuteOfDay: P.zero,
+  let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
+    core,
+    {
+      controlledPersonId: personId,
+      through: {
+        date: addDays(makeIsoDate(core.date), DAYS),
+        minuteOfDay: P.zero,
+      },
     },
-  });
-  while (packet.kind !== "complete") {
+  );
+  // A life can end inside the year: the clock refuses a person who has died,
+  // and the played year ends with them.
+  const resume = (input: Parameters<typeof resumePlayerV1>[1]) => {
+    try {
+      return resumePlayerV1(core, input);
+    } catch (error) {
+      if (core.people.get(personId)?.alive) throw error;
+      return undefined;
+    }
+  };
+  while (packet && packet.kind !== "complete") {
     if (packet.kind === "stop") {
       for (const stop of packet.stop.modules) {
-        const offer = jobsView(core, personId).offers.find((item) =>
-          stop.recordId.startsWith(`${item.id}:`),
-        );
-        if (offer) answerJobOffer(core, personId, offer.id, "accept");
         open(stop.recordId);
       }
-      packet = resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId });
+      packet = resume({ kind: "stop", pauseId: packet.pauseId });
     } else
-      packet = resumePlayerV1(core, {
+      packet = resume({
         kind: "choice",
         pauseId: packet.pauseId,
         offerId: packet.offers[P.zero]!.offerId,

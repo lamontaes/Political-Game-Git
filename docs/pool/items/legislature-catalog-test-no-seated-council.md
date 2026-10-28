@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:22:35.834Z
 **Files.** TODO
 
 **Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: rewrite SMART or close.
