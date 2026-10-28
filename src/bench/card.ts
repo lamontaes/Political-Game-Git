@@ -1,6 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
-import { drivesReport } from "../core2/modules/drives";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
@@ -70,19 +69,6 @@ export function personCard(core: CoreState, personId: string) {
     })
     .sort((a, b) => b.level - a.level)
     .slice(0, CLOSEST);
-  const drives = drivesReport(core)
-    .drives.filter((row) => row.personId === personId)
-    .map((row) => ({
-      id: row.id,
-      kind: row.kind,
-      topic: row.topic,
-      desiredChange: row.desiredChange,
-      target: row.targetId ? name(row.targetId) : null,
-      formedAt: row.formedAt,
-      anchorStrength: row.anchorStrength,
-      actCount: row.actCount,
-      sourceEventId: row.sourceEventId,
-    }));
   return {
     id: person.id,
     name: name(person.id),
@@ -148,12 +134,9 @@ export function personCard(core: CoreState, personId: string) {
     view: core.modules.has(VIEWS_MODULE_ID)
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
       : null,
-    affect: person.affect,
-    needs: person.needs,
     ties,
     // Who joined or left their five closest this year, from the tie records.
     circle: circleChanges(core, personId),
-    drives,
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
     lawEffects: reachOn(coreAPI(core), personId).map((row) => ({

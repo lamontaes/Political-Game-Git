@@ -42,7 +42,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { countyGovernmentUnit } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce, yesLevels } from "./laws";
-import { seededUnit } from "../past-module";
+import { seededUnit } from "../seeded";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import { registerPropertyTax } from "../housing-property-tax";
@@ -541,26 +541,60 @@ const minor = (dollarsPerResident: number, residents: number, factor: number) =>
   Math.round(dollarsPerResident * residents * factor * 100);
 
 /**
- * This world's line (owner, Oct 27: realistic, not real): the published line
- * moved once by the world's own offset for that government and line, drawn
- * from the world's seed, between the floor share of the spread and the whole
- * spread. The same offset every year, so a base year and its successors agree.
+ * This world's factor on a published figure (owner, Oct 27: realistic, not
+ * real): one plus the world's own offset for that figure, drawn once from the
+ * world's seed, its size between the floor share of the spread and the whole
+ * spread named by `spreadKey`. The same factor every year, so a base year and
+ * its successors agree. Budget lines, the federal debt and its holders, the
+ * payees of a line, the service charges' mix and the states' federal stakes
+ * all move by it.
  */
+export function budgetWorldFactor(
+  api: CoreAPI,
+  key: string,
+  spreadKey = "budgetWorldLineSpreadShare",
+): number {
+  const p = (name: string) => api.parameter(name);
+  const at = (part: string) => seededUnit(api.state.seed, `${key}:${part}`);
+  const floor = p("budgetWorldOffsetFloorShare");
+  const offset =
+    (at("sign") < p("half") ? -p("one") : p("one")) *
+    (floor + (p("one") - floor) * at("size")) *
+    p(spreadKey);
+  return p("one") + offset;
+}
+
+/** A published mix of shares, each moved by the world's factor and summed back to the published total. */
+export function budgetWorldShares(
+  api: CoreAPI,
+  key: string,
+  shares: Readonly<Record<string, number>>,
+): Record<string, number> {
+  const moved = Object.entries(shares).map(
+    ([k, v]) =>
+      [
+        k,
+        v *
+          budgetWorldFactor(api, `${key}:${k}`, "budgetWorldShareSpreadShare"),
+      ] as const,
+  );
+  const total = Object.values(shares).reduce((a, b) => a + b, 0);
+  const sum = moved.reduce((a, [, v]) => a + v, 0);
+  return Object.fromEntries(
+    moved.map(([k, v]) => [k, sum > 0 ? (v * total) / sum : v]),
+  );
+}
+
+/** This world's line: the published line moved by the world's factor for that government and line. */
 function worldLine(
   api: CoreAPI,
   gov: GovernmentRow,
   line: string,
   minorUnits: number,
 ): number {
-  const p = (key: string) => api.parameter(key);
-  const at = (part: string) =>
-    seededUnit(api.state.seed, `budget-world:${gov.id}:${line}:${part}`);
-  const floor = p("budgetWorldOffsetFloorShare");
-  const offset =
-    (at("sign") < p("half") ? -p("one") : p("one")) *
-    (floor + (p("one") - floor) * at("size")) *
-    p("budgetWorldLineSpreadShare");
-  return Math.round(minorUnits * (p("one") + offset));
+  return Math.round(
+    minorUnits * budgetWorldFactor(api, `budget-world:${gov.id}:${line}`),
+  );
 }
 
 function budgetFor(
