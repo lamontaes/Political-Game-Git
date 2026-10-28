@@ -13,6 +13,7 @@
  * raise from a lower one reads differently from a cut.
  */
 import { properName } from "../director/words";
+import { spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
 
 interface PolicyWords {
@@ -74,12 +75,14 @@ export interface BillWordsInput {
   } | null;
   /**
    * Each section's law before the bill (`billSections` `before`): to tell a
-   * raise from a cut, to say what it was, and to cite the statute it amends.
+   * raise from a cut, to say what it was, and to cite the bill that enacted
+   * it, said in that bill's own form, or a starting law's recorded statute.
    */
   readonly before?: readonly ({
     readonly value: number | null;
     readonly unit?: string | null;
     readonly statute?: string | null;
+    readonly statuteForm?: string | null;
   } | null)[];
 }
 
@@ -197,7 +200,14 @@ function wordsOf(
       subject: row.subject,
       purpose: row.purpose,
       clause: was?.statute
-        ? fill(BILL_SECTIONS.cited, { clause, statute: was.statute })
+        ? fill(BILL_SECTIONS.cited, {
+            clause,
+            // A bill passed in play is said in its form ("Ordinance
+            // 2025-3"); a starting law's recorded statute, as recorded.
+            statute: was.statuteForm
+              ? spokenDesignation(was.statute, was.statuteForm)
+              : was.statute,
+          })
         : clause,
       repeal: false,
     };

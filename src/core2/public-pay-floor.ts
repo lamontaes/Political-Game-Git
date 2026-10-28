@@ -16,10 +16,15 @@
 import data from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
-import { jobsAt, questionRow } from "./law-reach/group-b-money";
+import { jobsAt } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  yesLevels,
+} from "./modules/laws";
 import type { LawLevelName } from "./laws-starting";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -43,7 +48,7 @@ const DISTRICTS: readonly string[] = ["service:school"];
 /** The teacher minimum salary in force for the town, with the law row that sets it (null while it is not law). */
 function teacherFloor(api: CoreAPI): { dollars: number; lawId: string } | null {
   if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return null;
-  const row = questionRow(api, TEACHER_FLOOR);
+  const row = yesLevels(api, TEACHER_FLOOR)[0]?.row;
   return row
     ? { dollars: reachParameter("teacherMinimumSalaryDollars"), lawId: row.id }
     : null;

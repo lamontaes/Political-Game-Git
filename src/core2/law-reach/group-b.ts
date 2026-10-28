@@ -33,6 +33,7 @@ import {
   lawInForce,
   LAWS_MODULE_ID,
   recordPublicPay,
+  yesLevels,
 } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -67,7 +68,6 @@ import {
   payCoverage,
   payPreschool,
   payVouchers,
-  questionRow,
   recordApplied,
   residentsOf,
   scalePayroll,
@@ -233,7 +233,7 @@ function lawRow(api: CoreAPI, lawId: string): LawRowInput | undefined {
 
 /** A policy question is law for the town at some level (latest row says yes). */
 function questionInForce(api: CoreAPI, key: string): boolean {
-  return questionRow(api, key) !== undefined;
+  return yesLevels(api, key).length > 0;
 }
 
 const ASSISTANCE_WORK =
@@ -249,7 +249,7 @@ function assistanceTimeLimit(
   facts: TownFacts,
   stateKey: string,
 ): AssistanceTimeLimit | null {
-  const row = questionRow(api, ASSISTANCE_WORK);
+  const row = yesLevels(api, ASSISTANCE_WORK)[0]?.row;
   const people = data.policies[ASSISTANCE_WORK]?.people;
   if (!row || !people) return null;
   const reached = selectResidents(facts, people, stateKey);
@@ -287,7 +287,7 @@ function medicaidCovered(
   const people = data.policies[MEDICAID_EXPAND]?.people;
   if (!people) return [];
   const covered = selectResidents(facts, people, stateKey);
-  const workRow = questionRow(api, MEDICAID_WORK);
+  const workRow = yesLevels(api, MEDICAID_WORK)[0]?.row;
   const workPeople = data.policies[MEDICAID_WORK]?.people;
   if (!workPeople || !workRow) return covered;
   const ended = new Set(
