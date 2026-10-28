@@ -126,11 +126,17 @@ try {
   await page.getByRole("button", { name: "Today", exact: true }).click();
   // A day with something on it shows its line on the tile and lists it beside.
   for (let i = 0; i < 12; i++) {
-    if (await page.locator(".month .day:not(.today):has(.entry)").count())
+    if (
+      await page
+        .locator(".month .day:not(.today):not(.past):has(.entry)")
+        .count()
+    )
       break;
     await page.getByRole("button", { name: "Next month", exact: true }).click();
   }
-  const marked = page.locator(".month .day:not(.today):has(.entry)").first();
+  const marked = page
+    .locator(".month .day:not(.today):not(.past):has(.entry)")
+    .first();
   assert.ok(
     await marked
       .locator(".day-icon")
@@ -161,10 +167,6 @@ try {
   const target = await page
     .locator(".month .day.selected")
     .getAttribute("data-date");
-  await page
-    .locator("#job-offer-turn")
-    .click({ timeout: 2000 })
-    .catch(() => undefined);
   await page.locator(".calendar-side-head .skip-forward").click();
   // Living weeks ahead runs the world day by day, which takes longer than a click.
   await page.waitForFunction(
@@ -179,7 +181,6 @@ try {
   const settled = () =>
     page.waitForFunction(
       () =>
-        !document.getElementById("job-offer-turn")?.closest("[hidden]") ||
         !document.getElementById("continue").hidden ||
         !document.getElementById("talk").hidden ||
         !document.getElementById("week").disabled,
@@ -196,14 +197,18 @@ try {
   assert.ok(jumped.includes(String(Number(target.slice(-2)))) || stopped);
   // Week advances seven days, Day one.
   for (let i = 0; i < 8; i++) {
-    // A job offer that stopped the jump is answered first: it covers Continue.
-    if (await page.locator("#job-offer-turn").isVisible())
-      await page.locator("#job-offer-turn").click();
-    else if (await page.locator("#talk").isVisible())
-      await page.locator("#talk-leave").click();
-    else if (await page.locator("#continue").isVisible())
-      await page.locator("#continue").click();
-    else break;
+    const answered = await page.evaluate(
+      () =>
+        document.getElementById("talk").hidden &&
+        document.getElementById("continue").hidden,
+    );
+    if (answered) break;
+    // A stop's scene can open its talk a moment after Continue shows, hiding
+    // Continue: click whichever is on screen when the click lands.
+    await page
+      .locator("#talk-leave:visible, #continue:visible")
+      .first()
+      .click();
     await settled();
   }
   const week = page.locator("#week");

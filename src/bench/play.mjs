@@ -3569,8 +3569,9 @@ const sheets = {
     const { date: recordDate, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
-    // Today is the day the player's clock names, which the calendar opens on.
-    const date = packet?.at.date ?? recordDate;
+    // Today is the world's day: the later of the clock's last packet and the
+    // record, so a day the world has reached never offers a jump to it.
+    const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
