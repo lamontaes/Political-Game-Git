@@ -345,7 +345,7 @@ function householdMoments(
   );
   const grown = addDays(
     bornOn,
-    Math.round(P.benchmarkAdultMinimumAge * P.daysPerMeanYear),
+    Math.round(P.votingAge * P.daysPerMeanYear),
   );
   for (const id of parents)
     for (const row of pastWorkOf(core as CoreState, id as PersonId)) {

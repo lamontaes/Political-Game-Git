@@ -203,8 +203,7 @@ function traceSelection(
   }
   const candidates = input.people.flatMap((person) => {
     if (
-      ageOnDate(person.birthDate, input.startedAt) <
-        P("benchmarkAdultMinimumAge") ||
+      ageOnDate(person.birthDate, input.startedAt) < P("votingAge") ||
       !person.countyId
     )
       return [];
@@ -1100,7 +1099,7 @@ async function main(): Promise<void> {
       warmupRuns: warmupCount,
       warmRuns: measuredCount,
       ...(mode === "year" ? { yearSpanDays: P("yearSpanDays") } : {}),
-      benchmarkAdultMinimumAge: P("benchmarkAdultMinimumAge"),
+      votingAge: P("votingAge"),
       requestedPlayerId: playerId,
       openingEmployment,
       scheduledWork,

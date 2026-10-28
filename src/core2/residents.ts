@@ -39,6 +39,7 @@ import type {
 import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
 import schools from "./data/opening-public-schools.json" with { type: "json" };
 import { worldLevel } from "./world-draw";
+import { parameter } from "./parameters";
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -784,7 +785,11 @@ export function collapseToTwoLevels(
     let n = 0;
     for (const id of ids) {
       const born = peopleById.get(id)?.birthDate;
-      if (born && Number(start.slice(0, 4)) - Number(born.slice(0, 4)) >= 18)
+      if (
+        born &&
+        Number(start.slice(0, 4)) - Number(born.slice(0, 4)) >=
+          parameter("votingAge")
+      )
         n++;
     }
     return n;

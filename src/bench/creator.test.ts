@@ -289,3 +289,17 @@ describe("a look always has the chosen gender's body", () => {
     expect(chosen.recipe!.sex).toBe("male");
   });
 });
+
+it("names every hair style and face capitalized, like the other rows", () => {
+  for (const sex of ["female", "male"]) {
+    let look = drawnAppearance(sex, "capitals", 2);
+    for (let n = 0; n < 14; n++) {
+      look = moveAppearance(look, sex, "hair", 1);
+      const rows = appearanceRows(look, sex);
+      for (const row of rows.filter((r) => r.id === "hair" || r.id === "face"))
+        expect(row.value[0], `${row.id} ${row.value}`).toBe(
+          row.value[0]!.toUpperCase(),
+        );
+    }
+  }
+});

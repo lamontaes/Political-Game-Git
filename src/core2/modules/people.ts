@@ -312,7 +312,7 @@ function partneredRecords(
   window: PreStartWindow,
 ): Omit<HistoryRecord, "moduleId">[] {
   const core = api.state as CoreState;
-  const adultYears = api.parameter("benchmarkAdultMinimumAge");
+  const adultYears = api.parameter("votingAge");
   const daysPerYear = api.parameter("daysPerMeanYear");
   const grownOn = (person: Readonly<PersonState>) => {
     const adult = addDays(

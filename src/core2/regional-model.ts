@@ -1,7 +1,8 @@
 /** State and metro economies as pure math: each region moves with the nation by its own industries plus a gap that fades. */
 import regions from "./data/regional/regions.json" with { type: "json" };
 import type { MacroMonth, MacroParameter } from "./macro-model";
-import { publishedMonths, shiftMonth, worldOffset } from "./macro-model";
+import { publishedMonths, shiftMonth } from "./macro-model";
+import { worldOffsetUnit } from "./world-draw";
 import { stopgap } from "./stopgaps";
 import territoryData from "./data/regional/territories.json" with { type: "json" };
 
@@ -259,7 +260,7 @@ export function openingRegionMonths(
   // state with no series of its own starts from the published nation too.
   return publishedRegionMonths(published, p).map((row) => {
     const own = (key: string, spread: string) =>
-      worldOffset(seed, `region-world:${row.stateFips}:${key}`, p(spread), p);
+      worldOffsetUnit(seed, `region-world:${row.stateFips}:${key}`) * p(spread);
     const unemploymentPct = Math.max(
       p("zero"),
       row.unemploymentPct +

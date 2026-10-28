@@ -122,7 +122,7 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
       person.countyId &&
       person.jobId &&
       ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(input.startedAt)) >=
-        parameter("benchmarkAdultMinimumAge"),
+        parameter("votingAge"),
   );
   if (!candidates.length)
     throw new Error("No eligible recorded adult worker in drawn place");

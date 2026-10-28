@@ -840,7 +840,7 @@ export function payPreschool(
     );
     const heads = new Map<string, ResidentFacts>();
     for (const r of input.residents) {
-      if (!r.named || r.age < reachParameter("adultAge")) continue;
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
       const prior = heads.get(r.householdId);
       if (
         !prior ||
