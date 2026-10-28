@@ -12,6 +12,7 @@ import {
   type StagingSpot,
 } from "./staging";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
+import backs from "../../art/people-engine/v2/figures-back.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
 import { orgPlace } from "./scene";
@@ -86,13 +87,47 @@ const toFigure = (row: V2Row): Figure => ({
   footY: row.footY,
 });
 /**
+ * Standing people seen from behind, for crowds facing away (the art session's
+ * figures-back.json; the same naming and frame as the rest of the set). Their
+ * size and foot line are read from the pictures; "plain" is the set's "base".
+ */
+const BACKS: V2Row[] = (
+  backs.figures as unknown as (Omit<V2Row, "facing"> & { facing: number })[]
+).map((row) => {
+  const png = PNG.sync.read(
+    readFileSync(
+      new URL(
+        `../../art/people-engine/v2/figures/${row.file.split("/").pop()}`,
+        import.meta.url,
+      ),
+    ),
+  );
+  let foot = png.height - 1;
+  const opaque = (y: number) => {
+    for (let x = 0; x < png.width; x++)
+      if (png.data[(y * png.width + x) * 4 + 3]! > 128) return true;
+    return false;
+  };
+  while (foot > 0 && !opaque(foot)) foot--;
+  return {
+    ...row,
+    outfit: row.outfit === "plain" ? "base" : row.outfit,
+    ageBand: "adult",
+    facing: "away",
+    width: png.width,
+    height: png.height,
+    footY: foot,
+  };
+});
+
+/**
  * A look painted turned each way is mirrored on screen to face anyone, so the
  * figure with a garment map (each piece its own color) is drawn first.
  */
 function mappedFirst(a: Figure, b: Figure): number {
   return Number(hasGarmentMap(b.file)) - Number(hasGarmentMap(a.file));
 }
-const PAINTED: Figure[] = (index.figures as unknown as V2Row[])
+const PAINTED: Figure[] = [...(index.figures as unknown as V2Row[]), ...BACKS]
   .filter(
     (row) =>
       row.prop === "none" &&
