@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/world.ts, src/core2/modules/residents.ts
 
 **Notes.** Found by the M0-M2 lead's voter-groups helper, Oct 24. Belongs with the speed lead's memory work.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `core-played-year-large-town-heap-bound`; close into it and carry any line it lacks there.

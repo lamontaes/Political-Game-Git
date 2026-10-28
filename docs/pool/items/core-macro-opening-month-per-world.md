@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/realistic-macro-opening
-pr:
+pr: #6446
 blocked-on:
 lead: m0-m2
 source: CTO opening root-cause report, Oct 27

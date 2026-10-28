@@ -228,6 +228,32 @@ function screenArtwork({
   }
 }
 
+/**
+ * The talk box keeps clear of the player card: when the centered box would
+ * reach over the dock (a long status line widens the card), it stands above
+ * the dock instead, so no reply sits under the card.
+ */
+function clearDock() {
+  const game = $("game").getBoundingClientRect();
+  const dock = $("dock").getBoundingClientRect();
+  const width = Math.max(
+    ...[...document.querySelectorAll("#game .chat")].map(
+      (box) => box.offsetWidth,
+    ),
+  );
+  const left = game.left + (game.width - width) / 2;
+  $("game").style.setProperty(
+    "--chat-bottom",
+    left < dock.right + 8 ? `${Math.ceil(game.bottom - dock.top + 8)}px` : "",
+  );
+}
+// A box shown or resized, or the card widened, sets it again.
+const docking = new ResizeObserver(clearDock);
+docking.observe($("dock"));
+for (const box of document.querySelectorAll("#game .chat"))
+  docking.observe(box);
+window.addEventListener("resize", clearDock);
+
 /** Soft contact shadows on the floor at each person's feet, under everyone. */
 function shadowsOf(people) {
   return people
@@ -1665,6 +1691,8 @@ async function campaignRows() {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
+      // The outing's hours moved the clock: the card shows the new time.
+      if (result.packet) renderPacket(result.packet);
       campaignResult = [
         controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
@@ -1673,15 +1701,18 @@ async function campaignRows() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // Something that came up while out holds the clock: it is shown, as
+      // after Day, so Continue never stands over an empty screen.
+      const moment = storyStop(result.packet);
       // The doors and the calls are seen where they happen, with the people reached.
+      if (result.scene || moment) closeSheet();
       if (result.scene) {
-        closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
         $("card-why").textContent = campaignResult;
-        return;
       }
-      openSheet("campaigns");
+      if (moment) await showStory(moment.recordId);
+      if (!result.scene && !moment) openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
       const result = await post(
@@ -1922,18 +1953,30 @@ function playExchange(story) {
           const chosen = [...path, index];
           // The reply is the player's: the game keeps it (purpose-scene.ts
           // replyInScene).
-          api(
-            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
+          const kept = api(
+            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&typeKey=${encodeURIComponent(talk.typeKey)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
             "POST",
           );
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
-          else fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
+          else {
+            fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
+            // A moment that staged another scene plays it next.
+            kept.then(() => nextScene(story));
+          }
         },
       ),
     });
   };
   play(talk.tree, []);
+}
+/** The moment's next staged scene with a purpose, once one ends; none, and the talk stays closed. */
+async function nextScene(story) {
+  const next = await api(
+    `/api/story?momentId=${encodeURIComponent(story.momentId)}${HELD_VIEW ? "&held=1" : ""}`,
+  );
+  if (next.talk && next.talk.typeKey !== story.talk.typeKey)
+    showStory(story.momentId);
 }
 function storyStop(value) {
   return value?.kind === "stop"
@@ -5072,8 +5115,6 @@ api("/api/title").then((title) => {
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));
-// Not yet routes on the new core: each dimmed entry says why, in a line under it
-// (its .reason, filled from the controls data above).
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
   if (!life) return;

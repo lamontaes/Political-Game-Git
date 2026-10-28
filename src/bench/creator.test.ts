@@ -78,7 +78,16 @@ describe("the New game creator", () => {
     const recipe = drawnAppearance("female", "seed", 0);
     expect(recipe.sex).toBe("female");
     const labels = appearanceRows(recipe, "female").map((row) => row.label);
-    expect(labels).toEqual(["Build", "Clothes", "Skin", "Clothes color"]);
+    expect(labels.slice(0, 3)).toEqual(["Build", "Clothes", "Skin"]);
+    // A color for each piece the outfit has: a jacket only with a vest or blazer.
+    expect(labels.slice(3)).toEqual([
+      ...(recipe.outfit === "vest" || recipe.outfit === "blazer"
+        ? ["Jacket color"]
+        : []),
+      "Shirt color",
+      "Pants color",
+      "Shoes color",
+    ]);
     expect(appearanceRows(recipe, "nonbinary")[0]!.label).toBe("Body");
     const next = moveAppearance(recipe, "female", "outfit", 1);
     expect(next.outfit).not.toBe(recipe.outfit);
@@ -102,8 +111,11 @@ describe("the New game creator", () => {
           readFileSync(
             new URL(`../../art/people-engine/v2/${file}`, import.meta.url),
           ),
-          next.skin,
-          next.clothes,
+          file
+            .split("/")
+            .pop()!
+            .replace(/\.png$/, ""),
+          next,
         ),
       ),
     ).toBe(true);

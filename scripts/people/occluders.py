@@ -257,7 +257,7 @@ def main() -> None:
         print(f"{place}: {len(entry['spots'])} of {len(staging[place]['spots'])} spots covered")
     index["places"] = dict(sorted(index["places"].items()))
     ordered = {"about": index["about"], "places": index["places"]}
-    index_file.write_text(json.dumps(ordered, indent=1) + "\n")
+    index_file.write_text(json.dumps(ordered, indent=2) + "\n")
 
 
 if __name__ == "__main__":
