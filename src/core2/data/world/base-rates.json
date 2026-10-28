@@ -1,0 +1,52 @@
+{
+  "about": "Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+  "floorShare": {
+    "value": 0.34,
+    "tag": "TUNABLE",
+    "citation": "The smallest share of the spread a world's factor takes, so no world opens on the published table.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "share of the spread",
+      "citation": "Matches macroWorldOffsetFloorShare."
+    }
+  },
+  "tables": {
+    "mortality": {
+      "value": 0.05,
+      "tag": "ESTIMATED",
+      "citation": "How far a world's death rates sit from the SSA 2023 period life table, as a share: about the year-to-year change in U.S. age-adjusted death rates outside the pandemic years (CDC NCHS Data Brief 521, 2010-2019 changes of 0.5% to 3%) plus the gap between period and cohort tables.",
+      "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed.",
+      "spread": {
+        "low": 0.02,
+        "high": 0.08,
+        "unit": "share of the published rate",
+        "citation": "SSA 2023 period life table; CDC NCHS age-adjusted death rates."
+      }
+    },
+    "natality": {
+      "value": 0.05,
+      "tag": "ESTIMATED",
+      "citation": "How far a world's age-specific birth rates sit from the CDC natality tables, as a share: about two years of change in U.S. age-specific fertility (NVSS Births: Final Data 2023 and 2024, rates moved 1% to 4% a year).",
+      "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed.",
+      "spread": {
+        "low": 0.02,
+        "high": 0.1,
+        "unit": "share of the published rate",
+        "citation": "data/research/renewal/natality-2023.json and natality-2024.json."
+      }
+    },
+    "movers": {
+      "value": 0.08,
+      "tag": "ESTIMATED",
+      "citation": "How far a world's leaving rates sit from the ACS 2024 mover rates, as a share: about the ACS one-year margin on state out-mover rates plus a year's change (ACS B07001, state margins 3% to 10%).",
+      "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed.",
+      "spread": {
+        "low": 0.04,
+        "high": 0.15,
+        "unit": "share of the published rate",
+        "citation": "data/research/migration/mover-rates-acs-2024.json."
+      }
+    }
+  }
+}

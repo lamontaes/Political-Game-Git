@@ -1,4 +1,5 @@
 import healthJson from "../data/health.json" with { type: "json" };
+import { worldRateFactor } from "../world-base-rates";
 import { settleEstate } from "../estates";
 import { HOUSING_STATUS_EVENT } from "../housing-homeless";
 import {
@@ -424,9 +425,12 @@ function segments(api: CoreAPI, plan: HealthPlan) {
     const web =
       [...plan.web].reverse().find((row) => row.date <= date)?.factor ??
       p("one");
+    // This world's life table: the published hazard times its mortality
+    // factor, the same one counted people die by (one model, two tiers).
+    const world = worldRateFactor(api.state.seed, "mortality");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted * web),
+      micros: Math.round(plan.micros * housing * evicted * web * world),
     };
   });
 }
