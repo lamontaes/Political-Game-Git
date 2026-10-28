@@ -8,7 +8,7 @@ import { advanceCore } from "../core2/life";
 import type { CoreState } from "../core2/types";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { buildBenchWorld } from "./world";
-import { backdropFile, homeOf, personBackdrop, roomCondition } from "./scene";
+import { backdropFile, homeOf, backdropFor, roomCondition } from "./scene";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -72,7 +72,7 @@ describe("a home's rooms are drawn in the household's condition", () => {
         );
         // The household's living room at midday, in its condition where painted.
         const room = homeOf(core, id, 12 * 60);
-        const drawn = personBackdrop(core, id, room, 12 * 60);
+        const drawn = backdropFor(core, room, 12 * 60, id);
         const painted = condition.find((c) =>
           manifest.backdrops.some((r) => r.place === room && r.variant === c),
         );

@@ -96,9 +96,9 @@ function setClock(at) {
     ),
   );
 }
-/** A figure cropped to head and shoulders (Kit 12's bust). */
-function setBust(id, url) {
-  $(id).style.backgroundImage = url ? `url("${url}")` : "";
+/** A bust: the person's round headshot (the People map's), or nothing. */
+function setFace(id, face) {
+  $(id).replaceChildren(...(face ? [headshot(face)] : []));
 }
 // A record id as the bench stores it (person_<hex>, official:term:seat:...).
 const RECORD_ID =
@@ -978,17 +978,14 @@ let talkPersonId;
 async function setWho(personId, name) {
   talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
-  const staged = [...(me.scene?.people ?? []), ...(filing?.people ?? [])].find(
-    (p) => p.personId === personId,
-  );
-  setBust("talk-bust", staged?.figureUrl);
+  setFace("talk-bust", null);
   show("talk-who", Boolean(name));
   if (!personId) return;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
-  if (!staged?.figureUrl) setBust("talk-bust", c.figureUrl);
+  setFace("talk-bust", c.face);
 }
 /** The newest lines: yours, dim, then what was said back to you. */
 function spokenLines(lines, speakerOf) {
@@ -1805,6 +1802,15 @@ async function showPerson(person) {
             const line = row(s.office, `${labels.since} ${s.year}`);
             line.dataset.record = s.recordId;
             return { node: line };
+          }),
+        },
+        // Their history from the records, oldest first (owner, Oct 28).
+        c.history?.length && {
+          title: labels.history,
+          items: c.history.map((h) => {
+            const said = prose(h.text, "person-history");
+            said.dataset.record = h.recordId;
+            return { node: said };
           }),
         },
         // An officeholder's colleagues in office, closest first, from their ties.
@@ -3516,12 +3522,7 @@ api("/api/title").then((title) => {
     ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
     : "";
   // The life's own face: the look the creator saved, as every other view of the player reads it.
-  setBust(
-    "front-continue-bust",
-    titleLife?.portrait
-      ? `/api/portrait?id=${encodeURIComponent(titleLife.personId)}`
-      : "",
-  );
+  setFace("front-continue-bust", titleLife?.face);
 });
 // The build version, bottom right of the title (#4014).
 void displayVersion().then((v) => ($("title-version").textContent = v));

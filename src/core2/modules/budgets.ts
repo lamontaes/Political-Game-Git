@@ -41,7 +41,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { countyGovernmentUnit } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce, yesLevels } from "./laws";
-import { seededUnit } from "../seeded";
+import { worldOffsetUnit } from "../world-draw";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import { registerPropertyTax } from "../housing-property-tax";
@@ -473,14 +473,11 @@ export function budgetWorldFactor(
   key: string,
   spreadKey = "budgetWorldLineSpreadShare",
 ): number {
-  const p = (name: string) => api.parameter(name);
-  const at = (part: string) => seededUnit(api.state.seed, `${key}:${part}`);
-  const floor = p("budgetWorldOffsetFloorShare");
-  const offset =
-    (at("sign") < p("half") ? -p("one") : p("one")) *
-    (floor + (p("one") - floor) * at("size")) *
-    p(spreadKey);
-  return p("one") + offset;
+  // The one world draw (world-draw.ts), times this table's spread row.
+  return (
+    api.parameter("one") +
+    worldOffsetUnit(api.state.seed, key) * api.parameter(spreadKey)
+  );
 }
 
 /** A published mix of shares, each moved by the world's factor and summed back to the published total. */

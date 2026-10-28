@@ -35,6 +35,33 @@ const { core, director, playerId } = buildBenchWorld(place.seed, start, {
 const spells = preStartHistory(core, { kind: PAST_WORK_SPELL });
 const outs = preStartHistory(core, { kind: PAST_WORK_OUT });
 
+describe(`the one history starts in the player's birth year, ${label}`, () => {
+  it("opens the pre-start window on January 1 of the year the player was born (owner, Oct 28)", () => {
+    const player = core.people.get(playerId as PersonId)!;
+    const window = preStartWindowOf(core)!;
+    expect(window.from, label).toBe(`${player.birthDate.slice(0, 4)}-01-01`);
+    expect(window.from <= player.birthDate, label).toBe(true);
+    // The player's birth is a record of the run, and so is their first job
+    // after school: both fall inside the window now, by record id.
+    const birth = preStartHistory(core, {
+      kind: "person.birth",
+      personId: playerId as PersonId,
+    });
+    expect(
+      birth.map((row) => row.id),
+      label,
+    ).toEqual([`person-history:${playerId}:birth`]);
+    const firstJob = pastWorkOf(core, playerId as PersonId).find(
+      (row) => row.kind === PAST_WORK_SPELL && row.facts.how === "first-job",
+    );
+    expect(
+      firstJob?.id,
+      `${label}: the player's first job after school`,
+    ).toBeDefined();
+    expect(firstJob!.date > window.from, label).toBe(true);
+  });
+});
+
 describe(`the working life before the start, ${label}`, () => {
   it("is a run of dated records, each ending caused by another engine's record", () => {
     expect(spells.length, label).toBeGreaterThan(0);
@@ -148,8 +175,9 @@ describe(`the working life before the start, ${label}`, () => {
       .slice(0, 12);
     expect(adults.length, label).toBeGreaterThan(0);
     // Someone whose last job ended before the window opens has no record in
-    // it (the window starts in 2000), so several are filled in and at least
-    // one must have a working life; a fill-in that wrote none fails here.
+    // it (the window starts in the player's birth year), so several are
+    // filled in and at least one must have a working life; a fill-in that
+    // wrote none fails here.
     let withWork = 0;
     for (const adult of adults) {
       fillInPerson(core, adult.id);

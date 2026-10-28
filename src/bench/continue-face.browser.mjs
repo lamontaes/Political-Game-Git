@@ -1,7 +1,7 @@
 /* global process, console, document, getComputedStyle, fetch, location */
 // The title's Continue shows the face the creator saved: after making a
 // character and starting the life, the title's Continue holds a portrait that
-// is byte for byte the creator's. Run against the bench:
+// is byte for byte the creator's, drawn as its round headshot. Run against the bench:
 //   BENCH_PORT=3000 node src/bench/continue-face.browser.mjs [shot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -32,7 +32,7 @@ try {
     page.locator(`[data-testid=engine-appearance-${row}] [data-swatch=${id}]`);
   if (await swatch("skin", "ebony").count()) {
     await swatch("skin", "ebony").click();
-    await swatch("clothes-color", "red").click();
+    await swatch("shirt-color", "red").click();
   }
   await page.waitForTimeout(500);
   const made = await page.evaluate(() =>
@@ -48,7 +48,7 @@ try {
   if (shot) await page.screenshot({ path: shot });
   const face = await page.evaluate(
     () =>
-      getComputedStyle(document.getElementById("front-continue-bust"))
+      getComputedStyle(document.querySelector("#front-continue-bust .headshot"))
         .backgroundImage,
   );
   console.log("continue face:", face);

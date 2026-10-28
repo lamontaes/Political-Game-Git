@@ -982,9 +982,7 @@ function executivePriorities(
       kind: string;
       level: string;
     }[]
-  ).find(
-    (o) => o.kind === kind && (gov.level !== "state" || o.level === "state"),
-  );
+  ).find((o) => o.kind === kind && o.level === gov.level);
   if (!office) return null;
   const holder = (
     offices.table("seats").query("byOffice", [office.id]) as unknown as {
@@ -2187,12 +2185,20 @@ export const FEDERAL_SENATE = "federal:us-senate";
 interface BodyRow {
   readonly kindPrefix: string;
   readonly level: "federal" | "state" | "county" | "city";
+  /** Whose law the body's bills make: the nation's, the state's, the county's, its township's or the place's. */
+  readonly law: "nation" | "state" | "county" | "township" | "place";
   /** The legislature whose chambers this body is one of; absent for a one-chamber body. */
   readonly legislature?: string;
   /** The nation's own id for a federal chamber. */
   readonly chamberId?: string;
+  /** The nation's jurisdiction key, for a federal chamber. */
+  readonly jurisdiction?: string;
   /** The chamber a bill or budget starts in. */
   readonly introducedFirst?: boolean;
+  /** A member's term where the chamber fixes it (Congress). */
+  readonly termYears?: number;
+  /** The tie-breaking rule the chamber reads from the states' tie rules. */
+  readonly tieBreaker?: string;
   /** The words for the body in a budget record. */
   readonly words: string;
 }
@@ -2204,6 +2210,11 @@ const BODIES = bodyRows as unknown as {
 /** A lawmaking body's row (src/core2/data/offices/bodies.json), by its office kind. */
 export function bodyRow(kind: string): BodyRow | undefined {
   return BODIES.bodies.find((row) => kind.startsWith(row.kindPrefix));
+}
+
+/** A federal chamber's row, by the nation's id for it. */
+function chamberRow(chamberId: string): BodyRow | undefined {
+  return BODIES.bodies.find((row) => row.chamberId === chamberId);
 }
 
 /** Whether a body is one of a legislature's chambers (Congress or a state's), not a town's or county's one body. */
@@ -2227,30 +2238,32 @@ export function bodyOf(
       readonly bodyName?: string;
     }
   | undefined {
-  if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE) {
-    const kind = officeId === FEDERAL_HOUSE ? "us-house" : "us-senate";
-    const row = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .rows() as unknown as OfficeInput[]
-    ).find((office) =>
-      kind === "us-house" ? office.kind.startsWith(kind) : office.kind === kind,
+  const chamber = chamberRow(officeId);
+  if (chamber) {
+    const offices = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .rows() as unknown as OfficeInput[];
+    const row = offices.find((office) =>
+      office.kind.startsWith(chamber.kindPrefix),
     );
     // The body is the chamber, whatever kind its first office row is: in the
     // District of Columbia and the territories that row is the delegate's.
     // A world whose state has no senators (a territory) still has a Senate
-    // that sits, so its body takes the House's row for its name and source.
+    // that sits, so its body takes the other chamber's row for its name and
+    // source.
     const named =
       row ??
-      (
-        api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("offices")
-          .rows() as unknown as OfficeInput[]
-      ).find((office) => office.kind.startsWith("us-house"));
+      offices.find(
+        (office) => bodyRow(office.kind)?.legislature === chamber.legislature,
+      );
     return named
-      ? { ...named, id: officeId, kind, jurisdiction: "US" }
+      ? {
+          ...named,
+          id: officeId,
+          kind: chamber.kindPrefix,
+          jurisdiction: chamber.jurisdiction!,
+        }
       : undefined;
   }
   return api
@@ -2293,18 +2306,19 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
     }
   ).congress;
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const row = chamberRow(chamber)!;
   const out: TermRow[] = [];
   for (const [state, seats] of Object.entries(congress))
     for (const [seat, parties] of Object.entries(seats)) {
+      // The roster keys a state's senators under "senate" and its
+      // representatives under the district number.
       const senate = seat === "senate";
       if (senate !== (chamber === FEDERAL_SENATE)) continue;
       // Delegates and the Resident Commissioner don't vote on final passage
       // (House Rule III); a place with no senators has no senate rows.
       if (!senate && NON_VOTING.has(state)) continue;
       parties.forEach((rosterParty, index) => {
-        const seatId = senate
-          ? `seat:${state}:us-senate:${index}`
-          : `seat:${state}:us-house:${seat.padStart(2, "0")}`;
+        const seatId = `seat:${state}:${row.kindPrefix}:${senate ? index : seat.padStart(2, "0")}`;
         // The offices engine files a state's single House seat as "at-large".
         const real = [seatId, atLarge(seatId)]
           .map(
@@ -2356,12 +2370,12 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
                 key: `${seatId}:${won?.since ?? api.state.date}`,
                 seatId,
                 term: null,
-                body: senate ? "US:us-senate" : "US:us-house",
-                officeKind: senate ? "us-senate" : "us-house",
+                body: `${row.jurisdiction}:${row.kindPrefix}`,
+                officeKind: row.kindPrefix,
                 stateKey: state,
                 district: senate ? null : seat,
                 party,
-                termYears: senate ? 6 : 2,
+                termYears: row.termYears!,
               });
         const changed = official !== holder;
         const person = api.state.people.get(official.id)!;
@@ -2446,7 +2460,7 @@ export function memberPosition(
 
 const tieRules = (
   ties as unknown as {
-    states: Record<string, { stateSenateTieBreaker?: { who: string } }>;
+    states: Record<string, Record<string, { who: string } | undefined>>;
   }
 ).states;
 
@@ -2472,11 +2486,9 @@ function tieBreaker(api: CoreAPI, chamber: string): string | null {
   }
   const office = offices.table("offices").get(chamber) as unknown as
     { kind: string; jurisdiction: string } | undefined;
-  if (office?.kind !== "legislature-upper") return null;
-  if (
-    tieRules[office.jurisdiction]?.stateSenateTieBreaker?.who !==
-    "lieutenant governor"
-  )
+  const rule = office ? bodyRow(office.kind)?.tieBreaker : undefined;
+  if (!office || !rule) return null;
+  if (tieRules[office.jurisdiction]?.[rule]?.who !== "lieutenant governor")
     return null;
   const lg = (
     offices
@@ -4842,7 +4854,9 @@ function townshipOfBody(api: CoreAPI, bill: BillRow): string | null {
     .table("offices")
     .get(bill.bodyOfficeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
-  return office?.kind === "township-board" ? office.jurisdiction : null;
+  return office && bodyRow(office.kind)?.law === "township"
+    ? office.jurisdiction
+    : null;
 }
 
 function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
@@ -4851,7 +4865,7 @@ function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
     .table("offices")
     .get(bill.bodyOfficeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
-  if (office?.kind !== "county-board") return null;
+  if (!office || bodyRow(office.kind)?.law !== "county") return null;
   const chain = lawChain(api);
   const unit = governmentUnitsForPlace(
     chain.levels[chain.levels.length - 1]!.jurisdiction.slice("place:".length),
