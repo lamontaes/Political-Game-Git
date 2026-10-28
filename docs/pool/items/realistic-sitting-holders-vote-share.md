@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/realistic-sitting-vote-shares
 pr: #6448
 blocked-on:
