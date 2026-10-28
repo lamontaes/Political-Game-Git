@@ -321,7 +321,7 @@ describe("what the allowlist asks of a list-pick", () => {
   const pick = (extra: Record<string, unknown>) => ({
     entries: [
       {
-        file: "src/simulation/x.ts",
+        file: "src/core2/x.ts",
         kind: "list-pick",
         build: null,
         count: 1,
@@ -383,13 +383,13 @@ describe("what the allowlist asks of a list-pick", () => {
     });
     const found = [
       {
-        file: "src/simulation/x.ts",
+        file: "src/core2/x.ts",
         line: 3,
         kind: "list-pick",
         code: "const a = rng.pick(list);",
       },
       {
-        file: "src/simulation/x.ts",
+        file: "src/core2/x.ts",
         line: 9,
         kind: "list-pick",
         code: "const b = rng.pick(other);",
@@ -406,7 +406,7 @@ describe("what the allowlist asks of a list-pick", () => {
     expect(fresh.class).toBeNull();
     expect(unclassified(next)).toHaveLength(1);
     expect(growth(before, next)).toEqual([
-      { file: "src/simulation/x.ts", kind: "list-pick", before: 1, after: 2 },
+      { file: "src/core2/x.ts", kind: "list-pick", before: 1, after: 2 },
     ]);
   });
 });

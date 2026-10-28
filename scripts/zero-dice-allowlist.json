@@ -163,7 +163,7 @@
       "code": "let point = rng.next() * total;",
       "class": "IDENTITY",
       "keyedBy": "caller rng stream (person name)",
-      "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from src/simulation/given-name-cohorts.ts); who they are, not what they do.",
+      "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from the old engine's given-name-cohorts.ts); who they are, not what they do.",
       "replacement": null
     },
     {
