@@ -50,6 +50,21 @@ describe("the guard list", () => {
     }
   });
 
+  it("has a row for every guard in docs/design/guards.md, and no row for a gone one", () => {
+    const doc = readFileSync("docs/design/guards.md", "utf8");
+    const rows = [...doc.matchAll(/^\|\s*`([a-z0-9-]+)`\s*\|/gm)].map(
+      (m) => m[1],
+    );
+    expect(
+      GUARDS.map((guard) => guard.id).filter((id) => !rows.includes(id)),
+      "add a row to the table in docs/design/guards.md",
+    ).toEqual([]);
+    expect(
+      rows.filter((id) => !GUARDS.some((guard) => guard.id === id)),
+      "drop the row from docs/design/guards.md",
+    ).toEqual([]);
+  });
+
   it("is the guards job's only command", () => {
     const workflow = readFileSync(".github/workflows/validate.yml", "utf8");
     expect(workflow).toContain("npm run guards");
