@@ -106,10 +106,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-filed-for-office-this-morning-and-you-haven-t-worked-out-how-the-money-lasts",
+      "key": "scene-talk.narrate-narrate.you-filed-for-office-and-you-haven-t-worked-out-how-the-money-lasts-remaining",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You filed for {office} this morning, and you haven't worked out how the money lasts {remaining}.",
+      "text": "You filed for {office}, and you haven't worked out how the money lasts {remaining}.",
       "uses": [
         {
           "subject": "scene",

@@ -22,7 +22,8 @@
     "headline": "A printed or broadcast story's headline, as the paper screen words it.",
     "outlet": "The outlet's name as recorded.",
     "weekday": "The day of the week, from the calendar.",
-    "last-together": "When two people last spent time together, as spoken."
+    "last-together": "When two people last spent time together, as spoken.",
+    "position": "The speaker's new job, with its article (\"a server\"), from the job record's title."
   },
   "maxWords": 10,
   "mining": {
@@ -21226,6 +21227,150 @@
       "bearing": "curious",
       "date": "2026-10-27",
       "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.job-new-detail-raise.i-ll-be-position",
+      "move": "job-new-detail-raise",
+      "kind": "spoken",
+      "text": "I'll be {position}.",
+      "uses": [
+        {
+          "move": "job-new-detail-raise",
+          "subject": "job-new-detail",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-raise.they-took-me-on-as-position",
+      "move": "job-new-detail-raise",
+      "kind": "spoken",
+      "text": "They took me on as {position}.",
+      "uses": [
+        {
+          "move": "job-new-detail-raise",
+          "subject": "job-new-detail",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-raise.employer-took-me-on-as-position",
+      "move": "job-new-detail-raise",
+      "kind": "spoken",
+      "text": "{employer} took me on as {position}.",
+      "uses": [
+        {
+          "move": "job-new-detail-raise",
+          "subject": "job-new-detail",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-congratulate.that-sounds-like-a-good-fit",
+      "move": "job-new-detail-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "That sounds like a good fit.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-congratulate",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-congratulate.you-ll-be-good-at-that",
+      "move": "job-new-detail-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "You'll be good at that.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-congratulate",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-hope.i-hope-they-treat-you-right",
+      "move": "job-new-detail-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I hope they treat you right.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-hope",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-hope.i-hope-it-pays-what-it-should",
+      "move": "job-new-detail-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I hope it pays what it should.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-hope",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
+    },
+    {
+      "key": "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start",
+      "move": "job-new-detail-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Well, it's a start.",
+      "uses": [
+        {
+          "move": "job-new-detail-reply-answer-brief",
+          "subject": "job-new-detail-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28"
     }
   ]
 }
