@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/realistic-regional-opening
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:15:17.343Z
 ---
 
 **What.** The regional layer opens every state and metro on its published LAUS, CES and BEA figures (openingRegionMonths, src/core2/regional-model.ts:122), shifted only by a custom world's chosen national rate. The first night's jobs report and the Economy screen's region row print those figures. The owner ruled on Oct 27 that every statistic starts realistic, not real, and differs per world.
