@@ -26,8 +26,7 @@ export function prepareWorldAt(options: {
       (person) =>
         person.countyId &&
         person.jobId &&
-        ageOnDate(person.birthDate, input.startedAt) >=
-          parameter("benchmarkAdultMinimumAge"),
+        ageOnDate(person.birthDate, input.startedAt) >= parameter("votingAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   if (!player)
