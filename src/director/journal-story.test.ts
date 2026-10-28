@@ -62,12 +62,19 @@ describe("the journal as a story from birth", () => {
       (chapter) => chapter.lines,
     );
     expect(lines.length, where).toBeGreaterThan(0);
-    // The first thing told is the birth, citing its record.
+    // The birth is told, citing its record, wherever the run put the family
+    // that day (a town, a county, or elsewhere in the state); nothing told
+    // before it happened after it (the family as it stood that day may be).
+    const told = lines.findIndex(
+      (line) =>
+        line.sourceRecordIds.includes(birth!.id) && /born in/.test(line.text),
+    );
     expect(
-      lines[0]!.sourceRecordIds,
-      `${where}: "${lines[0]!.text}"`,
-    ).toContain(birth!.id);
-    expect(lines[0]!.text, where).toMatch(/born in/);
+      told,
+      `${where}: no line tells the birth; first is "${lines[0]!.text}"`,
+    ).toBeGreaterThanOrEqual(0);
+    for (const line of lines.slice(0, told))
+      expect(line.date <= birth!.date, `${where}: "${line.text}"`).toBe(true);
     // Then the years in the order they happened.
     const dates = lines.map((line) => line.date);
     expect(dates, where).toEqual([...dates].sort());
@@ -83,9 +90,9 @@ describe("the journal as a story from birth", () => {
   }, 300_000);
 
   /**
-   * Whether the Journal of the player drawn from this seed names every job
+   * Whether the Journal of a person drawn from this seed names every job
    * before the start only by its own employer; a reason it holds no such case
-   * otherwise (no job held today, every job with an employer, no line told).
+   * otherwise (no such person, or no line told).
    */
   const ownEmployersOnly = (drawSeed: string): string | null => {
     const place = drawPlace(drawSeed, "journal-story");
@@ -99,17 +106,31 @@ describe("the journal as a story from birth", () => {
         playerBirthDate: `${Number(gameStartDate().slice(0, 4)) - 35}-06-15`,
       },
     );
-    const id = playerId as PersonId;
-    const spells = preStartHistory(core, {
-      kind: "person.work-spell",
-      personId: id,
-    }).sort((a, b) =>
-      String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+    // The player first, then anyone else the run gave a working life: one
+    // who worked elsewhere before moving to town (a spell with no employer
+    // on record) and holds a job today, which such a spell must not borrow.
+    const spellsOf = (personId: PersonId) =>
+      preStartHistory(core, { kind: "person.work-spell", personId }).sort(
+        (a, b) =>
+          String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+      );
+    const people = [
+      playerId as PersonId,
+      ...[...core.people.values()]
+        .filter(
+          (row) => row.id !== playerId && row.alive && row.tier !== "husk",
+        )
+        .map((row) => row.id as PersonId)
+        .sort(),
+    ];
+    const id = people.find(
+      (personId) =>
+        core.people.get(personId)?.jobId &&
+        spellsOf(personId).some((row) => !row.facts.organizationId),
     );
-    // A job held today is what such a spell must not borrow.
-    if (!core.people.get(id)?.jobId) return `${where}: no job held today`;
-    if (!spells.some((row) => !row.facts.organizationId))
-      return `${where}: every job had an employer`;
+    if (!id)
+      return `${where}: no one worked elsewhere before a move and holds a job today`;
+    const spells = spellsOf(id);
     director.watch(core, id);
     const lines = composeJournal(core, director, id).flatMap(
       (chapter) => chapter.lines,
@@ -147,14 +168,14 @@ describe("the journal as a story from birth", () => {
     }
     if (!checked) return `${where}: no line told a job before the start`;
     process.stdout.write(
-      `journal-story: ${where}; ${checked} lines of jobs before the start checked\n`,
+      `journal-story: ${where}, ${id === playerId ? "the player" : id}; ${checked} lines of jobs before the start checked\n`,
     );
     return null;
   };
 
   it("names a job before the start only by its own employer, and none where none is on record", () => {
-    // Draw places (bounded) until the player worked somewhere before moving
-    // to town (a spell of the run with no employer on record) and holds a job
+    // Draw places (bounded) until someone worked somewhere before moving to
+    // town (a spell of the run with no employer on record) and holds a job
     // today.
     const passed: string[] = [];
     for (let draw = 0; draw < 12; draw += 1) {
