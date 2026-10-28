@@ -5,13 +5,13 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/director-scene-settings-chamber-office
+status: open
+claimed-by:
 pr:
 blocked-on:
 lead: director
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T02:08:24.983Z
+claimed-at:
 ---
 
 **What.** The story screen pictures a scene's setting through sceneSettings in src/bench/data/scene-places.json, which lists home, other-home, workplace, school, public, venue, phone and letter. The director also stages scenes at chamber, office and seat: vote-asked, vote-confirmed, vote-sought, desk-visit, bill-carry, section-bargain, staff-news, budget-cut, bribe-offer, office-hours, hallway, press-interview and address. Those have no entry, so the steps fall back to the player's home. A colleague asking for a vote at the capitol is drawn standing in the player's kitchen. The chambers are painted (state-house-chamber, council-chamber and others, read by bodyPlaces), and so is capitol-hallway. A member's own office has no painting (docs/art/WANTED.md dir-068 and dir-069).
