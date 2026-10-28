@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/tests-housing-line-town-share
-pr:
+pr: #6602
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T07:53:33.353Z

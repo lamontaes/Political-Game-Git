@@ -121,7 +121,6 @@
     "cannabis-sales-to-overdose-deaths",
     "privacy-law-to-earnings",
     "highway-money-for-transit-to-service",
-    "farmland-easements-to-farmland-lost",
     "transit-service-to-ridership",
     "mileage-fee-to-vehicle-miles",
     "fix-it-first-to-poor-roads",
@@ -510,6 +509,10 @@
     "city-anti-discrimination-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
+    },
+    "farmland-easements-to-farmland-lost": {
+      "waitingOn": [],
+      "carriedBy": "the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts), which reads this law in force and takes this row's size out of the share of new building that goes on farmland (the American Farmland Trust's 62%), so the land open to build on falls by that much and the town's single-family starts fall through the land-starts elasticity; each builder whose start the law restricted is recorded as the law applied (land-restricted). It applies from the law's effective date rather than after this row's five-year lag, and no record keeps the acres converted (stopgap SG-GOV-REACH-B-land-use)"
     },
     "groundwater-limits-to-irrigation-pumping": {
       "waitingOn": [],
