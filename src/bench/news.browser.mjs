@@ -1,4 +1,4 @@
-/* global document, console, URL, process */
+/* global document, console, URL, process, getComputedStyle */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 const browser = await chromium.launch({
