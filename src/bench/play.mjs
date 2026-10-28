@@ -2796,56 +2796,6 @@ const sheets = {
       }),
     ];
   },
-  /**
-   * Politics' own guide: what each tab is for, a page each, then how a
-   * player could run here, from the filing records: the race, the office
-   * that takes filings, and the dates.
-   */
-  async politicsGuide() {
-    const labels = controls.politics.guide;
-    const [government, terms] = await Promise.all([
-      api(`/api/government?id=${encodeURIComponent(me.id)}`),
-      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
-    ]);
-    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const next = government.nextFiling;
-    return recordScreen({
-      paged: true,
-      sections: [
-        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
-          title: controls.titles[tab],
-          items: [{ text: labels[tab] }],
-        })),
-        {
-          title: labels.runHere,
-          items: next
-            ? [
-                { fact: [labels.race, next.title] },
-                {
-                  fact: [
-                    labels.filesWith,
-                    next.filedWith.replace(
-                      /\s*\(counter: ([^)]*)\)/g,
-                      `, ${labels.atTheDeskOf} $1`,
-                    ),
-                  ],
-                },
-                { fact: [labels.filingOpens, dateWords(next.filingOpens)] },
-                {
-                  fact: [labels.filingDeadline, dateWords(next.filingDeadline)],
-                },
-                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
-                next.primaryDate && {
-                  fact: [labels.primary, dateWords(next.primaryDate)],
-                },
-                { fact: [labels.election, dateWords(next.electionDate)] },
-                next.estimated && { text: labels.estimated, tone: "small" },
-              ]
-            : [{ text: labels.noRace }],
-        },
-      ],
-    });
-  },
   async guide() {
     return listScreen({
       search: {
@@ -2920,7 +2870,6 @@ const sheets = {
             {
               actions: [
                 { label: labels.continue, onClick: closeSheet },
-                { label: labels.guide, onClick: () => openSheet("guide") },
                 // Dev mode, for a developer's session only.
                 {
                   label: labels.devMode,
@@ -3312,13 +3261,14 @@ const sheets = {
       // and the notes (owner, Oct 28: real rows, not printed lines; every
       // member clickable).
       const keyLine = (k) => {
+        // A leader's post is a Guide term (Speaker, Majority leader): the
+        // carbon-copy underline, its definition on hover (owner, Oct 28,
+        // point 23); the chamber follows as a note.
+        const lead = k.post && !k.own;
         const line = withNotes(
           personRow({
             name: k.name,
-            detail:
-              k.post && !k.own
-                ? `${words(k.post)}, ${k.chamber ?? k.officeTitle}`
-                : k.officeTitle,
+            detail: lead ? termLabel(words(k.post)) : k.officeTitle,
             face: k.face,
             onOpen: () => {
               closeSheet();
@@ -3326,6 +3276,7 @@ const sheets = {
             },
           }),
           [
+            lead ? (k.chamber ?? k.officeTitle) : null,
             k.own && k.post ? words(k.post) : null,
             k.stateName,
             // The President and Vice President a territory's voters do not choose.
@@ -3487,7 +3438,6 @@ const groups = {
     "parties",
     "issues",
     "budgets",
-    "politicsGuide",
   ],
   who: ["who", "jobs"],
 };
@@ -3575,7 +3525,8 @@ async function openSheet(tab) {
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu, Who you are among them. The card under it shows only the date
+// the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,
+// point 23: not a tab in Politics). The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 // The rail is named from the controls file, so it is mounted once that loads.
 void controlsReady.then(() => {
@@ -3590,6 +3541,7 @@ void controlsReady.then(() => {
       "news",
       "people",
       "travel",
+      "guide",
     ],
     controls.titles,
   );
