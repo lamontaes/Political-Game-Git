@@ -44,6 +44,8 @@ import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { WORLD_METRICS_MODULE_ID } from "./modules/world-metrics";
 import { WEB_LINKS } from "./outcome-web-model";
 import { CASH_BAIL, safetyParameter } from "./public-safety";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
+import { corePlaceByKey } from "./place-lookup";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 import crimeData from "./data/crime/victimization.json" with { type: "json" };
@@ -236,6 +238,8 @@ describe("pretrial-detention-to-conviction reaches the counted defendants the co
 /** Days to play: three months of records, the first on the opening's first 4th. */
 const DAYS = 80;
 const SHIFT_POINTS = 3;
+/** About 2,000 households: at 8.04 per 1,000 a year, a month owes more than one. */
+const MIN_VANDALISM_PEOPLE = 5000;
 
 interface VandalismYear {
   readonly month: CrimeMonth;
@@ -331,8 +335,31 @@ describe("unemployment-to-vandalism and crime-level-to-vandalism reach the house
     () => {
       const was = setBookkeeping(false);
       try {
-        const drawn = drawPlace(seed, "law-wiring-crime-web:vandalism");
-        const where = `${drawn.name}, ${drawn.state} (${drawn.key}), seed ${seed}`;
+        // A month owes a town's households vandalism at about 8 per 1,000 a
+        // year, so a town needs some thousands of people for a month to owe
+        // one whole household: smaller towns are passed over, named, before a
+        // world is built (the carried remainder still counts there).
+        const passed: string[] = [];
+        let drawn: ReturnType<typeof drawPlace> | undefined;
+        for (let attempt = 0; attempt < 40 && !drawn; attempt += 1) {
+          const place = drawPlace(
+            seed,
+            `law-wiring-crime-web:vandalism:${attempt}`,
+          );
+          const people = publishedPlaceReferencePopulation(
+            corePlaceByKey(place.key)?.sourceGeoid ?? place.key,
+          )?.value;
+          if (people !== undefined && people < MIN_VANDALISM_PEOPLE) {
+            passed.push(`${place.name}, ${place.state}: ${people} people`);
+            continue;
+          }
+          drawn = place;
+        }
+        if (!drawn)
+          throw new Error(
+            `no drawn town had ${MIN_VANDALISM_PEOPLE} people: ${passed.join("; ")}`,
+          );
+        const where = `${drawn.name}, ${drawn.state} (${drawn.key}), seed ${seed}; passed over ${passed.length ? passed.join("; ") : "none"}`;
         const control = vandalismMonths(drawn, false);
         const shifted = vandalismMonths(drawn, true);
         const base = control.month;
