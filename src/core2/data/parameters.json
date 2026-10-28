@@ -14,6 +14,11 @@
     "tag": "SOURCED",
     "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
   },
+  "half": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
+  },
   "negativeOne": {
     "value": -1,
     "tag": "SOURCED",
@@ -6142,14 +6147,14 @@
     }
   },
   "traitWeightStaffHire": {
-    "value": 0.65,
+    "value": 0.2,
     "tag": "ESTIMATED",
-    "citation": "Kardaslar, Kritikos and Menkhoff 2026, Personality Traits of Entrepreneurs and the Size of Their Firms, DIW Discussion Paper 2173, Table 6: openness changes the odds of running a business alone rather than with at least one employee by a factor of 0.776 per standard deviation (SOEP 2019, 2,473 entrepreneurs; row staff.hire in data/research/trait-effect-sizes.json, a proxy: a first employee, not an official's staff; extraversion 1.162 and conscientiousness 1.138 point toward hiring). Carried to the thirds (2.18 standard deviations apart), a log odds gap of 0.55 (odds ratio 1.74). An official's case varies only with the office's budget, so the thirds' odds in play are set by temperament alone at any weight; the weight is the study's log odds gap over the gap in lean between the thirds of officials weighing it: 0.876 in Jerry City, Ohio (72 calls) and 0.826 in New Britain, Connecticut (25 calls), giving 0.63 and 0.67.",
+    "citation": "Kardaslar, Kritikos and Menkhoff 2026, Personality Traits of Entrepreneurs and the Size of Their Firms, DIW Discussion Paper 2173, Table 6: openness changes the odds of running a business alone rather than with at least one employee by a factor of 0.776 per standard deviation (SOEP 2019, 2,473 entrepreneurs; row staff.hire in data/research/trait-effect-sizes.json, a proxy: a first employee, not an official's staff). Carried to the thirds, an odds ratio of 1.74. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.2, where office budgets differ, Blakely, Georgia (1308536, a458468e363e) reaches 2.17 over 35 officials; where every office can afford an aide, as in Stockbridge, Georgia (1373704, bde29897f271), temperament turns none (1.00), the gap row's subject (gov-official-staff-allowance-by-office).",
     "spread": {
-      "low": 0.28,
-      "high": 1.02,
+      "low": 0.15,
+      "high": 0.3,
       "unit": "weight",
-      "citation": "Weight scales with the log odds: the study's interval for openness, 0.673 to 0.895 per standard deviation, gives 0.28 to 1.02."
+      "citation": "The crossed fit's neighbors in Blakely: 0.15 gives 1.71 and 0.3 gives 4.11."
     }
   },
   "traitWeightInterestGroupsMemberJoin": {
@@ -6252,32 +6257,36 @@
     }
   },
   "traitWeightConstituentCasesBringCase": {
-    "value": 0.51,
+    "value": 0.045,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator in the past two years by 0.92 across the trait's full 0-to-1 range (2006 CES, N about 1,065; row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact, not only a casework request). Carried to the thirds with the trait's own standard deviation (0.26 of its range), a log odds gap of 0.52 (odds ratio 1.68); Gerber et al. 2011's contact with a local official gives 0.40. Bringing a problem is decided by its severity against caseEffort, and most residents out of work sit at the same severity, so the thirds' odds in play depend on where the line falls in that pile, not on the weight. The weight is therefore the study's log odds gap over the gap in lean between the thirds of residents weighing a case: 1.087 in Jerry City, Ohio (place key 3939074, 217 calls) and 0.957 in New Britain, Connecticut (0950370, 528 calls), giving 0.48 and 0.54.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator by 0.92 across the trait's range (row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact), a log odds gap of 0.52 between thirds (odds ratio 1.68). A resident's case carries the problem's severity and their interest in politics against the effort. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.045, one played year each, every module: Blakely, Georgia (place key 1308536, seed a458468e363e) 1.62 over 366 residents; Stockbridge, Georgia (1373704, bde29897f271) 2.87 over 845.",
     "spread": {
-      "low": 0.22,
-      "high": 0.8,
+      "low": 0.03,
+      "high": 0.06,
       "unit": "weight",
-      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 0.39 to 1.45 (0.92 gives 0.51)."
+      "citation": "The crossed fit's neighbors in the same years: 0.03 gives 1.36 to 2.16 and 0.06 about 1.9 to 3.6."
     }
   },
   "traitWeightConstituentCasesHandleCase": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the constituent-cases.handle-case decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991, The Big Five personality dimensions and job performance, Personnel Psychology 44(1): conscientiousness correlates about 0.22 with job performance, an odds ratio of 2.44 between thirds (row constituent-cases.handle-case in data/research/trait-effect-sizes.json, a proxy: an official's diligence with a case as job performance). The official weighs the case's own circumstances (severity, closeness to the resident, the office's open load); nearly every case is helped, so a small weight already turns the few that sit near the line. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.02, one played year each, every module: Blakely, Georgia (1308536, a458468e363e) 3.02 over 10 officials; Stockbridge, Georgia (1373704, bde29897f271) 2.51 over 8.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.01,
+      "high": 0.025,
+      "unit": "weight",
+      "citation": "The crossed fit's neighbors: 0.01 gives about 1 to 1.9 and 0.025 about 5, where the cases near the line all turn."
     }
   },
   "traitWeightStaffFollowThrough": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the staff.follow-through decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991 (as for constituent-cases.handle-case): conscientiousness and job performance, an odds ratio of 2.44 between thirds (row staff.follow-through in data/research/trait-effect-sizes.json). A staffer weighs their work quality against the follow-through bar and the office's open load. Fitted by crossing every case kept in a played year with every decider's lean, so the thirds of deciders face the same cases (scripts/traits/trait-wiring-matrix.ts, crossedNetOddsRatio): a town has only 2 to 10 officials handling cases, so the plain thirds rest on one to three people each. At 0.2, one played year each, every module: Blakely, Georgia (1308536, a458468e363e) 1.38 over 10 staffers; Stockbridge, Georgia (1373704, bde29897f271) 2.95 over 10.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.15,
+      "high": 0.25,
+      "unit": "weight",
+      "citation": "The crossed fit's neighbors: 0.15 gives 1.07 to 2.76 and 0.25 gives 1.92 to 3.42."
     }
   },
   "traitWeightJobsBenefitsFileClaim": {
@@ -6793,6 +6802,29 @@
       "high": 0.65,
       "unit": "ratio to the attendance weight",
       "citation": "From secondary conscientiousness over attendance and class grades (.21/.44 = 0.48) or GPA (.21/.41 = 0.51), to primary over class grades (.28/.44 = 0.64)."
+    }
+  },
+  "budgetWorldLineSpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's budget line sits from the published one, as a share of it: about a year's change in a state or local government's line (Census Annual Survey of State and Local Government Finances, fiscal 2021 to 2022, functions moved 2% to 10%) and the federal receipts and outlays' year-to-year change (Monthly Treasury Statement, fiscal 2024 to 2025).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published line is the center; a world's offset for each government and line is drawn once from its seed at Start, its size between budgetWorldOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published line",
+      "citation": "data/research/money/public-budget-bases.json; data/research/money/federal-budget-fy2025.json."
+    }
+  },
+  "budgetWorldOffsetFloorShare": {
+    "value": 0.34,
+    "tag": "TUNABLE",
+    "citation": "The smallest share of the spread a world's budget offset takes, so no world opens on the published line.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "share of the spread",
+      "citation": "Matches macroWorldOffsetFloorShare."
     }
   },
   "pastWorkLayoffsPerQuarter": {

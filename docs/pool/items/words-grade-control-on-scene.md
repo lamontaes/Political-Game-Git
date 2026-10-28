@@ -5,13 +5,14 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/grade-control
+pr: #6454
 blocked-on:
 lead: words
 milestone: play-first
 source: words-grades-calibrate-by-trait-and-register follow-up (owner, Oct 27)
+claimed-at: 2026-10-28T00:19:59.006Z
 ---
 
 **What.** The owner grades inside play, not in a laid-out batch (Oct 27). The reach of a grade now exists (`src/english/grade-reach.ts`); nothing in play writes one. Add a thumbs up or down and a one-word note on a scene line, written as a grade on the piece that said it.

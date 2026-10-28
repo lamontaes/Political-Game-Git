@@ -16,7 +16,7 @@ import {
 import { bodyOf, members } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI, fillInPerson } from "../core2/state";
-import { billTitleOf } from "../english/bill-names";
+import { billTitleOf, spokenDesignation } from "../english/bill-names";
 import { composeJournal } from "./journal";
 
 // The officeholder's journal names a bill by its real name (owner, Oct 15):
@@ -85,10 +85,13 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
     day += 1
   )
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const name = billTitleOf(billOf(api, bill.id))!.title;
-  // A short title is a name and its form word, so a sentence says it with
-  // its article: "I voted for the Bottle Deposit Act."
-  const said = `the ${name}`;
+  const row = billOf(api, bill.id)!;
+  const name = billTitleOf(row)!.title;
+  // The number a scene about the bill says, then the title with its
+  // article, so the journal ties to the scene: "I voted for Ordinance
+  // 2025-3, the Bottle Deposit Ordinance."
+  const number = spokenDesignation(row.number, row.form.kind);
+  const said = `${number}, the ${name}`;
   const cast = votesOn(api, bill.id).find((row) => row.memberId === memberId);
   const lines = composeJournal(core, director, memberId).flatMap(
     (chapter) => chapter.lines,

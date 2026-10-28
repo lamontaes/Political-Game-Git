@@ -1,0 +1,51 @@
+{
+ "scene": "national-convention-floor",
+ "plate": "sg-convfloor",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "business"
+ },
+ "zones": [
+  {
+   "name": "center aisle",
+   "box": [
+    620,
+    360,
+    740,
+    690
+   ],
+   "pose": "stand",
+   "seat": "none",
+   "facing": 180
+  },
+  {
+   "name": "right aisle",
+   "box": [
+    960,
+    360,
+    1120,
+    780
+   ],
+   "pose": "stand",
+   "seat": "none",
+   "facing": 180
+  },
+  {
+   "name": "delegates",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": 180,
+   "coveredBy": "chair-back"
+  }
+ ]
+}

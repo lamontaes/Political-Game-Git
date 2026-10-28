@@ -2513,24 +2513,3 @@ export const BUSINESS_MODULE: PreStartModule = {
     if (!store(api).table("state").get("business:state")) open(api);
   },
 };
-
-/** A law limits an input a business uses (groundwater): its output and sales fall (OPUS-GOV's law reach calls this). */
-export function setBusinessOperatingLimit(
-  api: CoreAPI,
-  input: Parameters<typeof setOperatingLimit>[2],
-): void {
-  setOperatingLimit(api, store(api).table("operating"), input);
-}
-
-/** A law adds a compliance cost to a business's operations (a clean air plan). */
-export function addBusinessComplianceCost(
-  api: CoreAPI,
-  input: Parameters<typeof addRegulatoryCost>[2],
-): void {
-  addRegulatoryCost(api, store(api).table("operating"), input);
-}
-
-/** A repeal: `limit:<organization>:<input>` or `cost:<organization>:<cause>`. */
-export function endBusinessOperatingRule(api: CoreAPI, id: string): void {
-  endOperatingRule(api, store(api).table("operating"), id);
-}

@@ -5,12 +5,13 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/m111-long
+pr: #6456
 blocked-on:
 lead: speed
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:19:14.128Z
 ---
 
 **What.** The golden-path check on pull requests is red on main and on unrelated pull requests because the suite runs out of its shared budget (scripts/core2-guard/policies.json, prMilliseconds), not because a spec fails. M1-11 is now the longest accepted spec, and its time depends on the place drawn: 51.9 seconds in Mount Hebron, California (PR #6421's run at dd197f09af, where M3-09 then timed out in Wiley, Colorado), and 192.9 seconds in Newington, Virginia (PR #6440's run at 6e45a87325, where M2-05 timed out in Kealakekua, Hawaii and M2-06, M2-07, M2-08, M2-04, M2-09 and M3-09 never ran). Main's own golden-path job failed the same way on the #6423 merge. Every spec that finished passed in both runs. The earlier fix (play-golden-path-budget-starved-by-played-year) moved the played year to its own job; M1-11 has grown into the same role.

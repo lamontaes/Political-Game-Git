@@ -56,7 +56,7 @@ try {
     .locator('[data-tab="calendar"]')
     .first()
     .evaluate((e) => e.click());
-  const upcoming = page.locator(".calendar-upcoming");
+  const upcoming = page.locator(".calendar-side");
   await upcoming.waitFor();
   if (shots)
     await page.screenshot({
@@ -66,9 +66,20 @@ try {
   console.log("Turns 18:", own.date);
   let listed = false;
   for (let p = 0; p < 20 && !listed; p++) {
-    listed = (await upcoming.innerText()).includes(words(own.date));
-    const text = await upcoming.innerText();
-    listed = listed && /your birthday/i.test(text);
+    // Coming up names the day as "Feb 6" beside the line.
+    listed = await upcoming.locator(".calendar-entry").evaluateAll(
+      (rows, day) =>
+        rows.some(
+          (row) =>
+            row.querySelector(".when")?.textContent.trim() === day &&
+            /your birthday/i.test(row.textContent),
+        ),
+      new Date(`${own.date}T12:00:00Z`).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        timeZone: "UTC",
+      }),
+    );
     if (listed) break;
     const next = upcoming.locator("button", { hasText: /continue|next|›|→/i });
     if (!(await next.count()) || (await next.last().isDisabled())) break;

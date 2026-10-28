@@ -330,7 +330,7 @@
       "eventFacts": {
         "law": {
           "fact": "billId",
-          "format": "billName"
+          "format": "billNumberAndName"
         }
       }
     },
@@ -342,7 +342,7 @@
       "eventFacts": {
         "law": {
           "fact": "billId",
-          "format": "billName"
+          "format": "billNumberAndName"
         }
       }
     },
