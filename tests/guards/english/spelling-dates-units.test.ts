@@ -19,6 +19,7 @@ import {
   proseKindOf,
   proseRanges,
 } from "../../../scripts/prose-eval/prose-ranges";
+import { ALLOWED_PHRASES } from "./allowlist";
 
 /**
  * The project writes American English: color, center, labor, organize;
@@ -81,7 +82,13 @@ function scan(file: string, text: string): Finding[] {
   const allowed = allowedLines(text);
   const player = isPlayerSource(file);
   for (const range of proseRanges(text, file)) {
-    const prose = text.slice(range.start, range.end);
+    // The one allowlist's names and quotations are blanked to spaces of the
+    // same length, so every other offset (and its line) stays where it was.
+    const prose = ALLOWED_PHRASES.reduce(
+      (out, allowed) =>
+        out.replace(allowed.pattern, (match) => " ".repeat(match.length)),
+      text.slice(range.start, range.end),
+    );
     const report = (offset: number, what: string, match: string) => {
       const line = lineAt(text, range.start + offset);
       if (allowed.has(line)) return;

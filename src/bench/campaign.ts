@@ -1,3 +1,4 @@
+import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
   askForDonation,
@@ -40,7 +41,7 @@ import {
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-views";
 import { backdropFile, stagePeople } from "./scene";
-import { dateWords, dollarsOf, nameList, standingLine } from "./race-words";
+import { dollarsOf, nameList, standingLine } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
@@ -317,7 +318,7 @@ export function raceStanding(
             lastPoll.contacted === 1 ? "poll-result-one" : "poll-result",
             id,
             {
-              date: dateWords(lastPoll.date),
+              date: spokenDate(lastPoll.date),
               contacted: lastPoll.contacted,
               // The candidates' answers, by name; the bank has no words for
               // the undecided yet, so they are left out of the tally.

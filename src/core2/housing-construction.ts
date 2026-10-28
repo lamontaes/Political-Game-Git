@@ -19,6 +19,7 @@ import construction from "./data/housing/construction.json" with { type: "json" 
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
 import { webFactorFor } from "./outcome-web-reach";
+import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
@@ -160,6 +161,9 @@ export function openStock(
   } satisfies StockRow);
 }
 
+/** The outcome web's farmland link, which the builders' starts decision carries at its researched size. */
+const FARMLAND_LINK = "farmland-easements-to-farmland-lost";
+
 /** What the law in force allows here (OPUS-GOV's zoning, inclusionary, building-code and farmland handlers set it). */
 export function setZoning(
   stock: ModuleTable,
@@ -263,8 +267,13 @@ export function buildMonth(
     priceLevel *
     (1 + (z.allElectric ? construction.single.allElectricCostChange : 0));
   const singleValue = input.homeValueMinor / openingHomeValueMinor;
+  // Protection holds back the researched share of farmland's loss (the
+  // outcome web's farmland-easements-to-farmland-lost row, Liu and Lynch
+  // 2011, which the builders carry) out of the share of new building that goes
+  // on farmland: that much less land is open to build on.
   const farmland = z.farmlandProtected
-    ? 1 - construction.farmland.developmentShare
+    ? 1 +
+      construction.farmland.developmentShare * carriedLink(FARMLAND_LINK).size!
     : 1;
   // Unsold new houses weigh on starts as they pass the usual months of supply.
   const usual =

@@ -10,6 +10,10 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
+import { closenessBetween } from "../core2/closeness";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
+import { coreAPI } from "../core2/state";
 import { gameStartDate } from "../core2/game-start";
 import { preStartHistory } from "../core2/pre-start";
 import { sharedHistory } from "../core2/shared-history";
@@ -37,12 +41,12 @@ it("the card lists the shared history and seats by the scenes' record ids", () =
   for (const id of sharing) {
     const card = knownCard(core, me, id);
     expect(
-      card.shared.map((row) => `${row.kind}:${row.recordId}`),
+      card.shared.map((row) => row.recordId),
       `${where}: ${id}`,
     ).toEqual(
       sharedHistory(core, me, id)
         .filter((row) => row.kind !== "family")
-        .map((row) => `${row.kind}:${row.recordId}`),
+        .map((row) => row.recordId),
     );
     if (card.tie)
       expect(card.tie.recordId, where).toBe(
@@ -73,5 +77,68 @@ it("the card lists the shared history and seats by the scenes' record ids", () =
   }
   console.log(
     `${where}: ${sharing.length} share a record with the player; ${seated.length} hold a seat from before the start`,
+  );
+}, 600_000);
+
+it("a workgroup coworker's card and the director's tie moment cite the same records", () => {
+  const place = drawPlace(seed, "card-shared-coworker");
+  const where = `${place.name} (${place.key}), seed ${seed}`;
+  setBookkeeping(false);
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core, director } = world;
+  // The player, or the first of their household (then the town) who works
+  // beside someone they know: a player who just turned 18 may have no job.
+  const knownCoworker = (id: PersonId) =>
+    [...(core.people.get(id)?.knownIds ?? [])]
+      .sort()
+      .find((other) =>
+        sharedHistory(core, id, other as PersonId).some(
+          (row) => row.kind === "coworker",
+        ),
+      ) as PersonId | undefined;
+  const player = world.playerId! as PersonId;
+  const me = [
+    player,
+    ...(core.households.get(core.people.get(player)!.householdId)?.memberIds ??
+      []),
+    ...[...core.people.keys()].sort(),
+  ].find((id) => knownCoworker(id as PersonId)) as PersonId;
+  expect(me, `${where}: nobody knows a coworker`).toBeDefined();
+  director.watch(core, me);
+  const mateId = knownCoworker(me);
+  const employerId = sharedHistory(core, me, mateId!).find(
+    (row) => row.kind === "coworker",
+  )!.recordId;
+  const tieId = me < mateId! ? `${me}:${mateId}` : `${mateId}:${me}`;
+
+  // The card: the tie by its relationship record, the work by the employer.
+  const card = knownCard(core, me, mateId!);
+  expect(card.tie?.recordId, where).toBe(tieId);
+  expect(
+    card.shared.find((row) => row.kind === "coworker" || row.kind === "worked")
+      ?.recordId,
+    where,
+  ).toBe(employerId);
+  expect(card.tie?.level, where).toBe(closenessBetween(core, me, mateId!));
+
+  // The scene: a contact between them moves the tie the director watches;
+  // the moment it writes cites the same relationship record and names the
+  // employer's history, so the scene is never a stranger's. The contact is
+  // put in by hand, large enough to turn the tie (a fixture for the trigger;
+  // every record read is the world's own).
+  coreAPI(core).relationship(me, mateId!, "contact", 200, undefined, {
+    cause: "fixture-contact",
+    sourceId: "fixture-contact",
+  });
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  const moment = [...director.ledger.people.get(me)!.momentsById.values()].find(
+    (row) => row.causeId === tieId,
+  );
+  expect(moment?.causeKind, where).toBe("contact:coworker");
+  console.log(
+    `${where}: tie ${tieId}, employer ${employerId}, moment ${moment?.id}`,
   );
 }, 600_000);

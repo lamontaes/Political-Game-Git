@@ -163,7 +163,7 @@ export function ensureStartingPersonalMoney(
   // a family measure read for one earner, and the person's own habits do not
   // move it yet: no source measures how temperament moves savings.
   const balance = Math.round(
-    medianTransactionBalance(currentPay.annual / 100) * 100,
+    medianTransactionBalance(currentPay.annual / 100, world.seed) * 100,
   );
   if (!Number.isSafeInteger(balance) || balance < 0)
     throw new Error("Starting money exceeds the exact money range.");
@@ -211,7 +211,7 @@ export function estimatedPersonalBalance(
   if (annualPayMinorUnits !== null) {
     return {
       minorUnits: Math.round(
-        medianTransactionBalance(annualPayMinorUnits / 100) * 100,
+        medianTransactionBalance(annualPayMinorUnits / 100, world.seed) * 100,
       ),
       basis:
         "ESTIMATED FROM AVERAGE: the Survey of Consumer Finances 2022 median held in transaction accounts by families at this pay.",
