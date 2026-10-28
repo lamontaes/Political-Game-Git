@@ -250,13 +250,8 @@
         "tag": "close"
       },
       {
-        "move": "^(inaugural|state-of-the-union|state-floor)-close$",
+        "move": "^state-floor-close$",
         "tag": "close"
-      },
-      {
-        "move": "^inaugural-moment$",
-        "tag": "tell",
-        "key": "honor"
       },
       {
         "move": "-salutation$",
@@ -285,18 +280,6 @@
       },
       {
         "move": "^public-comment-story$",
-        "tag": "tell"
-      },
-      {
-        "move": "^state-of-the-union-ask$",
-        "tag": "request"
-      },
-      {
-        "move": "^state-of-the-union-guest$",
-        "tag": "introduce"
-      },
-      {
-        "move": "^state-of-the-union-report$",
         "tag": "tell"
       },
       {
@@ -1019,14 +1002,6 @@
       {
         "move": "-close$",
         "tag": "close"
-      },
-      {
-        "move": "^state-of-the-union-congress$",
-        "tag": "request"
-      },
-      {
-        "move": "^state-of-the-union-governors$",
-        "tag": "thank"
       },
       {
         "move": ".",
