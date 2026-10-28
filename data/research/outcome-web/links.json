@@ -5128,7 +5128,7 @@
       "from": "law:sales-tax",
       "range": [0, 0],
       "rangeSource": "Poterba 1996 abstract: \"retail prices rise by approximately the amount of the sales tax\" (eight cities, 1947-77); Table 3 total responses of tax-inclusive clothing and personal-care prices to a one-point rate change are 1.33, 0.84 and 1.17, and the paper says it is \"never possible to reject the null hypothesis that prices rise point-for-point with changes in the retail sales tax\". Point-for-point pass-through to the price with tax means no change in the price before tax, so the pre-tax level is zero. The Depression-era estimate (0.62, 1925-39) and Besley and Rosen's overshifting for some goods are the spread on either side, and neither is a pre-tax move the web can attach to one direction. Besley and Rosen 1999 abstract: \"For some commodities, the after-tax price increases by exactly the amount of the tax.\"",
-      "notes": "Read by nothing, on purpose: the purchase-tax engine charges the tax at each sale (src/core2/modules/purchase-tax.ts collect), so a link that also raised the pre-tax price level would charge households twice. household.prices is the pre-tax level businesses set (finance-state.ts reads its factor at their price review)."
+      "notes": "Not run by the web, on purpose: the purchase-tax engine takes the tax inside each sale (src/core2/modules/purchase-tax.ts collect), and the business price review passes a change in the tax into the seller's tax-inclusive price point for point (salesTaxPassThrough at one, src/core2/finance-state.ts), so the price before tax holds still, as this row's research finds. household.prices is the pre-tax level businesses set (finance-state.ts reads its factor at their price review), so a web link that also raised it would charge the tax twice."
     },
     {
       "strength": "about-zero",
@@ -5356,7 +5356,8 @@
       "anchor": "Removing the grocery tax cuts food insecurity 3.2% among households under $30,000, where most food-insecure households are, so about 2% statewide; only states that taxed groceries in 2024 change",
       "source": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
       "range": [-0.035, -0.005],
-      "notes": "Not carried: food insecurity is a ledger number (stopgap SG-WEB-food-insecurity-ledger). The purchase-tax engine already lowers the price of groceries where the exemption holds; a food-insecurity record should read that price against the household's income."
+      "notes": "The exemption reaches food through two engines instead of the web's ledger: the sales tax engine spares the grocery share of every retail seller's sales (syncSalesTax in src/core2/modules/budgets.ts), and the seller's next price review passes the change in what it keeps of each dollar into its tax-inclusive price (salesTaxPassThrough, src/core2/finance-state.ts).",
+      "carriedBy": "the sales tax engine, which spares the grocery share of each retail seller's sales where the exemption holds (syncSalesTax in src/core2/modules/budgets.ts), the business price review, which passes the tax change into the seller's tax-inclusive price (salesTaxPassThrough in src/core2/finance-state.ts), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan at those prices from what its members hold, so the exemption buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     {
       "key": "harm-reduction-to-overdose-deaths",
@@ -6450,7 +6451,8 @@
       "who": "Households with incomes under 130 percent of the poverty line, the likely SNAP-eligible, 12.5 percent of all households.",
       "lagWhy": "The 2011 report compares late 2008 with late 2009, eight months after the April 2009 rise; the benefit is spent in the month it is paid, so the link takes effect at once.",
       "aboutZero": false,
-      "notes": "Linear in the rise since the opening. The same benefit also moves program.snap-receipt:moved-by-causes only through the work requirement, so this link and snap-to-food-insecurity do not count one cause twice. The engine that pays it is the budgets engine's monthly close (src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household the maximum in force less its expected food spending."
+      "notes": "Linear in the rise since the opening. The same benefit also moves program.snap-receipt:moved-by-causes only through the work requirement, so this link and snap-to-food-insecurity do not count one cause twice. The engine that pays it is the budgets engine's monthly close (src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household the maximum in force less its expected food spending.",
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     {
       "key": "health-hospitals-spending-to-infant-mortality",

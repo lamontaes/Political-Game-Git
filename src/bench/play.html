@@ -122,7 +122,6 @@
             class="item"
             type="button"
             data-testid="title-patch-notes"
-            disabled
           >
             <b>Patch notes</b>
           </button>
@@ -455,9 +454,25 @@
             <button id="cr-place-back" class="action small" type="button">
               Back
             </button>
+            <button
+              id="cr-place-random"
+              class="action small"
+              type="button"
+              data-testid="creator-random-place"
+              data-label="creator.randomPlace"
+            ></button>
           </div>
         </div>
         <div id="cr-look" data-testid="creator-stage-appearance" hidden>
+          <button
+            id="cr-place-summary"
+            class="summary"
+            type="button"
+            data-testid="creator-summary-place"
+          >
+            <span id="cr-place-summary-name" class="summary-value"></span
+            ><span class="summary-edit">Change</span>
+          </button>
           <img
             id="cr-portrait"
             class="portrait"

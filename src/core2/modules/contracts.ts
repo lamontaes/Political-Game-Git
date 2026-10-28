@@ -31,7 +31,12 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { GovernmentRow } from "./budgets";
 import { ownerOf } from "./business";
-import { CORRUPTION_MODULE_ID, considerBribe } from "./corruption";
+import {
+  CORRUPTION_MODULE_ID,
+  considerBribe,
+  crimeRecord,
+  settleBribe,
+} from "./corruption";
 import { governingMembers, memberKey } from "./legislature";
 
 export const CONTRACTS_MODULE_ID = "contracts";
@@ -319,6 +324,22 @@ function award(
     paymentIds: [],
   };
   table(api).put(row as unknown as ModuleRow);
+  // A bribe taken for the award is settled by whether the payer's firm won the award: a
+  // payer whose firm the bought member did not rank first loses closeness to
+  // them, the route by which the bribe surfaces (corruption.ts).
+  for (const bribe of bribes) {
+    if (!bribe.taken) continue;
+    const crime = crimeRecord(api, bribe.crimeId);
+    if (crime)
+      settleBribe(
+        api,
+        crime,
+        crime.subjectId,
+        // The favor bought is the award itself.
+        winner === bribe.organizationId,
+        votes[bribe.memberId] ?? "abstain",
+      );
+  }
   return { id: row.id, organizationId: winner };
 }
 

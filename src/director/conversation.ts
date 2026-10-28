@@ -29,7 +29,12 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf } from "../core2/modules/people";
-import { heldSinceRecord, schoolsAttended } from "../core2/past";
+import {
+  PERSON_MOVED_IN,
+  heldSinceRecord,
+  preStartHistory,
+  schoolsAttended,
+} from "../core2/past";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
@@ -77,7 +82,11 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { kinAddress, relationPhrase } from "../english/journal-words";
+import {
+  kinAddress,
+  relationPhrase,
+  withArticle,
+} from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
@@ -841,18 +850,33 @@ export function subjectsBetween(
   const startedOrg = startedJob
     ? core.organizations.get(startedJob.organizationId)
     : undefined;
-  if (started && startedJob && startedOrg)
+  if (started && startedJob && startedOrg) {
+    const employer = {
+      text: properName(startedOrg.name),
+      sourceRecordIds: [startedJob.id, startedOrg.id],
+    };
     out.push({
       id: `job-new:${started.causeId}`,
       kind: "job-new",
       aboutId: started.causeId,
-      facts: {
-        employer: {
-          text: properName(startedOrg.name),
-          sourceRecordIds: [startedJob.id, startedOrg.id],
-        },
-      },
+      facts: { employer },
     });
+    // What the new job is, from its record, for the listener who asks
+    // ("What will you be doing there?"): a question is never left unanswered.
+    if (startedJob.title)
+      out.push({
+        id: `job-new-detail:${started.causeId}`,
+        kind: "job-new-detail",
+        aboutId: started.causeId,
+        facts: {
+          employer,
+          position: {
+            text: withArticle(startedJob.title),
+            sourceRecordIds: [startedJob.id],
+          },
+        },
+      });
+  }
   // The listener's own new job, as the speaker would take it up ("Congratulations
   // on the job at ..."). Said only once the rules map "job-new-told" to a
   // reply kind and the bank has words for it (src/director/data/conversation-rules.json).
@@ -1354,13 +1378,21 @@ function playerFacts(
     };
   let stage: string | undefined;
   if (last.kind === "home" || last.kind === "home-new") {
-    const moved = (player.pastFacts ?? []).find(
-      (row) => row.kind === "life:moved-into-county",
-    );
-    const born = (player.pastFacts ?? []).find(
-      (row) =>
-        row.kind === "birthplace" && row.facts?.placeId === player.placeId,
-    );
+    // The move the run of the years before the start recorded, and where
+    // the player was born, from the run's birth record (or the opening's).
+    const moved = preStartHistory(core as CoreState, {
+      kind: PERSON_MOVED_IN,
+      personId: player.id,
+    })[zero];
+    const born =
+      preStartHistory(core as CoreState, {
+        kind: "person.birth",
+        personId: player.id,
+      }).find((row) => row.placeId === player.placeId) ??
+      (player.pastFacts ?? []).find(
+        (row) =>
+          row.kind === "birthplace" && row.facts?.placeId === player.placeId,
+      );
     if (moved) {
       facts.years = {
         text: String(
@@ -1692,6 +1724,7 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "illness-news",
   "prison-news",
   "job-new",
+  "job-new-detail",
   "job-new-told",
 ]);
 

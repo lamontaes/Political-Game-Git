@@ -3,12 +3,12 @@
   "summary": {
     "links": 244,
     "lawLinks": 134,
-    "webCoverageWired": 125,
+    "webCoverageWired": 123,
     "allEightPoints": 0,
-    "reachesOrCarried": 147,
+    "reachesOrCarried": 149,
     "namedInAStopgap": 99,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 147,
+    "reachesTheWorld": 149,
     "aboutZero": 19,
     "withAnyModerator": 23,
     "byPoint": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 147,
+        "pass": 149,
         "partial": 0,
-        "fail": 78,
+        "fail": 76,
         "n/a": 19
       },
       "varied": {
@@ -83,7 +83,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112"
+          "evidence": "src/core2/modules/crime.ts:580"
         },
         "varied": {
           "status": "fail",
@@ -177,7 +177,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606"
         },
         "varied": {
           "status": "fail",
@@ -223,7 +223,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98"
+          "evidence": "src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -269,7 +269,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -316,7 +316,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118"
+          "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593"
         },
         "varied": {
           "status": "fail",
@@ -362,7 +362,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/public-safety.ts:130"
+          "evidence": "src/core2/public-safety.ts:121"
         },
         "varied": {
           "status": "fail",
@@ -756,7 +756,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956"
+          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894"
         },
         "varied": {
           "status": "fail",
@@ -850,7 +850,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966"
+          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904"
         },
         "varied": {
           "status": "fail",
@@ -6183,7 +6183,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/finance-state.ts:1431"
+          "evidence": "src/core2/finance-state.ts:1432"
         },
         "varied": {
           "status": "fail",
@@ -6656,7 +6656,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/finance-state.ts:1431"
+          "evidence": "src/core2/finance-state.ts:1432"
         },
         "varied": {
           "status": "fail",
@@ -7084,7 +7084,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -7459,7 +7459,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112"
+          "evidence": "src/core2/modules/crime.ts:580"
         },
         "varied": {
           "status": "fail",
@@ -7787,7 +7787,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -7834,7 +7834,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8070,7 +8070,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8117,7 +8117,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8449,7 +8449,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8733,7 +8733,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8780,7 +8780,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8827,7 +8827,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8874,7 +8874,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/finance-state.ts:1431"
+          "evidence": "src/core2/finance-state.ts:1432"
         },
         "varied": {
           "status": "fail",
@@ -8921,7 +8921,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -9392,7 +9392,7 @@
       "to": "household.food-insecurity",
       "causeKind": "law",
       "lawLink": true,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -9403,9 +9403,8 @@
           "evidence": "data/research/outcome-web/links.json:5341 size -0.02, range [-0.035, -0.005], Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the sales tax engine, which spares the grocery share of each retail seller's sales where the exemption holds (syncSalesTax in src/core2/modules/budgets.ts), the business price review, which passes the tax change into the seller's tax-inclusive price (salesTaxPassThrough in src/core2/finance-state.ts), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan at those prices from what its members hold, so the exemption buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
         },
         "varied": {
           "status": "fail",
@@ -9431,8 +9430,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-household-food-insecurity"
+      "wiredPoints": 5,
+      "stopgap": "SG-WEB-food-insecurity-ledger"
     },
     {
       "key": "harm-reduction-to-overdose-deaths",
@@ -9448,7 +9447,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5362 size -0.05, range [-0.11, 0.02], Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)"
+          "evidence": "data/research/outcome-web/links.json:5363 size -0.05, range [-0.11, 0.02], Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)"
         },
         "reaches": {
           "status": "pass",
@@ -9465,7 +9464,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5362 lag 12 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:5363 lag 12 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9495,7 +9494,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5396 size -0.01, range [-0.02, 0], Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)"
+          "evidence": "data/research/outcome-web/links.json:5397 size -0.01, range [-0.02, 0], Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)"
         },
         "reaches": {
           "status": "pass",
@@ -9503,7 +9502,7 @@
         },
         "varied": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5396 varies by 1 moderator(s)"
+          "evidence": "data/research/outcome-web/links.json:5397 varies by 1 moderator(s)"
         },
         "knockOn": {
           "status": "n/a",
@@ -9511,7 +9510,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5396 lag 180 months",
+          "evidence": "data/research/outcome-web/links.json:5397 lag 180 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9541,7 +9540,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5437 size 0.01, range [0, 0.03], Gilpin, Karger and Nencka 2024, AEJ: Economic Policy"
+          "evidence": "data/research/outcome-web/links.json:5438 size 0.01, range [0, 0.03], Gilpin, Karger and Nencka 2024, AEJ: Economic Policy"
         },
         "reaches": {
           "status": "pass",
@@ -9558,7 +9557,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5437 lag 36 months",
+          "evidence": "data/research/outcome-web/links.json:5438 lag 36 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9588,7 +9587,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5458 size 0.01, range [0, 0.02], Whitacre and Gallardo 2020, Telecommunications Policy 44(9)"
+          "evidence": "data/research/outcome-web/links.json:5459 size 0.01, range [0, 0.02], Whitacre and Gallardo 2020, Telecommunications Policy 44(9)"
         },
         "reaches": {
           "status": "pass",
@@ -9596,7 +9595,7 @@
         },
         "varied": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5458 varies by 1 moderator(s)"
+          "evidence": "data/research/outcome-web/links.json:5459 varies by 1 moderator(s)"
         },
         "knockOn": {
           "status": "pass",
@@ -9604,7 +9603,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5458 lag 36 months",
+          "evidence": "data/research/outcome-web/links.json:5459 lag 36 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9634,7 +9633,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5500 size -0.01, range [-0.03, 0], Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)"
+          "evidence": "data/research/outcome-web/links.json:5501 size -0.01, range [-0.03, 0], Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)"
         },
         "reaches": {
           "status": "fail",
@@ -9652,7 +9651,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5500 lag 120 months",
+          "evidence": "data/research/outcome-web/links.json:5501 lag 120 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9682,11 +9681,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5520 size 0, range [-0.017, 0.006], Deming and Walters 2017 (NBER w23736)"
+          "evidence": "data/research/outcome-web/links.json:5521 size 0, range [-0.017, 0.006], Deming and Walters 2017 (NBER w23736)"
         },
         "reaches": {
           "status": "n/a",
-          "evidence": "data/research/outcome-web/links.json:5520 size 0",
+          "evidence": "data/research/outcome-web/links.json:5521 size 0",
           "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
@@ -9700,7 +9699,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5520 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5521 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9730,7 +9729,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5541 size 0, range [0, 0], Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+          "evidence": "data/research/outcome-web/links.json:5542 size 0, range [0, 0], Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
         },
         "reaches": {
           "status": "pass",
@@ -9747,7 +9746,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5541 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5542 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9777,7 +9776,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5563 size 0, range [0, 0], Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
+          "evidence": "data/research/outcome-web/links.json:5564 size 0, range [0, 0], Young, Varner, Lurie and Prisinzano 2016, American Sociological Review"
         },
         "reaches": {
           "status": "pass",
@@ -9794,7 +9793,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5563 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5564 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9824,7 +9823,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5585 size 0, range [-0.053, 0.025], Young, Varner, Lurie and Prisinzano 2016, Millionaire Migration and Taxation of the Elite: Evidence from Administrative Data, American Sociological Review 81(3):421-446 (doi 10.1177/0003122416639625); full text read at https://eml.berkeley.edu/~saez/course/Millionaire_Migration_and_the_Taxtion_of_the_Elite.pdf (Table 2, Models 2 to 4; the Results and Implied Optimal Tax Rates sections)"
+          "evidence": "data/research/outcome-web/links.json:5586 size 0, range [-0.053, 0.025], Young, Varner, Lurie and Prisinzano 2016, Millionaire Migration and Taxation of the Elite: Evidence from Administrative Data, American Sociological Review 81(3):421-446 (doi 10.1177/0003122416639625); full text read at https://eml.berkeley.edu/~saez/course/Millionaire_Migration_and_the_Taxtion_of_the_Elite.pdf (Table 2, Models 2 to 4; the Results and Implied Optimal Tax Rates sections)"
         },
         "reaches": {
           "status": "pass",
@@ -9841,7 +9840,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5585 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5586 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9871,7 +9870,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5607 size 0, range [0, 0.019], Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Moretti and Wilson 2023, Taxing Billionaires: Estate Taxes and the Geographical Location of the Ultra-Wealthy, American Economic Journal: Economic Policy 15(2):424-466; text read from NBER Working Paper 26387 (revised September 2020) at https://www.nber.org/papers/w26387.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403)"
+          "evidence": "data/research/outcome-web/links.json:5608 size 0, range [0, 0.019], Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Moretti and Wilson 2023, Taxing Billionaires: Estate Taxes and the Geographical Location of the Ultra-Wealthy, American Economic Journal: Economic Policy 15(2):424-466; text read from NBER Working Paper 26387 (revised September 2020) at https://www.nber.org/papers/w26387.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403)"
         },
         "reaches": {
           "status": "pass",
@@ -9888,7 +9887,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5607 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5608 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9918,7 +9917,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5629 size 0, range [0, 0.019], Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403)"
+          "evidence": "data/research/outcome-web/links.json:5630 size 0, range [0, 0.019], Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403)"
         },
         "reaches": {
           "status": "pass",
@@ -9935,7 +9934,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5629 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5630 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -9965,7 +9964,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5651 size -8, range [-20, 0], Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)"
+          "evidence": "data/research/outcome-web/links.json:5652 size -8, range [-20, 0], Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)"
         },
         "reaches": {
           "status": "pass",
@@ -9982,7 +9981,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5651 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5652 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10012,7 +10011,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5673 size -3, range [-8, 0], Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)"
+          "evidence": "data/research/outcome-web/links.json:5674 size -3, range [-8, 0], Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)"
         },
         "reaches": {
           "status": "pass",
@@ -10029,7 +10028,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5673 lag 36 months",
+          "evidence": "data/research/outcome-web/links.json:5674 lag 36 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10059,7 +10058,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5695 size -3, range [-6, 0], Pew Charitable Trusts 2017; Wagner 2004"
+          "evidence": "data/research/outcome-web/links.json:5696 size -3, range [-6, 0], Pew Charitable Trusts 2017; Wagner 2004"
         },
         "reaches": {
           "status": "pass",
@@ -10076,7 +10075,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5695 lag 24 months",
+          "evidence": "data/research/outcome-web/links.json:5696 lag 24 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10106,7 +10105,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5717 size 0.42, range [0.22, 0.65], Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9"
+          "evidence": "data/research/outcome-web/links.json:5718 size 0.42, range [0.22, 0.65], Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9"
         },
         "reaches": {
           "status": "pass",
@@ -10123,7 +10122,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5717 lag 1 months",
+          "evidence": "data/research/outcome-web/links.json:5718 lag 1 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10153,7 +10152,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5738 size -0.05, range [-0.2, 0.1], Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug"
+          "evidence": "data/research/outcome-web/links.json:5739 size -0.05, range [-0.2, 0.1], Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug"
         },
         "reaches": {
           "status": "pass",
@@ -10170,7 +10169,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5738 lag 11 months",
+          "evidence": "data/research/outcome-web/links.json:5739 lag 11 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10200,7 +10199,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5758",
+          "evidence": "data/research/outcome-web/links.json:5759",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -10219,7 +10218,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5758 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5759 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10249,7 +10248,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5778 size 0, range [0, 0], Va. Code 59.1-576; Cal. Civ. Code 1798.140(d); Jia, Jin and Wagman 2021, Marketing Science 40(4); Janssen, Kesler, Kummer and Waldfogel 2022, NBER Working Paper 30028"
+          "evidence": "data/research/outcome-web/links.json:5779 size 0, range [0, 0], Va. Code 59.1-576; Cal. Civ. Code 1798.140(d); Jia, Jin and Wagman 2021, Marketing Science 40(4); Janssen, Kesler, Kummer and Waldfogel 2022, NBER Working Paper 30028"
         },
         "reaches": {
           "status": "pass",
@@ -10266,7 +10265,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5778 lag 0 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:5779 lag 0 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10296,7 +10295,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5814",
+          "evidence": "data/research/outcome-web/links.json:5815",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -10315,7 +10314,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5814 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5815 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10345,7 +10344,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5834 size 0, range [0, 0], Burn 2018, Journal of Labor Research"
+          "evidence": "data/research/outcome-web/links.json:5835 size 0, range [0, 0], Burn 2018, Journal of Labor Research"
         },
         "reaches": {
           "status": "pass",
@@ -10363,7 +10362,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5834 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5835 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10393,7 +10392,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5857 size 0.06, range [0.01, 0.18], GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)"
+          "evidence": "data/research/outcome-web/links.json:5858 size 0.06, range [0.01, 0.18], GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)"
         },
         "reaches": {
           "status": "pass",
@@ -10411,7 +10410,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5857 lag 24 months",
+          "evidence": "data/research/outcome-web/links.json:5858 lag 24 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10441,7 +10440,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5878 size -0.47, range [-0.55, -0.4], Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)"
+          "evidence": "data/research/outcome-web/links.json:5879 size -0.47, range [-0.55, -0.4], Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)"
         },
         "reaches": {
           "status": "pass",
@@ -10458,7 +10457,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5878 lag 60 months",
+          "evidence": "data/research/outcome-web/links.json:5879 lag 60 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10488,7 +10487,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5899 size -0.31, range [-0.4, -0.21], Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)"
+          "evidence": "data/research/outcome-web/links.json:5900 size -0.31, range [-0.4, -0.21], Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)"
         },
         "reaches": {
           "status": "pass",
@@ -10505,7 +10504,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5899 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5900 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10531,12 +10530,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5921",
+          "evidence": "data/research/outcome-web/links.json:5922",
           "why": "no measure: nothing in the core records federal.defense-boost-pct"
         },
         "size": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5921 size 0.015",
+          "evidence": "data/research/outcome-web/links.json:5922 size 0.015",
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
@@ -10555,7 +10554,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5921 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5922 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10581,12 +10580,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5941",
+          "evidence": "data/research/outcome-web/links.json:5942",
           "why": "no measure: nothing in the core records federal.farm-payments-cut-pct-of-land-value"
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5941 size -0.215, range [-0.3, -0.13], Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026"
+          "evidence": "data/research/outcome-web/links.json:5942 size -0.215, range [-0.3, -0.13], Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026"
         },
         "reaches": {
           "status": "fail",
@@ -10604,7 +10603,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5941 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5942 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10635,7 +10634,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5961 size 0.005, range [0.003, 0.01], Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf"
+          "evidence": "data/research/outcome-web/links.json:5962 size 0.005, range [0.003, 0.01], Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf"
         },
         "reaches": {
           "status": "pass",
@@ -10652,7 +10651,7 @@
         },
         "timing": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5961 lag 0, phase-in 24, fade none"
+          "evidence": "data/research/outcome-web/links.json:5962 lag 0, phase-in 24, fade none"
         },
         "knowing": {
           "status": "fail",
@@ -10677,12 +10676,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5984",
+          "evidence": "data/research/outcome-web/links.json:5985",
           "why": "no measure: nothing in the core records federal.deficit-change-pct-of-gdp"
         },
         "size": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5984 size 25",
+          "evidence": "data/research/outcome-web/links.json:5985 size 25",
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
@@ -10701,7 +10700,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5984 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5985 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10731,7 +10730,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6005 size 0.0035, range [0.0016, 0.0057], Hymel and Small 2015, The rebound effect for automobile travel: Asymmetric response to price changes and novel features of the 2000s, Energy Economics 49: 93-103, Table 2 (https://escholarship.org/uc/item/4m56j2xg); Small and Van Dender 2007, Fuel Efficiency and Motor Vehicle Travel: The Declining Rebound Effect, Energy Journal 28(1): 25-51, Table 5 and section 4.2 (UC Irvine working paper 05-06-03, https://www.econ.uci.edu/files/docs/workingpapers/2005-06/Small-03.pdf); Dimitropoulos, Oueslati and Sintek 2018, The rebound effect in road transport: A meta-analysis of empirical studies, Energy Economics 75: 163-179, abstract (https://ideas.repec.org/a/eee/eneeco/v75y2018icp163-179.html); U.S. EIA, U.S. Regular All Formulations Retail Gasoline Prices, annual 2024, $3.304 a gallon (https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&s=emm_epmr_pte_nus_dpg&f=a); fuel tax and fleet fuel economy from data/research/prices/household-prices-2026.json (EIA, FHWA Table VM-1); fee from reach-group-b-parameters.json (mileageFeeCentsPerMile)"
+          "evidence": "data/research/outcome-web/links.json:6006 size 0.0035, range [0.0016, 0.0057], Hymel and Small 2015, The rebound effect for automobile travel: Asymmetric response to price changes and novel features of the 2000s, Energy Economics 49: 93-103, Table 2 (https://escholarship.org/uc/item/4m56j2xg); Small and Van Dender 2007, Fuel Efficiency and Motor Vehicle Travel: The Declining Rebound Effect, Energy Journal 28(1): 25-51, Table 5 and section 4.2 (UC Irvine working paper 05-06-03, https://www.econ.uci.edu/files/docs/workingpapers/2005-06/Small-03.pdf); Dimitropoulos, Oueslati and Sintek 2018, The rebound effect in road transport: A meta-analysis of empirical studies, Energy Economics 75: 163-179, abstract (https://ideas.repec.org/a/eee/eneeco/v75y2018icp163-179.html); U.S. EIA, U.S. Regular All Formulations Retail Gasoline Prices, annual 2024, $3.304 a gallon (https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&s=emm_epmr_pte_nus_dpg&f=a); fuel tax and fleet fuel economy from data/research/prices/household-prices-2026.json (EIA, FHWA Table VM-1); fee from reach-group-b-parameters.json (mileageFeeCentsPerMile)"
         },
         "reaches": {
           "status": "pass",
@@ -10748,7 +10747,7 @@
         },
         "timing": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6005 lag 0, phase-in 60, fade none"
+          "evidence": "data/research/outcome-web/links.json:6006 lag 0, phase-in 60, fade none"
         },
         "knowing": {
           "status": "fail",
@@ -10777,11 +10776,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6039 size -0.18, range [-0.3, -0.08], Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
+          "evidence": "data/research/outcome-web/links.json:6040 size -0.18, range [-0.3, -0.08], Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through poor-roads-to-prices: src/core2/finance-state.ts:1431"
+          "evidence": "through poor-roads-to-prices: src/core2/finance-state.ts:1432"
         },
         "varied": {
           "status": "fail",
@@ -10795,7 +10794,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6039 lag 60 months",
+          "evidence": "data/research/outcome-web/links.json:6040 lag 60 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10825,11 +10824,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6060 size -0.00093, range [-0.00106, -0.0008], FHWA, Status of the Nation's Highways, Bridges, and Transit: Conditions and Performance, 25th Edition Report to Congress (2024), Highlights pp. xi-xii (\"The average annual level of investment associated with this scenario is $79.0 billion, 31.4 percent lower than the level of the Sustain 2014-2018 Spending scenario\"; \"the share of travel on pavements with poor ride quality is projected to improve (i.e., to be reduced) from 15.8 percent to 6.2 percent\" at $151.1 billion), Exhibit 7-6 (poor ride quality in 2038: 15.7% at $79.0 billion, 9.6% at $115.1 billion, 6.2% at $151.1 billion) and Exhibit 8-13 and its text (\"By 2023, the proportion of VMT on pavements with poor ride quality decreases to 12.9 percent and to 11.8 percent under the ramped spending and flat spending assumptions, respectively. By the end of 20-year period ... reaches 7.3 percent\"), https://www.fhwa.dot.gov/policy/25cpr/pdf/CP25_Full_Report.pdf and CP25_LittleBook.pdf, retrieved 2026-10-24"
+          "evidence": "data/research/outcome-web/links.json:6061 size -0.00093, range [-0.00106, -0.0008], FHWA, Status of the Nation's Highways, Bridges, and Transit: Conditions and Performance, 25th Edition Report to Congress (2024), Highlights pp. xi-xii (\"The average annual level of investment associated with this scenario is $79.0 billion, 31.4 percent lower than the level of the Sustain 2014-2018 Spending scenario\"; \"the share of travel on pavements with poor ride quality is projected to improve (i.e., to be reduced) from 15.8 percent to 6.2 percent\" at $151.1 billion), Exhibit 7-6 (poor ride quality in 2038: 15.7% at $79.0 billion, 9.6% at $115.1 billion, 6.2% at $151.1 billion) and Exhibit 8-13 and its text (\"By 2023, the proportion of VMT on pavements with poor ride quality decreases to 12.9 percent and to 11.8 percent under the ramped spending and flat spending assumptions, respectively. By the end of 20-year period ... reaches 7.3 percent\"), https://www.fhwa.dot.gov/policy/25cpr/pdf/CP25_Full_Report.pdf and CP25_LittleBook.pdf, retrieved 2026-10-24"
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through poor-roads-to-prices: src/core2/finance-state.ts:1431"
+          "evidence": "through poor-roads-to-prices: src/core2/finance-state.ts:1432"
         },
         "varied": {
           "status": "fail",
@@ -10843,7 +10842,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6060 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:6061 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10874,11 +10873,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6082 size 0.00031, range [0.00015, 0.0005], TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does"
+          "evidence": "data/research/outcome-web/links.json:6083 size 0.00031, range [0.00015, 0.0005], TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does"
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/finance-state.ts:1431"
+          "evidence": "src/core2/finance-state.ts:1432"
         },
         "varied": {
           "status": "fail",
@@ -10891,7 +10890,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6082 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6083 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10917,12 +10916,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6103",
+          "evidence": "data/research/outcome-web/links.json:6104",
           "why": "no measure: nothing in the core records federal.rail-expansion-pct"
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6103 size 0.00486, range [0.00205, 0.00767], Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026"
+          "evidence": "data/research/outcome-web/links.json:6104 size 0.00486, range [0.00205, 0.00767], Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026"
         },
         "reaches": {
           "status": "fail",
@@ -10940,7 +10939,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6103 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6104 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10970,7 +10969,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6124 size 0.000157, range [-0.000279, 0.000575], Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
+          "evidence": "data/research/outcome-web/links.json:6125 size 0.000157, range [-0.000279, 0.000575], Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
         },
         "reaches": {
           "status": "pass",
@@ -10987,7 +10986,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6124 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:6125 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11017,7 +11016,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6144 size 0, range [0, 0], U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)"
+          "evidence": "data/research/outcome-web/links.json:6145 size 0, range [0, 0], U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)"
         },
         "reaches": {
           "status": "pass",
@@ -11035,7 +11034,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6144 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6145 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11065,11 +11064,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6167 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+          "evidence": "data/research/outcome-web/links.json:6168 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
           "status": "n/a",
-          "evidence": "data/research/outcome-web/links.json:6167 size 0",
+          "evidence": "data/research/outcome-web/links.json:6168 size 0",
           "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
@@ -11084,7 +11083,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6167 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6168 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11114,11 +11113,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6189 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+          "evidence": "data/research/outcome-web/links.json:6190 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
           "status": "n/a",
-          "evidence": "data/research/outcome-web/links.json:6189 size 0",
+          "evidence": "data/research/outcome-web/links.json:6190 size 0",
           "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
@@ -11133,7 +11132,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6189 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6190 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11163,11 +11162,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6211 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+          "evidence": "data/research/outcome-web/links.json:6212 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
           "status": "n/a",
-          "evidence": "data/research/outcome-web/links.json:6211 size 0",
+          "evidence": "data/research/outcome-web/links.json:6212 size 0",
           "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
@@ -11182,7 +11181,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6211 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6212 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11212,11 +11211,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6233 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
+          "evidence": "data/research/outcome-web/links.json:6234 size 0, range [0, 0.19], Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))"
         },
         "reaches": {
           "status": "n/a",
-          "evidence": "data/research/outcome-web/links.json:6233 size 0",
+          "evidence": "data/research/outcome-web/links.json:6234 size 0",
           "why": "its research finds no effect (about zero), so there is nothing for an engine to read"
         },
         "varied": {
@@ -11231,7 +11230,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6233 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6234 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11261,7 +11260,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6255 size -0.007, range [-0.0121, -0.0047], U.S. Census Bureau, Poverty in the United States: 2023 (P60-283), Tables B-6 and B-7"
+          "evidence": "data/research/outcome-web/links.json:6256 size -0.007, range [-0.0121, -0.0047], U.S. Census Bureau, Poverty in the United States: 2023 (P60-283), Tables B-6 and B-7"
         },
         "reaches": {
           "status": "pass",
@@ -11279,7 +11278,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6255 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6256 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11309,7 +11308,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6278",
+          "evidence": "data/research/outcome-web/links.json:6279",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -11328,7 +11327,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6278 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6279 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11358,7 +11357,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6301 size 0, range [-0.05, 0.05], Strickland 2020, The Declining Value of Revolving-Door Lobbyists: Evidence from the American States, American Journal of Political Science 64(1):67-81 (doi 10.1111/ajps.12485); abstract read at https://ideas.repec.org/a/wly/amposc/v64y2020i1p67-81.html"
+          "evidence": "data/research/outcome-web/links.json:6302 size 0, range [-0.05, 0.05], Strickland 2020, The Declining Value of Revolving-Door Lobbyists: Evidence from the American States, American Journal of Political Science 64(1):67-81 (doi 10.1111/ajps.12485); abstract read at https://ideas.repec.org/a/wly/amposc/v64y2020i1p67-81.html"
         },
         "reaches": {
           "status": "pass",
@@ -11375,7 +11374,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6301 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6302 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11405,7 +11404,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6324 size -0.182, range [-0.25, -0.11], Fisman, Leder-Luis, O'Donnell and Vannutelli 2025, Revolving Door Laws and Political Selection, NBER Working Paper 33626 (https://www.nber.org/system/files/working_papers/w33626/w33626.pdf), abstract and section V; state legislative candidates 1968 to 2022, staggered adoption"
+          "evidence": "data/research/outcome-web/links.json:6325 size -0.182, range [-0.25, -0.11], Fisman, Leder-Luis, O'Donnell and Vannutelli 2025, Revolving Door Laws and Political Selection, NBER Working Paper 33626 (https://www.nber.org/system/files/working_papers/w33626/w33626.pdf), abstract and section V; state legislative candidates 1968 to 2022, staggered adoption"
         },
         "reaches": {
           "status": "pass",
@@ -11422,7 +11421,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6324 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6325 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11448,12 +11447,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6346",
+          "evidence": "data/research/outcome-web/links.json:6347",
           "why": "no measure: nothing in the core records budget.administration-added-pct"
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6346 size 0, range [-0.05, 0.05], Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/"
+          "evidence": "data/research/outcome-web/links.json:6347 size 0, range [-0.05, 0.05], Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/"
         },
         "reaches": {
           "status": "pass",
@@ -11471,7 +11470,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6346 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6347 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11501,7 +11500,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6369",
+          "evidence": "data/research/outcome-web/links.json:6370",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -11519,7 +11518,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6369 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6370 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11549,7 +11548,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6390 size 0, range [-0.05, 0.05], Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023)"
+          "evidence": "data/research/outcome-web/links.json:6391 size 0, range [-0.05, 0.05], Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023)"
         },
         "reaches": {
           "status": "pass",
@@ -11566,7 +11565,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6390 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:6391 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11588,7 +11587,7 @@
       "to": "household.food-insecurity",
       "causeKind": "engine",
       "lawLink": false,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -11596,12 +11595,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6413 size -0.00148, range [-0.00185, -0.00111], Nord and Prell 2011, USDA ERS Amber Waves (June 13, 2011) \"Food Security of SNAP Recipients Improved Following the 2009 Stimulus Package\" and Economic Research Report 116; Nord 2013, USDA ERS Amber Waves (October 24, 2013) \"Effects of Changes in SNAP Benefits on Food Security\" (ERR-151); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 2"
+          "evidence": "data/research/outcome-web/links.json:6414 size -0.00148, range [-0.00185, -0.00111], Nord and Prell 2011, USDA ERS Amber Waves (June 13, 2011) \"Food Security of SNAP Recipients Improved Following the 2009 Stimulus Package\" and Economic Research Report 116; Nord 2013, USDA ERS Amber Waves (October 24, 2013) \"Effects of Changes in SNAP Benefits on Food Security\" (ERR-151); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 2"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.snap-maximum-change-pct"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
         },
         "varied": {
           "status": "fail",
@@ -11614,7 +11612,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6413 lag 0 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6414 lag 0 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11627,8 +11625,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-household-food-insecurity"
+      "wiredPoints": 5,
+      "stopgap": "SG-WEB-food-insecurity-ledger"
     },
     {
       "key": "health-hospitals-spending-to-infant-mortality",
@@ -11644,7 +11642,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6456 size -0.00685, range [-0.00856, -0.00514], Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3"
+          "evidence": "data/research/outcome-web/links.json:6458 size -0.00685, range [-0.00856, -0.00514], Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3"
         },
         "reaches": {
           "status": "pass",
@@ -11661,7 +11659,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6456 lag 9 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6458 lag 9 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11691,7 +11689,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6500 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
+          "evidence": "data/research/outcome-web/links.json:6502 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
         },
         "reaches": {
           "status": "fail",
@@ -11709,7 +11707,7 @@
         },
         "timing": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6500 lag 0, phase-in 24, fade none"
+          "evidence": "data/research/outcome-web/links.json:6502 lag 0, phase-in 24, fade none"
         },
         "knowing": {
           "status": "fail",
@@ -11738,7 +11736,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6546",
+          "evidence": "data/research/outcome-web/links.json:6548",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -11757,7 +11755,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6546 lag 0 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6548 lag 0 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11920,7 +11918,7 @@
     {
       "measure": "crime.assault",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98",
+      "evidence": "src/core2/modules/crime.ts:618",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-assault", "crime-level-to-assault"]
@@ -11928,7 +11926,7 @@
     {
       "measure": "crime.burglary",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112",
+      "evidence": "src/core2/modules/crime.ts:580",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-burglary", "crime-level-to-burglary"]
@@ -11965,7 +11963,7 @@
     {
       "measure": "crime.property",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118",
+      "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-property-crime"]
@@ -12003,7 +12001,7 @@
     {
       "measure": "crime.robbery",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:105",
+      "evidence": "src/core2/modules/crime.ts:606",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-robbery", "crime-level-to-robbery"]
@@ -12020,7 +12018,7 @@
     {
       "measure": "crime.violent",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106",
+      "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12617,7 +12615,7 @@
     {
       "measure": "health.youth-firearm-deaths",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956",
+      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["child-access-law-to-youth-gun-deaths"]
@@ -12625,7 +12623,7 @@
     {
       "measure": "health.youth-firearm-suicide",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966",
+      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["min-age-to-youth-gun-suicide"]
@@ -12691,7 +12689,7 @@
     {
       "measure": "household.prices",
       "status": "engine-reads-web",
-      "evidence": "src/core2/finance-state.ts:1431",
+      "evidence": "src/core2/finance-state.ts:1432",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12853,7 +12851,7 @@
     {
       "measure": "justice.low-level-arrests",
       "status": "engine-reads-web",
-      "evidence": "src/core2/public-safety.ts:130",
+      "evidence": "src/core2/public-safety.ts:121",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-low-level-arrests"]

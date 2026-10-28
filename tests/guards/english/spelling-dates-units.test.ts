@@ -128,7 +128,7 @@ describe("the project is written in American English", () => {
       "AGENTS.md",
       "CLAUDE.md",
       "PATCH_NOTES.md",
-      "src/simulation/episode-bank.ts",
+      "src/core2/modules/people.ts",
       "art/requests/asset-requests.json",
       ".agents/skills/civic-prose/SKILL.md",
       ".claude/skills/civic-prose/SKILL.md",
@@ -202,7 +202,7 @@ describe("the sweep bites", () => {
     },
     {
       // A British word that ends a quoted sentence, right before the quote.
-      file: "src/simulation/legislature-rule-packs.ts",
+      file: "src/core2/place-lookup.ts",
       inject: (text) =>
         `${text}\nexport const probe = "Conference is not modelled.";\n`,
     },

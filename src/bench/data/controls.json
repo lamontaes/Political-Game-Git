@@ -34,7 +34,8 @@
     "previous": "Previous {row}",
     "next": "Next {row}",
     "missingGender": "Choose a gender to go on.",
-    "missingName": "Type a first and last name to go on."
+    "missingName": "Type a first and last name to go on.",
+    "randomPlace": "Random place"
   },
   "endedBy": {
     "moment": "Something needs you",
@@ -579,6 +580,7 @@
     "budgets": "Budgets",
     "travel": "Travel",
     "options": "Options",
+    "patchNotes": "Patch notes",
     "guide": "Guide",
     "politicsGuide": "Guide",
     "handoff": "Carry on as",
