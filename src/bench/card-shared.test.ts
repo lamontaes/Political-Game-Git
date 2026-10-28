@@ -18,6 +18,8 @@ import { gameStartDate } from "../core2/game-start";
 import { preStartHistory } from "../core2/pre-start";
 import { sharedHistory } from "../core2/shared-history";
 import type { PersonId } from "../core2/types";
+import { familyFactsOf } from "../core2/modules/people";
+import { subjectsBetween } from "../director/conversation";
 import { knownCard } from "./card";
 import { buildBenchWorld } from "./world";
 
@@ -141,4 +143,47 @@ it("a workgroup coworker's card and the director's tie moment cite the same reco
   console.log(
     `${where}: tie ${tieId}, employer ${employerId}, moment ${moment?.id}`,
   );
+}, 600_000);
+
+it("a relative's card and the player's talk about them cite the same family fact", () => {
+  const place = drawPlace(seed, "card-shared-relative");
+  const where = `${place.name} (${place.key}), seed ${seed}`;
+  setBookkeeping(false);
+  const { core, playerId, director } = buildBenchWorld(
+    place.seed,
+    gameStartDate(),
+    { twoLevel: true, placeKey: place.key },
+  );
+  const me = playerId! as PersonId;
+  const player = core.people.get(me)!;
+  const relatives = familyFactsOf(player);
+  // Someone the player's relative has never met, to introduce them to.
+  const stranger = [...core.people.values()].find(
+    (row) =>
+      row.alive &&
+      row.tier !== "husk" &&
+      row.id !== me &&
+      !player.familyIds.has(row.id) &&
+      row.householdId !== player.householdId,
+  )!;
+  let checked = 0;
+  for (const id of [...player.familyIds].sort()) {
+    const fact = relatives.get(id);
+    if (!fact || !core.people.get(id)?.alive) continue;
+    const card = knownCard(core, me, id);
+    expect(card.relationRecordId, `${where}: ${id}`).toBe(fact.factId);
+    const kin = subjectsBetween(core, me, stranger.id, director).find(
+      (row) => row.id === `kin:${id}`,
+    );
+    if (stranger.knownIds.has(id) || !kin) continue;
+    expect(kin.facts.relation?.sourceRecordIds, `${where}: ${id}`).toEqual([
+      fact.factId,
+    ]);
+    checked += 1;
+  }
+  expect(
+    checked,
+    `${where}: no relative the stranger has not met`,
+  ).toBeGreaterThan(0);
+  console.log(`${where}: ${checked} relatives cited by the same family fact`);
 }, 600_000);

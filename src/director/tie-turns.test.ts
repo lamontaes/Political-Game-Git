@@ -5,6 +5,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { sharedHistory } from "../core2/shared-history";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 
@@ -35,10 +36,36 @@ it(`a tie that grows over time together is a becoming-friends scene, in ${place.
   const api = coreAPI(core);
   const lines: string[] = [];
 
-  // An acquaintance the player knows only a little, by their tie record.
-  const tie = [...(core.relationshipsByPerson.get(playerId) ?? [])]
-    .map((id) => core.relationships.get(id)!)
-    .filter((row) => row.kind === "contact")
+  // An acquaintance the player knows only a little, by their tie record. A
+  // player who just turned 18 may open knowing only family
+  // (SG-WIRE-PEOPLE-SCHOOLMATES): they meet a townsperson who shares no
+  // household, family or employer with them, as the encounters engine meets
+  // a group's members.
+  const contacts = () =>
+    [...(core.relationshipsByPerson.get(playerId) ?? [])]
+      .map((id) => core.relationships.get(id)!)
+      .filter((row) => row.kind === "contact");
+  if (!contacts().length) {
+    const player = core.people.get(playerId)!;
+    const stranger = [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          row.tier !== "husk" &&
+          row.id !== playerId &&
+          row.householdId !== player.householdId &&
+          !player.familyIds.has(row.id) &&
+          !sharedHistory(core, playerId, row.id as PersonId).length,
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+    api.meet(playerId, stranger.id, {
+      placeId: player.placeId,
+      sourceId: "fixture-meeting",
+      cause: "met-in-group",
+      hours: 1,
+    });
+  }
+  const tie = contacts()
     .map((row) => ({
       row,
       otherId: (row.actorId === playerId
