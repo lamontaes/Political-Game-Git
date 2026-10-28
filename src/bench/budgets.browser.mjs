@@ -30,7 +30,7 @@ const politicsTabs = async () => {
     .locator('[data-tab="politics"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".government-content").waitFor();
+  await page.locator("#sheet-body .record-section.wide").waitFor();
   await page.waitForFunction(
     () => document.querySelectorAll("#sheet-tabs button").length > 0,
   );
@@ -132,7 +132,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: /^budgets$/i })
     .click();
-  await page.locator(".budget-summary strong").first().waitFor();
+  await page.locator(".record-stats strong").first().waitFor();
   // Budgets opens on the town's own books: its city government, or the county
   // that serves it where the place has no city, never the federal default.
   assert.ok(budget, "the budget view did not load");
@@ -144,18 +144,13 @@ try {
   const levels = budget.governments.map((g) => g.level).join(", ");
   assert.ok(local, `no local budget to open on: ${levels}`);
   assert.equal(
-    await page.locator(".budget-content").evaluate((e) => {
-      const select = e.parentElement.querySelector("select");
-      return select.value;
-    }),
+    await page.locator("#sheet-body select").evaluate((e) => e.value),
     local.id,
     `Budgets did not open on the local books (${local.level}) of ${levels}`,
   );
   console.log(`PASS Budgets opens on the ${local.level} books of ${levels}`);
   const sums = await page
-    .locator(
-      ".budget-summary strong, .budget-columns .record-chart-line strong",
-    )
+    .locator(".record-stats strong, .record-chart-line strong")
     .allInnerTexts();
   assert.ok(sums.length > 3, "the budget shows no sums");
   for (const sum of sums)
