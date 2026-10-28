@@ -88051,10 +88051,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-we-spend-and-the-race-runs-remaining-how-do-we",
+      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-the-paychecks-don-t-and-the-race-runs-remainin",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Our savings cover {cushion} of what we spend, and the race runs {remaining}. How do we pay for the rest?",
+      "text": "Our savings cover {cushion} of what the paychecks don't, and the race runs {remaining}. How do we pay for the rest?",
       "uses": [
         {
           "subject": "scene",
@@ -88069,8 +88069,8 @@
       "bearing": "anxious",
       "shippable": true,
       "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "ask",
         "key": "news-received"
@@ -116775,6 +116775,58 @@
       "tag": {
         "move": "request",
         "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-the-bank-statement-out-on-the-kitchen-table-the-savings-cover-cushion-o",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has the bank statement out on the kitchen table. The savings cover {cushion} of what the pay doesn't, and the race runs {remaining}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-month-s-bills-are-spread-across-the-table-what-the-paychecks-don-t-cover-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The month's bills are spread across the table. What the paychecks don't cover, the savings can carry for {cushion}. The race runs {remaining}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
       }
     }
   ]
