@@ -7147,8 +7147,8 @@
     "why": "The inauguration record (inauguration:2025-01-20) carries no venue, and the Capitol steps have no podium in the painted pictures, so the President could not be drawn at a lectern with the Vice President and others behind him at the White House.",
     "addedBy": "play-first lane agent 4",
     "addedAt": "2026-10-27",
-    "replacement": "The inauguration record carries its venue, and the Capitol steps picture gets a podium spot; the setting reads the record.",
-    "status": "open"
+    "replacement": "Resolved Oct 28 by deletion: the opening's picture table is gone (trim-main-every-duplicate-deleted, row W1/B1 of docs/reports/duplicates-on-main-2026-10-28.md), so nothing stages the address at the House rostrum. When the address plays as the director's address situation type (director-opening-as-a-scene), its place comes from the scene's own place rule; the inauguration record still carries no venue.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-contract-conflict-named-members",
