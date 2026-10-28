@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/guards-reading-line
 pr: #6502
 blocked-on:
