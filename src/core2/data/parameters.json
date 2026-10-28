@@ -5820,24 +5820,6 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
-  "traitWeightJobsCountedRetire": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-retire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
-  },
-  "traitWeightJobsCountedLook": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-look decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
-  },
   "traitWeightJobsCountedApply": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6273,12 +6255,14 @@
     }
   },
   "traitWeightJobsBenefitsFileClaim": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs-benefits.file-claim decision. An eligible worker files for unemployment when the base reason plus their lean toward filing is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.55,
+    "tag": "ESTIMATED",
+    "citation": "Vella, Richiardi and van de Ven 2025 (row jobs-benefits.file-claim in data/research/trait-effect-sizes.json): neuroticism raises benefit take-up 0.6 percentage points per standard deviation, an odds ratio of 1.32 between the thirds leaning most and least toward filing. Fitted with benefitsFileBase and benefitsFileReplacementWeight over every worker of three drawn towns (seeds a65f88b53485, 4607e0b96782, ed36e0484fc6, label trait-wiring), each laid off in thought from their own job: the thirds' odds ratio is 1.55 (Clayton, Kansas), 1.38 (West Hamlin, West Virginia) and 1.44 (Washington, District of Columbia), above the study's 1.32 because the benefit's share of pay is about half for nearly every worker and the layoff's stress is itself read through temperament, so few reasons vary apart from it (gap row jobs-benefits.file-claim).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.3,
+      "high": 0.8,
+      "unit": "weight",
+      "citation": "The fit's neighbors with the base refitted: 0.3 gives thirds' odds ratios of 1.4 to 1.6 at take-up 0.57 to 0.67; 0.8 gives 1.6 to 1.9."
     }
   },
   "traitWeightNewsPassOn": {
