@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/guards-screen-rulings
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T03:25:23.195Z
 ---
 
 **What.** The owner's screen rulings of Oct 27 (no text under a title entry, no Family tab on People, no box around a person, one Continue on a narration-only beat, the date and time in the bottom-left card) are checked by hand only. Two of them already have browser checks: the talk box narration beat and the card. The others regress without anyone noticing.
