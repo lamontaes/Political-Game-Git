@@ -32,7 +32,7 @@ window.__hair12 = (sheet, baseUrl) => {
  const W = ['shoulder-length wavy hair','long straight hair past the shoulders','a short rounded natural afro','a chin-length bob with straight bangs','long box braids','a neat high bun','a low ponytail','a short pixie cut','shoulder-length locs','long loose curls','short two-strand twists','medium layered hair swept to one side'];
  const M = ['a short cropped cut','a short side-parted cut','short tight curls','a close buzz cut','a low fade with a short textured top','slicked-back medium-length hair','short hair with a receding hairline','a classic crew cut','short locs','neat cornrows','medium-length wavy hair','short hair on the sides with a bald crown'];
  const nn = i => String(i + 1).padStart(2, '0');
- return W.map((w, i) => { const key = `hk-${sheet}-${nn(i)}`; return {key, ref: baseUrl, prompt: `[${key}] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, ears, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, the hair one plain medium gray. The women in the top row have ${w}. The men in the bottom row have ${M[i]}. Draw the hair as seen from the angle each head is turned, sitting naturally on that head at the right size, following the shape of the skull, and not covering the face. Nothing else changes. No text.`}; });
+ return W.map((w, i) => { const key = `hb-${sheet}-${nn(i)}`; return {key, ref: baseUrl, prompt: `[${key}] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, ears, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, the hair colored one flat bright blue (#2563EB) with soft darker-blue shading, so it stands apart from everything else. The women in the top row have ${w}. The men in the bottom row have ${M[i]}. Draw the hair as seen from the angle each head is turned, sitting naturally on that head at the right size, following the shape of the skull, and not covering the face. Nothing else changes. No text.`}; });
 };
 // Natural pose bases, painted from the standing base (bald, collared shirt, slacks, dress shoes, white background).
 window.__NAT = [
@@ -59,4 +59,11 @@ window.__womenParts = (sheet, baseUrl) => {
   ['dr1', 'Change only the women\'s clothes from the shoulders to the knees: each woman wears a plain knee-length sheath dress with short sleeves and a round neckline, showing her bare forearms and lower legs.'],
   ['ft6', 'Change only the women\'s shoes: each woman wears plain low-heeled pumps.']];
  return P.map(([k, what]) => ({key: `wk-${sheet}-${k}`, ref: baseUrl, prompt: `[wk-${sheet}-${k}] ` + keep + what + tail}));
+};
+// Outerwear for cold and wet days (the outfits' "missing" list): painted like every other part, in key green.
+window.__coatParts = (sheet, baseUrl) => {
+ const keep = 'Edit the reference picture. Keep all six people exactly the same, pixel for pixel, except that they now wear a coat: the same heads, faces, hands, skin, bodies, poses, positions and sizes stay identical. ';
+ const tail = ' Draw it in the same clean dark-outline style, fitted to each body\'s own build, but color it one flat bright green (#22C55E) with soft darker-green shading, so it stands apart from everything else. The pants, shoes and everything else stay identical. No text.';
+ return [['jk6', 'Add only a knee-length wool winter coat, buttoned, with a collar, over each person\'s clothes.'], ['jk7', 'Add only a hip-length hooded rain jacket, zipped, hood down, over each person\'s clothes.']]
+  .map(([k, what]) => ({key: `wk-${sheet}-${k}`, ref: baseUrl, prompt: `[wk-${sheet}-${k}] ` + keep + what + tail}));
 };
