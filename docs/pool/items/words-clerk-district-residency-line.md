@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T17:57:17.611Z
 **Files.** src/core2/modules/filing-clerk.ts, src/director/filing-visit.ts
 
 **Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: say district only where the place's records do (OD:411).

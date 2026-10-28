@@ -6,7 +6,8 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
 import { backdropStaging } from "./staging";
-import { backdropFile, hasBackdrop, orgPlace, stagePeople } from "./scene";
+import { backdropFile, orgPlace, stagePeople } from "./scene";
+import { hasBackdrop } from "./backdrop-places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type { CoreState } from "../core2/types";
 

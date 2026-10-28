@@ -36,3 +36,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5174 (branch claude/player-jobless-offers): This is a findings-only PR: it does not produce the job offer the linked bug item requires, and the experience/entry-requirement work remains open. Supply the required drawn played-world jobless-player offer by position/job record id, or track the completed measurement separately while leaving the implementation item open. A findings note cannot complete the still-unfixed job-offer acceptance.; finish on that branch, merge main into it first.
 
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: build OD:192 (offers from the region's outside employers); the fit-rule change is a simulation call (OD:131 'simulate it, don't ask').

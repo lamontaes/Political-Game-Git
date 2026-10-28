@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/history-past-work
-pr:
+pr: #6452
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T23:18:30.676Z

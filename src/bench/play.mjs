@@ -8,6 +8,7 @@ import {
   talkLine,
   talkReply,
   fillTalk,
+  talkControls,
   addTalkLine,
   mountTalkKeys,
   mountSpeakers,
@@ -227,6 +228,32 @@ function screenArtwork({
     media.append(img);
   }
 }
+
+/**
+ * The talk box keeps clear of the player card: when the centered box would
+ * reach over the dock (a long status line widens the card), it stands above
+ * the dock instead, so no reply sits under the card.
+ */
+function clearDock() {
+  const game = $("game").getBoundingClientRect();
+  const dock = $("dock").getBoundingClientRect();
+  const width = Math.max(
+    ...[...document.querySelectorAll("#game .chat")].map(
+      (box) => box.offsetWidth,
+    ),
+  );
+  const left = game.left + (game.width - width) / 2;
+  $("game").style.setProperty(
+    "--chat-bottom",
+    left < dock.right + 8 ? `${Math.ceil(game.bottom - dock.top + 8)}px` : "",
+  );
+}
+// A box shown or resized, or the card widened, sets it again.
+const docking = new ResizeObserver(clearDock);
+docking.observe($("dock"));
+for (const box of document.querySelectorAll("#game .chat"))
+  docking.observe(box);
+window.addEventListener("resize", clearDock);
 
 /** Soft contact shadows on the floor at each person's feet, under everyone. */
 function shadowsOf(people) {
@@ -657,9 +684,6 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
-/** A title that is a bare slug reads as words; a name or a sentence stays as it is. */
-const slugWords = (text) =>
-  /^[a-z][a-z0-9-]*$/.test(text) ? words(text) : text;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
@@ -759,10 +783,9 @@ async function refresh() {
     await electionNight(night);
     return;
   }
-  // A law that took effect: what changed in town.
-  // A short notice on the card, not a screen taken over mid-play.
-  if (newChanges(await changeCount()))
-    $("card-why").textContent = controls.endedBy?.law ?? "";
+  // No card notice that "a law took effect" (owner, Oct 27: "Why am I getting a
+  // notification that a law took effect?"): a law that reaches the player is
+  // told by its own scene and story, which say how.
   if (openTab) await openSheet(openTab);
 }
 
@@ -1223,8 +1246,6 @@ for (const mode of ["day", "week"])
     coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
-// Laws enacted and laws taken effect so far: a new one of either opens What changed.
-let seenChanges = { ahead: 0, took: 0 };
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
 let seenNews = 0;
 async function newsCount() {
@@ -1239,14 +1260,6 @@ async function markNews(read) {
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
 }
-async function changeCount() {
-  const { ahead, took } = await api(
-    `/api/changes?id=${encodeURIComponent(me.id)}`,
-  );
-  return { ahead: ahead.length, took: took.length };
-}
-const newChanges = (now) =>
-  now.took > seenChanges.took || now.ahead > seenChanges.ahead;
 $("continue").addEventListener("click", () => {
   show("talk", false);
   return act(
@@ -1262,7 +1275,6 @@ let talkPersonId;
 async function setWho(personId, name) {
   talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
-  $("talk-role").textContent = "";
   const staged = [...(me.scene?.people ?? []), ...(filing?.people ?? [])].find(
     (p) => p.personId === personId,
   );
@@ -1274,7 +1286,6 @@ async function setWho(personId, name) {
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   if (!staged?.figureUrl) setBust("talk-bust", c.figureUrl);
-  $("talk-role").textContent = c.who ?? "";
 }
 /** The newest lines: yours, dim, then what was said back to you. */
 function spokenLines(lines, speakerOf) {
@@ -1328,6 +1339,7 @@ function renderTalk(value) {
   // Lying, the false set stands in place of the true choices.
   const lies = value.lies ?? [];
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
+  talkControls({ silent: true, leave: true });
   fillTalk({
     lines: spokenLines(value.lines, (line) => line.text),
     replies: replies(choices, (choice) => sayLine(choice.key)),
@@ -1376,6 +1388,18 @@ $("talk-lie").addEventListener("click", () => {
   lying = !lying;
   renderTalk(talk);
 });
+// Continue, bottom left, when there is nothing to answer: the beat is over, and
+// a stop that held the clock for it goes on.
+$("talk-next").addEventListener("click", async () => {
+  if (filing) {
+    $("talk-leave").click();
+    return;
+  }
+  if (talk) await post("/api/talk/leave");
+  renderTalk(undefined);
+  show("talk", false);
+  if (!$("continue").hidden) $("continue").click();
+});
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
@@ -1409,6 +1433,8 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
+  // At the counter you can walk out; silence there is not an answer.
+  talkControls({ silent: false, leave: true });
   // The narrator sets the counter up before the clerk speaks (the opening call only).
   fillTalk({
     lines: [
@@ -1665,6 +1691,8 @@ async function campaignRows() {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
+      // The outing's hours moved the clock: the card shows the new time.
+      if (result.packet) renderPacket(result.packet);
       campaignResult = [
         controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
@@ -1673,15 +1701,18 @@ async function campaignRows() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // Something that came up while out holds the clock: it is shown, as
+      // after Day, so Continue never stands over an empty screen.
+      const moment = storyStop(result.packet);
       // The doors and the calls are seen where they happen, with the people reached.
+      if (result.scene || moment) closeSheet();
       if (result.scene) {
-        closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
         $("card-why").textContent = campaignResult;
-        return;
       }
-      openSheet("campaigns");
+      if (moment) await showStory(moment.recordId);
+      if (!result.scene && !moment) openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
       const result = await post(
@@ -1863,6 +1894,26 @@ function whyRows(why) {
     ),
   ].map((text) => el("li", { className: "why", textContent: text }));
 }
+/** The owner's grade control on a scene line (dev mode): it reaches the line's pieces. */
+function gradeOf(line, momentId) {
+  if (!line.parts?.length) return {};
+  return {
+    grade: {
+      labels: controls.grade,
+      send: (word, note) =>
+        api(
+          `/api/grade?${new URLSearchParams({
+            grade: word,
+            note,
+            parts: line.parts.join(","),
+            text: line.text,
+            momentId,
+          })}`,
+          "POST",
+        ),
+    },
+  };
+}
 async function showStory(momentId) {
   const story = await api(
     `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
@@ -1875,6 +1926,8 @@ async function showStory(momentId) {
   $("talk-name").textContent = "";
   // A scene with a purpose is its own exchange; any other opens a talk.
   const withId = story.talk?.askerId ?? story.talkToId;
+  // Whether to talk to them is the player's; the narrator alone is a Continue.
+  talkControls({ silent: false, leave: Boolean(withId) });
   fillTalk({
     lines: [
       ...story.narration.map((line) =>
@@ -1882,6 +1935,7 @@ async function showStory(momentId) {
           kind: "speech narration",
           text: line.text,
           held: line.held,
+          ...gradeOf(line, momentId),
         }),
       ),
       ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
@@ -1905,8 +1959,11 @@ function playExchange(story) {
       who: line.role === "asked" ? $("card-name").textContent : undefined,
       text: line.text,
       held: line.held,
+      ...gradeOf(line, story.momentId),
     });
   // The path is the index of each reply chosen, from the first.
+  // The asker follows up: no walking away mid-exchange, no silence as a reply.
+  talkControls({ silent: false, leave: false });
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
     fillTalk({ lines: said.slice(-4).map(lineOf) });
@@ -1922,18 +1979,30 @@ function playExchange(story) {
           const chosen = [...path, index];
           // The reply is the player's: the game keeps it (purpose-scene.ts
           // replyInScene).
-          api(
-            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
+          const kept = api(
+            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&typeKey=${encodeURIComponent(talk.typeKey)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
             "POST",
           );
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
-          else fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
+          else {
+            fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
+            // A moment that staged another scene plays it next.
+            kept.then(() => nextScene(story));
+          }
         },
       ),
     });
   };
   play(talk.tree, []);
+}
+/** The moment's next staged scene with a purpose, once one ends; none, and the talk stays closed. */
+async function nextScene(story) {
+  const next = await api(
+    `/api/story?momentId=${encodeURIComponent(story.momentId)}${HELD_VIEW ? "&held=1" : ""}`,
+  );
+  if (next.talk && next.talk.typeKey !== story.talk.typeKey)
+    showStory(story.momentId);
 }
 function storyStop(value) {
   return value?.kind === "stop"
@@ -1986,6 +2055,15 @@ async function showPerson(person) {
   const known = c.publicKnowledge;
   const stance = voteWords();
   $("person-facts").replaceChildren(
+    // What they are like, said of them, first (the screens designer, Oct 27).
+    ...(c.sketch
+      ? [
+          el("p", {
+            className: "person-sketch narrative",
+            textContent: c.sketch,
+          }),
+        ]
+      : []),
     ...(c.work
       ? [
           recordSection(
@@ -2023,9 +2101,7 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      // The date is labeled; a tie with no contact on record shows nothing.
-      c.tie?.lastContactDate &&
-        row(labels.lastTalked, proseDate(c.tie.lastContactDate)),
+      // No "Last talked" (owner, Oct 27, 5 PM: never shown).
       ...(known
         ? [
             row("party", known.party),
@@ -2566,17 +2642,12 @@ async function seatRows() {
 const dayIcon = (kind) =>
   ({
     birthday: "birthday",
+    "your-birthday": "birthday",
     "filing-opens": "deadline",
     "filing-deadline": "deadline",
     primary: "election",
     election: "election",
   })[kind] ?? "meeting";
-
-/** A record kind as words: "filing-deadline" reads "Filing deadline". */
-const kindName = (kind) => {
-  const name = kind.split(/[:.]/).pop();
-  return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
-};
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
@@ -3528,38 +3599,35 @@ const sheets = {
     const { date: recordDate, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
-    // Today is the day the player's clock names, which the calendar opens on.
-    const date = packet?.at.date ?? recordDate;
+    // Today is the world's day: the later of the clock's last packet and the
+    // record, so a day the world has reached never offers a jump to it.
+    const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
       byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-    const dateWords = (iso) =>
+    const dateWords = (iso, format = { month: "long", day: "numeric" }) =>
       new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
+        ...format,
+        ...(iso.slice(0, 4) === date.slice(0, 4) ? {} : { year: "numeric" }),
       });
-    const event = (item) =>
-      el(
-        "article",
-        { className: "calendar-event" },
-        el("span", { className: "label", textContent: kindName(item.kind) }),
-        el("p", {
-          textContent:
-            controls.policyNames?.[item.title] ?? slugWords(item.title),
-        }),
-      );
+    const icon = (item) =>
+      el("img", {
+        src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
+        alt: "",
+        className: "day-icon",
+      });
     let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
     let selected = date;
-    let upcomingPage = 0;
-    let dayPage = 0;
+    let listPage = 0;
     const root = el("div", { className: "calendar-layout" });
     const monthBox = el("section", { className: "calendar-month" });
-    const details = el("section", { className: "calendar-details" });
-    const upcoming = el("section", { className: "calendar-upcoming" });
-    const button = (label, fn) => {
-      const b = makeButton({ textContent: label });
+    const side = el("section", { className: "calendar-side" });
+    const button = (label, fn, className) => {
+      const b = makeButton({
+        textContent: label,
+        ...(className ? { className } : {}),
+      });
       b.addEventListener("click", fn);
       return b;
     };
@@ -3576,49 +3644,118 @@ const sheets = {
       }
       const b = makeButton({ className: "skip-forward" });
       b.setAttribute("aria-label", name);
+      b.title = name;
       b.append(svg);
       b.addEventListener("click", fn);
       return b;
     };
-    const skipControl = () =>
-      skipForward(labels.advance, () => {
-        closeSheet();
-        act(`/api/advance?mode=calendar&date=${selected}`);
-      });
-    const paging = (index, count, change) => {
-      const back = button(labels.back, () => change(index - 1));
-      const next = button(labels.next, () => change(index + 1));
-      back.disabled = index === 0;
-      next.disabled = (index + 1) * 3 >= count;
-      return el("nav", { className: "calendar-paging" }, back, next);
+    const goTo = (iso) => {
+      month = new Date(`${iso.slice(0, 7)}-01T12:00:00`);
+      select(iso);
     };
-    // The day panel opens only for a day that has something.
-    const drawDetails = () => {
-      const entries = byDate.get(selected) ?? [];
-      root.classList.toggle("has-day", entries.length > 0);
-      details.hidden = !entries.length;
-      if (!entries.length) {
-        details.replaceChildren();
-        return;
-      }
-      details.replaceChildren(
-        el("h3", { textContent: dateWords(selected) }),
-        ...entries.slice(dayPage * 3, dayPage * 3 + 3).map(event),
+    // One line per thing: its day, its icon and who and what in words. The
+    // player's own races carry the gold mark.
+    const entryRow = (item, withDate) => {
+      const row = listRow(
+        `calendar-entry${item.own ? " own" : ""}`,
+        { as: "button", type: "button" },
+        ...(withDate
+          ? [
+              el("span", {
+                className: "when",
+                textContent: dateWords(item.date, {
+                  month: "short",
+                  day: "numeric",
+                }),
+              }),
+            ]
+          : []),
+        icon(item),
+        el("span", { className: "what", textContent: item.line }),
       );
-      if (entries.length > 3)
-        details.append(
-          paging(dayPage, entries.length, (page) => {
-            dayPage = page;
-            drawDetails();
-          }),
+      row.addEventListener("click", () => goTo(item.date));
+      return row;
+    };
+    // Coming up lists the player's own dates first, then everything else by
+    // date; a chosen day lists that day. The list fills the side and pages.
+    const PAGE = 10;
+    const ahead = items
+      .filter((i) => i.date >= date)
+      .toSorted(
+        (a, b) => Number(b.own) - Number(a.own) || a.date.localeCompare(b.date),
+      );
+    const drawSide = () => {
+      // A chosen day heads the side: its own lines, then what follows it.
+      const day = selected !== date ? (byDate.get(selected) ?? []) : null;
+      const rows = day
+        ? [...day, ...items.filter((i) => i.date > selected && i.date >= date)]
+        : ahead;
+      const pageRows = rows.slice(listPage * PAGE, listPage * PAGE + PAGE);
+      const head = el(
+        "div",
+        { className: "calendar-side-head" },
+        el("h3", {
+          textContent: day
+            ? dateWords(selected, {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              })
+            : labels.upcoming,
+        }),
+        ...(day && selected > date
+          ? [
+              skipForward(labels.advance, () => {
+                closeSheet();
+                act(`/api/advance?mode=calendar&date=${selected}`);
+              }),
+            ]
+          : []),
+      );
+      const list = el(
+        "div",
+        { className: "calendar-list" },
+        ...pageRows.map((item) =>
+          entryRow(item, !day || item.date !== selected),
+        ),
+      );
+      const foot = [];
+      if (day)
+        foot.push(button(labels.upcoming, () => select(date), "action small"));
+      if (rows.length > PAGE) {
+        const back = button(
+          labels.back,
+          () => {
+            listPage--;
+            drawSide();
+          },
+          "action small",
         );
-      if (selected > date) details.append(skipControl());
+        const next = button(
+          labels.next,
+          () => {
+            listPage++;
+            drawSide();
+          },
+          "action small",
+        );
+        back.disabled = listPage === 0;
+        next.disabled = (listPage + 1) * PAGE >= rows.length;
+        foot.push(back, next);
+      }
+      side.replaceChildren(
+        head,
+        list,
+        ...(foot.length
+          ? [el("nav", { className: "calendar-paging" }, ...foot)]
+          : []),
+      );
     };
     const select = (iso) => {
       selected = iso;
-      dayPage = 0;
+      listPage = 0;
       drawMonth();
-      drawDetails();
+      drawSide();
     };
     const drawMonth = () => {
       const move = (delta) => {
@@ -3628,19 +3765,21 @@ const sheets = {
       const header = el(
         "nav",
         { className: "calendar-heading" },
-        button(labels.previousMonth, () => move(-1)),
+        button(labels.previousMonth, () => move(-1), "month-step"),
         el("h3", {
           textContent: month.toLocaleDateString("en-US", {
             month: "long",
             year: "numeric",
           }),
         }),
-        button(labels.nextMonth, () => move(1)),
+        button(labels.nextMonth, () => move(1), "month-step"),
+        button(labels.today, () => goTo(date), "month-step"),
       );
       const grid = el("div", { className: "month" });
       for (const weekday of labels.weekdays)
         grid.append(el("span", { className: "weekday", textContent: weekday }));
-      for (let i = 0; i < month.getDay(); i++) grid.append(el("span"));
+      for (let i = 0; i < month.getDay(); i++)
+        grid.append(el("span", { className: "blank" }));
       const days = new Date(
         month.getFullYear(),
         month.getMonth() + 1,
@@ -3649,86 +3788,42 @@ const sheets = {
       for (let day = 1; day <= days; day++) {
         const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
         const entries = byDate.get(iso) ?? [];
-        const cell = button(String(day), () => select(iso));
-        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}`;
+        const cell = button("", () => select(iso));
+        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}${iso < date ? " past" : ""}${entries.some((e) => e.own) ? " own" : ""}`;
         cell.dataset.date = iso;
-        cell.setAttribute("aria-label", dateWords(iso));
+        cell.setAttribute(
+          "aria-label",
+          [dateWords(iso), ...entries.map((e) => e.line)].join(". "),
+        );
         cell.setAttribute("aria-pressed", String(iso === selected));
         if (iso === date) cell.setAttribute("aria-current", "date");
-        // One small Kit 13 icon per kind of thing on the day.
-        if (entries.length)
+        cell.append(el("span", { className: "num", textContent: String(day) }));
+        // Each thing on the day, on the day: its icon and its line, as many as fit.
+        for (const entry of entries
+          .toSorted((a, b) => Number(b.own) - Number(a.own))
+          .slice(0, 2))
           cell.append(
             el(
               "span",
-              {
-                className: "entry",
-                title: entries
-                  .map(
-                    (i) =>
-                      controls.policyNames?.[i.title] ?? slugWords(i.title),
-                  )
-                  .join("\n"),
-              },
-              ...[...new Set(entries.map((i) => dayIcon(i.kind)))].map((icon) =>
-                el("img", {
-                  src: `/ui/kit13/calendar-${icon}.png`,
-                  alt: "",
-                  className: "day-icon",
-                }),
-              ),
+              { className: `entry${entry.own ? " own" : ""}` },
+              icon(entry),
+              el("span", { className: "what", textContent: entry.line }),
             ),
+          );
+        if (entries.length > 2)
+          cell.append(
+            el("span", {
+              className: "more",
+              textContent: `+${entries.length - 2}`,
+            }),
           );
         grid.append(cell);
       }
-      monthBox.replaceChildren(
-        header,
-        grid,
-        el(
-          "div",
-          { className: "calendar-month-foot" },
-          button(labels.today, () => {
-            month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-            select(date);
-          }),
-          // A day with nothing on it has no panel, so its date and the skip sit here.
-          ...(selected > date && !byDate.has(selected)
-            ? [
-                el("span", {
-                  className: "calendar-day-date",
-                  textContent: dateWords(selected),
-                }),
-                skipControl(),
-              ]
-            : []),
-        ),
-      );
-    };
-    const next = items
-      .filter((i) => i.date >= date)
-      .toSorted((a, b) => a.date.localeCompare(b.date));
-    const drawUpcoming = () => {
-      upcoming.replaceChildren(
-        el("h3", { textContent: labels.upcoming }),
-        ...next.slice(upcomingPage * 3, upcomingPage * 3 + 3).map((item) => {
-          const b = button(dateWords(item.date), () => {
-            month = new Date(`${item.date.slice(0, 7)}-01T12:00:00`);
-            select(item.date);
-          });
-          return el("div", {}, b, event(item));
-        }),
-      );
-      if (next.length > 3)
-        upcoming.append(
-          paging(upcomingPage, next.length, (page) => {
-            upcomingPage = page;
-            drawUpcoming();
-          }),
-        );
+      monthBox.replaceChildren(header, grid);
     };
     drawMonth();
-    drawDetails();
-    drawUpcoming();
-    root.append(monthBox, details, upcoming);
+    drawSide();
+    root.append(monthBox, side);
     return [root];
   },
   async news() {
@@ -3820,7 +3915,6 @@ const sheets = {
       });
     let chosen = outlets.keys().next().value;
     let page = 0;
-    let recordPage = 0;
     const paper = el("section", { className: "paper" });
     const outletPicker = el("nav", { className: "outlet-picker" });
     const button = (label, fn) => {
@@ -3891,99 +3985,6 @@ const sheets = {
       };
       drawArticle();
     };
-    const publicRecords = () => {
-      const records = rows.filter((r) => !r.headline && !r.lede);
-      const block = el(
-        "section",
-        { className: "paper-records" },
-        el("h3", { textContent: labels.records }),
-      );
-      for (const record of records.slice(recordPage * 3, recordPage * 3 + 3))
-        block.append(
-          el(
-            "article",
-            {},
-            el("span", {
-              className: "label",
-              textContent: dateWords(record.date),
-            }),
-            // An employer's layoff shows its jobs lost, sales and costs.
-            el("h4", {
-              textContent: record.staffing
-                ? record.staffing.employer
-                : kindName(
-                    // A story the press archived is named by the record it tells of.
-                    record.kind === "press.archived"
-                      ? (record.facts?.recordKind ?? record.kind)
-                      : record.kind,
-                  ),
-            }),
-            el("p", {
-              textContent: record.staffing
-                ? [
-                    `${controls.staffingNews.jobsLost}: ${record.staffing.jobsLost}`,
-                    ...(record.staffing.salesMinor !== undefined
-                      ? [
-                          `${controls.staffingNews.sales}: ${dollars(record.staffing.salesMinor)}`,
-                        ]
-                      : []),
-                    ...(record.staffing.costsMinor !== undefined
-                      ? [
-                          `${controls.staffingNews.costs}: ${dollars(record.staffing.costsMinor)}`,
-                        ]
-                      : []),
-                  ].join(" · ")
-                : // Who the record is about, each by their role in it.
-                  [
-                    ...new Set(
-                      Object.entries(record.facts ?? {}).flatMap(
-                        ([role, v]) => {
-                          // The record's kind is the heading already.
-                          if (typeof v !== "string" || role === "recordKind")
-                            return [];
-                          const label = words(role.replace(/Id$/, ""));
-                          const name = record.names?.[v] ?? me.names?.[v];
-                          // A person by name, a date in words, a plain value
-                          // by its label; record ids are never shown.
-                          if (name) return [`${label} ${name}`];
-                          // A yes-or-no fact reads as its label when true.
-                          if (v === "true") return [label];
-                          if (v === "false") return [];
-                          if (/^\d{4}-\d{2}-\d{2}$/.test(v))
-                            return [`${label} ${proseDate(v)}`];
-                          // A code with no name (a jurisdiction key, a
-                          // status) is never shown.
-                          if (
-                            /[:_]/.test(v) ||
-                            !v.trim() ||
-                            /^[A-Z0-9]+(?:-[A-Z0-9]+)+$/.test(v) ||
-                            /^[a-z]+(?:\.[a-z-]+)+$/.test(v)
-                          )
-                            return [];
-                          // A proper name keeps its own capitals.
-                          return [`${label} ${/[A-Z]/.test(v) ? v : words(v)}`];
-                        },
-                      ),
-                    ),
-                  ].join(" · "),
-            }),
-          ),
-        );
-      if (records.length > 3) {
-        const back = button(labels.previous, () => {
-          recordPage--;
-          draw();
-        });
-        back.disabled = recordPage === 0;
-        const next = button(labels.next, () => {
-          recordPage++;
-          draw();
-        });
-        next.disabled = (recordPage + 1) * 3 >= records.length;
-        block.append(el("nav", { className: "paper-pager" }, back, next));
-      }
-      return block;
-    };
     const draw = () => {
       const outlet = outlets.get(chosen);
       const layout = ["broadsheet", "modern", "tabloid", "weekly"].includes(
@@ -3992,22 +3993,36 @@ const sheets = {
         ? outlet.layout
         : "broadsheet";
       paper.className = `paper paper-${layout}`;
-      const section = el("div", { className: "paper-stories" });
-      outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
+      // A front page (owner, Oct 27: "News is a newspaper with story text"):
+      // the lead story with its text, the next stories with theirs beside it,
+      // and stories with only a headline as briefs. Every word is the English
+      // engine's; record rows with kinds and series names are not printed.
+      // Print takes the story's written paragraphs, else its lede; a
+      // newscast's spoken lines (greetings, hand-offs) are not print.
+      const told = (story) =>
+        story.paragraphs ?? (story.lede && story.headline ? [story.lede] : []);
+      const pageStories = outlet.stories.slice(page * 6, page * 6 + 6);
+      const [lead, ...rest] = pageStories;
+      const withText = rest.filter((story) => told(story).length);
+      const briefs = rest.filter((story) => !told(story).length);
+      const storyBlock = (story, className, paragraphs) => {
         const headline = button(storyHeadline(story), () => article(story));
         headline.className = "story-headline";
-        section.append(
-          el(
-            "article",
-            { className: `paper-story${index === 0 ? " lead" : ""}` },
-            ...imageFor(story),
-            headline,
-            ...(story.lede && story.headline
-              ? [el("p", { className: "story-lede", textContent: story.lede })]
-              : []),
-          ),
+        return el(
+          "article",
+          { className: `paper-story ${className}` },
+          ...(className === "lead" ? imageFor(story) : []),
+          headline,
+          ...told(story)
+            .slice(0, paragraphs)
+            .map((text, at) =>
+              el("p", {
+                className: at === 0 ? "story-lede" : "story-text",
+                textContent: text,
+              }),
+            ),
         );
-      });
+      };
       paper.replaceChildren(
         el(
           "header",
@@ -4018,9 +4033,19 @@ const sheets = {
             textContent: dateWords(me.date),
           }),
         ),
-        section,
+        el(
+          "div",
+          { className: "paper-stories" },
+          ...(lead ? [storyBlock(lead, "lead", 4)] : []),
+          el(
+            "div",
+            { className: "paper-column" },
+            ...withText.map((story) => storyBlock(story, "second", 2)),
+            ...briefs.map((story) => storyBlock(story, "brief", 0)),
+          ),
+        ),
       );
-      if (outlet.stories.length > 3) {
+      if (outlet.stories.length > 6) {
         const back = button(labels.previous, () => {
           page--;
           draw();
@@ -4030,10 +4055,9 @@ const sheets = {
           page++;
           draw();
         });
-        next.disabled = (page + 1) * 3 >= outlet.stories.length;
+        next.disabled = (page + 1) * 6 >= outlet.stories.length;
         paper.append(el("nav", { className: "paper-pager" }, back, next));
       }
-      paper.append(publicRecords());
       chooseTab(outletPicker, "outlet", chosen);
     };
     if (outlets.size > 1)
@@ -4092,7 +4116,6 @@ const sheets = {
     const { ahead, took } = await api(
       `/api/changes?id=${encodeURIComponent(me.id)}`,
     );
-    seenChanges = { ahead: ahead.length, took: took.length };
     // Enacted, waiting for its date: the measure, what it sets, and when.
     const coming = ahead.map((law) =>
       listRow(
@@ -5083,7 +5106,6 @@ $("front-continue").addEventListener("click", async () => {
     names: {},
     portrait: life.portrait,
   };
-  seenChanges = await changeCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5574,7 +5596,6 @@ async function enterAs(life, personId) {
     names: life.names,
     portrait: false,
   };
-  seenChanges = await changeCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5668,8 +5689,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       names: life.names,
       portrait: Boolean(person?.recipe),
     };
-    // What was already law at the start isn't news; only what changes after.
-    seenChanges = await changeCount();
     show("front", false);
     await playOpening();
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;

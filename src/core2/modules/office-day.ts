@@ -55,6 +55,7 @@ import {
   memberPosition,
   members,
   registerLegislatureHooks,
+  registerMeetingAgendaReader,
   type BillRow,
   type DeskAction,
 } from "./legislature";
@@ -470,6 +471,12 @@ function finish(api: CoreAPI, row: MeetingRow): void {
       officeId: row.officeId,
       items: String(row.takenUp.length),
       playerPresent: String(row.playerPresent),
+      // A sitting that runs past the hour a town body meets in the evening
+      // keeps its members from home that evening.
+      evening: String(
+        row.startMinute + row.minutes >
+          officeDayParameter("eveningMeetingMinute"),
+      ),
     },
   });
 }
@@ -674,6 +681,13 @@ function placeFiled(
   } as unknown as ModuleRow);
 }
 registerMeetingHold(holdsMemberFilings, placeFiled);
+// The floor's agenda for a date includes what a town body's meeting that day
+// takes up (the evening-before ask reads it).
+registerMeetingAgendaReader((api, date) =>
+  (table(api, "meetings").rows() as unknown as MeetingRow[])
+    .filter((row) => row.date === date && row.status !== "adjourned")
+    .flatMap((row) => agendaFor(api, row.officeId, date)),
+);
 
 const sits = (personId: string) => (term: TermRow) =>
   term.personId === personId || memberKey(term) === personId;

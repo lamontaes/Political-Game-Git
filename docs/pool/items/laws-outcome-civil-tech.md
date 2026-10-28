@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/data/stopgaps.json, src/core2/law-reach-balance.test.ts
 
 **Notes.** Oct 20 (pool feeder): write-up filled from the six SG-GOV-REACH-A rows (discrimination, abortion, age-verification, facial-recognition, data-privacy, redistricting). Related open PR: #5474 (data privacy cost read by the business engine). Claim released Oct 23: branch gone.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `laws-nine-links-rights-env`; close into it and carry any line it lacks there. (+ the discrimination children)

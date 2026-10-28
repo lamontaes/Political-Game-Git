@@ -36,6 +36,7 @@ import {
   spacingAllows,
   type QueuedRecord,
 } from "./circumstance";
+import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
@@ -1417,6 +1418,7 @@ export function createDirector(
         ...newCoworkers(core, book.personId),
         ...newHousemates(core, book.personId),
         ...schoolFinished(core, book.personId),
+        ...doorsKnocked(core, book.personId),
       ];
       // A record read directly today (a school year's end) is held for the
       // rows that come days after it, as a logged event is when recorded.
@@ -1550,11 +1552,31 @@ export function createDirector(
   }
 
   /**
+   * The first moment at or after `at` that a scene's setting can hold it: a
+   * home from the person's day start to its evening, an office in its hours
+   * (settingHours). A moment measured at the day's closing midnight waits for
+   * the morning instead of playing in the dark.
+   */
+  function openedAt(
+    core: CoreState,
+    at: { date: IsoDate; minuteOfDay: number },
+    kind: string | undefined,
+  ): { date: IsoDate; minuteOfDay: number } {
+    const row = data.settingHours.rows[kind ?? "home"];
+    if (!row) return at;
+    const opens = row.opens ?? coreParam(core, "playerDayStartMinute");
+    if (at.minuteOfDay >= opens && at.minuteOfDay < row.closes) return at;
+    return at.minuteOfDay < opens
+      ? { date: at.date, minuteOfDay: opens }
+      : { date: addDays(makeIsoDate(at.date), one), minuteOfDay: opens };
+  }
+
+  /**
    * Tells the core's player clock that the controlled person's interrupting
    * moment stops it at the moment's own time: the clock's frontier when the
-   * moment is measured. A moment rated as its event is recorded mid-day stops
-   * the clock there; a moment measured as the day closes stops it at the
-   * closing midnight, which is when the rest of the world's day is recorded.
+   * moment is measured, or the next minute its setting is open. A moment rated
+   * as its event is recorded mid-day stops the clock there; a moment measured
+   * as the day closes stops it on the next morning its setting opens.
    * A one-shot stop: the client's acknowledgment consumes it. Moments of
    * anyone not controlled stop nothing.
    */
@@ -1566,10 +1588,14 @@ export function createDirector(
         !core.people.get(moment.personId)?.alive
       )
         continue;
-      const at = playerClockFrontierV1(core, moment.personId) ?? {
-        date: addDays(makeIsoDate(core.date), one),
-        minuteOfDay: zero,
-      };
+      const at = openedAt(
+        core,
+        playerClockFrontierV1(core, moment.personId) ?? {
+          date: addDays(makeIsoDate(core.date), one),
+          minuteOfDay: zero,
+        },
+        entry.bindings[zero]?.setting.kind,
+      );
       registerModuleStopV1(core, {
         moduleId: module.id,
         recordId: moment.id,

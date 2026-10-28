@@ -18,7 +18,8 @@ import { floorDateOf } from "../core2/modules/world-legislating";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFile, hasBackdrop, stagePeople } from "./scene";
+import { backdropFile, stagePeople } from "./scene";
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const OFFICES = "core2-offices-v1";
