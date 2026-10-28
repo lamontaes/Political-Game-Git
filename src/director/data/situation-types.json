@@ -1674,60 +1674,6 @@
       "stakes": ["what-happened"]
     },
     {
-      "key": "polling-place",
-      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. The poll workers are those the voting engine's polling-place record names for the voter's precinct.",
-      "roles": [
-        {
-          "key": "voter",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["greet", "thank", "ask"],
-          "wants": ["engage"],
-          "bearing": "braced"
-        },
-        {
-          "key": "workers",
-          "fill": "poll-workers",
-          "count": "some",
-          "moves": ["greet", "tell", "thank"],
-          "wants": ["help-others"]
-        },
-        {
-          "key": "neighbors",
-          "fill": "present",
-          "count": "some",
-          "moves": ["greet", "tell", "ask"],
-          "wants": ["engage"]
-        }
-      ],
-      "setting": ["venue"],
-      "timing": "at-cause",
-      "choice": "ballot",
-      "causes": [
-        {
-          "awaitingProducer": "election-day",
-          "causeEngine": "elections",
-          "bind": {
-            "voter": "subject",
-            "workers": "poll-workers",
-            "neighbors": "present"
-          },
-          "opener": "workers",
-          "opening": "greet"
-        }
-      ],
-      "awaiting": ["record:polling-place"],
-      "tag": {
-        "key": "routine",
-        "endpoint": "political",
-        "registers": ["conversation", "counter", "journal"]
-      },
-      "purpose": "poll-problem",
-      "asker": "workers",
-      "asked": "voter",
-      "stakes": ["place"]
-    },
-    {
       "key": "hearing",
       "roles": [
         {

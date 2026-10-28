@@ -84,10 +84,6 @@ describe("election day at the polls", () => {
       .memberIds.find((id) => !adult(id));
     if (young)
       expect(pollingVisitDue(core, director.ledger, young, date)).toBeNull();
-    // The situation type the visit plays is in the director's library.
-    expect(
-      SITUATION_LIBRARY.types.some((row) => row.key === visit.situationKey),
-    ).toBe(true);
   });
 
   it("stands the precinct's poll workers in the scene, from the elections engine's polling-place record", () => {

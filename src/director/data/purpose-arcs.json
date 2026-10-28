@@ -2524,63 +2524,6 @@
         }
       ]
     },
-    "poll-problem": {
-      "state": "deliver-news",
-      "replies": ["ask", "confront", "request", "accept"],
-      "follow": {
-        "ask": ["answer"],
-        "confront": ["deflect", "apologize"],
-        "request": ["offer"],
-        "accept": ["offer"]
-      },
-      "again": {
-        "answer": ["request", "confront", "accept", "leave"],
-        "deflect": ["confront", "request", "leave"],
-        "offer": ["accept", "request", "leave"],
-        "apologize": ["accept", "request", "leave"]
-      },
-      "endings": [
-        {
-          "id": "provisional",
-          "label": "A provisional ballot",
-          "keeps": "none",
-          "when": {
-            "reply": ["accept"]
-          }
-        },
-        {
-          "id": "fixed",
-          "label": "Fixed at the table",
-          "keeps": "none",
-          "when": {
-            "reply": ["request"],
-            "asker": ["offer"]
-          }
-        },
-        {
-          "id": "scene-at-the-polls",
-          "label": "A scene at the polls",
-          "keeps": "story-runs",
-          "when": {
-            "reply": ["confront"]
-          }
-        },
-        {
-          "id": "left-without-voting",
-          "label": "Left without voting",
-          "keeps": "none",
-          "when": {
-            "reply": ["leave"]
-          }
-        },
-        {
-          "id": "left-there",
-          "label": "Left it there",
-          "keeps": "none",
-          "when": {}
-        }
-      ]
-    },
     "concession-call": {
       "state": "request",
       "replies": ["agree", "ask", "refuse", "stall"],
