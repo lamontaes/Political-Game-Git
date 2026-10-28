@@ -29,3 +29,5 @@ Looked at Oct 16 (claude/sale-eligibility), not built. The hiring half has no ca
 Oct 20: Switched from blocked to the automatic after: gate on world-hiring-discrimination-ban-refusal, so it opens by itself the moment those items are done.
 
 Sent back 2026-10-23 from PR #5102 (branch claude/pool-sale-eligibility-split): Spec/body re-ask the employer-bias question already ruled Oct 19, and the Done-when table is missing; cite the ruling and name only unfinished inputs; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of world-hiring-bias-reasons / world-hiring-discrimination-ban-refusal / justice-discrimination-complaint; the children carry the work.

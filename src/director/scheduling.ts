@@ -198,6 +198,11 @@ export interface ScheduleEntry {
   rank: number;
   pace: number;
   bindings: SceneBinding[];
+  /**
+   * The bound scenes with a purpose the player has answered, by type: a
+   * record that stages several plays each in turn, the next once one ends.
+   */
+  answered?: string[];
   coverage?: CoverageRow;
 }
 

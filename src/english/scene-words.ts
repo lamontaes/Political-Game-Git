@@ -22,6 +22,8 @@ interface Variant {
   key: string;
   text: string;
   stages?: string[];
+  /** The settings the line can be said in; none, any. */
+  settings?: readonly string[];
 }
 export interface SceneWords {
   version: string;
@@ -64,7 +66,12 @@ export interface SceneLine {
  */
 export type NarrationMove =
   | { part: "setting"; kind: string }
-  | { part: "lead"; typeKey: string }
+  | {
+      part: "lead";
+      typeKey: string;
+      /** The scene's setting: a line written for another place is not said. */
+      setting?: string;
+    }
   | { part: "opening"; move: string }
   | { part: "cause"; label: string };
 
@@ -122,7 +129,16 @@ export function wordSceneLine(request: {
   if (!found) return null;
   const facts =
     typeof request.facts === "function" ? request.facts() : request.facts;
-  const rows = found.variants;
+  // A line written for one kind of place ("has been waiting for you to get
+  // home") is said only in a scene set there.
+  const move = request.move;
+  const rows = found.variants?.filter(
+    (row) =>
+      move.part !== "lead" ||
+      !move.setting ||
+      !row.settings ||
+      row.settings.includes(move.setting),
+  );
   if (!rows?.length) return null;
   const bank: AuthoredEnglishBank = {
     key: found.key,

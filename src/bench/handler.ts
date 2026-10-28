@@ -1002,7 +1002,12 @@ export async function benchRequest(
               .split(".")
               .filter(Boolean)
               .map(Number),
-            { held: url.searchParams.get("held") === "1" },
+            {
+              held: url.searchParams.get("held") === "1",
+              ...(url.searchParams.get("typeKey")
+                ? { typeKey: url.searchParams.get("typeKey")! }
+                : {}),
+            },
           ),
         );
         return;
@@ -1067,14 +1072,19 @@ export async function benchRequest(
       }
       if (request.method === "POST" && url.pathname === "/api/campaign/day") {
         if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          campaignDay(requireCore(), player.personId, {
-            filingId: url.searchParams.get("filingId") ?? "",
-            kind: url.searchParams.get("kind") ?? "",
-            outletId: url.searchParams.get("outletId") ?? undefined,
-          }),
-        );
+        const day = campaignDay(requireCore(), player.personId, {
+          filingId: url.searchParams.get("filingId") ?? "",
+          kind: url.searchParams.get("kind") ?? "",
+          outletId: url.searchParams.get("outletId") ?? undefined,
+        });
+        // The outing's hours come off the same clock the packet reports.
+        const spent = player.spend(day.hours);
+        send(200, {
+          ...day,
+          ...(spent
+            ? { packet: spent.packet, names: namesFor(spent.packet) }
+            : {}),
+        });
         return;
       }
       if (

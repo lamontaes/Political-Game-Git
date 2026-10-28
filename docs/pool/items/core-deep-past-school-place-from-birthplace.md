@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/deep-past.ts,src/core2/data/deep-past.json,data/research/core/acs-2023-b05002-born-in-state.json
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: do not extend buildDeepPast; fold into the simulated-history session (OD:14).

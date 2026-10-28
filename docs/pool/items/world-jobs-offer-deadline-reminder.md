@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5232
 blocked-on:
@@ -28,3 +28,5 @@ Sent back 2026-10-20 from PR #5232 (branch claude/political-game-pool-3xfqef-2):
 Sent back 2026-10-20 from PR #5232 (branch claude/political-game-pool-3xfqef-2): jobs-player-offers.test.ts fails on the merged head: 'A job ends before its day's work, from calendar work.'; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5232 (branch claude/political-game-pool-3xfqef-2): the body lacks the Done-when evidence table, a one-year buildBenchWorld job/decision/claim proof and affected person record ID required by item line 20; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `world-jobs-offer-deadline-held`; close into it and carry any line it lacks there. (done)

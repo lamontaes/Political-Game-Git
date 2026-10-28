@@ -4,7 +4,7 @@ title: "Finish #4309: the unit suite follows what the game does now"
 area: release
 kind: cleanup
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #4309
 blocked-on:
@@ -42,3 +42,5 @@ Historical branch notes from Oct 17 (PR #4955; current status and acceptance abo
 Tried Oct 17 (claude), not finished: merged origin/main into release/green-suite in a scratch branch. The branch's merge base is 0dc6db3163, over 19,000 commits behind main, and the merge conflicts in 19 files (art/manifest/cargo_disposition.json, data/content/trait-coverage.json, data/content/trait-decisions.json, data/english/parts/journal.json, newspaper-ledes.json, notice.json, scripts/audit/research-data-allowlist.json, scripts/dialogue-batch/coverage-batch.ts, scripts/zero-dice-allowlist.json, src/core2/finance-day-order.test.ts, src/core2/trait-coverage.test.ts, src/director/opening-story.test.ts, src/director/world-moments.test.ts, src/simulation/campaigns.ts, src/simulation/nationwide-world/state-legislature-queue.ts, src/simulation/trait-packs.test.ts, tests/asset-bank-inventory.test.ts, tests/guards/research-data-has-reader.test.ts, tests/release/validate-workflow.test.ts). The PR changes 57 files, 2,348 insertions and 2,119 deletions, written against the test suite of Oct 14; most of its test edits chase tests that main has since rewritten, and resolving 19 by hand without running the whole suite would guess at what each side meant. Recommendation for the CTO: close #4309 and file a fresh item, "make the unit suite green on current main", whose first step is to run the suite on main and list the red tests (the pool already tracks the individual red tests: core-electorate-weight-test-red, world-jobs-full-leave-strain-red, release-world-modules-resting-stress-not-installed and others). Merge aborted; nothing pushed to release/green-suite.
 
 Sent back 2026-10-26 from PR #4955 (branch claude/pool-notes-oct17-b): Normal main integration preserves all current statuses/specs and dates the five findings as historical Oct17notes, but the body still lacks a planning Done-when evidence table and begins with the full release-green-suite item despite completing none of its work; bound the historical-note scope and current dispositions without overriding the recorded unread-table ruling or later4309send-back; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `release-suite-red-list-on-main`; close into it and carry any line it lacks there. (stale since Oct 16)

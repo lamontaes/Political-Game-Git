@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/credit-deposits.ts,src/core2/data/stopgaps.json,src/core2/bank-deposits.test.ts
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `world-stopgap-credit-deposits-faked-mechanic`; close into it and carry any line it lacks there.
