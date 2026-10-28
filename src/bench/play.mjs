@@ -1324,12 +1324,17 @@ function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
 }
+// The narration of the scene that opened this talk, kept above its lines.
+let talkSetting = [];
 function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
   gapButton.classList.remove("marked");
-  if (!value) return;
+  if (!value) {
+    talkSetting = [];
+    return;
+  }
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
     other?.speaker !== $("talk-name").textContent ||
@@ -1341,7 +1346,7 @@ function renderTalk(value) {
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
   talkControls({ silent: true, leave: true });
   fillTalk({
-    lines: spokenLines(value.lines, (line) => line.text),
+    lines: [...talkSetting, ...spokenLines(value.lines, (line) => line.text)],
     replies: replies(choices, (choice) => sayLine(choice.key)),
   });
   // Dim when there is nothing false to say; tipped and red while lying.
@@ -1351,10 +1356,11 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId, momentId) {
+async function talkTo(otherId, momentId, setting = []) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
+  talkSetting = setting;
   $("talk-name").textContent = "";
   // From a scene, the talk is about the scene's moment.
   const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
@@ -1925,31 +1931,35 @@ async function showStory(momentId) {
   show("talk-who", false);
   $("talk-name").textContent = "";
   // A scene with a purpose is its own exchange; any other opens a talk.
+  // The narrator sets the scene and the person speaks at once beneath it:
+  // no step between them (owner, Oct 27: clicking a person starts the talk).
   const withId = story.talk?.askerId ?? story.talkToId;
-  // Whether to talk to them is the player's; the narrator alone is a Continue.
-  talkControls({ silent: false, leave: Boolean(withId) });
+  const setting = story.narration.map((line) =>
+    talkLine({
+      kind: "speech narration",
+      text: line.text,
+      held: line.held,
+      ...gradeOf(line, momentId),
+    }),
+  );
+  if (withId) {
+    if (story.talk) playExchange(story, setting);
+    else await talkTo(withId, momentId, setting);
+    return;
+  }
+  // The narrator alone is a Continue.
+  talkControls({ silent: false, leave: false });
   fillTalk({
     lines: [
-      ...story.narration.map((line) =>
-        talkLine({
-          kind: "speech narration",
-          text: line.text,
-          held: line.held,
-          ...gradeOf(line, momentId),
-        }),
-      ),
+      ...setting,
       ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
     ],
-    replies: withId
-      ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
-          story.talk ? playExchange(story) : talkTo(withId, momentId),
-        )
-      : [],
+    replies: [],
   });
   setScales({ available: false });
 }
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
-function playExchange(story) {
+function playExchange(story, setting = []) {
   const { talk } = story;
   setWho(talk.askerId, story.names[talk.askerId]);
   const said = [...talk.opening];
@@ -1966,7 +1976,7 @@ function playExchange(story) {
   talkControls({ silent: false, leave: false });
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    fillTalk({ lines: said.slice(-4).map(lineOf) });
+    fillTalk({ lines: [...setting, ...said.slice(-4).map(lineOf)] });
     fillTalk({
       replies: replies(
         node.replies.map((reply, index) => ({
@@ -1986,7 +1996,10 @@ function playExchange(story) {
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
           else {
-            fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
+            fillTalk({
+              lines: [...setting, ...said.slice(-4).map(lineOf)],
+              replies: [],
+            });
             // A moment that staged another scene plays it next.
             kept.then(() => nextScene(story));
           }
