@@ -19,6 +19,8 @@ claimed-at:
 
 **Done when.** A test opens a position at a business in a drawn town (place and seed named), closes the business, and runs the weekly rounds: on main a counted worker is hired into it, with the fix no one is; in the played world (buildBenchWorld) Johnstown, Ohio, seed band-2026-10-26, with the open speed changes merged, runs its third year to the end; and the jobs tests pass.
 
+**Time box.** 3 hours.
+
 **Files.** src/core2/modules/jobs.ts
 
 **Notes.** Found Oct 26 by the speed lead measuring the third-year band. Main alone runs Johnstown's three years (132.6, 358.1 and 596.3 s): the open speed changes give the town a different history, one that reaches this. #5972, #5979, #6010 and #6043 also change jobs.ts, away from hireCounted.

@@ -2625,6 +2625,9 @@ function hireCounted(
 ): boolean {
   if (inCustody(api, seeker.personId)) return false;
   const c = core(api);
+  // A closed business hires no one, though its opening may still be listed
+  // (a full person's hire refuses it the same way).
+  if (c.finance.businesses.get(position.organizationId)?.closedAt) return false;
   const template =
     c.jobs.get(position.templateJobId) ??
     residentsRuntime(c)?.jobs.get(position.templateJobId) ??
