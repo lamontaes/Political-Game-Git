@@ -9,11 +9,10 @@ import {
 } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";
 import { openingOrganizationProfiles } from "./opening-org-profiles";
-import {
-  activeWorkers,
-  laborStatus,
-  townResidents,
-} from "../simulation/living-world/town-employment";
+import { activeWorkers, townResidents } from "./opening-town-jobs";
+
+/** The opening's first employment pass, the town's own jobs; this file is the second. */
+export { openingTownJobs } from "./opening-town-jobs";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
   TOWN_PART_TIME_DEFAULT,
@@ -32,14 +31,13 @@ import {
   weeklyHoursOf,
 } from "./town-pay";
 import { TOWN_PAY_META } from "./reference/town-pay.generated";
+import type { EntityId, IsoDate as WorldDate } from "./kernel/brands";
 import type {
-  EntityId,
-  IsoDate as WorldDate,
-  Organization,
-  World,
-  WorkRelationship,
-  WorkRoleRecord,
-} from "../simulation/types";
+  DraftOrganization as Organization,
+  DraftWorkRelationship as WorkRelationship,
+  DraftWorkRole as WorkRoleRecord,
+  OpeningDraft as World,
+} from "./opening-draft";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 import { worldRate } from "./world-draw";
@@ -369,12 +367,10 @@ export function openingEmploymentFromRecordedRoles(
   const recordedPeople = new Set(
     world.history.workRelationships.map((row) => row.personId),
   );
+  // Every unrecorded working-age resident is a candidate: no enrollment or
+  // care record exists before the first day is played.
   const candidates = residents
-    .filter(
-      (resident) =>
-        !recordedPeople.has(resident.personId) &&
-        laborStatus(world, resident) === "employed",
-    )
+    .filter((resident) => !recordedPeople.has(resident.personId))
     .map((resident) => ({
       ...resident,
       order: stableHash(`${data.version}:${seed}:${resident.personId}`),
@@ -446,8 +442,7 @@ export function openingEmploymentFromRecordedRoles(
   const profiles = openingOrganizationProfiles(world);
   for (const organization of world.history.organizations) {
     const profile = profiles.get(organization.id);
-    if (!profile || profile.closed || profile.locationJurisdictionId !== town)
-      continue;
+    if (!profile || profile.locationJurisdictionId !== town) continue;
     const workplace = townWorkplaceFor(
       organization.stableKey,
       profile.classification,

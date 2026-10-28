@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-grocery-exemption-buyers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T17:07:49.027Z
 ---
 
 **What.** The sales tax engine (src/core2/modules/purchase-tax.ts) keeps prices tax-inclusive: a household's everyday budget buys the same whatever the tax, and the tax comes out of the seller's share. So a grocery exemption leaves buyers paying the same and only lets the seller remit less (the applied row records the spared tax for the seller and nothing for the buyer). The research link grocery-exemption-to-food-insecurity (Zheng et al. 2021, Food Policy 101) measures food insecurity falling when grocery prices drop, so in the game nothing a household eats changes and the link stays a ledger number (SG-WEB-unread-household-food-insecurity). The fix is a pass-through of the exempted tax into the price households pay at grocery sellers, sized from research on grocery tax pass-through, read where the everyday plan prices its sellers (priceFactor in the settle of src/core2/cost-of-living.ts).
