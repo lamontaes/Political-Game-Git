@@ -11,6 +11,8 @@ import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { NEWSCAST_BANK } from "../english/english-newscast";
 import { subjectsBetween } from "./conversation";
+import { BenchPlayer } from "../bench/player";
+import { storyScene } from "../bench/story";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
 
 // The opening told as a story (owner, Oct 14, 2026), in the world the player
@@ -162,6 +164,35 @@ describe("the opening story", () => {
     }
     console.log(`${where}: ${lead.headline} | ${paragraphs.join(" | ")}`);
   });
+
+  it("plays as the director's address scene at home, in the President's words", () => {
+    const here = `${place.name} (${place.key}), seed ${seed}`;
+    new BenchPlayer(core, director).select(playerId);
+    const book = director.ledger.people.get(playerId)!;
+    const entry = book.schedule.find((row) =>
+      row.bindings.some((binding) => binding.typeKey === "address"),
+    );
+    expect(entry, `${here}: no address scene staged`).toBeTruthy();
+    expect(entry!.outcome, here).toMatch(/^scene/);
+    const moment = book.momentsById.get(entry!.momentId)!;
+    expect(moment.causeId, here).toBe(story.id);
+    const binding = entry!.bindings.find((row) => row.typeKey === "address")!;
+    expect(binding.setting.kind, here).toBe("home");
+    const audience = binding.roles.find((row) => row.role === "audience")!;
+    expect(audience.personIds, here).toContain(playerId);
+    const scene = storyScene(core, director, playerId, entry!.momentId, 1230);
+    expect(scene.speech?.speakerId, here).toBe(story.president.id);
+    expect(scene.speech?.text, here).toBe(story.address.text);
+    expect(scene.talkToId, here).toBeUndefined();
+    // On the screen at home, not standing in the room.
+    expect(
+      scene.people.map((row) => row.personId),
+      here,
+    ).not.toContain(story.president.id);
+    console.log(
+      `${here}: moment ${entry!.momentId}, scene ${binding.typeKey} at ${binding.setting.recordId}`,
+    );
+  }, 600_000);
 
   it("is printed by the press as national news within weeks, for readers to read", () => {
     const api = coreAPI(core);

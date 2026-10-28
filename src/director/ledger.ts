@@ -400,7 +400,11 @@ export function createDirector(
     // be followed), read from the log's own index of them.
     for (const id of core.logByPerson.get(personId) ?? []) {
       const record = core.durableLog.get(id);
-      if (record?.date === core.date && record.personIds.includes(personId))
+      if (
+        record?.date === core.date &&
+        (record.personIds.includes(personId) ||
+          record.witnessIds?.includes(personId))
+      )
         pendingFor(personId).events.push({
           event: record,
           reach: "named",
@@ -520,6 +524,10 @@ export function createDirector(
       );
     }
     snapshots.set(personId, snapshot(core, actor));
+    // What already reached them today (the address they watched that
+    // evening) is measured now, so it is staged by the same path as every
+    // later moment.
+    if (pending.get(personId)?.events.length) measureDay(core, book, false);
   }
 
   /** A moment scored from the recorded past: journal material, never a scene. */
@@ -900,8 +908,9 @@ export function createDirector(
       if (!rule) continue;
       let raw = zero;
       if (rule.impactParameter) {
-        // The event's own impact reaches the people it names fully, and
-        // those who learned of it through a tie by their relation.
+        // The event's own impact reaches the people it names and those who
+        // saw it fully, and those who learned of it through a tie by their
+        // relation.
         raw = param(rule.impactParameter);
         // A share of it the event's own fact gives, on a sliding scale.
         if (rule.scaleFact) {
@@ -910,7 +919,10 @@ export function createDirector(
             ? Math.max(zero, Math.min(one, share))
             : zero;
         }
-        if (!row.event.personIds.includes(book.personId)) {
+        if (
+          !row.event.personIds.includes(book.personId) &&
+          !row.event.witnessIds?.includes(book.personId)
+        ) {
           const thread = row.event.personIds
             .map((id) => book.threads.get(id))
             .find(Boolean);

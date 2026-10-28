@@ -2868,6 +2868,25 @@
             "aide": "staff",
             "audience": "audience"
           }
+        },
+        {
+          "match": {
+            "label": "cause:event:president.address",
+            "causeFacts": [
+              {
+                "key": "address:president",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "opening-story",
+          "causeRecord": "president.address",
+          "setting": ["home"],
+          "said": "speaker",
+          "bind": {
+            "speaker": "counterpart",
+            "audience": "household"
+          }
         }
       ],
       "tag": {

@@ -81,6 +81,8 @@ export interface SituationCause {
   bind?: Readonly<Record<string, string>>;
   opener?: string;
   opening?: string;
+  /** The role whose recorded speech the scene plays, said in its words. */
+  said?: string;
   /**
    * The key the exchange's pieces are tagged with when this cause fires the
    * type, in place of the type's own tag key: one purpose, a different
@@ -168,6 +170,8 @@ export interface SceneBinding {
   opener?: string;
   opening?: string;
   reason?: string;
+  /** The role whose recorded speech the scene plays (the address heard at home). */
+  said?: string;
   openUntil: IsoDate;
   /** Later moments of the same day this sitting took in, each with its cause record. */
   joined?: { momentId: string; causeId: string }[];
@@ -656,6 +660,7 @@ function bindType(
       ...(cause.opener ? { opener: cause.opener } : {}),
       ...(cause.opening ? { opening: cause.opening } : {}),
       ...(cause.reason ? { reason: cause.reason } : {}),
+      ...(cause.said ? { said: cause.said } : {}),
       openUntil: addDays(
         makeIsoDate(moment.date),
         library.scheduling.openDays[type.timing] ?? zero,
