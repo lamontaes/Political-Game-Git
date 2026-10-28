@@ -65,7 +65,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | partner with federal immigration enforcement | justice            | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | end cash bail                                | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Spending: corrections                        | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
-| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
+| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | raise juvenile court age                     | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | child access prevention                      | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | permit to carry concealed                    | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
@@ -209,7 +209,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
 
 - money: the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it. What it changes is who may vote, read by the board of elections when it builds the roll
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-convictions)
 
 **raise juvenile court age** (`us-policy-positions:justice-public-safety.raise-juvenile-court-age`)
 

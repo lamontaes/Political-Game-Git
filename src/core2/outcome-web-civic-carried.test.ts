@@ -77,6 +77,25 @@ describe("votes, approval and press links and the engines that decide them", () 
     );
   });
 
+  it("carries the election laws' turnout links by the law reach the voting engine reads, so no law moves turnout twice", () => {
+    const voting = read("src/core2/law-reach/group-a-voting.ts");
+    for (const [key, fn] of [
+      ["automatic-registration-to-turnout", "electionLawTurnoutCost"],
+      ["same-day-registration-to-youth-turnout", "electionLawTurnoutCost"],
+      ["all-mail-voting-to-turnout", "electionLawTurnoutCost"],
+      ["restore-voting-to-turnout", "barredFromVoting"],
+    ] as const) {
+      expectCarried(key, "src/core2/law-reach/group-a-voting.ts", fn);
+      expect(voting).toMatch(new RegExp(`export function ${fn}\\(`));
+    }
+    // The voting engine reads both: the cost in each voter's turnout, the bar on who may vote.
+    const engine = read("src/core2/modules/voting.ts");
+    expect(engine).toMatch(/electionLawTurnoutCost\(/);
+    expect(engine).toMatch(/barredFromVoting\(/);
+    // The web's turnout factor keeps no list of links to leave out: carried links never run.
+    expect(read("src/core2/turnout-web.ts")).not.toMatch(/LAW_REACH_LINKS/);
+  });
+
   it("leaves a newspaper closing unwired: no outlet closes, so there is no cause to read", () => {
     const row = link("newspaper-closure-to-engagement");
     expect(row.carriedBy).toBeUndefined();
