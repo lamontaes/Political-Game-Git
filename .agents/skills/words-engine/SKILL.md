@@ -56,6 +56,7 @@ Batch-style line grading is not how the owner grades. He plays or watches a scen
 - **Narration that restates the screen** ("It's a {weekday} in {month}.", "You're at home in {place}.") was rejected by the owner; scenes follow `scene-standard` rule 6.
 - **The opening address reads as a stat readout** (one sentence per number); journal lines are single facts ("I voted for H.R. 2.") with no context, and the game cast that vote for the player.
 
+- **A "say it differently" assertion needs a witness.** `expect(textA).not.toBe(textB)` for two opposite speakers or trait profiles is false in any drawn place where the facts give both the same line. Draw places in a bounded loop until the two differ, name the places passed over and throw if none does, or assert the difference over the whole bank; run it on 10 fresh draws before the PR (Oct 27: #6296 at 15:59, #6420 at 22:24 sent back for it).
 - **Director code keeps no numbers, and its counts are not hand-typed.** Before opening a scene PR run `npx vitest run src/director/director.test.ts` on the head with main merged in: its "keeps numbers in data" guard rejects every numeric literal in `src/director/*.ts` (a day length, a `b[1] - a[1]` comparator, an age cutoff) and its situation-type count must name the new type. Put values in a `src/director/data/` table tagged SOURCED, ESTIMATED or TUNABLE and read them through a named accessor (Oct 27: #6237 and #6260 sent back for it, #6273 fixed red main).
 
 ## The owner's standing rulings on this line

@@ -32,7 +32,6 @@
   },
   "endedBy": {
     "moment": "Something needs you",
-    "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
@@ -111,7 +110,6 @@
     "work": "Work",
     "place": "Home",
     "school": "School",
-    "lastTalked": "Last talked",
     "back": "Back",
     "continue": "Continue",
     "knows": "Knows",
@@ -354,7 +352,6 @@
   },
   "news": {
     "title": "News",
-    "records": "Public record",
     "economy": {
       "nation": "Nation",
       "region": "Region",
@@ -494,11 +491,6 @@
     "loanPayments": "Loan payments",
     "loanDue": "due",
     "loanPaid": "paid"
-  },
-  "staffingNews": {
-    "jobsLost": "Jobs lost",
-    "sales": "Sales",
-    "costs": "Costs"
   },
   "localRaces": {
     "title": "Local races on the ballot",
