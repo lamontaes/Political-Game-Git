@@ -6,12 +6,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
-claimed-by: words/printed-paragraphs
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T02:43:16.149Z
+claimed-at:
 ---
 
 **What.** The screens designer (channel, Oct 27) and the CTO's 02:10 relay of the owner's 9 PM findings: News prints briefs today, a headline and one sentence per story. The English engine already composes extra sentences for a story kind that has context roles (the address since Oct 27), but no printed story kind had any, and the archive's words passed only headline and lede.
@@ -23,3 +23,5 @@ claimed-at: 2026-10-28T02:43:16.149Z
 **Files.** src/english/english-newscast.ts, src/bench/archive-words.ts, src/bench/printed-words.ts, data/english/parts/news.json, src/bench/printed-words.test.ts
 
 **Notes.** Filed by the words lead on Oct 28.
+
+Stopped Oct 28, 02:55 UTC on the owner's stop order (relayed by the CTO). Built and pushed on branch words/printed-paragraphs (head 3462996f39): law and election stories get body sentences from their records, and printed-words.test.ts checks them in a played year. No PR opened; claiming this item takes that branch.
