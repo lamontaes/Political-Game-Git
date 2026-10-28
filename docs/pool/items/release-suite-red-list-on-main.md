@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5007 (branch claude/dev-why-red): Morning check: t
 Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5007 (branch claude/dev-why-red): The dev-why test still selects only already-paid workers and excludes the unpaid-worker case; the duplicate pool sections also remain uncorrected on this head. Rechecked unchanged head 9f542e0092; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5007#issuecomment-6309496777; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (inventory item, not buildable; red tests live as their own items).

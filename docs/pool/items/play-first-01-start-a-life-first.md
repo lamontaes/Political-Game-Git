@@ -36,3 +36,5 @@ Sent back 2026-10-25 ~22:20 UTC from PR #6091 (branch play-first/play-first-01-s
 Sent back 2026-10-26 from PR #6091 (branch play-first/play-first-01-start-a-life-first): Current-main integration and static gate pass, but ordinary New game Advanced Custom world opens setup with dev mode false, violating OWNER-DECISIONS.md36 and this item custom-dev requirement; route or restrict custom setup through dev mode and assert the boundary in title.browser.mjs; finish on that branch, merge main into it first.
 
 Fixer 6 (Oct 27): no superseding PR. The work is on main (6bddea1c53, Advanced as the one dev-mode start); #6091 is left for the CTO to close.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (commit 6bddea1c53).

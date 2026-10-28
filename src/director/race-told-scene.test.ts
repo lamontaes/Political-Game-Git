@@ -2,7 +2,6 @@ import { randomBytes } from "node:crypto";
 import { appendFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { fileForOffice } from "../bench/government";
-import { answerJobOffer, jobsView } from "../bench/jobs";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -110,10 +109,6 @@ function told(
   while (packet.kind !== "complete") {
     if (packet.kind === "stop") {
       for (const stop of packet.stop.modules) {
-        const offer = jobsView(core, personId).offers.find((item) =>
-          stop.recordId.startsWith(`${item.id}:`),
-        );
-        if (offer) answerJobOffer(core, personId, offer.id, "accept");
         open(stop.recordId);
       }
       packet = resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId });

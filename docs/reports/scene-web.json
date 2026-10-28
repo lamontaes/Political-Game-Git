@@ -1,15 +1,15 @@
 {
-  "generated": "2026-10-27",
+  "generated": "2026-10-28",
   "place": "Washington, District of Columbia (1150000)",
   "seed": "finisher-main-1",
   "year": "2025-01-20 to 2026-01-20",
   "watched": 17,
   "counts": {
-    "types": 79,
-    "rows": 130,
-    "typesFired": 11,
+    "types": 80,
+    "rows": 131,
+    "typesFired": 12,
     "rowsWaitingOnProducer": 13,
-    "rowsWithoutEpisode": 56,
+    "rowsWithoutEpisode": 57,
     "ownerExamples": 112,
     "ownerScenesMissing": 8
   },
@@ -2400,6 +2400,20 @@
       "ownerAsked": ["Election team"],
       "firedInYear": 1,
       "firedExample": "person_c30b1a0bfd0617b5:2026-01-20:volunteer-offered:filing:contest:seat:US-DC:council-chair:2026-11-03:person_c30b1a0bfd0617b5:person_5397206b64080b93"
+    },
+    {
+      "domain": "none",
+      "type": "job-offer",
+      "variant": 0,
+      "trigger": "job-offered",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {},
+      "lines": 0,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 3,
+      "firedExample": "person_c30b180bfd06144f:2025-07-07:job-offered:job-offer:position:organization_b615b146561ffa02:2025-07-01:74:person_c30b180bfd06144f"
     },
     {
       "domain": "none",

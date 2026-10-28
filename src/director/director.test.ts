@@ -5,7 +5,7 @@ import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../core2/life";
-import { P } from "../core2/parameters";
+import { P, parameter } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { comparePlayerMomentsV1 } from "../core2/player-stops-v1";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
@@ -1154,11 +1154,12 @@ describe("story director on the new core", () => {
     const directorStops = worker.stops.filter((packet) =>
       packet.stop.modules.some((row) => row.moduleId === "p13-story-director"),
     );
-    // One stop, at the midnight after the closure, before 2021-01-11 runs.
+    // One stop, on the morning after the closure: the family scene is at
+    // home, which holds it from the person's day start, never at midnight.
     expect(directorStops).toHaveLength(1);
     expect(directorStops[0]!.at).toEqual({
       date: "2021-01-11",
-      minuteOfDay: P.zero,
+      minuteOfDay: parameter("playerDayStartMinute"),
     });
     expect(directorStops[0]!.stop.modules).toEqual([
       expect.objectContaining({
@@ -1287,9 +1288,17 @@ describe("story director on the new core", () => {
         row.kind === "stop" &&
         row.stop.modules.some((stop) => stop.moduleId === "p13-story-director"),
     );
-    // One stop, at the minute the closure was recorded, not the next midnight.
+    // One stop, at the minute the closure was recorded, not the next
+    // midnight; a minute before the household is up waits for its morning.
     expect(directorStops).toHaveLength(1);
-    expect(directorStops[0]!.at).toEqual(actEnd);
+    const heldAt = {
+      date: actEnd!.date,
+      minuteOfDay: Math.max(
+        actEnd!.minuteOfDay,
+        parameter("playerDayStartMinute"),
+      ),
+    };
+    expect(directorStops[0]!.at).toEqual(heldAt);
     const momentId = `person:worker:${day}:fixture-closed-midday:${day}`;
     expect(directorStops[0]!.stop.modules).toEqual([
       expect.objectContaining({ recordId: momentId, kind: "interrupt" }),
@@ -1309,7 +1318,7 @@ describe("story director on the new core", () => {
       worker.schedule.find((row) => row.momentId === momentId),
     ).toMatchObject({
       interrupt: true,
-      stop: { recordId: momentId, at: actEnd },
+      stop: { recordId: momentId, at: heldAt },
     });
   });
 
