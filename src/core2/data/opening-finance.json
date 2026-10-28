@@ -22,7 +22,7 @@
         "enterprise:retail",
         "enterprise:food-service"
       ],
-      "citation": "Existing retained CEX food category and generated general-store/restaurant classifications in src/simulation/living-world/town-employment.ts. Food is split by the CE 2024 regional share of food away from home: at home to retail, away to food service; within each, projected firm capacity weights are an authored opening crosswalk.",
+      "citation": "Existing retained CEX food category and generated general-store/restaurant classifications in the old engine's town-employment.ts. Food is split by the CE 2024 regional share of food away from home: at home to retail, away to food service; within each, projected firm capacity weights are an authored opening crosswalk.",
       "stopgapId": "SG-P8-opening-finance-bindings",
       "supplierSplit": {
         "parts": [
@@ -56,7 +56,7 @@
       "key": "maintenanceAndRepairs",
       "contractKind": "household.maintenanceAndRepairs",
       "supplierClassifications": ["enterprise:repair"],
-      "citation": "Existing retained CEX vehicle maintenance/repair category and generated Auto Service/mechanic workplace in src/simulation/living-world/town-employment.ts. No repair appointment or recorded bill is implied.",
+      "citation": "Existing retained CEX vehicle maintenance/repair category and generated Auto Service/mechanic workplace in the old engine's town-employment.ts. No repair appointment or recorded bill is implied.",
       "stopgapId": "SG-P8-opening-finance-bindings"
     },
     {

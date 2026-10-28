@@ -1,5 +1,5 @@
 /**
- * The core's own basic types (moved from src/simulation/types.ts, which now
+ * The core's own basic types (moved from the old engine's types.ts, which now
  * re-exports them): branded ids and dates, the simulation moment, and the
  * kinds of entity an id can name.
  */
