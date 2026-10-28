@@ -109,11 +109,14 @@ import {
   worldOutletCounts,
   type PlaceNews,
 } from "./modules/press";
+import { PAST_MODULE_ID } from "./past-module";
+import { publishedSupportShare, supportShare } from "./campaign-views";
+import supportData from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-elections-per-world": [42, 44, 45, 48],
+  "realistic-elections-per-world": [42, 45],
   "realistic-school-names-generated": [37],
   "world-disasters-from-conditions": [41],
 };
@@ -740,6 +743,46 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     process.stdout.write(
       `TREASURY ${where}: ${da.size} debt holders, ${ca.size} charge shares, ${stakes} stakes\n`,
+    );
+  });
+
+  it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {
+    // Row 44: every race before the start, its votes cast summed across the
+    // races both worlds hold (one race of a few hundred votes can land alike).
+    const races = (core: CoreState) =>
+      new Map(
+        (
+          coreAPI(core)
+            .moduleState(PAST_MODULE_ID)
+            .table("elections")
+            .rows() as unknown as { id: string; totalVotes: number }[]
+        ).map((row) => [row.id, row.totalVotes]),
+      );
+    const racesA = races(a),
+      racesB = races(b);
+    const shared = [...racesA.keys()].filter((id) => racesB.has(id));
+    expect(shared.length, `${where} row 44: past races`).toBeGreaterThan(0);
+    const cast = (held: Map<string, number>) =>
+      shared.reduce((n, id) => n + held.get(id)!, 0);
+    expect(cast(racesA), `${where} row 44`).not.toBe(cast(racesB));
+    // Row 48: every question's national polled share.
+    const questions = Object.keys(
+      (supportData as unknown as { questions: Record<string, unknown> })
+        .questions,
+    );
+    expect(questions.length, where).toBeGreaterThan(0);
+    for (const question of questions) {
+      expect(
+        supportShare(a.seed, question),
+        `${where} row 48 ${question}`,
+      ).not.toBe(publishedSupportShare(question));
+      expect(
+        supportShare(a.seed, question),
+        `${where} row 48 ${question}`,
+      ).not.toBe(supportShare(b.seed, question));
+    }
+    process.stdout.write(
+      `VOTES-AND-POLLS ${where}: ${shared.length} past races cast ${cast(racesA)} and ${cast(racesB)} votes; ${questions[0]} polls ${supportShare(a.seed, questions[0]!).toFixed(3)} and ${supportShare(b.seed, questions[0]!).toFixed(3)} against ${publishedSupportShare(questions[0]!)}\n`,
     );
   });
 
