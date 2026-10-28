@@ -43,15 +43,8 @@ export const REAL_SAMPLES: Record<
   { banks: string[]; moves?: string[]; lines: number }
 > = {
   journal: { banks: ["journal"], lines: 20 },
-  legislation: {
-    banks: ["legislation"],
-    moves: ["short-title", "long-title", "enacting-clause"],
-    lines: 12,
-  },
   notices: { banks: ["notices"], lines: 2 },
   minutes: { banks: ["minutes"], lines: 4 },
-  hearing: { banks: ["hearing"], lines: 4 },
-  meeting: { banks: ["meeting"], lines: 12 },
   campaign: { banks: ["address"], lines: 8 },
   interview: { banks: ["interview"], lines: 8 },
   emotion: { banks: ["address"], lines: 18 },
