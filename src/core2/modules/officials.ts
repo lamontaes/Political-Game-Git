@@ -143,13 +143,16 @@ const table = (api: CoreAPI, name: string) =>
 
 /**
  * An official the officials engine seats with no term in the offices engine
- * whose seat the state's own vacancy law fills: a sample member of another
- * state's legislature, another state's governor. (Members of Congress outside
- * the town are seated by the legislature when their chamber next sits.)
+ * whose seat the vacancy law fills: a sample member of another state's
+ * legislature, another state's governor, a member of Congress outside the
+ * town.
  */
 const unheld = (row: OfficialRow) =>
   row.termId === null &&
-  (row.bodyKind === "legislature" || row.officeKind === "governor");
+  (row.bodyKind === "legislature" ||
+    row.bodyKind === "us-house" ||
+    row.bodyKind === "us-senate" ||
+    row.officeKind === "governor");
 
 /**
  * The offices engine filled a seat it keeps no term for: the new holder
