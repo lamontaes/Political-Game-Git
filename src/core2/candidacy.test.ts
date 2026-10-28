@@ -11,9 +11,10 @@ import {
   platformFromViews,
   decideToRun,
   RUN,
+  standAgainReason,
+  standsAgain,
 } from "./modules/candidacy";
 import { viewsModule } from "./modules/views";
-import { standAgainReason, standsAgain } from "./stand-again";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 
