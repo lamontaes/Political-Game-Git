@@ -85,7 +85,11 @@ function lastDay(
       packet = resumePlayerV1(core, {
         kind: "choice",
         pauseId: packet.pauseId,
-        offerId: packet.offers[P.zero]!.offerId,
+        // The player goes to school on a school day, so the classmates are theirs.
+        offerId: (
+          packet.offers.find((row) => row.actionId === "attend-school") ??
+          packet.offers[P.zero]!
+        ).offerId,
       });
   }
   open();
