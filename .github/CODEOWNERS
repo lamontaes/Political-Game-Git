@@ -172,7 +172,6 @@
 /src/core2/commuting-shares.ts @lamontaes
 /src/core2/cost-of-living.ts @lamontaes
 /src/core2/living-cost-split.ts @lamontaes
-/src/core2/hud-rents.ts @lamontaes
 
 # Households and people (people)
 /src/core2/modules/people.ts @lamontaes
@@ -203,6 +202,7 @@
 /src/core2/trait-effects/** @lamontaes
 /src/core2/household-*.ts @lamontaes
 /src/core2/housing-*.ts @lamontaes
+/src/core2/hud-rents.ts @lamontaes
 /src/core2/health-hazard.ts @lamontaes
 /src/core2/health-mortality-table.ts @lamontaes
 /src/core2/counted-*.ts @lamontaes

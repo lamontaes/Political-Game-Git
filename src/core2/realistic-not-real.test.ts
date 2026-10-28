@@ -31,10 +31,6 @@ import { permitRates, publishedPermitRates } from "./housing-construction";
 import { publishedShelterRateFor, shelterRateFor } from "./housing-homeless";
 import { homePriceRatio, publishedHomePriceRatio } from "./housing-prices";
 import { corePlaceByKey } from "./place-lookup";
-import {
-  homeValueForJurisdiction,
-  publishedHomeValueForJurisdiction,
-} from "../simulation/county-home-value";
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
@@ -165,13 +161,9 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         publishedHomePriceRatio(usps, from, a.date),
         homePriceRatio(usps, from, a.date, b.seed),
       );
-    // Row 7: the old core's county median home value.
-    differs(
-      `old-core home value ${jurisdiction}`,
-      homeValueForJurisdiction(jurisdiction, a.seed).dollars,
-      publishedHomeValueForJurisdiction(jurisdiction).dollars,
-      homeValueForJurisdiction(jurisdiction, b.seed).dollars,
-    );
+    // Row 7, the old core's county median home value, is checked beside its
+    // reader (src/simulation/county-home-value-world.test.ts): nothing here
+    // imports the old core.
     // Row 8: HUD fair market rents and the very low income limit, the place's
     // area (the state's average where HUD has none) at every bedroom count.
     const rows = (
