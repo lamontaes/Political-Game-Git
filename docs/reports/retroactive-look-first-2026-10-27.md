@@ -110,7 +110,7 @@ Citations: OD = OWNER-DECISIONS.md line, MF = MERGE-FIRST.md line, AG = AGENTS.m
   - #4953 (#5369)
   - #6091 (#6232)
   - #5100 and #5110 (identical files on main)
-  - #5695, #5708, #5858, #5956 and #6050 (on main)
+  - #5695, #5708, #5858 and #6050 (on main). #5956 stays open: OD:137 keeps it as the record of the Oct 24 playtest
   - The rest of this group, with their files, are in table 1.
 - **Superseded by another open PR:**
   - #6059 (#6397)
