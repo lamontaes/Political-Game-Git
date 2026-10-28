@@ -30,7 +30,6 @@ export function planCadence(changedFiles, options = {}) {
   const release = has(/^docs\/release\//);
   const pool = has(/^docs\/pool\//);
   const core = has(/^src\/(core2|rules|director|english)\//);
-  const oldCore = has(/^src\/(simulation|presentation)\//);
   const screens = has(/^src\/bench\/(play\.(mjs|css|html)|.*\.browser\.mjs)$/);
   const skillOps = has(
     /^scripts\/skill-ops\/|^\.agents\/|^\.claude\/|^AGENTS\.md$|^CLAUDE\.md$|^\.cursor\/|^\.codex\//,
@@ -68,7 +67,7 @@ export function planCadence(changedFiles, options = {}) {
     });
   }
 
-  if (core || oldCore) {
+  if (core) {
     stages.push({
       label: "Zero-dice guard",
       command: "npm run zero-dice",
@@ -84,8 +83,8 @@ export function planCadence(changedFiles, options = {}) {
     });
   }
 
-  // Any file can add an importer of the old folders; the check refuses one.
-  if (has(/^(?!src\/(simulation|presentation)\/).*\.(ts|tsx|mts|mjs|js)$/)) {
+  // Any file can add an importer of the deleted old folders; the check refuses one.
+  if (has(/\.(ts|tsx|mts|mjs|js)$/)) {
     stages.push({
       label: "Old-engine imports",
       command: "npm run old-imports",

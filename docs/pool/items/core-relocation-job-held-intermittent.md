@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5149 (branch claude/relocation-dead-member): The r
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (cannot reproduce; reopen with a captured seed).
 
 Merge-first: stale, back to the pool (Merger 4, Oct 28): PR #5149 closed; branch claude/relocation-dead-member, last push Oct 19, sent back twice. Claiming this item transfers that branch to you.
+
+Seed captured (wire-opening-and-home, Oct 28): `GOLDEN_PATH_SEED=0dd4dafa1edf35e8681a232b9ca4c09a npx vitest run src/core2/counted-demotion.test.ts` fails on clean main d4f61f3c07 with 'Invalid relocation: one living household, no job held', thrown at `relocatePeopleV1` (src/core2/state.ts:1643) from the test's own move of a filled-in household (src/core2/counted-demotion.test.ts:171). The test picks a counted household without a job; after `fillInPerson` the move is refused, so a filled-in member holds a job or the household is not one living household.
