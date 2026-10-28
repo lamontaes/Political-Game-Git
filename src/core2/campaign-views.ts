@@ -18,7 +18,7 @@ import calibration from "../../data/source/electoral-calibration-2024/corpus.jso
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
 import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
-import { stableHash } from "./kernel/ids";
+import { seededNormal } from "./officials-roster";
 import type { PersonState } from "./types";
 
 /** One stated position: support (+1) or oppose (-1) a policy question. */
@@ -92,16 +92,6 @@ function personalityLean(
   );
 }
 
-/** A standard normal value for a key (Box and Muller 1958). */
-function normalOf(key: string): number {
-  const uniform = (k: string) =>
-    (parseInt(stableHash(k).slice(0, 12), 16) + 0.5) / 16 ** 12;
-  return (
-    Math.sqrt(-2 * Math.log(uniform(`${key}:a`))) *
-    Math.cos(2 * Math.PI * uniform(`${key}:b`))
-  );
-}
-
 /**
  * Where a person stands before anything happens in play, standardized: their
  * personality's lean (`z`) carries only its measured share; the rest is the
@@ -116,8 +106,8 @@ function openingLeanKey(
   const household = (person as { householdId?: string }).householdId;
   const shared = household ? campaignParameter("householdLeanShare") : 0;
   const own =
-    shared * normalOf(`lean:home:${household}`) +
-    Math.sqrt(1 - shared * shared) * normalOf(`lean:person:${person.id}`);
+    shared * seededNormal(`lean:home:${household}`) +
+    Math.sqrt(1 - shared * shared) * seededNormal(`lean:person:${person.id}`);
   return (
     fromPersonality * z + Math.sqrt(1 - fromPersonality * fromPersonality) * own
   );

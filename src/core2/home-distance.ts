@@ -9,8 +9,7 @@
  * from the median place's land, marked ESTIMATED; nothing is unknown.
  */
 import { PLACE_COUNTY_RELATIONS_ROWS } from "./reference/place-county-relations.generated";
-import { stableHash } from "./kernel/ids";
-import { parameter } from "./parameters";
+import { uniform } from "./officials-roster";
 import type { CoreState } from "./types";
 
 const SQUARE_METERS_PER_SQUARE_MILE = 2_589_988.110336;
@@ -55,14 +54,11 @@ export function homeDistanceMiles(
   kept.set(core, byHousehold);
   const held = byHousehold.get(householdId);
   if (held !== undefined) return held;
-  const p = (key: string) => parameter(key, core.data.parameters);
   // stopgapId: SG-TRAITS-household-distance-estimate
   const radius = Math.sqrt(
     placeLandSquareMiles(core.placeMetadata.placeKey) / Math.PI,
   );
-  const hash = stableHash(`${core.seed}:home-distance:${householdId}`);
-  const unit =
-    (Number.parseInt(hash.slice(0, 12), 16) + p("one") / p("two")) / 16 ** 12;
+  const unit = uniform(`${core.seed}:home-distance:${householdId}`);
   // A point spread evenly over the disc sits at radius times the root of a uniform value.
   const miles = radius * Math.sqrt(unit);
   byHousehold.set(householdId, miles);
