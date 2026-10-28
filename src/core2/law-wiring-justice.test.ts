@@ -18,7 +18,6 @@ import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { electorateChange } from "./electorate-inputs";
-import { inForceHere } from "./law-reach/host";
 import { RESTORE_VOTE } from "./law-reach/group-a-voting";
 import { openReach, townAdults } from "./law-reach/group-a-records";
 import {
@@ -32,7 +31,13 @@ import {
   governments,
   type GovernmentRow,
 } from "./modules/budgets";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  yesLevels,
+} from "./modules/laws";
 import { countedHouseholdOf, residentsRuntime } from "./modules/residents";
 import { reachParameter } from "./law-reach/group-a-records";
 import type { LawRowInput } from "./laws-starting";
@@ -348,7 +353,9 @@ function play(where: string, core: CoreState): Attempt {
   const cutService: number[] = [];
   const keys = [...QUESTIONS, HANDGUN_AGE];
   const lines = [POLICE_LINE, FIRE_LINE, CORRECTIONS_LINE];
-  const startedNo = new Set(keys.filter((key) => !inForceHere(api, key)));
+  const startedNo = new Set(
+    keys.filter((key) => !yesLevels(api, key).length > 0),
+  );
   try {
     // The three service lines are raised by a measure of their own, so
     // the departments' service has a statute to stand on.
