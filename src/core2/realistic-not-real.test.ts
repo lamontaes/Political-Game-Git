@@ -620,16 +620,29 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       (newsData as unknown as { places: Record<string, PlaceNews> }).places,
     );
     expect(places.length, where).toBeGreaterThan(0);
+    // A state's count is whole and most states hold a few stations, so two
+    // worlds' totals can coincide (Aunu'u, American Samoa, seed
+    // 0099ec5284330be1: 325 television stations in both); each kind's total
+    // differs from the published one, and the states' counts differ between
+    // worlds as a row.
     for (const kind of ["newspaper", "television", "radio"] as const) {
       const total = (read: (counts: PlaceNews) => number) =>
         places.reduce((sum, counts) => sum + read(counts), 0);
-      differs(
-        `${kind} outlets across states`,
+      expect(
         total((c) => worldOutletCounts(a.seed, c, 1)[kind]),
-        total((c) => Math.round(publishedOutletLevels(c, 1)[kind])),
-        total((c) => worldOutletCounts(b.seed, c, 1)[kind]),
-      );
+        `${where} ${kind} outlets across states: published`,
+      ).not.toBe(total((c) => Math.round(publishedOutletLevels(c, 1)[kind])));
     }
+    const outletRow = (seed: string) =>
+      places
+        .map((c) => {
+          const n = worldOutletCounts(seed, c, 1);
+          return `${n.newspaper}/${n.television}/${n.radio}`;
+        })
+        .join();
+    expect(outletRow(a.seed), `${where} outlets: other world`).not.toBe(
+      outletRow(b.seed),
+    );
     // Row 27: every price the market sets; what the Postal Service or a law sets stays as published.
     const marketA: number[] = [],
       marketB: number[] = [];
