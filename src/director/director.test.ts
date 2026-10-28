@@ -712,6 +712,22 @@ describe("story director on the new core", () => {
       ).toEqual(["news-arrives"]);
   });
 
+  it("casts each person present once, with the role's reason on record", () => {
+    const { director } = run("place:director-fixture", true);
+    const bindings = [...director.ledger.people.values()].flatMap((book) =>
+      book.schedule.flatMap((entry) => entry.bindings),
+    );
+    expect(bindings.length).toBeGreaterThan(0);
+    for (const binding of bindings) {
+      // Every person the scene places has a recorded reason, and only they.
+      expect(Object.keys(binding.presentReasons).sort()).toEqual(
+        [...binding.presentIds].sort(),
+      );
+      for (const reason of Object.values(binding.presentReasons))
+        expect(reason).toMatch(/^[a-z-]+$/);
+    }
+  });
+
   it("takes a second cause the same day into the sitting already staged, citing both records", () => {
     const { core, director } = run("place:director-fixture", true);
     const personId = "person:worker";

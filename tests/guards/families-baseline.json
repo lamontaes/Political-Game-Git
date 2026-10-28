@@ -247,6 +247,7 @@
     "src/director/office-scene.ts": 4,
     "src/director/opening-story.ts": 8,
     "src/director/play-modules.ts": 9,
+    "src/director/polling-place.ts": 1,
     "src/director/purpose-scene.ts": 5,
     "src/director/scene-talk.ts": 1,
     "src/director/scene.ts": 1,

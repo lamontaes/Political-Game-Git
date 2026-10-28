@@ -16,7 +16,7 @@ import { onBallotOn } from "./election-night";
 import {
   leavePollingPlace,
   markBallot,
-  stagedPollingVisit,
+  pollingVisitDue,
   type PollingVisit,
 } from "../director/polling-place";
 
@@ -315,12 +315,11 @@ export class BenchPlayer {
           date: addDays(makeIsoDate(from.date), 1),
           minuteOfDay: 0,
         };
-        // Election day is a scene (owner, Oct 14 and 26, 2026): the director
-        // stages the polls at the eve's close for a voter the count counts,
-        // so election morning, with the choice to go vote, comes before the
-        // core enters it. The clock's midnight is the start of the core's
-        // next day.
-        const polls = stagedPollingVisit(
+        // Election day is a scene (owner, Oct 14 and 26, 2026): the count
+        // opens the day, so election morning, with the choice to go vote,
+        // comes before the core enters it. The clock's midnight is the start
+        // of the core's next day.
+        const polls = pollingVisitDue(
           this.core,
           this.director.ledger,
           this.personId!,
