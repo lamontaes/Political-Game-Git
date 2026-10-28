@@ -4379,3 +4379,16 @@ details.entry[open] {
   color: var(--text-2);
   margin: 0;
 }
+/* A place in its own view (owner, Oct 28, point 28): the picture large across
+   the top, what you do there and who works there under it, then Go. */
+.place-view .record-picture {
+  float: none;
+  width: 100%;
+  max-height: 380px;
+  aspect-ratio: 16 / 7;
+  margin: 0 0 14px;
+  border: 2px solid var(--brass);
+}
+.place-view .record-actions {
+  margin: 0 0 6px;
+}

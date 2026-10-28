@@ -7,7 +7,7 @@
  */
 import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
 import type { PersonId } from "../core2/types";
-import { heldByGrades } from "./english-grades";
+import { partsToSay, type BankPart } from "./bank-parts";
 import {
   renderLine,
   type Fact,
@@ -17,12 +17,6 @@ import {
 
 export type { Fact };
 
-interface BankPart {
-  key: string;
-  text: string;
-  uses: { subject: string; role: string }[];
-  shippable: boolean;
-}
 const BANK = stagesJson as unknown as { parts: BankPart[] };
 
 /** The bank's version, for the renderer's stable pick. */
@@ -38,14 +32,12 @@ export function speechStageVariants(
   role: string,
   heldFirst = false,
 ): Variant[] {
-  const fits = (part: BankPart) =>
-    !heldByGrades(part.key) &&
-    part.uses.some((use) => use.subject === "stage" && use.role === role);
-  const shipped = BANK.parts.filter((part) => part.shippable && fits(part));
-  const held = heldFirst
-    ? BANK.parts.filter((part) => !part.shippable && fits(part))
-    : [];
-  return (held.length ? held : shipped).map((part) => ({
+  return partsToSay(
+    BANK.parts,
+    (part) =>
+      part.uses.some((use) => use.subject === "stage" && use.role === role),
+    heldFirst,
+  ).map((part) => ({
     key: part.key,
     // The bank writes a slot as {name}; the renderer reads {{name}}.
     text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),

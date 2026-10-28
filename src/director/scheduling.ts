@@ -168,6 +168,13 @@ export interface SceneBinding {
   roles: { role: string; personIds: PersonId[]; bearing?: string }[];
   /** Everyone the records place in the scene, for staging. */
   presentIds: PersonId[];
+  /**
+   * Why each person present is there, decided once here: the fill of the
+   * role that cast them (subject, household, coworkers, counterpart, kin,
+   * the civic roles). Every view stages these people for these reasons and
+   * no others (the plan of Oct 28, section 3: "One cast, decided once").
+   */
+  presentReasons: Record<PersonId, string>;
   setting: { kind: string; recordId: string };
   timing: string;
   opener?: string;
@@ -644,6 +651,12 @@ function bindType(
     const presentRoles = new Set(
       type.roles.filter((role) => role.present !== false).map((row) => row.key),
     );
+    const presentReasons: Record<PersonId, string> = {};
+    for (const role of type.roles)
+      if (presentRoles.has(role.key))
+        for (const id of roles.find((row) => row.role === role.key)
+          ?.personIds ?? [])
+          presentReasons[id] ??= cause.bind?.[role.key] ?? role.fill;
     return {
       typeKey: type.key,
       roles,
@@ -654,6 +667,7 @@ function bindType(
             .flatMap((row) => row.personIds),
         ),
       ].sort(),
+      presentReasons,
       setting,
       timing: type.timing,
       ...(cause.opener ? { opener: cause.opener } : {}),
