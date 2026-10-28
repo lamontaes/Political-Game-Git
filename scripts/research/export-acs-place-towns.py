@@ -22,7 +22,7 @@ or which lies in a state whose listing holds town or township governments
 civil townships), where the town or township is the place's local government:
 its residents in each county subdivision (summary level 070, largest first),
 and each such subdivision's population (summary level 060). The public
-budgets read it (src/simulation/public-budgets/opening.ts, servingGovernment),
+budgets read it (the old engine's opening.ts, servingGovernment),
 and so does the town or township a place's local law comes from
 (src/core2/reference/government-units.ts, townshipGovernmentUnitsForPlace).
 

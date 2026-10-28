@@ -143,14 +143,12 @@ describe("research data has a reader", () => {
     expect(
       readers
         .get("data/research/outcome-web/links.json")
-        ?.some(
-          (reader) => reader.file === "src/simulation/outcome-web/index.ts",
-        ),
+        ?.some((reader) => reader.file === "src/core2/outcome-web-model.ts"),
     ).toBe(true);
-    // export-town-pay reads the minimum-wage table by its path.
+    // export-bill-numbering-styles reads the numbering table by its path.
     expect(
       readers
-        .get("data/research/money/minimum-wage-2026.json")
+        .get("data/research/bill-numbering-starts.json")
         ?.some((reader) => reader.how === "path"),
     ).toBe(true);
     // legal-outcome.ts only cites batch 2 in a sourceIds list: no reader.

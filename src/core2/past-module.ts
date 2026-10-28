@@ -40,7 +40,6 @@ export const PAST_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       laws: { indexes: { byLaw: { fields: ["lawId"] } } },
-      elections: { indexes: { bySeat: { fields: ["seatId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
       loaded: {},
     },
@@ -79,7 +78,12 @@ export {
   pastWorkHistory,
   pastWorkOf,
 } from "./past-work";
-export { residenceOn } from "./past-moves";
+export {
+  PERSON_MOVED_IN,
+  pastMovesHistory,
+  residenceOn,
+  type DepartureRate,
+} from "./past-moves";
 export {
   SCHOOL_STARTED,
   schoolHistory,

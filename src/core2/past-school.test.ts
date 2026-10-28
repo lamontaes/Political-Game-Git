@@ -3,49 +3,65 @@
  * (owner, Oct 28, 2026: "simulate to the birth year... general"): each year a
  * child was of school age inside the run, the district of the place their
  * records put them that year, a record each time the stage or the school
- * changed. The card lists each school once. A fixture world with one child
- * who was born elsewhere and moved into the district's town.
+ * changed. Where they lived comes from the moves engine's run: a parent
+ * whose recorded birthplace is elsewhere came to the county on the day the
+ * run gives, and their child at home came with them. The card lists each
+ * school once. A fixture world with one parent and one child.
  */
 import { describe, expect, it } from "vitest";
 import { schoolsOf } from "../bench/words";
 import { piecesInput, piecesSource } from "./core-pieces-fixture";
 import { createLifeCore } from "./life";
-import { SCHOOL_STARTED, schoolsAttended } from "./past-school";
+import {
+  PERSON_MOVED_IN,
+  SCHOOL_STARTED,
+  schoolsAttended,
+} from "./past-module";
 import { preStartHistory, preStartWindow, runPreStart } from "./pre-start";
 import type { CoreInput } from "./types";
 
-function world(moveIn?: string): CoreInput {
+function world(parentBornIn: string): CoreInput {
   const input = piecesInput();
+  const parent = {
+    ...input.people[0]!,
+    pastFacts: [
+      {
+        id: "actor:birthplace",
+        date: input.people[0]!.birthDate,
+        kind: "birthplace",
+        summary: "birthplace",
+        source: piecesSource,
+        facts: { placeId: parentBornIn },
+      },
+      {
+        id: "actor:family:child",
+        date: "1999-03-01",
+        kind: "family:child",
+        summary: "child",
+        source: piecesSource,
+        facts: { otherPersonId: "child" },
+      },
+    ],
+  };
   const child = {
     ...input.people[0]!,
     id: "child",
     givenName: "Contract",
-    birthDate: "2005-03-01",
+    birthDate: "1999-03-01",
     pastFacts: [
       {
-        id: "child:birthplace",
-        date: "2005-03-01",
-        kind: "birthplace",
-        summary: "birthplace",
+        id: "child:family:parent",
+        date: "1999-03-01",
+        kind: "family:parent",
+        summary: "parent",
         source: piecesSource,
-        facts: { placeId: "elsewhere" },
+        facts: { otherPersonId: "actor" },
       },
-      ...(moveIn
-        ? [
-            {
-              id: "child:moved",
-              date: moveIn,
-              kind: "life:moved-into-county",
-              summary: "moved",
-              source: piecesSource,
-            },
-          ]
-        : []),
     ],
   };
   return {
     ...input,
-    people: [...input.people, child],
+    people: [parent, child],
     households: [{ ...input.households[0]!, memberIds: ["actor", "child"] }],
     organizations: [
       {
@@ -63,48 +79,56 @@ function world(moveIn?: string): CoreInput {
 
 function run(input: CoreInput) {
   const core = createLifeCore(input);
-  runPreStart(core, preStartWindow(core, "2000-01-01", "quarter"));
+  runPreStart(core, preStartWindow(core, "1995-01-01", "quarter"));
   return core;
 }
 
 describe("the school years before the start", () => {
-  it("names the place's district from the year the child moved there, and no school before", () => {
-    const core = run(world("2013-06-01"));
+  it("names the place's district from the year the family came, and no school before", () => {
+    const core = run(world("elsewhere"));
+    const [moved] = preStartHistory(core, {
+      kind: PERSON_MOVED_IN,
+      personId: "actor" as never,
+    });
+    expect(moved, "the parent's move into the county").toBeDefined();
+    expect(moved!.facts.fromPlaceId).toBe("elsewhere");
+    expect(moved!.facts.originRecordId).toBe("actor:birthplace");
+    // The child at home came with them.
+    expect(moved!.personIds).toContain("child");
     const rows = preStartHistory(core, {
       kind: SCHOOL_STARTED,
       personId: "child" as never,
     });
-    // Kindergarten in the fall of 2010 elsewhere; the district from fall 2013;
-    // middle school in 2016 and high school in 2019 in the district.
-    expect(
-      rows.map((row) => [
-        row.date.slice(0, 4),
-        row.facts.stage,
-        row.facts.schoolId,
-      ]),
-    ).toEqual([
-      ["2010", "elementary", "schools-of:elsewhere"],
-      ["2013", "elementary", "district"],
-      ["2016", "middle", "district"],
-      ["2019", "high", "district"],
-    ]);
-    expect(rows[0]!.facts.residenceRecordId).toBe("child:birthplace");
-    expect(rows[1]!.facts.residenceRecordId).toBe("child:moved");
+    // Each school year at the school of the place the run puts them in.
+    for (const row of rows)
+      expect(row.facts.schoolId, row.id).toBe(
+        row.date < moved!.date ? "schools-of:elsewhere" : "district",
+      );
+    const before = rows.filter((row) => row.date < moved!.date);
+    const after = rows.filter((row) => row.date >= moved!.date);
+    expect(before.length, `moved ${moved!.date}`).toBeGreaterThan(0);
+    expect(after.length, `moved ${moved!.date}`).toBeGreaterThan(0);
+    expect(after[0]!.facts.residenceRecordId).toBe(moved!.id);
     const attended = schoolsAttended(core, "child");
     expect(attended[0]!.name).toBeUndefined();
-    expect(attended[1]!.name).toBe("Contract Public Schools");
+    expect(attended.find((row) => row.recordId === after[0]!.id)?.name).toBe(
+      "Contract Public Schools",
+    );
     // The card lists the district once, from the year the child started there.
     expect(schoolsOf(core, "child")).toEqual([
       {
         name: "Contract Public Schools",
-        date: rows[1]!.date,
-        recordId: rows[1]!.id,
+        date: after[0]!.date,
+        recordId: after[0]!.id,
       },
     ]);
   });
 
-  it("keeps a child with no record of a move in the place they live now, all the way through", () => {
-    const core = run(world());
+  it("keeps a family with no record of living elsewhere in the place they live now, all the way through", () => {
+    const core = run(world("place"));
+    expect(
+      JSON.stringify(preStartHistory(core, { kind: PERSON_MOVED_IN })),
+    ).toBe("[]");
     const rows = preStartHistory(core, {
       kind: SCHOOL_STARTED,
       personId: "child" as never,
@@ -114,12 +138,14 @@ describe("the school years before the start", () => {
       "district",
       "district",
     ]);
-    // The adult finished school before the run began: no record.
+    // The parent was in high school when the run began: the run records
+    // that school from its first year, and nothing earlier.
+    const parent = preStartHistory(core, {
+      kind: SCHOOL_STARTED,
+      personId: "actor" as never,
+    });
     expect(
-      preStartHistory(core, {
-        kind: SCHOOL_STARTED,
-        personId: "actor" as never,
-      }),
-    ).toEqual([]);
+      parent.map((row) => [row.facts.stage, row.date.slice(0, 4)]),
+    ).toEqual([["high", "1995"]]);
   });
 });
