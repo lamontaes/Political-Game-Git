@@ -240,6 +240,11 @@ describe("M2-01 offices and seats, every level", () => {
       for (let i = 1; i < history.length; i += 1)
         expect(history[i]!.date > history[i - 1]!.date).toBe(true);
     }
+    // Each seat's share is drawn inside its office kind's spread, so no two
+    // sitting holders print the same share (owner, Oct 27: realistic, not real).
+    const shares = serving.flatMap((t) => (t.elected ? [t.elected.share] : []));
+    expect(shares.length, placeKey).toBeGreaterThan(1);
+    expect(new Set(shares).size, placeKey).toBe(shares.length);
     govReport(
       "offices-careers",
       JSON.stringify({

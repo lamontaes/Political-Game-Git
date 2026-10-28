@@ -21,3 +21,6 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/drives.ts, src/bench/m1-11-check.ts
 
 **Notes.** TODO
+
+
+Evidence (integrator, Oct 27, 23:55 UTC): red on main at 5e91d81dd1 in Waimanalo, Hawaii: GOLDEN_PATH_SEED=42d24355021f2f81ea874d86a02d00959f83148b52996a86deb64475e1b44e2f GOLDEN_PATH_PLACE_KEY=1578050 (drawn for PR #6397 head 4f608298), "36.4% of 165 displaced workers set out to prove themselves, outside 2.3-31.7%"; identical on clean main and on the PR.

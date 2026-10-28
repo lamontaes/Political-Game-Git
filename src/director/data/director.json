@@ -613,6 +613,8 @@
       "value": 0.7,
       "tag": "TUNABLE",
       "citation": "An offer of help at its full weight (a close tie, in a candidate's first small local race), scaled by the offer's own weight (offerWeight in src/core2/modules/campaigns.ts: the race's size, the candidate's earlier campaigns and the tie). At full weight it is over the interrupt line (0.5) and stops the day as a scene; a stranger's offer in a first council race sits near filing to run (0.28) and waits its turn among the year's moments; an offer in a statewide or presidential race is a journal line (owner, Oct 27, 4 PM Eastern: volunteers stop the player only when they matter, in small local races or a first campaign).",
+      "stopgapId": "SG-P13-param-directorInterruptImpact",
+      "checkRange": { "ref": "P13-OWNER-INTERRUPT-LINE" },
       "spread": {
         "low": 0.5,
         "high": 0.9,
@@ -1451,6 +1453,24 @@
     }
   ],
   "pastNotRecordedValues": ["not-inferred", "not-established"],
+  "settingHours": {
+    "note": "When a scene's setting can hold it, by the setting kind (situation-types.json settings), in minutes after midnight: a scene measured at the day's close stops the player's clock at the next minute its setting is open, never at midnight in a bedroom or an office (owner, Oct 27, 4 PM Eastern: no scene at midnight in an open office). A null opening is the controlled person's own day start (the core's playerDayStartMinute). One row per kind of setting, never per place.",
+    "tag": "TUNABLE",
+    "citation": "Ordinary American hours by kind of place: a household awake from its morning to about 10 PM; visits and calls in the daytime and early evening; offices and workplaces on a daytime shift; local councils and boards often meeting in the evening; schools in a school day.",
+    "spread": "Openings 6:00 to 10:00 AM and closings 3:00 to 11:00 PM by kind; checked against the American Time Use Survey's share of people at home, at work and in public places by hour.",
+    "rows": {
+      "home": { "opens": null, "closes": 1320 },
+      "other-home": { "opens": 600, "closes": 1260 },
+      "phone": { "opens": null, "closes": 1290 },
+      "letter": { "opens": null, "closes": 1320 },
+      "workplace": { "opens": 480, "closes": 1080 },
+      "office": { "opens": 540, "closes": 1020 },
+      "chamber": { "opens": 540, "closes": 1290 },
+      "school": { "opens": 480, "closes": 930 },
+      "public": { "opens": 480, "closes": 1260 },
+      "venue": { "opens": 480, "closes": 1320 }
+    }
+  },
   "interruptStop": {
     "reasonKey": "p13-story-director:interrupting-moment",
     "citation": "The story director's stored moment: its impact, measured from the change on each channel and sized by the person's traits, is at or over the interrupt line, the Holmes and Rahe (1967) marriage anchor of 50 life-change units divided by 100 (owner ruling, October 9, 2026; CTO ruling on at-or-over, October 10, 2026)."
@@ -1526,6 +1546,11 @@
     },
     {
       "eventKind": "bill-amendment",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "vote-ahead",
       "channel": "cause",
       "impactParameter": "directorFloorVoteImpact"
     },
@@ -1706,6 +1731,11 @@
       "channel": "cause",
       "impactParameter": "directorVolunteerOfferImpact",
       "scaleFact": "weight"
+    },
+    {
+      "eventKind": "job-offered",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
     },
     {
       "eventKind": "rival-word",

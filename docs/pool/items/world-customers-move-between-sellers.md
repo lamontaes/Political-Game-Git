@@ -36,3 +36,5 @@ Oct 20 (claude, claude/civic-producers-government-landed), read again and left u
 Sent back 2026-10-20 from PR #5445 (branch claude/fs11vb-customers-question): The code-conflict review is addressed, but the new Notes explicitly say Blocked on the owner answer and the body ships no implementation or registered owner-decision stopgap. AGENTS.md requires building the simplest compliant path and flagging the question without waiting. This item Done when also requires a drawn one-year run following lost customers to layoffs by business/purchase-share ids and a JOLTS check. Supply that proof, or track the completed question-only paperwork separately while leaving the implementation item open; this PR cannot complete it.; finish on that branch, merge main into it first.
 
 Oct 25 audit: ruled under "simulate it, don't ask": a household moves its spending between sellers by the shared chooser on price, travel time, capacity and what it has heard, no dice; build that.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: no owner-decision stopgap; build from research.
