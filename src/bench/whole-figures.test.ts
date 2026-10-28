@@ -59,8 +59,19 @@ describe("the look chosen in the creator", () => {
     ]);
     // Drawn on a standing spot in the room turned to one side, the same figure.
     const stage = backdropStaging(place)!;
+    // A spot with no pose painted at it (a pose draws its own body: poses.test.ts).
     const spot = {
-      ...stage.spots.find((row) => (row.pose ?? "stand") === "stand")!,
+      ...stage.spots.find(
+        (row) =>
+          (row.pose ?? "stand") === "stand" &&
+          !wholeFigureFor(
+            core,
+            { ...person, look: chosen },
+            place,
+            stage,
+            row,
+          )?.file.startsWith("pose-"),
+      )!,
       facing: "left" as const,
     };
     expect(
@@ -79,6 +90,8 @@ describe(`contact shadows at ${place}`, () => {
     for (const spot of standing) {
       const whole = wholeFigureFor(person, place, stage, spot)!;
       const { figure } = whole;
+      // A pose stands at furniture, drawn as painted, without a shadow.
+      if (whole.file.startsWith("pose-")) continue;
       if (spot.behindY !== undefined) {
         expect(figure.shadow).toBeNull();
         continue;
@@ -242,7 +255,8 @@ describe(`the angle each spot asks for at ${place}`, () => {
     for (const spot of stage.spots) {
       if (spot.pose === "podium") continue;
       const whole = wholeFigureFor(person, place, stage, spot);
-      if (!whole) continue;
+      // A pose has its own painted view (poses.test.ts).
+      if (!whole || whole.file.startsWith("pose-")) continue;
       const drawn = rows.get(whole.file.split("/").pop()!)!;
       const wanted = viewOf(spot);
       // Where the set paints no such view of this look (it has no standing
