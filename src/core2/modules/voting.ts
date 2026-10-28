@@ -20,7 +20,6 @@
  * electors for the presidency. Every count, here or there, is kept by one
  * writer (`keepCount`) and seated by the one term writer (`seatWinner`).
  */
-import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
@@ -71,7 +70,6 @@ import {
   leanedYes,
   reportOutcome,
 } from "../trait-decisions";
-import { standsAgain } from "../stand-again";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -133,7 +131,7 @@ import {
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { caucusSide, nationalParty, partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
-import { decisionOf } from "./candidacy";
+import { candidacyModule, CANDIDACY_MODULE_ID } from "./candidacy";
 import {
   agreementWith,
   countedStanceProfile,
@@ -141,6 +139,7 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
   viewOf,
+  viewsModule,
 } from "./views";
 import {
   citizenShareOf,
@@ -162,10 +161,6 @@ import {
   type CandidateReasons,
 } from "../electorate-inputs";
 import { scandalsOf } from "./corruption";
-import {
-  executiveTermLimit,
-  termLimitReachedBy,
-} from "../executive-term-limits";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
 import { keepsWhy } from "../why-kept";
@@ -372,11 +367,16 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 
-export { standAgainReason } from "../stand-again";
-
 /** Put every contest's election day and the winner's first day on the calendar. */
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
+  // Who runs is decided by people from their own records in every world
+  // (engine map line 23): candidacy is the one way onto a ballot besides the
+  // player's own filing and a party's statewide nominee. It weighs what each
+  // person thinks, so a world that votes keeps its people's views.
+  if (!core.modules.has(VIEWS_MODULE_ID)) registerModule(core, viewsModule);
+  if (!core.modules.has(CANDIDACY_MODULE_ID))
+    registerModule(core, candidacyModule);
   const api = coreAPI(core);
   registerWardResidency(candidateInWard);
   rememberOpeningElectorate(api);
@@ -1218,23 +1218,20 @@ function decideTurnout(
 }
 
 /**
- * When filing closes: the incumbent stands again if they're alive and holding
- * the seat, and a state or federal race the town only sees from afar gets a
- * challenger from the other major party, a named official drawn from the
- * world seed. Stand-in until OPUS-PEOPLE's "who runs" decides each from their
- * own drives (M2-04): SG-GOV-who-runs-stand-in.
+ * When filing closes: who runs is candidacy's, from people's own records
+ * (installed in every world by `openVoting`). A statewide partisan race (no
+ * district) still draws each major party's nominee where no one of that side
+ * filed, since parties field statewide tickets: a named official, or a person
+ * filled in to run for the party (SG-GOV-who-runs-stand-in).
  */
 export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
-  // Installed candidacy owns autonomous choices, including deciding to stay out.
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
-  const candidacy = api.state.modules.has("candidacy");
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
-  const onBallot = ballot(api, contestId);
-  // Whoever holds the seat when filing closes stands as its incumbent: an
-  // appointee to a vacancy, never a holder who died or moved away.
+  // Whoever holds the seat when filing closes: an appointee to a vacancy,
+  // never a holder who died or moved away.
   const incumbent =
     (api
       .moduleState(OFFICES_MODULE_ID)
@@ -1247,12 +1244,11 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
           .table("terms")
           .get(contest.incumbentTermId) as unknown as TermRow | undefined)
       : undefined);
-  // Each stands where the place's records say filings go, on the same
-  // rules any candidate meets, and the filing is announced. A full person
-  // who doesn't meet the rules isn't put on the ballot. The stand-in files
-  // for them when filing closes; when they would have filed is the
-  // stand-in's to fake, so its filing counts as on time.
-  const put = (personId: string, party: string | null, how: string) => {
+  // Each nominee stands where the place's records say filings go, on the
+  // same rules any candidate meets, and the filing is announced. A full
+  // person who doesn't meet the rules isn't put on the ballot. The party's
+  // nomination is made when filing closes, so its filing counts as on time.
+  const put = (personId: string, party: string) => {
     if (ballot(api, contestId).some((f) => f.personId === personId)) return;
     if (
       api.state.people.has(personId) &&
@@ -1261,8 +1257,6 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       )
     )
       return;
-    // Marked where the stand-in actually files someone: a candidate who
-    // weighed running on their own (candidacy) files before this runs.
     // stopgapId: SG-GOV-who-runs-stand-in
     api.stopgap("SG-GOV-who-runs-stand-in");
     const filing: FilingRow = {
@@ -1270,154 +1264,49 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       contestId,
       personId,
       filedOn: api.state.date,
-      filedWith: filingRulesFor(api, contest, party ? "party" : "independent")
-        .filedWith,
+      filedWith: filingRulesFor(api, contest, "party").filedWith,
       platform: [],
       party,
       status: "on-ballot",
-      how,
+      how: "party nominee",
     };
     filings.put(filing as unknown as ModuleRow);
     announce(api, filing, contest);
   };
-  if (candidacy) {
-    // Who runs is candidacy's, from people's own records. A statewide
-    // partisan race (no district) still draws each major party's nominee
-    // where no one of that side filed: parties field statewide tickets.
-    const partisan =
-      incumbent?.party ??
-      (
-        api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("seats")
-          .get(contest.seatId) as unknown as
-          { party?: string | null } | undefined
-      )?.party;
-    if (
-      (contest.level === "federal" || contest.level === "state") &&
-      !contest.district &&
-      partisan
-    )
-      for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
-        if (
-          !ballot(api, contestId).some(
-            (f) =>
-              f.status === "on-ballot" &&
-              partySide(f.party ?? null) === partySide(party),
-          )
-        ) {
-          const nominee =
-            officialCandidate(api, contest, party) ??
-            officialCandidateId(`nominee:${party}:${contest.id}`);
-          // The party's nominee is its member: a person filled in to run
-          // for it joins it the day they file.
-          const partyHere = api.state.modules.has(PARTIES_MODULE_ID)
-            ? partiesHere(api).find((row) => row.name === party)
-            : undefined;
-          if (
-            partyHere &&
-            api.state.people.has(nominee) &&
-            !partyTie(api, nominee)
-          )
-            joinParty(api, nominee, partyHere.id);
-          put(nominee, party, "party nominee");
-        }
-    return;
-  }
-  const alive =
-    incumbent &&
-    incumbent.status === "serving" &&
-    (!incumbent.personId || api.state.people.get(incumbent.personId)?.alive);
-  // An incumbent who weighed running (candidacy, PW-3) already filed or
-  // chose to stay out; the stand-in files only those who never weighed it.
-  const weighed = incumbent?.personId
-    ? decisionOf(api, contestId, incumbent.personId)
-    : null;
-  const incumbentPerson = incumbent?.personId
-    ? api.state.people.get(incumbent.personId)
-    : undefined;
-  // A full person stands from their own traits; a placeholder incumbent
-  // keeps the standing rule.
-  const stands = !incumbentPerson || standsAgain(api, incumbentPerson);
-  if (
-    incumbent &&
-    alive &&
-    !weighed &&
-    stands &&
-    !termLimited(api, contest, incumbent)
-  )
-    put(
-      incumbent.personId ?? officialCandidateId(incumbent.id),
-      incumbent.party,
-      "incumbent stands again",
-    );
-  if (
-    (contest.level === "federal" || contest.level === "state") &&
-    incumbent &&
-    partySide(incumbent.party) !== 0
-  ) {
-    const other = partyOnSide(api, -partySide(incumbent.party));
-    // Only where no one from the other major party filed (the player, a
-    // resident): a filed candidate is that party's challenger.
-    if (
-      !onBallot.some(
-        (f) =>
-          f.status === "on-ballot" &&
-          partySide(f.party ?? null) === -partySide(incumbent.party),
-      )
-    )
-      put(
-        officialCandidate(api, contest, other) ??
-          officialCandidateId(`challenger:${contest.id}`),
-        other,
-        "challenger",
-      );
-    // An open seat: the incumbent's party nominates someone new.
-    if (termLimited(api, contest, incumbent))
-      put(
-        officialCandidate(api, contest, incumbent.party!) ??
-          officialCandidateId(`nominee:${contest.id}`),
-        incumbent.party,
-        "nominee for an open seat",
-      );
-  }
-  // A partisan state or federal seat with no one holding it (a special
-  // election's vacancy): each major party with no filed candidate nominates.
-  // The seat's party: its record's, else its last holder's.
-  const lastHolder = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .query("bySeatStatus", [contest.seatId, "ended"]) as unknown as TermRow[]
-  )
-    .slice()
-    .sort((a, b) => (b.endDate ?? "").localeCompare(a.endDate ?? ""))[0];
-  const seatParty =
+  const partisan =
+    incumbent?.party ??
     (
       api
         .moduleState(OFFICES_MODULE_ID)
         .table("seats")
         .get(contest.seatId) as unknown as { party?: string | null } | undefined
-    )?.party ?? lastHolder?.party;
+    )?.party;
   if (
-    (contest.level === "federal" || contest.level === "state") &&
-    !(incumbent && alive) &&
-    seatParty
+    (contest.level !== "federal" && contest.level !== "state") ||
+    contest.district ||
+    !partisan
   )
-    for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
-      if (
-        !ballot(api, contestId).some(
-          (f) =>
-            f.status === "on-ballot" &&
-            partySide(f.party ?? null) === partySide(party),
-        )
+    return;
+  for (const party of [-1, 1].map((side) => partyOnSide(api, side)))
+    if (
+      !ballot(api, contestId).some(
+        (f) =>
+          f.status === "on-ballot" &&
+          partySide(f.party ?? null) === partySide(party),
       )
-        put(
-          officialCandidate(api, contest, party) ??
-            officialCandidateId(`nominee:${party}:${contest.id}`),
-          party,
-          "nominee for an open seat",
-        );
+    ) {
+      const nominee =
+        officialCandidate(api, contest, party) ??
+        officialCandidateId(`nominee:${party}:${contest.id}`);
+      // The party's nominee is its member: a person filled in to run for it
+      // joins it the day they file.
+      const partyHere = api.state.modules.has(PARTIES_MODULE_ID)
+        ? partiesHere(api).find((row) => row.name === party)
+        : undefined;
+      if (partyHere && api.state.people.has(nominee) && !partyTie(api, nominee))
+        joinParty(api, nominee, partyHere.id);
+      put(nominee, party);
+    }
 }
 
 /**
@@ -1430,67 +1319,6 @@ function partyOnSide(api: CoreAPI, side: number): string {
     .filter((p) => p.side === side)
     .sort((a, b) => b.share - a.share || a.name.localeCompare(b.name))[0];
   return best?.name ?? nationalParty(side);
-}
-
-/**
- * Whether the incumbent may not stand again. The presidency: no one is
- * elected more than twice (U.S. Const. amend. XXII), counting the opening
- * holder's terms from the record. A statewide executive: the state's own
- * limit (`executive-term-limits.ts`).
- */
-function termLimited(
-  api: CoreAPI,
-  contest: ContestRow,
-  incumbent: TermRow,
-): boolean {
-  if (contest.officeId !== "office:US:president") {
-    // A statewide executive's limit, from the state's own constitution (data).
-    const office = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .get(contest.officeId) as
-      { level?: string; jurisdiction?: string; kind?: string } | undefined;
-    if (office?.level !== "state" || !office.jurisdiction || !office.kind)
-      return false;
-    const limit = executiveTermLimit(office.jurisdiction, office.kind);
-    if (limit.kind === "none") return false;
-    // Service in this seat: the holder's ended terms, and the one under way
-    // (an opening holder's earlier terms are not recorded, so one counts).
-    const before = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [
-          contest.seatId,
-          "ended",
-        ]) as unknown as TermRow[]
-    ).filter(
-      (t) =>
-        t.identity.givenName === incumbent.identity.givenName &&
-        t.identity.familyName === incumbent.identity.familyName,
-    ).length;
-    return termLimitReachedBy(limit, before + 1);
-  }
-  const opening = (
-    federalExecutive as unknown as { president: { termNumber?: number } }
-  ).president.termNumber;
-  const served =
-    incumbent.reached === "in office at the opening"
-      ? (opening ?? 1)
-      : (
-          api
-            .moduleState(OFFICES_MODULE_ID)
-            .table("terms")
-            .query("bySeatStatus", [
-              contest.seatId,
-              "ended",
-            ]) as unknown as TermRow[]
-        ).filter(
-          (t) =>
-            t.identity.givenName === incumbent.identity.givenName &&
-            t.identity.familyName === incumbent.identity.familyName,
-        ).length + 1;
-  return served >= 2;
 }
 
 /** A named official on the ballot who isn't a full person in the world yet. */
