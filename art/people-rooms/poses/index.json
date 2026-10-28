@@ -3,6 +3,82 @@
  "note": "Poses painted in place at furniture already in the game, cut into reusable figures. Field names follow art/people-engine/v2/index.json (ocd-people-v2/1); added: interacts, gesture, hairView, head, frontEdgeY, boxInScene, sceneSize.",
  "figures": [
   {
+   "id": "pose-counter-01",
+   "file": "pose-counter-01.png",
+   "garments": "pose-counter-01-garments.png",
+   "sheet": "in-scene",
+   "scene": "clerk-counter",
+   "plate": "ds-c1.png",
+   "pose": "stand",
+   "angle": "front",
+   "facing": 15,
+   "gesture": "listening, hands on the counter",
+   "interacts": "counter: both hands on the top",
+   "hairView": "front",
+   "sex": "f",
+   "build": "medium",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 142,
+   "height": 215,
+   "boxInScene": [
+    491,
+    149,
+    633,
+    364
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 51.5,
+    "width": 58
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.67
+  },
+  {
+   "id": "pose-counter-02",
+   "file": "pose-counter-02.png",
+   "garments": "pose-counter-02-garments.png",
+   "sheet": "in-scene",
+   "scene": "clerk-counter",
+   "plate": "ds-c1.png",
+   "pose": "stand",
+   "angle": "three-quarter-back",
+   "facing": -130,
+   "gesture": "explaining with one hand",
+   "interacts": "counter: standing at it",
+   "hairView": "threeq",
+   "sex": "m",
+   "build": "heavy",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 150,
+   "height": 412,
+   "boxInScene": [
+    723,
+    149,
+    873,
+    561
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 95.0,
+    "width": 83
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.8
+  },
+  {
    "id": "pose-desk-01",
    "file": "pose-desk-01.png",
    "garments": "pose-desk-01-garments.png",
@@ -20,13 +96,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 147,
-   "height": 137,
+   "width": 148,
+   "height": 140,
    "boxInScene": [
-    627,
-    224,
+    626,
+    222,
     774,
-    361
+    362
    ],
    "sceneSize": [
     1365,
@@ -34,11 +110,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 80.0,
-    "width": 41
+    "x": 82.5,
+    "width": 40
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.66
+   "clothesLabelled": 0.64
   },
   {
    "id": "pose-desk-02",
@@ -58,12 +134,12 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 149,
-   "height": 137,
+   "width": 150,
+   "height": 138,
    "boxInScene": [
     613,
-    217,
-    762,
+    216,
+    763,
     354
    ],
    "sceneSize": [
@@ -72,11 +148,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 76.5,
-    "width": 38
+    "x": 77.0,
+    "width": 39
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.61
+   "clothesLabelled": 0.57
   },
   {
    "id": "pose-desk-03",
@@ -96,13 +172,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 166,
-   "height": 170,
+   "width": 165,
+   "height": 172,
    "boxInScene": [
-    627,
-    236,
-    793,
-    406
+    630,
+    235,
+    795,
+    407
    ],
    "sceneSize": [
     1366,
@@ -110,11 +186,49 @@
    ],
    "head": {
     "top": 4,
-    "x": 88.0,
-    "width": 59
+    "x": 92.5,
+    "width": 40
    },
    "frontEdgeY": null,
    "clothesLabelled": 0.65
+  },
+  {
+   "id": "pose-desk-04",
+   "file": "pose-desk-04.png",
+   "garments": "pose-desk-04-garments.png",
+   "sheet": "in-scene",
+   "scene": "governor-office",
+   "plate": "ds-g1.png",
+   "pose": "stand",
+   "angle": "profile",
+   "facing": -90,
+   "gesture": "talking to a seated visitor",
+   "interacts": "desk: one hand flat on the desktop",
+   "hairView": "threeq",
+   "sex": "m",
+   "build": "slim",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 133,
+   "height": 404,
+   "boxInScene": [
+    456,
+    125,
+    589,
+    529
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 82.5,
+    "width": 76
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.73
   },
   {
    "id": "pose-lectern-01",
@@ -134,13 +248,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 273,
-   "height": 207,
+   "width": 277,
+   "height": 209,
    "boxInScene": [
-    569,
-    222,
-    842,
-    429
+    567,
+    221,
+    844,
+    430
    ],
    "sceneSize": [
     1365,
@@ -148,11 +262,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 116.5,
-    "width": 66
+    "x": 118.5,
+    "width": 72
    },
-   "frontEdgeY": 180,
-   "clothesLabelled": 0.65
+   "frontEdgeY": 181,
+   "clothesLabelled": 0.64
   },
   {
    "id": "pose-lectern-02",
@@ -172,13 +286,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 180,
-   "height": 166,
+   "width": 182,
+   "height": 169,
    "boxInScene": [
     581,
-    244,
-    761,
-    410
+    243,
+    763,
+    412
    ],
    "sceneSize": [
     1365,
@@ -186,11 +300,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 118.0,
-    "width": 65
+    "x": 121.0,
+    "width": 55
    },
-   "frontEdgeY": 158,
-   "clothesLabelled": 0.61
+   "frontEdgeY": 159,
+   "clothesLabelled": 0.62
   },
   {
    "id": "pose-lectern-03",
@@ -210,13 +324,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 345,
-   "height": 204,
+   "width": 348,
+   "height": 207,
    "boxInScene": [
-    579,
-    204,
-    924,
-    408
+    578,
+    203,
+    926,
+    410
    ],
    "sceneSize": [
     1365,
@@ -224,11 +338,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 109.5,
-    "width": 68
+    "x": 110.5,
+    "width": 72
    },
-   "frontEdgeY": 198,
-   "clothesLabelled": 0.71
+   "frontEdgeY": 199,
+   "clothesLabelled": 0.7
   },
   {
    "id": "pose-lectern-04",
@@ -248,12 +362,12 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 206,
-   "height": 363,
+   "width": 208,
+   "height": 365,
    "boxInScene": [
-    706,
-    189,
-    912,
+    705,
+    187,
+    913,
     552
    ],
    "sceneSize": [
@@ -262,11 +376,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 105.0,
-    "width": 57
+    "x": 106.0,
+    "width": 59
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.8
+   "clothesLabelled": 0.76
   },
   {
    "id": "pose-lectern-05",
@@ -286,12 +400,12 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 150,
-   "height": 198,
+   "width": 153,
+   "height": 199,
    "boxInScene": [
-    843,
-    199,
-    993,
+    842,
+    198,
+    995,
     397
    ],
    "sceneSize": [
@@ -300,11 +414,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 72.5,
-    "width": 42
+    "x": 73.0,
+    "width": 43
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.78
+   "clothesLabelled": 0.74
   },
   {
    "id": "pose-podium-01",
@@ -324,12 +438,12 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 153,
-   "height": 121,
+   "width": 155,
+   "height": 120,
    "boxInScene": [
-    324,
-    15,
-    477,
+    323,
+    16,
+    478,
     136
    ],
    "sceneSize": [
@@ -338,11 +452,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 58.0,
-    "width": 41
+    "x": 57.0,
+    "width": 43
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.5
+   "clothesLabelled": 0.48
   },
   {
    "id": "pose-podium-02",
@@ -362,11 +476,11 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 97,
-   "height": 125,
+   "width": 99,
+   "height": 126,
    "boxInScene": [
-    949,
-    13,
+    947,
+    12,
     1046,
     138
    ],
@@ -376,11 +490,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 36.0,
-    "width": 37
+    "x": 40.0,
+    "width": 31
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.59
+   "clothesLabelled": 0.6
   },
   {
    "id": "pose-podium-03",
@@ -401,12 +515,12 @@
    "prop": "none",
    "outfit": "suit",
    "width": 199,
-   "height": 127,
+   "height": 129,
    "boxInScene": [
     296,
-    17,
+    16,
     495,
-    144
+    145
    ],
    "sceneSize": [
     1365,
@@ -415,10 +529,10 @@
    "head": {
     "top": 4,
     "x": 98.5,
-    "width": 44
+    "width": 46
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.59
+   "clothesLabelled": 0.57
   },
   {
    "id": "pose-podium-04",
@@ -438,13 +552,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 149,
-   "height": 119,
+   "width": 151,
+   "height": 118,
    "boxInScene": [
-    887,
-    16,
-    1036,
-    135
+    886,
+    18,
+    1037,
+    136
    ],
    "sceneSize": [
     1365,
@@ -452,11 +566,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 84.0,
-    "width": 43
+    "x": 88.5,
+    "width": 38
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.54
+   "clothesLabelled": 0.53
   },
   {
    "id": "pose-podium-05",
@@ -476,13 +590,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 182,
+   "width": 186,
    "height": 133,
    "boxInScene": [
-    323,
-    11,
-    505,
-    144
+    321,
+    12,
+    507,
+    145
    ],
    "sceneSize": [
     1365,
@@ -490,11 +604,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 63.0,
-    "width": 43
+    "x": 57.5,
+    "width": 42
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.55
+   "clothesLabelled": 0.53
   },
   {
    "id": "pose-podium-06",
@@ -514,13 +628,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 113,
-   "height": 126,
+   "width": 114,
+   "height": 122,
    "boxInScene": [
     937,
-    20,
-    1050,
-    146
+    25,
+    1051,
+    147
    ],
    "sceneSize": [
     1365,
@@ -528,11 +642,11 @@
    ],
    "head": {
     "top": 4,
-    "x": 33.0,
-    "width": 37
+    "x": 30.5,
+    "width": 52
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.52
+   "clothesLabelled": 0.53
   },
   {
    "id": "pose-visitor-01",
@@ -542,7 +656,7 @@
    "scene": "mayor-office",
    "plate": "ds-m1.png",
    "pose": "sit",
-   "angle": "back",
+   "angle": "three-quarter-back",
    "facing": 150,
    "gesture": "explaining with an open hand",
    "interacts": "visitor chair",
@@ -552,13 +666,13 @@
    "ageBand": "adult",
    "prop": "none",
    "outfit": "suit",
-   "width": 225,
-   "height": 204,
+   "width": 226,
+   "height": 205,
    "boxInScene": [
-    407,
-    278,
-    632,
-    482
+    408,
+    279,
+    634,
+    484
    ],
    "sceneSize": [
     1366,
@@ -566,11 +680,125 @@
    ],
    "head": {
     "top": 4,
-    "x": 59.0,
-    "width": 65
+    "x": 57.5,
+    "width": 66
    },
    "frontEdgeY": null,
-   "clothesLabelled": 0.64
+   "clothesLabelled": 0.62
+  },
+  {
+   "id": "pose-visitor-02",
+   "file": "pose-visitor-02.png",
+   "garments": "pose-visitor-02-garments.png",
+   "sheet": "in-scene",
+   "scene": "governor-office",
+   "plate": "ds-g1.png",
+   "pose": "sit",
+   "angle": "three-quarter-back",
+   "facing": 120,
+   "gesture": "listening, hands folded on the knee",
+   "interacts": "visitor chair",
+   "hairView": "threeqr",
+   "sex": "f",
+   "build": "medium",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 164,
+   "height": 176,
+   "boxInScene": [
+    145,
+    237,
+    309,
+    413
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 48.5,
+    "width": 58
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.55
+  },
+  {
+   "id": "pose-walk-01",
+   "file": "pose-walk-01.png",
+   "garments": "pose-walk-01-garments.png",
+   "sheet": "in-scene",
+   "scene": "white-house-colonnade",
+   "plate": "ds-col.png",
+   "pose": "walk",
+   "angle": "three-quarter",
+   "facing": 25,
+   "gesture": "walking toward the viewer, glancing at the garden, hand at the jacket button",
+   "interacts": "none",
+   "hairView": "threeqr",
+   "sex": "m",
+   "build": "medium",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 149,
+   "height": 437,
+   "boxInScene": [
+    652,
+    254,
+    801,
+    691
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 70.5,
+    "width": 70
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.79
+  },
+  {
+   "id": "pose-window-01",
+   "file": "pose-window-01.png",
+   "garments": "pose-window-01-garments.png",
+   "sheet": "in-scene",
+   "scene": "oval-office-resolute",
+   "plate": "ds-o2b.png",
+   "pose": "stand",
+   "angle": "back",
+   "facing": 180,
+   "gesture": "looking out of the window",
+   "interacts": "desk chair: one hand on its back; the desk hides the legs",
+   "hairView": "back",
+   "sex": "m",
+   "build": "medium",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 124,
+   "height": 211,
+   "boxInScene": [
+    699,
+    142,
+    823,
+    353
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 62.5,
+    "width": 44
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.84
   }
  ]
 }

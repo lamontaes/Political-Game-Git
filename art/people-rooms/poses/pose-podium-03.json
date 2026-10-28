@@ -17,12 +17,12 @@
  "prop": "none",
  "outfit": "suit",
  "width": 199,
- "height": 127,
+ "height": 129,
  "boxInScene": [
   296,
-  17,
+  16,
   495,
-  144
+  145
  ],
  "sceneSize": [
   1365,
@@ -31,8 +31,8 @@
  "head": {
   "top": 4,
   "x": 98.5,
-  "width": 44
+  "width": 46
  },
  "frontEdgeY": null,
- "clothesLabelled": 0.59
+ "clothesLabelled": 0.57
 }

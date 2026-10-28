@@ -16,13 +16,13 @@
  "ageBand": "adult",
  "prop": "none",
  "outfit": "suit",
- "width": 273,
- "height": 207,
+ "width": 277,
+ "height": 209,
  "boxInScene": [
-  569,
-  222,
-  842,
-  429
+  567,
+  221,
+  844,
+  430
  ],
  "sceneSize": [
   1365,
@@ -30,9 +30,9 @@
  ],
  "head": {
   "top": 4,
-  "x": 116.5,
-  "width": 66
+  "x": 118.5,
+  "width": 72
  },
- "frontEdgeY": 180,
- "clothesLabelled": 0.65
+ "frontEdgeY": 181,
+ "clothesLabelled": 0.64
 }

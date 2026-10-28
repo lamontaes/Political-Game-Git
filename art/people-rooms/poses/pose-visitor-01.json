@@ -6,7 +6,7 @@
  "scene": "mayor-office",
  "plate": "ds-m1.png",
  "pose": "sit",
- "angle": "back",
+ "angle": "three-quarter-back",
  "facing": 150,
  "gesture": "explaining with an open hand",
  "interacts": "visitor chair",
@@ -16,13 +16,13 @@
  "ageBand": "adult",
  "prop": "none",
  "outfit": "suit",
- "width": 225,
- "height": 204,
+ "width": 226,
+ "height": 205,
  "boxInScene": [
-  407,
-  278,
-  632,
-  482
+  408,
+  279,
+  634,
+  484
  ],
  "sceneSize": [
   1366,
@@ -30,9 +30,9 @@
  ],
  "head": {
   "top": 4,
-  "x": 59.0,
-  "width": 65
+  "x": 57.5,
+  "width": 66
  },
  "frontEdgeY": null,
- "clothesLabelled": 0.64
+ "clothesLabelled": 0.62
 }

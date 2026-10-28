@@ -13,3 +13,9 @@ Same field names as `art/people-engine/v2/index.json`, plus: `interacts` (what t
 
 ## Using a pose at other furniture of the same kind
 Scale by the two lecterns' widths, centre it on the new lectern, line `frontEdgeY` up with the new lectern's top edge, and hide what the new lectern covers. `lectern-*.json` hold the measured lecterns. `../pose-proof/same-pose-other-lectern.jpg` shows the inaugural pose at the election-night lectern; `../pose-proof/assembled.jpg` shows each pose assembled as three people (garment colors, skin, hair from `art/people-engine/v2/hair`).
+
+## What is covered (Oct 28)
+21 poses: the inaugural lectern (hand raised, reading, pointing), the council public lectern seen from behind (making a point, leaning in), debate podiums (talking with the hands, a finger raised to speak, listening turned to the other speaker, a hand on the microphone), desks (the president writing, thinking, standing at the Oval Office window; a mayor leaning in to a visitor; a governor standing at the desk), visitor chairs seen from behind, the clerk counter (clerk and resident), and walking the colonnade. `pose-proof/montage-president.jpg` shows the president's montage moments assembled.
+
+## Known gap
+Heads turned partly away from the viewer (three-quarter from behind, profile: `pose-visitor-*`, `pose-counter-02`, `pose-desk-04`) need hair pieces painted at those angles; the hair set has front, three-quarter and straight-back views only, so those heads show a bald patch today. Measure the head on the mannequin (as the spots do) except for bowed heads, which fit better measured on the person.
