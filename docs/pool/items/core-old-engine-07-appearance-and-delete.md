@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after: core-old-engine-06-place-lookup-and-scripts, release-old-core-typecheck
+after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A, B1 and G2 steps 9 and 11; acting CTO ruling, Oct 19"
 ---
@@ -22,3 +22,5 @@ source: "docs/reports/repo-audit-2026-10-19.md section A, B1 and G2 steps 9 and 
 **Files.** src/presentation/, src/appearance/, src/bench/appearance.ts, src/bench/creator.ts, src/authoring/, scripts/art-asset-factory/, src/simulation/, src/education/tuition-prices.ts, src/fiscal-authority/, data/law-consequences/election-state-landings.json, tests/simulation-loads-under-tsx.test.ts, eslint.config.js, tsconfig.node.json
 
 **Notes.** The audit (G2 step 9) left the appearance engine's home as an owner pick between `src/bench/appearance/` and `scripts/art-asset-factory/engine/`; the acting CTO ruled `src/appearance/` on Oct 19 so both the bench and the art scripts read one folder. `tests/guards/research-data-has-reader.test.ts` counts `src/simulation` as a reader of 121 research files; re-baseline its ceilings in this PR (audit section E). Parent: core-delete-old-engine.
+
+Old engine session, Oct 28: the gate is lifted. `release-old-core-typecheck` is blocked on this item while this item waited on it, a loop; its done-when (typecheck passes with `src/simulation` removed, no tsconfig or script names it) is met by this item's deletion PR, which carries both. The appearance move lands first as its own PR (`Touches pool item`), since it shares no file with #6637, #6641 or #6642; the deletion PR follows once those three merge, with `Pool item: core-old-engine-07-appearance-and-delete` on line 1.
