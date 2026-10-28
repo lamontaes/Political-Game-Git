@@ -9,7 +9,7 @@ import {
   readRecipe,
   setColor,
 } from "./appearance";
-import { drawnFigure, hairStyles } from "./figure-hair";
+import { drawnFigure, faces, hairStyles } from "./figure-hair";
 import heads from "./data/figure-heads.json" with { type: "json" };
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 
@@ -109,4 +109,41 @@ it("reads the figure files it draws", () => {
       new URL(`../../art/people-engine/v2/${row.file}`, import.meta.url),
     ).length,
   ).toBeGreaterThan(0);
+});
+
+describe(`a face on ${name}`, () => {
+  it("changes only pixels around the head, and takes the person's skin color", () => {
+    // With the painted skin, so nothing else is recolored.
+    const painted = faces(row.sex);
+    if (row.angle === "back" || !painted.length) return;
+    const [top, middle, width] = (heads.heads as Record<string, number[]>)[
+      name
+    ]!;
+    const plain = PNG.sync.read(drawnFigure(name, {}));
+    for (const { face } of painted) {
+      const out = PNG.sync.read(drawnFigure(name, { face: String(face) }));
+      let changed = 0,
+        outside = 0;
+      for (let y = 0; y < out.height; y++)
+        for (let x = 0; x < out.width; x++) {
+          const i = (y * out.width + x) * 4;
+          if (
+            out.data[i] === plain.data[i] &&
+            out.data[i + 1] === plain.data[i + 1] &&
+            out.data[i + 2] === plain.data[i + 2]
+          )
+            continue;
+          changed++;
+          if (Math.abs(x - middle!) > width! || y > top! + width! * 2.2)
+            outside++;
+        }
+      expect(changed, `face ${face}`).toBeGreaterThan(20);
+      expect(outside / changed, `face ${face}`).toBeLessThan(0.02);
+      // A darker skin reaches the face too.
+      const dark = drawnFigure(name, { face: String(face), skin: "deep" });
+      expect(dark.equals(drawnFigure(name, { face: String(face) }))).toBe(
+        false,
+      );
+    }
+  });
 });
