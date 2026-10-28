@@ -138,18 +138,23 @@ describe(`the working life before the start, ${label}`, () => {
 
   it("gives someone filled in from the counts their working life too", () => {
     const rt = residentsRuntime(core)!;
-    const adult = [...rt.households.values()]
+    const adults = [...rt.households.values()]
       .flatMap((row) => row.people)
-      .find((row) => {
+      .filter((row) => {
         const age =
           Number(start.slice(0, 4)) - Number(row.birthDate.slice(0, 4));
         return age >= 30 && age < 60 && !core.people.has(row.id);
-      });
-    expect(adult, label).toBeDefined();
-    fillInPerson(core, adult!.id);
-    expect(
-      pastWorkOf(core, adult!.id).length,
-      `${label}, ${adult!.id}`,
-    ).toBeGreaterThan(0);
+      })
+      .slice(0, 12);
+    expect(adults.length, label).toBeGreaterThan(0);
+    // Someone whose last job ended before the window opens has no record in
+    // it (the window starts in 2000), so several are filled in and at least
+    // one must have a working life; a fill-in that wrote none fails here.
+    let withWork = 0;
+    for (const adult of adults) {
+      fillInPerson(core, adult.id);
+      if (pastWorkOf(core, adult.id).length > 0) withWork += 1;
+    }
+    expect(withWork, `${label}: ${adults.length} filled in`).toBeGreaterThan(0);
   });
 });
