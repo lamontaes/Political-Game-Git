@@ -340,7 +340,13 @@ function lateConditions(
       radix ** digits;
     if (
       quantile <
-      conditionPrevalence(condition, age, data.calibrationCategory) * shift
+      conditionPrevalence(
+        condition,
+        age,
+        data.calibrationCategory,
+        worldRateFactor(api.state.seed, "conditions"),
+      ) *
+        shift
     )
       held.push(condition.key);
   }
@@ -572,6 +578,7 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       conscientiousness: conscientiousness(data, person),
     })),
     behaviorSlopes(api, data),
+    worldRateFactor(api.state.seed, "conditions"),
   );
   for (const person of alive)
     assignPerson(

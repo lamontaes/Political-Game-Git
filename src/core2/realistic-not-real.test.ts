@@ -8,6 +8,7 @@
  * shrinks: a fix moves its row into the checks below.
  */
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -20,7 +21,9 @@ import { MACRO_MODULE_ID } from "./modules/macro";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
+import { CONDITION_PACK, conditionPrevalence } from "./condition-pack";
 import { coreAPI } from "./state";
+import { worldRateFactor, type BaseRateTable } from "./world-base-rates";
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
@@ -29,7 +32,6 @@ export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
   "realistic-housing-per-world": [5, 7, 8, 9],
   "realistic-money-and-population-per-world": [14, 15, 16, 17, 18, 28],
   "realistic-business-per-world": [21, 22, 23, 24, 26, 27],
-  "realistic-base-rates-per-world": [32, 33, 34, 35, 36],
   "realistic-elections-per-world": [42, 44, 45, 48],
   "realistic-budgets-per-world": [50, 51, 52],
   "realistic-school-names-generated": [37],
@@ -130,6 +132,59 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     expect(new Set(sa.values()).size, where).toBe(sa.size);
     for (const [id, share] of sa)
       if (sb.has(id)) expect(share, `${where} ${id}`).not.toBe(sb.get(id));
+  });
+
+  it("each world's death, birth, moving, chronic-condition and time-use tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
+    const tables: BaseRateTable[] = [
+      "mortality",
+      "natality",
+      "movers",
+      "conditions",
+      "timeUse",
+    ];
+    for (const table of tables) {
+      const fa = worldRateFactor(coreAPI(a).state.seed, table);
+      const fb = worldRateFactor(coreAPI(b).state.seed, table);
+      expect(fa, `${where} ${table}`).not.toBe(1);
+      expect(fa, `${where} ${table}`).not.toBe(fb);
+    }
+    // The chronic-condition rate a person is held to, read through the
+    // function play uses, differs per world and from the published share.
+    const age = 55;
+    for (const condition of CONDITION_PACK.filter(
+      (c) => !c.infant && !c.childhood,
+    )) {
+      const published = conditionPrevalence(condition, age, "equal-mixture");
+      if (published === 0 || published >= 1) continue;
+      const ra = conditionPrevalence(
+        condition,
+        age,
+        "equal-mixture",
+        worldRateFactor(coreAPI(a).state.seed, "conditions"),
+      );
+      const rb = conditionPrevalence(
+        condition,
+        age,
+        "equal-mixture",
+        worldRateFactor(coreAPI(b).state.seed, "conditions"),
+      );
+      expect(ra, `${where} ${condition.key}`).not.toBe(published);
+      expect(ra, `${where} ${condition.key}`).not.toBe(rb);
+    }
+  });
+
+  it("every play reader of those tables reads the world's factor", () => {
+    for (const file of [
+      "births-counted.ts",
+      "modules/counted-moves.ts",
+      "modules/health.ts",
+      "modules/moves.ts",
+      "free-block.ts",
+    ])
+      expect(
+        readFileSync(new URL(`./${file}`, import.meta.url), "utf8"),
+        file,
+      ).toContain("worldRateFactor(");
   });
 
   it("lists every audited statistic still copied, with the item that fixes it", () => {

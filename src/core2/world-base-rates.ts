@@ -6,7 +6,7 @@
  * rates differ from the published ones.
  */
 import rates from "./data/world/base-rates.json" with { type: "json" };
-import { seededUnit } from "./past-module";
+import { seededUnit } from "./seeded";
 
 export type BaseRateTable = keyof typeof rates.tables;
 

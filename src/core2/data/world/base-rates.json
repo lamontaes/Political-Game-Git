@@ -1,5 +1,5 @@
 {
-  "about": "Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+  "about": "Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
   "floorShare": {
     "value": 0.34,
     "tag": "TUNABLE",
@@ -46,6 +46,30 @@
         "high": 0.15,
         "unit": "share of the published rate",
         "citation": "data/research/migration/mover-rates-acs-2024.json."
+      }
+    },
+    "conditions": {
+      "value": 0.08,
+      "tag": "ESTIMATED",
+      "citation": "How far a world's chronic-condition prevalence sits from the published pack, as a share: about the survey margin on adult chronic-condition prevalence (CDC BRFSS and NHIS state estimates differ from the national figure by 5% to 15%).",
+      "estimatedFrom": "The published prevalence table is the center; a world's factor is drawn once from its seed.",
+      "spread": {
+        "low": 0.04,
+        "high": 0.15,
+        "unit": "share of the published prevalence",
+        "citation": "CDC BRFSS state-level prevalence ranges; the condition pack's own sources."
+      }
+    },
+    "timeUse": {
+      "value": 0.05,
+      "tag": "ESTIMATED",
+      "citation": "How far a world's daily hours of unmodeled activities sit from the ATUS diary figures, as a share: about the ATUS year-to-year change in hours of personal care, household work and meals (BLS American Time Use Survey 2022 to 2024, 1% to 5%).",
+      "estimatedFrom": "The published hours are the center; a world's factor is drawn once from its seed.",
+      "spread": {
+        "low": 0.02,
+        "high": 0.08,
+        "unit": "share of the published hours",
+        "citation": "src/core2/data/time-use-reference.json (BLS ATUS)."
       }
     }
   }
