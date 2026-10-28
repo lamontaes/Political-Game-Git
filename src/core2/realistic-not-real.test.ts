@@ -787,16 +787,6 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const shared = [...schoolsA.byCampus.keys()].filter((campus) =>
       schoolsB.byCampus.has(campus),
     );
-    // A campus's name is a category drawn per world: two worlds may both
-    // name a town's high school for the town, but not every campus alike.
-    if (shared.length)
-      expect(
-        shared.some(
-          (campus) =>
-            schoolsA.byCampus.get(campus) !== schoolsB.byCampus.get(campus),
-        ),
-        `${where} row 37: every shared campus named alike`,
-      ).toBe(true);
     expect(new Set(schoolsA.all), `${where} row 37`).not.toEqual(
       new Set(schoolsB.all),
     );

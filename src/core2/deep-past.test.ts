@@ -10,6 +10,7 @@ import {
 import { parameter as p } from "./parameters";
 import { realLocalities } from "./places";
 import schoolsData from "./data/opening-schools.json" with { type: "json" };
+import { generatedSchoolName } from "./past-school-names";
 import type { CoreInput, PersonInput, Source } from "./types";
 
 const directoryName = new Map(
@@ -452,7 +453,21 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
       "Helen S Dunn Elementary School",
     );
   });
-  it("names a campus for the world: two worlds name the same schools differently, and never by their own real names", () => {
+  it("two worlds name the same fifty campuses differently, each a school's name", () => {
+    const stage = DEFAULT_DEEP_PAST_DATA.schools.stages[0]!;
+    const named = (worldSeed: string) =>
+      Array.from({ length: 50 }, (_, i) => {
+        const rng = new SeededRng(worldSeed).fork(`school-name:campus-${i}`);
+        return generatedSchoolName((list) => rng.pick(list), stage, "Anson");
+      });
+    const a = named(seed),
+      b = named(`${seed}:other-world`);
+    for (const name of [...a, ...b])
+      expect(name).toMatch(/ Elementary School$/);
+    expect(a.filter((name, i) => name !== b[i]).length).toBeGreaterThan(25);
+  });
+
+  it("names a campus for the world, never by its own real name", () => {
     const before = input();
     const named = (worldSeed: string) =>
       new Map(
@@ -475,7 +490,6 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     expect(shared.length, "a campus listed for the place").toBeGreaterThan(
       p("zero"),
     );
-    expect(shared.some((campus) => a.get(campus) !== b.get(campus))).toBe(true);
     for (const campus of shared) {
       for (const name of [a.get(campus)!, b.get(campus)!]) {
         expect(name, campus).toMatch(/ (Elementary|Middle|High) School$/);

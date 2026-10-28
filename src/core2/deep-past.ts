@@ -489,9 +489,6 @@ export function buildDeepPast(
           birthplace?.facts?.countyId ??
           (placeId === person.placeId ? person.countyId : undefined);
         stopgap(SCHOOLS().stopgapId);
-        const rng = new SeededRng(input.seed).fork(
-          `${data.version}:${placeId}:${stage.id}:school-identity`,
-        );
         // Only a school the national directory lists by the year this cohort
         // started there (audit 1: no 2015 campus for a 1960s class).
         const listed = schoolRows(placeId, countyId, stage.entryGrade);
@@ -518,9 +515,13 @@ export function buildDeepPast(
             campusSpokenName(name, data.schools).toUpperCase(),
           ),
         );
+        // One name per campus in this world, drawn on the campus's own
+        // stream (a place with no listed campus has one of its own per stage).
+        const names = new SeededRng(input.seed).fork(
+          `school-name:${campusId ?? `${placeId}:${stage.id}`}`,
+        );
         const schoolName = generatedSchoolName(
-          input.seed,
-          campusId ?? `${placeId}:${stage.id}:${rng.next()}`,
+          (list) => names.pick(list),
           stage,
           town,
           real,

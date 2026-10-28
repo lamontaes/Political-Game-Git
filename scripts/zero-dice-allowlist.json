@@ -178,6 +178,17 @@
       "code": "if (point < p(\"zero\")) return rows[i];"
     },
     {
+      "file": "src/core2/deep-past.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "(list) => names.pick(list),",
+      "class": "GENERATION",
+      "keyedBy": "world seed and campus",
+      "reason": "A school's name in this world, drawn once per campus from the shapes the national directory counts; who exists, not what anyone does.",
+      "replacement": null
+    },
+    {
       "file": "src/core2/electorate-places.ts",
       "kind": "fixed-share",
       "build": "pool:core-zero-dice-shares-in-code",
@@ -516,65 +527,14 @@
       "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
     },
     {
-      "file": "src/core2/past-school-names.ts",
+      "file": "src/bench/whole-figures.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
-      "code": "let point = rng.next() * total;",
-      "class": "GENERATION",
-      "keyedBy": "world seed and campus",
-      "reason": "The shape a school's name takes, weighted by the national directory's counts per stage; who exists (a school's name), not what anyone does.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/past-school-names.ts",
-      "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
-      "count": 1,
-      "code": "if (point < 0) return shape;"
-    },
-    {
-      "file": "src/core2/past-school-names.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 2,
-      "code": "return `${rng.pick(DATA.features)} ${suffix}`;",
-      "class": "GENERATION",
-      "keyedBy": "world seed and campus",
-      "reason": "A landscape name for a school of this world's own; who exists, not what anyone does.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/past-school-names.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return stem.endsWith(\"County\") ? `${stem} ${suffix}` : `${rng.pick(DATA.directions)} ${stem} ${suffix}`;",
-      "class": "GENERATION",
-      "keyedBy": "world seed and campus",
-      "reason": "A compass point before the town's name for a school of this world's own; who exists, not what anyone does.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/past-school-names.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return `${rng.pick(DATA.figures)} ${suffix}`;",
-      "class": "GENERATION",
-      "keyedBy": "world seed and campus",
-      "reason": "A public figure's name for a school of this world's own; who exists, not what anyone does.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/past-school-names.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return `${rng.pick(getNameCorpus(DEFAULT_CORPUS_VERSION).familyNames)} ${suffix}`;",
-      "class": "GENERATION",
-      "keyedBy": "world seed and campus",
-      "reason": "A family name for a school of this world's own; who exists, not what anyone does.",
+      "code": "return from[hash(`${front.file}:${spot.id ?? \"\"}`) % from.length]!;",
+      "class": "PRESENTATION",
+      "keyedBy": "the person's look and the spot",
+      "reason": "Which painted pose at a lectern, desk or counter shows a person: how they appear there, not what they do.",
       "replacement": null
     }
   ]

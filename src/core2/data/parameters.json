@@ -969,6 +969,11 @@
     "tag": "SOURCED",
     "citation": "The age below which a household member is the speaker's child at home, as the age of majority: 18 in 47 states, 19 in two, 21 in one (state statutes on the age of majority; Legal Information Institute, 'Age of majority')."
   },
+  "benchmarkAdultMinimumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Benchmark adult-employee selection criterion, not a law or an actor decision."
+  },
   "bytesPerKiB": {
     "value": 1024,
     "tag": "SOURCED",
@@ -5211,17 +5216,6 @@
     "tag": "SOURCED",
     "citation": "Inauguration Day, 20th Amendment §1; owner ruling Oct 14, 2026: every game starts on January 20, 2025, in every place. Written as year, month and day (YYYYMMDD); read it with gameStartDate() in src/core2/game-start.ts."
   },
-  "preStartFromYear": {
-    "value": 2000,
-    "tag": "TUNABLE",
-    "citation": "Owner ruling (relayed by the CTO on PR #3999, October 12, 2026): a new game's history runs at coarse steps from 2000 to the start date (M1-14).",
-    "spread": {
-      "low": 1990,
-      "high": 2020,
-      "unit": "calendar year",
-      "citation": "How far back coarse history can reach before its run time outweighs what the player sees; checked against the speed rule."
-    }
-  },
   "preStartStepMonths": {
     "value": 3,
     "tag": "TUNABLE",
@@ -7397,6 +7391,214 @@
       "unit": "share of the published count",
       "citation": "Census County Business Patterns, year-over-year change in establishments by county and NAICS sector, 2019 to 2023."
     }
+  },
+  "townJobsOldestHireAge": {
+    "value": 66,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; the opening fills a job for every resident from 18 through this age.",
+    "spread": {
+      "low": 64,
+      "high": 70,
+      "unit": "years",
+      "citation": "Checked against BLS CPS labor force participation by age: participation falls steeply after 64; the opening's employment rate by age (opening-employment.ts) is the check."
+    }
+  },
+  "townJobsFullTimeMaximumWeeklyHours": {
+    "value": 45,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; the upper end of a full-time role's expected weekly hours; the lower end is fullTimeWeeklyHours.",
+    "spread": {
+      "low": 40,
+      "high": 50,
+      "unit": "hours a week",
+      "citation": "Checked against BLS CPS Table 19: people usually working full time averaged about 42 to 43 hours a week at work."
+    }
+  },
+  "townJobsPartTimeMinimumWeeklyHours": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; the lower end of a part-time role's expected weekly hours.",
+    "spread": {
+      "low": 10,
+      "high": 20,
+      "unit": "hours a week",
+      "citation": "Checked against BLS CPS Table 19: people usually working part time averaged about 22 to 23 hours a week at work."
+    }
+  },
+  "townJobsPartTimeMaximumWeeklyHours": {
+    "value": 29,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; the upper end of a part-time role's expected weekly hours, below the full-time line.",
+    "spread": {
+      "low": 25,
+      "high": 34,
+      "unit": "hours a week",
+      "citation": "Checked against the BLS CPS part-time definition: under 35 hours a week."
+    }
+  },
+  "townJobsYoungChildAge": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's town-employment-v1 opening fill (src/core2/opening-town-jobs.ts), where it was a GAME ASSUMPTION; a partnered parent of a child under this age works part-time at the opening.",
+    "spread": {
+      "low": 5,
+      "high": 7,
+      "unit": "years",
+      "citation": "Checked against the age children start first grade, when a parent's daytime care need falls."
+    }
+  },
+  "julianYearDays": {
+    "value": 365.25,
+    "tag": "SOURCED",
+    "citation": "The Julian year, 365.25 days (IAU), the year length the old town-employment fill backdated an opening hire's tenure by; kept so the same hire starts on the same day."
+  },
+  "upbringingSiblingHalfSaturation": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; siblings at which a child's sibling lean reaches half its weight.",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "siblings",
+      "citation": "Checked by whether opening sociability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingSociabilitySiblingWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight of siblings on a child's sociability lean.",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening sociability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingSociabilityOffset": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted from a child's sociability lean so an average household leans to the middle.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.9,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening sociability centers on the middle level, not measured."
+    }
+  },
+  "upbringingMoneyEase": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; how much a secure childhood raises, and a severely scarce one lowers, sociability.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.9,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening sociability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingMoneyStrain": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; how much a severely scarce childhood raises, and a secure one lowers, conflict.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening conflict spreads across the five levels, not measured."
+    }
+  },
+  "upbringingConflictUnsupervisedWeight": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight of too few caregivers per child on a child's conflict lean.",
+    "spread": {
+      "low": 0.6,
+      "high": 1.8,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening conflict spreads across the five levels, not measured."
+    }
+  },
+  "upbringingConflictOffset": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted from a child's conflict lean so an average household leans to the middle.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.8,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening conflict centers on the middle level, not measured."
+    }
+  },
+  "upbringingRiskUnsupervisedWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight of too few caregivers per child on a child's risk lean.",
+    "spread": {
+      "low": 1.5,
+      "high": 4.5,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening risk spreads across the five levels, not measured."
+    }
+  },
+  "upbringingRiskOffset": {
+    "value": 1.4,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted from a child's risk lean so an average household leans to the middle.",
+    "spread": {
+      "low": 0.7,
+      "high": 2.1,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening risk centers on the middle level, not measured."
+    }
+  },
+  "upbringingCaregiverCenter": {
+    "value": 1.25,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; caregivers per child in the household that has just enough; fewer leans a child less reliable, more leans more.",
+    "spread": {
+      "low": 1,
+      "high": 1.5,
+      "unit": "caregivers per child",
+      "citation": "Checked by whether opening reliability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingReliabilityCareWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight of caregivers per child on a child's reliability.",
+    "spread": {
+      "low": 0.75,
+      "high": 2.25,
+      "unit": "trait levels",
+      "citation": "Checked by whether opening reliability spreads across the five levels, not measured."
+    }
+  },
+  "upbringingScarcityPracticalWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight a scarce childhood gives the practical facet; every other money row weighs one.",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "rows",
+      "citation": "Checked by whether practical leads the notable qualities of scarce childhoods, not measured."
+    }
+  },
+  "upbringingSmallChildAge": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; under this age a child's upbringing writes one notable quality, an older child two, an adult three.",
+    "spread": {
+      "low": 5,
+      "high": 7,
+      "unit": "years",
+      "citation": "Checked by whether young children's records stay sparse, not measured."
+    }
+  },
+  "upbringingPercentWeightScale": {
+    "value": 10,
+    "tag": "SOURCED",
+    "citation": "Unit conversion: a published percent to whole tenths, so a stable sample weighs each category by its share to one decimal."
   },
   "schoolWorldEnrollmentSpreadShare": {
     "value": 0.08,
