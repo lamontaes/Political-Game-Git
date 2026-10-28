@@ -99,6 +99,38 @@
       "entry": "setting"
     },
     {
+      "kindPrefix": "job-started:first",
+      "turn": false,
+      "entry": "story",
+      "wordsFrom": "job-started"
+    },
+    {
+      "kindPrefix": "job-started:again",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:let-go",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "job-ended:moved-on",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:child",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:retired",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "job-started",
       "turn": false,
       "hasOtherLine": true,

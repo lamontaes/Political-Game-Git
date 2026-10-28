@@ -96,6 +96,46 @@ export function preStartWindow(
 const ran = new WeakSet<CoreState>();
 const histories = new WeakMap<CoreState, HistoryRecord[]>();
 registerWorldMapPart("core2-pre-start-histories", histories);
+const windows = new WeakMap<CoreState, PreStartWindow>();
+registerWorldMapPart("core2-pre-start-windows", windows);
+
+/** The window the world's pre-start run covered, if it had one. */
+export function preStartWindowOf(core: CoreState): PreStartWindow | undefined {
+  return windows.get(core);
+}
+
+/**
+ * The past of someone filled in from the counts after the run: their own
+ * records, dated inside the same window, written by the module that would
+ * have written them had they been full on day one.
+ */
+export function recordPreStartLater(
+  core: CoreState,
+  moduleId: string,
+  rows: readonly Omit<HistoryRecord, "moduleId">[],
+): void {
+  const window = windows.get(core);
+  const history = histories.get(core);
+  if (!window || !history || !rows.length) return;
+  const ids = new Set(history.map((row) => row.id));
+  for (const row of rows) {
+    const date = makeIsoDate(row.date);
+    if (date < window.from || date > window.through)
+      throw new Error(
+        `History must be dated inside the pre-start run: ${row.id} on ${date}`,
+      );
+    if (!row.id.trim() || ids.has(row.id))
+      throw new Error(`History record id missing or reused: ${row.id}`);
+    for (const id of row.personIds ?? [])
+      if (!core.people.has(id))
+        throw new Error(`History names an absent person: ${id}`);
+    ids.add(row.id);
+    history.push({ ...row, date, moduleId });
+  }
+  history.sort(
+    (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+  );
+}
 
 /** What happened before the start, oldest first. */
 export function preStartHistory(
@@ -120,6 +160,7 @@ export function runPreStart(core: CoreState, window: PreStartWindow): string[] {
   if (window.through >= core.date)
     throw new Error("The pre-start run must end before the start date.");
   ran.add(core);
+  windows.set(core, window);
   const api = coreAPI(core);
   const rows: HistoryRecord[] = [];
   const ids = new Set<string>();

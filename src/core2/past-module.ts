@@ -19,7 +19,7 @@
  * what happened is generated once from the world's seed, and every choice in
  * it (a vote, a split) follows a person's or group's recorded lean.
  */
-import { createHash } from "node:crypto";
+import { seededUnit } from "./seeded";
 import rows from "./data/past/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import { registerModule } from "./state";
@@ -65,14 +65,7 @@ export function putPast(api: CoreAPI, name: string, row: object): void {
   pastTable(api, name).put(row as unknown as ModuleRow);
 }
 
-/**
- * A number in [0, 1) fixed by the world's seed and a key: generation of who
- * existed and what happened before day one, never a choice in play.
- */
-export function seededUnit(seed: string, key: string): number {
-  const hex = createHash("sha256").update(`${seed}:${key}`).digest("hex");
-  return parseInt(hex.slice(0, 8), 16) / 0x1_0000_0000;
-}
+export { seededUnit } from "./seeded";
 
 /** A value inside [low, high], fixed by the seed and key. */
 export function seededBetween(

@@ -15,6 +15,7 @@
  *   law returns; `barredFromVoting` for a named person.
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
+import { yesLevels } from "../modules/laws";
 import {
   PHOTO_ID,
   AUTO_REGISTRATION,
@@ -69,7 +70,6 @@ import {
   reachParameter,
   selectorGroup,
   tomorrow,
-  yesLevels,
 } from "./group-a-records";
 
 const ELECTION_KEYS = [PHOTO_ID, AUTO_REGISTRATION, SAME_DAY, ALL_MAIL];

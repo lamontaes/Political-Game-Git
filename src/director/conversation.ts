@@ -28,6 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { heldSinceRecord } from "../core2/past-work";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
@@ -37,6 +38,7 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { sharedHistory } from "../core2/shared-history";
 import { NEWS_MODULE_ID, newsKey, storiesHeard } from "../core2/modules/news";
 import type { EntityId } from "../core2/kernel/brands";
 import {
@@ -277,17 +279,13 @@ export function tenureYears(
     : undefined;
 }
 
-/** When the person started their current job, from their own record. */
+/** When the person started their current job, from the record of their working life before the start. */
 function startedOf(
+  core: Readonly<CoreState>,
   person: Readonly<PersonState>,
 ): { date: string; factId: string } | null {
-  const fact = (person.pastFacts ?? []).find(
-    (row) =>
-      row.kind === "work:tenure-summary" && row.facts?.jobId === person.jobId,
-  );
-  return fact?.facts?.startedAt
-    ? { date: fact.facts.startedAt, factId: fact.id }
-    : null;
+  const held = heldSinceRecord(core as CoreState, person.id, person.jobId);
+  return held ? { date: String(held.facts.startedAt), factId: held.id } : null;
 }
 
 function lastContact(
@@ -1282,7 +1280,7 @@ function replyFacts(
         : { facts: {}, stage: "none" };
     }
     case "their-tenure": {
-      const years = tenureYears(startedOf(listener), core.date);
+      const years = tenureYears(startedOf(core, listener), core.date);
       return years ? { facts: { years }, stage: "default" } : null;
     }
     case "shared-work": {
@@ -1368,7 +1366,7 @@ function playerFacts(
   // How long the player has worked there; a home answer counts its own years.
   const tenure = last.kind.startsWith("home")
     ? undefined
-    : tenureYears(startedOf(player), core.date);
+    : tenureYears(startedOf(core, player), core.date);
   if (tenure) facts.years = tenure;
   const place = corePlaceByJurisdictionId(player.placeId as never);
   if (place)
@@ -1933,15 +1931,24 @@ function knowsTruth(
   if (known?.value === own.value) return true;
   const knower = core.people.get(knowerId);
   if (!knower) return false;
+  // What someone does for a living: their coworkers know, and so does anyone
+  // who has worked their campaign or had them work theirs (shared-history.ts).
   if (own.key.endsWith(":employer"))
     return (
-      !!knower.jobId &&
-      core.jobs.get(knower.jobId)?.organizationId === own.value
+      (!!knower.jobId &&
+        core.jobs.get(knower.jobId)?.organizationId === own.value) ||
+      sharedHistory(core, knowerId, subjectId).some(
+        (row) => row.kind === "campaign",
+      )
     );
-  // Where someone lives and went to school: their household and family know.
+  // Where someone lives and went to school: their household and family
+  // know, and so does anyone who has worked their campaign with them.
   return (
     knower.householdId === core.people.get(subjectId)?.householdId ||
-    knower.familyIds.has(subjectId)
+    knower.familyIds.has(subjectId) ||
+    sharedHistory(core, knowerId, subjectId).some(
+      (row) => row.kind === "campaign",
+    )
   );
 }
 
@@ -2266,8 +2273,8 @@ function offerChoices(
 /**
  * The four replies a turn offers, ranked by the player's traits: someone who carries talk on sees
  * the replies that raise or ask first, someone who keeps it short sees plain
- * answers and acknowledgments first. Different moves come before a second
- * wording of the same move. "Say nothing" is a control beside them
+ * answers and acknowledgments first. Each is a different move: a second
+ * wording of a move offered is never one of them. "Say nothing" is a control beside them
  * (`sayNothing`), never one of the four.
  */
 function rankChoices(
@@ -2308,17 +2315,18 @@ function rankChoices(
     .sort((a, b) => place(a.row) - place(b.row) || a.at - b.at)
     .map(({ row }) => row);
   const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  // Four replies are four answers, never one reworded (owner, Oct 27, 4 PM
+  // Eastern: "four replies are four different answers"): a second wording of
+  // a move already offered is not offered.
   const moves = new Set<string>();
-  const first = ranked.filter((row) => {
-    const move = row.move.startsWith("ack:") ? "ack" : row.move;
-    if (moves.has(move)) return false;
-    moves.add(move);
-    return true;
-  });
-  return [...first, ...ranked.filter((row) => !first.includes(row))].slice(
-    zero,
-    count,
-  );
+  return ranked
+    .filter((row) => {
+      const move = row.move.startsWith("ack:") ? "ack" : row.move;
+      if (moves.has(move)) return false;
+      moves.add(move);
+      return true;
+    })
+    .slice(zero, count);
 }
 
 /**

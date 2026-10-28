@@ -455,6 +455,107 @@ async function playOpening() {
 /** A story's headline as every news surface says it: its headline, else its lede, else the newscast's first line. */
 const storyHeadline = (story) =>
   story.headline ?? story.lede ?? story.broadcast?.[0]?.text ?? "";
+/**
+ * The newspaper art (art/newspaper-mockups, owner Oct 28). Each paper keeps
+ * one engraved masthead with its name set in the blank plate; `plate` is that
+ * plate's left, top, width and height in percent of the strip.
+ */
+const MASTHEADS = {
+  daily: [
+    {
+      file: "masthead-daily-1.jpg",
+      size: [1287, 337],
+      plate: [6.6, 32.6, 86.6, 34.1],
+    },
+    {
+      file: "front-page-daily-1.jpg",
+      size: [1225, 273],
+      plate: [8.2, 51.3, 84.1, 32.2],
+    },
+  ],
+  weekly: [
+    {
+      file: "masthead-weekly-1.jpg",
+      size: [1210, 278],
+      plate: [24.1, 13.7, 72.7, 57.6],
+    },
+    {
+      file: "masthead-weekly-2.jpg",
+      size: [1205, 241],
+      plate: [34.9, 26.1, 62.2, 51.5],
+    },
+  ],
+};
+/**
+ * The front-page photo of the room where a state or local government acts.
+ * No photo shows the official's own face, which would not match the record;
+ * a federal story has none until the art has one without a face.
+ */
+const STORY_PHOTOS = {
+  state: ["story-governor-1.jpg"],
+  local: ["story-council-1.jpg", "story-council-2.jpg"],
+};
+/** One of `list`, always the same one for the same record. */
+const sameFor = (list, key) =>
+  list[
+    [...String(key)].reduce((sum, c) => sum + c.charCodeAt(0), 0) % list.length
+  ];
+/** Set a paper's name in its engraved masthead's plate. */
+function engraveMasthead(name, outlet) {
+  const art = sameFor(
+    outlet.layout === "weekly" ? MASTHEADS.weekly : MASTHEADS.daily,
+    outlet.id ?? outlet.name ?? "",
+  );
+  const [width, height] = art.size;
+  const [left, top, across, down] = art.plate;
+  name.classList.add("engraved");
+  Object.assign(name.style, {
+    backgroundImage: `url(/art/newspaper/${art.file})`,
+    aspectRatio: `${width} / ${height}`,
+  });
+  // The name sits in the plate, placed in percent of the strip.
+  const plate = el("span", {
+    className: "plate",
+    textContent: name.textContent,
+  });
+  Object.assign(plate.style, {
+    left: `${left}%`,
+    top: `${top}%`,
+    width: `${across}%`,
+    height: `${down}%`,
+  });
+  name.replaceChildren(plate);
+}
+/**
+ * The level of government a story is about: its own level, else the body,
+ * government or law its record names (the nation's ids start "US", a state's
+ * "US-" and its postal code, everything else is local).
+ */
+function storyLevel(story) {
+  const facts = story.facts ?? {};
+  if (facts.level) return facts.level;
+  if (story.kind === "address") return "federal";
+  const who = String(
+    facts.governmentId ?? facts.body ?? facts.lawId ?? "",
+  ).replace(/^(office|law):/, "");
+  if (!who) return undefined;
+  if (/^US(:|$)/.test(who)) return "federal";
+  if (/^US-[A-Z]{2}:federal\b/.test(who)) return "federal";
+  if (/^US-[A-Z]{2}(:|$)/.test(who)) return "state";
+  return "local";
+}
+/** A lead story about a government acting carries the photo of that level's room. */
+function storyPhoto(story) {
+  const level = storyLevel(story);
+  if (!level || level === "federal") return undefined;
+  const acting = `${story.kind ?? ""} ${story.facts?.recordKind ?? ""}`;
+  if (
+    !/address|inauguration|law|bill|vote|council|budget|veto|sign/.test(acting)
+  )
+    return undefined;
+  const list = STORY_PHOTOS[level] ?? STORY_PHOTOS.local;
+  return `/art/newspaper/${sameFor(list, story.recordId ?? story.id ?? "")}`;
+}
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
@@ -488,6 +589,7 @@ function openNewsReader(news) {
     layout: "broadsheet",
   };
   $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
+  engraveMasthead($("news-reader-masthead"), outlet);
   $("news-reader-date").textContent = new Date(
     `${me.date}T12:00:00`,
   ).toLocaleDateString("en-US", {
@@ -502,7 +604,11 @@ function openNewsReader(news) {
       : "broadsheet"
   }`;
   $("news-reader-headline").textContent = storyHeadline(lead);
+  const photo = storyPhoto(lead);
   $("news-reader-body").replaceChildren(
+    ...(photo
+      ? [el("img", { className: "story-image", src: photo, alt: "" })]
+      : []),
     // A story the paper prints (lede, figures, one quote) reads as printed;
     // otherwise the broadcast, then the address as the record quotes it.
     ...(lead.paragraphs
@@ -3451,38 +3557,6 @@ const sheets = {
       }),
     ];
   },
-  async family() {
-    const members = await api(`/api/family?id=${encodeURIComponent(me.id)}`);
-    return members
-      .filter((m) => m.name)
-      .map((m) => {
-        const card = makeCard("family-card", {});
-        if (m.backdrop) {
-          const pic = el(
-            "div",
-            { className: "family-pic" },
-            el("img", { src: m.backdrop, alt: "" }),
-          );
-          if (m.figureUrl)
-            pic.append(
-              el("img", {
-                className: "family-figure",
-                src: m.figureUrl,
-                alt: m.name,
-              }),
-            );
-          card.append(pic);
-        }
-        card.append(
-          el("b", { textContent: m.name }),
-          el("div", {
-            textContent: `${m.relation ? `${m.relation} · ` : ""}${m.age}${m.alive === false ? " · †" : ""}`,
-          }),
-          el("div", { textContent: m.place ? `${m.place} · ${m.doing}` : "" }),
-        );
-        return card;
-      });
-  },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
@@ -3942,7 +4016,8 @@ const sheets = {
         year: "numeric",
       });
     const imageFor = (story) => {
-      const url = story.presentation?.imageUrl ?? story.imageUrl;
+      const url =
+        story.presentation?.imageUrl ?? story.imageUrl ?? storyPhoto(story);
       if (!url) return [];
       const image = el("img", {
         className: "story-image",
@@ -4024,8 +4099,8 @@ const sheets = {
         return el(
           "article",
           { className: `paper-story ${className}` },
-          ...(className === "lead" ? imageFor(story) : []),
           headline,
+          ...(className === "lead" ? imageFor(story) : []),
           ...told(story)
             .slice(0, paragraphs)
             .map((text, at) =>
@@ -4036,11 +4111,13 @@ const sheets = {
             ),
         );
       };
+      const name = el("h2", { textContent: outlet.name ?? labels.title });
+      engraveMasthead(name, outlet);
       paper.replaceChildren(
         el(
           "header",
           { className: "paper-masthead" },
-          el("h2", { textContent: outlet.name ?? labels.title }),
+          name,
           el("span", {
             className: "paper-date",
             textContent: dateWords(me.date),
@@ -4926,7 +5003,6 @@ const titles = {
   issues: "Issues",
   calendar: "Calendar",
   budgets: "Budgets",
-  family: "Family",
   travel: "Travel",
   options: "Options",
   guide: "Guide",
@@ -4948,7 +5024,6 @@ const groups = {
     "budgets",
     "politicsGuide",
   ],
-  people: ["people", "family"],
   who: ["who", "jobs"],
 };
 const groupOf = (tab) =>
@@ -5018,7 +5093,7 @@ async function openSheet(tab) {
   // the calendar, the people web and two-column readers fill the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "family", "map", "who"].includes(tab) &&
+    !["calendar", "people", "map", "who"].includes(tab) &&
       !$("sheet-body").classList.contains("cols"),
   );
   show("sheet", true);
