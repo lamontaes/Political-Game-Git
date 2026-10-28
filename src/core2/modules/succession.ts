@@ -16,7 +16,7 @@
  * full person, and the record and a news event follow.
  */
 import succession from "../../../data/research/offices/presidential-succession.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { ageOnDate } from "../kernel/dates";
@@ -45,6 +45,7 @@ import {
   members,
 } from "./legislature";
 import { LEADERSHIP_MODULE_ID, leaderOf } from "./leadership";
+import { cabinetOf } from "../office-day-federal-president";
 
 export const SUCCESSION_MODULE_ID = "core2-succession-v1";
 
@@ -67,17 +68,6 @@ const LAW = succession as unknown as {
 const PRESIDENT_SEAT = "seat:US:president";
 const VICE_PRESIDENT_SEAT = "seat:US:vice-president";
 
-/** A cabinet post and the secretary who holds it. */
-export interface CabinetRow {
-  readonly id: string;
-  readonly title: string;
-  readonly order: number;
-  readonly holderId: string;
-  readonly party: string | null;
-  readonly confirmation: unknown;
-  readonly since: string;
-}
-
 /** The record of one succession to the presidency or the vice presidency. */
 export interface SuccessionRow {
   readonly id: string;
@@ -96,7 +86,7 @@ export const SUCCESSION_MODULE: CoreModule = {
   id: SUCCESSION_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { cabinet: {}, successions: {} },
+    tables: { successions: {} },
   },
 };
 
@@ -231,30 +221,6 @@ function nominate(
   };
 }
 
-/** The president names a cabinet and the Senate confirms it. */
-function appointCabinet(api: CoreAPI): void {
-  if (!api.state.modules.has(OFFICIALS_MODULE_ID)) return;
-  const posts = LAW.line.filter((e) => e.kind === "cabinet");
-  for (const [order, post] of posts.entries()) {
-    if (table(api, "cabinet").get(post.key)) continue;
-    const chosen = nominate(api, {
-      key: `cabinet:US:${post.key}`,
-      officeKind: "cabinet-secretary",
-      chambers: [FEDERAL_SENATE],
-    });
-    if (!chosen) continue;
-    table(api, "cabinet").put({
-      id: post.key,
-      title: post.title,
-      order,
-      holderId: chosen.row.id,
-      party: chosen.row.party,
-      confirmation: chosen.confirmation,
-      since: api.state.date,
-    } satisfies CabinetRow as unknown as ModuleRow);
-  }
-}
-
 /** The holder of a place in the line today, and their seat in Congress if any. */
 function holderIn(
   api: CoreAPI,
@@ -280,11 +246,12 @@ function holderIn(
       seat,
     };
   }
-  const row = table(api, "cabinet").get(entry.key) as unknown as
-    CabinetRow | undefined;
+  // The secretary the president's own day nominated and the Senate confirmed.
+  const holderId =
+    cabinetOf(api).find((row) => row.postId === entry.key)?.holderId ?? null;
   return {
-    personId: row?.holderId ?? null,
-    party: row?.party ?? null,
+    personId: holderId,
+    party: (holderId && officialOf(api, holderId)?.party) || null,
     seat: null,
   };
 }
@@ -377,8 +344,7 @@ function presidentialSuccessor(
                 .table("officials")
                 .put({ ...row, ended: date } as unknown as ModuleRow);
           }
-        } else if (entry.kind === "cabinet")
-          table(api, "cabinet").remove(entry.key);
+        }
       },
     };
   }
@@ -430,14 +396,6 @@ export function openSuccession(core: CoreState): void {
   // The central bank's governors are named by this president and confirmed
   // by this Senate, once the government is open.
   registerBoardAppointer(boardAppointer);
-  appointCabinet(coreAPI(core));
-}
-
-/** The federal cabinet in the order of the line. */
-export function cabinet(api: CoreAPI): readonly CabinetRow[] {
-  return (table(api, "cabinet").rows() as unknown as CabinetRow[])
-    .slice()
-    .sort((a, b) => a.order - b.order);
 }
 
 /** Every succession recorded. */

@@ -1,7 +1,6 @@
 /**
  * Succession to the presidency in the world the owner plays, on a seed nobody
- * chose: the president's cabinet is named and confirmed at the opening, each
- * secretary a full person; when the president dies the vice president
+ * chose: when the president dies the vice president
  * succeeds the same day and the president's nominee, confirmed by both
  * houses, fills the vice presidency; when the president and vice president
  * die together the line passes over the vice president, with why, to the next
@@ -12,7 +11,7 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { coreAPI } from "./state";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { cabinet, successions } from "./modules/succession";
+import { successions } from "./modules/succession";
 import { PRESS_MODULE_ID } from "./modules/press";
 import { NATIVITY_FACT } from "./nativity";
 
@@ -41,18 +40,6 @@ function dies(personIds: readonly string[]) {
 }
 
 describe(`presidential succession in the played world: ${where}`, () => {
-  it("names a confirmed cabinet of full people at the opening", () => {
-    const posts = cabinet(api);
-    expect(posts.length, where).toBe(15);
-    expect(posts[0]!.id).toBe("state");
-    expect(posts.at(-1)!.id).toBe("homeland-security");
-    for (const post of posts) {
-      expect(world.core.people.get(post.holderId)?.alive, post.id).toBe(true);
-      const votes = post.confirmation as { yes: number; no: number }[];
-      expect(votes[0]!.yes, post.id).toBeGreaterThan(votes[0]!.no);
-    }
-  });
-
   it("the vice president succeeds the same day, and the vice presidency is filled", () => {
     const president = holder("seat:US:president")!;
     const vice = holder("seat:US:vice-president")!;
@@ -123,7 +110,7 @@ describe(`presidential succession in the played world: ${where}`, () => {
     ).toBeTruthy();
   });
 
-  it("reads each official's birth record: the president and vice president are native-born, and every one in the line has a record", () => {
+  it("reads each official's birth record: the president and vice president are native-born", () => {
     for (const seat of ["seat:US:president", "seat:US:vice-president"]) {
       const person = world.core.people.get(holder(seat)!.personId!)!;
       const birth = person.pastFacts!.find((f) => f.kind === NATIVITY_FACT)!;
@@ -132,13 +119,6 @@ describe(`presidential succession in the played world: ${where}`, () => {
         residentSince: person.birthDate,
       });
       expect(birth.source.citation).toMatch(/B05003/);
-    }
-    for (const post of cabinet(api)) {
-      const person = world.core.people.get(post.holderId)!;
-      expect(
-        person.pastFacts!.some((f) => f.kind === NATIVITY_FACT),
-        `${where} ${post.id}`,
-      ).toBe(true);
     }
   });
 

@@ -493,14 +493,15 @@ export function appointedHolders(api: CoreAPI): ReadonlySet<PersonId> {
       OfficeInput | undefined;
     if (office && !office.elected) ids.add(term.personId);
   }
-  // The president's cabinet (the succession engine's), read by its module
-  // id: a secretary serves at the president's pleasure, not on a ballot.
-  if (api.state.modules.has("core2-succession-v1"))
+  // The president's cabinet (the president's office day keeps it), read by
+  // its module id: a secretary serves at the president's pleasure, not on a
+  // ballot.
+  if (api.state.modules.has("core2-office-day-federal-v1"))
     for (const row of api
-      .moduleState("core2-succession-v1")
+      .moduleState("core2-office-day-federal-v1")
       .table("cabinet")
-      .rows() as unknown as { holderId: PersonId }[])
-      ids.add(row.holderId);
+      .rows() as unknown as { holderId: PersonId | null }[])
+      if (row.holderId) ids.add(row.holderId);
   appointed.set(api.state, { date: api.state.date, ids });
   return ids;
 }
