@@ -366,5 +366,40 @@
       "unit": "homes",
       "citation": "ACS 5-year tenure margins of error for places under 500 homes run roughly 5 to 15 points."
     }
+  },
+  "housingWorldOffsetFloorShare": {
+    "value": 0.34,
+    "tag": "TUNABLE",
+    "citation": "The smallest share of a spread a world's housing offset takes, so no world opens on the published median.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "share of the spread",
+      "citation": "Matches macroWorldOffsetFloorShare."
+    }
+  },
+  "housingWorldRentValueSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's county median rent and owner home value sit from the published ACS 2020-2024 medians: about the ACS five-year county margin of error plus a year of change (county median gross rent and home value margins run 2% to 10%; FHFA state prices moved 3% to 8% a year in 2022-2024).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published ACS figure is the center; a world's offset is drawn once from its seed at Start, its size between housingWorldOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published median",
+      "citation": "ACS B25064 and B25077 county margins of error; FHFA all-transactions index."
+    }
+  },
+  "housingWorldOwnerShareSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's town owner-occupied share moves from the published ACS share, relative to its nearer bound: about the ACS five-year place margin of error on tenure (2 to 8 points in small places).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published ACS figure is the center; a world's offset is drawn once from its seed at Start, its size between housingWorldOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "ACS B25003 place margins of error."
+    }
   }
 }

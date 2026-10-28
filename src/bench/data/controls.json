@@ -200,11 +200,9 @@
     "back-their-item": "Back their item"
   },
   "officeStops": {
-    "own-bill-vote": "Your bill's vote",
-    "every-meeting": "Every meeting",
-    "desk": "Your desk",
+    "aYear": "a year",
+    "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
-    "interviewOutlet": "Ask for an interview with",
     "nameHeadPick": "Name to the post"
   },
   "floor": {
