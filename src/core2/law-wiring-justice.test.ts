@@ -39,6 +39,7 @@ import {
   yesLevels,
 } from "./modules/laws";
 import { countedHouseholdOf, residentsRuntime } from "./modules/residents";
+import { countedCases, type CountedCaseRow } from "./modules/justice";
 import { reachParameter } from "./law-reach/group-a-records";
 import type { LawRowInput } from "./laws-starting";
 import {
@@ -55,7 +56,6 @@ import {
   PUBLIC_SAFETY_MODULE_ID,
   STAND_GROUND,
   takeCensus,
-  type CaseRow,
   type GroupCensus,
   type SafetyMonth,
 } from "./public-safety";
@@ -163,7 +163,7 @@ interface Attempt {
   readonly unfound: Map<string, string>;
   readonly web: Map<string, number[]>;
   /** The minor-offense cases the case flow recorded (disorderly conduct, loitering and the like). */
-  readonly minorCases: CaseRow[];
+  readonly minorCases: CountedCaseRow[];
   readonly after: Map<string, LawAppliedRow[]>;
   readonly monthsRun: SafetyMonth[];
   readonly cutService: number[];
@@ -171,6 +171,8 @@ interface Attempt {
   readonly missing: string[];
   /** Questions that were not law when the town opened. */
   readonly startedNo: Set<string>;
+  /** Whether an adult assault arrest, the subject of the self-defense law, was filed while the laws stood. */
+  readonly assaultArrests: boolean;
 }
 
 /** One posting the journal made, kept to follow a target's money. */
@@ -395,6 +397,13 @@ function play(where: string, core: CoreState): Attempt {
     // records its engine wrote while it stood.
     for (const key of [...keys, ...lines])
       rows.set(key, [...appliedEver(api, key)]);
+    // Self-defense claims arise only from an adult assault arrest, which
+    // follows an assault the crime engine recorded and the police were told
+    // of: a small town can go the months played without one.
+    const assaultArrests = [
+      ...countedCases(api, "charged"),
+      ...countedCases(api, "decided"),
+    ].some((c) => c.offense === "assault" && c.court === "adult");
     for (const [kind, gross] of noLimit) posts.set(`first:${kind}`, gross);
     // The outcome web's month rows for the measures the engine reads.
     const webTable = api
@@ -408,12 +417,10 @@ function play(where: string, core: CoreState): Attempt {
       for (const [link, effect] of Object.entries(row.effects))
         web.set(link, [...(web.get(link) ?? []), effect]);
     // The minor offenses the case flow recorded while the police line stood a tenth above where it began.
-    const minorCases = (
-      api
-        .moduleState(PUBLIC_SAFETY_MODULE_ID)
-        .table("cases")
-        .rows() as unknown as CaseRow[]
-    ).filter((c) => c.offense === "lowlevel");
+    const minorCases = [
+      ...countedCases(api, "charged"),
+      ...countedCases(api, "decided"),
+    ].filter((c) => c.offense === "lowlevel");
     // A cut police line gives less service, and putting it back gives it back.
     const gov =
       governments(api).find((g) => g.level === "city") ??
@@ -511,6 +518,7 @@ function play(where: string, core: CoreState): Attempt {
       cutService,
       missing,
       startedNo,
+      assaultArrests,
     };
   } finally {
     setJournalTrace(null);
@@ -522,26 +530,34 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
     setBookkeeping(false);
     try {
       const tried: string[] = [];
-      let eligible: ReturnType<typeof draw> | null = null;
-      for (let i = 0; i < TRIES && !eligible; i++) {
+      let a: ReturnType<typeof play> | null = null;
+      for (let i = 0; i < TRIES && !a; i++) {
         const d = draw(seed, i);
-        tried.push(`${d.where}: lacks ${d.lacks.join(", ") || "nothing"}`);
         // A town whose opening records give a law nobody to act on (no gun
         // homes, no noncitizens) is redrawn before play.
-        if (!d.lacks.length) eligible = d;
+        if (d.lacks.length) {
+          tried.push(`${d.where}: lacks ${d.lacks.join(", ")}`);
+          continue;
+        }
+        const played = play(d.where, d.core);
+        if (!played.assaultArrests) {
+          tried.push(`${d.where}: no assault reported to police in play`);
+          continue;
+        }
+        a = played;
       }
       expect(
-        eligible,
+        a,
         `no drawn place had a subject for every law: ${tried}`,
       ).not.toBeNull();
-      const a = play(eligible!.where, eligible!.core);
+      a = a!;
       // The town had a subject for every law, so each must have applied it.
       expect(
         a.missing,
         `${a.where}: laws with no applied record after play`,
       ).toEqual([]);
       console.log(
-        `law-wiring-justice passed in ${a.where}; tried ${tried.length}`,
+        `law-wiring-justice passed in ${a.where}; passed over: ${tried.join("; ") || "none"}`,
       );
       const groups = (key: string) =>
         (a.rows.get(key) ?? []).filter((r) => r.target === "group");

@@ -68,6 +68,7 @@ import {
   chosenBirthDate,
   creatorStates,
   creatorTowns,
+  creatorRandomPlace,
   drawBirthday,
   drawName,
   readChosenPerson,
@@ -104,6 +105,7 @@ import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
+import { patchNoteReleases } from "./patch-notes";
 import { budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -532,6 +534,7 @@ export async function benchRequest(
         else if (route === "states") send(200, creatorStates());
         else if (route === "towns")
           send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? ""));
+        else if (route === "place") send(200, creatorRandomPlace(seed, draw));
         else if (route === "appearance") {
           const recipe = q.get("recipe")
             ? request.method === "POST"
@@ -619,6 +622,19 @@ export async function benchRequest(
           ),
         );
         send(200, { version });
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/patch-notes") {
+        // The title's Patch notes: the release machinery's own file, one
+        // released section at a time (owner, Oct 28: "get them in").
+        send(200, {
+          releases: patchNoteReleases(
+            await readFile(
+              new URL("../../PATCH_NOTES.md", import.meta.url),
+              "utf8",
+            ),
+          ),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/bank") {

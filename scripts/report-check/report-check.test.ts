@@ -179,7 +179,7 @@ describe("where the check runs", () => {
     expect(ownerPath("/mnt/project-files/handoffs/x.md")).toBe(false);
     expect(ownerPath("/mnt/project-files/research/x.md")).toBe(false);
     expect(ownerPath("/mnt/project-files/playtest/x.json")).toBe(false);
-    expect(ownerPath("src/simulation/x.md")).toBe(false);
+    expect(ownerPath("src/core2/x.md")).toBe(false);
   });
 
   const hook = (payload: object) =>

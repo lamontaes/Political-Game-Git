@@ -91,11 +91,11 @@ describe("the words a player reads", () => {
     expect(
       countSourceWording(
         `const line = ${JSON.stringify(words)};`,
-        "src/simulation/Example.ts",
+        "src/core2/Example.ts",
       ).banned,
     ).toEqual({
-      "src/simulation/Example.ts :: reported": 1,
-      "src/simulation/Example.ts :: on the record": 1,
+      "src/core2/Example.ts :: reported": 1,
+      "src/core2/Example.ts :: on the record": 1,
     });
   });
 
