@@ -284,7 +284,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const school =
     (family || housemate) &&
     ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
-      coreAPI(core).parameter("benchmarkAdultMinimumAge")
+      coreAPI(core).parameter("votingAge")
       ? (schoolsOf(core, otherId)
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
