@@ -577,7 +577,7 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
           build,
           outfit,
           ...Object.fromEntries(
-            ["skin", ...GARMENTS].flatMap((key) =>
+            ["skin", "hair", "hairColor", ...GARMENTS].flatMap((key) =>
               typeof record[key] === "string" ? [[key, record[key]]] : [],
             ),
           ),
@@ -734,7 +734,7 @@ export function stagePeople(
         name,
         reason,
         look,
-        colors: new URLSearchParams(colorsFor(who)).toString(),
+        colors: new URLSearchParams(colorsFor(who, look.sex, band)).toString(),
         band,
         spot: podium,
       });
@@ -758,7 +758,9 @@ export function stagePeople(
       });
       continue;
     }
-    const colors = new URLSearchParams(colorsFor(who)).toString();
+    const colors = new URLSearchParams(
+      colorsFor(who, look.sex, band),
+    ).toString();
     placed.push({
       id,
       name,
