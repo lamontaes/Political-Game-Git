@@ -1,4 +1,4 @@
-import { ADDRESS_FACT } from "./opening-facts";
+import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
 import { familyFactsOf } from "../core2/modules/people";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
@@ -35,6 +35,8 @@ export interface Scene {
   typeKey: string;
   setting: { kind: string; recordId: string };
   presentIds: PersonId[];
+  /** Why each person present is there: the fill of the role that cast them. */
+  presentReasons: Record<PersonId, string>;
   /**
    * The narrator's opening: one short paragraph (the day, the setting, who is
    * there, what led here), then the characters play the scene out.
@@ -46,7 +48,11 @@ export interface Scene {
    * A speech the scene is about, in the words its record kept (the address
    * the English engine composed): the speaker gives it in the scene.
    */
-  speech?: SceneLine & { speakerId: PersonId };
+  speech?: SceneLine & {
+    speakerId: PersonId;
+    /** The speech in the parts the talk box plays, one per Continue. */
+    parts: readonly string[];
+  };
 }
 
 export function composeScene(
@@ -62,12 +68,16 @@ export function composeScene(
   if (!moment || !person) return null;
   // A moment no situation type binds still plays: at home, with the people
   // who live there, about what happened (audit 1: it used to throw).
+  const living = (
+    core.households.get(person.householdId)?.memberIds ?? []
+  ).filter((id) => core.people.get(id)?.alive);
   const binding: SceneBinding = entry.bindings[zero] ?? {
     typeKey: "unbound",
     roles: [],
-    presentIds: (
-      core.households.get(person.householdId)?.memberIds ?? []
-    ).filter((id) => core.people.get(id)?.alive),
+    presentIds: living,
+    presentReasons: Object.fromEntries(
+      living.map((id) => [id, "household"]),
+    ) as Record<PersonId, string>,
     setting: { kind: "home", recordId: person.householdId },
     timing: "now",
     openUntil: moment.date,
@@ -264,6 +274,10 @@ export function composeScene(
       ? {
           speakerId: speakerId as PersonId,
           text: speechText,
+          // Played one part per Continue; a speech kept whole is one part.
+          parts: String(record!.facts?.[ADDRESS_FACT.parts] ?? speechText)
+            .split(ADDRESS_PART_BREAK)
+            .filter(Boolean),
           sourceRecordIds: [record!.id],
         }
       : undefined;
@@ -272,6 +286,7 @@ export function composeScene(
     typeKey: binding.typeKey,
     setting: binding.setting,
     presentIds: binding.presentIds,
+    presentReasons: binding.presentReasons ?? {},
     narration,
     ...(talkToId ? { talkToId } : {}),
     ...(speech ? { speech } : {}),

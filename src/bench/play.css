@@ -440,6 +440,29 @@ select:focus-visible {
     0 3px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
+/* A tab inside a sheet (the Local, State, Federal picker) is the kit's tab,
+   not a key: plain text at rest, the raised glass box only while chosen
+   (kit13 APPROVED; owner, Oct 28: "no clear delineation once one is picked"). */
+#sheet-body .tab:not(.on),
+#sheet-body .tab:not(.on):hover {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--text-2);
+}
+#sheet-body .tab:not(.on):hover {
+  color: #fff;
+  text-shadow: var(--glow);
+}
+#sheet-body .tab.on,
+#sheet-body .tab.on:hover {
+  color: var(--gold);
+  background: var(--raised);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
 /* Icons: gold line icons on round glass keys, a column over the player card (MOCKS:24). */
 .ring {
   position: relative;
@@ -1013,10 +1036,26 @@ input[type="range"]::-moz-range-thumb {
   gap: 8px;
   margin-top: 6px;
 }
+/* A creator field left empty when Continue is pressed: its label and box turn
+   the warning color until it is filled, and the line at the bottom says which. */
+#cr-character .group.missing > .label {
+  color: var(--red);
+}
+#cr-character .group.missing input {
+  border-color: var(--red);
+}
+/* The states and towns: a box of rows that pages with Back and Continue under
+   it; nothing in a menu scrolls (kit13 APPROVED), so no native scroller. */
 .choice-list {
-  max-height: 300px;
-  overflow-y: auto;
+  position: relative; /* the pager measures the rows from the box's top */
+  max-height: 400px;
+  overflow: hidden;
   margin-top: 6px;
+}
+/* While rows are paged out, the box keeps its full height: a box sized to
+   the rows it shows would shrink the page each time it turned. */
+.choice-list:has(.paged-out) {
+  height: 400px;
 }
 #front input[type="search"] {
   width: 100%;
@@ -1072,9 +1111,12 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   border: 1px solid var(--brass);
 }
+/* The figure's preview, sized so the look stage with the place line over it
+   (37px) fits a 900px window with its ten rows; at 260px it ran 5px over
+   before the line was added. */
 .portrait {
   display: block;
-  height: 260px;
+  height: 200px;
   margin: 0 auto 4px;
 }
 #front .acts {
@@ -1266,6 +1308,20 @@ body.dev .dev-ring {
   text-transform: uppercase;
   color: var(--text-3);
 }
+/* Several past lines stack as one block; the rule sits under the last of them. */
+.talk-lines .history:has(+ .history) {
+  padding-bottom: 0;
+  margin-bottom: 6px;
+  border-bottom: 0;
+}
+/* The other person's past lines lean left of the player's own, so the three kinds read
+   apart: your past lines, theirs, and what is said now (owner, Oct 28 sitting, 39). */
+.talk-lines .history.theirs {
+  font-style: italic;
+}
+.talk-lines .history.mine {
+  padding-left: 14px;
+}
 .talk-lines .history.lying {
   color: var(--lying);
 }
@@ -1357,6 +1413,12 @@ body.dev .dev-ring {
 }
 #sheet.fits #sheet-body {
   flex: 0 1 auto;
+}
+/* A fitted sheet that pages keeps the window's height while rows are out of
+   the page: sized to the rows it shows, it would shrink the page each turn. */
+#game.in-play #sheet.fits:has(.paged-out) {
+  bottom: 26px;
+  max-height: none;
 }
 #game:not(.in-play) #sheet {
   left: 50%;
@@ -2002,182 +2064,6 @@ body.dev .dev-ring {
 #sheet-body:has(.paper) {
   max-width: none;
 }
-.paper {
-  padding: 0 20px;
-}
-.paper-masthead {
-  text-align: center;
-  margin: 0 0 26px;
-}
-.paper-masthead h2 {
-  font: 700 40px var(--name);
-  color: var(--gold);
-  margin: 0 0 12px;
-}
-.paper-date {
-  font: 12px var(--ui);
-  letter-spacing: 0.15em;
-}
-.paper-stories {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 26px;
-}
-.paper-story.lead {
-  grid-row: span 2;
-}
-#sheet-body .story-headline {
-  font: 600 24px/1.2 var(--speech);
-  background: none;
-  box-shadow: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-  display: block;
-}
-#sheet-body .story-headline::after {
-  display: none;
-}
-#sheet-body .lead .story-headline {
-  font-size: 34px;
-}
-.story-lede {
-  font: 18px/1.5 var(--speech);
-  margin: 14px 0;
-}
-.story-image {
-  width: 100%;
-  max-height: 260px;
-  object-fit: cover;
-  object-position: center 35%;
-  margin-bottom: 14px;
-}
-/* The front page: a rule under the masthead, the lead story's text in the
-   wide column, the next stories and the briefs in the column beside it. */
-.paper-masthead {
-  padding-bottom: 12px;
-  border-bottom: 3px double rgba(214, 189, 132, 0.45);
-}
-.story-text {
-  font: 17px/1.55 var(--speech);
-  margin: 10px 0;
-}
-.paper-column {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding-left: 26px;
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-}
-.paper-story.second + .paper-story,
-.paper-story.brief + .paper-story {
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-#sheet-body .paper-story.second .story-headline {
-  font-size: 21px;
-}
-.paper-story.second .story-lede {
-  font-size: 16px;
-  margin: 8px 0 0;
-}
-#sheet-body .paper-story.brief .story-headline {
-  font: 600 16px/1.3 var(--speech);
-}
-.paper-pager,
-.outlet-picker {
-  display: flex;
-  gap: 16px;
-  margin: 16px 0;
-}
-.paper-modern .paper-masthead {
-  text-align: left;
-}
-.paper-modern .paper-masthead h2 {
-  font: 700 40px var(--ui);
-  color: var(--text-strong);
-}
-.paper-modern .paper-stories {
-  grid-template-columns: 1.4fr 1fr;
-}
-.paper-modern .paper-story.lead {
-  grid-row: auto;
-}
-#sheet-body .paper-modern .story-headline {
-  font: 600 25px var(--ui);
-}
-.paper-tabloid .paper-masthead h2 {
-  text-transform: uppercase;
-  font: 800 48px var(--ui);
-  letter-spacing: -0.04em;
-}
-.paper-tabloid .paper-stories {
-  grid-template-columns: 2fr 1fr;
-}
-#sheet-body .paper-tabloid .lead .story-headline {
-  font: 800 40px/1.05 var(--ui);
-  text-transform: uppercase;
-}
-.paper-weekly {
-  max-width: 1000px;
-  margin: auto;
-}
-.paper-weekly .paper-masthead h2 {
-  font: italic 44px var(--speech);
-}
-.paper-weekly .paper-stories {
-  grid-template-columns: 1fr 1fr;
-}
-.paper-weekly .paper-story.lead {
-  grid-row: auto;
-}
-/* The engraved masthead (art/newspaper-mockups): the paper's name in ink,
-   set in the plate; play.mjs engraveMasthead sizes the strip and the plate. */
-.paper-masthead h2.engraved {
-  position: relative;
-  width: min(100%, 720px);
-  margin: 0 auto 8px;
-  background: center / 100% 100% no-repeat;
-  color: #2b241b;
-  font-size: clamp(18px, 2.2vw, 38px);
-  line-height: 1;
-}
-.paper-masthead h2.engraved .plate {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.paper-story.lead .story-image,
-#news-reader-body .story-image {
-  float: right;
-  width: 46%;
-  max-height: none;
-  aspect-ratio: 16 / 9;
-  object-position: center 20%;
-  margin: 4px 0 10px 18px;
-}
-/* A story with only its headline runs its photo across the column. */
-.paper-story.lead .story-image:last-child {
-  float: none;
-  width: 100%;
-  margin: 8px 0 0;
-}
-.paper-masthead:has(h2.engraved) {
-  border-bottom: none;
-  padding-bottom: 6px;
-}
-.article-title {
-  font: 600 32px var(--speech);
-  margin: 24px 0;
-  max-width: 1000px;
-}
-.article-body {
-  max-width: 900px;
-  font: 20px/1.6 var(--speech);
-}
 /* The record screen (ui/screen.mjs): every screen of one person's or one place's records. */
 .record-title {
   font: 600 34px var(--name);
@@ -2277,14 +2163,33 @@ body.dev .dev-ring {
   margin: 0 0 26px;
 }
 /* The record sections of a record screen in a grid, two across. */
+/* Sections side by side, as many across as the panel holds, so a screen
+   with several bodies shows them all at once (owner, Oct 28, point 22). */
 .screen-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 40px;
-  align-items: start;
+  flex: 1;
+  min-height: 0;
+  columns: 4 340px;
+  column-gap: 28px;
+  column-fill: auto;
+}
+#sheet-body:has(.screen-grid) {
+  display: flex;
+  flex-direction: column;
+}
+/* A section longer than the room left in a column goes on in the next one,
+   row by row, so the columns fill and no fourth column falls off the box;
+   a row, and a title with its first row, never split. */
+.screen-grid > * {
+  break-inside: auto;
+}
+.screen-grid .record-section > * {
+  break-inside: avoid;
+}
+.screen-grid .record-section > .label:first-child {
+  break-after: avoid;
 }
 .record-section {
-  margin: 0 0 24px;
+  margin: 0 0 14px;
 }
 .record-section p {
   margin: 6px 0;
@@ -2561,6 +2466,14 @@ body.dev .dev-ring {
   gap: 14px;
   margin: 12px 0 22px;
 }
+/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
+   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
+   main menu's"), reading the state's name. */
+select.government-state {
+  display: block;
+  margin: -10px 0 22px;
+  border-color: rgba(214, 189, 132, 0.55);
+}
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
@@ -2627,20 +2540,15 @@ body.dev .dev-ring {
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+  padding: 1px 0;
 }
-.person-row-face {
+/* A list row's face: the round headshot at a row's size; an empty ring until
+   the figure is known, never initials (owner, Oct 28). */
+.person-row .person-row-face {
   flex: none;
-  width: 32px;
-  height: 36px;
-  object-fit: cover;
-  object-position: top;
-  background: var(--iron);
-}
-.person-row .people-initial {
-  display: grid;
-  place-items: center;
-  color: var(--gold);
-  font: 15px var(--name);
+  width: 34px;
+  height: 34px;
+  border-width: 2px;
 }
 .person-row .member-name {
   flex: 1;
@@ -3202,182 +3110,6 @@ details.entry[open] {
 #sheet-body:has(.paper) {
   max-width: none;
 }
-.paper {
-  padding: 0 20px;
-}
-.paper-masthead {
-  text-align: center;
-  margin: 0 0 26px;
-}
-.paper-masthead h2 {
-  font: 700 40px var(--name);
-  color: var(--gold);
-  margin: 0 0 12px;
-}
-.paper-date {
-  font: 12px var(--ui);
-  letter-spacing: 0.15em;
-}
-.paper-stories {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 26px;
-}
-.paper-story.lead {
-  grid-row: span 2;
-}
-#sheet-body .story-headline {
-  font: 600 24px/1.2 var(--speech);
-  background: none;
-  box-shadow: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-  display: block;
-}
-#sheet-body .story-headline::after {
-  display: none;
-}
-#sheet-body .lead .story-headline {
-  font-size: 34px;
-}
-.story-lede {
-  font: 18px/1.5 var(--speech);
-  margin: 14px 0;
-}
-.story-image {
-  width: 100%;
-  max-height: 260px;
-  object-fit: cover;
-  object-position: center 35%;
-  margin-bottom: 14px;
-}
-/* The front page: a rule under the masthead, the lead story's text in the
-   wide column, the next stories and the briefs in the column beside it. */
-.paper-masthead {
-  padding-bottom: 12px;
-  border-bottom: 3px double rgba(214, 189, 132, 0.45);
-}
-.story-text {
-  font: 17px/1.55 var(--speech);
-  margin: 10px 0;
-}
-.paper-column {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding-left: 26px;
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-}
-.paper-story.second + .paper-story,
-.paper-story.brief + .paper-story {
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-#sheet-body .paper-story.second .story-headline {
-  font-size: 21px;
-}
-.paper-story.second .story-lede {
-  font-size: 16px;
-  margin: 8px 0 0;
-}
-#sheet-body .paper-story.brief .story-headline {
-  font: 600 16px/1.3 var(--speech);
-}
-.paper-pager,
-.outlet-picker {
-  display: flex;
-  gap: 16px;
-  margin: 16px 0;
-}
-.paper-modern .paper-masthead {
-  text-align: left;
-}
-.paper-modern .paper-masthead h2 {
-  font: 700 40px var(--ui);
-  color: var(--text-strong);
-}
-.paper-modern .paper-stories {
-  grid-template-columns: 1.4fr 1fr;
-}
-.paper-modern .paper-story.lead {
-  grid-row: auto;
-}
-#sheet-body .paper-modern .story-headline {
-  font: 600 25px var(--ui);
-}
-.paper-tabloid .paper-masthead h2 {
-  text-transform: uppercase;
-  font: 800 48px var(--ui);
-  letter-spacing: -0.04em;
-}
-.paper-tabloid .paper-stories {
-  grid-template-columns: 2fr 1fr;
-}
-#sheet-body .paper-tabloid .lead .story-headline {
-  font: 800 40px/1.05 var(--ui);
-  text-transform: uppercase;
-}
-.paper-weekly {
-  max-width: 1000px;
-  margin: auto;
-}
-.paper-weekly .paper-masthead h2 {
-  font: italic 44px var(--speech);
-}
-.paper-weekly .paper-stories {
-  grid-template-columns: 1fr 1fr;
-}
-.paper-weekly .paper-story.lead {
-  grid-row: auto;
-}
-/* The engraved masthead (art/newspaper-mockups): the paper's name in ink,
-   set in the plate; play.mjs engraveMasthead sizes the strip and the plate. */
-.paper-masthead h2.engraved {
-  position: relative;
-  width: min(100%, 720px);
-  margin: 0 auto 8px;
-  background: center / 100% 100% no-repeat;
-  color: #2b241b;
-  font-size: clamp(18px, 2.2vw, 38px);
-  line-height: 1;
-}
-.paper-masthead h2.engraved .plate {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.paper-story.lead .story-image,
-#news-reader-body .story-image {
-  float: right;
-  width: 46%;
-  max-height: none;
-  aspect-ratio: 16 / 9;
-  object-position: center 20%;
-  margin: 4px 0 10px 18px;
-}
-/* A story with only its headline runs its photo across the column. */
-.paper-story.lead .story-image:last-child {
-  float: none;
-  width: 100%;
-  margin: 8px 0 0;
-}
-.paper-masthead:has(h2.engraved) {
-  border-bottom: none;
-  padding-bottom: 6px;
-}
-.article-title {
-  font: 600 32px var(--speech);
-  margin: 24px 0;
-  max-width: 1000px;
-}
-.article-body {
-  max-width: 900px;
-  font: 20px/1.6 var(--speech);
-}
 /* The record screen (ui/screen.mjs): every screen of one person's or one place's records. */
 .record-title {
   font: 600 34px var(--name);
@@ -3477,14 +3209,33 @@ details.entry[open] {
   margin: 0 0 26px;
 }
 /* The record sections of a record screen in a grid, two across. */
+/* Sections side by side, as many across as the panel holds, so a screen
+   with several bodies shows them all at once (owner, Oct 28, point 22). */
 .screen-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 40px;
-  align-items: start;
+  flex: 1;
+  min-height: 0;
+  columns: 4 340px;
+  column-gap: 28px;
+  column-fill: auto;
+}
+#sheet-body:has(.screen-grid) {
+  display: flex;
+  flex-direction: column;
+}
+/* A section longer than the room left in a column goes on in the next one,
+   row by row, so the columns fill and no fourth column falls off the box;
+   a row, and a title with its first row, never split. */
+.screen-grid > * {
+  break-inside: auto;
+}
+.screen-grid .record-section > * {
+  break-inside: avoid;
+}
+.screen-grid .record-section > .label:first-child {
+  break-after: avoid;
 }
 .record-section {
-  margin: 0 0 24px;
+  margin: 0 0 14px;
 }
 .record-section p {
   margin: 6px 0;
@@ -3761,6 +3512,14 @@ details.entry[open] {
   gap: 14px;
   margin: 12px 0 22px;
 }
+/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
+   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
+   main menu's"), reading the state's name. */
+select.government-state {
+  display: block;
+  margin: -10px 0 22px;
+  border-color: rgba(214, 189, 132, 0.55);
+}
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
@@ -3827,20 +3586,15 @@ details.entry[open] {
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+  padding: 1px 0;
 }
-.person-row-face {
+/* A list row's face: the round headshot at a row's size; an empty ring until
+   the figure is known, never initials (owner, Oct 28). */
+.person-row .person-row-face {
   flex: none;
-  width: 32px;
-  height: 36px;
-  object-fit: cover;
-  object-position: top;
-  background: var(--iron);
-}
-.person-row .people-initial {
-  display: grid;
-  place-items: center;
-  color: var(--gold);
-  font: 15px var(--name);
+  width: 34px;
+  height: 34px;
+  border-width: 2px;
 }
 .person-row .member-name {
   flex: 1;
@@ -4138,4 +3892,503 @@ details.entry[open] {
 /* The seat's draft form: what to change, the amount, Draft, side by side. */
 .row.seat-draft {
   justify-content: flex-start;
+}
+
+/* ---- News is the paper (owner, Oct 28, point 25; MOCKS news.png, news2.png,
+   news3.png; art/newspaper-mockups). The sheet is the page: cream or white
+   stock, ink, the paper's type and columns, no panel chrome. ---- */
+:root {
+  --paper-cream: #f3ecdb;
+  --paper-white: #fbfaf6;
+  --paper-ink: #1f1b14;
+  --paper-rule: rgba(31, 27, 20, 0.38);
+  --paper-red: #b3202a;
+  --paper-blue: #1d4a7a;
+}
+#game.in-play #sheet.paper-sheet {
+  background: var(--paper-cream);
+  border-color: #d8ccae;
+  color: var(--paper-ink);
+  text-shadow: none;
+  padding: 18px 36px 26px;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.25),
+    0 12px 30px rgba(0, 0, 0, 0.5);
+}
+#sheet.paper-sheet:has(.paper-modern),
+#sheet.paper-sheet:has(.paper-tabloid) {
+  background: var(--paper-white);
+}
+#sheet.paper-sheet::before,
+#sheet.paper-sheet::after {
+  display: none;
+}
+/* The masthead names the paper: the sheet's own title is not shown, the close
+   X sits in the corner in ink. */
+#sheet.paper-sheet .sheet-head {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+}
+#sheet.paper-sheet #sheet-title {
+  display: none;
+}
+#sheet.paper-sheet .glyph.close,
+#news-reader .glyph.close {
+  filter: invert(1) brightness(0.25);
+}
+#sheet.paper-sheet #sheet-body {
+  max-width: none;
+}
+#sheet.paper-sheet #sheet-tabs:empty + #sheet-body {
+  margin-top: 0;
+}
+.paper {
+  font: 16px/1.45 var(--speech);
+  color: var(--paper-ink);
+}
+.paper-masthead {
+  text-align: center;
+  margin: 0;
+}
+#sheet-body .paper-masthead-name {
+  display: block;
+  width: min(100%, 760px);
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: var(--paper-ink);
+  font: 700 44px/1.1 var(--name);
+  text-shadow: none;
+  letter-spacing: 0.02em;
+}
+#sheet-body .paper-masthead-name::after {
+  display: none;
+}
+#sheet-body .paper-masthead-name.engraved {
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  font-size: clamp(18px, 2.2vw, 36px);
+  line-height: 1;
+}
+#sheet-body .paper-masthead-name:hover:not(:disabled) {
+  background: none;
+  color: var(--paper-ink);
+}
+/* The engraved masthead (art/newspaper-mockups): the paper's name in ink, set
+   in the plate; the kit's engraveMasthead sizes the strip and the plate. */
+.paper-masthead .engraved,
+#news-reader .paper-masthead h2.engraved {
+  position: relative;
+  width: min(100%, 760px);
+  margin: 0 auto;
+  background: center / 100% 100% no-repeat;
+  color: #2b241b;
+  font: 700 clamp(18px, 2.2vw, 38px) / 1 var(--name);
+  letter-spacing: 0.04em;
+}
+.paper-masthead .engraved .plate,
+#news-reader .paper-masthead h2.engraved .plate {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.paper-dateline {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0 16px;
+  padding: 5px 0;
+  border-top: 1px solid var(--paper-ink);
+  border-bottom: 3px double var(--paper-ink);
+  font: 13px/1.2 var(--ui);
+  letter-spacing: 0.05em;
+}
+.paper-stories {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 0 28px;
+}
+.paper-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-left: 24px;
+  border-left: 1px solid var(--paper-rule);
+}
+.paper-story.second + .paper-story {
+  padding-top: 12px;
+  border-top: 1px solid var(--paper-rule);
+}
+.paper-briefs {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px 28px;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 3px double var(--paper-ink);
+}
+#sheet-body .story-headline {
+  display: block;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: var(--paper-ink);
+  font: 700 22px/1.15 var(--speech);
+  text-align: left;
+  text-shadow: none;
+}
+#sheet-body .story-headline::after {
+  display: none;
+}
+#sheet-body .story-headline:hover:not(:disabled) {
+  background: none;
+  color: var(--paper-red);
+}
+#sheet-body .lead .story-headline {
+  font-size: 40px;
+  letter-spacing: -0.01em;
+}
+.story-lede {
+  margin: 8px 0 12px;
+  font: italic 19px/1.35 var(--speech);
+}
+.story-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center 20%;
+  margin: 6px 0 12px;
+  border: 1px solid var(--paper-rule);
+}
+.story-body {
+  columns: 2 240px;
+  column-gap: 24px;
+  column-rule: 1px solid var(--paper-rule);
+}
+.story-text {
+  margin: 0 0 10px;
+  font: 16px/1.5 var(--speech);
+}
+.story-body .story-text:first-child::first-letter {
+  float: left;
+  margin: 4px 6px 0 0;
+  font: 700 44px/0.8 var(--speech);
+}
+#sheet-body .paper-story.second .story-headline {
+  font-size: 20px;
+}
+.paper-story.second .story-lede {
+  margin: 6px 0 0;
+  font: 15px/1.4 var(--speech);
+}
+#sheet-body .paper-story.brief .story-headline {
+  font-size: 17px;
+}
+#sheet.paper-sheet .outlet-picker {
+  display: flex;
+  gap: 16px;
+  margin: 0 0 12px;
+}
+#sheet.paper-sheet .outlet-picker .tab {
+  color: var(--paper-ink);
+  text-shadow: none;
+}
+/* A story opened to read, under the same masthead. */
+.paper-article {
+  max-width: 1040px;
+}
+.article-title {
+  margin: 8px 0 6px;
+  font: 700 40px/1.1 var(--speech);
+  letter-spacing: -0.01em;
+}
+.article-deck {
+  margin: 0 0 14px;
+  font: italic 19px/1.35 var(--speech);
+}
+.paper-article .story-image {
+  max-width: 620px;
+  float: right;
+  margin: 4px 0 12px 24px;
+}
+.article-body {
+  columns: 2 300px;
+  column-gap: 28px;
+  column-rule: 1px solid var(--paper-rule);
+  font: 17px/1.55 var(--speech);
+}
+.article-body p {
+  margin: 0 0 12px;
+  break-inside: avoid;
+}
+/* A modern daily (MOCKS news2.png): white stock, the name on a blue bar, sans type. */
+.paper-modern {
+  font-family: var(--ui);
+}
+.paper-modern .paper-masthead {
+  padding: 14px 20px;
+  background: var(--paper-blue);
+  text-align: left;
+}
+#sheet-body .paper-modern .paper-masthead-name {
+  width: auto;
+  margin: 0;
+  color: #fff;
+  font: 700 34px/1.1 var(--ui);
+  letter-spacing: 0;
+}
+#sheet-body .paper-modern .paper-masthead-name:hover:not(:disabled) {
+  color: #fff;
+}
+.paper-modern .paper-dateline {
+  margin-top: 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--paper-rule);
+}
+.paper-modern .paper-stories {
+  grid-template-columns: 1.5fr 1fr;
+}
+#sheet-body .paper-modern .story-headline,
+.paper-modern .article-title {
+  font-family: var(--ui);
+  letter-spacing: -0.02em;
+}
+.paper-modern .story-lede,
+.paper-modern .article-deck {
+  font: 18px/1.4 var(--ui);
+  color: #3a3a3a;
+}
+.paper-modern .story-text,
+.paper-modern .article-body {
+  font-family: var(--ui);
+}
+.paper-modern .paper-column {
+  border-left: 0;
+  border-top: 3px solid var(--paper-blue);
+  padding: 10px 0 0;
+}
+.paper-modern .paper-briefs {
+  border-top: 3px solid var(--paper-blue);
+}
+/* A tabloid (MOCKS news3.png): white stock, the name on a red banner, the
+   lead headline in capitals, the briefs under red rules. */
+.paper-tabloid {
+  font-family: var(--ui);
+}
+.paper-tabloid .paper-masthead {
+  padding: 10px 20px;
+  background: var(--paper-red);
+}
+#sheet-body .paper-tabloid .paper-masthead-name {
+  width: auto;
+  color: #fff;
+  font: 800 44px/1.05 var(--ui);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+#sheet-body .paper-tabloid .paper-masthead-name:hover:not(:disabled) {
+  color: #fff;
+}
+.paper-tabloid .paper-dateline {
+  justify-content: flex-end;
+  margin-top: 0;
+  border-top: 0;
+  border-bottom: 0;
+}
+.paper-tabloid .paper-stories {
+  grid-template-columns: 2fr 1fr;
+}
+#sheet-body .paper-tabloid .lead .story-headline {
+  font: 900 46px/1 var(--ui);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+#sheet-body .paper-tabloid .story-headline,
+.paper-tabloid .article-title {
+  font-family: var(--ui);
+}
+.paper-tabloid .paper-column {
+  border-left: 0;
+  padding-left: 0;
+}
+.paper-tabloid .paper-briefs {
+  border-top: 0;
+}
+.paper-tabloid .paper-briefs .paper-story,
+.paper-tabloid .paper-column .paper-story {
+  border-top: 4px solid var(--paper-red);
+  padding-top: 8px;
+}
+.paper-tabloid .story-lede,
+.paper-tabloid .story-text,
+.paper-tabloid .article-body,
+.paper-tabloid .article-deck {
+  font-family: var(--ui);
+}
+/* A small-town weekly: the engraved courthouse masthead, two even columns. */
+.paper-weekly .paper-stories {
+  grid-template-columns: 1fr 1fr;
+}
+#sheet-body .paper-weekly .lead .story-headline {
+  font-size: 34px;
+}
+/* The first evening's paper (the reader over the scene) is the same page. */
+#news-reader {
+  background: var(--paper-cream);
+  color: var(--paper-ink);
+  text-shadow: none;
+  border-color: #d8ccae;
+}
+#news-reader::before,
+#news-reader::after {
+  display: none;
+}
+#news-reader .paper-masthead {
+  border-bottom: 3px double var(--paper-ink);
+}
+#news-reader-more {
+  border-left: 1px solid var(--paper-rule);
+}
+#news-reader .heading {
+  font: 700 34px/1.15 var(--speech);
+}
+/* The districts map on Parties: the state, its counties, the player's own
+   districts and town, each district filled with the color of the party that
+   holds it; the legend's swatches use the same colors. */
+.gov-map {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  margin: 0 0 12px;
+}
+.gov-map .state {
+  fill: var(--party, rgba(242, 237, 228, 0.06));
+  fill-opacity: 0.18;
+  stroke: var(--brass);
+  stroke-width: 0.4;
+}
+.gov-map .county {
+  fill: none;
+  stroke: rgba(242, 237, 228, 0.25);
+  stroke-width: 0.12;
+}
+.gov-map .yours {
+  fill: var(--party, rgba(214, 189, 132, 0.18));
+  fill-opacity: 0.55;
+  stroke: var(--gold);
+  stroke-width: 0.25;
+}
+.gov-map .yours.place {
+  fill: var(--gold);
+  fill-opacity: 1;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  font: 15px var(--ui);
+}
+.map-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  background: var(--party, var(--text-3));
+  vertical-align: -1px;
+}
+/* The parties' colors, by the party's name on the record. */
+.party-democratic {
+  --party: #3f6fb5;
+}
+.party-republican {
+  --party: #b9584a;
+}
+.party-independent,
+.party-unaffiliated,
+.party-nonpartisan {
+  --party: #8f8c86;
+}
+.party-libertarian {
+  --party: #c9a227;
+}
+.party-green {
+  --party: #4f8a4f;
+}
+
+/* A large body's members as a grid of headshots, each ringed in its party's
+   color; a legislature fits one screen this way (owner, Oct 28, point 22). */
+.face-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 4px;
+}
+#sheet-body .face-cell {
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+#sheet-body .face-cell::after {
+  display: none;
+}
+.face-cell .face-cell-face {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-width: 2px;
+  border-color: var(--party, var(--gold));
+}
+#sheet-body .face-cell:hover:not(:disabled) {
+  background: none;
+}
+.face-cell:hover .face-cell-face {
+  box-shadow: 0 0 0 2px #fff;
+}
+/* An issue card's value: large but wrapping inside its card, never past its
+   edge; the cards are as wide as a value needs, so a word is not cut. */
+.record-section .entries-cards {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.entries-cards .entry .entry-value {
+  display: block;
+  font-size: 20px;
+  line-height: 1.15;
+  overflow-wrap: break-word;
+  margin: 2px 0 4px;
+}
+.entries-cards .entry .entry-line {
+  font: 13px var(--ui);
+  color: var(--text-2);
+  margin: 0;
+}
+/* A place in its own view (owner, Oct 28, point 28): the picture large across
+   the top, what you do there and who works there under it, then Go. */
+.place-view .record-picture {
+  float: none;
+  width: 100%;
+  max-height: 380px;
+  aspect-ratio: 16 / 7;
+  margin: 0 0 14px;
+  border: 2px solid var(--brass);
+}
+.place-view .record-actions {
+  margin: 0 0 6px;
 }

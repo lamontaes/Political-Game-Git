@@ -2,7 +2,7 @@
   "renewalReviewDays": {
     "value": 91,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
@@ -62,7 +62,7 @@
   "renewalAgeWeight": {
     "value": 4,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
@@ -72,7 +72,7 @@
   "renewalChildWeight": {
     "value": 2,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
@@ -82,7 +82,7 @@
   "renewalNoChildPull": {
     "value": 1.2,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
@@ -92,7 +92,7 @@
   "renewalPerChildPull": {
     "value": 0.8,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
@@ -102,7 +102,7 @@
   "renewalTimingWeight": {
     "value": 4,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
@@ -150,7 +150,7 @@
   "renewalHousingWeight": {
     "value": 2,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
@@ -160,7 +160,7 @@
   "renewalHealthWeight": {
     "value": 3,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Ported smooth shape from the old engine's town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
     "spread": {
       "status": "unmeasured",
       "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."

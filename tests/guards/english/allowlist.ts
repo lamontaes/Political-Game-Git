@@ -29,6 +29,11 @@ export const ALLOWED_PHRASES: readonly {
     reason: "a real party name, if one is ever quoted",
   },
   {
+    pattern: /\bArmour, South Dakota\b/g,
+    reason:
+      "a real town (Armour, South Dakota), named in a pool item's calibration evidence",
+  },
+  {
     pattern: /\butilises measures derived by standardising\b/g,
     reason:
       "Vella, Richiardi and van de Ven's method note on their personality measures, quoted verbatim in the benefit take-up research",
@@ -95,16 +100,12 @@ export const ALLOWED_FILES: readonly {
   readonly reason: string;
 }[] = [
   {
-    file: /^src\/(?:simulation|core2\/reference)\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
+    file: /^src\/core2\/reference\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
     reason:
       "Census place, county and government names: Centre County, Centreville, Grey Eagle, Holiday Island, Flat Rock, Tyre, Seward",
   },
   {
-    file: /^src\/simulation\/territory-places\.ts$/,
-    reason: "Rota is a municipality of the Northern Mariana Islands",
-  },
-  {
-    file: /^src\/(?:simulation|core2\/gov-rules)\/names-data\.ts$/,
+    file: /^src\/core2\/gov-rules\/names-data\.ts$/,
     reason: "Ward is a family name",
   },
   {
@@ -119,10 +120,6 @@ export const ALLOWED_FILES: readonly {
       "grading batches quote generated people by name, and Ward is a family name in the census surname list; a lowercase ward is still flagged",
   },
   {
-    file: /^src\/simulation\/judiciary\/generated\/federal-courts\.ts$/,
-    reason: "federal court division and county names",
-  },
-  {
     file: /^data\/research\/places\/local-institutions(?:\.json|\/[A-Z]{2}\.json)$/,
     reason:
       "real names of schools, hospitals, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
@@ -133,28 +130,10 @@ export const ALLOWED_FILES: readonly {
     reason: "HUD's city names as published: Rockville Centre, New York",
   },
   {
-    file: /^src\/simulation\/municipal-seat-identity\.ts$/,
-    words: /^wards?$/i,
-    reason:
-      "the D.C. Council's eight seats are legally wards (D.C. Code 1-204.01)",
-  },
-  {
-    file: /^src\/simulation\/municipal-election-rule-packs\.ts$/,
-    words: /^wards?$/i,
-    reason:
-      "quotes D.C.'s recorded referendum rule, which counts eight election wards",
-  },
-  {
     file: /^src\/source\/domains\/(?:municipal-governance\/|political-districts\/identity\.ts$|state-legislatures\/acquisition\.ts$)/,
     words: /^wards?$/i,
     reason:
       "research records of real charters, D.C. and a state constitution, where ward is the recorded seat type or wording",
-  },
-  {
-    file: /^src\/simulation\/municipal-governments\.generated\.ts$/,
-    words: /^(?:wards?|elected members?|councillors?)$/i,
-    reason:
-      "generated from those real charter records: the recorded WARD seat type, and verbatim research quotes such as Fort Wayne Council has nine elected members and Cambridge's charter title City Councillor, which the source tests check against research packet 44",
   },
   {
     file: /^data\/municipal-elections\/92O-national-state-baseline\.json$/,
@@ -197,23 +176,17 @@ export function isAllowedFile(relative: string, word: string): boolean {
 
 /**
  * British forms already in the tree when the vocabulary guard first read the
- * whole of it, by file and count: quoted research, past grading batches and a
- * few lines of old copy. Each count may only go down; a file reaching zero
- * leaves the list. Fix a line by rewording it, never by raising its count.
+ * whole of it, by file and count: quoted research and a few lines of old
+ * copy. Each count may only go down; a file reaching zero leaves the list.
+ * Fix a line by rewording it, never by raising its count.
  */
 export const KNOWN_HITS: Readonly<Record<string, number>> = {
-  "data/english/batches/batch-11.json": 1,
-  "data/english/batches/batch-16.json": 24,
-  "data/english/batches/batch-18.json": 1,
-  "data/english/batches/batch-19.json": 1,
-  "data/english/parts/address.json": 1,
   "data/research/bill-samples/federal/united-states.json": 2,
   "data/research/core/corruption-bands-2014.json": 1,
   "data/research/government/county-row-offices-by-state.json": 2,
   "data/research/laws/starting-law-2026/environment-energy.json": 11,
   "data/research/laws/starting-law-2026/justice-public-safety.json": 2,
   "data/research/offices/roadmap-r34-pay-and-transition.json": 1,
-  "data/research/outcome-web/landing-plan.json": 1,
   "data/research/outcome-web/links.json": 3,
   "data/research/outcome-web/place-outcome-bases-2024.json": 1,
   "data/research/prices/household-prices-2026.json": 2,
@@ -224,10 +197,6 @@ export const KNOWN_HITS: Readonly<Record<string, number>> = {
   "data/research/trait-effect-sizes.json": 7,
   "src/core2/opening-economy.ts": 1,
   "src/core2/opening-work.ts": 1,
-  "src/simulation/life-circumstances.ts": 1,
-  "src/simulation/life-content-92c.ts": 4,
-  "src/simulation/life-episodes.ts": 1,
-  "src/simulation/municipal-governments.generated.ts": 1,
 };
 
 /**

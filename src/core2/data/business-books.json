@@ -255,7 +255,7 @@
       "classification": "enterprise:agriculture",
       "kindId": "farm",
       "fundingRoute": "business",
-      "citation": "TOWN_WORKPLACES in src/simulation/living-world/town-employment.ts and TOWN_BUSINESS_WORKPLACES in town-business-books.ts; authored representation, not legal-form evidence.",
+      "citation": "TOWN_WORKPLACES in the old engine's town-employment.ts and TOWN_BUSINESS_WORKPLACES in town-business-books.ts; authored representation, not legal-form evidence.",
       "stopgapId": "SG-P8-business-books-classification"
     },
     {

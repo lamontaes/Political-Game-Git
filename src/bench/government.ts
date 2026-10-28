@@ -4,6 +4,7 @@ import { coreAPI } from "../core2/state";
 import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
 import { BUDGETS_MODULE_ID, governments } from "../core2/modules/budgets";
 import { keyPeopleOf } from "../core2/opening-key-people";
+import { faceOf, scenePlace, type PersonFace } from "./scene";
 import {
   OFFICES_MODULE_ID,
   officesOfState,
@@ -19,6 +20,7 @@ import {
   checkEligibility,
   fileCandidacy,
   filingOfficeFor,
+  incumbentOf,
   openContests,
   standing,
   type ContestRow,
@@ -119,6 +121,7 @@ export function stateLegislators(
     holder: holder && {
       termId: holder.id,
       personId: holder.personId,
+      ...holderFace(core, holder, facePlace(core, core.playerId ?? undefined)),
       givenName: holder.identity.givenName,
       familyName: holder.identity.familyName,
       party: holder.party,
@@ -159,8 +162,37 @@ function electOf(api: ReturnType<typeof coreAPI>, seatId: string) {
   return null;
 }
 
+/**
+ * The room a viewer's faces are drawn for: the same figure the People map
+ * draws (faceOf); no room when the viewer is not a full person.
+ */
+function facePlace(core: CoreState, viewerId: string | undefined): string {
+  return viewerId && core.people.has(viewerId)
+    ? scenePlace(core, viewerId).place
+    : "";
+}
+
+/**
+ * An officeholder's headshot: by their person id when they live here, else
+ * by their term (looksOf reads a named official's identity from it). The
+ * card id is what a click opens: the person, or `official:<term>` for a
+ * named official not filled in (memberKey's form).
+ */
+function holderFace(
+  core: CoreState,
+  holder: { id: string; personId?: string | null },
+  place: string,
+): { cardId: string; face: PersonFace | null } {
+  const cardId = holder.personId ?? `official:${holder.id}`;
+  return {
+    cardId,
+    face: place ? faceOf(core, holder.personId ?? holder.id, place) : null,
+  };
+}
+
 export function governmentView(core: CoreState, personId: string) {
   const api = coreAPI(core);
+  const place = facePlace(core, personId);
   const filings = api
     .moduleState(ELECTIONS)
     .table("filings")
@@ -196,6 +228,8 @@ export function governmentView(core: CoreState, personId: string) {
       {
         name: `${holder.identity.givenName} ${holder.identity.familyName}`,
         title: office.title,
+        // Their headshot and the id a click opens, as every person row has.
+        ...holderFace(core, holder, place),
       },
     ]);
   }
@@ -246,6 +280,7 @@ export function governmentView(core: CoreState, personId: string) {
       holder: holder && {
         termId: holder.id,
         personId: holder.personId,
+        ...holderFace(core, holder, place),
         givenName: holder.identity.givenName,
         familyName: holder.identity.familyName,
         party: holder.party,
@@ -258,7 +293,7 @@ export function governmentView(core: CoreState, personId: string) {
       },
     })),
     keyPeople: core.people.has(personId)
-      ? politicsKeyPeople(core, personId)
+      ? politicsKeyPeople(core, personId, place)
       : [],
     contests: openContests(api).map((contest) => ({
       contest,
@@ -273,7 +308,18 @@ export function governmentView(core: CoreState, personId: string) {
     ownRace: race && { ...race, tier: tierOf(race.level) },
     ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
+    // The player's own state, by name, for the State and Federal filter.
+    homeState: homeState(api),
   };
+}
+
+/** The state the player's town is in: its key and its name. */
+function homeState(api: ReturnType<typeof coreAPI>) {
+  const key = lawChain(api).stateKey;
+  const state = corePlaceStateIdentities().find(
+    (row) => row.jurisdictionKey === key,
+  );
+  return { key, name: state?.name ?? key };
 }
 
 /**
@@ -333,6 +379,9 @@ export function localRaces(core: CoreState) {
       !first || contest.electionDate < first ? contest.electionDate : first,
     null,
   );
+  // The viewer's room, for the candidates' headshots (the same faces the
+  // People map draws).
+  const place = facePlace(core, core.playerId ?? undefined);
   const races = contests
     .filter((contest) => contest.electionDate === date)
     .map((contest) => {
@@ -347,20 +396,56 @@ export function localRaces(core: CoreState) {
           return {
             filingId: row.id,
             personId: row.personId,
+            // The id a click opens and their face: a resident by their
+            // person, a named official by their term (holderFace's rule).
+            ...holderFace(
+              core,
+              { id: row.personId, personId: row.personId },
+              place,
+            ),
             name: who ? `${who.givenName} ${who.familyName}` : null,
             party: row.party ?? null,
+            // Their views as filed: each stance on the filing record
+            // ("question=1" for, "question=-1" against).
+            stances: row.platform
+              .map((entry) => {
+                const [question, value] = entry.split("=");
+                return { question: question ?? "", position: Number(value) };
+              })
+              .filter((s) => s.question && Number.isFinite(s.position)),
           };
         })
         .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+      const office = filingOfficeFor(api, contest.id);
       return {
         contestId: contest.id,
         title: contest.district
           ? `${contest.title} (${contest.district})`
           : contest.title,
+        electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
         filingClosed: contest.filingDeadline < core.date,
+        // Filing is open today: the office takes a filing for it.
+        filingOpen:
+          (contest.filingOpens === null || contest.filingOpens <= core.date) &&
+          contest.filingDeadline >= core.date,
+        // Where a filing for it is made, for the hot link to the office.
+        filedWith: office?.filedWith ?? null,
         filers,
       };
+    })
+    // Two seats of one office on the ballot (two council seats) read the same;
+    // each is told apart by whoever holds it now, from its term record.
+    .map((race, _at, all) => {
+      if (all.filter((other) => other.title === race.title).length < 2)
+        return race;
+      const holder = incumbentOf(api, race.contestId);
+      return holder
+        ? {
+            ...race,
+            title: `${race.title} (${holder.identity.givenName} ${holder.identity.familyName})`,
+          }
+        : race;
     })
     .sort(
       (a, b) =>
@@ -379,7 +464,7 @@ export function localRaces(core: CoreState) {
  * State filter (`stateLegislators`), so this list is not a roll of the
  * legislature.
  */
-function politicsKeyPeople(core: CoreState, personId: string) {
+function politicsKeyPeople(core: CoreState, personId: string, place: string) {
   const api = coreAPI(core);
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const stateName = new Map(
@@ -415,6 +500,14 @@ function politicsKeyPeople(core: CoreState, personId: string) {
       return {
         personId: row.id,
         resident: core.people.has(row.id),
+        // Their headshot, by person or by the term a named official's id names.
+        face: place
+          ? faceOf(
+              core,
+              row.id.startsWith("official:") ? row.id.slice(9) : row.id,
+              place,
+            )
+          : null,
         name: row.name,
         officeTitle: row.officeTitle || (office?.title ?? ""),
         stateKey: row.stateKey,

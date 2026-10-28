@@ -4,6 +4,7 @@
 // `el("div", { className: "row ..." })`.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
+import { headshot } from "./headshot.mjs";
 
 export function listRow(variant, props = {}, ...children) {
   const { as = "div", ...rest } = props;
@@ -27,30 +28,25 @@ export function factRow(label, value) {
   return line;
 }
 
-/** A person in a list: a face (initials until the figure's headshot is known), the name
- * as a control that opens their card, then their office and party. */
-export function personRow({ name, detail, party, portraitUrl, onOpen }) {
-  const face = portraitUrl
-    ? el("img", { className: "person-row-face", src: portraitUrl, alt: "" })
-    : el("span", {
-        className: "person-row-face people-initial",
-        textContent: name
-          .split(/\s+/)
-          .map((part) => part[0])
-          .slice(0, 2)
-          .join(""),
-      });
-  face.addEventListener?.("error", () => face.remove(), { once: true });
+/** A person in a list: their round headshot (the same face the People map draws; an
+ * empty ring until their figure is known, never initials: owner, Oct 28), the name as a
+ * control that opens their card, then their office (text, or a term word the screen
+ * drew so it underlines and explains itself) and party. */
+export function personRow({ name, detail, party, face, onOpen }) {
+  const picture = face ? headshot(face) : el("span", { className: "headshot" });
+  picture.classList.add("person-row-face");
   const open = makeButton({
     className: "member-name",
     textContent: name,
   });
   if (onOpen) open.addEventListener("click", onOpen);
-  const line = listRow("person-row", {}, face, open);
-  for (const text of [detail, party])
-    if (text)
+  const line = listRow("person-row", {}, picture, open);
+  for (const note of [detail, party])
+    if (note)
       line.append(
-        el("span", { className: "person-row-note", textContent: text }),
+        typeof note === "string"
+          ? el("span", { className: "person-row-note", textContent: note })
+          : el("span", { className: "person-row-note" }, note),
       );
   return line;
 }

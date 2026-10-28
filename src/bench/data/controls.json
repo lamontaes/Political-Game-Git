@@ -32,7 +32,10 @@
     "summaryAge": "Age {age}",
     "summaryBorn": "Born {date}",
     "previous": "Previous {row}",
-    "next": "Next {row}"
+    "next": "Next {row}",
+    "randomPlace": "Random place",
+    "missingGender": "Choose a gender to go on.",
+    "missingName": "Type a first and last name to go on."
   },
   "endedBy": {
     "moment": "Something needs you",
@@ -148,7 +151,6 @@
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
-    "guide": "Guide",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
   },
@@ -279,20 +281,17 @@
     "search": "Search destinations",
     "filing": "Filing office",
     "go": "Go",
-    "back": "Back",
-    "next": "Continue",
     "open": "Open now",
     "closed": "Closed now",
-    "andOthers": "and {n} more",
     "reasons": {
       "work": "You work here",
-      "family": "Your family works here",
-      "study": "Someone at home studies here",
-      "known": "works here",
       "action": "You can",
       "serve": "Where you serve",
-      "filing": "You file here for"
-    }
+      "filing": "You file here"
+    },
+    "whatYouDo": "What you do here",
+    "whoWorks": "Who works here",
+    "district": "District"
   },
   "time": {
     "week": "Week"
@@ -374,40 +373,7 @@
     }
   },
   "news": {
-    "title": "News",
-    "economy": {
-      "nation": "Nation",
-      "region": "Region",
-      "jobsHere": "Jobs here",
-      "unemployment": "Unemployment",
-      "inflation": "Inflation",
-      "policyRate": "Policy rate",
-      "mortgage": "Mortgage",
-      "employed": "employed",
-      "looking": "looking",
-      "open": "open",
-      "series": {
-        "unemploymentPct": {
-          "label": "Unemployment",
-          "unit": "percent"
-        },
-        "jobsThousands": {
-          "label": "Jobs",
-          "unit": "thousands"
-        },
-        "hourlyEarnings": {
-          "label": "Hourly pay",
-          "unit": "dollars"
-        },
-        "priceLevelPct": {
-          "label": "Price level",
-          "unit": "index"
-        }
-      }
-    },
-    "back": "Back to front page",
-    "previous": "Back",
-    "next": "Continue"
+    "title": "News"
   },
   "jobs": {
     "work": "Work",
@@ -419,6 +385,7 @@
   },
   "politics": {
     "seats": "Seats",
+    "seat": "seat",
     "yourMembers": "Your members",
     "leaders": "Leaders",
     "notChosenHere": "Not chosen by this place's voters",
@@ -432,6 +399,46 @@
     "elected": "Elected",
     "takesOffice": "Takes office",
     "searchIssues": "Search issues",
+    "issueGroups": {
+      "fiscal": "Taxes and money",
+      "labor-workforce": "Work and pay",
+      "labor-commerce": "Workplaces",
+      "health-human-services": "Health and welfare",
+      "justice-public-safety": "Rights and safety",
+      "education": "Schools",
+      "housing-land-use": "Housing and land",
+      "environment-energy": "Environment and energy",
+      "business-commerce": "Business",
+      "civil-family-community": "Family and community",
+      "government-operations": "Government",
+      "technology-privacy": "Technology and privacy",
+      "transportation-infrastructure": "Roads and transit",
+      "agriculture-natural-resources": "Farms and land"
+    },
+    "issueGroupOf": {
+      "minimum-wage": "labor-workforce",
+      "unemployment-weekly-maximum": "labor-workforce",
+      "unemployment-insurance": "labor-workforce",
+      "income-tax": "fiscal",
+      "sales-tax": "fiscal",
+      "property-tax": "fiscal",
+      "social-security-tax": "fiscal",
+      "medicare-tax": "fiscal",
+      "snap-maximum": "health-human-services",
+      "medicaid-match": "health-human-services"
+    },
+    "issueSetBy": {
+      "federal": "Federal law",
+      "state": "State law",
+      "county": "County law",
+      "city": "City law"
+    },
+    "since": "since",
+    "statute": "Statute",
+    "enactedBy": "Enacted by",
+    "inForce": "In force",
+    "coming": "Coming",
+    "changed": "What changed",
     "back": "Back",
     "next": "Continue",
     "revenue": "Revenue",
@@ -451,22 +458,6 @@
     "seriesNames": {
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
-    },
-    "guide": {
-      "government": "Who holds each seat over you, from your town to the nation, and when each term ends.",
-      "issues": "The laws in force where you live, and who can change them.",
-      "parties": "The parties here, what each stands for, and how close each is to you.",
-      "campaigns": "Your race once you file: money, volunteers, ads, and how the vote leans.",
-      "runHere": "How you could run here",
-      "race": "Next race",
-      "filesWith": "Files with",
-      "atTheDeskOf": "at the desk of the",
-      "filingOpens": "Filing opens",
-      "filingDeadline": "Filing deadline",
-      "primary": "Primary",
-      "election": "Election day",
-      "estimated": "These dates are estimates; no calendar on record names them.",
-      "noRace": "No race here is open for filing yet."
     }
   },
   "results": {
@@ -525,10 +516,13 @@
     }
   },
   "localRaces": {
-    "title": "Local races on the ballot",
+    "title": "On the ballot",
     "unopposed": "Unopposed",
     "noFilers": "No one has filed",
+    "running": "{n} running",
     "filingCloses": "Filing closes",
+    "fileForIt": "File for it",
+    "youFiled": "You are running",
     "noBallot": "No local election is on the calendar"
   },
   "grade": {
@@ -579,12 +573,9 @@
     "budgets": "Budgets",
     "travel": "Travel",
     "options": "Options",
+    "patchNotes": "Patch notes",
     "guide": "Guide",
-    "politicsGuide": "Guide",
     "handoff": "Carry on as",
     "news": "News"
-  },
-  "guide": {
-    "search": "Search"
   }
 }

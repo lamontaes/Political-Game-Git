@@ -86,6 +86,11 @@ try {
     await page.locator("#cr-states .item").first().waitFor();
     const drawn = drawPlace(runSeed, `polling-${attempt}`);
     console.log("Drawn place:", drawn.key, drawn.name, drawn.state);
+    // The states page; the search brings the drawn one onto the first page.
+    const stateName = await page
+      .locator(`[data-testid="state-${drawn.state}"]`)
+      .evaluate((b) => b.textContent);
+    await page.locator("#cr-state-search").fill(stateName);
     await page.locator(`[data-testid="state-${drawn.state}"]`).click();
     await page.locator("#cr-towns .item").first().waitFor();
     const townName = drawn.name.split(",")[0];

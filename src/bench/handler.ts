@@ -5,7 +5,6 @@ import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
 import { parameter } from "../core2/parameters";
 import { SITUATION_LIBRARY } from "../director/scheduling";
-import { bringItUp } from "../director/bring-it-up";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -69,6 +68,7 @@ import {
   chosenBirthDate,
   creatorStates,
   creatorTowns,
+  creatorRandomPlace,
   drawBirthday,
   drawName,
   readChosenPerson,
@@ -105,6 +105,8 @@ import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
+import { patchNoteReleases } from "./patch-notes";
+import { governmentMap } from "./map";
 import { budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -133,22 +135,10 @@ let buildProgress: { stage: string; done: number; total: number } = {
 // The opening, prepared during loading.
 
 let opening: ReturnType<typeof openingFrames> | null | undefined;
-// What the other person brought up when the conversation opened (OPUS-PEOPLE's
-// "bring it up"): their lines come first in the conversation.
-let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
-    // The greeting comes before whatever they bring up.
-    lines: [
-      ...value.lines.filter((line) => line.kind === "greet"),
-      ...broughtUp.map((line) => ({
-        ...line,
-        speakerId: value.otherId,
-        act: "tell",
-      })),
-      ...value.lines.filter((line) => line.kind !== "greet"),
-    ].map((line) => ({
+    lines: value.lines.map((line) => ({
       ...line,
       speaker: (() => {
         const person = requireCore().people.get(line.speakerId);
@@ -449,9 +439,6 @@ export async function benchRequest(
           otherId,
           director ? { director, ...(occasionId ? { occasionId } : {}) } : {},
         );
-        // They mention the newest change they know of, and who they blame.
-        broughtUp =
-          bringItUp(requireCore(), otherId, player.personId)?.lines ?? [];
         send(200, talkView(conversation));
         return;
       }
@@ -533,6 +520,7 @@ export async function benchRequest(
         else if (route === "states") send(200, creatorStates());
         else if (route === "towns")
           send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? ""));
+        else if (route === "place") send(200, creatorRandomPlace(seed, draw));
         else if (route === "appearance") {
           const recipe = q.get("recipe")
             ? request.method === "POST"
@@ -620,6 +608,25 @@ export async function benchRequest(
           ),
         );
         send(200, { version });
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/map") {
+        // The state's map with the player's districts and who holds each,
+        // for Parties (owner, Oct 28, point 20: "bring it back").
+        send(200, governmentMap(requireCore()));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/patch-notes") {
+        // The title's Patch notes: the release machinery's own file, one
+        // released section at a time (owner, Oct 28: "get them in").
+        send(200, {
+          releases: patchNoteReleases(
+            await readFile(
+              new URL("../../PATCH_NOTES.md", import.meta.url),
+              "utf8",
+            ),
+          ),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/bank") {

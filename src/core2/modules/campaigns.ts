@@ -102,6 +102,7 @@ import {
   type ContestRow,
   type FilingRow,
   type PetitionSigner,
+  worldSwing,
 } from "./elections";
 
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
@@ -384,8 +385,11 @@ export function openCampaigns(core: CoreState): void {
       -1,
       Math.min(
         1,
-        districtLean(district?.geoid ?? null, town.stateKey) +
-          customPolitics(core).leanShift,
+        districtLean(
+          district?.geoid ?? null,
+          town.stateKey,
+          worldSwing(api.state.seed, town.stateKey.slice(3)),
+        ) + customPolitics(core).leanShift,
       ),
     ),
   });

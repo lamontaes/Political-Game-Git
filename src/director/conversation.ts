@@ -29,7 +29,12 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf } from "../core2/modules/people";
-import { heldSinceRecord, schoolsAttended } from "../core2/past";
+import {
+  PERSON_MOVED_IN,
+  heldSinceRecord,
+  preStartHistory,
+  schoolsAttended,
+} from "../core2/past";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
@@ -40,7 +45,12 @@ import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
-import { NEWS_MODULE_ID, newsKey, storiesHeard } from "../core2/modules/news";
+import {
+  NEWS_MODULE_ID,
+  newsKey,
+  storiesHeard,
+  storyOfReadEvent,
+} from "../core2/modules/news";
 import type { EntityId } from "../core2/kernel/brands";
 import {
   PRESS_MODULE_ID,
@@ -57,7 +67,7 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import { changesKnownTo } from "./bring-it-up";
+import { bringItUp, changesKnownTo } from "./bring-it-up";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -77,7 +87,11 @@ import {
   type SubjectBank,
   type Wording,
 } from "../english/conversation-words";
-import { kinAddress, relationPhrase } from "../english/journal-words";
+import {
+  kinAddress,
+  relationPhrase,
+  withArticle,
+} from "../english/journal-words";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
@@ -841,18 +855,33 @@ export function subjectsBetween(
   const startedOrg = startedJob
     ? core.organizations.get(startedJob.organizationId)
     : undefined;
-  if (started && startedJob && startedOrg)
+  if (started && startedJob && startedOrg) {
+    const employer = {
+      text: properName(startedOrg.name),
+      sourceRecordIds: [startedJob.id, startedOrg.id],
+    };
     out.push({
       id: `job-new:${started.causeId}`,
       kind: "job-new",
       aboutId: started.causeId,
-      facts: {
-        employer: {
-          text: properName(startedOrg.name),
-          sourceRecordIds: [startedJob.id, startedOrg.id],
-        },
-      },
+      facts: { employer },
     });
+    // What the new job is, from its record, for the listener who asks
+    // ("What will you be doing there?"): a question is never left unanswered.
+    if (startedJob.title)
+      out.push({
+        id: `job-new-detail:${started.causeId}`,
+        kind: "job-new-detail",
+        aboutId: started.causeId,
+        facts: {
+          employer,
+          position: {
+            text: withArticle(startedJob.title),
+            sourceRecordIds: [startedJob.id],
+          },
+        },
+      });
+  }
   // The listener's own new job, as the speaker would take it up ("Congratulations
   // on the job at ..."). Said only once the rules map "job-new-told" to a
   // reply kind and the bank has words for it (src/director/data/conversation-rules.json).
@@ -1354,13 +1383,21 @@ function playerFacts(
     };
   let stage: string | undefined;
   if (last.kind === "home" || last.kind === "home-new") {
-    const moved = (player.pastFacts ?? []).find(
-      (row) => row.kind === "life:moved-into-county",
-    );
-    const born = (player.pastFacts ?? []).find(
-      (row) =>
-        row.kind === "birthplace" && row.facts?.placeId === player.placeId,
-    );
+    // The move the run of the years before the start recorded, and where
+    // the player was born, from the run's birth record (or the opening's).
+    const moved = preStartHistory(core as CoreState, {
+      kind: PERSON_MOVED_IN,
+      personId: player.id,
+    })[zero];
+    const born =
+      preStartHistory(core as CoreState, {
+        kind: "person.birth",
+        personId: player.id,
+      }).find((row) => row.placeId === player.placeId) ??
+      (player.pastFacts ?? []).find(
+        (row) =>
+          row.kind === "birthplace" && row.facts?.placeId === player.placeId,
+      );
     if (moved) {
       facts.years = {
         text: String(
@@ -1523,31 +1560,37 @@ function raiseSubject(
   subject: Subject,
   /** A side remark on the topic in hand, not a topic of its own. */
   remark = false,
+  /** Lines already worded that raise it (what they brought up), said instead. */
+  said?: readonly { text: string; sourceRecordIds: readonly string[] }[],
 ): boolean {
   const { playerId, otherId } = conversation;
   conversation.used.push(`${otherId}>${subject.id}`);
   const then = data.otherRaises[subject.kind];
   if (!then) return false;
-  const line = words(
-    core,
-    data,
-    otherId,
-    subject.kind,
-    "raise",
-    ALL,
-    subject.facts,
-    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
-    subject.stage ?? "default",
-    subject,
-  );
-  if (!line) return false;
-  conversation.lines.push({
-    speakerId: otherId,
-    subjectId: `${otherId}>${subject.id}`,
-    kind: then.kind,
-    act: subject.kind === "own-work" ? "tell" : "ask",
-    ...line,
-  });
+  const line = said
+    ? null
+    : words(
+        core,
+        data,
+        otherId,
+        subject.kind,
+        "raise",
+        ALL,
+        subject.facts,
+        `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
+        subject.stage ?? "default",
+        subject,
+      );
+  const lines = said ?? (line ? [line] : []);
+  if (!lines.length) return false;
+  for (const row of lines)
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: `${otherId}>${subject.id}`,
+      kind: then.kind,
+      act: said || subject.kind === "own-work" ? "tell" : "ask",
+      ...row,
+    });
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
@@ -1692,6 +1735,7 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "illness-news",
   "prison-news",
   "job-new",
+  "job-new-detail",
   "job-new-told",
 ]);
 
@@ -1873,17 +1917,52 @@ export function openConversation(
       ...opener,
       sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
+  // Away from a scene's occasion, they mention the newest change they know
+  // of and who they blame (bring-it-up, which passes both on). Those lines
+  // are the talk's raise of that news, said once: the talk goes on from it.
+  const brought = occasion
+    ? null
+    : bringItUp(core as CoreState, otherId, playerId);
+  let raisedBrought = false;
+  if (brought) {
+    conversation.recorded.push(brought.toldEventId);
+    const storyId = storyOfReadEvent(brought.change.eventId);
+    const ids = [
+      `news:${brought.change.eventId}`,
+      ...(storyId ? [`news:${storyId}`] : []),
+    ];
+    const news = subjectsBetween(core, otherId, playerId, conversation.director)
+      .filter((row) => ids.includes(row.id))
+      .at(zero);
+    raisedBrought = news
+      ? raiseSubject(core, conversation, data, news, false, brought.lines)
+      : false;
+    // News the talk can't go on from is still said, and not raised again.
+    if (!raisedBrought) {
+      for (const line of brought.lines)
+        conversation.lines.push({
+          speakerId: otherId,
+          subjectId: ids[zero]!,
+          kind: "brought-up",
+          act: "tell",
+          ...line,
+        });
+      conversation.used.push(...ids);
+    }
+  }
   // The topic of their last talk isn't opened again (the listener remembers).
   const remembered = core.knowledgeByPerson
     .get(otherId)
     ?.get(lastTalkKey(playerId))?.value;
   if (remembered) conversation.used.push(remembered);
-  const main = mainTopic(core, conversation, data);
-  const opened = main
-    ? main.asks
-      ? askSubject(core, conversation, data, main.subject)
-      : raiseSubject(core, conversation, data, main.subject)
-    : false;
+  const main = raisedBrought ? null : mainTopic(core, conversation, data);
+  const opened =
+    raisedBrought ||
+    (main
+      ? main.asks
+        ? askSubject(core, conversation, data, main.subject)
+        : raiseSubject(core, conversation, data, main.subject)
+      : false);
   // A scene's talk keeps to its occasion: if nothing can be said about it,
   // the talk doesn't turn to small talk instead.
   if (

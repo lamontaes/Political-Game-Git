@@ -372,7 +372,8 @@ const lawTookEffect: Builder = (read, f) => {
     date: read.date(),
     ...(place ? { place: read.fact(place) } : {}),
     // The bill that enacted it, as a clerk reads it: "HB 2", "Ordinance 2025-14".
-    ...(f.enactedBy && !f.enactedBy.startsWith("law:")
+    // A law another record adopted (`adopt:law:…`, `law:…`) has no bill number.
+    ...(f.enactedBy && !f.enactedBy.includes(":")
       ? {
           designation: read.fact(
             spokenDesignation(f.enactedBy, form),
@@ -1093,6 +1094,21 @@ const housing =
     );
   };
 
+/** A gift to a campaign, a public record: who gave how much, to whom. */
+const campaignGift: Builder = (read, f) => {
+  const amount = num(f.amountMinor);
+  if (!amount) return null;
+  return story(
+    "campaign-gift",
+    {
+      ...read.who(f.donorId, "name", false),
+      ...read.who(f.candidateId, "candidate", false),
+      money: read.fact(dollars(amount)),
+    },
+    ["name", "candidate", "money"],
+  );
+};
+
 /** A birth in the town. */
 const birth: Builder = (read, f) =>
   story(
@@ -1169,6 +1185,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "primary-result": primary,
   "took-office": tookOffice,
   "seat-vacated": vacancy,
+  "campaign-gift": campaignGift,
   "official-appointed": appointed,
   appointed,
   "chamber-organized": chamber,

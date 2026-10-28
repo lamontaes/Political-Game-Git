@@ -1510,7 +1510,10 @@ export function interviewQuestions(
     add(
       q,
       pressParameter("divisiveNewsWeight") *
-        Math.max(0, Math.abs(questionAxis(q)) - Math.abs(publicOffset(q))),
+        Math.max(
+          0,
+          Math.abs(questionAxis(q)) - Math.abs(publicOffset(q, api.state.seed)),
+        ),
     );
   }
   // Asked before, on the record: less to learn from asking again.

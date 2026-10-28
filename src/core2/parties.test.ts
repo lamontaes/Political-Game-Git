@@ -77,7 +77,7 @@ describe("M2-08 parties", () => {
     const parties = partiesHere(api);
     const stateKey = corePlaceByKey(place)!.stateJurisdictionKey!;
     expect(parties.map((p) => p.name).sort()).toEqual(
-      stateParties(stateKey)
+      stateParties(stateKey, seed)
         .map((p) => p.name)
         .sort(),
     );
