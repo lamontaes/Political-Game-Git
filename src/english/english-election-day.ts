@@ -7,7 +7,7 @@
  */
 import electionDayJson from "../../data/english/parts/election-day.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
-import { heldByGrades } from "./english-grades";
+import { admittedParts, type BankPart } from "./bank-parts";
 import {
   composeGroundedLine,
   type ComposedLineBank,
@@ -15,13 +15,7 @@ import {
 } from "./english-composition";
 import type { GroundedEnglishPacket } from "./grounded-english";
 
-interface Part {
-  key: string;
-  text: string;
-  uses: { subject: string; role: string; requiresFacts?: string[] }[];
-  shippable: boolean;
-}
-const BANK = electionDayJson as unknown as { parts: Part[] };
+const BANK = electionDayJson as unknown as { parts: BankPart[] };
 const NARRATOR = "narrator:election-day" as EntityId;
 
 /** A fact as a line reads it: its words and the records they come from. */
@@ -44,24 +38,23 @@ export function electionDayLine(
     readonly recordIds: readonly string[];
   },
 ): { text: string; sourceRecordIds: string[] } | null {
-  const variants = BANK.parts.flatMap((part): LinePartVariant[] => {
-    const use = part.uses.find(
-      (row) => row.subject === "election-day" && row.role === role,
-    );
-    if (!use || !part.shippable || heldByGrades(part.key)) return [];
-    return [
-      {
-        key: part.key,
-        kind: "template",
-        text: part.text.replace(
-          /\{(\w+)\}/g,
-          (_all, slot: string) => `{{${slot}}}`,
-        ),
-        ...(use.requiresFacts?.length
-          ? { requiresFacts: use.requiresFacts }
-          : {}),
-      },
-    ];
+  const isRole = (row: BankPart["uses"][number]) =>
+    row.subject === "election-day" && row.role === role;
+  const variants = admittedParts(BANK.parts, (part) =>
+    part.uses.some(isRole),
+  ).map((part): LinePartVariant => {
+    const use = part.uses.find(isRole);
+    return {
+      key: part.key,
+      kind: "template",
+      text: part.text.replace(
+        /\{(\w+)\}/g,
+        (_all, slot: string) => `{{${slot}}}`,
+      ),
+      ...(use?.requiresFacts?.length
+        ? { requiresFacts: use.requiresFacts }
+        : {}),
+    };
   });
   if (!variants.length) return null;
   const cited = (fact: DayFact) =>
