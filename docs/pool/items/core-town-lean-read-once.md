@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-town-lean
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:21:01.644Z
 ---
 
 **What.** Seven engines each carried their own copy of the function that reads the town's lean from the campaigns engine's town row: campaign stances, ballot measures, the legislature, recalls, staff, world legislating and voting (with its own daily cache). The campaigns engine writes the row once at the opening; seven readers of one fact means seven places to drift (duplicates report row C5).
