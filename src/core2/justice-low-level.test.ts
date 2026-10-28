@@ -21,6 +21,7 @@ import { amendBudget, budgetsOf, governments } from "./modules/budgets";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import {
   baseOf,
+  publishedBaseOf,
   linkCoverage,
   WEB_LINKS,
   COVERAGE_DATA,
@@ -47,7 +48,7 @@ describe("the minor offenses' starting rate, in all 56 places", () => {
     expect(keys).toHaveLength(56);
     const notReported = new Set(research.notReported.places);
     for (const key of keys) {
-      const base = baseOf(LOW_LEVEL_MEASURE, key);
+      const base = publishedBaseOf(LOW_LEVEL_MEASURE, key);
       expect(base.value, key).toBeGreaterThan(0);
       const missing = notReported.has(key.slice("US-".length));
       // Drug possession is ESTIMATED everywhere, so the six together are too.
@@ -101,7 +102,9 @@ describe("the minor offenses' starting rate, in all 56 places", () => {
       expect(Math.abs(place.per1000 - sum / 100), key).toBeLessThanOrEqual(
         0.0005 + 1e-9,
       );
-      expect(baseOf(LOW_LEVEL_MEASURE, key).value, key).toBe(place.per1000);
+      expect(publishedBaseOf(LOW_LEVEL_MEASURE, key).value, key).toBe(
+        place.per1000,
+      );
       for (const offense of Object.values(place.byOffense))
         expect(offense.months, key).toBe(12);
       // The sixth category is five series added: its rate and its arrests.
@@ -304,7 +307,7 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
             gross,
           });
         });
-        const base = baseOf(LOW_LEVEL_MEASURE, stateKey).value;
+        const base = baseOf(LOW_LEVEL_MEASURE, stateKey, core.seed).value;
         const opening = safety(api)
           .table("months")
           .get("safety:opening") as unknown as SafetyMonth;
