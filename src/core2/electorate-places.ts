@@ -546,12 +546,39 @@ function heldInWorld(
   const side = partySide(party);
   const world = published + worldSwing(seed, usps);
   const even = parameter("half");
-  if (side > 0 && published >= even && world < even)
-    return nationalParty(-side);
-  if (side < 0 && published < even && world >= even)
-    return nationalParty(-side);
+  if (side > 0 && published >= even && world < even) return rosterLabel(-side);
+  if (side < 0 && published < even && world >= even) return rosterLabel(-side);
   return party;
 }
+
+/**
+ * The name the published roster gives a side's national party (its most
+ * common label for that side), so a seat that changes hands is counted under
+ * the roster's own name for the party; the national party where the roster
+ * has none.
+ */
+function rosterLabel(side: number): string {
+  if (!rosterLabels) {
+    const counts = new Map<string, number>();
+    const add = (label: string, n: number) =>
+      counts.set(label, (counts.get(label) ?? 0) + n);
+    for (const chambers of Object.values(ROSTER.places))
+      for (const chamber of Object.values(chambers))
+        for (const [label, n] of Object.entries(chamber.parties)) add(label, n);
+    for (const seats of Object.values(ROSTER.congress))
+      for (const holders of Object.values(seats))
+        for (const label of holders) add(label, 1);
+    rosterLabels = new Map();
+    for (const [label] of [...counts].sort(
+      (x, y) => y[1] - x[1] || x[0].localeCompare(y[0]),
+    )) {
+      const own = partySide(label);
+      if (own && !rosterLabels.has(own)) rosterLabels.set(own, label);
+    }
+  }
+  return rosterLabels.get(Math.sign(side)) ?? nationalParty(side);
+}
+let rosterLabels: Map<number, string> | undefined;
 
 /** The party holding a seat when this world starts, by the seat's office and its own 2024 vote. */
 export function worldSeatParty(

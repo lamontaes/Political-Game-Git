@@ -45,6 +45,7 @@ import federalBudget from "../../data/research/money/federal-budget-fy2025.json"
 import { publishedStateStake, stateStake } from "./budget-stakes";
 import { serviceChargeShares } from "./budgets-service-charges";
 import { lawChain } from "./modules/laws";
+import { partyName } from "./appointments";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
@@ -902,15 +903,41 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       worldB = seats(worldRoster(b.seed));
     expect(worldA, `${where} row 45`).not.toBe(published);
     expect(worldA, `${where} row 45`).not.toBe(worldB);
-    // The played world's own seats carry its holders: a sitting member's
-    // party is the world roster's.
+    // The played world's own seats carry its holders: each sitting member of
+    // Congress from the town's state is of the party the world roster holds.
+    const api = coreAPI(a);
+    const stateKey = lawChain(api).stateKey;
+    const held = worldRoster(a.seed).congress[stateKey] ?? {};
+    const sitting = (
+      api.moduleState(OFFICES_MODULE_ID).table("terms").rows() as unknown as {
+        seatId: string;
+        party: string | null;
+        status: string;
+      }[]
+    ).filter(
+      (term) =>
+        term.status === "serving" &&
+        term.seatId.startsWith(`seat:${stateKey}:us-`),
+    );
+    expect(sitting.length, `${where} row 45: sitting members`).toBeGreaterThan(
+      0,
+    );
+    for (const term of sitting) {
+      const last = term.seatId.split(":").at(-1)!;
+      const party = term.seatId.includes(":us-senate:")
+        ? held.senate?.[Number(last)]
+        : held[/^\d+$/.test(last) ? String(Number(last)) : "0"]?.[0];
+      expect(partyName(term.party), `${where} row 45 ${term.seatId}`).toBe(
+        partyName(party ?? null),
+      );
+    }
     const changed = (left: string, right: string) => {
       const l = left.split(";"),
         r = right.split(";");
       return l.filter((x, i) => x !== r[i]).length;
     };
     process.stdout.write(
-      `ROSTER ${where}: ${changed(worldA, published)} chambers and seats differ from the published roster in one world, ${changed(worldB, published)} in the other\n`,
+      `ROSTER ${where}: ${sitting.map((t) => `${t.seatId} ${t.party}`).join(", ")}; ${changed(worldA, published)} chambers and seats differ from the published roster in one world, ${changed(worldB, published)} in the other\n`,
     );
   });
 
