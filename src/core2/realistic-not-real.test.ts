@@ -46,6 +46,7 @@ import { publishedStateStake, stateStake } from "./budget-stakes";
 import { serviceChargeShares } from "./budgets-service-charges";
 import { lawChain } from "./modules/laws";
 import { partyName } from "./appointments";
+import { allOfficials } from "./modules/officials";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { REGIONAL_MODULE_ID } from "./modules/regional";
 import { publishedRegionMonths, type RegionMonth } from "./regional-model";
@@ -907,41 +908,57 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       worldB = seats(worldRoster(b.seed));
     expect(worldA, `${where} row 45`).not.toBe(published);
     expect(worldA, `${where} row 45`).not.toBe(worldB);
-    // The played world's own seats carry its holders: each sitting member of
-    // Congress from the town's state is of the party the world roster holds.
-    const api = coreAPI(a);
-    const stateKey = lawChain(api).stateKey;
-    const held = worldRoster(a.seed).congress[stateKey] ?? {};
-    const sitting = (
-      api.moduleState(OFFICES_MODULE_ID).table("terms").rows() as unknown as {
+    // The played world's own members of Congress carry its holders: every
+    // official the officials engine seats in the House or Senate (the town's
+    // state through the offices engine's terms, every other state from the
+    // roster) is of the party the world roster holds, and some seat changed
+    // hands from the published roster.
+    const world = worldRoster(a.seed).congress;
+    const real = (partyCountsData as unknown as ReturnType<typeof worldRoster>)
+      .congress;
+    const holderIn = (
+      congress: ReturnType<typeof worldRoster>["congress"],
+      seatId: string,
+    ) => {
+      const [, stateKey, kind, last] = seatId.split(":");
+      const seats = congress[stateKey!] ?? {};
+      return kind === "us-senate"
+        ? seats.senate?.[Number(last)]
+        : seats[/^\d+$/.test(last!) ? String(Number(last)) : "0"]?.[0];
+    };
+    const members = (
+      allOfficials(coreAPI(a)) as unknown as {
         seatId: string;
         party: string | null;
-        status: string;
       }[]
-    ).filter(
-      (term) =>
-        term.status === "serving" &&
-        term.seatId.startsWith(`seat:${stateKey}:us-`),
-    );
-    expect(sitting.length, `${where} row 45: sitting members`).toBeGreaterThan(
-      0,
-    );
-    for (const term of sitting) {
-      const last = term.seatId.split(":").at(-1)!;
-      const party = term.seatId.includes(":us-senate:")
-        ? held.senate?.[Number(last)]
-        : held[/^\d+$/.test(last) ? String(Number(last)) : "0"]?.[0];
-      expect(partyName(term.party), `${where} row 45 ${term.seatId}`).toBe(
-        partyName(party ?? null),
+    ).filter((row) => /^seat:US-[A-Z]{2}:us-(house|senate):/.test(row.seatId));
+    expect(
+      members.length,
+      `${where} row 45: members of Congress`,
+    ).toBeGreaterThan(400);
+    const moved: string[] = [];
+    for (const row of members) {
+      const held = holderIn(world, row.seatId);
+      expect(partyName(row.party), `${where} row 45 ${row.seatId}`).toBe(
+        partyName(held ?? null),
       );
+      if (
+        partyName(held ?? null) !==
+        partyName(holderIn(real, row.seatId) ?? null)
+      )
+        moved.push(`${row.seatId} ${partyName(held ?? null)}`);
     }
+    expect(
+      moved.length,
+      `${where} row 45: seats that changed hands`,
+    ).toBeGreaterThan(0);
     const changed = (left: string, right: string) => {
       const l = left.split(";"),
         r = right.split(";");
       return l.filter((x, i) => x !== r[i]).length;
     };
     process.stdout.write(
-      `ROSTER ${where}: ${sitting.map((t) => `${t.seatId} ${t.party}`).join(", ")}; ${changed(worldA, published)} chambers and seats differ from the published roster in one world, ${changed(worldB, published)} in the other\n`,
+      `ROSTER ${where}: ${members.length} members of Congress, ${moved.length} seats changed hands (${moved.slice(0, 3).join(", ")}); ${changed(worldA, published)} chambers and seats differ from the published roster in one world, ${changed(worldB, published)} in the other\n`,
     );
   });
 
