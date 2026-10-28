@@ -5,6 +5,7 @@ import {
   applyChosenPerson,
   birthYears,
   chosenBirthDate,
+  creatorRandomPlace,
   creatorStates,
   creatorTowns,
   drawBirthday,
@@ -302,4 +303,26 @@ it("names every hair style and face capitalized, like the other rows", () => {
         );
     }
   }
+});
+
+describe("Random place in the creator", () => {
+  it("draws a state and one of its towns from all 56, the same for the same seed and press", () => {
+    const first = creatorRandomPlace("seed-a", 1);
+    expect(first.state.key).toMatch(/^us-/i);
+    expect(first.state.name.length).toBeGreaterThan(1);
+    expect(first.town.name.length).toBeGreaterThan(0);
+    expect(first.town.population).toBeGreaterThan(0);
+    // The town is one the state's own list offers, by key.
+    expect(
+      creatorTowns(first.state.key, "").some((t) => t.key === first.town.key),
+    ).toBe(true);
+    expect(creatorRandomPlace("seed-a", 1)).toEqual(first);
+    // Another press or another seed can land elsewhere; across a few draws it does.
+    const keys = new Set(
+      [1, 2, 3, 4, 5, 6].map(
+        (draw) => creatorRandomPlace("seed-a", draw).town.key,
+      ),
+    );
+    expect(keys.size).toBeGreaterThan(1);
+  });
 });
