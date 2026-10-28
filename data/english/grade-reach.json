@@ -648,6 +648,7 @@
     "notice.ordinance.council-ordinances": "notice|none|broadcast",
     "opening-speech.occasion.plain-ina-i-m-from-home-state-and-i-ll-never-stop-being-from-there": "occasion|tender|public",
     "opening-speech.occasion.plain-ina-i-m-from-home-state-i-ve-been-prior-office-now-i-ve-been-han": "occasion|calm|public",
+    "opening-speech.occasion.plain-ina-i-was-prior-office-this-is-a-different-job-and-i-know-it": "occasion|calm|public",
     "opening-speech.occasion.plain-ina-today-the-work-starts-and-i-mean-to-do-it-right": "occasion|calm|public",
     "opening-speech.occasion.plain-sta-i-m-from-home-state-and-i-m-here-to-tell-you-where-we-stand": "occasion|tender|public",
     "opening-speech.occasion.plain-sta-i-m-here-to-tell-you-where-the-country-stands-and-what-i-nee": "occasion|calm|public",
@@ -668,14 +669,6 @@
     "opening-speech.salutation.polished-sta-chair-female-madam-speaker-members-of-congress-my-fellow-americans": "salutation|none|public",
     "opening-speech.salutation.polished-sta-chair-male-mr-speaker-members-of-congress-and-my-fellow-citizens-at-hom": "salutation|none|public",
     "opening-speech.salutation.polished-sta-chair-male-mr-speaker-members-of-congress-my-fellow-americans": "salutation|none|public",
-    "opening-speech.story-fig.plain-ina-sta-across-the-country-unemployment-is-unemployment-rate-percent": "story-fig|none|public",
-    "opening-speech.story-fig.plain-ina-sta-if-you-want-to-buy-a-house-the-loan-costs-mortgage-rate-perc": "story-fig|none|public",
-    "opening-speech.story-fig.plain-ina-sta-pay-is-up-wage-growth-percent-from-a-year-ago": "story-fig|none|public",
-    "opening-speech.story-fig.plain-ina-sta-prices-went-up-inflation-rate-percent-over-the-past-year": "story-fig|none|public",
-    "opening-speech.story-fig.polished-ina-sta-a-thirty-year-home-loan-costs-mortgage-rate-percent-a-year": "story-fig|none|public",
-    "opening-speech.story-fig.polished-ina-sta-hourly-pay-is-up-wage-growth-percent-over-the-year": "story-fig|none|public",
-    "opening-speech.story-fig.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-past-year": "story-fig|none|public",
-    "opening-speech.story-fig.polished-ina-sta-the-national-unemployment-rate-is-unemployment-rate-percent": "story-fig|none|public",
     "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-": "story-open|glad|public",
     "opening-speech.story-open.polished-ina-sta-by-the-plain-measures-the-country-is-doing-better-than-it-wa": "story-open|glad|public",
     "scene-talk.auto-ask.me-why-me": "ask|curious|private",
@@ -3172,12 +3165,6 @@
       "net": -1,
       "graded": {
         "opening-speech.salutation.plain-ina-well-here-we-are-thank-you-for-being-here": -1
-      }
-    },
-    "story-fig|none|public": {
-      "net": -1,
-      "graded": {
-        "opening-speech.story-fig.plain-ina-sta-across-the-country-unemployment-is-unemployment-rate-percent": -1
       }
     },
     "story-open|glad|public": {
