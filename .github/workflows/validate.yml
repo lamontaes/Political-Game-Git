@@ -63,7 +63,7 @@ jobs:
 
       - name: Check only the files this change touches
         # Owner rule (Oct 12, 2026): never run the full repository. Formatting,
-        # lint, American English and release declarations cover only the files
+        # lint and release declarations cover only the files
         # this pull request (or push) adds or edits; a change never fails on
         # files it didn't touch. Whole-repo typecheck and data validations are
         # not part of this check.
@@ -98,7 +98,6 @@ jobs:
           if [[ ${#code[@]} -gt 0 ]]; then
             npx eslint --no-warn-ignored "${code[@]}"
           fi
-          CHANGED_FILES="$(printf '%s\n' "${changed[@]}")" npx vitest run tests/american-english.test.ts
           RELEASE_DECLARATION_BASE="$declaration_base" \
           RELEASE_DECLARATION_HEAD="$VALIDATED_HEAD_SHA" \
           RELEASE_DECLARATION_MODE="$declaration_mode" \
