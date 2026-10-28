@@ -1181,7 +1181,9 @@ body.dev .dev-ring {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-#game.sheet-open .me .time {
+/* An open screen is read-only and owns the bottom left: the card, which
+   would sit over its pager, steps away until the screen closes. */
+#game.sheet-open #card {
   display: none;
 }
 #card-clock {
