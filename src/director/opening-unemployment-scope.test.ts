@@ -46,8 +46,7 @@ it(`every unemployment rate on the opening night names its scope, seed ${seed}`,
     const outside = regionOutsideState(regionOfPlace(placeId) ?? "");
     const scope = outside ? `outside ${possessive(outside)}` : area;
     const rate = /\bunemploy\w*\b.*\d/i;
-    const speech = opening.frames
-      .flatMap((frame) => frame.lines)
+    const speech = story.address.sentences
       .map((line) => line.text)
       .filter((text) => rate.test(text));
     const news = opening.news.stories
