@@ -32,6 +32,10 @@ const ICONS = {
   travel: [
     '<path d="M3.5 6.5l5-2 7 2 5-2v13l-5 2-7-2-5 2zM8.5 4.5v13M15.5 6.5v13" />',
   ],
+  // The Guide: an open book, its own entry on the rail (owner, Oct 28, point 23).
+  guide: [
+    '<path d="M12 7c-1.7-1.5-4-2.2-7-2.2v13c3 0 5.3.7 7 2.2 1.7-1.5 4-2.2 7-2.2v-13c-3 0-5.3.7-7 2.2zM12 7v13" />',
+  ],
 };
 
 /**
