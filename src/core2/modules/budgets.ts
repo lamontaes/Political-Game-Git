@@ -594,7 +594,7 @@ function budgetFor(
 }
 
 /** A government's year at the published bases (calibration; play reads `budgetFor`). */
-function publishedBudgetFor(
+export function publishedBudgetFor(
   gov: GovernmentRow,
   stateKey: string,
   fiscalYear: number,
