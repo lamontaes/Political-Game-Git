@@ -325,10 +325,12 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     shared: shared
       .filter((row) => row.kind !== "family")
       .map((row) => ({
-        kind: row.kind,
+        // Work that ended is said apart from work shared now.
+        kind: row.kind === "coworker" && row.endedOn ? "worked" : row.kind,
         recordId: row.recordId,
-        employer:
-          row.kind === "coworker"
+        // The employer or the school, by name.
+        name:
+          row.kind === "coworker" || row.kind === "schoolmate"
             ? (core.organizations.get(row.recordId)?.name ?? null)
             : null,
       })),
