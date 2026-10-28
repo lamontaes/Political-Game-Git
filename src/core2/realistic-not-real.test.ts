@@ -47,6 +47,33 @@ import { publishedRegionMonths, type RegionMonth } from "./regional-model";
 import { CONDITION_PACK, conditionPrevalence } from "./condition-pack";
 import { coreAPI } from "./state";
 import {
+  seasonalStaffing,
+  bandRatio,
+  publishedBandRatio,
+} from "./modules/jobs";
+import { residentsRuntime } from "./modules/residents";
+import ageUnemployment from "./data/jobs/age-unemployment.json" with { type: "json" };
+import seasonal from "./data/jobs/seasonal.json" with { type: "json" };
+import {
+  DEFAULT_RESIDENT_EMPLOYMENT,
+  publishedResidentEmploymentRate,
+  type OpeningEmploymentAllocation,
+} from "./opening-employment";
+import { parameter } from "./parameters";
+import { corePlaceByKey } from "./place-lookup";
+import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
+import { placeEarningsOf, publishedPlaceEarnings } from "./residents";
+import { TOWN_JOB_SOC } from "./reference/town-job-soc";
+import {
+  publishedTownWorkplaceWeights,
+  townWorkplaceWeights,
+} from "./town-employment-mix";
+import {
+  nationalMedianAnnualWage,
+  townJobRate,
+  townPayPercentile,
+} from "./town-pay";
+import {
   publishedHudRentRowFor,
   publishedHudStateRentRow,
   hudRentRowFor,
@@ -55,13 +82,11 @@ import {
 import { permitRates, publishedPermitRates } from "./housing-construction";
 import { publishedShelterRateFor, shelterRateFor } from "./housing-homeless";
 import { homePriceRatio, publishedHomePriceRatio } from "./housing-prices";
-import { corePlaceByKey } from "./place-lookup";
 import { worldRateFactor, type BaseRateTable } from "./world-base-rates";
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-regional-and-jobs-per-world": [4, 10, 11, 12, 13],
   "realistic-money-and-population-per-world": [28],
   "realistic-business-per-world": [21, 22, 23, 24, 26, 27],
   "realistic-elections-per-world": [42, 44, 45, 48],
@@ -225,6 +250,126 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         publishedPermitRates(usps)[kind],
         permitRates(usps, b.seed)[kind],
       );
+  });
+
+  it("age unemployment, seasonal staffing, employment rates, pay, sector mix and place earnings (audit rows 4, 10, 11, 12, 13)", () => {
+    const differs = (
+      what: string,
+      mine: number,
+      real: number,
+      other: number,
+    ) => {
+      expect(mine, `${where} ${what}: published`).not.toBe(real);
+      expect(mine, `${where} ${what}: other world`).not.toBe(other);
+    };
+    // Row 4: each age band's unemployment ratio, and each industry's season.
+    ageUnemployment.bands.forEach((_, i) =>
+      differs(
+        `age band ${i}`,
+        bandRatio(i, a.seed),
+        publishedBandRatio(i),
+        bandRatio(i, b.seed),
+      ),
+    );
+    for (const kind of Object.keys(seasonal.kinds)) {
+      const at = (s?: string) =>
+        seasonalStaffing(kind, "2027-07-15", "2027-01-15", s);
+      differs(`season of ${kind}`, at(a.seed), at(), at(b.seed));
+    }
+    // Row 10: every age band's employed share, read from the opening's receipt.
+    const bands = (core: CoreState) =>
+      new Map(
+        (
+          JSON.parse(
+            core.placeMetadata!.openingEmploymentReceipt!,
+          ) as OpeningEmploymentAllocation["receipt"]
+        ).ageTargets.map((row) => [row.key, row]),
+      );
+    const rowsA = bands(a),
+      rowsB = bands(b);
+    expect(rowsA.size, where).toBeGreaterThan(0);
+    for (const [key, row] of rowsA) {
+      const [county, ageId] = key.split(":") as [string, string];
+      const def = [
+        ...DEFAULT_RESIDENT_EMPLOYMENT.countyAgeRows,
+        ...DEFAULT_RESIDENT_EMPLOYMENT.nationalAgeRows,
+      ].find((r) => r.id === ageId)!;
+      const real = publishedResidentEmploymentRate(
+        parameter(def.minimumAgeParameter),
+        county === "missing-county" ? undefined : county,
+      )!;
+      differs(
+        `employed share ${key}`,
+        row.rate,
+        real.rate,
+        rowsB.get(key)?.rate ?? NaN,
+      );
+    }
+    // Row 11: pay for every occupation in the place, and the tenure rule.
+    const jurisdiction = corePlaceByKey(place.key)!.context.jurisdiction.id;
+    for (const occupation of Object.keys(TOWN_JOB_SOC)) {
+      const national = nationalMedianAnnualWage(occupation);
+      if (national !== null)
+        differs(
+          `national pay ${occupation}`,
+          nationalMedianAnnualWage(occupation, a.seed)!,
+          national,
+          nationalMedianAnnualWage(occupation, b.seed)!,
+        );
+      const local = (s?: string) =>
+        townJobRate(occupation, jurisdiction, 50, 0, s)?.hourlyMinor;
+      if (local() !== undefined)
+        differs(
+          `local pay ${occupation}`,
+          local(a.seed)!,
+          local()!,
+          local(b.seed)!,
+        );
+    }
+    for (const years of [0, 5, 20])
+      differs(
+        `pay percentile at ${years} years`,
+        townPayPercentile(years, a.seed),
+        townPayPercentile(years),
+        townPayPercentile(years, b.seed),
+      );
+    // Row 12: the weight of every workplace kind the town's mix puts jobs in.
+    const real = publishedTownWorkplaceWeights(jurisdiction);
+    const wa = townWorkplaceWeights(jurisdiction, a.seed),
+      wb = townWorkplaceWeights(jurisdiction, b.seed);
+    for (const [kind, weight] of real)
+      if (weight > 0)
+        differs(
+          `workplace weight ${kind}`,
+          wa.get(kind)!,
+          weight,
+          wb.get(kind)!,
+        );
+    // Row 13: median earnings of every place with a published figure.
+    for (const key of Object.keys(PLACE_EARNINGS.byPlace))
+      differs(
+        `place earnings ${key}`,
+        placeEarningsOf(key, a.seed)!,
+        publishedPlaceEarnings(key)!,
+        placeEarningsOf(key, b.seed)!,
+      );
+    // The played world reads it: the counted workers the opening left unplaced
+    // are paid the place's median earnings as this world draws them. The
+    // residents engine re-spreads a flow's workers over the jobless records it
+    // finds (modules/residents.ts, unplacedPerWorker), so the pay a worker is
+    // checked against the published figure, not to the cent against the draw.
+    const earned = publishedPlaceEarnings(place.key);
+    const flows = [...(residentsRuntime(a)?.flows.values() ?? [])].filter(
+      (flow) =>
+        flow.id.startsWith("residents:unplaced-wages:") &&
+        (flow.unplacedWorkers ?? 0) > 0,
+    );
+    if (earned !== undefined)
+      for (const flow of flows) {
+        const annual =
+          (flow.amountMinor * 365) / (14 * (flow.unplacedWorkers ?? 1)) / 100;
+        expect(annual, `${where} ${flow.id}`).not.toBeCloseTo(earned, 0);
+      }
   });
 
   it("each world's death, birth, moving, chronic-condition and time-use tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {

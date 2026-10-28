@@ -26,7 +26,6 @@ import {
 import { careNeedOf } from "./health";
 import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
-import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
 import { pastWorkFor, pastWorkHistory, pastWorkOf } from "../past-work";
 import type {
@@ -111,6 +110,9 @@ function weeklyContacts(
   const ids = held.ids;
   return tied.filter((id) => ids.has(id));
 }
+
+// The one reader of a person's relatives, for readers outside the family.
+export { familyFactsOf, familyRelation, type FamilyFact } from "../closeness";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {
@@ -287,10 +289,6 @@ export const PEOPLE_MODULE: PreStartModule = {
   // Part 4: a death reaches the relatives who learn of it as grief.
   eventKinds: GRIEF.deathEventKinds,
   onEvent: (api, event, learnedBy) => recordDeath(api, event, learnedBy),
-  // Part 2b: acts planned for today that no other loop has run yet.
-  onAfterDay: (api) => {
-    runDuePlannedActs(api.state);
-  },
   needEvaluators: {
     // The children at home need care each day; the act meets it for the day.
     "dependent-care": (api, actor) =>

@@ -172,10 +172,12 @@ function offeredPay(
   const rate = townJobRate(
     kind.workerOccupation,
     placeId,
-    townPayPercentile(daysInLine / 365, 0.5),
+    townPayPercentile(daysInLine / 365, world.seed),
+    undefined,
+    world.seed,
   );
   if (rate) return { hourlyMinor: rate.hourlyMinor, payBasis: "published" };
-  const annual = nationalMedianAnnualWage(kind.workerOccupation);
+  const annual = nationalMedianAnnualWage(kind.workerOccupation, world.seed);
   if (annual === null) return null;
   const spread =
     (new SeededRng(world.seed)

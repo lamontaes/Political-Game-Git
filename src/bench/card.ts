@@ -3,10 +3,11 @@ import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
+import { familyFactsOf } from "../core2/modules/people";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { pronounWords } from "../english/pronoun-words";
 import { circleChanges } from "./circle";
@@ -35,10 +36,8 @@ export function personCard(core: CoreState, personId: string) {
     const row = core.people.get(id);
     return row ? `${row.givenName} ${row.familyName}` : id;
   };
-  const relationOf = new Map<string, string>();
-  for (const fact of person.pastFacts ?? [])
-    if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-      relationOf.set(fact.facts.otherPersonId, fact.kind.slice(7));
+  const relatives = familyFactsOf(person);
+  const relationOf = (id: string) => relatives.get(id as PersonId)?.relation;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
   const household = core.households.get(person.householdId);
@@ -53,7 +52,7 @@ export function personCard(core: CoreState, personId: string) {
         personId: otherId,
         name: name(otherId),
         kind: row.kind,
-        relation: relationWord(core, otherId, relationOf.get(otherId)),
+        relation: relationWord(core, otherId, relationOf(otherId)),
         level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
@@ -83,7 +82,7 @@ export function personCard(core: CoreState, personId: string) {
         .map((id) => ({
           personId: id,
           name: name(id),
-          relation: relationWord(core, id, relationOf.get(id)),
+          relation: relationWord(core, id, relationOf(id)),
           alive: core.people.get(id)?.alive ?? true,
           face: faceOf(core, id, place),
         })),
@@ -249,10 +248,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const viewer = core.people.get(viewerId);
   const other = core.people.get(otherId);
   if (!viewer || !other) throw new Error("No such person.");
-  const kin = (viewer.pastFacts ?? []).find(
-    (fact) =>
-      fact.kind.startsWith("family:") && fact.facts?.otherPersonId === otherId,
-  );
+  const kin = familyFactsOf(viewer).get(otherId as PersonId);
   const family = viewer.familyIds.has(otherId) || Boolean(kin);
   // What the two share, from the one reader the director's scenes use.
   const shared = sharedHistory(core, viewerId, otherId);
@@ -267,11 +263,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         ((row.actorId === viewerId && row.otherId === otherId) ||
           (row.otherId === viewerId && row.actorId === otherId)),
     );
-  const relation = relationWord(
-    core,
-    otherId,
-    kin?.kind.slice("family:".length),
-  );
+  const relation = relationWord(core, otherId, kin?.relation);
   const school =
     (family || housemate) &&
     ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
@@ -284,6 +276,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
     relation,
+    // The family fact the relation is read from, the one scenes cite.
+    relationRecordId: kin?.factId ?? null,
     // Family and housemates know each other's ages; others are known by sight.
     age:
       family || housemate
