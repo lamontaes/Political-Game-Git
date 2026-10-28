@@ -2,7 +2,6 @@ import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation } from "../core2/population";
-import { buildDeepPast } from "../core2/deep-past";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -21,7 +20,7 @@ import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
-import { openVoting } from "../core2/modules/voting";
+import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
@@ -42,7 +41,6 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
-import { openWorldRaces } from "../core2/modules/world-races";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
@@ -325,9 +323,7 @@ function* benchWorldStages(
       : {}),
   });
   yield "past";
-  const schools = withPublicSchoolDistrict(
-    enrichCivicInputs(buildDeepPast(population)),
-  );
+  const schools = withPublicSchoolDistrict(enrichCivicInputs(population));
   // Public pay must exist before the custom world's wage multiplier runs.
   const input = applyWorldSettings(
     schools.receipt

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { piecesInput, piecesSource } from "./core-pieces-fixture";
 import { createLifeCore } from "./life";
 import { PEOPLE_MODULE_ID } from "./modules/people";
+import { SCHOOL_MODULE_ID } from "./modules/school";
 import {
   coarseSteps,
   preStartHistory,
@@ -61,6 +62,7 @@ describe("history before the start", () => {
     expect(runPreStart(core, window)).toEqual([
       "fixture-macro",
       PEOPLE_MODULE_ID,
+      SCHOOL_MODULE_ID,
       "fixture-budgets",
     ]);
     expect(seen[0]).toBe("economy");

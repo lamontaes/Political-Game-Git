@@ -9,6 +9,7 @@
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
+import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
 import { closenessBetween, familyFactsOf, formerKin } from "../core2/closeness";
@@ -427,7 +428,14 @@ export function createDirector(
     // The recorded past (owner answer 5): personal facts are moments with an
     // impact estimated from the stress scale. Facts dated at or after the
     // opening describe the life as play starts and score nothing.
-    const past = [...(actor.pastFacts ?? [])]
+    // With the schools the engine ran for the years before the start.
+    const past = [
+      ...(actor.pastFacts ?? []),
+      ...preStartHistory(core as CoreState, {
+        kind: SCHOOL_STARTED,
+        personId,
+      }),
+    ]
       .filter((fact) => fact.date < core.startedAt)
       .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
     for (const fact of past) {

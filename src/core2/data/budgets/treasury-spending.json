@@ -27,6 +27,11 @@
       "source": "How hard a change to someone's benefit lands on their mood and stress, per share of the benefit it moved (a 29% cut lands as a mood impulse of -0.29 and a stress impulse of 0.29). Checked against the life-event impulses the drives engine reads (lifeEventMoodScale, lifeEventStressScale).",
       "spread": [0.5, 2]
     },
+    "basisPointsPerUnit": {
+      "value": 10000,
+      "tag": "SOURCED",
+      "source": "A basis point is one hundredth of a percentage point, so an interest rate of 1 is 10,000 basis points (the unit the outcome web's gov.borrowing-cost keeps, data/research/outcome-web/place-outcome-bases-2024.json)."
+    },
     "staffBudgetRoomWeight": {
       "value": 0.25,
       "tag": "TUNABLE",
