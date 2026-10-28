@@ -1808,12 +1808,9 @@ async function showPerson(person) {
         c.history?.length && {
           title: labels.history,
           items: c.history.map((h) => {
-            const line = el("p", {
-              className: "person-history",
-              textContent: h.text,
-            });
-            line.dataset.record = h.recordId;
-            return { node: line };
+            const said = prose(h.text, "person-history");
+            said.dataset.record = h.recordId;
+            return { node: said };
           }),
         },
         // An officeholder's colleagues in office, closest first, from their ties.
