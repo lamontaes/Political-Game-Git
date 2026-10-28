@@ -5,9 +5,9 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/guards-every-pr
-pr:
+pr: #6492
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T02:36:59.844Z
