@@ -2708,54 +2708,6 @@ const sheets = {
     ];
   },
   async news() {
-    // The nation, region and job numbers above the paper, from the economy's records.
-    const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
-    const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
-    const econ = controls.news?.economy ?? {};
-    // A region's series by its control name and unit; a series with no
-    // control name is not shown.
-    const count = new Intl.NumberFormat("en-US");
-    const value = (unit, v) =>
-      unit === "percent"
-        ? `${v.toFixed(1)}%`
-        : unit === "thousands"
-          ? count.format(Math.round(v * 1000))
-          : unit === "dollars"
-            ? moneyWords(Math.round(v * 100))
-            : v.toFixed(1);
-    const economy = e.nation
-      ? [
-          row(
-            `${econ.nation} · ${monthWords(e.nation.month)}`,
-            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
-          ),
-          ...(e.region
-            ? [
-                // The region's rate under the area it covers, beside the nation's.
-                row(
-                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
-                  Object.entries(e.region)
-                    .filter(
-                      ([k, v]) => typeof v === "number" && econ.series?.[k],
-                    )
-                    .map(
-                      ([k, v]) =>
-                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
-                    )
-                    .join(" · "),
-                ),
-              ]
-            : []),
-          ...(e.jobs
-            ? [
-                row(
-                  econ.jobsHere,
-                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
-                ),
-              ]
-            : []),
-        ]
-      : [];
     const labels = controls.news;
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
@@ -2778,7 +2730,6 @@ const sheets = {
         stories: [],
       });
     return [
-      ...economy,
       ...newspaperScreen({
         outlets,
         labels,
@@ -2886,19 +2837,32 @@ const sheets = {
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.travel;
-    // The offices that take your filings: one card each, naming the races.
+    // The offices that take your filings: one card each, with its races.
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
       const name = filedWith.replace(/\s*\([^)]*\)/g, "");
       if (!byOffice.has(name))
-        byOffice.set(name, { name, filedWith, titles: [], filing: true });
-      byOffice.get(name).titles.push(c.contest.title);
+        byOffice.set(name, { name, filedWith, races: [], filing: true });
+      const office = byOffice.get(name);
+      if (!office.races.some((race) => race.contestId === c.contest.id)) {
+        const seat = government.seats.find(
+          (row) => row.seatId === c.contest.seatId,
+        );
+        office.races.push({
+          contestId: c.contest.id,
+          title: c.contest.title,
+          district: c.contest.district ?? null,
+          electionDate: c.contest.electionDate,
+          holder: seat?.holder
+            ? `${seat.holder.givenName} ${seat.holder.familyName}`
+            : null,
+        });
+      }
     }
     const counters = await Promise.all(
       [...byOffice.values()].map(async (office) => ({
         ...office,
-        titles: [...new Set(office.titles)],
         presentation: {
           imageUrl: (
             await api(
@@ -2909,31 +2873,132 @@ const sheets = {
       })),
     );
     const destinations = [...counters, ...places];
-    // Why each card is listed, from the record that qualified it.
-    // Three offices named, the rest counted, so a card stays a card.
-    const someTitles = (titles) =>
-      titles.length > 3
-        ? `${titles.slice(0, 3).join(", ")} ${labels.andOthers.replace("{n}", titles.length - 3)}`
-        : titles.join(", ");
+    // Why each card is listed, from the player's own record: where they work,
+    // what they can do there, where they serve, where they file. Never what
+    // someone they know does there (owner, Oct 28, point 27: "things do not
+    // pop up because someone the player knows does them").
+    const OWN = new Set(["work", "action", "serve"]);
     const reasonLine = (p) =>
       p.filing
-        ? `${labels.reasons.filing} ${someTitles(p.titles)}`
-        : [
-            ...p.reasons.map((r) =>
-              r.kind === "known"
-                ? `${p.known.find((k) => k.personId === r.recordId)?.name} ${labels.reasons.known}`
-                : r.kind === "action"
-                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
-                  : labels.reasons[r.kind],
-            ),
-          ].join(" · ");
+        ? labels.reasons.filing
+        : p.reasons
+            .filter((r) => OWN.has(r.kind))
+            .map((r) =>
+              r.kind === "action"
+                ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
+                : labels.reasons[r.kind],
+            )
+            .join(" · ");
     // Open while someone works there now, by their own hours; else closed.
     const hereLine = (p) =>
       p.filing
         ? labels.filing
         : p.presentCount
-          ? `${labels.open} · ${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
+          ? `${labels.open} · ${p.presentNames.join(", ")}`
           : labels.closed;
+    // A card opens the place's own view: its picture, what you do there, who
+    // works there, then Go (owner, Oct 28, point 28).
+    const showPlace = (p) => {
+      const picture = p.presentation?.imageUrl;
+      // Each race named apart: its district, and its election day when two
+      // races for the same office are open at once (a regular and a special).
+      // A district code on the record ("02", "004") reads as "District 2".
+      const district = (code) =>
+        /^\d+$/.test(code) ? `${labels.district} ${Number(code)}` : code;
+      const name = (race) =>
+        race.district
+          ? `${race.title}, ${district(race.district)}`
+          : race.title;
+      // Two races for the same office at once (three selectmen's seats up
+      // the same day) are told apart by who holds each seat now, then by the
+      // election day (a regular and a special), then by their place in the
+      // office's list.
+      const counter = controls.filing;
+      const raceLabel = (race) => {
+        let named = name(race);
+        const twins = (label) =>
+          p.races.filter((other) => label(other) === label(race));
+        if (twins(name).length > 1) {
+          const held = (r) =>
+            `${name(r)} · ${r.holder ? `${counter.heldBy} ${r.holder}` : counter.openSeat}`;
+          named = held(race);
+          if (twins(held).length > 1 && race.electionDate) {
+            const dated = (r) =>
+              `${held(r)} · ${dateWords(r.electionDate ?? "")}`;
+            named = dated(race);
+            if (twins(dated).length > 1)
+              named = `${named} · ${counter.seat} ${twins(dated).indexOf(race) + 1}`;
+          }
+        }
+        return named;
+      };
+      const doHere = p.filing
+        ? [
+            {
+              actions: p.races.map((race) => ({
+                label: raceLabel(race),
+                onClick: () => openFiling(p.filedWith, race.contestId),
+              })),
+            },
+          ]
+        : reasonLine(p)
+          ? reasonLine(p)
+              .split(" · ")
+              .map((text) => ({ text }))
+          : [];
+      // The counter's role, from the office's record ("(counter: director)").
+      const role = p.filing
+        ? (p.filedWith.match(/\(counter: ([^)]*)\)/)?.[1] ?? "")
+        : "";
+      const known = new Set((p.known ?? []).map((k) => k.name));
+      const people = p.filing
+        ? role
+          ? [{ text: words(role) }]
+          : []
+        : [
+            ...(p.known ?? []).map((k) => ({
+              node: personRow({
+                name: k.name,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson({ personId: k.personId });
+                },
+              }),
+            })),
+            ...p.presentNames
+              .filter((name) => !known.has(name))
+              .map((name) => ({ text: name })),
+            ...(p.staff
+              ? [{ text: `${p.staff} ${labels.staff}`, tone: "small" }]
+              : []),
+          ];
+      const go = {
+        actions: [
+          {
+            label: labels.go,
+            testid: "place-go",
+            onClick: () =>
+              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+          },
+        ],
+      };
+      $("sheet-body").replaceChildren(
+        ...recordScreen({
+          heading: { name: p.name, meta: hereLine(p) },
+          sections: [
+            { items: [picture ? { picture } : null] },
+            ...(doHere.length
+              ? [{ title: labels.whatYouDo, items: doHere }]
+              : []),
+            ...(people.length
+              ? [{ title: labels.whoWorks, items: people }]
+              : []),
+            { items: [go] },
+          ],
+        }),
+      );
+      $("sheet-body").classList.add("place-view");
+    };
     return listScreen({
       search: { placeholder: labels.search },
       layout: "cards",
@@ -2947,9 +3012,8 @@ const sheets = {
             picture: p.presentation?.imageUrl,
             lines: [hereLine(p)],
             note: reasonLine(p),
-            label: `${labels.go}: ${p.name}`,
-            onSelect: () =>
-              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+            label: p.name,
+            onSelect: () => showPlace(p),
             // The record behind the reason, for the specs; never shown as text.
             data: {
               reason: (p.filing
@@ -3669,6 +3733,9 @@ async function openSheet(tab) {
   );
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
+  // News is the paper itself: the sheet is the page, its masthead the title
+  // (owner, Oct 28, point 25).
+  $("sheet").classList.toggle("paper-sheet", tab === "news");
   $("sheet-media").hidden = !character;
   fillArtwork(
     $("sheet-media"),
@@ -3684,6 +3751,7 @@ async function openSheet(tab) {
       : {},
   );
   $("sheet-body").replaceChildren(...body);
+  $("sheet-body").classList.remove("place-view");
   $("sheet-body").classList.toggle(
     "cols",
     tab !== "who" && tab !== "calendar" && body.length > 12,
@@ -3694,7 +3762,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who"].includes(tab) &&
+    !["calendar", "people", "who", "news"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid"),
   );
