@@ -65,7 +65,8 @@ import {
   OFFICES_MODULE_ID,
   registerSpecialElections,
   townSeats,
-  vacancyFilled,
+  endServingTerms,
+  seatWinner,
   type TermRow,
 } from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
@@ -759,20 +760,12 @@ function inaugurate(api: CoreAPI, rowId: string): void {
       row.vicePresidentParty,
     ],
   ] as const) {
-    for (const term of terms.query("bySeatStatus", [
-      seatId,
-      "serving",
-    ]) as unknown as TermRow[])
-      terms.put({
-        ...term,
-        status: "ended",
-        endDate: api.state.date,
-        endEstimated: false,
-        endedBy: "term ended",
-      } as unknown as ModuleRow);
     // No vice president takes office when the vice president-elect is the one
     // acting as president (amend. XX, § 3), or the Senate chose no one.
-    if (party === null) continue;
+    if (party === null) {
+      endServingTerms(api, seatId, "term ended");
+      continue;
+    }
     // The running mate isn't the president's relative: no shared family name.
     const president = (
       terms.query("bySeatStatus", [
@@ -790,8 +783,9 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         ? { avoidFamilyNames: [president.identity.familyName] }
         : {}),
     });
-    terms.put({
-      id: `term:${seatId}:${api.state.date}:elected`,
+    const office = offices.table("offices").get(officeId) as
+      { readonly title?: string } | undefined;
+    seatWinner(api, {
       seatId,
       officeId,
       personId: null,
@@ -803,17 +797,18 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         homeState: lawChain(api).stateKey,
       },
       party,
-      startDate: api.state.date,
       endDate: `${Number(api.state.date.slice(0, 4)) + 4}-01-20`,
-      endEstimated: false,
       reached:
         seatId === "seat:US:president" && row.acting
           ? `acting president, ${row.acting} (amend. XX, § 3), ${row.year}`
           : row.contingent?.status === "decided"
             ? `chosen by Congress ${row.year}`
             : `elected ${row.year}`,
-      status: "serving",
-    } as unknown as ModuleRow);
+      resultId: rowId,
+      title: office?.title ?? officeId,
+      winnerId: key,
+      news: true,
+    });
   }
   if (api.state.modules.has(VOTING_MODULE_ID))
     openNextCycle(api, "seat:US:president");
@@ -1201,22 +1196,13 @@ function seat(api: CoreAPI, raceId: string): void {
     } as unknown as ModuleRow);
     return;
   }
-  // A seat the offices engine holds: end the term and start the winner's.
+  // A seat the offices engine holds: the one term writer ends the term and
+  // starts the winner's.
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const terms = offices.table("terms");
-  const serving = terms.query("bySeatStatus", [
-    race.seatId,
-    "serving",
-  ]) as unknown as TermRow[];
+  const serving = offices
+    .table("terms")
+    .query("bySeatStatus", [race.seatId, "serving"]) as unknown as TermRow[];
   const reelected = serving[0] && serving[0].party === race.winnerParty;
-  for (const term of serving)
-    terms.put({
-      ...term,
-      status: "ended",
-      endDate: api.state.date,
-      endEstimated: false,
-      endedBy: "term ended",
-    } as unknown as ModuleRow);
   const loaded = offices.table("loaded").get("town") as unknown as {
     worldSeed: string;
   };
@@ -1242,31 +1228,31 @@ function seat(api: CoreAPI, raceId: string): void {
           };
         })();
   const years = race.offices.termYears;
-  // A special election's winner serves what was left of the term.
-  const termId = `term:${race.seatId}:${api.state.date}:elected`;
-  terms.put({
-    id: termId,
+  const personId = reelected ? serving[0]!.personId : null;
+  const office = offices.table("offices").get(race.offices.officeId) as
+    { readonly title?: string } | undefined;
+  seatWinner(api, {
     seatId: race.seatId,
     officeId: race.offices.officeId,
-    personId: reelected ? serving[0]!.personId : null,
+    personId,
     identity,
     party: race.winnerParty,
-    startDate: api.state.date,
+    // A special election's winner serves what was left of the term.
     endDate: race.special
       ? race.special.termEnd
       : years
         ? `${Number(api.state.date.slice(0, 4)) + years}${api.state.date.slice(4)}`
         : null,
-    endEstimated: false,
     reached: race.special
       ? `elected in a special election ${race.date}`
       : `elected ${race.date}`,
-    status: "serving",
-  } as unknown as ModuleRow);
-  if (race.special) {
-    vacancyFilled(api, race.special.vacancyId, termId);
-    return;
-  }
+    resultId: raceId,
+    title: office?.title ?? race.office,
+    winnerId: personId ?? `${raceId}:${race.winnerParty}`,
+    news: false,
+    ...(race.special ? { vacancyId: race.special.vacancyId } : {}),
+  });
+  if (race.special) return;
   const seatRow = offices.table("seats").get(race.seatId) as unknown as
     { electionYear?: number } | undefined;
   if (seatRow && years)
