@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/guards-required-checks
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:40:05.757Z
 ---
 
 **What.** Main has no branch protection and no rulesets, so a red validate or golden-path never shows as required and a force push or deletion is possible. Sessions cannot set protection: the GitHub proxy refuses the protection API path. The nightly golden-path run on main shares a concurrency group with pushes to main, so every push cancels it and main never gets a golden-path verdict. The owner asked to completely guard the game against what he is trying to do.
