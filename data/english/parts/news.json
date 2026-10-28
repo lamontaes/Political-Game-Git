@@ -4705,6 +4705,182 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.law-purpose.the-law-is-about-purpose",
+      "move": "law-purpose",
+      "kind": "written",
+      "text": "The law is about {purpose}.",
+      "uses": [
+        {
+          "move": "law-purpose",
+          "subject": "news",
+          "role": "law-purpose",
+          "choice": "context"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-purpose.it-deals-with-purpose",
+      "move": "law-purpose",
+      "kind": "written",
+      "text": "It deals with {purpose}.",
+      "uses": [
+        {
+          "move": "law-purpose",
+          "subject": "news",
+          "role": "law-purpose",
+          "choice": "context"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-bill.it-was-enacted-as-designation",
+      "move": "law-bill",
+      "kind": "written",
+      "text": "It was enacted as {designation}.",
+      "uses": [
+        {
+          "move": "law-bill",
+          "subject": "news",
+          "role": "law-bill",
+          "choice": "context"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-bill.it-came-into-law-as-designation",
+      "move": "law-bill",
+      "kind": "written",
+      "text": "It came into law as {designation}.",
+      "uses": [
+        {
+          "move": "law-bill",
+          "subject": "news",
+          "role": "law-bill",
+          "choice": "context"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-bill.designation-made-the-change",
+      "move": "law-amount-bill",
+      "kind": "written",
+      "text": "{designation} made the change.",
+      "uses": [
+        {
+          "move": "law-amount-bill",
+          "subject": "news",
+          "role": "law-amount-bill",
+          "choice": "context"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-bill.the-change-came-in-designation",
+      "move": "law-amount-bill",
+      "kind": "written",
+      "text": "The change came in {designation}.",
+      "uses": [
+        {
+          "move": "law-amount-bill",
+          "subject": "news",
+          "role": "law-amount-bill",
+          "choice": "context"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-opponent.name-beat-opponent",
+      "move": "election-opponent",
+      "kind": "written",
+      "text": "{name} beat {opponent}.",
+      "uses": [
+        {
+          "move": "election-opponent",
+          "subject": "news",
+          "role": "election-opponent",
+          "choice": "context"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-opponent.opponent-came-up-short",
+      "move": "election-opponent",
+      "kind": "written",
+      "text": "{opponent} came up short.",
+      "uses": [
+        {
+          "move": "election-opponent",
+          "subject": "news",
+          "role": "election-opponent",
+          "choice": "context"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

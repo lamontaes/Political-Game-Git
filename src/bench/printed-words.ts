@@ -377,7 +377,8 @@ const lawTookEffect: Builder = (read, f) => {
     date: read.date(),
     ...(place ? { place: read.fact(place) } : {}),
     // The bill that enacted it, as a clerk reads it: "HB 2", "Ordinance 2025-14".
-    ...(f.enactedBy && !f.enactedBy.startsWith("law:")
+    // A law another record adopted (`adopt:law:…`, `law:…`) has no bill number.
+    ...(f.enactedBy && !f.enactedBy.includes(":")
       ? {
           designation: read.fact(
             spokenDesignation(f.enactedBy, form),
