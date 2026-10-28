@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/realistic-sitting-vote-shares
-pr:
+pr: #6448
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T00:05:42.718Z
