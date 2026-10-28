@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/old-engine-opening-port
-pr:
+pr: #6637
 after: core-old-engine-02-gov-rules-duplicates
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 steps 2–5"
