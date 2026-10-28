@@ -1180,6 +1180,7 @@ function electionMorning(scene) {
     api("/api/election-day").then((day) => {
       if (!day)
         return (scene ? atThePolls(scene) : Promise.resolve()).then(resolve);
+      setClock(day.at);
       if (scene) {
         $("backdrop").src = scene.backdrop.url;
         drawPeople(scene.people);
@@ -1430,12 +1431,17 @@ function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
 }
+// The narration of the scene that opened this talk, kept above its lines.
+let talkSetting = [];
 function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
   gapButton.classList.remove("marked");
-  if (!value) return;
+  if (!value) {
+    talkSetting = [];
+    return;
+  }
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
     other?.speaker !== $("talk-name").textContent ||
@@ -1447,7 +1453,7 @@ function renderTalk(value) {
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
   talkControls({ silent: true, leave: true });
   fillTalk({
-    lines: spokenLines(value.lines, (line) => line.text),
+    lines: [...talkSetting, ...spokenLines(value.lines, (line) => line.text)],
     replies: replies(choices, (choice) => sayLine(choice.key)),
   });
   // Dim when there is nothing false to say; tipped and red while lying.
@@ -1457,10 +1463,11 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId, momentId) {
+async function talkTo(otherId, momentId, setting = []) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
+  talkSetting = setting;
   $("talk-name").textContent = "";
   // From a scene, the talk is about the scene's moment.
   const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
@@ -2031,31 +2038,35 @@ async function showStory(momentId) {
   show("talk-who", false);
   $("talk-name").textContent = "";
   // A scene with a purpose is its own exchange; any other opens a talk.
+  // The narrator sets the scene and the person speaks at once beneath it:
+  // no step between them (owner, Oct 27: clicking a person starts the talk).
   const withId = story.talk?.askerId ?? story.talkToId;
-  // Whether to talk to them is the player's; the narrator alone is a Continue.
-  talkControls({ silent: false, leave: Boolean(withId) });
+  const setting = story.narration.map((line) =>
+    talkLine({
+      kind: "speech narration",
+      text: line.text,
+      held: line.held,
+      ...gradeOf(line, momentId),
+    }),
+  );
+  if (withId) {
+    if (story.talk) playExchange(story, setting);
+    else await talkTo(withId, momentId, setting);
+    return;
+  }
+  // The narrator alone is a Continue.
+  talkControls({ silent: false, leave: false });
   fillTalk({
     lines: [
-      ...story.narration.map((line) =>
-        talkLine({
-          kind: "speech narration",
-          text: line.text,
-          held: line.held,
-          ...gradeOf(line, momentId),
-        }),
-      ),
+      ...setting,
       ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
     ],
-    replies: withId
-      ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
-          story.talk ? playExchange(story) : talkTo(withId, momentId),
-        )
-      : [],
+    replies: [],
   });
   setScales({ available: false });
 }
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
-function playExchange(story) {
+function playExchange(story, setting = []) {
   const { talk } = story;
   setWho(talk.askerId, story.names[talk.askerId]);
   const said = [...talk.opening];
@@ -2072,7 +2083,7 @@ function playExchange(story) {
   talkControls({ silent: false, leave: false });
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
-    fillTalk({ lines: said.slice(-4).map(lineOf) });
+    fillTalk({ lines: [...setting, ...said.slice(-4).map(lineOf)] });
     fillTalk({
       replies: replies(
         node.replies.map((reply, index) => ({
@@ -2092,7 +2103,10 @@ function playExchange(story) {
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
           else {
-            fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
+            fillTalk({
+              lines: [...setting, ...said.slice(-4).map(lineOf)],
+              replies: [],
+            });
             // A moment that staged another scene plays it next.
             kept.then(() => nextScene(story));
           }
@@ -2277,60 +2291,18 @@ async function officeRows() {
   const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
   if (!v.jobs.length) return [];
   const words = controls.officeStops ?? {};
-  const toggles = v.stops.map((stop) => {
-    const box = el("input", { type: "checkbox", checked: stop.on });
-    box.addEventListener("change", async () => {
-      await post(
-        `/api/office/stops?${new URLSearchParams({ kind: stop.kind, on: String(box.checked) })}`,
-      );
-    });
-    return el("label", {}, box, ` ${words[stop.kind] ?? stop.kind} `);
-  });
   return [
     ...v.jobs.map((job) =>
       listRow(
         "campaign",
         { title: job.citation },
         el("b", { textContent: job.title }),
-        ` ${dollars(job.annualMinor)} · ${job.weeklyHours} h · ${job.payer}`,
-        job.lastPaid
-          ? ` · ${job.lastPaid.on} ${dollars(job.lastPaid.amountMinor)}`
+        ` ${dollars(job.annualMinor)} ${words.aYear ?? ""}`,
+        job.nextMeeting
+          ? ` · ${words.nextMeeting ?? ""} ${proseDate(job.nextMeeting)}`
           : "",
-        job.nextMeeting ? ` · ${job.nextMeeting}` : "",
       ),
     ),
-    listRow("campaign", {}, ...toggles),
-    // The outlet the next interview asks; left on the character's own, the widest reach.
-    ...(v.outlets?.length
-      ? [
-          listRow(
-            "campaign",
-            { as: "label" },
-            `${words.interviewOutlet ?? ""} `,
-            (() => {
-              const pick = el(
-                "select",
-                {},
-                el("option", { value: "", textContent: words.ownChoice ?? "" }),
-                ...v.outlets.map((o) =>
-                  el("option", {
-                    value: o.id,
-                    disabled: o.hadThem,
-                    textContent: `${o.name} · ${o.reach}`,
-                  }),
-                ),
-              );
-              pick.addEventListener("change", async () => {
-                if (pick.value)
-                  await post(
-                    `/api/office/interview-outlet?${new URLSearchParams({ outletId: pick.value })}`,
-                  );
-              });
-              return pick;
-            })(),
-          ),
-        ]
-      : []),
     // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
     ...(v.heads ?? []).map((head) =>
       listRow(
@@ -2423,7 +2395,7 @@ async function officeRows() {
     ),
     ...v.acts.map((a) =>
       row(
-        `${a.date} · ${controls.actions?.[a.kind] ?? a.kind}`,
+        `${proseDate(a.date)} · ${controls.actions?.[a.kind] ?? a.kind}`,
         `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
       ),
     ),
@@ -2912,6 +2884,13 @@ const sheets = {
       image.addEventListener("error", () => image.remove());
       return image;
     };
+    // A person's kind, for their line and the ring around their face.
+    const kindOf = (p) =>
+      household.has(p.personId)
+        ? "household"
+        : p.groups.includes("family")
+          ? "family"
+          : (p.groups[0] ?? "other");
     const draw = () => {
       const found = people.filter((p) =>
         p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
@@ -2939,15 +2918,43 @@ const sheets = {
           ),
         );
       }
-      shown.forEach((p, i) => {
+      // People who share your home share a line with each other, as the
+      // household record ties them.
+      const at = (i) => {
         const angle =
           (i / Math.max(shown.length, 1)) * Math.PI * 2 - Math.PI / 2;
-        const x = 50 + Math.cos(angle) * 37,
-          y = 50 + Math.sin(angle) * 36;
+        return [50 + Math.cos(angle) * 37, 50 + Math.sin(angle) * 36];
+      };
+      if (!listMode)
+        shown.forEach((a, i) =>
+          shown.forEach((b, j) => {
+            if (
+              j <= i ||
+              !household.has(a.personId) ||
+              !household.has(b.personId)
+            )
+              return;
+            const line = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "line",
+            );
+            const [x1, y1] = at(i);
+            const [x2, y2] = at(j);
+            for (const [key, value] of Object.entries({
+              x1,
+              y1,
+              x2,
+              y2,
+              class: "people-edge household between",
+            }))
+              line.setAttribute(key, value);
+            svg.append(line);
+          }),
+        );
+      shown.forEach((p, i) => {
+        const [x, y] = at(i);
         const active = group === "all" || p.groups.includes(group);
-        const kind = household.has(p.personId)
-          ? "household"
-          : (p.groups[0] ?? "other");
+        const kind = kindOf(p);
         const line = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "line",
@@ -2966,7 +2973,9 @@ const sheets = {
           draw();
         });
         const changed = change.get(p.personId);
-        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
+        // The face's ring takes its kind's color; names sit on the far side
+        // of the face from you, so no line runs through them.
+        node.className = `people-node ${kind}${y < 50 ? " above" : ""}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
         node.setAttribute("aria-pressed", String(selected === p.personId));
         node.setAttribute("aria-label", p.name);
         node.style.left = `${x}%`;
@@ -3069,8 +3078,8 @@ const sheets = {
     const key = el(
       "div",
       { className: "people-key" },
-      ...["family", "household", "work", "politics", "other"].map((k) =>
-        el("span", { className: k, textContent: labels[k] }),
+      ...["family", "household", "friends", "work", "politics", "other"].map(
+        (k) => el("span", { className: k, textContent: labels[k] }),
       ),
     );
     draw();
