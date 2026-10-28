@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: golden/scene-opens-talk
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:30:50.996Z
 ---
 
 **What.** When the director stops time for a scene with a person, the talk box shows the narration with a hand-typed 'Talk · Name' reply and a Leave button; the player must click Talk before anyone speaks. Golden path step 2 and every campaign scene after it.
