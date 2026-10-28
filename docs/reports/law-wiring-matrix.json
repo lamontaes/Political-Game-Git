@@ -3476,7 +3476,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:914",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:932; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:932; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 rent-control-to-tenant-stays -0.2000, read by src/core2/modules/counted-moves.ts:506, src/core2/modules/moves.ts:932",
           "why": ""
         },
         "knowing": {
@@ -4924,7 +4924,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-property-crime -0.0120, read by src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:628, src/core2/modules/crime.ts:640; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 police-to-property-crime -0.0120, read by src/core2/modules/crime.ts:582, src/core2/modules/crime.ts:595; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 police-to-violent-crime -0.0241, read by src/core2/modules/crime.ts:628, src/core2/modules/crime.ts:640",
           "why": ""
         },
         "knowing": {
@@ -5521,7 +5521,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1928; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1928; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 child-access-law-to-youth-gun-deaths -0.1300, read by src/core2/death-cause.ts:386, src/core2/public-safety.ts:1928",
           "why": ""
         },
         "knowing": {
@@ -5600,7 +5600,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 carry-permit-to-violent-crime 0.1000, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 carry-permit-to-violent-crime 0.1000, read by src/core2/modules/crime.ts:628, src/core2/modules/crime.ts:640; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 concealed-carry-permit-to-firearm-homicide 0.0800, read by src/core2/death-cause.ts:393",
           "why": ""
         },
         "knowing": {
@@ -5679,7 +5679,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1938; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1938; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 min-age-to-youth-gun-suicide -0.1800, read by src/core2/death-cause.ts:438, src/core2/public-safety.ts:1938",
           "why": ""
         },
         "knowing": {
@@ -7096,7 +7096,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:628, src/core2/modules/crime.ts:640; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2026-02 facial-recognition-limit-to-crime 0.0100, read by src/core2/modules/crime.ts:628, src/core2/modules/crime.ts:640",
           "why": ""
         },
         "knowing": {
