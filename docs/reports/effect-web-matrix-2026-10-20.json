@@ -82,7 +82,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:111"
+          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112"
         },
         "varied": {
           "status": "fail",
@@ -176,7 +176,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:104"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:105"
         },
         "varied": {
           "status": "fail",
@@ -222,7 +222,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:97"
+          "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98"
         },
         "varied": {
           "status": "fail",
@@ -268,7 +268,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -315,7 +315,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:117"
+          "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118"
         },
         "varied": {
           "status": "fail",
@@ -361,7 +361,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/public-safety.ts:129"
+          "evidence": "src/core2/public-safety.ts:130"
         },
         "varied": {
           "status": "fail",
@@ -755,7 +755,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1950"
+          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956"
         },
         "varied": {
           "status": "fail",
@@ -849,7 +849,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1960"
+          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966"
         },
         "varied": {
           "status": "fail",
@@ -3252,7 +3252,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -4597,7 +4597,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -7083,7 +7083,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -7458,7 +7458,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:111"
+          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112"
         },
         "varied": {
           "status": "fail",
@@ -7692,7 +7692,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -7786,7 +7786,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -7833,7 +7833,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8069,7 +8069,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8116,7 +8116,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8211,7 +8211,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -8258,7 +8258,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/turnout-web.ts:65"
+          "evidence": "src/core2/turnout-web.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -8448,7 +8448,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8732,7 +8732,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8779,7 +8779,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8826,7 +8826,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -8920,7 +8920,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
         },
         "varied": {
           "status": "fail",
@@ -11922,7 +11922,7 @@
     {
       "measure": "crime.assault",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:97",
+      "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-assault", "crime-level-to-assault"]
@@ -11930,7 +11930,7 @@
     {
       "measure": "crime.burglary",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:111",
+      "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-burglary", "crime-level-to-burglary"]
@@ -11967,7 +11967,7 @@
     {
       "measure": "crime.property",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:117",
+      "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-property-crime"]
@@ -12005,7 +12005,7 @@
     {
       "measure": "crime.robbery",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:104",
+      "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:105",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-robbery", "crime-level-to-robbery"]
@@ -12022,7 +12022,7 @@
     {
       "measure": "crime.violent",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98, src/core2/public-safety.ts:105",
+      "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12620,7 +12620,7 @@
     {
       "measure": "health.youth-firearm-deaths",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1950",
+      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["child-access-law-to-youth-gun-deaths"]
@@ -12628,7 +12628,7 @@
     {
       "measure": "health.youth-firearm-suicide",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1960",
+      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["min-age-to-youth-gun-suicide"]
@@ -12856,7 +12856,7 @@
     {
       "measure": "justice.low-level-arrests",
       "status": "engine-reads-web",
-      "evidence": "src/core2/public-safety.ts:129",
+      "evidence": "src/core2/public-safety.ts:130",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-low-level-arrests"]
@@ -13596,7 +13596,7 @@
     {
       "measure": "voting.turnout-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/turnout-web.ts:65",
+      "evidence": "src/core2/turnout-web.ts:66",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
