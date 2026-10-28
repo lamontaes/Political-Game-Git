@@ -28,7 +28,11 @@
     "people": "people",
     "about": "about",
     "countyLine": "in {county}",
-    "ageLine": "You will be {age} on {date}, the day your life begins."
+    "ageLine": "You will be {age} on {date}, the day your life begins.",
+    "summaryAge": "Age {age}",
+    "summaryBorn": "Born {date}",
+    "previous": "Previous {row}",
+    "next": "Next {row}"
   },
   "endedBy": {
     "moment": "Something needs you",
@@ -119,7 +123,17 @@
       "group": "In a group with",
       "family": "Family"
     },
-    "rival": "Rival"
+    "rival": "Rival",
+    "together": "With you",
+    "sharedWords": {
+      "household": "Lives with you",
+      "coworker": "Works with you",
+      "worked": "Worked with you",
+      "schoolmate": "At school with you",
+      "campaign": "On a campaign with you"
+    },
+    "seats": "Seats held",
+    "since": "Since"
   },
   "options": {
     "version": "Version",
@@ -168,7 +182,10 @@
     },
     "seat": "Seat",
     "heldBy": "Held by",
-    "openSeat": "No one holds it now"
+    "openSeat": "No one holds it now",
+    "for": "For",
+    "against": "Against",
+    "noStance": "—"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
@@ -184,12 +201,12 @@
     "own": "Decide for me"
   },
   "budgetEditor": {
-    "title": "Budget lines to send",
-    "-20": "Cut 20%",
-    "-10": "Cut 10%",
     "0": "No change",
     "10": "Add 10%",
-    "20": "Add 20%"
+    "20": "Add 20%",
+    "title": "Budget lines to send",
+    "-20": "Cut 20%",
+    "-10": "Cut 10%"
   },
   "deals": {
     "title": "Deal to offer when you talk",
@@ -425,7 +442,6 @@
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
     },
-    "noneHere": "None here",
     "guide": {
       "government": "Who holds each seat over you, from your town to the nation, and when each term ends.",
       "issues": "The laws in force where you live, and who can change them.",
@@ -466,8 +482,6 @@
   },
   "money": {
     "cash": "Cash available",
-    "history": "Balance history",
-    "spending": "Where the money went",
     "home": "Home",
     "householdHome": "Your household’s home",
     "tenure": "Tenure",
@@ -477,8 +491,6 @@
     "rent": "Rent",
     "monthly": "per month",
     "deductions": "Paycheck deductions",
-    "assets": "Assets",
-    "debts": "Debts",
     "lastMonth": "Last month",
     "monthHousing": "Home costs",
     "monthEveryday": "Everyday living",
@@ -486,7 +498,19 @@
     "monthUnpaid": "Left unpaid",
     "loanPayments": "Loan payments",
     "loanDue": "due",
-    "loanPaid": "paid"
+    "loanPaid": "paid",
+    "bank": "Bank",
+    "householdSavings": "Household savings",
+    "bankBooks": "Bank books",
+    "bankCash": "Bank cash",
+    "businessLoans": "Business loans",
+    "householdLoans": "Household loans",
+    "mortgages": "Mortgages",
+    "totalAssets": "Total assets",
+    "depositsOwed": "Deposits owed",
+    "mortgageFunding": "Mortgage funding",
+    "bankEquity": "Bank equity",
+    "liabilitiesAndEquity": "Liabilities and equity"
   },
   "localRaces": {
     "title": "Local races on the ballot",
@@ -502,6 +526,32 @@
     "saved": "Graded"
   },
   "talkBox": {
-    "continue": "Continue"
+    "continue": "Continue",
+    "markGap": "Mark gap"
+  },
+  "guide": {
+    "search": "Search"
+  },
+  "campaignActs": {
+    "volunteer": "Volunteers",
+    "donation": "Donations",
+    "endorsement": "Endorsements",
+    "ad": "Ad",
+    "poll": "Poll"
+  },
+  "campaignResults": {
+    "doors": "{n} doors",
+    "reached": "{n} reached",
+    "raised": "{amount} raised",
+    "spent": "{amount} spent"
+  },
+  "handoff": {
+    "play": "Play"
+  },
+  "seat": {
+    "draft": "Draft"
+  },
+  "guide": {
+    "search": "Search"
   }
 }
