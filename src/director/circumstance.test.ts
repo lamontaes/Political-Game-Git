@@ -231,7 +231,7 @@ function playYear(
     expect(
       coreAPI(core)
         .moduleState(LEGISLATURE_MODULE_ID)
-        .table("overrideReplies")
+        .table("replies")
         .get(row.replyId!),
       `${row.replyId}: the legislature keeps the reply`,
     ).toBeTruthy();
