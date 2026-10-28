@@ -118,7 +118,8 @@
       "cause:event:rival-word",
       "cause:event:rival-filed",
       "cause:event:party-asked",
-      "cause:event:vote-ahead"
+      "cause:event:vote-ahead",
+      "cause:event:recall-petition"
     ],
     "ownRecordSettings": ["home", "office", "phone"],
     "metWhereYouAre": ["circumstance:"]

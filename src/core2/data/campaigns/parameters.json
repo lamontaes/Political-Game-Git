@@ -420,6 +420,12 @@
       "source": "What a petition or a removal over misconduct asks of anyone before they act on it, whatever their temperament: with the weight at 1, someone who heard of it and is not close to the official is halfway past the bar, and their lean decides the rest.",
       "spread": [0.25, 0.75]
     },
+    "recallAnswerWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How much an official's answer to a recall petition's organizer weighs with a voter who heard of it, on the same scale as an ordinance grievance (-1 to 1): an answer that hears the petitioners out or meets them weighs against signing, a dismissal toward it. A quarter of the strongest disagreement, since one answer seldom undoes the vote or the misconduct that started the drive. Checked against Ballotpedia's yearly recall analyses (2015 to 2020, read through search summaries; the pages do not load for the fetcher): recalls against 123 to 208 officials a year did not reach the ballot, and 9 to 26 officials a year resigned before a vote.",
+      "spread": [0.1, 0.5]
+    },
     "recallMisconductNewsDays": {
       "value": 14,
       "tag": "TUNABLE",
