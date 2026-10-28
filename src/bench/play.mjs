@@ -3213,8 +3213,8 @@ const sheets = {
           return {
             title,
             items: [
-              // A local body is named under its office ("Apache County Board
-              // of Supervisors"); a state or federal office's government is
+              // A local one-seat office is named under its body ("Clerk /
+              // Apache County"); a state or federal office's government is
               // the state the filter already names, so no "Governor / Ohio"
               // line (owner, Oct 28, point 16).
               level === "local" && first.body && first.body !== title
@@ -3291,7 +3291,11 @@ const sheets = {
           single.get(key).push(seats[0]);
         }
         bodies = [
-          ...several.map((seats) => body(seats, seats[0].title)),
+          // A body of several seats is titled with its name ("Taos County
+          // Board of Commissioners", a state's "Senate").
+          ...several.map((seats) =>
+            body(seats, seats[0].body ?? seats[0].government ?? seats[0].title),
+          ),
           ...[...single].map(([name, seats]) =>
             seats.length === 1
               ? body(seats, seats[0].title)
