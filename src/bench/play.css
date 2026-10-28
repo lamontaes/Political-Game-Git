@@ -2299,8 +2299,17 @@ body.dev .dev-ring {
   display: flex;
   flex-direction: column;
 }
+/* A section longer than the room left in a column goes on in the next one,
+   row by row, so the columns fill and no fourth column falls off the box;
+   a row, and a title with its first row, never split. */
 .screen-grid > * {
+  break-inside: auto;
+}
+.screen-grid .record-section > * {
   break-inside: avoid;
+}
+.screen-grid .record-section > .label:first-child {
+  break-after: avoid;
 }
 .record-section {
   margin: 0 0 14px;
@@ -3504,8 +3513,17 @@ details.entry[open] {
   display: flex;
   flex-direction: column;
 }
+/* A section longer than the room left in a column goes on in the next one,
+   row by row, so the columns fill and no fourth column falls off the box;
+   a row, and a title with its first row, never split. */
 .screen-grid > * {
+  break-inside: auto;
+}
+.screen-grid .record-section > * {
   break-inside: avoid;
+}
+.screen-grid .record-section > .label:first-child {
+  break-after: avoid;
 }
 .record-section {
   margin: 0 0 14px;
