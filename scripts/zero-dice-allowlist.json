@@ -485,6 +485,17 @@
       "build": "pool:core-zero-dice-shares-in-code",
       "count": 1,
       "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
+    },
+    {
+      "file": "src/bench/whole-figures.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "return from[hash(`${front.file}:${spot.id ?? \"\"}`) % from.length]!;",
+      "class": "PRESENTATION",
+      "keyedBy": "the person's look and the spot",
+      "reason": "Which painted pose at a lectern, desk or counter shows a person: how they appear there, not what they do.",
+      "replacement": null
     }
   ]
 }

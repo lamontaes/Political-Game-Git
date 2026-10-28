@@ -51,7 +51,6 @@
         "src/core2/modules/filing-clerk.ts",
         "src/core2/modules/ballot-measures.ts",
         "src/core2/modules/recalls.ts",
-        "src/core2/modules/world-races.ts",
         "src/core2/modules/parties.ts",
         "src/core2/modules/interest-groups.ts",
         "src/core2/ballot-order.ts",

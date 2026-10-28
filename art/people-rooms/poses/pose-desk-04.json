@@ -1,0 +1,30 @@
+{
+  "id": "pose-desk-04",
+  "file": "pose-desk-04.png",
+  "garments": "pose-desk-04-garments.png",
+  "sheet": "in-scene",
+  "scene": "governor-office",
+  "plate": "ds-g1.png",
+  "pose": "stand",
+  "angle": "profile",
+  "facing": -90,
+  "gesture": "talking to a seated visitor",
+  "interacts": "desk: one hand flat on the desktop",
+  "hairView": "prof",
+  "sex": "m",
+  "build": "slim",
+  "ageBand": "adult",
+  "prop": "none",
+  "outfit": "suit",
+  "width": 133,
+  "height": 404,
+  "boxInScene": [456, 125, 589, 529],
+  "sceneSize": [1365, 768],
+  "head": {
+    "top": 4,
+    "x": 82.5,
+    "width": 76
+  },
+  "frontEdgeY": null,
+  "clothesLabelled": 0.73
+}

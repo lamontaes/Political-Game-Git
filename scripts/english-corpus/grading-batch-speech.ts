@@ -16,7 +16,7 @@ import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
 import { buildPopulation } from "../../src/core2/population";
-import { lifePlaceByJurisdictionId } from "../../src/simulation/life-places";
+import { corePlaceByJurisdictionId } from "../../src/core2/place-lookup";
 import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { properName, spoken } from "../../src/director/words";
 import { composeGroundedLine } from "../../src/english/english-composition";
@@ -132,7 +132,7 @@ for (const seed of seeds) {
     const tenure = (person.pastFacts ?? []).find(
       (fact) => fact.kind === "work:opening",
     );
-    const place = lifePlaceByJurisdictionId(person.placeId as never);
+    const place = corePlaceByJurisdictionId(person.placeId as never);
     const other = adults[(n + 3) % adults.length]!;
     const gender = (person as { looks?: { gender?: string } }).looks?.gender;
     const facts: Facts = {

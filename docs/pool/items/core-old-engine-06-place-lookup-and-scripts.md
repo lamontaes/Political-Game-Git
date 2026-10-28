@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/old-engine-scripts
-pr:
+pr: #6642
 after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A (jobs the two-jobs list missed) and G2 step 8"

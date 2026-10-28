@@ -31,9 +31,9 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | cap property tax growth                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | graduated income tax                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
-| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office                 |
-| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, Calendar, News |
-| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, Calendar, News |
+| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
+| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
+| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | SNAP maximum benefit                         | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Calendar, Your office       |
 | Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Your office                         |
@@ -133,18 +133,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **exempt groceries from sales tax** (`us-policy-positions:fiscal.exempt-groceries-from-sales-tax`)
 
 - web: no production reader: grocery-exemption-to-food-insecurity (SG-WEB-unread-household-food-insecurity) move only the web's ledger
-
-**balanced operating budget** (`us-policy-positions:fiscal.balanced-operating-budget`)
-
-- web: no production reader: balanced-budget-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger
-
-**fund pensions to schedule** (`us-policy-positions:fiscal.fund-pensions-to-schedule`)
-
-- web: no production reader: pension-funding-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger
-
-**minimum reserve balance** (`us-policy-positions:fiscal.minimum-reserve-balance`)
-
-- web: no production reader: reserve-balance-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger
 
 **SNAP maximum benefit** (`snap-maximum`)
 
