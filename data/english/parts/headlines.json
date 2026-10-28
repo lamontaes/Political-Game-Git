@@ -35,7 +35,8 @@
     "to": "The amount now in force, from the law record.",
     "issue": "A policy question, by its name.",
     "incident": "The kind of disaster, from the declaration record.",
-    "area": "The region a rate is measured for (a metro area, or the state), by name."
+    "area": "The region a rate is measured for (a metro area, or the state), by name.",
+    "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record."
   },
   "maxWords": 14,
   "mining": {
@@ -2777,6 +2778,50 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.jobs-report.unemployment-outside-states-largest-cities",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "Unemployment outside {outside} largest cities at {percent}%",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "headline",
+          "role": "jobs-report",
+          "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: the area a jobs rate covers, said as a reader would)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.jobs-report.jobless-rate-outside-states-cities",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "Jobless rate outside {outside} cities is {percent}%",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "headline",
+          "role": "jobs-report",
+          "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: the area a jobs rate covers, said as a reader would)",
+      "date": "2026-10-28",
       "tag": {
         "move": "headline",
         "key": "news-received"

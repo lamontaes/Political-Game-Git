@@ -1,11 +1,6 @@
 import { runModuleCalendar } from "./module-calendar";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
-import {
-  advanceDate,
-  duePeople,
-  catchUpPerson,
-  planningDays,
-} from "./calendar";
+import { advanceDate, duePeople, planningDays } from "./calendar";
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
 import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
@@ -26,7 +21,6 @@ import {
   WORK_MODULE,
   discretionaryHours,
   recordDiscretionaryActivity,
-  catchUpScheduledWork,
   openingWorkCommitments,
 } from "./modules/work";
 import {
@@ -592,15 +586,4 @@ export function advanceCore(
     decisions,
     acts,
   };
-}
-
-export function catchUpLife(core: CoreState, personId: string): void {
-  if (isExplicitlyControlledPersonV1(core, personId))
-    throw new Error("Controlled choices require the resumable player clock.");
-  // Chronological work was already settled at each indexed scheduled date.
-  // This returns arithmetic/current records and never makes an endpoint choice for elapsed days.
-  catchUpScheduledWork(coreAPI(core), personId);
-  const due = catchUpPerson(core, personId, core.date);
-  if (due.days > parameter("zero", core.data.parameters))
-    activate(core, personId, due.days);
 }

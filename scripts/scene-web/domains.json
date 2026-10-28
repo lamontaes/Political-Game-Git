@@ -67,7 +67,8 @@
       "public-hearing",
       "section-bargain",
       "vote-asked",
-      "vote-confirmed"
+      "vote-confirmed",
+      "vote-sought"
     ],
     "the-executive": [
       "address",
