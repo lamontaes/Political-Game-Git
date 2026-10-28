@@ -13,6 +13,7 @@ import {
   departuresSeen,
   watchDepartures,
   holdsOf,
+  pushesOf,
   MOVED_AWAY_EVENT,
   movesModule,
 } from "./modules/moves";
@@ -157,6 +158,7 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       causes: Record<string, number>;
       reads: Record<string, readonly string[]>;
       openingNet?: number;
+      openingMonths?: number;
     }[];
     const opened = pulls.filter((row) => row.causes.opening !== undefined);
     expect(opened.length).toBeGreaterThan(0);
@@ -164,11 +166,12 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       expect(row.reads.opening?.length).toBeGreaterThan(0);
       expect(row.openingNet).toBeTypeOf("number");
     }
-    // Higher net push stands further along at the opening.
+    // Higher net push has fewer months to go at the opening: the first to
+    // leave are the ones their records push hardest.
     const sorted = [...opened].sort((a, b) => a.openingNet! - b.openingNet!);
     for (let i = 1; i < sorted.length; i += 1)
-      expect(sorted[i]!.causes.opening!).toBeGreaterThanOrEqual(
-        sorted[i - 1]!.causes.opening!,
+      expect(sorted[i]!.openingMonths!).toBeLessThanOrEqual(
+        sorted[i - 1]!.openingMonths!,
       );
     for (const row of departures)
       for (const key of Object.keys(row.reasons).filter((k) =>
@@ -236,11 +239,19 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
         (a, b) => a + b,
         0,
       );
+    // The pull builds with the person's pushes over their ties, so the ties
+    // are compared with each person's pushes taken out.
     const built = (id: string) =>
-      (
+      ((
         api.moduleState("moves").table("pulls").get(id) as
           { causes: Record<string, number> } | undefined
-      )?.causes.lifeStage ?? 0;
+      )?.causes.lifeStage ?? 0) /
+      Math.exp(
+        Object.values(pushesOf(api, core.people.get(id)!).parts).reduce(
+          (a, b) => a + b,
+          0,
+        ),
+      );
     let compared = 0;
     for (const band of RATES.ageBands) {
       const staying = adults
