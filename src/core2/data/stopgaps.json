@@ -7259,5 +7259,17 @@
     "addedAt": "2026-10-28",
     "replacement": "history-past-moves (each move before the start a record, so a spell runs in the place the person lived), the regional economy series in the economy pass, business sizes from the business pass's history, and history-past-officials for officials' careers.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-region-states",
+    "kind": "estimate",
+    "file": "src/bench/data/scene-places.json",
+    "line": 1,
+    "whatItFakes": "Which states take a place's regional rebuild (New England, Mountain West, Southwest, Plains, Deep South, Alaska, Puerto Rico, Pacific islands) is a list in data drawn from the Census Bureau's divisions and common usage; states no region names show the plain painting.",
+    "why": "The art session painted eight regional rebuilds of four places (Oct 28); no record of a place's regional character exists to read.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "Each place's own architectural region in the place records (or a finer list per county), read here in place of the state list.",
+    "status": "open"
   }
 ]

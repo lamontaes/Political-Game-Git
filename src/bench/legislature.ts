@@ -18,7 +18,7 @@ import { floorDateOf } from "../core2/modules/world-legislating";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFor, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -392,7 +392,7 @@ export function bodyScene(
   return {
     title: body.title,
     place,
-    backdrop: backdropFile(place, minute),
+    backdrop: backdropFor(core, place, minute),
     ...stagePeople(core, place, cast),
   };
 }

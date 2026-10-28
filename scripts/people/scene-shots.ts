@@ -187,7 +187,7 @@ function shotsFor(seed: string) {
     }));
     add("conversation", {
       place: home,
-      backdrop: scene.personBackdrop(core, me, home, 12 * 60),
+      backdrop: scene.backdropFor(core, home, 12 * 60, me),
       ...scene.stagePeople(core, home, ids),
     });
   }
@@ -227,7 +227,7 @@ function shotsFor(seed: string) {
     });
     add(`home-${name}`, {
       place: home,
-      backdrop: scene.personBackdrop(core, id, home, 12 * 60),
+      backdrop: scene.backdropFor(core, home, 12 * 60, id),
       ...staged,
     });
   }
