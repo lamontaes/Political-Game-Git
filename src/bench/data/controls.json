@@ -97,7 +97,6 @@
     "core": "Starting the world",
     "government": "Seating the government",
     "opening": "Preparing the opening",
-    "pictures": "Loading the pictures",
     "done": "Ready"
   },
   "opening": {
@@ -135,7 +134,6 @@
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
-    "skipOpening": "Skip opening",
     "guide": "Guide",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
@@ -513,5 +511,8 @@
   },
   "talkBox": {
     "continue": "Continue"
+  },
+  "guide": {
+    "search": "Search"
   }
 }
