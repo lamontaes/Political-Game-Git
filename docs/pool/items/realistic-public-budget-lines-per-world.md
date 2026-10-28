@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/realistic-budgets
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:48:12.365Z
 ---
 
 **What.** Every world opens each government's budget on the published lines: Census state and local finances per resident and the federal fiscal 2025 Treasury statement (budgetFor, src/core2/modules/budgets.ts). Budget screens, ordinance stakes and public pay read those lines. The owner ruled on Oct 27 that every statistic starts realistic, not real, and differs per world.
