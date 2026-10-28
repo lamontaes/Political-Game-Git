@@ -21,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, src/english/bill-names.ts
 
-**Notes.** Found Oct 28 00:10 by the laws-and-effects lead while proving legislature-ask-before-the-roll-moves-the-vote in the bench.
+**Notes.** Found Oct 27 23:40 by the laws-and-effects lead while proving legislature-ask-before-the-roll-moves-the-vote in the bench.

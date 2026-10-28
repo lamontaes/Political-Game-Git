@@ -5,7 +5,7 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5076
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Acceptance reconstructed from the existing item title and PR #5076 commuter scope when reopening its placeholder body; this does not accept the unrelated redistricting work.
 
 Sent back 2026-10-23 from PR #5076 (branch claude/peaceful-ritchie-03780x): the unchanged head retains the loosened counted-weight-money tolerance, unmeasured timeout increases, and new old-engine features; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `core-outside-wage-obligation`; close into it and carry any line it lacks there. (both built)
