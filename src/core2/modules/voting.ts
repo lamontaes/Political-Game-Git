@@ -2659,6 +2659,7 @@ function countedScale(api: CoreAPI): number {
     citizenShareOf(
       api.state.placeMetadata.placeKey as string | undefined,
       usps,
+      api.state.seed,
     ) *
     (1 - electorateChange(api).barred)
   );
@@ -3436,7 +3437,7 @@ function governorRaces(api: CoreAPI, year: number): readonly Race[] {
       continue;
     if ((year - office.nextElectionYear) % office.termYears !== 0) continue;
     // A territory's electorate has no counted places or major-party record.
-    if (!statePlaces(stateKey.slice(3)).length) {
+    if (!statePlaces(stateKey.slice(3), api.state.seed).length) {
       // stopgapId: SG-GOV-territory-governor-race (a territory's governor race is not run: its electorate's places and its own parties are not on record)
       api.stopgap("SG-GOV-territory-governor-race");
       continue;
@@ -3773,7 +3774,8 @@ export function electoralCollege(
   const change = electorateChange(api);
   const states = Object.entries(electors.states).map(([key, count]) => {
     const own = key === stateKey && town ? town.republicanShare : null;
-    const places = own === null ? statePlaces(key.slice(3)) : [];
+    const places =
+      own === null ? statePlaces(key.slice(3), api.state.seed) : [];
     const votes = places.reduce((s, b) => s + b.votes2024, 0);
     const lean = votes
       ? places.reduce((s, b) => s + b.votes2024 * b.rightShare, 0) / votes
@@ -4238,17 +4240,17 @@ function currentParty(
 function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
   const usps = race.usps;
   if (race.office === "us-house") {
-    const place = housePlace(usps, race.code);
+    const place = housePlace(usps, race.code, api.state.seed);
     if (place) return [place];
     // A delegate's seat with no House vote on record (a territory): the
     // place at its 2024 delegate race's lean, its size not yet read.
     // stopgapId: SG-GOV-delegate-race-size
     api.stopgap("SG-GOV-delegate-race-size");
-    const delegate = statePlaces(usps, 1)[0];
+    const delegate = statePlaces(usps, api.state.seed, 1)[0];
     return delegate ? [{ ...delegate, eligible: 0 }] : [];
   }
   if (race.office === "us-senate" || race.office === "governor")
-    return statePlaces(usps);
+    return statePlaces(usps, api.state.seed);
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const districts = new Set(
     (
@@ -4265,6 +4267,7 @@ function worldRacePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     districts,
     sideOf(race.incumbentParty),
     null,
+    api.state.seed,
   );
   return place ? [place] : [];
 }

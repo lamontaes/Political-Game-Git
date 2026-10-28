@@ -171,16 +171,11 @@ export function isAllowedFile(relative: string, word: string): boolean {
 
 /**
  * British forms already in the tree when the vocabulary guard first read the
- * whole of it, by file and count: quoted research, past grading batches and a
- * few lines of old copy. Each count may only go down; a file reaching zero
- * leaves the list. Fix a line by rewording it, never by raising its count.
+ * whole of it, by file and count: quoted research and a few lines of old
+ * copy. Each count may only go down; a file reaching zero leaves the list.
+ * Fix a line by rewording it, never by raising its count.
  */
 export const KNOWN_HITS: Readonly<Record<string, number>> = {
-  "data/english/batches/batch-11.json": 1,
-  "data/english/batches/batch-16.json": 24,
-  "data/english/batches/batch-18.json": 1,
-  "data/english/batches/batch-19.json": 1,
-  "data/english/parts/address.json": 1,
   "data/research/bill-samples/federal/united-states.json": 2,
   "data/research/core/corruption-bands-2014.json": 1,
   "data/research/government/county-row-offices-by-state.json": 2,

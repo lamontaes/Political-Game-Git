@@ -564,7 +564,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       corePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(
         3,
       ) ?? "";
-    const share = citizenShareOf(two.placeMetadata!.placeKey!, usps);
+    const share = citizenShareOf(two.placeMetadata!.placeKey!, usps, two.seed);
     expect(share).toBeGreaterThan(0);
     expect(share).toBeLessThanOrEqual(1);
     const citizens = (
