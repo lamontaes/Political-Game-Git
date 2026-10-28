@@ -15,16 +15,6 @@
         <div id="people"></div>
       </div>
 
-      <!-- The opening: the President's speech box, then the night's news at home. -->
-      <section id="opening-box" class="panel chat" hidden>
-        <div data-speaker="opening"></div>
-        <ol id="opening-speech" class="talk-lines"></ol>
-      </section>
-      <!-- Who the camera passes, pointed out by name and office. -->
-      <div id="opening-point" class="panel" hidden>
-        <div id="opening-point-name" class="name"></div>
-        <div id="opening-point-role" class="role"></div>
-      </div>
       <div id="news-surface" class="panel toast" hidden>
         <button id="news-surface-open" type="button">
           <span id="news-surface-label" class="label"></span>
@@ -615,18 +605,11 @@
       <div id="dock">
         <nav id="rings" hidden></nav>
         <section id="card" class="panel me" hidden>
-          <div
-            id="card-bust"
-            class="bust"
-            data-tab="who"
-            role="button"
-            tabindex="0"
-          ></div>
-          <div>
+          <div class="card-id">
             <h2 id="card-name" class="name"></h2>
             <p id="card-place" class="role"></p>
-            <p id="card-clock" class="when"></p>
           </div>
+          <p id="card-clock" class="when"></p>
           <div class="time">
             <p id="card-why" class="label"></p>
             <div class="acts">

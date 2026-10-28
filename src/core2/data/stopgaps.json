@@ -6724,8 +6724,8 @@
     "why": "A series a body can draft needs its bill-section words, which belong to the Words line (words-bill-section-local-income-tax-authority); the laws branch's own words were returned by Merger 2 on Oct 26.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "The Words line's bill-section row for local-income-tax-authority, then a state-level grant/withdraw policy in the bill catalog (scripts/research/build-bill-catalog.py) and its power in series-powers.json.",
-    "status": "open"
+    "replacement": "Resolved Oct 28: the bill catalog offers law:local-income-tax-authority to state chambers (scripts/research/build-bill-catalog.py), worded by the Words row from #6432, so a legislature grants or withdraws its towns' power to tax income by bill and a town's next income-tax bill reads the law in force.",
+    "status": "resolved"
   },
   {
     "id": "SG-LAW-death-tax-no-schedule",
@@ -7147,8 +7147,8 @@
     "why": "The inauguration record (inauguration:2025-01-20) carries no venue, and the Capitol steps have no podium in the painted pictures, so the President could not be drawn at a lectern with the Vice President and others behind him at the White House.",
     "addedBy": "play-first lane agent 4",
     "addedAt": "2026-10-27",
-    "replacement": "The inauguration record carries its venue, and the Capitol steps picture gets a podium spot; the setting reads the record.",
-    "status": "open"
+    "replacement": "Resolved Oct 28 by deletion: the opening's picture table is gone (trim-main-every-duplicate-deleted, row W1/B1 of docs/reports/duplicates-on-main-2026-10-28.md), so nothing stages the address at the House rostrum. When the address plays as the director's address situation type (director-opening-as-a-scene), its place comes from the scene's own place rule; the inauguration record still carries no venue.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-contract-conflict-named-members",
