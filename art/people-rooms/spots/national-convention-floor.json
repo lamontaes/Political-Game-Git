@@ -892,7 +892,7 @@
    ],
    "headTop": 429,
    "headX": 549.6,
-   "headWidth": 99,
+   "headWidth": 12.5,
    "pose": "sit",
    "frontLine": [
     517,
@@ -1035,7 +1035,8 @@
      "height": 232
     },
     "check": "two people touching; split or use one"
-   }
+   },
+   "headWidthMeasured": 99
   },
   {
    "box": [
@@ -1564,7 +1565,7 @@
    ],
    "headTop": 435,
    "headX": 1587.2,
-   "headWidth": 26,
+   "headWidth": 12.5,
    "pose": "sit",
    "frontLine": [
     468,
@@ -1615,7 +1616,8 @@
      "headWidth": 26,
      "height": 33
     }
-   }
+   },
+   "headWidthMeasured": 26
   },
   {
    "box": [
@@ -1839,7 +1841,7 @@
    ],
    "headTop": 439,
    "headX": 450.3,
-   "headWidth": 42,
+   "headWidth": 12.5,
    "pose": "sit",
    "frontLine": [
     466,
@@ -1910,7 +1912,8 @@
      "headWidth": 42,
      "height": 50
     }
-   }
+   },
+   "headWidthMeasured": 42
   },
   {
    "box": [
@@ -1976,7 +1979,7 @@
    ],
    "headTop": 448,
    "headX": 350.5,
-   "headWidth": 27,
+   "headWidth": 12.5,
    "pose": "sit",
    "frontLine": [
     501,
@@ -2050,7 +2053,8 @@
      "headWidth": 27,
      "height": 53
     }
-   }
+   },
+   "headWidthMeasured": 27
   },
   {
    "box": [

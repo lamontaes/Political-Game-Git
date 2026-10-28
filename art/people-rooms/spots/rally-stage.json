@@ -1361,7 +1361,7 @@
    ],
    "headTop": 472,
    "headX": 1381.4,
-   "headWidth": 73,
+   "headWidth": 40,
    "pose": "sit",
    "frontLine": [
     498,
@@ -1454,7 +1454,8 @@
      "headWidth": 73,
      "height": 26
     }
-   }
+   },
+   "headWidthMeasured": 73
   },
   {
    "box": [

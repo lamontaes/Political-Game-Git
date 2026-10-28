@@ -145,7 +145,7 @@
    ],
    "headTop": 70,
    "headX": 36.3,
-   "headWidth": 25,
+   "headWidth": 12.0,
    "pose": "sit",
    "frontLine": [
     84,
@@ -191,7 +191,8 @@
      "headWidth": 25,
      "height": 32
     }
-   }
+   },
+   "headWidthMeasured": 25
   },
   {
    "box": [
@@ -567,7 +568,7 @@
    ],
    "headTop": 79,
    "headX": 1600.5,
-   "headWidth": 27,
+   "headWidth": 12.0,
    "pose": "sit",
    "frontLine": [
     109,
@@ -614,7 +615,8 @@
      "headWidth": 27,
      "height": 30
     }
-   }
+   },
+   "headWidthMeasured": 27
   },
   {
    "box": [

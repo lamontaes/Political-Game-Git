@@ -45,6 +45,8 @@ if __name__ == '__main__':
         al = np.asarray(img)[..., 3] > 128; ys = np.where(al.any(1))[0]; fig_h = ys[-1] - ht + 1
         bx = sp['box']; covered = sp.get('tags', {}).get('coveredBy', 'none') not in ('none', None)
         standing = sp.get('pose', 'stand') != 'sit' and not covered          # a mannequin behind a stage or desk shows only part of the body
+        if sp.get('tags', {}).get('coveredBy') == 'lectern' and bx[3] - bx[1] >= 6 * sp['headWidth']:
+            standing = True                                      # feet show beside the lectern, so the box runs head to floor
         if standing:                                             # a standing person fills the mannequin from head to feet
             s = (bx[3] - bx[1]) / fig_h
             x0, y0 = round(sp['headX'] - hx * s), round(bx[3] - ys[-1] * s)
@@ -55,15 +57,18 @@ if __name__ == '__main__':
         layer = Image.new('RGBA', (W, H), (0, 0, 0, 0)); layer.alpha_composite(img, (max(0, x0), max(0, y0)), (max(0, -x0), max(0, -y0)))
         A = np.asarray(layer).copy()
         fl, fx0 = sp.get('frontLine'), sp.get('frontLineX0', 0)
-        if fl:                                                   # below the front line the room is in front of the person
+        if fl and covered:                                       # only a desk, table, counter, chair back, railing, stage or lectern hides part of a
+                                                                 # person; on open floor or on a couch their legs are in front of everything
+            k = max(2, int(0.75 * sp['headWidth'])); f = np.asarray(fl)   # between the mannequin's legs its lowest point is the crotch: fill that gap
+            fl = [int(f[max(0, c - k):c + k + 1].max()) for c in range(len(f))]
             rows = np.arange(H)[:, None]; lim = np.full(W, H)
             lim[fx0:fx0 + len(fl)] = fl
             xs = np.arange(W); outside = (xs < fx0) | (xs >= fx0 + len(fl))
             lim[outside] = H
-            if covered:                                          # behind a stage, desk or counter: its top edge runs straight across the whole person
+            if covered and not standing:                         # behind a stage, desk or counter: its top edge runs straight across the whole person
                 reach = int(max(0.4 * (bx[2] - bx[0]), 2.5 * sp['headWidth']))
                 lim[max(0, fx0 - reach):min(W, fx0 + len(fl) + reach)] = int(np.median(fl))
-            elif not standing:                                   # seated: the seat's front runs on past the mannequin's sides
+            else:                                                # a lectern beside a standing speaker runs on a little past the mannequin's sides
                 reach = int(max(0.4 * (bx[2] - bx[0]), 1.5 * sp['headWidth']))
                 lim[max(0, fx0 - reach):fx0] = fl[0]; lim[fx0 + len(fl):min(W, fx0 + len(fl) + reach)] = fl[-1]
             A[..., 3] = np.where(rows > lim[None, :] + 2, 0, A[..., 3])

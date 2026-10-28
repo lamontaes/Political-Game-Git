@@ -2,7 +2,7 @@
 every part was painted on the same body, so the layers just sit on top of each other in order.
 usage: python3 stack.py PARTS_DIR OUTFITS.json OUT.png
 OUTFITS.json: list of {"name", "skin", "hair": [n, rgb] or null, "parts": {"pants": [n, rgb], "shoes": [n, rgb], "shirt": [n, rgb], "tie": [n, rgb], "jacket": [n, rgb]}}"""
-import sys, json, numpy as np
+import os, sys, json, numpy as np
 from PIL import Image
 
 ORDER = ['pants', 'shoes', 'dress', 'shirt', 'tie', 'jacket', 'hair']
@@ -25,7 +25,9 @@ def person(parts_dir, fid, info, outfit):
         spec = outfit['hair'] if layer == 'hair' else outfit['parts'].get(layer)
         if not spec: continue
         n, rgb = spec
-        if not __import__('os').path.exists(f'{d}/{layer}-{n}.png'): continue
+        if not os.path.exists(f'{d}/{layer}-{n}.png'):
+            if layer not in ('shirt', 'pants', 'shoes'): continue    # body.png is only head and bare skin, so a style
+            n = 1                                                    # not painted yet falls back to the base garment
         img = Image.alpha_composite(img, dress(np.asarray(Image.open(f'{d}/{layer}-{n}.png')), rgb, outfit['skin']))
     return img, (X0, Y0)
 
