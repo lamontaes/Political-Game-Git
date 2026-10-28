@@ -137,6 +137,7 @@ export const STORY_KINDS = {
   "staff-cut": { headline: ["staff-cut"], lede: ["staff-cut"] },
   "owner-changed": { headline: ["owner-changed"], lede: ["owner-changed"] },
   ad: { headline: ["ad"], lede: ["ad"] },
+  "campaign-gift": { headline: ["campaign-gift"], lede: ["campaign-gift"] },
   eviction: { headline: ["eviction"], lede: ["eviction"] },
   "home-sale": { headline: ["home-sale"], lede: ["home-sale"] },
   "homes-built": { headline: ["homes-built"], lede: ["homes-built"] },

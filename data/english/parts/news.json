@@ -47,7 +47,8 @@
     "unemployment_rate": "The country's unemployment rate, as a number of percent, from the macro month record.",
     "wage_growth": "How much average hourly pay grew over the year, as a number of percent, from two macro month records.",
     "quote": "One sentence of an address, as the record quotes it.",
-    "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record."
+    "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
+    "candidate": "A candidate, by name, from the campaign's record."
   },
   "maxWords": 14,
   "mining": {
@@ -4899,6 +4900,72 @@
       "shippable": true,
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift.name-gave-money-to-candidate-s-campaign",
+      "move": "campaign-gift",
+      "kind": "written",
+      "text": "{name} gave {money} to {candidate}'s campaign.",
+      "uses": [
+        {
+          "move": "campaign-gift",
+          "subject": "news",
+          "role": "campaign-gift",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift.candidate-s-campaign-reported-a-gift-of-money-from-name",
+      "move": "campaign-gift",
+      "kind": "written",
+      "text": "{candidate}'s campaign reported a gift of {money} from {name}.",
+      "uses": [
+        {
+          "move": "campaign-gift",
+          "subject": "news",
+          "role": "campaign-gift",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.campaign-gift.a-gift-of-money-from-name-went-to-candidate-s-campaign",
+      "move": "campaign-gift",
+      "kind": "written",
+      "text": "A gift of {money} from {name} went to {candidate}'s campaign.",
+      "uses": [
+        {
+          "move": "campaign-gift",
+          "subject": "news",
+          "role": "campaign-gift",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
       "date": "2026-10-28",
       "tag": {
         "move": "deliver-news",
