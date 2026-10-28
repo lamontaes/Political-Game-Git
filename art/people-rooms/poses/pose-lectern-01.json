@@ -1,0 +1,38 @@
+{
+ "id": "pose-lectern-01",
+ "file": "pose-lectern-01.png",
+ "garments": "pose-lectern-01-garments.png",
+ "sheet": "in-scene",
+ "scene": "inaugural-lectern-close",
+ "plate": "lp-i1.png",
+ "pose": "lectern",
+ "angle": "three-quarter",
+ "facing": 30,
+ "gesture": "hand raised while speaking",
+ "interacts": "lectern: one hand on the top edge",
+ "hairView": "threeqr",
+ "sex": "m",
+ "build": "medium",
+ "ageBand": "adult",
+ "prop": "none",
+ "outfit": "suit",
+ "width": 273,
+ "height": 207,
+ "boxInScene": [
+  569,
+  222,
+  842,
+  429
+ ],
+ "sceneSize": [
+  1365,
+  768
+ ],
+ "head": {
+  "top": 4,
+  "x": 116.5,
+  "width": 66
+ },
+ "frontEdgeY": 180,
+ "clothesLabelled": 0.65
+}
