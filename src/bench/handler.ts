@@ -933,10 +933,7 @@ export async function benchRequest(
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/economy") {
-        send(
-          200,
-          economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
-        );
+        send(200, economyView(requireCore(), placeId));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/world-panels") {
