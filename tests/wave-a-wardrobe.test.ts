@@ -19,7 +19,7 @@ import {
   PG_COMPONENT_SPECS,
 } from "../scripts/art-asset-factory/pg-modular-intake";
 import { hashArtFile } from "../scripts/art-asset-factory/content-hash";
-import type { CharacterComponentManifestRecord } from "../src/presentation/character-components";
+import type { CharacterComponentManifestRecord } from "../src/appearance/character-components";
 
 const root = path.resolve(import.meta.dirname, "..");
 

@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import type { CharacterComponentManifestRecord } from "../../src/presentation/character-components";
+import type { CharacterComponentManifestRecord } from "../../src/appearance/character-components";
 import { hashArtFile } from "./content-hash";
 import { measureBodyRig } from "./pg-modular-intake";
 import {

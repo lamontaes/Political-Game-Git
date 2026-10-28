@@ -15,7 +15,7 @@ import {
   validateGarmentFitBank,
   type GarmentFitBankData,
   type GarmentFitClass,
-} from "../src/presentation/garment-fit";
+} from "../src/appearance/garment-fit";
 import {
   createCharacterComponentLibrary,
   projectCharacterLayers,
@@ -23,7 +23,7 @@ import {
   type CharacterComponentDefinition,
   type CharacterComponentManifestRecord,
   type CharacterRecipe,
-} from "../src/presentation/character-components";
+} from "../src/appearance/character-components";
 import characterCatalog from "../art/manifest/character_catalog.json";
 import {
   garmentExtent,
@@ -50,7 +50,7 @@ import {
 /**
  * The fit layer against real pixels.
  *
- * `src/presentation/garment-fit.test.ts` checks the rules. This file checks
+ * `src/appearance/garment-fit.test.ts` checks the rules. This file checks
  * what actually comes out of the compositor when the same garment raster is
  * hung on a lean, an average and a heavy body — including the one claim that
  * cannot be made from arithmetic alone: that the fitted silhouette is measurably
@@ -743,8 +743,8 @@ describe("what the fit layer refuses", () => {
     // The compositor and the fit module are pure geometry. If either ever
     // reaches for the filesystem, this is where it is noticed.
     for (const file of [
-      "src/presentation/garment-fit.ts",
-      "src/presentation/character-components.ts",
+      "src/appearance/garment-fit.ts",
+      "src/appearance/character-components.ts",
     ]) {
       const source = fs.readFileSync(path.join(ROOT, file), "utf-8");
       expect(source).not.toMatch(/from "(node:)?fs"/);
