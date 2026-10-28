@@ -1,0 +1,358 @@
+{
+  "batch": "voice-notes-oct15-28",
+  "note": "The owner's voice-note grades of the lines he judged in batches 13 to 20 that the first voice-note file (voice-notes-batches-11-19.json) does not already grade, plus the lines he judged in the Oct 27 and Oct 28 playtest sittings. Read from docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md (sections 9 and 16), 2026-10-15-words-orders-part-2.md (sections 19, 21, 23, 27, 31, 35, 36), 2026-10-23-words-lead.md and 2026-10-24-playtest.md, plus the quotes in docs/coordination/playtest/2026-10-27-1-log.md and 2026-10-28-1.md (points 11, 37 and 38). Scale: he liked it (\"I like that\", \"that's good\", \"solid\", \"great\", \"perfect\") is good; he rejected the sentence itself (\"weird\", \"awkward\", \"doesn't make sense\", \"unnatural\", \"dev talky\") is bad; \"the sentence is fine but the context is wrong\" (\"doesn't fit here\", his number three), neutral (\"sure\", \"that's fine\") and lines that match no current part get no row. Each row is one part, so a line said in two banks is two rows. Quotes are speech-to-text and matched to the parts tolerantly.",
+  "grades": [
+    {
+      "i": 0,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Can you tell me how you'll vote on {bill}?",
+      "note": "Batch 13: \"Can you tell me how you'll vote on, that sounds like a good press question.\"",
+      "parts": ["scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill"]
+    },
+    {
+      "i": 1,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "I'm voting for it, and you can quote me.",
+      "note": "Batch 13: \"I'm voting for it and you can quote me. That's very, very, like confident.\" and \"Yep, that's good.\"",
+      "parts": [
+        "scene-talk.reply-answer.i-m-voting-for-it-and-you-can-quote-me"
+      ]
+    },
+    {
+      "i": 2,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "I'd tell them I listened, and I still disagree.",
+      "note": "Batch 13: \"Tell them I listened and I still disagree. That's funny.\"",
+      "parts": [
+        "scene-talk.reply-answer.i-d-tell-them-i-listened-and-i-still-disagree"
+      ]
+    },
+    {
+      "i": 3,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "That's all I needed. Thanks.",
+      "note": "Batch 13: \"That's all I needed. Thanks. Yep, that's good. That's solid.\"",
+      "parts": ["scene-talk.follow-thank.that-s-all-i-needed-thanks"]
+    },
+    {
+      "i": 4,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "There's a knock at your door. It's {name}, a reporter for {outlet}.",
+      "note": "Batch 13: \"There's a knock at your door. It's Mark Wood from Beacon News Network. Yep, that's perfect.\"",
+      "parts": [
+        "scene-talk.narrate-narrate.there-s-a-knock-at-your-door-it-s-name-a-reporter-for-outlet"
+      ]
+    },
+    {
+      "i": 5,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Do you have a moment for a couple of questions?",
+      "note": "Batch 13: \"Do you have a moment for a couple of questions? That's good.\" and \"It's good.\"",
+      "parts": [
+        "scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions"
+      ]
+    },
+    {
+      "i": 6,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Mind if I ask you a few things?",
+      "note": "Batch 13 scene 3: \"Mind if I ask you a few things? I like that.\"",
+      "parts": ["scene-talk.open-greet.mind-if-i-ask-you-a-few-things"]
+    },
+    {
+      "i": 7,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Then let me answer it on the record.",
+      "note": "Batch 13: \"Then let me answer it on the record. Yeah, that's good. That's good.\"",
+      "parts": ["scene-talk.reply-answer.then-let-me-answer-it-on-the-record"]
+    },
+    {
+      "i": 8,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Read the bill before you judge it.",
+      "note": "Batch 13, cold: \"Read the bill before you judge it. Sure. That's good, too.\"",
+      "parts": ["scene-talk.reply-answer.read-the-bill-before-you-judge-it"]
+    },
+    {
+      "i": 9,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Even then. It's the right call.",
+      "note": "Batch 13, stubborn: \"Okay, that's a good response. Even then, it's the right call. Yep.\"",
+      "parts": ["scene-talk.reply-answer.even-then-it-s-the-right-call"]
+    },
+    {
+      "i": 10,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Sorry to bother you.",
+      "note": "Batch 13 scene 7: \"Sorry to bother you. I like that.\"",
+      "parts": ["scene-talk.open-greet.sorry-to-bother-you"]
+    },
+    {
+      "i": 11,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Is now a bad time?",
+      "note": "Batch 13 scene 8: \"Is now a bad time? Sure. I like that.\" and \"That's fine. Thank you. Really, I like that.\"",
+      "parts": ["scene-talk.open-greet.is-now-a-bad-time"]
+    },
+    {
+      "i": 12,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Got a second?",
+      "note": "Batch 13 scene 8: \"Got a second. Yeah, that's good. Good.\"",
+      "parts": ["scene-talk.open-greet.got-a-second"]
+    },
+    {
+      "i": 13,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "I wish I could, but I can't.",
+      "note": "Batch 13: \"I wish I could, but I can't. Ooh.\" then \"These are all good.\"",
+      "parts": ["scene-talk.reply-decline.i-wish-i-could-but-i-can-t"]
+    },
+    {
+      "i": 14,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "I'll carry it.",
+      "note": "Batch 13: \"Saying I'll carry it, a little awkward.\"",
+      "parts": ["scene-talk.reply-agree.i-ll-carry-it"]
+    },
+    {
+      "i": 15,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Meet me halfway, and we have a deal.",
+      "note": "Batch 13: \"Meet me halfway and we have a deal. I like that conceptually.\" (the structure was \"kind of robotic\")",
+      "parts": ["scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal"]
+    },
+    {
+      "i": 16,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Then I'll find a candidate who listens.",
+      "note": "Batch 13: \"Then I'll find a candidate who listens. Ooh, I like that.\"",
+      "parts": [
+        "scene-talk.follow-threaten.then-i-ll-find-a-candidate-who-listens"
+      ]
+    },
+    {
+      "i": 17,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "{office}. You really did it.",
+      "note": "Batch 13 family scene: \"Look who it is. County Commissioner, you really did it. That's good.\"",
+      "parts": ["scene-talk.state-congratulate.office-you-really-did-it"]
+    },
+    {
+      "i": 18,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "I couldn't have done it without you.",
+      "note": "Batch 13 family scene: \"Couldn't have done it without you. I'm going to make this count. You earned this. I like that.\"",
+      "parts": ["scene-talk.reply-thank.i-couldn-t-have-done-it-without-you"]
+    },
+    {
+      "i": 19,
+      "grade": "good",
+      "by": "owner (voice note, Oct 15, night, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §9)",
+      "line": "Not bad for a first run, right?",
+      "note": "Batch 13 family scene: \"Not bad for a first run. I like that.\"",
+      "parts": ["scene-talk.reply-boast.not-bad-for-a-first-run-right"]
+    },
+    {
+      "i": 20,
+      "grade": "good",
+      "by": "owner (voice note, Oct 16, early morning, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §16)",
+      "line": "Then {source} has it wrong.",
+      "note": "Batch 14: \"Then Liam McCarthy has it wrong, that's also good.\" and \"I'm going to say then Liam McCarthy has it wrong because I like that.\"",
+      "parts": ["scene-talk.reply-lie.then-source-has-it-wrong"]
+    },
+    {
+      "i": 21,
+      "grade": "good",
+      "by": "owner (voice note, Oct 16, early morning, docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md §16)",
+      "line": "{name}, a reporter for {outlet}, catches you on your way out.",
+      "note": "Batch 14 scene 1: \"A reporter for Wong. That's good.\"",
+      "parts": [
+        "scene-talk.narrate-narrate.name-a-reporter-for-outlet-catches-you-on-your-way-out"
+      ]
+    },
+    {
+      "i": 22,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 16, morning, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §19)",
+      "line": "The story runs Thursday.",
+      "note": "Batch 15: \"And then he responds the story runs Thursday. That's a weird. Response.\"",
+      "parts": ["scene-talk.close-press.the-story-runs-thursday"]
+    },
+    {
+      "i": 23,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 16, morning, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §19)",
+      "line": "Louder than the mic. It cut out twice.",
+      "note": "Batch 15: \"Louder than the mic. It cut out twice. What do you mean it cut out? ... That's a little awkward.\"",
+      "parts": ["scene-talk.follow-answer.louder-than-the-mic-it-cut-out-twice"]
+    },
+    {
+      "i": 24,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 16, morning, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §19)",
+      "line": "Fine. I'll do it, but this is the last time.",
+      "note": "Batch 15: \"Saying fine, I'll do it, but this is the last time. Weird response.\"",
+      "parts": [
+        "scene-talk.reply-relent.fine-i-ll-do-it-but-this-is-the-last-time"
+      ]
+    },
+    {
+      "i": 25,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 16, afternoon, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §21)",
+      "line": "Okay. I don't like it, but okay.",
+      "note": "Batch 16: \"I still don't like it, but okay. I'm not sure how many people would say that.\"",
+      "parts": ["scene-talk.follow-accept.okay-i-don-t-like-it-but-okay"]
+    },
+    {
+      "i": 26,
+      "grade": "good",
+      "by": "owner (voice note, Oct 19, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §23)",
+      "line": "Because you've been on the fence all week, and everybody on this floor knows it. You're the one I can still move.",
+      "note": "Batch 17: \"Because you've been on the fence all week and everybody on this floor knows it. You're the one I can still move. Ooh, I like this.\"",
+      "parts": [
+        "scene-talk.follow-answer.because-you-ve-been-on-the-fence-all-week-and-everybody-on-this-floor-"
+      ]
+    },
+    {
+      "i": 27,
+      "grade": "good",
+      "by": "owner (voice note, Oct 19, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §23)",
+      "line": "Then say we didn't buy it. We knocked it, door by door.",
+      "note": "Batch 17: \"Then say we didn't buy it. We knocked it door by door.\" and \"That scene was great\"",
+      "parts": [
+        "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-knocked-it-door-by-door"
+      ]
+    },
+    {
+      "i": 28,
+      "grade": "good",
+      "by": "owner (voice note, Oct 19, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §23)",
+      "line": "Here's what I'd do, and you won't like it. Wait a cycle. Run for {office} when you can win it, not when you want it.",
+      "note": "Batch 17: \"Run for state senator when you can win it, not when you want it. That's a good one.\"",
+      "parts": [
+        "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w"
+      ]
+    },
+    {
+      "i": 29,
+      "grade": "good",
+      "by": "owner (voice note, Oct 19, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §23)",
+      "line": "Let me sleep on it. I'll call you Tuesday.",
+      "note": "Batch 17: \"I'm going to say, let me sleep on it. I'll call you Tuesday. ... I like that one. That one was great.\"",
+      "parts": [
+        "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday"
+      ]
+    },
+    {
+      "i": 30,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 19, evening, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §31)",
+      "line": "{name} picked the diner, and the back booth, and already ordered for both of you. You came to ask about running for {office}.",
+      "note": "Batch 19: \"James Cook picked the diner in the back and the back booth. And already ordered for both of you. That sentence is a little awkward.\"",
+      "parts": [
+        "scene-talk.narrate-narrate.name-picked-the-diner-and-the-back-booth-and-already-ordered-for-both-"
+      ]
+    },
+    {
+      "i": 31,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 19, evening, docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md §31)",
+      "line": "Then go now, and don't come crying to me in November. I'll help anyway.",
+      "note": "Batch 19: \"Don't come crying to me in November. I'll help anyway. That's a little awkward.\"",
+      "parts": [
+        "scene-talk.follow-accept.then-go-now-and-don-t-come-crying-to-me-in-november-i-ll-help-anyway"
+      ]
+    },
+    {
+      "i": 32,
+      "grade": "good",
+      "by": "owner (playtest sitting, Oct 27, docs/coordination/playtest/2026-10-27-1-log.md, owner quote on the partner talk)",
+      "line": "Did you see the President's speech?",
+      "note": "Oct 27: \"the woman who was apparently my partner asked me if I enjoyed the speech. I did like that.\" The log: \"the opening question itself ('Did you see the President's speech?') - owner liked this in his own run.\"",
+      "parts": [
+        "conversation.address-ask-seen.did-you-see-the-president-s-speech"
+      ]
+    },
+    {
+      "i": 33,
+      "grade": "bad",
+      "by": "owner (playtest sitting, Oct 27, docs/coordination/playtest/2026-10-27-1-log.md, owner quote on the opening speech)",
+      "line": "I come to this office from {home-state}, and I carry it with me.",
+      "note": "Oct 27: \"I come to this office from Michigan and I carry it with me. That doesn't make any sense.\"",
+      "parts": [
+        "opening-speech.occasion.polished-ina-i-come-to-this-office-from-home-state-and-i-carry-it-with-me"
+      ]
+    },
+    {
+      "i": 34,
+      "grade": "bad",
+      "by": "owner (playtest sitting, Oct 27, docs/coordination/playtest/2026-10-27-1-log.md, owner quote on the opening speech)",
+      "line": "By the plain measures, the country is doing better than it was a year ago, and I mean to build on that.",
+      "note": "Oct 27: \"By the plain measure, what? The country is doing better than it was a year ago, and I mean to build on that.\"",
+      "parts": [
+        "opening-speech.story-open.polished-ina-sta-by-the-plain-measures-the-country-is-doing-better-than-it-wa"
+      ]
+    },
+    {
+      "i": 35,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 28, docs/coordination/playtest/2026-10-28-1.md §11)",
+      "line": "Well, here we are. Thank you for being here.",
+      "note": "Oct 28: \"Well, here we are. Thank you for being here sounds like a late-night host, not a president.\"",
+      "parts": [
+        "opening-speech.salutation.plain-ina-well-here-we-are-thank-you-for-being-here"
+      ]
+    },
+    {
+      "i": 36,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 28, docs/coordination/playtest/2026-10-28-1.md §11)",
+      "line": "Today the work starts, and I mean to do it right.",
+      "note": "Oct 28: \"Today the work starts, and I mean to do it right is unnatural.\"",
+      "parts": [
+        "opening-speech.occasion.plain-ina-today-the-work-starts-and-i-mean-to-do-it-right"
+      ]
+    },
+    {
+      "i": 37,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 28, docs/coordination/playtest/2026-10-28-1.md §11)",
+      "line": "Things are better than they were a year ago, and I intend to keep it going.",
+      "note": "Oct 28: \"Things are better than they were a year ago... I intend to keep it going makes no sense from someone just taking office.\"",
+      "parts": [
+        "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-"
+      ]
+    },
+    {
+      "i": 38,
+      "grade": "bad",
+      "by": "owner (voice note, Oct 28, docs/coordination/playtest/2026-10-28-1.md §11)",
+      "line": "Across the country, unemployment is {unemployment-rate} percent.",
+      "note": "Oct 28: \"'unemployment is 3.4 percent' should be 'is at 3.4 percent'\"",
+      "parts": [
+        "opening-speech.story-fig.plain-ina-sta-across-the-country-unemployment-is-unemployment-rate-percent"
+      ]
+    }
+  ]
+}
