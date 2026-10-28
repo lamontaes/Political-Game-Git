@@ -1157,17 +1157,7 @@ function renderFiling(value) {
   }
   // At the counter you can walk out; silence there is not an answer.
   talkControls({ silent: false, leave: true });
-  // The narrator sets the counter up before the clerk speaks (the opening call only).
-  fillTalk({
-    lines: [
-      ...(lines.length <= 1
-        ? (value.intro ?? []).map((line) =>
-            talkLine({ kind: "speech narration", text: line.text }),
-          )
-        : []),
-      ...spokenLines(lines),
-    ],
-  });
+  fillTalk({ lines: spokenLines(lines) });
   // No form at the counter (owner, Oct 28, point 31: the rules panel was a
   // dev menu): filing carries the party the player is tied to, from the
   // record; the platform is SG-SCREENS-filing-platform-from-views.
