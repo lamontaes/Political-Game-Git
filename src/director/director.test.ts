@@ -3,7 +3,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { P, parameter } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
@@ -726,6 +726,48 @@ describe("story director on the new core", () => {
       for (const reason of Object.values(binding.presentReasons))
         expect(reason).toMatch(/^[a-z-]+$/);
     }
+  });
+
+  it("caps one type's scenes in a season: past the cap its causes go to the journal", () => {
+    const { core, director } = run("place:director-fixture", true);
+    const book = director.ledger.people.get("person:worker")!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const staged = book.schedule.find((row) => row.momentId === moment.id)!;
+    const options = { mode: "live", interruptImpact: 0.5 };
+    // A later cause of the same type, past the repeat window but within the
+    // season, so only the season's cap can hold it back.
+    const later = (n: number) => ({
+      ...moment,
+      id: `${moment.id}:season-${n}`,
+      causeId: `${moment.causeId}:season-${n}`,
+      date: addDays(
+        makeIsoDate(moment.date),
+        SITUATION_LIBRARY.scheduling.repeatDays + 1,
+      ),
+    });
+    const capped = {
+      ...SITUATION_LIBRARY,
+      scheduling: {
+        ...SITUATION_LIBRARY.scheduling,
+        seasonCap: { ...SITUATION_LIBRARY.scheduling.seasonCap, value: 1 },
+      },
+    };
+    // The season already holds one scene of the type: at a cap of one, the
+    // next cause of it stages nothing; at the shipped cap it still stages.
+    expect(staged.bindings.map((row) => row.typeKey)).toContain("news-arrives");
+    const blocked = scheduleMoment(core, book, later(1), options, capped);
+    expect(blocked.bindings.map((row) => row.typeKey)).not.toContain(
+      "news-arrives",
+    );
+    // The shipped cap lets the same cause through.
+    const through = scheduleMoment(core, book, later(2), options);
+    expect(through.bindings.map((row) => row.typeKey)).toContain(
+      "news-arrives",
+    );
+    expect(SITUATION_LIBRARY.scheduling.seasonCap.value).toBeGreaterThan(1);
+    expect(SITUATION_LIBRARY.scheduling.seasonCap.days).toBeGreaterThan(0);
   });
 
   it("takes a second cause the same day into the sitting already staged, citing both records", () => {

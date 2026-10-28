@@ -140,6 +140,8 @@ export interface SituationLibrary {
     trailingDays: number;
     /** Days within which the same scene with the same people is staged once. */
     repeatDays: number;
+    /** The most scenes of one type in a season's window of days. */
+    seasonCap: { value: number; days: number };
     openDays: Readonly<Record<string, number>>;
     /** Moments that stage their family scene when a household member is in them. */
     householdScenes: readonly string[];
@@ -775,11 +777,30 @@ export function scheduleMoment(
     : staged;
   const eachCause = (row: SceneBinding) =>
     library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
+  // One type cannot take a season: past its cap of scenes in the season's
+  // window, its causes go to the journal (the plan of Oct 28, section 3: the
+  // floor vote fired 121 times in one played year).
+  const seasonStart = addDays(
+    makeIsoDate(moment.date),
+    -library.scheduling.seasonCap.days,
+  );
+  const inSeason = new Map<string, number>();
+  for (const entry of book.schedule)
+    if (
+      entry.date > seasonStart &&
+      entry.date <= moment.date &&
+      entry.momentId !== moment.id &&
+      entry.outcome !== "journal-line"
+    )
+      for (const typeKey of new Set(entry.bindings.map((row) => row.typeKey)))
+        inSeason.set(typeKey, (inSeason.get(typeKey) ?? zero) + one);
   const bindings = wanted.filter(
     (row) =>
-      eachCause(row) ||
-      (!sittingToday.has(castOf(row)) &&
-        !sittingToday.has(windowKey(row, moment.id))),
+      (inSeason.get(row.typeKey) ?? zero) <
+        library.scheduling.seasonCap.value &&
+      (eachCause(row) ||
+        (!sittingToday.has(castOf(row)) &&
+          !sittingToday.has(windowKey(row, moment.id)))),
   );
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:

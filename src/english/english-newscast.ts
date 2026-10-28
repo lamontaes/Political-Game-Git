@@ -43,6 +43,7 @@ export const STORY_KINDS = {
     story: "election",
     headline: ["election"],
     lede: ["election-result"],
+    context: ["election-opponent"],
   },
   filing: {
     story: "filing",
@@ -78,11 +79,17 @@ export const STORY_KINDS = {
   // The stories the press prints during play, each worded by its own
   // headline and lede pieces; one with no newscast story of its own is told
   // in the paper only.
-  law: { story: "vote-or-law", headline: ["law"], lede: ["law"] },
+  law: {
+    story: "vote-or-law",
+    headline: ["law"],
+    lede: ["law"],
+    context: ["law-purpose", "law-bill"],
+  },
   "law-amount": {
     story: "vote-or-law",
     headline: ["law-amount"],
     lede: ["law-amount"],
+    context: ["law-amount-change", "law-amount-bill"],
   },
   "roll-call": {
     story: "vote-or-law",
@@ -130,6 +137,7 @@ export const STORY_KINDS = {
   "staff-cut": { headline: ["staff-cut"], lede: ["staff-cut"] },
   "owner-changed": { headline: ["owner-changed"], lede: ["owner-changed"] },
   ad: { headline: ["ad"], lede: ["ad"] },
+  "campaign-gift": { headline: ["campaign-gift"], lede: ["campaign-gift"] },
   eviction: { headline: ["eviction"], lede: ["eviction"] },
   "home-sale": { headline: ["home-sale"], lede: ["home-sale"] },
   "homes-built": { headline: ["homes-built"], lede: ["homes-built"] },
@@ -303,19 +311,26 @@ export function composeNewsStory(
   );
   // A kind with context says one sentence per context role whose facts the
   // record carries, in order, after the lede.
-  const context = ("context" in roles ? roles.context : [])
-    .map((name) =>
-      keep(
-        line(
-          packet,
-          `${kind}/${name}`,
-          "news",
-          "tell",
-          variants(NEWS_BANK, (use) => use.role === name, heldFirst),
-        ),
-      ),
-    )
-    .filter((text): text is string => !!text);
+  const context: string[] = [];
+  for (const name of "context" in roles ? roles.context : []) {
+    const composed = line(
+      packet,
+      `${kind}/${name}`,
+      "news",
+      "tell",
+      variants(NEWS_BANK, (use) => use.role === name, heldFirst),
+    );
+    if (!composed) continue;
+    // A sentence that only repeats what the lede or an earlier sentence said
+    // (the bill's number, the opponent) is left out.
+    const said = [lede ?? "", ...context].join(" ");
+    const named = Object.values(packet.facts)
+      .map((fact) => fact?.text ?? "")
+      .filter((text) => text.length > 2 && composed.text.includes(text));
+    if (named.length && named.every((text) => said.includes(text))) continue;
+    const text = keep(composed);
+    if (text) context.push(text);
+  }
   // The anchor's and reporter's own names fill `{name}` only in their lines.
   const as = (who: "anchor" | "reporter"): GroundedEnglishPacket => {
     const own = packet.facts[who];

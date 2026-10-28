@@ -88054,32 +88054,6 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-we-spend-and-the-race-runs-remaining-how-do-we",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Our savings cover {cushion} of what we spend, and the race runs {remaining}. How do we pay for the rest?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.state-ask.you-filed-and-we-have-cushion-saved-nobody-asked-me-what-the-next-remaining-woul",
       "move": "state-ask",
       "kind": "spoken",
@@ -117603,6 +117577,188 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-the-paychecks-don-t-and-the-race-runs-remainin",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Our savings cover {cushion} of what the paychecks don't, and the race runs {remaining}. How do we pay for the rest?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-the-bank-statement-out-on-the-kitchen-table-the-savings-cover-cushion-o",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has the bank statement out on the kitchen table. The savings cover {cushion} of what the pay doesn't, and the race runs {remaining}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-month-s-bills-are-spread-across-the-table-what-the-paychecks-don-t-cover-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The month's bills are spread across the table. What the paychecks don't cover, the savings can carry for {cushion}. The race runs {remaining}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-go-out-first-tonight-so-they-hear-it-from-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll go out first tonight, so they hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-d-rather-they-heard-it-from-me-than-read-it-in-the-paper",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I'd rather they heard it from me than read it in the paper.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.say-what-you-need-to-i-m-still-waiting-on-the-certified-count",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "Say what you need to. I'm still waiting on the certified count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "refuse",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.then-you-ll-be-speaking-alone-tonight-i-ll-speak-when-the-count-is-fin",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "Then you'll be speaking alone tonight. I'll speak when the count is final.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "refuse",
+        "key": "call-in"
       }
     }
   ]
