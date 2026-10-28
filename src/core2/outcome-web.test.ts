@@ -363,7 +363,9 @@ describe(`the outcomes the web now produces, in a generated town (seed ${seed})`
 // outcomes wait on is enacted on one day, and after its lag the link's effect
 // is its researched size and the outcome is its base moved by it.
 const ADDED_LAW_LINKS = [
-  "same-day-registration-to-youth-turnout",
+  // same-day-registration-to-youth-turnout is carried by the law reach's
+  // same-day registration relief, which the voting engine takes off each
+  // voter's turnout cost (links.json carriedBy), so the web no longer runs it.
   "medicaid-expansion-to-mortality",
   // end-cash-bail-to-pretrial-detention is carried by the justice engine's
   // pretrial decision (links.json carriedBy), so the web no longer runs it.
