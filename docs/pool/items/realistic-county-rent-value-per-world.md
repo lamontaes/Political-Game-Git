@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/realistic-housing
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:30:18.125Z
 ---
 
 **What.** Every world opens each county on its published ACS median gross rent and owner home value and each town on its published owner-occupied share (rentValueOf and tenureOfTown, src/core2/modules/housing.ts). Every household's rent, home value and mortgage start from those. The owner ruled on Oct 27 that every statistic starts realistic, not real, and differs per world.
