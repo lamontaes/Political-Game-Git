@@ -54,6 +54,7 @@ import {
   daysBetweenText as daysBetween,
 } from "../kernel/dates";
 import { townDistrict } from "../offices-state";
+import { worldLevel } from "../world-draw";
 import { basePlaces } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
@@ -1138,15 +1139,42 @@ function standInSeller(api: CoreAPI, purchase: Purchase): string {
   return id;
 }
 
-/** A unit price from the campaign price research, in minor units. */
-function unitPrice(kind: string): number {
+function priceRow(kind: string) {
   const row = (
     unitPrices as unknown as {
-      prices: Record<string, { priceMinorUnits: number }>;
+      prices: Record<string, { priceMinorUnits: number; setByLaw?: boolean }>;
     }
   ).prices[kind];
   if (!row) throw new Error(`No campaign unit price: ${kind}`);
-  return row.priceMinorUnits;
+  return row;
+}
+
+/** A unit price as the campaign price research published it, in minor units: calibration for the world's draw and its checks, never read by play. */
+export function publishedUnitPrice(kind: string): number {
+  return priceRow(kind).priceMinorUnits;
+}
+
+/**
+ * A unit price in this world, in minor units: the published market price
+ * moved by the world's own draw (owner, Oct 27: realistic, not real), never
+ * below one cent. A price the Postal Service or a law sets (postage, a
+ * filing fee) stays as published.
+ */
+export function unitPrice(api: CoreAPI, kind: string): number {
+  const row = priceRow(kind);
+  return row.setByLaw
+    ? row.priceMinorUnits
+    : Math.max(
+        1,
+        Math.round(
+          worldLevel(
+            row.priceMinorUnits,
+            api.state.seed,
+            `campaign-world:price:${kind}`,
+            "campaignWorldUnitPriceSpreadShare",
+          ),
+        ),
+      );
 }
 
 /** Whether a work commitment has its holder at a shift at this minute of this day. */
@@ -2833,7 +2861,7 @@ export function sendMail(
   quiet = false,
 ): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
-  const perPiece = unitPrice("mailer-print") + unitPrice("postage");
+  const perPiece = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
   const { list } = townAddresses(api);
   const pieces = Math.min(list.length, Math.floor(amountMinor / perPiece));
   if (pieces <= 0) return [];
@@ -2905,7 +2933,7 @@ export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
   spend(api, filingId, {
     kind: "event",
     sellerId: venue,
-    amountMinor: unitPrice("event-venue"),
+    amountMinor: unitPrice(api, "event-venue"),
     citation: "An evening's venue at the campaign-unit-prices event-venue row",
   });
   return makeStatements(api, {
@@ -3019,7 +3047,7 @@ export function rivalDay(
   const campaign = campaignFor(api, filingId);
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
-  const richness = cash / (cash + unitPrice("event-venue"));
+  const richness = cash / (cash + unitPrice(api, "event-venue"));
   const known = Math.min(1, campaignRecognition(api, filingId));
   const sociable = Math.max(
     0,
@@ -3245,9 +3273,9 @@ export function campaignTurn(
     eventFundMinor: eventFund,
     pollFundMinor: pollFund,
   });
-  if (eventFund >= unitPrice("event-venue") && daysLeft > 0) {
+  if (eventFund >= unitPrice(api, "event-venue") && daysLeft > 0) {
     eventAudience = holdEvent(api, filingId).length;
-    eventFund -= unitPrice("event-venue");
+    eventFund -= unitPrice(api, "event-venue");
   }
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
   if (pollFund >= campaignParameter("pollMinimumInterviews") * perInterview) {

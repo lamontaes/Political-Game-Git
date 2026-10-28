@@ -13,9 +13,9 @@
 import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-views";
-import unitPrices from "../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import {
   CAMPAIGNS_MODULE_ID,
+  unitPrice,
   askForDonation,
   campaignFor,
   doorsKnockedOf,
@@ -153,12 +153,6 @@ const elections = (api: CoreAPI, name: string) =>
   api.moduleState(ELECTIONS_MODULE_ID).table(name);
 const ageOn = (birthDate: string, date: string) =>
   Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-const eventVenuePrice = () =>
-  (
-    unitPrices as unknown as {
-      prices: Record<string, { priceMinorUnits: number }>;
-    }
-  ).prices["event-venue"]!.priceMinorUnits;
 
 /** The town's households, full and counted, as the campaign engine's doors walk them. */
 function townHouseholdCount(api: CoreAPI): number {
@@ -261,7 +255,7 @@ export function campaignDayChoices(
 
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
-  const price = eventVenuePrice();
+  const price = unitPrice(api, "event-venue");
   const candidateAlive = !!api.state.people.get(campaign.candidateId)?.alive;
 
   const invited = interviewsFor(api, filing.personId)

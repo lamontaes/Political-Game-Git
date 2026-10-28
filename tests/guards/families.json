@@ -13,6 +13,7 @@
     "src/core2/stopgaps.ts",
     "src/core2/seeded.ts",
     "src/core2/world-draw.ts",
+    "src/core2/union-rate.ts",
     "src/core2/module-*.ts",
     "src/core2/saves.ts",
     "src/core2/snapshot.ts",

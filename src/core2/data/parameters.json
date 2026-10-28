@@ -7092,5 +7092,89 @@
       "unit": "share of the published tuition",
       "citation": "NCES Digest of Education Statistics Table 205.50, average tuition across years and school levels (approximate; a researcher should confirm the figures)"
     }
+  },
+  "businessWorldExitRateSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's yearly share of businesses that close sits from the published state rate, as a share of that rate (Census Business Dynamics Statistics 2023, establishment exit by state: the states' rates run from 7.8% under to 12.9% over the national 8.7% at the 10th and 90th percentiles; src/core2/data/business/bds-rates.json).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.063,
+      "high": 0.13,
+      "unit": "share of the exit rate",
+      "citation": "Median and 90th-percentile absolute distance of the 51 state exit rates from the national rate in src/core2/data/business/bds-rates.json (Census BDS 2023)."
+    }
+  },
+  "businessWorldOutsideOwnedSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's share of jobs in firms based outside the town sits from the published state share, as a share of the distance to the nearer bound (Census 2022 Economic Census EC2200SIZESUMU; states by SUSB 2022 firms of 500 or more employees; src/core2/data/business/ownership.json). The states run 5.5% either side of the national 61.7% at the median, about 3.4 points.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.09,
+      "high": 0.2,
+      "unit": "share of the distance to the nearer of 0 and 1",
+      "citation": "Median absolute distance of the 56 state shares from the national share (0.034) over the distance from the national share to one (0.383), with an allowance for the wider tails (src/core2/data/business/ownership.json)."
+    }
+  },
+  "businessWorldUnionRateSpreadShare": {
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's union membership rate sits from the published state rate, as a share of that rate (BLS, Union Members 2025, Table 5: the Current Population Survey's state estimates carry sampling error of a point or two on rates that run from 2.3% to 24.8%; src/core2/data/business/union-membership.json). A right-to-work law is law and moves it by its own table; only the starting rate is a statistic.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.08,
+      "high": 0.25,
+      "unit": "share of the membership rate",
+      "citation": "One to two points of survey error on a 6% to 15% state rate, an estimate of the Current Population Survey's state sampling error, not read from the table."
+    }
+  },
+  "businessWorldBooksSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's industry margin, pay share of sales and sales-sensitive cost share sit from the IRS aggregate for the industry, as a share of the ratio (IRS Statistics of Income, corporation returns tax year 2022, Table 5.1). The compiled table holds one tax year, so the spread is an estimate of the swing between years in an industry's aggregate, not a measured one.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "share of the ratio",
+      "citation": "Estimate: the year-to-year swing of industry aggregate margins and pay shares runs from a few percent of the ratio in steady industries to a quarter in volatile ones; not measured here."
+    }
+  },
+  "pressWorldOutletSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's count of newspapers, television stations and news radio stations in a state sits from the published figure, as a share of the count (Medill, The State of Local News 2024: about 5,600 newspapers; FCC Public Notice DA 26-49: 1,777 full-power TV stations). The per-state counts here are estimated allocations of those totals (data/research/press/local-news-2026.json), so the allocation's own error dominates.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.35,
+      "unit": "share of the outlet count",
+      "citation": "From a year's loss of papers (a few percent of the total, Medill 2024) up to the error of splitting a national total across states by estimate (data/research/press/local-news-2026.json meta note)."
+    }
+  },
+  "campaignWorldUnitPriceSpreadShare": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's price for a printed mailer or an evening's hall sits from the published middle price, as a share of that price (data/research/campaign-reality/campaign-unit-prices.json: halls rent for $150 to $500 an evening, postcards print at $0.10 to $0.30 a piece). Postage and filing fees are set by the Postal Service and by law and are never drawn.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published figure.",
+    "spread": {
+      "low": 0.15,
+      "high": 0.55,
+      "unit": "share of the unit price",
+      "citation": "Half the published price range over its midpoint: $150 to $500 is 0.58 of $300; $0.10 to $0.30 is 0.5 of $0.20 (campaign-unit-prices.json derivations)."
+    }
+  },
+  "businessWorldCountSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's count of a kind of business in a town sits from the published expectation (County Business Patterns 2023 establishments per resident times the town's population): the county's count of a kind moves 2% to 10% a year, and a town's share of it is an estimate by population.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.2,
+      "unit": "share of the published count",
+      "citation": "Census County Business Patterns, year-over-year change in establishments by county and NAICS sector, 2019 to 2023."
+    }
   }
 }

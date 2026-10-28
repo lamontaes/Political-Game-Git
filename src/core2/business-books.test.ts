@@ -78,7 +78,7 @@ describe("pure employer books candidate (no money writer)", () => {
         source,
       };
       const before = structuredClone(input),
-        result = projectOpeningBusiness(input);
+        result = projectOpeningBusiness(input, { seed: "fixture-seed" });
       expect(input).toEqual(before);
       if (mapping.kindId === null) {
         expect(result.books).toBeUndefined();
@@ -251,15 +251,21 @@ describe("pure employer books candidate (no money writer)", () => {
       capacityMinor: plannedPay(),
       generalPriceFactor: p("one"),
     };
-    const idle = projectOtherCosts(input),
-      active = projectOtherCosts({ ...input, annualDemandMinor: plannedPay() });
+    const idle = projectOtherCosts(input, { seed: "fixture-seed" }),
+      active = projectOtherCosts(
+        { ...input, annualDemandMinor: plannedPay() },
+        { seed: "fixture-seed" },
+      );
     expect(idle.annualOtherCostsMinor).toBeGreaterThan(p("zero"));
     expect(idle.annualOtherCostsMinor).toBeLessThan(
       active.annualOtherCostsMinor,
     );
     expect(active.annualOtherCostsMinor).toBeCloseTo(plannedPay(), digits());
     expect(
-      projectOtherCosts({ ...input, kindId: "insurance" }).salesCostEstimated,
+      projectOtherCosts(
+        { ...input, kindId: "insurance" },
+        { seed: "fixture-seed" },
+      ).salesCostEstimated,
     ).toBe(true);
     const priceInput = {
       priorPrice: p("one"),

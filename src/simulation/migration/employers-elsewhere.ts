@@ -209,7 +209,7 @@ export function bestEmployerFor(
   place: LifePlace,
 ): EmployerOffer | null {
   const placeId = place.context.jurisdiction.id;
-  const supply = localBusinessSupplyFor(placeId);
+  const supply = localBusinessSupplyFor(placeId, world.seed);
   const options: EmployerOffer[] = [];
   for (const kind of LOCAL_BUSINESS_KINDS) {
     const row = supply?.find((entry) => entry.kind === kind.key) ?? null;
