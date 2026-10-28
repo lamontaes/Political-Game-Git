@@ -33,9 +33,9 @@
     "summaryBorn": "Born {date}",
     "previous": "Previous {row}",
     "next": "Next {row}",
+    "randomPlace": "Random place",
     "missingGender": "Choose a gender to go on.",
-    "missingName": "Type a first and last name to go on.",
-    "randomPlace": "Random place"
+    "missingName": "Type a first and last name to go on."
   },
   "endedBy": {
     "moment": "Something needs you",
@@ -420,6 +420,7 @@
   },
   "politics": {
     "seats": "Seats",
+    "seat": "seat",
     "yourMembers": "Your members",
     "leaders": "Leaders",
     "notChosenHere": "Not chosen by this place's voters",
