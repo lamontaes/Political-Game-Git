@@ -2223,8 +2223,7 @@ body.dev .dev-ring {
   margin: 20px 0 34px;
 }
 .work-overview h3,
-.study-overview h3,
-.work-heading {
+.study-overview h3 {
   font: 600 20px var(--name);
   color: var(--gold);
 }

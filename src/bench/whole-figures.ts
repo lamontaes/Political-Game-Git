@@ -475,31 +475,6 @@ export function pickLook(
   return from.find((row) => row.look === look && row.build === build)!;
 }
 
-/**
- * The person's whole figure on this spot, or null where none fits (a seated
- * spot, or no look for their sex and age), and nobody is drawn there.
- */
-export function wholeFigureFor(
-  core: CoreState,
-  person: FigurePerson,
-  place: string,
-  stage: PlaceStaging,
-  spot: StagingSpot,
-  /** Who they're with: which way to turn. */
-  turn: Turn = {},
-): WholeFigure | null {
-  const front = pickLook(core, person, place);
-  if (!front) return null;
-  return figureOn(
-    front,
-    ageBandOf(core, person.birthDate),
-    place,
-    stage,
-    spot,
-    turn,
-  );
-}
-
 /** A chosen look drawn on a standing spot: sized for the person's age and the floor, turned, with its shadow. */
 export function figureOn(
   front: Figure,
