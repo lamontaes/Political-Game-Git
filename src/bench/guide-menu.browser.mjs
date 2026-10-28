@@ -60,6 +60,8 @@ try {
     "the tip names another term",
   );
   assert.ok(tip.short.length > 20, "the tip has no guide text");
+  // The headshots load after the rows; the picture waits for them.
+  if (process.env.SHOT_DIR) await page.waitForTimeout(1500);
   if (process.env.SHOT_DIR)
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/23-term-hover.png`,

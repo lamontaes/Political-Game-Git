@@ -180,7 +180,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the round rail icons, a column of eight with Who you are and News, its text inside it, the date and time and no picture; each icon opens by pointer, Calendar by keyboard",
+    "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the round rail icons, a column of nine with Who you are, News and the Guide, its text inside it, the date and time and no picture; each icon opens by pointer, Calendar by keyboard",
   );
 } finally {
   await browser.close();
