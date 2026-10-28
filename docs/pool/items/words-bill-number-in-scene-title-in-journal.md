@@ -6,9 +6,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/bill-name-one
-pr: 6461
+pr: #6461
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T00:45:47.756Z
