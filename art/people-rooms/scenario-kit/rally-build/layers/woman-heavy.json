@@ -1,0 +1,82 @@
+{
+ "job": "job_fQB3c7A1h6H8mBYj5eSWm78u",
+ "sheet": "poses-woman-heavy.png",
+ "base": {
+  "id": "asset_5mz2Vuyb14tQyyEvQNwuUjqe",
+  "size": "2752x1536"
+ },
+ "layers": [
+  {
+   "z": 1,
+   "name": "All eleven character bodies",
+   "box": [
+    140,
+    25,
+    2605,
+    1502
+   ],
+   "size": "2465x1477",
+   "id": "asset_4epzHPniDjMmVZJDqM2h7E9q"
+  },
+  {
+   "z": 2,
+   "name": "All eleven pairs of trousers",
+   "box": [
+    179,
+    372,
+    2576,
+    1472
+   ],
+   "size": "2397x1100",
+   "id": "asset_Kj8ZbBiHF3Zc5LWnGFxp3sP3"
+  },
+  {
+   "z": 3,
+   "name": "All eleven pairs of shoes",
+   "box": [
+    172,
+    685,
+    2568,
+    1502
+   ],
+   "size": "2396x817",
+   "id": "asset_WoZM3hZcrbMBWZM3zfTV7txq"
+  },
+  {
+   "z": 4,
+   "name": "All eleven tops",
+   "box": [
+    140,
+    66,
+    2612,
+    1175
+   ],
+   "size": "2472x1109",
+   "id": "asset_KhCSvkLj87pWeskFtgQFvrHF"
+  },
+  {
+   "z": 5,
+   "name": "All eleven heads of hair",
+   "box": [
+    200,
+    77,
+    2557,
+    1000
+   ],
+   "size": "2357x923",
+   "id": "asset_VXcSs8BzFZvLgoXJYGwcVHiT"
+  },
+  {
+   "z": 6,
+   "name": "Held phone",
+   "box": [
+    1903,
+    147,
+    1970,
+    191
+   ],
+   "size": "269x173",
+   "id": "asset_YgRtRJJcoNSEHcC2tdUjqNd2"
+  }
+ ]
+}

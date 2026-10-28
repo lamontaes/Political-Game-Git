@@ -1,0 +1,83 @@
+{
+ "job": "job_JRL1y9PsNAeZstyCmihE1cqE",
+ "sheet": "poses-man-medium.png",
+ "base": {
+  "id": "asset_6x8JSsAFXmzk9ZkVokUoT4S5",
+  "size": "2752x1536"
+ },
+ "layers": [
+  {
+   "z": 1,
+   "name": "All ten body bases",
+   "box": [
+    100,
+    35,
+    2654,
+    1502
+   ],
+   "size": "2554x1467",
+   "id": "asset_yHvM7Bkttd9j9BoiKG1GM3QB"
+  },
+  {
+   "z": 2,
+   "name": "All ten pairs of trousers",
+   "box": [
+    168,
+    381,
+    2615,
+    1472
+   ],
+   "size": "2447x1091",
+   "id": "asset_xzC3mV14WmbmRX1Ggj5g6rmq"
+  },
+  {
+   "z": 3,
+   "name": "All ten pairs of shoes",
+   "box": [
+    170,
+    693,
+    2610,
+    1504
+   ],
+   "size": "2440x811",
+   "id": "asset_E7iBNtGT5N3uyy1sGdaz9Rim"
+  },
+  {
+   "z": 4,
+   "name": "All ten tops",
+   "box": [
+    101,
+    72,
+    2653,
+    1176
+   ],
+   "size": "2552x1104",
+   "id": "asset_M9tCcfLAvVFA2RVS55TiGUTK"
+  },
+  {
+   "z": 5,
+   "name": "All ten heads of hair",
+   "box": [
+    161,
+    158,
+    2614,
+    1209
+   ],
+   "size": "2453x1051",
+   "id": "asset_uEhqXCT545UszE4bfy2hQkXQ"
+  },
+  {
+   "z": 6,
+   "name": "Held phone",
+   "box": [
+    1835,
+    161,
+    1894,
+    197
+   ],
+   "size": "233x144",
+   "id": "asset_fCbwsKoKPrP68H2FNHUwHeeB"
+  }
+ ],
+ "hair_from_drawing": true
+}

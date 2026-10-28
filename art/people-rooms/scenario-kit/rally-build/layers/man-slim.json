@@ -1,0 +1,83 @@
+{
+ "job": "job_BrKc3vSA2c9BRY4swsM8VthP",
+ "sheet": "poses-man-slim.png",
+ "hair_from_drawing": true,
+ "base": {
+  "id": "asset_An1nvfwc6cjiTFdKvdmmEzCs",
+  "size": "2752x1536"
+ },
+ "layers": [
+  {
+   "z": 1,
+   "name": "All ten character bodies",
+   "box": [
+    155,
+    24,
+    2611,
+    1504
+   ],
+   "size": "2456x1480",
+   "id": "asset_Z8ECmfNi8cj52vV3DbazBS11"
+  },
+  {
+   "z": 2,
+   "name": "All ten pairs of trousers",
+   "box": [
+    167,
+    367,
+    2586,
+    1500
+   ],
+   "size": "2419x1133",
+   "id": "asset_ZF1Zqb8MX4zBU5vgt5RxXbGH"
+  },
+  {
+   "z": 3,
+   "name": "All ten pairs of shoes",
+   "box": [
+    171,
+    696,
+    2604,
+    1505
+   ],
+   "size": "2433x809",
+   "id": "asset_pyeE2R8cuEDyxbNU4xsHHQcd"
+  },
+  {
+   "z": 4,
+   "name": "All ten tops",
+   "box": [
+    154,
+    64,
+    2616,
+    1174
+   ],
+   "size": "2462x1110",
+   "id": "asset_BNi1DiibeMLhLi98yZVD7tcK"
+  },
+  {
+   "z": 5,
+   "name": "All ten heads of hair",
+   "box": [
+    149,
+    205,
+    2641,
+    1327
+   ],
+   "size": "2492x1122",
+   "id": "asset_jjZM5QqVhUR3EccnaGHupzmJ"
+  },
+  {
+   "z": 6,
+   "name": "The held phone",
+   "box": [
+    1869,
+    153,
+    1922,
+    187
+   ],
+   "size": "210x136",
+   "id": "asset_5MpQTPvpSdEc34kVtWqRczQZ"
+  }
+ ]
+}

@@ -1,0 +1,82 @@
+{
+ "job": "job_MZ66RgVV2JiqDBv5QFscE5ki",
+ "sheet": "poses-woman-medium.png",
+ "base": {
+  "id": "asset_s6HKr1FMLtbhw9JXr4j2RFkG",
+  "size": "2752x1536"
+ },
+ "layers": [
+  {
+   "z": 1,
+   "name": "body",
+   "box": [
+    260,
+    25,
+    2496,
+    1507
+   ],
+   "size": "2236x1482",
+   "id": "asset_LerajLsxLaM33q1YroHNQGhc"
+  },
+  {
+   "z": 2,
+   "name": "trousers",
+   "box": [
+    339,
+    355,
+    2396,
+    1473
+   ],
+   "size": "2057x1118",
+   "id": "asset_VKbpkdqwJFaGJVRjpUEWYoGX"
+  },
+  {
+   "z": 3,
+   "name": "shoes",
+   "box": [
+    395,
+    705,
+    2405,
+    1505
+   ],
+   "size": "2010x800",
+   "id": "asset_DL4gNswXeectqiRAH1NVeZ2L"
+  },
+  {
+   "z": 4,
+   "name": "top",
+   "box": [
+    260,
+    65,
+    2452,
+    1166
+   ],
+   "size": "2192x1101",
+   "id": "asset_wz4CGVeNLtKiSDbLsifPSECL"
+  },
+  {
+   "z": 5,
+   "name": "hair",
+   "box": [
+    332,
+    80,
+    2388,
+    953
+   ],
+   "size": "2056x873",
+   "id": "asset_CUQ4g7Qy9bc1JovmboDKov5K"
+  },
+  {
+   "z": 6,
+   "name": "phone",
+   "box": [
+    1847,
+    124,
+    1881,
+    189
+   ],
+   "size": "134x258",
+   "id": "asset_v9DAgriTjdg4S5b1JWUMJfk1"
+  }
+ ]
+}

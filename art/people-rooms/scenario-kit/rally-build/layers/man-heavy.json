@@ -1,0 +1,83 @@
+{
+ "job": "job_AwgHWpq3VGcZt6j6tQ2n6HX8",
+ "sheet": "poses-man-heavy.png",
+ "hair_from_drawing": true,
+ "base": {
+  "id": "asset_1Lgu6gy4XCr45ALGJbR7enG9",
+  "size": "2752x1536"
+ },
+ "layers": [
+  {
+   "z": 1,
+   "name": "All ten character bodies",
+   "box": [
+    146,
+    25,
+    2612,
+    1505
+   ],
+   "size": "2466x1480",
+   "id": "asset_3YsEEskb8rqD9AhL7redLfX9"
+  },
+  {
+   "z": 2,
+   "name": "All ten pairs of trousers",
+   "box": [
+    190,
+    361,
+    2564,
+    1477
+   ],
+   "size": "2374x1116",
+   "id": "asset_5FZHCrZyrxTjyVMymcUSTeTK"
+  },
+  {
+   "z": 3,
+   "name": "All ten pairs of shoes",
+   "box": [
+    162,
+    675,
+    2576,
+    1504
+   ],
+   "size": "2414x829",
+   "id": "asset_Rr6h5FSJ7P5hcxuE2fev9WfY"
+  },
+  {
+   "z": 4,
+   "name": "All ten tops",
+   "box": [
+    144,
+    71,
+    2611,
+    1184
+   ],
+   "size": "2467x1113",
+   "id": "asset_QCQLPjrudeC91QJ2rv4dtXNv"
+  },
+  {
+   "z": 5,
+   "name": "All ten hair sets",
+   "box": [
+    224,
+    83,
+    2521,
+    923
+   ],
+   "size": "2297x840",
+   "id": "asset_KhUPVgbLHUdKxXGELPaQUU5Z"
+  },
+  {
+   "z": 6,
+   "name": "Held smartphone",
+   "box": [
+    1988,
+    132,
+    2040,
+    169
+   ],
+   "size": "210x150",
+   "id": "asset_QemdQvoqVgBa21VnumpD2koW"
+  }
+ ]
+}
