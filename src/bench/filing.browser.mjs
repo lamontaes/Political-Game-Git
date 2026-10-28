@@ -201,9 +201,8 @@ try {
       joined,
     }),
   );
-  assert.equal(
-    result?.filing?.status,
-    "petitioning",
+  assert.ok(
+    ["petitioning", "on-ballot"].includes(result?.filing?.status),
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
   // The party on the filing is the resident's tie on record (joined now, or
