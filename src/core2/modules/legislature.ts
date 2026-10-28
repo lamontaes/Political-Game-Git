@@ -61,7 +61,7 @@ import {
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
@@ -2361,8 +2361,12 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
           return;
         }
         // The opening's holder serves until a race hands the seat to the
-        // other party; the winner is then a new person.
+        // other party; the winner is then a new person. A seat its special
+        // election has yet to fill (the offices engine's vacancy) sits
+        // empty, unless a race since has filled it.
         const holder = currentOfficial(api, seatId);
+        const waiting = holder ? undefined : awaitingVacancy(api, seatId);
+        if (waiting && !(won && won.since >= waiting.since)) return;
         const official =
           holder && partyName(holder.party) === party
             ? holder
