@@ -33,7 +33,7 @@ import {
   type CampaignRow,
   type CauseRow,
 } from "./campaigns";
-import { standAgainReason } from "./voting";
+import { standAgainReason } from "./candidacy";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import { partyFirmness } from "../campaign-stances";
 
