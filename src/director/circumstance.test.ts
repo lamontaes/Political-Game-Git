@@ -176,6 +176,24 @@ function playYear(
       expect(purpose?.kind, `${moment.id}: the door is a scene`).toBe(
         "composed",
       );
+      // Only while the race is still to come: never after the count.
+      const contestId = (
+        coreAPI(core)
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("impressions")
+          .get(`${castId}|${personId}`) as unknown as
+          { contestId?: string } | undefined
+      )?.contestId;
+      const electionDate = (
+        coreAPI(core)
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .get(contestId ?? "") as unknown as
+          { electionDate?: string } | undefined
+      )?.electionDate;
+      expect(electionDate! > moment.date, `${moment.id}: before the vote`).toBe(
+        true,
+      );
       if (purpose?.kind === "composed") {
         const talk = purpose.scene.talk;
         expect(talk.narration.length, moment.id).toBeGreaterThan(0);
