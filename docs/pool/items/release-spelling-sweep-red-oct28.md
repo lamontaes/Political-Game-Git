@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: cto-night/sweep-centre
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:19:08.387Z
 ---
 
 **What.** tests/american-english-sweep.test.ts fails on main since #6418 (22:20 UTC Oct 27): art/people-rooms/README.md lines 27 and 43 say centre. Every PR's unit job carries the failure.
