@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/realistic-sitting-vote-shares
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:05:42.718Z
 ---
 
 **What.** Every sitting holder of an office kind opens with the same winning share from src/core2/data/offices/tenure.json (local 0.60, U.S. House 0.64, U.S. Senate 0.57, legislature 0.635, statewide 0.56), written by electionBehind in src/core2/modules/offices.ts. The Government sheet prints it, so every council member reads elected with 60% of the vote. The owner ruled on Oct 27 that every statistic starts realistic, not real, and differs per world.
