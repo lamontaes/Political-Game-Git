@@ -151,6 +151,25 @@ it(`the player asks a colleague for their vote the evening before the roll, and 
             ? "stall"
             : "refuse",
       );
+      // Every way of asking again is answered from where they stand: a plea
+      // or a trade wins the vote where a favor carries them, pressing only
+      // where they lean for it already, and letting it go wins nothing.
+      const carried = before.total + favor > 0;
+      for (const reply of first.move === "agree"
+        ? []
+        : scene.talk.tree.replies) {
+        const last = reply.next?.lines.find(
+          (row) => row.speakerId === colleagueId,
+        )?.move;
+        const yes = ["agree", "relent"].includes(last ?? "");
+        if (reply.line.move === "accept") expect(last).toBeUndefined();
+        else
+          expect(yes, `${where}: ${reply.line.move} answered ${last}`).toBe(
+            reply.line.move === "press" ? before.total > 0 : carried,
+          );
+      }
+      // Met in ordinary play: the ask is a scene, not a journal line.
+      expect(entry!.outcome, `${where}: ${ask.id}`).not.toBe("journal-line");
       // The player asks again with a plea (or thanks a yes); the colleague's
       // last answer is the reply the legislature keeps.
       const path = scene.talk.tree.replies.findIndex((reply) =>
