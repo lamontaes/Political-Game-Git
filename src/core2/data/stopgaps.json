@@ -7440,6 +7440,42 @@
     "status": "open"
   },
   {
+    "id": "SG-SCREENS-filing-platform-from-views",
+    "kind": "missing-mechanic",
+    "file": "src/bench/play.mjs",
+    "line": 0,
+    "whatItFakes": "A filing made at the counter carries no platform: the rules panel's stance form is gone (owner, Oct 28, point 31) and the filing's platform is empty until the elections engine reads the filer's own views.",
+    "why": "fileCandidacy takes the platform as handed in; nothing derives it from the person's own policy views (the records the party fit reads), so without the form there is nothing to hand in.",
+    "addedBy": "screens session (sitting Oct 28, point 31)",
+    "addedAt": "2026-10-28",
+    "replacement": "fileCandidacy derives the platform from the filer's own view records on each of the contest's positions when none is handed in; the Campaigns row then reads those stances.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-counter-six-replies",
+    "kind": "missing-mechanic",
+    "file": "src/bench/play.mjs",
+    "line": 0,
+    "whatItFakes": "The filing counter offers at most six replies; an office that takes more races than that shows the first six at the counter, and the rest are reached from the office's own view in Travel and from Campaigns.",
+    "why": "The talk box holds a few replies, never a long list (owner, Oct 26), and the Open races menu that held the rest was a dev panel (owner, Oct 28, point 29).",
+    "addedBy": "screens session (sitting Oct 28, point 29)",
+    "addedAt": "2026-10-28",
+    "replacement": "The clerk asks which race in the conversation (the words session's clerk lines, point 32) and the counter opens on the race chosen in Travel or Campaigns, so no list is needed at the counter.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-office-hover-prose",
+    "kind": "missing-data",
+    "file": "src/bench/play.mjs",
+    "line": 0,
+    "whatItFakes": "Hovering a race at the counter shows a card on the office with what the records know (its district, the election day, who holds the seat); it does not yet say what the office does in words.",
+    "why": "No record or bank holds a line per office kind on its duties; words typed into the screen would be hand-written player text.",
+    "addedBy": "screens session (sitting Oct 28, point 30)",
+    "addedAt": "2026-10-28",
+    "replacement": "An office-duties bank from the words session (one piece per office kind, graded like every bank) that the hover card reads first, the record's facts after it.",
+    "status": "open"
+  },
+  {
     "id": "SG-TRAITS-file-claim-circumstances-tie",
     "kind": "partial-model",
     "file": "src/core2/jobs-benefits.ts",
