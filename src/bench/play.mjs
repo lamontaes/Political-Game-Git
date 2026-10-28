@@ -1831,11 +1831,17 @@ async function showPerson(person) {
         // No "Last talked" (owner, Oct 27, 5 PM: never shown).
         known && {
           items: [
-            row(labels.publicRecord.party, known.party),
-            row(labels.publicRecord.since, dateOrValue(known.serviceStart)),
-            row(labels.publicRecord.votes, known.votesOnRecord),
-            row(labels.publicRecord.sponsored, known.lawsSponsored),
-            row(labels.publicRecord.signed, known.lawsSigned),
+            // A fact the record does not hold (a named official's votes) is
+            // left out, never shown blank.
+            ...[
+              ["party", known.party],
+              ["since", dateOrValue(known.serviceStart)],
+              ["votes", known.votesOnRecord],
+              ["sponsored", known.lawsSponsored],
+              ["signed", known.lawsSigned],
+            ]
+              .filter(([, value]) => value !== null && value !== undefined)
+              .map(([key, value]) => row(labels.publicRecord[key], value)),
             ...known.positions.map((p) =>
               row(
                 policyLabel(p.question),
@@ -3096,17 +3102,26 @@ const sheets = {
           : labels.vacant;
       // The term as a voter would say it: when it ends, and how the holder won
       // it where the world ran the race.
-      const member = (s) => {
-        const line = s.holder?.personId
+      // Every holder is a person row: their headshot, their name opening
+      // their card (a named official's public card), their party.
+      const holderRow = (s, detail) =>
+        s.holder
           ? personRow({
               name: holderName(s),
+              detail,
               party: s.holder.party,
+              face: s.holder.face,
               onOpen: () => {
                 closeSheet();
-                showPerson({ personId: s.holder.personId });
+                showPerson({
+                  personId: s.holder.cardId,
+                  figureUrl: s.holder.face?.url,
+                });
               },
             })
-          : row(holderName(s), s.holder?.party ?? "");
+          : row(holderName(s), "");
+      const member = (s) => {
+        const line = holderRow(s);
         const won =
           s.holder && s.elections.find((e) => e.termId === s.holder.termId);
         const result = controls.results;
@@ -3182,9 +3197,7 @@ const sheets = {
           items: [
             { text: seats[0].government ?? "", tone: "place" },
             {
-              pages: seats.map((s) => ({
-                node: row(holderName(s), s.holder?.party ?? ""),
-              })),
+              pages: seats.map((s) => ({ node: holderRow(s) })),
               size: 6,
             },
           ],
@@ -3246,17 +3259,30 @@ const sheets = {
       // the Vice President and each chamber's leader by post and chamber (a
       // leader from another state names the state they serve). Every other
       // member is behind the State and Federal filters.
+      // A key person is a person row: their headshot, their name opening
+      // their card, then the office (a leader: the post and the chamber)
+      // and the notes (owner, Oct 28: real rows, not printed lines; every
+      // member clickable).
       const keyLine = (k) => {
         const line = withNotes(
-          k.post && !k.own
-            ? row(`${words(k.post)}, ${k.chamber ?? k.officeTitle}`, k.name)
-            : row(k.officeTitle, k.name),
+          personRow({
+            name: k.name,
+            detail:
+              k.post && !k.own
+                ? `${words(k.post)}, ${k.chamber ?? k.officeTitle}`
+                : k.officeTitle,
+            face: k.face,
+            onOpen: () => {
+              closeSheet();
+              showPerson({ personId: k.personId, figureUrl: k.face?.url });
+            },
+          }),
           [
             k.own && k.post ? words(k.post) : null,
             k.stateName,
             // The President and Vice President a territory's voters do not choose.
             k.chosenByHere === false ? controls.politics.notChosenHere : null,
-          ].map((text) => ({ text, className: "label" })),
+          ].map((text) => ({ text })),
         );
         // Play anyone: a resident officeholder can be taken over (bench only).
         if (k.resident && k.personId !== me.id) {
@@ -3650,6 +3676,7 @@ const setup = {
   appearanceDraws: 0,
   state: null,
   town: null,
+  placeDraws: 0,
   recipe: null,
   initial: null,
   previous: [],
@@ -3851,6 +3878,19 @@ async function listTowns() {
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
+// Random place: the world's own draw of a state and town from all 56, then
+// on to the look, as picking the town does (owner, Oct 28: "Add a Random
+// button to picking where you live").
+$("cr-place-random").addEventListener("click", async () => {
+  setup.placeDraws++;
+  const { state, town } = await api(
+    `/api/creator/place?${new URLSearchParams({ seed: setup.seed, draw: setup.placeDraws })}`,
+  );
+  setup.state = state;
+  setup.town = town;
+  $("cr-state-name").textContent = state.name;
+  await openLook();
+});
 
 // A row of color swatches: each a button named for its color, the chosen one marked.
 async function pickColor(row, value) {
@@ -3903,6 +3943,13 @@ async function openLook() {
         `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe) })}`,
       ),
     );
+  // The place chosen or drawn, named over the look; Change returns to the states.
+  // A town record's name may already carry its state ("Pewaukee, Wisconsin").
+  $("cr-place-summary-name").textContent = setup.town.name.includes(
+    setup.state.name,
+  )
+    ? setup.town.name
+    : `${setup.town.name}, ${setup.state.name}`;
   frontPanel("cr-look");
 }
 async function moveLook(row, by) {
@@ -3934,10 +3981,11 @@ $("cr-undo").addEventListener("click", () => {
   const last = setup.previous.pop();
   if (last) void setLook(last, false);
 });
-$("cr-look-back").addEventListener("click", () => {
-  frontPanel("cr-place");
-  void showStates();
-});
+for (const id of ["cr-look-back", "cr-place-summary"])
+  $(id).addEventListener("click", () => {
+    frontPanel("cr-place");
+    void showStates();
+  });
 $("cr-begin").addEventListener("click", () =>
   startLife({
     placeKey: setup.town.key,

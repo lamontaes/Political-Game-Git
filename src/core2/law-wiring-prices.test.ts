@@ -482,8 +482,9 @@ function run(
     const last = rowsByMonth[rowsByMonth.length - 1]!;
     const elapsedMonths = Math.floor(PLAYED_DAYS / 30);
     for (const key of YES_LAWS) {
+      // A link an engine carries (links.json carriedBy) is not run by the web.
       const links = WEB_LINKS.filter(
-        (l) => l.from === `law:${key}` && l.status === "built",
+        (l) => l.from === `law:${key}` && l.status === "built" && !l.carriedBy,
       );
       // A law no researched link starts from has no cause for the web to read.
       if (links.length)

@@ -871,8 +871,22 @@ export function syncSalesTax(api: CoreAPI): void {
     ]);
   }
   const total = [...rates.values()].reduce((a, b) => a + b, 0);
-  const exemption = groceryExemption(api);
+  const exempting = yesLevels(api, GROCERY_EXEMPTION);
+  // A state's exemption spares groceries from every level's tax, as the
+  // state sets the base local sales taxes follow; a county's or city's spares
+  // only its own tax, which is all a local vote can change.
+  api.stopgap("SG-LAWS-grocery-exemption-local-base");
+  // stopgapId: SG-LAWS-grocery-exemption-local-base
+  const exemptionFor = (level: string): LawRowInput | null =>
+    (
+      exempting.find((l) => l.level === "state") ??
+      exempting.find(
+        (l) =>
+          l.level === level || (level === "city" && l.level === "township"),
+      )
+    )?.row ?? null;
   for (const gov of govs) {
+    const exemption = exemptionFor(gov.level);
     const id = `sales-tax:${gov.id}`;
     const rate = rates.get(gov.id) ?? 0;
     const account = accountFor(api, gov.id);
@@ -1051,10 +1065,6 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
 }
 
 /** The grocery exemption law row in force for the town (the latest yes at any level), or null. */
-function groceryExemption(api: CoreAPI): LawRowInput | null {
-  return yesLevels(api, GROCERY_EXEMPTION)[0]?.row ?? null;
-}
-
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */
 export function setBudgetPriorities(
   api: CoreAPI,

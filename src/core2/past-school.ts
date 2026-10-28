@@ -117,7 +117,7 @@ function schoolRecords(
       if (date > window.through) break;
       if (date < window.from) continue;
       const stage = stageOf(core, grade);
-      const lived = residenceOn(person, date);
+      const lived = residenceOn(core, person, date);
       const schoolId = schoolOfPlace(core, lived.placeId);
       const key = `${stage}:${schoolId}`;
       if (key === last) continue;

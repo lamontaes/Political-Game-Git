@@ -164,7 +164,11 @@ function ageOf(api: CoreAPI, person: Readonly<PersonState>): number {
 
 /** The ACS age band a person is in, or none below the youngest. */
 function bandOf(api: CoreAPI, person: Readonly<PersonState>): string | null {
-  const age = ageOf(api, person);
+  return bandFor(ageOf(api, person));
+}
+
+/** The ACS age band an age is in, or none below the youngest. */
+function bandFor(age: number): string | null {
   for (const band of RATES.ageBands) {
     const [low, high] = band.replace("+", "-").split("-");
     if (age >= Number(low) && (!high || age <= Number(high))) return band;
@@ -178,12 +182,26 @@ function lifeStageRate(
   person: Readonly<PersonState>,
   band: string,
 ): number {
-  const place = corePlaceByJurisdictionId(person.placeId as EntityId);
+  return rateOf(person.placeId, band) ?? api.parameter("zero");
+}
+
+/** The share of a place's state's people in an ACS age band who leave their county in a year, else the nation's. */
+function rateOf(placeId: string, band: string): number | undefined {
+  const place = corePlaceByJurisdictionId(placeId as EntityId);
   const byAge = (
     (place?.stateJurisdictionKey && RATES.places[place.stateJurisdictionKey]) ||
     RATES.national
   ).departurePerYearByAge;
-  return byAge[band] ?? api.parameter("zero");
+  return byAge[band];
+}
+
+/**
+ * The life-stage rate for an age in a place (the rule the monthly pull reads
+ * in play), for the run of the years before the start (src/core2/past-moves.ts).
+ */
+export function departureRateFor(placeId: string, age: number): number {
+  const band = bandFor(age);
+  return (band && rateOf(placeId, band)) || 0;
 }
 
 interface Kin {
