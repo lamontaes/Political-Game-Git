@@ -13,7 +13,6 @@ import {
   type PastElectionRow,
   type PublicFigureRow,
 } from "./past-module";
-import type { PastClosureRow } from "./past-business";
 import { businessesIn, stateExitShare } from "./modules/business";
 import { publicKnowledgeOf } from "./past-public";
 import { openThePast } from "./past";
@@ -100,7 +99,7 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
     const elections = rows<PastElectionRow>("elections");
     // A territory's delegate casts no floor vote; a place with any chamber
     // covering it has members with a record.
-    if (rows("bills").length) {
+    if (rows<PublicFigureRow>("figures").some((f) => f.votesOnRecord > 0)) {
       const withVotes = elections.filter(
         (e) => votesOf(api, e.winnerId).length > 0,
       );
@@ -139,10 +138,21 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
               });
         const a = coreAPI(here.core);
         const where = `${here.place.key} seed ${attempt === 0 ? seed : `${seed}:closures:${attempt}`}`;
-        const closures = a
-          .moduleState(PAST_MODULE_ID)
-          .table("closures")
-          .rows() as unknown as PastClosureRow[];
+        // The closures are the archive's own stories of kind business.closed.
+        const closureStories = a
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows()
+          .filter(
+            (row) =>
+              (row.facts as Record<string, string>).recordKind ===
+              "business.closed",
+          );
+        const closures = closureStories.map((row) => ({
+          id: (row.facts as Record<string, string>).recordId!,
+          ownerId: (row.facts as Record<string, string>).ownerId!,
+          date: row.date as string,
+        }));
         const expected = Math.round(
           businessesIn(a, here.placeId).length * stateExitShare(a),
         );
@@ -153,14 +163,10 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
           const owner = here.core.people.get(closure.ownerId)!;
           expect(owner.alive, closure.id).toBe(true);
           // The former owner heard of it the day it happened, from the printed story.
-          const story = a
-            .moduleState(NEWS_MODULE_ID)
-            .table("stories")
-            .rows()
-            .find(
-              (row) =>
-                (row.facts as Record<string, string>).recordId === closure.id,
-            );
+          const story = closureStories.find(
+            (row) =>
+              (row.facts as Record<string, string>).recordId === closure.id,
+          );
           expect(story, closure.id).toBeTruthy();
           expect(story!.facts).toMatchObject({
             ownerId: closure.ownerId,
