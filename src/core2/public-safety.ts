@@ -57,7 +57,7 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import { baseOf } from "./outcome-web-model";
+import { baseOf, sizeIn, WEB_LINKS } from "./outcome-web-model";
 import { webReach } from "./outcome-web-reach";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { latestCrimeMonth, type CrimeMonth } from "./modules/crime";
@@ -103,6 +103,15 @@ const BANDS = parameters.ageProfile.bands;
 /** Each age band's arrest ratio for the minor offenses, aligned with `BANDS`. */
 const LOW_LEVEL_RATIOS: readonly number[] =
   parameters.ageProfile.lowLevel.ratios;
+
+/**
+ * The researched link a held defendant's conviction stands on (Dobbie,
+ * Goldin and Yang 2018): detention raises the chance of conviction by its
+ * size. The court reads the link's own row, so the size lives in one place.
+ */
+const DETENTION_LINK = WEB_LINKS.find(
+  (link) => link.key === "pretrial-detention-to-conviction",
+)!;
 
 /** The offenses with a victim, each the crime engine's kind of victimization it follows. */
 const OFFENSES = [
@@ -1065,6 +1074,9 @@ function batchCase(
 ): CaseRow {
   const id = `case:${input.month}:${input.offense}${input.category ? `:${input.category}` : ""}:${input.court}:${input.band}`;
   let detained = 0;
+  // Who money bail would hold, whatever the law: the detention the offense's
+  // base conviction share stands at (see resolveDue).
+  let heldOnMoney = 0;
   const byId = new Map(census.groups.map((g) => [g.id, g]));
   if (input.court === "adult") {
     const dangerous = input.violent
@@ -1074,6 +1086,7 @@ function batchCase(
     for (const [gid, n] of Object.entries(input.groups)) {
       const g = byId.get(gid)!;
       const cash = unableToPost(api, g);
+      heldOnMoney += n * cash;
       detained += n * (input.bailLaw ? dangerous : cash);
       avoided += n * Math.max(0, cash - (input.bailLaw ? dangerous : cash));
     }
@@ -1152,6 +1165,7 @@ function batchCase(
     const saved = claims * retreat;
     count = input.count - dismissed;
     detained *= input.count > 0 ? count / input.count : 1;
+    heldOnMoney *= input.count > 0 ? count / input.count : 1;
     if (input.syg) {
       let spared = 0;
       for (const [gid, n] of Object.entries(input.groups)) {
@@ -1186,6 +1200,7 @@ function batchCase(
     count,
     groups: input.groups,
     detained,
+    heldOnMoney,
     noncitizens: input.noncitizens,
     bailLawId: input.bailLaw ?? "",
     ...(input.read
@@ -1257,13 +1272,28 @@ function resolveDue(api: CoreAPI, month: string, tally: Tally): void {
     const terms: { facility: CountedFacility; count: number; days: number }[] =
       [];
     let convicted: number;
+    let reasons: Record<string, number | string> | undefined;
     if (c.court === "adult") {
+      // pretrial-detention-to-conviction: a defendant held until the case is
+      // decided is convicted at the released defendant's rate times one plus
+      // the link's size. The offense's base share was measured with the
+      // detention money bail brings, so the case is convicted at the base
+      // where it holds that many, and at fewer where the law held fewer.
       const heldShare = c.count > 0 ? c.detained / c.count : 0;
+      const moneyShare =
+        c.count > 0 ? (c.heldOnMoney ?? c.detained) / c.count : 0;
       const base = safetyParameter(`convictedShare.${offense}`);
-      const ratio = safetyParameter("detentionConvictionRatio");
-      const released = base / (1 + (ratio - 1) * heldShare);
-      convicted =
-        count * (heldShare * released * ratio + (1 - heldShare) * released);
+      const detention = sizeIn(DETENTION_LINK, lawChain(api).stateKey);
+      const released = base / (1 + detention * moneyShare);
+      convicted = count * released * (1 + detention * heldShare);
+      reasons = {
+        link: DETENTION_LINK.key,
+        baseShare: base,
+        heldShare,
+        heldOnMoneyShare: moneyShare,
+        detentionSize: detention,
+        releasedShare: released,
+      };
       const incarcerated =
         convicted * safetyParameter(`incarceratedShare.${offense}`);
       const prison = incarcerated * safetyParameter(`prisonShare.${offense}`);
@@ -1289,7 +1319,11 @@ function resolveDue(api: CoreAPI, month: string, tally: Tally): void {
         days: safetyParameter("juvenilePlacementDays"),
       });
     }
-    decideCountedCase(api, c.id, { convicted, terms });
+    decideCountedCase(api, c.id, {
+      convicted,
+      ...(reasons ? { reasons } : {}),
+      terms,
+    });
     returnCountedBail(api, c);
   }
 }

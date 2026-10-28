@@ -359,7 +359,8 @@
       "from": "justice.pretrial-detained",
       "evidence": "researched",
       "range": [0.24, 0.35],
-      "notes": "Not hooked by design: the justice code already decides each defendant's detention and case from the law in force, so a place-rate reader here would count detention's effect twice."
+      "notes": "Not read as a place rate, by design: the justice code already decides each defendant's detention and case from the law in force, so a place-rate reader here would count detention's effect twice. The court reads this row's size itself, at the moment it decides a case (see carriedBy). The size is the proportional rise for a held defendant over a released one, so a case holding share h of its defendants is convicted at released x (1 + size x h); the offense's base conviction share was measured with the detention money bail brings, so it stands where the case holds that many and falls only as far as the law held fewer (convicted = count x base x (1 + size x held) / (1 + size x held on money)).",
+      "carriedBy": "the court's decision of each counted case (resolveDue in src/core2/public-safety.ts, run each month by runSafetyMonth), which convicts the case's defendants at the offense's base share times one plus this row's size for the share held until the case is decided, against the share money bail would have held; the sentence row (src/core2/modules/justice.ts decideCountedCase) keeps the base share, the held and money-bail shares and the size as its reasons. A named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) does not read it: the verdict is a margin of evidence against the defense, with no rate this proportion can scale (stopgap SG-WEB-crime-justice-links-unread)"
     },
     {
       "key": "pretrial-detention-to-employment",
@@ -386,12 +387,12 @@
       "key": "release-lower-level-to-larceny",
       "status": "cause-not-recorded",
       "unsupportedReason": "cause-not-recorded",
-      "to": "crime.larceny",
+      "to": "crime.property",
       "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0.09,
+      "size": 0.0731,
       "per": "law in force",
       "lagMonths": 3,
       "group": "place",
@@ -400,8 +401,8 @@
       "source": "Lofstrom and Raphael 2018 (PPIC, The Impact of Proposition 47 on Crime and Recidivism); Bartos and Kubrin 2018 (Criminology and Public Policy)",
       "from": "law.low-level-offense-reclassified",
       "evidence": "contested",
-      "range": [0, 0.18],
-      "notes": "Unsupported until a law is recorded: no shipped policy question reclassifies low-level offenses, so the cause law.low-level-offense-reclassified has no reader, and larceny is not a kept place outcome."
+      "range": [0, 0.1463],
+      "notes": "Re-pointed from crime.larceny to crime.property, the measure the crime engine victimizes households by (src/core2/modules/crime.ts): larceny is the theft the NCVS counts as other theft, 79.3 of the 97.6 property victimizations per 1,000 households in 2024 (BJS Criminal Victimization, 2024, table 2; src/core2/data/crime/victimization.json), so the researched +9% in larceny moves the property total by 0.09 x 79.3 / 97.6 = 0.0731, and the range [0, 0.18] by the same share to [0, 0.1463]. The anchor above is the research as found, in larceny. crime.property also scales burglary (its webMeasures), which Prop 47 left unchanged, so once the cause runs burglary would rise by the same share: an overstatement the share cannot remove without a separate larceny measure. Still unsupported until a law is recorded: no shipped policy question reclassifies low-level offenses, so the cause law.low-level-offense-reclassified has no reader (stopgap SG-WEB-crime-justice-links-unread)."
     },
     {
       "key": "child-access-law-to-youth-gun-deaths",
