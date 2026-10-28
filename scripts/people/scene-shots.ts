@@ -21,7 +21,6 @@ import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "j
 import { drawPlace } from "../../tests/golden-path/place";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import { drawnFigure } from "../../src/bench/figure-hair";
-import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import type { PlayerPacketV1 } from "../../src/core2/player-v1";
 
 /** Each drawn person's occluder mask as a data URL, by its served path. */
@@ -245,11 +244,6 @@ const browser = await chromium.launch({
 });
 const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 const summary: string[] = [];
-const FIGURE_LOOK = new Map(
-  index.figures.map(
-    (row) => [row.file.split("/").pop()!, `${row.outfit}:${row.sex}`] as const,
-  ),
-);
 let twinTotal = 0;
 let whole = 0,
   other = 0;
@@ -352,10 +346,8 @@ for (const seed of seeds) {
     );
     const file = `${out}/${tag}-${s.name}.png`;
     await page.screenshot({ path: file });
-    // Twins: two people in one look.
-    const looks = s.people.map((p) =>
-      FIGURE_LOOK.get(p.figureUrl.split("/").pop()!),
-    );
+    // Twins: two people drawn alike (the same figure, colors and hair).
+    const looks = s.people.map((p) => p.figureUrl);
     const twins = looks.length - new Set(looks).size;
     twinTotal += twins;
     summary.push(
