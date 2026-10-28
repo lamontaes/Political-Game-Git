@@ -111,6 +111,7 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
   viewOf,
+  viewsModule,
 } from "./views";
 import { citizenShareOf } from "../electorate-places";
 import {
@@ -327,7 +328,9 @@ export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   // Who runs is decided by people from their own records in every world
   // (engine map line 23): candidacy is the one way onto a ballot besides the
-  // player's own filing and a party's statewide nominee.
+  // player's own filing and a party's statewide nominee. It weighs what each
+  // person thinks, so a world that votes keeps its people's views.
+  if (!core.modules.has(VIEWS_MODULE_ID)) registerModule(core, viewsModule);
   if (!core.modules.has(CANDIDACY_MODULE_ID))
     registerModule(core, candidacyModule);
   const api = coreAPI(core);
