@@ -49,7 +49,7 @@ import {
   type SpeechVoice,
 } from "../english/english-opening-speech";
 import openingData from "./data/opening-story.json" with { type: "json" };
-import { ADDRESS_FACT } from "./opening-facts";
+import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
 import {
   NAMED_QUESTIONS,
   questionAbout,
@@ -64,6 +64,8 @@ import { P } from "../core2/parameters";
 
 export interface OpeningSentence {
   readonly level: OpeningLevel;
+  /** The part of the address it is said in, from 0, one per Continue. */
+  readonly part: number;
   readonly text: string;
   readonly sourceRecordIds: readonly string[];
   /** What the sentence is about: the facts it said ("jobs-up", "place", "goal"). */
@@ -95,6 +97,8 @@ export interface OpeningStory {
     /** The line people remember: the President's own ask, else the country's state. */
     readonly rememberedLine: OpeningSentence;
     readonly text: string;
+    /** The address as the talk box plays it, one paragraph per Continue. */
+    readonly parts: readonly string[];
     readonly sourceRecordIds: readonly string[];
   };
   /** The handoff: the player's household at home on the evening of day one. */
@@ -441,6 +445,12 @@ function chairStage(core: CoreState): string {
 interface Block {
   readonly key: string;
   readonly level: OpeningLevel;
+  /**
+   * The part of the address the block is said in: the talk box plays one
+   * part per Continue (owner, Oct 28 sitting, 11 and 41: "Each Continue can
+   * carry a paragraph"). Blocks with the same part are one paragraph.
+   */
+  readonly part: number;
   readonly facts: Facts;
   readonly moves: readonly (OpeningMove | null)[];
   readonly required?: boolean;
@@ -503,7 +513,10 @@ function planAddress(
     return topic;
   };
 
-  const blocks: Block[] = [
+  // Blocks before their part is set: a block that `joins` is said in the
+  // same paragraph as the block before it.
+  type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
+  const blocks: Draft[] = [
     {
       key: "salutation",
       level: "salutation",
@@ -516,7 +529,7 @@ function planAddress(
     stand: Stand,
     rank: (typeof RANKS)[number] | "rank-line",
     topic: string | undefined,
-  ): Block => ({
+  ): Draft => ({
     key: `${rank}-${stand.question}`,
     level: "congress",
     facts: {
@@ -539,28 +552,35 @@ function planAddress(
 
   // The story of the country: the nation's unemployment rate and the numbers that
   // moved most, apart from the ones the priorities argue from, under a word for the year.
-  const told = [
-    // The nation's unemployment rate is always told, under its scope.
-    ...(held("unemployment") ? ["unemployment"] : []),
-    ...Object.keys(NUMBER_FACT)
-      .filter(
-        (topic) => topic !== "unemployment" && held(topic) && !taken.has(topic),
-      )
-      .sort(
-        (a, b) =>
-          (country.movement[b] ?? P.zero) - (country.movement[a] ?? P.zero) ||
-          a.localeCompare(b),
-      )
-      .slice(P.zero, par.storyFigures.value),
-  ];
-  const story: Block = {
+  const others = Object.keys(NUMBER_FACT)
+    .filter(
+      (topic) => topic !== "unemployment" && held(topic) && !taken.has(topic),
+    )
+    .sort(
+      (a, b) =>
+        (country.movement[b] ?? P.zero) - (country.movement[a] ?? P.zero) ||
+        a.localeCompare(b),
+    )
+    .slice(P.zero, par.storyFigures.value);
+  // The nation's unemployment rate is always told, under its scope: first,
+  // or last when it rose, so the pledge that follows answers it.
+  const jobless = held("unemployment") ? ["unemployment"] : [];
+  const told = country.facts["unemployment-up"]
+    ? [...others, ...jobless]
+    : [...jobless, ...others];
+  // After the numbers, what the President means to do about them: a hard
+  // year turns first ("It's a reason to get to work."), then every year ends
+  // on the pledge its record supports (owner, Oct 28 sitting, 11: "so what is
+  // he going to do about it?"). A new President never claims the gains.
+  const story: Draft = {
     key: "story",
     level: "country",
     facts: country.facts,
     moves: [
       move("story-open"),
       ...told.map((topic) => move("story-fig", { topic })),
-      move("story-turn"),
+      ...(country.facts["mood-hard"] ? [move("story-turn")] : []),
+      move("pledge", pledgeOptions(country.facts)),
     ],
   };
   const home = (president.pastFacts ?? []).find(
@@ -569,7 +589,7 @@ function planAddress(
   const prior = (president.pastFacts ?? []).find(
     (row) => row.kind === PRESIDENT_FACT.priorOffice,
   );
-  const occasion: Block = {
+  const occasion: Draft = {
     key: "occasion",
     level: "occasion",
     facts: {
@@ -583,10 +603,24 @@ function planAddress(
     },
     moves: [move("occasion")],
   };
+  // What the President believes, in their party's terms, then (in an
+  // inaugural) that they serve those who voted against them too.
+  const party = (official.party ?? "").toLowerCase();
+  const creed: Draft = {
+    key: "creed",
+    level: "occasion",
+    joins: true,
+    facts: {
+      [`party-${PARTY_FACT[party] ?? "other"}`]: fact("yes", official.id),
+    },
+    moves: [move("creed"), move("unity")],
+  };
   // A hard year, or a first priority that bears on a number, opens with the
   // country's story; any other President opens with the occasion.
   const storyFirst = !!country.facts["mood-hard"] || firstBears;
-  blocks.push(...(storyFirst ? [story, occasion] : [occasion, story]));
+  blocks.push(
+    ...(storyFirst ? [story, occasion, creed] : [occasion, creed, story]),
+  );
   blocks.push(...priorityBlocks, ...(lineBlock ? [lineBlock] : []));
 
   blocks.push(
@@ -599,13 +633,43 @@ function planAddress(
     {
       key: "close",
       level: "close",
+      joins: true,
       facts: {},
       moves: [move("close", { required: true })],
       required: true,
     },
   );
-  return blocks;
+  // The salutation opens the first paragraph with whatever follows it.
+  let part = -P.one;
+  return blocks.map((block, at) => {
+    if (
+      !block.joins &&
+      !(at > P.zero && blocks[at - P.one]!.key === "salutation")
+    )
+      part += P.one;
+    const { joins, ...rest } = block;
+    void joins;
+    return { ...rest, part };
+  });
 }
+
+/**
+ * What the pledge answers: the worst of the year's numbers when one went the
+ * wrong way (the most specific wins), else the year as a whole.
+ */
+function pledgeOptions(facts: Facts): { topic?: string } {
+  if (facts["unemployment-up"]) return { topic: "unemployment" };
+  if (facts["wages-behind-prices"]) return { topic: "wages" };
+  if (facts["inflation-up"]) return { topic: "inflation" };
+  return {};
+}
+
+/** The party fact a President's creed is said with, by the party's name. */
+const PARTY_FACT: Readonly<Record<string, string>> = {
+  republican: "republican",
+  democratic: "democratic",
+  democrat: "democratic",
+};
 
 function composeAddressOf(
   core: CoreState,
@@ -648,6 +712,7 @@ function composeAddressOf(
         : undefined;
       sentences.push({
         level: block.level,
+        part: block.part,
         text: move.text,
         facts: [...used].sort(),
         values: Object.fromEntries(
@@ -724,6 +789,12 @@ export function composeOpeningStory(
       openingLine: sentences[P.zero]!,
       rememberedLine: remembered,
       text: sentences.map((row) => row.text).join(" "),
+      parts: [...new Set(sentences.map((row) => row.part))].map((part) =>
+        sentences
+          .filter((row) => row.part === part)
+          .map((row) => row.text)
+          .join(" "),
+      ),
       sourceRecordIds: allIds,
     },
     home: {
@@ -787,6 +858,7 @@ export function recordOpeningStory(
       [ADDRESS_FACT.opening]: story.address.openingLine.text,
       [ADDRESS_FACT.remembered]: story.address.rememberedLine.text,
       [ADDRESS_FACT.text]: story.address.text,
+      [ADDRESS_FACT.parts]: story.address.parts.join(ADDRESS_PART_BREAK),
     },
   });
   return story;

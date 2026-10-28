@@ -720,10 +720,10 @@
       "bearing": "braced"
     },
     {
-      "key": "opening-speech.story-fig.plain-ina-sta-unemployment-is-up-across-the-country-from-a-year-ago-it-is-",
+      "key": "opening-speech.story-fig.plain-ina-unemployment-is-up-across-the-country-from-a-year-ago-it-s-a",
       "move": "story-fig",
       "kind": "spoken",
-      "text": "Unemployment is up across the country from a year ago. It is {unemployment-rate} percent.",
+      "text": "Unemployment is up across the country from a year ago. It's at {unemployment-rate} percent.",
       "uses": [
         {
           "move": "story-fig",
@@ -743,16 +743,16 @@
       "voice": "plain",
       "shippable": true,
       "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "topic": "unemployment",
       "bearing": "braced"
     },
     {
-      "key": "opening-speech.story-fig.polished-ina-sta-the-national-unemployment-rate-is-unemployment-rate-percent",
+      "key": "opening-speech.story-fig.polished-ina-the-national-unemployment-rate-is-at-unemployment-rate-perce",
       "move": "story-fig",
       "kind": "spoken",
-      "text": "The national unemployment rate is {unemployment-rate} percent.",
+      "text": "The national unemployment rate is at {unemployment-rate} percent.",
       "uses": [
         {
           "move": "story-fig",
@@ -772,15 +772,15 @@
       "voice": "polished",
       "shippable": true,
       "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "topic": "unemployment"
     },
     {
-      "key": "opening-speech.story-fig.plain-ina-sta-across-the-country-unemployment-is-unemployment-rate-percent",
+      "key": "opening-speech.story-fig.plain-ina-across-the-country-unemployment-is-at-unemployment-rate-perc",
       "move": "story-fig",
       "kind": "spoken",
-      "text": "Across the country, unemployment is {unemployment-rate} percent.",
+      "text": "Across the country, unemployment is at {unemployment-rate} percent.",
       "uses": [
         {
           "move": "story-fig",
@@ -798,10 +798,10 @@
         }
       ],
       "voice": "plain",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "topic": "unemployment"
     },
     {
@@ -3925,6 +3925,1718 @@
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
       "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-believe-the-people-of-this-country-can-run-their-own-lives",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe the people of this country can run their own lives, and that their government should trust them to.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-hold-that-the-government-closest-to-the-people-serves-them",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I hold that the government closest to the people serves them best, and I will govern that way.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-i-think-folks-know-how-to-run-their-own-lives-better-than-wa",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I think folks know how to run their own lives better than Washington does.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-i-believe-in-keeping-government-out-of-your-way-and-i-m-goin",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe in keeping government out of your way, and I'm going to act like it.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-believe-this-country-does-best-when-every-person-in-it-has",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe this country does best when every person in it has a fair shot.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-hold-that-a-government-s-first-duty-is-to-the-people-with-",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I hold that a government's first duty is to the people with the least room for error.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-i-think-everybody-deserves-a-fair-shot-and-i-m-going-to-figh",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I think everybody deserves a fair shot, and I'm going to fight for that.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-i-believe-government-ought-to-work-for-the-people-who-don-t-",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe government ought to work for the people who don't have a lobbyist.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-come-to-this-office-owing-neither-party-anything-and-i-mea",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I come to this office owing neither party anything, and I mean to keep it that way.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-i-didn-t-get-here-owing-either-party-and-i-m-not-going-to-st",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I didn't get here owing either party, and I'm not going to start now.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.unity.polished-ina-i-was-not-the-choice-of-everyone-who-voted-i-will-be-the-pre",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "I was not the choice of everyone who voted. I will be the President of everyone who did, and of everyone who did not.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.unity.plain-ina-not-everybody-voted-for-me-i-work-for-them-too",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "Not everybody voted for me. I work for them too.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-i-have-just-sworn-an-oath-to-this-country-and-i-intend-to-ke",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I have just sworn an oath to this country, and I intend to keep every word of it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-i-just-took-an-oath-i-meant-every-word-of-it",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I just took an oath. I meant every word of it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.story-open.polished-ina-the-country-i-take-charge-of-today-is-in-better-shape-than-i",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The country I take charge of today is in better shape than it was a year ago.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.story-open.plain-ina-the-country-s-in-better-shape-than-it-was-a-year-ago",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The country's in better shape than it was a year ago.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.pledge.polished-ina-sta-i-did-not-build-those-gains-and-i-will-not-claim-them-my-cha",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I did not build those gains, and I will not claim them. My charge is to keep them.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-better"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.pledge.plain-ina-sta-i-didn-t-make-those-gains-and-i-won-t-take-credit-for-them-m",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I didn't make those gains, and I won't take credit for them. My job is to keep them coming.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-better"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.pledge.polished-ina-sta-too-many-people-who-want-work-cannot-find-it-and-that-is-whe",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Too many people who want work cannot find it, and that is where I begin.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["unemployment-up"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["unemployment-up"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced",
+      "topic": "unemployment"
+    },
+    {
+      "key": "opening-speech.pledge.plain-ina-sta-too-many-people-want-work-and-can-t-find-it-that-s-where-i-s",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Too many people want work and can't find it. That's where I start.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["unemployment-up"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["unemployment-up"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced",
+      "topic": "unemployment"
+    },
+    {
+      "key": "opening-speech.pledge.polished-ina-sta-prices-are-taking-more-out-of-every-paycheck-than-they-shoul",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Prices are taking more out of every paycheck than they should, and bringing them down comes first.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["inflation-up"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["inflation-up"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced",
+      "topic": "inflation"
+    },
+    {
+      "key": "opening-speech.pledge.plain-ina-sta-prices-are-eating-your-paycheck-getting-them-down-comes-firs",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Prices are eating your paycheck. Getting them down comes first.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["inflation-up"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["inflation-up"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced",
+      "topic": "inflation"
+    },
+    {
+      "key": "opening-speech.pledge.polished-ina-sta-a-raise-that-buys-less-than-last-year-s-pay-is-not-a-raise-a",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "A raise that buys less than last year's pay is not a raise, and I mean to change that.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["wages-behind-prices"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["wages-behind-prices"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced",
+      "topic": "wages"
+    },
+    {
+      "key": "opening-speech.pledge.plain-ina-sta-a-raise-that-buys-less-isn-t-a-raise-i-m-going-to-change-tha",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "A raise that buys less isn't a raise. I'm going to change that.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["wages-behind-prices"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["wages-behind-prices"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced",
+      "topic": "wages"
+    },
+    {
+      "key": "opening-speech.pledge.polished-ina-sta-where-we-have-gained-i-will-hold-on-and-where-we-have-slippe",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Where we have gained, I will hold on, and where we have slipped, I will start.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-mixed"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-mixed"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.pledge.plain-ina-sta-where-it-s-better-we-keep-it-where-it-s-worse-we-fix-it",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Where it's better, we keep it. Where it's worse, we fix it.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-mixed"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-mixed"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.close.polished-ina-sta-may-god-bless-you-and-may-god-bless-the-united-states-of-ame",
+      "move": "close",
+      "kind": "spoken",
+      "text": "May God bless you, and may God bless the United States of America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.close.plain-ina-sta-thank-you-now-let-s-get-to-work",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you. Now let's get to work.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.salutation.polished-ina-my-fellow-citizens",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "My fellow citizens.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.salutation.polished-ina-my-fellow-americans-thank-you",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "My fellow Americans, thank you.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.salutation.polished-ina-to-my-fellow-citizens-and-to-everyone-watching-tonight-thank",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "To my fellow citizens, and to everyone watching tonight, thank you.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.salutation.plain-ina-thank-you-thank-you-everybody",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you. Thank you, everybody.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.salutation.plain-ina-thank-you-all-please-sit-down",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you all. Please, sit down.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.salutation.plain-ina-thanks-everybody-it-s-good-to-see-you",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thanks, everybody. It's good to see you.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-every-four-years-this-country-hands-its-highest-office-from-",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "Every four years this country hands its highest office from one citizen to another, peacefully, and today it has handed it to me.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-i-take-this-office-with-gratitude-to-those-who-held-it-befor",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I take this office with gratitude to those who held it before me, and with no illusion about how hard it is.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-today-this-country-handed-over-the-keys-the-way-it-always-do",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "Today this country handed over the keys, the way it always does, peacefully. I don't take that lightly.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-i-know-how-big-this-job-is-i-wouldn-t-have-asked-for-it-if-i",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I know how big this job is. I wouldn't have asked for it if I didn't think I could do it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-i-served-as-prior-office-and-nothing-in-that-work-prepared-m",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I served as {prior-office}, and nothing in that work prepared me for the weight of this oath.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["prior-office"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-i-was-prior-office-this-is-a-different-job-and-i-know-it",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I was {prior-office}. This is a different job, and I know it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["prior-office"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-believe-a-family-should-keep-more-of-what-it-earns-and-tha",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe a family should keep more of what it earns, and that Washington should earn every dollar it asks for.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-i-think-you-should-keep-more-of-what-you-make-and-washington",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I think you should keep more of what you make, and Washington should have to justify every dollar it takes.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-believe-no-one-who-works-full-time-in-this-country-should-",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe no one who works full time in this country should live in poverty.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-i-believe-if-you-work-full-time-you-shouldn-t-be-poor-simple",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe if you work full time, you shouldn't be poor. Simple as that.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-answer-to-the-voters-who-sent-me-here-not-to-either-party-",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I answer to the voters who sent me here, not to either party's leaders.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-i-don-t-take-orders-from-either-party-i-take-them-from-you",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I don't take orders from either party. I take them from you.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-other"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.story-open.polished-ina-sta-i-will-not-stand-here-and-tell-you-that-this-has-been-a-good",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "I will not stand here and tell you that this has been a good year, because for too many of you it has not.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-hard"]
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-hard"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced"
+    },
+    {
+      "key": "opening-speech.story-open.plain-ina-sta-i-m-not-going-to-tell-you-it-s-been-a-good-year-for-a-lot-of",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "I'm not going to tell you it's been a good year. For a lot of you it hasn't.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-hard"]
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-hard"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced"
+    },
+    {
+      "key": "opening-speech.story-open.polished-ina-sta-the-year-behind-us-has-been-good-to-some-and-hard-on-others",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The year behind us has been good to some and hard on others.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-mixed"]
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-mixed"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.story-open.plain-ina-sta-the-past-year-s-been-good-for-some-folks-and-rough-on-others",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "The past year's been good for some folks and rough on others.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-mixed"]
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-mixed"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.story-open.polished-ina-by-most-measures-the-country-i-inherit-is-stronger-than-it-w",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "By most measures, the country I inherit is stronger than it was a year ago.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.story-open.plain-ina-by-most-of-the-numbers-things-are-better-than-they-were-a-ye",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "By most of the numbers, things are better than they were a year ago.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.pledge.polished-ina-sta-holding-on-to-good-times-is-harder-than-it-sounds-and-i-inte",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Holding on to good times is harder than it sounds, and I intend to do it.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-better"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.pledge.plain-ina-sta-good-times-don-t-keep-themselves-going-that-s-my-job-now",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Good times don't keep themselves going. That's my job now.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-better"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "calm"
+    },
+    {
+      "key": "opening-speech.pledge.polished-ina-sta-i-will-be-judged-by-whether-next-year-is-better-than-this-on",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I will be judged by whether next year is better than this one, and I accept that.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-hard"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-hard"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced"
+    },
+    {
+      "key": "opening-speech.pledge.plain-ina-sta-judge-me-by-whether-next-year-s-better-than-this-one-that-s-",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Judge me by whether next year's better than this one. That's fair.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-hard"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["mood-hard"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "braced"
+    },
+    {
+      "key": "opening-speech.families.polished-ina-sta-to-the-family-that-sat-down-tonight-and-wondered-whether-thi",
+      "move": "families",
+      "kind": "spoken",
+      "text": "To the family that sat down tonight and wondered whether this would change anything for them: it will, and I will show you.",
+      "uses": [
+        {
+          "move": "families",
+          "subject": "inaugural",
+          "role": "families",
+          "choice": "families"
+        },
+        {
+          "move": "families",
+          "subject": "state-of-the-union",
+          "role": "families",
+          "choice": "families"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "tender"
+    },
+    {
+      "key": "opening-speech.families.plain-ina-sta-if-you-re-sitting-at-your-kitchen-table-wondering-whether-an",
+      "move": "families",
+      "kind": "spoken",
+      "text": "If you're sitting at your kitchen table wondering whether any of this matters to you, it does. I'll prove it.",
+      "uses": [
+        {
+          "move": "families",
+          "subject": "inaugural",
+          "role": "families",
+          "choice": "families"
+        },
+        {
+          "move": "families",
+          "subject": "state-of-the-union",
+          "role": "families",
+          "choice": "families"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "tender"
+    },
+    {
+      "key": "opening-speech.close.polished-ina-sta-thank-you-god-bless-you-all-and-god-bless-this-country",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you. God bless you all, and God bless this country.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.close.plain-ina-sta-thank-you-and-god-bless",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "glad"
+    },
+    {
+      "key": "opening-speech.unity.polished-ina-whether-you-voted-for-me-or-against-me-from-today-i-work-for",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "Whether you voted for me or against me, from today I work for you.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.unity.polished-ina-the-campaign-is-over-the-country-is-not-divided-into-those-w",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "The campaign is over. The country is not divided into those who voted for me and those who did not; it is one country, and I serve all of it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.unity.plain-ina-if-you-voted-against-me-i-heard-you-i-work-for-you-anyway",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "If you voted against me, I heard you. I work for you anyway.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.unity.plain-ina-the-campaign-s-over-whoever-you-voted-for-i-m-your-president",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "The campaign's over. Whoever you voted for, I'm your President now.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-sta-i-was-born-and-raised-in-home-state-and-everything-i-bring-t",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I was born and raised in {home-state}, and everything I bring to this work, I owe to it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["home-state"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["home-state"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28",
+      "bearing": "tender"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-sta-i-was-born-and-raised-in-home-state-everything-i-have-i-owe",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I was born and raised in {home-state}. Everything I have, I owe to it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["home-state"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["home-state"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28",
+      "bearing": "tender"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-year-and-it-is-f",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Prices rose {inflation-rate} percent over the year, and it is families who are paying for it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["inflation-rate", "prices-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["inflation-rate", "prices-up"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28",
+      "topic": "inflation"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-prices-are-up-inflation-rate-percent-and-families-are-the-on",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Prices are up {inflation-rate} percent, and families are the ones paying for it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["inflation-rate", "prices-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["inflation-rate", "prices-up"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28",
+      "topic": "inflation"
     }
   ]
 }

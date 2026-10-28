@@ -440,6 +440,29 @@ select:focus-visible {
     0 3px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
+/* A tab inside a sheet (the Local, State, Federal picker) is the kit's tab,
+   not a key: plain text at rest, the raised glass box only while chosen
+   (kit13 APPROVED; owner, Oct 28: "no clear delineation once one is picked"). */
+#sheet-body .tab:not(.on),
+#sheet-body .tab:not(.on):hover {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--text-2);
+}
+#sheet-body .tab:not(.on):hover {
+  color: #fff;
+  text-shadow: var(--glow);
+}
+#sheet-body .tab.on,
+#sheet-body .tab.on:hover {
+  color: var(--gold);
+  background: var(--raised);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
 /* Icons: gold line icons on round glass keys, a column over the player card (MOCKS:24). */
 .ring {
   position: relative;
@@ -1013,10 +1036,26 @@ input[type="range"]::-moz-range-thumb {
   gap: 8px;
   margin-top: 6px;
 }
+/* A creator field left empty when Continue is pressed: its label and box turn
+   the warning color until it is filled, and the line at the bottom says which. */
+#cr-character .group.missing > .label {
+  color: var(--red);
+}
+#cr-character .group.missing input {
+  border-color: var(--red);
+}
+/* The states and towns: a box of rows that pages with Back and Continue under
+   it; nothing in a menu scrolls (kit13 APPROVED), so no native scroller. */
 .choice-list {
-  max-height: 300px;
-  overflow-y: auto;
+  position: relative; /* the pager measures the rows from the box's top */
+  max-height: 400px;
+  overflow: hidden;
   margin-top: 6px;
+}
+/* While rows are paged out, the box keeps its full height: a box sized to
+   the rows it shows would shrink the page each time it turned. */
+.choice-list:has(.paged-out) {
+  height: 400px;
 }
 #front input[type="search"] {
   width: 100%;
@@ -1374,6 +1413,12 @@ body.dev .dev-ring {
 }
 #sheet.fits #sheet-body {
   flex: 0 1 auto;
+}
+/* A fitted sheet that pages keeps the window's height while rows are out of
+   the page: sized to the rows it shows, it would shrink the page each turn. */
+#game.in-play #sheet.fits:has(.paged-out) {
+  bottom: 26px;
+  max-height: none;
 }
 #game:not(.in-play) #sheet {
   left: 50%;
@@ -2294,14 +2339,33 @@ body.dev .dev-ring {
   margin: 0 0 26px;
 }
 /* The record sections of a record screen in a grid, two across. */
+/* Sections side by side, as many across as the panel holds, so a screen
+   with several bodies shows them all at once (owner, Oct 28, point 22). */
 .screen-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 40px;
-  align-items: start;
+  flex: 1;
+  min-height: 0;
+  columns: 4 340px;
+  column-gap: 28px;
+  column-fill: auto;
+}
+#sheet-body:has(.screen-grid) {
+  display: flex;
+  flex-direction: column;
+}
+/* A section longer than the room left in a column goes on in the next one,
+   row by row, so the columns fill and no fourth column falls off the box;
+   a row, and a title with its first row, never split. */
+.screen-grid > * {
+  break-inside: auto;
+}
+.screen-grid .record-section > * {
+  break-inside: avoid;
+}
+.screen-grid .record-section > .label:first-child {
+  break-after: avoid;
 }
 .record-section {
-  margin: 0 0 24px;
+  margin: 0 0 14px;
 }
 .record-section p {
   margin: 6px 0;
@@ -2578,6 +2642,14 @@ body.dev .dev-ring {
   gap: 14px;
   margin: 12px 0 22px;
 }
+/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
+   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
+   main menu's"), reading the state's name. */
+select.government-state {
+  display: block;
+  margin: -10px 0 22px;
+  border-color: rgba(214, 189, 132, 0.55);
+}
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
@@ -2644,13 +2716,14 @@ body.dev .dev-ring {
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+  padding: 1px 0;
 }
 /* A list row's face: the round headshot at a row's size; an empty ring until
    the figure is known, never initials (owner, Oct 28). */
 .person-row .person-row-face {
   flex: none;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-width: 2px;
 }
 .person-row .member-name {
@@ -3488,14 +3561,33 @@ details.entry[open] {
   margin: 0 0 26px;
 }
 /* The record sections of a record screen in a grid, two across. */
+/* Sections side by side, as many across as the panel holds, so a screen
+   with several bodies shows them all at once (owner, Oct 28, point 22). */
 .screen-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 40px;
-  align-items: start;
+  flex: 1;
+  min-height: 0;
+  columns: 4 340px;
+  column-gap: 28px;
+  column-fill: auto;
+}
+#sheet-body:has(.screen-grid) {
+  display: flex;
+  flex-direction: column;
+}
+/* A section longer than the room left in a column goes on in the next one,
+   row by row, so the columns fill and no fourth column falls off the box;
+   a row, and a title with its first row, never split. */
+.screen-grid > * {
+  break-inside: auto;
+}
+.screen-grid .record-section > * {
+  break-inside: avoid;
+}
+.screen-grid .record-section > .label:first-child {
+  break-after: avoid;
 }
 .record-section {
-  margin: 0 0 24px;
+  margin: 0 0 14px;
 }
 .record-section p {
   margin: 6px 0;
@@ -3772,6 +3864,14 @@ details.entry[open] {
   gap: 14px;
   margin: 12px 0 22px;
 }
+/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
+   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
+   main menu's"), reading the state's name. */
+select.government-state {
+  display: block;
+  margin: -10px 0 22px;
+  border-color: rgba(214, 189, 132, 0.55);
+}
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
@@ -3838,13 +3938,14 @@ details.entry[open] {
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+  padding: 1px 0;
 }
 /* A list row's face: the round headshot at a row's size; an empty ring until
    the figure is known, never initials (owner, Oct 28). */
 .person-row .person-row-face {
   flex: none;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-width: 2px;
 }
 .person-row .member-name {
@@ -4143,4 +4244,120 @@ details.entry[open] {
 /* The seat's draft form: what to change, the amount, Draft, side by side. */
 .row.seat-draft {
   justify-content: flex-start;
+}
+
+/* The districts map on Parties: the state, its counties, the player's own
+   districts and town, each district filled with the color of the party that
+   holds it; the legend's swatches use the same colors. */
+.gov-map {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  margin: 0 0 12px;
+}
+.gov-map .state {
+  fill: var(--party, rgba(242, 237, 228, 0.06));
+  fill-opacity: 0.18;
+  stroke: var(--brass);
+  stroke-width: 0.4;
+}
+.gov-map .county {
+  fill: none;
+  stroke: rgba(242, 237, 228, 0.25);
+  stroke-width: 0.12;
+}
+.gov-map .yours {
+  fill: var(--party, rgba(214, 189, 132, 0.18));
+  fill-opacity: 0.55;
+  stroke: var(--gold);
+  stroke-width: 0.25;
+}
+.gov-map .yours.place {
+  fill: var(--gold);
+  fill-opacity: 1;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  font: 15px var(--ui);
+}
+.map-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  background: var(--party, var(--text-3));
+  vertical-align: -1px;
+}
+/* The parties' colors, by the party's name on the record. */
+.party-democratic {
+  --party: #3f6fb5;
+}
+.party-republican {
+  --party: #b9584a;
+}
+.party-independent,
+.party-unaffiliated,
+.party-nonpartisan {
+  --party: #8f8c86;
+}
+.party-libertarian {
+  --party: #c9a227;
+}
+.party-green {
+  --party: #4f8a4f;
+}
+
+/* A large body's members as a grid of headshots, each ringed in its party's
+   color; a legislature fits one screen this way (owner, Oct 28, point 22). */
+.face-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 4px;
+}
+#sheet-body .face-cell {
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+#sheet-body .face-cell::after {
+  display: none;
+}
+.face-cell .face-cell-face {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-width: 2px;
+  border-color: var(--party, var(--gold));
+}
+#sheet-body .face-cell:hover:not(:disabled) {
+  background: none;
+}
+.face-cell:hover .face-cell-face {
+  box-shadow: 0 0 0 2px #fff;
+}
+/* An issue card's value: large but wrapping inside its card, never past its
+   edge; the cards are as wide as a value needs, so a word is not cut. */
+.record-section .entries-cards {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.entries-cards .entry .entry-value {
+  display: block;
+  font-size: 20px;
+  line-height: 1.15;
+  overflow-wrap: break-word;
+  margin: 2px 0 4px;
+}
+.entries-cards .entry .entry-line {
+  font: 13px var(--ui);
+  color: var(--text-2);
+  margin: 0;
 }

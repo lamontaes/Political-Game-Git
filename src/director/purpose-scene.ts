@@ -38,6 +38,8 @@ import {
   topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
+import { withArticle } from "../english/journal-words";
+import { JOB_OFFERED_EVENT } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import {
@@ -287,6 +289,26 @@ function composeBinding(
       facts.bill = {
         text: `the ${name.title}`,
         sourceRecordIds: [moment.causeId],
+      };
+  }
+  // A job offer (jobs.ts offerToPlayer): the employer, the position with its
+  // article, the pay offered by the hour and the day the offer lapses.
+  if (record?.kind === JOB_OFFERED_EVENT && said.organizationId) {
+    const org = core.organizations.get(said.organizationId);
+    const ids = [moment.causeId, said.organizationId];
+    if (org)
+      facts.employer = { text: properName(org.name), sourceRecordIds: ids };
+    if (said.title)
+      facts.position = { text: withArticle(said.title), sourceRecordIds: ids };
+    if (Number(said.hourlyMinor) > P.zero)
+      facts.pay = {
+        text: dollars(Number(said.hourlyMinor)),
+        sourceRecordIds: ids,
+      };
+    if (said.deadline)
+      facts.deadline = {
+        text: spokenDate(said.deadline, core.date),
+        sourceRecordIds: ids,
       };
   }
   if (said.section)
@@ -837,6 +859,11 @@ function deskFacts(
  * lines do. Returns the record's id (the same one if the reply was already
  * said), or null when the path is not a reply the scene offers.
  */
+/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
+const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
+  Record<string, { value: number } | undefined>
+>;
+
 export function replyInScene(
   core: CoreState,
   director: Director,
@@ -890,6 +917,11 @@ export function replyInScene(
   const theirs = scene.playerAsks
     ? lastAnswer(scene.talk.tree, path)
     : undefined;
+  // The ending the reply reaches, if it ends the scene: what the scene keeps
+  // is written on its record for the engines that read it, and a tie it
+  // strains is written to closeness (the plan, section 3: "Each 'keeps'
+  // becomes a write to the engine that owns it").
+  const ending = reply!.next?.end?.ending;
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -906,6 +938,7 @@ export function replyInScene(
       line: line.text,
       ...(stakeKind ? { stake: stakeKind } : {}),
       ...(enlists && filingId ? { enlisted: filingId } : {}),
+      ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
     },
     source: {
       tag: "SOURCED",
@@ -922,6 +955,17 @@ export function replyInScene(
     undefined,
     { cause: "scene-reply", sourceId: id },
   );
+  // stopgapId: SG-WORDS-favor-promise-keeps-unread
+  const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
+  if (strain)
+    coreAPI(core).relationship(
+      scene.askedId,
+      scene.askerId,
+      "contact",
+      -strain,
+      undefined,
+      { cause: `scene-ending:${ending!.keeps}`, sourceId: id },
+    );
   if (stakeKind && line.move === "deflect")
     coreAPI(core).relationship(
       scene.askedId,
