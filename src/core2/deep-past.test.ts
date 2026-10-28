@@ -206,13 +206,15 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
         expect(result.pastFacts!.find((row) => row.id === fact.id)).toBe(fact);
     }
     const adult = after.people.find((row) => row.id === "person:adult")!;
-    const tenure = adult.pastFacts!.find(
-      (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.work.kind,
-    ) as PastFact;
-    expect(tenure.date).toBe("2018-04-01");
-    expect(tenure.source).toBe(source);
-    expect(tenure.facts!.sourceFactId).toBe("job:fixture:past:opening");
-    expect(tenure.facts!.earnings).toBe("not-reconstructed");
+    // The working life is run before the start (src/core2/past-work.ts), not
+    // drawn here: the opening job keeps its own start and nothing is added.
+    expect(
+      adult.pastFacts!.some((fact) => fact.kind.startsWith("work:tenure")),
+    ).toBe(false);
+    expect(
+      adult.pastFacts!.find((fact) => fact.id === "job:fixture:past:opening")!
+        .date,
+    ).toBe("2018-04-01");
     const reports = (after as Reported).priorFactsSource!;
     expect(
       reports.find((row) => row.personId === adult.id && row.field === "faith")!
@@ -347,7 +349,7 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     ).toBe("unresolved");
   });
 
-  it("keeps expired residence ranges and conflicting job starts as explicit gaps", () => {
+  it("keeps expired residence ranges as explicit gaps", () => {
     const before = input();
     const adult = before.people[p("zero")]!;
     const residence: PastFact = {
@@ -373,9 +375,7 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     const after = buildDeepPast({ ...before, people: [constrained] });
     const result = after.people[p("zero")]!;
     expect(
-      result.pastFacts!.some(
-        (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.work.kind,
-      ),
+      result.pastFacts!.some((fact) => fact.kind.startsWith("work:tenure")),
     ).toBe(false);
     const schools = result.pastFacts!.filter(
       (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.schools.kind,
@@ -385,10 +385,6 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
       true,
     );
     const reports = (after as Reported).priorFactsSource!;
-    expect(
-      reports.find((row) => row.field === DEFAULT_DEEP_PAST_DATA.work.field)!
-        .reason,
-    ).toMatch(/start dates conflict/);
     expect(
       reports.some(
         (row) =>

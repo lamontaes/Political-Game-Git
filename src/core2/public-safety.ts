@@ -710,7 +710,7 @@ export function runSafetyMonth(api: CoreAPI): void {
     month,
     placeId: census.placeId,
     date: core.date,
-    officersPer1000: officersPer1000(census.stateKey, police),
+    officersPer1000: officersPer1000(census.stateKey, api.state.seed, police),
     ...tally,
     policeService: police.ratio,
     correctionsService: corrections.ratio,
@@ -725,8 +725,14 @@ export function runSafetyMonth(api: CoreAPI): void {
 }
 
 /** The officers the town's police lines fund per 1,000 residents: the state's recorded rate, scaled by the lines against where they began the year. */
-function officersPer1000(stateKey: string, police: Service): number {
-  return baseOf("police.officers-per-1000", stateKey).value * police.ratio;
+function officersPer1000(
+  stateKey: string,
+  seed: string,
+  police: Service,
+): number {
+  return (
+    baseOf("police.officers-per-1000", stateKey, seed).value * police.ratio
+  );
 }
 
 /**
@@ -742,10 +748,18 @@ export function openingSafetyMonth(api: CoreAPI): void {
     month: monthOf(api.state.date),
     placeId: chain.townPlaceId,
     date: api.state.date,
-    officersPer1000: baseOf("police.officers-per-1000", chain.stateKey).value,
+    officersPer1000: baseOf(
+      "police.officers-per-1000",
+      chain.stateKey,
+      api.state.seed,
+    ).value,
     arrests: 0,
     lowLevelArrests: 0,
-    lowLevelRatePer1000: baseOf(LOW_LEVEL_MEASURE, chain.stateKey).value,
+    lowLevelRatePer1000: baseOf(
+      LOW_LEVEL_MEASURE,
+      chain.stateKey,
+      api.state.seed,
+    ).value,
     lowLevelWebId: "",
     juvenileCases: 0,
     detained: 0,
@@ -786,7 +800,9 @@ export function offenseRate(
     also && api.state.modules.has(OUTCOME_WEB_MODULE_ID)
       ? webReach(api, placeId, also).factor
       : 1;
-  return (web?.value ?? baseOf(measure, stateKey).value) * factor;
+  return (
+    (web?.value ?? baseOf(measure, stateKey, api.state.seed).value) * factor
+  );
 }
 const rateOf = offenseRate;
 
@@ -837,7 +853,9 @@ function lowLevelStreams(
   tally: Tally,
 ): Stream[] {
   const reach = webReach(api, census.placeId, LOW_LEVEL_MEASURE);
-  const rate = baseOf(LOW_LEVEL_MEASURE, census.stateKey).value * reach.factor;
+  const rate =
+    baseOf(LOW_LEVEL_MEASURE, census.stateKey, api.state.seed).value *
+    reach.factor;
   tally.lowLevelRatePer1000 = rate;
   tally.lowLevelWebId = reach.recordId ?? "";
   const weight = LOW_LEVEL_RATIOS.reduce(
@@ -849,7 +867,7 @@ function lowLevelStreams(
   if (weight <= 0 || all <= 0) return [];
   const read = {
     webRecordId: reach.recordId ?? "",
-    officers: officersPer1000(census.stateKey, police),
+    officers: officersPer1000(census.stateKey, api.state.seed, police),
   };
   return rates.map((r) => ({
     key: LOW_LEVEL,
