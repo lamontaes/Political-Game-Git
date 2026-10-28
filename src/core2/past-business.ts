@@ -25,7 +25,7 @@ import {
 import businessData from "./data/business/business.json" with { type: "json" };
 import { businessName, businessNameContext } from "./business-names";
 import type { PastTown } from "./past-bodies";
-import { pastParameter, putPast, shiftDays } from "./past-module";
+import { pastParameter, shiftDays } from "./past-module";
 import type { CoreAPI, PersonState } from "./types";
 
 export interface PastClosureRow {
@@ -132,6 +132,5 @@ export function buildPastClosures(
       workers: closure.workers,
     };
   });
-  for (const row of rows) putPast(api, "closures", row);
   return rows;
 }

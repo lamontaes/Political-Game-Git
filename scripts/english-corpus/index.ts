@@ -17,7 +17,7 @@ import { filingWordsFromBank } from "../../src/english/mined/filing-bank";
 import { journalDataFromBank } from "../../src/english/mined/journal-bank";
 import { benchControlNames, stanceWords } from "./choice-names-bank";
 import { composeNewsStory } from "./newscast-bank";
-import { openingMove, openingSpeechKind } from "./opening-speech-bank";
+import { openingMove } from "./opening-speech-bank";
 import {
   bringWordsFromBank,
   sceneWordsFromBank,
@@ -32,7 +32,7 @@ export const MINED_WORDS = {
   bringItUp: { words: bringWordsFromBank() },
   address: { addressMoves, composeTurn },
   /** The pieces of the President's address that opens the game, one role at a time. */
-  openingSpeech: { openingMove, openingSpeechKind },
+  openingSpeech: { openingMove },
   /** A story on TV and in the paper: the broadcast, the headline and the lede. */
   news: { composeNewsStory },
   /** The decision bench's button names, in its controls.json shape. */

@@ -18,7 +18,7 @@ import {
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
-import { lookForGender, readRecipe, type LookRecipe } from "./appearance";
+import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
 
 /**
  * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
@@ -31,12 +31,6 @@ export type CreatorGender = (typeof GENDERS)[number];
 export const CREATOR_MIN_AGE = 17;
 /** The old creator's upper bound (MAXIMUM_START_AGE). */
 export const CREATOR_MAX_AGE = 70;
-
-function hash(text: string): number {
-  let h = 2166136261;
-  for (const ch of text) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
-  return h;
-}
 
 /**
  * A name from the national corpus, drawn by seed and draw number. With no

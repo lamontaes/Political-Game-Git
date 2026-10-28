@@ -295,7 +295,7 @@ function settled(recipe: LookRecipe): LookRecipe {
   return { ...recipe, sex: recipe.sex, build, outfit };
 }
 
-function hash(text: string): number {
+export function hash(text: string): number {
   let h = 2166136261;
   for (const ch of text) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
   return h;
