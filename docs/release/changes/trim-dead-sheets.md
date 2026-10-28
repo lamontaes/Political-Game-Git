@@ -3,4 +3,4 @@ id: trim-dead-sheets
 impact: none
 ---
 
-Three sheets nothing opens are removed; nothing a player could open changes.
+Deletes three sheets no control could open (map, law, changes) and the unused /api/map; nothing a player could reach changes.
