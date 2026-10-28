@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/old-engine-opening-port
-pr:
+pr: #6637
 blocked-on:
 after: core-old-imports-population
 source: split from core-old-imports-opening-builders by pool feeder Oct 20

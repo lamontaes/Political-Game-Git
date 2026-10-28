@@ -77,6 +77,7 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
+  portraitFace,
   portraitPng,
   readRecipe,
   setColor,
@@ -590,6 +591,13 @@ export async function benchRequest(
                   makeIsoDate(core!.date),
                 ),
                 portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
+                // The face the creator saved, for Continue's headshot.
+                face: core!.people.get(personId)?.looks?.recipe
+                  ? portraitFace(
+                      readRecipe(core!.people.get(personId)!.looks!.recipe!),
+                      `/api/portrait?id=${encodeURIComponent(personId)}`,
+                    )
+                  : null,
                 placeName,
                 date: core!.date,
                 minuteOfDay:
