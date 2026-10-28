@@ -11,6 +11,13 @@
  * purpose is, the player's lines the choices, so the story screen plays it
  * unchanged.
  *
+ * Each purpose the player can ask in is a row of `ASKS`: the words the one
+ * asked answers in and the asks the player may try again with. A door on
+ * the player's own canvass is the same exchange on the support ask's bank
+ * (purpose `ask-support`): the player asks a resident for their vote, and
+ * the resident answers from where the knock left them (the campaign
+ * engine's warmth toward the player).
+ *
  * The colleague answers from where they stand, never by a roll: their own
  * position on the bill, and what a yes given as a favor to the player is
  * worth to them (the weight the roll call reads, `favorWorth`). Asked plainly,
@@ -57,39 +64,92 @@ interface Ending {
   opens?: string;
 }
 
+/** How one purpose's ask is answered, and how the player may ask again. */
+interface AskRow {
+  /** The answer of one already for it, of one a favor would carry, of one against. */
+  yes: string;
+  carried: string;
+  no: string;
+  /** The answers to a second ask that carries them, best first. */
+  relent: readonly string[];
+  /** The player's second ask after a "not yet" or a no, and what it weighs. */
+  again: readonly { move: string; carries: "favor" | "lean" }[];
+  /** The ending a path reaches, by the last answer. */
+  endingOf: (answer: string | undefined) => string;
+  /** Which endings resolve the ask and which refuse it. */
+  resolved: string;
+  refused: string;
+}
+
+const ASKS: Readonly<Record<string, AskRow>> = {
+  "ask-vote": {
+    yes: "agree",
+    carried: "stall",
+    no: "refuse",
+    relent: ["relent", "agree"],
+    again: [
+      { move: "plea", carries: "favor" },
+      { move: "bargain", carries: "favor" },
+      { move: "press", carries: "lean" },
+    ],
+    endingOf: (answer) =>
+      answer === "agree" || answer === "relent"
+        ? "vote-given"
+        : answer === "refuse"
+          ? "refused"
+          : answer === "stall"
+            ? "undecided"
+            : "left-there",
+    resolved: "vote-given",
+    refused: "refused",
+  },
+  "ask-support": {
+    yes: "agree",
+    carried: "deflect",
+    no: "decline",
+    relent: ["agree"],
+    again: [{ move: "press", carries: "lean" }],
+    endingOf: (answer) =>
+      answer === "agree"
+        ? "pledged"
+        : answer === "decline"
+          ? "not-yet"
+          : answer === "deflect"
+            ? "dodged"
+            : "left-there",
+    resolved: "pledged",
+    refused: "not-yet",
+  },
+};
+
 const ENDINGS = new Map(
-  (
-    (
-      arcsFile as unknown as {
-        purposes: Record<string, { endings?: readonly Ending[] }>;
-      }
-    ).purposes["ask-vote"]?.endings ?? []
-  ).map((row) => [row.id, row]),
+  Object.keys(ASKS).map((purpose) => [
+    purpose,
+    new Map(
+      (
+        (
+          arcsFile as unknown as {
+            purposes: Record<string, { endings?: readonly Ending[] }>;
+          }
+        ).purposes[purpose]?.endings ?? []
+      ).map((row) => [row.id, row]),
+    ),
+  ]),
 );
 
-/** The player's second ask after a "not yet" or a no, and how the colleague weighs it. */
-const AGAIN: readonly { move: string; carries: "favor" | "lean" }[] = [
-  { move: "plea", carries: "favor" },
-  { move: "bargain", carries: "favor" },
-  { move: "press", carries: "lean" },
-];
-
-/** The ending a path reaches, by the colleague's last answer. */
-function endingFor(answer: string | undefined): {
+/** The ending a path reaches, by the last answer of the one asked. */
+function endingFor(
+  purpose: string,
+  answer: string | undefined,
+): {
   outcome: Outcome;
   ending?: Ending;
 } {
-  const id =
-    answer === "agree" || answer === "relent"
-      ? "vote-given"
-      : answer === "refuse"
-        ? "refused"
-        : answer === "stall"
-          ? "undecided"
-          : "left-there";
+  const row = ASKS[purpose]!;
+  const id = row.endingOf(answer);
   const outcome: Outcome =
-    id === "vote-given" ? "resolved" : id === "refused" ? "refused" : "open";
-  const ending = ENDINGS.get(id);
+    id === row.resolved ? "resolved" : id === row.refused ? "refused" : "open";
+  const ending = ENDINGS.get(purpose)?.get(id);
   return ending ? { outcome, ending } : { outcome };
 }
 
@@ -107,6 +167,9 @@ export function composeAskTalk(
 ): SceneTalkResult {
   const purpose = type.purpose ?? "ask-vote";
   const key = type.tag?.key ?? type.key;
+  const row = ASKS[purpose];
+  if (!row)
+    return { kind: "skipped", reason: `the player does not ask in ${purpose}` };
   const player = core.people.get(cast.askedId);
   const colleague = core.people.get(cast.askerId);
   if (!player || !colleague)
@@ -184,6 +247,14 @@ export function composeAskTalk(
     return null;
   };
 
+  // The narrator sets the scene, where the purpose has words for it.
+  const narrate = say(
+    { step: "narrate", move: "narrate", role: "narrator" },
+    cast.askerId,
+    "narrate",
+    new Set(),
+  );
+  if (narrate) narrate.role = "narrator";
   // The ask: the player's request, said as the scene opens.
   const state = say(
     { step: "state", move: "request", role: "asker" },
@@ -197,11 +268,11 @@ export function composeAskTalk(
       reason: `the request that opens ${type.key} cannot be worded from the records given`,
     };
   state.auto = true;
-  let said = plus(new Set(), state);
+  let said = plus(narrate ? plus(new Set(), narrate) : new Set(), state);
   const carried = standing.lean + standing.favor > zero;
   // Where they stand before any favor: for it, carried by one, or against.
   const first = answer(
-    standing.lean > zero ? ["agree"] : carried ? ["stall"] : ["refuse"],
+    standing.lean > zero ? [row.yes] : carried ? [row.carried] : [row.no],
     "request",
     "first",
     said,
@@ -218,16 +289,16 @@ export function composeAskTalk(
   const endingCounts: Record<string, number> = {};
   const endings = new Set<Outcome>();
   const close = (node: TreeNode, last: string | undefined) => {
-    const end = endingFor(last);
+    const end = endingFor(purpose, last);
     node.end = end;
     endings.add(end.outcome);
     if (end.ending)
       endingCounts[end.ending.id] = (endingCounts[end.ending.id] ?? zero) + one;
   };
-  if (first.move === "agree") {
+  if (first.move === row.yes) {
     // A yes: the player thanks them, and the vote is given.
     const thanks = say(
-      { step: "follow", move: "thank", role: "asker", after: "agree" },
+      { step: "follow", move: "thank", role: "asker", after: row.yes },
       cast.askedId,
       "thank",
       said,
@@ -237,14 +308,14 @@ export function composeAskTalk(
       const next: TreeNode = { lines: [], replies: [] };
       nodes += one;
       tree.replies.push({ line: thanks, next });
-      close(next, "agree");
+      close(next, row.yes);
     } else {
-      gap("follow", "thank", "agree");
-      close(tree, "agree");
+      gap("follow", "thank", row.yes);
+      close(tree, row.yes);
     }
   } else {
     // Not yet, or no: the player asks again, or lets it go.
-    for (const again of [...AGAIN, { move: "accept", carries: "none" }]) {
+    for (const again of [...row.again, { move: "accept", carries: "none" }]) {
       const line = say(
         { step: "follow", move: again.move, role: "asker", after: first.move },
         cast.askedId,
@@ -260,12 +331,12 @@ export function composeAskTalk(
       nodes += one;
       tree.replies.push({ line, next });
       if (again.carries === "none") {
-        close(next, first.move === "refuse" ? "refuse" : undefined);
+        close(next, first.move === row.no ? row.no : undefined);
         continue;
       }
       const yes = again.carries === "favor" ? carried : standing.lean > zero;
       const last = answer(
-        yes ? ["relent", "agree"] : ["refuse"],
+        yes ? row.relent : [row.no],
         again.move,
         `last:${again.move}`,
         plus(said, line),
@@ -307,7 +378,7 @@ export function composeAskTalk(
     purpose,
     askerId: cast.askerId,
     askedId: cast.askedId,
-    narration: [],
+    narration: narrate ? [narrate] : [],
     intro: [],
     state,
     tree,

@@ -923,15 +923,6 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:door-first" },
-          "causeEngine": "circumstance",
-          "causeRecord": "campaign.door",
-          "reason": "canvass",
-          "bind": { "newcomer": "subject", "met": "counterpart" },
-          "opener": "newcomer",
-          "setting": ["other-home"]
-        },
-        {
           "match": { "label": "circumstance:new-coworker" },
           "causeEngine": "circumstance",
           "causeRecord": "job",
@@ -1370,15 +1361,6 @@
           },
           "bind": { "visitor": "subject", "cannot-come": "counterpart" },
           "opener": "visitor"
-        },
-        {
-          "match": { "label": "circumstance:door-again" },
-          "causeEngine": "circumstance",
-          "causeRecord": "campaign.door",
-          "reason": "canvass",
-          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
-          "opener": "visitor",
-          "setting": ["other-home"]
         },
         {
           "match": {
@@ -3269,6 +3251,60 @@
       "tag": {
         "key": "vote-wanted",
         "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "door-ask",
+      "note": "The player knocks on a door on their own canvass and asks the resident for their vote (owner, Oct 8: porch scenes in a day of door knocking; Oct 27: every campaign act is a scene). The mirror of speech-afterward: the player is the candidate asking. The resident answers from where the knock left them, the campaign engine's warmth toward the player.",
+      "purpose": "ask-support",
+      "playerAsks": true,
+      "asker": "resident",
+      "asked": "you",
+      "stakes": ["race"],
+      "roles": [
+        {
+          "key": "resident",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline", "deflect"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "press", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        }
+      ],
+      "setting": ["other-home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": { "label": "circumstance:door-first" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
+          "reason": "canvass",
+          "bind": { "resident": "counterpart", "you": "subject" },
+          "opener": "you",
+          "setting": ["other-home"]
+        },
+        {
+          "match": { "label": "circumstance:door-again" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
+          "reason": "canvass",
+          "bind": { "resident": "counterpart", "you": "subject" },
+          "opener": "you",
+          "setting": ["other-home"]
+        }
+      ],
+      "tag": {
+        "key": "door",
+        "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
     },

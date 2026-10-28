@@ -632,6 +632,19 @@ function headBox(figure: Figure, spot: StagingSpot, mirrored: boolean) {
 const HEADS = heads.heads as unknown as Readonly<
   Record<string, readonly [number, number, number]>
 >;
+/** Where a figure's head is drawn, in its own pixels: top, middle and width; null where it is not measured. */
+export function headOf(
+  figure: Figure,
+): readonly [number, number, number] | null {
+  return (
+    HEADS[
+      figure.file
+        .split("/")
+        .pop()!
+        .replace(/\.png$/, "")
+    ] ?? null
+  );
+}
 const PICTURE_WIDTH = 1672;
 const PICTURE_HEIGHT = 941;
 
