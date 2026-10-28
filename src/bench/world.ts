@@ -290,9 +290,10 @@ export async function buildBenchWorldInStages(
 function censusScale(
   place: { sourceGeoid?: string },
   population: CoreInput,
+  seed: string,
 ): number {
   const real = place.sourceGeoid
-    ? placeReferencePopulation(place.sourceGeoid)?.value
+    ? placeReferencePopulation(place.sourceGeoid, seed)?.value
     : undefined;
   const sample = population.people.filter(
     (person) => person.tier !== OPENING_KIN.kinTier,
@@ -367,7 +368,7 @@ function* benchWorldStages(
     // households as the Census count is over the sample, unless asked for.
     const countScale =
       options.countScale ??
-      (minimumPeople ? 1 : censusScale(place, population));
+      (minimumPeople ? 1 : censusScale(place, population, input.seed));
     let withPlayer: CoreInput = {
       ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
       playerId,

@@ -50,7 +50,7 @@ import {
   type CorePlace,
 } from "./place-lookup";
 import {
-  estimatedMonthlyHouseholdLivingCosts,
+  worldMonthlyHouseholdLivingCosts,
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
 } from "./reference/living-costs-data";
@@ -269,7 +269,8 @@ function selectedPlace(
   for (const place of realLocalities()) {
     if (place.scope !== "locality" || !place.sourceGeoid) continue;
     if (
-      (placeReferencePopulation(place.sourceGeoid)?.value ?? p("zero")) <
+      (placeReferencePopulation(place.sourceGeoid, options.seed)?.value ??
+        p("zero")) <
       minimumPeople
     )
       continue;
@@ -542,7 +543,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   // A town smaller than the target opens at its real size (its Census
   // reference population); a size asked for by name is kept as asked.
   const real = place.sourceGeoid
-    ? placeReferencePopulation(place.sourceGeoid)?.value
+    ? placeReferencePopulation(place.sourceGeoid, options.seed)?.value
     : undefined;
   const minimumPeople =
     options.minimumPeople === undefined &&
@@ -1217,7 +1218,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         id,
         plan.ids.filter((member) => member !== id),
       );
-    const costs = estimatedMonthlyHouseholdLivingCosts(
+    const costs = worldMonthlyHouseholdLivingCosts(
+      options.seed,
       livingCostsRegionForState(place.stateJurisdictionKey),
       plan.ids.length,
     );
@@ -1237,6 +1239,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         ? Math.round(
             medianTransactionBalance(
               (dailyPay * p("daysPerMeanYear")) / p("minorPerDollar"),
+              options.seed,
             ) * p("minorPerDollar"),
           )
         : householdDailyCost * p("moneyBufferDays");
@@ -1444,11 +1447,13 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       householdMixBasis: mix.basis,
       referencePopulation: String(
         place.sourceGeoid
-          ? (placeReferencePopulation(place.sourceGeoid)?.value ?? "not-held")
+          ? (placeReferencePopulation(place.sourceGeoid, options.seed)?.value ??
+            "not-held")
           : "not-held",
       ),
       referencePopulationSource: place.sourceGeoid
-        ? (placeReferencePopulation(place.sourceGeoid)?.source ?? "not-held")
+        ? (placeReferencePopulation(place.sourceGeoid, options.seed)?.source ??
+          "not-held")
         : "not-held",
       livingCostSource: `${LIVING_COSTS_SOURCE}; ${TOWN_RENT_META.fairMarketRents}`,
       cashSource:

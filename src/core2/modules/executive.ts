@@ -602,6 +602,7 @@ function seatCabinetPerson(
               (maxDailyMinor *
                 parameter("daysPerMeanYear", core.data.parameters)) /
                 parameter("minorPerDollar", core.data.parameters),
+              core.seed,
             ) * parameter("minorPerDollar", core.data.parameters),
           ),
         }

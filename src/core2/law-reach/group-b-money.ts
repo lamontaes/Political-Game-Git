@@ -43,6 +43,7 @@ import { flowWeights, fundOf } from "../counted-money";
 import { getRow, putRow, REACH_B_MODULE_ID, rowsOf } from "./group-b-store";
 import { fundFederalStanding, registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
+import { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 
 export const source = (api: CoreAPI, citation: string): Source => ({
   tag: "SOURCED",
@@ -927,7 +928,7 @@ export function voucherShare(api: CoreAPI): number {
   return Math.min(
     1,
     reachParameter("voucherAmountDollars") /
-      api.parameter("openingPrivateTuitionAnnualUsd"),
+      worldPrivateTuitionAnnualUsd(api.state.seed),
   );
 }
 

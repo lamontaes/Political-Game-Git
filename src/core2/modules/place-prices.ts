@@ -15,6 +15,7 @@
  */
 import { townOutsideOf } from "../opening-outside-market";
 import goods from "../data/prices/goods.json" with { type: "json" };
+import { worldBoundedShare, worldLevelShare } from "../world-draw";
 import pricesParameters from "../data/prices/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { residentsRuntime } from "./residents";
@@ -48,6 +49,101 @@ export const PRICES_PARAMETERS = pricesParameters as unknown as Readonly<
 >;
 
 export type Good = keyof typeof goods.goods;
+type Goods = typeof goods.goods;
+
+const worldGoodsBySeed = new Map<
+  string,
+  { goods: Goods; ceIncomeBeforeTaxesMinor: number }
+>();
+
+/**
+ * The household goods table this world prices from. The published table (BLS
+ * CES 2024, NTD 2023, ACS 2024, FHWA) is the center; each statistic is drawn
+ * once per world from its seed (realistic, not real; owner, Oct 27). What law
+ * sets, the fuel tax per gallon, stays as published.
+ */
+export function worldGoods(seed: string): {
+  goods: Goods;
+  ceIncomeBeforeTaxesMinor: number;
+} {
+  const known = worldGoodsBySeed.get(seed);
+  if (known) return known;
+  const g = goods.goods;
+  const level = (key: string) =>
+    worldLevelShare(seed, `world-goods:${key}`, "worldGoodsPriceSpreadShare");
+  const bounded = (key: string, published: number) =>
+    worldBoundedShare(
+      seed,
+      `world-goods:${key}`,
+      published,
+      "worldGoodsTakeUpSpreadShare",
+    );
+  const poorShareBase = bounded(
+    "poor-road-share",
+    g["vehicle-repair"].poorShareBase,
+  );
+  const drawn: Goods = {
+    ...g,
+    electricity: {
+      ...g.electricity,
+      ceAnnualMinor: Math.round(
+        g.electricity.ceAnnualMinor * level("electricity"),
+      ),
+    },
+    fuel: {
+      ...g.fuel,
+      ceAnnualMinor: Math.round(g.fuel.ceAnnualMinor * level("fuel")),
+    },
+    "transit-fare": {
+      ...g["transit-fare"],
+      tripsPerHouseholdYear:
+        g["transit-fare"].tripsPerHouseholdYear * level("transit-trips"),
+      farePerTripMinor: Math.round(
+        g["transit-fare"].farePerTripMinor * level("transit-fare"),
+      ),
+    },
+    "vehicle-miles": {
+      ...g["vehicle-miles"],
+      milesPerHouseholdYear:
+        g["vehicle-miles"].milesPerHouseholdYear * level("vehicle-miles"),
+      milesPerGallon:
+        g["vehicle-miles"].milesPerGallon * level("miles-per-gallon"),
+    },
+    broadband: {
+      ...g.broadband,
+      monthlyPriceMinor: Math.round(
+        g.broadband.monthlyPriceMinor * level("broadband-price"),
+      ),
+      subscriptionShare: bounded(
+        "broadband-subscription",
+        g.broadband.subscriptionShare,
+      ),
+    },
+    "beverage-container": {
+      ...g["beverage-container"],
+      perPersonYear: g["beverage-container"].perPersonYear * level("beverages"),
+    },
+    "vehicle-repair": {
+      ...g["vehicle-repair"],
+      extraCostPerVehiclePoorRoadsMinor: Math.round(
+        g["vehicle-repair"].extraCostPerVehiclePoorRoadsMinor *
+          level("repair-cost"),
+      ),
+      vehiclesPerHousehold:
+        g["vehicle-repair"].vehiclesPerHousehold * level("vehicles"),
+      poorShareBase,
+      poorShareOfReferenceRoads: poorShareBase,
+    },
+  };
+  const world = {
+    goods: drawn,
+    ceIncomeBeforeTaxesMinor: Math.round(
+      goods.ceIncomeBeforeTaxesMinor * level("household-income"),
+    ),
+  };
+  worldGoodsBySeed.set(seed, world);
+  return world;
+}
 
 interface Rule {
   id: string;
@@ -256,7 +352,8 @@ export function setRoadCondition(
  * rising as it falls (never more than every road).
  */
 export function poorRoadShareAt(api: CoreAPI, level: number): number {
-  const base = goods.goods["vehicle-repair"].poorShareBase;
+  const base = worldGoods(api.state.seed).goods["vehicle-repair"]
+    .poorShareBase;
   if (level <= 0) return 1;
   return Math.min(
     1,
@@ -287,6 +384,8 @@ export function monthlyChange(
   >,
   scale: number,
   persons: number,
+  /** The world's household goods (`worldGoods`), never the published table. */
+  g: Goods,
   /** What the outcome web carries into this household's use: trips taken, the share subscribing (each against its own base) and the share of deposit containers returned. */
   web: {
     trips?: number;
@@ -295,7 +394,6 @@ export function monthlyChange(
     miles?: number;
   } = {},
 ): { payMinor: number; refundMinor: number } {
-  const g = goods.goods;
   switch (rule.kind) {
     case "share": {
       const base =
@@ -385,13 +483,15 @@ export function monthlyChange(
  * income group does.
  */
 function scaleFor(api: CoreAPI, monthlyPayMinor: number, good: Good): number {
-  const average = goods.ceIncomeBeforeTaxesMinor;
+  const { goods: g, ceIncomeBeforeTaxesMinor: average } = worldGoods(
+    api.state.seed,
+  );
   const income = Math.max(
     monthlyPayMinor * MONTHS,
     average * api.parameter("pricesIncomeFloorShare"),
   );
   return (
-    (income / average) ** api.parameter(goods.goods[good].elasticityParameter)
+    (income / average) ** api.parameter(g[good].elasticityParameter)
   );
 }
 
@@ -923,7 +1023,7 @@ function readPriceLaws(api: CoreAPI): void {
         (p.carbonPricePerTonDollars.value *
           p.householdTonsPerYear.value *
           p.centsPerDollar.value) /
-        goods.goods.fuel.ceAnnualMinor,
+        worldGoods(api.state.seed).goods.fuel.ceAnnualMinor,
     },
     "SG-GOV-REACH-B-energy-price",
     true,
@@ -1010,7 +1110,7 @@ export function businessEnergyCostYear(
         (p.carbonPricePerTonDollars.value *
           p.householdTonsPerYear.value *
           p.centsPerDollar.value) /
-        goods.goods.fuel.ceAnnualMinor,
+        worldGoods(api.state.seed).goods.fuel.ceAnnualMinor,
     },
   };
   const row = rule[question];
@@ -1142,7 +1242,7 @@ function withWebRules(api: CoreAPI, rules: Rule[]): Rule[] {
     "transit-fare",
     "price",
     "transit.ridership",
-    goods.goods["transit-fare"].farePerTripMinor,
+    worldGoods(api.state.seed).goods["transit-fare"].farePerTripMinor,
   );
   return out;
 }
@@ -1193,6 +1293,7 @@ function month(api: CoreAPI): void {
         rule.good === "cannabis"
           ? cannabisWeight(api, adultUsers(api, members))
           : members.length,
+        worldGoods(api.state.seed).goods,
         use,
       );
       // The controlled person's money moves only by their own choice (owner,
@@ -1256,6 +1357,7 @@ function month(api: CoreAPI): void {
                 api.parameter("pricesCannabisUsePrevalence"),
             )
           : persons,
+        worldGoods(api.state.seed).goods,
         use,
       );
       const total = byGroup.get(household.group) ?? {

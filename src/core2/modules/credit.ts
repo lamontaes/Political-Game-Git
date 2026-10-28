@@ -17,6 +17,7 @@ import territoryData from "../data/credit/territories.json" with { type: "json" 
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { worldLevelShare } from "../world-draw";
 import type {
   Affect,
   CoreAPI,
@@ -149,8 +150,11 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
   const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   if (!placeId) return undefined;
+  // The county's published deposits are the center; this world's banks hold a
+  // level drawn from its seed (realistic, not real; owner, Oct 27).
   const depositsMinor = Math.round(
     deposits *
+      worldLevelShare(input.seed, "world-deposits-level", "worldDepositsSpreadShare") *
       p0("creditDepositsInThousands") *
       p0("creditMinorPerDollar") *
       (Math.min(townPeople, countyPeople) / countyPeople),

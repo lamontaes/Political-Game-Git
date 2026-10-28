@@ -333,7 +333,7 @@ export function buildDeepPast(
   ): readonly SchoolRow[] => {
     const geoid = corePlaceByJurisdictionId(placeId as EntityId)?.sourceGeoid;
     const population = geoid
-      ? Number(placeReferencePopulation(geoid)?.value)
+      ? Number(placeReferencePopulation(geoid, input.seed)?.value)
       : Number.NaN;
     if (!(population > p("zero"))) return rows;
     const children = population * p("schoolCohortPopulationShare");

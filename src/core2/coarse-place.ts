@@ -135,14 +135,16 @@ function ageRowsOf(
 /** A place's coarse population, or null where the place has no Census population. */
 export function coarsePlace(
   placeKey: string,
+  seed: string,
   data: ResidentEmploymentData = DEFAULT_RESIDENT_EMPLOYMENT,
 ): CoarsePlace | null {
-  const cached = cache.get(placeKey);
+  const cacheKey = `${seed}|${placeKey}`;
+  const cached = cache.get(cacheKey);
   if (cached !== undefined && data === DEFAULT_RESIDENT_EMPLOYMENT)
     return cached;
   const place = corePlaceByKey(placeKey);
   const geoid = place?.sourceGeoid;
-  const residents = geoid ? placeReferencePopulation(geoid)?.value : undefined;
+  const residents = geoid ? placeReferencePopulation(geoid, seed)?.value : undefined;
   if (!place || !geoid || !residents || residents <= 0) {
     cache.set(placeKey, null);
     return null;
