@@ -24,6 +24,7 @@ import {
   knockDoors,
   reachablePeople,
   type CampaignRow,
+  type CauseRow,
 } from "./modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
@@ -242,6 +243,121 @@ const asksPerSession = (hours: number) =>
  * record facts that make it available or not. Empty outside the window
  * between filing and election day, or for a filing that is not the player's.
  */
+/**
+ * Why the records keep a campaign outing from the player today, as the key of
+ * its words in the screen's controls and the record figures they show.
+ */
+export function whyNotToday(
+  choice: CampaignDayChoice,
+): { key: string; priceMinor?: number; cashMinor?: number } | undefined {
+  switch (choice.kind) {
+    case "canvass":
+      return choice.facts.households > 0 ? undefined : { key: "noHouseholds" };
+    case "event":
+      if (choice.facts.platformStances === 0) return { key: "noPlatform" };
+      return choice.facts.cashMinor < choice.facts.venuePriceMinor
+        ? {
+            key: "eventMoney",
+            priceMinor: choice.facts.venuePriceMinor,
+            cashMinor: choice.facts.cashMinor,
+          }
+        : undefined;
+    case "interview": {
+      const { outletsHere, outletsDone, outletsFull } = choice.facts;
+      if (outletsHere === 0) return { key: "noOutlet" };
+      if (outletsDone === outletsHere) return { key: "interviewed" };
+      // The rest have no room this week, or (television) want a better-known candidate.
+      return { key: outletsFull > 0 ? "outletsFull" : "notKnown" };
+    }
+    case "raise-money":
+      return {
+        key: choice.facts.reachable === 0 ? "nobodyReached" : "allGave",
+      };
+    default:
+      return undefined;
+  }
+}
+
+/** One candidate's standing in a contest, read from the campaign engine's cause rows. */
+export interface CandidateStanding {
+  readonly filingId: string;
+  readonly candidateId: string;
+  readonly name: string;
+  /** Whether this is the person asking. */
+  readonly you: boolean;
+  readonly acts: readonly {
+    readonly act: string;
+    readonly reached: number;
+    readonly warmer: number;
+    readonly cooler: number;
+  }[];
+  /** Voters reached, each once however many acts reached them. */
+  readonly reached: number;
+  readonly warmer: number;
+  readonly cooler: number;
+}
+
+/**
+ * The causes a contest turns on: for each candidate on its ballot, the acts
+ * that reached voters (doors, speeches, ads, a retelling) with how many were
+ * reached and how many came away warmer or cooler, and the same read once per
+ * voter (a voter reached by two acts counts once), which is what the race's
+ * standing sentences say. Read from the cause rows the campaign engine kept.
+ */
+export function contestStanding(
+  api: CoreAPI,
+  contestId: string,
+  personId: string,
+): readonly CandidateStanding[] {
+  const filings = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byContest", [contestId]) as unknown as FilingRow[]
+  ).filter((row) => row.status !== "withdrawn");
+  return filings.map((filing) => {
+    const rows = api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("causes")
+      .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
+    const acts = new Map<
+      string,
+      { act: string; reached: number; warmer: number; cooler: number }
+    >();
+    // Each voter's warmth moved by the sum of what every act did to it.
+    const moved = new Map<string, number>();
+    for (const row of rows) {
+      const entry = acts.get(row.act) ?? {
+        act: row.act,
+        reached: 0,
+        warmer: 0,
+        cooler: 0,
+      };
+      entry.reached += 1;
+      if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
+      else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
+      acts.set(row.act, entry);
+      moved.set(
+        row.voterId,
+        (moved.get(row.voterId) ?? 0) + (row.warmthAfter - row.warmthBefore),
+      );
+    }
+    const person = api.state.people.get(filing.personId);
+    return {
+      filingId: filing.id,
+      candidateId: filing.personId,
+      name: person
+        ? `${person.givenName} ${person.familyName}`
+        : filing.personId,
+      you: filing.personId === personId,
+      acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
+      reached: moved.size,
+      warmer: [...moved.values()].filter((d) => d > 0).length,
+      cooler: [...moved.values()].filter((d) => d < 0).length,
+    };
+  });
+}
+
 export function campaignDayChoices(
   api: CoreAPI,
   filingId: string,
