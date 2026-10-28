@@ -8,7 +8,8 @@ import { placeReferencePopulation } from "./gov-rules/place-population";
 import { stableHash } from "./kernel/ids";
 import { SeededRng } from "./kernel/rng";
 import { kindergartenYear, onCalendar } from "./school-calendar";
-import SCHOOL_NAMES from "./data/names/school-name-features.json" with { type: "json" };
+import { generatedSchoolName } from "./past-school-names";
+import { worldLevel } from "./world-draw";
 import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/deep-past.json" with { type: "json" };
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
@@ -269,6 +270,15 @@ export function buildDeepPast(
     schoolCache.set(key, result);
     return result;
   };
+  // This world's size for a campus: the directory's count is the center of
+  // a per-world spread (owner, Oct 27: realistic, not real).
+  const worldEnrollment = (campusId: string, published: number): number =>
+    worldLevel(
+      published,
+      input.seed,
+      `school:${campusId}:enrollment`,
+      "schoolWorldEnrollmentSpreadShare",
+    );
   // A place whose own schools are not recorded sends its children to a few
   // schools nearby, not to every school in the county or territory: its
   // catchment is a stable set of the listed schools whose students per grade
@@ -295,9 +305,9 @@ export function buildDeepPast(
     let seats = p("zero");
     for (const row of order) {
       chosen.push(row);
-      const [, , lowest, highest, enrollment] = row;
+      const [id, , lowest, highest, enrollment] = row;
       seats +=
-        Math.max(enrollment, p("zero")) /
+        Math.max(worldEnrollment(id, enrollment), p("zero")) /
         (grade(highest)! - grade(lowest)! + p("one"));
       if (seats >= children) break;
     }
@@ -309,9 +319,9 @@ export function buildDeepPast(
     rows: readonly SchoolRow[],
     key: string,
   ): SchoolRow | undefined => {
-    const weights = rows.map(([, , lowest, highest, enrollment]) => {
+    const weights = rows.map(([id, , lowest, highest, enrollment]) => {
       const grades = grade(highest)! - grade(lowest)! + p("one");
-      return Math.max(enrollment, p("zero")) / grades;
+      return Math.max(worldEnrollment(id, enrollment), p("zero")) / grades;
     });
     const total = weights.reduce((sum, value) => sum + value, p("zero"));
     const rng = new SeededRng(input.seed).fork(key);
@@ -493,17 +503,32 @@ export function buildDeepPast(
           open,
           `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
         );
-        const [campusId, campusName] = school ?? [];
-        const spokenCampus = campusName
-          ? campusSpokenName(campusName, data.schools)
-          : undefined;
-        const schoolName =
-          spokenCampus ??
-          `${rng.pick(SCHOOL_NAMES.features)} ${stage.nameSuffix}`;
+        const [campusId] = school ?? [];
+        // The campus keeps the directory's place, grades and size; its name
+        // is this world's own (owner, Oct 27: no real school's name ships).
+        // A person with no listed campus gets a school of their own.
+        // The town's own name, without its state ("Anson", not "Anson, Texas").
+        const [town = null] =
+          corePlaceByJurisdictionId(placeId as EntityId)?.displayName.split(
+            ", ",
+          ) ?? [];
+        // Never the name of a real school near the person, as people say it.
+        const real = new Set(
+          listed.map(([, name]) =>
+            campusSpokenName(name, data.schools).toUpperCase(),
+          ),
+        );
+        const schoolName = generatedSchoolName(
+          input.seed,
+          campusId ?? `${placeId}:${stage.id}:${rng.next()}`,
+          stage,
+          town,
+          real,
+        );
         const source: Source = {
           tag: "ESTIMATED",
           asOf: input.startedAt,
-          citation: `${data.schools.source}${school ? ` ${SCHOOLS().citation} NCES-CCD:${campusId}, ${campusName}. ${FIRST_YEARS().source.citation}` : " No public school teaching this grade is recorded as open in that year for the place or its county; generated landscape name."}`,
+          citation: `${data.schools.source}${school ? ` ${SCHOOLS().citation} NCES-CCD:${campusId} (place, grades and size; named for this world). ${FIRST_YEARS().source.citation}` : " No public school teaching this grade is recorded as open in that year for the place or its county; a school of this world's own."}`,
           estimatedFrom: `Birth cohort calendar; ${located ? "recorded residence" : birthplace ? "recorded birthplace used as a schooling-location proxy" : "opening locality used as a schooling-location proxy"}. Historical attendance and historical name/existence are not verified; no qualification or graduation inferred.`,
         };
         add(
@@ -523,7 +548,7 @@ export function buildDeepPast(
                 ? {
                     institutionSourceId: campusId!,
                     institutionSourceKey: "NCES-CCD",
-                    institutionName: campusName!,
+                    institutionName: schoolName,
                     institutionKind: stage.id,
                     directoryAsOf: SCHOOLS().asOf,
                   }

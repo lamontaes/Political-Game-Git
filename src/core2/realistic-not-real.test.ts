@@ -105,12 +105,13 @@ import {
   worldOutletCounts,
   type PlaceNews,
 } from "./modules/press";
+import schoolsData from "./data/opening-schools.json" with { type: "json" };
+import { campusSpokenName, DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
   "realistic-elections-per-world": [42, 44, 45, 48],
-  "realistic-school-names-generated": [37],
   "world-disasters-from-conditions": [41],
 };
 // Drawn, each with its own two-world test: row 6 in housing-world.test.ts,
@@ -674,6 +675,67 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     process.stdout.write(
       `TREASURY ${where}: ${da.size} debt holders, ${ca.size} charge shares, ${stakes} stakes\n`,
+    );
+  });
+
+  it("the schools people went to carry this world's own names, never the directory's (audit row 37)", () => {
+    // The real schools of each place, as people say them, by campus.
+    const placeOf = new Map<string, readonly [string, string][]>();
+    for (const rows of Object.values(
+      (
+        schoolsData as unknown as {
+          byGeoid: Record<string, [string, string][]>;
+        }
+      ).byGeoid,
+    ))
+      for (const [id] of rows) placeOf.set(id, rows);
+    const said = (name: string) =>
+      campusSpokenName(name, DEFAULT_DEEP_PAST_DATA.schools).toUpperCase();
+    // Every school a person went to, by campus where the directory lists
+    // one (a place it does not cover, as some territories, has schools of
+    // the world's own only).
+    const named = (core: CoreState) => {
+      const all: string[] = [];
+      const byCampus = new Map<string, string>();
+      for (const person of core.people.values())
+        for (const fact of person.pastFacts ?? []) {
+          const name = fact.facts?.schoolName;
+          if (fact.kind !== "school:cohort-estimate" || !name) continue;
+          all.push(name);
+          if (fact.facts?.institutionSourceKey === "NCES-CCD")
+            byCampus.set(fact.facts.institutionSourceId!, name);
+        }
+      return { all, byCampus };
+    };
+    const schoolsA = named(a),
+      schoolsB = named(b);
+    expect(schoolsA.all.length, `${where} row 37: schools`).toBeGreaterThan(0);
+    expect(schoolsB.all.length, `${where} row 37: schools`).toBeGreaterThan(0);
+    // No campus carries the name of a real school of its own place.
+    for (const { byCampus } of [schoolsA, schoolsB])
+      for (const [campus, name] of byCampus)
+        expect(
+          (placeOf.get(campus) ?? []).map(([, real]) => said(real)),
+          `${where} row 37 ${campus}`,
+        ).not.toContain(name.toUpperCase());
+    const shared = [...schoolsA.byCampus.keys()].filter((campus) =>
+      schoolsB.byCampus.has(campus),
+    );
+    // A campus's name is a category drawn per world: two worlds may both
+    // name a town's high school for the town, but not every campus alike.
+    if (shared.length)
+      expect(
+        shared.some(
+          (campus) =>
+            schoolsA.byCampus.get(campus) !== schoolsB.byCampus.get(campus),
+        ),
+        `${where} row 37: every shared campus named alike`,
+      ).toBe(true);
+    expect(new Set(schoolsA.all), `${where} row 37`).not.toEqual(
+      new Set(schoolsB.all),
+    );
+    process.stdout.write(
+      `SCHOOLS ${where}: ${shared.length} directory campuses in both worlds${shared[0] ? `, ${shared[0]} is ${schoolsA.byCampus.get(shared[0])} and ${schoolsB.byCampus.get(shared[0])}` : ""}; ${schoolsA.all.length} and ${schoolsB.all.length} school records\n`,
     );
   });
 

@@ -9,7 +9,17 @@ import {
 } from "./deep-past";
 import { parameter as p } from "./parameters";
 import { realLocalities } from "./places";
+import schoolsData from "./data/opening-schools.json" with { type: "json" };
 import type { CoreInput, PersonInput, Source } from "./types";
+
+const directoryName = new Map(
+  Object.values(
+    (schoolsData as unknown as { byGeoid: Record<string, [string, string][]> })
+      .byGeoid,
+  )
+    .flat()
+    .map(([id, name]) => [id, name] as const),
+);
 
 const seed = "p8-deep-past-source-cohorts";
 const state = new SeededRng(seed).pick(corePlaceStateIdentities());
@@ -441,5 +451,42 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     expect(spoken("Helen S Dunn Elementary School")).toBe(
       "Helen S Dunn Elementary School",
     );
+  });
+  it("names a campus for the world: two worlds name the same schools differently, and never by their own real names", () => {
+    const before = input();
+    const named = (worldSeed: string) =>
+      new Map(
+        (
+          buildDeepPast({ ...before, seed: worldSeed }).people[
+            p("zero")
+          ]!.pastFacts!.filter(
+            (fact) =>
+              fact.kind === DEFAULT_DEEP_PAST_DATA.schools.kind &&
+              fact.facts?.institutionSourceKey === "NCES-CCD",
+          ) as PastFact[]
+        ).map((fact) => [
+          fact.facts!.institutionSourceId!,
+          fact.facts!.schoolName!,
+        ]),
+      );
+    const a = named(seed),
+      b = named(`${seed}:other-world`);
+    const shared = [...a.keys()].filter((campus) => b.has(campus));
+    expect(shared.length, "a campus listed for the place").toBeGreaterThan(
+      p("zero"),
+    );
+    expect(shared.some((campus) => a.get(campus) !== b.get(campus))).toBe(true);
+    for (const campus of shared) {
+      for (const name of [a.get(campus)!, b.get(campus)!]) {
+        expect(name, campus).toMatch(/ (Elementary|Middle|High) School$/);
+        // Never the campus's own name, as people say it.
+        expect(name.toUpperCase(), campus).not.toBe(
+          campusSpokenName(
+            directoryName.get(campus)!,
+            DEFAULT_DEEP_PAST_DATA.schools,
+          ).toUpperCase(),
+        );
+      }
+    }
   });
 });

@@ -7413,5 +7413,17 @@
       "unit": "share of the published count",
       "citation": "Census County Business Patterns, year-over-year change in establishments by county and NAICS sector, 2019 to 2023."
     }
+  },
+  "schoolWorldEnrollmentSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's enrollment at a public school sits from the directory's count, as a share of it: about the year-to-year change in a school's membership (NCES CCD membership files, 2022-23 against 2023-24, median absolute change for schools of 100 or more students near 5%; small schools move more).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The directory's count is the center; a world's offset per campus is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the directory's enrollment",
+      "citation": "NCES CCD membership year-to-year change (approximate; a researcher should confirm the figures)"
+    }
   }
 }

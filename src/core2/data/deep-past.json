@@ -13,7 +13,7 @@
     "establishedKindPrefixes": ["school:", "schooling:", "education:"],
     "locationKindPrefixes": ["residence", "housing:", "migration:"],
     "birthplaceKinds": ["birthplace", "identity:birthplace"],
-    "source": "Existing game school-calendar.ts: common K–5, grades 6–8, grades 9–12 and a shared fall calendar. NCES CCD public schools by place and county (opening-schools.json, from the P12 state files) supply each child's campus among the schools teaching their entry grade, weighted by students per grade; they are recent identities, not historical attendance or historical existence. school-names.ts supplies generated landscape naming forms.",
+    "source": "Existing game school-calendar.ts: common K–5, grades 6–8, grades 9–12 and a shared fall calendar. NCES CCD public schools by place and county (opening-schools.json, from the P12 state files) supply each child's campus among the schools teaching their entry grade, weighted by this world's students per grade; they are recent identities, not historical attendance or historical existence. Every world names each campus itself (past-school-names.ts; owner, Oct 27: no real school's name ships), never with the name of a real school near the person, read from the directory's shortened form as people say it.",
     "gradesBeforeFirst": {
       "PK": -1,
       "KG": 0
