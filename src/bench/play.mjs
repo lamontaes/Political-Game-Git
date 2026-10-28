@@ -24,7 +24,12 @@ import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
 import { picture, fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import { section as recordSection } from "./ui/section.mjs";
-import { select, checkboxSetting, optionsOf } from "./ui/fields.mjs";
+import {
+  select,
+  checkboxSetting,
+  optionsOf,
+  statusLine,
+} from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { recordScreen } from "./ui/screen.mjs";
@@ -335,6 +340,8 @@ async function renderCard() {
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
+// The government whose budget the Budgets tab shows, once the player picks one.
+let budgetGovernment;
 let guideQuery = "";
 // Each civic term and its one-line definition.
 let guideTerms = new Map();
@@ -2963,14 +2970,14 @@ const sheets = {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
     // A chapter's title heads it only when there is more than one chapter: a
     // lone title over the only story restates the screen (principles rule 3).
-    return chapters.map((c) =>
-      listRow(
-        "narrative",
-        {},
-        ...(chapters.length > 1 ? [el("b", { textContent: c.title })] : []),
-        c.lines.map((l) => l.text).join(" "),
-      ),
-    );
+    return recordScreen({
+      sections: chapters.map((c) => ({
+        title: chapters.length > 1 ? c.title : undefined,
+        items: [
+          { text: c.lines.map((l) => l.text).join(" "), tone: "narrative" },
+        ],
+      })),
+    });
   },
   async handoff() {
     const people = [
@@ -2990,141 +2997,135 @@ const sheets = {
       // Only the living can be carried on as.
       .filter((p) => p.alive !== false)
       .filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
-    return [
-      row(me.card.name, "†"),
-      ...people.map((p) => {
-        const line = row(p.name, `${p.why} `);
-        const b = makeButton({ textContent: "Play" });
-        b.addEventListener("click", () => playAs(p.id));
-        line.append(b);
-        return line;
-      }),
-    ];
+    // The one who died, then each living person they can carry on as: a name
+    // opens that life.
+    return recordScreen({
+      sections: [
+        {
+          items: [
+            { fact: [me.card.name, "†"] },
+            {
+              people: people.map((p) => ({
+                name: p.name,
+                note: p.why,
+                onOpen: () => playAs(p.id),
+              })),
+            },
+          ],
+        },
+      ],
+    });
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    const pick = select({
-      options: view.governments.map((g) => ({ value: g.id, label: g.name })),
-      label: labels.budget,
-    });
-    const content = el("section", { className: "budget-content" });
-    const draw = () => {
-      const gov = view.governments.find((g) => g.id === pick.value);
-      content.replaceChildren();
-      if (!gov?.latest) return;
-      const latest = gov.latest;
-      const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
-      // What the treasury actually took in and paid out, from its journal,
-      // beside the plan: a treasury gone wrong shows here.
-      const books = gov.books;
-      content.append(
-        el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
-        el("p", {
-          className: "label",
-          textContent: [
-            `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
-            books
-              ? `${labels.booksSince} ${proseDate(books.since)}`
-              : labels.noBooks,
-          ].join(" · "),
-        }),
-      );
-      const summary = el("div", {
-        className: `budget-summary${books ? " with-books" : ""}`,
-      });
-      for (const [label, value] of [
-        [labels.revenue, total(latest.revenue)],
-        [labels.spending, total(latest.spending)],
-        [labels.balance, total(latest.revenue) - total(latest.spending)],
-        ...(books
-          ? [
-              [labels.takenIn, books.takenInMinor],
-              [labels.paidOut, books.paidOutMinor],
-              [labels.cashOnHand, books.cashMinor],
-            ]
-          : []),
-      ])
-        summary.append(
-          el(
-            "div",
-            {},
-            el("span", { className: "label", textContent: label }),
-            el("strong", {
-              className: "record-total",
-              textContent: roundedDollars(value),
-            }),
-          ),
-        );
-      content.append(summary);
-      if (books && books.paidOutMinor > total(latest.spending))
-        content.append(
-          el("p", {
-            className: "budget-warning",
-            textContent: labels.overBudget,
-          }),
-        );
-      const columns = el("div", { className: "budget-columns" });
-      for (const [label, lines] of [
-        [labels.revenue, latest.revenue],
-        [labels.spending, latest.spending],
-      ]) {
-        const chart = barChart(
-          lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
-          label,
-          roundedDollars,
-        );
-        const rows = [...chart.children];
-        if (gov.youAreExecutive && label === labels.spending)
-          rows.forEach((row, index) => {
-            const record = lines[index];
-            for (const [name, sign] of [
-              [labels.decrease, -1],
-              [labels.increase, 1],
-            ]) {
-              const b = makeButton({
-                textContent: sign > 0 ? "+" : "−",
-                title: name,
-              });
-              b.setAttribute(
-                "aria-label",
-                `${name} ${record.name ?? record.line}`,
-              );
-              b.onclick = async () => {
-                b.disabled = true;
-                try {
-                  await post(
-                    `/api/budget/priority?${new URLSearchParams({ governmentId: gov.id, line: record.line, change: String((gov.priorities?.changes?.[record.line] ?? 0) + sign * 10_000_000) })}`,
-                  );
-                  await openSheet("budgets");
-                } finally {
-                  b.disabled = false;
-                }
-              };
-              row.append(b);
-            }
-          });
-        columns.append(
-          el(
-            "section",
-            {},
-            el("h3", { textContent: label }),
-            menuPages(rows, 6),
-          ),
-        );
-      }
-      content.append(columns);
-    };
     // The town's own books open first; a place with no city government opens
     // on the county's, the local government that serves it.
-    const local = ["city", "county"].map((level) =>
-      view.governments.find((g) => g.level === level && g.latest),
-    );
-    const town = local.find(Boolean);
-    if (town) pick.value = town.id;
-    pick.addEventListener("change", draw);
-    draw();
-    return [pick, content];
+    const town = ["city", "county"]
+      .map((level) =>
+        view.governments.find((g) => g.level === level && g.latest),
+      )
+      .find(Boolean);
+    const chosen =
+      view.governments.find((g) => g.id === budgetGovernment) ?? town;
+    const pick = select({
+      options: view.governments.map((g) => ({ value: g.id, label: g.name })),
+      value: chosen?.id,
+      label: labels.budget,
+      onChange: (id) => {
+        budgetGovernment = id;
+        void openSheet("budgets");
+      },
+    });
+    const gov = chosen ?? view.governments[0];
+    if (!gov?.latest) return recordScreen({ controls: [pick], sections: [] });
+    const latest = gov.latest;
+    const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
+    // What the treasury actually took in and paid out, from its journal,
+    // beside the plan: a treasury gone wrong shows here.
+    const books = gov.books;
+    // The executive steps a spending line's priority up or down.
+    const steps = (record) =>
+      gov.youAreExecutive
+        ? [
+            [labels.decrease, -1],
+            [labels.increase, 1],
+          ].map(([name, sign]) => ({
+            glyph: sign > 0 ? "+" : "−",
+            title: name,
+            label: `${name} ${record.name ?? record.line}`,
+            onClick: async () => {
+              await post(
+                `/api/budget/priority?${new URLSearchParams({ governmentId: gov.id, line: record.line, change: String((gov.priorities?.changes?.[record.line] ?? 0) + sign * 10_000_000) })}`,
+              );
+              await openSheet("budgets");
+            },
+          }))
+        : [];
+    const chart = (label, lines, withSteps) => ({
+      title: label,
+      items: [
+        {
+          pages: [
+            ...barChart(
+              lines.map((r) => ({
+                label: r.name ?? r.line,
+                value: r.minor,
+                steps: withSteps ? steps(r) : [],
+              })),
+              label,
+              roundedDollars,
+            ).children,
+          ].map((node) => ({ node })),
+          size: 6,
+        },
+      ],
+    });
+    return recordScreen({
+      controls: [pick],
+      grid: true,
+      sections: [
+        {
+          title: `${gov.name} · ${latest.fiscalYear}`,
+          wide: true,
+          items: [
+            {
+              text: [
+                `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+                books
+                  ? `${labels.booksSince} ${proseDate(books.since)}`
+                  : labels.noBooks,
+              ].join(" · "),
+              tone: "small",
+            },
+            {
+              stats: [
+                [labels.revenue, total(latest.revenue)],
+                [labels.spending, total(latest.spending)],
+                [
+                  labels.balance,
+                  total(latest.revenue) - total(latest.spending),
+                ],
+                ...(books
+                  ? [
+                      [labels.takenIn, books.takenInMinor],
+                      [labels.paidOut, books.paidOutMinor],
+                      [labels.cashOnHand, books.cashMinor],
+                    ]
+                  : []),
+              ].map(([label, value]) => [label, roundedDollars(value)]),
+            },
+            books &&
+              books.paidOutMinor > total(latest.spending) && {
+                text: labels.overBudget,
+                tone: "warning",
+              },
+          ],
+        },
+        chart(labels.revenue, latest.revenue, false),
+        chart(labels.spending, latest.spending, true),
+      ],
+    });
   },
   async calendar() {
     const { date: recordDate, items } = await api(
@@ -3316,61 +3317,56 @@ const sheets = {
   async options() {
     await controlsReady;
     const labels = controls.options;
-    const rows = [
-      el(
-        "div",
-        { className: "option-setting" },
-        el("span", { textContent: labels.version }),
-        el("span", { textContent: await displayVersion() }),
-      ),
-    ];
+    let fullScreen;
     if (document.fullscreenEnabled) {
-      const { line, box: fullScreen } = checkboxSetting({
+      const { line, box } = checkboxSetting({
         label: labels.fullScreen,
         checked: document.fullscreenElement,
         testid: "options-fullscreen",
       });
-      const status = el("p", { role: "status", className: "option-status" });
-      fullScreen.addEventListener("change", async () => {
-        fullScreen.disabled = true;
+      const status = statusLine();
+      box.addEventListener("change", async () => {
+        box.disabled = true;
         status.textContent = "";
         try {
-          if (fullScreen.checked)
-            await document.documentElement.requestFullscreen();
+          if (box.checked) await document.documentElement.requestFullscreen();
           else await document.exitFullscreen();
         } catch {
           status.textContent = labels.fullScreenUnavailable;
         } finally {
-          fullScreen.checked = Boolean(document.fullscreenElement);
-          fullScreen.disabled = false;
+          box.checked = Boolean(document.fullscreenElement);
+          box.disabled = false;
         }
       });
-      rows.push(line, status);
+      fullScreen = [{ node: line }, { node: status }];
     }
-    const actions = el("div", { className: "acts options-actions" });
-    const resume = makeButton({
-      textContent: labels.continue,
+    return recordScreen({
+      sections: [
+        {
+          items: [
+            { fact: [labels.version, await displayVersion()] },
+            ...(fullScreen ?? []),
+            {
+              actions: [
+                { label: labels.continue, onClick: closeSheet },
+                { label: labels.guide, onClick: () => openSheet("guide") },
+                // Dev mode, for a developer's session only.
+                {
+                  label: labels.devMode,
+                  className: "dev-only",
+                  onClick: () => window.open("/dev"),
+                },
+                {
+                  label: labels.quitToTitle,
+                  testid: "quit-to-title",
+                  onClick: () => window.location.reload(),
+                },
+              ],
+            },
+          ],
+        },
+      ],
     });
-    resume.addEventListener("click", closeSheet);
-    actions.append(resume);
-    const guide = makeButton({ textContent: labels.guide });
-    guide.addEventListener("click", () => openSheet("guide"));
-    actions.append(guide);
-    // Dev mode, for a developer's session only.
-    const dev = makeButton({
-      className: "dev-only",
-      textContent: labels.devMode,
-    });
-    dev.addEventListener("click", () => window.open("/dev"));
-    actions.append(dev);
-    const quit = makeButton({
-      textContent: labels.quitToTitle,
-    });
-    quit.dataset.testid = "quit-to-title";
-    quit.addEventListener("click", () => window.location.reload());
-    actions.append(quit);
-    rows.push(actions);
-    return rows;
   },
   async travel() {
     const [places, government] = await Promise.all([
@@ -3781,27 +3777,24 @@ const sheets = {
           ...(groups.get(seat.holder.party) ?? []),
           seat,
         ]);
-    return [...groups].map(([party, seats]) =>
-      el(
-        "section",
-        { className: "party-section" },
-        el("h3", { textContent: party }),
-        el("strong", {
-          className: "record-total",
-          textContent: String(seats.length),
-        }),
-        el("span", {
-          className: "label",
-          textContent: controls.politics.seats,
-        }),
-        menuPages(
-          seats.map((s) =>
-            row(`${s.holder.givenName} ${s.holder.familyName}`, s.title),
-          ),
-          6,
-        ),
-      ),
-    );
+    return recordScreen({
+      grid: true,
+      sections: [...groups].map(([party, seats]) => ({
+        title: party,
+        items: [
+          { total: [String(seats.length), controls.politics.seats] },
+          {
+            pages: seats.map((s) => ({
+              node: row(
+                `${s.holder.givenName} ${s.holder.familyName}`,
+                s.title,
+              ),
+            })),
+            size: 6,
+          },
+        ],
+      })),
+    });
   },
   async issues() {
     const [v, changes] = await Promise.all([

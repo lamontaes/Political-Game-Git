@@ -45,3 +45,8 @@ export function optionsOf(items) {
     el("option", { value: String(o.value), textContent: o.label }),
   );
 }
+
+/** A line that says what a setting did, read out when it changes; empty until then. */
+export function statusLine() {
+  return el("p", { role: "status", className: "option-status" });
+}

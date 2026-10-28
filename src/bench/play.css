@@ -1395,7 +1395,7 @@ body.dev .dev-ring {
 .option-status:empty {
   display: none;
 }
-.options-actions {
+.record-actions {
   flex-wrap: wrap;
   margin-top: 32px;
 }
@@ -2189,13 +2189,15 @@ body.dev .dev-ring {
 }
 .record-stats {
   display: flex;
+  flex-wrap: wrap;
   gap: 64px;
   margin-top: 28px;
 }
 .record-stats strong {
   display: block;
-  font: 24px var(--speech);
+  font: 600 clamp(18px, 2vw, 30px) var(--name);
   margin-top: 8px;
+  overflow-wrap: anywhere;
 }
 .record-picture {
   float: left;
@@ -2551,12 +2553,7 @@ body.dev .dev-ring {
   height: 48px;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
-#sheet-body:has(
-  .government-content,
-  .entries-rows,
-  .budget-content,
-  .party-section
-) {
+#sheet-body:has(.government-content, .entries-rows, .screen-grid) {
   max-width: none;
 }
 .government-picker,
@@ -2567,8 +2564,6 @@ body.dev .dev-ring {
 }
 .government-body h3,
 .key-people h3,
-.party-section h3,
-.budget-content h3,
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
@@ -2671,37 +2666,22 @@ body.dev .dev-ring {
   font: 600 30px var(--name);
   margin: 12px 0 25px;
 }
-.party-section {
-  margin-bottom: 32px;
-}
-.budget-summary {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin: 28px 0;
-}
-.budget-summary .record-total {
-  font-size: clamp(18px, 2vw, 30px);
-  overflow-wrap: anywhere;
-}
-/* What the treasury actually took in and paid out, under the plan. */
-/* The plan's three figures, then what the treasury actually took in, paid out and holds. */
-.budget-summary.with-books {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 18px;
-}
-.budget-summary.with-books .record-total {
-  font-size: clamp(16px, 1.6vw, 24px);
-}
-.budget-warning {
+.record-warning {
   color: var(--red);
   font: 600 14px var(--ui);
   margin: 0 0 8px;
 }
-.budget-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+.screen-grid > .wide {
+  grid-column: 1 / -1;
+}
+.record-count {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 8px 0 16px;
+}
+.record-count .record-total {
+  margin: 0;
 }
 /* The list screen (ui/list-screen.mjs): every searchable list of entries. */
 .entries-rows .entry {
@@ -2805,9 +2785,6 @@ details.entry[open] {
   }
   .people-key {
     gap: 10px;
-  }
-  .budget-columns {
-    gap: 20px;
   }
   .record-chart-line {
     grid-template-columns: 1fr auto;
