@@ -3470,6 +3470,10 @@ async function openSheet(tab) {
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
+// The creator's states and towns page like every other list; nothing in a
+// menu scrolls (kit13 APPROVED; owner, Oct 28: "the Mac's native scroller").
+pageWhenChanged($("cr-states"), $("cr-states-pager"));
+pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
 // the one menu, Who you are among them. The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
