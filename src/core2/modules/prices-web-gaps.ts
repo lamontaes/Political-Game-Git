@@ -8,7 +8,6 @@
 import type { CoreAPI } from "../types";
 
 export function registerPricesWebGaps(api: CoreAPI): void {
-  api.stopgap("SG-EFFECT-WEB-prices-gov-borrowing");
   api.stopgap("SG-EFFECT-WEB-prices-high-cost-loans");
   api.stopgap("SG-EFFECT-WEB-prices-roads-condition");
   api.stopgap("SG-EFFECT-WEB-prices-transit-service");
