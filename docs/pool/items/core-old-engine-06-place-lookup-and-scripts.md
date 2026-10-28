@@ -5,12 +5,13 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/old-engine-scripts
 pr:
 after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A (jobs the two-jobs list missed) and G2 step 8"
+claimed-at: 2026-10-28T16:29:45.296Z
 ---
 
 **What.** This item records the October19 audit snapshot at `0104686`; its paths and counts require a current check before implementation. The audit found jobs the "two jobs" list missed. `src/core2/tooling/build-place-lookup-data.ts` imports `legislation-scenarios`, `demo-jurisdiction-context`, `legislature-rule-packs`, `legislative-work-key`, `seats-of-government.generated` and `state-reference` from the old core (draft #5032 open); `src/core2/tooling/build-opening-schools.ts` takes one type; `data/tables/index.ts` type-imports six old generated tables. Eight scripts still import it: `scripts/source/{export-data-tables, export-town-council-profile-inputs, executive-authority-r3h-reconciliation, school-name-patterns}`, `scripts/source/regional-money/export-office-pay`, `scripts/world/compile-area-residents`, `scripts/english-corpus/grading-batch-speech` and `scripts/prose-corpus/sources/episodes`, and four of them write their output into `src/simulation/` (`office-pay.generated.ts`, `school-name-patterns.json`, `area-residents.generated.ts`, `town-council-profile-inputs.generated.ts`). Re-home the rule packs, seats of government and state reference under `src/core2/reference/`, the generated tables under `data/tables/`, and point each script's input and output there.
