@@ -59,7 +59,7 @@ import {
   type VacancyRule,
 } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
-import { createHash } from "node:crypto";
+import { seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -738,10 +738,7 @@ function pastTerms(
             : "localOfficialTenureYears";
   const mean = Math.max(0, tenureYears(tenureKey) / years - 0.5);
   const q = mean / (1 + mean);
-  const hash = createHash("sha256")
-    .update(`${worldSeed}:${seat.id}:career`)
-    .digest("hex");
-  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
+  const u = seededUnit(worldSeed, `${seat.id}:career`);
   let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
   // No one first served younger than the minimum age.
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
@@ -855,10 +852,7 @@ function electionBehind(
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
   const [low, high] = tenureSpread(key);
-  const hash = createHash("sha256")
-    .update(`${seatSeed}:${start}:winner-share`)
-    .digest("hex");
-  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
+  const u = seededUnit(seatSeed, `${start}:winner-share`);
   return { date, share: low + (high - low) * u };
 }
 

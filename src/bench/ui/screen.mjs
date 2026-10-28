@@ -4,9 +4,10 @@
 // changes (owner, Oct 27: "one for every menu, and then a menu type, and then just
 // insert it").
 //
-// A definition: { heading?: { name, meta }, lede?, grid?, paged?, sections: [{ title,
-// items }] }. `grid` lays the sections two across; `paged` shows one section at a time
-// with Back and Next. An item is one of:
+// A definition: { controls?: [node], heading?: { name, meta }, lede?, grid?, paged?,
+// sections: [{ title, items, wide? }] }. `controls` (a select, a picker) sit above the
+// rest; `grid` lays the sections two across, a `wide` one across both; `paged` shows
+// one section at a time with Back and Next. An item is one of:
 //   { text, tone? }            a line: tone "feature", "narrative", "small", "empty" or "title"
 //   { fact: [label, value] }   a label and its value on one line
 //   { people: [{ name, note, onOpen }] }   names that open their card
@@ -14,12 +15,16 @@
 //   { stats: [[label, value], ...] }       figures side by side
 //   { picture }                a picture slot (removes itself when the file is missing)
 //   { views: [{ label?, text }] }          short paragraphs side by side
+//   { total: [value, label] }  a large count and what it counts
+//   { pages: [item, ...], size, start? }   items in pages of `size`, from `start`
+//   { actions: [{ label, onClick, className?, testid? }] }   buttons in a row
+//   { section: { title, items } }          a section inside a section's pages
 //   { node }                   a node another kit part drew (a chart, a select, a pager)
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { section } from "./section.mjs";
 import { picture } from "./picture.mjs";
-import { stepPages } from "./pager.mjs";
+import { stepPages, menuPages } from "./pager.mjs";
 
 const TONES = {
   plain: ["p", ""],
@@ -27,7 +32,10 @@ const TONES = {
   narrative: ["p", "narrative"],
   small: ["p", "small"],
   empty: ["p", "record-empty"],
+  warning: ["p", "record-warning"],
   title: ["h2", "record-title"],
+  subhead: ["h4", "record-subhead"],
+  place: ["p", "record-place"],
 };
 
 const pair = (className, [label, value]) =>
@@ -40,6 +48,33 @@ const pair = (className, [label, value]) =>
 
 function item(part) {
   if (part.node) return part.node;
+  if (part.total)
+    return el(
+      "div",
+      { className: "record-count" },
+      el("strong", { className: "record-total", textContent: part.total[0] }),
+      el("span", { className: "label", textContent: part.total[1] }),
+    );
+  if (part.section)
+    return section(
+      part.section.title,
+      ...part.section.items.filter(Boolean).map(item),
+    );
+  if (part.pages) return menuPages(part.pages.map(item), part.size, part.start);
+  if (part.actions)
+    return el(
+      "div",
+      { className: "acts record-actions" },
+      ...part.actions.map((action) => {
+        const b = makeButton({
+          className: action.className ?? "",
+          textContent: action.label,
+        });
+        if (action.testid) b.dataset.testid = action.testid;
+        b.addEventListener("click", action.onClick);
+        return b;
+      }),
+    );
   if (part.fact) return pair("record-fact", part.fact);
   if (part.figure) return pair("record-figure", part.figure);
   if (part.stats)
@@ -89,8 +124,15 @@ function item(part) {
 }
 
 /** The nodes of a record screen, for the sheet's body. */
-export function recordScreen({ heading, lede, grid, paged, sections }) {
-  const top = [];
+export function recordScreen({
+  controls = [],
+  heading,
+  lede,
+  grid,
+  paged,
+  sections,
+}) {
+  const top = [...controls];
   if (heading)
     top.push(
       el(
@@ -106,9 +148,11 @@ export function recordScreen({ heading, lede, grid, paged, sections }) {
     top.push(
       el("p", { className: "screen-lede narrative", textContent: lede }),
     );
-  const drawn = sections.map((s) =>
-    section(s.title, ...s.items.filter(Boolean).map(item)),
-  );
+  const drawn = sections.map((s) => {
+    const node = section(s.title, ...s.items.filter(Boolean).map(item));
+    if (s.wide) node.classList.add("wide");
+    return node;
+  });
   if (paged) return [...top, stepPages(drawn, "record-pages-one")];
   if (grid) return [...top, el("div", { className: "screen-grid" }, ...drawn)];
   return [...top, ...drawn];
