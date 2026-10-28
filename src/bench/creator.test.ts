@@ -15,6 +15,7 @@ import {
 import {
   appearanceRows,
   drawnAppearance,
+  lookForGender,
   moveAppearance,
   portraitPng,
   readRecipe,
@@ -77,7 +78,16 @@ describe("the New game creator", () => {
     const recipe = drawnAppearance("female", "seed", 0);
     expect(recipe.sex).toBe("female");
     const labels = appearanceRows(recipe, "female").map((row) => row.label);
-    expect(labels).toEqual(["Build", "Clothes", "Skin", "Clothes color"]);
+    expect(labels.slice(0, 3)).toEqual(["Build", "Clothes", "Skin"]);
+    // A color for each piece the outfit has: a jacket only with a vest or blazer.
+    expect(labels.slice(3)).toEqual([
+      ...(recipe.outfit === "vest" || recipe.outfit === "blazer"
+        ? ["Jacket color"]
+        : []),
+      "Shirt color",
+      "Pants color",
+      "Shoes color",
+    ]);
     expect(appearanceRows(recipe, "nonbinary")[0]!.label).toBe("Body");
     const next = moveAppearance(recipe, "female", "outfit", 1);
     expect(next.outfit).not.toBe(recipe.outfit);
@@ -101,8 +111,11 @@ describe("the New game creator", () => {
           readFileSync(
             new URL(`../../art/people-engine/v2/${file}`, import.meta.url),
           ),
-          next.skin,
-          next.clothes,
+          file
+            .split("/")
+            .pop()!
+            .replace(/\.png$/, ""),
+          next,
         ),
       ),
     ).toBe(true);
@@ -263,4 +276,31 @@ describe("the life drawn for the age the creator chose", () => {
     },
     600_000,
   );
+});
+
+// Owner's playtest, Oct 27: a male character could step to a female body. A
+// look the page sends back (after Undo or Reset) is redrawn on the chosen
+// gender's body, by the creator route and by New game.
+describe("a look always has the chosen gender's body", () => {
+  it("redraws a woman's look on a man's body, keeping what that body has", () => {
+    const hers = drawnAppearance("female", "seed", 3);
+    const his = lookForGender(hers, "male");
+    expect(his.sex).toBe("male");
+    expect(his.build).toBe(hers.build);
+    expect(his.skin).toBe(hers.skin);
+    expect(lookForGender(hers, "female")).toBe(hers);
+    expect(lookForGender(hers, "nonbinary")).toBe(hers);
+    const chosen = readChosenPerson(
+      JSON.stringify({
+        givenName: "Sam",
+        familyName: "Lee",
+        gender: "male",
+        birthYear: 1990,
+        birthMonth: 5,
+        birthDay: 4,
+        recipe: hers,
+      }),
+    );
+    expect(chosen.recipe!.sex).toBe("male");
+  });
 });

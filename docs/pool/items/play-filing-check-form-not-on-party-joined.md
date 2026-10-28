@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/filing.browser.mjs
 
 **Notes.** Found Oct 27 by Merger 4; flaky on clean main (about one draw in four).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `tests-filing-browser-go-times-out-on-main`; close into it and carry any line it lacks there. (same filing.browser.mjs flake)

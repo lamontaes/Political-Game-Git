@@ -9,6 +9,8 @@ description: >
 
 # Trace audit
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The example command's state is an example only; every run draws its places from all 56. Each helper brief and each filed defect is SMART with a time box.
 
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: play first; "simulate it, don't ask")

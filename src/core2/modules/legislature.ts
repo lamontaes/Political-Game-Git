@@ -31,7 +31,7 @@ import {
 import { policyAuthority, recordHomeRule } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
-import overrideReplyMoves from "../data/legislature/override-replies.json" with { type: "json" };
+import replyMoves from "../data/legislature/vote-replies.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -279,7 +279,12 @@ export interface MemberPosition {
   readonly consistency: number;
   /** What a bribe they took on this bill pulls them toward (the payer's side). */
   readonly bribe: number;
-  /** What replies after a veto override left with the sponsor: favors for, strains against. */
+  /**
+   * What replies in scenes about their vote left: after a veto override, with
+   * the sponsor (on the sponsor's bills); the evening before this vote, with
+   * the member who asked (on this bill). Favors count toward the side asked
+   * for, strains against it.
+   */
   readonly reply?: number;
   /** The scene replies that `reply` reads, by record id. */
   readonly replyIds?: readonly string[];
@@ -300,38 +305,119 @@ export const LEGISLATURE_MODULE: CoreModule = {
       itemVetoes: {},
       projectRequests: {},
       carryAsks: {},
-      /** A reply said in a scene a veto override caused, between the bill's sponsor and a member who voted no or stayed out. */
-      overrideReplies: {
-        indexes: { byPair: { fields: ["memberId", "sponsorId"] } },
+      /**
+       * A reply said in a scene about a member's vote: one a veto override
+       * caused, between the bill's sponsor and a member who voted no or
+       * stayed out (read on the sponsor's bills), or one the evening-before
+       * ask caused, between the member asked and the member who asked (read
+       * on that bill).
+       */
+      replies: {
+        indexes: {
+          byPair: { fields: ["memberId", "sponsorId"] },
+          byBill: { fields: ["memberId", "billId"] },
+        },
       },
+      /** The evening before a floor vote, the sponsor's ask of a member the bill needs, by the record that names it. */
+      voteAsks: {},
     },
   },
   onCalendarWork: legislatureCalendar,
+  onDay: (api) => askBeforeTheRoll(api),
   eventKinds: ["scene.reply"],
-  onEvent: (api, event) => keepOverrideReply(api, event),
+  onEvent: (api, event) => keepReply(api, event),
 };
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(LEGISLATURE_MODULE_ID).table(name);
 }
 
+/** A reply said in a scene about a member's vote, as `keepReply` keeps it. */
+interface ReplyRow {
+  readonly id: string;
+  /** "sponsor": read on every bill of the sponsor's; "bill": read on that bill alone. */
+  readonly scope: "sponsor" | "bill";
+  readonly memberId: string;
+  /** Who asked: the sponsor after an override, the member who asked before a floor vote. */
+  readonly askerId: string;
+  readonly sponsorId: string;
+  readonly billId: string;
+  readonly move: string;
+  /** 1 a favor, -1 a strain. */
+  readonly sign: number;
+  /** The vote asked for: 1 yes, -1 no. */
+  readonly side: number;
+  readonly date: string;
+}
+
+/** The evening before a floor vote, a member's ask of another the bill needs (`askBeforeTheRoll`). */
+interface VoteAsk {
+  readonly id: string;
+  readonly billId: string;
+  readonly askedId: string;
+  readonly askerId: string;
+  /** The vote asked for: 1 yes, -1 no. */
+  readonly side: number;
+  readonly floorDate: string;
+}
+
 /**
- * A reply said in a scene a veto-override record caused, between the bill's
- * sponsor and a member with an override vote on it, leaves a favor or a
- * strain by its move (`data/legislature/override-replies.json`; any other
- * move leaves nothing). The member's next position on the sponsor's bills
- * reads it (`overrideReplyPull`).
+ * A reply said in a scene about a member's vote leaves a favor or a strain by
+ * its move (`data/legislature/vote-replies.json`; any other move leaves
+ * nothing). One the evening-before ask caused (`askBeforeTheRoll`) is the
+ * asked member's answer to the member who asked, read at their position on
+ * that bill while it waits for its vote; one a veto override caused, between
+ * the bill's sponsor and a member with an override vote on it, is read at the
+ * member's next position on the sponsor's bills (`replyPull`).
  */
-function keepOverrideReply(api: CoreAPI, event: CoreEventInput): void {
+function keepReply(api: CoreAPI, event: CoreEventInput): void {
   const causeId = String(event.facts?.causeId ?? "");
-  if (!causeId.startsWith("veto-override:")) return;
   const move = String(event.facts?.move ?? "");
-  const sign = overrideReplyMoves.favor.includes(move)
+  const sign = replyMoves.favor.includes(move)
     ? 1
-    : overrideReplyMoves.strain.includes(move)
+    : replyMoves.strain.includes(move)
       ? -1
       : 0;
   if (!sign) return;
+  const ask = table(api, "voteAsks").get(causeId) as unknown as
+    VoteAsk | undefined;
+  if (ask) {
+    const bill = table(api, "bills").get(ask.billId) as unknown as
+      BillRow | undefined;
+    // Said to the member asked, by the one who asked, before the roll.
+    if (
+      bill?.status !== "drafted" ||
+      event.personIds[0] !== ask.askedId ||
+      !event.personIds.includes(ask.askerId)
+    )
+      return;
+    table(api, "replies").put({
+      id: event.id,
+      scope: "bill",
+      memberId: ask.askedId,
+      askerId: ask.askerId,
+      sponsorId: bill.sponsorId,
+      billId: bill.id,
+      move,
+      sign,
+      side: ask.side,
+      date: event.date,
+    } satisfies ReplyRow as unknown as ModuleRow);
+    // The player is never voted for: their own word is their vote. Agreeing
+    // is choosing the side asked for, until they choose otherwise; a refusal
+    // leaves the vote theirs to cast.
+    const player =
+      snapshotExplicitControlV1(api.state).personId ??
+      (api.state as CoreState).playerId;
+    if (
+      sign > 0 &&
+      ask.askedId === player &&
+      !table(api, "choices").get(`${bill.id}|${ask.askedId}`)
+    )
+      castMemberVote(api, bill.id, ask.askedId, ask.side > 0 ? "yes" : "no");
+    return;
+  }
+  if (!causeId.startsWith("veto-override:")) return;
   const billId = causeId.slice("veto-override:".length);
   const bill = table(api, "bills").get(billId) as unknown as
     BillRow | undefined;
@@ -343,38 +429,172 @@ function keepOverrideReply(api: CoreAPI, event: CoreEventInput): void {
       table(api, "votes").get(`vote:${billId}:${id}:override`),
   );
   if (!memberId) return;
-  table(api, "overrideReplies").put({
+  table(api, "replies").put({
     id: event.id,
+    scope: "sponsor",
     memberId,
+    askerId: bill.sponsorId,
     sponsorId: bill.sponsorId,
     billId,
     move,
     sign,
+    side: 1,
     date: event.date,
-  } as unknown as ModuleRow);
+  } satisfies ReplyRow as unknown as ModuleRow);
 }
 
 /**
- * What the replies after a veto override left between a member and a sponsor
- * add to the member's position on the sponsor's bills: each favor a favor
- * deal's worth, each strain the same weight against, citing the reply ids.
+ * What scene replies add to a member's position on a bill: those after a
+ * veto override between them and the bill's sponsor, and those the evening
+ * before this bill's vote. Each favor counts a favor deal's worth with the
+ * one who asked toward the side asked for, each strain the same weight
+ * against it, citing the reply ids.
  */
-function overrideReplyPull(
+function replyPull(
   api: CoreAPI,
   memberId: string,
-  sponsorId: string,
+  bill: BillRow,
 ): { readonly pull: number; readonly ids: readonly string[] } {
-  const rows = table(api, "overrideReplies").query("byPair", [
-    memberId,
-    sponsorId,
-  ]) as unknown as { id: string; sign: number }[];
+  if (memberId === bill.sponsorId) return { pull: 0, ids: [] };
+  const replies = table(api, "replies");
+  const rows = [
+    ...(
+      replies.query("byPair", [
+        memberId,
+        bill.sponsorId,
+      ]) as unknown as ReplyRow[]
+    ).filter((row) => row.scope === "sponsor"),
+    ...(
+      replies.query("byBill", [memberId, bill.id]) as unknown as ReplyRow[]
+    ).filter((row) => row.scope === "bill"),
+  ];
   if (!rows.length) return { pull: 0, ids: [] };
-  const favor = dealValue(api, "favor", memberId, sponsorId);
   const strain = campaignParameter("dealWeight");
   return {
-    pull: rows.reduce((sum, row) => sum + (row.sign > 0 ? favor : -strain), 0),
+    pull: rows.reduce(
+      (sum, row) =>
+        sum +
+        row.side *
+          (row.sign > 0
+            ? dealValue(api, "favor", memberId, row.askerId)
+            : -strain),
+      0,
+    ),
     ids: rows.map((row) => row.id),
   };
+}
+
+/**
+ * The evening before a floor vote in a chamber where the player sits, the
+ * sponsor counts the chamber the way the whip count does (`whipCount`: a
+ * chosen vote as chosen, the player undecided until they choose) and, where
+ * the bill would fail, asks the members it needs for their vote: those
+ * against it or undecided whom a favor from the sponsor would carry over,
+ * nearest the line first, until the count would pass. Each ask is a record
+ * naming the bill, the member asked and the sponsor, which the scene of the
+ * ask is staged from and the member's answer cites (`keepReply`). A bill the
+ * asks could not carry, or one already passing, is asked about by no one.
+ */
+function askBeforeTheRoll(api: CoreAPI): void {
+  const player =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  if (!player || !api.state.people.get(player)?.alive) return;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seated = new Set(
+    (offices.table("terms").query("byPerson", [player]) as unknown as TermRow[])
+      .filter((term) => term.status === "serving")
+      .map((term) => term.officeId),
+  );
+  if (!seated.size) return;
+  const floorDate = addDays(makeIsoDate(api.state.date), 1);
+  for (const bill of floorAgendaOn(api, floorDate)) {
+    const sponsor = api.state.people.get(bill.sponsorId);
+    // A bill its committee held never reaches the floor, so no one asks.
+    if (
+      !sponsor?.alive ||
+      committeeRecords(api, bill.id).some((c) => !c.reported)
+    )
+      continue;
+    for (const chamber of chambersOf(api, bill)) {
+      const seats = members(api, chamber);
+      if (!seats.some((term) => memberKey(term) === player)) continue;
+      let margin = 0;
+      const soft: { id: string; lean: number }[] = [];
+      for (const term of seats) {
+        const key = memberKey(term);
+        const chosen = (
+          table(api, "choices").get(`${bill.id}|${key}`) as unknown as
+            { vote: "yes" | "no" | "abstain" } | undefined
+        )?.vote;
+        const lean = chosen
+          ? chosen === "yes"
+            ? 1
+            : chosen === "no"
+              ? -1
+              : 0
+          : key === player
+            ? 0
+            : positionOn(api, bill, key).total;
+        margin += Math.sign(lean);
+        // Only a full person who has not chosen is asked, and only where a
+        // favor from the sponsor would carry them over.
+        if (
+          !chosen &&
+          lean <= 0 &&
+          key !== bill.sponsorId &&
+          api.state.people.get(key)?.alive &&
+          (key === player ||
+            lean + dealValue(api, "favor", key, bill.sponsorId) > 0)
+        )
+          soft.push({ id: key, lean });
+      }
+      if (margin > 0) continue;
+      soft.sort((a, b) => b.lean - a.lean || a.id.localeCompare(b.id));
+      const asked: string[] = [];
+      for (const member of soft) {
+        if (margin > 0) break;
+        // An undecided member's yes adds one; a no turned yes, two.
+        margin += member.lean < 0 ? 2 : 1;
+        asked.push(member.id);
+      }
+      if (margin <= 0) continue;
+      for (const askedId of asked) {
+        const id = `vote-ahead:${bill.id}:${chamber}:${askedId}`;
+        if (table(api, "voteAsks").get(id)) continue;
+        table(api, "voteAsks").put({
+          id,
+          billId: bill.id,
+          askedId,
+          askerId: bill.sponsorId,
+          side: 1,
+          floorDate,
+        } satisfies VoteAsk as unknown as ModuleRow);
+        api.emit({
+          id,
+          date: api.state.date,
+          kind: "vote-ahead",
+          personIds: [askedId, bill.sponsorId],
+          placeId: api.state.people.get(askedId)!.placeId,
+          source: {
+            tag: "SOURCED",
+            citation: `The sponsor's count the evening before the vote on ${bill.number}`,
+            asOf: api.state.date,
+          },
+          facts: {
+            billId: bill.id,
+            number: bill.number,
+            chamber,
+            floorDate,
+            askedId,
+            askerId: bill.sponsorId,
+            side: "yes",
+            asked: asked.join(","),
+          },
+        });
+      }
+    }
+  }
 }
 
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
@@ -2370,11 +2590,9 @@ function positionOn(
   const consistency = recordConsistency(api, memberId, bill);
   // A bribe they took on this bill, as far as it moves them.
   const bribe = bribePull(api, memberId, bill.id);
-  // What a scene after a veto override left between them and the sponsor.
-  const replies =
-    memberId === bill.sponsorId
-      ? { pull: 0, ids: [] }
-      : overrideReplyPull(api, memberId, bill.sponsorId);
+  // What scenes about their vote left: after a veto override with the
+  // sponsor, and the evening before this vote with the member who asked.
+  const replies = replyPull(api, memberId, bill);
   // Everything that decides the vote but personality: where they stand, home,
   // the sponsor, deals, lobbying, party, their record and any bribe.
   const bare =
@@ -3685,6 +3903,54 @@ function runBeforeVote(
 }
 
 /**
+ * The floor day of a bill whose committee traded for votes: each member who
+ * traded their vote there for their own section, and sits on this floor, is
+ * a record for them and the sponsor, who comes to make sure of the vote.
+ */
+function recordPromises(api: CoreAPI, bill: BillRow, chamber: string): void {
+  const seats = members(api, chamber);
+  for (const deal of bill.deals) {
+    if (
+      deal.kind !== "trade-amendment" ||
+      deal.status !== "accepted" ||
+      deal.stage !== "committee" ||
+      deal.chamber !== chamber ||
+      !api.state.people.has(deal.memberId)
+    )
+      continue;
+    const seat = seats.find((term) => memberKey(term) === deal.memberId);
+    if (!seat) continue;
+    api.emit({
+      id: `vote-promise:${bill.id}:${chamber}:${deal.memberId}`,
+      date: api.state.date,
+      kind: "vote-promise",
+      personIds: [deal.memberId, bill.sponsorId].filter(
+        (id, index, ids) =>
+          api.state.people.has(id) && ids.indexOf(id) === index,
+      ),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${bill.number}: the committee trade of ${deal.date}, on the floor`,
+        asOf: api.state.date,
+      },
+      // The committee's trade is public record; this is that trade, due.
+      publicRecord: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        level: billReach(api, bill).level,
+        chamber,
+        memberId: deal.memberId,
+        sponsorId: bill.sponsorId,
+        officeId: seat.officeId,
+        traded: deal.date,
+      },
+    });
+  }
+}
+
+/**
  * A bill that lost a vote, in its committee or on the floor: a record for its
  * sponsor, who hears it that day, with the count it lost by. A committee that
  * never heard the bill held no vote, so it records none.
@@ -3764,6 +4030,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       bill = { ...bill, committeeId: committee.id };
       table(api, "bills").put(bill as unknown as ModuleRow);
     }
+    recordPromises(api, bill, chamber);
     bill = floorAmendments(api, bill, chamber);
     const counted = chamberVote(api, bill, chamber);
     // A tie: the presiding officer who may break one does (the Vice President
@@ -4920,15 +5187,28 @@ export function registerWeeklyFloorReader(
   weeklyFloorReader = reader;
 }
 
+let meetingAgendaReader:
+  ((api: CoreAPI, date: string) => readonly string[]) | null = null;
+/** The office day says which bills a town body's meeting on a date has on its agenda. */
+export function registerMeetingAgendaReader(
+  reader: (api: CoreAPI, date: string) => readonly string[],
+): void {
+  meetingAgendaReader = reader;
+}
+
 /**
  * The floor's agenda for a date: the drafted bills whose vote is scheduled
- * for it, and those a legislature's weekly floor takes up that day, in id
- * order. A member reads what the floor takes up ahead of the vote here, not
- * from the calendar's keys.
+ * for it, those a legislature's weekly floor takes up that day, and those on
+ * the agenda of a town body's meeting that day, in id order. A member reads
+ * what the floor takes up ahead of the vote here, not from the calendar's
+ * keys.
  */
 export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
   const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
-  const weekly = new Set(weeklyFloorReader?.(api, date) ?? []);
+  const weekly = new Set([
+    ...(weeklyFloorReader?.(api, date) ?? []),
+    ...(meetingAgendaReader?.(api, date) ?? []),
+  ]);
   return (table(api, "bills").rows() as unknown as BillRow[])
     .filter(
       (b) =>

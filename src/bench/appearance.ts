@@ -1,13 +1,15 @@
 import { readFileSync } from "node:fs";
 import { lookFigures, type Figure } from "./whole-figures";
 import {
-  CLOTHES_SWATCHES,
   DEFAULT_CLOTHES,
   DEFAULT_SKIN,
+  GARMENTS,
+  GARMENT_SWATCHES,
   SKIN_SWATCHES,
   clothesSwatch,
   recolorFigure,
   skinSwatch,
+  type Garment,
   type Swatch,
 } from "./figure-colors";
 
@@ -23,8 +25,11 @@ export interface LookRecipe {
   outfit: string;
   /** A skin swatch id (figure-colors.ts); the painted tone where absent. */
   skin?: string;
-  /** A clothing swatch id; the painted gray where absent. */
-  clothes?: string;
+  /** Each piece of clothing's swatch id; the painted gray where absent. */
+  jacket?: string;
+  shirt?: string;
+  pants?: string;
+  shoes?: string;
 }
 
 export interface AppearanceRow {
@@ -42,6 +47,22 @@ const BUILD_LABEL: Record<string, string> = {
   medium: "Medium",
   heavy: "Heavy",
 };
+const GARMENT_LABEL: Record<Garment, string> = {
+  jacket: "Jacket color",
+  shirt: "Shirt color",
+  pants: "Pants color",
+  shoes: "Shoes color",
+};
+/** The pieces an outfit has: only a vest or a blazer has a jacket. */
+const garmentsOf = (outfit: string): readonly Garment[] =>
+  outfit === "vest" || outfit === "blazer"
+    ? GARMENTS
+    : GARMENTS.filter((garment) => garment !== "jacket");
+const isGarment = (id: string): id is Garment =>
+  (GARMENTS as readonly string[]).includes(id);
+/** A color row's id is the piece of clothing it colors. */
+const garmentRow = (rowId: string) => rowId.replace(/-color$/, "");
+
 const OUTFIT_LABEL: Record<string, string> = {
   base: "T-shirt and shorts",
   shirt: "Button shirt",
@@ -103,11 +124,13 @@ export function appearanceRows(
       value: OUTFIT_LABEL[recipe.outfit] ?? recipe.outfit,
     },
     colorRow("skin", "Skin", SKIN_SWATCHES, recipe.skin ?? DEFAULT_SKIN),
-    colorRow(
-      "clothes-color",
-      "Clothes color",
-      CLOTHES_SWATCHES,
-      recipe.clothes ?? DEFAULT_CLOTHES,
+    ...garmentsOf(recipe.outfit).map((garment) =>
+      colorRow(
+        `${garment}-color`,
+        GARMENT_LABEL[garment],
+        GARMENT_SWATCHES[garment],
+        recipe[garment] ?? DEFAULT_CLOTHES,
+      ),
     ),
   ];
 }
@@ -134,8 +157,12 @@ export function setColor(
 ): LookRecipe {
   if (rowId === "skin" && skinSwatch(swatchId))
     return { ...recipe, skin: swatchId };
-  if (rowId === "clothes-color" && clothesSwatch(swatchId))
-    return { ...recipe, clothes: swatchId };
+  const garment = garmentRow(rowId);
+  if (
+    isGarment(garment) &&
+    GARMENT_SWATCHES[garment].some((row) => row.id === swatchId)
+  )
+    return { ...recipe, [garment]: swatchId };
   throw new Error("No such color.");
 }
 
@@ -150,9 +177,11 @@ export function moveAppearance(
     const sex = step(sexes(), recipe.sex, turn);
     return settled({ ...recipe, sex });
   }
-  if (rowId === "skin" || rowId === "clothes-color") {
-    const list = rowId === "skin" ? SKIN_SWATCHES : CLOTHES_SWATCHES;
-    const key = rowId === "skin" ? "skin" : "clothes";
+  const garment = garmentRow(rowId);
+  if (rowId === "skin" || isGarment(garment)) {
+    const list =
+      rowId === "skin" ? SKIN_SWATCHES : GARMENT_SWATCHES[garment as Garment];
+    const key = rowId === "skin" ? "skin" : (garment as Garment);
     const now =
       recipe[key] ?? (key === "skin" ? DEFAULT_SKIN : DEFAULT_CLOTHES);
     const ids = list.map((row) => row.id);
@@ -164,6 +193,18 @@ export function moveAppearance(
       [rowId]: step(options(rowId, recipe.sex), recipe[rowId], turn),
     });
   throw new Error("No such appearance row.");
+}
+
+/**
+ * A look whose body matches the chosen gender: a man or a woman always has
+ * that body, so a look carried over from before the gender changed (Undo,
+ * Reset, an old page) is redrawn on the right body, keeping its build,
+ * clothes and colors where that body has them. Any other gender keeps the
+ * body chosen on the Body row.
+ */
+export function lookForGender(recipe: LookRecipe, gender: string): LookRecipe {
+  if (showsBody(gender) || recipe.sex === gender) return recipe;
+  return settled({ ...recipe, sex: gender });
 }
 
 /** A look the set paints: a build or clothes the body lacks fall back to the first it has. */
@@ -204,9 +245,14 @@ export function drawnAppearance(
       SKIN_SWATCHES.map((row) => row.id),
       "skin",
     ),
-    clothes: pick(
-      CLOTHES_SWATCHES.map((row) => row.id),
-      "clothes",
+    ...Object.fromEntries(
+      GARMENTS.map((garment) => [
+        garment,
+        pick(
+          GARMENT_SWATCHES[garment].map((row) => row.id),
+          garment,
+        ),
+      ]),
     ),
   });
 }
@@ -225,11 +271,21 @@ export function readRecipe(text: string): LookRecipe {
     ...(input.skin && skinSwatch(String(input.skin))
       ? { skin: String(input.skin) }
       : {}),
-    ...(input.clothes && clothesSwatch(String(input.clothes))
-      ? { clothes: String(input.clothes) }
-      : {}),
+    ...Object.fromEntries(
+      GARMENTS.flatMap((garment) =>
+        input[garment] && clothesSwatch(String(input[garment]))
+          ? [[garment, String(input[garment])]]
+          : [],
+      ),
+    ),
   };
 }
+
+const figureName = (file: string) =>
+  file
+    .split("/")
+    .pop()!
+    .replace(/\.png$/, "");
 
 /** The look's standing figure, as the game draws it. */
 export function portraitPng(recipe: LookRecipe): Buffer {
@@ -239,7 +295,7 @@ export function portraitPng(recipe: LookRecipe): Buffer {
     readFileSync(
       new URL(`../../art/people-engine/v2/${figure.file}`, import.meta.url),
     ),
-    recipe.skin,
-    recipe.clothes,
+    figureName(figure.file),
+    recipe,
   );
 }
