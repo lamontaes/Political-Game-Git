@@ -1,7 +1,6 @@
 /* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
-import { el } from "./ui/dom.mjs";
 import { makeButton, mountPagers, buttonRow } from "./ui/button.mjs";
 import { fillChoiceMenu } from "./ui/menu.mjs";
 import {
@@ -329,13 +328,6 @@ async function renderScene() {
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawPeople(scene.people, (p) => talkTo(p.personId));
   me.scene = scene;
-  // The look chosen in the creator is the player's own portrait.
-  setBust(
-    "card-bust",
-    me.portrait
-      ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-      : scene.people.find((p) => p.personId === me.id)?.figureUrl,
-  );
 }
 
 async function renderCard() {
@@ -2407,200 +2399,108 @@ const sheets = {
       api(`/api/bank?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.money;
-    const finances = me.card.finances ?? {};
-    const root = el("div", { className: "money-layout" });
-    const cash = el(
-      "section",
-      { className: "money-cash" },
-      el("span", { className: "label", textContent: labels.cash }),
-      el("strong", {
-        className: "cash-total",
-        textContent: dollars(me.card.liquidMinor),
-      }),
-    );
-    root.append(cash);
-    const history = (finances.balances ?? []).slice(-6);
-    if (history.length) {
-      const max = Math.max(1, ...history.map((r) => Math.abs(r.minor)));
-      const chart = el(
-        "section",
-        { className: "money-history" },
-        el("h3", { textContent: labels.history }),
-      );
-      const bars = el("div", { className: "balance-bars" });
-      for (const record of history) {
-        const bar = el("div", { className: "balance-bar" });
-        bar.style.height = `${(Math.abs(record.minor) / max) * 130}px`;
-        bars.append(
-          el(
-            "div",
-            { className: "balance-column" },
-            el("span", { textContent: dollars(record.minor) }),
-            bar,
-            el("span", { textContent: record.month }),
-          ),
-        );
-      }
-      chart.append(bars);
-      root.append(chart);
-    }
-    const spending = (finances.spending ?? []).filter((r) => r.minor > 0);
-    if (spending.length) {
-      const total = spending.reduce((n, r) => n + r.minor, 0);
-      const colors = ["#d6bd84", "#819bad", "#ba8068", "#998c70", "#b6b29d"];
-      let offset = 0;
-      const stops = spending.map((r, i) => {
-        const start = offset;
-        offset += (r.minor / total) * 100;
-        return `${colors[i % colors.length]} ${start}% ${offset}%`;
-      });
-      const donut = el("div", {
-        className: "money-donut",
-        role: "img",
-        ariaLabel: labels.spending,
-      });
-      donut.style.background = `conic-gradient(${stops.join(",")})`;
-      const details = el(
-        "div",
-        {},
-        ...spending.map((r) => row(r.label, dollars(r.minor))),
-      );
-      root.append(
-        el(
-          "section",
-          { className: "money-spending" },
-          el("h3", { textContent: labels.spending }),
-          donut,
-          details,
-        ),
-      );
-    }
+    const facts = (pairs) =>
+      pairs.map(([label, value]) => ({ node: row(label, value) }));
     const dwelling = me.card.dwelling;
-    if (dwelling) {
-      const home = el(
-        "section",
-        { className: "money-home" },
-        el("h3", {
-          textContent: me.card.age < 18 ? labels.householdHome : labels.home,
-        }),
-        el("p", { textContent: words(dwelling.kind ?? "") }),
-      );
-      const url = dwelling.presentation?.imageUrl;
-      if (url) {
-        const image = el("img", {
-          src: url,
-          alt: "",
-          className: "property-image",
-        });
-        image.onerror = () => image.remove();
-        home.prepend(image);
-      }
-      home.append(
-        row(
-          labels.tenure,
-          dwelling.tenure === "own" ? labels.owned : labels.rented,
-        ),
-      );
-      if (dwelling.valueMinor !== undefined)
-        home.append(row(labels.value, dollars(dwelling.valueMinor)));
-      if (dwelling.rentMinor !== undefined)
-        home.append(
-          row(labels.rent, `${dollars(dwelling.rentMinor)} ${labels.monthly}`),
-        );
-      root.append(home);
-    }
-    if (bank?.month)
-      root.append(
-        el(
-          "section",
-          { className: "money-month" },
-          el("h3", { textContent: `${labels.lastMonth} · ${bank.month.date}` }),
-          row(labels.monthHousing, dollars(bank.month.housingMinor)),
-          row(labels.monthEveryday, dollars(bank.month.everydayMinor)),
-          row(labels.monthPaid, dollars(bank.month.paidMinor)),
-          row(labels.monthUnpaid, dollars(bank.month.unpaidMinor)),
-          ...(bank.loanPayments?.length
-            ? [
-                el("h3", { textContent: labels.loanPayments }),
-                ...bank.loanPayments.map((payment) =>
-                  row(
-                    payment.date,
-                    `${dollars(payment.paidMinor)} ${labels.loanPaid} · ${dollars(payment.dueMinor)} ${labels.loanDue}`,
-                  ),
-                ),
-              ]
-            : []),
-        ),
-      );
-    if (bank)
-      root.append(
-        el(
-          "section",
-          { className: "money-bank" },
-          ...[
-            row(labels.bank, bank.name),
-            row(
-              labels.householdSavings,
-              `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
-            ),
-            ...(bank.books
+    const deductions = Object.entries(budget.withholding?.byLine ?? {});
+    return recordScreen({
+      grid: true,
+      sections: [
+        {
+          title: labels.cash,
+          items: [{ text: dollars(me.card.liquidMinor), tone: "title" }],
+        },
+        dwelling && {
+          title: me.card.age < 18 ? labels.householdHome : labels.home,
+          items: [
+            dwelling.presentation?.imageUrl && {
+              picture: dwelling.presentation.imageUrl,
+            },
+            { text: words(dwelling.kind ?? "") },
+            ...facts([
+              [
+                labels.tenure,
+                dwelling.tenure === "own" ? labels.owned : labels.rented,
+              ],
+              ...(dwelling.valueMinor !== undefined
+                ? [[labels.value, dollars(dwelling.valueMinor)]]
+                : []),
+              ...(dwelling.rentMinor !== undefined
+                ? [
+                    [
+                      labels.rent,
+                      `${dollars(dwelling.rentMinor)} ${labels.monthly}`,
+                    ],
+                  ]
+                : []),
+            ]),
+          ],
+        },
+        bank?.month && {
+          title: `${labels.lastMonth} · ${bank.month.date}`,
+          items: [
+            ...facts([
+              [labels.monthHousing, dollars(bank.month.housingMinor)],
+              [labels.monthEveryday, dollars(bank.month.everydayMinor)],
+              [labels.monthPaid, dollars(bank.month.paidMinor)],
+              [labels.monthUnpaid, dollars(bank.month.unpaidMinor)],
+            ]),
+            ...(bank.loanPayments?.length
               ? [
-                  row(labels.bankBooks, bank.books.date),
-                  row(labels.bankCash, dollars(bank.books.cashMinor)),
-                  row(
-                    labels.businessLoans,
-                    dollars(bank.books.businessLoansMinor),
-                  ),
-                  row(
-                    labels.householdLoans,
-                    dollars(bank.books.householdLoansMinor),
-                  ),
-                  row(labels.mortgages, dollars(bank.books.mortgagesMinor)),
-                  row(labels.totalAssets, dollars(bank.books.assetsMinor)),
-                  row(labels.depositsOwed, dollars(bank.books.depositsMinor)),
-                  row(
-                    labels.mortgageFunding,
-                    dollars(bank.books.mortgageFundingMinor),
-                  ),
-                  row(labels.bankEquity, dollars(bank.books.equityMinor)),
-                  row(
-                    labels.liabilitiesAndEquity,
-                    dollars(bank.books.liabilitiesAndEquityMinor),
+                  { text: labels.loanPayments, tone: "subhead" },
+                  ...facts(
+                    bank.loanPayments.map((payment) => [
+                      payment.date,
+                      `${dollars(payment.paidMinor)} ${labels.loanPaid} · ${dollars(payment.dueMinor)} ${labels.loanDue}`,
+                    ]),
                   ),
                 ]
               : []),
           ],
-        ),
-      );
-    const deductions = Object.entries(budget.withholding?.byLine ?? {});
-    if (deductions.length)
-      root.append(
-        el(
-          "section",
-          { className: "money-deductions" },
-          el("h3", { textContent: labels.deductions }),
-          ...deductions.map(([name, value]) =>
-            row(words(name), dollars(value)),
+        },
+        bank && {
+          title: labels.bank,
+          items: facts([
+            [labels.bank, bank.name],
+            [
+              labels.householdSavings,
+              `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
+            ],
+            ...(bank.books
+              ? [
+                  [labels.bankBooks, bank.books.date],
+                  [labels.bankCash, dollars(bank.books.cashMinor)],
+                  [
+                    labels.businessLoans,
+                    dollars(bank.books.businessLoansMinor),
+                  ],
+                  [
+                    labels.householdLoans,
+                    dollars(bank.books.householdLoansMinor),
+                  ],
+                  [labels.mortgages, dollars(bank.books.mortgagesMinor)],
+                  [labels.totalAssets, dollars(bank.books.assetsMinor)],
+                  [labels.depositsOwed, dollars(bank.books.depositsMinor)],
+                  [
+                    labels.mortgageFunding,
+                    dollars(bank.books.mortgageFundingMinor),
+                  ],
+                  [labels.bankEquity, dollars(bank.books.equityMinor)],
+                  [
+                    labels.liabilitiesAndEquity,
+                    dollars(bank.books.liabilitiesAndEquityMinor),
+                  ],
+                ]
+              : []),
+          ]),
+        },
+        deductions.length && {
+          title: labels.deductions,
+          items: facts(
+            deductions.map(([name, value]) => [words(name), dollars(value)]),
           ),
-        ),
-      );
-    for (const [key, label] of [
-      ["assets", labels.assets],
-      ["debts", labels.debts],
-    ])
-      for (const item of finances[key] ?? [])
-        root.append(
-          makeCard(
-            "money-item",
-            { as: "section" },
-            el("span", { className: "label", textContent: label }),
-            el("h3", { textContent: item.name }),
-            el("strong", { textContent: dollars(item.minor) }),
-          ),
-        );
-    return [...root.children].map((node) => {
-      node.classList.add("money-section");
-      return node;
+        },
+      ].filter(Boolean),
     });
   },
   async jobs() {
@@ -3628,21 +3528,22 @@ async function openSheet(tab) {
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu. The player's portrait opens Who you are (owner, Oct 20 and 27).
+// the one menu, Who you are among them. The card under it shows only the date
+// and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 mountRail(
   $("rings"),
-  ["journal", "calendar", "money", "politics", "news", "people", "travel"],
+  [
+    "who",
+    "journal",
+    "calendar",
+    "money",
+    "politics",
+    "news",
+    "people",
+    "travel",
+  ],
   titles,
 );
-// The portrait is the way to Who you are: named from the screen's title, and a
-// key opens it as a click does.
-$("card-bust").title = titles.who;
-$("card-bust").setAttribute("aria-label", titles.who);
-$("card-bust").addEventListener("keydown", (event) => {
-  if (event.key !== "Enter" && event.key !== " ") return;
-  event.preventDefault();
-  $("card-bust").click();
-});
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
