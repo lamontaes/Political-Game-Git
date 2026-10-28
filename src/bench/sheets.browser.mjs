@@ -56,18 +56,19 @@ try {
     ...(await page
       .locator("#rings [data-tab]")
       .evaluateAll((nodes) => nodes.map((n) => n.dataset.tab))),
-    "who",
     "jobs",
   ];
   const scan = async (when) => {
     for (const tab of tabs) {
       if (tab === "jobs") {
-        await page.locator("#card-bust").evaluate((e) => e.click());
+        await page
+          .locator('#rings [data-tab="who"]')
+          .evaluate((e) => e.click());
         await page.locator('#sheet-tabs [data-tab="jobs"]').waitFor();
         await page.locator('#sheet-tabs [data-tab="jobs"]').click();
       } else
         await page
-          .locator(`#rings [data-tab="${tab}"], #card-bust[data-tab="${tab}"]`)
+          .locator(`#rings [data-tab="${tab}"]`)
           .first()
           .evaluate((e) => e.click());
       await page.waitForTimeout(1500);
