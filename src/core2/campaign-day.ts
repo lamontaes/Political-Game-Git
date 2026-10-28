@@ -10,6 +10,7 @@
  * already given). No choice is decided by a roll. Choices carry ids and
  * numbers only; the English engine words them.
  */
+import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-views";
 import unitPrices from "../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
@@ -152,12 +153,6 @@ const elections = (api: CoreAPI, name: string) =>
   api.moduleState(ELECTIONS_MODULE_ID).table(name);
 const ageOn = (birthDate: string, date: string) =>
   Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-const daysBetween = (from: string, to: string) =>
-  Math.round(
-    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-      86_400_000,
-  );
-
 const eventVenuePrice = () =>
   (
     unitPrices as unknown as {

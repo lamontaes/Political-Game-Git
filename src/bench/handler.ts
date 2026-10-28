@@ -314,12 +314,23 @@ export async function benchRequest(
               )
             : null;
           buildProgress = { stage: "done", done: 0, total: 0 };
+          // A scene the director already staged for today (the address the
+          // household watches that evening) plays first.
+          const staged = world.director.ledger.people
+            .get(entrant.personId)
+            ?.schedule.find(
+              (row) =>
+                row.date === world.core.date &&
+                row.outcome.startsWith("scene") &&
+                row.bindings.length > 0,
+            );
           send(200, {
             personId: entrant.personId,
             placeName: world.place.displayName,
             date: core.date,
             packet: player.packet,
             names: {},
+            ...(staged ? { sceneMomentId: staged.momentId } : {}),
           });
         } finally {
           building = false;
@@ -922,10 +933,7 @@ export async function benchRequest(
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/economy") {
-        send(
-          200,
-          economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
-        );
+        send(200, economyView(requireCore(), placeId));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/world-panels") {

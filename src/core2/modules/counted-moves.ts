@@ -13,6 +13,7 @@
  * pulled hardest. People arrive in the town the same way from every other
  * place. The regional engine reads each state's counts.
  */
+import { worldRateFactor } from "../world-base-rates";
 import { createStableId, stableHash } from "../kernel/ids";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import stateTax from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
@@ -141,13 +142,14 @@ interface Runtime {
 const runtimes = new WeakMap<CoreState, Runtime>();
 registerWorldMapPart("core2-counted-moves", runtimes);
 
-function rateFor(usps: string, band: string): number {
+/** This world's ACS leaving rate: the published one times the world's movers factor. */
+function rateFor(seed: string, usps: string, band: string): number {
   return (
-    (RATES.places[`US-${usps}`] ?? RATES.national).departurePerYearByAge[
+    ((RATES.places[`US-${usps}`] ?? RATES.national).departurePerYearByAge[
       band
     ] ??
-    RATES.national.departurePerYearByAge[band] ??
-    0
+      RATES.national.departurePerYearByAge[band] ??
+      0) * worldRateFactor(seed, "movers")
   );
 }
 
@@ -160,8 +162,12 @@ function acsBand(age: number): string {
   return "30-34";
 }
 
-function coarseRate(usps: string, bands: readonly string[]): number {
-  return bands.reduce((n, b) => n + rateFor(usps, b), 0) / bands.length;
+function coarseRate(
+  seed: string,
+  usps: string,
+  bands: readonly string[],
+): number {
+  return bands.reduce((n, b) => n + rateFor(seed, usps, b), 0) / bands.length;
 }
 
 /** A state's regional price level (nation = 100), latest year. */
@@ -474,7 +480,7 @@ function month(api: CoreAPI): void {
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, date);
       if (age >= adultAge) {
-        rates += rateFor(home, acsBand(age));
+        rates += rateFor(api.state.seed, home, acsBand(age));
         adultAges += age;
         adults++;
       }
@@ -747,7 +753,10 @@ function month(api: CoreAPI): void {
     );
     for (const [band, [, , acs]] of COARSE.entries()) {
       const leaving =
-        (from.people[band]! * coarseRate(from.usps, acs) * (1 - inState)) / 12;
+        (from.people[band]! *
+          coarseRate(api.state.seed, from.usps, acs) *
+          (1 - inState)) /
+        12;
       stateList.forEach((to, i) => {
         if (weights[i]! > 0)
           flows.push({ from, to, band, people: leaving * weights[i]! });
@@ -800,7 +809,10 @@ function month(api: CoreAPI): void {
     const stateTotal = home.people.reduce((a, b) => a + b, 0) + counted;
     for (const [band, [, , acs]] of COARSE.entries()) {
       const moving =
-        (home.people[band]! * coarseRate(home.usps, acs) * inState) / 12;
+        (home.people[band]! *
+          coarseRate(api.state.seed, home.usps, acs) *
+          inState) /
+        12;
       const toCounted = stateTotal > 0 ? (moving * living) / stateTotal : 0;
       home.people[band] = home.people[band]! - toCounted;
       const key = `${home.usps}|${band}`;
@@ -940,7 +952,7 @@ function arrivals(
           // The rate its people's age leaves where they came from, and
           // from another state the pull toward this one.
           reasons: causesOf(
-            coarseRate(origin!, COARSE[band]![2]),
+            coarseRate(api.state.seed, origin!, COARSE[band]![2]),
             1,
             {},
             origin === rt.townState

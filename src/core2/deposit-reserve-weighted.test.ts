@@ -13,7 +13,7 @@ import { buildBenchWorld } from "../bench/world";
 import { depositsHeld } from "./accounts";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { corePlaceByKey } from "./place-lookup";
@@ -71,7 +71,7 @@ function compare(where: string, seed: string, key: string, scale: number) {
 }
 
 it("Opelika, Alabama at its Census size banks about the sample's share of its flows", () => {
-  const reference = placeReferencePopulation("0157048")!.value;
+  const reference = publishedPlaceReferencePopulation("0157048")!.value;
   compare(
     `Opelika, Alabama (0157048), census ${reference}, seed op1`,
     "op1",
@@ -91,7 +91,9 @@ it("a drawn Census-size town banks about the sample's share of its flows", () =>
       "deposit-reserve-weighted",
     );
     const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
-    const reference = geoid ? placeReferencePopulation(geoid)?.value : null;
+    const reference = geoid
+      ? publishedPlaceReferencePopulation(geoid)?.value
+      : null;
     if (reference && reference > SAMPLE && reference <= LARGEST) {
       compare(
         `${draw.name} (${draw.key}), census ${reference}, seed ${draw.seed}`,

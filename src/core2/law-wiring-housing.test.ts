@@ -13,7 +13,7 @@ import { randomBytes } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../tests/golden-path/place";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
 import { townFigures } from "./modules/housing";
 import { tenants, type Tenant } from "./housing-occupancy";
@@ -30,7 +30,9 @@ import {
   baseBudget,
   budgetsOf,
   governments,
+  type GovernmentRow,
 } from "./modules/budgets";
+import { townShare } from "./law-reach/group-b-money";
 import {
   appliedOn,
   LAW_APPLIED_TABLE,
@@ -216,10 +218,14 @@ function personIn(core: CoreState, householdId: string): string | undefined {
  * records at the raise: the weight of every renter ranked ahead of the third
  * full household that no other government's vouchers cover, plus that
  * household. Three, not one, because renters' incomes move over the month.
+ * A county's or state's line reaches the town only in the town's share of
+ * its people (townShare, as payRentAssistance reads it), so both the vouchers
+ * other lines already buy here and the ones this raise must buy are counted
+ * through that share.
  */
 function vouchersToReachFullHouseholds(
   api: CoreAPI,
-  gov: { readonly id: string },
+  gov: GovernmentRow,
 ): number {
   const annual = parameters.parameters.housingAssistanceAnnualMinor.value;
   const covered = governments(api)
@@ -230,7 +236,9 @@ function vouchersToReachFullHouseholds(
       const extra =
         (budget.spendingMinor.housing ?? 0) -
         (baseBudget(api, g, budget.fiscalYear).spendingMinor.housing ?? 0);
-      return sum + Math.max(0, Math.floor(extra / annual));
+      return (
+        sum + Math.max(0, Math.floor((extra * townShare(api, g)) / annual))
+      );
     }, 0);
   const ranked = tenants(api)
     .filter((t) => t.memberIds.length > 0)
@@ -246,7 +254,8 @@ function vouchersToReachFullHouseholds(
     ahead += t.weight;
     if (reached === 3) break;
   }
-  return reached === 0 ? 100 : Math.ceil(ahead);
+  const share = townShare(api, gov);
+  return Math.ceil((reached === 0 ? 100 : ahead) / (share > 0 ? share : 1));
 }
 
 /** The drawn place's year, played once; a message when the place has no subject for these laws. */
@@ -1024,7 +1033,7 @@ describe(`housing and credit laws reach people and move money (seed ${base})`, (
           : drawPlace(`${base}:${attempt}`, "law-wiring-housing");
         // A town with fewer people than MIN_RENTERS cannot hold that many renting
         // households, so it is redrawn before a world is built for it.
-        const people = placeReferencePopulation(
+        const people = publishedPlaceReferencePopulation(
           corePlaceByKey(place.key)?.sourceGeoid ?? place.key,
         )?.value;
         if (

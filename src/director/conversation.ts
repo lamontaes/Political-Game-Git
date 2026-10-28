@@ -28,6 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { familyFactsOf } from "../core2/modules/people";
 import { heldSinceRecord } from "../core2/past-work";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
@@ -497,25 +498,21 @@ function evictionSubjects(
       status: { text: "", sourceRecordIds: [caseId, speaker.householdId] },
     };
     const hostId = status.reasons.relative;
-    const kin = (speaker.pastFacts ?? []).find(
-      (fact) =>
-        fact.kind.startsWith("family:") && fact.facts?.otherPersonId === hostId,
-    );
+    const kin =
+      typeof hostId === "string"
+        ? familyFactsOf(speaker).get(hostId as PersonId)
+        : undefined;
     const host =
       typeof hostId === "string"
         ? core.people.get(hostId as PersonId)
         : undefined;
     const phrase = kin
-      ? relationPhrase(
-          kin.kind.slice("family:".length),
-          host?.looks?.gender ?? "other",
-          "journal",
-        )
+      ? relationPhrase(kin.relation, host?.looks?.gender ?? "other", "journal")
       : undefined;
     if (kin && phrase)
       facts.relation = {
         text: phrase,
-        sourceRecordIds: [kin.id, caseId],
+        sourceRecordIds: [kin.factId, caseId],
       };
     out.push({
       id: `eviction-where:${caseId}`,
@@ -615,20 +612,6 @@ function justiceSubjects(
       },
     });
   }
-  return out;
-}
-
-/** How a person is related to each relative, by the family record that says so. */
-function relationsOf(
-  person: Readonly<PersonState>,
-): Map<string, { relation: string; factId: string }> {
-  const out = new Map<string, { relation: string; factId: string }>();
-  for (const fact of person.pastFacts ?? [])
-    if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-      out.set(fact.facts.otherPersonId, {
-        relation: fact.kind.slice("family:".length),
-        factId: fact.id,
-      });
   return out;
 }
 
@@ -900,17 +883,9 @@ export function subjectsBetween(
     const aboutId = moment.counterpartIds[zero];
     if (!kind || !aboutId || aboutId === speakerId) continue;
     const about = core.people.get(aboutId);
-    const row = (listener.pastFacts ?? []).find(
-      (fact) =>
-        fact.kind.startsWith("family:") &&
-        fact.facts?.otherPersonId === aboutId,
-    );
+    const row = familyFactsOf(listener).get(aboutId);
     const phrase = row
-      ? relationPhrase(
-          row.kind.slice("family:".length),
-          about?.looks?.gender ?? "other",
-          "scene",
-        )
+      ? relationPhrase(row.relation, about?.looks?.gender ?? "other", "scene")
       : undefined;
     if (!about || !row || !phrase) continue;
     out.push({
@@ -920,9 +895,9 @@ export function subjectsBetween(
       facts: {
         relation: {
           text: phrase,
-          sourceRecordIds: [row.id, moment.causeId],
+          sourceRecordIds: [row.factId, moment.causeId],
         },
-        name: { text: about.givenName, sourceRecordIds: [row.id] },
+        name: { text: about.givenName, sourceRecordIds: [row.factId] },
       },
     });
   }
@@ -949,62 +924,54 @@ export function subjectsBetween(
       },
       own: { key: `person:${speakerId}:place`, value: speaker.placeId },
     });
-  for (const fact of speaker.pastFacts ?? []) {
-    if (fact.facts?.otherPersonId !== listenerId) continue;
-    const context = (speaker.pastFacts ?? []).find(
-      (row) => row.id === fact.facts?.contextFactId,
-    );
-    if (fact.kind === "social:generated-school-acquaintance" && context)
+  // School and work the two shared, from the school's and the employer's
+  // records: the same rows the person card shows.
+  const thisYear = Number(core.date.slice(zero, core.date.indexOf("-")));
+  for (const row of sharedHistory(core, speakerId, listenerId)) {
+    if (row.kind === "schoolmate" && row.year !== undefined) {
+      const school = core.organizations.get(row.recordId);
+      if (!school) continue;
       out.push({
-        id: `shared-school:${context.id}`,
+        id: `shared-school:${row.recordId}:${row.year}`,
         kind: "shared-school",
-        aboutId: context.id,
+        aboutId: row.recordId,
         facts: {
           school: {
-            text: properName(context.facts?.schoolName ?? ""),
-            sourceRecordIds: [fact.id, context.id],
+            text: properName(school.name),
+            sourceRecordIds: [row.recordId],
           },
           years: {
-            text: String(
-              Number(core.date.slice(zero, core.date.indexOf("-"))) -
-                Number(context.date.slice(zero, context.date.indexOf("-"))),
-            ),
-            sourceRecordIds: [context.id],
+            text: String(thisYear - row.year),
+            sourceRecordIds: [row.recordId],
           },
           // A reason to raise it: the years since, past the rules' threshold.
-          ...(Number(core.date.slice(zero, core.date.indexOf("-"))) -
-            Number(context.date.slice(zero, context.date.indexOf("-"))) >=
-          LONG_AGO_YEARS
-            ? { "long-ago": { text: "yes", sourceRecordIds: [context.id] } }
+          ...(thisYear - row.year >= LONG_AGO_YEARS
+            ? { "long-ago": { text: "yes", sourceRecordIds: [row.recordId] } }
             : {}),
         },
       });
-    if (fact.kind === "social:generated-coworker") {
-      const past = core.jobs.get(
-        (fact.facts?.contextFactId ?? "").split(":")[zero]!,
-      );
-      const org = past
-        ? core.organizations.get(past.organizationId)
-        : undefined;
-      if (org && org.id !== mine?.org.id)
-        out.push({
-          id: `shared-work:${org.id}`,
-          kind: "shared-work",
-          aboutId: org.id,
-          facts: {
-            employer: {
-              text: properName(org.name),
-              sourceRecordIds: [fact.id, org.id],
-            },
-            // A past job that ended long ago is a reason to ask after it.
-            ...(past?.endsAt &&
-            Number(core.date.slice(zero, core.date.indexOf("-"))) -
-              Number(past.endsAt.slice(zero, past.endsAt.indexOf("-"))) >=
-              LONG_AGO_YEARS
-              ? { "long-ago": { text: "yes", sourceRecordIds: [org.id] } }
-              : {}),
+    }
+    if (row.kind === "coworker" && row.recordId !== mine?.org.id) {
+      const org = core.organizations.get(row.recordId);
+      if (!org) continue;
+      out.push({
+        id: `shared-work:${org.id}`,
+        kind: "shared-work",
+        aboutId: org.id,
+        facts: {
+          employer: {
+            text: properName(org.name),
+            sourceRecordIds: [org.id],
           },
-        });
+          // Work together that ended long ago is a reason to ask after it.
+          ...(row.endedOn &&
+          thisYear -
+            Number(row.endedOn.slice(zero, row.endedOn.indexOf("-"))) >=
+            LONG_AGO_YEARS
+            ? { "long-ago": { text: "yes", sourceRecordIds: [org.id] } }
+            : {}),
+        },
+      });
     }
   }
   for (const id of [...speaker.knownIds].sort()) {
@@ -1029,7 +996,7 @@ export function subjectsBetween(
   }
   // The speaker's relatives the listener has not met, named by relation. A
   // relative the two share is never introduced; they ask after them below.
-  const relationOf = relationsOf(speaker);
+  const relationOf = familyFactsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
@@ -1064,7 +1031,7 @@ export function subjectsBetween(
   // two share is asked after as they call them ("How's Dad?"): a parent or
   // grandparent to both by the kin address, a shared sibling by first name,
   // and only by someone who does not live with them.
-  const listenerRelation = relationsOf(listener);
+  const listenerRelation = familyFactsOf(listener);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
@@ -1101,7 +1068,7 @@ export function subjectsBetween(
   }
   // The listener's relatives the speaker knows, asked after in turn once the
   // speaker has answered about their own ("And how's your sister?").
-  const theirRelation = relationsOf(listener);
+  const theirRelation = familyFactsOf(listener);
   for (const id of [...listener.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = theirRelation.get(id);

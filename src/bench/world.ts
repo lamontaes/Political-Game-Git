@@ -57,11 +57,9 @@ import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
 import { OPENING_KIN } from "../core2/opening-kin";
 import { scaleFirmsToCensus } from "../core2/census-firms";
-import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
-import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
@@ -286,14 +284,10 @@ export async function buildBenchWorldInStages(
   }
 }
 
-/** Real people per sampled person: the place's Census count over the people generated, one where the sample is the whole town. */
-function censusScale(
-  place: { sourceGeoid?: string },
-  population: CoreInput,
-): number {
-  const real = place.sourceGeoid
-    ? placeReferencePopulation(place.sourceGeoid)?.value
-    : undefined;
+/** Real people per sampled person: the world's count of the town (drawn around the Census count when the population was built) over the people generated, one where the sample is the whole town. */
+function censusScale(population: CoreInput): number {
+  const held = Number(population.placeMetadata?.referencePopulation);
+  const real = Number.isFinite(held) ? held : undefined;
   const sample = population.people.filter(
     (person) => person.tier !== OPENING_KIN.kinTier,
   ).length;
@@ -366,12 +360,8 @@ function* benchWorldStages(
     // people generated, and each counted household stands for as many real
     // households as the Census count is over the sample, unless asked for.
     const countScale =
-      options.countScale ??
-      (minimumPeople ? 1 : censusScale(place, population));
-    let withPlayer: CoreInput = {
-      ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
-      playerId,
-    };
+      options.countScale ?? (minimumPeople ? 1 : censusScale(population));
+    let withPlayer: CoreInput = { ...input, playerId };
     withPlayer = {
       ...withPlayer,
       focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),

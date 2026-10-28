@@ -88,11 +88,12 @@ function town(placeId: string): CoreInput {
         source,
       },
       {
-        id: "fact:worker:era",
-        date: "2008-12-01",
-        kind: "era:public-context",
-        summary: "Public economic context",
+        id: "fact:worker:partner",
+        date: "1994-01-01",
+        kind: "family:partner",
+        summary: "Partner",
         source,
+        facts: { otherPersonId: "person:spouse" },
       },
     ],
   });
@@ -101,6 +102,16 @@ function town(placeId: string): CoreInput {
     traits: { [risk]: 1 },
     familyIds: ["person:worker"],
     knownIds: ["person:worker"],
+    pastFacts: [
+      {
+        id: "fact:spouse:partner",
+        date: "1994-01-01",
+        kind: "family:partner",
+        summary: "Partner",
+        source,
+        facts: { otherPersonId: "person:worker" },
+      },
+    ],
   });
   const neighbor = person("person:neighbor", placeId);
   const classmate = person("person:classmate", placeId, {
@@ -292,9 +303,6 @@ describe("story director on the new core", () => {
         row.counterpartIds.includes("person:classmate"),
       ),
     ).toBe(false);
-    expect(
-      worker.backdrop.some((row) => row.sourceId === "fact:worker:era"),
-    ).toBe(true);
   });
 
   it("starts a housemate's thread at the opening, not at the younger one's birth", () => {
@@ -394,7 +402,8 @@ describe("story director on the new core", () => {
       director.ledger.people
         .get("person:worker")!
         .keptFacts.get("knew-each-other:person:spouse:person:worker"),
-    ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
+      // The partnership's family fact dates when they knew each other.
+    ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
     expect(thread.tie).toBeCloseTo(0.79 + 0.3, 6);
     const later = "2022-07-01";
     expect(
@@ -967,7 +976,7 @@ describe("story director on the new core", () => {
     expect(entry.bindings.map((row) => row.typeKey)).toContain("reunion");
   });
 
-  it("scores the recorded past: personal facts are moments, an era only where it hit", () => {
+  it("scores the recorded past: personal facts are moments", () => {
     const place = "place:director-fixture";
     const base = town(place);
     const withPast = (row: PersonInput): PersonInput =>
@@ -977,21 +986,6 @@ describe("story director on the new core", () => {
             ...row,
             pastFacts: [
               ...(row.pastFacts ?? []),
-              {
-                id: "fact:worker:era-hit",
-                date: "2008-12-01",
-                kind: "era:public-context",
-                summary: "Public economic context",
-                source,
-                facts: { personalJobLoss: "recorded" },
-              },
-              {
-                id: "fact:worker:partner",
-                date: "1994-01-01",
-                kind: "family:partner",
-                summary: "Partner",
-                source,
-              },
               {
                 id: "fact:worker:opening-job",
                 date: startedAt,
@@ -1018,19 +1012,13 @@ describe("story director on the new core", () => {
     ).toEqual([
       ["1984-08-27", "past:school:cohort-estimate", 0.26, []],
       ["1994-01-01", "past:family:partner", 0.5, ["person:spouse"]],
-      ["2008-12-01", "past:era:public-context:personalJobLoss", 0.47, []],
     ]);
     // The 1994 partnership record moves the pair's first-known date back.
     expect(
       worker.keptFacts.get("knew-each-other:person:spouse:person:worker"),
     ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
-    // The unhit era is background only; the opening job describes the start.
-    expect(worker.backdrop.map((row) => row.sourceId)).toEqual([
-      "fact:worker:era",
-      "fact:worker:era-hit",
-    ]);
+    // The opening job describes the start.
     expect(worker.schedule.map((row) => row.outcome)).toEqual([
-      "journal-line",
       "journal-line",
       "journal-line",
     ]);

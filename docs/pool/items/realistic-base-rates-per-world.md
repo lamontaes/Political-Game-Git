@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/realistic-base-rates
+pr: #6599
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+claimed-at: 2026-10-28T05:27:47.039Z
 ---
 
 **What.** Rows 32 to 36 of docs/reports/real-statistics-in-play-2026-10-27.md: chronic condition prevalence, the SSA life table and state ratios, natality and cohort tables, ACS mover rates and ATUS time use. Each is the published rate in every world. The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed.

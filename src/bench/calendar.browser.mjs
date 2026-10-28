@@ -24,13 +24,6 @@ try {
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
@@ -38,7 +31,7 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   const name = await page.locator("#card-name").innerText();
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     name,
@@ -122,7 +115,7 @@ try {
   assert.equal(await skip.count(), 1);
   assert.equal((await skip.innerText()).trim(), "");
   assert.ok(await skip.getAttribute("aria-label"));
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   await page.getByRole("button", { name: "Today", exact: true }).click();
   // A day with something on it shows its line on the tile and lists it beside.
   for (let i = 0; i < 12; i++) {

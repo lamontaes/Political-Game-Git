@@ -1,4 +1,5 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { familyFactsOf } from "../core2/modules/people";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
@@ -120,10 +121,9 @@ export function calendarItems(
       recordIds: [person.id],
     });
   const seen = new Set<string>();
-  for (const fact of person?.pastFacts ?? []) {
-    const otherId = fact.facts?.otherPersonId;
-    const other = otherId ? core.people.get(otherId) : undefined;
-    if (!fact.kind.startsWith("family:") || !other?.alive) continue;
+  for (const otherId of familyFactsOf(person).keys()) {
+    const other = core.people.get(otherId);
+    if (!other?.alive) continue;
     if (seen.has(other.id)) continue;
     seen.add(other.id);
     for (const year of [
