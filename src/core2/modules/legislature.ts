@@ -1268,8 +1268,8 @@ export function shapedRate(
 /**
  * One section of a bill as the record holds it, for the paper to word: what
  * it changes (the series, question or budget line), the law in force before
- * (its value, shape and the statute it cites), what the section makes it, and
- * the terms the player may edit (the number, the date, the shape).
+ * (its value, shape and the measure that enacted it), what the section makes
+ * it, and the terms the player may edit (the number, the date, the shape).
  */
 export interface BillSection {
   readonly index: number;
@@ -1280,7 +1280,14 @@ export interface BillSection {
     readonly unit: string | null;
     readonly shape: "flat" | "graduated" | null;
     readonly lawId: string | null;
+    /**
+     * The designation of the bill, passed in play, that enacted the law in
+     * force, and that bill's form, for the English engine to cite; null for
+     * a law in force when the game began, whose research source calibrated
+     * the row and is never said in play (owner, Oct 27).
+     */
     readonly statute: string | null;
+    readonly statuteForm: BillFormKind | null;
   };
   readonly after: {
     readonly value: number;
@@ -1314,6 +1321,14 @@ export function billSections(
           ? "flat"
           : null
       : null;
+    // The bill that enacted the law in force, when one on record did: an
+    // order or a ballot measure has no designation a section cites.
+    const enactedByBill = row?.terms?.enactedByBill;
+    const enacting =
+      typeof enactedByBill === "string"
+        ? (table(api, "bills").get(enactedByBill) as unknown as
+            BillRow | undefined)
+        : undefined;
     const before: BillSection["before"] =
       p.kind === "budget-line"
         ? {
@@ -1322,17 +1337,15 @@ export function billSections(
             shape: null,
             lawId: null,
             statute: null,
+            statuteForm: null,
           }
         : {
             value: row?.value ?? null,
             unit: row?.unit ?? null,
             shape: shapeBefore,
             lawId: row?.id ?? null,
-            statute: row
-              ? Array.isArray(row.source)
-                ? row.source.join("; ")
-                : String(row.source)
-              : null,
+            statute: enacting?.number || null,
+            statuteForm: enacting?.number ? enacting.form.kind : null,
           };
     return {
       index,
