@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/backdrop-conditions
-pr:
+pr: #6471
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T01:23:12.354Z
