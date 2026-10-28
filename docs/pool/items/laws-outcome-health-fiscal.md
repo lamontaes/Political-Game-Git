@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5775
 blocked-on:
@@ -31,3 +31,5 @@ Sent back 2026-10-20 from PR #5179 (branch claude/laws-outcome-health-fiscal): M
 
 Sent back 2026-10-23 from PR #5775 (branch claude/outcome-health-fiscal): Notes-only routing would complete the broad law-to-person chain without the required one-year law/payment/person/knowing-source proof or sales-tax evidence; preserve the current specification and add a bounded declaration if needed; finish on that branch, merge main into it first.
 Stale 2026-10-26: PR #5775 closed (no push for five days, handed back); the work is on branch claude/outcome-health-fiscal; claim the item and merge main into that branch.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `laws-nine-links-health-schools`; close into it and carry any line it lacks there.

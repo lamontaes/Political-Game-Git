@@ -20,10 +20,17 @@ import type {
   ActOffer,
   ActionDefinition,
   CoreAPI,
-  CoreModule,
   CoreState,
+  PersonId,
   PersonState,
 } from "../types";
+
+import {
+  schoolHistory,
+  schoolHistoryFor,
+  schoolOfPlace,
+  type PreStartModule,
+} from "../past-module";
 
 import { SCHOOL_MODULE_ID } from "../school-measures";
 import {
@@ -147,35 +154,14 @@ function onHoliday(
 const table = (api: CoreAPI) =>
   api.moduleState(SCHOOL_MODULE_ID).table("attended");
 
-/** Each place's school district, found once per world (a cache). */
-const schools = new WeakMap<object, Map<string, string | undefined>>();
-
-function schoolFor(api: CoreAPI, actor: Readonly<PersonState>) {
-  let byPlace = schools.get(api.state);
-  if (!byPlace) schools.set(api.state, (byPlace = new Map()));
-  if (!byPlace.has(actor.placeId)) {
-    let found: string | undefined;
-    for (const org of api.state.organizations.values())
-      if (
-        org.placeId === actor.placeId &&
-        org.classification === data.schoolClassification
-      ) {
-        found = org.id;
-        break;
-      }
-    byPlace.set(actor.placeId, found);
-  }
-  // No district record yet (a world opened without the core's public-school
-  // step): the town's schools stand as the place itself.
-  return (
-    byPlace.get(actor.placeId) ?? `${data.placeTargetPrefix}${actor.placeId}`
-  );
-}
-
 /** The two-letter postal code of the world's state, from the law chain where the laws are installed. */
 function stateOf(api: CoreAPI): string | undefined {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return undefined;
   return lawChain(api).stateKey.slice(3);
+}
+
+function schoolFor(api: CoreAPI, actor: Readonly<PersonState>) {
+  return schoolOfPlace(api.state, actor.placeId);
 }
 
 function due(api: CoreAPI, actor: Readonly<PersonState>): boolean {
@@ -308,8 +294,25 @@ function schoolOutcomes(api: CoreAPI): void {
 const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
   actor.id === api.state.playerId;
 
-export const SCHOOL_MODULE: CoreModule = {
+export const SCHOOL_MODULE: PreStartModule = {
   id: SCHOOL_MODULE_ID,
+  // The school years before the start, a year at a step (owner, Oct 28),
+  // and for a named person filled in after the run.
+  preStart: {
+    phase: "people",
+    run: (api, window, history) => schoolHistory(api, window, history),
+    later: (core, people) => schoolHistoryFor(core, people),
+  },
+  // Someone filled in from the counts gets the school years the run would
+  // have given them.
+  onFillIn: (api, { memberIds }) =>
+    schoolHistoryFor(
+      api.state as CoreState,
+      memberIds.flatMap((id) => {
+        const person = api.state.people.get(id as PersonId);
+        return person ? [person] : [];
+      }),
+    ),
   state: {
     schemaVersion: 1,
     tables: {

@@ -1,7 +1,7 @@
 {
   "version": "p8-pure-business-books-candidate-v1",
   "source": {
-    "citation": "IRS Statistics of Income, corporation returns for tax year 2022, Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; existing compiled src/simulation/living-world/town-business-books.generated.ts and compiler scripts/research/compile-irs-business-books.py.",
+    "citation": "IRS Statistics of Income, corporation returns for tax year 2022, Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; existing compiled src/core2/reference/town-business-books.generated.ts and compiler scripts/research/compile-irs-business-books.py.",
     "vintage": "Tax year 2022; the existing compiler reports publication in September 2025",
     "availableBy": "September 2025, publication month only; precise release day not independently pinned",
     "limit": "Aggregate ratios over corporate returns, not measured individual-firm books or a within-firm spread. Applied to generated firms as explicit later-vintage priors, not as actor knowledge at a 2021 opening."
@@ -255,7 +255,7 @@
       "classification": "enterprise:agriculture",
       "kindId": "farm",
       "fundingRoute": "business",
-      "citation": "TOWN_WORKPLACES in src/simulation/living-world/town-employment.ts and TOWN_BUSINESS_WORKPLACES in town-business-books.ts; authored representation, not legal-form evidence.",
+      "citation": "TOWN_WORKPLACES in the old engine's town-employment.ts and TOWN_BUSINESS_WORKPLACES in town-business-books.ts; authored representation, not legal-form evidence.",
       "stopgapId": "SG-P8-business-books-classification"
     },
     {

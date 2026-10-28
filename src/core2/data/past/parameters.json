@@ -144,61 +144,21 @@
     "citation": "Age from which a person knows what the public knows about the president and their other public figures.",
     "estimatedFrom": "Greenstein, 'Children and Politics' (1965): most nine-year-olds could name the president; later surveys of children's political knowledge agree."
   },
-  "pastMeetingYearsBeforeFirstChildLow": {
-    "value": 1,
-    "tag": "ESTIMATED",
-    "citation": "Fewest years between when partners met and their first shared child.",
-    "estimatedFrom": "CDC National Survey of Family Growth 2015-2019: median age at first birth near 27 and at first marriage near 28 to 30; Rosenfeld, 'How Couples Meet and Stay Together' (2017): couples commonly marry two to five years after meeting."
-  },
-  "pastMeetingYearsBeforeFirstChildHigh": {
-    "value": 7,
-    "tag": "ESTIMATED",
-    "citation": "Most years between when partners met and their first shared child.",
-    "estimatedFrom": "Rosenfeld, 'How Couples Meet and Stay Together' (2017), years from meeting to cohabitation, marriage and first child."
-  },
-  "pastMeetingAgeMinimum": {
-    "value": 16,
-    "tag": "TUNABLE",
-    "citation": "The younger partner's youngest age at meeting. Spread 14 to 18.",
-    "spread": {
-      "low": 14,
-      "high": 18,
-      "unit": "years",
-      "citation": "Rosenfeld (2017): high-school sweethearts are a small, real share of couples."
-    }
-  },
-  "pastChildlessMeetingAgeYears": {
-    "value": 26,
-    "tag": "ESTIMATED",
-    "citation": "The younger partner's age at meeting for partners with no shared child on record, before the spread.",
-    "estimatedFrom": "U.S. Census Bureau, Current Population Survey 2024, median age at first marriage (about 28 to 30) less the usual two to three years from meeting."
-  },
   "pastEarliestMemoryAge": {
     "value": 3.5,
     "tag": "ESTIMATED",
     "citation": "Youngest age at which a person remembers a family event.",
     "estimatedFrom": "Rubin, 'The distribution of early childhood memories' (Memory, 2000): the average earliest memory falls at about three and a half years."
   },
-  "pastMomentsPerPerson": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "Family moments each resident remembers from their household's own dated records. Spread 1 to 6.",
-    "spread": {
-      "low": 1,
-      "high": 6,
-      "unit": "moments",
-      "citation": "Owner, Oct 14: 'a few remembered moments'."
-    }
-  },
   "pastUsHouseSeats": {
     "value": 435,
     "tag": "SOURCED",
-    "citation": "Members of the U.S. House of Representatives: 2 U.S.C. \u00a7 2a (Permanent Apportionment Act of 1929, as fixed after the 1910 census)."
+    "citation": "Members of the U.S. House of Representatives: 2 U.S.C. § 2a (Permanent Apportionment Act of 1929, as fixed after the 1910 census)."
   },
   "pastUsSenateSeats": {
     "value": 100,
     "tag": "SOURCED",
-    "citation": "Members of the U.S. Senate: U.S. Const. art. I, \u00a7 3 and amend. XVII (two senators from each of the 50 states)."
+    "citation": "Members of the U.S. Senate: U.S. Const. art. I, § 3 and amend. XVII (two senators from each of the 50 states)."
   },
   "pastWinnerShareMin": {
     "value": 0.505,
@@ -280,7 +240,7 @@
   "pastPresidentialCycleYears": {
     "value": 4,
     "tag": "SOURCED",
-    "citation": "The president's term: U.S. Const. art. II, \u00a7 1; presidential elections fall every four years."
+    "citation": "The president's term: U.S. Const. art. II, § 1; presidential elections fall every four years."
   },
   "pastPresidentialElectionYear": {
     "value": 2024,
@@ -291,10 +251,5 @@
     "value": 365.25,
     "tag": "SOURCED",
     "citation": "Mean days in a Julian year (365 days plus a leap day every fourth year), for turning years into days."
-  },
-  "pastVotingAge": {
-    "value": 18,
-    "tag": "SOURCED",
-    "citation": "Voting age in federal, state and local elections: U.S. Const. amend. XXVI."
   }
 }

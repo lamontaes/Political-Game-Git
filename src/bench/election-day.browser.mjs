@@ -86,23 +86,6 @@ try {
   const settle = async (packet) => {
     let at = packet;
     for (let i = 0; i < 50 && at?.kind === "stop"; i += 1) {
-      // A job offer whose deadline holds the clock is turned down, as a
-      // player may; resuming alone would not release it.
-      for (const row of at.stop?.modules ?? []) {
-        if (row.moduleId !== "jobs") continue;
-        const view = await (
-          await page.request.get(
-            `${base}/api/jobs?${new URLSearchParams({ id: personId })}`,
-          )
-        ).json();
-        const offer = (view.offers ?? []).find((o) =>
-          row.recordId.startsWith(`${o.id}:`),
-        );
-        if (offer)
-          await page.request.post(
-            `${base}/api/jobs/answer?${new URLSearchParams({ offerId: offer.id, answer: "decline" })}`,
-          );
-      }
       const r = await page.request.post(
         `${base}/api/resume?${new URLSearchParams({ pauseId: at.pauseId })}`,
         { timeout: 600000 },
@@ -169,6 +152,10 @@ try {
   await morning.waitFor();
   await page.evaluate(() => document.fonts.ready);
   console.log("MORNING:", await page.locator("#election-day").innerText());
+  // The card shows election morning, never the midnight the clock asked at.
+  const clock = await page.locator("#card").innerText();
+  console.log("CARD:", clock.replace(/\s+/g, " "));
+  assert.doesNotMatch(clock, /12:00\s*AM/);
   await shot("eday-1-morning");
   await page
     .getByRole("button", { name: "Go canvassing", exact: true })

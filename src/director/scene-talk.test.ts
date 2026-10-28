@@ -2,7 +2,6 @@ import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
@@ -19,16 +18,14 @@ import { decisionKinds } from "../core2/trait-decisions";
 // only from data/english/parts/scene-talk.json.
 const seed = process.env.GOLDEN_PATH_SEED ?? "scene-talk-test";
 const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 300,
-    }),
-  ),
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 300,
+  }),
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
@@ -56,6 +53,7 @@ const flags = [
   "in-office",
   "bill-lost",
   "for",
+  "winner-is-other",
 ];
 const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -69,6 +67,7 @@ const facts: Record<string, Fact> = {
   outlet: fact("the Courier"),
   story: fact("the groundwater vote"),
   opponent: fact("Dana Lee"),
+  winner: fact("Dana Lee"),
   party: fact("Democratic"),
   ...Object.fromEntries(flags.map((name) => [name, fact("yes")])),
   deceased: fact("Sam Ortiz"),

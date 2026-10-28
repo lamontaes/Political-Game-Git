@@ -24,24 +24,14 @@ try {
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
-  // A job offer held for an answer comes first in some worlds.
-  if (await page.locator("#job-offer-turn").isVisible())
-    await page.locator("#job-offer-turn").click();
   const name = await page.locator("#card-name").innerText();
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     name,
@@ -63,84 +53,101 @@ try {
     .getByRole("button", { name: "Previous month", exact: true })
     .click();
   assert.equal(await page.locator(".calendar-heading h3").innerText(), month);
-  // It opens on today: the day's tile is boxed and no day panel is open.
+  // It opens on today, with Coming up beside the month.
   assert.ok(await page.locator(".month .day.today.selected").count());
-  await page.screenshot({
-    path: "docs/reports/calendar-today-2026-10-27/today.png",
-  });
-  // An empty future day opens no middle panel; the skip sits under the month.
-  await page
-    .locator(".month .day:not(.today):not(:has(.day-icon))")
-    .last()
-    .click();
-  assert.equal(await page.locator(".calendar-details").isVisible(), false);
-  assert.equal(await page.locator(".calendar-layout.has-day").count(), 0);
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
-  assert.equal(await page.locator(".month").count(), 1);
+  assert.ok((await page.locator(".calendar-side-head h3").innerText()).trim());
+  // Every line says who and what in words, once; no law rows naming nothing;
+  // the player's own dates come first (owner, Oct 27).
+  const lines = await page
+    .locator(".calendar-list .calendar-entry")
+    .evaluateAll((rows) =>
+      rows.map((r) => ({
+        when: r.querySelector(".when")?.textContent ?? "",
+        what: r.querySelector(".what").textContent.trim(),
+        own: r.classList.contains("own"),
+      })),
+    );
+  console.log(
+    "Coming up:",
+    lines.map((l) => `${l.when} ${l.what}`).join(" | "),
+  );
+  for (const line of lines) {
+    assert.ok(
+      line.what.split(/\s+/).length >= 2,
+      `a worded line: ${line.what}`,
+    );
+    assert.ok(!/takes? effect|undefined/i.test(line.what), line.what);
+  }
+  const keys = lines.map((l) => `${l.when}|${l.what}`);
+  assert.equal(new Set(keys).size, keys.length, "no line twice");
+  const firstOther = lines.findIndex((l) => !l.own);
   assert.ok(
-    !(await page.locator("#sheet-body").innerText()).includes("undefined"),
+    firstOther === -1 || lines.slice(firstOther).every((l) => !l.own),
+    "the player's own dates come first",
+  );
+  // The month fills the panel: no empty half under it.
+  const layoutBox = await page.locator(".calendar-layout").boundingBox();
+  const bodyBox = await page.locator("#sheet-body").boundingBox();
+  assert.ok(
+    layoutBox.height >= bodyBox.height * 0.9,
+    "the calendar fills its panel",
   );
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
-    path: "docs/reports/calendar-readable-2026-10-14/calendar.png",
+    path: `${process.env.SHOTS ?? "."}/calendar-today.png`,
   });
-  const skip = page.locator(".calendar-month-foot .skip-forward");
+  // An empty future day: its date heads the side with the skip, and the clock
+  // does not move until it is pressed.
+  for (let i = 0; i < 9; i++)
+    await page.getByRole("button", { name: "Next month", exact: true }).click();
+  const far = page.locator(".month .day:not(:has(.entry))").nth(10);
+  await far.click();
+  const farDate = await page
+    .locator(".month .day.selected")
+    .getAttribute("data-date");
+  assert.ok(
+    (await page.locator(".calendar-side-head h3").innerText()).includes(
+      String(Number(farDate.slice(-2))),
+    ),
+    "the day's date heads the side",
+  );
+  const skip = page.locator(".calendar-side-head .skip-forward");
   assert.equal(await skip.count(), 1);
   assert.equal((await skip.innerText()).trim(), "");
   assert.ok(await skip.getAttribute("aria-label"));
-  // Nine months ahead: the tile keeps its number and is selected, the day's
-  // date shows with the skip icon, and the clock does not move until it is pressed.
-  for (let i = 0; i < 9; i++)
-    await page.getByRole("button", { name: "Next month", exact: true }).click();
-  const far = page.locator(".month .day:not(:has(.day-icon))").nth(10);
-  const farNumber = (await far.innerText()).trim();
-  assert.ok(/^\d+$/.test(farNumber), "the future tile keeps its number");
-  await far.click();
-  const selectedTile = page.locator(".month .day.selected");
-  assert.equal((await selectedTile.innerText()).trim(), farNumber);
-  const farDate = await selectedTile.getAttribute("data-date");
-  assert.ok(
-    (await page.locator(".calendar-day-date").innerText()).includes(
-      String(Number(farDate.slice(-2))),
-    ),
-    "the day's date shows beside the skip",
-  );
-  assert.equal(
-    await page.locator(".calendar-month-foot .skip-forward").count(),
-    1,
-  );
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
-  await page.screenshot({
-    path: "docs/reports/calendar-future-day-2026-10-27/future-day.png",
-  });
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   await page.getByRole("button", { name: "Today", exact: true }).click();
-  // A day with a birthday, deadline or election carries an icon and opens its panel.
+  // A day with something on it shows its line on the tile and lists it beside.
   for (let i = 0; i < 12; i++) {
-    if (await page.locator(".month .day:has(.day-icon)").count()) break;
+    if (
+      await page
+        .locator(".month .day:not(.today):not(.past):has(.entry)")
+        .count()
+    )
+      break;
     await page.getByRole("button", { name: "Next month", exact: true }).click();
   }
-  const marked = page.locator(".month .day:has(.day-icon)").first();
+  const marked = page
+    .locator(".month .day:not(.today):not(.past):has(.entry)")
+    .first();
   assert.ok(
     await marked
       .locator(".day-icon")
       .first()
       .evaluate((img) => img.complete && img.naturalWidth > 0),
   );
+  const tileLine = (
+    await marked.locator(".entry .what").first().textContent()
+  ).trim();
   await marked.click();
-  await page.locator(".calendar-details").waitFor();
   assert.ok(
-    (await page.locator(".calendar-details .calendar-event p").count()) > 0,
-  );
-  const layout = await page.locator(".calendar-layout").boundingBox();
-  const sheet = await page.locator("#sheet-body").boundingBox();
-  assert.ok(
-    Math.abs(
-      layout.x - sheet.x - (sheet.x + sheet.width - layout.x - layout.width),
-    ) <= 2,
-    "the calendar layout is centered in its panel",
+    (await page.locator(".calendar-list .what").allTextContents()).includes(
+      tileLine,
+    ),
+    "the chosen day lists what its tile shows",
   );
   await page.screenshot({
-    path: "docs/reports/play-time-controls-2026-10-15/calendar.png",
+    path: `${process.env.SHOTS ?? "."}/calendar-day.png`,
   });
   await page.setViewportSize({ width: 1024, height: 768 });
   const box = await page.locator("#sheet").boundingBox();
@@ -153,26 +160,50 @@ try {
   const target = await page
     .locator(".month .day.selected")
     .getAttribute("data-date");
-  await page
-    .locator("#job-offer-turn")
-    .click({ timeout: 2000 })
-    .catch(() => undefined);
-  await page.locator(".calendar-details .skip-forward").click();
+  await page.locator(".calendar-side-head .skip-forward").click();
+  // Living weeks ahead runs the world day by day, which takes longer than a click.
   await page.waitForFunction(
     (before) =>
       document.getElementById("card-clock").innerText.trim() !== before,
     clock,
+    { timeout: 180000 },
   );
+  // The clock moves before the stop that ended the jump is drawn. A jump can end
+  // on a stop (Continue), a scene's talk, or the day it asked for; stops can come
+  // one after another, so each is answered until Week is ready again.
+  const settled = () =>
+    page.waitForFunction(
+      () =>
+        !document.getElementById("continue").hidden ||
+        !document.getElementById("talk").hidden ||
+        !document.getElementById("week").disabled,
+      undefined,
+      { timeout: 120000 },
+    );
+  await settled();
   const jumped = await page.locator("#card-clock").innerText();
   console.log("Calendar jump to", target, "->", jumped.replace("\n", " "));
-  // It reached that day, or a scene the director fired stopped it on an earlier one.
-  assert.ok(
-    jumped.includes(String(Number(target.slice(-2)))) ||
-      (await page.locator("#continue").isVisible()),
-  );
+  // It reached that day, or something the director fired stopped it on an earlier one.
+  const stopped =
+    (await page.locator("#continue").isVisible()) ||
+    (await page.locator("#talk").isVisible());
+  assert.ok(jumped.includes(String(Number(target.slice(-2)))) || stopped);
   // Week advances seven days, Day one.
-  if (await page.locator("#continue").isVisible())
-    await page.locator("#continue").click();
+  for (let i = 0; i < 8; i++) {
+    const answered = await page.evaluate(
+      () =>
+        document.getElementById("talk").hidden &&
+        document.getElementById("continue").hidden,
+    );
+    if (answered) break;
+    // A stop's scene can open its talk a moment after Continue shows, hiding
+    // Continue: click whichever is on screen when the click lands.
+    await page
+      .locator("#talk-leave:visible, #continue:visible")
+      .first()
+      .click();
+    await settled();
+  }
   const week = page.locator("#week");
   assert.ok((await week.innerText()).trim());
   await week.waitFor();

@@ -52,7 +52,7 @@ export function stakeOf(
   if (!filer || !relative || relative.id === filer.id || !relative.alive)
     return null;
   if (relative.householdId !== filer.householdId) return null;
-  if (ageOn(relative.birthDate, core.date) < RULES.adultAge.value) return null;
+  if (ageOn(relative.birthDate, core.date) < P.votingAge) return null;
   const household = core.households.get(filer.householdId);
   if (!household) return null;
   const members = [...household.memberIds]
@@ -60,15 +60,20 @@ export function stakeOf(
     .filter((row): row is NonNullable<typeof row> => !!row?.alive);
   const stakes: Stake[] = [];
 
-  // Money: how many days the household's savings carry its living costs
-  // (liquid money over daily cost, as the business engine reads a founder's
-  // runway) against the days the race has left to run.
+  // Money: how many days the household's savings carry what its pay does
+  // not (living costs less the wages its members' jobs pay, as the business
+  // engine reads a founder's runway) against the days the race has left to
+  // run. A household whose pay covers its costs has no money to say about it
+  // (owner, Oct 28 sitting, 38: "who says the player is not campaigning
+  // after work?").
   const electionDate = core.durableLog.get(causeId)?.facts?.electionDate;
   const liquid = members.reduce((sum, row) => sum + row.liquidMinor, zero);
-  const cost = members.reduce(
-    (sum, row) => sum + row.livingCostDailyMinor,
-    zero,
-  );
+  const pay = members.reduce((sum, row) => {
+    const job = row.jobId ? core.jobs.get(row.jobId) : undefined;
+    return sum + (job && !job.endsAt ? job.wageDailyMinor : zero);
+  }, zero);
+  const cost =
+    members.reduce((sum, row) => sum + row.livingCostDailyMinor, zero) - pay;
   const raceDays =
     typeof electionDate === "string"
       ? daysBetween(core.date, electionDate)
@@ -83,7 +88,12 @@ export function stakeOf(
         facts: {
           "stake-money": {
             text: "money",
-            recordIds: [causeId, household.id, ...members.map((m) => m.id)],
+            recordIds: [
+              causeId,
+              household.id,
+              ...members.map((m) => m.id),
+              ...members.flatMap((m) => (m.jobId ? [m.jobId] : [])),
+            ],
           },
           cushion: {
             text: spanSaid(runwayDays),

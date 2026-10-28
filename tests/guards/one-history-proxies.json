@@ -1,0 +1,11 @@
+{
+  "about": "Record kinds of the generated history before the start. The owner: one history, everything pulls from the same history. A kind leaves this list when its writer is deleted; set simulatedBy to the simulated kind the moment one exists, and every reader of the proxy fails until it reads the simulated kind instead. readers counts today's reading files; a count only goes down. Oct 28, 2026 (wire-opening-and-home, line 7): buildDeepPast and past-family.ts are deleted, so school:cohort-estimate and the six household: kinds left the list; the school engine (school.started) and the people engine (person.birth, family.partnered) run those years. birth-date stays, written by the opening's people (src/core2/opening-people.ts) beside the person's own birth date, with no reader.",
+  "proxies": [
+    {
+      "kind": "birth-date",
+      "writer": "src/core2/opening-people.ts",
+      "simulatedBy": "person.birth"
+    }
+  ],
+  "readers": {}
+}

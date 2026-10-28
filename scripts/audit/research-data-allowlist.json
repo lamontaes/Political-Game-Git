@@ -2,60 +2,8 @@
   "about": "Research data files under data/research that no non-test file in src/ or scripts/ reads, and why (tests/guards/research-data-has-reader.test.ts). rawSource entries are evidence the game is not meant to read. awaitingReader entries are research waiting for the code that should read it: that list may only shrink (the guard holds it at or under its ceiling), so an entry must leave in the same change that gives its file a reader. Each names its engine and the squad that owns its reader, from docs/codex/audit-by-engine-2026-10-01.md. A new data file with no reader and no entry fails the guard.",
   "rawSource": [
     {
-      "file": "data/research/bill-samples/city/alexandria-virginia.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/austin-texas.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/bozeman-montana.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/chicago-illinois.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/denver-colorado.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/kansas-city-missouri.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/los-angeles-california.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/missoula-montana.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/new-york-city-new-york.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/city/philadelphia-pennsylvania.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/county/cook-county-illinois.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/county/miami-dade-county-florida.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/county/montgomery-county-maryland.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
-    },
-    {
-      "file": "data/research/bill-samples/county/san-francisco-california.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+      "file": "data/research/assumption-markers.json",
+      "reason": "Scan output listing the placeholder and unresearched markers found in src on one commit; evidence for the stopgap audit, not game data."
     },
     {
       "file": "data/research/bill-samples/dc/district-of-columbia.json",
@@ -66,108 +14,88 @@
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
     {
-      "file": "data/research/bill-samples/territory/guam.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+      "file": "data/research/budgets/local-spending-by-type.json",
+      "reason": "Raw Census 2022 shares of local spending by type of government; scripts/research/export-public-budget-bases.py measures each place's county and city base rows from it into data/research/money/public-budget-bases.json, which the budgets engine reads."
     },
     {
-      "file": "data/research/bill-samples/territory/northern-mariana-islands.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+      "file": "data/research/housing/acs-2024-owner-mortgage-age.json",
+      "reason": "Raw source the game does not read directly: input to data/research/housing/build_core_data.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/bill-samples/territory/puerto-rico.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+      "file": "data/research/housing/nar-2025-down-payments.json",
+      "reason": "Raw source the game does not read directly: input to data/research/housing/build_core_data.py, which writes data the game reads; source cited by src/core2/data/housing/parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/bill-samples/territory/u-s-virgin-islands.json",
-      "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
+      "file": "data/research/justice/money-bail-2026.json",
+      "reason": "Raw source the game does not read directly: source cited by data/laws/justice/lw17-person-landings.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/laws/coordinator-crime-population-sizing.json",
-      "reason": "A sizing receipt (source head, coefficient source, runtime proof) for a decision already applied in links.json."
+      "file": "data/research/laws/regular-session-years.json",
+      "reason": "Raw source the game does not read directly: checked against by src/core2/session-calendar.test.ts. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/licenses/roadmap-r37-source-rights-register.json",
-      "reason": "Roadmap R37 register of the rights and licenses of the sources the game draws on; evidence for the release review, not a table the simulation reads."
+      "file": "data/research/legislative-procedure/item-veto.json",
+      "reason": "Raw source the game does not read directly: source cited by src/core2/data/office-day/state-parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/licenses/roadmap-r37-unit-inventory.json",
-      "reason": "Roadmap R37 inventory of the research units checked for rights; evidence for the release review, not a table the simulation reads."
+      "file": "data/research/local-government/governing-body-seat-qualification.json",
+      "reason": "Raw source the game does not read directly: source cited by src/core2/data/stopgaps.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/licenses/roadmap-r37-url-register-01.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+      "file": "data/research/money/federal-income-tax-schedules.json",
+      "reason": "Raw source the game does not read directly: input to scripts/research/build-starting-law.py, which writes data the game reads; checked against by src/core2/laws.test.ts. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/licenses/roadmap-r37-url-register-02.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+      "file": "data/research/money/minimum-wage-2026.json",
+      "reason": "Raw source the game does not read directly: source cited by src/core2/reference/town-pay.generated.ts. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/licenses/roadmap-r37-url-register-03.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+      "file": "data/research/money/opening-employer-cash-buffers.json",
+      "reason": "Raw source the game does not read directly: checked against by src/core2/opening-capital.test.ts; source cited by src/core2/data/opening-employer-cash-reference.json and src/core2/data/opening-capital.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/licenses/roadmap-r37-url-register-04.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+      "file": "data/research/money/pension-contribution-paid.json",
+      "reason": "Raw source the game does not read directly: input to scripts/research/export-pension-contribution-paid.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/licenses/roadmap-r37-url-register-05.json",
-      "reason": "Roadmap R37 register of the source URLs checked for rights and licenses; evidence for the release review, not a table the simulation reads."
+      "file": "data/research/money/pension-flows.json",
+      "reason": "Raw source the game does not read directly: input to scripts/research/export-pension-flows.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
-      "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
+      "file": "data/research/money/pension-funded-ratio.json",
+      "reason": "Raw source the game does not read directly: input to scripts/research/export-pension-funded-ratio.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
-      "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
+      "file": "data/research/money/pension-liability-ratio.json",
+      "reason": "Raw source the game does not read directly: input to scripts/research/export-pension-liability-ratio.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/stopgaps-oct19/A-people-behavior-1.json",
-      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+      "file": "data/research/money/public-programs-2026.json",
+      "reason": "Raw source the game does not read directly: source cited by src/core2/tooling/calibration-targets.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/stopgaps-oct19/B-people-behavior-2.json",
-      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+      "file": "data/research/money/state-paid-leave-premiums-2026.json",
+      "reason": "Raw source the game does not read directly: input to scripts/research/build-starting-law.py, which writes data the game reads; source cited by src/core2/data/laws/starting-law.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/stopgaps-oct19/C-government-law.json",
-      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+      "file": "data/research/money/state-reserve-rules.json",
+      "reason": "Raw source the game does not read directly: input to scripts/research/export-state-reserve-rules.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/stopgaps-oct19/D-economy-world.json",
-      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+      "file": "data/research/money/state-tuition-revenue.json",
+      "reason": "Raw source the game does not read directly: input to scripts/research/export-state-tuition-revenue.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/stopgaps-oct19/E-careers-finance.json",
-      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
-    },
-    {
-      "file": "data/research/assumption-markers.json",
-      "reason": "Scan output listing the placeholder and unresearched markers found in src on one commit; evidence for the stopgap audit, not game data."
-    },
-    {
-      "file": "data/research/census-2020-island-areas-places.json",
-      "reason": "Census 2020 Island Areas place identities and populations, research for SG-CORE-territory-places; no engine reads it yet."
-    },
-    {
-      "file": "data/research/economic-context-reviewed-bindings.json",
-      "reason": "Reviewed BEA area bindings kept as research evidence for the economic-context engine; no engine reads the file yet."
-    },
-    {
-      "file": "data/research/new-game-geography-defaults.json",
-      "reason": "Origin and fixture place keys recorded as research evidence for the new-game flow; no engine reads the file yet."
-    },
-    {
-      "file": "data/research/p2-law-estimate-ledger.json",
-      "reason": "Ledger of law-rule estimates and their sources, the audit trail behind estimated law rows; evidence, not read at run time."
-    },
-    {
-      "file": "data/research/p2-personnel-estimate-ledger.json",
-      "reason": "Ledger of personnel-rule estimates and their sources, the audit trail behind estimated personnel rows; evidence, not read at run time."
+      "file": "data/research/money/town-business-a71-2026.json",
+      "reason": "Raw source the game does not read directly: source cited by src/core2/data/parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
       "file": "data/research/stand-in-figures-2026-10-12.json",
       "reason": "Research on the number stand-ins open on Oct 12, 2026 (class, current value, recommended value or bounds, source); builders apply rows into the parameter tables."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/C-government-law.json",
+      "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
     }
   ],
   "awaitingReader": [
@@ -175,25 +103,7 @@
       "file": "data/research/laws/catalog-terms-batch-02.json",
       "engine": "Government",
       "readerOwner": "Coordinator",
-      "reason": "Law catalog terms, batch 2; src/simulation/law-consequences/legal-outcome.ts cites it as a source but nothing reads the file. Owner: the Coordinator owns the shared law path the catalog feeds."
-    },
-    {
-      "file": "data/research/laws/catalog-terms-batch-01.json",
-      "engine": "Government",
-      "readerOwner": "Coordinator",
-      "reason": "Law catalog terms, batch 1; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
-    },
-    {
-      "file": "data/research/laws/catalog-terms-batch-05.json",
-      "engine": "Government",
-      "readerOwner": "Coordinator",
-      "reason": "Law catalog terms, batch 5; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
-    },
-    {
-      "file": "data/research/laws/rent-cap-terms-2026.json",
-      "engine": "Financial",
-      "readerOwner": "Team 4",
-      "reason": "Sourced rent-cap statutory terms; the file itself says it has no runtime integration yet. Owner: Team 4 owns prices, housing, business and loans."
+      "reason": "Law catalog terms, batch 2; the old engine's legal-outcome.ts cites it as a source but nothing reads the file. Owner: the Coordinator owns the shared law path the catalog feeds."
     },
     {
       "file": "data/research/levers/lever-table.json",
@@ -222,203 +132,33 @@
   ],
   "unreadFound": [
     {
-      "prefix": "data/research/apportionment/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/budgets/",
-      "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/business/",
-      "files": 11,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/campaigns/",
-      "files": 3,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/congress/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/constituent-cases/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/constitutions/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-1/",
-      "files": 7,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-10/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-11/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-12/",
-      "files": 109,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-13/",
-      "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-2/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-3/",
-      "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/core-figures/P0-4/",
-      "files": 5,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-5/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-6/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-7/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-8/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-9/",
-      "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/corruption/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/credit/",
-      "files": 3,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/crime/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/direct-democracy/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/drives/",
-      "files": 6,
+      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/education/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/executive/",
-      "files": 2,
+      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/federal/",
-      "files": 3,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/history/",
-      "files": 8,
+      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/housing/",
-      "files": 14,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/implementation/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/interest-groups/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/jobs/",
-      "files": 10,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/jobs/series/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/lawmaking-throughput/",
-      "files": 1,
+      "files": 7,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/laws/local-starting-law/",
       "files": 12,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/laws/",
-      "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/legislative-procedure/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/legislatures/",
-      "files": 2,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -433,7 +173,7 @@
     },
     {
       "prefix": "data/research/money/",
-      "files": 8,
+      "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -442,22 +182,7 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/news/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/offices/",
-      "files": 5,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/outcome-web/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/parties/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
@@ -467,63 +192,23 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/places/",
-      "files": 10,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/prices/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/programs/",
-      "files": 8,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/public-costs/",
       "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/regional/",
-      "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/regional/series/",
-      "files": 3,
+      "files": 2,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/renewal/",
-      "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/renewal/moves/",
-      "files": 54,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/speech-sources/",
       "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/succession/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/talk/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/transit/",
-      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     }
   ]

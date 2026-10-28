@@ -48,12 +48,6 @@ export interface DirectorData {
     parameter: string;
     counterpart?: string;
   }[];
-  /** Fact keys on a public-era past fact that record it hit this person. */
-  pastEraHits: readonly { factKey: string; parameter: string }[];
-  /** Values of those keys that mean nothing is recorded. */
-  pastNotRecordedValues: readonly string[];
-  /** Past-fact kind prefixes that are public background, not personal moments. */
-  backdropPastFactPrefixes: readonly string[];
   /**
    * Events recorded without an appraised impact, sized from their own facts:
    * the relative change from one fact to another, on a channel.
@@ -66,11 +60,23 @@ export interface DirectorData {
     toFact?: string;
     /** Or a sourced impact for the event itself (filing for office). */
     impactParameter?: string;
+    /**
+     * With an impact parameter: the event's own share of it, 0 to 1, from
+     * this fact (a gift's share of what others have given a campaign).
+     */
+    scaleFact?: string;
     /** The fact naming who the moment is about (the baby at a birth), when not the event's people. */
     counterpartFact?: string;
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };
+  /**
+   * When each kind of setting can hold a scene, in minutes after midnight; a
+   * null opening is the controlled person's own day start.
+   */
+  settingHours: {
+    rows: Readonly<Record<string, { opens: number | null; closes: number }>>;
+  };
 }
 
 export interface ChannelContribution {

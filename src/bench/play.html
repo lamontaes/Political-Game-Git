@@ -15,16 +15,6 @@
         <div id="people"></div>
       </div>
 
-      <!-- The opening: the President's speech box, then the night's news at home. -->
-      <section id="opening-box" class="panel chat" hidden>
-        <div data-speaker="opening"></div>
-        <ol id="opening-speech" class="talk-lines"></ol>
-      </section>
-      <!-- Who the camera passes, pointed out by name and office. -->
-      <div id="opening-point" class="panel" hidden>
-        <div id="opening-point-name" class="name"></div>
-        <div id="opening-point-role" class="role"></div>
-      </div>
       <div id="news-surface" class="panel toast" hidden>
         <button id="news-surface-open" type="button">
           <span id="news-surface-label" class="label"></span>
@@ -62,26 +52,6 @@
       </section>
       <section id="desk" class="panel" hidden>
         <div id="desk-items"></div>
-      </section>
-      <section id="job-offer" class="panel" data-testid="job-offer" hidden>
-        <h2 id="job-offer-title" class="heading"></h2>
-        <p id="job-offer-employer"></p>
-        <div id="job-offer-facts"></div>
-        <div class="acts">
-          <button
-            id="job-offer-take"
-            class="action primary"
-            type="button"
-          ></button>
-          <button id="job-offer-turn" class="action" type="button"></button>
-          <button
-            id="job-offer-wait"
-            class="action small"
-            type="button"
-            hidden
-          ></button>
-        </div>
-        <p id="job-offer-status" role="status"></p>
       </section>
       <section id="news-reader" class="panel" hidden>
         <div class="news-reader-main">
@@ -152,7 +122,6 @@
             class="item"
             type="button"
             data-testid="title-patch-notes"
-            disabled
           >
             <b>Patch notes</b>
           </button>
@@ -362,7 +331,7 @@
               </button>
             </div>
           </div>
-          <div class="group">
+          <div class="group" data-testid="creator-name">
             <span class="label">Name</span>
             <label class="field"
               >First name
@@ -457,6 +426,7 @@
               class="choice-list"
               data-testid="state-choices"
             ></div>
+            <div id="cr-states-pager" class="acts" data-pager hidden></div>
           </div>
           <div id="cr-town-pick" hidden>
             <button
@@ -480,14 +450,31 @@
               class="choice-list"
               data-testid="place-choices"
             ></div>
+            <div id="cr-towns-pager" class="acts" data-pager hidden></div>
           </div>
           <div class="acts">
             <button id="cr-place-back" class="action small" type="button">
               Back
             </button>
+            <button
+              id="cr-place-random"
+              class="action small"
+              type="button"
+              data-testid="creator-random-place"
+              data-label="creator.randomPlace"
+            ></button>
           </div>
         </div>
         <div id="cr-look" data-testid="creator-stage-appearance" hidden>
+          <button
+            id="cr-place-summary"
+            class="summary"
+            type="button"
+            data-testid="creator-summary-place"
+          >
+            <span id="cr-place-summary-name" class="summary-value"></span
+            ><span class="summary-edit">Change</span>
+          </button>
           <img
             id="cr-portrait"
             class="portrait"
@@ -540,19 +527,6 @@
         ></p>
       </section>
 
-      <nav id="menu" class="panel" hidden>
-        <h2 class="menu-title">Menu</h2>
-        <span data-menu-items></span>
-        <button
-          id="dev-mode"
-          type="button"
-          class="nav-item dev-only"
-          onclick="window.open('/dev')"
-        >
-          <span class="nl">Dev mode</span>
-        </button>
-      </nav>
-
       <section id="sheet" class="panel" data-testid="sheet" hidden>
         <span
           data-panel-head
@@ -585,10 +559,16 @@
             />
           </svg>
         </button>
-        <div data-speaker="talk"></div>
+        <div data-speaker="talk" data-role="none"></div>
         <ol id="talk-lines" class="talk-lines"></ol>
         <div id="talk-choices" class="replies"></div>
         <div class="acts">
+          <button
+            id="talk-next"
+            class="action primary"
+            type="button"
+            data-label="talkBox.continue"
+          ></button>
           <button id="talk-silent" class="action small" type="button">
             Say nothing
           </button>
@@ -627,13 +607,6 @@
           <p id="person-role" class="role"></p>
           <div id="person-facts"></div>
           <div id="person-pager" class="acts" data-pager="person" hidden></div>
-          <div class="acts">
-            <button
-              id="person-talk"
-              class="action primary"
-              type="button"
-            ></button>
-          </div>
         </div>
       </section>
 
@@ -649,12 +622,11 @@
       <div id="dock">
         <nav id="rings" hidden></nav>
         <section id="card" class="panel me" hidden>
-          <div id="card-bust" class="bust"></div>
-          <div>
+          <div class="card-id">
             <h2 id="card-name" class="name"></h2>
             <p id="card-place" class="role"></p>
-            <p id="card-clock" class="when"></p>
           </div>
+          <p id="card-clock" class="when"></p>
           <div class="time">
             <p id="card-why" class="label"></p>
             <div class="acts">

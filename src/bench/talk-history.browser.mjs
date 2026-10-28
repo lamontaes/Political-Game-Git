@@ -28,9 +28,6 @@ try {
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
@@ -38,9 +35,8 @@ try {
   const figure = page.locator("#people .talkable").first();
   await figure.waitFor();
   await figure.focus();
+  // A person in the room is talked to by a key (owner, Oct 27: no Talk button).
   await page.keyboard.press("Enter");
-  await page.locator("#person:not([hidden])").waitFor();
-  await page.locator("#person-talk").click();
   await page.locator("#talk:not([hidden])").waitFor();
   // Two exchanges: pick the first reply twice.
   for (let turn = 0; turn < 2; turn++) {

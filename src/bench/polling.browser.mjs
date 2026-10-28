@@ -86,6 +86,11 @@ try {
     await page.locator("#cr-states .item").first().waitFor();
     const drawn = drawPlace(runSeed, `polling-${attempt}`);
     console.log("Drawn place:", drawn.key, drawn.name, drawn.state);
+    // The states page; the search brings the drawn one onto the first page.
+    const stateName = await page
+      .locator(`[data-testid="state-${drawn.state}"]`)
+      .evaluate((b) => b.textContent);
+    await page.locator("#cr-state-search").fill(stateName);
     await page.locator(`[data-testid="state-${drawn.state}"]`).click();
     await page.locator("#cr-towns .item").first().waitFor();
     const townName = drawn.name.split(",")[0];
@@ -104,13 +109,6 @@ try {
     // The world seed the creator obtained: with the drawn place this
     // reproduces the world (BENCH_SEED only reproduces the draws).
     console.log("World seed (creator):", seed, "run seed:", runSeed);
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 300000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
     await page.waitForFunction(() =>
       document.getElementById("card-name").textContent.trim(),
     );
@@ -347,7 +345,7 @@ try {
     path: "docs/reports/ballot-pages-2026-10-24/calendar-nov.png",
   });
   // Run time forward with the skip control; answer stops until the ballot shows.
-  const skip = page.locator(".calendar-details .skip-forward");
+  const skip = page.locator(".calendar-side-head .skip-forward");
   console.log("Skip-forward present:", await skip.count());
   if (await skip.count()) {
     await skip.first().click();
@@ -491,7 +489,7 @@ try {
     }
     await day3.first().click();
     await page.waitForTimeout(1000);
-    const skip2 = page.locator(".calendar-details .skip-forward");
+    const skip2 = page.locator(".calendar-side-head .skip-forward");
     if (await skip2.count()) {
       await skip2.first().click();
       await page.waitForTimeout(4000);

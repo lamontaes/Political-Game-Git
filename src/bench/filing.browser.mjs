@@ -23,11 +23,8 @@ const errors = [];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
 async function openNavigationTab(tab) {
-  // The rail over the card, or the Menu list when a screen is open (the rail steps aside).
-  const rail = page.locator(`#rings [data-tab="${tab}"]`);
-  const button = (await rail.isVisible())
-    ? rail
-    : page.locator(`#menu [data-tab="${tab}"]`);
+  // The rail over the card is the one menu, open screen or not.
+  const button = page.locator(`#rings [data-tab="${tab}"]`);
   await button.focus();
   assert.ok(
     await button.evaluate((node) => node === document.activeElement),
@@ -57,9 +54,6 @@ try {
   const asked = new URL((await made).url()).searchParams;
   const world = { seed: asked.get("seed"), date: asked.get("date") };
   console.log("Seed:", world.seed);
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );

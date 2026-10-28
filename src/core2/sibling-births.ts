@@ -46,7 +46,7 @@ export function spacedSiblingBirths(
 ): IsoDate[] {
   const start = makeIsoDate(on);
   const gap = p("siblingBirthGapDays");
-  const adultAge = p("benchmarkAdultMinimumAge");
+  const adultAge = p("votingAge");
   const dayOf = (date: string) => daysBetween(start, makeIsoDate(date));
   const placed = fixed.map(dayOf);
   const clear = (day: number) =>

@@ -123,16 +123,36 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
     );
     player.leavePolls();
     expect(home?.text, where).toBeTruthy();
+    // Day lands on election morning (days start in the morning, owner Oct
+    // 27); the count runs when the polls close, at the day's end on the
+    // player's clock, so the player lives election day through to the next
+    // morning before the returns exist.
     player.advance("day");
     while (player.packet?.kind === "stop")
       player.resume({ kind: "stop", pauseId: player.packet.pauseId });
+    expect(core.date, `${where}: election morning`).toBe(filed.electionDate);
+    player.advance("day");
+    while (player.packet?.kind === "stop")
+      player.resume({ kind: "stop", pauseId: player.packet.pauseId });
+    // The voting engine's own ballot record for the player: kept at the
+    // count, not cast.
     const ballot = ballotOf(api, filed.id, playerId!);
-    expect(ballot?.voted ?? false, `${where}: stayed home`).toBe(false);
+    expect(
+      ballot,
+      `${where}: the count kept the player's ballot`,
+    ).not.toBeNull();
+    expect(ballot!.voted, `${where}: stayed home`).toBe(false);
 
     // Election night: the returns place by place to the call.
     const night = electionNight(core, playerId!);
     expect(night, `${where}: the night is the player's`).not.toBeNull();
     expect(night!.contestId, where).toBe(filed.id);
+    expect(night!.date, `${where}: the night of the count`).toBe(
+      filed.electionDate,
+    );
+    console.log(
+      `election-day: night read ${night!.recordId} and ballot ${ballot!.id}`,
+    );
     expect(core.durableLog.has(night!.recordId as EntityId), where).toBe(true);
     expect(night!.steps.length, where).toBeGreaterThanOrEqual(2);
     const call = night!.steps.at(-1)!;

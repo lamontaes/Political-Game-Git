@@ -1,5 +1,6 @@
 /** The national month as pure math: last month's figures, the rate in force and the town's own totals. */
 import history from "./data/macro/history.json" with { type: "json" };
+import { worldOffsetUnit } from "./world-draw";
 
 export type MacroParameter = (key: string) => number;
 
@@ -102,8 +103,12 @@ function realOutputAt(month: string, p: MacroParameter): number {
   }
 }
 
-/** The opening month (the last complete month before the start) and the twelve before it, from agency figures. */
-export function historyMonths(
+/**
+ * The published opening month (the last complete month before the start) and
+ * the months before it, as the agencies printed them. Calibration only: the
+ * bands, the checks and each world's draw read it; play reads `historyMonths`.
+ */
+export function publishedMonths(
   startedAt: string,
   p: MacroParameter,
 ): MacroMonth[] {
@@ -155,6 +160,116 @@ export function historyMonths(
     });
   }
   return months;
+}
+
+/** How far one world's past ran from the published series, drawn once from its seed at Start. */
+export interface MacroWorldOffsets {
+  unemploymentPoints: number;
+  inflationPoints: number;
+  jobsGrowthPoints: number;
+  wageGrowthPoints: number;
+  outputGrowthPoints: number;
+  policyRatePoints: number;
+  longRatePoints: number;
+  priceLevelShare: number;
+  jobsLevelShare: number;
+  wageLevelShare: number;
+  outputLevelShare: number;
+}
+
+export function macroWorldOffsets(
+  seed: string,
+  p: MacroParameter,
+): MacroWorldOffsets {
+  // The one world draw (world-draw.ts), times this table's spread row.
+  const at = (key: string, spread: string) =>
+    worldOffsetUnit(seed, `macro-world:${key}`) * p(spread);
+  return {
+    unemploymentPoints: at(
+      "unemployment",
+      "macroWorldUnemploymentSpreadPoints",
+    ),
+    inflationPoints: at("inflation", "macroWorldInflationSpreadPoints"),
+    jobsGrowthPoints: at("jobs-growth", "macroWorldJobsGrowthSpreadPoints"),
+    wageGrowthPoints: at("wage-growth", "macroWorldWageGrowthSpreadPoints"),
+    outputGrowthPoints: at(
+      "output-growth",
+      "macroWorldOutputGrowthSpreadPoints",
+    ),
+    policyRatePoints: at("policy-rate", "macroWorldPolicyRateSpreadPoints"),
+    longRatePoints: at("long-rate", "macroWorldLongRateSpreadPoints"),
+    priceLevelShare: at("price-level", "macroWorldLevelSpreadShare"),
+    jobsLevelShare: at("jobs-level", "macroWorldLevelSpreadShare"),
+    wageLevelShare: at("wage-level", "macroWorldLevelSpreadShare"),
+    outputLevelShare: at("output-level", "macroWorldLevelSpreadShare"),
+  };
+}
+
+/**
+ * This world's opening month and the months before it: the published series
+ * moved by the world's own offsets (owner, Oct 27: "realistic, not real";
+ * the published figures calibrate the spread and are never copied). A growth
+ * offset compounds from the opening month back, so every month's 12-month
+ * change carries it; a rate offset moves every month alike.
+ */
+export function historyMonths(
+  startedAt: string,
+  seed: string,
+  p: MacroParameter,
+): MacroMonth[] {
+  const published = publishedMonths(startedAt, p);
+  const opening = published.at(-p("one"))!.month;
+  const o = macroWorldOffsets(seed, p);
+  const months = p("macroMonthsPerYear"),
+    hundred = p("macroHundred"),
+    one = p("one");
+  const monthsFrom = (month: string) => {
+    const [y, m] = month.split("-").map(Number) as [number, number];
+    const [oy, om] = opening.split("-").map(Number) as [number, number];
+    return (y - oy) * months + (m - om);
+  };
+  const grown = (month: string, level: number, growthPoints: number) =>
+    (one + level) *
+    (one + growthPoints / hundred) ** (monthsFrom(month) / months);
+  const floor = p("macroPolicyLowerBoundPct");
+  return published.map((row) => {
+    const unemploymentPct = Math.max(
+      p("macroWorldUnemploymentLowestPct"),
+      row.unemploymentPct + o.unemploymentPoints,
+    );
+    const policyRatePct = Math.max(
+      floor,
+      row.policyRatePct + o.policyRatePoints,
+    );
+    return {
+      ...row,
+      unemploymentPct,
+      priceIndex:
+        row.priceIndex * grown(row.month, o.priceLevelShare, o.inflationPoints),
+      // The 12-month change of the moved price index, exactly.
+      inflationPct:
+        ((one + row.inflationPct / hundred) *
+          (one + o.inflationPoints / hundred) -
+          one) *
+        hundred,
+      payrollJobsThousands:
+        row.payrollJobsThousands *
+        grown(row.month, o.jobsLevelShare, o.jobsGrowthPoints),
+      hourlyEarnings:
+        row.hourlyEarnings *
+        grown(row.month, o.wageLevelShare, o.wageGrowthPoints),
+      realOutput:
+        row.realOutput *
+        grown(row.month, o.outputLevelShare, o.outputGrowthPoints),
+      outputGapPct:
+        -p("macroOkunOutputPerUnemploymentPoint") *
+        (unemploymentPct - p("macroNaturalUnemploymentPct")),
+      policyRatePct,
+      primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
+      treasury10Pct: Math.max(floor, row.treasury10Pct + o.longRatePoints),
+      mortgage30Pct: row.mortgage30Pct + o.longRatePoints,
+    };
+  });
 }
 
 /**

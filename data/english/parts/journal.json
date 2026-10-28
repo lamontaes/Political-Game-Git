@@ -18,7 +18,9 @@
     "votes": "A vote margin, from the results record.",
     "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections).",
     "named": "A relative by relation and given name (\"my daughter Jane\"), or a person by name, from the family record.",
-    "job": "A job title with its article (\"a county clerk\"), from the job record."
+    "job": "A job title with its article (\"a county clerk\"), from the job record.",
+    "span": "How long something lasted, in months as people say it, from the dates on its record.",
+    "next": "The employer someone went to next, from the record of their next job."
   },
   "maxWords": 10,
   "mining": {
@@ -671,6 +673,10 @@
           "journal": [
             {
               "kindPrefix": "job-ended",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-ended:let-go",
               "field": "line"
             }
           ]
@@ -7464,6 +7470,495 @@
       "shippable": true,
       "origin": "authored",
       "author": "play-first lane (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-turned-eighteen",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I turned eighteen.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.today-i-turned-eighteen",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "Today I turned eighteen.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-am-eighteen-now",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I'm eighteen now.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-let-go.employer-let-me-go",
+      "move": "work-line-let-go",
+      "kind": "spoken",
+      "text": "{employer} let me go.",
+      "uses": [
+        {
+          "move": "work-line-let-go",
+          "subject": "work",
+          "role": "line",
+          "choice": "go",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.work-line-let-go.i-was-laid-off-from-employer",
+      "move": "work-line-let-go",
+      "kind": "spoken",
+      "text": "I was laid off from {employer}.",
+      "uses": [
+        {
+          "move": "work-line-let-go",
+          "subject": "work",
+          "role": "line",
+          "choice": "go",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.work-line-let-go.employer-cut-back-and-i-was-let-go",
+      "move": "work-line-let-go",
+      "kind": "spoken",
+      "text": "{employer} cut back, and I was let go.",
+      "uses": [
+        {
+          "move": "work-line-let-go",
+          "subject": "work",
+          "role": "line",
+          "choice": "go",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "After {span} out of work, I went to work for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-was-out-of-work-for-span-before-employer-took-me-on",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I was out of work for {span} before {employer} took me on.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.it-was-span-before-i-found-work-again-at-employer",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "It was {span} before I found work again, at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-moved-on.i-left-employer-for-a-job-at-next",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "I left {employer} for a job at {next}.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-moved-on.i-went-from-employer-to-next",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "I went from {employer} to {next}.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-moved-on.after-employer-i-took-a-job-at-next",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "After {employer}, I took a job at {next}.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-stopped.i-stopped-working-at-employer-when-named-was-born",
+      "move": "work-line-stopped",
+      "kind": "spoken",
+      "text": "I stopped working at {employer} when {named} was born.",
+      "uses": [
+        {
+          "move": "work-line-stopped",
+          "subject": "work",
+          "role": "line",
+          "choice": "stopped",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-stopped.when-named-was-born-i-left-employer-to-stay-home",
+      "move": "work-line-stopped",
+      "kind": "spoken",
+      "text": "When {named} was born, I left {employer} to stay home.",
+      "uses": [
+        {
+          "move": "work-line-stopped",
+          "subject": "work",
+          "role": "line",
+          "choice": "stopped",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-stopped.i-stopped-working-when-named-was-born",
+      "move": "work-line-stopped",
+      "kind": "spoken",
+      "text": "I stopped working when {named} was born.",
+      "uses": [
+        {
+          "move": "work-line-stopped",
+          "subject": "work",
+          "role": "line",
+          "choice": "stopped",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-retired.i-retired-from-employer",
+      "move": "work-line-retired",
+      "kind": "spoken",
+      "text": "I retired from {employer}.",
+      "uses": [
+        {
+          "move": "work-line-retired",
+          "subject": "work",
+          "role": "line",
+          "choice": "retired",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:retired",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-retired.i-retired-after-my-years-at-employer",
+      "move": "work-line-retired",
+      "kind": "spoken",
+      "text": "I retired after my years at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-retired",
+          "subject": "work",
+          "role": "line",
+          "choice": "retired",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:retired",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-retired.i-retired",
+      "move": "work-line-retired",
+      "kind": "spoken",
+      "text": "I retired.",
+      "uses": [
+        {
+          "move": "work-line-retired",
+          "subject": "work",
+          "role": "line",
+          "choice": "retired",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:retired",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
       "tag": {
         "move": "tell"

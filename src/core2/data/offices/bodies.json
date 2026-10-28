@@ -1,0 +1,81 @@
+{
+  "about": "One row per kind of lawmaking body (engine map line 28, E3: one bill engine, the level a row). The bill and budget engine (src/core2/modules/legislature.ts) reads a body's level, the legislature its chambers belong to, the chamber a bill or budget starts in, the words for the body, whose law its bills make (`law`: the nation's, the state's, the county's, the township's or the place's), a member's term where the chamber fixes it (`termYears`), the tie-breaking rule the chamber reads from data/research/elections/tie-rules-2026.json (`tieBreaker`), and who holds the veto, from these rows instead of branching on the office kind. `kindPrefix` matches an office kind (us-house also covers the delegate and at-large rows). A body with no `legislature` is a one-chamber body. `chamberId` is the nation's own id for a federal chamber, which has one office row per state, and `jurisdiction` the nation's key. Structure is law (U.S. Const. art. I; state constitutions; county and municipal codes); each row cites it.",
+  "bodies": [
+    {
+      "kindPrefix": "us-house",
+      "level": "federal",
+      "law": "nation",
+      "legislature": "congress",
+      "chamberId": "federal:us-house",
+      "jurisdiction": "US",
+      "introducedFirst": true,
+      "termYears": 2,
+      "words": "Congress",
+      "source": "U.S. Const. art. I, sec. 1, 2 and 7: Congress is a House and a Senate; Representatives serve two years; revenue bills originate in the House."
+    },
+    {
+      "kindPrefix": "us-senate",
+      "level": "federal",
+      "law": "nation",
+      "legislature": "congress",
+      "chamberId": "federal:us-senate",
+      "jurisdiction": "US",
+      "termYears": 6,
+      "words": "Congress",
+      "source": "U.S. Const. art. I, sec. 1 and 3: Senators serve six years; the Vice President breaks a tie (sec. 3, cl. 4)."
+    },
+    {
+      "kindPrefix": "legislature-lower",
+      "level": "state",
+      "law": "state",
+      "legislature": "state-legislature",
+      "words": "the legislature",
+      "source": "Each state constitution's legislative article: the lower chamber (house, assembly or house of delegates)."
+    },
+    {
+      "kindPrefix": "legislature-upper",
+      "level": "state",
+      "law": "state",
+      "legislature": "state-legislature",
+      "tieBreaker": "stateSenateTieBreaker",
+      "words": "the legislature",
+      "source": "Each state constitution's legislative article: the senate; where the constitution gives the lieutenant governor the tie-breaking vote, data/research/elections/tie-rules-2026.json names it."
+    },
+    {
+      "kindPrefix": "legislature-unicameral",
+      "level": "state",
+      "law": "state",
+      "legislature": "state-legislature",
+      "words": "the legislature",
+      "source": "Neb. Const. art. III, sec. 1: one chamber; the one legislature- row its state has."
+    },
+    {
+      "kindPrefix": "county-board",
+      "level": "county",
+      "law": "county",
+      "words": "the county board",
+      "source": "State county codes: the county's governing board adopts its budget and its ordinances are county law (src/core2/gov-rules/county-governing-body-rules.ts)."
+    },
+    {
+      "kindPrefix": "council",
+      "level": "city",
+      "law": "place",
+      "words": "the council",
+      "source": "Municipal charters and codes: the council is the municipal legislative body (src/core2/data/offices/body-names.json)."
+    },
+    {
+      "kindPrefix": "township-board",
+      "level": "city",
+      "law": "township",
+      "words": "the township board",
+      "source": "State township codes: where the town's own government is its township, the township board is its legislative body and its ordinances bind the township."
+    }
+  ],
+  "vetoHolder": {
+    "federal": "president",
+    "state": "governor",
+    "county": "county-executive",
+    "city": "mayor",
+    "source": "U.S. Const. art. I, sec. 7 (the president's veto); state constitutions (the governor's); county and municipal charters (the county executive's and the mayor's, where the office exists). The holder's office sits at the government's own level."
+  }
+}

@@ -257,11 +257,11 @@
     "file": "src/director/opening-story.ts",
     "line": 1,
     "whatItFakes": "The register card the evening news composes under: the press briefing's card stands in for a newscast.",
-    "why": "The engine has no register card for a newscast yet (docs/coordination/words.md); the opening's evening news composes now.",
+    "why": "Resolved Oct 28 by deletion: the opening's own newscast writer (newsStory, townStory) is gone (trim-main-every-duplicate-deleted, row W2 of docs/reports/duplicates-on-main-2026-10-28.md); the night's news is to come from the press path's stories. It stood in because the engine had no register card for a newscast (docs/coordination/words.md).",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
     "replacement": "A newscast register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-poll-workers",
@@ -406,6 +406,18 @@
     "addedBy": "Scene builder A",
     "addedAt": "2026-10-27",
     "replacement": "A household limit the campaigns engine reads when the candidate gives their own money, with the reply naming it (pool item campaigns-household-limit-read).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-favor-promise-keeps-unread",
+    "kind": "missing-hook",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "A scene that ends with a favor owed or a promise made writes it on the scene's own record (facts ending and keeps), but no engine reads keeps yet: the favor is not called in and the promise is not held against the player.",
+    "why": "The favor belongs to the legislature's obligations (obligationsOf) and the relationship record, the promise to the campaigns engine's promises; both engines are other leads'. Endings that strain a tie or lose trust are written to closeness now.",
+    "addedBy": "Words and director session",
+    "addedAt": "2026-10-28",
+    "replacement": "The legislature's keepReply and the campaigns engine read keeps (favor-owed, promise) from scene.reply and record the obligation and the promise; the journal says it from that record.",
     "status": "open"
   }
 ]

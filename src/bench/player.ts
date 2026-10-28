@@ -1,3 +1,4 @@
+import { comingOfAgeOn } from "../director/coming-of-age";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   advancePlayerV1,
@@ -7,6 +8,7 @@ import {
   type PlayerPacketV1,
   type PlayerMomentV1,
 } from "../core2/player-v1";
+import { parameter } from "../core2/parameters";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -14,12 +16,9 @@ import { onBallotOn } from "./election-night";
 import {
   leavePollingPlace,
   markBallot,
-  pollingVisitDue,
+  stagedPollingVisit,
   type PollingVisit,
 } from "../director/polling-place";
-
-// Spec interrupt line, shown on screen; the director owns the stop itself.
-export const INTERRUPT_LINE = 0.5;
 
 type ChoicePacket = Extract<PlayerPacketV1, { kind: "choice" }>;
 const compareMoments = (a: PlayerMomentV1, b: PlayerMomentV1) =>
@@ -56,6 +55,8 @@ export class BenchPlayer {
   personId?: string;
   /** True once the core's player clock is bound to `personId`. */
   private clockBound = false;
+  /** The character whose coming-of-age day has stopped an advance. */
+  private comingOfAgeShownFor?: string;
   private destination?: { through: PlayerMomentV1; mode: string };
   readonly selfChosen: SelfChosenAnswer[] = [];
   /**
@@ -180,22 +181,76 @@ export class BenchPlayer {
       date: addDays(makeIsoDate(this.core.date), 1),
       minuteOfDay: 0,
     };
-    if (mode === "calendar" && !(date && date > at.date))
+    // Days start in the morning: Day lands on the
+    // next morning, Week on the same morning seven days on, a calendar jump
+    // on that day's morning; none lands on midnight.
+    const start = this.dayStartMinute();
+    // A jump goes to a later day, or to today while its morning is still ahead
+    // (the opening night's "now" is the start of tomorrow, before its morning).
+    if (
+      mode === "calendar" &&
+      !(
+        date &&
+        (date > at.date || (date === at.date && at.minuteOfDay < start))
+      )
+    )
       throw new Error(
         "A calendar jump can't go backward: pick a day after today.",
       );
-    const days = mode === "week" ? 7 : 1;
     const through: PlayerMomentV1 =
       mode === "calendar"
-        ? { date: makeIsoDate(date ?? ""), minuteOfDay: 0 }
-        : {
-            date: addDays(makeIsoDate(at.date), days),
-            minuteOfDay: at.minuteOfDay,
-          };
+        ? { date: makeIsoDate(date ?? ""), minuteOfDay: start }
+        : mode === "week"
+          ? { date: addDays(makeIsoDate(at.date), 7), minuteOfDay: start }
+          : {
+              date: addDays(
+                makeIsoDate(at.date),
+                at.minuteOfDay >= start ? 1 : 0,
+              ),
+              minuteOfDay: start,
+            };
+    return this.driveTo(through, mode);
+  }
+
+  /** The minute the controlled person's day starts, read from the core's parameters. */
+  dayStartMinute() {
+    // stopgapId: SG-PLAY-day-start-minute
+    return parameter("playerDayStartMinute", this.core.data.parameters);
+  }
+
+  /**
+   * An act that takes hours spends them on the clock the packet reports
+   * (a canvass of 3 hours moves the clock 3 hours). A clock already held by
+   * an open stop or choice stays where it is until that is answered.
+   */
+  spend(hours: number) {
+    if (!this.personId) throw new Error("Choose a resident first.");
+    if (!(hours > 0) || !Number.isFinite(hours)) return undefined;
+    if (this.pollingPlace) return undefined;
+    if (this.packet && this.packet.kind !== "complete") return undefined;
+    const at = this.packet?.at ?? {
+      date: addDays(makeIsoDate(this.core.date), 1),
+      minuteOfDay: 0,
+    };
+    const per = parameter("minutesPerHour", this.core.data.parameters),
+      day = parameter("hoursPerDay", this.core.data.parameters) * per,
+      total = at.minuteOfDay + Math.round(hours * per);
+    const through: PlayerMomentV1 = {
+      date: addDays(makeIsoDate(at.date), Math.floor(total / day)),
+      minuteOfDay: total % day,
+    };
+    return this.driveTo(through, "day");
+  }
+
+  private driveTo(through: PlayerMomentV1, mode: string) {
+    const at = this.packet?.at ?? {
+      date: addDays(makeIsoDate(this.core.date), 1),
+      minuteOfDay: 0,
+    };
     // A calendar jump lives like a skip: only what needs the player stops it.
     this.director.setMode(mode === "calendar" ? "skipping" : "live");
     const earliest = earliestPlayerStopV1(this.core, {
-      controlledPersonId: this.personId,
+      controlledPersonId: this.personId!,
       through,
     });
     this.destination = { through, mode };
@@ -216,20 +271,56 @@ export class BenchPlayer {
    */
   private run(start: PlayerPacketV1 | undefined, from: PlayerMomentV1) {
     const { through } = this.destination!;
+    // Coming of voting age is golden-path step one: an advance that reaches
+    // that day stops on it, so the player sees the day it happens.
+    // The first advance of a new life starts on the day after the clock shows,
+    // so a birthday on the first day is reached from inside the run.
+    const began = from.date;
+    const person = this.core.people.get(this.personId!);
+    const comesOfAge = person ? comingOfAgeOn(person.birthDate) : undefined;
     let packet = start;
     while (true) {
       if (!packet || packet.kind === "complete") {
         if (packet) from = packet.at;
+        // The birthday is met in its morning, like any day's first scene
+        // (owner, Oct 27: nothing at midnight): the day is lived to its start.
+        if (
+          comesOfAge === from.date &&
+          from.minuteOfDay < this.dayStartMinute() &&
+          compareMoments(from, through) < 0 &&
+          this.comingOfAgeShownFor !== this.personId
+        ) {
+          packet = advancePlayerV1(this.core, {
+            controlledPersonId: this.personId!,
+            through: {
+              date: from.date,
+              minuteOfDay: Math.min(
+                this.dayStartMinute(),
+                from.date === through.date
+                  ? through.minuteOfDay
+                  : this.dayStartMinute(),
+              ),
+            },
+          });
+          // This can be the run's first call into the core, which binds its
+          // clock to this character.
+          this.clockBound = true;
+          continue;
+        }
+        if (packet && this.comesOfAgeStop(comesOfAge, began, from.date)) break;
         if (compareMoments(from, through) >= 0) break;
+        // One civil day at most, and never past a midnight: the polls are
+        // checked at each midnight before the core enters the next day.
         const next = {
           date: addDays(makeIsoDate(from.date), 1),
-          minuteOfDay: from.minuteOfDay,
+          minuteOfDay: 0,
         };
-        // Election day is a scene (owner, Oct 14 and 26, 2026): the count
-        // opens the day, so election morning, with the choice to go vote,
-        // comes before the core enters it. The clock's midnight is the start
-        // of the core's next day.
-        const polls = pollingVisitDue(
+        // Election day is a scene (owner, Oct 14 and 26, 2026): the director
+        // stages the polls at the eve's close for a voter the count counts,
+        // so election morning, with the choice to go vote, comes before the
+        // core enters it. The clock's midnight is the start of the core's
+        // next day.
+        const polls = stagedPollingVisit(
           this.core,
           this.director.ledger,
           this.personId!,
@@ -259,6 +350,11 @@ export class BenchPlayer {
         this.clockBound = true;
         continue;
       }
+      if (
+        packet.at.minuteOfDay >= this.dayStartMinute() &&
+        this.comesOfAgeStop(comesOfAge, began, packet.at.date)
+      )
+        break;
       // Day never opens a choice list (owner, Oct 14, 2026): the character
       // answers its own choices with the core's selection, and only a stop
       // (a director scene, a fixed commitment or a deadline) ends the advance.
@@ -269,6 +365,21 @@ export class BenchPlayer {
       break;
     }
     if (packet) this.packet = packet;
+  }
+
+  /**
+   * True once, on the first moment of the day the character comes of voting
+   * age, unless the character began that advance already past it.
+   */
+  private comesOfAgeStop(
+    comesOfAge: string | undefined,
+    began: string,
+    reached: string,
+  ) {
+    if (!comesOfAge || this.comingOfAgeShownFor === this.personId) return false;
+    if (began > comesOfAge || reached < comesOfAge) return false;
+    this.comingOfAgeShownFor = this.personId;
+    return true;
   }
 
   /** The player's answer, then onward to the same destination. */

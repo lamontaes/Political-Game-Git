@@ -240,17 +240,20 @@ function researchBlocker(
   }
 }
 
-function reaches(link: WebLink & { carriedBy?: string }): Point {
+function reaches(
+  link: WebLink & { carriedBy?: string; status?: string },
+): Point {
   const point = unrun(link, reachPoint(link));
   if (point.status === "pass") return point;
-  // An engine that reads the same cause by its own mechanic does not carry
-  // this row's size and lag; the link stays unwired and says so.
-  const why = [
-    point.why,
-    researchBlocker(link),
-    link.engineGap &&
-      `an engine reads the cause its own way: ${link.engineGap}`,
-  ].filter(Boolean);
+  // A link its research finds about zero has no effect for an engine to read:
+  // it is not an unread link, so it does not count among them.
+  if (link.status === "about-zero")
+    return {
+      status: "n/a",
+      evidence: `${linksPath}:${lineOf(link.key)} size ${link.size}`,
+      why: "its research finds no effect (about zero), so there is nothing for an engine to read",
+    };
+  const why = [point.why, researchBlocker(link)].filter(Boolean);
   return { ...point, why: why.join("; ") };
 }
 
@@ -594,9 +597,14 @@ function summary(rows: readonly MatrixRow[]) {
     reachesOrCarried: by((row) => row.points.reaches!.status === "pass"),
     namedInAStopgap: by((row) => row.stopgap !== null),
     notReachingAndNoStopgap: by(
-      (row) => row.points.reaches!.status !== "pass" && row.stopgap === null,
+      (row) =>
+        row.points.reaches!.status !== "pass" &&
+        row.points.reaches!.status !== "n/a" &&
+        row.stopgap === null,
     ),
     reachesTheWorld: by((row) => row.points.reaches!.status === "pass"),
+    /** Links whose research finds no effect: nothing to reach, so not unread. */
+    aboutZero: by((row) => row.points.reaches!.status === "n/a"),
     withAnyModerator: by((row) => row.points.varied!.status !== "fail"),
     byPoint: Object.fromEntries(
       points.map((point) => [

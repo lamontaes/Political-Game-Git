@@ -8,7 +8,10 @@
 import { expect, it } from "vitest";
 import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { campaignParameter } from "./campaign-views";
-import { housePlace } from "./electorate-places";
+import { housePlace, worldSwing } from "./electorate-places";
+
+/** A world: the House places carry its swing. */
+const seed = "electorate-house-side";
 
 interface HouseRow {
   stateUsps: string;
@@ -42,10 +45,16 @@ it("reads a district's holder side from the party-sides data", () => {
     for (const row of picked) {
       const dem = row.candidateTotalsByParty.democratic!;
       const rep = row.candidateTotalsByParty.republican!;
-      const place = housePlace(row.stateUsps, row.districtCode)!;
+      const place = housePlace(row.stateUsps, row.districtCode, seed)!;
       const where = `${row.stateUsps}-${row.districtCode}`;
       expect(place.rightShare, where).toBeCloseTo(
-        Math.max(0, Math.min(1, rep / (dem + rep) - side * shift)),
+        Math.max(
+          0,
+          Math.min(
+            1,
+            rep / (dem + rep) + worldSwing(seed, row.stateUsps) - side * shift,
+          ),
+        ),
         9,
       );
     }

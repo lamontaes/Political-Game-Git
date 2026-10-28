@@ -14,6 +14,7 @@
  * grievance, and a majority to remove ends the member's term, the seat then
  * filling by its vacancy rule.
  */
+import { townLean } from "./campaigns";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
@@ -42,13 +43,11 @@ import { NEWS_MODULE_ID, storiesHeard, type Story } from "./news";
 import { citizenShareOf } from "../electorate-places";
 import { electorateChange } from "../electorate-inputs";
 import recallBarData from "../data/campaigns/recall-bars.json" with { type: "json" };
+import recallAnswers from "../data/campaigns/recall-answers.json" with { type: "json" };
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
 import type { PetitionSignatureBase } from "../gov-rules/municipal-election-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
-
-const daysBetween = (from: string, to: string) =>
-  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-  86_400_000;
+import { daysBetweenText as daysBetween } from "../kernel/dates";
 
 export const RECALLS_MODULE_ID = "core2-recalls-v1";
 
@@ -78,6 +77,35 @@ export interface RecallRow {
   readonly namedSigners: readonly string[];
   readonly status: "circulating" | "failed" | "on-ballot" | "kept" | "removed";
   readonly vote: { readonly remove: number; readonly keep: number } | null;
+  /** What the member said to the organizer about the petition, in the order said (`keepAnswer`). */
+  readonly answers?: readonly RecallAnswer[];
+  /** The count on the due day, where the member answered: the signatures and their reasons (`recount`). */
+  readonly count?: RecallCount;
+}
+
+/** One reply the member gave the petition's organizer, and the public record of it voters hear. */
+export interface RecallAnswer {
+  /** The scene's reply record. */
+  readonly id: string;
+  /** The public record of the answer, which the press and the news carry. */
+  readonly recordId: string;
+  readonly move: string;
+  /** 1: the member answered them (weighs against signing); -1: dismissed them (toward it). */
+  readonly sign: 1 | -1;
+  readonly date: string;
+}
+
+/** The due day's count where the member answered: before and after their answer, whom it reached and the signatures it changed. */
+export interface RecallCount {
+  readonly date: string;
+  readonly before: number;
+  readonly signatures: number;
+  /** The answers the count read: the last one said weighs. */
+  readonly answerIds: readonly string[];
+  /** The named adults who heard of the answer: the organizer, the people they know and those who read or heard a story about it. */
+  readonly heard: number;
+  /** Signatures the answer added (positive) or took away. */
+  readonly changed: number;
 }
 
 export const RECALLS_MODULE: CoreModule = {
@@ -88,11 +116,13 @@ export const RECALLS_MODULE: CoreModule = {
       recalls: { indexes: { byTerm: { fields: ["termId"] } } },
     },
   },
-  eventKinds: ["law-took-effect", ...MISCONDUCT_EVENTS],
+  eventKinds: ["law-took-effect", "scene.reply", ...MISCONDUCT_EVENTS],
   onEvent: (api, event) =>
-    MISCONDUCT_EVENTS.includes(event.kind)
-      ? noteMisconduct(api, event)
-      : weighOrdinance(api, event),
+    event.kind === "scene.reply"
+      ? keepAnswer(api, event)
+      : MISCONDUCT_EVENTS.includes(event.kind)
+        ? noteMisconduct(api, event)
+        : weighOrdinance(api, event),
   onCalendarWork: (api, work) => recallWork(api, work),
 };
 
@@ -114,22 +144,13 @@ const addDays = (date: string, days: number) =>
     .toISOString()
     .slice(0, 10);
 
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
-}
-
 function adults(api: CoreAPI): readonly Readonly<PersonState>[] {
   const town = lawChain(api).townPlaceId;
+  const adultAge = api.parameter("votingAge");
   return [...api.state.people.values()]
     .filter(
-      (p) => p.alive && p.placeId === town && ageOn(p, api.state.date) >= 18,
+      (p) =>
+        p.alive && p.placeId === town && ageOn(p, api.state.date) >= adultAge,
     )
     .sort((a, b) => a.id.localeCompare(b.id));
 }
@@ -146,6 +167,7 @@ interface TownVoter {
 /** Every adult of the town on the one rule: the named, and the counted groups' members. */
 function townVoters(api: CoreAPI): readonly TownVoter[] {
   const town = lawChain(api).townPlaceId,
+    adultAge = api.parameter("votingAge"),
     date = api.state.date;
   return [
     ...adults(api).map((p) => ({
@@ -156,7 +178,7 @@ function townVoters(api: CoreAPI): readonly TownVoter[] {
       counted: false,
     })),
     ...countedResidents(api.state as CoreState)
-      .filter((c) => c.placeId === town && ageOn(c, date) >= 18)
+      .filter((c) => c.placeId === town && ageOn(c, date) >= adultAge)
       .map((c) => ({
         id: c.id,
         traits: c.traits,
@@ -178,6 +200,7 @@ function grievance(
   const stance = publicSupport(
     personLean(api.state.people, person, townLean(api)),
     question,
+    api.state.seed,
   );
   return -stance * enacted * memberVote;
 }
@@ -251,7 +274,7 @@ export interface SignatureBase {
 function eligibleVoters(api: CoreAPI, voters: readonly TownVoter[]): number {
   const placeKey = api.state.placeMetadata.placeKey as string | undefined;
   const eligibleShare =
-    citizenShareOf(placeKey, stateUsps(api)) *
+    citizenShareOf(placeKey, stateUsps(api), api.state.seed) *
     (1 - electorateChange(api).barred);
   return Math.round(voters.reduce((n, p) => n + p.weight, 0) * eligibleShare);
 }
@@ -705,6 +728,20 @@ function startRecall(
     vote: null,
   };
   table(api).put(recall as unknown as ModuleRow);
+  // The bill that enacted the ordinance, which the petitioners name to the
+  // member; a petition over misconduct names none.
+  const law = input.cause
+    ? undefined
+    : (api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .get(input.lawId) as unknown as LawRowInput | undefined);
+  const bill = billIdFor(law)
+    ? (api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .get(billIdFor(law)) as unknown as BillRow | undefined)
+    : undefined;
   api.emit({
     id: `recall-petition:${recall.id}`,
     date: api.state.date,
@@ -728,6 +765,7 @@ function startRecall(
       termId: term.id,
       lawId: input.lawId,
       memberId: input.memberId,
+      ...(bill ? { billId: bill.id, number: bill.number } : {}),
     },
   });
   api.moduleCalendar(RECALLS_MODULE_ID).schedule({
@@ -743,12 +781,161 @@ function startRecall(
   });
 }
 
+/**
+ * The member's reply to the petition's organizer in the recall scene (the
+ * scene's own record, `scene.reply`, caused by the petition): kept on the
+ * recall while it circulates, and made a public record so the press and the
+ * news carry it to voters. A reply that is neither an answer nor a dismissal
+ * (`recall-answers.json`) leaves nothing.
+ */
+function keepAnswer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const causeId = String(event.facts?.causeId ?? "");
+  if (!causeId.startsWith("recall-petition:")) return;
+  const recall = table(api).get(
+    causeId.slice("recall-petition:".length),
+  ) as unknown as RecallRow | undefined;
+  // Said by the member, to the organizer, while the petition circulates.
+  if (
+    recall?.status !== "circulating" ||
+    event.personIds[0] !== recall.memberId ||
+    !event.personIds.includes(recall.organizerId)
+  )
+    return;
+  const move = String(event.facts?.move ?? "");
+  const sign = recallAnswers.answered.includes(move)
+    ? 1
+    : recallAnswers.dismissed.includes(move)
+      ? -1
+      : 0;
+  if (!sign) return;
+  const answer: RecallAnswer = {
+    id: event.id,
+    recordId: `recall-answer:${event.id}`,
+    move,
+    sign,
+    date: event.date,
+  };
+  table(api).put({
+    ...recall,
+    answers: [
+      ...(recall.answers ?? []).filter((a) => a.id !== answer.id),
+      answer,
+    ],
+  } as unknown as ModuleRow);
+  api.emit({
+    id: answer.recordId,
+    date: api.state.date,
+    kind: "recall-answer",
+    personIds: [recall.memberId, recall.organizerId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Answer to the recall petition against ${recall.memberId}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      recallId: recall.id,
+      memberId: recall.memberId,
+      replyId: event.id,
+      move,
+      answer: sign > 0 ? "answered" : "dismissed",
+    },
+  });
+}
+
+/**
+ * The town's named adults who know what the member said to the petition: the
+ * organizer, who was there; the people the organizer knows (a tie still
+ * close today), told by word of mouth; and whoever heard a story about it,
+ * from the news engine's record of who heard what (the record itself, or a
+ * printed story that reports it).
+ */
+function heardOfAnswers(api: CoreAPI, recall: RecallRow): Set<string> {
+  const town = new Set(adults(api).map((p) => p.id));
+  const out = new Set<string>([recall.organizerId]);
+  for (const key of api.state.relationshipsByPerson.get(
+    recall.organizerId as never,
+  ) ?? []) {
+    const tie = api.state.relationships.get(key);
+    if (!tie) continue;
+    const other =
+      tie.actorId === recall.organizerId ? tie.otherId : tie.actorId;
+    if (
+      town.has(other) &&
+      closenessBetween(
+        api.state as CoreState,
+        recall.organizerId as never,
+        other,
+      ) > 0
+    )
+      out.add(other);
+  }
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return out;
+  const ids = new Set((recall.answers ?? []).map((a) => a.recordId));
+  const about = (story: Story) =>
+    ids.has(story.id) || ids.has(String(story.facts.sourceRecordId ?? ""));
+  for (const id of town)
+    if (storiesHeard(api, id as never).some(about)) out.add(id);
+  return out;
+}
+
+/**
+ * The due day's count where the member answered the petition: each voter
+ * signs by `startRecall`'s rule, and a voter who heard of the answer weighs
+ * it too (`recallAnswerWeight`; the last answer said counts). The count
+ * moves by those it turned, either way, and keeps its reasons. A counted
+ * voter keeps no record of what they heard, so the share of the town's named
+ * adults who heard stands for their exposure (SG-GOV-recall-counted-exposure).
+ */
+function recount(api: CoreAPI, recall: RecallRow): RecallRow {
+  const answers = recall.answers ?? [];
+  const last = answers.at(-1);
+  if (!last) return recall;
+  const grievanceOf = voteGrievance(api, recall);
+  const heard = heardOfAnswers(api, recall);
+  const exposure = heard.size / Math.max(1, adults(api).length);
+  const pull = last.sign * campaignParameter("recallAnswerWeight");
+  let changed = 0;
+  for (const p of townVoters(api)) {
+    if (p.id === recall.memberId) continue;
+    const without =
+      grievanceOf(p) +
+      decisionTraitWeight(api.state, "recalls.sign") *
+        decisionLean(api.state, p, "recalls.sign", "sign", "pass");
+    // stopgapId: SG-GOV-recall-counted-exposure
+    if (p.counted) api.stopgap("SG-GOV-recall-counted-exposure");
+    const reach = p.counted ? exposure : heard.has(p.id) ? 1 : 0;
+    const signs = (g: number) => (g > 0 ? p.weight : 0);
+    changed += signs(without - pull * reach) - signs(without);
+  }
+  const before = recall.signatures;
+  const signatures = Math.max(0, Math.round(before + changed));
+  const counted: RecallRow = {
+    ...recall,
+    signatures,
+    count: {
+      date: api.state.date,
+      before,
+      signatures,
+      answerIds: answers.map((a) => a.id),
+      heard: heard.size,
+      changed: signatures - before,
+    },
+  };
+  table(api).put(counted as unknown as ModuleRow);
+  return counted;
+}
+
 function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "misconduct-check") return weighMisconduct(api, work);
-  const recall = table(api).get(work.sourceRecordIds[0]!) as unknown as
+  const held = table(api).get(work.sourceRecordIds[0]!) as unknown as
     RecallRow | undefined;
-  if (!recall) return;
-  if (work.kind === "petition-due" && recall.status === "circulating") {
+  if (!held) return;
+  if (work.kind === "petition-due" && held.status === "circulating") {
+    // Where the member answered the petition, the count reads the answer.
+    const recall = recount(api, held);
     const enough = recall.signatures >= recall.required;
     table(api).put({
       ...recall,
@@ -757,6 +944,12 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     announce(api, recall, enough ? "on-ballot" : "failed", {
       signatures: String(recall.signatures),
       required: String(recall.required),
+      ...(recall.count
+        ? {
+            before: String(recall.count.before),
+            answerIds: recall.count.answerIds.join(" "),
+          }
+        : {}),
     });
     if (enough)
       api.moduleCalendar(RECALLS_MODULE_ID).schedule({
@@ -773,6 +966,7 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       });
     return;
   }
+  const recall = held;
   if (work.kind !== "recall-vote" || recall.status !== "on-ballot") return;
   const grievanceOf = voteGrievance(api, recall);
   let remove = 0;

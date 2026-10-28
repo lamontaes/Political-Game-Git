@@ -9,6 +9,7 @@
  * English engine (`src/english/filing-visit-words.ts`) words it.
  */
 import type { CoreState, PersonId } from "../core2/types";
+import { spokenDate } from "./words";
 import {
   wordFilingMove,
   type Fact,
@@ -62,14 +63,6 @@ export interface FilingVisit {
     sourceRecordIds: readonly string[];
   }[];
 }
-
-const longDate = (iso: string) =>
-  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 
 function say(
   core: Readonly<CoreState>,
@@ -153,7 +146,10 @@ export function pickContest(
   const ids = [contest.id, ...contest.sourceIds];
   const facts: Record<string, Fact> = {
     office: { text: contest.title, sourceRecordIds: ids },
-    deadline: { text: longDate(contest.filingDeadline), sourceRecordIds: ids },
+    deadline: {
+      text: spokenDate(contest.filingDeadline, core.date),
+      sourceRecordIds: ids,
+    },
     "filing-office": { text: terms.filedWith, sourceRecordIds: ids },
   };
   const stated = say(core, visit, "clerk", "terms", facts, words, "none");
@@ -164,7 +160,7 @@ export function pickContest(
   for (const check of unmet) {
     const required =
       check.rule === "filing-deadline"
-        ? longDate(check.required)
+        ? spokenDate(check.required, core.date)
         : check.required;
     const actual = check.actual;
     const line = say(

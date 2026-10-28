@@ -2,7 +2,6 @@ import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation } from "../core2/population";
-import { buildDeepPast } from "../core2/deep-past";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -21,7 +20,7 @@ import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
-import { openVoting } from "../core2/modules/voting";
+import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
@@ -42,7 +41,6 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
-import { openWorldRaces } from "../core2/modules/world-races";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
@@ -57,17 +55,13 @@ import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
 import { OPENING_KIN } from "../core2/opening-kin";
 import { scaleFirmsToCensus } from "../core2/census-firms";
-import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
-import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
 import { initialFocusPeople } from "../core2/focus";
-import { releaseRecentHistory } from "../simulation/history-index";
-import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
 import {
@@ -286,14 +280,10 @@ export async function buildBenchWorldInStages(
   }
 }
 
-/** Real people per sampled person: the place's Census count over the people generated, one where the sample is the whole town. */
-function censusScale(
-  place: { sourceGeoid?: string },
-  population: CoreInput,
-): number {
-  const real = place.sourceGeoid
-    ? placeReferencePopulation(place.sourceGeoid)?.value
-    : undefined;
+/** Real people per sampled person: the world's count of the town (drawn around the Census count when the population was built) over the people generated, one where the sample is the whole town. */
+function censusScale(population: CoreInput): number {
+  const held = Number(population.placeMetadata?.referencePopulation);
+  const real = Number.isFinite(held) ? held : undefined;
   const sample = population.people.filter(
     (person) => person.tier !== OPENING_KIN.kinTier,
   ).length;
@@ -333,9 +323,7 @@ function* benchWorldStages(
       : {}),
   });
   yield "past";
-  const schools = withPublicSchoolDistrict(
-    enrichCivicInputs(buildDeepPast(population)),
-  );
+  const schools = withPublicSchoolDistrict(enrichCivicInputs(population));
   // Public pay must exist before the custom world's wage multiplier runs.
   const input = applyWorldSettings(
     schools.receipt
@@ -366,12 +354,8 @@ function* benchWorldStages(
     // people generated, and each counted household stands for as many real
     // households as the Census count is over the sample, unless asked for.
     const countScale =
-      options.countScale ??
-      (minimumPeople ? 1 : censusScale(place, population));
-    let withPlayer: CoreInput = {
-      ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
-      playerId,
-    };
+      options.countScale ?? (minimumPeople ? 1 : censusScale(population));
+    let withPlayer: CoreInput = { ...input, playerId };
     withPlayer = {
       ...withPlayer,
       focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),
@@ -425,8 +409,6 @@ function* benchWorldStages(
         }),
       ),
     );
-    releaseRecentHistory();
-    forgetLastValidatedWorld();
   } else
     opening = withWorldEconomy(
       withPrivateTuition({
@@ -448,7 +430,8 @@ function* benchWorldStages(
       // monthly row and every law that takes effect.
       OUTCOME_WEB_MODULE,
       // Every people engine a played world installs (OPUS-PEOPLE): health,
-      // drives, views, news, speeches, who runs, corruption and beliefs.
+      // drives, views, news, speeches, corruption and beliefs (who runs is
+      // installed by the voting engine, in every world).
       ...peopleModules(),
       director.module,
     ],

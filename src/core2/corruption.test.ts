@@ -2,13 +2,13 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
   considerBribe,
   corruptionModule,
   crimesKnownTo,
   scandalsOf,
+  settleBribe,
   settleBribes,
   type CrimeRecord,
 } from "./modules/corruption";
@@ -16,6 +16,8 @@ import { buildPopulation } from "./population";
 import { currentCloseness } from "./closeness";
 import { coreAPI } from "./state";
 import { decisionLean } from "./trait-decisions";
+import { officialHousehold } from "./official-living";
+import { corePlaceStateIdentities } from "./place-lookup";
 
 // M3-09: a corrupt act happens only where the people's own traits and money
 // support it, leaves a record, and is learned by others only through a real
@@ -34,14 +36,12 @@ function corruptionCases(
   placeKey?: string,
   fresh = false,
 ): string | null {
-  const input = buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(placeKey ? { placeKey } : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 500,
-    }),
-  );
+  const input = buildPopulation({
+    seed,
+    ...(placeKey ? { placeKey } : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 500,
+  });
   const core = createLifeCore(input, { modules: [corruptionModule] });
   const api = coreAPI(core);
   const adults = [...core.people.values()].filter(
@@ -120,6 +120,31 @@ function corruptionCases(
         ).toBeGreaterThanOrEqual(
           cashBefore.get(row.officialId)! + row.amountMinor,
         );
+    });
+
+    it("a taken bribe is a meeting, so a payer whose favor does not come has a tie to lose (contract awards settle it)", () => {
+      const pairKey = (x: string, y: string) => [x, y].sort().join(":");
+      // First of the cases to touch any pair: only the taking itself has met them.
+      const crime = records.find((row) => row.taken);
+      expect(crime).toBeDefined();
+      const level = () => {
+        const row = core.relationships.get(
+          pairKey(crime!.offererId, crime!.officialId),
+        );
+        return row ? currentCloseness(core, row) : 0;
+      };
+      // Passing the money alone built a tie between two who had none.
+      expect(level()).toBeGreaterThan(0);
+      const before = level();
+      const award = { ...crime!, id: `${crime!.id}:award` };
+      settleBribe(api, award, "contract:fixture", false, "other-firm");
+      expect(level()).toBeLessThan(before);
+      expect(
+        api
+          .moduleState("corruption")
+          .table("settled")
+          .get(`settled:${award.id}`),
+      ).toMatchObject({ delivered: false, vote: "other-firm" });
     });
 
     it("is known only to the two people, until one falls out with the other and tells someone", () => {
@@ -328,4 +353,24 @@ describe(`fresh corruption draws (CORRUPTION_SEED ${fresh})`, () => {
     if (passedOver.length) console.log(`passed over: ${passedOver.join("; ")}`);
     expect(drawn, passedOver.join("; ")).toBe(3);
   });
+});
+
+it("officials at one pay keep different savings, around the same median (a body is not all one cushion)", () => {
+  const input = buildPopulation({
+    seed: "official-savings-spread",
+    startedAt: "2021-01-01",
+    minimumPeople: 200,
+  });
+  const api = coreAPI(createLifeCore(input, { modules: [corruptionModule] }));
+  const stateKey = [...corePlaceStateIdentities()][0]!.jurisdictionKey;
+  const savings = Array.from({ length: 60 }, (_, i) =>
+    officialHousehold(api, stateKey, 9_000_000, `official:fixture:${i}`),
+  ).map((home) => home.savingsMinor);
+  const sorted = [...savings].sort((a, b) => a - b);
+  expect(sorted[0]).toBeLessThan(sorted.at(-1)! / 10);
+  // The same official always has the same savings.
+  expect(
+    officialHousehold(api, stateKey, 9_000_000, "official:fixture:3")
+      .savingsMinor,
+  ).toBe(savings[3]);
 });

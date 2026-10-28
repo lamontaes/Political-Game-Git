@@ -1,15 +1,23 @@
-import { readFileSync } from "node:fs";
-import { lookFigures, type Figure } from "./whole-figures";
+import { headOf, lookFigures, type Figure } from "./whole-figures";
+import type { PersonFace } from "./scene";
 import {
-  CLOTHES_SWATCHES,
   DEFAULT_CLOTHES,
   DEFAULT_SKIN,
+  GARMENTS,
+  GARMENT_SWATCHES,
   SKIN_SWATCHES,
   clothesSwatch,
-  recolorFigure,
   skinSwatch,
+  type Garment,
   type Swatch,
 } from "./figure-colors";
+import {
+  HAIR_SWATCHES,
+  drawnFigure,
+  faces,
+  hairStyles,
+  hairSwatch,
+} from "./figure-hair";
 
 /**
  * The creator's appearance step uses the same standing v2
@@ -23,8 +31,16 @@ export interface LookRecipe {
   outfit: string;
   /** A skin swatch id (figure-colors.ts); the painted tone where absent. */
   skin?: string;
-  /** A clothing swatch id; the painted gray where absent. */
-  clothes?: string;
+  /** Each piece of clothing's swatch id; the painted gray where absent. */
+  jacket?: string;
+  shirt?: string;
+  pants?: string;
+  shoes?: string;
+  /** A hair style's number (figure-hair.ts), and its swatch id; bald where absent. */
+  hair?: string;
+  hairColor?: string;
+  /** A face's number (figure-hair.ts); the painted face where absent. */
+  face?: string;
 }
 
 export interface AppearanceRow {
@@ -42,6 +58,22 @@ const BUILD_LABEL: Record<string, string> = {
   medium: "Medium",
   heavy: "Heavy",
 };
+const GARMENT_LABEL: Record<Garment, string> = {
+  jacket: "Jacket color",
+  shirt: "Shirt color",
+  pants: "Pants color",
+  shoes: "Shoes color",
+};
+/** The pieces an outfit has: only a vest or a blazer has a jacket. */
+const garmentsOf = (outfit: string): readonly Garment[] =>
+  outfit === "vest" || outfit === "blazer"
+    ? GARMENTS
+    : GARMENTS.filter((garment) => garment !== "jacket");
+const isGarment = (id: string): id is Garment =>
+  (GARMENTS as readonly string[]).includes(id);
+/** A color row's id is the piece of clothing it colors. */
+const garmentRow = (rowId: string) => rowId.replace(/-color$/, "");
+
 const OUTFIT_LABEL: Record<string, string> = {
   base: "T-shirt and shorts",
   shirt: "Button shirt",
@@ -103,11 +135,31 @@ export function appearanceRows(
       value: OUTFIT_LABEL[recipe.outfit] ?? recipe.outfit,
     },
     colorRow("skin", "Skin", SKIN_SWATCHES, recipe.skin ?? DEFAULT_SKIN),
-    colorRow(
-      "clothes-color",
-      "Clothes color",
-      CLOTHES_SWATCHES,
-      recipe.clothes ?? DEFAULT_CLOTHES,
+    ...(faces(recipe.sex).length
+      ? [{ id: "face", label: "Face", value: faceName(recipe) }]
+      : []),
+    ...(hairStyles(recipe.sex).length
+      ? [
+          {
+            id: "hair",
+            label: "Hair",
+            value: hairName(recipe),
+          },
+          colorRow(
+            "hair-color",
+            "Hair color",
+            HAIR_SWATCHES,
+            recipe.hairColor ?? DEFAULT_HAIR_COLOR,
+          ),
+        ]
+      : []),
+    ...garmentsOf(recipe.outfit).map((garment) =>
+      colorRow(
+        `${garment}-color`,
+        GARMENT_LABEL[garment],
+        GARMENT_SWATCHES[garment],
+        recipe[garment] ?? DEFAULT_CLOTHES,
+      ),
     ),
   ];
 }
@@ -126,16 +178,46 @@ function colorRow(
   };
 }
 
+/** The style's name, or Bald where none is chosen. */
+function hairName(recipe: LookRecipe): string {
+  const name = hairStyles(recipe.sex).find(
+    (row) => String(row.style) === recipe.hair,
+  )?.name;
+  return name ? sentenceCase(name) : "Bald";
+}
+/** A painted piece's name as the creator's rows read: capitalized, like Slim and Button shirt. */
+const sentenceCase = (name: string) => name[0]!.toUpperCase() + name.slice(1);
+/** The face's worded name, or the figure's own painted face where none is chosen. */
+function faceName(recipe: LookRecipe): string {
+  const name = faces(recipe.sex).find(
+    (row) => String(row.face) === recipe.face,
+  )?.name;
+  return name ? sentenceCase(name) : "Plain";
+}
+
+/** Bald first, then each painted style. */
+const hairChoices = (sex: string) => [
+  "",
+  ...hairStyles(sex).map((row) => String(row.style)),
+];
+const DEFAULT_HAIR_COLOR = "dark-brown";
+
 /** Choose a swatch directly (a click on it). */
 export function setColor(
   recipe: LookRecipe,
   rowId: string,
   swatchId: string,
 ): LookRecipe {
+  if (rowId === "hair-color" && hairSwatch(swatchId))
+    return { ...recipe, hairColor: swatchId };
   if (rowId === "skin" && skinSwatch(swatchId))
     return { ...recipe, skin: swatchId };
-  if (rowId === "clothes-color" && clothesSwatch(swatchId))
-    return { ...recipe, clothes: swatchId };
+  const garment = garmentRow(rowId);
+  if (
+    isGarment(garment) &&
+    GARMENT_SWATCHES[garment].some((row) => row.id === swatchId)
+  )
+    return { ...recipe, [garment]: swatchId };
   throw new Error("No such color.");
 }
 
@@ -150,9 +232,37 @@ export function moveAppearance(
     const sex = step(sexes(), recipe.sex, turn);
     return settled({ ...recipe, sex });
   }
-  if (rowId === "skin" || rowId === "clothes-color") {
-    const list = rowId === "skin" ? SKIN_SWATCHES : CLOTHES_SWATCHES;
-    const key = rowId === "skin" ? "skin" : "clothes";
+  if (rowId === "face") {
+    const choices = ["", ...faces(recipe.sex).map((row) => String(row.face))];
+    const face = step(choices, recipe.face ?? "", turn);
+    const plain = { ...recipe };
+    delete plain.face;
+    return face ? { ...recipe, face } : plain;
+  }
+  if (rowId === "hair") {
+    const hair = step(hairChoices(recipe.sex), recipe.hair ?? "", turn);
+    if (hair)
+      return {
+        ...recipe,
+        hair,
+        hairColor: recipe.hairColor ?? DEFAULT_HAIR_COLOR,
+      };
+    const bald = { ...recipe };
+    delete bald.hair;
+    return bald;
+  }
+  if (rowId === "hair-color") {
+    const ids = HAIR_SWATCHES.map((row) => row.id);
+    return {
+      ...recipe,
+      hairColor: step(ids, recipe.hairColor ?? DEFAULT_HAIR_COLOR, turn),
+    };
+  }
+  const garment = garmentRow(rowId);
+  if (rowId === "skin" || isGarment(garment)) {
+    const list =
+      rowId === "skin" ? SKIN_SWATCHES : GARMENT_SWATCHES[garment as Garment];
+    const key = rowId === "skin" ? "skin" : (garment as Garment);
     const now =
       recipe[key] ?? (key === "skin" ? DEFAULT_SKIN : DEFAULT_CLOTHES);
     const ids = list.map((row) => row.id);
@@ -166,6 +276,18 @@ export function moveAppearance(
   throw new Error("No such appearance row.");
 }
 
+/**
+ * A look whose body matches the chosen gender: a man or a woman always has
+ * that body, so a look carried over from before the gender changed (Undo,
+ * Reset, an old page) is redrawn on the right body, keeping its build,
+ * clothes and colors where that body has them. Any other gender keeps the
+ * body chosen on the Body row.
+ */
+export function lookForGender(recipe: LookRecipe, gender: string): LookRecipe {
+  if (showsBody(gender) || recipe.sex === gender) return recipe;
+  return settled({ ...recipe, sex: gender });
+}
+
 /** A look the set paints: a build or clothes the body lacks fall back to the first it has. */
 function settled(recipe: LookRecipe): LookRecipe {
   if (figureFor(recipe)) return recipe;
@@ -176,7 +298,7 @@ function settled(recipe: LookRecipe): LookRecipe {
   return { ...recipe, sex: recipe.sex, build, outfit };
 }
 
-function hash(text: string): number {
+export function hash(text: string): number {
   let h = 2166136261;
   for (const ch of text) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
   return h;
@@ -196,17 +318,34 @@ export function drawnAppearance(
     items[hash(`${seed}:${draw}:${key}`) % items.length]!;
   const all = sexes();
   const sex = all.includes(gender) ? gender : pick(all, "body");
+  const styles = hairStyles(sex).map((row) => String(row.style));
+  const painted = faces(sex).map((row) => String(row.face));
   return settled({
     sex,
+    ...(painted.length ? { face: pick(painted, "face") } : {}),
+    ...(styles.length
+      ? {
+          hair: pick(styles, "hair"),
+          hairColor: pick(
+            HAIR_SWATCHES.map((row) => row.id),
+            "hair-color",
+          ),
+        }
+      : {}),
     build: pick(options("build", sex), "build"),
     outfit: pick(options("outfit", sex), "outfit"),
     skin: pick(
       SKIN_SWATCHES.map((row) => row.id),
       "skin",
     ),
-    clothes: pick(
-      CLOTHES_SWATCHES.map((row) => row.id),
-      "clothes",
+    ...Object.fromEntries(
+      GARMENTS.map((garment) => [
+        garment,
+        pick(
+          GARMENT_SWATCHES[garment].map((row) => row.id),
+          garment,
+        ),
+      ]),
     ),
   });
 }
@@ -225,21 +364,53 @@ export function readRecipe(text: string): LookRecipe {
     ...(input.skin && skinSwatch(String(input.skin))
       ? { skin: String(input.skin) }
       : {}),
-    ...(input.clothes && clothesSwatch(String(input.clothes))
-      ? { clothes: String(input.clothes) }
+    ...Object.fromEntries(
+      GARMENTS.flatMap((garment) =>
+        input[garment] && clothesSwatch(String(input[garment]))
+          ? [[garment, String(input[garment])]]
+          : [],
+      ),
+    ),
+    ...(input.face &&
+    faces(recipe.sex).some((row) => String(row.face) === String(input.face))
+      ? { face: String(input.face) }
+      : {}),
+    ...(input.hair &&
+    hairStyles(recipe.sex).some(
+      (row) => String(row.style) === String(input.hair),
+    )
+      ? {
+          hair: String(input.hair),
+          hairColor:
+            input.hairColor && hairSwatch(String(input.hairColor))
+              ? String(input.hairColor)
+              : DEFAULT_HAIR_COLOR,
+        }
       : {}),
   };
 }
+
+const figureName = (file: string) =>
+  file
+    .split("/")
+    .pop()!
+    .replace(/\.png$/, "");
 
 /** The look's standing figure, as the game draws it. */
 export function portraitPng(recipe: LookRecipe): Buffer {
   const figure = figureFor(recipe);
   if (!figure) throw new Error("No such look.");
-  return recolorFigure(
-    readFileSync(
-      new URL(`../../art/people-engine/v2/${figure.file}`, import.meta.url),
-    ),
-    recipe.skin,
-    recipe.clothes,
-  );
+  return drawnFigure(figureName(figure.file), recipe);
+}
+
+/** The look as a face for a headshot: its figure drawn at `url`, and where its head is. */
+export function portraitFace(
+  recipe: LookRecipe,
+  url: string,
+): PersonFace | null {
+  const figure = figureFor(recipe);
+  const head = figure && headOf(figure);
+  return figure && head
+    ? { url, head, width: figure.width, height: figure.height }
+    : null;
 }

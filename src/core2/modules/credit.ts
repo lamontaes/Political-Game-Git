@@ -17,6 +17,7 @@ import territoryData from "../data/credit/territories.json" with { type: "json" 
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { worldLevel } from "../world-draw";
 import type {
   Affect,
   CoreAPI,
@@ -149,8 +150,15 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
   const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   if (!placeId) return undefined;
+  // The county's published deposits are the center; this world's banks hold a
+  // level drawn from its seed (realistic, not real; owner, Oct 27).
   const depositsMinor = Math.round(
-    deposits *
+    worldLevel(
+      deposits,
+      input.seed,
+      "world-deposits-level",
+      "worldDepositsSpreadShare",
+    ) *
       p0("creditDepositsInThousands") *
       p0("creditMinorPerDollar") *
       (Math.min(townPeople, countyPeople) / countyPeople),
@@ -603,6 +611,9 @@ interface HouseholdMonthRow {
   paidMinor: number;
   /** What the household's cash didn't cover: everyday living it went without, rent or loan payments it owes. */
   unpaidMinor: number;
+  /** Why everyday living went short: what the members held on its day, and what they kept back for their home. */
+  livingHeldMinor?: number;
+  keptBackMinor?: number;
   unemploymentMemberIds: string[];
   application?: { id: string; approved: boolean; limitMinor: number };
 }
@@ -658,6 +669,10 @@ function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
     row.billsMinor += plan.lastRequestedMinor;
     row.paidMinor += plan.lastPaidMinor;
     row.unpaidMinor += plan.lastRequestedMinor - plan.lastPaidMinor;
+    if (plan.lastHeldMinor !== undefined)
+      row.livingHeldMinor = plan.lastHeldMinor;
+    if (plan.lastKeptBackMinor !== undefined)
+      row.keptBackMinor = plan.lastKeptBackMinor;
   }
   const homeOf = new Map<string, string>();
   for (const person of c.people.values())

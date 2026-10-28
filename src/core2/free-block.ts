@@ -20,6 +20,7 @@ import {
   hoursLost,
 } from "./closeness";
 import { parameter } from "./parameters";
+import { worldRateFactor } from "./world-base-rates";
 import { plannedWorkMinutesOnDate } from "./modules/work";
 import freeBlockJson from "./data/free-block.json" with { type: "json" };
 import timeUse from "./data/time-use-reference.json" with { type: "json" };
@@ -72,27 +73,6 @@ export function takePlannedActs(
   const due = byDate?.get(date) ?? [];
   byDate?.delete(date);
   return due;
-}
-
-type PlannedActRunner = (core: CoreState, act: PlannedAct) => boolean;
-let runner: PlannedActRunner | undefined;
-
-/** The life loop supplies how a planned act happens (life.ts). */
-export function registerPlannedActRunner(run: PlannedActRunner): void {
-  runner = run;
-}
-
-/**
- * Runs the acts planned for today that have not run yet. advanceCore runs them
- * before the day's activations; any other day loop (the player API) reaches
- * them here through the people module's end-of-day hook. Taken plans leave the
- * store, so a plan never runs twice.
- */
-export function runDuePlannedActs(core: CoreState): number {
-  let ran = 0;
-  for (const act of takePlannedActs(core, core.date as IsoDate))
-    if (runner?.(core, act)) ran += 1;
-  return ran;
 }
 
 function keep(core: CoreState, act: PlannedAct): void {
@@ -173,6 +153,17 @@ function reserveRows(api: CoreAPI): ReserveRow[] {
 
 /** The person's daily hours of unmodeled activities, smooth in age between groups. */
 function reserveHours(api: CoreAPI, actor: Readonly<PersonState>): number {
+  // This world's day: the published hours times its own time-use factor.
+  return (
+    publishedReserveHours(api, actor) *
+    worldRateFactor(api.state.seed, "timeUse")
+  );
+}
+
+function publishedReserveHours(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+): number {
   const rows = reserveRows(api);
   const age =
     daysBetweenText(actor.birthDate, api.state.date) /

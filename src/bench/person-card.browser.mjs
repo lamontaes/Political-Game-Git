@@ -28,20 +28,13 @@ try {
     const response = await life;
     assert.equal(response.status(), 200);
     console.log("Seed:", new URL(response.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     await page.locator("#card-name").innerText(),
@@ -51,14 +44,38 @@ try {
   const figure = page.locator("#people .talkable").first();
   await figure.waitFor();
   const name = await figure.getAttribute("aria-label");
+  // A person in the room is talked to by a click or a key; the talk box says
+  // who they are in a sentence, and their name opens their card, which has no
+  // Talk button (owner, Oct 27).
+  await figure.focus();
+  await page.keyboard.press("Enter");
+  await page.locator("#talk:not([hidden])").waitFor();
+  await page.waitForFunction(
+    (who) => document.getElementById("talk-name").textContent === who,
+    name,
+  );
+  await page.waitForTimeout(1500);
+  // Under the name, nothing: the talk box is the name, the line and the
+  // replies (owner, Oct 27, 6:20 PM).
+  assert.equal(await page.locator("#talk-role").count(), 0, "a subtitle");
+  // A conversation offers its replies, Say nothing and Leave, and no Continue.
+  assert.ok(await page.locator("#talk-choices .reply").count());
+  assert.ok(await page.locator("#talk-silent").isVisible());
+  assert.ok(await page.locator("#talk-leave").isVisible());
+  assert.equal(await page.locator("#talk-next").isVisible(), false);
   const known = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/known",
   );
-  await figure.focus();
-  await page.keyboard.press("Enter");
+  await page.locator("#talk-name").click();
   const card = await (await known).json();
   await page.locator("#person:not([hidden])").waitFor();
   assert.equal(await page.locator("#person-name").innerText(), name);
+  assert.equal(await page.locator("#person-talk").count(), 0, "a Talk button");
+  assert.equal(
+    await page.locator("#person").getByRole("button", { name: "Talk" }).count(),
+    0,
+    "a Talk button",
+  );
   assert.equal(
     await page.locator("#person-media .screen-portrait").getAttribute("src"),
     card.figureUrl,
@@ -91,6 +108,8 @@ try {
   assert.ok(read.home, "the card shows nothing about the person's life");
   for (const { value, label } of read.values)
     assert.ok(label, `a value with no label: ${value}`);
+  // "Last talked" is never shown (owner, Oct 27, 5 PM).
+  assert.doesNotMatch(text, /last talked/i, "a Last talked line");
   if (card.tie?.lastContactDate)
     assert.ok(!text.includes(card.tie.lastContactDate));
   await page.waitForFunction(
@@ -112,19 +131,16 @@ try {
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
   assert.equal(
-    await figure.evaluate((e) => document.activeElement === e),
+    await page
+      .locator("#talk-name")
+      .evaluate((e) => document.activeElement === e),
     true,
   );
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   assert.equal(await page.locator("#sheet").isVisible(), false);
-  await figure.press("Enter");
-  await page.locator("#person:not([hidden])").waitFor();
-  await page.locator("#person-talk").click();
-  await page.locator("#talk:not([hidden])").waitFor();
-  assert.equal(await page.locator("#person").isVisible(), false);
   await page.locator("#talk-leave").click();
   console.log(
-    "PASS keyboard entry, Escape/focus return, unchanged browsing time, Talk opens conversation",
+    "PASS keyboard entry opens the talk, the name opens the card, Escape/focus return, unchanged browsing time",
   );
   // Presentation contract only: deliberately omit artwork without altering the world.
   await page.route("**/api/known?*", async (route) => {
@@ -138,6 +154,8 @@ try {
     });
   });
   await page.locator("#people .talkable").first().press("Enter");
+  await page.locator("#talk:not([hidden])").waitFor();
+  await page.locator("#talk-name").click();
   await page.locator("#person:not([hidden])").waitFor();
   assert.equal(await page.locator("#person-media img").count(), 0);
   await page.setViewportSize({ width: 1024, height: 768 });
