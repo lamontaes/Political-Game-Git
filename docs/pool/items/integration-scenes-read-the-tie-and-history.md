@@ -5,14 +5,14 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/integration-ties-in-scenes
+status: open
+claimed-by:
 pr: #6412
 blocked-on:
 source: "Integrator (Opus), Oct 27, from the owner's v0.56.2 sitting (Salida, Colorado, as Carlos Washington)"
 lead: director
 milestone: play-first
-claimed-at: 2026-10-27T19:39:30.000Z
+claimed-at:
 ---
 
 **What.** Brian Shah joined the campaign as a volunteer; two months later a cafe scene opened "You've been running into Brian Shah around town... Nice to see you. What do you do?" with four replies that were one answer reworded. The owner: "these scenes aren't making sense... These scenes have zero depth to them." Casting and line selection read the relationship record (its kind, how they met, what they did together): becoming-friends fires only for a person with no shared record, the conversation never asks a known volunteer or coworker what they do, and the four replies are four different moves, never one move reworded.
