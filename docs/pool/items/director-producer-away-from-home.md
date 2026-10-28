@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/director-producer-away-from-home
 pr: #6449
 blocked-on:

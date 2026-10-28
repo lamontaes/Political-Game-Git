@@ -471,6 +471,12 @@ function finish(api: CoreAPI, row: MeetingRow): void {
       officeId: row.officeId,
       items: String(row.takenUp.length),
       playerPresent: String(row.playerPresent),
+      // A sitting that runs past the hour a town body meets in the evening
+      // keeps its members from home that evening.
+      evening: String(
+        row.startMinute + row.minutes >
+          officeDayParameter("eveningMeetingMinute"),
+      ),
     },
   });
 }
