@@ -15,7 +15,7 @@ import { campaignParameter } from "./campaign-views";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import type { CoreState } from "./types";
 import partySides from "./data/elections/party-sides.json" with { type: "json" };
-import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
+import { worldRoster } from "./modules/elections";
 
 export interface AppointmentCandidate {
   readonly id: string;
@@ -126,12 +126,9 @@ export function caucusSide(party: string | null | undefined): number {
 }
 
 /** The U.S. Senate's members' party sides, seat by seat. */
-export function senateSides(): readonly number[] {
-  const congress = (
-    partyCounts as unknown as {
-      congress: Record<string, Record<string, string[]>>;
-    }
-  ).congress;
+export function senateSides(seed: string): readonly number[] {
+  // Who holds each Senate seat in this world (realistic, not real).
+  const congress = worldRoster(seed).congress;
   return Object.values(congress).flatMap((seats) =>
     (seats.senate ?? []).map((p) => partySide(p)),
   );
