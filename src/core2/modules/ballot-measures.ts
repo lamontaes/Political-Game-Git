@@ -198,7 +198,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       decisionTraitWeight(api.state, "ballot-measures.vote") * traitLean;
     const view =
       (viewOn(api, voter.id, measure.question, lean) +
-        publicOffset(measure.question)) *
+        publicOffset(measure.question, api.state.seed)) *
       direction;
     const support = view + trait;
     // The audit's probe (off in play) sees whether they back it with and without the trait term.
@@ -259,7 +259,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     low,
     low + 2,
     slope,
-    publicOffset(measure.question) * direction,
+    publicOffset(measure.question, api.state.seed) * direction,
   );
   groups.yes = Math.round(unnamed * yesFraction);
   groups.no = unnamed - groups.yes;
