@@ -1,8 +1,10 @@
+import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
+import { defaultPreStart } from "../core2/saves";
+import { preStartWindow, runPreStart } from "../core2/pre-start";
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { financeIndex } from "../core2/finance-state";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import {
@@ -38,18 +40,20 @@ import type { PersonId } from "../core2/types";
 // traits give it the benefit of the doubt, and
 // is found out when someone who knows the truth talks to them.
 const seed = process.env.GOLDEN_PATH_SEED ?? "conversation-test";
-const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 500,
-    }),
-  ),
+// With the town's public school district, as a played world opens.
+const base = withSchools(
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 500,
+  }),
 );
+function withSchools(input: Parameters<typeof enrichCivicInputs>[0]) {
+  return withPublicSchoolDistrict(enrichCivicInputs(input)).input;
+}
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
 const orgOf = (jobId: string | undefined) =>
@@ -140,6 +144,11 @@ const director = createDirector({ watch: [...initialFocusPeople(input)] });
 const core = createLifeCore(input, {
   modules: [viewsModule, newsModule, beliefsModule, director.module],
 });
+// The years before the start, run from the player's birth year as a new game
+// runs them (the school years people talk about are the school engine's).
+const history = defaultPreStart(core);
+if (history)
+  runPreStart(core, preStartWindow(core, history.from, history.step));
 director.start(core);
 advanceCore(core, "2021-01-03");
 const api = coreAPI(core);

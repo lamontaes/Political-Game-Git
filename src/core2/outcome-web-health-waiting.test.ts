@@ -22,14 +22,12 @@ const WAITING = {
     "drug-negotiation-to-out-of-pocket",
     "water-violations-to-infant-health",
   ],
-  /** No researched size the game can apply, or about zero. */
+  /** No researched size the game can apply (a link about zero is graded not applicable and is not listed). */
   "SG-EW-HEALTH-unsized-links": [
     "congestion-to-premature-births",
     "heat-to-deaths",
     "education-to-mortality",
     "eviction-to-hospital-visits",
-    "coverage-to-blood-pressure",
-    "recession-to-total-mortality",
   ],
   /** The cause is the person's own history, which no record keeps. */
   "SG-EW-HEALTH-person-level": [
