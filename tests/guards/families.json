@@ -8,6 +8,7 @@
     "src/core2/tooling/**",
     "src/core2/types.ts",
     "src/core2/state.ts",
+    "src/core2/appearance.ts",
     "src/core2/parameters.ts",
     "src/core2/stopgaps.ts",
     "src/core2/seeded.ts",

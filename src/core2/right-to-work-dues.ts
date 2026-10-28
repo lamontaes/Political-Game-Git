@@ -11,6 +11,7 @@
  * workers who no longer have to pay a fee (the people they stand for).
  * stopgapId: SG-GOV-REACH-A-union-dues
  */
+import { daysBetweenText as daysBetween } from "./kernel/dates";
 import unionData from "./data/business/union-membership.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 import { lawChain, lawInForce } from "./modules/laws";
@@ -38,10 +39,6 @@ export interface RtwRow {
   /** Each local's dues before any change from this law. */
   readonly baseMinor: Readonly<Record<string, number>>;
 }
-
-const daysBetween = (from: string, to: string) =>
-  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-  86_400_000;
 
 /** The law's effect on union membership in points, `date` days into its phase-in. */
 export function membershipPoints(row: RtwRow, date: string): number {
