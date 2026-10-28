@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-one-painted-list
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:38:33.682Z
 ---
 
 **What.** Five files each built their own set of the places painted at midday (scene, opening, story, filing and backdrop-places), and the shared capitol picker read a Vite file glob that is empty under the bench server, so it never found a state's own capitol. The opening worked around it with its own check. This is a second engine for one mechanic (duplicates report rows B3 and M14).
