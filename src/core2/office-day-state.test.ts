@@ -31,6 +31,7 @@ import {
   reanswerLeaderRequest,
   perDiemOf,
   perDiemPaidTo,
+  seatPlayerInStateOffice,
   stateDay,
   stateOfficeOf,
   type StateOffice,
@@ -452,4 +453,54 @@ it("every one of the 56 places has a district week and an interim committee day,
   expect(
     new Set(Object.values(rows).map((r) => r.sessionWeek.join())).size,
   ).toBeGreaterThan(1);
+});
+
+it("dev start seats the player through the offices term writer: serving term ended, dev-start term put, took-office emitted", () => {
+  const seed = randomBytes(8).toString("hex");
+  const place = drawPlace(seed, "office-state-dev-start");
+  const where = `${place.name} [${place.key}], seed ${seed}`;
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(core);
+  const player = [...core.people.values()].find((p) => p.alive)!;
+  let seated: StateOffice;
+  try {
+    seated = seatPlayerInStateOffice(api, {
+      personId: player.id,
+      role: "governor",
+    });
+  } catch (error) {
+    // A place whose offices data seats no governor has nothing to seat into.
+    expect(String(error), where).toMatch(/No governor seat/);
+    return;
+  }
+  const terms = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .rows() as unknown as TermRow[];
+  const date = core.date;
+  const mine = terms.find((t) => t.id.endsWith(`:${date}:dev-start`))!;
+  expect(mine, where).toMatchObject({
+    personId: player.id,
+    status: "serving",
+    reached: "dev start as a sitting officeholder",
+  });
+  expect(seated.personId, where).toBe(player.id);
+  const others = terms.filter((t) => t.seatId === mine.seatId && t !== mine);
+  expect(others.length, where).toBeGreaterThan(0);
+  for (const term of others.filter((t) => t.endDate === date))
+    expect(term, where).toMatchObject({
+      status: "ended",
+      endedBy: "dev start: the player took the seat",
+    });
+  expect(
+    others.some((t) => t.status === "serving"),
+    where,
+  ).toBe(false);
+  expect(core.durableLog.has(`took-office:${mine.seatId}:${date}`), where).toBe(
+    true,
+  );
 });

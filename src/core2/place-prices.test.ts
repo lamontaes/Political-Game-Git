@@ -7,6 +7,7 @@ import {
   adjustPrice,
   businessEnergyCostYear,
   monthlyChange,
+  worldGoods,
   setPlacePrice,
 } from "./modules/place-prices";
 import { worldCoreData } from "./modules/world";
@@ -180,11 +181,13 @@ describe("prices a law sets", () => {
       { good: "electricity", kind: "share", value: 0.1 },
       power("electricity"),
       1,
+      worldGoods(core.seed).goods,
     );
     const fare = monthlyChange(
       { good: "transit-fare", kind: "price", value: 0 },
       power("transit-fare"),
       1,
+      worldGoods(core.seed).goods,
     );
     expect(electricity.payMinor).toBeGreaterThan(0);
     expect(fare.refundMinor).toBeGreaterThan(0);

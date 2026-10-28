@@ -531,6 +531,9 @@
     "continue": "Continue",
     "markGap": "Mark gap"
   },
+  "guide": {
+    "search": "Search"
+  },
   "campaignActs": {
     "volunteer": "Volunteers",
     "donation": "Donations",

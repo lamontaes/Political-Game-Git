@@ -46,6 +46,7 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   const name = await page.locator("#card-name").innerText();
+  // The clock's text, not its layout: the card steps aside while a sheet is open.
   const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
@@ -57,8 +58,10 @@ try {
     .locator('[data-tab="money"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".cash-total").waitFor();
-  assert.ok((await page.locator(".cash-total").innerText()).includes("$"));
+  await page.locator("#sheet-body .record-title").waitFor();
+  assert.ok(
+    (await page.locator("#sheet-body .record-title").innerText()).includes("$"),
+  );
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: "docs/reports/money-layout/money.png" });
   assert.equal(await page.locator("#card-clock").textContent(), clock);
