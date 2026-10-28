@@ -7331,5 +7331,17 @@
     "addedAt": "2026-10-28",
     "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-roster-no-2024-vote",
+    "kind": "estimated-data",
+    "file": "src/core2/electorate-places.ts",
+    "line": 538,
+    "whatItFakes": "A legislative seat whose district has no contested 2024 result on record keeps its real 2026 holder's party in every world: the uncontested seats (safe for their party) and the whole chambers that did not vote in 2024 (Alabama, Louisiana, Maryland, Mississippi, New Jersey and Virginia elect in other years; Nebraska's is nonpartisan; Washington's and the District's results are not in the file). Only seats a world's swing carries across even change hands.",
+    "why": "The world's swing moves a seat only through its own 2024 vote, and these seats have none on record (MEDSL 2024 state legislative returns, doi:10.7910/DVN/DODOBJ).",
+    "addedBy": "wire-office-budgets-justice (Claude, wire-office)",
+    "addedAt": "2026-10-28",
+    "replacement": "Each such seat's last contested result (2022 or 2023 returns for the chambers that vote in other years, the district's presidential vote where none), read the same way.",
+    "status": "open"
   }
 ]

@@ -116,8 +116,8 @@ import {
   designation,
   type BillFormKind,
 } from "../legislature-bill-form";
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import bodyRows from "../data/offices/bodies.json" with { type: "json" };
+import { worldRoster } from "./elections";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
@@ -2300,11 +2300,8 @@ function worldSeatParty(
 }
 
 function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
-  const congress = (
-    partyCounts as unknown as {
-      congress: Record<string, Record<string, string[]>>;
-    }
-  ).congress;
+  // Who holds each seat of Congress in this world (realistic, not real).
+  const congress = worldRoster(api.state.seed).congress;
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   const row = chamberRow(chamber)!;
   const out: TermRow[] = [];

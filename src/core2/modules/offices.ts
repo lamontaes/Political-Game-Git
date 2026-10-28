@@ -58,6 +58,7 @@ import {
   type SeatInput,
   type VacancyRule,
 } from "../offices-state";
+import { worldSeatParty } from "./elections";
 import { drawOfficialIdentity } from "../officials-identity";
 import { seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
@@ -472,6 +473,20 @@ export function seatTerm(api: CoreAPI, input: SeatTermInput): TermRow {
   return term;
 }
 
+/** The offices with each seat held by the party that holds it in this world (realistic, not real). */
+function worldParties(
+  seed: string,
+  entries: readonly OfficeWithSeats[],
+): OfficeWithSeats[] {
+  return entries.map((entry) => ({
+    ...entry,
+    seats: entry.seats.map((seat) => ({
+      ...seat,
+      party: worldSeatParty(seed, entry.office, seat),
+    })),
+  }));
+}
+
 function putOffice(api: CoreAPI, entry: OfficeWithSeats): void {
   table(api, "offices").put(entry.office as unknown as ModuleRow);
   for (const seat of entry.seats)
@@ -591,10 +606,10 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     worldSeed,
     townPlaceId: place.context.jurisdiction.id,
   });
-  for (const entry of [
+  for (const entry of worldParties(worldSeed, [
     ...federalOffices(stateKey, geoid, date),
     ...stateOffices(stateKey, geoid, date),
-  ]) {
+  ])) {
     putOffice(api, entry);
     // An office its law creates later has no holder and no past until its
     // first term: its first election fills it.
@@ -959,10 +974,10 @@ export function officesOfState(
       worldSeed: string;
     };
     const date = api.state.date;
-    for (const entry of [
+    for (const entry of worldParties(town.worldSeed, [
       ...federalOffices(stateKey, "", date),
       ...stateOffices(stateKey, "", date),
-    ]) {
+    ])) {
       if (entry.office.jurisdiction === "US") continue;
       putOffice(api, {
         ...entry,

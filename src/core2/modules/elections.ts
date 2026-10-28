@@ -45,7 +45,7 @@ export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
 export { officeFamily, type OfficeFamily };
 /** This world's swing from 2024, for the engines outside elections that read a place's lean. */
-export { worldSwing } from "../electorate-places";
+export { worldRoster, worldSeatParty, worldSwing } from "../electorate-places";
 
 export interface ContestRow extends ElectionDates {
   readonly id: string;

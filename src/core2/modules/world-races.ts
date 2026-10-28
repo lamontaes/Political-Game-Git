@@ -16,7 +16,6 @@
  * its votes by place and its reasons.
  */
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -48,6 +47,7 @@ import {
   legislativePlace,
   statePlaces,
   type ElectoratePlace,
+  worldRoster,
 } from "../electorate-places";
 import {
   appealOfShare,
@@ -242,11 +242,6 @@ const electors = electorsData as unknown as {
   toWin: number;
   states: Record<string, number>;
 };
-const congress = (
-  partyCounts as unknown as {
-    congress: Record<string, Record<string, string[]>>;
-  }
-).congress;
 
 /** The vacancy a special race fills and the end of the term it serves. */
 interface SpecialRace {
@@ -900,7 +895,9 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
   const congressStart = `${year + 1}-01-03`;
   // Congress outside the town's state, in even years.
   if (year % 2) return races.sort((a, b) => a.seatId.localeCompare(b.seatId));
-  for (const [state, seats] of Object.entries(congress)) {
+  for (const [state, seats] of Object.entries(
+    worldRoster(api.state.seed).congress,
+  )) {
     if (state === stateKey) continue;
     const usps = state.slice(3);
     for (const [district, parties] of Object.entries(seats)) {
@@ -1043,8 +1040,8 @@ function entries(
  * that side in the state's own record (its 2024 ballot or legislature), else
  * the national party of that side (party-sides data).
  */
-function partyOnSideIn(stateKey: string, side: number): string {
-  const best = stateParties(stateKey)
+function partyOnSideIn(stateKey: string, side: number, seed: string): string {
+  const best = stateParties(stateKey, seed)
     .filter((p) => partySide(p.name) === side)
     .sort((a, b) => b.share - a.share || a.name.localeCompare(b.name))[0];
   return best?.name ?? nationalParty(side);
@@ -1093,14 +1090,14 @@ function decide(
   const parties =
     side === 0
       ? [-1, 1].map((s) => ({
-          party: partyOnSideIn(stateKey, s),
+          party: partyOnSideIn(stateKey, s, api.state.seed),
           side: s,
           incumbent: false,
         }))
       : [
           { party: race.incumbentParty!, side, incumbent: true },
           {
-            party: partyOnSideIn(stateKey, -side),
+            party: partyOnSideIn(stateKey, -side, api.state.seed),
             side: -side,
             incumbent: false,
           },
@@ -1130,7 +1127,7 @@ function decide(
   const winnerParty =
     winnerSide === side && race.incumbentParty
       ? race.incumbentParty
-      : partyOnSideIn(stateKey, winnerSide);
+      : partyOnSideIn(stateKey, winnerSide, api.state.seed);
   const reasonsOf = (s: number) => reasons.find((c) => c.side === s);
   const r = reasonsOf(1),
     d = reasonsOf(-1);

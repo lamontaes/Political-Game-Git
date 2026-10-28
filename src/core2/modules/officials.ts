@@ -21,7 +21,6 @@
  */
 import { stateStake } from "../budget-stakes";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import stateResearchJson from "../../../data/research/offices/state-offices.json" with { type: "json" };
@@ -32,7 +31,7 @@ import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
-import { worldSwing } from "./elections";
+import { worldRoster, worldSeatParty, worldSwing } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
@@ -135,19 +134,6 @@ const table = (api: CoreAPI, name: string) =>
 const weight = (key: keyof typeof OFFICIALS_DATA.weights) =>
   OFFICIALS_DATA.weights[key].value;
 
-const congressRoster = (
-  partyCounts as unknown as {
-    congress: Record<string, Record<string, string[]>>;
-  }
-).congress;
-const chamberRoster = (
-  partyCounts as unknown as {
-    places: Record<
-      string,
-      Record<string, { members: number; parties: Record<string, number> }>
-    >;
-  }
-).places;
 const corpus = calibration as unknown as {
   house: {
     stateUsps: string;
@@ -408,6 +394,8 @@ function unrecordedParty(
 /** Every seat whose holder becomes a person at the opening. */
 function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
   const date = api.state.date;
+  // Who holds the legislatures and Congress in this world (realistic, not real).
+  const roster = worldRoster(api.state.seed);
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const out: Spec[] = [];
   const held = new Set<string>();
@@ -454,7 +442,7 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
     });
   }
   // Congress outside the town's state: every seat in the roster.
-  for (const [stateKey, seats] of Object.entries(congressRoster)) {
+  for (const [stateKey, seats] of Object.entries(roster.congress)) {
     const senateYears = [...(classes[stateKey] ?? [])];
     for (const [seat, parties] of Object.entries(seats))
       parties.forEach((party, index) => {
@@ -497,9 +485,16 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
     const stateKey = `US-${row.stateUsps}`;
     const seatId = `seat:${stateKey}:governor`;
     if (held.has(seatId) || stateKey === townState) continue;
-    const party = row.party
-      ? row.party[0]!.toUpperCase() + row.party.slice(1)
-      : null;
+    const party = worldSeatParty(
+      api.state.seed,
+      { kind: "governor", level: "state", jurisdiction: stateKey },
+      {
+        id: seatId,
+        party: row.party
+          ? row.party[0]!.toUpperCase() + row.party.slice(1)
+          : null,
+      },
+    );
     out.push({
       key: seatId,
       seatId,
@@ -519,7 +514,7 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
   }
   // Other states' legislatures: each chamber's leaders and a sample of its
   // members, split among the parties by their real seat counts.
-  for (const [stateKey, chambers] of Object.entries(chamberRoster)) {
+  for (const [stateKey, chambers] of Object.entries(roster.places)) {
     if (stateKey === townState) continue;
     for (const [chamber, row] of Object.entries(chambers)) {
       const parties = Object.entries(row.parties)

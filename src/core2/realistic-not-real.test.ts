@@ -120,11 +120,12 @@ import {
   stateTwoPartyVotes,
 } from "./electorate-places";
 import { contestedStates2024 } from "./officials-president";
+import { worldRoster } from "./modules/elections";
+import partyCountsData from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-elections-per-world": [45],
   "realistic-school-names-generated": [37],
   "world-disasters-from-conditions": [41],
 };
@@ -845,6 +846,45 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         .join(",")} and ${contestedStates2024(b.seed)
         .map((s) => s.usps)
         .join(",")}\n`,
+    );
+  });
+
+  it("who holds the legislatures, Congress and the governorships (audit row 45)", () => {
+    // Every chamber's party counts and every congressional seat's holder.
+    const seats = (roster: ReturnType<typeof worldRoster>) =>
+      [
+        ...Object.entries(roster.places).flatMap(([state, chambers]) =>
+          Object.entries(chambers).map(
+            ([chamber, row]) =>
+              `${state}:${chamber}:${Object.entries(row.parties)
+                .filter(([, n]) => n > 0)
+                .sort()
+                .map(([party, n]) => `${party}=${n}`)
+                .join(",")}`,
+          ),
+        ),
+        ...Object.entries(roster.congress).flatMap(([state, held]) =>
+          Object.entries(held).map(
+            ([seat, parties]) => `${state}:${seat}:${parties.join(",")}`,
+          ),
+        ),
+      ].join(";");
+    const published = seats(
+      partyCountsData as unknown as ReturnType<typeof worldRoster>,
+    );
+    const worldA = seats(worldRoster(a.seed)),
+      worldB = seats(worldRoster(b.seed));
+    expect(worldA, `${where} row 45`).not.toBe(published);
+    expect(worldA, `${where} row 45`).not.toBe(worldB);
+    // The played world's own seats carry its holders: a sitting member's
+    // party is the world roster's.
+    const changed = (left: string, right: string) => {
+      const l = left.split(";"),
+        r = right.split(";");
+      return l.filter((x, i) => x !== r[i]).length;
+    };
+    process.stdout.write(
+      `ROSTER ${where}: ${changed(worldA, published)} chambers and seats differ from the published roster in one world, ${changed(worldB, published)} in the other\n`,
     );
   });
 
