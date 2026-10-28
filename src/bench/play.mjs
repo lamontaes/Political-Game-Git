@@ -2639,18 +2639,15 @@ const sheets = {
       title: label,
       items: [
         {
-          pages: [
-            ...barChart(
-              lines.map((r) => ({
-                label: r.name ?? r.line,
-                value: r.minor,
-                steps: withSteps ? steps(r) : [],
-              })),
-              label,
-              roundedMoney,
-            ).children,
-          ].map((node) => ({ node })),
-          size: 6,
+          node: barChart(
+            lines.map((r) => ({
+              label: r.name ?? r.line,
+              value: r.minor,
+              steps: withSteps ? steps(r) : [],
+            })),
+            label,
+            roundedMoney,
+          ),
         },
       ],
     });
@@ -3181,7 +3178,6 @@ const sheets = {
         );
       };
       let bodies;
-      let start = 0;
       if (otherState) {
         // Another state's members at this level, its legislature or its members
         // of Congress: every sitting member, by chamber.
@@ -3197,10 +3193,7 @@ const sheets = {
           title: seats[0].title,
           items: [
             { text: seats[0].government ?? "", tone: "place" },
-            {
-              pages: seats.map((s) => ({ node: holderRow(s) })),
-              size: 6,
-            },
+            ...seats.map((s) => ({ node: holderRow(s) })),
           ],
         }));
       } else {
@@ -3209,12 +3202,6 @@ const sheets = {
           if (!offices.has(s.officeId)) offices.set(s.officeId, []);
           offices.get(s.officeId).push(s);
         }
-        start = Math.max(
-          0,
-          [...offices.values()].findIndex((seats) =>
-            seats.some((s) => s.seatId === race?.seatId),
-          ),
-        );
         bodies = [...offices.values()].map((seats) => {
           const first = seats[0];
           const parties = v.partySeatsByOffice[first.officeId] ?? [];
@@ -3231,11 +3218,7 @@ const sheets = {
                   labels.seats,
                 ),
               },
-              {
-                pages: seats.map((s) => ({ node: member(s) })),
-                size: 6,
-                start: seats.findIndex((s) => s.seatId === race?.seatId),
-              },
+              ...seats.map((s) => ({ node: member(s) })),
               // Future public view records can supply these without changing the layout.
               ...(first.votes ?? []).flatMap((vote) => [
                 { text: vote.title, tone: "subhead" },
@@ -3302,17 +3285,11 @@ const sheets = {
       const party = v.party ? partyRows(v.party) : [];
       return recordScreen({
         controls: [picker],
+        // Every body and every member on the screen at once, side by side:
+        // no Back and Continue in a menu (owner, Oct 28, point 22).
+        grid: true,
         sections: [
-          {
-            wide: true,
-            items: [
-              {
-                pages: bodies.map((body) => ({ section: body })),
-                size: 1,
-                start,
-              },
-            ],
-          },
+          ...bodies,
           ...[
             [labels.yourMembers, v.keyPeople.filter((k) => k.own)],
             [labels.leaders, v.keyPeople.filter((k) => !k.own)],
@@ -3362,20 +3339,17 @@ const sheets = {
       sections: v.parties.map(({ party, seats }) => ({
         title: party,
         items: [
-          {
-            pages: seats.map((s) => ({
-              node: personRow({
-                name: s.name,
-                detail: s.title,
-                face: s.face,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: s.cardId, figureUrl: s.face?.url });
-                },
-              }),
-            })),
-            size: 6,
-          },
+          ...seats.map((s) => ({
+            node: personRow({
+              name: s.name,
+              detail: s.title,
+              face: s.face,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: s.cardId, figureUrl: s.face?.url });
+              },
+            }),
+          })),
         ],
       })),
     });
