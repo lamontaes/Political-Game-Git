@@ -76,6 +76,12 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/no-module-load-registries.test.ts"),
   },
   {
+    id: "kit-only-ui",
+    rule: "Every piece of UI comes from the UI kit in src/bench/ui/, nothing invented; the known markup outside it only shrinks.",
+    readMore: ".claude/skills/screen-to-mock/SKILL.md",
+    command: vitest("tests/guards/kit-only-ui.test.ts"),
+  },
+  {
     id: "american-english",
     rule: "American English everywhere.",
     readMore: "AGENTS.md, Standing owner rules, American English",
