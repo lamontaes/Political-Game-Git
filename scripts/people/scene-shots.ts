@@ -7,6 +7,7 @@
 // figures by source. Only the v2 standing figures (art/people-engine/v2) may
 // be drawn.
 // Usage: node --import tsx scripts/people/scene-shots.ts <out-dir> [seed ...]
+// PEOPLE_SHOTS=<regular expression> draws only the shots whose name matches.
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { createHash, randomBytes } from "node:crypto";
 import { resolve } from "node:path";
@@ -251,7 +252,8 @@ for (const seed of seeds) {
   const { place, w, shots } = shotsFor(seed);
   const tag = `${place.state}-${place.key}`;
   summary.push(`## ${place.name} (${place.state}, ${place.key}), seed ${seed}`);
-  for (const s of shots) {
+  const only = process.env.PEOPLE_SHOTS && new RegExp(process.env.PEOPLE_SHOTS);
+  for (const s of shots.filter((shot) => !only || only.test(shot.name))) {
     let w0 = 0,
       o0 = 0;
     const figs = s.people.map((p) => {

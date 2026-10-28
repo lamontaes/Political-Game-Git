@@ -15,6 +15,7 @@ import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import backs from "../../art/people-engine/v2/figures-back.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
+import poses from "../../art/people-rooms/poses/index.json" with { type: "json" };
 import { orgPlace } from "./scene";
 import {
   DEFAULT_SKIN,
@@ -500,6 +501,75 @@ export function wholeFigureFor(
   );
 }
 
+interface Pose {
+  id: string;
+  file: string;
+  scene: string;
+  pose: string;
+  sex: string;
+  build: string;
+  width: number;
+  height: number;
+  boxInScene: [number, number, number, number];
+  sceneSize: [number, number];
+  head: { top: number; x: number; width: number };
+}
+const POSES = poses.figures as unknown as readonly Pose[];
+/** The spot kinds a pose fits: a lectern pose at a podium, sitting on a seat, standing or walking on a standing spot. */
+const POSE_FITS: Readonly<Record<string, string>> = {
+  lectern: "podium",
+  sit: "sit",
+  stand: "stand",
+  walk: "stand",
+};
+
+/**
+ * The pose painted at this spot's furniture for this look (art/people-rooms/
+ * poses: a person turned to the crowd at a lectern, writing at a desk, leaning
+ * on a counter), or null. A pose belongs to the room it was cut from and to
+ * the spot whose head is where the pose's head is; it is taken by a person of
+ * the pose's sex, the same build first, and among several by their look.
+ */
+// stopgapId: SG-PLAY-pose-body
+function poseFor(place: string, spot: StagingSpot, front: Figure): Pose | null {
+  if (!spot.head) return null;
+  const reach = rules.poseReach;
+  const here = POSES.filter((pose) => {
+    if (pose.scene !== place || POSE_FITS[pose.pose] !== (spot.pose ?? "stand"))
+      return false;
+    if ((pose.sex === "f" ? "female" : "male") !== front.sex) return false;
+    const [width, height] = pose.sceneSize;
+    const x = ((pose.boxInScene[0] + pose.head.x) / width) * 100;
+    const y = ((pose.boxInScene[1] + pose.head.top) / height) * 100;
+    return (
+      Math.abs(x - spot.head!.x) <= reach.across &&
+      Math.abs(y - spot.head!.top) <= reach.down
+    );
+  });
+  if (!here.length) return null;
+  const built = here.filter((pose) => pose.build === front.build);
+  const from = built.length ? built : here;
+  return from[hash(`${front.file}:${spot.id ?? ""}`) % from.length]!;
+}
+
+/** A pose drawn where it was painted: its own box in its room, the furniture's cut kept, no shadow under a desk or lectern. */
+function posed(pose: Pose): WholeFigure {
+  const [width, height] = pose.sceneSize;
+  return {
+    file: pose.id,
+    url: `/art/people-engine/v2/figures/${pose.id}.png`,
+    figure: {
+      leftPercent: (pose.boxInScene[0] / width) * 100,
+      topPercent: (pose.boxInScene[1] / height) * 100,
+      widthPercent: (pose.width / width) * 100,
+      heightPercent: (pose.height / height) * 100,
+      occluder: null,
+      mirrored: false,
+      shadow: null,
+    },
+  };
+}
+
 /** A chosen look drawn on a standing spot: sized for the person's age and the floor, turned, with its shadow. */
 export function figureOn(
   front: Figure,
@@ -509,6 +579,9 @@ export function figureOn(
   spot: StagingSpot,
   turn: Turn = {},
 ): WholeFigure | null {
+  // Where a pose is painted at this spot's furniture, the person in that pose.
+  const pose = band !== "child" ? poseFor(place, spot, front) : null;
+  if (pose) return posed(pose);
   if (spot.pose === "sit") {
     // Seated: the same look on this kind of chair, or nobody here.
     const seated = posedFor(front, "sit", viewOf(spot));
