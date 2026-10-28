@@ -1173,15 +1173,42 @@ export function vacateUnheldSeat(
   return filled;
 }
 
-/** The office an unheld seat belongs to, as its state's own office row. */
+/**
+ * The office an unheld seat belongs to, as its state's own office row: the
+ * state's chamber or governorship, or its seats in Congress (a delegate's
+ * House seat is the House's).
+ */
 function unheldOffice(
   api: CoreAPI,
   unheld: { readonly stateKey: string; readonly officeKind: string },
 ): (OfficeInput & { vacancyRule: VacancyRule }) | null {
-  const entry = stateOffices(unheld.stateKey, "", api.state.date).find(
-    (row) => row.office.kind === unheld.officeKind,
+  const date = api.state.date;
+  const federal = unheld.officeKind.startsWith("us-");
+  const entry = (
+    federal
+      ? federalOffices(unheld.stateKey, "", date)
+      : stateOffices(unheld.stateKey, "", date)
+  ).find(
+    (row) =>
+      row.office.jurisdiction === unheld.stateKey &&
+      (row.office.kind === unheld.officeKind ||
+        (unheld.officeKind === "us-house" &&
+          row.office.kind.startsWith("us-house"))),
   );
   return (entry?.office as OfficeInput & { vacancyRule: VacancyRule }) ?? null;
+}
+
+/** The vacancy a seat waits on until its special election fills it, if any. */
+export function awaitingVacancy(
+  api: CoreAPI,
+  seatId: string,
+): VacancyRow | undefined {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+  return (
+    table(api, "vacancies").query("byStatus", [
+      "awaiting-election",
+    ]) as unknown as VacancyRow[]
+  ).find((row) => row.seatId === seatId);
 }
 
 const unheldSeat = (office: OfficeInput, seatId: string): SeatInput => ({

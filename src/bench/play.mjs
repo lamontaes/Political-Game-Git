@@ -2708,54 +2708,6 @@ const sheets = {
     ];
   },
   async news() {
-    // The nation, region and job numbers above the paper, from the economy's records.
-    const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
-    const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
-    const econ = controls.news?.economy ?? {};
-    // A region's series by its control name and unit; a series with no
-    // control name is not shown.
-    const count = new Intl.NumberFormat("en-US");
-    const value = (unit, v) =>
-      unit === "percent"
-        ? `${v.toFixed(1)}%`
-        : unit === "thousands"
-          ? count.format(Math.round(v * 1000))
-          : unit === "dollars"
-            ? moneyWords(Math.round(v * 100))
-            : v.toFixed(1);
-    const economy = e.nation
-      ? [
-          row(
-            `${econ.nation} · ${monthWords(e.nation.month)}`,
-            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
-          ),
-          ...(e.region
-            ? [
-                // The region's rate under the area it covers, beside the nation's.
-                row(
-                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
-                  Object.entries(e.region)
-                    .filter(
-                      ([k, v]) => typeof v === "number" && econ.series?.[k],
-                    )
-                    .map(
-                      ([k, v]) =>
-                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
-                    )
-                    .join(" · "),
-                ),
-              ]
-            : []),
-          ...(e.jobs
-            ? [
-                row(
-                  econ.jobsHere,
-                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
-                ),
-              ]
-            : []),
-        ]
-      : [];
     const labels = controls.news;
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
@@ -2778,7 +2730,6 @@ const sheets = {
         stories: [],
       });
     return [
-      ...economy,
       ...newspaperScreen({
         outlets,
         labels,
@@ -2787,56 +2738,6 @@ const sheets = {
         photoOf: storyPhoto,
       }),
     ];
-  },
-  /**
-   * Politics' own guide: what each tab is for, a page each, then how a
-   * player could run here, from the filing records: the race, the office
-   * that takes filings, and the dates.
-   */
-  async politicsGuide() {
-    const labels = controls.politics.guide;
-    const [government, terms] = await Promise.all([
-      api(`/api/government?id=${encodeURIComponent(me.id)}`),
-      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
-    ]);
-    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const next = government.nextFiling;
-    return recordScreen({
-      paged: true,
-      sections: [
-        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
-          title: controls.titles[tab],
-          items: [{ text: labels[tab] }],
-        })),
-        {
-          title: labels.runHere,
-          items: next
-            ? [
-                { fact: [labels.race, next.title] },
-                {
-                  fact: [
-                    labels.filesWith,
-                    next.filedWith.replace(
-                      /\s*\(counter: ([^)]*)\)/g,
-                      `, ${labels.atTheDeskOf} $1`,
-                    ),
-                  ],
-                },
-                { fact: [labels.filingOpens, dateWords(next.filingOpens)] },
-                {
-                  fact: [labels.filingDeadline, dateWords(next.filingDeadline)],
-                },
-                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
-                next.primaryDate && {
-                  fact: [labels.primary, dateWords(next.primaryDate)],
-                },
-                { fact: [labels.election, dateWords(next.electionDate)] },
-                next.estimated && { text: labels.estimated, tone: "small" },
-              ]
-            : [{ text: labels.noRace }],
-        },
-      ],
-    });
   },
   async guide() {
     return listScreen({
@@ -2912,7 +2813,6 @@ const sheets = {
             {
               actions: [
                 { label: labels.continue, onClick: closeSheet },
-                { label: labels.guide, onClick: () => openSheet("guide") },
                 // Dev mode, for a developer's session only.
                 {
                   label: labels.devMode,
@@ -3351,13 +3251,14 @@ const sheets = {
       // and the notes (owner, Oct 28: real rows, not printed lines; every
       // member clickable).
       const keyLine = (k) => {
+        // A leader's post is a Guide term (Speaker, Majority leader): the
+        // carbon-copy underline, its definition on hover (owner, Oct 28,
+        // point 23); the chamber follows as a note.
+        const lead = k.post && !k.own;
         const line = withNotes(
           personRow({
             name: k.name,
-            detail:
-              k.post && !k.own
-                ? `${words(k.post)}, ${k.chamber ?? k.officeTitle}`
-                : k.officeTitle,
+            detail: lead ? termLabel(words(k.post)) : k.officeTitle,
             face: k.face,
             onOpen: () => {
               closeSheet();
@@ -3365,6 +3266,7 @@ const sheets = {
             },
           }),
           [
+            lead ? (k.chamber ?? k.officeTitle) : null,
             k.own && k.post ? words(k.post) : null,
             k.stateName,
             // The President and Vice President a territory's voters do not choose.
@@ -3666,7 +3568,6 @@ const groups = {
     "parties",
     "issues",
     "budgets",
-    "politicsGuide",
   ],
   who: ["who", "jobs"],
 };
@@ -3719,6 +3620,9 @@ async function openSheet(tab) {
   );
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
+  // News is the paper itself: the sheet is the page, its masthead the title
+  // (owner, Oct 28, point 25).
+  $("sheet").classList.toggle("paper-sheet", tab === "news");
   $("sheet-media").hidden = !character;
   fillArtwork(
     $("sheet-media"),
@@ -3744,7 +3648,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who"].includes(tab) &&
+    !["calendar", "people", "who", "news"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid"),
   );
@@ -3758,7 +3662,8 @@ pageWhenChanged($("ballot-races"), $("ballot-pager"));
 pageWhenChanged($("cr-states"), $("cr-states-pager"));
 pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu, Who you are among them. The card under it shows only the date
+// the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,
+// point 23: not a tab in Politics). The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 // The rail is named from the controls file, so it is mounted once that loads.
 void controlsReady.then(() => {
@@ -3773,6 +3678,7 @@ void controlsReady.then(() => {
       "news",
       "people",
       "travel",
+      "guide",
     ],
     controls.titles,
   );
