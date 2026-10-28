@@ -56,6 +56,8 @@ const CUT_PX = 3;
 const COVER_REACH = 0.6;
 /** How far past the mannequin's sides a cut front line carries on, as a share of its box width (a heavier body is wider). */
 const CARRY = 0.15;
+/** How close (in the plate's head widths) an old spot is to a plate spot to be the same place (TUNABLE by eye, 1.5 to 3). */
+const NEAR_HEADS = 2;
 /** At least this many of the mannequin's head widths, past each side. */
 const CARRY_HEADS = 1.2;
 
@@ -156,6 +158,30 @@ for (const scene of scenes) {
   const [width, height] = plate.size;
   const share = headShare(plate.spots);
   const parent = plate.empty.split("/").pop()!;
+  // The old spots and their masks, read before the scene's masks are rewritten.
+  const before = (stage.spots as { id: string; x: number; y: number }[]).map(
+    (spot) => {
+      const mask = (
+        occluders.places[scene]?.spots as Record<
+          string,
+          {
+            file: string;
+            leftPercent: number;
+            topPercent: number;
+            widthPercent: number;
+            heightPercent: number;
+          }
+        >
+      )?.[spot.id];
+      return {
+        spot,
+        mask: mask && {
+          ...mask,
+          png: readFileSync(`${OCCLUDERS}/${mask.file}`),
+        },
+      };
+    },
+  );
   rmSync(`${OCCLUDERS}/${scene}`, { recursive: true, force: true });
   const masks: Record<string, unknown> = {};
   // The art session's tag is its own call on the pose; the measured one
@@ -206,13 +232,47 @@ for (const scene of scenes) {
       id,
     };
   });
-  // The plate paints no lectern where the old staging had a podium: the
-  // hand-typed podium is kept (with its own scale) until one is painted.
-  const podiums = spots.some((s) => s.pose === "podium")
-    ? []
-    : (stage.spots as { pose?: string }[])
-        .filter((s) => s.pose === "podium")
-        .map((s, i) => ({ ...s, id: `${scene}:spot:podium-${i}` }));
+  // Where the room holds more people than the plate painted (a council's
+  // gallery, an election-night crowd, a big household), the old spots the
+  // plate doesn't cover stay, each with its own mask, after the plate's own
+  // spots; one within two head widths of a plate spot is that spot, except
+  // a podium the plate doesn't paint.
+  // stopgapId: SG-PLAY-plate-overflow-spots
+  const near = Math.max(...spots.map((s) => s.head.width)) * NEAR_HEADS;
+  const kept = before
+    // On a room already measured, only the spots past the plate's own.
+    .filter(({ spot }) => {
+      const n = /:spot:(\d+)$/.exec(spot.id)?.[1];
+      return !stage.spotsFrom || n === undefined || Number(n) >= spots.length;
+    })
+    .filter(
+      ({ spot }) =>
+        // A podium the plate doesn't paint stays wherever it stands.
+        ((spot as { pose?: string }).pose === "podium" &&
+          !spots.some((s) => s.pose === "podium")) ||
+        spots.every(
+          (s) =>
+            Math.abs(s.x - spot.x) > near || Math.abs(s.y - spot.y) > near * 2,
+        ),
+    )
+    .map(({ spot, mask }, i) => {
+      const n = spots.length + i;
+      const id = `${scene}:spot:${n}`;
+      if (mask) {
+        mkdirSync(`${OCCLUDERS}/${scene}`, { recursive: true });
+        writeFileSync(`${OCCLUDERS}/${scene}/${n}.png`, mask.png);
+        masks[id] = {
+          leftPercent: mask.leftPercent,
+          topPercent: mask.topPercent,
+          widthPercent: mask.widthPercent,
+          heightPercent: mask.heightPercent,
+          file: `${scene}/${n}.png`,
+        };
+      }
+      const rest: Record<string, unknown> = { ...spot };
+      delete rest.hero;
+      return { ...rest, id };
+    });
   // The hero stands on the standing spot nearest the old hero's place.
   const oldHero =
     (stage.spots as { hero?: boolean; x: number; y: number }[]).find(
@@ -227,7 +287,7 @@ for (const scene of scenes) {
   );
   stage.spots = [
     ...spots.map((s) => (s === hero ? { ...s, hero: true } : s)),
-    ...podiums,
+    ...kept,
   ];
   stage.spotsFrom = source;
   stage.measuredFrom = `mannequin plate ${plate.plate} over ${plate.empty}, measured by the art session (art/people-rooms/tools/slots.py); head share ${share.toFixed(3)}`;
@@ -240,7 +300,7 @@ for (const scene of scenes) {
     spots: masks,
   };
   console.log(
-    `${scene}: ${spots.length} spots, ${Object.keys(masks).length} front-line masks${podiums.length ? `, ${podiums.length} podium kept` : ""}`,
+    `${scene}: ${spots.length} spots, ${Object.keys(masks).length} front-line masks${kept.length ? `, ${kept.length} kept from the old staging` : ""}`,
   );
 }
 writeFileSync(STAGING, JSON.stringify(staging, null, 2) + "\n");
