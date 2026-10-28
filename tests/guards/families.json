@@ -362,7 +362,7 @@
     {
       "id": "english",
       "name": "The English engine",
-      "entry": ["src/english/*.ts"],
+      "entry": ["src/english/*.ts", "src/english/plain-words.mjs"],
       "paths": ["src/english/**", "data/english/**"]
     },
     {

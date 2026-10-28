@@ -41,6 +41,15 @@ import { recordScreen } from "./ui/screen.mjs";
 import { listScreen } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
+import {
+  dateWords,
+  monthWords,
+  timeWords,
+  moneyWords,
+  MONTH_NAMES,
+} from "../english/plain-words.mjs";
+/** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
+const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
@@ -78,40 +87,14 @@ async function displayVersion() {
   return `v${number}`;
 }
 const post = (path) => api(path, "POST");
-const dollars = (minor) =>
-  (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
-const compactWords = new Intl.NumberFormat("en-US", {
-  notation: "compact",
-  compactDisplay: "long",
-  maximumFractionDigits: 1,
-});
-/**
- * A government's sum in a readable unit: "$5.2 trillion", or whole dollars
- * to three figures below a million ("$48,300", "$12").
- */
-const roundedDollars = (minor) => {
-  const whole = Math.round(Math.abs(minor / 100));
-  const sign = minor < 0 && whole > 0 ? "−" : "";
-  return whole >= 1e6
-    ? `${sign}$${compactWords.format(whole)}`
-    : `${sign}$${Math.round(Number(whole.toPrecision(3))).toLocaleString("en-US")}`;
-};
 /** The player card's date, and the time under it: the only place either appears. */
 function setClock(at) {
-  const day = new Date(`${at.date}T12:00:00`).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-  const time = new Date(
-    2000,
-    0,
-    1,
-    Math.floor(at.minuteOfDay / 60),
-    at.minuteOfDay % 60,
-  ).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-  $("card-clock").replaceChildren(...clockLines(day, time));
+  $("card-clock").replaceChildren(
+    ...clockLines(
+      dateWords(at.date, { weekday: true }),
+      timeWords(at.minuteOfDay),
+    ),
+  );
 }
 /** A figure cropped to head and shoulders (Kit 12's bust). */
 function setBust(id, url) {
@@ -258,14 +241,7 @@ function openNewsReader(news) {
   };
   $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
   engraveMasthead($("news-reader-masthead"), outlet);
-  $("news-reader-date").textContent = new Date(
-    `${me.date}T12:00:00`,
-  ).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  $("news-reader-date").textContent = dateWords(me.date, { weekday: true });
   $("news-reader").className = `panel paper paper-${
     ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
       ? outlet.layout
@@ -433,7 +409,7 @@ const words = (key) => {
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
   if (unit?.startsWith("minor"))
-    return `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+    return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
   if (unit?.startsWith("percent"))
     return `${value}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
@@ -1198,7 +1174,7 @@ function renderFiling(value) {
     if (!seat) return "";
     return [
       ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
-      proseDate(seat.electionDate),
+      dateWords(seat.electionDate),
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
@@ -1269,7 +1245,7 @@ function renderFilingOverlay(value) {
     ...overlay.checks.map((check) => {
       const line = row(
         ruleNames[check.rule] ?? words(check.rule),
-        `${dateOrValue(check.actual ?? "")}${check.required ? ` / ${dateOrValue(check.required)}` : ""}${check.metOn ? ` · ${controls.filing?.metOn ?? ""} ${proseDate(check.metOn)}` : ""}`,
+        `${dateOrValue(check.actual ?? "")}${check.required ? ` / ${dateOrValue(check.required)}` : ""}${check.metOn ? ` · ${controls.filing?.metOn ?? ""} ${dateWords(check.metOn)}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
       return line;
@@ -1362,7 +1338,7 @@ async function localRacesBlock() {
   const block = makeCard(
     "race local-races",
     {},
-    line(date ? `${labels.title} · ${proseDate(date)}` : labels.title, "label"),
+    line(date ? `${labels.title} · ${dateWords(date)}` : labels.title, "label"),
   );
   if (!races.length) block.append(line(labels.noBallot, "label"));
   for (const race of races) {
@@ -1381,7 +1357,7 @@ async function localRacesBlock() {
         mark,
         race.filingClosed
           ? null
-          : `${labels.filingCloses} ${proseDate(race.filingDeadline)}`,
+          : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
       ]
         .filter(Boolean)
         .join(" · "),
@@ -1424,7 +1400,7 @@ async function campaignRows() {
         result.reached
           ? controls.campaignResults.reached.replace("{n}", result.reached)
           : "",
-        result.raisedMinor ? dollars(result.raisedMinor) : "",
+        result.raisedMinor ? moneyWords(result.raisedMinor) : "",
       ]
         .filter(Boolean)
         .join(" · ");
@@ -1462,7 +1438,7 @@ async function campaignRows() {
                 .join(" · ")}`
             : result.reached !== undefined
               ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-              : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+              : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
@@ -1493,20 +1469,20 @@ async function campaignRows() {
         bold(
           [
             contest?.title,
-            contest ? proseDate(contest.electionDate) : null,
+            contest ? dateWords(contest.electionDate) : null,
             controls.filing?.status?.[filing.status] ?? "",
           ]
             .filter(Boolean)
             .join(" · "),
         ),
-        `${controls.campaignResults.raised.replace("{amount}", dollars(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", dollars(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}`,
+        `${controls.campaignResults.raised.replace("{amount}", moneyWords(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", moneyWords(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}`,
         buttonRow(
           ...(outings ?? []).map((choice) => {
             // A grayed outing says why, from the records.
             const why = choice.why
               ? (controls.campaignUnavailable[choice.why.key] ?? "")
-                  .replace("{price}", dollars(choice.why.priceMinor ?? 0))
-                  .replace("{cash}", dollars(choice.why.cashMinor ?? 0))
+                  .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
+                  .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
               : "";
             const b = makeButton({
               textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
@@ -1885,9 +1861,9 @@ async function officeRows() {
         "campaign",
         { title: job.citation },
         bold(job.title),
-        ` ${dollars(job.annualMinor)} ${words.aYear ?? ""}`,
+        ` ${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
         job.nextMeeting
-          ? ` · ${words.nextMeeting ?? ""} ${proseDate(job.nextMeeting)}`
+          ? ` · ${words.nextMeeting ?? ""} ${dateWords(job.nextMeeting)}`
           : "",
       ),
     ),
@@ -1923,7 +1899,7 @@ async function officeRows() {
             bold(controls.budgetEditor.title),
             ...v.budget.lines.map((row) =>
               labeled(
-                `${row.name} ${dollars(row.amountMinor)}`,
+                `${row.name} ${moneyWords(row.amountMinor)}`,
                 select({
                   options: [-20, -10, 0, 10, 20].map((pct) => {
                     const minor = Math.round((row.amountMinor * pct) / 100);
@@ -1971,7 +1947,7 @@ async function officeRows() {
     ),
     ...v.acts.map((a) =>
       row(
-        `${proseDate(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
+        `${dateWords(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
         `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
       ),
     ),
@@ -2013,9 +1989,9 @@ function billEstimate(paper, section) {
     lines.push(
       [
         `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-        est.lineAmountMinor != null ? dollars(est.lineAmountMinor) : null,
+        est.lineAmountMinor != null ? moneyWords(est.lineAmountMinor) : null,
         est.ofMinor != null
-          ? `${words.from ?? ""} ${dollars(est.ofMinor)}`
+          ? `${words.from ?? ""} ${moneyWords(est.ofMinor)}`
           : null,
       ]
         .filter(Boolean)
@@ -2026,7 +2002,7 @@ function billEstimate(paper, section) {
       paper.estimate.workers > 0
         ? `${paper.estimate.workers} ${words.workers ?? ""}`
         : null,
-      paper.estimate.payMinor > 0 ? dollars(paper.estimate.payMinor) : null,
+      paper.estimate.payMinor > 0 ? moneyWords(paper.estimate.payMinor) : null,
       paper.estimate.note,
     ]
       .filter(Boolean)
@@ -2066,7 +2042,7 @@ async function openBillPaper(billId, show, back, backLabel) {
       lines: [
         paper.effective,
         paper.floorDate
-          ? `${floor.takenUp ?? ""} ${proseDate(paper.floorDate)}`
+          ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
           : null,
         ...paper.whip.map(
           (count) =>
@@ -2081,7 +2057,7 @@ async function openBillPaper(billId, show, back, backLabel) {
             ]
           : []),
         paper.decision
-          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${proseDate(paper.decision.passedOn)}` : ""}`
+          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
           : null,
       ],
     }),
@@ -2101,7 +2077,7 @@ async function seatRows() {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
     seatResult = r.number
-      ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${proseDate(r.floorDate)}` : ""}${
+      ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
           r.authority?.some((a) => !a.allowed)
             ? ` · ${r.authority
                 .filter((a) => !a.allowed)
@@ -2182,7 +2158,7 @@ async function seatRows() {
         // The floor: the day it is taken up, each chamber's count the day
         // before, and how the vote came out.
         ...(floorDate
-          ? [line(`${floor.takenUp} ${proseDate(floorDate)}`, "floor-date")]
+          ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
           : []),
         ...(bill.status === "drafted"
           ? whip.map((count) =>
@@ -2281,12 +2257,6 @@ const sheets = {
     // record that changed the tie; one who left and is no longer among the
     // card's ties is still drawn, marked.
     const circle = me.card.circle ?? { joined: [], left: [] };
-    const dateText = (iso) =>
-      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      });
     const change = new Map([
       ...circle.joined.map((c) => [c.personId, { ...c, mark: "joined" }]),
       ...circle.left.map((c) => [c.personId, { ...c, mark: "left" }]),
@@ -2314,7 +2284,7 @@ const sheets = {
       },
       inRoom: new Set((me.scene?.people ?? []).map((p) => p.personId)),
       labels,
-      dateText,
+      dateText: dateWords,
       onCard: (person) => {
         closeSheet();
         showPerson(person);
@@ -2328,10 +2298,7 @@ const sheets = {
   async who() {
     const c = me.card;
     const labels = controls.who ?? {};
-    const born = new Date(`${c.birthDate}T12:00:00Z`).toLocaleDateString(
-      "en-US",
-      { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
-    );
+    const born = dateWords(c.birthDate);
     const views =
       c.views ??
       (c.view && controls.leanWords?.[c.view]
@@ -2389,7 +2356,7 @@ const sheets = {
         },
         {
           title: labels.money,
-          items: [{ text: dollars(c.liquidMinor), tone: "feature" }],
+          items: [{ text: moneyWords(c.liquidMinor), tone: "feature" }],
         },
       ].filter(Boolean),
     });
@@ -2409,7 +2376,7 @@ const sheets = {
       sections: [
         {
           title: labels.cash,
-          items: [{ text: dollars(me.card.liquidMinor), tone: "title" }],
+          items: [{ text: moneyWords(me.card.liquidMinor), tone: "title" }],
         },
         dwelling && {
           title: me.card.age < 18 ? labels.householdHome : labels.home,
@@ -2424,13 +2391,13 @@ const sheets = {
                 dwelling.tenure === "own" ? labels.owned : labels.rented,
               ],
               ...(dwelling.valueMinor !== undefined
-                ? [[labels.value, dollars(dwelling.valueMinor)]]
+                ? [[labels.value, moneyWords(dwelling.valueMinor)]]
                 : []),
               ...(dwelling.rentMinor !== undefined
                 ? [
                     [
                       labels.rent,
-                      `${dollars(dwelling.rentMinor)} ${labels.monthly}`,
+                      `${moneyWords(dwelling.rentMinor)} ${labels.monthly}`,
                     ],
                   ]
                 : []),
@@ -2441,10 +2408,10 @@ const sheets = {
           title: `${labels.lastMonth} · ${bank.month.date}`,
           items: [
             ...facts([
-              [labels.monthHousing, dollars(bank.month.housingMinor)],
-              [labels.monthEveryday, dollars(bank.month.everydayMinor)],
-              [labels.monthPaid, dollars(bank.month.paidMinor)],
-              [labels.monthUnpaid, dollars(bank.month.unpaidMinor)],
+              [labels.monthHousing, moneyWords(bank.month.housingMinor)],
+              [labels.monthEveryday, moneyWords(bank.month.everydayMinor)],
+              [labels.monthPaid, moneyWords(bank.month.paidMinor)],
+              [labels.monthUnpaid, moneyWords(bank.month.unpaidMinor)],
             ]),
             ...(bank.loanPayments?.length
               ? [
@@ -2452,7 +2419,7 @@ const sheets = {
                   ...facts(
                     bank.loanPayments.map((payment) => [
                       payment.date,
-                      `${dollars(payment.paidMinor)} ${labels.loanPaid} · ${dollars(payment.dueMinor)} ${labels.loanDue}`,
+                      `${moneyWords(payment.paidMinor)} ${labels.loanPaid} · ${moneyWords(payment.dueMinor)} ${labels.loanDue}`,
                     ]),
                   ),
                 ]
@@ -2465,31 +2432,31 @@ const sheets = {
             [labels.bank, bank.name],
             [
               labels.householdSavings,
-              `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
+              `${moneyWords(bank.savingsMinor)} · ${bank.savingsDate}`,
             ],
             ...(bank.books
               ? [
                   [labels.bankBooks, bank.books.date],
-                  [labels.bankCash, dollars(bank.books.cashMinor)],
+                  [labels.bankCash, moneyWords(bank.books.cashMinor)],
                   [
                     labels.businessLoans,
-                    dollars(bank.books.businessLoansMinor),
+                    moneyWords(bank.books.businessLoansMinor),
                   ],
                   [
                     labels.householdLoans,
-                    dollars(bank.books.householdLoansMinor),
+                    moneyWords(bank.books.householdLoansMinor),
                   ],
-                  [labels.mortgages, dollars(bank.books.mortgagesMinor)],
-                  [labels.totalAssets, dollars(bank.books.assetsMinor)],
-                  [labels.depositsOwed, dollars(bank.books.depositsMinor)],
+                  [labels.mortgages, moneyWords(bank.books.mortgagesMinor)],
+                  [labels.totalAssets, moneyWords(bank.books.assetsMinor)],
+                  [labels.depositsOwed, moneyWords(bank.books.depositsMinor)],
                   [
                     labels.mortgageFunding,
-                    dollars(bank.books.mortgageFundingMinor),
+                    moneyWords(bank.books.mortgageFundingMinor),
                   ],
-                  [labels.bankEquity, dollars(bank.books.equityMinor)],
+                  [labels.bankEquity, moneyWords(bank.books.equityMinor)],
                   [
                     labels.liabilitiesAndEquity,
-                    dollars(bank.books.liabilitiesAndEquityMinor),
+                    moneyWords(bank.books.liabilitiesAndEquityMinor),
                   ],
                 ]
               : []),
@@ -2498,7 +2465,7 @@ const sheets = {
         deductions.length && {
           title: labels.deductions,
           items: facts(
-            deductions.map(([name, value]) => [words(name), dollars(value)]),
+            deductions.map(([name, value]) => [words(name), moneyWords(value)]),
           ),
         },
       ].filter(Boolean),
@@ -2522,7 +2489,7 @@ const sheets = {
                   stats: [
                     [
                       labels.pay,
-                      `${dollars(job.wageDailyMinor)} ${labels.daily}`,
+                      `${moneyWords(job.wageDailyMinor)} ${labels.daily}`,
                     ],
                     [
                       labels.hours,
@@ -2649,7 +2616,7 @@ const sheets = {
                 steps: withSteps ? steps(r) : [],
               })),
               label,
-              roundedDollars,
+              roundedMoney,
             ).children,
           ].map((node) => ({ node })),
           size: 6,
@@ -2666,9 +2633,9 @@ const sheets = {
           items: [
             {
               text: [
-                `${labels.adopted} ${proseDate(latest.adoptedOn)}`,
+                `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
                 books
-                  ? `${labels.booksSince} ${proseDate(books.since)}`
+                  ? `${labels.booksSince} ${dateWords(books.since)}`
                   : labels.noBooks,
               ].join(" · "),
               tone: "small",
@@ -2685,7 +2652,7 @@ const sheets = {
                       [labels.cashOnHand, books.cashMinor],
                     ]
                   : []),
-              ].map(([label, value]) => [label, roundedDollars(value)]),
+              ].map(([label, value]) => [label, roundedMoney(value)]),
             },
             books &&
               books.paidOutMinor > latest.spendingMinor && {
@@ -2724,15 +2691,6 @@ const sheets = {
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
     const econ = controls.news?.economy ?? {};
-    // A month of record ("2025-01") as a reader says it: January 2025.
-    const monthWords = (month) =>
-      /^\d{4}-\d{2}$/.test(String(month))
-        ? new Date(`${month}-15T12:00:00Z`).toLocaleDateString("en-US", {
-            month: "long",
-            year: "numeric",
-            timeZone: "UTC",
-          })
-        : "";
     // A region's series by its control name and unit; a series with no
     // control name is not shown.
     const count = new Intl.NumberFormat("en-US");
@@ -2742,7 +2700,7 @@ const sheets = {
         : unit === "thousands"
           ? count.format(Math.round(v * 1000))
           : unit === "dollars"
-            ? dollars(Math.round(v * 100))
+            ? moneyWords(Math.round(v * 100))
             : v.toFixed(1);
     const economy = e.nation
       ? [
@@ -2851,15 +2809,15 @@ const sheets = {
                     ),
                   ],
                 },
-                { fact: [labels.filingOpens, proseDate(next.filingOpens)] },
+                { fact: [labels.filingOpens, dateWords(next.filingOpens)] },
                 {
-                  fact: [labels.filingDeadline, proseDate(next.filingDeadline)],
+                  fact: [labels.filingDeadline, dateWords(next.filingDeadline)],
                 },
                 deadlineTerm && { text: deadlineTerm.short, tone: "small" },
                 next.primaryDate && {
-                  fact: [labels.primary, proseDate(next.primaryDate)],
+                  fact: [labels.primary, dateWords(next.primaryDate)],
                 },
-                { fact: [labels.election, proseDate(next.electionDate)] },
+                { fact: [labels.election, dateWords(next.electionDate)] },
                 next.estimated && { text: labels.estimated, tone: "small" },
               ]
             : [{ text: labels.noRace }],
@@ -3102,11 +3060,6 @@ const sheets = {
           : labels.vacant;
       // The term as a voter would say it: when it ends, and how the holder won
       // it where the world ran the race.
-      const monthYear = (iso) =>
-        new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-          month: "long",
-          year: "numeric",
-        });
       const member = (s) => {
         const line = s.holder?.personId
           ? personRow({
@@ -3131,13 +3084,13 @@ const sheets = {
                   text: [
                     won
                       ? labels.electedWith
-                          .replace("{date}", monthYear(won.date))
+                          .replace("{date}", monthWords(won.date))
                           .replace("{share}", `${Math.round(won.share * 100)}%`)
                       : null,
                     s.holder.endDate
                       ? labels.termEnds.replace(
                           "{date}",
-                          monthYear(s.holder.endDate),
+                          monthWords(s.holder.endDate),
                         )
                       : null,
                   ]
@@ -3154,7 +3107,7 @@ const sheets = {
           [
             s.elect && {
               variant: "elect",
-              text: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
+              text: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${dateWords(s.elect.takesOffice)}`,
               data: { contest: s.elect.contestId },
             },
             race &&
@@ -3337,12 +3290,6 @@ const sheets = {
     // A policy question's law reads yes or no; every other law, its amount.
     const lawText = (law, value, unit) =>
       law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
-    const dateWords = (iso) =>
-      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      });
     return listScreen({
       search: { placeholder: labels.searchIssues },
       size: 4,
@@ -3688,28 +3635,14 @@ const setup = {
   initial: null,
   previous: [],
 };
-const MONTHS = Array.from({ length: 12 }, (_, i) =>
-  new Date(Date.UTC(2000, i, 1)).toLocaleString("en-US", {
-    month: "long",
-    timeZone: "UTC",
-  }),
-);
 /** A record value as the player reads it: an ISO date in words, else as kept. */
 function dateOrValue(value) {
-  return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? proseDate(value) : value;
-}
-function proseDate(iso) {
-  return new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? dateWords(value) : value;
 }
 const genderName = (g) =>
   document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
-  ...optionsOf(MONTHS.map((name, i) => ({ value: i + 1, label: name }))),
+  ...optionsOf(MONTH_NAMES.map((name, i) => ({ value: i + 1, label: name }))),
 );
 function fillDays() {
   const month = Number($("cr-month").value);
@@ -3753,7 +3686,7 @@ function derivedAge() {
     age && setup.start
       ? (controls.creator?.ageLine ?? "")
           .replace("{age}", age)
-          .replace("{date}", proseDate(setup.start))
+          .replace("{date}", dateWords(setup.start))
       : "";
 }
 $("cr-month").addEventListener("change", async () => {
@@ -3828,7 +3761,7 @@ $("cr-character-next").addEventListener("click", () => {
   const pad = (n) => String(n).padStart(2, "0");
   $("cr-summary-born").textContent = controls.creator.summaryBorn.replace(
     "{date}",
-    proseDate(
+    dateWords(
       `${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`,
     ),
   );
