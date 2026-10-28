@@ -38,3 +38,10 @@ export function checkboxSetting({ label, checked, testid }) {
   );
   return { line, box };
 }
+
+/** The choices of a select, for a select the page already holds ({ value, label }). */
+export function optionsOf(items) {
+  return items.map((o) =>
+    el("option", { value: String(o.value), textContent: o.label }),
+  );
+}
