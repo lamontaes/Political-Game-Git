@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/moves-draws
+pr: #6524
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:31:21.160Z
 ---
 
 **What.** The M1-09 moves command fails migration assertions on three independent draws of clean main. Princeton records 28 departures against its 27.544936 limit and New Munich records 38 against 32.610066. Dickey reverses the expected ties comparison: stronger-tied adults build mean pull 0.0199606638 against 0.0184054971 for weaker ties. These migration failures are unchanged by the birth-planning fix in PR #5919.

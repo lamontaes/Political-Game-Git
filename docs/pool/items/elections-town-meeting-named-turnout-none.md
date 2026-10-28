@@ -6,9 +6,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/town-meeting-turnout
-pr:
+pr: #6481
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T01:51:33.993Z
@@ -26,3 +26,5 @@ claimed-at: 2026-10-28T01:51:33.993Z
 
 
 Evidence (integrator, Oct 27, 22:45 UTC): the same failure on main at d4ccbf562d in Magnolia, Delaware: GOLDEN_PATH_SEED=a1c100a9b6b3cd7dfe587313bcbc32206f0f34a2e30f142254d250e28a3e91a9 GOLDEN_PATH_PLACE_KEY=1044430 (drawn for PR #6412 head 976d2ec5), "1044430: no noncandidate choice checked against its reasons"; it reproduces identically on clean main.
+
+Also fails at 136195138f in North Hodge, Louisiana (GOLDEN_PATH_PLACE_KEY=2255910, GOLDEN_PATH_SEED=4bc12f24182caba80ed52d1997eea284248784b480250618f9d25a2c32b2035c), the place CI drew for #6492: same message. Guards session, Oct 28.

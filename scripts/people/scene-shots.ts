@@ -12,6 +12,9 @@ import { createHash, randomBytes } from "node:crypto";
 import { resolve } from "node:path";
 import { chromium } from "playwright";
 import { coreAPI } from "../../src/core2/state";
+import { advanceCore } from "../../src/core2/life";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
+import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { buildBenchWorld } from "../../src/bench/world";
 import { openingFrames } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
@@ -188,8 +191,48 @@ function shotsFor(seed: string) {
     }));
     add("conversation", {
       place: home,
-      backdrop: scene.backdropFile(home, 12 * 60),
+      backdrop: scene.personBackdrop(core, me, home, 12 * 60),
       ...scene.stagePeople(core, home, ids),
+    });
+  }
+  // A home of each condition, before (as painted) and after (in the
+  // household's condition), once the housing records open on the first day.
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  for (const wanted of ["rundown", "lived-in", "as painted"]) {
+    const household = [...core.households.values()].find((h) => {
+      const id = h.memberIds[0];
+      if (!id || !core.people.has(id)) return false;
+      const condition = scene.roomCondition(core, id)[0] ?? "as painted";
+      const room = scene.homeOf(core, id, 12 * 60);
+      return (
+        condition === wanted &&
+        (wanted === "as painted" ||
+          manifest.backdrops.some(
+            (r) => r.place === room && r.variant === wanted,
+          ))
+      );
+    });
+    if (!household) continue;
+    const id = household.memberIds[0]!;
+    const home = scene.homeOf(core, id, 12 * 60);
+    const ids = household.memberIds
+      .filter((m) => core.people.has(m))
+      .map((m) => ({
+        id: m,
+        name: core.people.get(m)!.givenName,
+        reason: m === id ? ("you" as const) : ("household" as const),
+      }));
+    const staged = scene.stagePeople(core, home, ids);
+    const name = wanted.replace(" ", "-");
+    add(`home-${name}-before`, {
+      place: home,
+      backdrop: scene.backdropFile(home, 12 * 60),
+      ...staged,
+    });
+    add(`home-${name}`, {
+      place: home,
+      backdrop: scene.personBackdrop(core, id, home, 12 * 60),
+      ...staged,
     });
   }
   return { place, w, shots };

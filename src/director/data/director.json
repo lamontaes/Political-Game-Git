@@ -1246,6 +1246,18 @@
         "ref": "WORDS-TALK-RECENT-DAYS"
       }
     },
+    "directorTalkAddressDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "citation": "The President's address is the day's news for a couple of weeks after it is given, counted from the day it was given, not from the day a person first heard of it: in play (Gilbert, West Virginia, Oct 28, 2026) people met in March still opened with \"Did you catch the President's speech?\" because they were filled in that day. Owner, Oct 27: scenes and talks read what is happening in the world now.",
+      "spread": "7 to 30 days, checked by reading the talks of a played season (src/director/conversation.test.ts)",
+      "stopgapId": "SG-WORDS-param-directorTalkRecentDays",
+      "checkRange": {
+        "min": 7,
+        "max": 30,
+        "ref": "WORDS-TALK-RECENT-DAYS"
+      }
+    },
     "directorTalkAddressImpact": {
       "value": 0.2,
       "tag": "TUNABLE",

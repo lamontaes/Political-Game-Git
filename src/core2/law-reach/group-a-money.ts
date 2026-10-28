@@ -28,7 +28,7 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import { lawChain } from "../modules/laws";
+import { lawChain, yesLevels } from "../modules/laws";
 import { registerLineAdditions } from "../budgets-treasury";
 import { onReachPayroll } from "./reach-workers";
 import {
@@ -40,7 +40,6 @@ import {
   REACH_A_MODULE_ID,
   reachParameter,
   reachTable,
-  yesLevels,
 } from "./group-a-records";
 
 export const LEAVE_KEY =

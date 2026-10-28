@@ -1,4 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
+import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
   hasBackdrop,
@@ -243,12 +244,13 @@ interface DwellingRow {
  */
 const thirds = new WeakMap<
   CoreState,
-  { date: string; of: Map<string, Third> }
+  { date: string; of: Map<string, Third>; renters: Set<string> }
 >();
 function thirdOf(core: CoreState, householdId: string): Third {
   let cached = thirds.get(core);
   if (!cached || cached.date !== core.date) {
     const of = new Map<string, Third>();
+    const renters = new Set<string>();
     if (core.modules.has(HOUSING_MODULE_ID)) {
       const groups = new Map<string, DwellingRow[]>();
       for (const row of coreAPI(core)
@@ -256,6 +258,7 @@ function thirdOf(core: CoreState, householdId: string): Third {
         .table("dwellings")
         .rows() as unknown as DwellingRow[]) {
         const key = `${row.kind ?? "house"}:${row.tenure ?? ""}`;
+        if (row.tenure === "rent") renters.add(row.householdId);
         groups.set(key, [...(groups.get(key) ?? []), row]);
       }
       for (const rows of groups.values()) {
@@ -277,10 +280,44 @@ function thirdOf(core: CoreState, householdId: string): Third {
         );
       }
     }
-    cached = { date: core.date, of };
+    cached = { date: core.date, of, renters };
     thirds.set(core, cached);
   }
   return cached.of.get(householdId) ?? "middle";
+}
+
+const CONDITION = scenePlaces.roomCondition;
+
+/**
+ * How kept a household's rooms look, most wanted first, from its records: a
+ * renter in the town's cheapest third of rents lives with the landlord's
+ * neglect (rundown); a household in the top third with few enough people
+ * keeps the room as painted (no condition); every other home is lived-in.
+ * stopgapId: SG-PLAY-room-condition-rule
+ */
+export function roomCondition(core: CoreState, personId: string): string[] {
+  const household = core.people.get(personId)?.householdId;
+  if (!household) return [];
+  const third = thirdOf(core, household);
+  const renting = thirds.get(core)?.renters.has(household) ?? false;
+  if (third === "low" && renting) return ["rundown", "lived-in"];
+  const members = core.households.get(household)?.memberIds.length ?? 1;
+  if (third === "high" && members <= CONDITION.tidyAtMostMembers) return [];
+  return ["lived-in"];
+}
+
+/** The picture for a place the person is in: at home, painted in their household's condition. */
+export function personBackdrop(
+  core: CoreState,
+  personId: string,
+  place: string,
+  minuteOfDay: number,
+) {
+  return backdropFile(
+    place,
+    minuteOfDay,
+    homeRooms(core, personId).has(place) ? roomCondition(core, personId) : [],
+  );
 }
 
 /** Which room of the home a person is in at this minute of the day. */
@@ -325,7 +362,7 @@ export function homeOf(
     servingOfficeKinds(core, personId).map((kind) => RESIDENCES[kind]?.[room]),
   );
   if (residence) return residence;
-  const age = person ? ageOn(person.birthDate, core.date) : 30;
+  const age = person ? ageOnDate(person.birthDate, core.date) : 30;
   const living = () => {
     const state = stateOf(core.placeMetadata?.placeKey ?? "");
     const regional = Object.entries(
@@ -376,12 +413,6 @@ function homeRooms(core: CoreState, personId: string): Set<string> {
   return new Set(
     ROOM_BY_HOUR.map((row) => homeOf(core, personId, row.fromHour * 60)),
   );
-}
-
-/** Whole years of age on a date. */
-function ageOn(birthDate: string, date: string): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 }
 
 /** What the person is doing right now, from the open pause or their last act. */
@@ -482,10 +513,24 @@ export function pictureFor(
   return order.find((row) => LIGHTS.get(row)?.has(light)) ?? order[0]!;
 }
 
-export function backdropFile(place: string, minuteOfDay: number) {
+export function backdropFile(
+  place: string,
+  minuteOfDay: number,
+  /** Conditions the room may be painted in (lived-in, rundown), most wanted first. */
+  conditions: readonly string[] = [],
+) {
   const wanted = lightAt(minuteOfDay);
   const rows = manifest.backdrops.filter((row) => row.place === place);
+  // A condition is painted in midday light: by another light the room is
+  // shown in that light when it has one, in its condition when it doesn't.
+  const condition =
+    wanted === "midday" || !rows.some((r) => r.variant === wanted)
+      ? conditions
+          .map((c) => rows.find((r) => r.variant === c))
+          .find((r) => r !== undefined)
+      : undefined;
   const row =
+    condition ??
     rows.find((r) => r.variant === wanted) ??
     rows.find((r) => r.variant === "midday") ??
     rows[0]!;
@@ -494,6 +539,24 @@ export function backdropFile(place: string, minuteOfDay: number) {
     variant: row.variant,
     url: `/art/backdrops/${row.file}`,
   };
+}
+
+/**
+ * Who works at an organization: its full people with an open job (living,
+ * sorted) and the counted residents still in the counts whose job is there,
+ * not filled in yet. The one reader of a workplace's staff for scenes and
+ * the town's places.
+ */
+export function staffOf(core: CoreState, organizationId: string) {
+  const full = [...core.jobs.values()]
+    .filter((row) => row.organizationId === organizationId && !row.endsAt)
+    .map((row) => row.personId)
+    .filter((id) => core.people.get(id)?.alive);
+  const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
+    .filter((row) => row.organizationId === organizationId)
+    .map((row) => row.personId)
+    .filter((id) => !core.people.has(id));
+  return { full: full.sort(), counted: counted.sort() };
 }
 
 /** Who is there: the household at home, coworkers at work, else the act's other person. */
@@ -509,25 +572,13 @@ export function presentIds(
   if (why === "work-shift" || why === "attend-scheduled-work-date-segment") {
     const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
     if (!job) return [];
-    const full = [...core.jobs.values()]
-      .filter(
-        (row) =>
-          row.organizationId === job.organizationId &&
-          row.personId !== personId &&
-          !row.endsAt,
-      )
-      .map((row) => row.personId)
-      .filter(alive)
-      .sort();
+    const staff = staffOf(core, job.organizationId);
+    const full = staff.full.filter((id) => id !== personId);
     // Two-level world: coworkers still in the counts are met here, so they
     // are filled in (OPUS-CORE's fillInPerson), up to the room's spots.
     const room = (backdropStaging(place)?.spots.length ?? 1) - 1;
-    const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
-      .filter((row) => row.organizationId === job.organizationId)
-      .map((row) => row.personId)
-      .sort()
-      .slice(0, Math.max(room - full.length, 0));
-    for (const id of counted) if (!core.people.has(id)) fillInPerson(core, id);
+    const counted = staff.counted.slice(0, Math.max(room - full.length, 0));
+    for (const id of counted) fillInPerson(core, id);
     return [...full, ...counted.filter(alive)];
   }
   // A bedroom is someone's own room: nobody is drawn in it unless the records
@@ -898,14 +949,14 @@ export function benchScene(
   return {
     place,
     why,
-    backdrop: backdropFile(place, minute),
+    backdrop: personBackdrop(core, personId, place, minute),
     people,
     unplaced,
   };
 }
 
 export function backdropPath(file: string): URL {
-  if (!/^[a-z0-9-]+__[a-z]+\.jpg$/.test(file))
+  if (!/^[a-z0-9-]+__[a-z-]+\.jpg$/.test(file))
     throw new Error("Unknown backdrop.");
   return new URL(file, BACKDROP_DIR);
 }

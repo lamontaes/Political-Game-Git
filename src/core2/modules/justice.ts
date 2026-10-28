@@ -181,14 +181,6 @@ const addDays = (date: string, days: number) =>
     .toISOString()
     .slice(0, 10);
 
-function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
-  for (const id of api.state.relationshipsByPerson.get(a) ?? []) {
-    const row = api.state.relationships.get(id)!;
-    if (row.actorId === b || row.otherId === b) return row.level;
-  }
-  return api.parameter("zero");
-}
-
 /** A person's calibrated trait term between two options of a justice decision, or none for someone not a person yet. */
 function lean(
   api: CoreAPI,
@@ -279,7 +271,9 @@ export function reportReasons(
   const reasons = {
     duty: p(api, basis === "witness" ? "reportDutyPull" : "reportHearsayPull"),
     traits: lean(api, reporterId, "justice.report", "report", "keep-quiet"),
-    tie: -p(api, "reportTieWeight") * closeness(api, reporterId, accused),
+    tie:
+      -p(api, "reportTieWeight") *
+      closenessBetween(api.state, reporterId, accused),
   };
   const pull = Object.values(reasons).reduce((a, b) => a + b, zero(api));
   return { reasons, pull };
