@@ -3,113 +3,95 @@
  * quotation) by the addresses recorded as given by them: the speech engine
  * keeps one record per address, and the English engine admits a device only
  * once the speaker's craft, read from that count, reaches the device's place
- * on the scale. Place and seed named in every failure.
+ * on the scale. In the world the player gets: `buildBenchWorld`, two-level,
+ * on a place drawn from all 56 (GOLDEN_PATH_SEED pins one), named in every
+ * failure.
  */
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { buildDeepPast } from "./deep-past";
-import { createLifeCore } from "./life";
-import {
-  addressesGivenBy,
-  deliverSpeech,
-  speechModule,
-} from "./modules/speech";
-import { viewsModule } from "./modules/views";
-import { buildPopulation } from "./population";
+import { addressesGivenBy, deliverSpeech } from "./modules/speech";
+import { PRESIDENT_FACT } from "./officials-president";
 import { coreAPI } from "./state";
-import {
-  composeGroundedLine,
-  type ComposedLineBank,
-} from "../english/english-composition";
+import { composeAddress } from "../english/english-composition";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
+import {
+  OPENING_SPEECH_BANK,
+  openingMove,
+} from "../english/english-opening-speech";
 import {
   deviceEarned,
   speechCraft,
   type SpeechDevice,
 } from "../english/speech-registers";
-import { parameter } from "./parameters";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? "speech-craft-a";
-const input = buildDeepPast(
-  buildPopulation({
-    seed,
-    ...(process.env.GOLDEN_PATH_SEED
-      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-      : {}),
-    startedAt: "2021-01-01",
-    minimumPeople: 400,
-  }),
-);
-const core = createLifeCore(input, { modules: [viewsModule, speechModule] });
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const place = drawPlace(seed, "speech-craft");
+const where = `${place.name} (${place.key}), seed ${seed}`;
+console.log(`speech craft: ${where}`);
+
+const world = buildBenchWorld(place.seed, "2025-01-20", {
+  twoLevel: true,
+  placeKey: place.key,
+});
+const { core, director } = world;
 const api = coreAPI(core);
-const where = `${input.placeMetadata?.placeName}, seed ${seed}`;
 const adults = [...core.people.values()].filter(
   (row) =>
     row.tier !== "husk" &&
     row.alive &&
-    ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(input.startedAt)) >= 18,
+    ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >= 18,
 );
-const speaker = adults[0]!;
-const audience = adults.slice(1, 11).map((row) => row.id);
 
-const bank: ComposedLineBank = {
-  key: "address.contrast",
-  version: "1",
-  surface: "dialogue",
-  act: "greet",
-  parts: {
-    core: {
-      variants: [
-        { key: "plain", kind: "template", text: "We have work to do." },
-        {
-          key: "contrast",
-          kind: "template",
-          text: "Not words, but work.",
-          device: "contrast",
-        },
-      ],
-    },
-  },
-};
-const packetFor = (n: number): GroundedEnglishPacket => ({
-  surface: "dialogue",
-  momentKey: `craft-${n}`,
-  worldSeed: seed,
-  bankVersion: "1",
-  stage: "open",
-  sourceRecordIds: ["craft"],
-  facts: {},
-  speaker: { personId: speaker.id, traits: {} },
-  knowledge: [],
-});
-const devicesSpoken = (addressesGiven: number) => {
-  const spoken: string[] = [];
+/** The families block's list of three, composed for a speaker with `given` addresses. */
+const listsSaid = (given: number) => {
+  const move = openingMove("inaugural", "plain", "families")!;
+  let lists = 0;
   for (let n = 0; n < 60; n++) {
-    const line = composeGroundedLine(packetFor(n), bank, {
-      register: "house-one-minute",
-      addressesGiven,
+    const packet: GroundedEnglishPacket = {
+      surface: "dialogue",
+      momentKey: `craft-${n}`,
+      worldSeed: seed,
+      bankVersion: "1",
+      stage: "open",
+      sourceRecordIds: ["craft"],
+      facts: {},
+      speaker: { personId: adults[0]!.id, traits: {} },
+      knowledge: [],
+    };
+    const address = composeAddress(packet, "election-night", [move], {
+      addressesGiven: given,
     });
-    if (line.kind === "rendered")
-      for (const part of line.parts) if (part.device) spoken.push(part.device);
+    if (address.kind === "rendered")
+      lists += address.moves
+        .flatMap((row) => row.parts)
+        .filter((part) => part.device === "three-part-list").length;
   }
-  return spoken;
+  return lists;
 };
 
 describe(`speaking experience in ${where}`, () => {
   it("is counted from the addresses the speech engine records", () => {
-    expect(addressesGivenBy(api, speaker.id).length, where).toBe(0);
+    const [speaker, other] = adults;
+    const before = addressesGivenBy(api, speaker!.id).length;
     for (let i = 0; i < 3; i++)
       deliverSpeech(api, {
         id: `craft-speech-${i}`,
-        speakerId: speaker.id,
-        placeId: speaker.placeId,
-        topic: "fixture:park",
+        speakerId: speaker!.id,
+        placeId: speaker!.placeId,
+        topic: "craft:park",
         desiredChange: "build-park",
-        audienceIds: audience,
+        audienceIds: adults.slice(2, 12).map((row) => row.id),
       });
-    expect(addressesGivenBy(api, speaker.id).length, where).toBe(3);
+    const given = addressesGivenBy(api, speaker!.id);
+    expect(given.length - before, where).toBe(3);
+    expect(given, where).toContain("craft-speech-2");
     // Another person's addresses are not this speaker's.
-    expect(addressesGivenBy(api, adults[1]!.id).length, where).toBe(0);
+    expect(addressesGivenBy(api, other!.id), where).not.toContain(
+      "craft-speech-0",
+    );
   });
 
   it("earns devices in order of difficulty, with no jump at any one address", () => {
@@ -133,29 +115,41 @@ describe(`speaking experience in ${where}`, () => {
     expect(first("callback")).toBeLessThan(Infinity);
   });
 
-  it("words a contrast only for a speaker who has given enough addresses", () => {
-    const given = addressesGivenBy(api, speaker.id).length;
-    expect(
-      deviceEarned("contrast", given),
-      `${where}: ${given} addresses`,
-    ).toBe(false);
-    expect(devicesSpoken(given), where).toEqual([]);
-    // Enough recorded addresses: the same bank now uses the device.
-    for (let i = given; i < 12; i++)
-      deliverSpeech(api, {
-        id: `craft-speech-${i}`,
-        speakerId: speaker.id,
-        placeId: speaker.placeId,
-        topic: "fixture:park",
-        desiredChange: "build-park",
-        audienceIds: audience,
-      });
-    const after = addressesGivenBy(api, speaker.id).length;
-    expect(deviceEarned("contrast", after), where).toBe(true);
-    expect(parameter("speechCraftHalfAddresses")).toBeGreaterThan(0);
-    expect(
-      devicesSpoken(after).length,
-      `${where}: ${after} addresses`,
-    ).toBeGreaterThan(0);
+  it("says a list of three only for a speaker who has given enough addresses", () => {
+    const needed = [...Array(500).keys()].find((n) =>
+      deviceEarned("three-part-list", n),
+    )!;
+    expect(listsSaid(0), `${where}: no addresses`).toBe(0);
+    expect(listsSaid(needed - 1), `${where}: ${needed - 1} addresses`).toBe(0);
+    expect(listsSaid(needed), `${where}: ${needed} addresses`).toBeGreaterThan(
+      0,
+    );
+  });
+
+  it("gives the President the devices their campaign stops earned, citing them", () => {
+    const story = director.ledger.opening!;
+    expect(story, `${where}: no opening story`).toBeTruthy();
+    const president = core.people.get(story.president.id)!;
+    const stops = (president.pastFacts ?? [])
+      .filter((row) => row.kind === PRESIDENT_FACT.visit)
+      .map((row) => row.id);
+    expect(stops.length, where).toBeGreaterThan(0);
+    const devices = new Map(
+      OPENING_SPEECH_BANK.parts
+        .filter((part) => part.device)
+        .map((part) => [part.text, part.device!]),
+    );
+    for (const sentence of story.address.sentences) {
+      const device = [...devices].find(([text]) =>
+        new RegExp(
+          `^${text.replace(/[.*+?^$()|[\]\\]/g, "\\$&").replace(/\{[\w-]+\}/g, ".+")}$`,
+        ).test(sentence.text),
+      )?.[1];
+      if (!device) continue;
+      // A device said is one the President's stops earned, and it cites them.
+      expect(deviceEarned(device, stops.length), sentence.text).toBe(true);
+      for (const id of stops)
+        expect(sentence.sourceRecordIds, sentence.text).toContain(id);
+    }
   });
 });
