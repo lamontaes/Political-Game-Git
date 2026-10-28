@@ -11,7 +11,12 @@
  */
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
-import { closenessBetween, familyFactsOf, formerKin } from "../core2/closeness";
+import {
+  closenessBetween,
+  currentCloseness,
+  familyFactsOf,
+  formerKin,
+} from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -193,6 +198,8 @@ export function createDirector(
   const interrupts: { moment: Moment; entry: ScheduleEntry }[] = [];
   const initial = [...options.watch];
   let started = false;
+  /** The world the director watches, for the core's closeness records. */
+  let world: Readonly<CoreState> | undefined;
   let mode: "live" | "skipping" = "live";
 
   const param = (key: string): number => {
@@ -583,6 +590,22 @@ export function createDirector(
         ? thread.renewedAt
         : known;
     if (!last) return one;
+    // The core's closeness record, where the two have one and no renewal came
+    // after its last contact: the share of the closeness at that contact
+    // which has faded by the date (closeness.ts, the one fade every engine
+    // reads).
+    const row = world?.relationships.get(
+      thread.personId < thread.otherId
+        ? `${thread.personId}:${thread.otherId}`
+        : `${thread.otherId}:${thread.personId}`,
+    );
+    if (row && row.level > zero && last === row.lastContactDate)
+      return Math.min(
+        one,
+        Math.max(zero, one - currentCloseness(world!, row, date) / row.level),
+      );
+    // No contact on record since: the time since they knew each other, faded
+    // by the core's own half-life rows.
     const days = Math.max(
       zero,
       daysBetween(makeIsoDate(last), makeIsoDate(date)),
@@ -1809,6 +1832,7 @@ export function createDirector(
     start(core) {
       if (started) return;
       started = true;
+      world = core;
       for (const id of initial) beginWatching(core, id);
     },
     watch(core, personId) {
