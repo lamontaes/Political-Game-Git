@@ -1,6 +1,8 @@
 ---
 id: play-bill-paper-cited-bill-words
 title: "The bill paper's estimate says 'Amends 2025-3' for a town law; word the cited bill and drop the web-address guards"
+lead: play-first
+milestone: play-first
 area: play
 kind: bug
 priority: 3
