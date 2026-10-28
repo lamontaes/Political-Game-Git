@@ -1,0 +1,152 @@
+{
+ "about": "One body per pose and angle; every part is a transparent picture on that body (art/people-engine/v2/wardrobe/<pose>/<figure>/<layer>-<n>.png, boxes in <pose>/parts.json). facing: degrees, 0 toward the camera, minus toward screen-left, 180 away; flip a figure horizontally to serve the mirrored spot. Figures are v2-<pose>-<f|m>-<slim|medium|heavy>.",
+ "layers": [
+  "body",
+  "pants",
+  "shoes",
+  "dress",
+  "shirt",
+  "tie",
+  "jacket",
+  "hair"
+ ],
+ "poses": {
+  "31": {
+   "pose": "stand",
+   "facing": {
+    "f": 0,
+    "m": 0
+   },
+   "hands": "held in front",
+   "seat": "none",
+   "use": "proof only (stiff; not for scenes)"
+  },
+  "nat-s1": {
+   "pose": "stand",
+   "facing": {
+    "f": 0,
+    "m": 0
+   },
+   "hands": "at sides, one in a pocket",
+   "seat": "none",
+   "use": "character creator; standing anywhere"
+  },
+  "nat-s2": {
+   "pose": "stand",
+   "facing": {
+    "f": 30,
+    "m": 30
+   },
+   "hands": "women forearm across waist, men hand in pocket",
+   "seat": "none",
+   "use": "waiting, standing in a room"
+  },
+  "nat-s3": {
+   "pose": "stand",
+   "facing": {
+    "f": -30,
+    "m": -30
+   },
+   "hands": "gesturing while talking",
+   "seat": "none",
+   "interacts": "talking",
+   "use": "conversation"
+  },
+  "nat-s4": {
+   "pose": "stand",
+   "facing": {
+    "f": 20,
+    "m": 20
+   },
+   "hands": "arms folded",
+   "seat": "none",
+   "interacts": "listening",
+   "use": "listening, waiting"
+  },
+  "nat-s5": {
+   "pose": "stand",
+   "facing": {
+    "f": 30,
+    "m": 30
+   },
+   "hands": "holding a phone",
+   "seat": "none",
+   "use": "waiting, street, bus stop"
+  },
+  "nat-s6": {
+   "pose": "walk",
+   "facing": {
+    "f": 45,
+    "m": 45
+   },
+   "hands": "swinging",
+   "seat": "none",
+   "use": "walking through a place"
+  },
+  "nat-s7": {
+   "pose": "stand",
+   "facing": {
+    "f": 0,
+    "m": 0
+   },
+   "hands": "one hand raised, talking",
+   "seat": "none",
+   "interacts": "talking to the viewer",
+   "use": "conversation facing the player"
+  },
+  "nat-c1": {
+   "pose": "sit",
+   "facing": {
+    "f": -30,
+    "m": 30
+   },
+   "hands": "lap / armrest",
+   "seat": "chair, armchair, couch, bench",
+   "legs": "crossed",
+   "use": "sitting back, relaxed"
+  },
+  "nat-c2": {
+   "pose": "sit",
+   "facing": {
+    "f": 45,
+    "m": 45
+   },
+   "hands": "forearms on a table",
+   "seat": "chair",
+   "coveredBy": "table, desk",
+   "interacts": "talking",
+   "use": "meeting, desk, diner table"
+  },
+  "nat-c3": {
+   "pose": "sit",
+   "facing": {
+    "f": 30,
+    "m": 20
+   },
+   "hands": "gesturing while talking",
+   "seat": "chair, couch, bench",
+   "interacts": "talking",
+   "use": "conversation seated"
+  },
+  "nat-b1": {
+   "pose": "stand",
+   "facing": {
+    "f": 180,
+    "m": 180
+   },
+   "hands": "at sides",
+   "seat": "none",
+   "use": "crowds and audiences facing away"
+  },
+  "nat-b2": {
+   "pose": "sit",
+   "facing": {
+    "f": 180,
+    "m": 180
+   },
+   "hands": "lap",
+   "seat": "chair, pew, bleacher",
+   "use": "seated audiences facing away"
+  }
+ }
+}
