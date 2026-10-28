@@ -76,7 +76,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **Research before building.** Real data checks the simulation and never decides an outcome by itself. See `research-habit`.
 - **Speed.** A town's game year must run in under two minutes (`npm run speed:year`). No change may make a year more than 20% slower than its base, measured on the same base and machine, one process at a time. Never scan the whole world or history every day; use indexes or act on the day something changed.
 - **Saves don't matter** until early-access preparation, when a versioned save format is built.
-- **American English everywhere**, enforced by `tests/american-english-sweep.test.ts`; `npm run spelling` lists what it would flag.
+- **American English everywhere**, enforced by `tests/guards/english/`; `npm run spelling` lists what it would flag.
 
 ## Process
 
