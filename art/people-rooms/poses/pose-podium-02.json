@@ -1,0 +1,30 @@
+{
+  "id": "pose-podium-02",
+  "file": "pose-podium-02.png",
+  "garments": "pose-podium-02-garments.png",
+  "sheet": "in-scene",
+  "scene": "debate-stage",
+  "plate": "dd-1.png",
+  "pose": "lectern",
+  "angle": "three-quarter",
+  "facing": -30,
+  "gesture": "listening, turned to the other speaker",
+  "interacts": "podium: both hands on the front edge",
+  "hairView": "front",
+  "sex": "m",
+  "build": "medium",
+  "ageBand": "adult",
+  "prop": "none",
+  "outfit": "suit",
+  "width": 99,
+  "height": 126,
+  "boxInScene": [947, 12, 1046, 138],
+  "sceneSize": [1365, 768],
+  "head": {
+    "top": 4,
+    "x": 40.0,
+    "width": 31
+  },
+  "frontEdgeY": null,
+  "clothesLabelled": 0.6
+}
