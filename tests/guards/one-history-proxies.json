@@ -1,0 +1,64 @@
+{
+  "about": "Record kinds of the generated history before the start (buildDeepPast in src/core2/deep-past.ts and past-family.ts, stopgap SG-P8-deep-past). The owner: one history, everything pulls from the same history. A kind leaves this list when its writer is deleted; set simulatedBy to the simulated kind the moment one exists, and every reader of the proxy fails until it reads the simulated kind instead. readers counts today's reading files; a count only goes down.",
+  "proxies": [
+    {
+      "kind": "birth-date",
+      "writer": "src/core2/data/deep-past.json",
+      "simulatedBy": null
+    },
+    {
+      "kind": "school:cohort-estimate",
+      "writer": "src/core2/data/deep-past.json",
+      "simulatedBy": null
+    },
+    {
+      "kind": "era:public-context",
+      "writer": "src/core2/data/deep-past.json",
+      "simulatedBy": null
+    },
+    {
+      "kind": "social:generated-school-acquaintance",
+      "writer": "src/core2/data/opening-peer-network.json",
+      "simulatedBy": null
+    },
+    {
+      "kind": "social:generated-coworker",
+      "writer": "src/core2/data/opening-coworkers.json",
+      "simulatedBy": null
+    },
+    {
+      "kind": "household:partners-met",
+      "writer": "src/core2/past-family.ts",
+      "simulatedBy": null
+    },
+    {
+      "kind": "household:partners-now",
+      "writer": "src/core2/past-family.ts",
+      "simulatedBy": null
+    },
+    {
+      "kind": "household:parents-met",
+      "writer": "src/core2/past-family.ts",
+      "simulatedBy": null
+    },
+    {
+      "kind": "household:roots",
+      "writer": "src/core2/past-family.ts",
+      "simulatedBy": null
+    },
+    {
+      "kind": "household:livelihood",
+      "writer": "src/core2/past-family.ts",
+      "simulatedBy": null
+    },
+    {
+      "kind": "household:moment",
+      "writer": "src/core2/past-family.ts",
+      "simulatedBy": null
+    }
+  ],
+  "readers": {
+    "src/director/conversation.ts": 3,
+    "src/director/journal.ts": 11
+  }
+}
