@@ -258,7 +258,7 @@ function schoolOf(person: Readonly<PersonState>) {
 /** Whether a person is past school age, which sets the tense they speak of school in. */
 function schoolStage(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   return ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >=
-    P.benchmarkAdultMinimumAge
+    P.votingAge
     ? "graduated"
     : "enrolled";
 }

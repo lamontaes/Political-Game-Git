@@ -145,7 +145,9 @@ export function coarsePlace(
     return cached;
   const place = corePlaceByKey(placeKey);
   const geoid = place?.sourceGeoid;
-  const residents = geoid ? placeReferencePopulation(geoid)?.value : undefined;
+  const residents = geoid
+    ? placeReferencePopulation(geoid, seed)?.value
+    : undefined;
   if (!place || !geoid || !residents || residents <= 0) {
     cache.set(cacheKey, null);
     return null;

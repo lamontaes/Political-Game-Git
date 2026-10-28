@@ -172,12 +172,15 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   ) as unknown as MeasureRow | undefined;
   if (!measure || measure.status !== "on-ballot") return;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const direction = measure.yesMeans === "enact" ? 1 : -1;
   const { townPlaceId } = lawChain(api);
   const named = { yes: 0, no: 0, blank: 0 };
   let voted = 0;
   const adults = [...api.state.people.values()]
-    .filter((p) => p.alive && p.placeId === townPlaceId && ageOn(p, date) >= 18)
+    .filter(
+      (p) => p.alive && p.placeId === townPlaceId && ageOn(p, date) >= adultAge,
+    )
     .sort((a, b) => a.id.localeCompare(b.id));
   const turnedOut = votedToday(api);
   const lean0 = townLean(api);

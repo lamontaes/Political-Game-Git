@@ -18,6 +18,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { publishedMonths, type MacroMonth } from "./macro-model";
 import { MACRO_MODULE_ID } from "./modules/macro";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { CREDIT_MODULE_ID } from "./modules/credit";
 import { worldGoods } from "./modules/place-prices";
 import goodsData from "./data/prices/goods.json" with { type: "json" };
@@ -87,7 +88,6 @@ import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-money-and-population-per-world": [28],
   "realistic-business-per-world": [21, 22, 23, 24, 26, 27],
   "realistic-elections-per-world": [42, 44, 45, 48],
   "realistic-school-names-generated": [37],
@@ -228,14 +228,23 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
           publishedHudStateRentRow(place.state))
         : (hudRentRowFor(jurisdiction, s) ?? hudStateRentRow(place.state, s)),
     );
+    // One factor moves an area's whole row and each cell is rounded to the
+    // dollar, so two worlds with close factors can share a cell (Cataula,
+    // Georgia, seed 80e1c5b9f2b35bea: a $924 studio in both). Each cell is
+    // off the published one (the floor share guarantees it); the worlds'
+    // rows, income limits included, differ as a whole.
     area.mine.rents.forEach((rent, bedrooms) =>
-      differs(
-        `HUD rent, ${bedrooms} bedrooms (${area.mine.area})`,
+      expect(
         rent,
-        area.real.rents[bedrooms]!,
-        area.other.rents[bedrooms]!,
-      ),
+        `${where} HUD rent, ${bedrooms} bedrooms (${area.mine.area}): published`,
+      ).not.toBe(area.real.rents[bedrooms]!),
     );
+    const whole = (row: typeof area.mine) =>
+      JSON.stringify([row.rents, row.veryLow4, row.low4]);
+    expect(
+      whole(area.mine),
+      `${where} HUD row (${area.mine.area}): other world`,
+    ).not.toBe(whole(area.other));
     // Row 9: shelter beds and permits per the state's people.
     differs(
       `shelter beds per 10,000 in ${usps}`,
@@ -307,6 +316,8 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     // Row 11: pay for every occupation in the place, and the tenure rule.
     const jurisdiction = corePlaceByKey(place.key)!.context.jurisdiction.id;
+    const localA: number[] = [],
+      localB: number[] = [];
     for (const occupation of Object.keys(TOWN_JOB_SOC)) {
       const national = nationalMedianAnnualWage(occupation);
       if (national !== null)
@@ -318,14 +329,21 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         );
       const local = (s?: string) =>
         townJobRate(occupation, jurisdiction, 50, 0, s)?.hourlyMinor;
-      if (local() !== undefined)
-        differs(
-          `local pay ${occupation}`,
-          local(a.seed)!,
-          local()!,
-          local(b.seed)!,
-        );
+      if (local() !== undefined) {
+        expect(
+          local(a.seed),
+          `${where} local pay ${occupation}: published`,
+        ).not.toBe(local());
+        localA.push(local(a.seed)!);
+        localB.push(local(b.seed)!);
+      }
     }
+    // An hourly rate rounds to the cent, so two worlds can share one
+    // occupation's rate (Southgate, Michigan, seed 724f31c69c6190c5: a hotel
+    // clerk at $17.18 in both); the worlds' local pay differs as a whole.
+    expect(localA.join(), `${where} local pay: other world`).not.toBe(
+      localB.join(),
+    );
     for (const years of [0, 5, 20])
       differs(
         `pay percentile at ${years} years`,
@@ -469,6 +487,21 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     );
     process.stdout.write(
       `MONEY ${where}: cash ${Math.round(cash(a))} against ${Math.round(cash(b))}, bank ${bank(a)} against ${bank(b)}\n`,
+    );
+  });
+
+  it("the town's population (audit row 28)", () => {
+    const geoid = corePlaceByKey(place.key)?.sourceGeoid;
+    const real = geoid
+      ? publishedPlaceReferencePopulation(geoid)?.value
+      : undefined;
+    const size = (core: CoreState) =>
+      Number(core.placeMetadata.referencePopulation);
+    if (real === undefined) return;
+    expect(size(a), `${where} referencePopulation`).not.toBe(real);
+    expect(size(a), `${where} referencePopulation`).not.toBe(size(b));
+    process.stdout.write(
+      `POPULATION ${where}: ${size(a)} and ${size(b)} against ${real} published\n`,
     );
   });
 
