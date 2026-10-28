@@ -45,7 +45,11 @@ import type {
   Source,
 } from "../types";
 import { nextMeeting } from "../office-day-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  makeIsoDate,
+  daysBetweenText as daysBetween,
+} from "../kernel/dates";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import {
@@ -864,9 +868,6 @@ const plusDays = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + Math.round(days) * DAY)
     .toISOString()
     .slice(0, 10);
-const daysBetween = (from: string, to: string) =>
-  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / DAY;
-
 /** A change filed for the session, the day it is introduced, and its bill once it is. */
 interface Filing {
   readonly question: string;
