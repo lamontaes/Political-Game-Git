@@ -1897,6 +1897,26 @@ function whyRows(why) {
     ),
   ].map((text) => el("li", { className: "why", textContent: text }));
 }
+/** The owner's grade control on a scene line (dev mode): it reaches the line's pieces. */
+function gradeOf(line, momentId) {
+  if (!line.parts?.length) return {};
+  return {
+    grade: {
+      labels: controls.grade,
+      send: (word, note) =>
+        api(
+          `/api/grade?${new URLSearchParams({
+            grade: word,
+            note,
+            parts: line.parts.join(","),
+            text: line.text,
+            momentId,
+          })}`,
+          "POST",
+        ),
+    },
+  };
+}
 async function showStory(momentId) {
   const story = await api(
     `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
@@ -1918,6 +1938,7 @@ async function showStory(momentId) {
           kind: "speech narration",
           text: line.text,
           held: line.held,
+          ...gradeOf(line, momentId),
         }),
       ),
       ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
@@ -1941,6 +1962,7 @@ function playExchange(story) {
       who: line.role === "asked" ? $("card-name").textContent : undefined,
       text: line.text,
       held: line.held,
+      ...gradeOf(line, story.momentId),
     });
   // The path is the index of each reply chosen, from the first.
   // The asker follows up: no walking away mid-exchange, no silence as a reply.
