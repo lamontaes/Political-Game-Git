@@ -410,7 +410,8 @@ export function buildOpeningKin(
     const stayed = (key: string, age: number, fromAge = adultAge) => {
       const rates = options.departurePerYearByAge;
       const line = -Math.log(p("one") - rng.fork(`${key}:stayed`).next());
-      return moveHazard(rates, fromAge, age) < line;
+      if (moveHazard(rates, fromAge, age) < line) return true;
+      return false;
     };
     const newHome = (key: string, local: boolean): Home => {
       const row = {
