@@ -7,7 +7,7 @@
 // term word); a plain bold label by default. `size` cuts the list into pages; `layout` is
 // "cards" (a grid of cards) or "rows" (the default). An entry:
 //   { title, value?, lede?, lines?: [text], note?, facts?: [[label, value]], picture?,
-//     opens?, open?, onSelect?, label?, data? }
+//     nodes?: [node], opens?, open?, onSelect?, label?, data? }
 // `note` is the line set apart in the accent color (why a place is listed).
 // `opens` makes the entry fold open to its lines and facts; `onSelect` makes the whole
 // entry a control (with `label` as its spoken name); `data` is kept on the entry for
@@ -36,6 +36,8 @@ function entry(e, labelOf) {
       ? [el("p", { className: "entry-note", textContent: e.note })]
       : []),
     ...(e.facts ?? []).map(([label, value]) => factRow(labelOf(label), value)),
+    // Nodes other kit parts drew for the entry (person rows, a button row).
+    ...(e.nodes ?? []),
   ];
   const art = e.picture
     ? [picture({ src: e.picture, className: "entry-picture" })]
