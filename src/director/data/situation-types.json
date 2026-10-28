@@ -3293,6 +3293,14 @@
       "timing": "at-cause",
       "causes": [
         {
+          "match": { "label": "circumstance:override-whip" },
+          "causeEngine": "circumstance",
+          "causeRecord": "veto-override",
+          "bind": { "colleague": "counterpart", "you": "subject" },
+          "opener": "colleague",
+          "setting": ["chamber", "seat"]
+        },
+        {
           "match": {
             "label": "cause:event:vote-promise",
             "selfNamed": true,

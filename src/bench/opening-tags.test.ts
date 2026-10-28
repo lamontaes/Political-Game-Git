@@ -8,8 +8,8 @@ import { looksOf } from "./scene";
 // A name tag, the person drawn and the highlight are the same person (owner,
 // Oct 26: "the tag reads a man but the figure is a woman"). In a drawn place's
 // opening, every tag shown names a person the frame draws, by record id, in a
-// figure of their recorded sex; a council member's tag is over the council's
-// own chamber and names the town; the President's tag carries no state. A
+// figure of their recorded sex; no council member or state legislator is
+// tagged; the President's tag carries no state. A
 // place is drawn from all 56 (GOLDEN_PATH_SEED pins a seed).
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "opening-tags");
@@ -40,11 +40,12 @@ it(`every tag of the opening names the person drawn (${place.name}, seed ${seed}
         expect(drawnSex, `${here}: drawn ${drawnSex}, recorded ${sex}`).toBe(
           sex === "male" ? "m" : "f",
         );
-      // A council member is shown in the council's own chamber, with the town.
-      if (tag.role === "key:own-council-member") {
-        expect(frame.place, here).toMatch(/council|town-hall/);
-        expect(tag.state, `${here}: no town named`).toBeTruthy();
-      }
+      // Nobody local is pointed out: national people and the state's stage only
+      // (owner, Oct 27: "You don't need your own council member").
+      expect(
+        ["key:own-council-member", "key:own-state-legislator"],
+        here,
+      ).not.toContain(tag.role);
     }
   expect(tags, "the opening pointed out nobody").toBeGreaterThan(0);
   // The President's tag is his office alone.
