@@ -5,11 +5,12 @@ area: director
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-old-situation-library
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:48:13.539Z
 ---
 
 **What.** data/content/situation-types.json (32 types) and data/content/story-moves.json are the old story director's library. The director's own src/director/data/situation-types.json (79 types) was ported from it and every scene reads that one; the moves live in scripts/english-corpus/moves.json. No file in src, scripts or tests loads the old pair, only three design documents name it (duplicates report row W14).
