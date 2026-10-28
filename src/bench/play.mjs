@@ -3108,22 +3108,27 @@ const sheets = {
           },
         })),
       });
-      if (level !== "local")
-        picker.append(
-          select({
-            className: "government-state",
-            label: labels.stateFilter,
-            value: otherState,
-            options: [
-              { value: "", label: labels.ownState },
-              ...states.map((st) => ({ value: st.key, label: st.name })),
-            ],
-            onChange: (state) => {
-              governmentState = state;
-              void redraw();
-            },
-          }),
-        );
+      // The state filter under the level tabs: the kit's dropdown in its own
+      // box, reading the player's state by name, never "Your state" (owner,
+      // Oct 28, point 15).
+      const stateFilter =
+        level !== "local"
+          ? select({
+              className: "government-state",
+              label: labels.stateFilter,
+              value: otherState,
+              options: [
+                { value: "", label: v.homeState?.name ?? labels.ownState },
+                ...states
+                  .filter((st) => st.key !== v.homeState?.key)
+                  .map((st) => ({ value: st.key, label: st.name })),
+              ],
+              onChange: (state) => {
+                governmentState = state;
+                void redraw();
+              },
+            })
+          : null;
       const holderName = (s) =>
         s.holder
           ? `${s.holder.givenName} ${s.holder.familyName}`
@@ -3377,7 +3382,7 @@ const sheets = {
       // unaffiliated.
       const party = v.party ? partyRows(v.party) : [];
       return recordScreen({
-        controls: [picker],
+        controls: [picker, stateFilter].filter(Boolean),
         // Every body and every member on the screen at once, side by side:
         // no Back and Continue in a menu (owner, Oct 28, point 22).
         grid: true,
@@ -3603,6 +3608,10 @@ async function openSheet(tab) {
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
+// The creator's states and towns page like every other list; nothing in a
+// menu scrolls (kit13 APPROVED; owner, Oct 28: "the Mac's native scroller").
+pageWhenChanged($("cr-states"), $("cr-states-pager"));
+pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
 // the one menu, Who you are among them. The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
