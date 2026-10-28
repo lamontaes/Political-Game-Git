@@ -7,7 +7,7 @@
 import calendarJson from "../../data/english/parts/calendar.json" with { type: "json" };
 import personSketchJson from "../../data/english/parts/person-sketch.json" with { type: "json" };
 import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
-import { heldByGrades } from "./english-grades";
+import { playable } from "./bank-parts";
 
 interface ScreenPart {
   key: string;
@@ -33,7 +33,7 @@ export function screenLine(
   facts: Readonly<Record<string, string | number>>,
 ): string | null {
   const part = BANKS[bank]?.get(key);
-  if (!part?.shippable || heldByGrades(key)) return null;
+  if (!part || !playable(part)) return null;
   let missing = false;
   const text = part.text.replace(/\{(\w+)\}/g, (_all, slot: string) => {
     const value = facts[slot];
