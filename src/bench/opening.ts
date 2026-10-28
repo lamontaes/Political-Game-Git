@@ -40,7 +40,6 @@ export function openingFrames(
     /** That night's news, which the player picks up at home. */
     news: {
       id: story.id,
-      stories: story.newscast,
       address: story.address.sentences.map((row) => row.text),
     },
     home: { ...story.home, minuteOfDay: OPENING_EVENING_MINUTE },

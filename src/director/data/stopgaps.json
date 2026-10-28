@@ -260,8 +260,8 @@
     "why": "The engine has no register card for a newscast yet (docs/coordination/words.md); the opening's evening news composes now.",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
-    "replacement": "A newscast register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
-    "status": "open"
+    "replacement": "Resolved Oct 28 by deletion: the opening's own newscast writer (newsStory, townStory) is gone (trim-main-every-duplicate-deleted, row W2 of docs/reports/duplicates-on-main-2026-10-28.md); the night's news is to come from the press path's stories.",
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-poll-workers",
