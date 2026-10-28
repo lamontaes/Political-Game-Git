@@ -246,6 +246,7 @@ export function openParties(core: CoreState): void {
     });
   }
   // Every adult's tie, firmest leans first.
+  const adultAge = api.parameter("votingAge");
   const townLean =
     (
       api
@@ -258,7 +259,8 @@ export function openParties(core: CoreState): void {
       (p) =>
         p.alive &&
         p.placeId === town &&
-        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 18,
+        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
+          adultAge,
     )
     .map((p) => ({ p, lean: personLean(core.people, p, townLean) }))
     .sort(
@@ -721,9 +723,12 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         .table("town")
         .get("town") as unknown as { lean: number } | undefined
     )?.lean ?? 0;
+  const adultAge = api.parameter("votingAge");
   const adults = [...(core.peopleByPlace.get(town) ?? [])]
     .map((id) => core.people.get(id))
-    .filter((p): p is PersonState => !!p && p.alive && ageOn(p, date) >= 18)
+    .filter(
+      (p): p is PersonState => !!p && p.alive && ageOn(p, date) >= adultAge,
+    )
     .sort((a, b) => a.id.localeCompare(b.id))
     .map((p) => ({ p, lean: personLean(core.people, p, townLean) }));
   if (!adults.length) return;

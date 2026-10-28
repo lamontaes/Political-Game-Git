@@ -25,7 +25,7 @@ const { gameStartDate } = await at("src/core2/game-start.ts");
 const { residentCounts, townPlaceOf } = await at(
   "src/core2/modules/residents.ts",
 );
-const { placeReferencePopulation } = await at(
+const { publishedPlaceReferencePopulation } = await at(
   "src/simulation/nationwide-world/place-population.ts",
 );
 const { corePlaceByKey } = await at("src/core2/place-lookup.ts");
@@ -42,7 +42,7 @@ for (const seed of seeds) {
   const town = townPlaceOf(core);
   const key = core.placeMetadata?.placeKey;
   const geoid = corePlaceByKey(key)?.sourceGeoid;
-  const reference = geoid ? placeReferencePopulation(geoid) : null;
+  const reference = geoid ? publishedPlaceReferencePopulation(geoid) : null;
   const adultsAcs = geoid ? citizenship.byPlace[geoid]?.[1] : undefined;
   const ageOn = (birth) => {
     const [y, m, d] = birth.split("-").map(Number);

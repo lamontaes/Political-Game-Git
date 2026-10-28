@@ -146,9 +146,11 @@ const addDays = (date: string, days: number) =>
 
 function adults(api: CoreAPI): readonly Readonly<PersonState>[] {
   const town = lawChain(api).townPlaceId;
+  const adultAge = api.parameter("votingAge");
   return [...api.state.people.values()]
     .filter(
-      (p) => p.alive && p.placeId === town && ageOn(p, api.state.date) >= 18,
+      (p) =>
+        p.alive && p.placeId === town && ageOn(p, api.state.date) >= adultAge,
     )
     .sort((a, b) => a.id.localeCompare(b.id));
 }
@@ -165,6 +167,7 @@ interface TownVoter {
 /** Every adult of the town on the one rule: the named, and the counted groups' members. */
 function townVoters(api: CoreAPI): readonly TownVoter[] {
   const town = lawChain(api).townPlaceId,
+    adultAge = api.parameter("votingAge"),
     date = api.state.date;
   return [
     ...adults(api).map((p) => ({
@@ -175,7 +178,7 @@ function townVoters(api: CoreAPI): readonly TownVoter[] {
       counted: false,
     })),
     ...countedResidents(api.state as CoreState)
-      .filter((c) => c.placeId === town && ageOn(c, date) >= 18)
+      .filter((c) => c.placeId === town && ageOn(c, date) >= adultAge)
       .map((c) => ({
         id: c.id,
         traits: c.traits,

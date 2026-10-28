@@ -26,13 +26,13 @@ import {
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { IsoDate } from "../core2/kernel/brands";
+import { P } from "../core2/parameters";
 import type { Ledger, PollingVisitRecord } from "./types";
 import pollingData from "./data/polling-place.json" with { type: "json" };
 
 const DATA = pollingData as unknown as {
   situationKey: string;
   place: string;
-  votingAge: { value: number };
 };
 
 export interface PollingCandidate {
@@ -87,7 +87,7 @@ function mayVote(
     // Someone serving a prison term where the law takes the vote is not taken to the polls.
     !barredFromVoting(api, personId) &&
     person.placeId === townPlaceId &&
-    ageOnDate(makeIsoDate(person.birthDate), date) >= DATA.votingAge.value,
+    ageOnDate(makeIsoDate(person.birthDate), date) >= P.votingAge,
   );
 }
 
