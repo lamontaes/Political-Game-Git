@@ -16,7 +16,7 @@ How it works:
 | ---------------------------------------------------- | ------ | ---------------------- | --------------- |
 | Backdrops (new place types)                          | 4      | 4                      | 0               |
 | Backdrop variants (condition, time, weather, region) | 59     | 41                     | 17              |
-| Mannequin plates (spots per scene)                   | 1      | 8                      | 16              |
+| Mannequin plates (spots per scene)                   | 2      | 8                      | 16              |
 | Figures (poses, angles, ages, builds)                | 3      | 2                      | 24              |
 | Hair, faces, garments                                | 1      | 0                      | 288 / 210 / 324 |
 
