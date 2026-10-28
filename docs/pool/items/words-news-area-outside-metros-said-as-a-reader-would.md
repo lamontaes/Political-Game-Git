@@ -6,9 +6,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/news-place-said
-pr: 6483
+pr: #6483
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T02:17:40.340Z
