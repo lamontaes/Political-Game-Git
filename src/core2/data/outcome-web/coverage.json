@@ -122,7 +122,6 @@
     "privacy-law-to-earnings",
     "highway-money-for-transit-to-service",
     "farmland-easements-to-farmland-lost",
-    "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "mileage-fee-to-vehicle-miles",
     "fix-it-first-to-poor-roads",
@@ -511,6 +510,10 @@
     "city-anti-discrimination-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
+    },
+    "groundwater-limits-to-irrigation-pumping": {
+      "waitingOn": [],
+      "carriedBy": "the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts), which reads this law in force and cuts each town farm's groundwater input by this row's size (1 + size of what the farm would pump), so the farm's outside sales fall by the irrigation-output elasticity and each month's loss is recorded as the law applied (groundwater-output-limited). It applies from the law's effective date rather than after this row's one-year lag (stopgap SG-GOV-REACH-B-business-cost)"
     },
     "defense-contracts-to-earnings": {
       "waitingOn": ["federal.defense-boost-pct"]
