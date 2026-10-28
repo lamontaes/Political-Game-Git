@@ -15,6 +15,7 @@ import ledger from "../../data/research/outcome-web/placeholder-ledger.json" wit
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
 import { GOV_MEASURES } from "./gov-measure-keys";
+import { createHash } from "node:crypto";
 import type { Source } from "./types";
 
 export type Shape =
@@ -171,6 +172,8 @@ const ENGINE = local.engineMeasures as Readonly<
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */
 const INDEX_START = local.indexStart;
+/** The top of a percent scale. */
+const INDEX_HUNDRED = 100;
 
 /** Derived readings of a kept outcome: how far its causes moved it. */
 const SUFFIXES = [
@@ -237,12 +240,71 @@ const median = (values: readonly number[]): number => {
     : (sorted[middle - 1]! + sorted[middle]!) / 2;
 };
 
+const WORLD = local.worldBases;
+const LAW_MEASURES = new Set<string>(WORLD.lawMeasures);
+
+/** Whether a kept outcome's level is a percent, which stays between 0 and 100. */
+function isPercent(measure: string): boolean {
+  const kept = KEPT_LOCAL[measure];
+  if (kept) return kept.scale === "share";
+  return BASES[measure]?.unit.startsWith("percent") ?? false;
+}
+
 /**
- * A kept outcome's starting level in a state: its recorded 2024 level, the
- * research's labeled estimate where the source left the place out, or the
- * median of the places it reports (labeled). Never zero, never drawn.
+ * A kept outcome's starting level in a state in this world: the published
+ * level (`publishedBaseOf`) moved once by the world's own offset, drawn from
+ * its seed (owner, Oct 27: realistic, not real). A rate in law and an index
+ * that starts at 100 keep their level. A percent moves relative to its nearer
+ * bound, so it stays between 0 and 100.
  */
 export function baseOf(
+  measure: string,
+  stateKey: string,
+  seed: string,
+): { readonly value: number; readonly source: Source } {
+  const published = publishedBaseOf(measure, stateKey);
+  const local = KEPT_LOCAL[measure];
+  if (LAW_MEASURES.has(measure) || local?.scale === "index") return published;
+  // A national level (a kept outcome with no per-place figures) is one level
+  // for the whole world, the same in every state.
+  const where = local && !local.places ? "nation" : stateKey;
+  // A number in [0, 1) fixed by the world's seed and the key (the same hash
+  // as past-module's seededUnit, which this model cannot import: it would
+  // close an import cycle through the state).
+  const at = (part: string) =>
+    parseInt(
+      createHash("sha256")
+        .update(`${seed}:outcome-base:${measure}:${where}:${part}`)
+        .digest("hex")
+        .slice(0, 8),
+      16,
+    ) / 0x1_0000_0000;
+  const floor = WORLD.floorShare.value;
+  const share =
+    (at("sign") < 0.5 ? -1 : 1) *
+    (floor + (1 - floor) * at("size")) *
+    WORLD.spreadShare.value;
+  const value = published.value;
+  const room = isPercent(measure)
+    ? Math.min(value, INDEX_HUNDRED - value)
+    : Math.abs(value);
+  return {
+    value: value + share * room,
+    source: {
+      ...published.source,
+      tag: "ESTIMATED",
+      estimatedFrom: `This world's level, drawn around the published one (${WORLD.about.split(".")[0]}).`,
+    },
+  };
+}
+
+/**
+ * A kept outcome's published starting level in a state: its recorded 2024
+ * level, the research's labeled estimate where the source left the place out,
+ * or the median of the places it reports (labeled). Never zero. Calibration
+ * only: play reads `baseOf`, this world's level.
+ */
+export function publishedBaseOf(
   measure: string,
   stateKey: string,
 ): { readonly value: number; readonly source: Source } {
@@ -302,12 +364,15 @@ export function baseOf(
 export function fixedBaseline(
   measure: string,
   stateKey: string,
+  seed: string,
 ): number | undefined {
   const derived = derivedOf(measure);
   if (derived) return derived.suffix === ":pct-of-start" ? INDEX_START : 0;
   // An engine-kept outcome starts where the engine's record first read.
   if (keptOutcome(measure))
-    return engineMeasure(measure) ? undefined : baseOf(measure, stateKey).value;
+    return engineMeasure(measure)
+      ? undefined
+      : baseOf(measure, stateKey, seed).value;
   return BASELINES[measure]?.value;
 }
 
