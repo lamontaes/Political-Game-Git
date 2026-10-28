@@ -699,7 +699,7 @@ export function reviewTownFamilies(
       grownAtHome.map(({ person }) => person.id),
     );
     const pay = monthlyPayByPerson(next, today);
-    const row = hudRentRowFor(town);
+    const row = hudRentRowFor(town, next.seed);
     const rentForOne = row ? marketRentMinor(next, town, row, 0, today) : null;
     for (const { person, age } of grownAtHome) {
       const home = householdOf(person.id);

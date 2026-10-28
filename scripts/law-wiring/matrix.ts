@@ -553,8 +553,13 @@ function webLink(
           evidence: "data/research/outcome-web/links.json",
           why: "no researched outcome-web link starts from this law",
         };
+  // A link an engine now carries is not run by the web: a ledger row an
+  // older run kept for it is history, not this link's evidence.
+  const carriedNow = new Set(links.filter((l) => carried(l)).map((l) => l.key));
   const allFired = runs.flatMap(({ place, r }) =>
-    (r.web?.fired ?? []).map((f) => ({ place, f })),
+    (r.web?.fired ?? [])
+      .filter((f) => !carriedNow.has(f.link))
+      .map((f) => ({ place, f })),
   );
   // A fired ledger row whose factor no engine reads (unwired.json, open
   // stopgap) is a record, not wiring.
@@ -725,9 +730,18 @@ function repealLink(runs: { place: string; r: Result }[]): Link {
     } else {
       if (r.reach.open === 0) continue;
       had += 1;
-      if (r.afterUndo.open === 0) ok += 1;
+      // A row open after the repeal under a law a body passed in play (not
+      // the checker's) is the world enacting it again, not the repeal failing;
+      // it counts only when every open row is in the sample.
+      const theWorlds =
+        r.afterUndo.sample.length === r.afterUndo.open
+          ? r.afterUndo.sample.filter(
+              (id) => !r.lawIds.some((law) => id.includes(law)),
+            )
+          : [];
+      if (r.afterUndo.open - theWorlds.length === 0) ok += 1;
       notes.push(
-        `${place}: ${r.reach.open} open -> after repeal ${r.afterUndo.open} open, ${r.afterUndo.ended} ended`,
+        `${place}: ${r.reach.open} open -> after repeal ${r.afterUndo.open} open, ${r.afterUndo.ended} ended${theWorlds.length ? ` (${theWorlds.length} under a law the world passed itself, ${theWorlds[0]})` : ""}`,
       );
     }
   }

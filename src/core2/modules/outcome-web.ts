@@ -722,3 +722,15 @@ export function outcomeWebFactor(
   if (!record || !record.base) return 1;
   return scaleOf(measure) === "level" ? 1 : record.value / record.base;
 }
+
+/**
+ * A researched link's row, for the engine that carries it (the row's
+ * `carriedBy` names that engine): the engine applies the row's size to its
+ * own records and the web does not run the link.
+ */
+export function carriedLink(key: string): WebLink {
+  const link = WEB_LINKS.find((row) => row.key === key);
+  if (!link?.carriedBy || link.size === null)
+    throw new Error(`${key} is not a carried link with a researched size`);
+  return link;
+}

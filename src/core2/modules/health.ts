@@ -1,4 +1,5 @@
 import healthJson from "../data/health.json" with { type: "json" };
+import { worldRateFactor } from "../world-base-rates";
 import { settleEstate } from "../estates";
 import { HOUSING_STATUS_EVENT } from "../housing-homeless";
 import {
@@ -339,7 +340,13 @@ function lateConditions(
       radix ** digits;
     if (
       quantile <
-      conditionPrevalence(condition, age, data.calibrationCategory) * shift
+      conditionPrevalence(
+        condition,
+        age,
+        data.calibrationCategory,
+        worldRateFactor(api.state.seed, "conditions"),
+      ) *
+        shift
     )
       held.push(condition.key);
   }
@@ -424,9 +431,12 @@ function segments(api: CoreAPI, plan: HealthPlan) {
     const web =
       [...plan.web].reverse().find((row) => row.date <= date)?.factor ??
       p("one");
+    // This world's life table: the published hazard times its mortality
+    // factor, the same one counted people die by (one model, two tiers).
+    const world = worldRateFactor(api.state.seed, "mortality");
     return {
       effectiveAt: date,
-      micros: Math.round(plan.micros * housing * evicted * web),
+      micros: Math.round(plan.micros * housing * evicted * web * world),
     };
   });
 }
@@ -568,6 +578,7 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       conscientiousness: conscientiousness(data, person),
     })),
     behaviorSlopes(api, data),
+    worldRateFactor(api.state.seed, "conditions"),
   );
   for (const person of alive)
     assignPerson(

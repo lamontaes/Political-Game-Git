@@ -83,7 +83,6 @@ import {
 } from "../../src/director/speech-builder";
 import { saveWorld, worldCachePath } from "./grading-bench";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
-import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
 import noticesJson from "../../data/english/parts/notice.json" with { type: "json" };
 
@@ -356,7 +355,6 @@ function readWorld(place: Place): {
   // beside it as the bill's text.
   const nameOf2 = (bill: any) => billTitleOf(bill);
   const titleOf = (bill: any) => nameOf2(bill)?.title;
-  const legBank = legislationJson as unknown as EnglishBank;
   // Bill text: each local bill worded from its own record, one scene per bill:
   // title, numbered sections with the body's enacting words, effective date.
   for (const bill of localBills.slice(0, 40)) {
@@ -398,31 +396,6 @@ function readWorld(place: Place): {
         sourceRecordIds: [bill.id],
       });
   }
-  // A federal bill's enacting clause, from a bill the Congress module holds.
-  const federal = (
-    api.moduleState("core2-legislature-v1").table("bills").rows() as any[]
-  ).find((bill) => /us-house|us-senate/.test(bill.bodyOfficeId as string));
-  if (federal) {
-    const made = composeFromBank(
-      legBank,
-      "enacting-clause",
-      {},
-      federal.id,
-      /Resolved|Whereas|Now, therefore/,
-    );
-    if (made)
-      raws.push({
-        ...base,
-        category: "legislation",
-        speaker: "United States Congress (bill text)",
-        context: `The opening of ${federal.number} (${federal.status}), filed in the ${federal.bodyOfficeId.includes("senate") ? "Senate" : "House"} on ${longDate(federal.introduced)}.`,
-        prior: "",
-        text: made.text,
-        parts: [made.partKey],
-        composer: "composeFromBank over data/english/parts/legislation.json",
-        sourceRecordIds: [federal.id],
-      });
-  } else gaps.push("no federal bill in this world");
 
   // Notices: hearing and ordinance notices from bills, an election notice from contests.
   const noticeBank = noticesJson as unknown as EnglishBank;

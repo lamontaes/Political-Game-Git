@@ -1,0 +1,61 @@
+{
+ "scene": "home-kitchen",
+ "plate": "sg-p03",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "stray legs under the table",
+   "box": [
+    480,
+    600,
+    900,
+    941
+   ],
+   "drop": true
+  },
+  {
+   "name": "table, left",
+   "box": [
+    440,
+    340,
+    640,
+    560
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": 45,
+   "coveredBy": "table"
+  },
+  {
+   "name": "table, right",
+   "box": [
+    640,
+    280,
+    880,
+    520
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": -45,
+   "coveredBy": "table"
+  },
+  {
+   "name": "standing by the fridge",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "pose": "stand",
+   "facing": 0
+  }
+ ]
+}

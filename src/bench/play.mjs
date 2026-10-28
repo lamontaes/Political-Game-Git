@@ -210,6 +210,14 @@ function storyPhoto(story) {
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
+/** The night's paper: the news engine's stories the player heard, newest first. */
+async function nightsNews(personId) {
+  const rows = await api(`/api/news?id=${encodeURIComponent(personId)}`);
+  const stories = rows
+    .filter((r) => r.headline || r.lede)
+    .filter(storyHeadline);
+  return { stories, outlet: stories[0]?.outlet };
+}
 function showNewsSurface(news) {
   const story = news?.stories?.[0];
   if (!story) return;
@@ -1200,11 +1208,7 @@ function renderFiling(value) {
       paged: (items) => menuPages(items, 8),
     });
     buttons.unshift(
-      makeButton({
-        className: "reply",
-        textContent: counter.chooseRace,
-        onclick: () => show("race-menu", true),
-      }),
+      talkReply({}, counter.chooseRace, () => show("race-menu", true)),
     );
     if (!value.result && !value.overlay) show("race-menu", true);
   }
@@ -1632,6 +1636,21 @@ async function showStory(momentId) {
       ...gradeOf(line, momentId),
     }),
   );
+  // A speech heard (the address on the evening news): its speaker's own
+  // words from the record, then Continue.
+  if (story.speech) {
+    setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+    talkControls({ silent: false, leave: false });
+    fillTalk({
+      lines: [
+        ...setting,
+        talkLine({ kind: "speech", text: story.speech.text }),
+      ],
+      replies: [],
+    });
+    setScales({ available: false });
+    return;
+  }
   if (withId) {
     if (story.talk) playExchange(story, setting);
     else await talkTo(withId, momentId, setting);
@@ -1774,7 +1793,7 @@ async function showPerson(person) {
         c.shared?.length && {
           title: labels.together,
           items: c.shared.map((s) => {
-            const line = row(labels.sharedWords?.[s.kind], s.employer ?? "");
+            const line = row(labels.sharedWords?.[s.kind], s.name ?? "");
             line.dataset.record = s.recordId;
             return { node: line };
           }),
@@ -2378,6 +2397,24 @@ const sheets = {
       pairs.map(([label, value]) => ({ node: row(label, value) }));
     const dwelling = me.card.dwelling;
     const deductions = Object.entries(budget.withholding?.byLine ?? {});
+    // Cash, spending, assets and debts: the ledger's, the credit engine's and
+    // the housing engine's records for the household, served by /api/bank.
+    const monthName = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      });
+    const dayName = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+      });
+    const named = (table, key) =>
+      table?.[key] ?? words(String(key).split(".").pop());
+    const owedWords = (paid, asked) =>
+      asked > paid
+        ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
+        : moneyWords(paid);
     return recordScreen({
       grid: true,
       sections: [
@@ -2397,9 +2434,6 @@ const sheets = {
                 labels.tenure,
                 dwelling.tenure === "own" ? labels.owned : labels.rented,
               ],
-              ...(dwelling.valueMinor !== undefined
-                ? [[labels.value, moneyWords(dwelling.valueMinor)]]
-                : []),
               ...(dwelling.rentMinor !== undefined
                 ? [
                     [
@@ -2411,63 +2445,49 @@ const sheets = {
             ]),
           ],
         },
-        bank?.month && {
-          title: `${labels.lastMonth} · ${bank.month.date}`,
-          items: [
-            ...facts([
-              [labels.monthHousing, moneyWords(bank.month.housingMinor)],
-              [labels.monthEveryday, moneyWords(bank.month.everydayMinor)],
-              [labels.monthPaid, moneyWords(bank.month.paidMinor)],
-              [labels.monthUnpaid, moneyWords(bank.month.unpaidMinor)],
+        bank?.cash?.months?.length && {
+          title: labels.cashByMonth,
+          items: facts(
+            bank.cash.months.map((entry) => [
+              monthName(entry.date),
+              moneyWords(entry.cashMinor),
             ]),
-            ...(bank.loanPayments?.length
-              ? [
-                  { text: labels.loanPayments, tone: "subhead" },
-                  ...facts(
-                    bank.loanPayments.map((payment) => [
-                      payment.date,
-                      `${moneyWords(payment.paidMinor)} ${labels.loanPaid} · ${moneyWords(payment.dueMinor)} ${labels.loanDue}`,
-                    ]),
-                  ),
-                ]
-              : []),
-          ],
+          ),
         },
-        bank && {
-          title: labels.bank,
+        (bank?.spending?.length || bank?.loanPayments?.length) && {
+          title: labels.lastMonth,
           items: facts([
-            [labels.bank, bank.name],
-            [
-              labels.householdSavings,
-              `${moneyWords(bank.savingsMinor)} · ${bank.savingsDate}`,
-            ],
-            ...(bank.books
-              ? [
-                  [labels.bankBooks, bank.books.date],
-                  [labels.bankCash, moneyWords(bank.books.cashMinor)],
-                  [
-                    labels.businessLoans,
-                    moneyWords(bank.books.businessLoansMinor),
-                  ],
-                  [
-                    labels.householdLoans,
-                    moneyWords(bank.books.householdLoansMinor),
-                  ],
-                  [labels.mortgages, moneyWords(bank.books.mortgagesMinor)],
-                  [labels.totalAssets, moneyWords(bank.books.assetsMinor)],
-                  [labels.depositsOwed, moneyWords(bank.books.depositsMinor)],
-                  [
-                    labels.mortgageFunding,
-                    moneyWords(bank.books.mortgageFundingMinor),
-                  ],
-                  [labels.bankEquity, moneyWords(bank.books.equityMinor)],
-                  [
-                    labels.liabilitiesAndEquity,
-                    moneyWords(bank.books.liabilitiesAndEquityMinor),
-                  ],
-                ]
-              : []),
+            ...(bank.spending ?? []).map((line) => [
+              named(labels.reasons, line.reasonKey),
+              owedWords(line.paidMinor, line.requestedMinor),
+            ]),
+            ...(bank.loanPayments ?? []).map((payment) => [
+              `${labels.loanPayments} · ${dayName(payment.date)}`,
+              owedWords(payment.paidMinor, payment.dueMinor),
+            ]),
           ]),
+        },
+        bank?.assets?.length && {
+          title: labels.assets,
+          items: facts(
+            bank.assets.map((asset) => [
+              asset.kind === "savings"
+                ? `${labels.assetKinds.savings} · ${bank.name}`
+                : labels.assetKinds[asset.kind],
+              moneyWords(asset.valueMinor),
+            ]),
+          ),
+        },
+        bank?.debts?.length && {
+          title: labels.debts,
+          items: facts(
+            bank.debts.map((debt) => [
+              named(labels.debtKinds, debt.kind),
+              debt.pastDueMinor > 0
+                ? `${moneyWords(debt.owedMinor)} · ${moneyWords(debt.pastDueMinor)} ${labels.pastDue}`
+                : moneyWords(debt.owedMinor),
+            ]),
+          ),
         },
         deductions.length && {
           title: labels.deductions,
@@ -2742,25 +2762,17 @@ const sheets = {
             : []),
         ]
       : [];
-    const [rows, opening] = await Promise.all([
-      api(`/api/news?id=${encodeURIComponent(me.id)}`),
-      api(`/api/opening?id=${encodeURIComponent(me.id)}`),
-    ]);
     const labels = controls.news;
-    // One feed: the night's lead story the toast showed first, then what you heard,
-    // newest first. News and the toast read the same stories through storyHeadline.
-    const stories = [
-      ...(opening?.news?.stories ?? []),
-      ...rows.filter((r) => r.headline || r.lede),
-    ].filter(storyHeadline);
+    // One feed, what you heard, newest first: News and the toast read the
+    // news engine's same stories through storyHeadline.
+    const { stories } = await nightsNews(me.id);
     const outlets = new Map();
     for (const story of stories) {
-      const outlet = story.outlet ??
-        opening?.news?.outlet ?? {
-          id: "news",
-          name: labels.title,
-          layout: "broadsheet",
-        };
+      const outlet = story.outlet ?? {
+        id: "news",
+        name: labels.title,
+        layout: "broadsheet",
+      };
       const key = outlet.id ?? outlet.name;
       if (!outlets.has(key)) outlets.set(key, { ...outlet, stories: [] });
       outlets.get(key).stories.push(story);
@@ -3544,7 +3556,8 @@ $("front-continue").addEventListener("click", async () => {
   const opening = await api(
     `/api/opening?id=${encodeURIComponent(life.personId)}`,
   );
-  if (opening?.home?.date === life.date) showNewsSurface(opening.news);
+  if (opening?.home?.date === life.date)
+    showNewsSurface(await nightsNews(life.personId));
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {
@@ -4040,7 +4053,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();
-    showNewsSurface(opening?.news);
+    showNewsSurface(await nightsNews(life.personId));
+    // The scene the director staged for the evening (the address) plays first.
+    if (life.sceneMomentId) await showStory(life.sceneMomentId);
     coachFirstChoices();
   } catch (error) {
     $("front-status").textContent = error.message;

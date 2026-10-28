@@ -1120,7 +1120,7 @@ export function startTownLeases(
     if (tenure.holder.kind !== "household") continue;
     const dwelling = dwellings.get(tenure.dwellingId)!;
     const town = dwelling.jurisdictionId;
-    const row = hudRentRowFor(town);
+    const row = hudRentRowFor(town, world.seed);
     // Noncatalog jurisdictions have no usable HUD area and do not enter a
     // player world. Every playable state/territory has a published-area row
     // or the estimated state baseline above.
@@ -1537,7 +1537,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
     if (history.some((row) => row.stableKey === stableKey)) continue;
     const current = termsOn(history, dueOn);
     if (!current || current.status !== "active") continue;
-    const row = hudRentRowFor(lease.town);
+    const row = hudRentRowFor(lease.town, world.seed);
     if (!row) continue;
     const old = current.amount.minorUnits;
     let amount = old;

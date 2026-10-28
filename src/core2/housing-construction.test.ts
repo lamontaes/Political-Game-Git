@@ -7,8 +7,7 @@ import {
 import { collapseToTwoLevels } from "./residents";
 import { residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
-import construction from "./data/housing/construction.json" with { type: "json" };
-import { buildMonth, openStock } from "./housing-construction";
+import { buildMonth, openStock, permitRates } from "./housing-construction";
 import { advanceCore, createLifeCore } from "./life";
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
@@ -114,9 +113,9 @@ describe("new homes", () => {
     const base = month();
     base.run();
     const carry = Number(base.tables.stock.get(`stock:${place}`)!.carryMulti);
-    // Texas permits: about 1,000 residents start a fraction of a building a month.
+    // The state's permits as this world draws them: about 1,000 residents start a fraction of a building a month.
     expect(carry).toBeCloseTo(
-      (construction.byState.TX.multiPerThousand * 1) / 12,
+      (permitRates("TX", base.core.seed).multiPerThousand * 1) / 12,
       6,
     );
   });
