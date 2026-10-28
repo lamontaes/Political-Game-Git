@@ -55,7 +55,6 @@
 /src/core2/electorate*.ts @lamontaes
 /src/core2/legislative-district-results.ts @lamontaes
 /src/core2/race-places.ts @lamontaes
-/src/core2/stand-again.ts @lamontaes
 /src/core2/turnout*.ts @lamontaes
 /src/core2/civic-inputs.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
