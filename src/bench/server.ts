@@ -12,6 +12,14 @@ const assets = new Map([
   ["/play", { file: "play.html", type: "text/html; charset=utf-8" }],
   ["/play.mjs", { file: "play.mjs", type: "text/javascript; charset=utf-8" }],
   ["/play.css", { file: "play.css", type: "text/css; charset=utf-8" }],
+  // Dates and money in words, shared with the server (src/english).
+  [
+    "/english/plain-words.mjs",
+    {
+      file: "../english/plain-words.mjs",
+      type: "text/javascript; charset=utf-8",
+    },
+  ],
 ]);
 // The approved Kit 12/13 fonts and controls, served from public/.
 const PUBLIC = new URL("../../public/", import.meta.url);
