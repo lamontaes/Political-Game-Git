@@ -1,0 +1,66 @@
+{
+ "scene": "council-chamber",
+ "plate": "sg-p02",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "business"
+ },
+ "zones": [
+  {
+   "name": "stray legs under the gallery chairs",
+   "box": [
+    380,
+    760,
+    820,
+    941
+   ],
+   "drop": true
+  },
+  {
+   "name": "council at the dais",
+   "box": [
+    380,
+    200,
+    1000,
+    330
+   ],
+   "pose": "sit",
+   "seat": "desk-chair",
+   "facing": 0,
+   "coveredBy": "dais",
+   "role": "member"
+  },
+  {
+   "name": "public lectern",
+   "box": [
+    1050,
+    230,
+    1220,
+    520
+   ],
+   "pose": "stand",
+   "facing": 180,
+   "coveredBy": "lectern",
+   "role": "speaker",
+   "dress": "casual"
+  },
+  {
+   "name": "gallery",
+   "box": [
+    0,
+    330,
+    1672,
+    760
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": 180,
+   "coveredBy": "chair-back",
+   "dress": "casual"
+  }
+ ]
+}

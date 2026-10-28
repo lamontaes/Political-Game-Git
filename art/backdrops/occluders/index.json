@@ -1584,37 +1584,38 @@
     "clerk-counter": {
       "parent": "clerk-counter__midday.jpg",
       "parentSha256": "9612fd68a6f56f9a257c200197c24028fe8578cb774523853e5554367e8c7513",
+      "from": "art/people-rooms/spots/clerk-counter.json",
       "spots": {
-        "clerk-counter:spot:0": {
-          "file": "clerk-counter/0.png",
-          "leftPercent": 39.952,
-          "topPercent": 41.126,
-          "widthPercent": 20.096,
-          "heightPercent": 40.383
+        "clerk-counter:spot:2": {
+          "file": "clerk-counter/2.png",
+          "leftPercent": 42.763,
+          "topPercent": 44.74,
+          "widthPercent": 12.321,
+          "heightPercent": 21.785
         },
-        "clerk-counter:spot:1": {
-          "file": "clerk-counter/1.png",
+        "clerk-counter:spot:3": {
+          "file": "clerk-counter/3.png",
           "leftPercent": 29.426,
           "topPercent": 40.17,
           "widthPercent": 13.158,
           "heightPercent": 18.172
         },
-        "clerk-counter:spot:3": {
-          "file": "clerk-counter/3.png",
+        "clerk-counter:spot:5": {
+          "file": "clerk-counter/5.png",
           "leftPercent": 57.416,
           "topPercent": 34.538,
           "widthPercent": 12.081,
           "heightPercent": 23.804
         },
-        "clerk-counter:spot:6": {
-          "file": "clerk-counter/6.png",
+        "clerk-counter:spot:7": {
+          "file": "clerk-counter/7.png",
           "leftPercent": 63.158,
           "topPercent": 68.332,
           "widthPercent": 36.842,
           "heightPercent": 31.668
         },
-        "clerk-counter:spot:7": {
-          "file": "clerk-counter/7.png",
+        "clerk-counter:spot:8": {
+          "file": "clerk-counter/8.png",
           "leftPercent": 6.1,
           "topPercent": 36.451,
           "widthPercent": 6.998,
@@ -1645,27 +1646,21 @@
     "coffee-shop": {
       "parent": "coffee-shop__midday.jpg",
       "parentSha256": "b5c86dae8602fa87bc69d9cf77c01ea1da794a18620c2def45aeb45fedc64989",
+      "from": "art/people-rooms/spots/coffee-shop.json",
       "spots": {
-        "coffee-shop:spot:1": {
-          "file": "coffee-shop/1.png",
-          "leftPercent": 0,
-          "topPercent": 56.277,
-          "widthPercent": 35.227,
-          "heightPercent": 43.723
-        },
         "coffee-shop:spot:2": {
           "file": "coffee-shop/2.png",
-          "leftPercent": 19.557,
-          "topPercent": 59.149,
-          "widthPercent": 4.964,
-          "heightPercent": 17.66
+          "leftPercent": 26.435,
+          "topPercent": 50.532,
+          "widthPercent": 10.048,
+          "heightPercent": 19.574
         },
         "coffee-shop:spot:3": {
           "file": "coffee-shop/3.png",
-          "leftPercent": 65.789,
-          "topPercent": 51.702,
-          "widthPercent": 4.366,
-          "heightPercent": 25.106
+          "leftPercent": 6.699,
+          "topPercent": 69.043,
+          "widthPercent": 19.318,
+          "heightPercent": 30.957
         },
         "coffee-shop:spot:5": {
           "file": "coffee-shop/5.png",
@@ -3135,89 +3130,97 @@
     "council-chamber": {
       "parent": "council-chamber__midday.jpg",
       "parentSha256": "c46d312419bcc56c6aebc4e31d9270f3301684fefcfa1f1a6781273749c520cb",
+      "from": "art/people-rooms/spots/council-chamber.json",
       "spots": {
+        "council-chamber:spot:0": {
+          "file": "council-chamber/0.png",
+          "leftPercent": 46.232,
+          "topPercent": 31.775,
+          "widthPercent": 7.237,
+          "heightPercent": 14.028
+        },
         "council-chamber:spot:1": {
           "file": "council-chamber/1.png",
+          "leftPercent": 30.861,
+          "topPercent": 31.881,
+          "widthPercent": 6.758,
+          "heightPercent": 15.728
+        },
+        "council-chamber:spot:2": {
+          "file": "council-chamber/2.png",
+          "leftPercent": 54.486,
+          "topPercent": 31.775,
+          "widthPercent": 6.699,
+          "heightPercent": 15.303
+        },
+        "council-chamber:spot:3": {
+          "file": "council-chamber/3.png",
+          "leftPercent": 22.847,
+          "topPercent": 32.094,
+          "widthPercent": 6.878,
+          "heightPercent": 16.047
+        },
+        "council-chamber:spot:4": {
+          "file": "council-chamber/4.png",
+          "leftPercent": 38.397,
+          "topPercent": 31.775,
+          "widthPercent": 6.4,
+          "heightPercent": 15.409
+        },
+        "council-chamber:spot:5": {
+          "file": "council-chamber/5.png",
+          "leftPercent": 60.825,
+          "topPercent": 39.957,
+          "widthPercent": 11.902,
+          "heightPercent": 30.925
+        },
+        "council-chamber:spot:6": {
+          "file": "council-chamber/6.png",
+          "leftPercent": 17.584,
+          "topPercent": 65.781,
+          "widthPercent": 20.694,
+          "heightPercent": 34.219
+        },
+        "council-chamber:spot:8": {
+          "file": "council-chamber/8.png",
           "leftPercent": 61.782,
           "topPercent": 38.257,
           "widthPercent": 10.108,
           "heightPercent": 10.096
         },
-        "council-chamber:spot:2": {
-          "file": "council-chamber/2.png",
-          "leftPercent": 18.481,
-          "topPercent": 28.799,
-          "widthPercent": 14.653,
-          "heightPercent": 29.437
-        },
-        "council-chamber:spot:3": {
-          "file": "council-chamber/3.png",
-          "leftPercent": 26.495,
-          "topPercent": 28.799,
-          "widthPercent": 14.593,
-          "heightPercent": 29.437
-        },
-        "council-chamber:spot:4": {
-          "file": "council-chamber/4.png",
-          "leftPercent": 34.51,
-          "topPercent": 28.799,
-          "widthPercent": 14.593,
-          "heightPercent": 29.437
-        },
-        "council-chamber:spot:5": {
-          "file": "council-chamber/5.png",
-          "leftPercent": 42.464,
-          "topPercent": 28.799,
-          "widthPercent": 14.653,
-          "heightPercent": 29.437
-        },
-        "council-chamber:spot:6": {
-          "file": "council-chamber/6.png",
-          "leftPercent": 50.478,
-          "topPercent": 28.799,
-          "widthPercent": 14.653,
-          "heightPercent": 29.437
-        },
-        "council-chamber:spot:7": {
-          "file": "council-chamber/7.png",
+        "council-chamber:spot:9": {
+          "file": "council-chamber/9.png",
           "leftPercent": 58.493,
-          "topPercent": 28.799,
-          "widthPercent": 14.653,
-          "heightPercent": 29.437
-        },
-        "council-chamber:spot:8": {
-          "file": "council-chamber/8.png",
-          "leftPercent": 66.687,
           "topPercent": 28.799,
           "widthPercent": 14.653,
           "heightPercent": 29.437
         },
         "council-chamber:spot:10": {
           "file": "council-chamber/10.png",
+          "leftPercent": 66.687,
+          "topPercent": 28.799,
+          "widthPercent": 14.653,
+          "heightPercent": 29.437
+        },
+        "council-chamber:spot:11": {
+          "file": "council-chamber/11.png",
           "leftPercent": 61.543,
           "topPercent": 51.222,
           "widthPercent": 2.691,
           "heightPercent": 15.09
         },
-        "council-chamber:spot:11": {
-          "file": "council-chamber/11.png",
+        "council-chamber:spot:12": {
+          "file": "council-chamber/12.png",
           "leftPercent": 30.323,
           "topPercent": 51.435,
           "widthPercent": 7.775,
           "heightPercent": 18.916
         },
-        "council-chamber:spot:12": {
-          "file": "council-chamber/12.png",
+        "council-chamber:spot:13": {
+          "file": "council-chamber/13.png",
           "leftPercent": 19.677,
           "topPercent": 54.729,
           "widthPercent": 29.665,
-          "heightPercent": 45.271
-        },
-        "council-chamber:spot:13": {
-          "file": "council-chamber/13.png",
-          "leftPercent": 51.136,
-          "topPercent": 54.729,
-          "widthPercent": 29.725,
           "heightPercent": 45.271
         },
         "council-chamber:spot:14": {
@@ -3236,490 +3239,364 @@
         },
         "council-chamber:spot:16": {
           "file": "council-chamber/16.png",
-          "leftPercent": 11.423,
-          "topPercent": 40.383,
+          "leftPercent": 71.411,
+          "topPercent": 37.513,
           "widthPercent": 17.165,
-          "heightPercent": 29.968
+          "heightPercent": 32.837
         },
         "council-chamber:spot:17": {
           "file": "council-chamber/17.png",
-          "leftPercent": 18.9,
-          "topPercent": 40.383,
-          "widthPercent": 17.165,
-          "heightPercent": 29.968
+          "leftPercent": 78.888,
+          "topPercent": 37.513,
+          "widthPercent": 17.225,
+          "heightPercent": 32.837
         },
         "council-chamber:spot:18": {
           "file": "council-chamber/18.png",
-          "leftPercent": 26.435,
+          "leftPercent": 82.835,
           "topPercent": 37.513,
           "widthPercent": 17.165,
           "heightPercent": 32.837
         },
         "council-chamber:spot:19": {
           "file": "council-chamber/19.png",
-          "leftPercent": 56.4,
-          "topPercent": 38.151,
-          "widthPercent": 17.165,
-          "heightPercent": 32.2
-        },
-        "council-chamber:spot:20": {
-          "file": "council-chamber/20.png",
-          "leftPercent": 63.935,
-          "topPercent": 37.513,
-          "widthPercent": 17.165,
-          "heightPercent": 32.837
-        },
-        "council-chamber:spot:21": {
-          "file": "council-chamber/21.png",
-          "leftPercent": 71.411,
-          "topPercent": 37.513,
-          "widthPercent": 17.165,
-          "heightPercent": 32.837
-        },
-        "council-chamber:spot:22": {
-          "file": "council-chamber/22.png",
-          "leftPercent": 78.888,
-          "topPercent": 37.513,
-          "widthPercent": 17.225,
-          "heightPercent": 32.837
-        },
-        "council-chamber:spot:23": {
-          "file": "council-chamber/23.png",
-          "leftPercent": 82.835,
-          "topPercent": 37.513,
-          "widthPercent": 17.165,
-          "heightPercent": 32.837
-        },
-        "council-chamber:spot:24": {
-          "file": "council-chamber/24.png",
           "leftPercent": 0,
           "topPercent": 39.957,
           "widthPercent": 20.455,
           "heightPercent": 38.895
         },
-        "council-chamber:spot:25": {
-          "file": "council-chamber/25.png",
+        "council-chamber:spot:20": {
+          "file": "council-chamber/20.png",
           "leftPercent": 0,
           "topPercent": 47.503,
           "widthPercent": 20.455,
           "heightPercent": 31.35
         },
-        "council-chamber:spot:26": {
-          "file": "council-chamber/26.png",
+        "council-chamber:spot:21": {
+          "file": "council-chamber/21.png",
           "leftPercent": 4.785,
           "topPercent": 47.609,
           "widthPercent": 20.455,
           "heightPercent": 31.243
         },
-        "council-chamber:spot:27": {
-          "file": "council-chamber/27.png",
-          "leftPercent": 11.244,
-          "topPercent": 47.503,
-          "widthPercent": 20.514,
-          "heightPercent": 31.35
-        },
-        "council-chamber:spot:28": {
-          "file": "council-chamber/28.png",
-          "leftPercent": 17.763,
-          "topPercent": 47.715,
-          "widthPercent": 20.455,
-          "heightPercent": 31.137
-        },
-        "council-chamber:spot:29": {
-          "file": "council-chamber/29.png",
-          "leftPercent": 24.282,
-          "topPercent": 47.821,
-          "widthPercent": 20.455,
-          "heightPercent": 31.031
-        },
-        "council-chamber:spot:30": {
-          "file": "council-chamber/30.png",
-          "leftPercent": 55.263,
-          "topPercent": 47.928,
-          "widthPercent": 20.455,
-          "heightPercent": 30.925
-        },
-        "council-chamber:spot:31": {
-          "file": "council-chamber/31.png",
-          "leftPercent": 61.782,
-          "topPercent": 47.821,
-          "widthPercent": 20.455,
-          "heightPercent": 31.031
-        },
-        "council-chamber:spot:32": {
-          "file": "council-chamber/32.png",
+        "council-chamber:spot:22": {
+          "file": "council-chamber/22.png",
           "leftPercent": 68.242,
           "topPercent": 47.715,
           "widthPercent": 20.514,
           "heightPercent": 31.137
         },
-        "council-chamber:spot:33": {
-          "file": "council-chamber/33.png",
+        "council-chamber:spot:23": {
+          "file": "council-chamber/23.png",
           "leftPercent": 74.761,
           "topPercent": 47.715,
           "widthPercent": 20.455,
           "heightPercent": 31.137
         },
-        "council-chamber:spot:34": {
-          "file": "council-chamber/34.png",
+        "council-chamber:spot:24": {
+          "file": "council-chamber/24.png",
           "leftPercent": 79.545,
           "topPercent": 47.715,
           "widthPercent": 20.455,
           "heightPercent": 31.137
         },
-        "council-chamber:spot:35": {
-          "file": "council-chamber/35.png",
+        "council-chamber:spot:25": {
+          "file": "council-chamber/25.png",
           "leftPercent": 79.545,
           "topPercent": 46.652,
           "widthPercent": 20.455,
           "heightPercent": 32.2
         },
-        "council-chamber:spot:36": {
-          "file": "council-chamber/36.png",
+        "council-chamber:spot:26": {
+          "file": "council-chamber/26.png",
           "leftPercent": 0,
           "topPercent": 50.903,
           "widthPercent": 23.744,
           "heightPercent": 36.451
         },
-        "council-chamber:spot:37": {
-          "file": "council-chamber/37.png",
+        "council-chamber:spot:27": {
+          "file": "council-chamber/27.png",
           "leftPercent": 0,
           "topPercent": 50.797,
           "widthPercent": 23.744,
           "heightPercent": 36.557
         },
-        "council-chamber:spot:38": {
-          "file": "council-chamber/38.png",
+        "council-chamber:spot:28": {
+          "file": "council-chamber/28.png",
           "leftPercent": 2.093,
           "topPercent": 50.903,
           "widthPercent": 23.804,
           "heightPercent": 36.451
         },
-        "council-chamber:spot:39": {
-          "file": "council-chamber/39.png",
+        "council-chamber:spot:29": {
+          "file": "council-chamber/29.png",
           "leftPercent": 9.091,
           "topPercent": 51.01,
           "widthPercent": 23.804,
           "heightPercent": 36.344
         },
-        "council-chamber:spot:40": {
-          "file": "council-chamber/40.png",
+        "council-chamber:spot:30": {
+          "file": "council-chamber/30.png",
           "leftPercent": 16.089,
           "topPercent": 51.01,
           "widthPercent": 23.804,
           "heightPercent": 36.344
         },
-        "council-chamber:spot:41": {
-          "file": "council-chamber/41.png",
+        "council-chamber:spot:31": {
+          "file": "council-chamber/31.png",
           "leftPercent": 23.146,
           "topPercent": 51.01,
           "widthPercent": 23.744,
           "heightPercent": 36.344
         },
-        "council-chamber:spot:42": {
-          "file": "council-chamber/42.png",
-          "leftPercent": 53.11,
-          "topPercent": 48.672,
-          "widthPercent": 23.744,
-          "heightPercent": 38.682
-        },
-        "council-chamber:spot:43": {
-          "file": "council-chamber/43.png",
-          "leftPercent": 60.108,
-          "topPercent": 51.01,
-          "widthPercent": 23.804,
-          "heightPercent": 36.344
-        },
-        "council-chamber:spot:44": {
-          "file": "council-chamber/44.png",
+        "council-chamber:spot:32": {
+          "file": "council-chamber/32.png",
           "leftPercent": 67.105,
           "topPercent": 48.778,
           "widthPercent": 23.804,
           "heightPercent": 38.576
         },
-        "council-chamber:spot:45": {
-          "file": "council-chamber/45.png",
+        "council-chamber:spot:33": {
+          "file": "council-chamber/33.png",
           "leftPercent": 74.103,
           "topPercent": 50.797,
           "widthPercent": 23.804,
           "heightPercent": 36.557
         },
-        "council-chamber:spot:46": {
-          "file": "council-chamber/46.png",
+        "council-chamber:spot:34": {
+          "file": "council-chamber/34.png",
           "leftPercent": 76.256,
           "topPercent": 50.797,
           "widthPercent": 23.744,
           "heightPercent": 36.557
         },
-        "council-chamber:spot:47": {
-          "file": "council-chamber/47.png",
+        "council-chamber:spot:35": {
+          "file": "council-chamber/35.png",
           "leftPercent": 76.256,
           "topPercent": 50.903,
           "widthPercent": 23.744,
           "heightPercent": 36.451
         },
-        "council-chamber:spot:48": {
-          "file": "council-chamber/48.png",
+        "council-chamber:spot:36": {
+          "file": "council-chamber/36.png",
           "leftPercent": 0,
           "topPercent": 54.623,
           "widthPercent": 27.033,
           "heightPercent": 41.233
         },
-        "council-chamber:spot:49": {
-          "file": "council-chamber/49.png",
+        "council-chamber:spot:37": {
+          "file": "council-chamber/37.png",
           "leftPercent": 0,
           "topPercent": 54.729,
           "widthPercent": 27.033,
           "heightPercent": 41.126
         },
-        "council-chamber:spot:50": {
-          "file": "council-chamber/50.png",
+        "council-chamber:spot:38": {
+          "file": "council-chamber/38.png",
           "leftPercent": 1.495,
           "topPercent": 54.729,
           "widthPercent": 27.033,
           "heightPercent": 41.126
         },
-        "council-chamber:spot:51": {
-          "file": "council-chamber/51.png",
+        "council-chamber:spot:39": {
+          "file": "council-chamber/39.png",
           "leftPercent": 8.493,
           "topPercent": 54.729,
           "widthPercent": 27.033,
           "heightPercent": 41.126
         },
-        "council-chamber:spot:52": {
-          "file": "council-chamber/52.png",
+        "council-chamber:spot:40": {
+          "file": "council-chamber/40.png",
           "leftPercent": 15.49,
           "topPercent": 54.729,
           "widthPercent": 27.033,
           "heightPercent": 41.126
         },
-        "council-chamber:spot:53": {
-          "file": "council-chamber/53.png",
+        "council-chamber:spot:41": {
+          "file": "council-chamber/41.png",
           "leftPercent": 22.488,
           "topPercent": 54.729,
           "widthPercent": 27.033,
           "heightPercent": 41.126
         },
-        "council-chamber:spot:54": {
-          "file": "council-chamber/54.png",
-          "leftPercent": 50.478,
-          "topPercent": 48.14,
-          "widthPercent": 27.033,
-          "heightPercent": 47.715
-        },
-        "council-chamber:spot:55": {
-          "file": "council-chamber/55.png",
-          "leftPercent": 57.476,
-          "topPercent": 54.835,
-          "widthPercent": 27.033,
-          "heightPercent": 41.02
-        },
-        "council-chamber:spot:56": {
-          "file": "council-chamber/56.png",
+        "council-chamber:spot:42": {
+          "file": "council-chamber/42.png",
           "leftPercent": 64.474,
           "topPercent": 54.835,
           "widthPercent": 27.033,
           "heightPercent": 41.02
         },
-        "council-chamber:spot:57": {
-          "file": "council-chamber/57.png",
+        "council-chamber:spot:43": {
+          "file": "council-chamber/43.png",
           "leftPercent": 71.471,
           "topPercent": 54.729,
           "widthPercent": 27.033,
           "heightPercent": 41.126
         },
-        "council-chamber:spot:58": {
-          "file": "council-chamber/58.png",
+        "council-chamber:spot:44": {
+          "file": "council-chamber/44.png",
           "leftPercent": 72.967,
           "topPercent": 54.729,
           "widthPercent": 27.033,
           "heightPercent": 41.126
         },
-        "council-chamber:spot:59": {
-          "file": "council-chamber/59.png",
+        "council-chamber:spot:45": {
+          "file": "council-chamber/45.png",
           "leftPercent": 72.967,
           "topPercent": 51.222,
           "widthPercent": 27.033,
           "heightPercent": 44.633
         },
-        "council-chamber:spot:60": {
-          "file": "council-chamber/60.png",
+        "council-chamber:spot:46": {
+          "file": "council-chamber/46.png",
           "leftPercent": 0,
           "topPercent": 59.299,
           "widthPercent": 29.665,
           "heightPercent": 40.701
         },
-        "council-chamber:spot:61": {
-          "file": "council-chamber/61.png",
+        "council-chamber:spot:47": {
+          "file": "council-chamber/47.png",
           "leftPercent": 0,
           "topPercent": 59.405,
           "widthPercent": 29.665,
           "heightPercent": 40.595
         },
-        "council-chamber:spot:62": {
-          "file": "council-chamber/62.png",
+        "council-chamber:spot:48": {
+          "file": "council-chamber/48.png",
           "leftPercent": 4.127,
           "topPercent": 59.405,
           "widthPercent": 29.725,
           "heightPercent": 40.595
         },
-        "council-chamber:spot:63": {
-          "file": "council-chamber/63.png",
+        "council-chamber:spot:49": {
+          "file": "council-chamber/49.png",
           "leftPercent": 12.141,
           "topPercent": 59.405,
           "widthPercent": 29.725,
           "heightPercent": 40.595
         },
-        "council-chamber:spot:64": {
-          "file": "council-chamber/64.png",
-          "leftPercent": 58.134,
-          "topPercent": 59.511,
-          "widthPercent": 29.725,
-          "heightPercent": 40.489
-        },
-        "council-chamber:spot:65": {
-          "file": "council-chamber/65.png",
+        "council-chamber:spot:50": {
+          "file": "council-chamber/50.png",
           "leftPercent": 66.148,
           "topPercent": 59.405,
           "widthPercent": 29.725,
           "heightPercent": 40.595
         },
-        "council-chamber:spot:66": {
-          "file": "council-chamber/66.png",
+        "council-chamber:spot:51": {
+          "file": "council-chamber/51.png",
           "leftPercent": 70.335,
           "topPercent": 59.405,
           "widthPercent": 29.665,
           "heightPercent": 40.595
         },
-        "council-chamber:spot:67": {
-          "file": "council-chamber/67.png",
+        "council-chamber:spot:52": {
+          "file": "council-chamber/52.png",
           "leftPercent": 70.335,
           "topPercent": 54.835,
           "widthPercent": 29.665,
           "heightPercent": 45.165
         },
-        "council-chamber:spot:68": {
-          "file": "council-chamber/68.png",
+        "council-chamber:spot:53": {
+          "file": "council-chamber/53.png",
           "leftPercent": 0,
           "topPercent": 66.206,
           "widthPercent": 34.928,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:69": {
-          "file": "council-chamber/69.png",
+        "council-chamber:spot:54": {
+          "file": "council-chamber/54.png",
           "leftPercent": 0,
           "topPercent": 66.206,
           "widthPercent": 34.928,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:70": {
-          "file": "council-chamber/70.png",
+        "council-chamber:spot:55": {
+          "file": "council-chamber/55.png",
           "leftPercent": 6.519,
           "topPercent": 66.1,
           "widthPercent": 34.988,
           "heightPercent": 33.9
         },
-        "council-chamber:spot:71": {
-          "file": "council-chamber/71.png",
+        "council-chamber:spot:56": {
+          "file": "council-chamber/56.png",
           "leftPercent": 16.507,
           "topPercent": 59.299,
           "widthPercent": 34.988,
           "heightPercent": 40.701
         },
-        "council-chamber:spot:72": {
-          "file": "council-chamber/72.png",
+        "council-chamber:spot:57": {
+          "file": "council-chamber/57.png",
           "leftPercent": 48.505,
           "topPercent": 54.942,
           "widthPercent": 34.988,
           "heightPercent": 45.058
         },
-        "council-chamber:spot:73": {
-          "file": "council-chamber/73.png",
+        "council-chamber:spot:58": {
+          "file": "council-chamber/58.png",
           "leftPercent": 58.493,
           "topPercent": 66.206,
           "widthPercent": 34.988,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:74": {
-          "file": "council-chamber/74.png",
+        "council-chamber:spot:59": {
+          "file": "council-chamber/59.png",
           "leftPercent": 65.072,
           "topPercent": 66.206,
           "widthPercent": 34.928,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:75": {
-          "file": "council-chamber/75.png",
+        "council-chamber:spot:60": {
+          "file": "council-chamber/60.png",
           "leftPercent": 65.072,
           "topPercent": 66.206,
           "widthPercent": 34.928,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:76": {
-          "file": "council-chamber/76.png",
+        "council-chamber:spot:61": {
+          "file": "council-chamber/61.png",
           "leftPercent": 0,
           "topPercent": 66.206,
           "widthPercent": 40.849,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:77": {
-          "file": "council-chamber/77.png",
+        "council-chamber:spot:62": {
+          "file": "council-chamber/62.png",
           "leftPercent": 0,
           "topPercent": 66.1,
           "widthPercent": 40.849,
           "heightPercent": 33.9
         },
-        "council-chamber:spot:78": {
-          "file": "council-chamber/78.png",
-          "leftPercent": 3.529,
-          "topPercent": 66.1,
-          "widthPercent": 40.909,
-          "heightPercent": 33.9
-        },
-        "council-chamber:spot:79": {
-          "file": "council-chamber/79.png",
-          "leftPercent": 13.577,
-          "topPercent": 55.898,
-          "widthPercent": 40.849,
-          "heightPercent": 44.102
-        },
-        "council-chamber:spot:80": {
-          "file": "council-chamber/80.png",
+        "council-chamber:spot:63": {
+          "file": "council-chamber/63.png",
           "leftPercent": 45.574,
           "topPercent": 55.898,
           "widthPercent": 40.849,
           "heightPercent": 44.102
         },
-        "council-chamber:spot:81": {
-          "file": "council-chamber/81.png",
+        "council-chamber:spot:64": {
+          "file": "council-chamber/64.png",
           "leftPercent": 55.562,
           "topPercent": 66.206,
           "widthPercent": 40.909,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:82": {
-          "file": "council-chamber/82.png",
+        "council-chamber:spot:65": {
+          "file": "council-chamber/65.png",
           "leftPercent": 59.151,
           "topPercent": 66.206,
           "widthPercent": 40.849,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:83": {
-          "file": "council-chamber/83.png",
+        "council-chamber:spot:66": {
+          "file": "council-chamber/66.png",
           "leftPercent": 59.151,
           "topPercent": 66.206,
           "widthPercent": 40.849,
           "heightPercent": 33.794
         },
-        "council-chamber:spot:84": {
-          "file": "council-chamber/84.png",
+        "council-chamber:spot:67": {
+          "file": "council-chamber/67.png",
           "leftPercent": 6.4,
-          "topPercent": 40.383,
-          "widthPercent": 15.191,
-          "heightPercent": 24.867
-        },
-        "council-chamber:spot:85": {
-          "file": "council-chamber/85.png",
-          "leftPercent": 14.414,
           "topPercent": 40.383,
           "widthPercent": 15.191,
           "heightPercent": 24.867
@@ -5638,9 +5515,17 @@
     "door-knocking-rural": {
       "parent": "door-knocking-rural__midday.jpg",
       "parentSha256": "49a89569766617fcc070f113254147964f4cf3eff33fe8f6c13c66a6ced6bce9",
+      "from": "art/people-rooms/spots/door-knocking-rural.json",
       "spots": {
-        "door-knocking-rural:spot:5": {
-          "file": "door-knocking-rural/5.png",
+        "door-knocking-rural:spot:0": {
+          "file": "door-knocking-rural/0.png",
+          "leftPercent": 52.99,
+          "topPercent": 37.407,
+          "widthPercent": 3.05,
+          "heightPercent": 10.733
+        },
+        "door-knocking-rural:spot:6": {
+          "file": "door-knocking-rural/6.png",
           "leftPercent": 7.237,
           "topPercent": 51.222,
           "widthPercent": 8.254,
@@ -5651,9 +5536,17 @@
     "door-knocking-suburban": {
       "parent": "door-knocking-suburban__midday.jpg",
       "parentSha256": "e3e350296d7e19f7b6ecacf9d8a40f0b8e20e3a6d40c7a2ccae84b18599d85ad",
+      "from": "art/people-rooms/spots/door-knocking-suburban.json",
       "spots": {
-        "door-knocking-suburban:spot:1": {
-          "file": "door-knocking-suburban/1.png",
+        "door-knocking-suburban:spot:0": {
+          "file": "door-knocking-suburban/0.png",
+          "leftPercent": 20.036,
+          "topPercent": 43.146,
+          "widthPercent": 6.818,
+          "heightPercent": 16.578
+        },
+        "door-knocking-suburban:spot:2": {
+          "file": "door-knocking-suburban/2.png",
           "leftPercent": 11.722,
           "topPercent": 43.039,
           "widthPercent": 3.17,
@@ -5664,20 +5557,14 @@
     "door-knocking-urban": {
       "parent": "door-knocking-urban__midday.jpg",
       "parentSha256": "3d9524658af910646813f06c6747e891d6034058c37664dc7d09d961822dfc9b",
+      "from": "art/people-rooms/spots/door-knocking-urban.json",
       "spots": {
         "door-knocking-urban:spot:0": {
           "file": "door-knocking-urban/0.png",
-          "leftPercent": 9.45,
-          "topPercent": 19.235,
-          "widthPercent": 21.83,
-          "heightPercent": 41.658
-        },
-        "door-knocking-urban:spot:5": {
-          "file": "door-knocking-urban/5.png",
-          "leftPercent": 22.428,
-          "topPercent": 80.659,
-          "widthPercent": 1.794,
-          "heightPercent": 5.739
+          "leftPercent": 14.234,
+          "topPercent": 42.189,
+          "widthPercent": 8.672,
+          "heightPercent": 38.789
         }
       }
     },
@@ -5831,93 +5718,94 @@
     "election-night-venue": {
       "parent": "election-night-venue__midday.jpg",
       "parentSha256": "f9908298fdc4ad326ab9e429719d94f95d4bc883adf848f504089799793e7a4d",
+      "from": "art/people-rooms/spots/election-night-venue.json",
       "spots": {
         "election-night-venue:spot:0": {
           "file": "election-night-venue/0.png",
-          "leftPercent": 46.651,
-          "topPercent": 29.649,
-          "widthPercent": 7.715,
-          "heightPercent": 14.028
+          "leftPercent": 47.129,
+          "topPercent": 30.712,
+          "widthPercent": 6.938,
+          "heightPercent": 12.434
         },
-        "election-night-venue:spot:5": {
-          "file": "election-night-venue/5.png",
+        "election-night-venue:spot:9": {
+          "file": "election-night-venue/9.png",
           "leftPercent": 10.407,
           "topPercent": 49.416,
           "widthPercent": 26.196,
           "heightPercent": 48.034
         },
-        "election-night-venue:spot:6": {
-          "file": "election-night-venue/6.png",
+        "election-night-venue:spot:10": {
+          "file": "election-night-venue/10.png",
           "leftPercent": 64.055,
           "topPercent": 49.734,
           "widthPercent": 26.914,
           "heightPercent": 49.522
         },
-        "election-night-venue:spot:8": {
-          "file": "election-night-venue/8.png",
+        "election-night-venue:spot:12": {
+          "file": "election-night-venue/12.png",
           "leftPercent": 4.904,
           "topPercent": 47.184,
           "widthPercent": 18.242,
           "heightPercent": 31.243
         },
-        "election-night-venue:spot:9": {
-          "file": "election-night-venue/9.png",
+        "election-night-venue:spot:13": {
+          "file": "election-night-venue/13.png",
           "leftPercent": 76.854,
           "topPercent": 46.971,
           "widthPercent": 18.242,
           "heightPercent": 31.456
         },
-        "election-night-venue:spot:10": {
-          "file": "election-night-venue/10.png",
+        "election-night-venue:spot:14": {
+          "file": "election-night-venue/14.png",
           "leftPercent": 0,
           "topPercent": 59.511,
           "widthPercent": 34.51,
           "heightPercent": 40.489
         },
-        "election-night-venue:spot:11": {
-          "file": "election-night-venue/11.png",
+        "election-night-venue:spot:15": {
+          "file": "election-night-venue/15.png",
           "leftPercent": 0,
           "topPercent": 51.435,
           "widthPercent": 32.237,
           "heightPercent": 48.565
         },
-        "election-night-venue:spot:12": {
-          "file": "election-night-venue/12.png",
+        "election-night-venue:spot:16": {
+          "file": "election-night-venue/16.png",
           "leftPercent": 0,
           "topPercent": 40.808,
           "widthPercent": 19.737,
           "heightPercent": 41.233
         },
-        "election-night-venue:spot:13": {
-          "file": "election-night-venue/13.png",
+        "election-night-venue:spot:17": {
+          "file": "election-night-venue/17.png",
           "leftPercent": 19.139,
           "topPercent": 40.808,
           "widthPercent": 19.737,
           "heightPercent": 41.233
         },
-        "election-night-venue:spot:14": {
-          "file": "election-night-venue/14.png",
+        "election-night-venue:spot:18": {
+          "file": "election-night-venue/18.png",
           "leftPercent": 65.49,
           "topPercent": 56.642,
           "widthPercent": 34.51,
           "heightPercent": 43.358
         },
-        "election-night-venue:spot:15": {
-          "file": "election-night-venue/15.png",
+        "election-night-venue:spot:19": {
+          "file": "election-night-venue/19.png",
           "leftPercent": 67.763,
           "topPercent": 56.854,
           "widthPercent": 32.237,
           "heightPercent": 43.146
         },
-        "election-night-venue:spot:16": {
-          "file": "election-night-venue/16.png",
+        "election-night-venue:spot:20": {
+          "file": "election-night-venue/20.png",
           "leftPercent": 80.263,
           "topPercent": 41.445,
           "widthPercent": 19.737,
           "heightPercent": 40.595
         },
-        "election-night-venue:spot:17": {
-          "file": "election-night-venue/17.png",
+        "election-night-venue:spot:21": {
+          "file": "election-night-venue/21.png",
           "leftPercent": 61.124,
           "topPercent": 40.808,
           "widthPercent": 19.737,
@@ -7182,41 +7070,35 @@
     "home-kitchen": {
       "parent": "home-kitchen__midday.jpg",
       "parentSha256": "ca732e2c34304ef967d67cf03a1d838616a94d62aef5390bab5ec2127dad3ff1",
+      "from": "art/people-rooms/spots/home-kitchen.json",
       "spots": {
         "home-kitchen:spot:1": {
           "file": "home-kitchen/1.png",
-          "leftPercent": 14.653,
-          "topPercent": 51.489,
-          "widthPercent": 37.679,
-          "heightPercent": 48.511
+          "leftPercent": 37.978,
+          "topPercent": 49.043,
+          "widthPercent": 15.49,
+          "heightPercent": 40.851
         },
         "home-kitchen:spot:2": {
           "file": "home-kitchen/2.png",
+          "leftPercent": 25.299,
+          "topPercent": 71.702,
+          "widthPercent": 19.976,
+          "heightPercent": 28.298
+        },
+        "home-kitchen:spot:4": {
+          "file": "home-kitchen/4.png",
           "leftPercent": 46.95,
           "topPercent": 60.319,
           "widthPercent": 37.679,
           "heightPercent": 39.681
         },
-        "home-kitchen:spot:3": {
-          "file": "home-kitchen/3.png",
-          "leftPercent": 29.246,
-          "topPercent": 60.426,
-          "widthPercent": 29.545,
-          "heightPercent": 39.574
-        },
-        "home-kitchen:spot:4": {
-          "file": "home-kitchen/4.png",
+        "home-kitchen:spot:5": {
+          "file": "home-kitchen/5.png",
           "leftPercent": 41.029,
           "topPercent": 60.426,
           "widthPercent": 29.187,
           "heightPercent": 39.574
-        },
-        "home-kitchen:spot:5": {
-          "file": "home-kitchen/5.png",
-          "leftPercent": 68.6,
-          "topPercent": 37.553,
-          "widthPercent": 21.83,
-          "heightPercent": 39.255
         }
       }
     },
@@ -8451,37 +8333,52 @@
     "mayor-office": {
       "parent": "mayor-office__midday.jpg",
       "parentSha256": "6c405b9ac8600b815c9d1c51d0270f1a1890074ebbc7ff6988c9f073c2ecda75",
+      "from": "art/people-rooms/spots/mayor-office.json",
       "spots": {
+        "mayor-office:spot:0": {
+          "file": "mayor-office/0.png",
+          "leftPercent": 42.524,
+          "topPercent": 49.787,
+          "widthPercent": 15.61,
+          "heightPercent": 34.574
+        },
         "mayor-office:spot:1": {
           "file": "mayor-office/1.png",
-          "leftPercent": 38.816,
-          "topPercent": 52.234,
-          "widthPercent": 21.591,
-          "heightPercent": 33.404
+          "leftPercent": 25.239,
+          "topPercent": 56.915,
+          "widthPercent": 21.053,
+          "heightPercent": 43.085
         },
         "mayor-office:spot:2": {
           "file": "mayor-office/2.png",
+          "leftPercent": 59.031,
+          "topPercent": 57.021,
+          "widthPercent": 16.148,
+          "heightPercent": 42.979
+        },
+        "mayor-office:spot:3": {
+          "file": "mayor-office/3.png",
           "leftPercent": 0,
           "topPercent": 52.66,
           "widthPercent": 33.852,
           "heightPercent": 47.34
         },
-        "mayor-office:spot:3": {
-          "file": "mayor-office/3.png",
+        "mayor-office:spot:4": {
+          "file": "mayor-office/4.png",
           "leftPercent": 69.498,
           "topPercent": 35.851,
           "widthPercent": 15.371,
           "heightPercent": 27.66
         },
-        "mayor-office:spot:4": {
-          "file": "mayor-office/4.png",
+        "mayor-office:spot:5": {
+          "file": "mayor-office/5.png",
           "leftPercent": 28.289,
           "topPercent": 56.702,
           "widthPercent": 9.33,
           "heightPercent": 11.702
         },
-        "mayor-office:spot:5": {
-          "file": "mayor-office/5.png",
+        "mayor-office:spot:6": {
+          "file": "mayor-office/6.png",
           "leftPercent": 64.055,
           "topPercent": 56.383,
           "widthPercent": 9.27,
@@ -9444,34 +9341,42 @@
     "polling-place": {
       "parent": "polling-place__midday.jpg",
       "parentSha256": "b24ca8d406600c37e5e9c12f9a82fd4227f3f1d76b14361436f1ef00348c5195",
+      "from": "art/people-rooms/spots/polling-place.json",
       "spots": {
-        "polling-place:spot:0": {
-          "file": "polling-place/0.png",
-          "leftPercent": 69.498,
-          "topPercent": 50.584,
-          "widthPercent": 14.952,
-          "heightPercent": 18.385
-        },
         "polling-place:spot:1": {
           "file": "polling-place/1.png",
+          "leftPercent": 53.888,
+          "topPercent": 36.026,
+          "widthPercent": 5.084,
+          "heightPercent": 17.853
+        },
+        "polling-place:spot:2": {
+          "file": "polling-place/2.png",
+          "leftPercent": 43.541,
+          "topPercent": 36.451,
+          "widthPercent": 4.486,
+          "heightPercent": 13.603
+        },
+        "polling-place:spot:3": {
+          "file": "polling-place/3.png",
+          "leftPercent": 69.079,
+          "topPercent": 40.701,
+          "widthPercent": 7.416,
+          "heightPercent": 17.853
+        },
+        "polling-place:spot:4": {
+          "file": "polling-place/4.png",
+          "leftPercent": 72.727,
+          "topPercent": 43.571,
+          "widthPercent": 9.569,
+          "heightPercent": 22.635
+        },
+        "polling-place:spot:5": {
+          "file": "polling-place/5.png",
           "leftPercent": 2.871,
           "topPercent": 41.233,
           "widthPercent": 14.294,
           "heightPercent": 26.036
-        },
-        "polling-place:spot:7": {
-          "file": "polling-place/7.png",
-          "leftPercent": 65.67,
-          "topPercent": 39.851,
-          "widthPercent": 13.636,
-          "heightPercent": 25.717
-        },
-        "polling-place:spot:8": {
-          "file": "polling-place/8.png",
-          "leftPercent": 71.89,
-          "topPercent": 40.489,
-          "widthPercent": 16.208,
-          "heightPercent": 31.775
         }
       }
     },
@@ -14819,7 +14724,7 @@
           "widthPercent": 16.447,
           "heightPercent": 2.232
         },
-        "us-house-floor:spot:podium-0": {
+        "us-house-floor:spot:104": {
           "file": "us-house-floor/104.png",
           "leftPercent": 46.591,
           "topPercent": 38.151,

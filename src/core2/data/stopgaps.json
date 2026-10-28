@@ -7259,5 +7259,17 @@
     "addedAt": "2026-10-28",
     "replacement": "history-past-moves (each move before the start a record, so a spell runs in the place the person lived), the regional economy series in the economy pass, business sizes from the business pass's history, and history-past-officials for officials' careers.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-plate-overflow-spots",
+    "kind": "placeholder-art",
+    "file": "scripts/people/room-spots.ts",
+    "line": 231,
+    "whatItFakes": "Where a room holds more people than its mannequin plate painted (a council's gallery, an election-night crowd, a big household), the old hand-typed spots the plate does not cover stay after the plate's own spots, with their depth masks, instead of measured ones.",
+    "why": "The plates for the opening rooms paint a few people each (art/people-rooms/spots, Oct 28); the rooms seat more, and dropping the old spots would leave people unplaced.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
+    "status": "open"
   }
 ]
