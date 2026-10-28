@@ -44,6 +44,7 @@ import { properName } from "./words";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
+  PERSON_MOVED_IN,
   SCHOOL_STARTED,
   heldSinceRecord,
   pastWorkOf,
@@ -335,6 +336,15 @@ function householdMoments(
         beat: "roots",
       });
   }
+  // The day they came to the county, from the moves engine's run before the
+  // start (told as their own move, to where they live now).
+  for (const row of history(PERSON_MOVED_IN, person.id))
+    moments.push({
+      ...base(row.id, row.date),
+      causeKind: "moved",
+      counterpartIds: [],
+      selfNamed: true,
+    });
   // A parent's new job, from the working-life run, in the years the person
   // was old enough to remember and still a child at home.
   const remembers = addDays(
