@@ -203,7 +203,7 @@ export function openingClosenessHours(
   const rate = (visits * p("socialHours")) / p("daysPerMeanYear");
 
   // Childhood at home together, then the years apart since the elder left.
-  const adultDays = p("benchmarkAdultMinimumAge") * p("daysPerMeanYear");
+  const adultDays = p("votingAge") * p("daysPerMeanYear");
   const age = (birthDate: IsoDate) => daysBetweenText(birthDate, core.date);
   let together = p("zero"),
     apart = p("zero");

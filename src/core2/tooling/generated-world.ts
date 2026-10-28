@@ -75,7 +75,7 @@ function buildOpening(
       (person) =>
         person.jobId &&
         ageOnDate(makeIsoDate(person.birthDate), start) >=
-          parameter("benchmarkAdultMinimumAge"),
+          parameter("votingAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   if (!player)
