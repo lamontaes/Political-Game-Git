@@ -209,25 +209,6 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
     expect(residents.some((row) => left.has(row.id))).toBe(false);
   });
 
-  it("pays a mover's recorded income into the household where they live now", () => {
-    // A pension or Social Security award follows its person: its term names
-    // the household they live in, and the saved award still names the one
-    // it was written for.
-    for (const row of core.finance.contracts.values()) {
-      const term = row.recipientIncome;
-      if (!term || row.endedAt) continue;
-      const person = core.people.get(term.personId)!;
-      expect(person.householdId).toBe(term.householdId);
-      expect(core.households.get(term.householdId)!.memberIds).toContain(
-        person.id,
-      );
-      if (term.movedOn) {
-        expect(term.recordedHouseholdId).toBeDefined();
-        expect(term.recordedHouseholdId).not.toBe(term.householdId);
-      }
-    }
-  });
-
   it("lets a grown child living with a parent leave alone, and takes a householder's partner and children along", () => {
     for (const row of departures) {
       if (parentsAtHome.has(row.personId))

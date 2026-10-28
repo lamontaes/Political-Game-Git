@@ -104,13 +104,6 @@ try {
     // The world seed the creator obtained: with the drawn place this
     // reproduces the world (BENCH_SEED only reproduces the draws).
     console.log("World seed (creator):", seed, "run seed:", runSeed);
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 300000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
     await page.waitForFunction(() =>
       document.getElementById("card-name").textContent.trim(),
     );
