@@ -1,11 +1,6 @@
 {
   "about": "Numbers law reach group A uses (src/core2/law-reach/group-a*.ts), each tagged SOURCED (with its citation), ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Turnout costs are in the voting engine's own units: a full work week of scheduled hours is a cost of one (campaign parameter turnoutWorkWeekMinutes).",
   "parameters": {
-    "adultAge": {
-      "value": 18,
-      "tag": "SOURCED",
-      "source": "U.S. Constitution, 26th Amendment (voting age); age of majority in every state but Alabama, Mississippi and Nebraska."
-    },
     "childAgeBelow": {
       "value": 18,
       "tag": "SOURCED",

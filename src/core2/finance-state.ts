@@ -801,7 +801,7 @@ export function moveHouseholdPayers(
 ): string[] {
   const moving = new Set(personIds);
   const today = makeIsoDate(core.date);
-  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const adultAge = api.parameter("votingAge");
   // Who stays and can take a lease over: the oldest living adult first.
   const heir = (core.households.get(fromId)?.memberIds ?? [])
     .map((id) => core.people.get(id))
@@ -968,7 +968,7 @@ export function handOverContractsAtDeath(
   api: CoreAPI,
   personId: string,
 ): ContractHandOver[] {
-  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const adultAge = api.parameter("votingAge");
   const today = makeIsoDate(core.date);
   const home = core.households.get(
     core.people.get(personId)?.householdId ?? "",

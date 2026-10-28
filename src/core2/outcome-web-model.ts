@@ -15,7 +15,7 @@ import ledger from "../../data/research/outcome-web/placeholder-ledger.json" wit
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
 import { GOV_MEASURES } from "./gov-measure-keys";
-import { seededUnit } from "./seeded";
+import { worldOffsetUnit } from "./world-draw";
 import type { Source } from "./types";
 
 export type Shape =
@@ -285,12 +285,9 @@ function drawnBaseOf(
   // A national level (a kept outcome with no per-place figures) is one level
   // for the whole world, the same in every state.
   const where = local && !local.places ? "nation" : stateKey;
-  const at = (part: string) =>
-    seededUnit(seed, `outcome-base:${measure}:${where}:${part}`);
-  const floor = WORLD.floorShare.value;
+  // The one world draw (world-draw.ts), times this table's spread row.
   const share =
-    (at("sign") < 0.5 ? -1 : 1) *
-    (floor + (1 - floor) * at("size")) *
+    worldOffsetUnit(seed, `outcome-base:${measure}:${where}`) *
     WORLD.spreadShare.value;
   const value = published.value;
   const room = isPercent(measure)
