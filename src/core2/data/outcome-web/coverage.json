@@ -98,7 +98,6 @@
     "mandatory-minimums-to-violent-crime",
     "clean-electricity-to-particulates",
     "carbon-price-to-particulates",
-    "grocery-exemption-to-food-insecurity",
     "harm-reduction-to-overdose-deaths",
     "public-bargaining-to-earnings",
     "library-funding-to-reading",
@@ -508,6 +507,10 @@
     "student-loan-forgiveness-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts: debt relief is not money income"
+    },
+    "grocery-exemption-to-food-insecurity": {
+      "waitingOn": [],
+      "carriedBy": "the sales tax engine, which spares the grocery share of each retail seller's sales where the exemption holds (syncSalesTax in src/core2/modules/budgets.ts), the business price review, which passes the tax change into the seller's tax-inclusive price (salesTaxPassThrough in src/core2/finance-state.ts), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan at those prices from what its members hold, so the exemption buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     "congress-stock-ban-to-member-returns": {
       "waitingOn": ["government.member-market-returns"],

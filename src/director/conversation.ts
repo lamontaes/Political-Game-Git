@@ -29,7 +29,12 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf } from "../core2/modules/people";
-import { heldSinceRecord, schoolsAttended } from "../core2/past";
+import {
+  PERSON_MOVED_IN,
+  heldSinceRecord,
+  preStartHistory,
+  schoolsAttended,
+} from "../core2/past";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
@@ -1373,13 +1378,21 @@ function playerFacts(
     };
   let stage: string | undefined;
   if (last.kind === "home" || last.kind === "home-new") {
-    const moved = (player.pastFacts ?? []).find(
-      (row) => row.kind === "life:moved-into-county",
-    );
-    const born = (player.pastFacts ?? []).find(
-      (row) =>
-        row.kind === "birthplace" && row.facts?.placeId === player.placeId,
-    );
+    // The move the run of the years before the start recorded, and where
+    // the player was born, from the run's birth record (or the opening's).
+    const moved = preStartHistory(core as CoreState, {
+      kind: PERSON_MOVED_IN,
+      personId: player.id,
+    })[zero];
+    const born =
+      preStartHistory(core as CoreState, {
+        kind: "person.birth",
+        personId: player.id,
+      }).find((row) => row.placeId === player.placeId) ??
+      (player.pastFacts ?? []).find(
+        (row) =>
+          row.kind === "birthplace" && row.facts?.placeId === player.placeId,
+      );
     if (moved) {
       facts.years = {
         text: String(

@@ -34,6 +34,7 @@ import { ENCOUNTERS } from "../encounters";
 import { OPENING_KIN } from "../opening-kin";
 import {
   PAST_WORK_SPELL,
+  pastMovesHistory,
   pastWorkFor,
   pastWorkHistory,
   pastWorkOf,
@@ -52,6 +53,7 @@ import type {
   Relationship,
 } from "../types";
 import { offer } from "./life";
+import { departureRateFor } from "./moves";
 import { pairKey } from "../kernel/ids";
 
 /** The hours a tie has lost, read near or far: the pull toward a visit. */
@@ -244,7 +246,8 @@ function parentIdsOf(person: Readonly<PersonState>): string[] {
 /**
  * Pre-start people pass (M1-14): a full person's own dated records that fall
  * before day one (their birth, where their records put their parents that
- * day, and each dated past fact) are entered in the history, so the world's
+ * day, and each dated past fact) are entered in the history, after the
+ * moves into the county the moves engine's rule runs, so the world's
  * past can be read by record id, their working life is run through the
  * window (`past-work.ts`), and then the day each couple set up home together
  * (owner, Oct 28, 2026: who was in the household each year). Counted people
@@ -258,6 +261,9 @@ function peopleHistory(
 ): void {
   const inside = (date: string) =>
     date >= window.from && date <= window.through;
+  // Who came to the county and when, first: births, schools, the working
+  // life and partnerships are placed by where people lived.
+  pastMovesHistory(api, window, history, departureRateFor);
   for (const person of api.state.people.values()) {
     if (person.tier === "husk") continue;
     if (inside(person.birthDate)) {
@@ -268,7 +274,7 @@ function peopleHistory(
         id: `person-history:${person.id}:birth`,
         date: makeIsoDate(person.birthDate),
         kind: "person.birth",
-        placeId: residenceOn(person, person.birthDate).placeId,
+        placeId: residenceOn(api.state, person, person.birthDate).placeId,
         personIds: [person.id],
         facts: {
           personId: person.id,
@@ -355,7 +361,7 @@ function partneredRecords(
         firstChild && firstChild < both ? firstChild : both,
       );
       if (date < window.from || date > window.through) continue;
-      const where = residenceOn(a, date);
+      const where = residenceOn(core, a, date);
       rows.push({
         id: `${FAMILY_PARTNERED}:${key}`,
         date,

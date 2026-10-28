@@ -50,7 +50,7 @@ export interface Dimensions {
 
 /**
  * How a tier raster came to exist. Mirrors `RasterTierDerivation` in
- * `src/presentation/raster-tiers.ts`; the manifest keeps snake_case fields.
+ * the old appearance folder's raster-tiers.ts; the manifest keeps snake_case fields.
  */
 export type RasterTierDerivationRecord =
   | "native-master"

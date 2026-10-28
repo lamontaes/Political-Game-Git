@@ -79,9 +79,6 @@ describe("filling in one household gets the same kin as the whole town", () => {
     expect(alone.relations).toEqual(
       town.relations.filter((row) => mine.has(row.personId)),
     );
-    expect(alone.moves).toEqual(
-      town.moves.filter((row) => mine.has(row.personId)),
-    );
   });
 });
 
