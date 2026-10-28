@@ -212,20 +212,27 @@ export function claimantFeeling(
 }
 
 /**
- * An eligible worker files unless their traits lean hard toward skipping,
- * less the stress the loss left them under, which pulls toward filing (help
- * sought for a hardship, sized from a study). The record's traits are the full
- * person's or the counted worker's own. Reads, in order: the base, the trait
- * lean toward filing over skipping, the hardship stress.
+ * An eligible worker files when the case for it is above zero: the base, how
+ * much of the lost pay the benefit would replace (a bigger share pulls toward
+ * filing, as the log of the share, sized from the benefit elasticity of
+ * take-up), the stress the loss left them under (help sought for a hardship,
+ * sized from a study) and their traits' lean toward filing over skipping. The
+ * record's traits are the full person's or the counted worker's own.
+ * `replaced` is the weekly benefit over the lost weekly pay.
  */
 export function filingDecision(
   api: CoreAPI,
   filer: Pick<PersonInput, "traits"> & { id?: string },
   feeling: { affect?: Affect },
+  replaced: number,
 ) {
   const c = api.state as CoreState;
   const baseline = api.parameter("benefitsFileBase");
+  const replacement =
+    api.parameter("benefitsFileReplacementWeight") * Math.log(replaced);
   const hardship = hardshipReason(c, feeling, "jobs-benefits.file-claim");
+  // Savings and expected time to a new job are not weighed yet, so temperament sorts who skips.
+  api.stopgap("SG-TRAITS-file-claim-circumstances-tie");
   // The stress is one more reason in the case; the trait term is the lean
   // toward filing over skipping at the decision's calibrated weight.
   const { yes, term } = leanedYesWithTerm(
@@ -234,9 +241,9 @@ export function filingDecision(
     "jobs-benefits.file-claim",
     "file",
     "skip",
-    baseline + hardship.term,
+    baseline + replacement + hardship.term,
   );
-  return { files: yes, baseline, lean: term, hardship };
+  return { files: yes, baseline, replacement, lean: term, hardship };
 }
 
 /**
@@ -258,28 +265,6 @@ export function fileClaim(
   const placeId = (full ?? residentFacts(c, job.personId))?.placeId;
   if (!placeId) return undefined;
   const filer = full ?? residentFacts(c, job.personId);
-  let reasons: Record<string, number> | undefined;
-  if (filer) {
-    const decision = filingDecision(
-      api,
-      filer,
-      claimantFeeling(
-        c,
-        full,
-        full || !lost ? undefined : countedPersonOf(c, filer.id),
-        lost,
-      ),
-    );
-    if (!decision.files) return undefined;
-    // Why they filed is kept for the player and the people they deal with.
-    if (c.observer || c.focusPersonIds.has(filer.id) || filer.id === c.playerId)
-      reasons = {
-        baseline: decision.baseline,
-        lean: decision.lean,
-        hardshipStress: decision.hardship.term,
-        stress: decision.hardship.stress,
-      };
-  }
   const payee = full
     ? full.id
     : residentsRuntime(c)?.input.accounts.find((row) => row.placeId === placeId)
@@ -299,6 +284,30 @@ export function fileClaim(
     Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * weeklyPay),
   );
   if (!(weekly > 0)) return undefined;
+  let reasons: Record<string, number> | undefined;
+  if (filer) {
+    const decision = filingDecision(
+      api,
+      filer,
+      claimantFeeling(
+        c,
+        full,
+        full || !lost ? undefined : countedPersonOf(c, filer.id),
+        lost,
+      ),
+      weekly / weeklyPay,
+    );
+    if (!decision.files) return undefined;
+    // Why they filed is kept for the player and the people they deal with.
+    if (c.observer || c.focusPersonIds.has(filer.id) || filer.id === c.playerId)
+      reasons = {
+        baseline: decision.baseline,
+        replacement: decision.replacement,
+        lean: decision.lean,
+        hardshipStress: decision.hardship.term,
+        stress: decision.hardship.stress,
+      };
+  }
   const capped =
     terms.maximumLawId &&
     terms.weeklyShare * weeklyPay > terms.weeklyMaximumMinor

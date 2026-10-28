@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #6712
 blocked-on:
 source: "scenes finisher, Oct 27 21:50 UTC, building the lines for the director's school-finished producer (#6373)"
 lead: director
