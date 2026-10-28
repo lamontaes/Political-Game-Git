@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/main-red-guards
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T03:56:35.505Z
 ---
 
 **What.** The guards job is red for every pull request because two guards fail on main. The News mockups added two markup builders to play.mjs while the kit guard's baseline was counted without them, so main has 329 against a known 327. The working life before the start left a literal 1 in src/director/journal.ts, which the director's numbers guard refuses.
