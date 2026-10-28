@@ -14,7 +14,7 @@
     {
       "kind": "work:tenure-summary",
       "writer": "src/core2/data/deep-past.json",
-      "simulatedBy": null
+      "simulatedBy": "person.work-spell"
     },
     {
       "kind": "era:public-context",
@@ -63,9 +63,7 @@
     }
   ],
   "readers": {
-    "src/core2/modules/executive.ts": 1,
-    "src/director/conversation.ts": 4,
-    "src/director/journal.ts": 11,
-    "src/director/speech-builder.ts": 1
+    "src/director/conversation.ts": 3,
+    "src/director/journal.ts": 11
   }
 }
