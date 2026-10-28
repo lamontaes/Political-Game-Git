@@ -296,6 +296,224 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.60.0
+
+_Released October 27, 2026._
+
+### Added
+
+- **When an evening sitting keeps an officeholder from home, someone they live
+  with brings it up** On the evening a council, board or other body the player
+  sits on meets past the hour it meets at night, someone the player lives with
+  can bring up the time the office takes, at home, and the player answers. The
+  scene comes no more often than other scenes from circumstance, and the person
+  is the one in the household closest to the player.
+
+- **When you knock on doors, someone with a stake in your race comes to the door
+  to talk** On a day you knock on doors for your campaign, the household that
+  most agrees or disagrees with what you stand for may come to the door and talk
+  with you, the first time or when you come back. It happens now and then, not
+  at every door.
+
+- **After a veto override fails, its sponsor asks you to stand with them next
+  time** If you serve on a body and voted against overriding a veto or stayed
+  out, the bill's sponsor may come to you afterward and ask whether they can
+  count on you next time. What you answer is remembered when you next vote on
+  their bills.
+
+- **A relative's card says what they're like** The card for someone in your
+  family, your household or your circle now opens with a few sentences about
+  what they're like, from their temperament: "She acts on impulse. She would
+  rather find common ground than fight. She lets things slip." It uses the
+  pronouns their record carries.
+
+### Improved
+
+- **Towns draw their streets, stores and cafes from all the paintings of that
+  kind** A town's Main Street, its stores, its cafes and diners, its parks and
+  its community rooms are now drawn from every painting of that kind, chosen for
+  the town and the business so each place looks the same every visit and two
+  towns look different; at night a scene uses a painting lit for night.
+
+- **Jacket, shirt, pants and shoes each have their own color** Every person's
+  jacket or vest, shirt, pants and shoes now have their own color, from their
+  record or from what the player picks in the creator, which has a color row for
+  each piece the outfit has; eyes, skin and hair are never recolored on the
+  figures painted with garment maps.
+
+- **People have hair, and the creator offers it** Everyone drawn now has hair
+  from their own record, in a style painted for their body and a natural color
+  (older people mostly gray or white), and the character creator has a Hair row
+  with arrows and a Hair color row; the player's hair is the same in the creator
+  and in every room.
+
+- **People sit and stand where the painter put them, at the right size** In the
+  Oval Office with the Resolute desk, on the House floor and at the town-square
+  rally, people are placed at the spots measured from the room's mannequin
+  plate, at the size the painter's perspective gives them: the President sits at
+  the Resolute desk and the officials sit behind the House rostrum instead of on
+  top of it.
+
+### Fixed
+
+- **Small businesses no longer close when their owner is hired as an aide** An
+  official's staff review no longer hires someone who runs an open business, so
+  a small-town firm does not close with no successor the month its owner takes a
+  post.
+
+- **A man's character always has a man's body in the creator** After Undo, Reset
+  or a change of gender, the creator could keep a look drawn for the other body;
+  the look is now redrawn on the chosen gender's body, keeping its build,
+  clothes and colors.
+
+- **When one event brings several talks, each one plays in turn** When something
+  brings more than one talk at once, like winning a race, where your family
+  celebrates and your opponent calls to concede, you now play each talk in turn.
+  Before, only the first one ever came.
+
+- **Days start in the morning, and scenes wait for their hours** Pressing Day or
+  Week now lands on the next morning at 7 AM, not midnight, and an outing on the
+  campaign moves the clock by the hours it takes. Something that happened in the
+  night is met the next morning: nobody turns up in your bedroom at midnight,
+  and an office scene waits for office hours.
+
+- **News on the street no longer opens as if you just got home** When someone
+  tells you news out in town, the scene opens with "they have news for you", not
+  "has been waiting for you to get home" or "asks you to sit down first", which
+  now play only at home.
+
+- **Volunteers join without stopping you, unless they matter** Someone who
+  offers to help your campaign is on it right away, and the Campaigns tab counts
+  them in one place: the header and the Volunteers button now show the same
+  number. A friend's offer in a small local race or your first campaign still
+  plays as a scene where you can say yes or no; a stranger's offer in a big race
+  no longer stops your day.
+
+- **People connect a law to what it cost them the day they hear about it** When
+  a law changes what a household pays, the person who pays the bills now
+  connects the change to that law as soon as they hear a story about it, even if
+  the household's bill already changed before they heard. Before, they could
+  only make the connection on the monthly billing day, and someone who heard the
+  story after the first changed bill could miss it entirely once the news
+  stopped carrying the story. A person who heard the story before the law took
+  effect also remembers hearing it, so their view of the law still moves when
+  the first bill arrives.
+
+- **Close-up rooms leave room around a person** In close-up rooms such as the
+  bedroom, a person keeps a little of the picture above their head and beside
+  them instead of touching the top or the side of the picture.
+
+- **The family you meet shares the family name you chose** When you choose your
+  name in the creator, the people who lived under your drawn family name now
+  carry yours, and the opening's labels for them say the same name the records
+  do.
+
+- **The calendar shows what is on each day, in words** The calendar's month
+  fills its panel and each day shows what is on it in words. Coming up lists
+  each thing once, saying who and what, with your own races first; the law rows
+  that named nothing are gone.
+
+- **Someone born on February 29 comes of age the same day the game counts them
+  18** The day a player born on February 29 turns 18 in a year with no February
+  29 is now February 28, the same day the rest of the game counts them 18, not
+  March 1.
+
+- **The journal names a bill by its number and title, as the scene about it
+  does** The evening before a floor vote, a sponsor asks about "HB 1016"; your
+  journal used to tell the vote as "I voted for the Home Rule Act," so the two
+  read as different bills. The journal now says "I voted for HB 1016, the Home
+  Rule Act." Introduced bills read the same way.
+
+- **Counted households in the places around a town now earn** Every place's
+  counted adults now earn at the opening's employment rate, so the households in
+  the towns around a player's town are no longer all poor with no pay.
+
+- **Businesses in a big town keep enough cash for their bills** In a town opened
+  at its full Census size, a business now keeps cash on hand for all the bills
+  it pays at the town's scale, not only its payroll, before putting the rest in
+  the bank. A wholesaler that used to bank fourteen times its share and run dry
+  on payday now keeps its cash.
+
+### Changed
+
+- **Every world opens on its own national economy** Every world now opens on its
+  own national economy: the President's address and the first news give that
+  world's unemployment, inflation, pay and mortgage rates, near the real ones
+  but never the same.
+
+- **Job offers come from a person, not a pop-up** The panel that offered a job
+  with no one behind it is gone. An employer's offer now comes as a call from
+  someone who works there, who tells you the job and the pay, and you answer
+  them in the scene. Until the call's lines are written the offer is not shown
+  and lapses.
+
+- **The evening before a close vote, the sponsor asks for the votes the bill
+  needs, and an answer counts at the roll call** When a bill in your chamber is
+  short of votes the evening before its floor vote, its sponsor asks the members
+  it needs, nearest to yes first, and a member asked can be you. Each ask is a
+  scene. A member who agrees carries that promise into the next day's vote, and
+  their recorded vote names the answer among its reasons; a refusal counts
+  against the bill.
+
+- **Each world's states and cities open on their own jobs figures** The first
+  night's jobs report for your area and the Economy screen's region row now give
+  that world's own unemployment, jobs, pay and prices, never the real published
+  ones.
+
+- **Officeholders were elected with their own share of the vote** Council
+  members and every other officeholder no longer all show the same "60% of the
+  vote"; each seat's last win has its own share.
+
+- **News is a front page with the stories' text** News opens as a newspaper's
+  front page: the lead story under a large headline with its full text, the next
+  stories with theirs in the column beside it, and short items as briefs. The
+  "Public record" rows, which printed record kinds, series names and
+  jurisdiction labels ("Series Local sales tax average · Jurisdiction
+  Colorado"), are gone.
+
+- **A person's card no longer shows "Last talked"** A person's card no longer
+  carries a "Last talked" date.
+
+- **No more "A law took effect" notices on the player card** The player card no
+  longer says "A law took effect" whenever a law changes somewhere. A law that
+  reaches you is told by its own scene or story, which says how it affects you.
+
+- **The opening points out national people, not your council or state
+  legislators** The opening no longer stops on a town stage to point out your
+  council members, or on your state's legislators. The Vice President, the
+  leaders of Congress and your own members of Congress are pointed out, then
+  your family at home. The opening is shorter for it.
+
+- **Screens end where their content ends, and Who you are says what you're
+  like** Journal, Jobs and study, Money and the other reading screens are now as
+  tall and as wide as what they hold, instead of a few lines in the corner of a
+  full-window panel. Who you are says what you're like in a few plain sentences
+  ("You act on impulse. You keep to yourself.") in place of the Traits table,
+  and lays its sections out side by side. A lone chapter title over the journal
+  is gone.
+
+- **When there is nothing to answer, the talk box shows one Continue** When the
+  narrator speaks alone or a conversation has ended, the talk box shows a single
+  Continue at its bottom left and nothing else; Continue moves the game on. A
+  conversation shows its replies with Say nothing, and Leave only where walking
+  away is a real choice. The line under the speaker's name is gone.
+
+- **The title menu's dimmed entries no longer carry a line of text under them**
+  Continue, Saved games and Patch notes showed a sentence under the name when
+  dimmed. The owner ruled the subtitles out; they are removed, not replaced.
+
+- **Officials weigh each constituent's problem on its own merits** When a
+  resident brings a problem to an official, the official's answer now turns on
+  how hard the problem presses, how well they know the resident and how many
+  cases their office already has, and a staffer's follow-through reads the same
+  load. A resident who knows no official goes to the office with the fewest open
+  cases. Temperament tips these calls at the sizes studies give.
+
+- **States' pay now moves apart by their labor markets** A state with
+  unemployment under the nation's now sees its pay run a little ahead of the
+  nation's, and a slack one a little behind, instead of every state moving with
+  the nation alone.
+
 ## PRE-ALPHA 0.59.0
 
 _Released October 27, 2026._
