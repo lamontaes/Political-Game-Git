@@ -30,6 +30,7 @@ import { termWord } from "./ui/term.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { listScreen } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
+import { calendarScreen } from "./ui/calendar.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -681,7 +682,7 @@ function billBlock(item, buttons, onPaper) {
     item.votes.length
       ? el("div", {
           textContent: item.votes
-            .map((v) => `${v.name} ${words[v.vote] ?? v.vote}`)
+            .map((v) => `${v.name} ${words[v.vote] ?? ""}`)
             .join(" · "),
         })
       : "",
@@ -1177,7 +1178,10 @@ async function talkTo(otherId, momentId, setting = []) {
 const gapButton = makeButton({
   id: "talk-gap",
   className: "action small",
-  textContent: "Mark gap",
+  textContent: "",
+});
+void controlsReady.then(() => {
+  gapButton.textContent = controls.talkBox?.markGap ?? "";
 });
 gapButton.addEventListener("click", async () => {
   if (!talk) return;
@@ -1364,15 +1368,21 @@ function renderFilingOverlay(value) {
         el(
           "select",
           { name: question },
-          el("option", { value: "", textContent: "—" }),
-          el("option", { value: "1", textContent: "For" }),
-          el("option", { value: "-1", textContent: "Against" }),
+          el("option", {
+            value: "",
+            textContent: controls.filing?.noStance ?? "",
+          }),
+          el("option", { value: "1", textContent: controls.filing?.for ?? "" }),
+          el("option", {
+            value: "-1",
+            textContent: controls.filing?.against ?? "",
+          }),
         ),
       ),
     ),
   );
   $("filing-party").replaceChildren(
-    el("option", { value: "", textContent: "—" }),
+    el("option", { value: "", textContent: controls.filing?.noStance ?? "" }),
     ...overlay.parties.map((name) =>
       el("option", {
         value: name,
@@ -1501,8 +1511,12 @@ async function campaignRows() {
       if (result.packet) renderPacket(result.packet);
       campaignResult = [
         controls.campaignOutings[outing],
-        result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
-        result.reached ? `${result.reached} reached` : "",
+        result.doorsKnocked
+          ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
+          : "",
+        result.reached
+          ? controls.campaignResults.reached.replace("{n}", result.reached)
+          : "",
         result.raisedMinor ? dollars(result.raisedMinor) : "",
       ]
         .filter(Boolean)
@@ -1534,12 +1548,14 @@ async function campaignRows() {
               )
               .replace("{volunteers}", volunteerCount(result.volunteers))
           : result.contacted !== undefined
-            ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
+            ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
+                result.answers,
+              )
                 .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
                 .join(" · ")}`
             : result.reached !== undefined
-              ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-              : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+              ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+              : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
@@ -1580,7 +1596,7 @@ async function campaignRows() {
             .filter(Boolean)
             .join(" · "),
         }),
-        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${volunteerCount(campaign.volunteers)} · ${campaign.doors} doors`,
+        `${controls.campaignResults.raised.replace("{amount}", dollars(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", dollars(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}`,
         el(
           "div",
           {},
@@ -1605,11 +1621,13 @@ async function campaignRows() {
         el(
           "div",
           {},
-          button("Volunteers", "volunteer"),
-          button("Donations", "donation"),
-          button("Endorsements", "endorsement"),
-          button("Ad", "ad", { amountMinor: "5000" }),
-          button("Poll", "poll", { sampleSize: String(pollSample) }),
+          button(controls.campaignActs.volunteer, "volunteer"),
+          button(controls.campaignActs.donation, "donation"),
+          button(controls.campaignActs.endorsement, "endorsement"),
+          button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
+          button(controls.campaignActs.poll, "poll", {
+            sampleSize: String(pollSample),
+          }),
         ),
         // The player's own money into the campaign: the amount is theirs to set.
         (() => {
@@ -2255,7 +2273,7 @@ async function openBillPaper(billId, show, back, backLabel) {
           }),
           el("div", {
             textContent: paper.votes
-              .map((x) => `${x.name} · ${meet[x.vote] ?? x.vote}`)
+              .map((x) => `${x.name} · ${meet[x.vote] ?? ""}`)
               .join(" · "),
           }),
         ]
@@ -2337,7 +2355,7 @@ async function seatRows() {
       value: "0",
       style: "width: 90px",
     });
-    const draft = makeButton({ textContent: "Draft" });
+    const draft = makeButton({ textContent: controls.seat?.draft ?? "" });
     draft.addEventListener("click", () => {
       const [kind, key] = [
         pick.value.slice(0, pick.value.indexOf(":")),
@@ -2435,15 +2453,6 @@ async function seatRows() {
 }
 
 /** The Kit 13 calendar icon a kind of dated record is drawn with. */
-const dayIcon = (kind) =>
-  ({
-    birthday: "birthday",
-    "your-birthday": "birthday",
-    "filing-opens": "deadline",
-    "filing-deadline": "deadline",
-    primary: "election",
-    election: "election",
-  })[kind] ?? "meeting";
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
@@ -2965,30 +2974,33 @@ const sheets = {
           "section",
           { className: "money-bank" },
           ...[
-            row("Bank", bank.name),
+            row(labels.bank, bank.name),
             row(
-              "Household savings",
+              labels.householdSavings,
               `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
             ),
             ...(bank.books
               ? [
-                  row("Bank books", bank.books.date),
-                  row("Bank cash", dollars(bank.books.cashMinor)),
-                  row("Business loans", dollars(bank.books.businessLoansMinor)),
+                  row(labels.bankBooks, bank.books.date),
+                  row(labels.bankCash, dollars(bank.books.cashMinor)),
                   row(
-                    "Household loans",
+                    labels.businessLoans,
+                    dollars(bank.books.businessLoansMinor),
+                  ),
+                  row(
+                    labels.householdLoans,
                     dollars(bank.books.householdLoansMinor),
                   ),
-                  row("Mortgages", dollars(bank.books.mortgagesMinor)),
-                  row("Total assets", dollars(bank.books.assetsMinor)),
-                  row("Deposits owed", dollars(bank.books.depositsMinor)),
+                  row(labels.mortgages, dollars(bank.books.mortgagesMinor)),
+                  row(labels.totalAssets, dollars(bank.books.assetsMinor)),
+                  row(labels.depositsOwed, dollars(bank.books.depositsMinor)),
                   row(
-                    "Mortgage funding",
+                    labels.mortgageFunding,
                     dollars(bank.books.mortgageFundingMinor),
                   ),
-                  row("Bank equity", dollars(bank.books.equityMinor)),
+                  row(labels.bankEquity, dollars(bank.books.equityMinor)),
                   row(
-                    "Liabilities and equity",
+                    labels.liabilitiesAndEquity,
                     dollars(bank.books.liabilitiesAndEquityMinor),
                   ),
                 ]
@@ -3100,7 +3112,7 @@ const sheets = {
       row(me.card.name, "†"),
       ...people.map((p) => {
         const line = row(p.name, `${p.why} `);
-        const b = makeButton({ textContent: "Play" });
+        const b = makeButton({ textContent: controls.handoff?.play ?? "" });
         b.addEventListener("click", () => playAs(p.id));
         line.append(b);
         return line;
@@ -3240,228 +3252,17 @@ const sheets = {
     // record, so a day the world has reached never offers a jump to it.
     const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
-    const byDate = new Map();
-    for (const item of items)
-      byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-    const dateWords = (iso, format = { month: "long", day: "numeric" }) =>
-      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        ...format,
-        ...(iso.slice(0, 4) === date.slice(0, 4) ? {} : { year: "numeric" }),
-      });
-    const icon = (item) =>
-      el("img", {
-        src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
-        alt: "",
-        className: "day-icon",
-      });
-    let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-    let selected = date;
-    let listPage = 0;
-    const root = el("div", { className: "calendar-layout" });
-    const monthBox = el("section", { className: "calendar-month" });
-    const side = el("section", { className: "calendar-side" });
-    const button = (label, fn, className) => {
-      const b = makeButton({
-        textContent: label,
-        ...(className ? { className } : {}),
-      });
-      b.addEventListener("click", fn);
-      return b;
-    };
-    // Skip-forward icon, no label text: the control's name is its aria-label.
-    const skipForward = (name, fn) => {
-      const ns = "http://www.w3.org/2000/svg";
-      const svg = document.createElementNS(ns, "svg");
-      svg.setAttribute("viewBox", "0 0 24 24");
-      svg.setAttribute("aria-hidden", "true");
-      for (const d of ["M5 5l9 7-9 7z", "M14 5l9 7-9 7z"]) {
-        const path = document.createElementNS(ns, "path");
-        path.setAttribute("d", d);
-        svg.append(path);
-      }
-      const b = makeButton({ className: "skip-forward" });
-      b.setAttribute("aria-label", name);
-      b.title = name;
-      b.append(svg);
-      b.addEventListener("click", fn);
-      return b;
-    };
-    const goTo = (iso) => {
-      month = new Date(`${iso.slice(0, 7)}-01T12:00:00`);
-      select(iso);
-    };
-    // One line per thing: its day, its icon and who and what in words. The
-    // player's own races carry the gold mark.
-    const entryRow = (item, withDate) => {
-      const row = listRow(
-        `calendar-entry${item.own ? " own" : ""}`,
-        { as: "button", type: "button" },
-        ...(withDate
-          ? [
-              el("span", {
-                className: "when",
-                textContent: dateWords(item.date, {
-                  month: "short",
-                  day: "numeric",
-                }),
-              }),
-            ]
-          : []),
-        icon(item),
-        el("span", { className: "what", textContent: item.line }),
-      );
-      row.addEventListener("click", () => goTo(item.date));
-      return row;
-    };
-    // Coming up lists the player's own dates first, then everything else by
-    // date; a chosen day lists that day. The list fills the side and pages.
-    const PAGE = 10;
-    const ahead = items
-      .filter((i) => i.date >= date)
-      .toSorted(
-        (a, b) => Number(b.own) - Number(a.own) || a.date.localeCompare(b.date),
-      );
-    const drawSide = () => {
-      // A chosen day heads the side: its own lines, then what follows it.
-      const day = selected !== date ? (byDate.get(selected) ?? []) : null;
-      const rows = day
-        ? [...day, ...items.filter((i) => i.date > selected && i.date >= date)]
-        : ahead;
-      const pageRows = rows.slice(listPage * PAGE, listPage * PAGE + PAGE);
-      const head = el(
-        "div",
-        { className: "calendar-side-head" },
-        el("h3", {
-          textContent: day
-            ? dateWords(selected, {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-              })
-            : labels.upcoming,
-        }),
-        ...(day && selected > date
-          ? [
-              skipForward(labels.advance, () => {
-                closeSheet();
-                act(`/api/advance?mode=calendar&date=${selected}`);
-              }),
-            ]
-          : []),
-      );
-      const list = el(
-        "div",
-        { className: "calendar-list" },
-        ...pageRows.map((item) =>
-          entryRow(item, !day || item.date !== selected),
-        ),
-      );
-      const foot = [];
-      if (day)
-        foot.push(button(labels.upcoming, () => select(date), "action small"));
-      if (rows.length > PAGE) {
-        const back = button(
-          labels.back,
-          () => {
-            listPage--;
-            drawSide();
-          },
-          "action small",
-        );
-        const next = button(
-          labels.next,
-          () => {
-            listPage++;
-            drawSide();
-          },
-          "action small",
-        );
-        back.disabled = listPage === 0;
-        next.disabled = (listPage + 1) * PAGE >= rows.length;
-        foot.push(back, next);
-      }
-      side.replaceChildren(
-        head,
-        list,
-        ...(foot.length
-          ? [el("nav", { className: "calendar-paging" }, ...foot)]
-          : []),
-      );
-    };
-    const select = (iso) => {
-      selected = iso;
-      listPage = 0;
-      drawMonth();
-      drawSide();
-    };
-    const drawMonth = () => {
-      const move = (delta) => {
-        month = new Date(month.getFullYear(), month.getMonth() + delta, 1, 12);
-        drawMonth();
-      };
-      const header = el(
-        "nav",
-        { className: "calendar-heading" },
-        button(labels.previousMonth, () => move(-1), "month-step"),
-        el("h3", {
-          textContent: month.toLocaleDateString("en-US", {
-            month: "long",
-            year: "numeric",
-          }),
-        }),
-        button(labels.nextMonth, () => move(1), "month-step"),
-        button(labels.today, () => goTo(date), "month-step"),
-      );
-      const grid = el("div", { className: "month" });
-      for (const weekday of labels.weekdays)
-        grid.append(el("span", { className: "weekday", textContent: weekday }));
-      for (let i = 0; i < month.getDay(); i++)
-        grid.append(el("span", { className: "blank" }));
-      const days = new Date(
-        month.getFullYear(),
-        month.getMonth() + 1,
-        0,
-      ).getDate();
-      for (let day = 1; day <= days; day++) {
-        const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-        const entries = byDate.get(iso) ?? [];
-        const cell = button("", () => select(iso));
-        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}${iso < date ? " past" : ""}${entries.some((e) => e.own) ? " own" : ""}`;
-        cell.dataset.date = iso;
-        cell.setAttribute(
-          "aria-label",
-          [dateWords(iso), ...entries.map((e) => e.line)].join(". "),
-        );
-        cell.setAttribute("aria-pressed", String(iso === selected));
-        if (iso === date) cell.setAttribute("aria-current", "date");
-        cell.append(el("span", { className: "num", textContent: String(day) }));
-        // Each thing on the day, on the day: its icon and its line, as many as fit.
-        for (const entry of entries
-          .toSorted((a, b) => Number(b.own) - Number(a.own))
-          .slice(0, 2))
-          cell.append(
-            el(
-              "span",
-              { className: `entry${entry.own ? " own" : ""}` },
-              icon(entry),
-              el("span", { className: "what", textContent: entry.line }),
-            ),
-          );
-        if (entries.length > 2)
-          cell.append(
-            el("span", {
-              className: "more",
-              textContent: `+${entries.length - 2}`,
-            }),
-          );
-        grid.append(cell);
-      }
-      monthBox.replaceChildren(header, grid);
-    };
-    drawMonth();
-    drawSide();
-    root.append(monthBox, side);
-    return [root];
+    return [
+      calendarScreen({
+        date,
+        items,
+        labels,
+        onAdvance: (day) => {
+          closeSheet();
+          act(`/api/advance?mode=calendar&date=${day}`);
+        },
+      }),
+    ];
   },
   async news() {
     // The nation, region and job numbers above the paper, from the economy's records.
@@ -3889,7 +3690,7 @@ const sheets = {
               r.kind === "known"
                 ? `${p.known.find((k) => k.personId === r.recordId)?.name} ${labels.reasons.known}`
                 : r.kind === "action"
-                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? words(r.recordId)).toLowerCase()}`
+                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
                   : labels.reasons[r.kind],
             ),
           ].join(" · ");
@@ -4217,7 +4018,7 @@ const sheets = {
       if (k.resident && k.personId !== me.id) {
         const b = makeButton({
           className: "dev-only",
-          textContent: "Play",
+          textContent: controls.handoff?.play ?? "",
         });
         b.addEventListener("click", () => playAs(k.personId));
         line.append(b);
@@ -4773,10 +4574,14 @@ $("cr-character-next").addEventListener("click", () => {
   $("front-status").textContent = "";
   $("cr-summary-name").textContent = `${given} ${family}`;
   $("cr-summary-age").textContent =
-    `Age ${chosenAge()} · ${genderName(setup.gender)}`;
+    `${controls.creator.summaryAge.replace("{age}", chosenAge())} · ${genderName(setup.gender)}`;
   const pad = (n) => String(n).padStart(2, "0");
-  $("cr-summary-born").textContent =
-    `Born ${proseDate(`${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`)}`;
+  $("cr-summary-born").textContent = controls.creator.summaryBorn.replace(
+    "{date}",
+    proseDate(
+      `${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`,
+    ),
+  );
   frontPanel("cr-place");
   void showStates();
 });
@@ -4865,7 +4670,10 @@ function showLook(view) {
         onPick: (id, swatch) => void pickColor(id, swatch),
         onMove: (id, by) => void moveLook(id, by),
         arrowLabel: (by, r) =>
-          `${by < 0 ? "Previous" : "Next"} ${r.label.toLowerCase()}`,
+          controls.creator[by < 0 ? "previous" : "next"].replace(
+            "{row}",
+            r.label.toLowerCase(),
+          ),
       }),
     ),
   );
