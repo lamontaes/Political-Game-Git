@@ -553,8 +553,13 @@ function webLink(
           evidence: "data/research/outcome-web/links.json",
           why: "no researched outcome-web link starts from this law",
         };
+  // A link an engine now carries is not run by the web: a ledger row an
+  // older run kept for it is history, not this link's evidence.
+  const carriedNow = new Set(links.filter((l) => carried(l)).map((l) => l.key));
   const allFired = runs.flatMap(({ place, r }) =>
-    (r.web?.fired ?? []).map((f) => ({ place, f })),
+    (r.web?.fired ?? [])
+      .filter((f) => !carriedNow.has(f.link))
+      .map((f) => ({ place, f })),
   );
   // A fired ledger row whose factor no engine reads (unwired.json, open
   // stopgap) is a record, not wiring.
