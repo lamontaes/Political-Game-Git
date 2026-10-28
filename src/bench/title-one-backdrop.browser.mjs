@@ -70,7 +70,7 @@ try {
   await towns.nth(townAt).click();
   await page.locator("#cr-look:not([hidden])").waitFor();
   await page.locator("#cr-begin").click();
-  await page.locator("#front[hidden]").waitFor();
+  await page.locator("#front").waitFor({ state: "hidden" });
   await page.locator("#talk:not([hidden])").waitFor();
   await page.waitForTimeout(3000);
   const opened = await page.evaluate(() => ({
