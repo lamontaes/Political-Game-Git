@@ -1113,7 +1113,10 @@ async function talkTo(otherId, momentId, setting = []) {
 const gapButton = makeButton({
   id: "talk-gap",
   className: "action small",
-  textContent: "Mark gap",
+  textContent: "",
+});
+void controlsReady.then(() => {
+  gapButton.textContent = controls.talkBox?.markGap ?? "";
 });
 gapButton.addEventListener("click", async () => {
   if (!talk) return;
@@ -1300,15 +1303,21 @@ function renderFilingOverlay(value) {
         el(
           "select",
           { name: question },
-          el("option", { value: "", textContent: "—" }),
-          el("option", { value: "1", textContent: "For" }),
-          el("option", { value: "-1", textContent: "Against" }),
+          el("option", {
+            value: "",
+            textContent: controls.filing?.noStance ?? "",
+          }),
+          el("option", { value: "1", textContent: controls.filing?.for ?? "" }),
+          el("option", {
+            value: "-1",
+            textContent: controls.filing?.against ?? "",
+          }),
         ),
       ),
     ),
   );
   $("filing-party").replaceChildren(
-    el("option", { value: "", textContent: "—" }),
+    el("option", { value: "", textContent: controls.filing?.noStance ?? "" }),
     ...overlay.parties.map((name) =>
       el("option", {
         value: name,
@@ -1437,8 +1446,12 @@ async function campaignRows() {
       if (result.packet) renderPacket(result.packet);
       campaignResult = [
         controls.campaignOutings[outing],
-        result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
-        result.reached ? `${result.reached} reached` : "",
+        result.doorsKnocked
+          ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
+          : "",
+        result.reached
+          ? controls.campaignResults.reached.replace("{n}", result.reached)
+          : "",
         result.raisedMinor ? dollars(result.raisedMinor) : "",
       ]
         .filter(Boolean)
@@ -1470,12 +1483,14 @@ async function campaignRows() {
               )
               .replace("{volunteers}", volunteerCount(result.volunteers))
           : result.contacted !== undefined
-            ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
+            ? `${controls.campaignActs[kind] ?? ""}: ${result.contacted} · ${Object.entries(
+                result.answers,
+              )
                 .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
                 .join(" · ")}`
             : result.reached !== undefined
-              ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
-              : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+              ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+              : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
@@ -1516,7 +1531,7 @@ async function campaignRows() {
             .filter(Boolean)
             .join(" · "),
         }),
-        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${volunteerCount(campaign.volunteers)} · ${campaign.doors} doors`,
+        `${controls.campaignResults.raised.replace("{amount}", dollars(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", dollars(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}`,
         el(
           "div",
           {},
@@ -1541,11 +1556,13 @@ async function campaignRows() {
         el(
           "div",
           {},
-          button("Volunteers", "volunteer"),
-          button("Donations", "donation"),
-          button("Endorsements", "endorsement"),
-          button("Ad", "ad", { amountMinor: "5000" }),
-          button("Poll", "poll", { sampleSize: String(pollSample) }),
+          button(controls.campaignActs.volunteer, "volunteer"),
+          button(controls.campaignActs.donation, "donation"),
+          button(controls.campaignActs.endorsement, "endorsement"),
+          button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
+          button(controls.campaignActs.poll, "poll", {
+            sampleSize: String(pollSample),
+          }),
         ),
         // The player's own money into the campaign: the amount is theirs to set.
         (() => {
@@ -2182,7 +2199,7 @@ async function seatRows() {
       })),
     });
     const value = numberBox({ value: 0 });
-    const draft = makeButton({ textContent: "Draft" });
+    const draft = makeButton({ textContent: controls.seat?.draft ?? "" });
     draft.addEventListener("click", () => {
       const [kind, key] = [
         pick.value.slice(0, pick.value.indexOf(":")),
@@ -2571,30 +2588,33 @@ const sheets = {
           "section",
           { className: "money-bank" },
           ...[
-            row("Bank", bank.name),
+            row(labels.bank, bank.name),
             row(
-              "Household savings",
+              labels.householdSavings,
               `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
             ),
             ...(bank.books
               ? [
-                  row("Bank books", bank.books.date),
-                  row("Bank cash", dollars(bank.books.cashMinor)),
-                  row("Business loans", dollars(bank.books.businessLoansMinor)),
+                  row(labels.bankBooks, bank.books.date),
+                  row(labels.bankCash, dollars(bank.books.cashMinor)),
                   row(
-                    "Household loans",
+                    labels.businessLoans,
+                    dollars(bank.books.businessLoansMinor),
+                  ),
+                  row(
+                    labels.householdLoans,
                     dollars(bank.books.householdLoansMinor),
                   ),
-                  row("Mortgages", dollars(bank.books.mortgagesMinor)),
-                  row("Total assets", dollars(bank.books.assetsMinor)),
-                  row("Deposits owed", dollars(bank.books.depositsMinor)),
+                  row(labels.mortgages, dollars(bank.books.mortgagesMinor)),
+                  row(labels.totalAssets, dollars(bank.books.assetsMinor)),
+                  row(labels.depositsOwed, dollars(bank.books.depositsMinor)),
                   row(
-                    "Mortgage funding",
+                    labels.mortgageFunding,
                     dollars(bank.books.mortgageFundingMinor),
                   ),
-                  row("Bank equity", dollars(bank.books.equityMinor)),
+                  row(labels.bankEquity, dollars(bank.books.equityMinor)),
                   row(
-                    "Liabilities and equity",
+                    labels.liabilitiesAndEquity,
                     dollars(bank.books.liabilitiesAndEquityMinor),
                   ),
                 ]
@@ -3116,7 +3136,7 @@ const sheets = {
               r.kind === "known"
                 ? `${p.known.find((k) => k.personId === r.recordId)?.name} ${labels.reasons.known}`
                 : r.kind === "action"
-                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? words(r.recordId)).toLowerCase()}`
+                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
                   : labels.reasons[r.kind],
             ),
           ].join(" · ");
@@ -3414,7 +3434,7 @@ const sheets = {
         if (k.resident && k.personId !== me.id) {
           const b = makeButton({
             className: "dev-only",
-            textContent: "Play",
+            textContent: controls.handoff?.play ?? "",
           });
           b.addEventListener("click", () => playAs(k.personId));
           line.append(b);
@@ -3976,10 +3996,14 @@ $("cr-character-next").addEventListener("click", () => {
   $("front-status").textContent = "";
   $("cr-summary-name").textContent = `${given} ${family}`;
   $("cr-summary-age").textContent =
-    `Age ${chosenAge()} · ${genderName(setup.gender)}`;
+    `${controls.creator.summaryAge.replace("{age}", chosenAge())} · ${genderName(setup.gender)}`;
   const pad = (n) => String(n).padStart(2, "0");
-  $("cr-summary-born").textContent =
-    `Born ${proseDate(`${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`)}`;
+  $("cr-summary-born").textContent = controls.creator.summaryBorn.replace(
+    "{date}",
+    proseDate(
+      `${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`,
+    ),
+  );
   frontPanel("cr-place");
   void showStates();
 });
@@ -4068,7 +4092,10 @@ function showLook(view) {
         onPick: (id, swatch) => void pickColor(id, swatch),
         onMove: (id, by) => void moveLook(id, by),
         arrowLabel: (by, r) =>
-          `${by < 0 ? "Previous" : "Next"} ${r.label.toLowerCase()}`,
+          controls.creator[by < 0 ? "previous" : "next"].replace(
+            "{row}",
+            r.label.toLowerCase(),
+          ),
       }),
     ),
   );
