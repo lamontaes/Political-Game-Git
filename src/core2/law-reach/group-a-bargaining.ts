@@ -17,7 +17,6 @@ import {
   governments,
   type GovernmentRow,
 } from "../modules/budgets";
-import { yesLevels } from "../modules/laws";
 import { publicEmployerLevel } from "../public-pay-floor";
 import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
