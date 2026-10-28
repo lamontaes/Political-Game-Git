@@ -59,6 +59,9 @@ if __name__ == '__main__':
             lim[fx0:fx0 + len(fl)] = fl
             xs = np.arange(W); outside = (xs < fx0) | (xs >= fx0 + len(fl))
             lim[outside] = H
+            if not standing:                                     # seated: the furniture in front runs on past the mannequin's sides
+                reach = int(0.4 * (bx[2] - bx[0]))
+                lim[max(0, fx0 - reach):fx0] = fl[0]; lim[fx0 + len(fl):min(W, fx0 + len(fl) + reach)] = fl[-1]
             A[..., 3] = np.where(rows > lim[None, :] + 2, 0, A[..., 3])
         canvas.alpha_composite(Image.fromarray(A))
     canvas.convert('RGB').save(out, quality=92); print(out)
