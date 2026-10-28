@@ -6,7 +6,7 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
 import { backdropStaging } from "./staging";
-import { backdropFile, orgPlace, staffOf, stagePeople } from "./scene";
+import { backdropFor, orgPlace, staffOf, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type { CoreState } from "../core2/types";
@@ -167,7 +167,7 @@ export function townPlaces(
               return `${row.givenName} ${row.familyName}`;
             }),
             presentCount: here.length,
-            presentation: { imageUrl: backdropFile(place, minute).url },
+            presentation: { imageUrl: backdropFor(core, place, minute).url },
           },
         ];
       })
@@ -252,7 +252,7 @@ export function visitPlace(
     organizationId,
     name: properName(org.name),
     place,
-    backdrop: backdropFile(place, minute),
+    backdrop: backdropFor(core, place, minute),
     names: Object.fromEntries(ids.map((row) => [row.id, row.name])),
     ...stagePeople(core, place, ids),
   };

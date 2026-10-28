@@ -1,6 +1,6 @@
 /** The national month as pure math: last month's figures, the rate in force and the town's own totals. */
 import history from "./data/macro/history.json" with { type: "json" };
-import { seededUnit } from "./past-module";
+import { worldOffsetUnit } from "./world-draw";
 
 export type MacroParameter = (key: string) => number;
 
@@ -177,31 +177,13 @@ export interface MacroWorldOffsets {
   outputLevelShare: number;
 }
 
-/**
- * A signed offset whose size sits between a floor share of the spread and the
- * whole spread, so a world is near the published figure but never on it.
- * Seeded generation of the world's starting state, never an actor's outcome.
- */
-// stopgapId: SG-WORLD-draw-helpers-three
-export function worldOffset(
-  seed: string,
-  key: string,
-  spread: number,
-  p: MacroParameter,
-): number {
-  const floor = p("macroWorldOffsetFloorShare");
-  const size = floor + (p("one") - floor) * seededUnit(seed, `${key}:size`);
-  const sign =
-    seededUnit(seed, `${key}:sign`) < p("macroHalf") ? -p("one") : p("one");
-  return sign * size * spread;
-}
-
 export function macroWorldOffsets(
   seed: string,
   p: MacroParameter,
 ): MacroWorldOffsets {
+  // The one world draw (world-draw.ts), times this table's spread row.
   const at = (key: string, spread: string) =>
-    worldOffset(seed, `macro-world:${key}`, p(spread), p);
+    worldOffsetUnit(seed, `macro-world:${key}`) * p(spread);
   return {
     unemploymentPoints: at(
       "unemployment",
