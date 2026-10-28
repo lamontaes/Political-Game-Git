@@ -244,4 +244,29 @@ describe("other places, coarser (M1-13, the economy's part)", () => {
     );
     expect(reports).toHaveLength(56 * 2);
   });
+  it("runs a tight state's pay ahead of the nation's and a slack one behind, not every state with the nation alone", () => {
+    const { opening, change } = year("2021-01-01");
+    const fips = [...new Set(REGIONS.map((row) => row.stateFips))].filter(
+      (f) => change(f).pay !== undefined,
+    );
+    const gap = fips.map((f) => stateFigures(opening, f).unemploymentPct);
+    const pay = fips.map((f) => change(f).pay);
+    const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+    const mg = mean(gap),
+      mp = mean(pay);
+    const cov = gap.reduce((n, g, i) => n + (g - mg) * (pay[i]! - mp), 0);
+    const r =
+      cov /
+      Math.sqrt(
+        gap.reduce((n, g) => n + (g - mg) ** 2, 0) *
+          pay.reduce((n, v) => n + (v - mp) ** 2, 0),
+      );
+    // States do not all move with the nation: their pay changes spread, and
+    // the spread runs against their unemployment gap (the pooled fit, r -0.14,
+    // is weak, so the model's own is the stronger one it is built to be).
+    expect(
+      Math.sqrt(pay.reduce((n, v) => n + (v - mp) ** 2, 0) / pay.length),
+    ).toBeGreaterThan(0.2);
+    expect(r).toBeLessThan(-0.5);
+  });
 });
