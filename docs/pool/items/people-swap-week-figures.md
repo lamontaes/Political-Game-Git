@@ -2,7 +2,7 @@
 id: people-swap-week-figures
 title: "Take the pasted faces out of play: draw people from this week's wardrobe figures until the redesigned set lands"
 area: art
-kind: fix
+kind: bug
 priority: 1
 size: M
 status: open
