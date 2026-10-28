@@ -10,7 +10,7 @@ Table 1 gives each income group's median before-tax family income. Table 6
 transaction accounts (checking, savings, money market and call accounts) and
 the median value held by those that hold them. Both are in thousands of 2022
 dollars. It writes data/research/money/scf-transaction-accounts-2022.json,
-which a new adult's opening balance reads (src/simulation/starting-money.ts).
+which a new adult's opening balance reads (the old engine's starting-money.ts).
 
 Run: python3 scripts/research/export-scf-transaction-accounts.py <workbook.xlsx>
 """

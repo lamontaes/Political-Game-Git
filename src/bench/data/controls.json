@@ -32,7 +32,8 @@
     "summaryAge": "Age {age}",
     "summaryBorn": "Born {date}",
     "previous": "Previous {row}",
-    "next": "Next {row}"
+    "next": "Next {row}",
+    "randomPlace": "Random place"
   },
   "endedBy": {
     "moment": "Something needs you",
@@ -577,6 +578,7 @@
     "budgets": "Budgets",
     "travel": "Travel",
     "options": "Options",
+    "patchNotes": "Patch notes",
     "guide": "Guide",
     "politicsGuide": "Guide",
     "handoff": "Carry on as",

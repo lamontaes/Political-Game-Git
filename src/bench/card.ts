@@ -358,9 +358,89 @@ function personSketch(
         "");
 }
 
+interface TermLike {
+  readonly id: string;
+  readonly officeId: string;
+  readonly personId?: string | null;
+  readonly identity?: { givenName: string; familyName: string };
+  readonly startDate: string;
+  readonly party: string | null;
+}
+
+/**
+ * The card of a named official the player has not met and who lives
+ * elsewhere (a state legislator, a member of Congress, the President): what
+ * the public record says, from their term and office. `official:<term>` is
+ * memberKey's form for them; a term holder's person id is accepted too.
+ * Every person on a screen opens a card (owner, Oct 28, point 13).
+ */
+function officialCard(core: CoreState, viewerId: string, id: string) {
+  const api = coreAPI(core);
+  const terms = api.moduleState(OFFICES).table("terms");
+  const termId = id.startsWith("official:") ? id.slice("official:".length) : id;
+  const term = (terms.get(termId) ??
+    (terms.rows() as unknown as TermLike[]).find(
+      (row) => row.personId === id,
+    )) as TermLike | undefined;
+  if (!term?.identity) return null;
+  const office = api
+    .moduleState(OFFICES)
+    .table("offices")
+    .get(term.officeId) as
+    { title?: string; governmentName?: string } | undefined;
+  let publicKnowledge: ReturnType<typeof publicKnowledgeOf> | null = null;
+  try {
+    publicKnowledge = core.modules.has(PAST_MODULE_ID)
+      ? publicKnowledgeOf(api, viewerId, id)
+      : null;
+  } catch {
+    publicKnowledge = null;
+  }
+  return {
+    personId: id,
+    name: `${term.identity.givenName} ${term.identity.familyName}`,
+    relation: null,
+    relationRecordId: null,
+    age: null,
+    alive: true,
+    placeName: office?.governmentName ?? null,
+    school: null,
+    sketch: null,
+    work: office?.title
+      ? { title: office.title, employer: office.governmentName ?? null }
+      : null,
+    tie: null,
+    known: false,
+    shared: [],
+    seats: [
+      {
+        recordId: term.id,
+        termId: term.id,
+        office: office?.title ?? null,
+        year: Number(term.startDate.slice(0, 4)),
+      },
+    ],
+    history: [],
+    colleagues: [],
+    publicKnowledge: publicKnowledge ?? {
+      party: term.party,
+      serviceStart: term.startDate,
+      votesOnRecord: null,
+      lawsSponsored: null,
+      lawsSigned: null,
+      positions: [],
+    },
+    face: faceOf(core, term.id, scenePlace(core, viewerId).place),
+  };
+}
+
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const viewer = core.people.get(viewerId);
   const other = core.people.get(otherId);
+  if (viewer && !other) {
+    const official = officialCard(core, viewerId, otherId);
+    if (official) return official;
+  }
   if (!viewer || !other) throw new Error("No such person.");
   const kin = familyFactsOf(viewer).get(otherId as PersonId);
   const family = viewer.familyIds.has(otherId) || Boolean(kin);

@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-grocery-exemption-buyers
-pr:
+pr: #6665
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T17:07:49.027Z

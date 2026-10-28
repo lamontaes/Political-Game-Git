@@ -11,7 +11,7 @@ fills the general rainy-day fund to (the required minimum where one is set,
 else the maximum size; two general funds are summed), and the share it moves
 in each year, where the law sets one. It writes
 data/research/money/state-reserve-rules.json, which the public budgets read
-(src/simulation/public-budgets/reserve-rule.ts).
+(the old engine's reserve-rule.ts).
 
 Run: python3 scripts/research/export-state-reserve-rules.py
 """
