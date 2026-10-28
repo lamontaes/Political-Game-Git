@@ -7375,5 +7375,16 @@
     "addedAt": "2026-10-28",
     "replacement": "Each pose painted for both sexes and every build and outfit (or a wardrobe that dresses the pose's body), so the person's own look holds in the pose.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVING-keep-back-gross-pay",
+    "kind": "partial-model",
+    "file": "src/core2/cost-of-living.ts",
+    "whatItFakes": "What a household keeps back for its next rent or mortgage before buying everyday living counts the members' gross daily wage until the payment is due; the payroll's withholding is not netted out, so a household whose take-home pay barely covers its home keeps back a little too little.",
+    "why": "The fix for a household that paid its home on its living day and set the payment aside a second time (world-household-everyday-living-unpaid-first-month); the cost-of-living engine reads each member's job wage, and the take-home pay is only known to the payroll when it pays.",
+    "addedBy": "wire-opening-and-home (Claude)",
+    "addedAt": "2026-10-28",
+    "replacement": "The members' take-home pay due before the next living day, from the payroll's withholding (withholdingFor, src/core2/tax-withholding.ts) or the pay last received, read by housingKeptBack in src/core2/cost-of-living.ts.",
+    "status": "open"
   }
 ]

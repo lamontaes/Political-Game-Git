@@ -14,14 +14,14 @@
  * household, not one bill per store on a payday calendar.
  *
  * Each month, on the household's day: the members keep back what their home
- * still costs before their next such day (the rent or mortgage payments not yet
- * made, and any arrears), and spend up to the everyday amount from the rest, at
- * the sellers still open. What they can't afford goes
+ * will cost by their next such day (the rent or mortgage payments not yet made,
+ * and any arrears) beyond the pay due in before then, and spend up to the
+ * everyday amount from the rest, at the sellers still open. What they can't afford goes
  * unbought; it is never a debt. Each seller's sale goes through the sales tax
  * at the seller's place, so sales-tax laws still collect.
  */
 import { transfer } from "./accounts";
-import { makeIsoDate } from "./kernel/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import type { FinanceContractInput } from "./finance-types";
 import type { CoreAPI, CoreState, IsoDate, Source } from "./types";
 
@@ -246,23 +246,30 @@ function dailyPay(core: CoreState, memberIds: readonly string[]): number {
 }
 
 /**
- * What the household's home and debts still cost before its next everyday day,
- * kept back first: each payment that falls due before then, and any arrears. A
- * payment already made today has moved its due date on, so it is not kept back
- * twice.
+ * What the household keeps back for its home before it spends on everyday
+ * living (rent or mortgage first): any arrears, and each payment that falls due
+ * by its next everyday day (one due that day is paid before it spends), less
+ * the members' pay due in before then. A payment already made today has moved
+ * its due date on, so it is counted once, against the month's pay.
  */
-function housingDueBefore(
+function housingKeptBack(
   core: CoreState,
   householdId: string,
   until: IsoDate,
+  dailyPayMinor: number,
 ): number {
   let owed = 0;
   for (const id of core.finance.obligationsByHousehold.get(householdId) ?? []) {
     const row = core.finance.contracts.get(id);
     if (!row || row.endedAt) continue;
-    owed += row.arrearsMinor + (row.dueAt < until ? row.amountMinor : 0);
+    owed += row.arrearsMinor + (row.dueAt <= until ? row.amountMinor : 0);
   }
-  return owed;
+  // SG-LIVING-keep-back-gross-pay: the pay counted is the members' daily wage
+  // (gross); the payroll's withholding is not netted out of it.
+  const payIn =
+    dailyPayMinor *
+    Math.max(0, daysBetween(makeIsoDate(core.date), makeIsoDate(until)));
+  return Math.max(0, owed - payIn);
 }
 
 function settle(
@@ -321,10 +328,11 @@ function settle(
   const requestedMinor = Math.round(
     plan.monthlyMinor * priceFactor * payFactor,
   );
-  const keptBack = housingDueBefore(
+  const keptBack = housingKeptBack(
     core,
     plan.householdId,
     nextMonth(plan.dueAt, plan.billingDay),
+    pay,
   );
   const budget = Math.max(0, Math.min(requestedMinor, held - keptBack));
   let paidTotal = 0,
