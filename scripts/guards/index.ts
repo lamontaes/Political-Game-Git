@@ -65,6 +65,14 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/families.test.ts"),
   },
   {
+    id: "two-seeds-differ",
+    rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
+    readMore:
+      "src/core2/realistic-not-real.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Realistic not real",
+    // Two played worlds: its npm script gives it the heap it needs.
+    command: ["npm", "run", "-s", "zero-real-data"],
+  },
+  {
     id: "research-data-has-reader",
     rule: "An effect is a read, not a record: every research file has code that reads it, and the unread list only shrinks.",
     readMore: "AGENTS.md, Standing owner rules, An effect is a read",
