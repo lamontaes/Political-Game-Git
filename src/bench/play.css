@@ -342,7 +342,6 @@ select:focus-visible {
 }
 .action,
 #sheet-body button,
-#race-menu .record-pager button,
 #person-facts button {
   position: relative;
   display: inline-block;
@@ -582,7 +581,6 @@ select:focus-visible {
 .ring,
 .lie-scales,
 #sheet-body button,
-#race-menu .record-pager button,
 .term {
   transition:
     color 0.2s ease,
@@ -592,7 +590,6 @@ select:focus-visible {
 }
 .action:hover:not(:disabled),
 #sheet-body button:hover:not(:disabled),
-#race-menu .record-pager button:hover:not(:disabled),
 #person-facts button:hover {
   background:
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
@@ -1497,7 +1494,6 @@ body.dev .dev-ring {
 /* Reading screens (the menu, every menu sheet and a person's card) are
    solid: the scene never shows through text meant to be read. Glass stays
    for panels over a scene, such as the talk box. */
-#race-menu,
 #sheet,
 #person {
   background: linear-gradient(var(--solid-top), var(--solid-bottom));
@@ -1738,34 +1734,6 @@ body.dev .dev-ring {
 }
 
 /* ---- The filing office's rules, beside the clerk ---- */
-#filing-overlay {
-  top: var(--gutter);
-  right: var(--gutter);
-  width: 380px;
-  max-height: calc(100% - 2 * var(--gutter));
-  display: flex;
-  flex-direction: column;
-  padding: 14px 18px;
-}
-/* The platform questions scroll inside the panel; the panel fits the screen. */
-#filing-platform {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-}
-#game.filing-open #news-surface,
-#game.filing-open #journal-note {
-  visibility: hidden;
-}
-#filing-overlay .name {
-  margin-bottom: 8px;
-}
-#filing-overlay .row.unmet > :last-child {
-  color: var(--lying);
-}
-#filing-overlay .row select {
-  max-width: 140px;
-}
 
 /* ---- Glossary: civic terms carry a tiny underline until learned ---- */
 .term {
@@ -2691,7 +2659,6 @@ details.entry[open] {
 /* Reading screens (the menu, every menu sheet and a person's card) are
    solid: the scene never shows through text meant to be read. Glass stays
    for panels over a scene, such as the talk box. */
-#race-menu,
 #sheet,
 #person {
   background: linear-gradient(var(--solid-top), var(--solid-bottom));
@@ -2932,34 +2899,6 @@ details.entry[open] {
 }
 
 /* ---- The filing office's rules, beside the clerk ---- */
-#filing-overlay {
-  top: var(--gutter);
-  right: var(--gutter);
-  width: 380px;
-  max-height: calc(100% - 2 * var(--gutter));
-  display: flex;
-  flex-direction: column;
-  padding: 14px 18px;
-}
-/* The platform questions scroll inside the panel; the panel fits the screen. */
-#filing-platform {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-}
-#game.filing-open #news-surface,
-#game.filing-open #journal-note {
-  visibility: hidden;
-}
-#filing-overlay .name {
-  margin-bottom: 8px;
-}
-#filing-overlay .row.unmet > :last-child {
-  color: var(--lying);
-}
-#filing-overlay .row select {
-  max-width: 140px;
-}
 
 /* ---- Glossary: civic terms carry a tiny underline until learned ---- */
 .term {
@@ -4009,23 +3948,6 @@ details.entry[open] {
   display: none;
 }
 /* The races at the filing counter, as a menu beside the talk (ui/menu.mjs). */
-#race-menu {
-  left: var(--gutter);
-  top: var(--gutter);
-  bottom: 162px;
-  width: 340px;
-  padding: 18px 0;
-  z-index: 5;
-}
-#race-menu .sheet-head {
-  padding: 0 18px 8px;
-}
-#race-menu .choice-facts {
-  display: block;
-  font: 400 13px var(--ui);
-  color: var(--text-2);
-  margin-top: 2px;
-}
 /* The speech's lines and replies inside a screen read as the talk box's do. */
 .talk-sheet .reply {
   text-align: left;
