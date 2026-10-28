@@ -1,6 +1,7 @@
 ---
 id: release-main-red-bargaining-yeslevels
 title: "Main is red: public bargaining imports yesLevels from where #6475 removed it"
+lead: laws-effects
 area: laws
 kind: bug
 priority: 1
