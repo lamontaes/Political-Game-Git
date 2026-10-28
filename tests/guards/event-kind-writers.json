@@ -7,7 +7,6 @@
   ],
   "took-office": [
     "src/core2/modules/offices.ts",
-    "src/core2/modules/voting.ts",
     "src/core2/office-day-state.ts"
   ]
 }

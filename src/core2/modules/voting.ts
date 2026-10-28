@@ -90,7 +90,7 @@ import {
 import {
   OFFICES_MODULE_ID,
   registerSpecialElections,
-  vacancyFilled,
+  seatWinner,
   unfilledTerm,
   repeatSpecialElection,
   type TermRow,
@@ -3058,17 +3058,6 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput;
-  for (const term of terms.query("bySeatStatus", [
-    contest.seatId,
-    "serving",
-  ]) as unknown as TermRow[])
-    terms.put({
-      ...term,
-      status: "ended",
-      endDate: api.state.date,
-      endEstimated: false,
-      endedBy: "term ended",
-    } as unknown as ModuleRow);
   const winner = api.state.people.get(result.winnerId);
   const filing = ballot(api, contest.id).find(
     (f) => f.personId === (result.winnerCandidateId ?? result.winnerId),
@@ -3098,45 +3087,25 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     : previous
       ? previous.identity
       : officialIdentity(api, contest, result.winnerId);
-  const termId = `term:${contest.seatId}:${api.state.date}:elected`;
-  terms.put({
-    id: termId,
+  seatWinner(api, {
     seatId: contest.seatId,
     officeId: contest.officeId,
     personId: winner ? winner.id : null,
     identity,
     party: filing?.party ?? null,
-    startDate: api.state.date,
     // A special election's winner serves out the unexpired term; otherwise
     // the term runs to the start of the one elected a full term on.
     endDate: contest.special
       ? contest.special.termEnd
       : termEndAfter(office, regularElectionDate(contest)),
-    endEstimated: false,
     reached: contest.special
       ? `elected in a special election ${contest.electionDate}`
       : `elected ${contest.electionDate}`,
-    status: "serving",
-  } as unknown as ModuleRow);
-  if (contest.special) vacancyFilled(api, contest.special.vacancyId, termId);
-  api.emit({
-    id: `took-office:${contest.seatId}:${api.state.date}`,
-    date: api.state.date,
-    kind: "took-office",
-    personIds: winner ? [winner.id] : [],
-    placeId: town(api).townPlaceId,
-    source: {
-      tag: "SOURCED",
-      citation: `Result of ${contest.id}`,
-      asOf: api.state.date,
-    },
-    publicRecord: true,
+    resultId: contest.id,
+    title: contest.title,
+    winnerId: result.winnerId,
     news: true,
-    facts: {
-      office: contest.title,
-      seatId: contest.seatId,
-      winnerId: result.winnerId,
-    },
+    ...(contest.special ? { vacancyId: contest.special.vacancyId } : {}),
   });
   openNextCycle(api, contest.seatId);
 }
