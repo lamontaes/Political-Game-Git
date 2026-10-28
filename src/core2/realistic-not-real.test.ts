@@ -18,7 +18,13 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { publishedMonths, type MacroMonth } from "./macro-model";
 import { MACRO_MODULE_ID } from "./modules/macro";
-import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
+import {
+  placeReferencePopulation,
+  publishedPlaceReferencePopulation,
+} from "./gov-rules/place-population";
+import { PLACE_POPULATION_ROWS } from "../../data/tables/place-population.json" with { type: "json" };
+import acsPlaces from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import territoryPlaces from "./data/places/territory-places.json" with { type: "json" };
 import { CREDIT_MODULE_ID } from "./modules/credit";
 import { worldGoods } from "./modules/place-prices";
 import goodsData from "./data/prices/goods.json" with { type: "json" };
@@ -518,10 +524,40 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const size = (core: CoreState) =>
       Number(core.placeMetadata.referencePopulation);
     if (real === undefined) return;
+    // The town's record is this world's draw, never the published count.
+    expect(size(a), `${where} referencePopulation`).toBe(
+      placeReferencePopulation(geoid!, a.seed)?.value,
+    );
     expect(size(a), `${where} referencePopulation`).not.toBe(real);
-    expect(size(a), `${where} referencePopulation`).not.toBe(size(b));
+    // A town of a hundred can open on the same whole count in two worlds, so
+    // the worlds are told apart by every place of the state together, as the
+    // outlet counts are (row 26).
+    const state = geoid!.slice(0, 2);
+    const geoids = [
+      ...new Set([
+        ...PLACE_POPULATION_ROWS.split(";").map((pair) =>
+          pair.slice(0, pair.indexOf(":")),
+        ),
+        ...Object.keys(acsPlaces.places),
+        ...(territoryPlaces.rows as unknown as string[][]).map((r) => r[4]!),
+      ]),
+    ].filter((g) => g.startsWith(state));
+    expect(geoids.length, where).toBeGreaterThan(0);
+    const total = (read: (g: string) => number) =>
+      geoids.reduce((n, g) => n + read(g), 0);
+    const worldA = total(
+      (g) => placeReferencePopulation(g, a.seed)?.value ?? 0,
+    );
+    const worldB = total(
+      (g) => placeReferencePopulation(g, b.seed)?.value ?? 0,
+    );
+    const published = total(
+      (g) => publishedPlaceReferencePopulation(g)?.value ?? 0,
+    );
+    expect(worldA, `${where} state places`).not.toBe(published);
+    expect(worldA, `${where} state places`).not.toBe(worldB);
     process.stdout.write(
-      `POPULATION ${where}: ${size(a)} and ${size(b)} against ${real} published\n`,
+      `POPULATION ${where}: ${size(a)} and ${size(b)} against ${real} published; the state's ${geoids.length} places ${worldA} and ${worldB} against ${published}\n`,
     );
   });
 
