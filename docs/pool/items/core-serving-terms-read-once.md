@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-serving-offices
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:15:12.845Z
 ---
 
 **What.** The offices engine kept a private servingTermsOf, justice-law.ts exported an identical public one, and the bench's scene picker (servingOfficeKinds, isOfficial, officeKinds) and person card (servingOffices) each queried the terms table for serving rows again. Five readers of one fact, each with its own guard or none (duplicates report rows M5 and C6).
