@@ -1072,9 +1072,12 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   border: 1px solid var(--brass);
 }
+/* The figure's preview, sized so the look stage with the place line over it
+   (37px) fits a 900px window with its ten rows; at 260px it ran 5px over
+   before the line was added. */
 .portrait {
   display: block;
-  height: 260px;
+  height: 200px;
   margin: 0 auto 4px;
 }
 #front .acts {
