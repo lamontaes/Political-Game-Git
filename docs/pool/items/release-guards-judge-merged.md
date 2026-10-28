@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/guards-judge-merged
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T03:33:17.657Z
 ---
 
 **What.** The guards job checks out the pull request's head, like the other jobs. A branch cut before the guards existed has no guards script, so every older open pull request fails the guards check with Missing script guards until main is merged into it. The red says nothing about the rules and hides real failures among about 180 open pull requests.
