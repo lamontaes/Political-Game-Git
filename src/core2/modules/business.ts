@@ -11,7 +11,7 @@ import { BUSINESS_MODULE_ID } from "../business-module-id";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
-import { WEB_LINKS } from "../outcome-web-model";
+import { carriedLink } from "./outcome-web";
 import { chooseAct } from "../choice";
 import { countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
@@ -1166,9 +1166,7 @@ function routeOutsideCosts(api: CoreAPI): void {
  * and Hyndman 2019). This engine carries that link: each farm's groundwater
  * input falls by its size, so the web does not run it a second time.
  */
-const GROUNDWATER_LINK = WEB_LINKS.find(
-  (link) => link.key === "groundwater-limits-to-irrigation-pumping",
-)!;
+const GROUNDWATER_LINK = "groundwater-limits-to-irrigation-pumping";
 
 /** Read the withdrawal statute where farm production limits are set. */
 function readGroundwaterLaw(api: CoreAPI): void {
@@ -1205,15 +1203,16 @@ function readGroundwaterLaw(api: CoreAPI): void {
     // stopgapId: SG-GOV-REACH-B-business-cost — farm irrigation exposure,
     // pumping records and crop-specific responses are not present yet.
     api.stopgap("SG-GOV-REACH-B-business-cost");
+    const pumping = carriedLink(GROUNDWATER_LINK);
     setOperatingLimit(api, table, {
       organizationId: id,
       input: "groundwater",
-      share: 1 + GROUNDWATER_LINK.size!,
+      share: 1 + pumping.size!,
       cause,
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: `${law.governing.id}: ${String(law.governing.source)}; ${GROUNDWATER_LINK.source}`,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${pumping.source}`,
         estimatedFrom:
           "Agricultural operating limit at the outcome web's researched pumping cut and the irrigation-output elasticity; individual irrigation exposure is not recorded.",
       },

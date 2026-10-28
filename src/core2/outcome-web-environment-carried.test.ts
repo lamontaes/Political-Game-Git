@@ -72,8 +72,9 @@ describe("environment, farm and water links and the engines that decide them", (
     );
     expect(business).toContain(row.from.replace(/^law:/, ""));
     expect(business).toMatch(/lawInForce\(api, question\)/);
-    expect(business).toContain(`link.key === "${row.key}"`);
-    expect(business).toMatch(/share: 1 \+ GROUNDWATER_LINK\.size!/);
+    expect(business).toContain(`GROUNDWATER_LINK = "${row.key}"`);
+    expect(business).toMatch(/carriedLink\(GROUNDWATER_LINK\)/);
+    expect(business).toMatch(/share: 1 \+ pumping\.size!/);
     expect(business).toMatch(/\n\s+readGroundwaterLaw\(api\);/);
     expect(read("src/core2/business-operating-rules.ts")).toContain(
       "limitOutsideSales(",
