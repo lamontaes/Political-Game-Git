@@ -3,12 +3,12 @@
   "summary": {
     "links": 244,
     "lawLinks": 134,
-    "webCoverageWired": 130,
+    "webCoverageWired": 129,
     "allEightPoints": 0,
-    "reachesOrCarried": 142,
+    "reachesOrCarried": 143,
     "namedInAStopgap": 116,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 142,
+    "reachesTheWorld": 143,
     "withAnyModerator": 23,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 142,
+        "pass": 143,
         "partial": 0,
-        "fail": 102,
+        "fail": 101,
         "n/a": 0
       },
       "varied": {
@@ -3341,7 +3341,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.new-large-buildings, which src/core2/housing-construction.ts:269 reads into its own records"
+          "evidence": "web ledger housing.new-large-buildings, which src/core2/housing-construction.ts:278 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3397,7 +3397,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-construction.ts:274"
+          "evidence": "src/core2/housing-construction.ts:283"
         },
         "varied": {
           "status": "fail",
@@ -5755,7 +5755,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-construction.ts:269"
+          "evidence": "src/core2/housing-construction.ts:278"
         },
         "varied": {
           "status": "fail",
@@ -10435,7 +10435,7 @@
       "to": "farmland.developed-acres",
       "causeKind": "law",
       "lawLink": true,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -10446,9 +10446,8 @@
           "evidence": "data/research/outcome-web/links.json:5874 size -0.47, range [-0.55, -0.4], Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts) reads this law and cuts the town's single-family starts by its own land elasticity, not this row's size and five-year lag, and no engine keeps the acres converted"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts), which reads this law in force and takes this row's size out of the share of new building that goes on farmland (the American Farmland Trust's 62%), so the land open to build on falls by that much and the town's single-family starts fall through the land-starts elasticity; each builder whose start the law restricted is recorded as the law applied (land-restricted). It applies from the law's effective date rather than after this row's five-year lag, and no record keeps the acres converted (stopgap SG-GOV-REACH-B-land-use)"
         },
         "varied": {
           "status": "fail",
@@ -10474,8 +10473,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-farmland-developed-acres"
+      "wiredPoints": 5,
+      "stopgap": "SG-GOV-REACH-B-land-use"
     },
     {
       "key": "groundwater-limits-to-irrigation-pumping",
@@ -12765,7 +12764,7 @@
     {
       "measure": "housing.new-large-buildings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-construction.ts:269",
+      "evidence": "src/core2/housing-construction.ts:278",
       "countedTwice": false,
       "asCause": ["new-apartments-to-nearby-rent"],
       "asOutcome": ["housing-by-right-to-new-buildings"]
@@ -12797,7 +12796,7 @@
     {
       "measure": "housing.rental-supply",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-construction.ts:274",
+      "evidence": "src/core2/housing-construction.ts:283",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-rental-supply"]
