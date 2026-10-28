@@ -3943,7 +3943,17 @@ $("cr-character-next").addEventListener("click", () => {
   void showStates();
 });
 $("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
-$("cr-place-back").addEventListener("click", () => frontPanel("cr-character"));
+$("cr-place-back").addEventListener("click", () => {
+  // After a state is picked, Back returns to the states, not to the name
+  // and birthday (owner, Oct 28, point 5).
+  if (setup.state) {
+    setup.state = null;
+    setup.town = null;
+    void showStates();
+    return;
+  }
+  frontPanel("cr-character");
+});
 
 // Where are you from: a state, then a city or town with its population.
 let states = [];
