@@ -20,6 +20,12 @@ source: added with npm run pool -- add
 
 **Done when.** In a drawn place where a law passed in play is amended by a new bill, the bill paper's estimate line and its section text name the cited bill the same way, shown by src/bench/bill-paper.test.ts with the record id of the enacting bill and a screenshot, and both web-address guards are deleted.
 
+**Time box.** 2 hours.
+
+**You will see.** A bill amending a law your town passed reads "amending Ordinance 2025-3" in its section and the same words on its estimate line.
+
+**Screenshot.** The bill paper for a bill amending a law passed in play, from a drawn place.
+
 **Files.** src/bench/legislature.ts, src/bench/play.mjs, src/bench/bill-paper.test.ts
 
 **Notes.** Found Oct 28 00:20 by the laws-and-effects lead building laws-bill-section-cites-research-source (src/bench is the lane's).
