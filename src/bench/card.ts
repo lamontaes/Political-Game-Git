@@ -21,8 +21,7 @@ import {
   PEOPLE_MIND_VERSION,
 } from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
-import { preStartHistory } from "../core2/pre-start";
-import { sharedHistory } from "../core2/shared-history";
+import { preStartHistory, sharedHistory } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;

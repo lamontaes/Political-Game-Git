@@ -11,7 +11,7 @@
 // Usage: node --max-old-space-size=8192 --import tsx src/bench/m1-12-check.ts
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
-import { preStartHistory } from "../core2/pre-start";
+import { preStartHistory } from "../core2/past";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
