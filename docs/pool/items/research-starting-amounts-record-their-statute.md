@@ -1,6 +1,7 @@
 ---
 id: research-starting-amounts-record-their-statute
 title: "Starting law amounts record the statute they rest on (terms.cite), so a bill amending one cites it"
+lead: laws-effects
 area: laws
 kind: research
 priority: 3
