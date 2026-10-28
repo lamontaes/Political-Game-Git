@@ -1,8 +1,7 @@
 import { coreAPI } from "../core2/state";
 import { townSeats } from "../core2/modules/offices";
 import { corePlaceByKey } from "../core2/place-lookup";
-import { capitolPlaceFor } from "./backdrop-places";
-import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
+import { capitolPlaceFor, hasBackdrop } from "./backdrop-places";
 import {
   backdropFile,
   stagePeople,
@@ -31,12 +30,6 @@ export const OPENING_EVENING_MINUTE = 20 * 60 + 30;
 
 /** The most people a cutaway shows. */
 const MOST_IN_A_CUTAWAY = 4;
-
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
 
 interface Picture {
   places: string[];
@@ -74,24 +67,18 @@ export function openingFrames(
     corePlaceByKey(
       api.state.placeMetadata.placeKey ?? "",
     )?.stateJurisdictionKey?.slice(3) ?? null;
-  // A state's own capitol where it is pictured (the presentation helper reads
-  // the browser build's picture list, which the bench server doesn't have).
-  const capitol = (code: string | null) =>
-    code && PICTURED.has(`state-capitol-${code.toLowerCase()}`)
-      ? `state-capitol-${code.toLowerCase()}`
-      : capitolPlaceFor(code);
   const resolve = (place: string, sentence: OpeningSentence) =>
     place === "capitol"
-      ? capitol(usps)
+      ? capitolPlaceFor(usps)
       : place === "@visited-capitol"
-        ? capitol(sentence.stateKey?.slice(3) ?? null)
+        ? capitolPlaceFor(sentence.stateKey?.slice(3) ?? null)
         : place === "@home"
           ? homeOf(core, playerId, minute)
           : place;
   const placeOf = (picture: Picture | undefined, sentence: OpeningSentence) =>
     picture?.places
       .map((row) => resolve(row, sentence))
-      .find((row) => PICTURED.has(row));
+      .find((row) => hasBackdrop(row));
   // A cutaway shows the town's own employer for the figure and the people who
   // work there, never an empty room (owner, Oct 26): the largest employer of
   // a listed kind in the player's town or county, pictured by its own record.
@@ -120,7 +107,7 @@ export function openingFrames(
       )
       .flatMap((org) => {
         const place = orgPlace(core, org.id);
-        return place && PICTURED.has(place) && org.classification
+        return place && hasBackdrop(place) && org.classification
           ? [
               {
                 classification: org.classification,
@@ -179,7 +166,25 @@ export function openingFrames(
     return place ? { place, cast: castOf(picture?.cast) } : undefined;
   };
   const stageOf = stageOfLevel(story.sequence);
-  const stages = new Map(story.sequence.map((row) => [row.stage, row]));
+  // Names are read by id from the current records: the creator may have
+  // renamed the player's household since the story was composed, and the
+  // camera's labels must say who the records now say.
+  const nameNow = (id: string, name: string) => {
+    const person = core.people.get(id);
+    return person ? `${person.givenName} ${person.familyName}` : name;
+  };
+  const stages = new Map(
+    story.sequence.map((row) => [
+      row.stage,
+      {
+        ...row,
+        people: row.people.map((figure) => ({
+          ...figure,
+          name: nameNow(figure.id, figure.name),
+        })),
+      },
+    ]),
+  );
   /** Who stands on a stage: the President on theirs, the player with their family. */
   const stageCast = (stage: string) => [
     ...(stage === "president"

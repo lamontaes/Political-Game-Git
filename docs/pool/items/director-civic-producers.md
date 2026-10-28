@@ -33,3 +33,5 @@ Sent back 2026-10-17 from PR #4600 (branch claude/director-civic-producers-gover
 Sent back 2026-10-17 from PR #4606 (branch claude/director-civic-producers-government-rest): Morning check: new press-scenes.test.ts returns successfully when no outlet or seated resident exists, bypassing all published-interview and role assertions. The stacked government-scenes.test.ts likewise returns before assertions when there is no full-person seat or no vote. Draw an eligible case with bounded retries and fail when the case cannot be reached. Also record Government-area agreement for the recalls.ts event changes, or split that edit into its owning-area PR.; finish on that branch, merge main into it first.
 
 Oct 20 (pool feeder): spec written; the old blocked-on named the two parts still in review; the others are done, so this is the roll-up and closes with the reach report on main.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (roll-up complete).

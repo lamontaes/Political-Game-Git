@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/scene-talk.ts, src/director/scheduling.ts, src/english/calibration.ts, data/english/parts/scene-talk.json
 
 **Notes.** Build on #5358 (the seam), which moves scene-talk wording to src/english/scene-talk-words.ts; writing the outcome belongs to the director.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up and twin of words-scene-ending-writes-its-record and the words-scene-web items; the children carry the work.

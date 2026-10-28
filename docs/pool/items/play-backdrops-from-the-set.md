@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/backdrops-from-the-set
 pr: #6438
 blocked-on:

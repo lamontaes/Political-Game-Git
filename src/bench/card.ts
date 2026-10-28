@@ -8,6 +8,7 @@ import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
+import { pronounWords } from "../english/pronoun-words";
 import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
@@ -244,8 +245,18 @@ const SKETCH_SAID = 0.15;
 const SKETCH_STRONG = 0.5;
 const SKETCH_SENTENCES = 3;
 
-/** Up to three sentences of what a person is like, strongest leaning first. */
-function personSketch(traits: Readonly<Record<string, number>>): string {
+/**
+ * Up to three sentences of what a person is like, strongest leaning first:
+ * to the player in the second person, or of someone else in the third, with
+ * the pronouns their record carries.
+ */
+function personSketch(
+  traits: Readonly<Record<string, number>>,
+  pronouns?: string,
+): string {
+  const third = pronouns === undefined ? null : pronounWords(pronouns);
+  const voice = pronouns === undefined ? "" : third ? "-third" : "-they";
+  const facts = third ?? {};
   const said = PEOPLE_TRAITS.flatMap((trait) => {
     const value = traits[`${PEOPLE_MIND_VERSION}:${trait}`];
     if (value === undefined || Math.abs(value) < SKETCH_SAID) return [];
@@ -254,8 +265,8 @@ function personSketch(traits: Readonly<Record<string, number>>): string {
     const strength = Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
     const line = screenLine(
       "person-sketch",
-      `person-sketch.${pole}.${strength}`,
-      {},
+      `person-sketch.${pole}.${strength}${voice}`,
+      facts,
     );
     return line ? [{ line, weight: Math.abs(value) }] : [];
   })
@@ -264,15 +275,8 @@ function personSketch(traits: Readonly<Record<string, number>>): string {
     .map((row) => row.line);
   return said.length
     ? said.join(" ")
-    : (screenLine("person-sketch", "person-sketch.balanced.1", {}) ?? "");
-}
-
-/** "Quinn Supply Company" said as people say it: "Quinn Supply". */
-function shortEmployer(name: string): string {
-  return name.replace(
-    /,?\s+(Company|Co\.|Inc\.?|LLC|Corporation|Corp\.?)$/i,
-    "",
-  );
+    : (screenLine("person-sketch", `person-sketch.balanced.1${voice}`, facts) ??
+        "");
 }
 
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
@@ -303,9 +307,6 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     otherId,
     kin?.kind.slice("family:".length),
   );
-  const employer = job
-    ? core.organizations.get(job.organizationId)?.name
-    : undefined;
   const school =
     (family || housemate) &&
     ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
@@ -314,32 +315,10 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
       : null;
-  const shownWork = (family || housemate || coworker) && job && employer;
   return {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
     relation,
-    // Who this is to the viewer, said as a person would ("Your partner. Works
-    // at Quinn Supply."), from the kin, job and school records (owner, Oct 27).
-    who: [
-      relation
-        ? screenLine("talk-who", "talk-who.relation.1", { relation })
-        : null,
-      shownWork
-        ? relation
-          ? screenLine("talk-who", "talk-who.work.known", {
-              employer: shortEmployer(employer),
-            })
-          : screenLine("talk-who", "talk-who.work.title", {
-              title: job.title,
-              employer: shortEmployer(employer),
-            })
-        : school
-          ? screenLine("talk-who", "talk-who.school.1", { school: school.name })
-          : null,
-    ]
-      .filter(Boolean)
-      .join(" "),
     // Family and housemates know each other's ages; others are known by sight.
     age:
       family || housemate
@@ -354,6 +333,12 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         : null,
     // The school a child or teen is at now, from the school their past records.
     school,
+    // What they are like, said of them, to someone who knows them: family,
+    // a housemate or anyone the player has a tie with.
+    sketch:
+      family || housemate || tie
+        ? personSketch(other.traits, other.looks?.pronouns ?? "they-them")
+        : null,
     work:
       (family || housemate || coworker) && job
         ? {

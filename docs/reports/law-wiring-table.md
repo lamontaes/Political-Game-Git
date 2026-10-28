@@ -40,7 +40,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Unemployment weekly maximum                  | assistance         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar       |
 | Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
 | allow multifamily in single family zones     | housing            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
-| Spending: housing                            | housing            | yes    | yes    | yes   | yes     | part  | yes  | yes     | yes    | yes       | partly     | Budgets, Your office, News          |
+| Spending: housing                            | housing            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | inclusionary requirement                     | housing            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | rent stabilization                           | housing            | yes    | yes    | yes   | yes     | part  | yes  | yes     | yes    | yes       | partly     | Issues, Your office, News           |
 | right to counsel in eviction                 | housing            | yes    | yes    | part  | yes     | part  | yes  | yes     | yes    | part      | partly     | Issues, Your office, News           |
@@ -63,7 +63,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | civilian oversight of police                 | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | partner with federal immigration enforcement | justice            | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | end cash bail                                | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
-| Spending: corrections                        | justice            | yes    | yes    | yes   | yes     | part  | n/a  | yes     | yes    | yes       | partly     | Budgets, Your office, News          |
+| Spending: corrections                        | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | raise juvenile court age                     | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | child access prevention                      | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
@@ -157,10 +157,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**Spending: housing** (`budget-line:housing`)
-
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-
 **inclusionary requirement** (`us-policy-positions:housing-land-use.inclusionary-requirement`)
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
@@ -203,7 +199,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: corrections** (`budget-line:corrections`)
 
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)

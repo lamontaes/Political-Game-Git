@@ -121,7 +121,7 @@ The move at 6 adds 0.300 to Sarah's thread only, because the record names only S
 
 **The rule.** A situation type is structure only. It names roles, what each role wants, the moves available, and what changes afterward. It holds no sentence. The world's records fill the roles; the English engine voices every line from a fact packet. One type serves every event of its kind. A departure covers a soldier leaving, a friend moving away and a sibling going to prison, because the roles and the record differ and the structure does not.
 
-**The data.** `data/content/situation-types.json` holds the types and `data/content/story-moves.json` holds the move kinds. Each move names one speech act and one to three act kinds from the 20 in `act-kinds.json`.
+**The data.** The types moved to `src/director/data/situation-types.json` and the moves to `scripts/english-corpus/moves.json`; the old `data/content` files were deleted on Oct 28, 2026 (duplicates report row W14). Each move names one speech act and one to three act kinds from the 20 in `act-kinds.json`.
 
 | Field       | Meaning                                                                                                                                        |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
