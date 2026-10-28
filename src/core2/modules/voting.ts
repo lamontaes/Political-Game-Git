@@ -21,7 +21,6 @@
  * writer (`keepCount`) and seated by the one term writer (`seatWinner`).
  */
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
-import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { contingentElection } from "../contingent-election";
@@ -145,7 +144,10 @@ import {
   citizenShareOf,
   housePlace,
   legislativePlace,
+  publishedSenateSeats,
   statePlaces,
+  worldRoster,
+  worldSeatParty,
   type ElectoratePlace,
 } from "../electorate-places";
 import {
@@ -3448,10 +3450,16 @@ function governorRaces(api: CoreAPI, year: number): readonly Race[] {
       office: "governor",
       usps: stateKey.slice(3),
       code: "00",
+      // The world's governor at Start: the published holder, unless this
+      // world's vote carries the state across even against that party.
       incumbentParty: currentParty(
         api,
         seatId,
-        governorPartyAtOpening(stateKey),
+        worldSeatParty(
+          api.state.seed,
+          { kind: "governor", level: "state", jurisdiction: stateKey },
+          { id: seatId, party: governorPartyAtOpening(stateKey) },
+        ),
       ),
       leanSource: "2024 presidential vote in the state's counties",
       seatedOn: termStartAfter(office, electionDay),
@@ -3492,12 +3500,6 @@ const electors = electorsData as unknown as {
   toWin: number;
   states: Record<string, number>;
 };
-const congress = (
-  partyCounts as unknown as {
-    congress: Record<string, Record<string, string[]>>;
-  }
-).congress;
-
 /** The vacancy a special race fills and the end of the term it serves. */
 interface SpecialRace {
   readonly vacancyId: string;
@@ -4185,7 +4187,9 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
   const congressStart = `${year + 1}-01-03`;
   // Congress outside the town's state, in even years.
   if (year % 2) return races.sort((a, b) => a.seatId.localeCompare(b.seatId));
-  for (const [state, seats] of Object.entries(congress)) {
+  for (const [state, seats] of Object.entries(
+    worldRoster(api.state.seed).congress,
+  )) {
     if (state === stateKey) continue;
     const usps = state.slice(3);
     for (const [district, parties] of Object.entries(seats)) {
@@ -4202,8 +4206,10 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         seatedOn: congressStart,
       });
     }
-    // Senate seats whose class is up this year.
-    const sorted = seats.senate ?? [];
+    // Senate seats whose class is up this year: a class pairs with its seat
+    // by the published holder; this world's holder stands for it.
+    const sorted = publishedSenateSeats(state);
+    const held = seats.senate ?? [];
     const used = new Set<number>();
     for (const cls of classes[state] ?? []) {
       const index = sorted.findIndex((p, i) => p === cls.party && !used.has(i));
@@ -4217,7 +4223,7 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         office: "us-senate",
         usps,
         code: "00",
-        incumbentParty: currentParty(api, seatId, cls.party),
+        incumbentParty: currentParty(api, seatId, held[index] ?? cls.party),
         leanSource: "2024 presidential vote in the state's counties",
         seatedOn: congressStart,
       });
@@ -4328,8 +4334,8 @@ function partyField(
  * that side in the state's own record (its 2024 ballot or legislature), else
  * the national party of that side (party-sides data).
  */
-function partyOnSideIn(stateKey: string, side: number): string {
-  const best = stateParties(stateKey)
+function partyOnSideIn(stateKey: string, side: number, seed: string): string {
+  const best = stateParties(stateKey, seed)
     .filter((p) => partySide(p.name) === side)
     .sort((a, b) => b.share - a.share || a.name.localeCompare(b.name))[0];
   return best?.name ?? nationalParty(side);
@@ -4378,14 +4384,14 @@ function decide(
   const parties =
     side === 0
       ? [-1, 1].map((s) => ({
-          party: partyOnSideIn(stateKey, s),
+          party: partyOnSideIn(stateKey, s, api.state.seed),
           side: s,
           incumbent: false,
         }))
       : [
           { party: race.incumbentParty!, side, incumbent: true },
           {
-            party: partyOnSideIn(stateKey, -side),
+            party: partyOnSideIn(stateKey, -side, api.state.seed),
             side: -side,
             incumbent: false,
           },
@@ -4433,7 +4439,7 @@ function decide(
       winnerParty =
         winnerSide === side && race.incumbentParty
           ? race.incumbentParty
-          : partyOnSideIn(stateKey, winnerSide);
+          : partyOnSideIn(stateKey, winnerSide, api.state.seed);
       return `party:${winnerSide > 0 ? "R" : "D"}`;
     },
     winnerOf: () => `${raceId}:${winnerParty}`,

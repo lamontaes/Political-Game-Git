@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/accept-appointment-drawn
-pr:
+pr: #6716
 blocked-on:
 lead: traits
 source: wire-office session, Oct 28 (found red on main)

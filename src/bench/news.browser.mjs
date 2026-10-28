@@ -107,18 +107,18 @@ try {
   await page.locator("#sheet-body .paper").waitFor();
   assert.ok((await page.locator(".story-headline").count()) > 0);
   assert.equal(
-    await page.locator("#sheet-body .paper-masthead h2").innerText(),
+    await page.locator("#sheet-body .paper-masthead-name").innerText(),
     "News",
   );
   // The newspaper art (owner, Oct 28): the paper's name is set in an engraved
   // masthead, and a lead photo, when there is one, is the art of the room
   // where that level of government acts; every picture loads.
   assert.equal(
-    await page.locator("#sheet-body .paper-masthead h2.engraved").count(),
+    await page.locator("#sheet-body .paper-masthead-name.engraved").count(),
     1,
   );
   const art = await page.evaluate(() => [
-    getComputedStyle(document.querySelector("#sheet-body .paper-masthead h2"))
+    getComputedStyle(document.querySelector("#sheet-body .paper-masthead-name"))
       .backgroundImage,
     ...[...document.querySelectorAll("#sheet-body .story-image")].map((image) =>
       image.getAttribute("src"),
@@ -156,9 +156,14 @@ try {
   const headline = await page.locator(".story-headline").first().innerText();
   await page.locator(".story-headline").first().click();
   assert.equal(await page.locator(".article-title").innerText(), headline);
-  await page
-    .getByRole("button", { name: "Back to front page", exact: true })
-    .click();
+  // No "Back to front page" (owner, Oct 28, point 26): the masthead returns.
+  assert.equal(
+    await page.getByRole("button", { name: /back to front page/i }).count(),
+    0,
+    "a Back to front page button on the story",
+  );
+  await page.locator("#sheet-body .paper-masthead-name").click();
+  await page.locator("#sheet-body .paper-stories").waitFor();
   assert.equal(await page.locator("#card-clock").textContent(), clock);
   await page.route("**/api/opening?*", async (route) => {
     const r = await route.fetch();

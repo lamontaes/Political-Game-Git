@@ -2,7 +2,6 @@
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, mountPagers, buttonRow } from "./ui/button.mjs";
-import { fillChoiceMenu } from "./ui/menu.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import {
   talkLine,
@@ -29,7 +28,7 @@ import {
   noteLine,
   withNotes,
 } from "./ui/list-row.mjs";
-import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
+import { pageIn, pageWhenChanged, pagerWords } from "./ui/pager.mjs";
 import { fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import {
@@ -354,11 +353,12 @@ const learned = new Set(
   })(),
 );
 let tipTerm;
-function showTip(node, key) {
-  const term = guideTerms.get(key);
+/** The hover card at a node: a term and its line; a Guide term can be marked learned. */
+function showTipAt(node, { term, short, key }) {
   tipTerm = { node, key };
-  $("tip-term").textContent = term.term;
-  $("tip-short").textContent = term.short;
+  $("tip-term").textContent = term;
+  $("tip-short").textContent = short;
+  $("tip-learned").hidden = !key;
   show("tip", true);
   const box = node.getBoundingClientRect();
   const tip = $("tip");
@@ -367,6 +367,10 @@ function showTip(node, key) {
     box.bottom + tip.offsetHeight + 12 < window.innerHeight
       ? `${box.bottom + 6}px`
       : `${box.top - tip.offsetHeight - 6}px`;
+}
+function showTip(node, key) {
+  const term = guideTerms.get(key);
+  showTipAt(node, { term: term.term, short: term.short, key });
 }
 function hideTipSoon() {
   setTimeout(() => {
@@ -1110,10 +1114,6 @@ $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
     filing = undefined;
-    filingNarrated = false;
-    show("filing-overlay", false);
-    $("game").classList.remove("filing-open");
-    delete $("filing-title").dataset.contest;
     show("talk", false);
     await refresh();
     renderPacket();
@@ -1158,20 +1158,13 @@ function renderFiling(value) {
   // At the counter you can walk out; silence there is not an answer.
   talkControls({ silent: false, leave: true });
   fillTalk({ lines: spokenLines(lines) });
-  renderFilingOverlay(value);
-  // More races than the talk can hold open as a menu beside it, never as a long
-  // numbered list in the talk box (owner, Oct 26).
-  const races = value.visit.choices.filter((c) => c.action.kind === "pick");
-  const asMenu = races.length > 4;
+  // No form at the counter (owner, Oct 28, point 31: the rules panel was a
+  // dev menu): filing carries the party the player is tied to, from the
+  // record; the platform is SG-SCREENS-filing-platform-from-views.
   const choose = async (choice) => {
-    // Filing carries the platform and party chosen on the overlay.
     const params = new URLSearchParams({ key: choice.key });
-    if (choice.action.kind === "file") {
-      for (const select of $("filing-platform").querySelectorAll("select"))
-        if (select.value)
-          params.append("stance", `${select.name}=${select.value}`);
-      params.set("party", $("filing-party").value);
-    }
+    if (choice.action.kind === "file" && value.overlay?.party)
+      params.set("party", value.overlay.party);
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
@@ -1186,33 +1179,15 @@ function renderFiling(value) {
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
-  const choices = value.visit.choices
-    .filter((c) => !(asMenu && c.action.kind === "pick"))
-    .slice(0, 6);
+  // The counter offers six replies at most (SG-SCREENS-counter-six-replies);
+  // every race is a way in from the office's own view in Travel.
+  const choices = value.visit.choices.slice(0, 6);
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
     buttons[i].append(smallText(factsOf(choice), "reply-facts"));
+    officeTip(buttons[i], choice.action.contestId, value);
   });
-  if (asMenu) {
-    fillChoiceMenu($("race-menu"), {
-      title: counter.openRaces,
-      rows: races.map((choice) => ({
-        key: choice.key,
-        label:
-          value.visit.contests.find((c) => c.id === choice.action.contestId)
-            ?.title ?? choice.text,
-        facts: factsOf(choice),
-      })),
-      onPick: (key) => choose(races.find((c) => c.key === key)),
-      paged: (items) => menuPages(items, 8),
-    });
-    buttons.unshift(
-      talkReply({}, counter.chooseRace, () => show("race-menu", true)),
-    );
-    if (!value.result && !value.overlay) show("race-menu", true);
-  }
-  if (!asMenu || value.overlay) show("race-menu", false);
   fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
   // label under the talk, not as words in the clerk's mouth.
@@ -1232,62 +1207,31 @@ function renderFiling(value) {
     );
   setScales({ available: false });
 }
-/** The named office's rules from its records, with the platform and party to file under. */
-function renderFilingOverlay(value) {
-  const overlay = value?.overlay;
-  const open = Boolean(overlay && !value.result);
-  show("filing-overlay", open);
-  // The news card sits where the overlay does; it waits until the counter closes.
-  $("game").classList.toggle("filing-open", open);
-  if (!overlay || $("filing-title").dataset.contest === overlay.contestId)
-    return;
-  $("filing-title").dataset.contest = overlay.contestId;
-  $("filing-title").textContent = overlay.title;
-  // Each rule by its control name; the filing deadline is one of the rules.
-  const ruleNames = controls.filing?.rules ?? {};
-  $("filing-checks").replaceChildren(
-    ...overlay.checks.map((check) => {
-      const line = row(
-        ruleNames[check.rule] ?? words(check.rule),
-        `${dateOrValue(check.actual ?? "")}${check.required ? ` / ${dateOrValue(check.required)}` : ""}${check.metOn ? ` · ${controls.filing?.metOn ?? ""} ${dateWords(check.metOn)}` : ""}`,
-      );
-      if (!check.met) line.classList.add("unmet");
-      return line;
-    }),
-  );
-  $("filing-platform").replaceChildren(
-    ...overlay.questions.map((question) =>
-      listRow(
-        "",
-        {},
-        bold(policyLabel(question)),
-        select({
-          name: question,
-          options: [
-            { value: "", label: controls.filing?.noStance ?? "" },
-            { value: "1", label: controls.filing?.for ?? "" },
-            { value: "-1", label: controls.filing?.against ?? "" },
-          ],
-        }),
-      ),
-    ),
-  );
-  $("filing-party").replaceChildren(
-    ...optionsOf([
-      { value: "", label: controls.filing?.noStance ?? "" },
-      ...overlay.parties.map((name) => ({
-        value: name,
-        label: name,
-        selected: name === overlay.party,
-      })),
-    ]),
-  );
-}
 /**
- * To the filing office, as a hot link from a race takes you (owner, Oct 28:
- * "menus carry hot links that take you there"): the counter opens, and when
- * a race is named its choice is made at once, so the clerk is on that race.
+ * An office explained on hover (owner, Oct 28, point 30: "Hovering Trustee
+ * should explain what the office does"): the hover card with what the
+ * records know of it: its district, the election day and who holds the
+ * seat now. The office's duties in words are the words session's
+ * (SG-SCREENS-office-hover-prose).
  */
+function officeTip(node, contestId, value) {
+  const contest = value.visit.contests.find((c) => c.id === contestId);
+  const seat = value.seats?.[contestId];
+  if (!contest) return;
+  const facts = [
+    contest.district ? `${controls.travel.district} ${contest.district}` : null,
+    seat?.electionDate
+      ? `${controls.filing.election} ${dateWords(seat.electionDate)}`
+      : null,
+    seat?.holder
+      ? `${controls.filing.heldBy} ${seat.holder}`
+      : controls.filing.openSeat,
+  ].filter(Boolean);
+  node.addEventListener("mouseenter", () =>
+    showTipAt(node, { term: contest.title, short: facts.join(" · ") }),
+  );
+  node.addEventListener("mouseleave", hideTipSoon);
+}
 async function openFiling(filedWith, contestId) {
   closeSheet();
   renderTalk(undefined);
@@ -2708,54 +2652,6 @@ const sheets = {
     ];
   },
   async news() {
-    // The nation, region and job numbers above the paper, from the economy's records.
-    const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
-    const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
-    const econ = controls.news?.economy ?? {};
-    // A region's series by its control name and unit; a series with no
-    // control name is not shown.
-    const count = new Intl.NumberFormat("en-US");
-    const value = (unit, v) =>
-      unit === "percent"
-        ? `${v.toFixed(1)}%`
-        : unit === "thousands"
-          ? count.format(Math.round(v * 1000))
-          : unit === "dollars"
-            ? moneyWords(Math.round(v * 100))
-            : v.toFixed(1);
-    const economy = e.nation
-      ? [
-          row(
-            `${econ.nation} · ${monthWords(e.nation.month)}`,
-            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
-          ),
-          ...(e.region
-            ? [
-                // The region's rate under the area it covers, beside the nation's.
-                row(
-                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
-                  Object.entries(e.region)
-                    .filter(
-                      ([k, v]) => typeof v === "number" && econ.series?.[k],
-                    )
-                    .map(
-                      ([k, v]) =>
-                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
-                    )
-                    .join(" · "),
-                ),
-              ]
-            : []),
-          ...(e.jobs
-            ? [
-                row(
-                  econ.jobsHere,
-                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
-                ),
-              ]
-            : []),
-        ]
-      : [];
     const labels = controls.news;
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
@@ -2778,7 +2674,6 @@ const sheets = {
         stories: [],
       });
     return [
-      ...economy,
       ...newspaperScreen({
         outlets,
         labels,
@@ -2787,56 +2682,6 @@ const sheets = {
         photoOf: storyPhoto,
       }),
     ];
-  },
-  /**
-   * Politics' own guide: what each tab is for, a page each, then how a
-   * player could run here, from the filing records: the race, the office
-   * that takes filings, and the dates.
-   */
-  async politicsGuide() {
-    const labels = controls.politics.guide;
-    const [government, terms] = await Promise.all([
-      api(`/api/government?id=${encodeURIComponent(me.id)}`),
-      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
-    ]);
-    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const next = government.nextFiling;
-    return recordScreen({
-      paged: true,
-      sections: [
-        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
-          title: controls.titles[tab],
-          items: [{ text: labels[tab] }],
-        })),
-        {
-          title: labels.runHere,
-          items: next
-            ? [
-                { fact: [labels.race, next.title] },
-                {
-                  fact: [
-                    labels.filesWith,
-                    next.filedWith.replace(
-                      /\s*\(counter: ([^)]*)\)/g,
-                      `, ${labels.atTheDeskOf} $1`,
-                    ),
-                  ],
-                },
-                { fact: [labels.filingOpens, dateWords(next.filingOpens)] },
-                {
-                  fact: [labels.filingDeadline, dateWords(next.filingDeadline)],
-                },
-                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
-                next.primaryDate && {
-                  fact: [labels.primary, dateWords(next.primaryDate)],
-                },
-                { fact: [labels.election, dateWords(next.electionDate)] },
-                next.estimated && { text: labels.estimated, tone: "small" },
-              ]
-            : [{ text: labels.noRace }],
-        },
-      ],
-    });
   },
   async guide() {
     return listScreen({
@@ -2912,7 +2757,6 @@ const sheets = {
             {
               actions: [
                 { label: labels.continue, onClick: closeSheet },
-                { label: labels.guide, onClick: () => openSheet("guide") },
                 // Dev mode, for a developer's session only.
                 {
                   label: labels.devMode,
@@ -2937,19 +2781,32 @@ const sheets = {
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.travel;
-    // The offices that take your filings: one card each, naming the races.
+    // The offices that take your filings: one card each, with its races.
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
       const name = filedWith.replace(/\s*\([^)]*\)/g, "");
       if (!byOffice.has(name))
-        byOffice.set(name, { name, filedWith, titles: [], filing: true });
-      byOffice.get(name).titles.push(c.contest.title);
+        byOffice.set(name, { name, filedWith, races: [], filing: true });
+      const office = byOffice.get(name);
+      if (!office.races.some((race) => race.contestId === c.contest.id)) {
+        const seat = government.seats.find(
+          (row) => row.seatId === c.contest.seatId,
+        );
+        office.races.push({
+          contestId: c.contest.id,
+          title: c.contest.title,
+          district: c.contest.district ?? null,
+          electionDate: c.contest.electionDate,
+          holder: seat?.holder
+            ? `${seat.holder.givenName} ${seat.holder.familyName}`
+            : null,
+        });
+      }
     }
     const counters = await Promise.all(
       [...byOffice.values()].map(async (office) => ({
         ...office,
-        titles: [...new Set(office.titles)],
         presentation: {
           imageUrl: (
             await api(
@@ -2960,31 +2817,134 @@ const sheets = {
       })),
     );
     const destinations = [...counters, ...places];
-    // Why each card is listed, from the record that qualified it.
-    // Three offices named, the rest counted, so a card stays a card.
-    const someTitles = (titles) =>
-      titles.length > 3
-        ? `${titles.slice(0, 3).join(", ")} ${labels.andOthers.replace("{n}", titles.length - 3)}`
-        : titles.join(", ");
+    // Why each card is listed, from the player's own record: where they work,
+    // what they can do there, where they serve, where they file. Never what
+    // someone they know does there (owner, Oct 28, point 27: "things do not
+    // pop up because someone the player knows does them").
+    const OWN = new Set(["work", "action", "serve"]);
     const reasonLine = (p) =>
       p.filing
-        ? `${labels.reasons.filing} ${someTitles(p.titles)}`
-        : [
-            ...p.reasons.map((r) =>
-              r.kind === "known"
-                ? `${p.known.find((k) => k.personId === r.recordId)?.name} ${labels.reasons.known}`
-                : r.kind === "action"
-                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
-                  : labels.reasons[r.kind],
-            ),
-          ].join(" · ");
+        ? labels.reasons.filing
+        : p.reasons
+            .filter((r) => OWN.has(r.kind))
+            .map((r) =>
+              r.kind === "action"
+                ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
+                : labels.reasons[r.kind],
+            )
+            .join(" · ");
     // Open while someone works there now, by their own hours; else closed.
     const hereLine = (p) =>
       p.filing
         ? labels.filing
         : p.presentCount
-          ? `${labels.open} · ${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
+          ? `${labels.open} · ${p.presentNames.join(", ")}`
           : labels.closed;
+    // A card opens the place's own view: its picture, what you do there, who
+    // works there, then Go (owner, Oct 28, point 28).
+    const showPlace = (p) => {
+      const picture = p.presentation?.imageUrl;
+      // Each race named apart: its district, and its election day when two
+      // races for the same office are open at once (a regular and a special).
+      // A district code on the record ("02", "004") reads as "District 2".
+      const district = (code) =>
+        /^\d+$/.test(code) ? `${labels.district} ${Number(code)}` : code;
+      const name = (race) =>
+        race.district
+          ? `${race.title}, ${district(race.district)}`
+          : race.title;
+      // Two races for the same office at once (three selectmen's seats up
+      // the same day) are told apart by who holds each seat now, then by the
+      // election day (a regular and a special), then by their place in the
+      // office's list.
+      const counter = controls.filing;
+      const raceLabel = (race) => {
+        let named = name(race);
+        const twins = (label) =>
+          p.races.filter((other) => label(other) === label(race));
+        if (twins(name).length > 1) {
+          const held = (r) =>
+            `${name(r)} · ${r.holder ? `${counter.heldBy} ${r.holder}` : counter.openSeat}`;
+          named = held(race);
+          if (twins(held).length > 1 && race.electionDate) {
+            const dated = (r) =>
+              `${held(r)} · ${dateWords(r.electionDate ?? "")}`;
+            named = dated(race);
+            if (twins(dated).length > 1)
+              named = `${named} · ${counter.seat} ${twins(dated).indexOf(race) + 1}`;
+          }
+        }
+        return named;
+      };
+      const doHere = p.filing
+        ? [
+            {
+              actions: p.races.map((race) => ({
+                label: raceLabel(race),
+                onClick: () => openFiling(p.filedWith, race.contestId),
+              })),
+            },
+          ]
+        : reasonLine(p)
+          ? reasonLine(p)
+              .split(" · ")
+              .map((text) => ({ text }))
+          : [];
+      // The counter's role, from the office's record ("(counter: director)").
+      const role = p.filing
+        ? (p.filedWith.match(/\(counter: ([^)]*)\)/)?.[1] ?? "")
+        : "";
+      const known = new Set((p.known ?? []).map((k) => k.name));
+      const people = p.filing
+        ? role
+          ? [{ text: words(role) }]
+          : []
+        : [
+            ...(p.known ?? []).map((k) => ({
+              node: personRow({
+                name: k.name,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson({ personId: k.personId });
+                },
+              }),
+            })),
+            ...p.presentNames
+              .filter((name) => !known.has(name))
+              .map((name) => ({ text: name })),
+            ...(p.staff
+              ? [{ text: `${p.staff} ${labels.staff}`, tone: "small" }]
+              : []),
+          ];
+      const go = {
+        actions: [
+          {
+            label: labels.go,
+            testid: "place-go",
+            onClick: () =>
+              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+          },
+        ],
+      };
+      $("sheet-body").replaceChildren(
+        ...recordScreen({
+          heading: { name: p.name, meta: hereLine(p) },
+          // Go sits under the picture, in view whatever the office takes: an
+          // office with fifteen races runs past the window, and the sheet's
+          // own page-turner then turns the races, never the way in.
+          sections: [
+            { items: [picture ? { picture } : null, go] },
+            ...(doHere.length
+              ? [{ title: labels.whatYouDo, items: doHere }]
+              : []),
+            ...(people.length
+              ? [{ title: labels.whoWorks, items: people }]
+              : []),
+          ],
+        }),
+      );
+      $("sheet-body").classList.add("place-view");
+    };
     return listScreen({
       search: { placeholder: labels.search },
       layout: "cards",
@@ -2998,9 +2958,8 @@ const sheets = {
             picture: p.presentation?.imageUrl,
             lines: [hereLine(p)],
             note: reasonLine(p),
-            label: `${labels.go}: ${p.name}`,
-            onSelect: () =>
-              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+            label: p.name,
+            onSelect: () => showPlace(p),
             // The record behind the reason, for the specs; never shown as text.
             data: {
               reason: (p.filing
@@ -3351,13 +3310,14 @@ const sheets = {
       // and the notes (owner, Oct 28: real rows, not printed lines; every
       // member clickable).
       const keyLine = (k) => {
+        // A leader's post is a Guide term (Speaker, Majority leader): the
+        // carbon-copy underline, its definition on hover (owner, Oct 28,
+        // point 23); the chamber follows as a note.
+        const lead = k.post && !k.own;
         const line = withNotes(
           personRow({
             name: k.name,
-            detail:
-              k.post && !k.own
-                ? `${words(k.post)}, ${k.chamber ?? k.officeTitle}`
-                : k.officeTitle,
+            detail: lead ? termLabel(words(k.post)) : k.officeTitle,
             face: k.face,
             onOpen: () => {
               closeSheet();
@@ -3365,6 +3325,7 @@ const sheets = {
             },
           }),
           [
+            lead ? (k.chamber ?? k.officeTitle) : null,
             k.own && k.post ? words(k.post) : null,
             k.stateName,
             // The President and Vice President a territory's voters do not choose.
@@ -3666,7 +3627,6 @@ const groups = {
     "parties",
     "issues",
     "budgets",
-    "politicsGuide",
   ],
   who: ["who", "jobs"],
 };
@@ -3719,6 +3679,9 @@ async function openSheet(tab) {
   );
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
+  // News is the paper itself: the sheet is the page, its masthead the title
+  // (owner, Oct 28, point 25).
+  $("sheet").classList.toggle("paper-sheet", tab === "news");
   $("sheet-media").hidden = !character;
   fillArtwork(
     $("sheet-media"),
@@ -3734,6 +3697,7 @@ async function openSheet(tab) {
       : {},
   );
   $("sheet-body").replaceChildren(...body);
+  $("sheet-body").classList.remove("place-view");
   $("sheet-body").classList.toggle(
     "cols",
     tab !== "who" && tab !== "calendar" && body.length > 12,
@@ -3744,7 +3708,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who"].includes(tab) &&
+    !["calendar", "people", "who", "news"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid"),
   );
@@ -3758,7 +3722,8 @@ pageWhenChanged($("ballot-races"), $("ballot-pager"));
 pageWhenChanged($("cr-states"), $("cr-states-pager"));
 pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu, Who you are among them. The card under it shows only the date
+// the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,
+// point 23: not a tab in Politics). The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 // The rail is named from the controls file, so it is mounted once that loads.
 void controlsReady.then(() => {
@@ -3773,6 +3738,7 @@ void controlsReady.then(() => {
       "news",
       "people",
       "travel",
+      "guide",
     ],
     controls.titles,
   );
