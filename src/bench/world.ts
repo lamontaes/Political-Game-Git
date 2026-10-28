@@ -20,7 +20,7 @@ import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
-import { openVoting } from "../core2/modules/voting";
+import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
@@ -41,7 +41,6 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
-import { openWorldRaces } from "../core2/modules/world-races";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
@@ -63,8 +62,6 @@ import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
 import { initialFocusPeople } from "../core2/focus";
-import { releaseRecentHistory } from "../simulation/history-index";
-import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
 import {
@@ -412,8 +409,6 @@ function* benchWorldStages(
         }),
       ),
     );
-    releaseRecentHistory();
-    forgetLastValidatedWorld();
   } else
     opening = withWorldEconomy(
       withPrivateTuition({
@@ -435,7 +430,8 @@ function* benchWorldStages(
       // monthly row and every law that takes effect.
       OUTCOME_WEB_MODULE,
       // Every people engine a played world installs (OPUS-PEOPLE): health,
-      // drives, views, news, speeches, who runs, corruption and beliefs.
+      // drives, views, news, speeches, corruption and beliefs (who runs is
+      // installed by the voting engine, in every world).
       ...peopleModules(),
       director.module,
     ],

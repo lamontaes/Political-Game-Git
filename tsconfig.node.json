@@ -34,7 +34,7 @@
     "src/districts/**/*.ts",
     "src/environment/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/presentation/**/*.ts",
+    "src/appearance/**/*.ts",
     "src/release/**/*.ts",
     "src/simulation/**/*.ts",
     "src/core2/kernel/**/*.ts",
@@ -48,7 +48,6 @@
     "src/core2/death-causes.ts",
     "src/core2/health-hazard.ts",
     "src/core2/mind-types.ts",
-    "src/core2/opening-people.ts",
     "src/core2/health-mortality-table.ts",
     "src/core2/business-names.ts",
     "src/core2/household-mix.generated.ts",
@@ -92,5 +91,5 @@
     "tests/source/**/*.ts",
     "vite.config.ts"
   ],
-  "exclude": ["src/presentation/**/*.test.ts", "src/authoring/**/*.test.ts"]
+  "exclude": ["src/appearance/**/*.test.ts", "src/authoring/**/*.test.ts"]
 }

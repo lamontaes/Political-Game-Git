@@ -130,7 +130,7 @@ for kind, row in found.items():
 cells.append(f"*={everyone['margin']:g},{everyone['pay']:g},{estimate:g},1")
 out.append("  " + json.dumps(";".join(cells)) + ";")
 out.append("")
-open("src/simulation/living-world/town-business-books.generated.ts", "w").write("\n".join(out))
+open("src/core2/reference/town-business-books.generated.ts", "w").write("\n".join(out))
 for kind, row in found.items():
     print(kind, row)
 print("estimate", estimate, "all", everyone)

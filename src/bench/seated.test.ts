@@ -80,6 +80,8 @@ describe(`seated people at ${place}`, () => {
   it("seats each person as their own look and build, from the v2 seated figures", () => {
     for (const spot of seats) {
       const seatedNow = figureOn(standing, "adult", place, stage, spot)!;
+      // A pose painted at this seat's desk is its own figure (poses.test.ts).
+      if (seatedNow.file.startsWith("pose-")) continue;
       expect(seatedNow.url).toMatch(/^\/art\/people-engine\/v2\/figures\/v2-/);
     }
   });

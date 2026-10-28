@@ -58,7 +58,7 @@ export default tseslint.config(
     // through a named one-way adapter or not at all.
     files: [
       "src/simulation/**/*.{ts,tsx}",
-      "src/presentation/**/*.{ts,tsx}",
+      "src/appearance/**/*.{ts,tsx}",
       "src/player/**/*.{ts,tsx}",
       "src/ui/**/*.{ts,tsx}",
       "src/persistence/**/*.{ts,tsx}",

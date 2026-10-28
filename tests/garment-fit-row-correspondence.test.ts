@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { ProjectedCharacterLayer } from "../src/presentation/character-components";
-import { GARMENT_FIT_DEFAULT_BOUNDS } from "../src/presentation/garment-fit";
+import type { ProjectedCharacterLayer } from "../src/appearance/character-components";
+import { GARMENT_FIT_DEFAULT_BOUNDS } from "../src/appearance/garment-fit";
 import {
   measureEdgeError,
   measureSourceProportion,
