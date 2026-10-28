@@ -20,7 +20,7 @@ import {
   type TermRow,
   type VacancyRow,
 } from "./modules/offices";
-import { racesOf, WORLD_RACES_MODULE_ID } from "./modules/world-races";
+import { racesOf, VOTING_MODULE_ID, worldRacesOpen } from "./modules/voting";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -37,7 +37,7 @@ it(`a vacancy outside the town is filled by a counted race with named candidates
       placeKey: place.key,
     });
     const api = coreAPI(core);
-    if (!core.modules.has(WORLD_RACES_MODULE_ID)) {
+    if (!worldRacesOpen(api)) {
       misses.push(`${where}: world races not open`);
       continue;
     }
@@ -86,7 +86,7 @@ it(`a vacancy outside the town is filled by a counted race with named candidates
     const race = racesOf(api).find((row) => row.id.endsWith(":special"));
     expect(race, `${where}: a counted special race`).toBeDefined();
     const row = api
-      .moduleState(WORLD_RACES_MODULE_ID)
+      .moduleState(VOTING_MODULE_ID)
       .table("races")
       .get(race!.id) as unknown as {
       candidates: { party: string; identity: { givenName: string } }[];

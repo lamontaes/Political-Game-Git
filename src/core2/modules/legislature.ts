@@ -2273,14 +2273,14 @@ export function bodyOf(
  * seated at the opening, or, once a race elsewhere changes the seat's party,
  * the winner, seated as a person the first time the seat is read.
  */
-/** The party a seat's coarse race elected, once its winner is seated (world-races). */
+/** The party a seat's coarse race elected, once its winner is seated (the voting engine's world races, read by module id). */
 function worldSeatParty(
   api: CoreAPI,
   seatId: string,
 ): { party: string; since: string } | null {
-  if (!api.state.modules.has("core2-world-races-v1")) return null;
+  if (!api.state.modules.has("core2-voting-v1")) return null;
   const row = api
-    .moduleState("core2-world-races-v1")
+    .moduleState("core2-voting-v1")
     .table("seats")
     .get(seatId) as unknown as { party: string; since: string } | undefined;
   return row && row.since <= api.state.date ? row : null;
