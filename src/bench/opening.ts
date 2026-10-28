@@ -3,10 +3,10 @@ import { townSeats } from "../core2/modules/offices";
 import { corePlaceByKey } from "../core2/place-lookup";
 import { capitolPlaceFor, hasBackdrop } from "./backdrop-places";
 import {
-  backdropFile,
   stagePeople,
   homeOf,
   orgPlace,
+  personBackdrop,
   type StageReason,
 } from "./scene";
 import { fillInPerson } from "../core2/state";
@@ -197,7 +197,7 @@ export function openingFrames(
   const frames: {
     stage: string;
     place: string;
-    backdrop: ReturnType<typeof backdropFile>;
+    backdrop: ReturnType<typeof personBackdrop>;
     cast: { id: string; name: string; title?: string }[];
     people: ReturnType<typeof stagePeople>["people"];
     /**
@@ -280,7 +280,7 @@ export function openingFrames(
     frames.push({
       stage,
       place,
-      backdrop: backdropFile(place, minute),
+      backdrop: personBackdrop(core, playerId, place, minute),
       cast: all,
       people,
       pointOut,

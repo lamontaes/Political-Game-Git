@@ -248,12 +248,13 @@ interface DwellingRow {
  */
 const thirds = new WeakMap<
   CoreState,
-  { date: string; of: Map<string, Third> }
+  { date: string; of: Map<string, Third>; renters: Set<string> }
 >();
 function thirdOf(core: CoreState, householdId: string): Third {
   let cached = thirds.get(core);
   if (!cached || cached.date !== core.date) {
     const of = new Map<string, Third>();
+    const renters = new Set<string>();
     if (core.modules.has(HOUSING_MODULE_ID)) {
       const groups = new Map<string, DwellingRow[]>();
       for (const row of coreAPI(core)
@@ -261,6 +262,7 @@ function thirdOf(core: CoreState, householdId: string): Third {
         .table("dwellings")
         .rows() as unknown as DwellingRow[]) {
         const key = `${row.kind ?? "house"}:${row.tenure ?? ""}`;
+        if (row.tenure === "rent") renters.add(row.householdId);
         groups.set(key, [...(groups.get(key) ?? []), row]);
       }
       for (const rows of groups.values()) {
@@ -282,10 +284,44 @@ function thirdOf(core: CoreState, householdId: string): Third {
         );
       }
     }
-    cached = { date: core.date, of };
+    cached = { date: core.date, of, renters };
     thirds.set(core, cached);
   }
   return cached.of.get(householdId) ?? "middle";
+}
+
+const CONDITION = scenePlaces.roomCondition;
+
+/**
+ * How kept a household's rooms look, most wanted first, from its records: a
+ * renter in the town's cheapest third of rents lives with the landlord's
+ * neglect (rundown); a household in the top third with few enough people
+ * keeps the room as painted (no condition); every other home is lived-in.
+ * stopgapId: SG-PLAY-room-condition-rule
+ */
+export function roomCondition(core: CoreState, personId: string): string[] {
+  const household = core.people.get(personId)?.householdId;
+  if (!household) return [];
+  const third = thirdOf(core, household);
+  const renting = thirds.get(core)?.renters.has(household) ?? false;
+  if (third === "low" && renting) return ["rundown", "lived-in"];
+  const members = core.households.get(household)?.memberIds.length ?? 1;
+  if (third === "high" && members <= CONDITION.tidyAtMostMembers) return [];
+  return ["lived-in"];
+}
+
+/** The picture for a place the person is in: at home, painted in their household's condition. */
+export function personBackdrop(
+  core: CoreState,
+  personId: string,
+  place: string,
+  minuteOfDay: number,
+) {
+  return backdropFile(
+    place,
+    minuteOfDay,
+    homeRooms(core, personId).has(place) ? roomCondition(core, personId) : [],
+  );
 }
 
 /** Which room of the home a person is in at this minute of the day. */
@@ -487,10 +523,24 @@ export function pictureFor(
   return order.find((row) => LIGHTS.get(row)?.has(light)) ?? order[0]!;
 }
 
-export function backdropFile(place: string, minuteOfDay: number) {
+export function backdropFile(
+  place: string,
+  minuteOfDay: number,
+  /** Conditions the room may be painted in (lived-in, rundown), most wanted first. */
+  conditions: readonly string[] = [],
+) {
   const wanted = lightAt(minuteOfDay);
   const rows = manifest.backdrops.filter((row) => row.place === place);
+  // A condition is painted in midday light: by another light the room is
+  // shown in that light when it has one, in its condition when it doesn't.
+  const condition =
+    wanted === "midday" || !rows.some((r) => r.variant === wanted)
+      ? conditions
+          .map((c) => rows.find((r) => r.variant === c))
+          .find((r) => r !== undefined)
+      : undefined;
   const row =
+    condition ??
     rows.find((r) => r.variant === wanted) ??
     rows.find((r) => r.variant === "midday") ??
     rows[0]!;
@@ -910,14 +960,14 @@ export function benchScene(
   return {
     place,
     why,
-    backdrop: backdropFile(place, minute),
+    backdrop: personBackdrop(core, personId, place, minute),
     people,
     unplaced,
   };
 }
 
 export function backdropPath(file: string): URL {
-  if (!/^[a-z0-9-]+__[a-z]+\.jpg$/.test(file))
+  if (!/^[a-z0-9-]+__[a-z-]+\.jpg$/.test(file))
     throw new Error("Unknown backdrop.");
   return new URL(file, BACKDROP_DIR);
 }

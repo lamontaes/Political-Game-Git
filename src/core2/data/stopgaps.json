@@ -7222,5 +7222,17 @@
     "addedAt": "2026-10-27",
     "replacement": "A person's own wake time from their work schedule, household and age (American Time Use Survey sleep and waking hours by age and employment), read by the bench's day driver and the director's openedAt.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-room-condition-rule",
+    "kind": "tunable",
+    "file": "src/bench/scene.ts",
+    "line": 300,
+    "whatItFakes": "Whether a home's room is drawn tidy, lived-in or rundown is read from the household's third of the town's homes by value or rent, its tenure and its size, because no dwelling record carries a condition.",
+    "why": "The art session painted lived-in and rundown versions of the home rooms (art/backdrops, Oct 28) and the housing module keeps value, rent and tenure but no repair state.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "A dwelling condition the housing module keeps (repairs, landlord upkeep, age of the building), read here in place of the third.",
+    "status": "open"
   }
 ]
