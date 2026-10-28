@@ -177,9 +177,11 @@ describe("the opening story", () => {
     console.log(`${where}: ${lead.headline} | ${paragraphs.join(" | ")}`);
   });
 
-  it("plays over the sequence: the President's stage, Congress, the state, the town, the family, then home", () => {
+  it("plays over the sequence: the President's stage, Congress, the state, the family, then home", () => {
     const order = story.sequence.map((row) => row.stage);
-    expect(order).toEqual(["president", "congress", "state", "town", "family"]);
+    // No town stage: the opening points out national people, not the player's
+    // council or state legislators (owner, Oct 27).
+    expect(order).toEqual(["president", "congress", "state", "family"]);
     const opening = openingFrames(core, playerId, story);
     // The stages come in order; a cutaway never goes back to an earlier one.
     // The first frame is the address itself, the President at the lectern
@@ -192,11 +194,12 @@ describe("the opening story", () => {
     expect(frames[0]!.stage).toBe("president");
     expect(frames[0]!.lines.length).toBeGreaterThan(0);
     const home = homeOf(core, playerId, OPENING_EVENING_MINUTE);
-    const governorAt = frames.findIndex((frame) => frame.stage === "state");
-    for (const frame of frames.slice(
-      0,
-      governorAt < 0 ? frames.length : governorAt,
-    )) {
+    // Everything before the family's frame (home) is away from home; the state's
+    // stage shows only where it has a line or a person to point out.
+    const homeAt = frames.findIndex(
+      (frame) => frame.stage === "state" || frame.stage === "family",
+    );
+    for (const frame of frames.slice(0, homeAt < 0 ? frames.length : homeAt)) {
       expect(
         frame.place,
         `${frame.stage} frame is at the player's home`,
