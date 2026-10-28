@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on: jobs-no-openings-in-small-towns
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** The player is never auto-answered, but the engine may offer. One rule for every jobless adult: the seeker's fit and the position decide. No dice. One rule, all 56 places.
 
-**Done when.** In a drawn place and a seed the builder did not choose, a jobless adult player gets at least one offer within 12 weeks whenever a position they fit is open in town, shown by position and offer ids; `src/core2/jobs-player-offers.test.ts` waits only the weeks that takes.
+**Done when.** In a drawn place and a seed the builder did not choose, a jobless adult player gets at least one offer within 12 weeks whenever a position they fit is open in town, shown by position and offer ids; `src/core2/jobs-player-offers.test.ts` waits only the weeks that takes. **On screen.** Nothing yet: filed play-job-openings-on-screen, which puts it on Jobs and study.
 
 **Files.** src/core2/modules/jobs.ts
 
@@ -34,3 +34,8 @@ claimed-at:
 **Measured (claude, Oct 19, branch claude/player-offers-s10).** The cause is not the player's fit. Weeks to the player's first offer in a played year from the start (`buildBenchWorld`, seed off:0, the 18-year-old jobless player): Addison, West Virginia (5400364) week 11; Fort Laramie, Wyoming (5628230) none in 52 weeks; Glenwood, North Carolina (3726560) week 19; Orient, South Dakota (4647460) none. I capped a seeker's experience credit at what the opening asks for (O*NET Job Zone years): the four numbers did not change, so experience was not what kept the player out. In Fort Laramie the jobs engine opened no position at all in the year (the weekly match returns at once on "no open positions"), with 27 businesses and 7 separations (2 layoffs, 3 quits, 2 left-work). So there was nothing to offer, and the player's rank never mattered. The code change was dropped, not shipped. The open cause is filed as jobs-no-openings-in-small-towns; this item waits on it for the towns with no openings, and its Addison-style case (few openings, many applicants) needs the first-job rule discussed above.
 
 Sent back 2026-10-20 from PR #5174 (branch claude/player-jobless-offers): This is a findings-only PR: it does not produce the job offer the linked bug item requires, and the experience/entry-requirement work remains open. Supply the required drawn played-world jobless-player offer by position/job record id, or track the completed measurement separately while leaving the implementation item open. A findings note cannot complete the still-unfixed job-offer acceptance.; finish on that branch, merge main into it first.
+
+Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: build OD:192 (offers from the region's outside employers); the fit-rule change is a simulation call (OD:131 'simulate it, don't ask').
+Oct 28 (claude pool worker): measured, not a defect on main. For the item's seeds `off:0` to `off:5` (drawPlace(`off:${i}`, "player-job-offers"), twelve weeks, the first week an offer reached the player by `jobOffersFor`): Kupreanof, Alaska (0242160) and Utica, Oklahoma (4076350) had 1 and 4 open positions in town but the player was 17 at the twelve weeks' end, under `jobsData.workingAge` 18 (`openToOffers`, src/core2/modules/jobs.ts line 3300), so no offer is the working-age rule; Celada, Puerto Rico (7216440) had no open position at any week (maxOpen 0), 5 seekers and 15 counted seekers; Hampton, New Hampshire (3332980), Futiga, American Samoa (territory:AS:futiga) and Brashear, Missouri (2908002) each made the player an offer in week 6 with 1, 7 and 6 open positions. The player applies to every open position in their place (`runWeek` after the full seekers) and is offered by the same best-applicant rule, so when a position is open and the player is 18 an offer comes within the 12 weeks in all three such towns. What remains is the player under 18 at the opening (the creator or the opening picks a 17-year-old in two of six towns: whether play should start a 17-year-old with nothing to do, or let a 16 and 17 year old seek work, is a design call for the opening/creator owner, not this engine) and a town with no openings. Left open for the CTO; nothing built.

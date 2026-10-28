@@ -17,7 +17,7 @@ source: added with npm run pool -- add
 
 **Rules.** No hand-written player text: the screen shows record data (the business's name, the amount) and control names only; any sentence about an ad comes from the English engine. An effect is a read, not a record: the screen reads adBuys at view time. Read-only screens spend no game time and create no facts.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place, the bench shows a local outlet's advertisers for a month, each named from its organization record and matching that month's adBuys rows by id, with a browser screenshot in the PR (browser-visual-acceptance).
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place, the bench shows a local outlet's advertisers for a month, each named from its organization record and matching that month's adBuys rows by id, with a browser screenshot in the PR (the browser check in the play-first skill).
 
 **Files.** src/core2/press-money.ts, src/bench (the outlet or paper view)
 

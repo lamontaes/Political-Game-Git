@@ -14,6 +14,8 @@ import bases from "../../data/research/outcome-web/place-outcome-bases-2024.json
 import ledger from "../../data/research/outcome-web/placeholder-ledger.json" with { type: "json" };
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
+import { GOV_MEASURES } from "./gov-measure-keys";
+import { seededUnit } from "./seeded";
 import type { Source } from "./types";
 
 export type Shape =
@@ -51,6 +53,12 @@ export interface WebLink {
   readonly group: string;
   /** Names what carries this effect through an engine's records; the link then does not run. */
   readonly carriedBy?: string;
+  /**
+   * Where an engine reads the same cause by its own mechanic, not this row's
+   * size and lag, so the link still reaches no one: the matrix names it in
+   * the link's reason for staying on the unwired list.
+   */
+  readonly engineGap?: string;
   readonly evidence: string;
   readonly source: string;
   readonly moderator?: {
@@ -126,6 +134,10 @@ const KEPT_LOCAL = local.keptOutcomes as unknown as Readonly<
       readonly scale: Scale;
       readonly unit: string;
       readonly national?: number;
+      /** A real level by state, D.C. and territory where the source reports one (else the national level, marked ESTIMATED). */
+      readonly places?: Readonly<Record<string, number>>;
+      /** Why a place the source leaves out starts from the national level. */
+      readonly estimatedFrom?: string;
       readonly source: Source;
     }
   >
@@ -142,6 +154,12 @@ const ENGINE = local.engineMeasures as Readonly<
       readonly field: string;
       /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
       readonly reader?: string;
+      /**
+       * A cause read from a law: the level it is measured from is the law the
+       * day before the web opened, so a law taking effect on the opening day
+       * (or after) moves the outcome (src/core2/modules/outcome-web.ts).
+       */
+      readonly baselineReader?: string;
       readonly unitScale: number;
       /** An engine that keeps its own month rows by place: its module and table (rows have `placeId`, `date`, `id`). */
       readonly module?: string;
@@ -154,6 +172,8 @@ const ENGINE = local.engineMeasures as Readonly<
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */
 const INDEX_START = local.indexStart;
+/** The top of a percent scale. */
+const INDEX_HUNDRED = 100;
 
 /** Derived readings of a kept outcome: how far its causes moved it. */
 const SUFFIXES = [
@@ -201,11 +221,12 @@ export function isLaw(measure: string): boolean {
   return measure.startsWith(LAW_PREFIX);
 }
 
-/** A cause the core can read: a kept outcome (or a reading of one), an engine record, or a law. */
+/** A cause the core can read: a kept outcome (or a reading of one), an engine record, a government measure or a law. */
 export function causeAvailable(measure: string): boolean {
   return (
     isLaw(measure) ||
     measure in ENGINE ||
+    (GOV_MEASURES as readonly string[]).includes(measure) ||
     keptOutcome(measure) ||
     derivedOf(measure) !== null
   );
@@ -219,16 +240,102 @@ const median = (values: readonly number[]): number => {
     : (sorted[middle - 1]! + sorted[middle]!) / 2;
 };
 
+const WORLD = local.worldBases;
+const LAW_MEASURES = new Set<string>(WORLD.lawMeasures);
+
+/** Whether a kept outcome's level is a percent, which stays between 0 and 100. */
+function isPercent(measure: string): boolean {
+  const kept = KEPT_LOCAL[measure];
+  if (kept) return kept.scale === "share";
+  return BASES[measure]?.unit.startsWith("percent") ?? false;
+}
+
+/** Each world's drawn levels, by seed, measure and place. */
+const worldBases = new Map<
+  string,
+  { readonly value: number; readonly source: Source }
+>();
+
 /**
- * A kept outcome's starting level in a state: its recorded 2024 level, the
- * research's labeled estimate where the source left the place out, or the
- * median of the places it reports (labeled). Never zero, never drawn.
+ * A kept outcome's starting level in a state in this world: the published
+ * level (`publishedBaseOf`) moved once by the world's own offset, drawn from
+ * its seed (owner, Oct 27: realistic, not real). A rate in law and an index
+ * that starts at 100 keep their level. A percent moves relative to its nearer
+ * bound, so it stays between 0 and 100.
  */
 export function baseOf(
   measure: string,
   stateKey: string,
+  seed: string,
+): { readonly value: number; readonly source: Source } {
+  // Read every month by several engines: the world's draw is fixed, so it is
+  // drawn once per world, measure and place.
+  const key = `${seed}|${measure}|${stateKey}`;
+  const known = worldBases.get(key);
+  if (known) return known;
+  const drawn = drawnBaseOf(measure, stateKey, seed);
+  worldBases.set(key, drawn);
+  return drawn;
+}
+
+function drawnBaseOf(
+  measure: string,
+  stateKey: string,
+  seed: string,
+): { readonly value: number; readonly source: Source } {
+  const published = publishedBaseOf(measure, stateKey);
+  const local = KEPT_LOCAL[measure];
+  const index =
+    local?.scale === "index" || BASES[measure]?.unit.startsWith("index");
+  if (LAW_MEASURES.has(measure) || index) return published;
+  // A national level (a kept outcome with no per-place figures) is one level
+  // for the whole world, the same in every state.
+  const where = local && !local.places ? "nation" : stateKey;
+  const at = (part: string) =>
+    seededUnit(seed, `outcome-base:${measure}:${where}:${part}`);
+  const floor = WORLD.floorShare.value;
+  const share =
+    (at("sign") < 0.5 ? -1 : 1) *
+    (floor + (1 - floor) * at("size")) *
+    WORLD.spreadShare.value;
+  const value = published.value;
+  const room = isPercent(measure)
+    ? Math.min(value, INDEX_HUNDRED - value)
+    : Math.abs(value);
+  return {
+    value: value + share * room,
+    source: {
+      ...published.source,
+      tag: "ESTIMATED",
+      estimatedFrom: `This world's level, drawn around the published one (${WORLD.about.split(".")[0]}).`,
+    },
+  };
+}
+
+/**
+ * A kept outcome's published starting level in a state: its recorded 2024
+ * level, the research's labeled estimate where the source left the place out,
+ * or the median of the places it reports (labeled). Never zero. Calibration
+ * only: play reads `baseOf`, this world's level.
+ */
+export function publishedBaseOf(
+  measure: string,
+  stateKey: string,
 ): { readonly value: number; readonly source: Source } {
   const local = KEPT_LOCAL[measure];
+  if (local?.places) {
+    const own = local.places[stateKey];
+    return own !== undefined
+      ? { value: own, source: local.source }
+      : {
+          value: local.national!,
+          source: {
+            ...local.source,
+            tag: "ESTIMATED",
+            estimatedFrom: local.estimatedFrom,
+          },
+        };
+  }
   if (local)
     return {
       value: local.scale === "index" ? INDEX_START : local.national!,
@@ -271,12 +378,15 @@ export function baseOf(
 export function fixedBaseline(
   measure: string,
   stateKey: string,
+  seed: string,
 ): number | undefined {
   const derived = derivedOf(measure);
   if (derived) return derived.suffix === ":pct-of-start" ? INDEX_START : 0;
   // An engine-kept outcome starts where the engine's record first read.
   if (keptOutcome(measure))
-    return engineMeasure(measure) ? undefined : baseOf(measure, stateKey).value;
+    return engineMeasure(measure)
+      ? undefined
+      : baseOf(measure, stateKey, seed).value;
   return BASELINES[measure]?.value;
 }
 

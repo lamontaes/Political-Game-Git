@@ -3,7 +3,7 @@ id: research-opening-capital-sourced-parameters
 title: "Research: sourced parameters for the opening's firm cash and owner funding"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -21,7 +21,7 @@ claimed-at:
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/data/opening-capital.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
@@ -32,3 +32,5 @@ Checked Oct 20 (claude), not built: the thirteen `openingEmployerCashBufferDays*
 Oct 24, 2026: split. PR 5860 (item research-opening-capital-cash-buffer-tail) delivers openingEmployerCashBufferTailSpan (ESTIMATED, 2.7, spread 2.6 to 2.85) and the reopening of the thirteen openingEmployerCashBufferDays rows, unchanged. Still open here: SG-P8-opening-private-cash-buffer needs a measured employer-firm cash distribution by industry on a payroll-and-cost basis, or recorded firm opening balances. SG-P8-opening-private-cash-buffer-spread needs a published table of percentiles beyond the quartiles, or recorded firm balances. SG-P8-opening-unsupported-owner-funding is a mechanic for builder items world-corporate-office-staff-never-paid, world-public-employer-staff-never-paid and world-town-public-works-staff-never-paid; the Census 2022 "Cash and security holdings" line is pension and trust assets and must not seed an opening balance.
 
 Sent back 2026-10-23 from PR #5860 (branch claude/dreamy-tesla-bgi3ui-opening-capital): The required three stopgap-resolution rows are explicitly Not met; route the completed estimated tail-span and source-checking slice to bounded acceptance while keeping the remaining mechanic and estimate work open; finish on that branch, merge main into it first.
+
+Deferred Oct 25: nothing on screen reads it yet.

@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T19:29:03.213Z
 
 **Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
 
 **Files.** docs/pool/items/director-law-reached-scene-teller.md and the files that pull request #4747 changes on claude/director-law-reached-scene-teller
 
@@ -30,3 +30,5 @@ Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-tel
 Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): merging main conflicts in src/director/civic-roles.test.ts, src/director/civic-roles.ts, src/director/data/director.json, src/director/data/stopgaps.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-19 from PR #4747 (branch claude/director-law-reached-scene-teller): The Oct 19 audit sends this back: it contradicts the Oct 16 ruling that news or social media teaches a person about a law, rather than an outlet head by default, and never fired in three towns; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (contradicts OD:538; replaced by circumstance rows).

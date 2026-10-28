@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: a quit follows from the worker's own reasons (pay gap, tenure, strain, savings, scarcity), never a monthly rate applied to one person. Research before building: JOLTS quits calibrate the town's total, fetched with a quote. One model, two tiers: the same terms for full and counted workers.
 
-**Done when.** In one-year runs of the played world (buildBenchWorld, at least six places drawn from all 56, seeds named in the PR body) the pooled monthly quit rate per employed worker falls within the JOLTS total private quits band quoted from a fetched page, shown by job-change record ids, the jobs tests pass, and the tripwire test shows SG-WORLD-jobs-quit-rate-uncalibrated resolved.
+**Done when.** In one-year runs of the played world (buildBenchWorld, at least six places drawn from all 56, seeds named in the PR body) the pooled monthly quit rate per employed worker falls within the JOLTS total private quits band quoted from a fetched page, shown by job-change record ids, the jobs tests pass, and the tripwire test shows SG-WORLD-jobs-quit-rate-uncalibrated resolved. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/parameters.json, src/core2/data/stopgaps.json
 
@@ -39,3 +39,5 @@ Findings, one year each in Scranton ND (3871500), Vieques PR (7286014), Jobos PR
 Sent back 2026-10-21 from PR #5817 (branch claude/quit-note): The note-only scope is valid: workerOffers and the named stopgap are absent on main, and #5767 is still open. The completion routing is unsafe, though. The first line Pool item: world-jobs-quit-rate-jolts would automatically mark that unfinished calibration item done, contrary to the body saying it stays open; its Done when still requires six drawn played-year runs and JOLTS/job-change proof. Identify this as notes-only work without a recognized completion marker (and verify itemForMergedPr returns null), or use a bounded note item. I am not asking this note to perform the implementation calibration. This PR opened 2026-10-21T16:15:29Z after the 2026-10-20T23:35Z cutoff, so add the required Done when evidence table for the actual note scope as well. No local standard gate or implementation completion is claimed; a missing gate line is not the objection.; finish on that branch, merge main into it first.
 
 Oct 21 (claude, claude/quit-tenure), dependency investigation only: at that investigation's main baseline, neither `workerOffers` nor `SG-WORLD-jobs-quit-rate-uncalibrated` was present; the shared full and counted chooser was on PR #5767 (claude/counted-job-choices). The next builder should check whether that PR has merged and use its chooser as the base for the proposed time/health-strain and first-month tenure work. This note does not implement the calibration: the item's six-place played-year, JOLTS and job-change-record acceptance remains unfinished. Claim released.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `world-job-turnover-far-below-jolts`; close into it and carry any line it lacks there.

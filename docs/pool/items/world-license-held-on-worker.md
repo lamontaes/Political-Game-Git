@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: research-occupational-licensing-shares
+after: research-occupational-licensing-table
 source: added with npm run pool -- add
 ---
 

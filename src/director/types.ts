@@ -66,11 +66,23 @@ export interface DirectorData {
     toFact?: string;
     /** Or a sourced impact for the event itself (filing for office). */
     impactParameter?: string;
+    /**
+     * With an impact parameter: the event's own share of it, 0 to 1, from
+     * this fact (a gift's share of what others have given a campaign).
+     */
+    scaleFact?: string;
     /** The fact naming who the moment is about (the baby at a birth), when not the event's people. */
     counterpartFact?: string;
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };
+  /**
+   * When each kind of setting can hold a scene, in minutes after midnight; a
+   * null opening is the controlled person's own day start.
+   */
+  settingHours: {
+    rows: Readonly<Record<string, { opens: number | null; closes: number }>>;
+  };
 }
 
 export interface ChannelContribution {
@@ -143,6 +155,11 @@ export interface Thread {
   closeness: number;
   lastContact?: IsoDate;
   tone: "rising" | "souring" | "steady";
+  /**
+   * The change in closeness since the tie last turned, signed: each contact
+   * moves a tie a little, and the tie turns when the change adds up.
+   */
+  tieDrift?: number;
   momentIds: string[];
   /**
    * Moments forgotten from this pair: their count, summed impact, and summed
@@ -237,6 +254,11 @@ export interface Ledger {
   sceneFilters: Map<PersonId, SceneFilter>;
   /** Each voter's election-day visit to the polls, by `<person>:<election date>`. */
   pollingVisits: Map<string, PollingVisitRecord>;
+  /**
+   * The day each circumstance last staged a scene for a person, by
+   * `<person>|<row id>`, and `<person>|*` for any circumstance (circumstance.ts).
+   */
+  circumstanceLast: Map<string, IsoDate>;
 }
 
 /**

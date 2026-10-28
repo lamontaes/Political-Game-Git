@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Speed: a town's game year must run in under two minutes, and no change may make a year more than 20 percent slower than its base; never scan the whole world or history every day; use indexes or act on the day something changed. Measure one process at a time on the same machine.
 
-**Done when.** On main, the Coventry, Vermont seed above runs its first 30 days with every person watched in under 15 seconds, measured before and after on the same machine; the slow function is named by profile in the PR body; stories-from-engines.test.ts passes within its limit.
+**Done when.** On main, the Coventry, Vermont seed above runs its first 30 days with every person watched in under 15 seconds, measured before and after on the same machine; the slow function is named by profile in the PR body; stories-from-engines.test.ts passes within its limit. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** src/director/, src/core2/
 

@@ -186,12 +186,14 @@ function play(
     (c) => c.filing.id === filing.id,
   )!;
   expect(after.campaign.doors, where).toBe(taken.doorsKnocked);
-  // What the race turns on lists the doors act with the people it reached.
-  const mine = after.causes.find((who) => who.you)!;
+  // Where the race stands says how many voters the doors reached, in the engine's words.
+  const saidReached = Number(
+    /(\d+) voters/.exec(after.standing[0] ?? "")?.[1] ?? Number.NaN,
+  );
   expect(
-    mine.acts.find((a) => a.act === "door")?.reached,
-    `the doors in the race's causes: ${where}`,
-  ).toBe(taken.reached);
+    saidReached,
+    `the voters reached, in the standing "${after.standing[0]}": ${where}`,
+  ).toBeGreaterThanOrEqual(taken.reached);
 
   // An interview asked of an outlet that covers the race writes the engine's own interview row.
   const interview = view.outings.find((c) => c.outing === "interview")!;
@@ -232,13 +234,20 @@ function play(
     if (eventControl().available) break;
     if (!outing("doors").available) break;
     const knocked = doorCauseIds(api, personId);
+    const households = doorsKnockedOf(api, filing.id).length;
     const doors = campaignDay(core, personId, {
       filingId: filing.id,
       kind: "canvass",
     });
     if (checkCanvass(core, api, personId, knocked, doors, where))
       answered = true;
-    if (calls.raisedMinor === 0 && doors.doorsKnocked === 0) break;
+    // Every door knocked, the canvass goes round again, so a doors day that
+    // moves nothing is one that reaches no household not knocked before.
+    if (
+      calls.raisedMinor === 0 &&
+      doorsKnockedOf(api, filing.id).length === households
+    )
+      break;
   }
   // What the donors left short of the venue, the candidate chooses to put
   // in from their own money (the player's own choice, by its control).

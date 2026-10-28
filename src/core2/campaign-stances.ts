@@ -19,6 +19,7 @@
  * are positions in [-1, 1]; a candidate has no answer only when they have
  * neither a view nor a party.
  */
+import { townLean } from "./modules/campaigns";
 import { votesOf } from "./modules/record";
 import { partyName, partySide } from "./appointments";
 import { leanedScore } from "./trait-decisions";
@@ -34,7 +35,6 @@ import {
 import {
   campaignParameter,
   personLean,
-  PLATFORM_QUESTIONS,
   questionAxis,
   type Stance,
 } from "./campaign-views";
@@ -52,16 +52,6 @@ function stateLean(api: CoreAPI): number {
   return total
     ? parties.reduce((s, p) => s + p.share * p.side, 0) / total
     : townLean(api);
-}
-
-function townLean(api: CoreAPI): number {
-  if (!api.state.modules.has("core2-campaigns-v1")) return 0;
-  return (
-    (
-      api.moduleState("core2-campaigns-v1").table("town").get("town") as
-        { lean?: number } | undefined
-    )?.lean ?? 0
-  );
 }
 
 export interface PartyLean {
@@ -262,19 +252,23 @@ export function candidateLean(
 }
 
 /**
- * A candidate's platform: the questions they feel most strongly about, each
- * at its own position. Empty for a candidate with neither a view nor a party.
+ * A candidate's platform: of the questions the contest's seat takes up (its
+ * positions, `contestPositions`), the ones they feel most strongly about, each
+ * at its own position. Empty for a candidate with neither a view nor a party,
+ * and for a seat that takes up no question.
  */
 export function candidatePlatform(
   api: CoreAPI,
   personId: string,
   party: string | null | undefined,
+  positions: readonly string[],
   count = campaignParameter("candidatePlatformQuestions"),
 ): readonly Stance[] {
-  return PLATFORM_QUESTIONS.map((question) => ({
-    question,
-    position: candidateStance(api, personId, party, question),
-  }))
+  return positions
+    .map((question) => ({
+      question,
+      position: candidateStance(api, personId, party, question),
+    }))
     .filter((s): s is Stance => s.position !== null && s.position !== 0)
     .sort(
       (a, b) =>

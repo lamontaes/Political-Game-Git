@@ -1,0 +1,75 @@
+{
+ "scene": "workforce-center",
+ "plate": "sg-workforce",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "stray legs under the computer desks",
+   "box": [
+    440,
+    500,
+    900,
+    660
+   ],
+   "drop": true
+  },
+  {
+   "name": "computer desks",
+   "box": [
+    440,
+    370,
+    900,
+    500
+   ],
+   "pose": "sit",
+   "seat": "desk-chair",
+   "facing": 180,
+   "coveredBy": "chair-back"
+  },
+  {
+   "name": "counter",
+   "box": [
+    1180,
+    400,
+    1320,
+    520
+   ],
+   "pose": "sit",
+   "seat": "desk-chair",
+   "facing": 0,
+   "coveredBy": "counter",
+   "role": "clerk",
+   "dress": "business"
+  },
+  {
+   "name": "waiting chairs",
+   "box": [
+    1420,
+    380,
+    1680,
+    900
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": -45
+  },
+  {
+   "name": "standing",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "pose": "stand",
+   "facing": 0
+  }
+ ]
+}

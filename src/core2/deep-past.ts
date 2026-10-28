@@ -6,7 +6,7 @@ import {
   type OpeningPeerData,
 } from "./opening-peer-network";
 import { groupedJsonTable } from "./reference/lazy-data";
-import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countyGeoidsForPlace } from "./reference/government-units";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { placeReferencePopulation } from "./gov-rules/place-population";
@@ -72,6 +72,13 @@ export interface DeepPastData {
     source: string;
     /** Grade codes before grade 1, as the CCD writes them. */
     gradesBeforeFirst: Readonly<Record<string, number>>;
+    /**
+     * The directory's shortened name endings ("H S", "EL", "SCH") and the
+     * words they stand for, read from the end of a campus name backward.
+     */
+    directoryAbbreviations: Readonly<Record<string, string>>;
+    /** A name ending in a bare stage word ("Anson Middle") takes the suffix. */
+    bareStageNames: { words: readonly string[]; suffix: string };
     stages: readonly {
       id: string;
       label: string;
@@ -79,13 +86,6 @@ export interface DeepPastData {
       startOffsetParameter: string;
       entryGrade: string;
     }[];
-  };
-  work: {
-    field: string;
-    kind: string;
-    label: string;
-    startKinds: readonly string[];
-    source: string;
   };
   preservedFields: readonly {
     field: string;
@@ -168,6 +168,43 @@ export function schoolOpenBy(id: string, year: number): boolean {
   return first <= Math.max(year, earliest);
 }
 
+/**
+ * A campus's name as people say it: the directory's shortened endings
+ * written out from the end backward, in the name's own case ("ANSON H S" is
+ * "ANSON HIGH SCHOOL", "Wexford El Sch" is "Wexford Elementary School"), and
+ * a bare stage word finished ("ANSON MIDDLE" is "ANSON MIDDLE SCHOOL").
+ */
+export function campusSpokenName(
+  name: string,
+  schools: Pick<
+    DeepPastData["schools"],
+    "directoryAbbreviations" | "bareStageNames"
+  >,
+): string {
+  const loud = name === name.toUpperCase();
+  const cased = (words: string) => (loud ? words.toUpperCase() : words);
+  const key = (word: string) => word.toUpperCase().replace(/\.$/, "");
+  const words = name.trim().split(/\s+/);
+  const written: string[] = [];
+  while (words.length) {
+    const pair =
+      words.length > 1
+        ? schools.directoryAbbreviations[
+            `${key(words.at(-2)!)} ${key(words.at(-1)!)}`
+          ]
+        : undefined;
+    const full = pair ?? schools.directoryAbbreviations[key(words.at(-1)!)];
+    if (!full) break;
+    words.splice(words.length - (pair ? 2 : 1));
+    written.unshift(cased(full));
+  }
+  const spoken = [...words, ...written].join(" ");
+  const last = key(spoken.split(" ").at(-1)!);
+  return schools.bareStageNames.words.includes(last)
+    ? `${spoken} ${cased(schools.bareStageNames.suffix)}`
+    : spoken;
+}
+
 export function buildDeepPast(
   input: CoreInput,
   options: DeepPastOptions = {},
@@ -185,7 +222,6 @@ export function buildDeepPast(
     "birth",
     "era-context",
     data.schools.field,
-    data.work.field,
     ...data.preservedFields.map((field) => field.field),
   ]);
   const reports = ((input as ReportedInput).priorFactsSource ?? []).filter(
@@ -354,8 +390,8 @@ export function buildDeepPast(
     }
     const added: PriorFact[] = [];
     const prefix = `${person.id}:${data.version}:`;
-    const add = (fact: PriorFact): void => {
-      if (fact.date < birth || fact.date >= cutoff) return;
+    const add = (fact: PriorFact, until = cutoff): void => {
+      if (fact.date < birth || fact.date >= until) return;
       if (!ids.has(fact.id)) {
         ids.add(fact.id);
         added.push(fact);
@@ -429,7 +465,10 @@ export function buildDeepPast(
           throw new Error(`Invalid school cohort offset: ${stage.id}`);
         const year = kgYear + offset;
         const date = onCalendar(year, "starts");
-        if (date < birth || date >= cutoff) continue;
+        // A cohort that began before the opening is the past even after the
+        // deep past's boundary: a 17-year-old started high school in the fall
+        // of 2021 (play-stop-08-no-high-school-at-seventeen).
+        if (date < birth || date >= opening) continue;
         if (ids.has(`${prefix}school:${stage.id}`)) continue;
         const priorLocationFacts = original.filter(
           (fact) =>
@@ -466,7 +505,7 @@ export function buildDeepPast(
         );
         const laterMobility = original.some(
           (fact) =>
-            fact.date < cutoff &&
+            fact.date < opening &&
             hasPrefix(fact.kind, data.schools.locationKindPrefixes) &&
             fact.date > date,
         );
@@ -500,8 +539,11 @@ export function buildDeepPast(
           `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
         );
         const [campusId, campusName] = school ?? [];
+        const spokenCampus = campusName
+          ? campusSpokenName(campusName, data.schools)
+          : undefined;
         const schoolName =
-          campusName ??
+          spokenCampus ??
           `${rng.pick(SCHOOL_NAMES.features)} ${stage.nameSuffix}`;
         const source: Source = {
           tag: "ESTIMATED",
@@ -509,33 +551,36 @@ export function buildDeepPast(
           citation: `${data.schools.source}${school ? ` ${SCHOOLS().citation} NCES-CCD:${campusId}, ${campusName}. ${FIRST_YEARS().source.citation}` : " No public school teaching this grade is recorded as open in that year for the place or its county; generated landscape name."}`,
           estimatedFrom: `Birth cohort calendar; ${located ? "recorded residence" : birthplace ? "recorded birthplace used as a schooling-location proxy" : "opening locality used as a schooling-location proxy"}. Historical attendance and historical name/existence are not verified; no qualification or graduation inferred.`,
         };
-        add({
-          id: `${prefix}school:${stage.id}`,
-          date,
-          kind: data.schools.kind,
-          summary: stage.label,
-          source,
-          facts: {
-            stage: stage.id,
-            cohortYear: String(year),
-            placeId,
-            schoolName,
-            ...(countyId ? { countyId } : {}),
-            ...(school
-              ? {
-                  institutionSourceId: campusId!,
-                  institutionSourceKey: "NCES-CCD",
-                  institutionName: campusName!,
-                  institutionKind: stage.id,
-                  directoryAsOf: SCHOOLS().asOf,
-                }
-              : {}),
-            campusIdentity: school ? "historical-name-proxy" : "generated",
-            attendance: "cohort-estimate",
-            qualification: "not-inferred",
-            stopgapId: marker.id,
+        add(
+          {
+            id: `${prefix}school:${stage.id}`,
+            date,
+            kind: data.schools.kind,
+            summary: stage.label,
+            source,
+            facts: {
+              stage: stage.id,
+              cohortYear: String(year),
+              placeId,
+              schoolName,
+              ...(countyId ? { countyId } : {}),
+              ...(school
+                ? {
+                    institutionSourceId: campusId!,
+                    institutionSourceKey: "NCES-CCD",
+                    institutionName: campusName!,
+                    institutionKind: stage.id,
+                    directoryAsOf: SCHOOLS().asOf,
+                  }
+                : {}),
+              campusIdentity: school ? "historical-name-proxy" : "generated",
+              attendance: "cohort-estimate",
+              qualification: "not-inferred",
+              stopgapId: marker.id,
+            },
           },
-        });
+          opening,
+        );
       }
     }
     const schoolRecords = [
@@ -552,54 +597,8 @@ export function buildDeepPast(
           : schoolGap,
     );
 
-    const job = person.jobId ? jobById.get(person.jobId) : undefined;
-    const existingTenure = original.filter(
-      (fact) => fact.kind === data.work.kind,
-    );
-    const starts = job
-      ? original.filter(
-          (fact) =>
-            data.work.startKinds.includes(fact.kind) &&
-            fact.date >= birth &&
-            fact.date < cutoff &&
-            (fact.facts?.jobId === job.id || fact.id.startsWith(`${job.id}:`)),
-        )
-      : [];
-    const unambiguousStart =
-      new Set(starts.map((fact) => fact.date)).size === p("one");
-    if (job && !existingTenure.length && unambiguousStart) {
-      const start = starts[p("zero")]!;
-      add({
-        id: `${prefix}job:${job.id}`,
-        date: start.date,
-        kind: data.work.kind,
-        summary: data.work.label,
-        source: start.source,
-        facts: {
-          jobId: job.id,
-          organizationId: job.organizationId,
-          title: job.title,
-          startedAt: start.date,
-          tenureDaysAtOpening: String(
-            daysBetween(makeIsoDate(start.date), opening),
-          ),
-          earnings: "not-reconstructed",
-          sourceFactId: start.id,
-          stopgapId: marker.id,
-        },
-      });
-    }
-    record(
-      data.work.field,
-      [
-        ...existingTenure,
-        ...added.filter((fact) => fact.kind === data.work.kind),
-      ],
-      starts.length && !unambiguousStart && !existingTenure.length
-        ? "Supplied opening-job start dates conflict; no date selected or tenure inferred."
-        : "Only a supplied start of the opening job supports tenure; no median assigned to a missing personal job history.",
-    );
-
+    // The working life (the opening job's tenure included) is run before the
+    // start, not drawn here (src/core2/past-work.ts, history-past-work).
     for (const field of data.preservedFields) {
       const facts = original.filter(
         (fact) =>

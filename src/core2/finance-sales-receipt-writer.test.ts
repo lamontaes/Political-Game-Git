@@ -4,7 +4,7 @@ import { advanceDate } from "./calendar";
 import { chooseAct } from "./choice";
 import { preflightOpeningSalesBudgets } from "./finance-state";
 import { FINANCE_MODULE } from "./modules/finance";
-import { runScheduledWork } from "./modules/work";
+import { runScheduledWork, WORK_MODULE } from "./modules/work";
 import { runWorkPayrollDay } from "./work-payroll-dispatch";
 import { LIFE_MODULE } from "./modules/life";
 import { parameter as p } from "./parameters";
@@ -222,7 +222,7 @@ function input(
   };
 }
 function core(options: Parameters<typeof input>[0] = {}): CoreState {
-  return createCore(input(options), { modules: [LIFE_MODULE] });
+  return createCore(input(options), { modules: [LIFE_MODULE, WORK_MODULE] });
 }
 function cash(world: CoreState): number {
   return [...world.people.values(), ...world.organizations.values()].reduce(
@@ -304,7 +304,9 @@ describe("receipt-linked procurement through the conserving API", () => {
         },
       ],
     };
-    const world = createCore(openingInput, { modules: [LIFE_MODULE] }),
+    const world = createCore(openingInput, {
+        modules: [LIFE_MODULE, WORK_MODULE],
+      }),
       api = coreAPI(world),
       before = cash(world);
     api.settleFinanceContract(fundingId);
@@ -356,7 +358,9 @@ describe("receipt-linked procurement through the conserving API", () => {
           : row,
       ),
     };
-    const world = createCore(openingInput, { modules: [LIFE_MODULE] }),
+    const world = createCore(openingInput, {
+        modules: [LIFE_MODULE, WORK_MODULE],
+      }),
       before = cash(world);
     let allocated = p("zero");
     for (const date of [opening, february, march, "2021-04-30"]) {
@@ -415,7 +419,9 @@ describe("receipt-linked procurement through the conserving API", () => {
         row.id === routeB ? { ...row, dueAt: "2021-02-15" } : row,
       ),
     };
-    const world = createCore(openingInput, { modules: [LIFE_MODULE] }),
+    const world = createCore(openingInput, {
+        modules: [LIFE_MODULE, WORK_MODULE],
+      }),
       api = coreAPI(world),
       before = cash(world);
     let allocated = p("zero");
@@ -467,7 +473,9 @@ describe("receipt-linked procurement through the conserving API", () => {
         ...openingInput.finance!,
         contracts: reverse ? [...rows].reverse() : rows,
       };
-      const world = createCore(openingInput, { modules: [LIFE_MODULE] }),
+      const world = createCore(openingInput, {
+          modules: [LIFE_MODULE, WORK_MODULE],
+        }),
         api = coreAPI(world);
       financeDay(world);
       advanceDate(world, february);
@@ -514,7 +522,9 @@ describe("receipt-linked procurement through the conserving API", () => {
       ],
       businesses: [book(buyer, [routeA, routeB, fixedId])],
     };
-    const world = createCore(openingInput, { modules: [LIFE_MODULE] }),
+    const world = createCore(openingInput, {
+        modules: [LIFE_MODULE, WORK_MODULE],
+      }),
       api = coreAPI(world),
       before = cash(world);
     api.settleFinanceContract(saleId);
@@ -647,7 +657,9 @@ describe("receipt-linked procurement through the conserving API", () => {
           : row,
       ),
     };
-    const world = createCore(openingInput, { modules: [LIFE_MODULE] }),
+    const world = createCore(openingInput, {
+        modules: [LIFE_MODULE, WORK_MODULE],
+      }),
       api = coreAPI(world);
     financeDay(world);
     const pending = world.finance.salesPendingBudgetByContract.get(routeB)!;
@@ -681,7 +693,9 @@ describe("receipt-linked procurement through the conserving API", () => {
       ],
       businesses: [book(buyer, [routeA, routeB, fixedId])],
     };
-    const world = createCore(openingInput, { modules: [LIFE_MODULE] }),
+    const world = createCore(openingInput, {
+        modules: [LIFE_MODULE, WORK_MODULE],
+      }),
       api = coreAPI(world),
       before = cash(world);
     financeDay(world);

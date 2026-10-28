@@ -8,6 +8,7 @@
  */
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
 import { registerModule } from "../state";
 import type {
   CoreAPI,
@@ -25,9 +26,10 @@ import {
   firearmOwnershipRate,
   householdOwnsFirearm,
 } from "../firearm-ownership";
-import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
+import { lawChain } from "../modules/laws";
+import { residentsRuntime } from "../modules/residents";
+import { countedJobHeads } from "../residents-economy";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
-import type { LawRowInput } from "../laws-starting";
 
 export const REACH_A_MODULE_ID = "core2-law-reach-a-v1";
 export const PREMIUM_KIND = "law-reach-a:leave-premium";
@@ -126,7 +128,13 @@ export function reachParameter(key: string): number {
   return row.value;
 }
 
+const PUBLIC_EMPLOYERS: readonly string[] = Object.keys(
+  publicPayFloor.employerLevels,
+);
+
 export function selectorGroup(name: string): readonly string[] {
+  // The public employers are the classes the public pay mechanics raise pay at.
+  if (name === "publicEmployers") return PUBLIC_EMPLOYERS;
   return data.selectors[name] ?? data.extraSelectors[name] ?? [];
 }
 
@@ -234,29 +242,6 @@ export const tomorrow = (date: string) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
     .toISOString()
     .slice(0, 10);
-
-/**
- * The levels (with their jurisdictions) whose latest law in force on a
- * policy says yes: the same reading as the law-reach host's `inForceHere`.
- */
-export function yesLevels(
-  api: CoreAPI,
-  key: string,
-): readonly { level: string; jurisdiction: string; lawId: string }[] {
-  const date = api.state.date;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  const out: { level: string; jurisdiction: string; lawId: string }[] = [];
-  for (const { level, jurisdiction } of lawChain(api).levels) {
-    const latest = (
-      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    if (latest?.value === 1)
-      out.push({ level, jurisdiction, lawId: latest.id });
-  }
-  return out;
-}
 
 export function townPeople(api: CoreAPI): readonly PersonState[] {
   const town = lawChain(api).townPlaceId;
@@ -401,7 +386,21 @@ export interface Target {
   readonly count: number | null;
 }
 
-function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
+/** The jobs the counted jobs at these employers stand for. */
+function countedStaff(api: CoreAPI, employers: ReadonlySet<string>): number {
+  const core = api.state as CoreState;
+  let people = 0;
+  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+    if (
+      job.endsAt === undefined &&
+      !core.jobs.has(job.id) &&
+      employers.has(job.organizationId)
+    )
+      people += countedJobHeads(core, job);
+  return people;
+}
+
+export function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
   const select = spec.select ?? {};
   switch (spec.target) {
     case "people": {
@@ -424,11 +423,17 @@ function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
       );
     case "staff": {
       const out: Target[] = [];
-      for (const org of townOrganizations(api, select.group ?? ""))
+      const orgs = townOrganizations(api, select.group ?? "");
+      for (const org of orgs)
         for (const s of currentStaff(api, org.id))
           if (api.state.people.has(s.personId))
             out.push({ id: s.personId, personId: s.personId, count: null });
-      return out;
+      // One rule, both tiers: the counted staff of the same employers, as
+      // one count (each counted job stands for the people its household does).
+      const counted = countedStaff(api, new Set(orgs.map((o) => o.id)));
+      return counted
+        ? [...out, { id: `counted:${spec.id}`, personId: null, count: counted }]
+        : out;
     }
     case "counted": {
       const count = countedReach(api, select);

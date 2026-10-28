@@ -1,8 +1,9 @@
 /**
  * The opening's sequence (owner, Oct 14, 2026, late): the President giving
  * the address with the Vice President and key people behind; then Congress,
- * the player's own senators and representative; then the state, the council
- * and the state's legislators; then the player's family, if they have one;
+ * the player's own senators and representative; then the state (owner, Oct 27:
+ * national people, not the council or the state's legislators); then the
+ * player's family, if they have one;
  * then home. Who the key people are is one list the owner ruled on Oct 15
  * (`src/core2/opening-key-people.ts`), shared with the Politics screen; this
  * file only says which of them each stage points out, by the reasons
@@ -176,6 +177,7 @@ export function openingSequence(
         name: row.name,
         post: row.leads ? postTitle(row.officeKind, row.leads.post) : null,
         office: row.officeTitle || null,
+        // Where their office is: their state, none for a national office.
         state: stateName(row.stateKey),
         relation: null,
         role: row.leads

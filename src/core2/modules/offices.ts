@@ -32,7 +32,7 @@ import { incompatibleOffices } from "../office-incompatibility";
  */
 import { registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
-import { decisionLean } from "../trait-decisions";
+import { leanedScore } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
 import { makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, PersonId, Source } from "../types";
@@ -249,7 +249,12 @@ export function enforceIncompatibility(
   }
 }
 
-function servingTermsOf(api: CoreAPI, personId: string): readonly TermRow[] {
+/** The terms a person is serving now: the one reader of "what office does this person hold". */
+export function servingTermsOf(
+  api: CoreAPI,
+  personId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
   return (
     table(api, "terms").query("byPerson", [personId]) as unknown as TermRow[]
   ).filter((term) => term.status === "serving");
@@ -364,6 +369,10 @@ function suitedResidents(
         taken.has(person.id)
       )
         return false;
+      // The player takes a seat by filing and winning, never by being the
+      // resident the opening seats: a player the creator made 25 or older is
+      // a resident this pick could reach.
+      if (person.id === (api.state as CoreState).playerId) return false;
       // Officeholders are fictional: a resident who happens to share a real
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
@@ -524,6 +533,10 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     ...stateOffices(stateKey, geoid, date),
   ]) {
     putOffice(api, entry);
+    // An office its law creates later has no holder and no past until its
+    // first term: its first election fills it.
+    if (entry.office.firstTermStart && entry.office.firstTermStart > date)
+      continue;
     for (const seat of entry.seats)
       pastTerms(
         api,
@@ -644,6 +657,8 @@ const TENURE = (
   tenure as unknown as { parameters: Record<string, { value: number }> }
 ).parameters;
 const tenureYears = (key: string) => TENURE[key]!.value;
+const tenureSpread = (key: string) =>
+  (TENURE[key] as unknown as { spread: readonly [number, number] }).spread;
 const shiftYears = (date: string, years: number) =>
   `${Number(date.slice(0, 4)) + years}${date.slice(4)}`;
 const LEGISLATIVE = /^(council|county-board|legislature-)/;
@@ -682,8 +697,29 @@ function pastTerms(
       } as unknown as ModuleRow);
     return;
   }
-  // A term read as ending more than a full term out began at the opening.
-  if (start > opening) {
+  // An office its law created has no service before its first term: a term
+  // that would have begun earlier is that first term.
+  const created = office.firstTermStart;
+  if (created && start <= created) {
+    table(api, "terms").put({
+      ...term,
+      startDate: created,
+      serviceStart: created,
+      ...(office.elected
+        ? {
+            elected: electionBehind(office, created, `${worldSeed}:${seat.id}`),
+          }
+        : {}),
+    } as unknown as ModuleRow);
+    return;
+  }
+  // A term read as ending more than a full term out began at the opening, and
+  // so did one whose holder was too young to begin it a full term back.
+  const born = Number(term.identity.birthDate.slice(0, 4));
+  if (
+    start > opening ||
+    Number(start.slice(0, 4)) - born < tenureYears("minimumAgeAtFirstTerm")
+  ) {
     table(api, "terms").put({
       ...term,
       serviceStart: term.startDate,
@@ -708,11 +744,12 @@ function pastTerms(
   const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
   let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
   // No one first served younger than the minimum age.
-  const born = Number(term.identity.birthDate.slice(0, 4));
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
     prior > 0 &&
-    firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm")
+    (firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm") ||
+      (created !== undefined &&
+        termStartInYear(office, shiftYears(start, -prior * years)) < created))
   )
     prior -= 1;
   // A state that limits legislative terms caps the service before today.
@@ -743,7 +780,26 @@ function pastTerms(
       ? termStartInYear(office, shiftYears(start, -prior * years))
       : start;
   const won = (from: string) =>
-    office.elected ? { elected: electionBehind(office, from) } : {};
+    office.elected
+      ? { elected: electionBehind(office, from, `${worldSeed}:${seat.id}`) }
+      : {};
+  // A holder too young for the office when the current term began came to it
+  // partway through, on the day they reached the minimum age (a February 29
+  // birthday counts on March 1), filling the seat rather than winning it.
+  const birth = term.identity.birthDate;
+  const ageYear = born + tenureYears("minimumAgeAtFirstTerm");
+  const leap =
+    (ageYear % 4 === 0 && ageYear % 100 !== 0) || ageYear % 400 === 0;
+  const ofAge = `${ageYear}-${birth.slice(5) === "02-29" && !leap ? "03-01" : birth.slice(5)}`;
+  if (prior === 0 && start < ofAge) {
+    const joined = ofAge < opening ? ofAge : opening;
+    table(api, "terms").put({
+      ...term,
+      startDate: joined,
+      serviceStart: joined,
+    } as unknown as ModuleRow);
+    return;
+  }
   table(api, "terms").put({
     ...term,
     startDate: start,
@@ -769,12 +825,14 @@ function pastTerms(
 /**
  * The election that seated a term starting on a date: the general election
  * the November before a January start, else a local election some weeks
- * before; the winner's share is the average for that kind of office (an
- * estimate; the history only has to fit the world it opens).
+ * before. The winner's share is drawn once per seat and race from the
+ * world's seed inside the spread for that kind of office (owner, Oct 27:
+ * realistic, not real), so no two holders print the same share by rule.
  */
 function electionBehind(
   office: OfficeInput,
   start: string,
+  seatSeed: string,
 ): { date: string; share: number } {
   const year = Number(start.slice(0, 4));
   const date =
@@ -796,7 +854,12 @@ function electionBehind(
           : office.level === "state" || office.level === "federal"
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
-  return { date, share: tenureYears(key) };
+  const [low, high] = tenureSpread(key);
+  const hash = createHash("sha256")
+    .update(`${seatSeed}:${start}:winner-share`)
+    .digest("hex");
+  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
+  return { date, share: low + (high - low) * u };
 }
 
 /** A seat's elections before the start, oldest first (history to the opening). */
@@ -1156,12 +1219,15 @@ function fillVacancy(
             ).townPlaceId,
           ).find(
             (suited) =>
-              decisionLean(
+              // The shared formula with no case but personality (the lean's sign,
+              // as before), so the weighing is reported and, where kept, recorded.
+              leanedScore(
                 api.state,
                 suited.person,
                 "offices.accept-appointment",
                 "accept",
                 "decline",
+                0,
               ) >= 0,
           )
         : undefined;

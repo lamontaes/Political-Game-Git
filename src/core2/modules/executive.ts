@@ -1,3 +1,4 @@
+import { heldSinceRecord, pastWorkOf, PAST_WORK_SPELL } from "../past-work";
 import { workedToday } from "../job-lifecycle";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
@@ -24,6 +25,9 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  */
 import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
+import relatedWork from "../../../data/research/executive/post-related-work.json" with { type: "json" };
+import { PROFILE_FACT_KINDS } from "../opening-profile";
+import { schoolingOn } from "./jobs";
 import emergencyData from "../data/executive/emergency.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -40,19 +44,10 @@ import {
 import { drawOfficialIdentity } from "../officials-identity";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
-import {
-  executiveDecision,
-  leanOf,
-  mayorVeto,
-  memberKey,
-  members,
-  registerLegislatureHooks,
-  type BillRow,
-  type DeskAction,
-} from "./legislature";
+import { leanOf, mayorVeto, memberKey, members } from "./legislature";
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";
 import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
@@ -112,7 +107,6 @@ export const EXECUTIVE_MODULE: CoreModule = {
       orders: {},
       emergencies: {},
       nominations: {},
-      desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
       review: {},
     },
   },
@@ -121,8 +115,10 @@ export const EXECUTIVE_MODULE: CoreModule = {
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(EXECUTIVE_MODULE_ID).table(name);
+// Age by the birthday, not the year: a resident born in February 2007 is 17
+// in January 2025, and not yet one of the town's adults.
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) - Number(p.birthDate.slice(0, 4));
+  ageOnDate(p.birthDate, date);
 
 /** The town's form of government, read from who holds office there. */
 export function townForm(
@@ -140,11 +136,10 @@ export function townForm(
 }
 
 /**
- * Register the desk and fill the town's department heads and the state's
+ * Fill the town's department heads and the state's
  * cabinet at the opening (who holds them then; vacancies come later).
  */
 export function openExecutive(core: CoreState, worldSeed: string): void {
-  registerLegislatureHooks({ onDesk: recordDesk });
   if (core.modules.has(EXECUTIVE_MODULE_ID)) return;
   registerModule(core, EXECUTIVE_MODULE);
   const api = coreAPI(core);
@@ -171,24 +166,107 @@ function councilSides(api: CoreAPI): number[] {
     : [];
 }
 
-/** How qualified a resident is for a department: temperament, and work there. */
-function qualification(
+const RELATED = relatedWork as unknown as {
+  posts: Readonly<Record<string, readonly string[]>>;
+};
+const DAYS_PER_YEAR = 365.25;
+const yearsBetween = (from: string, to: string) =>
+  Math.max(0, (Date.parse(to) - Date.parse(from)) / 86_400_000 / DAYS_PER_YEAR);
+
+/**
+ * What the records say a resident has done toward heading a department: years
+ * of work in the post's own field, years of any work, and schooling, each with
+ * the record it was read from. A job counts from when its holder began it
+ * (the record of their working life before the start, where it has one), and
+ * the jobs that working life ended before day one count as years of work.
+ */
+export function postRecord(
   api: CoreAPI,
   person: Readonly<PersonState>,
   post: string,
   date: string,
+): {
+  relatedYears: number;
+  workYears: number;
+  schooling: string | undefined;
+  recordIds: readonly string[];
+} {
+  const core = api.state as CoreState;
+  const fields = new Set(RELATED.posts[post] ?? []);
+  let relatedYears = 0;
+  let workYears = 0;
+  const recordIds: string[] = [];
+  for (const row of pastWorkOf(core, person.id))
+    if (
+      row.kind === PAST_WORK_SPELL &&
+      row.facts.endedAt &&
+      String(row.facts.endedAt) <= date
+    )
+      workYears += yearsBetween(
+        String(row.facts.startedAt),
+        String(row.facts.endedAt),
+      );
+  for (const id of core.work.commitmentsByPerson.get(person.id) ?? []) {
+    const commitment = core.work.commitments.get(id);
+    if (!commitment || commitment.startsAt > date) continue;
+    const since = heldSinceRecord(core, person.id, commitment.jobId);
+    const started = since ? String(since.facts.startedAt) : undefined;
+    const from =
+      started && started < commitment.startsAt
+        ? started
+        : (commitment.heldSince ?? commitment.startsAt);
+    const to =
+      commitment.endsAt && commitment.endsAt < date ? commitment.endsAt : date;
+    const years = yearsBetween(from, to);
+    if (years <= 0) continue;
+    workYears += years;
+    const job = core.jobs.get(commitment.jobId);
+    if (
+      job?.occupationClassification &&
+      fields.has(job.occupationClassification)
+    ) {
+      relatedYears += years;
+      recordIds.push(commitment.id, ...(since ? [since.id] : []));
+    }
+  }
+  const schooling = schoolingOn(api, person.id, date);
+  const schooled = schooling === "college" || schooling === "some-college";
+  if (schooled) {
+    const fact = person.pastFacts?.find(
+      (row) => row.kind === PROFILE_FACT_KINDS.education,
+    );
+    recordIds.push(fact?.id ?? `${person.id}:${PROFILE_FACT_KINDS.education}`);
+  }
+  return { relatedYears, workYears, schooling, recordIds };
+}
+
+/** Whether the records show related work or schooling past high school. */
+const hasRecord = (record: ReturnType<typeof postRecord>) =>
+  record.relatedYears > 0 ||
+  record.schooling === "college" ||
+  record.schooling === "some-college";
+
+/**
+ * How qualified a resident is for a department: their temperament, then what
+ * the records say they have done, each on a saturating scale (no step at any
+ * number of years): years in the post's field, years of any work, schooling.
+ */
+export function appointmentQualification(
+  person: Readonly<PersonState>,
+  record: ReturnType<typeof postRecord>,
 ): number {
   const temperament =
     ((person.traits["people-mind-v1:reliability"] ?? 0) +
       (person.traits["people-mind-v1:deliberation"] ?? 0)) *
     campaignParameter("appointmentTemperamentWeight");
-  const core = api.state as CoreState;
-  const worksThere = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
-    .map((id) => core.work.commitments.get(id))
-    .some((c) => {
-      const org = c ? core.organizations.get(c.organizationId) : undefined;
-      return !!org && org.name.toLowerCase().includes(post.split("-")[0]!);
-    });
+  const saturating = (years: number, half: string, weight: string) =>
+    (campaignParameter(weight) * years) / (years + campaignParameter(half));
+  const schooling =
+    record.schooling === "college"
+      ? campaignParameter("appointmentCollegeWeight")
+      : record.schooling === "some-college"
+        ? campaignParameter("appointmentSomeCollegeWeight")
+        : 0;
   // 0 and 1 bound the score, as they do for every 0..1 score in this file.
   return Math.max(
     0,
@@ -196,28 +274,18 @@ function qualification(
       1,
       campaignParameter("appointmentBaseQualification") +
         temperament +
-        experienceFromAge(person, date) +
-        (worksThere ? campaignParameter("appointmentExperienceWeight") : 0),
+        saturating(
+          record.relatedYears,
+          "appointmentRelatedWorkHalfYears",
+          "appointmentRelatedWorkWeight",
+        ) +
+        saturating(
+          record.workYears,
+          "appointmentWorkHalfYears",
+          "appointmentWorkWeight",
+        ) +
+        schooling,
     ),
-  );
-}
-
-/**
- * What adult years add to a qualification: zero at the age of majority, then
- * a saturating curve (no step at any age), so a young adult can be appointed
- * but seldom beats an equally suited older resident.
- */
-export function experienceFromAge(
-  person: Readonly<Pick<PersonState, "birthDate">>,
-  date: string,
-): number {
-  const years = Math.max(
-    0,
-    ageOn(person, date) - campaignParameter("appointmentAdulthoodAge"),
-  );
-  return (
-    (campaignParameter("appointmentExperienceAgeWeight") * years) /
-    (years + campaignParameter("appointmentExperienceHalfYears"))
   );
 }
 
@@ -255,7 +323,7 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
-  const pool = [...(api.state.peopleByPlace.get(town) ?? [])]
+  const adults = [...(api.state.peopleByPlace.get(town) ?? [])]
     .map((id) => api.state.people.get(id))
     .filter(
       (p): p is PersonState =>
@@ -270,6 +338,13 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
         !workedToday(api.state as CoreState, p),
     );
   const relationships = (api.state as CoreState).relationships;
+  // A department's search draws those who have done the work or studied for
+  // it; only a town with none of them looks at every adult.
+  const records = new Map(
+    adults.map((p) => [p.id, postRecord(api, p, spec.key, date)]),
+  );
+  const shown = adults.filter((p) => hasRecord(records.get(p.id)!));
+  const pool = shown.length ? shown : adults;
   return {
     appointer,
     appointerSide: appointerLean,
@@ -280,7 +355,8 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
     candidates: pool.map((p) => ({
       id: p.id,
       lean: personLean(api.state.people, p, 0),
-      qualification: qualification(api, p, spec.key, date),
+      qualification: appointmentQualification(p, records.get(p.id)!),
+      qualificationRecords: records.get(p.id)!.recordIds,
       known:
         !!appointer?.personId &&
         relationships.has(pairKey(appointer.personId, p.id)),
@@ -360,7 +436,11 @@ function fillTownPost(
     source: { tag: "SOURCED", citation: `Appointment ${row.id}`, asOf: date },
     publicRecord: true,
     news: true,
-    facts: { post: spec.key, appointedBy: row.appointedBy },
+    facts: {
+      post: spec.key,
+      appointedBy: row.appointedBy,
+      appointee: row.holderId,
+    },
   });
   // On the town government's payroll at a department head's pay.
   const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
@@ -813,14 +893,18 @@ export function appointStatePost(
     seatKey: `cabinet:${state}:${spec.key}`,
     appointerSide: leanOf(api, input.executiveId),
     weighing: appointerWeighing(api.state as CoreState, input.executiveId),
-    candidates: pool.map((person) => ({
-      id: person.id,
-      lean: personLean(api.state.people, person, 0),
-      qualification: qualification(api, person, spec.key, api.state.date),
-      known: (api.state as CoreState).relationships.has(
-        pairKey(input.executiveId, person.id),
-      ),
-    })),
+    candidates: pool.map((person) => {
+      const record = postRecord(api, person, spec.key, api.state.date);
+      return {
+        id: person.id,
+        lean: personLean(api.state.people, person, 0),
+        qualification: appointmentQualification(person, record),
+        qualificationRecords: record.recordIds,
+        known: (api.state as CoreState).relationships.has(
+          pairKey(input.executiveId, person.id),
+        ),
+      };
+    }),
     confirmingBody: confirmation
       ? {
           name: senate!.title,
@@ -891,7 +975,11 @@ export function appointStatePost(
     },
     publicRecord: true,
     news: true,
-    facts: { post: spec.key, appointedBy: input.executiveId },
+    facts: {
+      post: spec.key,
+      appointedBy: input.executiveId,
+      appointee: person.id,
+    },
   });
   return row;
 }
@@ -1065,63 +1153,6 @@ export function declareEmergency(
     },
   });
   return row;
-}
-
-export interface DeskRow {
-  readonly id: string;
-  readonly billId: string;
-  readonly number: string;
-  readonly executiveId: string;
-  readonly date: string;
-  readonly status: DeskAction["status"];
-  /** The executive's own position on the bill, and their temperament's lean toward signing. */
-  readonly position: number;
-  readonly temperament: number;
-  /** For a bill still waiting: the last day to act before inaction decides it. */
-  readonly signBy?: string;
-}
-
-/** A passed bill on an executive's desk: what they did with it, and why. */
-function recordDesk(api: CoreAPI, action: DeskAction): void {
-  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return;
-  table(api, "desk").put({
-    id: `desk:${action.bill.id}`,
-    billId: action.bill.id,
-    number: action.bill.number,
-    executiveId: action.executiveId,
-    date: api.state.date,
-    status: action.status,
-    position: action.position,
-    temperament: action.temperament,
-    ...(action.signBy ? { signBy: action.signBy } : {}),
-  } satisfies DeskRow as unknown as ModuleRow);
-}
-
-/**
- * The player, as mayor, county executive, governor or president, signs or
- * vetoes a bill waiting on their desk. The decision goes on the record and
- * the bill becomes law (or goes back for an override vote) from it.
- */
-export function decideOnDesk(
-  api: CoreAPI,
-  billId: string,
-  sign: boolean,
-): BillRow {
-  const row = table(api, "desk").get(`desk:${billId}`) as unknown as
-    DeskRow | undefined;
-  const playerId =
-    snapshotExplicitControlV1(api.state).personId ??
-    (api.state as CoreState).playerId;
-  if (!row || row.status !== "awaiting" || row.executiveId !== playerId)
-    throw new Error(`No bill ${billId} is waiting on your desk.`);
-  return executiveDecision(api, billId, sign);
-}
-
-export function deskOf(api: CoreAPI, executiveId: string): readonly DeskRow[] {
-  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
-  return table(api, "desk").query("byExecutive", [
-    executiveId,
-  ]) as unknown as DeskRow[];
 }
 
 function scheduleReview(api: CoreAPI, from: string): void {

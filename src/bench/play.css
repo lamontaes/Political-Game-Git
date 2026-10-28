@@ -3,7 +3,7 @@
    .panel (dark glass, brass frame, brass corner ornaments), .bust (a figure cropped to head and
    shoulders), .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
-   plain is Back, .small the second size; the brass corner mark shows only while .active or
+   plain is Back; one size for all; the brass corner mark shows only while .active or
    pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
@@ -60,6 +60,8 @@
   color-scheme: dark;
   --glass-top: rgba(42, 42, 44, 0.72);
   --glass-bottom: rgba(22, 22, 24, 0.82);
+  --solid-top: #262628;
+  --solid-bottom: #151517;
   --brass: #9c8350;
   --iron: #1c1a18;
   --gold: #d6bd84;
@@ -124,6 +126,37 @@ ol {
   width: 100%;
   height: 100%;
 }
+/* The title painting drifts and zooms slowly; the next national scene fades
+   in over it (REG:542, REG:734). */
+#backdrop-next {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+#backdrop-next.fading {
+  opacity: 1;
+}
+#game:has(#front:not([hidden])) #backdrop,
+#game:has(#front:not([hidden])) #backdrop-next {
+  animation: title-drift 40s ease-in-out infinite alternate;
+}
+@keyframes title-drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.1) translate(-1.5%, -1%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #game:has(#front:not([hidden])) #backdrop,
+  #game:has(#front:not([hidden])) #backdrop-next {
+    animation: none;
+  }
+}
 #people .figure {
   position: absolute;
   overflow: hidden;
@@ -142,6 +175,16 @@ ol {
 #people .figure.talkable:hover img {
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.75))
     drop-shadow(0 0 14px rgba(255, 255, 255, 0.3));
+}
+/* The painting's own furniture in front of a person, through the spot's mask. */
+#people .occluder {
+  position: absolute;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
 }
 /* A soft contact shadow on the floor at a person's feet (placed by the scene). */
 #people .shadow {
@@ -209,12 +252,31 @@ ol {
     left bottom,
     right bottom;
 }
+/* The title's Continue: the life's face beside its name and place. */
+#front-continue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+/* Buttons in a row share one size (owner, Oct 24): every title item is as tall as Continue. */
+#front-main .item {
+  min-height: 56px;
+}
+#front-continue .bust {
+  width: 44px;
+  height: 44px;
+}
+#front-main #front-continue .continue-text,
+#front-main #front-continue .continue-text b,
+#front-main #front-continue .continue-text small {
+  display: block;
+}
 /* The game's own figure, cropped to head and shoulders, fading into the glass. */
 .bust {
   flex: none;
   width: 62px;
   height: 62px;
-  background: 50% 3% / 230% auto no-repeat;
+  background: 50% 0 / 150% auto no-repeat;
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
 }
@@ -279,13 +341,15 @@ select:focus-visible {
 }
 .action,
 #sheet-body button,
+#race-menu .record-pager button,
 #person-facts button {
   position: relative;
   display: inline-block;
-  min-height: 38px;
-  padding: 7px 26px;
+  /* One button size across the game (owner, Oct 24: buttons are the same size). */
+  min-height: 34px;
+  padding: 6px 20px;
   margin: 0 12px 0 0;
-  font: 500 16px/1.2 var(--ui);
+  font: 500 15px/1.2 var(--ui);
   color: var(--text-strong);
   text-align: center;
   background:
@@ -296,14 +360,6 @@ select:focus-visible {
   box-shadow:
     0 2px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
-}
-.action.small,
-#sheet-body button,
-#person-facts button,
-.me .action {
-  min-height: 30px;
-  padding: 4px 16px;
-  font-size: 14px;
 }
 .action.primary {
   min-width: 120px;
@@ -383,8 +439,9 @@ select:focus-visible {
     0 3px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
-/* Icons: gold line icons on a small glass key (the row over the player card). */
+/* Icons: gold line icons on round glass keys, a column over the player card (MOCKS:24). */
 .ring {
+  position: relative;
   width: 40px;
   height: 40px;
   display: grid;
@@ -393,7 +450,7 @@ select:focus-visible {
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
     var(--key);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 1px;
+  border-radius: 50%;
   box-shadow:
     0 2px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
@@ -406,6 +463,18 @@ select:focus-visible {
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+/* A story the player has not read yet: a dot on the News icon. */
+.ring.unread::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 2px var(--iron);
 }
 .ring.active {
   background: var(--raised);
@@ -446,7 +515,7 @@ select:focus-visible {
   text-transform: uppercase;
   color: var(--gold);
 }
-.row:not(.narrative, .campaign, .race) > :last-child:not(b) {
+.row:not(.narrative, .campaign, .race, .calendar-entry) > :last-child:not(b) {
   text-align: right;
 }
 
@@ -495,7 +564,7 @@ select:focus-visible {
   stroke: rgba(242, 237, 228, 0.28);
 }
 .reply.lying,
-.said.lying {
+.history.lying {
   color: var(--lying);
   text-shadow: 0 0 3px rgba(214, 88, 64, 0.4);
 }
@@ -512,6 +581,7 @@ select:focus-visible {
 .ring,
 .lie-scales,
 #sheet-body button,
+#race-menu .record-pager button,
 .term {
   transition:
     color 0.2s ease,
@@ -521,6 +591,7 @@ select:focus-visible {
 }
 .action:hover:not(:disabled),
 #sheet-body button:hover:not(:disabled),
+#race-menu .record-pager button:hover:not(:disabled),
 #person-facts button:hover {
   background:
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
@@ -594,6 +665,11 @@ input#place {
 input[type="search"]:focus,
 input#place:focus {
   background-color: rgba(8, 8, 9, 0.72);
+}
+/* The creator's state and town searches keep the slight gold edge at rest, as the
+   other panels do; focus makes it solid (the shared input:focus rule). */
+#front input[type="search"]:not(:focus) {
+  border-color: rgba(214, 189, 132, 0.55);
 }
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
@@ -710,6 +786,94 @@ input[type="range"]::-moz-range-thumb {
 .field input {
   width: 170px;
 }
+/* The creator: one label column and one field column; headings, labels and the
+   fields' left edge are the same on every row. */
+#cr-character {
+  --label-col: 100px;
+}
+#cr-character .field,
+#cr-character .group.row {
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  align-items: center;
+  column-gap: 12px;
+}
+#cr-character .field input {
+  width: 100%;
+}
+#cr-character .group.row > .label {
+  line-height: 1.3;
+}
+#cr-character .choices {
+  margin-top: 0;
+  gap: 8px;
+}
+#cr-character .choices .action {
+  min-width: 0;
+  margin: 0;
+  padding: 6px 10px;
+  flex: 1 1 auto;
+}
+#cr-character .date-row {
+  margin: 0;
+  grid-template-columns: 5fr 3fr 6fr;
+  gap: 6px;
+}
+#cr-character .date-row select {
+  padding-inline: 6px;
+  font-size: 13px;
+}
+#cr-character .group.row > :not(.label):not(.date-row):not(.choices) {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+#cr-character .date-row .field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+#cr-character .choices .action {
+  white-space: nowrap;
+  padding: 6px 6px;
+}
+/* A picked button keeps its box: the brass corner shows, nothing resizes. */
+.action[aria-pressed="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
+  pointer-events: none;
+}
+.action[aria-pressed="true"] {
+  border-color: var(--gold);
+}
+/* The creator's fields always show their box, empty or filled. */
+#cr-character .field input,
+#cr-character .field select {
+  border-color: rgba(242, 237, 228, 0.28);
+  background-color: rgba(8, 8, 9, 0.45);
+}
+/* Month, day and year on one line, each label over its box, one height. */
+.date-row {
+  display: grid;
+  grid-template-columns: 3fr 1.4fr 2.6fr;
+  gap: 10px;
+  margin: 6px 0 8px;
+}
+.date-row .field {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0;
+}
+.date-row select {
+  width: 100%;
+  max-width: none;
+}
 
 /* ---- Title screen ---- */
 .menu {
@@ -741,8 +905,17 @@ input[type="range"]::-moz-range-thumb {
 #front-status:empty {
   display: none;
 }
+/* One header treatment for every title-side panel: the gold name, a thin
+   gold rule, then room before the first control. */
 #front .title {
-  margin-bottom: 14px;
+  margin-bottom: 0;
+}
+.title-rule {
+  height: 0;
+  margin: 12px 0 16px;
+  border: 0;
+  border-top: 1px solid var(--gold);
+  opacity: 0.7;
 }
 .seed-row {
   display: flex;
@@ -764,11 +937,38 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-3);
   font: 400 11px var(--ui);
 }
+.item small:empty {
+  display: none;
+}
+/* On the title, Continue's saved life sits beside it, so every entry is one height. */
+#front-main .item b,
+#front-main .item small {
+  display: inline;
+}
+#front-main .item small {
+  margin-left: 10px;
+}
 .item small {
   display: block;
   font: 400 12.5px var(--ui);
   color: var(--text-2);
   margin-top: 2px;
+}
+/* A town in the creator's list reads in the state buttons' own font. */
+.item.town span,
+.item.town small {
+  display: block;
+  font: inherit;
+}
+.item.town .town-head {
+  display: block;
+}
+.item.town .town-county {
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.item.town small {
+  color: var(--text-2);
 }
 /* The creator (the Oct 12 SetupScreen's steps). */
 #front:has(#cr-character:not([hidden])),
@@ -832,6 +1032,38 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   gap: 6px;
   justify-content: center;
+}
+.swatch-row {
+  grid-template-columns: 110px 1fr;
+  row-gap: 2px;
+}
+.swatch-row .look-value {
+  grid-column: 2;
+  justify-content: flex-start;
+  color: var(--text-2);
+  font: 500 12px var(--ui);
+}
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.swatch-button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--brass);
+  cursor: pointer;
+}
+.swatch-button[aria-pressed="true"] {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+.swatch-button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
 }
 .swatch {
   width: 12px;
@@ -935,21 +1167,46 @@ body.dev .dev-ring {
 }
 
 /* ---- The play HUD: the player card, bottom left (the only place the date and time appear) ---- */
-.me {
+/* The menu icons and the card stand in one column, bottom left: the icons
+   always above the card, however tall the card's status line makes it. */
+#dock {
+  position: absolute;
   left: var(--gutter);
   bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+#dock > .panel {
+  position: relative;
+}
+.me {
   display: flex;
   gap: 11px;
   align-items: center;
   padding: 7px 18px 7px 7px;
-  max-width: calc(50vw - 380px);
+  max-width: calc(100vw - 2 * var(--gutter));
 }
-/* With a menu open the card keeps to the menu's column. */
+/* With a screen open the card is the portrait alone, under the rail: the rail is
+   the one menu (owner, Oct 27: "one left menu, not a panel duplicating the rail"). */
 #game.sheet-open .me {
-  width: 284px;
+  width: auto;
 }
 #game.sheet-open .me .time {
   display: none;
+}
+/* The name and clock step out of sight but stay read aloud. */
+#game.sheet-open .me > div:not(.bust, .time) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+#card-bust {
+  cursor: pointer;
 }
 .me .bust {
   width: 54px;
@@ -982,18 +1239,18 @@ body.dev .dev-ring {
   margin-bottom: 4px;
 }
 #rings {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 108px;
   display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
 /* ---- Conversation: lower third, portraits top left, scales upper right ---- */
+/* The box sits above the dock whenever the card is wide enough to reach
+   under it (--chat-bottom, set by play.mjs from both boxes' widths). */
 .chat {
   left: 50%;
   transform: translateX(-50%);
-  bottom: 26px;
+  bottom: var(--chat-bottom, 26px);
   width: min(680px, calc(100vw - 2 * var(--gutter)));
   padding: 13px 18px 12px;
 }
@@ -1004,26 +1261,61 @@ body.dev .dev-ring {
   min-height: 44px;
   padding-right: 44px;
 }
-#talk-lines {
+.talk-lines {
   list-style: none;
   padding: 0;
   margin: 10px 0 8px;
 }
-#talk-lines li + li {
+.talk-lines li + li {
   margin-top: 6px;
 }
-#talk-lines .said {
+/* What was said before: a separate block above the line being said now, quieter, with a
+   rule under it and the speaker named. */
+.talk-lines .history {
   font: 400 13px/1.35 var(--ui);
   color: var(--text-3);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
-#talk-lines .said.lying {
+.talk-lines .history-who {
+  display: block;
+  font: 600 10.5px/1.5 var(--ui);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.talk-lines .history.lying {
   color: var(--lying);
 }
-#talk-lines .narration {
+.talk-lines .narration {
   font-style: italic;
+}
+/* The grading view (/play?held=1): a line still held until the owner grades
+   it is underlined, and the record that fired the scene is listed small. */
+.talk-lines .held,
+.reply.held {
+  text-decoration: underline dotted var(--text-3);
+  text-underline-offset: 3px;
+}
+.talk-lines .why {
+  font: 400 11px/1.3 var(--ui);
+  color: var(--text-3);
+  overflow-wrap: anywhere;
 }
 .chat .acts {
   margin-top: 8px;
+}
+/* The talk box's controls (owner, Oct 27, 6:20 PM): with nothing to answer, one
+   Continue at the bottom left and nothing else; in a conversation, the replies
+   with Say nothing and Leave only where each is a real choice. */
+#talk.narration #talk-silent,
+#talk.narration #talk-leave,
+#talk.narration #talk-lie,
+#talk:not(.narration) #talk-next,
+#talk.no-silent #talk-silent,
+#talk.no-leave #talk-leave {
+  display: none;
 }
 /* A journal line, bottom right. */
 .journal {
@@ -1039,25 +1331,12 @@ body.dev .dev-ring {
   display: none;
 }
 
-/* ---- Menus: a menu list on the left, the open screen on the right ---- */
-#menu {
-  left: var(--gutter);
-  top: var(--gutter);
-  bottom: 162px;
-  width: 284px;
-  padding: 18px 0;
-}
-.menu-title {
-  font: 800 16px var(--name);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-strong);
-  padding: 0 18px 12px;
-  margin-bottom: 8px;
-}
+/* ---- Menus: the rail on the left, the open screen beside it ---- */
 .nav-item {
   display: block;
   width: 100%;
+  /* Every menu entry one height. */
+  min-height: 50px;
   padding: 8px 18px;
 }
 .nav-item .nl {
@@ -1066,12 +1345,6 @@ body.dev .dev-ring {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text);
-}
-.nav-item .nd {
-  display: block;
-  font: 400 12px var(--ui);
-  color: var(--text-3);
-  margin-top: 1px;
 }
 .nav-item.active {
   background: var(--raised);
@@ -1083,13 +1356,26 @@ body.dev .dev-ring {
   color: #fff;
 }
 #sheet {
-  left: calc(var(--gutter) + 300px);
+  left: calc(var(--gutter) + 98px);
   right: var(--gutter);
   top: var(--gutter);
   bottom: 26px;
   padding: 22px 26px;
   display: flex;
   flex-direction: column;
+}
+/* A screen with little in it ends under its content; one with more grows to
+   the window's height and pages (principles rule 1). */
+#game.in-play #sheet.fits {
+  bottom: auto;
+  right: auto;
+  width: fit-content;
+  min-width: min(560px, calc(100vw - var(--gutter) - 330px));
+  max-width: min(1040px, calc(100vw - var(--gutter) - 330px));
+  max-height: calc(100vh - var(--gutter) - 26px);
+}
+#sheet.fits #sheet-body {
+  flex: 0 1 auto;
 }
 #game:not(.in-play) #sheet {
   left: 50%;
@@ -1183,31 +1469,21 @@ body.dev .dev-ring {
   font: 500 15px/1.4 var(--speech);
 }
 #sheet-body .narrative > b:first-child,
-#sheet-body .campaign > b:first-child,
-#sheet-body .race > b:first-child {
+#sheet-body .campaign > b:first-child {
   display: block;
   max-width: none;
   margin-bottom: 3px;
 }
-#sheet-body .campaign,
-#sheet-body .race {
+#sheet-body .campaign {
   display: block;
   column-span: all;
 }
-#sheet-body .campaign > div,
-#sheet-body .race > div {
+#sheet-body .campaign > div {
   margin-top: 4px;
 }
 #sheet-body .campaign select,
 #sheet-body .campaign input {
   margin-right: 12px;
-}
-.race .winner {
-  color: var(--gold);
-  font-weight: 600;
-}
-.race .mine {
-  color: var(--text-2);
 }
 #sheet-body details summary {
   cursor: pointer;
@@ -1237,59 +1513,96 @@ body.dev .dev-ring {
   visibility: hidden;
 }
 
-/* Calendar uses the existing panel frame and Kit 13 controls. */
-#sheet:has(.calendar-layout) {
-  background: linear-gradient(#262628, #151517);
+/* Reading screens (the menu, every menu sheet and a person's card) are
+   solid: the scene never shows through text meant to be read. Glass stays
+   for panels over a scene, such as the talk box. */
+#race-menu,
+#sheet,
+#person {
+  background: linear-gradient(var(--solid-top), var(--solid-bottom));
   backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
+
+/* Calendar: the month fills the panel, each day shows what is on it in words, and
+   Coming up (or the chosen day) is a dense list beside it (principles 1, 5, 7). */
 #sheet-body:has(.calendar-layout) {
   max-width: none;
+  display: flex;
 }
 .calendar-layout {
+  flex: 1;
   display: grid;
-  grid-template-columns: minmax(360px, 1.7fr) minmax(170px, 1fr) minmax(
-      170px,
-      1fr
-    );
-  gap: 24px;
+  grid-template-columns: minmax(0, 2.1fr) minmax(300px, 1fr);
+  gap: 28px;
+  min-height: 0;
+}
+.calendar-month,
+.calendar-side {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 .calendar-layout h3 {
   font: 600 17px var(--name);
   color: var(--gold);
-  margin: 0 0 18px;
+  margin: 0;
 }
 .calendar-heading {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 .calendar-heading h3 {
-  margin: 0;
+  min-width: 170px;
   text-align: center;
 }
-.calendar-heading button {
-  font-size: 11px;
-  padding: 6px;
+#sheet-body .calendar-heading .month-step {
+  font-size: 12px;
+  padding: 4px 10px;
+  min-height: 28px;
+  margin: 0;
+}
+#sheet-body .calendar-heading .month-step:last-child {
+  margin-left: auto;
 }
 #sheet-body .month {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 6px;
-  margin-bottom: 18px;
+  grid-template-rows: auto;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 4px;
+  min-height: 0;
 }
 .month .weekday {
   font: 500 11px var(--ui);
   color: var(--gold);
-  text-align: center;
-  padding-bottom: 8px;
+  text-align: left;
+  padding: 0 6px 4px;
 }
-.month .day {
-  min-height: 44px;
-  padding: 6px;
+#sheet-body .month .day {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  min-height: 0;
+  height: auto;
+  margin: 0;
+  padding: 4px 6px;
+  overflow: hidden;
+  text-align: left;
+  font-weight: 400;
   background: rgba(255, 255, 255, 0.05);
-  position: relative;
+  box-shadow: none;
+}
+.month .day .num {
+  font: 600 13px var(--ui);
+}
+.month .day.past {
+  opacity: 0.55;
 }
 .month .day.today {
   color: var(--gold);
@@ -1303,82 +1616,87 @@ body.dev .dev-ring {
   display: none;
 }
 .month .entry {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  font: 13px/1.25 var(--ui);
+  color: var(--text);
+}
+.month .entry.own,
+.calendar-entry.own .what {
   color: var(--gold);
-  line-height: 8px;
 }
-.calendar-event {
-  margin-bottom: 20px;
+.month .entry {
+  align-items: start;
 }
-.calendar-event p {
-  font: 17px/1.4 var(--speech);
-  margin: 5px 0;
+.month .entry .what {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.month .more {
+  font: 11px var(--ui);
+  color: var(--muted, var(--text));
+}
+.month .day-icon,
+.calendar-entry .day-icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: brightness(2.2);
+}
+.calendar-entry .what {
+  text-align: left;
+}
+.calendar-side-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+  margin-bottom: 8px;
+}
+.calendar-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+#sheet-body .calendar-entry {
+  display: grid;
+  grid-template-columns: 84px 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 7px 8px;
+  text-align: left;
+  font: 15px/1.3 var(--ui);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+  border: 0;
+}
+#sheet-body .calendar-entry:not(:has(.when)) {
+  grid-template-columns: 18px minmax(0, 1fr);
+}
+.calendar-entry .when {
+  white-space: nowrap;
+  font: 600 12px var(--ui);
+  color: var(--gold);
 }
 .calendar-paging {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
+  margin-top: 10px;
 }
-.calendar-upcoming > div > button {
-  padding-left: 0;
-  color: var(--gold);
-}
-@media (max-width: 1100px) {
-  .calendar-layout {
-    grid-template-columns: minmax(300px, 1.6fr) 1fr;
-    gap: 18px;
-  }
-  .calendar-upcoming {
-    grid-column: 1 / -1;
-    display: flex;
-    gap: 20px;
-    align-items: start;
-  }
-  .calendar-upcoming > div {
-    flex: 1;
-  }
-  .calendar-event p {
-    font-size: 14px;
-  }
-}
-
-/* Family: each member where they are now. */
-#sheet-body:has(.family-card) {
-  max-width: none;
-  columns: 4 220px;
-}
-.family-card {
-  font-size: 12.5px;
-  margin-bottom: 16px;
-}
-.family-card b {
-  display: block;
-  font: 800 14px var(--name);
-  letter-spacing: 0.05em;
-}
-.family-card div {
-  color: var(--text-2);
-}
-.family-pic {
-  position: relative;
-  aspect-ratio: 1672 / 941;
-  overflow: hidden;
-  border: 1px solid rgba(214, 189, 132, 0.3);
-  margin-bottom: 6px;
-}
-.family-pic img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.family-pic img.family-figure {
-  left: 30%;
-  width: 40%;
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom;
+#sheet-body .calendar-paging button {
+  white-space: nowrap;
+  margin: 0;
 }
 
 /* The map of who represents you. */
@@ -1425,26 +1743,6 @@ body.dev .dev-ring {
   column-gap: clamp(24px, 3vw, 48px);
   padding: 30px 40px;
 }
-.dossier-media {
-  position: relative;
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-}
-#person-background,
-#person-figure {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-#person-background {
-  object-fit: cover;
-}
-#person-figure {
-  object-fit: contain;
-  object-position: center bottom;
-}
 .dossier-main {
   display: flex;
   flex-direction: column;
@@ -1454,7 +1752,6 @@ body.dev .dev-ring {
 }
 .dossier .heading {
   font-size: clamp(24px, 2.5vw, 40px);
-  padding-right: 32px;
 }
 #person-role {
   margin: 8px 0 32px;
@@ -1469,22 +1766,8 @@ body.dev .dev-ring {
   overflow: hidden;
   position: relative;
 }
-.dossier-detail {
-  margin: 0 0 24px;
-}
-.dossier-detail p {
-  margin: 6px 0;
-}
-.dossier-feature {
-  font: 500 21px var(--speech);
-}
 .dossier .acts {
   margin-top: 16px;
-}
-#person-close {
-  position: absolute;
-  top: 28px;
-  right: 28px;
 }
 #person-pager:not([hidden]) {
   display: flex;
@@ -1505,7 +1788,20 @@ body.dev .dev-ring {
   top: var(--gutter);
   right: var(--gutter);
   width: 380px;
+  max-height: calc(100% - 2 * var(--gutter));
+  display: flex;
+  flex-direction: column;
   padding: 14px 18px;
+}
+/* The platform questions scroll inside the panel; the panel fits the screen. */
+#filing-platform {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+#game.filing-open #news-surface,
+#game.filing-open #journal-note {
+  visibility: hidden;
 }
 #filing-overlay .name {
   margin-bottom: 8px;
@@ -1540,17 +1836,13 @@ body.dev .dev-ring {
    kit12's own components. */
 #game.cinema #rings,
 #game.cinema #card,
-#game.cinema #journal-note,
-#game.cinema #menu {
+#game.cinema #journal-note {
   display: none;
 }
 #opening-box {
   bottom: calc(9vh + 18px);
   z-index: 6;
   cursor: pointer;
-}
-#opening-box .speech {
-  margin: 8px 0 0;
 }
 #opening-point {
   top: calc(9vh + 18px);
@@ -1572,12 +1864,34 @@ body.dev .dev-ring {
   top: var(--gutter);
   right: var(--gutter);
   z-index: 4;
+  gap: 4px;
+  max-width: 340px;
+  padding: 12px 12px 12px 16px;
+}
+#news-surface-open {
   display: grid;
   gap: 4px;
-  max-width: 300px;
-  padding: 12px 16px;
   text-align: left;
   cursor: pointer;
+}
+/* A toast leaves by itself: it holds, then fades out over its last second. Its close
+   control and its story stay clickable for as long as it shows (ui/toast.mjs). */
+.toast {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+.toast.fading {
+  animation: toast-fade var(--toast-seconds) linear forwards;
+}
+@keyframes toast-fade {
+  0%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 #news-reader {
   inset: var(--gutter) var(--gutter) var(--gutter) calc(var(--gutter) + 300px);
@@ -1604,6 +1918,25 @@ body.dev .dev-ring {
 }
 #news-reader .heading {
   margin: 0 0 12px;
+  font: 600 34px/1.15 var(--speech);
+}
+#news-reader .paper-masthead {
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+}
+#news-reader .paper-masthead h2 {
+  margin: 0 0 6px;
+}
+#news-reader.paper {
+  padding: 26px 30px;
+}
+#news-reader-body .prose {
+  font: 18px/1.5 var(--speech);
+}
+#news-reader-more {
+  border-left: 1px solid rgba(214, 189, 132, 0.4);
+  padding-left: 18px;
 }
 #news-reader .quote {
   font-style: italic;
@@ -1666,6 +1999,8 @@ body.dev .dev-ring {
    Election day's ballot over the polling place's picture: kit12's panel,
    heading and actions; positions only. */
 #ballot,
+#election-day,
+#returns,
 #meeting,
 #desk {
   top: var(--gutter);
@@ -1676,9 +2011,30 @@ body.dev .dev-ring {
   padding: 20px 24px;
   overflow: hidden;
 }
-#ballot {
+#ballot,
+#election-day,
+#returns {
   display: flex;
   flex-direction: column;
+}
+#election-day-lines,
+#returns-lines {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+#election-day .acts,
+#returns .acts {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+#returns-count {
+  margin-top: 12px;
+}
+#election-day-lines p,
+#returns-lines p {
+  margin: 0 0 10px;
 }
 #ballot-races {
   flex: 1;
@@ -1712,10 +2068,6 @@ body.dev .dev-ring {
 }
 
 /* Outlet layouts use the approved outer frame and record-fed stories. */
-#sheet:has(.paper) {
-  background: linear-gradient(#262628, #151517);
-  backdrop-filter: none;
-}
 #sheet-body:has(.paper) {
   max-width: none;
 }
@@ -1765,32 +2117,42 @@ body.dev .dev-ring {
 }
 .story-image {
   width: 100%;
-  max-height: 200px;
+  max-height: 260px;
   object-fit: cover;
+  object-position: center 35%;
   margin-bottom: 14px;
 }
-.paper-records {
-  margin-top: 28px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+/* The front page: a rule under the masthead, the lead story's text in the
+   wide column, the next stories and the briefs in the column beside it. */
+.paper-masthead {
+  padding-bottom: 12px;
+  border-bottom: 3px double rgba(214, 189, 132, 0.45);
 }
-.paper-records > h3,
-.paper-records > nav {
-  grid-column: 1 / -1;
+.story-text {
+  font: 17px/1.55 var(--speech);
+  margin: 10px 0;
 }
-.paper-records h3 {
-  font: 17px var(--name);
-  color: var(--gold);
-  margin: 0;
+.paper-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-left: 26px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
 }
-.paper-records h4 {
-  font: 19px var(--speech);
-  margin: 8px 0;
+.paper-story.second + .paper-story,
+.paper-story.brief + .paper-story {
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-.paper-records p {
-  font: 15px var(--speech);
-  margin: 6px 0;
+#sheet-body .paper-story.second .story-headline {
+  font-size: 21px;
+}
+.paper-story.second .story-lede {
+  font-size: 16px;
+  margin: 8px 0 0;
+}
+#sheet-body .paper-story.brief .story-headline {
+  font: 600 16px/1.3 var(--speech);
 }
 .paper-pager,
 .outlet-picker {
@@ -1806,7 +2168,7 @@ body.dev .dev-ring {
   color: var(--text-strong);
 }
 .paper-modern .paper-stories {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1.4fr 1fr;
 }
 .paper-modern .paper-story.lead {
   grid-row: auto;
@@ -1838,7 +2200,43 @@ body.dev .dev-ring {
 }
 .paper-weekly .paper-story.lead {
   grid-row: auto;
-  grid-column: 1 / -1;
+}
+/* The engraved masthead (art/newspaper-mockups): the paper's name in ink,
+   set in the plate; play.mjs engraveMasthead sizes the strip and the plate. */
+.paper-masthead h2.engraved {
+  position: relative;
+  width: min(100%, 720px);
+  margin: 0 auto 8px;
+  background: center / 100% 100% no-repeat;
+  color: #2b241b;
+  font-size: clamp(18px, 2.2vw, 38px);
+  line-height: 1;
+}
+.paper-masthead h2.engraved .plate {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.paper-story.lead .story-image,
+#news-reader-body .story-image {
+  float: right;
+  width: 46%;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-position: center 20%;
+  margin: 4px 0 10px 18px;
+}
+/* A story with only its headline runs its photo across the column. */
+.paper-story.lead .story-image:last-child {
+  float: none;
+  width: 100%;
+  margin: 8px 0 0;
+}
+.paper-masthead:has(h2.engraved) {
+  border-bottom: none;
+  padding-bottom: 6px;
 }
 .article-title {
   font: 600 32px var(--speech);
@@ -1853,7 +2251,6 @@ body.dev .dev-ring {
   max-width: 1050px;
 }
 .work-overview,
-.job-offer,
 .study-overview {
   margin: 20px 0 34px;
 }
@@ -1888,18 +2285,6 @@ body.dev .dev-ring {
   object-fit: cover;
   margin: 0 28px 20px 0;
 }
-.job-offer h3 {
-  font: 600 23px var(--name);
-  color: var(--gold);
-}
-.job-offer p {
-  font: 18px var(--speech);
-}
-.offer-actions {
-  display: flex;
-  gap: 14px;
-  margin-top: 18px;
-}
 .school-record {
   display: flex;
   gap: 28px;
@@ -1929,12 +2314,15 @@ body.dev .dev-ring {
 #sheet-media {
   grid-column: 1;
   grid-row: 1 / 5;
+}
+/* The large side figure of the character screen and the person card. */
+.screen-media {
   position: relative;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
 }
-#sheet-media img {
+.screen-media img {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -1952,12 +2340,24 @@ body.dev .dev-ring {
   font-size: clamp(24px, 2.5vw, 40px);
 }
 .character-meta,
-.character-relation,
-.character-trait-label {
+.character-relation {
   color: var(--text-2);
 }
 .character-meta {
-  margin: 8px 0 24px;
+  margin: 8px 0 16px;
+}
+/* What you're like, as a short paragraph under your name. */
+#sheet-body .character-sketch {
+  font: 400 19px/1.45 var(--speech);
+  max-width: 46ch;
+  margin: 0 0 26px;
+}
+/* The record sections of the character sheet, two across. */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 40px;
+  align-items: start;
 }
 .record-section {
   margin: 0 0 24px;
@@ -1965,24 +2365,21 @@ body.dev .dev-ring {
 .record-section p {
   margin: 6px 0;
 }
-.character-traits,
+.record-feature {
+  font: 500 21px var(--speech);
+}
 .character-household {
   list-style: none;
   margin: 10px 0 0;
   padding: 0;
   display: grid;
-  gap: 14px 24px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 6px 24px;
+  grid-template-columns: 1fr;
 }
-.character-traits li,
 .character-household li {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
-.character-traits {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 10px;
 }
 .character-money {
   display: flex;
@@ -1992,7 +2389,6 @@ body.dev .dev-ring {
 .character-money strong {
   font: 500 24px var(--ui);
 }
-.character-trait-label,
 .character-relation {
   font-size: 13px;
 }
@@ -2016,7 +2412,6 @@ body.dev .dev-ring {
     grid-template-columns: minmax(100px, 24%) minmax(0, 1fr);
     column-gap: 18px;
   }
-  .character-traits,
   .character-household {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
@@ -2053,42 +2448,80 @@ body.dev .dev-ring {
   height: 100%;
   overflow: visible;
 }
+/* The People map as the owner liked it (Oct 28: the earlier web): a round
+   face in a ring colored by kind, and lines you can see, in the same color. */
+.people-node,
+.people-key span {
+  --kind: rgba(200, 185, 151, 0.6);
+}
+.people-node.family,
+.people-key .family {
+  --kind: rgba(194, 155, 72, 0.9);
+}
+.people-node.household,
+.people-key .household {
+  --kind: rgba(200, 185, 151, 0.8);
+}
+.people-node.friends,
+.people-key .friends {
+  --kind: rgba(132, 176, 128, 0.85);
+}
+.people-node.work,
+.people-key .work {
+  --kind: rgba(140, 170, 190, 0.85);
+}
+.people-node.politics,
+.people-key .politics {
+  --kind: rgba(176, 120, 96, 0.9);
+}
 .people-edge {
-  stroke: #887f72;
-  stroke-width: 0.25;
+  stroke: rgba(200, 185, 151, 0.45);
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
 }
 .people-edge.family {
-  stroke: var(--gold);
+  stroke: rgba(194, 155, 72, 0.85);
 }
 .people-edge.household {
-  stroke: var(--gold);
-  stroke-dasharray: 1 1;
+  stroke: rgba(200, 185, 151, 0.7);
+  stroke-dasharray: 4 3;
+}
+.people-edge.friends {
+  stroke: rgba(132, 176, 128, 0.8);
 }
 .people-edge.work {
-  stroke: #819bad;
+  stroke: rgba(140, 170, 190, 0.8);
 }
 .people-edge.politics {
-  stroke: #ba8068;
+  stroke: rgba(176, 120, 96, 0.85);
 }
 .people-edge.selected {
-  stroke-width: 0.6;
+  stroke-width: 3px;
 }
 .people-node.dim,
 .people-edge.dim {
-  opacity: 0.25;
+  opacity: 0.32;
 }
+/* The face's center sits on the point; names hang below, or above for the
+   people in the top half. */
 #sheet-body .people-node {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -30px);
   width: 155px;
   display: grid;
   justify-items: center;
-  gap: 4px;
+  gap: 3px;
   background: none;
   border: none;
   box-shadow: none;
   padding: 0;
   margin: 0;
+}
+#sheet-body .people-node.above {
+  transform: translate(-50%, calc(-100% + 30px));
+}
+.people-node.above > :first-child {
+  order: 9;
 }
 .people-node::after {
   display: none;
@@ -2100,14 +2533,38 @@ body.dev .dev-ring {
   font: 12px var(--ui);
   color: var(--text-2);
 }
+.people-node b,
+.people-node span,
+.people-node em,
+.people-center b {
+  text-shadow:
+    0 0 3px var(--iron),
+    0 0 3px var(--iron);
+}
 .people-node img,
 .people-center img,
-.people-initial {
-  width: 48px;
-  height: 54px;
+.people-initial,
+.headshot {
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid var(--kind, var(--gold));
   object-fit: cover;
-  object-position: top;
+  object-position: center top;
   background: var(--iron);
+}
+.people-center img,
+.people-center .people-initial,
+.people-center .headshot {
+  width: 72px;
+  height: 72px;
+  border-color: var(--gold);
+}
+/* The headshot's figure is placed inside the round frame by play.mjs. */
+.headshot {
+  display: block;
+  background-repeat: no-repeat;
 }
 .people-node .people-initial,
 .people-center .people-initial {
@@ -2115,6 +2572,12 @@ body.dev .dev-ring {
   place-items: center;
   color: var(--gold);
   font: 20px var(--name);
+}
+.people-node.selected img,
+.people-node.selected .people-initial,
+.people-node.selected .headshot {
+  border-width: 4px;
+  border-color: var(--gold);
 }
 .people-node.selected b {
   color: var(--gold);
@@ -2142,18 +2605,15 @@ body.dev .dev-ring {
   margin: 12px 0;
 }
 .people-key span::before {
-  content: "—";
-  padding-right: 7px;
+  content: "";
+  display: inline-block;
+  width: 22px;
+  margin-right: 7px;
+  vertical-align: middle;
+  border-top: 2px solid var(--kind);
 }
-.people-key .family,
-.people-key .household {
-  color: var(--gold);
-}
-.people-key .work {
-  color: #819bad;
-}
-.people-key .politics {
-  color: #ba8068;
+.people-key .household::before {
+  border-top-style: dashed;
 }
 .people-list {
   display: grid;
@@ -2170,6 +2630,13 @@ body.dev .dev-ring {
 }
 .people-list .people-node > :first-child {
   grid-row: span 2;
+  order: 0;
+}
+.people-list .people-node img,
+.people-list .people-initial,
+.people-list .headshot {
+  width: 48px;
+  height: 48px;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(
@@ -2187,6 +2654,7 @@ body.dev .dev-ring {
   margin: 12px 0 22px;
 }
 .government-body h3,
+.key-people h3,
 .party-section h3,
 .budget-content h3,
 .law-card h3 {
@@ -2200,6 +2668,22 @@ body.dev .dev-ring {
 }
 .government-body {
   max-width: 1000px;
+}
+/* A member's line: name and party, then the term, who won the seat and your
+   race for it, each on a line of its own. */
+.government-body .row:has(> .row) {
+  flex-wrap: wrap;
+}
+.government-body .row > .row {
+  flex-basis: 100%;
+  justify-content: flex-end;
+  padding: 2px 0;
+}
+.government-body .row.own-race {
+  color: var(--gold);
+}
+.key-people {
+  break-inside: avoid;
 }
 .government-chamber {
   float: left;
@@ -2244,6 +2728,32 @@ body.dev .dev-ring {
 .record-value {
   text-align: right;
 }
+/* A person in a list (ui/list-row.mjs): face, the name that opens their card, office, party. */
+.person-row {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.person-row-face {
+  flex: none;
+  width: 32px;
+  height: 36px;
+  object-fit: cover;
+  object-position: top;
+  background: var(--iron);
+}
+.person-row .people-initial {
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  font: 15px var(--name);
+}
+.person-row .member-name {
+  flex: 1;
+}
+.person-row-note {
+  color: var(--text-2);
+}
 .record-total {
   display: block;
   font: 600 30px var(--name);
@@ -2261,6 +2771,20 @@ body.dev .dev-ring {
 .budget-summary .record-total {
   font-size: clamp(18px, 2vw, 30px);
   overflow-wrap: anywhere;
+}
+/* What the treasury actually took in and paid out, under the plan. */
+/* The plan's three figures, then what the treasury actually took in, paid out and holds. */
+.budget-summary.with-books {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
+}
+.budget-summary.with-books .record-total {
+  font-size: clamp(16px, 1.6vw, 24px);
+}
+.budget-warning {
+  color: var(--red);
+  font: 600 14px var(--ui);
+  margin: 0 0 8px;
 }
 .budget-columns {
   display: grid;
@@ -2382,39 +2906,192 @@ body.dev .dev-ring {
 }
 
 #sheet-body:has(.travel-destinations) {
-  max-width: 1100px;
+  max-width: 1200px;
 }
+.travel-destinations {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px 14px;
+  margin-top: 12px;
+}
+/* A pictured place card: the room, its name, who is there, why it is listed. */
 .travel-place {
   display: flex;
-  align-items: center;
-  gap: 28px;
-  min-height: 84px;
-  margin: 20px 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 6px;
+  margin: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: left;
+  cursor: pointer;
+}
+.travel-place::after {
+  display: none;
 }
 .travel-info {
-  flex: 1;
+  text-align: left;
 }
 .travel-info h3 {
-  font: 600 22px var(--name);
-  color: var(--gold);
-  margin: 0 0 8px;
+  font: 600 16px/1.2 var(--ui);
+  color: var(--text-strong);
+  margin: 0 0 4px;
 }
 .travel-info p {
-  font: 17px var(--speech);
-  margin: 0;
+  font: 14px/1.3 var(--ui);
+  color: var(--text-2);
+  margin: 0 0 2px;
+}
+.travel-info .travel-reason {
+  color: var(--gold);
+  font-size: 13px;
 }
 .travel-image {
-  width: 150px;
-  height: 90px;
+  width: 100%;
+  aspect-ratio: 5 / 2;
   object-fit: cover;
+  border: 2px solid var(--brass);
 }
-.travel-pager {
-  display: flex;
-  gap: 16px;
-  margin-top: 24px;
+.travel-place:hover .travel-image,
+.travel-place:focus-visible .travel-image {
+  border-color: var(--gold);
+}
+@media (max-width: 1100px) {
+  .travel-destinations {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
   opacity: 0.55;
+}
+
+/* Politics' guide: one tab's purpose a page, then the race a player could file for. */
+.politics-guide-page {
+  max-width: 640px;
+}
+.politics-guide-page .guide-fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
+}
+
+/* While a talk is open the player card gives up its Day and Week, so it never covers the talk's first reply. */
+#game:has(#talk:not([hidden])) .me .time {
+  display: none;
+}
+/* The races at the filing counter, as a menu beside the talk (ui/menu.mjs). */
+#race-menu {
+  left: var(--gutter);
+  top: var(--gutter);
+  bottom: 162px;
+  width: 340px;
+  padding: 18px 0;
+  z-index: 5;
+}
+#race-menu .sheet-head {
+  padding: 0 18px 8px;
+}
+#race-menu .choice-facts {
+  display: block;
+  font: 400 13px var(--ui);
+  color: var(--text-2);
+  margin-top: 2px;
+}
+/* The speech's lines and replies inside a screen read as the talk box's do. */
+.talk-sheet .reply {
+  text-align: left;
+}
+/* A list of races shares one button height whatever its names' length. */
+#talk-choices:has(.reply-facts) {
+  grid-auto-rows: 1fr;
+}
+/* A race at the filing counter, told apart under its choice. */
+#talk-choices .reply .reply-facts {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+.people-node .circle-mark {
+  font: 600 12px var(--ui);
+  font-style: normal;
+  color: var(--gold);
+}
+.people-node.circle-left {
+  opacity: 0.7;
+}
+.people-selection .circle-why,
+.people-selection .circle-none {
+  color: var(--gold);
+}
+
+/* Advanced: the officeholders to play as, a button each. */
+.pick-list {
+  display: grid;
+  gap: 8px;
+  max-height: 46vh;
+  overflow-y: auto;
+  margin: 12px 0;
+}
+.pick-list button {
+  text-align: left;
+}
+
+/* The bill on paper: the document and its estimate side by side. */
+.bill-paper {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.bill-doc {
+  display: grid;
+  gap: 8px;
+}
+.bill-doc .prose {
+  font-size: 17px;
+}
+.bill-section {
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--brass);
+  text-underline-offset: 3px;
+}
+.bill-estimate {
+  display: grid;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+}
+
+/* The owner's grade on a line (dev mode): small, after the line. */
+.grade-line {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.grade-line button {
+  padding: 0 6px;
+  font-size: 0.75em;
+}
+.grade-note {
+  font-size: 0.75em;
+  width: 7em;
+}
+.grade-saved {
+  font-size: 0.75em;
+  opacity: 0.7;
+}
+
+/* What a person is like, on their card: a short paragraph above the facts. */
+#person-facts .person-sketch {
+  margin: 0 0 18px;
 }

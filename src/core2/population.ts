@@ -1,6 +1,10 @@
 import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
-import { openingEmploymentFromRecordedRoles } from "./opening-employment";
+import {
+  DEFAULT_RESIDENT_EMPLOYMENT,
+  openingEmploymentFromRecordedRoles,
+  openingJobStart,
+} from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
 import {
   departmentGovernment,
@@ -52,7 +56,7 @@ import {
 } from "./reference/living-costs-data";
 import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
-import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
+import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,
@@ -113,6 +117,7 @@ import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
+import { spacedSiblingBirths } from "./sibling-births";
 import { openingTemperaments } from "./opening-personality";
 import { PARAMETERS, parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -139,6 +144,13 @@ export interface PopulationOptions {
    * player is a 17-year-old who turns 18 in play).
    */
   cohortAge?: number;
+  /**
+   * The age the New game creator chose for the player. Unlike `cohortAge`
+   * the opening may not hold it (a hamlet's few households), and a grown
+   * resident lives in any kind of household, so the search draws every shape
+   * the place shows, not only families with children.
+   */
+  playerAge?: number;
 }
 
 interface CountyContext {
@@ -592,7 +604,31 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   );
   // P15: members are aged from the place's records by household type, and
   // some housemates are a parent and grown child (opening-partnership.ts).
+  // Then the household's children, minor and grown, are born months apart.
   const drawHousehold = (index: number, shape?: HouseholdShape) =>
+    spaceSiblings(drawAged(index, shape));
+  const spaceSiblings = (drawn: ReturnType<typeof drawAged>) => {
+    const siblings = drawn.skeleton.members.flatMap((member, n) =>
+      member.role === "child" || drawn.grownChildren.includes(n) ? [n] : [],
+    );
+    if (siblings.length < p("two")) return drawn;
+    const births = spacedSiblingBirths(
+      startedAt,
+      siblings.map((n) => drawn.people[n]!.birthDate),
+    );
+    const people = [...drawn.people];
+    const members = [...drawn.skeleton.members];
+    siblings.forEach((n, i) => {
+      if (births[i] === people[n]!.birthDate) return;
+      people[n] = { ...people[n]!, birthDate: births[i]! };
+      members[n] = {
+        ...members[n]!,
+        age: ageOnDate(makeIsoDate(births[i]!), startedAt),
+      };
+    });
+    return { ...drawn, people, skeleton: { ...drawn.skeleton, members } };
+  };
+  const drawAged = (index: number, shape?: HouseholdShape) =>
     partnerAgedHousehold({
       seed: options.seed,
       geo: partnershipGeo(corePlaceByJurisdictionId(town)?.sourceGeoid),
@@ -715,46 +751,70 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   let index = p("zero");
   for (; inputs.length < minimumPeople; index += p("one"))
     addHousehold(index, drawHousehold(index));
-  // The player's cohort: a town whose own sample shows no family with a
-  // child that age (a small place's survey count can show none at all)
-  // still opens with one. The town's next households are drawn as families,
-  // in the place's split of couples and single parents with children (the
-  // nation's where the place shows neither), and the first holding a child
-  // that age moves in, every member aged from the place's records as above.
-  const cohortAge = options.cohortAge;
-  const ofCohort = (person: CharacterHistoryContextPersonInput) =>
-    ageOnDate(makeIsoDate(person.birthDate), startedAt) === cohortAge;
-  if (cohortAge !== undefined && !inputs.some(ofCohort)) {
-    const familyShares = (shares: HouseholdMix["shares"]) =>
-      shares.filter(
-        ([shape, share]) =>
-          share > p("zero") &&
-          (shape === "couple-with-children" ||
-            shape === "parent-with-children"),
-      );
-    const families = familyShares(mix.shares).length
-      ? familyShares(mix.shares)
-      : familyShares(householdMixForJurisdiction(null).shares);
-    const total = families.reduce((sum, [, share]) => sum + share, p("zero"));
+  // The player's cohorts: a town whose own sample shows no family with a
+  // child that age (a small place's survey count can show none at all) still
+  // opens with one. Two ages matter: the age the player is drawn at
+  // (`playerEntryAge`, kept when the opening has no resident that age) and the
+  // caller's `cohortAge` (required). The town's next households are drawn as
+  // families, in the place's split of couples and single parents with children
+  // (the nation's where the place shows neither), and the first holding a
+  // person that age moves in, every member aged from the place's records as above.
+  // A third age, the one the New game creator chose (`playerAge`), is kept the
+  // same way from households of every shape, and may go without.
+  const cohorts: { age: number; required: boolean; anyShape?: boolean }[] = [
+    ...(options.cohortAge !== undefined
+      ? [{ age: options.cohortAge, required: true }]
+      : []),
+    ...(options.cohortAge !== p("playerEntryAge")
+      ? [{ age: p("playerEntryAge"), required: false }]
+      : []),
+    ...(options.playerAge !== undefined
+      ? [{ age: options.playerAge, required: false, anyShape: true }]
+      : []),
+  ];
+  const familyShares = (shares: HouseholdMix["shares"]) =>
+    shares.filter(
+      ([shape, share]) =>
+        share > p("zero") &&
+        (shape === "couple-with-children" || shape === "parent-with-children"),
+    );
+  const families = familyShares(mix.shares).length
+    ? familyShares(mix.shares)
+    : familyShares(householdMixForJurisdiction(null).shares);
+  const everyShape = mix.shares.some(([, share]) => share > p("zero"))
+    ? mix.shares.filter(([, share]) => share > p("zero"))
+    : householdMixForJurisdiction(null).shares;
+  const totalOf = (shares: HouseholdMix["shares"]) =>
+    shares.reduce((sum, [, share]) => sum + share, p("zero"));
+  for (const { age: cohortAge, required, anyShape } of cohorts) {
+    const shares = anyShape ? everyShape : families;
+    const total = totalOf(shares);
+    const ofCohort = (person: CharacterHistoryContextPersonInput) =>
+      ageOnDate(makeIsoDate(person.birthDate), startedAt) === cohortAge;
+    if (inputs.some(ofCohort)) continue;
     // Searched no further than as many households again as the town has, and
     // never fewer than the floor: a town of a few people has a few households.
     const last =
       index + Math.max(plans.length, p("cohortSearchMinimumHouseholds"));
-    for (; ; index += p("one")) {
-      if (index > last)
-        throw new Error(
-          `No household of ${place.displayName} holds a resident aged ${cohortAge}.`,
-        );
+    for (; index <= last + p("one"); index += p("one")) {
+      if (index > last) {
+        if (required)
+          throw new Error(
+            `No household of ${place.displayName} holds a resident aged ${cohortAge}.`,
+          );
+        break;
+      }
       let point =
         new SeededRng(seedWorld.seed)
           .fork(`${TOWN_RESIDENTS_VERSION}:${town}:household:${index}:cohort`)
           .next() * total;
       const shape =
-        families.find(([, share]) => (point -= share) < p("zero"))?.[0] ??
-        families.at(-1)![0];
+        shares.find(([, share]) => (point -= share) < p("zero"))?.[0] ??
+        shares.at(-1)![0];
       const drawn = drawHousehold(index, shape);
       if (drawn.people.some(ofCohort)) {
         addHousehold(index, drawn);
+        index += p("one");
         break;
       }
     }
@@ -831,7 +891,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       personId: relationship.personId,
       organizationId: relationship.organizationId,
       title: role.title,
-      occupationClassification: role.occupationClassification ?? undefined,
+      ...(role.occupationClassification
+        ? { occupationClassification: role.occupationClassification }
+        : {}),
       hoursDaily,
       hourlyMinor: Math.round(hourlyMinor),
       wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
@@ -845,13 +907,20 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobByPerson.set(job.personId, job);
   }
   const countyGeoidByPerson = new Map<string, string>();
+  // A place with no county of its own (an island area's) reads its
+  // state-equivalent's row of the employment table, where the table has one.
+  const stateEquivalent = place.sourceGeoid?.slice(0, 2);
+  const stateEquivalentRow =
+    stateEquivalent &&
+    stateEquivalent in DEFAULT_RESIDENT_EMPLOYMENT.countyCounts
+      ? stateEquivalent
+      : undefined;
   for (const plan of plans) {
     const county = counties.find(
       (row) => row.place.context.jurisdiction.id === plan.countyId,
     );
-    if (county?.place.sourceGeoid)
-      for (const id of plan.ids)
-        countyGeoidByPerson.set(id, county.place.sourceGeoid);
+    const geoid = county?.place.sourceGeoid ?? stateEquivalentRow;
+    if (geoid) for (const id of plan.ids) countyGeoidByPerson.set(id, geoid);
   }
   const openingAllocation =
     options.openingEmployment === false
@@ -874,6 +943,35 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobs.push(job);
     jobByPerson.set(job.personId, job);
   }
+  // When each opening job was taken, by one rule (openingJobStart): the
+  // opening's own hires carry it from the allocation; a relationship the
+  // world wrote is estimated the same way (its own start is the old median
+  // estimate). The person's history and their tenure (the work commitment's
+  // heldSince) read the same date.
+  const formedAtByOrganization = new Map(
+    world.history.organizations.map((row) => [row.id, row.formedAt]),
+  );
+  const openingStartOf = (jobId: string): WorldDate => {
+    const allocated = openingAllocation.startedAtByJob.get(jobId);
+    if (allocated) return allocated;
+    const relationship = workById.get(jobId as EntityId);
+    const person = relationship && world.people[relationship.personId];
+    if (!relationship || !person)
+      throw new Error("Opening job has no admitted source start date.");
+    return openingJobStart({
+      seed: options.seed,
+      personId: relationship.personId,
+      birthDate: person.birthDate,
+      ...(relationship.organizationId &&
+      formedAtByOrganization.get(relationship.organizationId)
+        ? {
+            formedAt: formedAtByOrganization.get(relationship.organizationId)!,
+          }
+        : {}),
+      currentDate: world.currentDate,
+    });
+  };
+
   if (openingAllocation.receipt.omitted.length)
     gaps.add(
       "Unsupported opening workplace/occupation shares remain omitted; unassigned actors are not declared unemployed.",
@@ -1179,11 +1277,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ...(familyPast.get(id) ?? []),
     ];
     if (job) {
-      const relationship = workById.get(job.id as EntityId);
-      const workStartedAt =
-        relationship?.startedAt ?? openingAllocation.startedAtByJob.get(job.id);
-      if (!workStartedAt)
-        throw new Error("Opening job has no admitted source start date.");
+      const workStartedAt = openingStartOf(job.id);
       pastFacts.push({
         id: `${job.id}:past:opening`,
         date: workStartedAt,
@@ -1236,7 +1330,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       jobs,
       openingAllocation.templateJobIdByJob,
     ),
-  );
+  ).map((row) => ({ ...row, heldSince: openingStartOf(row.jobId) }));
   // A job states the week its schedule runs: the hourly rate (the occupation's
   // market rate) is paid for those minutes, so the stated hours and daily pay
   // follow them, and a hire that copies the job copies the same week.

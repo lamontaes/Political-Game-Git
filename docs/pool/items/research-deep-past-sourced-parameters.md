@@ -3,7 +3,7 @@ id: research-deep-past-sourced-parameters
 title: "Research: sourced parameters for the deep past, peer networks, profiles and partnerships"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
 status: open
 claimed-by:
@@ -24,7 +24,7 @@ claimed-at:
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/data/civic-inputs.json, src/core2/data/deep-past.json, src/core2/data/opening-peer-network.json, src/core2/deep-past.ts, src/core2/opening-partnership.ts, src/core2/opening-profile.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
@@ -43,3 +43,5 @@ Merge verification (Oct 21, Codex merger A): the Census bulk B01003 file downloa
 Sent back 2026-10-23 from PR #5854 (branch claude/dreamy-tesla-bgi3ui-deep-past): parameters.json:840,852 labels modal-age-derived school offsets SOURCED; use ESTIMATED with estimatedFrom for the conversion and align body/check/registry wording while retaining the mechanic stopgap; finish on that branch, merge main into it first.
 
 Oct 24, 2026: split. PR 5854 (item research-deep-past-couple-ages-school-dates) delivers the spouse age gap (ESTIMATED), both school offsets (SOURCED), the peer group size spread and seven research files. Still open here: all six stopgaps, since each still fakes something a number cannot fix. SG-P15-partnership-model (cohabitation, same-sex gaps, place tables, island areas) waits on art-stopgap-opening-partnership-estimated-behavior, SG-P8-civic-inputs on core-stopgap-civic-inputs-civic-data-vintage-and-permission, SG-P8-deep-past on core-deep-past-school-place-from-birthplace, and SG-P15-kin-light-past on core-deep-past-kin-past-on-fill-in. SG-P8-opening-peer-network (recognition never fades) waits on people-peer-recognition-fades, with bug core-opening-peer-network-openingPeerGroupSize-as-cause for its ceiling read, and SG-P15-opening-profile waits on core-opening-profile-attainment-from-schooling.
+
+Deferred Oct 25: nothing on screen reads it yet.

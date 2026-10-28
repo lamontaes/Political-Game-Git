@@ -3,6 +3,7 @@ import { corePlaceStateIdentities } from "./place-lookup";
 import { SeededRng } from "./kernel/rng";
 import {
   buildDeepPast,
+  campusSpokenName,
   DEFAULT_DEEP_PAST_DATA,
   type DeepPastFieldSource,
 } from "./deep-past";
@@ -205,13 +206,15 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
         expect(result.pastFacts!.find((row) => row.id === fact.id)).toBe(fact);
     }
     const adult = after.people.find((row) => row.id === "person:adult")!;
-    const tenure = adult.pastFacts!.find(
-      (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.work.kind,
-    ) as PastFact;
-    expect(tenure.date).toBe("2018-04-01");
-    expect(tenure.source).toBe(source);
-    expect(tenure.facts!.sourceFactId).toBe("job:fixture:past:opening");
-    expect(tenure.facts!.earnings).toBe("not-reconstructed");
+    // The working life is run before the start (src/core2/past-work.ts), not
+    // drawn here: the opening job keeps its own start and nothing is added.
+    expect(
+      adult.pastFacts!.some((fact) => fact.kind.startsWith("work:tenure")),
+    ).toBe(false);
+    expect(
+      adult.pastFacts!.find((fact) => fact.id === "job:fixture:past:opening")!
+        .date,
+    ).toBe("2018-04-01");
     const reports = (after as Reported).priorFactsSource!;
     expect(
       reports.find((row) => row.personId === adult.id && row.field === "faith")!
@@ -346,7 +349,7 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     ).toBe("unresolved");
   });
 
-  it("keeps expired residence ranges and conflicting job starts as explicit gaps", () => {
+  it("keeps expired residence ranges as explicit gaps", () => {
     const before = input();
     const adult = before.people[p("zero")]!;
     const residence: PastFact = {
@@ -372,9 +375,7 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     const after = buildDeepPast({ ...before, people: [constrained] });
     const result = after.people[p("zero")]!;
     expect(
-      result.pastFacts!.some(
-        (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.work.kind,
-      ),
+      result.pastFacts!.some((fact) => fact.kind.startsWith("work:tenure")),
     ).toBe(false);
     const schools = result.pastFacts!.filter(
       (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.schools.kind,
@@ -384,10 +385,6 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
       true,
     );
     const reports = (after as Reported).priorFactsSource!;
-    expect(
-      reports.find((row) => row.field === DEFAULT_DEEP_PAST_DATA.work.field)!
-        .reason,
-    ).toMatch(/start dates conflict/);
     expect(
       reports.some(
         (row) =>
@@ -433,6 +430,45 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     ).length;
     expect(faithGaps[p("zero")]).toContain(`faith: ${unresolvedCount} people`);
     expect(buildDeepPast(second)).toEqual(second);
+  });
+
+  it("dates a teen's high school after the deep past's boundary when it began before the opening", () => {
+    // The playtest's sibling: born February 10, 2007, met at a January 2025 opening.
+    const opening = "2025-01-20";
+    const boundary = DEFAULT_DEEP_PAST_DATA.throughExclusive;
+    const before = {
+      ...input(),
+      startedAt: opening,
+      people: [person("person:senior", "2007-02-10")],
+    };
+    const senior = buildDeepPast(before).people[p("zero")]!;
+    const schools = senior.pastFacts!.filter(
+      (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.schools.kind,
+    ) as PastFact[];
+    const high = schools.find((fact) => fact.facts?.stage === "high")!;
+    expect(high.date >= boundary && high.date < opening).toBe(true);
+    expect(high.facts?.cohortYear).toBe("2021");
+    // Only school cohorts cross the boundary; eras and the rest stop there.
+    for (const fact of senior.pastFacts!)
+      if (fact.kind !== DEFAULT_DEEP_PAST_DATA.schools.kind)
+        expect(fact.date < boundary).toBe(true);
+  });
+
+  it("writes the directory's shortened campus names out, from the end backward", () => {
+    const spoken = (name: string) =>
+      campusSpokenName(name, DEFAULT_DEEP_PAST_DATA.schools);
+    expect(spoken("ANSON H S")).toBe("ANSON HIGH SCHOOL");
+    expect(spoken("ANSON EL")).toBe("ANSON ELEMENTARY SCHOOL");
+    expect(spoken("ANSON MIDDLE")).toBe("ANSON MIDDLE SCHOOL");
+    expect(spoken("Wexford El Sch")).toBe("Wexford Elementary School");
+    expect(spoken("HELENA ELEM.")).toBe("HELENA ELEMENTARY SCHOOL");
+    expect(spoken("RICE JH")).toBe("RICE JUNIOR HIGH SCHOOL");
+    expect(spoken("Eastern MS")).toBe("Eastern Middle School");
+    // A middle initial is a name, not an ending.
+    expect(spoken("James H Bean School")).toBe("James H Bean School");
+    expect(spoken("Helen S Dunn Elementary School")).toBe(
+      "Helen S Dunn Elementary School",
+    );
   });
 
   it("adapts heterogeneous era facts without undefined values or weakened source tags", () => {

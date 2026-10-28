@@ -1,0 +1,43 @@
+{
+  "id": "atus-2025-socializing",
+  "publisher": "U.S. Bureau of Labor Statistics, American Time Use Survey",
+  "vintage": "2025 annual averages",
+  "table": "Table 1. Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day by sex",
+  "title": "Socializing and communicating on an average day",
+  "universe": "Civilian noninstitutional population 15 years and over",
+  "geography": "United States",
+  "sourceUrl": "https://www.bls.gov/news.release/atus.t01.htm",
+  "retrievedOn": "2026-10-23",
+  "limits": "ATUS socializing and communicating is any face-to-face socializing (household members, visitors, events), not only a visit to someone outside the home; the game's visit is one contact act with a tie. National only: ATUS publishes no state rows. The band is the range across the table's own sex cohorts; it checks the town's share of adult-days with a visit and is never a chance any person acts on.",
+  "rows": {
+    "percentEngagedPerDay": {
+      "total": 30.4,
+      "men": 28.2,
+      "women": 32.5,
+      "unit": "percent of the population engaged on an average day",
+      "quote": "Socializing and communicating ... Avg. percent engaged per day: Total 30.4, Men 28.2, Women 32.5"
+    },
+    "hoursPerDayThoseWhoEngaged": {
+      "total": 1.92,
+      "men": 1.83,
+      "women": 2.0,
+      "unit": "hours per day, those who engaged",
+      "quote": "Avg. hours per day, those who engaged: Total 1.92, Men 1.83, Women 2.00"
+    },
+    "hoursPerDayPopulation": {
+      "total": 0.58,
+      "men": 0.52,
+      "women": 0.65,
+      "unit": "hours per day, civilian population",
+      "quote": "Avg. hours per day, civilian population: Total 0.58, Men 0.52, Women 0.65"
+    }
+  },
+  "band": {
+    "measure": "share of adult-days (people 15 and over) with a visit",
+    "low": 28.2,
+    "high": 32.5,
+    "unit": "percent",
+    "from": "the men and women rows of percentEngagedPerDay",
+    "parameter": "unmodeledLeisureValuePerHour (src/core2/data/parameters.json), read by planFreeTime in src/core2/free-block.ts"
+  }
+}

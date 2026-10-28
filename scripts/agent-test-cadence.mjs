@@ -75,9 +75,17 @@ export function planCadence(changedFiles, options = {}) {
       receiptStage: "zero-dice",
       kind: "focus",
     });
+    // Owner, Oct 27: no statistic but law opens on its published value.
+    stages.push({
+      label: "Zero-real-data guard",
+      command: "npm run zero-real-data",
+      receiptStage: "zero-real-data",
+      kind: "focus",
+    });
   }
 
-  if (has(/^src\/core2\//)) {
+  // Any file can add an importer of the old folders; the check refuses one.
+  if (has(/^(?!src\/(simulation|presentation)\/).*\.(ts|tsx|mts|mjs|js)$/)) {
     stages.push({
       label: "Old-engine imports",
       command: "npm run old-imports",
@@ -92,6 +100,16 @@ export function planCadence(changedFiles, options = {}) {
       command: "node src/bench/no-scroll.browser.mjs",
       receiptStage: "browser",
       kind: options.readiness ? "readiness" : "focus",
+    });
+  }
+
+  if (has(/^src\/bench\/(title\.ts|play\.(mjs|css|html))$/)) {
+    stages.push({
+      label: "Title tests and motion check (bench running)",
+      command:
+        "npx vitest run src/bench/title.test.ts && node src/bench/title-motion.browser.mjs",
+      receiptStage: "title",
+      kind: "focus",
     });
   }
 

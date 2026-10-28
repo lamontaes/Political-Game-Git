@@ -17,7 +17,8 @@ import { governmentView } from "./government";
 import { openBenchFilingVisit } from "./filing";
 import { openingFrames } from "./opening";
 import { townPlaces, visitPlace } from "./places";
-import { backdropFile, backdropPath, benchScene, hasBackdrop } from "./scene";
+import { backdropFile, backdropPath, benchScene } from "./scene";
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "art-check";
@@ -55,10 +56,10 @@ function check(
     failures.push(`${label}: ${place} has nobody on its stage`);
   for (const row of people) {
     figures++;
-    // Only owner-approved whole figures are ever drawn (owner, Oct 13).
+    // Only the v2 standing figures are drawn.
     const url = new URL(row.figureUrl, "http://bench");
-    if (!url.pathname.startsWith("/art/people-whole/"))
-      failures.push(`${label}: ${row.personId} is not a whole figure`);
+    if (!url.pathname.startsWith("/art/people-engine/v2/figures/"))
+      failures.push(`${label}: ${row.personId} is not a v2 figure`);
     else if (!existsSync(new URL(`../..${url.pathname}`, import.meta.url)))
       failures.push(`${label}: figure ${url.pathname} missing`);
   }

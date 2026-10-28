@@ -28,6 +28,8 @@ import stateResearchJson from "../../../data/research/offices/state-offices.json
 import holderParties from "../../../data/research/offices/unrecorded-holder-parties-2026.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { makeIsoDate } from "../kernel/dates";
+import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
 import { legislativeDistrictResult } from "../legislative-district-results";
@@ -684,6 +686,10 @@ function seatAll(
     const roster = opening
       ? OFFICIALS_DATA.independents.caucus[spec.seatId]
       : undefined;
+    const identity = identities.get(spec.key)!;
+    const personId = spec.term
+      ? `official:${spec.term.id}`
+      : `official:${spec.key}`;
     const drawn = drawOfficial({
       seed,
       key: spec.key,
@@ -696,11 +702,8 @@ function seatAll(
       districtLean: lean.lean,
       leader: roles.has(spec.key),
       ...(roster ? { caucus: roster } : {}),
+      temperament: temperamentOf(api.state as CoreState, personId, identity),
     });
-    const identity = identities.get(spec.key)!;
-    const personId = spec.term
-      ? `official:${spec.term.id}`
-      : `official:${spec.key}`;
     fillInIdentity(api.state as CoreState, {
       id: personId,
       givenName: identity.givenName,
@@ -829,8 +832,8 @@ function leaders(all: readonly Spec[]): Map<string, string> {
 
 /**
  * Officials who serve together know each other: a state's delegation to
- * Congress and its governor, and each chamber's members with their party's
- * leader. Their time together is their shared years of service.
+ * Congress and its governor, each chamber's members (a state legislature's
+ * too) with their party's leader, and the executive branch with its head. Their time together is their shared years of service.
  */
 function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
   const rows = table(api, "officials").rows() as unknown as OfficialRow[];
@@ -873,11 +876,58 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
         .filter((m) => m.leadership)
         .map((m) => [partySide(m.party), m] as const),
     );
+    // The chamber's leaders by id, for a member whose own side has none (an
+    // independent, a one-member side) or who is their side's leader.
+    // A chamber with no designated leader (a nonpartisan legislature) is
+    // led, for who knows whom, by its longest-serving member.
+    const leaders = leadersBySide.size
+      ? [...leadersBySide.values()].sort((a, b) => a.id.localeCompare(b.id))
+      : [...members]
+          .sort(
+            (a, b) =>
+              a.serviceStart.localeCompare(b.serviceStart) ||
+              a.id.localeCompare(b.id),
+          )
+          .slice(0, 1);
     for (const m of members) {
-      const leader = leadersBySide.get(partySide(m.party));
-      if (leader && leader.id !== m.id && leader.stateKey !== m.stateKey)
+      const own = leadersBySide.get(partySide(m.party));
+      const leader =
+        own && own.id !== m.id ? own : leaders.find((l) => l.id !== m.id);
+      // Congress's same-state pairs are already tied as a delegation.
+      const delegation =
+        leader?.stateKey === m.stateKey &&
+        (m.bodyKind === "us-house" || m.bodyKind === "us-senate");
+      if (leader && leader.id !== m.id && !delegation)
         tie(m, leader, "served in the chamber under their party's leader");
     }
+  }
+  // The executive branch serves under its head: the president for the
+  // administration (vice president, cabinet), a state's governor for its
+  // other executive officers (lieutenant governor, attorney general, board).
+  const president = rows.find((row) => row.officeKind === "president");
+  const governors = new Map(
+    rows
+      .filter((row) => row.officeKind === "governor")
+      .map((row) => [row.stateKey, row] as const),
+  );
+  for (const row of rows) {
+    if (
+      row.bodyKind !== "executive" ||
+      row.officeKind === "president" ||
+      row.officeKind === "governor"
+    )
+      continue;
+    const head = row.body.startsWith("US:")
+      ? president
+      : governors.get(row.stateKey);
+    if (head)
+      tie(
+        row,
+        head,
+        row.body.startsWith("US:")
+          ? "served in the president's administration"
+          : "served in the governor's administration",
+      );
   }
 }
 
@@ -1375,6 +1425,13 @@ export function officialCandidate(
   // The newcomer: someone with no office who could run, drawn once from the
   // world's seed for this contest and party.
   const newcomerId = `official:candidate:${contest.id}:${partyKey(party)}`;
+  const newcomer = drawOfficialIdentity({
+    worldSeed: facts.seed,
+    seatKey: newcomerId,
+    stateUsps: facts.stateKey.slice(3),
+    role: "state-executive-challenger",
+    referenceDate: api.state.date,
+  });
   const drawn = drawOfficial({
     seed: facts.seed,
     key: newcomerId,
@@ -1383,6 +1440,7 @@ export function officialCandidate(
     districtZ: 0,
     districtLean: seatLeanNow,
     leader: false,
+    temperament: temperamentOf(api.state as CoreState, newcomerId, newcomer),
   });
   let best: {
     id: string;
@@ -1409,13 +1467,7 @@ export function officialCandidate(
       best = { id: row.id, row, parts };
   }
   if (!best.row) {
-    const identity = drawOfficialIdentity({
-      worldSeed: facts.seed,
-      seatKey: newcomerId,
-      stateUsps: facts.stateKey.slice(3),
-      role: "state-executive-challenger",
-      referenceDate: api.state.date,
-    });
+    const identity = newcomer;
     fillInIdentity(api.state as CoreState, {
       id: newcomerId,
       givenName: identity.givenName,
@@ -1570,4 +1622,30 @@ export function votesAreTownNews(api: CoreAPI, personId: string): boolean {
     .table("seats")
     .get(row.seatId) as unknown as { coversTown?: boolean } | undefined;
   return seat?.coversTown === true;
+}
+
+/**
+ * An official's level on every trait from the residents' temperament model,
+ * drawn from the world's seed and their id as any filled-in identity's is
+ * (src/core2/state.ts, fillInIdentity), so the same official comes back the
+ * same every time; the roster adds its selection shift (`drawOfficial`).
+ */
+function temperamentOf(
+  core: CoreState,
+  personId: string,
+  identity: { readonly birthDate: string; readonly gender?: string },
+): Record<string, number> {
+  return (
+    openingTemperaments(
+      [
+        {
+          id: personId,
+          birthDate: makeIsoDate(identity.birthDate),
+          ...(identity.gender ? { gender: identity.gender } : {}),
+          parents: [],
+        },
+      ],
+      { seed: core.seed, startedAt: makeIsoDate(core.startedAt) },
+    ).get(personId) ?? {}
+  );
 }

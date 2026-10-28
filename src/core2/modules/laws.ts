@@ -19,11 +19,11 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import { residentsRuntime } from "./residents";
-import { rerateCountedJobs } from "../residents-economy";
 import { POLICY_QUESTIONS } from "../policy-answers";
+import { raiseToFloor } from "../wage-floor";
 import {
   holdPublicPay,
+  holdTeacherPay,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_REVIEW,
 } from "../public-pay-floor";
@@ -41,6 +41,7 @@ import {
 } from "../laws-starting";
 import {
   inForceOn,
+  LAW_SERIES,
   resolveLawInForce,
   type EnactedAuthority,
   type LawInForceAnswer,
@@ -48,6 +49,8 @@ import {
 
 export const LAWS_MODULE_ID = "core2-laws-v1";
 const CHAIN_ID = "chain";
+/** The count of laws enacted in play, across every series: their order. */
+const ORDER_ID = "enactment-order";
 /** The calibration date the starting policy answers are read as of. */
 const ANSWERS_AS_OF = "2024-07-01";
 
@@ -110,7 +113,7 @@ export const LAWS_MODULE: PreStartModule = {
   },
   onCalendarWork: (api, work) => {
     lawTookEffect(api, work);
-    // A public pay floor in force holds later public hires to it, monthly.
+    // A public pay floor or a teacher minimum salary in force holds later hires to it, monthly.
     if (work.kind === PUBLIC_PAY_REVIEW) recordPublicPay(api, work.source);
   },
 };
@@ -172,13 +175,29 @@ export function openLaws(core: CoreState): LawChain {
   }
   // The state's researched answers to the policy questions are its law in
   // force at the opening (audit 3; BOARD "next" item 4).
+  const federal = chain.levels.find((l) => l.level === "federal");
   for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
-    const answer = entry.answers[chain.stateKey];
-    if (answer?.answer !== "yes" && answer?.answer !== "no") continue;
+    // A question about federal law is answered for the nation, at the
+    // federal level; every other question is answered for the state, or, where
+    // the state gives no answer and the research answers it for the nation
+    // ("US": a federal statute the research says applies in every place), at
+    // the federal level.
+    const isFederal = question.startsWith(FEDERAL_QUESTION_PREFIX);
+    const known = (jurisdiction: string) => {
+      const answer = entry.answers[jurisdiction]?.answer;
+      return answer === "yes" || answer === "no";
+    };
+    const nationLevel =
+      federal && (isFederal || !known(chain.stateKey)) ? federal : undefined;
+    const level =
+      isFederal || nationLevel ? nationLevel : { jurisdiction: chain.stateKey };
+    if (!level || !known(level.jurisdiction)) continue;
+    const answer = entry.answers[level.jurisdiction]!;
+    const atFederal = level === federal;
     const row: LawRowInput = {
-      id: `law:${chain.stateKey}:state:${question}:general:starting`,
-      jurisdiction: chain.stateKey,
-      level: "state",
+      id: `law:${level.jurisdiction}:${atFederal ? "federal" : "state"}:${question}:general:starting`,
+      jurisdiction: level.jurisdiction,
+      level: atFederal ? "federal" : "state",
       series: question,
       tier: "general",
       value: answer.answer === "yes" ? 1 : 0,
@@ -190,12 +209,17 @@ export function openLaws(core: CoreState): LawChain {
       source: entry.source ?? "data/research/laws/starting-law-2026",
       retrieved: ANSWERS_AS_OF,
       estimate: answer.estimated !== undefined,
+      // The statute the answer rests on, which Issues shows beside it.
+      ...(answer.cite ? { terms: { cite: answer.cite } } : {}),
     };
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
   }
   return chain;
 }
+
+/** Questions on federal law (answered once for the nation). */
+const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
 
 type WageStep = {
   effectiveDate: string;
@@ -444,20 +468,114 @@ export function lawInForce(
   date: string = api.state.date,
 ): LawInForceAnswer {
   const chain = lawChain(api);
+  // Only a wage floor reads the state's grant of local authority, and only
+  // the sales tax its state's average local rate: no other law reads them.
+  const floor = LAW_SERIES[series] === "floor";
   return resolveLawInForce({
     series,
     chain,
     date,
     rows: seriesRows(api, series),
-    authorityRows: seriesRows(api, "local-minimum-wage-authority"),
-    enactedAuthority: api
-      .moduleState(LAWS_MODULE_ID)
-      .table("enactments")
-      .query("bySeries", [
-        "local-minimum-wage-authority",
-      ]) as unknown as readonly EnactedAuthority[],
-    localAverage: seriesRows(api, "local-sales-tax-average"),
+    ...(floor
+      ? {
+          authorityRows: seriesRows(api, "local-minimum-wage-authority"),
+          enactedAuthority: api
+            .moduleState(LAWS_MODULE_ID)
+            .table("enactments")
+            .query("bySeries", [
+              "local-minimum-wage-authority",
+            ]) as unknown as readonly EnactedAuthority[],
+        }
+      : {}),
+    ...(series === "sales-tax"
+      ? { localAverage: seriesRows(api, "local-sales-tax-average") }
+      : {}),
   });
+}
+
+/**
+ * The levels of the town's chain whose law in force on a policy question says
+ * yes, each with its row, in chain order (federal first): the one reading the
+ * law-reach handlers, the budgets and the housing engine use. A higher level
+ * saying no doesn't undo a lower level's yes.
+ */
+export function yesLevels(
+  api: CoreAPI,
+  key: string,
+): readonly {
+  level: string;
+  jurisdiction: string;
+  lawId: string;
+  row: LawRowInput;
+}[] {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return [];
+  return lawInForce(api, key).levels.flatMap((l) =>
+    l.row?.value === 1 && !l.setAside
+      ? [
+          {
+            level: l.level,
+            jurisdiction: l.jurisdiction,
+            lawId: l.row.id,
+            row: l.row,
+          },
+        ]
+      : [],
+  );
+}
+
+/** Why a change to a policy question has nothing to change, and the law row that says so. */
+export interface SettledQuestion {
+  /** The row the change would repeat or cut across. */
+  readonly lawId: string;
+  readonly why:
+    "restates-in-force" | "restates-pending" | "conflicts-with-pending";
+}
+
+/**
+ * What a government's own law already says on a policy question, for a change
+ * that would set `value` at that level: the row it would only repeat or cut
+ * across, or null when it would change the law (or no law stands there to
+ * say anything). A row in force with the same answer is repeated; an act
+ * still waiting on its effective date closes the question at that level for
+ * the rest of the sitting, whichever way the new change points, because the
+ * act has taken no effect to undo (a motion that restates or conflicts with
+ * one already adopted is out of order, Robert's Rules of Order; reconsidering
+ * it is how a body comes back). Read from the level's own rows through the
+ * series index, on the day of the vote.
+ */
+export function questionSettled(
+  api: CoreAPI,
+  jurisdiction: string,
+  question: string,
+  value: number,
+  /** A bill whose own rows don't count: the act being written reads the law as it stood before it. */
+  exceptBill?: string,
+): SettledQuestion | null {
+  const today = api.state.date;
+  let latest: LawRowInput | null = null;
+  const order = (r: LawRowInput) => Number(r.terms?.enactedSequence ?? 0);
+  for (const row of api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]) {
+    if (row.endDate !== null && row.endDate <= today) continue;
+    if (exceptBill !== undefined && row.terms?.enactedByBill === exceptBill)
+      continue;
+    if (
+      !latest ||
+      row.effectiveDate > latest.effectiveDate ||
+      (row.effectiveDate === latest.effectiveDate && order(row) > order(latest))
+    )
+      latest = row;
+  }
+  if (!latest) return null;
+  const same = (latest.value === 1) === value > 0;
+  if (latest.effectiveDate > today)
+    return {
+      lawId: latest.id,
+      why: same ? "restates-pending" : "conflicts-with-pending",
+    };
+  return same ? { lawId: latest.id, why: "restates-in-force" } : null;
 }
 
 /**
@@ -498,6 +616,16 @@ export function enactLaw(
   )
     id = `${baseId}:${n}`;
   const replaced = lawsTable.get(id) !== undefined;
+  // The order it was enacted in, so of two state laws on one power taking
+  // effect the same day the later governs, whichever table holds it.
+  const chainTable = api.moduleState(LAWS_MODULE_ID).table("chain");
+  const enactedSequence =
+    ((chainTable.get(ORDER_ID) as unknown as { next?: number } | undefined)
+      ?.next ?? 0) + 1;
+  chainTable.put({
+    id: ORDER_ID,
+    next: enactedSequence,
+  } as unknown as ModuleRow);
   const row: LawRowInput = {
     id,
     jurisdiction: input.jurisdiction,
@@ -511,7 +639,11 @@ export function enactLaw(
     retrieved: api.state.date,
     estimate: input.estimate === true,
     ...(input.unit ? { unit: input.unit } : {}),
-    terms: { ...(input.terms ?? {}), enactedBy: input.measureId },
+    terms: {
+      ...(input.terms ?? {}),
+      enactedBy: input.measureId,
+      enactedSequence,
+    },
   };
   api
     .moduleState(LAWS_MODULE_ID)
@@ -545,23 +677,45 @@ export function enactLaw(
   return row;
 }
 
-/** Every tracked series for the town on a date: the bench's "law here" view. */
+/** The laws set by an amount (a wage floor, a tax rate, a benefit), which a seat's bill can change. */
+export const AMOUNT_SERIES: readonly string[] = [
+  "minimum-wage",
+  "income-tax",
+  "sales-tax",
+  "property-tax",
+  "snap-maximum",
+  "unemployment-weekly-maximum",
+  "unemployment-insurance",
+  "medicaid-match",
+  "social-security-tax",
+  "medicare-tax",
+];
+const AMOUNTS = new Set(AMOUNT_SERIES);
+
+/**
+ * Every law in force for the town on a date (today by default), one answer
+ * per law with each level's row, its record id and citation: the amount laws,
+ * then each policy question a level of the town's chain has a law on. The
+ * researched starting answers and the laws passed in play are the same rows,
+ * so a law enacted in play replaces its level's starting row the day it takes
+ * effect. `series` narrows it to those laws (a seat's amounts).
+ */
 export function lawHere(
   api: CoreAPI,
   date: string = api.state.date,
+  series: readonly string[] = [
+    ...AMOUNT_SERIES,
+    ...Object.keys(POLICY_QUESTIONS),
+  ],
 ): readonly LawInForceAnswer[] {
-  return [
-    "minimum-wage",
-    "income-tax",
-    "sales-tax",
-    "property-tax",
-    "snap-maximum",
-    "unemployment-weekly-maximum",
-    "unemployment-insurance",
-    "medicaid-match",
-    "social-security-tax",
-    "medicare-tax",
-  ].map((series) => lawInForce(api, series, date));
+  return series
+    .map((name) => lawInForce(api, name, date))
+    .filter(
+      (answer) =>
+        AMOUNTS.has(answer.series) ||
+        answer.levels.some((level) => level.row) ||
+        answer.pending.length > 0,
+    );
 }
 
 function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
@@ -570,6 +724,14 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(id) as
     LawRowInput | undefined;
   if (!row || !inForceOn(row, api.state.date)) return;
+  // A row a later statute overrides never governs, so nothing took effect: the
+  // level's law in force today is another row (a repeal enacted over a
+  // scheduled rise).
+  const governing = lawInForce(api, row.series).levels.find(
+    (level) =>
+      level.jurisdiction === row.jurisdiction && level.level === row.level,
+  )?.row;
+  if (governing && governing.id !== row.id) return;
   const town = lawChain(api).townPlaceId;
   // What it replaced: the law in force on the series the day before. A
   // policy question set to 0 ends that law (a repeal).
@@ -578,6 +740,15 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     row.series,
     addDays(makeIsoDate(api.state.date), -1),
   ).governing;
+  // The amount in force on the series, the day before and today, which the
+  // press sizes the move by (a wage floor is the highest level's; one level's
+  // row ending can leave another's in force).
+  const wasInForce = lawInForce(
+    api,
+    row.series,
+    addDays(makeIsoDate(api.state.date), -1),
+  ).value;
+  const nowInForce = lawInForce(api, row.series, api.state.date).value;
   const ends =
     before &&
     before.id !== row.id &&
@@ -607,6 +778,10 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           ? "replaced"
           : "new",
       ...(before && before.id !== row.id ? { replacesLawId: before.id } : {}),
+      // The amount it replaces, for the press to size the move by.
+      ...(wasInForce !== null && nowInForce !== null
+        ? { priorValue: String(wasInForce), inForceValue: String(nowInForce) }
+        : {}),
       ...(row.terms?.enactedBy
         ? { enactedBy: String(row.terms.enactedBy) }
         : {}),
@@ -623,99 +798,28 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 }
 
 /**
- * The public pay floor's raises, each on the worker's record like a minimum
- * wage raise. stopgapId: SG-GOV-public-pay-floor-owner
+ * The public pay floor's and the teacher minimum salary's raises, each on the
+ * worker's record like a minimum wage raise. stopgapId:
+ * SG-GOV-public-pay-floor-owner
  */
-function recordPublicPay(api: CoreAPI, source: Source): void {
+export function recordPublicPay(api: CoreAPI, source: Source): void {
   const raises = api.moduleState(LAWS_MODULE_ID).table("raises");
-  for (const r of holdPublicPay(api, source))
+  for (const r of [
+    ...holdPublicPay(api, source),
+    ...holdTeacherPay(api, source),
+  ]) {
+    const id = `raise:${r.jobId}:${api.state.date}`;
+    // Two floors raising one job the same day are one raise on the record.
+    const earlier = raises.get(id) as unknown as
+      { fromMinor: number } | undefined;
     raises.put({
-      id: `raise:${r.jobId}:${api.state.date}`,
+      id,
       personId: r.personId,
       jobId: r.jobId,
       date: api.state.date,
-      fromMinor: r.fromMinor,
+      fromMinor: earlier?.fromMinor ?? r.fromMinor,
       toMinor: r.toMinor,
       lawId: r.lawId,
     });
-}
-
-/**
- * Raise every job in the town paying under the minimum wage now in force.
- * Jobs at an employer outside the town's chain keep their own law.
- */
-function raiseToFloor(api: CoreAPI, source: Source): void {
-  const core = api.state as CoreState;
-  for (const commitment of [...core.work.commitments.values()])
-    raiseOne(api, commitment.id, source);
-  // The counted residents' jobs in town rise too (two-level population).
-  const floor = lawInForce(api, "minimum-wage").value;
-  const rt = residentsRuntime(core);
-  if (floor === null || !rt) return;
-  // Each employer's wage flow is recomputed once; a counted job no wage flow
-  // pays (its worker filled in, its flow ended) has no pay here to raise.
-  const raised = new Map<string, number>();
-  for (const job of rt.jobs.values()) {
-    if (job.endsAt !== undefined || (job.hourlyMinor ?? floor) >= floor)
-      continue;
-    const employer = core.organizations.get(job.organizationId);
-    if (
-      !employer ||
-      (core.visiblePlaceIds.size && !core.visiblePlaceIds.has(employer.placeId))
-    )
-      continue;
-    raised.set(job.id, floor);
   }
-  rerateCountedJobs(core, raised);
-}
-
-/**
- * Raise one job to the minimum wage in force where it's paid under it (an
- * enforcement finding, or the law taking effect). Returns whether it rose.
- * Jobs at an employer outside the town's chain keep their own law.
- */
-export function raiseOne(
-  api: CoreAPI,
-  commitmentId: string,
-  source: Source,
-): boolean {
-  const answer = lawInForce(api, "minimum-wage");
-  const floor = answer.value;
-  if (floor === null || !answer.governing) return false;
-  const core = api.state as CoreState;
-  const town = core.visiblePlaceIds;
-  const raises = api.moduleState(LAWS_MODULE_ID).table("raises");
-  const commitment = core.work.commitments.get(commitmentId);
-  if (!commitment || commitment.hourlyMinor >= floor) return false;
-  if (commitment.endsAt !== undefined && commitment.endsAt <= core.date)
-    return false;
-  const employer = core.organizations.get(commitment.organizationId);
-  if (!employer || (town.size && !town.has(employer.placeId))) return false;
-  const from = commitment.hourlyMinor;
-  // The pay change through the core's own job record.
-  api.rerateJob(commitment.jobId, floor, { ...source, asOf: core.date });
-  raises.put({
-    id: `raise:${commitment.id}:${core.date}`,
-    personId: commitment.personId,
-    jobId: commitment.jobId,
-    date: core.date,
-    fromMinor: from,
-    toMinor: floor,
-    lawId: answer.governing.id,
-  });
-  api.emit({
-    id: `minimum-wage-raise:${commitment.id}:${core.date}`,
-    date: core.date,
-    kind: "pay-raised-to-minimum-wage",
-    personIds: [commitment.personId],
-    placeId: employer.placeId,
-    source,
-    facts: {
-      jobId: commitment.jobId,
-      fromMinor: String(from),
-      toMinor: String(floor),
-      lawId: answer.governing.id,
-    },
-  });
-  return true;
 }

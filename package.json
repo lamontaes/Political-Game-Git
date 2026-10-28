@@ -1,6 +1,6 @@
 {
   "name": "political-life-rpg",
-  "version": "0.22.6",
+  "version": "0.60.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -21,7 +21,7 @@
     "test:maps": "vitest run src/maps",
     "export:college-kinds": "node --import tsx scripts/source/export-college-kinds.ts",
     "test": "vitest run",
-    "test:skill-ops": "vitest run scripts/skill-ops/skill-ops.test.ts scripts/prose-eval/grounding.test.ts scripts/prose-eval/portability.test.ts scripts/prose-eval/american-english.test.ts scripts/report-check/report-check.test.ts tests/content-american-english.test.ts scripts/agent-run-receipt.test.ts scripts/agent-test-cadence.test.ts",
+    "test:skill-ops": "vitest run scripts/skill-ops/skill-ops.test.ts scripts/prose-eval/grounding.test.ts scripts/prose-eval/portability.test.ts scripts/prose-eval/american-english.test.ts scripts/report-check/report-check.test.ts scripts/agent-run-receipt.test.ts scripts/agent-test-cadence.test.ts",
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts && npm run check:trait-effects",
@@ -55,6 +55,8 @@
     "stopgaps:report": "node scripts/stopgaps-report.mjs",
     "pool": "node --import tsx scripts/pool/index.ts",
     "zero-dice": "node scripts/zero-dice-guard.mjs",
+    "guards": "node --import tsx scripts/guards/index.ts",
+    "zero-real-data": "NODE_OPTIONS=--max-old-space-size=12288 vitest run src/core2/realistic-not-real.test.ts",
     "old-imports": "node scripts/core2-guard/old-imports.mjs",
     "all-places": "node --import tsx scripts/core2-year/all-places.mjs",
     "audit:runtime-text:score": "node --import tsx scripts/runtime-text/score.ts",
@@ -76,7 +78,9 @@
     "spelling": "node --import tsx scripts/prose-eval/spelling.ts",
     "dialogue:report": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-report/report.ts",
     "words:coverage": "node --import tsx scripts/dialogue-batch/coverage-table.ts",
+    "scene-web": "node --max-old-space-size=8192 --import tsx scripts/scene-web/build.ts",
     "words:scenes": "node --max-old-space-size=8192 --import tsx scripts/dialogue-batch/scene-page.ts",
+    "words:life": "node --max-old-space-size=8192 --import tsx scripts/dialogue-batch/life-page.ts",
     "words:bench": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/grading-bench.ts",
     "speed:year": "node --max-old-space-size=8192 --max-semi-space-size=64 --import tsx scripts/speed-years/run.ts",
     "dialogue:coverage": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/coverage-batch.ts",
@@ -92,18 +96,11 @@
     "bench": "node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx src/bench/server.ts",
     "check:data-shipping": "node scripts/world/check-data-shipping.mjs"
   },
-  "dependencies": {
-    "react": "19.2.6",
-    "react-dom": "19.2.6"
-  },
   "devDependencies": {
     "@eslint/js": "9.39.4",
     "@openai/sites-vite-plugin": "0.2.0",
     "@playwright/test": "1.62.1",
     "@types/node": "22.19.19",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "6.0.2",
     "eslint": "9.39.4",
     "image-size": "^1.0.2",
     "pdfjs-dist": "^6.3.289",

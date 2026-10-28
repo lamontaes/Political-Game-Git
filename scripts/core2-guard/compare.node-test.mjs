@@ -25,7 +25,6 @@ test("paired medians tolerate one outlier and enforce strict twenty-percent limi
 });
 test("unmatched worlds, hosts and revisions cannot produce green comparisons", () => {
   for (const extra of [
-    { inputHash: "changed" },
     { host: { fixture: false } },
     { seed: "different" },
     { days: 30 },
@@ -35,6 +34,29 @@ test("unmatched worlds, hosts and revisions cannot produce green comparisons", (
   const changed = rows([10, 10, 10]);
   changed[1].revision = "other";
   assert.throws(() => compare(changed, rows([10, 10, 10])));
+});
+test("a changed opening is timed and reported, not refused", () => {
+  const result = compare(
+    rows([10, 10, 10]),
+    rows([11, 11, 11], { inputHash: "changed" }),
+  );
+  assert.equal(result.passed, true);
+  assert.equal(result.ratio, 1.1);
+  assert.deepEqual(result.inputHash, {
+    base: "fixture",
+    head: "changed",
+    changed: true,
+  });
+  assert.equal(
+    compare(rows([10, 10, 10]), rows([10, 10, 10])).inputHash.changed,
+    false,
+  );
+  const mixed = rows([10, 10, 10]);
+  mixed[2].inputHash = "changed";
+  assert.throws(
+    () => compare(rows([10, 10, 10]), mixed),
+    /inputHash inside a revision/,
+  );
 });
 test("incomplete or invalid receipts fail closed", () => {
   assert.throws(() => compare(rows([10]), rows([10, 10, 10])));
@@ -56,4 +78,35 @@ test("input-budget failure stays red independently of timing", () => {
   assert.equal(result.passed, false);
   assert.equal(result.speedPassed, true);
   assert.equal(result.openingBudgetPassed, false);
+});
+
+test("fewer measured pairs compare when both sides have the same count", () => {
+  // A large drawn town whose time budget allowed one or two pairs.
+  assert.equal(compare(rows([10]), rows([12])).ratio, 1.2);
+  assert.equal(compare(rows([10]), rows([12])).measuredPairs, 1);
+  const two = compare(rows([10, 20]), rows([12, 24]));
+  assert.equal(two.baseMillisecondsPerDay, 15);
+  assert.equal(two.headMillisecondsPerDay, 18);
+  assert.equal(two.measuredPairs, 2);
+  for (const [base, head] of [
+    [[10, 10], [10]],
+    [[], []],
+    [
+      [10, 10, 10, 10],
+      [10, 10, 10, 10],
+    ],
+  ])
+    assert.throws(() => compare(rows(base), rows(head)));
+});
+test("a shorter span compares when every run plays it, and never below a warmup", () => {
+  const span = { days: 152 };
+  const result = compare(rows([10, 10, 10], span), rows([11, 11, 11], span));
+  assert.equal(result.passed, true);
+  assert.equal(result.measuredDays, 152);
+  const mixed = rows([10, 10, 10], span);
+  mixed[1].days = 365;
+  assert.throws(() => compare(mixed, rows([10, 10, 10], span)), /days/);
+  assert.throws(() =>
+    compare(rows([10, 10, 10], { days: 30 }), rows([10, 10, 10], { days: 30 })),
+  );
 });

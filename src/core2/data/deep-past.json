@@ -18,6 +18,30 @@
       "PK": -1,
       "KG": 0
     },
+    "directoryAbbreviations": {
+      "H S": "High School",
+      "J H": "Junior High",
+      "CS": "Charter School",
+      "CTR": "Center",
+      "EL": "Elementary",
+      "ELEM": "Elementary",
+      "ES": "Elementary School",
+      "HS": "High School",
+      "INT": "Intermediate",
+      "INTERM": "Intermediate",
+      "JH": "Junior High",
+      "JHS": "Junior High School",
+      "JSHS": "Junior-Senior High School",
+      "MS": "Middle School",
+      "PRI": "Primary",
+      "PRIM": "Primary",
+      "SCH": "School",
+      "SHS": "Senior High School"
+    },
+    "bareStageNames": {
+      "words": ["ELEMENTARY", "MIDDLE", "HIGH", "INTERMEDIATE", "PRIMARY"],
+      "suffix": "School"
+    },
     "stages": [
       {
         "id": "elementary",
@@ -41,13 +65,6 @@
         "entryGrade": "09"
       }
     ]
-  },
-  "work": {
-    "field": "opening-job-tenure",
-    "kind": "work:tenure-summary",
-    "label": "Opening job tenure",
-    "startKinds": ["work:opening", "work:started", "employment:started"],
-    "source": "Existing generated work:opening start from town-employment.ts. Its opening tenure is derived from BLS Employee Tenure in January 2026 age-cohort medians and bounded by the person's working-age start. Preserve that source date; no reconstructed historical earnings or employer balance."
   },
   "preservedFields": [
     {

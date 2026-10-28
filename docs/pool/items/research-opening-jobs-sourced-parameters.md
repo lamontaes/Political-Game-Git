@@ -3,12 +3,12 @@ id: research-opening-jobs-sourced-parameters
 title: "Research: sourced parameters for the opening's jobs, workgroups and pay calendars"
 area: core
 kind: research
-priority: 2
+priority: 3
 size: M
-status: blocked
+status: open
 claimed-by: claude/political-game-pool-yucp92-aa
 pr:
-blocked-on: builder first: each row is a mechanic, not a single sourced number; see the Notes
+blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-coworkers-estimated-behavior, core-stopgap-opening-employment-authored-content, core-stopgap-opening-employment-opening-allocation, core-stopgap-opening-payroll-calendar-estimated-opening-employer-pay-calendar"
 claimed-at: 2026-10-20T02:31:03.328Z
 ---
@@ -22,7 +22,7 @@ claimed-at: 2026-10-20T02:31:03.328Z
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
 **Files.** src/core2/data/opening-coworkers.json, src/core2/data/opening-employment.json, src/core2/data/opening-payroll-calendar.json, src/core2/opening-employment.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
@@ -33,3 +33,7 @@ Looked at Oct 20 (claude/political-game-pool-3xfqef-12), released unbuilt. Of th
 Looked at Oct 20 (claude/political-game-pool-8defjq), released unbuilt. SG-P8-opening-employer-pay-calendar: the 44 pay-frequency weights (`openingPayrollBls*Weight`, SOURCED) already come from BLS (Burgess, Beyond the Numbers, 2014; March 2013). BLS has a newer table, the Current Employment Statistics "Frequency of pay period", February 2023 (https://www.bls.gov/ces/publications/length-pay-period.htm, last modified August 4, 2023): all private weekly 27.0, biweekly 43.0, semimonthly 19.8, monthly 10.3; by industry and by establishment size class, with the same industry groups the calendar uses. Swapping the weights is a data change only, but it moves which opening employers pay on which cycle, so it needs the parameter table's pinned hash in src/core2/tooling/calibration-targets.json re-pinned and the saved-trace and payday fingerprint tests (saved-trace-v1, opening-payday-wiring-observation, work-pay-period, work-payroll-cash) re-baselined together; that is a play-visible change, so it is left for a builder who can run those. The other pay-calendar parameters (phase span, five-day lag, month boundary days, the education options' equal weight) have no public source: BLS gives no individual lag or phase. They are authored conventions and could be registered as owner decisions rather than researched. SG-P15-coworker-groups, SG-P8-authored-job-mix and SG-P8-opening-employment are mechanics (matching, staffing patterns), not numbers, so they belong to the jobs builder.
 
 Looked at Oct 20 (claude, claude/political-game-pool-yucp92-aa), nothing sourced. None of the four rows is a number to look up: coworker workgroups from BLS occupation staffing patterns and a measured count of coworkers known (a mechanic that reads time on shared shifts), an open occupation and employer mix with verified coverage, county-resident employment matched to firm capacity, and employer payroll calendars with legal frequency and holiday rules. Each needs a model of how the engine would read the data before a figure can be put in a parameter row, so each belongs to the area's builder first and the researcher second.
+
+Deferred Oct 25: nothing on screen reads it yet.
+
+Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).

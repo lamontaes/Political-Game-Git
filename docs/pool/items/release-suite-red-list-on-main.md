@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Replace, never layer: a test that is red is fixed in place or filed as a pool item, never skipped or loosened to shorten the list. Look before you ask: each red test is checked against the register and the pool before it is filed.
 
-**Done when.** Every test directory has been run on main and each red test is either fixed in the pull request or has its own pool item, named below.
+**Done when.** Every test directory has been run on main and each red test is either fixed in the pull request or has its own pool item, named below. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
 
 **Files.** docs/pool/items/release-suite-red-list-on-main.md
 
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5007 (branch claude/dev-why-red): Morning check: t
 Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5007 (branch claude/dev-why-red): The dev-why test still selects only already-paid workers and excludes the unpaid-worker case; the duplicate pool sections also remain uncorrected on this head. Rechecked unchanged head 9f542e0092; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5007#issuecomment-6309496777; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (inventory item, not buildable; red tests live as their own items).

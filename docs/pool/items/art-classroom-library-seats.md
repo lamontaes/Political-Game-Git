@@ -4,7 +4,7 @@ title: "ART-5 classroom and library chair seat positions (#3492)"
 area: art
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5339
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
 **Files.** docs/pool/items/art-classroom-library-seats.md and the files that pull request #3492 changes on session-56-art5-education
 
@@ -29,3 +29,5 @@ Looked at 2026-10-16 (claude session), not merged: session-56-art5-education (Oc
 PR #3492 closed unmerged (2026-10-16); reopened by the pool reconcile Oct 19.
 
 Sent back 2026-10-23 from PR #5339 (branch session-56-art5-education): The shipped measuredFrom values still include October 7 ART-5; remove the date/session notes, supply the Done-when table and visual seating evidence; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (superseded by people-plates, OD:49; the chair anchors it measures are replaced).

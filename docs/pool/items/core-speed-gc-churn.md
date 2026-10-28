@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
 pr:
 blocked-on:
@@ -44,3 +44,7 @@ Oct 21 (claude): the remaining sibling-tie key of PR 5409 is tracked as core-spe
 Sent back 2026-10-23 from PR #5771 (branch claude/speed-gc-churn): Body and declaration claim tooling only despite cash-journal and bench runtime changes; describe and validate the actual bounded slice without closing the unmet below-10-percent GC umbrella; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5388 (branch claude/speed-cash-journal): the linked acceptance requires GC below 10 percent, a faster year and named balance/golden-path checks; the body reports unchanged wall time, GC still above target, and no full acceptance proof or Done-when table, so use a bounded valid item for the journal-only slice; finish on that branch, merge main into it first.
+
+Oct 25 (speed lead), on main 01f5cd4715 (no code change since), Long Hill, Connecticut (seed m7b, key 0943580), four-core container, the done-when's numbers: the garbage collector takes **8.1 of 130.2 s** in a CPU profile of the played year (**6.2 percent**), against 52 of 251 s (21 percent) when this item was filed. The same year's sampling heap profile (the scratch profile-year script, the world `npm run speed:year -- --seed m7b` plays) allocates **48.0 GB**, against 58.2 GB on Oct 20. The three allocators the Oct 20 profile named, then and now: `postCashJournal` 2.9 and 2.89 GB, `projectCashJournal` 2.6 and 2.16 GB, `releaseResidentHousehold` 1.9 GB and 8 MB. The third largest now is the renewal pass's closure in `births-counted.ts` (1.39 GB), which `core-speed-counted-renewal-pass` cuts. The year by the same measure: `npm run speed:year -- --seed m7b --exclusive` 186.7 s on Oct 22 (lead-speed-2026-10-24), 129.6 s now. Money tests on main pass: `journal` (18), `journal-state` (63), `journal-facade` (17), `household-money`, `counted-weight-money`, `finance-cash` (30), `law-reach-balance` (4). The golden-path job passed in CI on #5993's head (main plus a test-only change); run here alone, 16 of the 19 accepted specs pass and the last three were not reached in the suite's budget on this slower container (M2-09 got 18.7 s). The garbage collection fell with #5907, #5924, #5925 and #5920 (the journal's checking copies, attendance and payroll in play, the weekly contact shortlist) and the earlier score-terms and household-walk cuts. Recommend the CTO mark it done; no PR opens for it during the play-first freeze.
+
+Oct 25 (CTO ruling): done on the speed lead's measurement on main (garbage collection 6.2 percent of the year, under the 10 percent line; numbers in the lead's channel block, Oct 25 11:55 UTC).
