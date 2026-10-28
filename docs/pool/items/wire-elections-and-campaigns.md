@@ -5,12 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: L
-status: claimed
-claimed-by: claude/wire-elections
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T05:24:55.314Z
+claimed-at:
 ---
 
 **What.** Engine map lines 20 to 24. src/core2/modules/voting.ts and src/core2/modules/world-races.ts share one ballot, one result writer and one term writer through src/core2/electorate.ts and src/core2/modules/offices.ts. Election night reads a returns record the voting engine keeps, not a sequence rebuilt per call. Campaign standing (contestCauses, raceStanding, whyNot) moves from the bench into the campaign engine (campaignDayChoices, src/core2/campaign-day.ts:250; src/core2/campaign-views.ts). src/core2/modules/candidacy.ts is installed in every world and the voting engine's stand-in filing is deleted. The adult and voting age are one row in src/core2/data/elections/parameters.json (add the row; today the number is typed at 49 module sites and in the director) read at every site. Time box: 6 hours.
