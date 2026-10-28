@@ -325,7 +325,7 @@
     },
     "new-apartments-to-nearby-rent": {
       "waitingOn": [],
-      "needsSize": true
+      "carriedBy": "the housing engine's lease renewal (renewRentalLeases in src/core2/housing-occupancy.ts), which moves each renewing lease by the place's change in rental vacancy raised to the rental elasticity, so the units a new building adds lower the rents tenants renew at; the research measures one building within about 250 meters, a scale the game does not keep, so the engine's own vacancy response stands for it"
     },
     "rent-burden-to-homelessness": {
       "waitingOn": [],
@@ -333,7 +333,7 @@
     },
     "eviction-to-homelessness": {
       "waitingOn": [],
-      "needsSize": true
+      "carriedBy": "the housing engine's removal (placeRemovedHousehold in src/core2/housing-homeless.ts, called from src/core2/modules/housing.ts on each eviction judgment), which puts every evicted household with a relative who has room, in a shelter bed in the place, or on the street, named and counted households alike; the research measures one tenant's shelter use after an order, so the engine's own placement stands for it"
     },
     "eviction-to-hospital-visits": {
       "waitingOn": ["health.hospital-visits"],
