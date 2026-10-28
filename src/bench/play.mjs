@@ -2,7 +2,7 @@
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
-import { makeButton, mountPagers } from "./ui/button.mjs";
+import { makeButton, mountPagers, buttonRow } from "./ui/button.mjs";
 import { fillChoiceMenu } from "./ui/menu.mjs";
 import {
   talkLine,
@@ -35,6 +35,7 @@ import {
   checkboxSetting,
   optionsOf,
   statusLine,
+  numberBox,
 } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
@@ -43,6 +44,8 @@ import { listScreen } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import { peopleWeb } from "./ui/people-web.mjs";
+import { billPaper } from "./ui/bill-paper.mjs";
+import { bold, line, heading, labeled } from "./ui/text.mjs";
 import {
   newspaperScreen,
   engraveMasthead,
@@ -604,39 +607,29 @@ function billBlock(item, buttons, onPaper) {
     open.addEventListener("click", () => onPaper(item.billId));
     return open;
   };
-  return el(
-    "div",
-    { className: "race" },
-    el("h3", {
-      className: "heading",
-      textContent: [item.title, item.number, item.sponsor]
-        .filter(Boolean)
-        .join(" · "),
-    }),
+  return makeCard(
+    "race",
+    {},
+    heading(
+      [item.title, item.number, item.sponsor].filter(Boolean).join(" · "),
+    ),
     item.remarks.length
-      ? el("div", {
-          textContent: item.remarks
+      ? line(
+          item.remarks
             .map(
               (r) =>
                 `${r.name} · ${r.position > 0 ? (words.for ?? "") : (words.against ?? "")}`,
             )
             .join(" · "),
-        })
+        )
       : "",
     item.votes.length
-      ? el("div", {
-          textContent: item.votes
-            .map((v) => `${v.name} ${words[v.vote] ?? v.vote}`)
-            .join(" · "),
-        })
+      ? line(
+          item.votes.map((v) => `${v.name} ${words[v.vote] ?? ""}`).join(" · "),
+        )
       : "",
     onPaper || buttons.length
-      ? el(
-          "div",
-          { className: "acts" },
-          ...(onPaper ? [paperButton()] : []),
-          ...buttons,
-        )
+      ? buttonRow(...(onPaper ? [paperButton()] : []), ...buttons)
       : "",
   );
 }
@@ -948,13 +941,11 @@ function atThePolls(scene) {
             } else node.addEventListener("click", mark(candidateId));
             return node;
           };
-          return el(
-            "div",
-            { className: "race" },
-            el("h3", { className: "heading", textContent: contest.title }),
-            el(
-              "div",
-              { className: "acts" },
+          return makeCard(
+            "race",
+            {},
+            heading(contest.title),
+            buttonRow(
               ...contest.candidates.map((candidate) =>
                 button(
                   [candidate.name, candidate.party].filter(Boolean).join(" · "),
@@ -1933,7 +1924,7 @@ async function officeRows() {
       listRow(
         "campaign",
         { title: job.citation },
-        el("b", { textContent: job.title }),
+        bold(job.title),
         ` ${dollars(job.annualMinor)} ${words.aYear ?? ""}`,
         job.nextMeeting
           ? ` · ${words.nextMeeting ?? ""} ${proseDate(job.nextMeeting)}`
@@ -1946,26 +1937,21 @@ async function officeRows() {
         "campaign",
         { as: "label" },
         `${head.title} · ${words.nameHeadPick ?? ""} `,
-        (() => {
-          const pick = el(
-            "select",
-            {},
-            el("option", { value: "", textContent: words.ownChoice ?? "" }),
-            ...head.candidates.map((c) =>
-              el("option", {
-                value: c.id,
-                textContent: c.job ? `${c.name} · ${c.job}` : c.name,
-              }),
-            ),
-          );
-          pick.addEventListener("change", async () => {
-            if (pick.value)
+        select({
+          options: [
+            { value: "", label: words.ownChoice ?? "" },
+            ...head.candidates.map((c) => ({
+              value: c.id,
+              label: c.job ? `${c.name} · ${c.job}` : c.name,
+            })),
+          ],
+          onChange: async (nomineeId) => {
+            if (nomineeId)
               await post(
-                `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId: pick.value })}`,
+                `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId })}`,
               );
-          });
-          return pick;
-        })(),
+          },
+        }),
       ),
     ),
     // The budget you may send now: the change to each line, in steps of its amount.
@@ -1974,32 +1960,27 @@ async function officeRows() {
           listRow(
             "campaign",
             {},
-            el("b", { textContent: controls.budgetEditor.title }),
-            ...v.budget.lines.map((row) => {
-              const pick = el(
-                "select",
-                {},
-                ...[-20, -10, 0, 10, 20].map((pct) => {
-                  const minor = Math.round((row.amountMinor * pct) / 100);
-                  return el("option", {
-                    value: String(minor),
-                    selected: row.changeMinor === minor,
-                    textContent: controls.budgetEditor[String(pct)],
-                  });
+            bold(controls.budgetEditor.title),
+            ...v.budget.lines.map((row) =>
+              labeled(
+                `${row.name} ${dollars(row.amountMinor)}`,
+                select({
+                  options: [-20, -10, 0, 10, 20].map((pct) => {
+                    const minor = Math.round((row.amountMinor * pct) / 100);
+                    return {
+                      value: minor,
+                      label: controls.budgetEditor[String(pct)],
+                      selected: row.changeMinor === minor,
+                    };
+                  }),
+                  onChange: async (changeMinor) => {
+                    await post(
+                      `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor })}`,
+                    );
+                  },
                 }),
-              );
-              pick.addEventListener("change", async () => {
-                await post(
-                  `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor: pick.value })}`,
-                );
-              });
-              return el(
-                "label",
-                {},
-                ` ${row.name} ${dollars(row.amountMinor)} `,
-                pick,
-              );
-            }),
+              ),
+            ),
           ),
         ]
       : []),
@@ -2008,31 +1989,29 @@ async function officeRows() {
       listRow(
         "campaign",
         {},
-        el("b", { textContent: `${bill.number} · ${controls.deals.title}` }),
-        ...bill.colleagues.map((colleague) => {
-          const pick = el(
-            "select",
-            {},
-            ...["none", "favor", "back-their-item"].map((deal) =>
-              el("option", {
+        bold(`${bill.number} · ${controls.deals.title}`),
+        ...bill.colleagues.map((colleague) =>
+          labeled(
+            colleague.name,
+            select({
+              value: colleague.deal ?? "none",
+              options: ["none", "favor", "back-their-item"].map((deal) => ({
                 value: deal,
-                textContent: controls.deals[deal],
-                selected: (colleague.deal ?? "none") === deal,
-              }),
-            ),
-          );
-          pick.addEventListener("change", async () => {
-            await post(
-              `/api/office/deal?${new URLSearchParams({ memberId: colleague.key, deal: pick.value })}`,
-            );
-          });
-          return el("label", {}, ` ${colleague.name} `, pick);
-        }),
+                label: controls.deals[deal],
+              })),
+              onChange: async (deal) => {
+                await post(
+                  `/api/office/deal?${new URLSearchParams({ memberId: colleague.key, deal })}`,
+                );
+              },
+            }),
+          ),
+        ),
       ),
     ),
     ...v.acts.map((a) =>
       row(
-        `${proseDate(a.date)} · ${controls.actions?.[a.kind] ?? a.kind}`,
+        `${proseDate(a.date)} · ${controls.actions?.[a.kind] ?? ""}`,
         `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
       ),
     ),
@@ -2043,21 +2022,14 @@ async function officeRows() {
 /** The simulation's estimate beside a clicked section, every figure a record
  * the server read: the statute it amends with the values before and after,
  * the budget line and its amount, and the bill's own cost estimate. */
-function billEstimateRows(paper, section) {
+function billEstimate(paper, section) {
   const words = controls.bill ?? {};
   const est = section.estimate;
-  const rows = [
-    el("p", {
-      className: "prose",
-      textContent: section.text ?? paper.title,
-    }),
-  ];
+  const lines = [];
   const webCite =
     typeof est.statute === "string" && /^https?:\/\//.test(est.statute);
   if (est.statute && !webCite)
-    rows.push(
-      el("div", { textContent: `${words.amends ?? ""} ${est.statute}` }),
-    );
+    lines.push(`${words.amends ?? ""} ${est.statute}`);
   // A question answered yes or no has no numeric scale: its clause says
   // what it does, so bare 0/1 values stay off the screen.
   const scaled = est.beforeUnit != null || est.afterUnit != null;
@@ -2069,46 +2041,38 @@ function billEstimateRows(paper, section) {
     scaled && est.afterValue != null
       ? amount(est.afterValue, est.afterUnit)
       : null;
-  if (before && after && !est.statute)
-    rows.push(el("div", { textContent: `${before} → ${after}` }));
+  if (before && after && !est.statute) lines.push(`${before} → ${after}`);
   else if (before && after)
-    rows.push(
-      el("div", {
-        textContent: webCite
-          ? `${words.amends ?? ""} ${words.lawInForce ?? ""}: ${words.from ?? ""} ${before} ${words.to ?? ""} ${after}`
-          : `${before} ${words.from ?? ""} ${after}`,
-      }),
+    lines.push(
+      webCite
+        ? `${words.amends ?? ""} ${words.lawInForce ?? ""}: ${words.from ?? ""} ${before} ${words.to ?? ""} ${after}`
+        : `${before} ${words.from ?? ""} ${after}`,
     );
-  else if (after)
-    rows.push(el("div", { textContent: `${words.to ?? ""} ${after}` }));
+  else if (after) lines.push(`${words.to ?? ""} ${after}`);
   if (est.line)
-    rows.push(
-      el("div", {
-        textContent: [
-          `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-          est.lineAmountMinor != null ? dollars(est.lineAmountMinor) : null,
-          est.ofMinor != null
-            ? `${words.from ?? ""} ${dollars(est.ofMinor)}`
-            : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
-      }),
-    );
-  rows.push(
-    el("div", {
-      textContent: [
-        paper.estimate.workers > 0
-          ? `${paper.estimate.workers} ${words.workers ?? ""}`
+    lines.push(
+      [
+        `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
+        est.lineAmountMinor != null ? dollars(est.lineAmountMinor) : null,
+        est.ofMinor != null
+          ? `${words.from ?? ""} ${dollars(est.ofMinor)}`
           : null,
-        paper.estimate.payMinor > 0 ? dollars(paper.estimate.payMinor) : null,
-        paper.estimate.note,
       ]
         .filter(Boolean)
         .join(" · "),
-    }),
+    );
+  lines.push(
+    [
+      paper.estimate.workers > 0
+        ? `${paper.estimate.workers} ${words.workers ?? ""}`
+        : null,
+      paper.estimate.payMinor > 0 ? dollars(paper.estimate.payMinor) : null,
+      paper.estimate.note,
+    ]
+      .filter(Boolean)
+      .join(" · "),
   );
-  return rows;
+  return { prose: section.text ?? paper.title, lines };
 }
 /**
  * Open a bill as one paper document: designation, title, sponsor, each
@@ -2126,68 +2090,42 @@ async function openBillPaper(billId, show, back, backLabel) {
     textContent: backLabel ?? words.back ?? "",
   });
   backButton.addEventListener("click", back);
-  const aside = makeCard(
-    "bill-estimate",
-    {},
-    el("b", { textContent: words.estimate ?? "" }),
-    ...billEstimateRows(paper, paper.sections[0] ?? { estimate: {} }),
-  );
-  const doc = el(
-    "div",
-    { className: "bill-doc" },
-    el("h2", { className: "heading", textContent: paper.spoken }),
-    el("p", { className: "prose", textContent: paper.title }),
-    el("div", {
-      textContent: `${words.sponsor ?? ""} ${paper.sponsor}`,
-    }),
-    el("b", { textContent: words.sections ?? "" }),
-    ...paper.sections.map((section) => {
-      const open = makeButton({
-        className: "action bill-section",
-        textContent: section.text ?? paper.title,
-      });
-      open.addEventListener("click", () =>
-        aside.replaceChildren(
-          el("b", { textContent: words.estimate ?? "" }),
-          ...billEstimateRows(paper, section),
+  show(
+    backButton,
+    billPaper({
+      spoken: paper.spoken,
+      title: paper.title,
+      sponsor: `${words.sponsor ?? ""} ${paper.sponsor}`,
+      sectionsLabel: words.sections ?? "",
+      estimateLabel: words.estimate ?? "",
+      blank: billEstimate(paper, { estimate: {} }),
+      sections: paper.sections.map((section) => ({
+        text: section.text ?? paper.title,
+        estimate: billEstimate(paper, section),
+      })),
+      lines: [
+        paper.effective,
+        paper.floorDate
+          ? `${floor.takenUp ?? ""} ${proseDate(paper.floorDate)}`
+          : null,
+        ...paper.whip.map(
+          (count) =>
+            `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
         ),
-      );
-      return open;
+        ...(paper.votes.length
+          ? [
+              `${floor.voted ?? ""}: ${paper.tally.yes} ${floor.yes ?? ""}, ${paper.tally.no} ${floor.no ?? ""}`,
+              paper.votes
+                .map((x) => `${x.name} · ${meet[x.vote] ?? ""}`)
+                .join(" · "),
+            ]
+          : []),
+        paper.decision
+          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${proseDate(paper.decision.passedOn)}` : ""}`
+          : null,
+      ],
     }),
-    ...(paper.effective ? [el("div", { textContent: paper.effective })] : []),
-    ...(paper.floorDate
-      ? [
-          el("div", {
-            textContent: `${floor.takenUp ?? ""} ${proseDate(paper.floorDate)}`,
-          }),
-        ]
-      : []),
-    ...paper.whip.map((count) =>
-      el("div", {
-        textContent: `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
-      }),
-    ),
-    ...(paper.votes.length
-      ? [
-          el("div", {
-            textContent: `${floor.voted ?? ""}: ${paper.votes.filter((x) => x.vote === "yes").length} ${floor.yes ?? ""}, ${paper.votes.filter((x) => x.vote === "no").length} ${floor.no ?? ""}`,
-          }),
-          el("div", {
-            textContent: paper.votes
-              .map((x) => `${x.name} · ${meet[x.vote] ?? x.vote}`)
-              .join(" · "),
-          }),
-        ]
-      : []),
-    ...(paper.decision
-      ? [
-          el("div", {
-            textContent: `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${proseDate(paper.decision.passedOn)}` : ""}`,
-          }),
-        ]
-      : []),
   );
-  show(backButton, el("div", { className: "bill-paper" }, doc, aside));
 }
 
 // ---- From your seat (steps 6 to 9): draft; the vote is at the meeting ----
@@ -2216,46 +2154,34 @@ async function seatRows() {
   };
   for (const body of v.bodies) {
     for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
-    const pick = el(
-      "select",
-      {},
-      // Every law area, one group each: its policies and budget lines.
-      ...(body.menus ?? []).map((menu) =>
-        el(
-          "optgroup",
-          { label: menu.name },
-          ...menu.items.map((item) => {
-            const option = el("option", {
-              value: item.series
-                ? `series:${item.series}`
-                : item.question
-                  ? `question:${item.question}`
-                  : `line:${item.line}`,
-              textContent: `${
-                item.series
-                  ? policyLabel(item.series)
-                  : item.question
-                    ? policyLabel(item.question)
-                    : item.name
-              }${
-                item.inForce != null
-                  ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
-                  : ""
-              }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
-            });
-            // Money is typed in dollars and kept in cents.
-            if (item.unit?.startsWith("minor")) option.dataset.cents = "1";
-            if (item.line) option.dataset.cents = "1";
-            return option;
-          }),
-        ),
-      ),
-    );
-    const value = el("input", {
-      type: "number",
-      value: "0",
-      style: "width: 90px",
+    // Every law area, one group each: its policies and budget lines. Money
+    // is typed in dollars and kept in cents.
+    const pick = select({
+      options: (body.menus ?? []).map((menu) => ({
+        group: menu.name,
+        options: menu.items.map((item) => ({
+          value: item.series
+            ? `series:${item.series}`
+            : item.question
+              ? `question:${item.question}`
+              : `line:${item.line}`,
+          label: `${
+            item.series
+              ? policyLabel(item.series)
+              : item.question
+                ? policyLabel(item.question)
+                : item.name
+          }${
+            item.inForce != null
+              ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
+              : ""
+          }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
+          data:
+            item.unit?.startsWith("minor") || item.line ? { cents: "1" } : {},
+        })),
+      })),
     });
+    const value = numberBox({ value: 0 });
     const draft = makeButton({ textContent: "Draft" });
     draft.addEventListener("click", () => {
       const [kind, key] = [
@@ -2280,45 +2206,38 @@ async function seatRows() {
       listRow(
         "campaign",
         {},
-        el("b", { textContent: body.title }),
+        bold(body.title),
         body.members.map((m) => m.name).join(" · "),
-        el("div", {}, pick, value, draft),
+        listRow("seat-draft", {}, pick, value, draft),
       ),
     );
   }
   const floor = controls.floor;
-  for (const { bill, votes, floorDate, whip } of v.bills)
+  for (const { bill, votes, tally, floorDate, whip } of v.bills)
     rows.push(
       listRow(
         "campaign",
         {},
-        el("b", {
-          textContent: `${bill.number} · ${floor.status[bill.status] ?? ""}`,
-        }),
+        bold(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
         // The floor: the day it is taken up, each chamber's count the day
         // before, and how the vote came out.
         ...(floorDate
-          ? [
-              el("div", {
-                className: "floor-date",
-                textContent: `${floor.takenUp} ${proseDate(floorDate)}`,
-              }),
-            ]
+          ? [line(`${floor.takenUp} ${proseDate(floorDate)}`, "floor-date")]
           : []),
         ...(bill.status === "drafted"
           ? whip.map((count) =>
-              el("div", {
-                className: "floor-whip",
-                textContent: `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
-              }),
+              line(
+                `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
+                "floor-whip",
+              ),
             )
           : []),
         ...(votes.length
           ? [
-              el("div", {
-                className: "floor-result",
-                textContent: `${floor.voted}: ${votes.filter((x) => x.vote === "yes").length} ${floor.yes}, ${votes.filter((x) => x.vote === "no").length} ${floor.no}`,
-              }),
+              line(
+                `${floor.voted}: ${tally.yes} ${floor.yes}, ${tally.no} ${floor.no}`,
+                "floor-result",
+              ),
             ]
           : []),
         // The paper holds the sections, the estimate and the votes: the row
