@@ -223,6 +223,18 @@ function playYear(
     expect(tie, `${row.replyId}: a tie with the cast`).toBeTruthy();
     expect(tie!.lastContactDate >= row.date, row.replyId).toBe(true);
   }
+  // A reply to an override's sponsor is kept by the legislature as a favor or
+  // a strain the member's next vote on the sponsor's bills reads.
+  for (const row of fired.filter(
+    (item) => item.row === "override-whip" && item.replyId,
+  ))
+    expect(
+      coreAPI(core)
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("replies")
+        .get(row.replyId!),
+      `${row.replyId}: the legislature keeps the reply`,
+    ).toBeTruthy();
   // Spaced: never two on one day.
   const days = fired.map((row) => row.date);
   expect(new Set(days).size).toBe(days.length);
@@ -400,7 +412,9 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
   );
   expect(unfired(), tried.join("; ")).toEqual([]);
   // Up to six played years, each about a minute: the budget for all of them.
-}, 1_800_000);
+  // Each played test fails by its own limit, with its seed in its name, well
+  // inside CI's 45-minute unit job: the two together fit it.
+}, 1_200_000);
 
 /** The last day a race may be held and still have its morning after inside the played year. */
 const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 2);
@@ -458,7 +472,7 @@ it(`the morning after the player's race is a scene, cited to the count (seed ${s
   throw new Error(
     `no place in ${MORNING_TRIES} draws held a race the new adult could enter that year: ${tried.join("; ")}`,
   );
-}, 1_800_000);
+}, 720_000);
 
 it("gives every circumstance a situation type cause and a scene-web row", () => {
   const labels = new Set(
