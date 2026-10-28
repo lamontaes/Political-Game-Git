@@ -111,6 +111,13 @@ export const GUARDS: readonly Guard[] = [
     ],
   },
   {
+    id: "reading-line",
+    rule: "A question for the owner shows the look-first search: an OWNER DECISIONS NEEDED section that is not none carries the reading line.",
+    readMore:
+      ".agents/rules/smart-and-look-first.md; .claude/skills/look-first/SKILL.md",
+    command: ["node", "scripts/guards/reading-line.mjs"],
+  },
+  {
     id: "secrets",
     rule: "No credential or signing material is ever committed.",
     readMore: "scripts/secrets/scan-tracked-secrets.mjs, its header",
