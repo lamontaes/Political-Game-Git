@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6442
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
