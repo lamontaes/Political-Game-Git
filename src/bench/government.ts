@@ -226,6 +226,8 @@ export function governmentView(core: CoreState, personId: string) {
       {
         name: `${holder.identity.givenName} ${holder.identity.familyName}`,
         title: office.title,
+        // Their headshot and the id a click opens, as every person row has.
+        ...holderFace(core, holder, place),
       },
     ]);
   }

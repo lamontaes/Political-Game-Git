@@ -28,3 +28,5 @@ Evidence 2026-10-28 (Merger 1): M1-11 also fails in Dededo, Guam (territory:GU:d
 Evidence 2026-10-28 01:20 (laws-and-effects lead): M1-11 fails in Glendale, Arizona (0427820), seed 3ec6ef046943621104536b818cb87eda9099f5669a354dab92db3188ebf027f0: 29.6% of 496 displaced workers set out to prove themselves, outside 3.9-28.9%. It turned PR #6457's golden-path red (that PR changes only bill-section citations); drives-economy.test.ts passes at the same seed.
 
 Again at 4fe93cfd9e: Washington, District of Columbia (GOLDEN_PATH_PLACE_KEY=1150000, GOLDEN_PATH_SEED=bd9ccdc0e473e1f85dd9235af03ebe0097aaa0fc2a3694eca52dd440c0e74436), 31.9% of 226 displaced workers set out to prove themselves, outside 2.8-30.8%. Drawn for #6682 (golden-path-year job 123057125419); identical on clean main. Old engine session, Oct 28.
+
+Oct 28 (traits lead): reproduces on clean main 1bc47a861e in Washington, District of Columbia (1150000), seed e3cf7fa8aab01dfe87c0f0b401926f10016022d0c1a7fa15fb68314f42b27e28: 32.5% of 212 displaced workers set out to prove themselves, outside 2.7-30.9%; it turned golden-path-year red on PR #6681 at M1-11 with the same numbers.
