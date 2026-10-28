@@ -19,6 +19,7 @@ import {
 } from "./budgets-treasury";
 import { setLivingCostSplit } from "./living-cost-split";
 import {
+  budgetWorldShares,
   BUDGETS_MODULE_ID,
   governments,
   type GovernmentRow,
@@ -94,6 +95,7 @@ export function serviceChargesPaidBy(
 }
 
 function servicesOf(
+  api: CoreAPI,
   stateKey: string,
   gov: GovernmentRow,
 ): {
@@ -104,7 +106,14 @@ function servicesOf(
   const level = gov.level === "state" ? row?.state : row?.local;
   return {
     tag: row?.tag ?? "ESTIMATED",
-    services: Object.entries(level?.chargesAndFees.shares ?? {})
+    // This world's mix of services, drawn around the published one.
+    services: Object.entries(
+      budgetWorldShares(
+        api,
+        `budget-world:service-charges:${gov.id}`,
+        level?.chargesAndFees.shares ?? {},
+      ),
+    )
       .filter(([, share]) => share > 0)
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([service, share]) => ({ service, share })),
@@ -128,7 +137,7 @@ export function syncServiceCharges(api: CoreAPI): void {
     // A charge's level is the budget's charges line; no bill sets a fee.
     api.stopgap("SG-GOV-fee-level-by-bill");
     const annual = budgetInForce(api, gov.id)?.revenueMinor.chargesAndFees ?? 0;
-    const { tag, services } = servicesOf(chain.stateKey, gov);
+    const { tag, services } = servicesOf(api, chain.stateKey, gov);
     // The people the town models pay their part; the rest of what the
     // government's residents pay stays the outside account's.
     const residents =

@@ -3,12 +3,12 @@
   "summary": {
     "links": 244,
     "lawLinks": 134,
-    "webCoverageWired": 131,
+    "webCoverageWired": 130,
     "allEightPoints": 0,
-    "reachesOrCarried": 141,
+    "reachesOrCarried": 142,
     "namedInAStopgap": 116,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 141,
+    "reachesTheWorld": 142,
     "withAnyModerator": 23,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 141,
+        "pass": 142,
         "partial": 0,
-        "fail": 103,
+        "fail": 102,
         "n/a": 0
       },
       "varied": {
@@ -10483,7 +10483,7 @@
       "to": "water.irrigation-groundwater",
       "causeKind": "law",
       "lawLink": true,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -10494,9 +10494,8 @@
           "evidence": "data/research/outcome-web/links.json:5895 size -0.31, range [-0.4, -0.21], Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it; an engine reads the cause its own way: the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts) reads this law and cuts each farm's water by its own estimated share the day the law takes effect, not this row's size and one-year lag, and no engine keeps the groundwater pumped"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts), which reads this law in force and cuts each town farm's groundwater input by this row's size (1 + size of what the farm would pump), so the farm's outside sales fall by the irrigation-output elasticity and each month's loss is recorded as the law applied (groundwater-output-limited). It applies from the law's effective date rather than after this row's one-year lag (stopgap SG-GOV-REACH-B-business-cost)"
         },
         "varied": {
           "status": "fail",
@@ -10522,8 +10521,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-water-irrigation-groundwater"
+      "wiredPoints": 5,
+      "stopgap": "SG-GOV-REACH-B-business-cost"
     },
     {
       "key": "defense-contracts-to-earnings",

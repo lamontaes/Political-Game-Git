@@ -78,6 +78,18 @@
       "key": "4866248",
       "name": "Scissors, Texas",
       "state": "US-TX"
+    },
+    {
+      "seed": "5508cfbda722b510908912955fd4346824d8eea58018cf3503c3f62b896312bc",
+      "key": "0624638",
+      "name": "Folsom, California",
+      "state": "US-CA"
+    },
+    {
+      "seed": "90ca70536fef697e97436a41ca5423c5b527891e594666b4691d221e46597675",
+      "key": "4460260",
+      "name": "Quonochontaug, Rhode Island",
+      "state": "US-RI"
     }
   ],
   "summary": {
@@ -137,10 +149,10 @@
         "n/a": 7
       },
       "web": {
-        "wired": 56,
+        "wired": 57,
         "partial": 2,
         "missing": 0,
-        "stopgap": 15,
+        "stopgap": 14,
         "n/a": 16
       },
       "knowing": {
@@ -7187,37 +7199,37 @@
         },
         "reach": {
           "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_2c4415fc453bce44",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_2c4415fc453bce44; Folsom, California, US-CA (seed abe7b705b34367d4): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_bf09387fd17a76f5; Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_a76a9e2525a93e12",
           "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/business.ts:1152",
+          "evidence": "src/core2/modules/business.ts:1152, src/core2/modules/business.ts:1179",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (journal:2025-04-22:23519); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (control world 50000) (journal:2025-02-13:7952); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 100000 (journal:2025-02-05:10362); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1282; e.g. organization_4b47f062ac052d9a on 2025-02-04: 804234 in the control world, 883773 here, journal:2025-02-04:7909); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1282; e.g. organization_2c4415fc453bce44 on 2025-02-04: 1960538 in the control world, 2154437 here, journal:2025-02-04:10332); 1 interest-group-dues paid in (src/core2/modules/interest-groups.ts:433; e.g. organization_2c4415fc453bce44 on 2025-02-05: 0 in the control world, -50000 here, journal:2025-02-05:10363); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): accounts.transfer @ src/core2/modules/business.ts:1888 187955772 -> 187962120 (journal:2025-04-01:31253)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (journal:2025-04-22:23519); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (control world 50000) (journal:2025-02-13:7952); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 100000 (journal:2025-02-05:10362); Folsom, California, US-CA (seed abe7b705b34367d4): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (control world 50000) (journal:2025-02-16:16224); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 100000 (control world 100000) (journal:2025-02-08:8884); Folsom, California, US-CA (seed abe7b705b34367d4): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1297; e.g. organization_bf09387fd17a76f5 on 2025-02-04: 4128919 in the control world, 2846890 here, journal:2025-02-04:13171); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): of 1 the law paid or charged, the payments that changed first: 1 accounts.transfer paid out (src/core2/modules/residents.ts:1297; e.g. organization_a76a9e2525a93e12 on 2025-02-04: 984691 in the control world, 678944 here, journal:2025-02-04:8451); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): accounts.transfer @ src/core2/modules/business.ts:1888 187955772 -> 187962120 (journal:2025-04-01:31253)",
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 groundwater-limits-to-irrigation-pumping 0.3100 (ledger row only)",
-          "why": "no production reader: groundwater-limits-to-irrigation-pumping (SG-WEB-unread-water-irrigation-groundwater) move only the web's ledger"
+          "status": "wired",
+          "evidence": "groundwater-limits-to-irrigation-pumping: carried by the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts), which reads this law in force and cuts each town farm's groundwater input by this row's size (1 + size of what the farm would pump), so the farm's outside sales fall by the irrigation-output elasticity and each month's loss is recorded as the law applied (groundwater-output-limited). It applies from the law's effective date rather than after this row's one-year lag (stopgap SG-GOV-REACH-B-business-cost) (Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39))",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 112 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 192 people heard (person_007e1131ed2acda5:printed:outlet:cable:0:national:law-took-effect:law:US-OR:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 112 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 76 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Troutdale, Oregon, US-OR (seed dcb716723dd3881c): 192 people heard (person_007e1131ed2acda5:printed:outlet:cable:0:national:law-took-effect:law:US-OR:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Folsom, California, US-CA (seed abe7b705b34367d4): 188 people heard (person_008e559d464bf21a:printed:outlet:newspaper:3:jurisdiction_22c59279f92041a0:law-took-effect:law:place:0624638:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 72 people heard (person_06e86a9470e1f4f5:printed:outlet:newspaper:0:jurisdiction_60a77d4dc27dd2ef:law-took-effect:law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): opening 1 -> after repeal 0 -> re-enacted 1",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Troutdale, Oregon, US-OR (seed dcb716723dd3881c): opening 1 -> after repeal 0 -> re-enacted 1; Folsom, California, US-CA (seed abe7b705b34367d4): 1 open -> after repeal 0 open, 0 ended; Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997): 1 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
           "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Troutdale, Oregon, US-OR (seed dcb716723dd3881c)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Troutdale, Oregon, US-OR (seed dcb716723dd3881c); Folsom, California, US-CA (seed abe7b705b34367d4); Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997)",
           "why": "reached people in one drawn place and not the other"
         }
       },
@@ -7250,6 +7262,16 @@
           "place": "Troutdale, Oregon, US-OR (seed dcb716723dd3881c)",
           "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
           "inForceAtOpening": true
+        },
+        {
+          "place": "Folsom, California, US-CA (seed abe7b705b34367d4)",
+          "change": "enacted at city (law:place:0624638:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Quonochontaug, Rhode Island, US-RI (seed de711859b6b88997)",
+          "change": "enacted at city (law:place:4460260:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "inForceAtOpening": false
         }
       ],
       "errors": []
