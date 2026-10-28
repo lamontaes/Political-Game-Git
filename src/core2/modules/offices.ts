@@ -401,6 +401,77 @@ function freshTermId(api: CoreAPI, seatId: string, date: string): string {
   return id;
 }
 
+/** What `seatTerm` writes: the new term, what happens to the terms it replaces, and the record of taking office. */
+export interface SeatTermInput {
+  readonly seatId: string;
+  readonly officeId: string;
+  /** The term's id; a fresh `term:<seat>:<date>` id where omitted. */
+  readonly termId?: string;
+  readonly personId: string | null;
+  readonly identity: TermRow["identity"];
+  readonly party: string | null;
+  readonly startDate: string;
+  readonly endDate: string | null;
+  readonly endEstimated: boolean;
+  readonly reached: string;
+  /** Where given, every term serving on the seat ends on the start date, for this reason. */
+  readonly endsServingBecause?: string;
+  /** Where given, the took-office event the officials and pay engines read. */
+  readonly tookOffice?: {
+    readonly placeId: string;
+    readonly source: Source;
+    readonly news: boolean;
+    readonly facts: Readonly<Record<string, string>>;
+  };
+}
+
+/**
+ * The one writer of a seat's terms: ends the terms serving on the seat (when
+ * asked), puts the new serving term, and emits took-office (when asked).
+ */
+export function seatTerm(api: CoreAPI, input: SeatTermInput): TermRow {
+  const terms = table(api, "terms");
+  if (input.endsServingBecause)
+    for (const term of terms.query("bySeatStatus", [
+      input.seatId,
+      "serving",
+    ]) as unknown as TermRow[])
+      terms.put({
+        ...term,
+        status: "ended",
+        endDate: input.startDate,
+        endEstimated: false,
+        endedBy: input.endsServingBecause,
+      } as unknown as ModuleRow);
+  const term: TermRow = {
+    id: input.termId ?? freshTermId(api, input.seatId, input.startDate),
+    seatId: input.seatId,
+    officeId: input.officeId,
+    personId: input.personId,
+    identity: input.identity,
+    party: input.party,
+    startDate: input.startDate,
+    endDate: input.endDate,
+    endEstimated: input.endEstimated,
+    reached: input.reached,
+    status: "serving",
+  };
+  terms.put(term as unknown as ModuleRow);
+  if (input.tookOffice)
+    api.emit({
+      id: `took-office:${input.seatId}:${input.startDate}`,
+      date: input.startDate,
+      kind: "took-office",
+      personIds: input.personId ? [input.personId] : [],
+      placeId: input.tookOffice.placeId,
+      source: input.tookOffice.source,
+      publicRecord: true,
+      news: input.tookOffice.news,
+      facts: input.tookOffice.facts,
+    });
+  return term;
+}
+
 function putOffice(api: CoreAPI, entry: OfficeWithSeats): void {
   table(api, "offices").put(entry.office as unknown as ModuleRow);
   for (const seat of entry.seats)
@@ -451,8 +522,7 @@ function seatNamedOfficial(
   });
   // stopgapId: SG-GOV-official-identity-only
   api.stopgap("SG-GOV-official-identity-only");
-  const term: TermRow = {
-    id: freshTermId(api, seat.id, date),
+  return seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,
     personId: null,
@@ -468,10 +538,7 @@ function seatNamedOfficial(
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
-    status: "serving",
-  };
-  table(api, "terms").put(term as unknown as ModuleRow);
-  return term;
+  });
 }
 
 function seatResident(
@@ -483,8 +550,7 @@ function seatResident(
   reached: string,
 ): TermRow {
   const person = api.state.people.get(personId)!;
-  const term: TermRow = {
-    id: freshTermId(api, seat.id, date),
+  return seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,
     personId,
@@ -500,10 +566,7 @@ function seatResident(
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
-    status: "serving",
-  };
-  table(api, "terms").put(term as unknown as ModuleRow);
-  return term;
+  });
 }
 
 /** Register the module and seat every office covering the town. */
