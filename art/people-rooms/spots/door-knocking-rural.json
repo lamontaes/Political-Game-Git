@@ -1,0 +1,141 @@
+{
+ "empty": "art/backdrops/door-knocking-rural__midday.jpg",
+ "plate": "art/people-rooms/plates/door-knocking-rural.png",
+ "size": [
+  1672,
+  941
+ ],
+ "drift": 10.7,
+ "changedShare": 0.0085,
+ "spots": [
+  {
+   "box": [
+    897,
+    317,
+    925,
+    424
+   ],
+   "headTop": 317,
+   "headX": 907.9,
+   "headWidth": 9,
+   "pose": "stand",
+   "frontLine": [
+    351,
+    387,
+    423,
+    422,
+    422,
+    422,
+    422,
+    422,
+    411,
+    405,
+    385,
+    385,
+    385,
+    385,
+    385,
+    385,
+    390,
+    395,
+    399,
+    406,
+    411,
+    411,
+    411,
+    411,
+    411,
+    398,
+    374,
+    374,
+    374
+   ],
+   "frontLineX0": 897,
+   "pixels": 1548,
+   "touching": false,
+   "tags": {
+    "camera": "eye-level",
+    "facing": 0,
+    "seat": "none",
+    "hands": "free",
+    "coveredBy": "door-frame",
+    "dress": "casual",
+    "pose": "stand",
+    "role": "resident",
+    "zone": "resident in the doorway",
+    "size": {
+     "headWidth": 9,
+     "height": 107
+    }
+   }
+  },
+  {
+   "box": [
+    951,
+    337,
+    984,
+    477
+   ],
+   "headTop": 337,
+   "headX": 967.9,
+   "headWidth": 14,
+   "pose": "stand",
+   "frontLine": [
+    416,
+    416,
+    446,
+    477,
+    477,
+    477,
+    477,
+    477,
+    477,
+    477,
+    477,
+    477,
+    477,
+    477,
+    476,
+    475,
+    463,
+    458,
+    458,
+    458,
+    458,
+    458,
+    458,
+    473,
+    473,
+    473,
+    473,
+    473,
+    473,
+    474,
+    473,
+    466,
+    459,
+    456
+   ],
+   "frontLineX0": 951,
+   "pixels": 2510,
+   "touching": false,
+   "tags": {
+    "camera": "eye-level",
+    "facing": -45,
+    "seat": "none",
+    "hands": "free",
+    "coveredBy": "none",
+    "dress": "casual",
+    "pose": "stand",
+    "role": "visitor",
+    "zone": "visitor on the step",
+    "size": {
+     "headWidth": 14,
+     "height": 140
+    }
+   }
+  }
+ ],
+ "scene": "door-knocking-rural",
+ "about": "Coordinates are pixels of the empty painting at its own size. One spot = one place a person can be: box, head top/centre/width (sets the figure size), pose, and frontLine (for each column from frontLineX0, the lowest row of the mannequin that showed; the room is drawn over the figure below it). tags = the shared tag set."
+}

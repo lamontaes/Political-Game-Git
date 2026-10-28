@@ -7285,27 +7285,15 @@
     "status": "open"
   },
   {
-    "id": "SG-BENCH-money-recent-months",
-    "kind": "uncalibrated-tunable",
-    "file": "src/bench/bank.ts",
-    "line": 10,
-    "whatItFakes": "The Money sheet lists the six most recent monthly cash rows; six is a display window, not a measured span.",
-    "why": "The credit engine keeps one household row per monthly review with no limit, and the sheet needs some length; no parameter table row sets how far back a player looks.",
-    "addedBy": "claude/wire-opening-and-home",
+    "id": "SG-PLAY-plate-overflow-spots",
+    "kind": "placeholder-art",
+    "file": "scripts/people/room-spots.ts",
+    "line": 231,
+    "whatItFakes": "Where a room holds more people than its mannequin plate painted (a council's gallery, an election-night crowd, a big household), the old hand-typed spots the plate does not cover stay after the plate's own spots, with their depth masks, instead of measured ones.",
+    "why": "The plates for the opening rooms paint a few people each (art/people-rooms/spots, Oct 28); the rooms seat more, and dropping the old spots would leave people unplaced.",
+    "addedBy": "people-in-rooms builder",
     "addedAt": "2026-10-28",
-    "replacement": "A TUNABLE display window in the parameter table, checked against how many months a player scrolls back, or a chart that draws every kept row.",
-    "status": "open"
-  },
-  {
-    "id": "SG-BENCH-money-spending-reasons",
-    "kind": "missing-record",
-    "file": "src/bench/bank.ts",
-    "line": 94,
-    "whatItFakes": "Where last month went is grouped by the contract kind on each standing bill’s latest receipt plus the everyday living plan, standing in for the transfer’s reasonKey; a one-off transfer (a purchase, a fee, a gift) is not listed.",
-    "why": "The accounts engine (src/core2/accounts.ts) returns a transfer’s reasonKey on its receipt but keeps neither the receipt nor the reason; the cash journal keeps postings and a source id only, and the finance engine keeps only the latest receipt per standing contract.",
-    "addedBy": "claude/wire-opening-and-home",
-    "addedAt": "2026-10-28",
-    "replacement": "The accounts engine keeping each household transfer’s reasonKey on its journal receipt, so the sheet groups every outflow of the month by it.",
+    "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
     "status": "open"
   }
 ]
