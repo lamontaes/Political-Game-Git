@@ -6,6 +6,12 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 14:40 UTC: every red on main has one owner (owner, 10:40 AM Eastern, "fix the red items on main. Why does nobody own it? ... why are you letting stuff slip through the cracks?")
+
+- **Ruling:** a red on main is never "not this item's". It has one owner at every hour: the merger whose merge turned it red, for the first hour, then the standing red-main session (channel section `## Red main`), which fixes every red at the root on its own PR and posts each red, its cause and its PR every two hours. Wire sessions whose engine holds the red take it first; after an hour without a PR the red-main session takes it.
+- **Cause of the gap:** the merger skill read only the Release workflow's run on main. Deterministic validation and M0 guards carried the reds (`realistic-not-real`, `world-legislating`, `health.traits`, `scene-talk`, `law-reached-scenes`, the English guard), and Release stayed green, so no merger saw them, and the wire sessions each listed the reds in their blocks as someone else's. The skill now reads every workflow and names the owner; MERGE-FIRST line 0 carries the rule.
+- **Also restarted on his word (10:30 AM):** the elections, office-and-budgets and laws wire sessions, on the same pool items, with no time box. The CTO's mistake was reading "only mergers are running now" as a choice and waiting instead of restarting them.
+
 ## Oct 28, 05:30 UTC: the overnight plan (owner, 1:20 AM Eastern, "go ahead, I approve... standing approval for whatever you need")
 
 - **Order:** trim first (every duplicate deleted from the engine map's lines and the duplicates report), the carcass audit in parallel (everything neither engine, view nor guard listed with proof, handed to the trim), then wiring through the one engine per mechanic: five sessions (opening and home with history; people and the director; every screen from the kit; one election engine and the campaign; office, budgets and justice with the copied statistics drawn per world) plus the law links to named people. Items: wire-opening-and-home, wire-people-and-director, wire-screens-from-the-kit, wire-elections-and-campaigns, wire-office-budgets-justice, wire-law-links-to-people, carcass-audit-everything-not-engine-view-or-guard, trim-main-every-duplicate-deleted.
