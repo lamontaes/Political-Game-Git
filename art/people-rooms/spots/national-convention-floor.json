@@ -337,7 +337,7 @@
     "facing": 180,
     "seat": "none",
     "hands": "free",
-    "coveredBy": "none",
+    "coveredBy": "object",
     "dress": "business",
     "pose": "stand",
     "zone": "right aisle",
@@ -345,7 +345,10 @@
      "headWidth": 29,
      "height": 374
     },
-    "check": "two people touching; split or use one"
+    "check": "two people touching; split or use one",
+    "fixed": {
+     "coveredBy": "none"
+    }
    }
   },
   {
@@ -892,7 +895,7 @@
    ],
    "headTop": 429,
    "headX": 549.6,
-   "headWidth": 12.5,
+   "headWidth": 12,
    "pose": "sit",
    "frontLine": [
     517,
@@ -1139,7 +1142,7 @@
    ],
    "headTop": 431,
    "headX": 960.5,
-   "headWidth": 12,
+   "headWidth": 9.1,
    "pose": "sit",
    "frontLine": [
     456,
@@ -1173,13 +1176,16 @@
     "facing": 180,
     "seat": "none",
     "hands": "free",
-    "coveredBy": "none",
+    "coveredBy": "chair-back",
     "dress": "business",
     "pose": "stand",
     "zone": "right aisle",
     "size": {
      "headWidth": 12,
      "height": 25
+    },
+    "fixed": {
+     "coveredBy": "none"
     }
    }
   },
@@ -1368,7 +1374,7 @@
    ],
    "headTop": 433,
    "headX": 170.2,
-   "headWidth": 21,
+   "headWidth": 12.0,
    "pose": "sit",
    "frontLine": [
     452,
@@ -1411,7 +1417,8 @@
      "headWidth": 21,
      "height": 29
     }
-   }
+   },
+   "headWidthMeasured": 21
   },
   {
    "box": [
@@ -1565,7 +1572,7 @@
    ],
    "headTop": 435,
    "headX": 1587.2,
-   "headWidth": 12.5,
+   "headWidth": 12.0,
    "pose": "sit",
    "frontLine": [
     468,
@@ -1841,7 +1848,7 @@
    ],
    "headTop": 439,
    "headX": 450.3,
-   "headWidth": 12.5,
+   "headWidth": 12.0,
    "pose": "sit",
    "frontLine": [
     466,
@@ -1979,7 +1986,7 @@
    ],
    "headTop": 448,
    "headX": 350.5,
-   "headWidth": 12.5,
+   "headWidth": 12.0,
    "pose": "sit",
    "frontLine": [
     501,

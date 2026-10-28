@@ -3,6 +3,8 @@ pick a natural pose; the place's dress level picks an outfit whose parts exist o
 garment color vary per person. Writes a SCENE.json for scene_people.py.
 usage: python3 autocast.py SPOTS.json ROOM.jpg OUT_SCENE.json [SEED] [MAX_PEOPLE] [MIN_HEADWIDTH]"""
 import sys, json, random, os
+import numpy as np
+from PIL import Image
 
 WD = 'art/wardrobe'
 IDX = json.load(open(f'{WD}/index.json'))['poses']
@@ -20,22 +22,42 @@ DRESS = {'formal': ['suit', 'skirt-suit'], 'business': ['business', 'office', 'd
          'casual': ['tee-jeans', 'polo-khakis', 'sweater-chinos', 'cardigan', 'zip-jacket', 'blazer-jeans', 'office']}
 
 def poses_for(tags, crowd=False):
-    """crowd: the room has a speaker, so its unassigned standing spots are an audience (clapping, cheering, a sign)."""
+    """crowd: the room has a speaker, so its unassigned standing spots are an audience, and they all watch the speaker."""
     f = tags.get('facing', 0); pose = tags.get('pose', 'stand'); cov = tags.get('coveredBy', 'none')
-    if pose == 'sit':
+    if tags.get('role') == 'speaker' or pose == 'lectern': c = ['nat-l1']      # hands on the lectern, never gesturing over the mic
+    elif pose == 'sit':
         if abs(f) >= 150: c = ['nat-b2']
         elif cov in ('desk', 'table', 'counter'): c = ['nat-c2', 'nat-c3', 'nat-c4']
         elif tags.get('seat') in ('bench', 'bleacher', 'pew'): c = ['nat-c5', 'nat-c1', 'nat-c3']
-        else: c = ['nat-c1', 'nat-c3', 'nat-c1']
-    elif pose == 'lectern': c = ['nat-l1', 'nat-s7', 'nat-s3']
-    elif crowd and not tags.get('role'):                          # an audience: most react, a few just watch
-        if abs(f) >= 150: c = ['nat-r5', 'nat-r5', 'nat-r5', 'nat-b1', 'nat-t1']
-        else: c = ['nat-r1', 'nat-r2', 'nat-r3', 'nat-r1', 'nat-r2', 'nat-s4', 'nat-s1']
+        elif tags.get('seat') == 'couch': c = ['nat-c3', 'nat-c2']             # couch mannequins sit feet down: legs crossed would hang off them
+        else: c = ['nat-c1', 'nat-c3', 'nat-c2']
+    elif crowd and not tags.get('role'):                          # an audience: heads turned to the speaker, never standing stiff
+        if abs(f) >= 150: c = ['nat-r5', 'nat-r5', 'nat-r5', 'nat-t1', 'nat-t1']
+        else: c = ['nat-p1', 'nat-r1', 'nat-r2', 'nat-r3', 'nat-r1', 'nat-s2']
     else:
-        if abs(f) >= 150: c = ['nat-b1', 'nat-t1']
+        if abs(f) >= 150: c = ['nat-t1', 'nat-t1', 'nat-b1']
         elif f == 0: c = ['nat-s1', 'nat-s4', 'nat-s7', 'nat-s1-old']
         else: c = ['nat-s2', 'nat-s3', 'nat-s4', 'nat-s5', 'nat-p1', 'nat-s6']
-    return [p for p in c if os.path.exists(f'{WD}/{p}/parts.json')]
+    return [p for p in c if os.path.exists(f'{WD}/{p}/parts.json') and complete(p)]
+
+def complete(pose):
+    """A pose still being painted (too few pieces) is not cast yet."""
+    meta = json.load(open(f'{WD}/{pose}/parts.json'))
+    return all(len(v['parts']) >= 25 for v in meta['figures'].values())
+
+def silhouette(pose, fid):
+    """The figure's whole outline in its base clothes, for matching against a mannequin."""
+    d = f'{WD}/{pose}/{fid}'; a = None
+    for part in ('body', 'shirt-1', 'pants-1', 'shoes-1'):
+        if os.path.exists(f'{d}/{part}.png'):
+            x = np.asarray(Image.open(f'{d}/{part}.png'))[..., 3]; a = x if a is None else np.maximum(a, x)
+    return a, np.asarray(Image.open(f'{d}/body.png'))[..., 3]
+
+def facing_flip(pose, sex, want):
+    """Flip so the figure looks the way it should: want is +1 (screen right) or -1 (screen left), 0 for no preference."""
+    ff = IDX[pose]['facing'][sex]
+    if not want or not ff or abs(ff) >= 180: return False
+    return (ff > 0) != (want > 0)
 
 def usable(outfit, have):
     return all((f'{k}-{n}' in have) or (n == 1 and k in ('shirt', 'pants', 'shoes')) for k, n in outfit['parts'].items())
@@ -45,16 +67,34 @@ if __name__ == '__main__':
     rng = random.Random(f"{os.path.basename(spots_p)}-{sys.argv[4] if len(sys.argv) > 4 else 1}")   # every room casts differently
     maxp = int(sys.argv[5]) if len(sys.argv) > 5 else 99; minhw = float(sys.argv[6]) if len(sys.argv) > 6 else 9
     S = json.load(open(spots_p)); people = []; used = set()
-    crowd = any((sp.get('tags') or {}).get('role') == 'speaker' for sp in S['spots'])
+    speakers = [sp for sp in S['spots'] if (sp.get('tags') or {}).get('role') == 'speaker']
+    crowd = bool(speakers); speaker_x = max(speakers, key=lambda sp: sp['headWidth'])['headX'] if speakers else None
+    from scene_people import placement, head
+    from fit import plate_for
+    try: PLATE = plate_for(spots_p, S)
+    except Exception: PLATE = None
+    W, H = S['size']
     order = sorted(range(len(S['spots'])), key=lambda i: -S['spots'][i]['headWidth'])
     for i in order[:maxp]:
         sp = S['spots'][i]; tags = sp.get('tags', {'pose': sp.get('pose', 'stand'), 'facing': 0})
         if sp['headWidth'] < minhw or sp.get('touching'): continue
         cands = poses_for(tags, crowd)
         if not cands: continue
-        for _ in range(12):                                       # no two people in a room share body and hair
-            pose = rng.choice(cands); sex = rng.choice('fm'); build = rng.choice(['slim', 'medium', 'medium', 'heavy'])
+        audience = crowd and not tags.get('role') and tags.get('pose', 'stand') != 'sit'
+        want = (1 if speaker_x > sp['headX'] else -1) if audience else 0
+        for _ in range(12):                                       # no two people in a room share body and pose
+            sex = rng.choice('fm'); build = rng.choice(['slim', 'medium', 'medium', 'heavy'])
+            pose = rng.choice(cands)
             if (sex, build, pose) not in used: break
+        if tags.get('pose') == 'sit' and PLATE is not None and len(set(cands)) > 1:   # sit the way the mannequin sits
+            scored = []
+            for c in sorted(set(cands)):
+                a, b = silhouette(c, f'v2-{c}-{sex}-{build}')
+                ht, hx, hw = head(b)
+                ff = IDX[c]['facing'][sex]; sf = tags.get('facing', 0)
+                if ff and sf and abs(ff) < 180 and abs(sf) < 180 and (ff > 0) != (sf > 0): a = a[:, ::-1]; hx = a.shape[1] - 1 - hx
+                scored.append((placement(sp, a, ht, hx, hw, W, H, PLATE)[3], c))
+            top = max(v for v, _ in scored); pose = rng.choice([c for v, c in scored if v >= top - 0.02])
         used.add((sex, build, pose))
         meta = json.load(open(f'{WD}/{pose}/parts.json')); fid = f'v2-{pose}-{sex}-{build}'
         have = set(meta['figures'][fid]['parts'])
@@ -68,8 +108,13 @@ if __name__ == '__main__':
         colors = {k: rng.choice(pal(k)) for k in o['parts']}
         for a, b in [tuple(x) for x in o.get('sameColor', []) and [o['sameColor']]]: colors[b] = colors[a]
         hairs = [n for n in range(1, 13) if f'hair-{n}' in have]
+        sizes = {n: int((np.asarray(Image.open(f'{WD}/{pose}/{fid}/hair-{n}.png'))[..., 3] > 128).sum()) for n in hairs}
+        if sizes:                                                              # a hair piece Firefly mostly lost would leave them bald
+            med = sorted(sizes.values())[len(sizes) // 2]; hairs = [n for n in hairs if sizes[n] >= max(200, 0.15 * med)]
         hc = rng.choice([[120, 120, 120], [175, 175, 170], [215, 215, 210]] if IDX[pose].get('ageBand') == 'older' else HAIR)   # older adults go gray
-        people.append({'spot': i, 'pose': pose, 'fig': f'{sex}-{build}', 'outfit': o['id'], 'colors': colors, 'skin': rng.choice(SKIN),
-                       'hair': [rng.choice(hairs), hc] if hairs else None})
+        person = {'spot': i, 'pose': pose, 'fig': f'{sex}-{build}', 'outfit': o['id'], 'colors': colors, 'skin': rng.choice(SKIN),
+                  'hair': [rng.choice(hairs), hc] if hairs else None}
+        if audience: person['flip'] = facing_flip(pose, sex, want)                # look at the speaker
+        people.append(person)
     json.dump({'spots': spots_p, 'room': room_p, 'wardrobe': WD, 'outfits': f'{WD}/outfits.json', 'people': people}, open(out_p, 'w'), indent=1)
     print(out_p, len(people), 'people')

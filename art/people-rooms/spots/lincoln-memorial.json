@@ -1066,7 +1066,7 @@
    ],
    "headTop": 411,
    "headX": 410.5,
-   "headWidth": 19,
+   "headWidth": 9.1,
    "pose": "sit",
    "frontLine": [
     437,
@@ -1100,13 +1100,16 @@
     "facing": 180,
     "seat": "none",
     "hands": "free",
-    "coveredBy": "none",
+    "coveredBy": "object",
     "dress": "casual",
     "pose": "stand",
     "zone": "visitors",
     "size": {
      "headWidth": 19,
      "height": 34
+    },
+    "fixed": {
+     "coveredBy": "none"
     }
    }
   },
@@ -1119,7 +1122,7 @@
    ],
    "headTop": 412,
    "headX": 952.7,
-   "headWidth": 18,
+   "headWidth": 8.7,
    "pose": "sit",
    "frontLine": [
     442,
@@ -1152,13 +1155,16 @@
     "facing": 180,
     "seat": "none",
     "hands": "free",
-    "coveredBy": "none",
+    "coveredBy": "object",
     "dress": "casual",
     "pose": "stand",
     "zone": "visitors",
     "size": {
      "headWidth": 18,
      "height": 32
+    },
+    "fixed": {
+     "coveredBy": "none"
     }
    }
   },

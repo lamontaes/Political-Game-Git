@@ -1812,13 +1812,16 @@
     "facing": 180,
     "seat": "none",
     "hands": "free",
-    "coveredBy": "none",
+    "coveredBy": "object",
     "dress": "casual",
     "pose": "stand",
     "zone": "crowd facing the gazebo",
     "size": {
      "headWidth": 3,
      "height": 68
+    },
+    "fixed": {
+     "coveredBy": "none"
     }
    }
   }

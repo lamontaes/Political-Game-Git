@@ -142,6 +142,12 @@ def main():
                 m &= np.isin(lab, [j + 1 for j in range(n) if ((lab == j + 1) & headz).any()])
             m = ndimage.binary_fill_holes(ndimage.binary_closing(m, iterations=2))
             info['parts'][f'hair-{i}'] = save(m, E, f'hair-{i}')
+        hs = {k: v for k, v in info['parts'].items() if k.startswith('hair-')}
+        if hs:                                                                 # a hair piece Firefly mostly lost is left out (it would leave them bald)
+            med = sorted(hs.values())[len(hs) // 2]
+            for k, v in hs.items():
+                if v < max(200, 0.15 * med):
+                    del info['parts'][k]; os.remove(f'{od}/{k}.png'); print('thin', fid, k, v, int(med), file=sys.stderr)
         meta['figures'][fid] = info
     json.dump(meta, open(f'{out}/parts.json', 'w'), indent=1)
     print(sheet, {k: len(v['parts']) for k, v in meta['figures'].items()})
