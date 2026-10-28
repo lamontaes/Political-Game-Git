@@ -31,6 +31,7 @@
  */
 import parameters from "./data/public-safety/parameters.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
+import { parameter } from "./parameters";
 import { fundBalance, fundGroups, fundOf } from "./counted-money";
 import { isNoncitizen } from "./citizenship";
 import { citizenShareOf } from "./electorate-places";
@@ -365,7 +366,7 @@ export function takeCensus(api: CoreAPI): Census {
           (g as { youthTeens: number }).youthTeens += w;
         if (age >= safetyParameter("permitAge"))
           (g as { adults21: number }).adults21 += w;
-        else if (age >= safetyParameter("adultAge"))
+        else if (age >= parameter("votingAge"))
           (g as { adults18to20: number }).adults18to20 += w;
         if (age < minAge) return;
         const band = bandOf(age);
@@ -1765,7 +1766,12 @@ function firearms(api: CoreAPI, census: Census): void {
     else groups.set(g.index, buyers * price);
   }
   for (const p of census.full) {
-    if (!p.gunHome || p.age < 18 || p.age >= 21) continue;
+    if (
+      !p.gunHome ||
+      p.age < parameter("votingAge") ||
+      p.age >= safetyParameter("permitAge")
+    )
+      continue;
     const c = carryOf(api, p.id);
     const owed = c.buy + perMonth;
     const buy = owed >= 1 - 1e-9;

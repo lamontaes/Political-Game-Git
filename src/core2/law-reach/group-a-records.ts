@@ -10,6 +10,7 @@ import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
 import { registerModule } from "../state";
+import { parameter } from "../parameters";
 import type {
   CoreAPI,
   CoreModule,
@@ -122,7 +123,12 @@ const params = (
   }
 ).parameters;
 
+/**
+ * A number from the group A parameter table. The voting age is the elections
+ * data's one row (`votingAge`, the Twenty-Sixth Amendment), never a copy here.
+ */
 export function reachParameter(key: string): number {
+  if (key === "votingAge") return parameter(key);
   const row = params[key];
   if (!row) throw new Error(`No law-reach parameter: ${key}`);
   return row.value;
@@ -343,7 +349,7 @@ function personMatches(
 
 /** Adults in the town, named and counted: the base an estimated share applies to. */
 export function townAdults(api: CoreAPI): number {
-  const adult = reachParameter("adultAge");
+  const adult = reachParameter("votingAge");
   const date = api.state.date;
   const named = townPeople(api).filter(
     (p) => ageOn(p.birthDate, date) >= adult,
