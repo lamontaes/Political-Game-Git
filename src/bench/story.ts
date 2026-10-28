@@ -4,9 +4,9 @@ import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
 import {
-  backdropFile,
   homeOf,
   orgPlace,
+  personBackdrop,
   pictureFor,
   stagePeople,
   type StageReason,
@@ -178,7 +178,7 @@ export function storyScene(
   return {
     momentId,
     place: pictured,
-    backdrop: backdropFile(pictured, minuteOfDay),
+    backdrop: personBackdrop(core, personId, pictured, minuteOfDay),
     people: stagePeople(core, pictured, cast).people,
     narration: [
       ...scene.narration,

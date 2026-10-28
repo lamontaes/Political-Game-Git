@@ -5,10 +5,15 @@
 // reaches is deletable. Usage: node scripts/core2-guard/old-imports.mjs [--dead] [--fail]
 //   --dead  also print the unreachable old files
 //   --fail  exit 1 while any old file is reachable from outside (the item's done line)
+// Every run also refuses a new importer: a file outside the old folders that imports one and is
+// not listed in old-imports-baseline.json fails the run (owner, Oct 28: no new twin of what the
+// new core does). A listed file that stops importing must leave the list, so it only shrinks.
+//   --write-baseline  rewrite the list from the tree (only to shrink it)
 import { createRequire } from "node:module";
 import { execSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const ts = createRequire(import.meta.url)("typescript");
 const OLD = ["src/simulation/", "src/presentation/"];
@@ -83,5 +88,25 @@ for (const [group, importers] of [...direct].sort(
 ))
   console.log(`  ${group}: ${importers.size}`);
 if (process.argv.includes("--dead")) console.log(dead.join("\n"));
+
+const baselinePath = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "old-imports-baseline.json",
+);
+const importers = [...direct.values()].flatMap((s) => [...s]).sort();
+if (process.argv.includes("--write-baseline"))
+  writeFileSync(baselinePath, JSON.stringify(importers, null, 2) + "\n");
+const baseline = new Set(JSON.parse(readFileSync(baselinePath, "utf8")));
+const added = importers.filter((f) => !baseline.has(f));
+const gone = [...baseline].filter((f) => !importers.includes(f));
+for (const f of added)
+  console.log(
+    `NEW old-engine importer: ${f}. Use src/core2 (or port what it needs there); never add an importer.`,
+  );
+for (const f of gone)
+  console.log(
+    `${f} no longer imports the old folders: drop it from scripts/core2-guard/old-imports-baseline.json.`,
+  );
+if (added.length || gone.length) process.exitCode = 1;
 if (process.argv.includes("--fail") && old.length - dead.length > 0)
   process.exit(1);

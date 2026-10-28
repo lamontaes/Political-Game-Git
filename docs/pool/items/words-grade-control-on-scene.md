@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/grade-control
-pr: 6454
+pr: #6454
 blocked-on:
 lead: words
 milestone: play-first

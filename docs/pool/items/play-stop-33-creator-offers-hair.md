@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/people-hair
 pr: #6426
 blocked-on: art-hair-pieces-fit-the-figure-heads
