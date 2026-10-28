@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-bargaining-without-budgets
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T14:40:52.363Z
 ---
 
 **What.** Since the public bargaining law reach merged, src/core2/law-reach/group-a-bargaining.ts asks the budgets module for its governments the moment the law takes effect. A world opened without the budgets engine, such as the fixture worlds of src/core2/world-legislating.test.ts, throws 'Module has no registered state' from module-state.ts:205 and the unit job is red on main. Every sibling handler (staffing, money) checks that the budgets module is open before reading its tables; the bargaining handler is the one that does not.
