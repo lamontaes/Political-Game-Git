@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/main-red-yeslevels-import
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T03:22:25.092Z
 ---
 
 **What.** The bench server and every world build fail to load on main with: the requested module group-a-records does not provide an export named yesLevels. The one-reader change moved yesLevels to modules/laws.ts, and the public bargaining merge kept importing the deleted copy in group-a-bargaining.ts and its test. Nothing on main can play until it loads.
