@@ -12,10 +12,10 @@ import type { ResidentFlowInput } from "./residents";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, Source } from "./types";
 
-const UNION_RATES = (
+export const UNION_RATES = (
   unionData as { states: Record<string, { membersPct: number }> }
 ).states;
-const UNION_NATION_PCT = (unionData as { nationMembersPct: number })
+export const UNION_NATION_PCT = (unionData as { nationMembersPct: number })
   .nationMembersPct;
 const P = businessParameters as unknown as Readonly<Record<string, Parameter>>;
 const p = (key: string) => P[key]!.value;

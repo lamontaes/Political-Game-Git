@@ -11,20 +11,15 @@
  * workers who no longer have to pay a fee (the people they stand for).
  * stopgapId: SG-GOV-REACH-A-union-dues
  */
-import unionData from "./data/business/union-membership.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 import { lawChain, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
 import { reachParameter, REACH_A_MODULE_ID } from "./law-reach/group-a-records";
+import { UNION_NATION_PCT, UNION_RATES } from "./membership-dues";
 
 export const RTW_KEY = "us-policy-positions:labor-workforce.right-to-work";
-const UNION_RATES = (
-  unionData as { states: Record<string, { membersPct: number }> }
-).states;
-const UNION_NATION_PCT = (unionData as { nationMembersPct: number })
-  .nationMembersPct;
 
 export interface RtwRow {
   readonly id: string;
