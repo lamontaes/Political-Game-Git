@@ -23,7 +23,7 @@ import {
   type FigureColors,
 } from "./figure-colors";
 import { occluderFor, type Occluder } from "./occluders";
-import { hairStyles } from "./figure-hair";
+import { faces, hairStyles } from "./figure-hair";
 import type { CoreState } from "../core2/types";
 
 export interface Figure {
@@ -336,8 +336,16 @@ export function colorsFor(
     }
     left -= weight;
   }
+  // A face painted for the figure's sex, set once from the seed.
+  const painted = faces(person.look?.sex ?? sex ?? person.gender ?? "");
+  const face =
+    person.look?.face ??
+    (painted.length
+      ? String(painted[mixed(`${seed}:face`) % painted.length]!.face)
+      : undefined);
   return {
     skin: person.look?.skin ?? skin,
+    ...(face ? { face } : {}),
     ...garments,
     ...(hair ? { hair, hairColor: person.look?.hairColor ?? hairColor } : {}),
   };
@@ -386,6 +394,7 @@ export interface FigurePerson {
     shoes?: string;
     hair?: string;
     hairColor?: string;
+    face?: string;
   };
 }
 
