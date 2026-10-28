@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/title.ts, desktop/tests/title-screen.test.mjs, art/backdrops/manifest.json
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (no failing assertion on main).

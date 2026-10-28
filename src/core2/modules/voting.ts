@@ -82,6 +82,7 @@ import {
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  townLean,
   campaignFor,
   impressionOf,
   parsePlatform,
@@ -416,20 +417,6 @@ function town(api: CoreAPI) {
     townPlaceId: string;
   };
 }
-function townLean(api: CoreAPI): number {
-  // Read once a day: the counted electorate asks it once per voter.
-  const held = townLeans.get(api.state);
-  if (held?.date === api.state.date) return held.lean;
-  const lean = (
-    api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("town")
-      .get("town") as unknown as { lean: number }
-  ).lean;
-  townLeans.set(api.state, { date: api.state.date, lean });
-  return lean;
-}
-const townLeans = new WeakMap<object, { date: string; lean: number }>();
 
 /**
  * Who holds a contest's seat today: the term serving on it, read from the
@@ -1602,11 +1589,15 @@ export function holdPrimary(
     for (const [id, n] of Object.entries(wider.votes))
       votes[id] = (votes[id] ?? 0) + n;
   };
-  const lose = (filing: FilingRow) =>
+  // Who the primary puts out, named on its record so each hears it.
+  const out: string[] = [];
+  const lose = (filing: FilingRow) => {
+    out.push(filing.personId);
     api
       .moduleState(ELECTIONS_MODULE_ID)
       .table("filings")
       .put({ ...filing, status: "withdrawn" } as unknown as ModuleRow);
+  };
   const advancing = method === "top-two" ? 2 : method === "top-four" ? 4 : 0;
   if (advancing) {
     countNamed(filings, named);
@@ -1690,9 +1681,16 @@ export function holdPrimary(
     news: true,
     facts: {
       contestId,
+      office: contest.title,
       method,
       votes: JSON.stringify(votes),
       namedVotes: String(namedVotes),
+      outIds: JSON.stringify(
+        out
+          .map((id) => winningPersonId(api, id))
+          .filter((id) => api.state.people.has(id))
+          .sort(),
+      ),
     },
   });
   return { votes, namedVotes };

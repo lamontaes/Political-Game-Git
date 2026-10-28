@@ -99,6 +99,38 @@
       "entry": "setting"
     },
     {
+      "kindPrefix": "job-started:first",
+      "turn": false,
+      "entry": "story",
+      "wordsFrom": "job-started"
+    },
+    {
+      "kindPrefix": "job-started:again",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:let-go",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "job-ended:moved-on",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:child",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "job-ended:retired",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "job-started",
       "turn": false,
       "hasOtherLine": true,
@@ -287,6 +319,7 @@
     },
     {
       "kindPrefix": "event:office.voted",
+      "hasOtherLine": true,
       "turn": false,
       "entry": "story",
       "stageFact": "vote",
@@ -297,18 +330,19 @@
       "eventFacts": {
         "law": {
           "fact": "billId",
-          "format": "billName"
+          "format": "billNumberAndName"
         }
       }
     },
     {
       "kindPrefix": "event:office.introduced",
+      "hasOtherLine": true,
       "turn": false,
       "entry": "story",
       "eventFacts": {
         "law": {
           "fact": "billId",
-          "format": "billName"
+          "format": "billNumberAndName"
         }
       }
     },
@@ -390,6 +424,33 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "household:siblings-older",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:siblings-born",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:school-started:elementary",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "household:school-started:high",
+      "turn": false,
+      "entry": "story",
+      "framesAge": true
+    },
+    {
+      "kindPrefix": "household:livelihood",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "household:sibling-older",
       "turn": false,
       "entry": "story"
@@ -401,6 +462,11 @@
     },
     {
       "kindPrefix": "household:sibling-born",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "life:came-of-age",
       "turn": false,
       "entry": "story"
     }

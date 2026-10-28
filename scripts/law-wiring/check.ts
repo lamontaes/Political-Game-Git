@@ -31,8 +31,9 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  yesLevels,
 } from "../../src/core2/modules/laws";
-import { inForceHere, LAW_REACH_HOST_ID } from "../../src/core2/law-reach/host";
+import { LAW_REACH_HOST_ID } from "../../src/core2/law-reach/host";
 import {
   LAW_APPLIED_TABLE,
   type LawAppliedRow,
@@ -44,7 +45,13 @@ import {
 } from "../../src/core2/modules/budgets";
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
-import { ownPayments, UNDER, type Posting, type Reached } from "./own-payments";
+import {
+  lineMoney,
+  ownPayments,
+  UNDER,
+  type Posting,
+  type Reached,
+} from "./own-payments";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import { townSeats } from "../../src/core2/modules/offices";
@@ -54,6 +61,7 @@ import powerQuestions from "../../data/research/powers-catalog/question-powers.j
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { linkCoverage, WEB_LINKS } from "../../src/core2/outcome-web-model";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
+import legislaturePowers from "../../src/core2/data/legislature/series-powers.json" with { type: "json" };
 import startingLawData from "../../src/core2/data/laws/starting-law.json" with { type: "json" };
 
 const ROOT = `${process.cwd()}/`;
@@ -562,38 +570,36 @@ function snapshotMoney() {
   return m;
 }
 
-/**
- * The treasury's payments on a budget line in a window: the payment ids that
- * name the government and the line (a provider's, a payee group's), summed,
- * for payments dated before `before` (the day a body in play first changed the
- * law, after which the two worlds no longer differ by the checker's change).
- */
-function lineMoney(
-  paid: ReadonlyMap<string, { gross: number; ids: string[] }>,
-  governmentId: string,
-  line: string,
-  before: string | null,
-): { gross: number; ids: string[] } {
-  const named = new RegExp(
-    `(^|:)${(governmentId + ":" + line).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(:|$)`,
-  );
-  const out = { gross: 0, ids: [] as string[] };
-  for (const [id, row] of paid) {
-    const dated = /^(.*):(\d{4}-\d{2}-\d{2})$/.exec(id);
-    if (!dated || !named.test(dated[1]!)) continue;
-    if (before && dated[2]! >= before) continue;
-    out.gross += row.gross;
-    for (const at of row.ids) if (out.ids.length < 3) out.ids.push(at);
-  }
-  return out;
-}
-
 // ---- changing a law -------------------------------------------------------
 
 interface Change {
   lawIds: Set<string>;
   how: string;
   undo: () => void;
+  /** The budget line the change raised, as an act's move rows record theirs (a budget-line law's own line). */
+  lines?: { governmentId: string; moves: Record<string, number> }[];
+}
+
+/**
+ * The levels a law may be enacted at: the catalog's levels narrowed to those
+ * that hold the power, read from the same series powers the legislature's
+ * authority check reads (`beyondPower`: a "local" power is the city, county
+ * and township). A catalog level with no power is dropped; when none is left,
+ * the levels that hold the power are used. Null where nothing is recorded.
+ */
+const POWERS = legislaturePowers as unknown as {
+  series: Record<string, { levels: string[] }>;
+  questions: Record<string, { levels: string[] }>;
+};
+function enactingLevels(law: LawEntry): readonly string[] | null {
+  const power = POWERS.questions[law.key] ?? POWERS.series[law.key];
+  const catalog = law.catalog?.levels ?? null;
+  if (!power) return catalog;
+  const held = power.levels.flatMap((l) =>
+    l === "local" ? ["city", "county", "township", "local"] : [l],
+  );
+  const both = (catalog ?? []).filter((l) => held.includes(l));
+  return both.length ? both : held;
 }
 
 function townLevel(
@@ -690,7 +696,7 @@ function setQuestion(
   }
   const at = townLevel(
     api,
-    AT ? [AT] : (ENACT_AT[law.key] ?? law.catalog?.levels ?? null),
+    AT ? [AT] : (ENACT_AT[law.key] ?? enactingLevels(law)),
   );
   if (!at) return "no level of the town's chain may enact it";
   const row = enactLaw(api, {
@@ -849,7 +855,7 @@ function changeAmount(
       : governing;
   const at = g
     ? { level: g.level, jurisdiction: g.jurisdiction }
-    : townLevel(api, AT ? [AT] : (law.catalog?.levels ?? null));
+    : townLevel(api, AT ? [AT] : enactingLevels(law));
   if (!at)
     return {
       lawIds: ids,
@@ -941,6 +947,9 @@ function changeBudget(
     how: row
       ? `${gov.id} ${line} ${base} -> ${base + delta} by law-wiring-${tag}`
       : `${gov.id} has no budget this year`,
+    ...(row
+      ? { lines: [{ governmentId: gov.id, moves: { [line]: delta } }] }
+      : {}),
     undo: () => {
       amendBudget(api, {
         governmentId: gov.id,
@@ -1095,7 +1104,8 @@ function checkLaw(
   trackedKeys = new Set([law.key]);
   resetTrace();
 
-  const opening = law.kind === "question" ? inForceHere(api, law.key) : false;
+  const opening =
+    law.kind === "question" ? yesLevels(api, law.key).length > 0 : false;
   // Link 1 in the drawn place: the row in force (or saying no) on day one.
   const openingRow =
     law.kind === "budget-line"
@@ -1133,6 +1143,7 @@ function checkLaw(
       : dayOne;
   let how: string;
   let undo: () => void;
+  let raised: NonNullable<Change["lines"]> = [];
   if (law.kind === "question") {
     const repealed: { level: LawRowInput["level"]; jurisdiction: string }[] =
       [];
@@ -1144,6 +1155,7 @@ function checkLaw(
     const c = changeBudget(api, law, tag, ids);
     how = c.how;
     undo = c.undo;
+    raised = c.lines ?? [];
   } else {
     const c = changeAmount(api, law, tag, ids);
     how = c.how;
@@ -1317,8 +1329,12 @@ function checkLaw(
   // An act that moves budget lines is paid by the treasury on those lines: the
   // lines its own move rows name, and what the treasury paid on each here and
   // in the control world, up to the day a body in play first changed the act
-  // (no rows: the law is not one that moves a line).
-  const moveRows = earlyMoves ?? moveRowsOf(core, law.key);
+  // (no rows: the law is not one that moves a line). A budget-line law is the
+  // same with its own line, the one the checker raised: the treasury pays the
+  // line's workers and contractors through the town's outside market, which no
+  // person's or organization's account shows, so its payments are followed by
+  // the line their payment ids name.
+  const moveRows = [...(earlyMoves ?? moveRowsOf(core, law.key)), ...raised];
   const changedByBodyOn = inPlay.map((r) => r.effectiveDate).sort()[0] ?? null;
   const lines = moveRows.length
     ? moveRows.flatMap((row) =>

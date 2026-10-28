@@ -15,7 +15,11 @@
  */
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
-import { customPolitics, registerElectorate } from "../electorate";
+import {
+  countedResidents,
+  customPolitics,
+  registerElectorate,
+} from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
@@ -65,12 +69,18 @@ import {
   partyTie,
   type TieRow,
 } from "./parties";
-import { agreementWith, VIEWS_SPEAKER_KEY } from "./views";
+import { agreementWith, viewOn, VIEWS_SPEAKER_KEY } from "./views";
+import {
+  LEGISLATURE_MODULE_ID,
+  provisionStance,
+  type BillRow,
+} from "./legislature";
 import { recordAppeal } from "./record";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   ACCEPTING_MOVES,
+  REFUSING_MOVES,
   answerInterview,
   candidateAnswers,
   PRESS_MODULE_ID,
@@ -398,6 +408,24 @@ function scheduleTurn(api: CoreAPI): void {
     sourceRecordIds: [`campaign-turn:${townRow(api).townPlaceId}`],
   });
 }
+
+/**
+ * The town's lean, right positive: the one reader every engine uses (voting,
+ * the legislatures, recalls, staff, ballot measures, stances). Read once a
+ * day, since the counted electorate asks it once per voter; 0 before the
+ * campaigns engine opens.
+ */
+export function townLean(api: CoreAPI): number {
+  const held = townLeans.get(api.state);
+  if (held?.date === api.state.date) return held.lean;
+  if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return 0;
+  const lean =
+    (table(api, "town").get("town") as unknown as { lean?: number } | undefined)
+      ?.lean ?? 0;
+  townLeans.set(api.state, { date: api.state.date, lean });
+  return lean;
+}
+const townLeans = new WeakMap<object, { date: string; lean: number }>();
 
 function townRow(api: CoreAPI) {
   return table(api, "town").get("town") as unknown as {
@@ -1230,7 +1258,6 @@ export const VOLUNTEER_OFFERED_EVENT = "volunteer-offered";
 function offersToHelp(api: CoreAPI): void {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return;
   const date = api.state.date;
-  const playerId = (api.state as CoreState).playerId;
   const stories = api.moduleState(PRESS_MODULE_ID).table("stories");
   for (const filing of elections(
     api,
@@ -1294,6 +1321,7 @@ function offersToHelp(api: CoreAPI): void {
       )
         continue;
       offered = id;
+      const weight = offerWeight(api, filing, contest, id);
       api.emit({
         id: `${VOLUNTEER_OFFERED_EVENT}:${filing.id}:${id}`,
         date,
@@ -1312,6 +1340,7 @@ function offersToHelp(api: CoreAPI): void {
           filingId: filing.id,
           contestId: contest.id,
           office: contest.title,
+          weight: String(weight),
         },
       });
     }
@@ -1321,11 +1350,12 @@ function offersToHelp(api: CoreAPI): void {
       ...current,
       offerWeighedIds: [...weighed],
       ...(offered ? { lastOfferOn: date } : {}),
-      // A candidate who isn't the player takes the help offered.
-      volunteerIds:
-        offered && candidate.id !== playerId
-          ? [...current.volunteerIds, offered]
-          : current.volunteerIds,
+      // The help offered is taken, the player's campaign's too: the offer
+      // stops the player only as a scene its weight earns, where the player
+      // may still turn it down (`answerOffer`).
+      volunteerIds: offered
+        ? [...current.volunteerIds, offered]
+        : current.volunteerIds,
     });
   }
 }
@@ -1444,25 +1474,89 @@ export function offerReason(
 }
 
 /**
- * The candidate's answer to an offer of help, said in its scene: a yes puts
- * the one who offered on the campaign's volunteers; anything else leaves them
- * off it.
+ * The candidate's answer to an offer of help, said in its scene: the one who
+ * offered is already on the campaign's volunteers, and a refusal takes them
+ * off it; a yes, or no answer, keeps them.
  */
 function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   const offer = api.state.durableLog.get(String(facts.causeId ?? ""));
   if (offer?.kind !== VOLUNTEER_OFFERED_EVENT) return;
-  if (!ACCEPTING_MOVES.has(String(facts.move))) return;
+  const move = String(facts.move);
+  if (ACCEPTING_MOVES.has(move) || !REFUSING_MOVES.has(move)) return;
   const filingId = String(offer.facts?.filingId ?? "");
   const helperId = String(offer.facts?.offeredBy ?? "");
   const candidateId = String(offer.facts?.invitedId ?? "");
   if (!event.personIds.includes(candidateId)) return;
   const campaign = campaignFor(api, filingId);
-  if (campaign.volunteerIds.includes(helperId)) return;
+  if (!campaign.volunteerIds.includes(helperId)) return;
   save(api, {
     ...campaign,
-    volunteerIds: [...campaign.volunteerIds, helperId],
+    volunteerIds: campaign.volunteerIds.filter((id) => id !== helperId),
   });
+}
+
+/**
+ * How much one offer of help matters to the candidate's story, from 0 to 1
+ * (owner, Oct 27, 4 PM Eastern: "it shouldn't be stopped for literally every
+ * single volunteer. Maybe some that matter. And that's only when you're doing
+ * small local campaigns, or maybe your first campaign."). The race's reach on
+ * the story falls smoothly with its eligible voters and with each campaign the
+ * candidate ran before; within that, a close tie counts twice a stranger. The
+ * director sizes the offer's moment by it, so a friend's offer in a first
+ * council race is a scene and a stranger's in a statewide race a journal line,
+ * with no size or count at which it flips.
+ */
+export function offerWeight(
+  api: CoreAPI,
+  filing: FilingRow,
+  contest: ContestRow,
+  helperId: string,
+): number {
+  const half = campaignParameter("volunteerOfferHalfElectorate");
+  const small = half / (half + raceElectorate(api, contest));
+  const before = (
+    elections(api, "filings").rows() as unknown as FilingRow[]
+  ).filter(
+    (row) =>
+      row.personId === filing.personId &&
+      row.id !== filing.id &&
+      (api.state.durableLog.get(`candidate-filed:${row.id}` as never)?.date ??
+        "9999") <
+        (api.state.durableLog.get(`candidate-filed:${filing.id}` as never)
+          ?.date ?? "9999"),
+  ).length;
+  const fresh =
+    campaignParameter("volunteerOfferFirstCampaignShare") / (1 + before);
+  const reach = 1 - (1 - small) * (1 - fresh);
+  const tie = closenessBetween(api.state, filing.personId, helperId);
+  return reach * ((1 + tie) / 2);
+}
+
+/**
+ * A race's eligible voters: the places its electorate lives in (a district,
+ * the state's counties), or for a local race the town's own adults, named
+ * and counted.
+ */
+function raceElectorate(api: CoreAPI, contest: ContestRow): number {
+  const { places } = basePlaces(api, contest);
+  if (places.length)
+    return places.reduce((sum, place) => sum + place.eligible, 0);
+  const core = api.state as CoreState;
+  const { townPlaceId } = townRow(api);
+  const adult = api.parameter("votingAge");
+  let total = 0;
+  for (const person of core.people.values())
+    if (
+      person.alive &&
+      person.placeId === townPlaceId &&
+      ageOn(person, core.date) >= adult
+    )
+      total += 1;
+  for (const row of countedResidents(core))
+    if (row.placeId === townPlaceId && ageOn(row, core.date) >= adult)
+      total += row.weight;
+  return total;
 }
 
 /**
@@ -1708,6 +1802,7 @@ export function askForDonation(
     ...campaignFor(api, filingId),
     raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
   });
+  recordGift(api, filingId, donorId, amount, given + amount);
   return amount;
 }
 
@@ -1881,6 +1976,101 @@ function spend(
     spentMinor: campaign.spentMinor + input.amountMinor,
     spentByKind: byKind,
   });
+}
+
+/**
+ * A gift from someone other than the candidate is a public record, as a
+ * campaign finance report names each contributor: who gave, how much, their
+ * total, and the share it is of what others have given the campaign. A
+ * donor who holds a view on a bill pending before the body the seat sits on
+ * names the one they hold most strongly, the bill they will want to talk
+ * about.
+ */
+function recordGift(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+  amountMinor: number,
+  totalMinor: number,
+): void {
+  const campaign = campaignFor(api, filingId);
+  const donor = api.state.people.get(donorId);
+  if (
+    donorId === campaign.candidateId ||
+    !donor ||
+    !api.state.people.has(campaign.candidateId)
+  )
+    return;
+  const bill = donorsBill(api, campaign, donor);
+  // The share of what others have given: the candidate's own money is theirs.
+  const outside =
+    campaign.raisedMinor -
+    (giftOf(api, filingId, campaign.candidateId)?.totalMinor ?? 0);
+  api.emit({
+    id: `campaign-gift:${filingId}:${donorId}:${api.state.date}:${totalMinor}`,
+    date: api.state.date,
+    kind: "campaign-gift",
+    personIds: [campaign.candidateId, donorId],
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `A contribution to ${campaign.organizationId}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    facts: {
+      filingId,
+      contestId: campaign.contestId,
+      candidateId: campaign.candidateId,
+      donorId,
+      amountMinor: String(amountMinor),
+      totalMinor: String(totalMinor),
+      raisedMinor: String(campaign.raisedMinor),
+      share: String(amountMinor / outside),
+      ...(bill ? { billId: bill.id, number: bill.number } : {}),
+    },
+  });
+}
+
+/**
+ * The bill pending before the body a campaign's seat sits on that the donor
+ * holds the strongest view on, either way; none where nothing is pending.
+ */
+function donorsBill(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  donor: Readonly<PersonState>,
+): BillRow | undefined {
+  if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
+  const contest = elections(api, "contests").get(
+    campaign.contestId,
+  ) as unknown as ContestRow | undefined;
+  if (!contest) return undefined;
+  const lean = personLean(api.state.people, donor, townRow(api).lean);
+  let best: { bill: BillRow; strength: number } | undefined;
+  for (const row of api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .rows() as unknown as BillRow[]) {
+    if (row.bodyOfficeId !== contest.officeId || row.status !== "drafted")
+      continue;
+    if (!row.number) continue;
+    const stance = row.provisions[0]
+      ? provisionStance(api, row.provisions[0])
+      : null;
+    if (!stance) continue;
+    const strength = Math.abs(
+      viewOn(api, donor.id as PersonId, stance.question, lean),
+    );
+    if (
+      strength > 0 &&
+      (!best ||
+        strength > best.strength ||
+        (strength === best.strength && row.id < best.bill.id))
+    )
+      best = { bill: row, strength };
+  }
+  return best?.bill;
 }
 
 function postMoney(

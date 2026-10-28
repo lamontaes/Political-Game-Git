@@ -4083,12 +4083,6 @@
           "raises": "next-2"
         },
         {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
-        {
           "move": "tenure-reply-answer-ack",
           "subject": "tenure-reply",
           "role": "answer",
@@ -9543,12 +9537,6 @@
       "text": "Oh, no.",
       "uses": [
         {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
-        {
           "move": "other-work-answer-ack-none",
           "subject": "other-work",
           "role": "answer",
@@ -9669,12 +9657,6 @@
       "text": "That's terrible.",
       "uses": [
         {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
-        {
           "move": "job-cause-reply-answer-comfort",
           "subject": "job-cause-reply",
           "role": "answer",
@@ -9730,12 +9712,6 @@
       "text": "That's too bad.",
       "uses": [
         {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
-        {
           "move": "other-work-answer-ack-none",
           "subject": "other-work",
           "role": "answer",
@@ -9780,53 +9756,11 @@
       }
     },
     {
-      "key": "conversation.news-answer-react.thats-a-shame",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "That's a shame.",
-      "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        }
-      ],
-      "transcriptsUsing": 25,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 3,
-        "dcpd": 8,
-        "hearings": 3,
-        "nasa2": 5,
-        "nps": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks During a Roundtable Discussion on Saving College Sports and an Exchange With Reporters",
-        "date": "2026-03-06",
-        "granule": "DCPD-202600153",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600153/html/DCPD-202600153.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.news-answer-react.thats-good-news",
       "move": "news-answer-react",
       "kind": "spoken",
       "text": "That's good news.",
       "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
         {
           "move": "acquittal-reply-answer-congratulate",
           "subject": "acquittal-reply",
@@ -9850,40 +9784,6 @@
         "date": "2026-09-30",
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "glad"
-    },
-    {
-      "key": "conversation.news-answer-react.good-for-them",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "Good for them.",
-      "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "dcpd": 2,
-        "hearings": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "KEEPING THE LIGHTS ON: EXAMINING THE STATE OF REGIONAL GRID RELIABILITY",
-        "date": "2025-03-25",
-        "granule": "CHRG-119hhrg60019",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60019/html/CHRG-119hhrg60019.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -18364,7 +18264,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         },
         {
           "move": "their-tenure-raise-ask",
@@ -18392,7 +18293,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         },
         {
           "move": "their-tenure-raise-ask",
@@ -18420,7 +18322,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18442,7 +18345,8 @@
           "move": "other-work-answer-tenure",
           "subject": "other-work",
           "role": "answer",
-          "choice": "tenure"
+          "choice": "tenure",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18464,7 +18368,8 @@
           "move": "other-work-answer-ack",
           "subject": "other-work",
           "role": "answer",
-          "choice": "ack"
+          "choice": "ack",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18486,7 +18391,8 @@
           "move": "other-work-answer-ack",
           "subject": "other-work",
           "role": "answer",
-          "choice": "ack"
+          "choice": "ack",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18508,7 +18414,8 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18530,7 +18437,8 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -18552,7 +18460,8 @@
           "move": "other-work-answer-brief",
           "subject": "other-work",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "stages": ["working"]
         }
       ],
       "shippable": true,
@@ -20869,6 +20778,735 @@
         "key": "household"
       },
       "bearing": "braced"
+    },
+    {
+      "key": "conversation.job-lost-raise.i-got-let-go",
+      "move": "job-lost-raise",
+      "kind": "spoken",
+      "text": "I got let go.",
+      "uses": [
+        {
+          "move": "job-lost-raise",
+          "subject": "job-lost",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300667",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.job-lost-raise.they-let-me-go-at-work",
+      "move": "job-lost-raise",
+      "kind": "spoken",
+      "text": "They let me go at work.",
+      "uses": [
+        {
+          "move": "job-lost-raise",
+          "subject": "job-lost",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300667",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.job-lost-raise.i-need-to-tell-you-something-i-lost-my-job",
+      "move": "job-lost-raise",
+      "kind": "spoken",
+      "text": "I need to tell you something. I lost my job.",
+      "uses": [
+        {
+          "move": "job-lost-raise",
+          "subject": "job-lost",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300667",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.news-answer-no.did-they-say-why",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "Did they say why?",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        },
+        {
+          "move": "job-lost-reply-answer-ask",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "eviction-reply-answer-ask",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "prison-news-reply-answer-ask",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "victimization-reply-answer-ask",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 243,
+      "bySource": {
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "National Archives History Office oral history project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 9,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
+        "U.S. Senate Historical Office oral history": 16,
+        "briefing": 22,
+        "crec": 20,
+        "dcpd": 78,
+        "hearings": 27,
+        "house": 4,
+        "nasa": 16,
+        "nasa2": 6,
+        "nih": 2,
+        "nps": 23,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600590",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      },
+      "bearing": "curious",
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.news-answer-react.we-ll-manage-we-always-do",
+      "move": "news-answer-react",
+      "kind": "spoken",
+      "text": "We'll manage. We always do.",
+      "uses": [
+        {
+          "move": "news-answer-react",
+          "subject": "news",
+          "role": "answer",
+          "choice": "react"
+        },
+        {
+          "move": "other-work-answer-ack-none",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "ack-none",
+          "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 249,
+      "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 5,
+        "National Archives History Office oral history project": 6,
+        "National Archives History Office oral history project (brooks-oral-histories)": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 3,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 19,
+        "U.S. Senate Historical Office oral history": 23,
+        "briefing": 12,
+        "crec": 10,
+        "dcpd": 32,
+        "hearings": 18,
+        "house": 14,
+        "nasa": 23,
+        "nasa2": 27,
+        "nih": 2,
+        "nps": 48,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Pennsylvania Defense and Innovation Summit in Carlisle, Pennsylvania",
+        "date": "2026-07-15",
+        "granule": "DCPD-202600465",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600465/html/DCPD-202600465.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "react",
+        "key": "news-received"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.job-lost-reply-answer-brief.okay-sit-down-tell-me",
+      "move": "job-lost-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Okay. Sit down. Tell me.",
+      "uses": [
+        {
+          "move": "job-lost-reply-answer-brief",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.death-news-raise-raise.sit-down-a-minute-relation-died",
+      "move": "death-news-raise-raise",
+      "kind": "spoken",
+      "text": "Sit down a minute. {relation} died.",
+      "uses": [
+        {
+          "move": "death-news-raise-raise",
+          "subject": "death-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-raise-raise.i-don-t-know-how-to-say-this-relation-is-gone",
+      "move": "death-news-raise-raise",
+      "kind": "spoken",
+      "text": "I don't know how to say this. {relation} is gone.",
+      "uses": [
+        {
+          "move": "death-news-raise-raise",
+          "subject": "death-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-help.tell-me-what-needs-doing-and-i-ll-do-it",
+      "move": "job-hope-reply-answer-help",
+      "kind": "spoken",
+      "text": "Tell me what needs doing, and I'll do it.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-help",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-where-reply-answer-help",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "death-news-reply-answer-help",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-reply-answer-help",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "chrg": 1,
+        "house-oral": 3,
+        "nasa-oral": 10,
+        "senate-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "SCREENTIME IN SCHOOLS . Tuesday, June 10, 2025",
+        "date": "2025-06-10",
+        "granule": "CHRG-119hhrg62534",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62534/html/CHRG-119hhrg62534.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      },
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.death-news-reply-answer-brief.oh-come-here",
+      "move": "death-news-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh. Come here.",
+      "uses": [
+        {
+          "move": "death-news-reply-answer-brief",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-raise-raise.i-got-a-call-about-relation-it-s-serious",
+      "move": "illness-news-raise-raise",
+      "kind": "spoken",
+      "text": "I got a call about {relation}. It's serious.",
+      "uses": [
+        {
+          "move": "illness-news-raise-raise",
+          "subject": "illness-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-raise-raise.relation-is-in-a-bad-way",
+      "move": "illness-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} is in a bad way.",
+      "uses": [
+        {
+          "move": "illness-news-raise-raise",
+          "subject": "illness-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-ask.have-you-talked-to-them",
+      "move": "illness-news-reply-answer-ask",
+      "kind": "spoken",
+      "text": "Have you talked to them?",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-ask",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "curious",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-comfort.i-m-sorry-that-s-a-lot-to-carry",
+      "move": "illness-news-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry. That's a lot to carry.",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-comfort",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-raise-raise.relation-got-sentenced-it-s-prison",
+      "move": "prison-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} got sentenced. It's prison.",
+      "uses": [
+        {
+          "move": "prison-news-raise-raise",
+          "subject": "prison-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-raise-raise.it-s-done-relation-is-going-away",
+      "move": "prison-news-raise-raise",
+      "kind": "spoken",
+      "text": "It's done. {relation} is going away.",
+      "uses": [
+        {
+          "move": "prison-news-raise-raise",
+          "subject": "prison-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-home-news-talk)",
+      "date": "2026-10-27",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-ack-none.i-m-so-sorry-that-s-family",
+      "move": "other-work-answer-ack-none",
+      "kind": "spoken",
+      "text": "I'm so sorry. That's family.",
+      "uses": [
+        {
+          "move": "other-work-answer-ack-none",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "ack-none",
+          "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "prison-news-reply-answer-comfort",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "charge-reply-answer-comfort",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "conviction-reply-answer-comfort",
+          "subject": "conviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 622,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
+        "National Archives History Office oral history project": 8,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 8,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 27,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
+        "U.S. Senate Historical Office oral history": 4,
+        "briefing": 168,
+        "dcpd": 129,
+        "hearings": 152,
+        "house": 13,
+        "nasa": 20,
+        "nasa2": 13,
+        "nih": 3,
+        "nps": 67
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in a Roundtable Discussion on the Ratepayer Protection Pledge",
+        "date": "2026-07-23",
+        "granule": "DCPD-202600486",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600486/html/DCPD-202600486.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "condole",
+        "key": "loss"
+      },
+      "bearing": "tender",
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
+    },
+    {
+      "key": "conversation.news-answer-no.did-they-say-when-you-can-see-them",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "Did they say when you can see them?",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        },
+        {
+          "move": "job-lost-reply-answer-ask",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "eviction-reply-answer-ask",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "prison-news-reply-answer-ask",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "charge-reply-answer-ask",
+          "subject": "charge-reply",
+          "role": "answer",
+          "choice": "ask"
+        },
+        {
+          "move": "victimization-reply-answer-ask",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 243,
+      "bySource": {
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "National Archives History Office oral history project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 9,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
+        "U.S. Senate Historical Office oral history": 16,
+        "briefing": 22,
+        "crec": 20,
+        "dcpd": 78,
+        "hearings": 27,
+        "house": 4,
+        "nasa": 16,
+        "nasa2": 6,
+        "nih": 2,
+        "nps": 23,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600590",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      },
+      "bearing": "curious",
+      "date": "2026-10-27",
+      "author": "Claude Opus (pool item words-home-news-talk)"
     }
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "note": "What a reply said in a scene about a member's vote leaves: one caused by a veto-override record, between the bill's sponsor and a member who voted no or stayed out (docs/design/scenes/from-life/veto-override-whip.md), is read at the member's next position on the sponsor's bills; one caused by the record of an ask the evening before a floor vote, between the member who asked and the member asked (docs/design/scenes/from-life/the-vote-that-switched.md), is read at the asked member's position on that bill. A reply whose move is in favor counts toward the side asked for as a deal of kind favor (dealWeight in campaigns/parameters.json); one in strain counts the same weight against. Any other move (a stall, a question) leaves nothing. The moves are the purpose arcs' reply moves (src/director/data/purpose-arcs.json).",
+  "favor": [
+    "agree",
+    "relent",
+    "promise",
+    "bargain",
+    "offer",
+    "accept",
+    "thank",
+    "apologize",
+    "comfort"
+  ],
+  "strain": ["refuse", "blame", "disagree", "confront", "lie"]
+}

@@ -5,6 +5,8 @@ description: Merges and validates pull requests for Our Civic Duty: changed-file
 
 # Merger
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** Review means you are not the session that wrote it; any model counts. Run the changed-file checks on the merged result and try once to break the claim on another drawn place or seed. Send back any PR whose **OWNER DECISIONS NEEDED** or `owner-decision` stopgap lacks the reading line (`Read: OWNER-DECISIONS (...), DECISION-REGISTER, prior-rulings/..., LAW; searched: ...`), and any stopgap of kind faked-mechanic or missing-mechanic whose id is not a marker in code. Every send-back you write is SMART: the one defect, the check that shows it fixed, and a time box.
 
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: lane PRs first; the lane may edit director and English files with Words review; held-to-shippable lines are never a send-back; "sessions never message each other")
@@ -29,6 +31,8 @@ Every rule below comes from a merge audit. The ones that hurt most:
 - **Removed controls not disclosed.** A PR dropped three player buttons and said the actions "stay as they were".
 - **Broken pointers.** A PR deleted data entries that another file pointed at by index, so a test on main threw on load.
 - **Over-blocking.** A docs-only PR was left open only because its body said "checks: none needed". You run the checks; a missing gate line is never by itself a reason to leave a PR.
+- **Holding back (owner, Oct 27).** On Oct 27, 31 green, mergeable PRs sat open at noon: two CTO merge freezes for a release, "merge after" chains, a send-back over a line-1 label. The owner: "There's no reason to be holding shit back. That's the point of having so many mergers and fixers." A merger merges; it never queues. A PR whose line 1 is `Touches pool item: <id>` flips nothing on merge, even if the item's `pr:` field names it (`scripts/pool/done-on-merge.ts`); a send-back needs no `pr:` edit to keep the item open.
+- **Holds nobody saw.** Two merge holds were broken by sessions mid-turn that never read the message. A hold lives on MERGE-FIRST line 0 and binds every push to main; read that file before every merge, not once per session.
 
 ## 0. Red main comes first
 
@@ -59,9 +63,12 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - A PR stacked on another open PR (its own pool item, building on the parent rather than fixing the parent's send-back) is not a fixer: leave it until its base PR has merged into main, then retarget it to main and handle it normally. Its item is done only when it reaches main.
    - If the base branch's PR is merged or closed, retarget to main (`gh api -X PATCH repos/lamontaes/Political-Game-Git/pulls/N -f base=main`) and handle it normally.
 2. **Send-backs.** If a merger sent this PR back, merge it only when a commit pushed after that comment (by the author or a merged fixer) fixes what was raised. Compare the commit times to the comment.
+   - **Nothing waits (owner, Oct 27).** A green, mergeable PR merges within the hour it goes green, whatever its line in MERGE-FIRST. Send back only for a defect a player would meet, a standing-rule break, or a claim the checks disprove. A stacked PR merges right after its base, never "later". The only hold is a red main or a line 0 in MERGE-FIRST.
+   - **Micro-fixes are yours (owner, Oct 27: "If it's a one-line thing, a really fast fix, the mergers can use a Haiku or Sonnet agent. But if it's two or three plus steps, then it goes back to the fixers").** Paperwork and one-step defects you fix on the branch in the merge: a `Pool item:` line, a release declaration, a prettier run, a spelling hit, a missing `--by=cto`, a stale count in the body, one wrong label. Do it yourself or hand it to one Haiku or Sonnet helper with the file, the line and the check that proves it; rerun the check; say in your merge comment what you fixed. Anything that takes two or more steps to diagnose or touches logic goes back to a fixer with the one defect named.
 3. **Fetch and merge main.** `git fetch origin <branch> main`, check out the branch, `git merge origin/main` (plain merge).
    - Resolve docs-only conflicts yourself: `SESSION-*.md` by taking both sides; `docs/play-first/PROGRESS.md` by dropping the branch's hunk entirely (handoffs live on main only, acting CTO, Oct 25: a lane branch that changes it is a defect; `git checkout origin/main -- docs/play-first/PROGRESS.md` on the merge, then merge); `src/core2/data/stopgaps.json` by keeping every row from both sides, merged by `id`.
-   - Pool item conflicts: keep the newer status, claim and pr fields, keep the written spec over an empty shell, and keep both sides' Notes lines. Regenerate `docs/pool/INDEX.md` with `npm run pool`; never hand-merge it or English banks.
+   - Pool item conflicts: keep the newer status, claim and pr fields, keep the written spec over an empty shell, and keep both sides' Notes lines. `docs/pool/INDEX.md` is generated: take main's copy (`git checkout origin/main -- docs/pool/INDEX.md`) and regenerate with `npm run pool`; never hand-merge it or English banks. Matrix files under `docs/reports/*-matrix*.json` are regenerated by their script, never hand-merged.
+   - Merge main once, right before you run the checks; if main moves while you check, merge again and rerun only the checks whose files moved. A push to main rejected as non-fast-forward is normal with many mergers: fetch, rebase your merge commit, push again; never force.
    - A conflict in code goes back to the author: one comment naming the files, and the pool item back to open (step 2.7).
    - Push the merge commit with a plain push.
 4. **Changed-file checks, on the merged result, in your own environment.** You run these whether or not the body has a gate line:

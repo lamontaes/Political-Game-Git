@@ -81,11 +81,6 @@
       "why": "Runs once a campaign has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews). With TRAIT_AUDIT_ELECTION=1 it ran 12,215 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-06-25); no local campaign in four default-year places raised enough.",
       "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); audit the place's own election window (TRAIT_AUDIT_ELECTION=1)."
     },
-    "constituent-cases.handle-case": {
-      "class": "circumstances do not vary",
-      "why": "The official's own call now comes first, and their staffer carries it out (src/core2/modules/constituent-cases.ts, officeHandles). It ran 17 times in Jerry City, Ohio's played year and 438 times in New Britain, Connecticut's, and every official helped: the case is the same constant every time (constituentHelpBase), so a weight only sets a trait bar and cannot reach the study's odds (Barrick and Mount 1991, conscientiousness r .22, 2.44 between the thirds). The general weight of 1 stands.",
-      "fix": "Give the case its own circumstances (the problem's severity, the office's open cases), then calibrate (traits-integrity-cases-vary)."
-    },
     "conversation.reply-reach": {
       "class": "no trigger (player only)",
       "why": "Read only to rank the replies offered to the player in a conversation the player opens (src/director/conversation.ts:2003, :2036) and in the player's speech builder (src/director/speech-builder.ts:281, from src/bench/campaign.ts).",
@@ -200,11 +195,6 @@
       "class": "circumstances saturate the choice",
       "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds). Pooled over seven played years (59 claims weighed, src/core2/jobs-benefits.ts), every eligible worker files with temperament off, against real take-up of 70 to 80%, and no weight up to 0.5 turns any of them; at the general weight of 1, 7% decline.",
       "fix": "Bring the filing base down to the researched take-up (research-unemployment-claim-take-up), then fit the weight."
-    },
-    "speech.retell": {
-      "class": "circumstances saturate the choice",
-      "why": "Hibbing, Ritchie and Anderson 2011 give conscientiousness 0.63 on talking about local politics with family (odds ratio 1.49 between the thirds). The listener keeps a fixed reason to stay quiet (0.6) against a retelling reason of 0.01 to 0.04 for how far the speech moved them, so temperament alone sorts who retells: the third leaning most toward retelling retold 0.26 and the third leaning least 0.00 at weight 1, and no weight up to 0.2 in steps of 0.005 comes near the study (trait-calibrate cannot reach it). The general weight of 1 stands.",
-      "fix": "Give the retelling its own circumstances, then fit the weight (traits-retell-circumstances)."
     },
     "parties.join": {
       "class": "circumstances saturate the choice",

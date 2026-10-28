@@ -1,0 +1,64 @@
+{
+ "scene": "us-senate-floor",
+ "plate": "sg-senate",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "formal"
+ },
+ "zones": [
+  {
+   "name": "stray hands and feet by the front desks",
+   "box": [
+    300,
+    740,
+    1400,
+    941
+   ],
+   "drop": true
+  },
+  {
+   "name": "gallery",
+   "box": [
+    0,
+    0,
+    1672,
+    150
+   ],
+   "pose": "sit",
+   "seat": "gallery-seat",
+   "facing": 0,
+   "coveredBy": "railing",
+   "dress": "business"
+  },
+  {
+   "name": "senator standing to speak",
+   "box": [
+    940,
+    330,
+    1020,
+    460
+   ],
+   "pose": "stand",
+   "facing": 0,
+   "coveredBy": "desk",
+   "role": "speaking"
+  },
+  {
+   "name": "senators at their desks",
+   "box": [
+    0,
+    150,
+    1672,
+    941
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": 180,
+   "coveredBy": "desk"
+  }
+ ]
+}

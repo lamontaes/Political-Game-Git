@@ -4,7 +4,7 @@ title: "Situations a played year never fires: justice, a workplace first day, a 
 area: director
 kind: wiring
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ The missing producers and unbound roles must be traced to their existing cause r
 **Done when.** A year in a drawn place stages at least 10 situation types, each with the record that caused it. A focused generated-world test names the seed, producer record and bound role records for each newly supported type. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `engine-records-for-waiting-life-scenes`; close into it and carry any line it lacks there.

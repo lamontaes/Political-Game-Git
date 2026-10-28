@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at:
 **Files.** scripts/dialogue-batch/grading-bench.ts, data/english/batches/batch-12.json (new), scripts/dialogue-batch/repetition-guard.ts
 
 **Notes.** Part of words-grading-bench. Takes composed scenes from words-bench-compose. Claim released Oct 23: branch gone.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (superseded by words-grade-control-on-scene).

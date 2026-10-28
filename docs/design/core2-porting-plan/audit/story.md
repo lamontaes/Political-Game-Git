@@ -81,7 +81,7 @@ Marker counts in these files and the data they import: SET BY HAND 1, GAME ASSUM
 9. narrative-threads.ts:864 thread standing (pressing/dormant/settled, 400-day dormancy at 164). Superseded by threads.ts importance; keep only the standing rule.
 10. life-choice-evidence.ts: turns played choices into trait evidence (about 5x a setup answer). Needs decisions list.
 11. life-talk-topics.ts:91 tellableTopics: what the player can tell a listener (recent scenes the listener missed). Needs knowledge reads; maps directly to knows().
-12. Data to keep: story-moment-kinds.json, situation-types.json, story-moves.json, story-threads.json (all already data).
+12. Data to keep: story-moment-kinds.json, story-threads.json (all already data). situation-types.json and story-moves.json were ported to `src/director/data/situation-types.json` and `scripts/english-corpus/moves.json`, and the old copies deleted (Oct 28, 2026).
 
 ## 5. CORE2 MODULE INPUTS
 

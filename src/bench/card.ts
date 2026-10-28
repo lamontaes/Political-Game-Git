@@ -7,6 +7,8 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
+import { screenLine } from "../english/screen-words";
+import { pronounWords } from "../english/pronoun-words";
 import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
@@ -146,6 +148,9 @@ export function personCard(core: CoreState, personId: string) {
         },
       ];
     }),
+    // What they're like, in plain sentences from their strongest leanings
+    // (owner, Oct 27), never the traits' names.
+    sketch: personSketch(person.traits),
     // Where they place themselves politically, as the views engine's label.
     view: core.modules.has(VIEWS_MODULE_ID)
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
@@ -234,6 +239,46 @@ function colleaguesOf(core: CoreState, personId: string) {
     .slice(0, CLOSEST);
 }
 
+// Engineering bands for the sketch: a lean under the first is not said; one
+// past the second takes the strong line. Display wording only, never a choice.
+const SKETCH_SAID = 0.15;
+const SKETCH_STRONG = 0.5;
+const SKETCH_SENTENCES = 3;
+
+/**
+ * Up to three sentences of what a person is like, strongest leaning first:
+ * to the player in the second person, or of someone else in the third, with
+ * the pronouns their record carries.
+ */
+function personSketch(
+  traits: Readonly<Record<string, number>>,
+  pronouns?: string,
+): string {
+  const third = pronouns === undefined ? null : pronounWords(pronouns);
+  const voice = pronouns === undefined ? "" : third ? "-third" : "-they";
+  const facts = third ?? {};
+  const said = PEOPLE_TRAITS.flatMap((trait) => {
+    const value = traits[`${PEOPLE_MIND_VERSION}:${trait}`];
+    if (value === undefined || Math.abs(value) < SKETCH_SAID) return [];
+    const shape = TRAIT_SHAPES[trait];
+    const pole = value < 0 ? shape.low.key : shape.high.key;
+    const strength = Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
+    const line = screenLine(
+      "person-sketch",
+      `person-sketch.${pole}.${strength}${voice}`,
+      facts,
+    );
+    return line ? [{ line, weight: Math.abs(value) }] : [];
+  })
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, SKETCH_SENTENCES)
+    .map((row) => row.line);
+  return said.length
+    ? said.join(" ")
+    : (screenLine("person-sketch", `person-sketch.balanced.1${voice}`, facts) ??
+        "");
+}
+
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const viewer = core.people.get(viewerId);
   const other = core.people.get(otherId);
@@ -257,10 +302,23 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         ((row.actorId === viewerId && row.otherId === otherId) ||
           (row.otherId === viewerId && row.actorId === otherId)),
     );
+  const relation = relationWord(
+    core,
+    otherId,
+    kin?.kind.slice("family:".length),
+  );
+  const school =
+    (family || housemate) &&
+    ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
+      coreAPI(core).parameter("benchmarkAdultMinimumAge")
+      ? (schoolsOf(core, otherId)
+          .filter((row) => row.date <= core.date)
+          .at(-1) ?? null)
+      : null;
   return {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
-    relation: relationWord(core, otherId, kin?.kind.slice("family:".length)),
+    relation,
     // Family and housemates know each other's ages; others are known by sight.
     age:
       family || housemate
@@ -274,13 +332,12 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         ? corePlaceByJurisdictionId(other.placeId as never)!.displayName
         : null,
     // The school a child or teen is at now, from the school their past records.
-    school:
-      (family || housemate) &&
-      ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
-        coreAPI(core).parameter("benchmarkAdultMinimumAge")
-        ? (schoolsOf(core, otherId)
-            .filter((row) => row.date <= core.date)
-            .at(-1) ?? null)
+    school,
+    // What they are like, said of them, to someone who knows them: family,
+    // a housemate or anyone the player has a tie with.
+    sketch:
+      family || housemate || tie
+        ? personSketch(other.traits, other.looks?.pronouns ?? "they-them")
         : null,
     work:
       (family || housemate || coworker) && job

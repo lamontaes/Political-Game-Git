@@ -1,12 +1,14 @@
+import { ageOnDate } from "../core2/kernel/dates";
 import { composeScene } from "../director/scene";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
-import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
+import { hasBackdrop } from "./backdrop-places";
 import {
-  backdropFile,
   homeOf,
   orgPlace,
+  personBackdrop,
+  pictureFor,
   stagePeople,
   type StageReason,
 } from "./scene";
@@ -14,20 +16,9 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
 
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
 const SETTINGS = scenePlaces.sceneSettings as Record<string, string[]>;
 const SITUATIONS = scenePlaces.situationPlaces as Record<string, string[]>;
 const SCHOOLS = scenePlaces.schoolPlacesByAge;
-
-/** Whole years of age on a date. */
-function ageOn(birthDate: string, date: string): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
-}
 
 /** A line of a scene with a purpose, as the screen shows it. */
 function shownLine(line: SceneTalkLine) {
@@ -36,6 +27,8 @@ function shownLine(line: SceneTalkLine) {
     ...(line.speakerId ? { speakerId: line.speakerId } : {}),
     role: line.role,
     text: line.text,
+    // The pieces that said it, so a grade in play reaches them.
+    parts: line.parts,
     // A piece held until the owner grades it, shown only in the grading view.
     held: !line.parts.every(shipped),
   };
@@ -79,13 +72,10 @@ export function storyScene(
   // A scene with a purpose plays as its exchange: the asker's open and
   // statement, the replies the player taps, the answers, to its close. Its
   // situation is the one staged (a filing's household at home, not the clerk).
-  const purpose = purposeScene(
-    core,
-    director,
-    personId as PersonId,
-    entry,
-    options.held ? { includeHeld: true } : {},
-  );
+  const purpose = purposeScene(core, director, personId as PersonId, entry, {
+    ...(options.held ? { includeHeld: true } : {}),
+    next: true,
+  });
   const lead =
     purpose?.kind === "composed"
       ? entry.bindings.find((row) => row.typeKey === purpose.scene.typeKey)
@@ -103,7 +93,7 @@ export function storyScene(
   );
   if (!scene) throw new Error("This moment has no scene.");
   const person = core.people.get(personId)!;
-  const age = ageOn(person.birthDate, core.date);
+  const age = ageOnDate(person.birthDate, core.date);
   const steps = [
     ...(SITUATIONS[`${scene.typeKey}:${scene.setting.kind}`] ?? []),
     ...(scene.setting.kind === "school"
@@ -120,8 +110,15 @@ export function storyScene(
             ? orgPlace(core, scene.setting.recordId)
             : step,
       )
-      .find((row): row is string => !!row && PICTURED.has(row)) ??
+      .find((row): row is string => !!row && hasBackdrop(row)) ??
     homeOf(core, personId, minuteOfDay);
+  // The town's own picture of that kind of place, at this hour's light.
+  const pictured = pictureFor(
+    core,
+    place,
+    scene.setting.recordId ?? scene.setting.kind,
+    minuteOfDay,
+  );
   // Who stands in the room needs a reason on record: the
   // people the moment is about (who opened it, whom it names, who asks), and
   // at home the household who live there. Anyone else the situation listed
@@ -161,7 +158,9 @@ export function storyScene(
   const talk =
     purpose?.kind === "composed"
       ? {
-          typeKey: purpose.scene.typeKey,
+          // The exchange the player's replies name: a scene, or one of the
+          // bills the day's sitting took in.
+          typeKey: purpose.scene.unit ?? purpose.scene.typeKey,
           purpose: purpose.scene.purpose,
           askerId: purpose.scene.askerId,
           opening: [
@@ -175,14 +174,15 @@ export function storyScene(
       : null;
   return {
     momentId,
-    place,
-    backdrop: backdropFile(place, minuteOfDay),
-    people: stagePeople(core, place, cast).people,
+    place: pictured,
+    backdrop: personBackdrop(core, personId, pictured, minuteOfDay),
+    people: stagePeople(core, pictured, cast).people,
     narration: [
       ...scene.narration,
       ...(purpose?.kind === "composed"
         ? purpose.scene.talk.narration.map((line) => ({
             text: line.text,
+            parts: line.parts,
             held: !line.parts.every(shipped),
           }))
         : []),
@@ -204,7 +204,7 @@ export function storyReply(
   personId: string,
   momentId: string,
   path: readonly number[],
-  options: { held?: boolean } = {},
+  options: { held?: boolean; typeKey?: string } = {},
 ) {
   const entry = director.ledger.people
     .get(personId)
@@ -216,7 +216,12 @@ export function storyReply(
     personId as PersonId,
     entry,
     path,
-    options.held ? { includeHeld: true } : {},
+    {
+      ...(options.held ? { includeHeld: true } : {}),
+      // The scene the reply was said in, so the next one of the moment
+      // does not take its place partway through.
+      ...(options.typeKey ? { typeKey: options.typeKey } : {}),
+    },
   );
   if (!recordId) throw new Error("Not a reply the scene offers.");
   return { recordId };

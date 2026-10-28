@@ -20,10 +20,18 @@ import {
   joinParty,
   openParties,
   partiesHere,
+  partyMemberIds,
   partyTie,
 } from "./modules/parties";
 import { openVoting } from "./modules/voting";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
+import { PARTIES_MODULE_ID, type TieRow } from "./modules/parties";
 
 const START = "2026-01-05";
 const seed =
@@ -100,8 +108,16 @@ describe(`filing under a party (seed ${seed})`, () => {
         independent.some((c) => c.rule === "party-member"),
         where,
       ).toBe(false);
+      expect(partyMemberIds(api, party.id), where).not.toContain(outsider.id);
       const joined = joinParty(api, outsider.id, party.id);
       expect(joined.tie.partyId, where).toBe(party.id);
+      // Joining is an act: the party's membership holds them too, by the
+      // membership record the roster (meetings, chair) reads.
+      expect(
+        core.memberships.has(`${outsider.id}:${party.organizationId}`),
+        `${where}: membership ${outsider.id}:${party.organizationId}`,
+      ).toBe(true);
+      expect(partyMemberIds(api, party.id), where).toContain(outsider.id);
       expect(joined.agreement, where).toBeGreaterThanOrEqual(-1);
       expect(joined.agreement, where).toBeLessThanOrEqual(1);
       const after = checkEligibility(api, outsider.id, contest.id, party.name);
@@ -114,4 +130,49 @@ describe(`filing under a party (seed ${seed})`, () => {
       `no drawn place had a party and an outsider: ${tried.join("; ")}`,
     );
   });
+
+  it("holds everyone who joined as an act in the party's membership, in a played year", () => {
+    setBookkeeping(false);
+    try {
+      const tried: string[] = [];
+      for (let draw = 0; draw < 6; draw += 1) {
+        const place = drawPlace(
+          `${seed}:played:${draw}`,
+          "party-join-membership",
+        );
+        const where = `${place.name} (${place.key}), seed ${place.seed}`;
+        const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+        advanceCore(core, addDays(makeIsoDate(core.date), 365));
+        const api = coreAPI(core);
+        const ties = api
+          .moduleState(PARTIES_MODULE_ID)
+          .table("ties")
+          .rows() as unknown as TieRow[];
+        const joinedAsAct = ties.filter(
+          (t) => t.partyId && t.reason.startsWith("joined;"),
+        );
+        if (!joinedAsAct.length) {
+          tried.push(`${where}: nobody joined a party as an act`);
+          continue;
+        }
+        for (const tie of joinedAsAct)
+          expect(
+            partyMemberIds(api, tie.partyId!),
+            `${where}: ${tie.id} joined ${tie.partyId} on ${tie.since}`,
+          ).toContain(tie.personId);
+        process.stdout.write(
+          `party join membership: ${where}; ${joinedAsAct.length} joined as an act, e.g. ${joinedAsAct[0]!.id}\n`,
+        );
+        return;
+      }
+      throw new Error(
+        `no drawn place had a join as an act: ${tried.join("; ")}`,
+      );
+    } finally {
+      setBookkeeping(true);
+    }
+  }, 1_200_000);
 });

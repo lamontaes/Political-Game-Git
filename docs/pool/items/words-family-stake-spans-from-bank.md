@@ -5,14 +5,14 @@ area: words
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/family-stake-spans
+pr: #6355
 blocked-on: "#6273 (director numbers in family-stake.ts) merges first; it edits the same file"
 source: "director engineer, Oct 27 message: src/director/family-stake.ts words spans in code (MONTH_WORDS)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-10-27T16:48:25.276Z
 ---
 
 **What.** `src/director/family-stake.ts` says a span of days as words from a list typed into the code ("less than a month", "one month" through "twelve months", "more than a year"). Those words reach the player in the family-stake talk after a filing. Player text belongs in the English engine's banks, so a span said here and a span said anywhere else can drift apart, and the words are never graded.
