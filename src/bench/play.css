@@ -1013,6 +1013,14 @@ input[type="range"]::-moz-range-thumb {
   gap: 8px;
   margin-top: 6px;
 }
+/* A creator field left empty when Continue is pressed: its label and box turn
+   the warning color until it is filled, and the line at the bottom says which. */
+#cr-character .group.missing > .label {
+  color: var(--red);
+}
+#cr-character .group.missing input {
+  border-color: var(--red);
+}
 .choice-list {
   max-height: 300px;
   overflow-y: auto;
