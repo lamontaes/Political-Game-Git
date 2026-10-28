@@ -1,6 +1,7 @@
 ---
 id: words-blocked-bill-names-the-state-law
 title: "A bill the state's law bars says which law bars it"
+lead: words
 area: play
 kind: wiring
 priority: 3
