@@ -176,7 +176,6 @@ export function isAllowedFile(relative: string, word: string): boolean {
  * Fix a line by rewording it, never by raising its count.
  */
 export const KNOWN_HITS: Readonly<Record<string, number>> = {
-  "data/english/parts/address.json": 1,
   "data/research/bill-samples/federal/united-states.json": 2,
   "data/research/core/corruption-bands-2014.json": 1,
   "data/research/government/county-row-offices-by-state.json": 2,
