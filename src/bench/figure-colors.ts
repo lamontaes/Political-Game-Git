@@ -156,14 +156,20 @@ const ROWS = new Map(
   ]),
 );
 
+/** Where a figure's garment map is: beside a pose painted at furniture (art/people-rooms/poses), else in the set's garments folder. */
+const garmentFile = (name: string) =>
+  new URL(
+    name.startsWith("pose-")
+      ? `../../art/people-rooms/poses/${name}-garments.png`
+      : `../../art/people-engine/v2/garments/${name}-garments.png`,
+    import.meta.url,
+  );
+
 const maps = new Map<string, PNG | null>();
 /** The figure's garment map, or null where the art session has not painted one yet. */
 function garmentMap(name: string): PNG | null {
   if (!maps.has(name)) {
-    const file = new URL(
-      `../../art/people-engine/v2/garments/${name}-garments.png`,
-      import.meta.url,
-    );
+    const file = garmentFile(name);
     maps.set(name, existsSync(file) ? PNG.sync.read(readFileSync(file)) : null);
   }
   return maps.get(name)!;
@@ -171,14 +177,12 @@ function garmentMap(name: string): PNG | null {
 
 /** Whether the art session has painted a garment map for this figure file (`figures/v2-…png`). */
 export function hasGarmentMap(file: string): boolean {
-  const name = file
-    .split("/")
-    .pop()!
-    .replace(/\.png$/, "");
   return existsSync(
-    new URL(
-      `../../art/people-engine/v2/garments/${name}-garments.png`,
-      import.meta.url,
+    garmentFile(
+      file
+        .split("/")
+        .pop()!
+        .replace(/\.png$/, ""),
     ),
   );
 }

@@ -1,0 +1,30 @@
+{
+  "id": "pose-lectern-05",
+  "file": "pose-lectern-05.png",
+  "garments": "pose-lectern-05-garments.png",
+  "sheet": "in-scene",
+  "scene": "council-chamber",
+  "plate": "lp-c2.png",
+  "pose": "lectern",
+  "angle": "back",
+  "facing": 180,
+  "gesture": "leaning in to the microphone",
+  "interacts": "public lectern: both hands on the top",
+  "hairView": "back",
+  "sex": "m",
+  "build": "slim",
+  "ageBand": "adult",
+  "prop": "none",
+  "outfit": "suit",
+  "width": 153,
+  "height": 199,
+  "boxInScene": [842, 198, 995, 397],
+  "sceneSize": [1365, 768],
+  "head": {
+    "top": 4,
+    "x": 73.0,
+    "width": 43
+  },
+  "frontEdgeY": null,
+  "clothesLabelled": 0.74
+}
