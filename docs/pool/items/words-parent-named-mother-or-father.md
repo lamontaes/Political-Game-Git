@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/parent-kin-words
-pr: 6401
+pr: #6401
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words

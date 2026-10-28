@@ -409,6 +409,24 @@ function scheduleTurn(api: CoreAPI): void {
   });
 }
 
+/**
+ * The town's lean, right positive: the one reader every engine uses (voting,
+ * the legislatures, recalls, staff, ballot measures, stances). Read once a
+ * day, since the counted electorate asks it once per voter; 0 before the
+ * campaigns engine opens.
+ */
+export function townLean(api: CoreAPI): number {
+  const held = townLeans.get(api.state);
+  if (held?.date === api.state.date) return held.lean;
+  if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return 0;
+  const lean =
+    (table(api, "town").get("town") as unknown as { lean?: number } | undefined)
+      ?.lean ?? 0;
+  townLeans.set(api.state, { date: api.state.date, lean });
+  return lean;
+}
+const townLeans = new WeakMap<object, { date: string; lean: number }>();
+
 function townRow(api: CoreAPI) {
   return table(api, "town").get("town") as unknown as {
     stateKey: string;

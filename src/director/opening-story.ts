@@ -243,8 +243,10 @@ function macroMonths(core: CoreState): {
         .rows() as unknown as MacroMonth[])
     : [];
   // Before the macro engine's first day the opening month is the one it
-  // will open from: the same published rows (`historyMonths`).
-  const months = (recorded.length ? recorded : historyMonths(core.startedAt, p))
+  // will open from: this world's own drawn months (`historyMonths`).
+  const months = (
+    recorded.length ? recorded : historyMonths(core.startedAt, core.seed, p)
+  )
     .slice()
     .sort((a, b) => a.month.localeCompare(b.month));
   const now = months
@@ -783,15 +785,15 @@ function townStory(
   if (!months || !regionId) return null;
   const region =
     regionalMonth(api, townId, months.now.month) ??
-    openingRegionMonths(months.now, (key) => api.parameter(key)).find(
-      (row) => row.regionId === regionId,
-    );
+    openingRegionMonths(months.now, core.startedAt, core.seed, (key) =>
+      api.parameter(key),
+    ).find((row) => row.regionId === regionId);
   if (!region) return null;
   const before = months.before
     ? (regionalMonth(api, townId, months.before.month) ??
-      openingRegionMonths(months.before, (key) => api.parameter(key)).find(
-        (row) => row.regionId === regionId,
-      ))
+      openingRegionMonths(months.before, core.startedAt, core.seed, (key) =>
+        api.parameter(key),
+      ).find((row) => row.regionId === regionId))
     : undefined;
   const area = regionName(region.regionId);
   return {

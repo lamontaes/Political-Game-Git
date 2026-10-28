@@ -17,7 +17,8 @@ import { governmentView } from "./government";
 import { openBenchFilingVisit } from "./filing";
 import { openingFrames } from "./opening";
 import { townPlaces, visitPlace } from "./places";
-import { backdropFile, backdropPath, benchScene, hasBackdrop } from "./scene";
+import { backdropFile, backdropPath, benchScene } from "./scene";
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "art-check";

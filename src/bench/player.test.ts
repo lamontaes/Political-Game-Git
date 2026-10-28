@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { createLifeCore } from "../core2/life";
 import { createDirector } from "../director/ledger";
 import {
@@ -191,6 +192,12 @@ describe("bench public player adapter", () => {
     expect(week.packet.at.date).toBe("2021-01-02");
     const onward = player.advance("week");
     expect(onward.packet.at.date > "2021-01-02").toBe(true);
+  });
+  it("a calendar jump reaches tomorrow's morning from a night with nothing open", () => {
+    const { player, core } = fixture();
+    const tomorrow = addDays(makeIsoDate(core.date), 1);
+    const jumped = player.advance("calendar", tomorrow);
+    expect(jumped.packet.at.date).toBe(tomorrow);
   });
   it("a calendar jump cannot go backward", () => {
     const { player } = fixture();

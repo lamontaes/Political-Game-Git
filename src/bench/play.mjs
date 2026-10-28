@@ -684,9 +684,6 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
-/** A title that is a bare slug reads as words; a name or a sentence stays as it is. */
-const slugWords = (text) =>
-  /^[a-z][a-z0-9-]*$/.test(text) ? words(text) : text;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
@@ -1897,6 +1894,26 @@ function whyRows(why) {
     ),
   ].map((text) => el("li", { className: "why", textContent: text }));
 }
+/** The owner's grade control on a scene line (dev mode): it reaches the line's pieces. */
+function gradeOf(line, momentId) {
+  if (!line.parts?.length) return {};
+  return {
+    grade: {
+      labels: controls.grade,
+      send: (word, note) =>
+        api(
+          `/api/grade?${new URLSearchParams({
+            grade: word,
+            note,
+            parts: line.parts.join(","),
+            text: line.text,
+            momentId,
+          })}`,
+          "POST",
+        ),
+    },
+  };
+}
 async function showStory(momentId) {
   const story = await api(
     `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
@@ -1918,6 +1935,7 @@ async function showStory(momentId) {
           kind: "speech narration",
           text: line.text,
           held: line.held,
+          ...gradeOf(line, momentId),
         }),
       ),
       ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
@@ -1941,6 +1959,7 @@ function playExchange(story) {
       who: line.role === "asked" ? $("card-name").textContent : undefined,
       text: line.text,
       held: line.held,
+      ...gradeOf(line, story.momentId),
     });
   // The path is the index of each reply chosen, from the first.
   // The asker follows up: no walking away mid-exchange, no silence as a reply.
@@ -2036,6 +2055,15 @@ async function showPerson(person) {
   const known = c.publicKnowledge;
   const stance = voteWords();
   $("person-facts").replaceChildren(
+    // What they are like, said of them, first (the screens designer, Oct 27).
+    ...(c.sketch
+      ? [
+          el("p", {
+            className: "person-sketch narrative",
+            textContent: c.sketch,
+          }),
+        ]
+      : []),
     ...(c.work
       ? [
           recordSection(
@@ -2073,9 +2101,7 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      // The date is labeled; a tie with no contact on record shows nothing.
-      c.tie?.lastContactDate &&
-        row(labels.lastTalked, proseDate(c.tie.lastContactDate)),
+      // No "Last talked" (owner, Oct 27, 5 PM: never shown).
       ...(known
         ? [
             row("party", known.party),
@@ -2616,17 +2642,12 @@ async function seatRows() {
 const dayIcon = (kind) =>
   ({
     birthday: "birthday",
+    "your-birthday": "birthday",
     "filing-opens": "deadline",
     "filing-deadline": "deadline",
     primary: "election",
     election: "election",
   })[kind] ?? "meeting";
-
-/** A record kind as words: "filing-deadline" reads "Filing deadline". */
-const kindName = (kind) => {
-  const name = kind.split(/[:.]/).pop();
-  return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
-};
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
@@ -3578,38 +3599,35 @@ const sheets = {
     const { date: recordDate, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
-    // Today is the day the player's clock names, which the calendar opens on.
-    const date = packet?.at.date ?? recordDate;
+    // Today is the world's day: the later of the clock's last packet and the
+    // record, so a day the world has reached never offers a jump to it.
+    const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
       byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-    const dateWords = (iso) =>
+    const dateWords = (iso, format = { month: "long", day: "numeric" }) =>
       new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
+        ...format,
+        ...(iso.slice(0, 4) === date.slice(0, 4) ? {} : { year: "numeric" }),
       });
-    const event = (item) =>
-      el(
-        "article",
-        { className: "calendar-event" },
-        el("span", { className: "label", textContent: kindName(item.kind) }),
-        el("p", {
-          textContent:
-            controls.policyNames?.[item.title] ?? slugWords(item.title),
-        }),
-      );
+    const icon = (item) =>
+      el("img", {
+        src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
+        alt: "",
+        className: "day-icon",
+      });
     let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
     let selected = date;
-    let upcomingPage = 0;
-    let dayPage = 0;
+    let listPage = 0;
     const root = el("div", { className: "calendar-layout" });
     const monthBox = el("section", { className: "calendar-month" });
-    const details = el("section", { className: "calendar-details" });
-    const upcoming = el("section", { className: "calendar-upcoming" });
-    const button = (label, fn) => {
-      const b = makeButton({ textContent: label });
+    const side = el("section", { className: "calendar-side" });
+    const button = (label, fn, className) => {
+      const b = makeButton({
+        textContent: label,
+        ...(className ? { className } : {}),
+      });
       b.addEventListener("click", fn);
       return b;
     };
@@ -3626,49 +3644,118 @@ const sheets = {
       }
       const b = makeButton({ className: "skip-forward" });
       b.setAttribute("aria-label", name);
+      b.title = name;
       b.append(svg);
       b.addEventListener("click", fn);
       return b;
     };
-    const skipControl = () =>
-      skipForward(labels.advance, () => {
-        closeSheet();
-        act(`/api/advance?mode=calendar&date=${selected}`);
-      });
-    const paging = (index, count, change) => {
-      const back = button(labels.back, () => change(index - 1));
-      const next = button(labels.next, () => change(index + 1));
-      back.disabled = index === 0;
-      next.disabled = (index + 1) * 3 >= count;
-      return el("nav", { className: "calendar-paging" }, back, next);
+    const goTo = (iso) => {
+      month = new Date(`${iso.slice(0, 7)}-01T12:00:00`);
+      select(iso);
     };
-    // The day panel opens only for a day that has something.
-    const drawDetails = () => {
-      const entries = byDate.get(selected) ?? [];
-      root.classList.toggle("has-day", entries.length > 0);
-      details.hidden = !entries.length;
-      if (!entries.length) {
-        details.replaceChildren();
-        return;
-      }
-      details.replaceChildren(
-        el("h3", { textContent: dateWords(selected) }),
-        ...entries.slice(dayPage * 3, dayPage * 3 + 3).map(event),
+    // One line per thing: its day, its icon and who and what in words. The
+    // player's own races carry the gold mark.
+    const entryRow = (item, withDate) => {
+      const row = listRow(
+        `calendar-entry${item.own ? " own" : ""}`,
+        { as: "button", type: "button" },
+        ...(withDate
+          ? [
+              el("span", {
+                className: "when",
+                textContent: dateWords(item.date, {
+                  month: "short",
+                  day: "numeric",
+                }),
+              }),
+            ]
+          : []),
+        icon(item),
+        el("span", { className: "what", textContent: item.line }),
       );
-      if (entries.length > 3)
-        details.append(
-          paging(dayPage, entries.length, (page) => {
-            dayPage = page;
-            drawDetails();
-          }),
+      row.addEventListener("click", () => goTo(item.date));
+      return row;
+    };
+    // Coming up lists the player's own dates first, then everything else by
+    // date; a chosen day lists that day. The list fills the side and pages.
+    const PAGE = 10;
+    const ahead = items
+      .filter((i) => i.date >= date)
+      .toSorted(
+        (a, b) => Number(b.own) - Number(a.own) || a.date.localeCompare(b.date),
+      );
+    const drawSide = () => {
+      // A chosen day heads the side: its own lines, then what follows it.
+      const day = selected !== date ? (byDate.get(selected) ?? []) : null;
+      const rows = day
+        ? [...day, ...items.filter((i) => i.date > selected && i.date >= date)]
+        : ahead;
+      const pageRows = rows.slice(listPage * PAGE, listPage * PAGE + PAGE);
+      const head = el(
+        "div",
+        { className: "calendar-side-head" },
+        el("h3", {
+          textContent: day
+            ? dateWords(selected, {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              })
+            : labels.upcoming,
+        }),
+        ...(day && selected > date
+          ? [
+              skipForward(labels.advance, () => {
+                closeSheet();
+                act(`/api/advance?mode=calendar&date=${selected}`);
+              }),
+            ]
+          : []),
+      );
+      const list = el(
+        "div",
+        { className: "calendar-list" },
+        ...pageRows.map((item) =>
+          entryRow(item, !day || item.date !== selected),
+        ),
+      );
+      const foot = [];
+      if (day)
+        foot.push(button(labels.upcoming, () => select(date), "action small"));
+      if (rows.length > PAGE) {
+        const back = button(
+          labels.back,
+          () => {
+            listPage--;
+            drawSide();
+          },
+          "action small",
         );
-      if (selected > date) details.append(skipControl());
+        const next = button(
+          labels.next,
+          () => {
+            listPage++;
+            drawSide();
+          },
+          "action small",
+        );
+        back.disabled = listPage === 0;
+        next.disabled = (listPage + 1) * PAGE >= rows.length;
+        foot.push(back, next);
+      }
+      side.replaceChildren(
+        head,
+        list,
+        ...(foot.length
+          ? [el("nav", { className: "calendar-paging" }, ...foot)]
+          : []),
+      );
     };
     const select = (iso) => {
       selected = iso;
-      dayPage = 0;
+      listPage = 0;
       drawMonth();
-      drawDetails();
+      drawSide();
     };
     const drawMonth = () => {
       const move = (delta) => {
@@ -3678,19 +3765,21 @@ const sheets = {
       const header = el(
         "nav",
         { className: "calendar-heading" },
-        button(labels.previousMonth, () => move(-1)),
+        button(labels.previousMonth, () => move(-1), "month-step"),
         el("h3", {
           textContent: month.toLocaleDateString("en-US", {
             month: "long",
             year: "numeric",
           }),
         }),
-        button(labels.nextMonth, () => move(1)),
+        button(labels.nextMonth, () => move(1), "month-step"),
+        button(labels.today, () => goTo(date), "month-step"),
       );
       const grid = el("div", { className: "month" });
       for (const weekday of labels.weekdays)
         grid.append(el("span", { className: "weekday", textContent: weekday }));
-      for (let i = 0; i < month.getDay(); i++) grid.append(el("span"));
+      for (let i = 0; i < month.getDay(); i++)
+        grid.append(el("span", { className: "blank" }));
       const days = new Date(
         month.getFullYear(),
         month.getMonth() + 1,
@@ -3699,86 +3788,42 @@ const sheets = {
       for (let day = 1; day <= days; day++) {
         const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
         const entries = byDate.get(iso) ?? [];
-        const cell = button(String(day), () => select(iso));
-        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}`;
+        const cell = button("", () => select(iso));
+        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}${iso < date ? " past" : ""}${entries.some((e) => e.own) ? " own" : ""}`;
         cell.dataset.date = iso;
-        cell.setAttribute("aria-label", dateWords(iso));
+        cell.setAttribute(
+          "aria-label",
+          [dateWords(iso), ...entries.map((e) => e.line)].join(". "),
+        );
         cell.setAttribute("aria-pressed", String(iso === selected));
         if (iso === date) cell.setAttribute("aria-current", "date");
-        // One small Kit 13 icon per kind of thing on the day.
-        if (entries.length)
+        cell.append(el("span", { className: "num", textContent: String(day) }));
+        // Each thing on the day, on the day: its icon and its line, as many as fit.
+        for (const entry of entries
+          .toSorted((a, b) => Number(b.own) - Number(a.own))
+          .slice(0, 2))
           cell.append(
             el(
               "span",
-              {
-                className: "entry",
-                title: entries
-                  .map(
-                    (i) =>
-                      controls.policyNames?.[i.title] ?? slugWords(i.title),
-                  )
-                  .join("\n"),
-              },
-              ...[...new Set(entries.map((i) => dayIcon(i.kind)))].map((icon) =>
-                el("img", {
-                  src: `/ui/kit13/calendar-${icon}.png`,
-                  alt: "",
-                  className: "day-icon",
-                }),
-              ),
+              { className: `entry${entry.own ? " own" : ""}` },
+              icon(entry),
+              el("span", { className: "what", textContent: entry.line }),
             ),
+          );
+        if (entries.length > 2)
+          cell.append(
+            el("span", {
+              className: "more",
+              textContent: `+${entries.length - 2}`,
+            }),
           );
         grid.append(cell);
       }
-      monthBox.replaceChildren(
-        header,
-        grid,
-        el(
-          "div",
-          { className: "calendar-month-foot" },
-          button(labels.today, () => {
-            month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-            select(date);
-          }),
-          // A day with nothing on it has no panel, so its date and the skip sit here.
-          ...(selected > date && !byDate.has(selected)
-            ? [
-                el("span", {
-                  className: "calendar-day-date",
-                  textContent: dateWords(selected),
-                }),
-                skipControl(),
-              ]
-            : []),
-        ),
-      );
-    };
-    const next = items
-      .filter((i) => i.date >= date)
-      .toSorted((a, b) => a.date.localeCompare(b.date));
-    const drawUpcoming = () => {
-      upcoming.replaceChildren(
-        el("h3", { textContent: labels.upcoming }),
-        ...next.slice(upcomingPage * 3, upcomingPage * 3 + 3).map((item) => {
-          const b = button(dateWords(item.date), () => {
-            month = new Date(`${item.date.slice(0, 7)}-01T12:00:00`);
-            select(item.date);
-          });
-          return el("div", {}, b, event(item));
-        }),
-      );
-      if (next.length > 3)
-        upcoming.append(
-          paging(upcomingPage, next.length, (page) => {
-            upcomingPage = page;
-            drawUpcoming();
-          }),
-        );
+      monthBox.replaceChildren(header, grid);
     };
     drawMonth();
-    drawDetails();
-    drawUpcoming();
-    root.append(monthBox, details, upcoming);
+    drawSide();
+    root.append(monthBox, side);
     return [root];
   },
   async news() {
@@ -3870,7 +3915,6 @@ const sheets = {
       });
     let chosen = outlets.keys().next().value;
     let page = 0;
-    let recordPage = 0;
     const paper = el("section", { className: "paper" });
     const outletPicker = el("nav", { className: "outlet-picker" });
     const button = (label, fn) => {
@@ -3941,99 +3985,6 @@ const sheets = {
       };
       drawArticle();
     };
-    const publicRecords = () => {
-      const records = rows.filter((r) => !r.headline && !r.lede);
-      const block = el(
-        "section",
-        { className: "paper-records" },
-        el("h3", { textContent: labels.records }),
-      );
-      for (const record of records.slice(recordPage * 3, recordPage * 3 + 3))
-        block.append(
-          el(
-            "article",
-            {},
-            el("span", {
-              className: "label",
-              textContent: dateWords(record.date),
-            }),
-            // An employer's layoff shows its jobs lost, sales and costs.
-            el("h4", {
-              textContent: record.staffing
-                ? record.staffing.employer
-                : kindName(
-                    // A story the press archived is named by the record it tells of.
-                    record.kind === "press.archived"
-                      ? (record.facts?.recordKind ?? record.kind)
-                      : record.kind,
-                  ),
-            }),
-            el("p", {
-              textContent: record.staffing
-                ? [
-                    `${controls.staffingNews.jobsLost}: ${record.staffing.jobsLost}`,
-                    ...(record.staffing.salesMinor !== undefined
-                      ? [
-                          `${controls.staffingNews.sales}: ${dollars(record.staffing.salesMinor)}`,
-                        ]
-                      : []),
-                    ...(record.staffing.costsMinor !== undefined
-                      ? [
-                          `${controls.staffingNews.costs}: ${dollars(record.staffing.costsMinor)}`,
-                        ]
-                      : []),
-                  ].join(" · ")
-                : // Who the record is about, each by their role in it.
-                  [
-                    ...new Set(
-                      Object.entries(record.facts ?? {}).flatMap(
-                        ([role, v]) => {
-                          // The record's kind is the heading already.
-                          if (typeof v !== "string" || role === "recordKind")
-                            return [];
-                          const label = words(role.replace(/Id$/, ""));
-                          const name = record.names?.[v] ?? me.names?.[v];
-                          // A person by name, a date in words, a plain value
-                          // by its label; record ids are never shown.
-                          if (name) return [`${label} ${name}`];
-                          // A yes-or-no fact reads as its label when true.
-                          if (v === "true") return [label];
-                          if (v === "false") return [];
-                          if (/^\d{4}-\d{2}-\d{2}$/.test(v))
-                            return [`${label} ${proseDate(v)}`];
-                          // A code with no name (a jurisdiction key, a
-                          // status) is never shown.
-                          if (
-                            /[:_]/.test(v) ||
-                            !v.trim() ||
-                            /^[A-Z0-9]+(?:-[A-Z0-9]+)+$/.test(v) ||
-                            /^[a-z]+(?:\.[a-z-]+)+$/.test(v)
-                          )
-                            return [];
-                          // A proper name keeps its own capitals.
-                          return [`${label} ${/[A-Z]/.test(v) ? v : words(v)}`];
-                        },
-                      ),
-                    ),
-                  ].join(" · "),
-            }),
-          ),
-        );
-      if (records.length > 3) {
-        const back = button(labels.previous, () => {
-          recordPage--;
-          draw();
-        });
-        back.disabled = recordPage === 0;
-        const next = button(labels.next, () => {
-          recordPage++;
-          draw();
-        });
-        next.disabled = (recordPage + 1) * 3 >= records.length;
-        block.append(el("nav", { className: "paper-pager" }, back, next));
-      }
-      return block;
-    };
     const draw = () => {
       const outlet = outlets.get(chosen);
       const layout = ["broadsheet", "modern", "tabloid", "weekly"].includes(
@@ -4042,22 +3993,36 @@ const sheets = {
         ? outlet.layout
         : "broadsheet";
       paper.className = `paper paper-${layout}`;
-      const section = el("div", { className: "paper-stories" });
-      outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
+      // A front page (owner, Oct 27: "News is a newspaper with story text"):
+      // the lead story with its text, the next stories with theirs beside it,
+      // and stories with only a headline as briefs. Every word is the English
+      // engine's; record rows with kinds and series names are not printed.
+      // Print takes the story's written paragraphs, else its lede; a
+      // newscast's spoken lines (greetings, hand-offs) are not print.
+      const told = (story) =>
+        story.paragraphs ?? (story.lede && story.headline ? [story.lede] : []);
+      const pageStories = outlet.stories.slice(page * 6, page * 6 + 6);
+      const [lead, ...rest] = pageStories;
+      const withText = rest.filter((story) => told(story).length);
+      const briefs = rest.filter((story) => !told(story).length);
+      const storyBlock = (story, className, paragraphs) => {
         const headline = button(storyHeadline(story), () => article(story));
         headline.className = "story-headline";
-        section.append(
-          el(
-            "article",
-            { className: `paper-story${index === 0 ? " lead" : ""}` },
-            ...imageFor(story),
-            headline,
-            ...(story.lede && story.headline
-              ? [el("p", { className: "story-lede", textContent: story.lede })]
-              : []),
-          ),
+        return el(
+          "article",
+          { className: `paper-story ${className}` },
+          ...(className === "lead" ? imageFor(story) : []),
+          headline,
+          ...told(story)
+            .slice(0, paragraphs)
+            .map((text, at) =>
+              el("p", {
+                className: at === 0 ? "story-lede" : "story-text",
+                textContent: text,
+              }),
+            ),
         );
-      });
+      };
       paper.replaceChildren(
         el(
           "header",
@@ -4068,9 +4033,19 @@ const sheets = {
             textContent: dateWords(me.date),
           }),
         ),
-        section,
+        el(
+          "div",
+          { className: "paper-stories" },
+          ...(lead ? [storyBlock(lead, "lead", 4)] : []),
+          el(
+            "div",
+            { className: "paper-column" },
+            ...withText.map((story) => storyBlock(story, "second", 2)),
+            ...briefs.map((story) => storyBlock(story, "brief", 0)),
+          ),
+        ),
       );
-      if (outlet.stories.length > 3) {
+      if (outlet.stories.length > 6) {
         const back = button(labels.previous, () => {
           page--;
           draw();
@@ -4080,10 +4055,9 @@ const sheets = {
           page++;
           draw();
         });
-        next.disabled = (page + 1) * 3 >= outlet.stories.length;
+        next.disabled = (page + 1) * 6 >= outlet.stories.length;
         paper.append(el("nav", { className: "paper-pager" }, back, next));
       }
-      paper.append(publicRecords());
       chooseTab(outletPicker, "outlet", chosen);
     };
     if (outlets.size > 1)

@@ -1,5 +1,9 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { homePlaceFor, workplacePlaceFor } from "./backdrop-places";
+import {
+  hasBackdrop,
+  homePlaceFor,
+  workplacePlaceFor,
+} from "./backdrop-places";
 import {
   BACKDROP_ASPECT,
   backdropStaging,
@@ -29,13 +33,6 @@ import {
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
 const BACKDROP_DIR = new URL("../../art/backdrops/", import.meta.url);
-// The presentation's hasBackdrop reads Vite's file glob; the bench reads the manifest.
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
-export const hasBackdrop = (place: string) => PICTURED.has(place);
 const FRONTS = figureRules.roomFronts as unknown as Record<
   string,
   number | undefined
@@ -580,7 +577,7 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
           build,
           outfit,
           ...Object.fromEntries(
-            ["skin", ...GARMENTS].flatMap((key) =>
+            ["skin", "hair", "hairColor", ...GARMENTS].flatMap((key) =>
               typeof record[key] === "string" ? [[key, record[key]]] : [],
             ),
           ),
@@ -737,7 +734,7 @@ export function stagePeople(
         name,
         reason,
         look,
-        colors: new URLSearchParams(colorsFor(who)).toString(),
+        colors: new URLSearchParams(colorsFor(who, look.sex, band)).toString(),
         band,
         spot: podium,
       });
@@ -761,7 +758,9 @@ export function stagePeople(
       });
       continue;
     }
-    const colors = new URLSearchParams(colorsFor(who)).toString();
+    const colors = new URLSearchParams(
+      colorsFor(who, look.sex, band),
+    ).toString();
     placed.push({
       id,
       name,

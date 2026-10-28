@@ -184,14 +184,22 @@ export class BenchPlayer {
       date: addDays(makeIsoDate(this.core.date), 1),
       minuteOfDay: 0,
     };
-    if (mode === "calendar" && !(date && date > at.date))
-      throw new Error(
-        "A calendar jump can't go backward: pick a day after today.",
-      );
     // Days start in the morning: Day lands on the
     // next morning, Week on the same morning seven days on, a calendar jump
     // on that day's morning; none lands on midnight.
     const start = this.dayStartMinute();
+    // A jump goes to a later day, or to today while its morning is still ahead
+    // (the opening night's "now" is the start of tomorrow, before its morning).
+    if (
+      mode === "calendar" &&
+      !(
+        date &&
+        (date > at.date || (date === at.date && at.minuteOfDay < start))
+      )
+    )
+      throw new Error(
+        "A calendar jump can't go backward: pick a day after today.",
+      );
     const through: PlayerMomentV1 =
       mode === "calendar"
         ? { date: makeIsoDate(date ?? ""), minuteOfDay: start }
