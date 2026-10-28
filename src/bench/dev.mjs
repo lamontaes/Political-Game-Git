@@ -20,6 +20,7 @@ import {
   traceDetail,
   whyView as whyPanel,
 } from "./ui/dev-view.mjs";
+import { moneyWords } from "../english/plain-words.mjs";
 
 const $ = (id) => document.getElementById(id);
 async function api(path, input) {
@@ -353,7 +354,6 @@ $("trace-go").onclick = () => traceId($("trace-id").value.trim());
 $("person-go").onclick = () => personView($("trace-id").value.trim());
 
 // 4. Watch -------------------------------------------------------------------
-const dollars = (minor) => (minor / 100).toFixed(2);
 loaders.watch = async () => {
   const view = await api("/api/dev/watch");
   const firstMark = view.marks[0]?.date ?? "9999";
@@ -365,12 +365,12 @@ loaders.watch = async () => {
       { name: "Public jobs", value: (r) => r.pay.publicJobs },
       {
         name: "Public hourly",
-        value: (r) => dollars(r.pay.publicMedianHourlyMinor),
+        value: (r) => moneyWords(r.pay.publicMedianHourlyMinor),
       },
       { name: "Private jobs", value: (r) => r.pay.privateJobs },
       {
         name: "Private hourly",
-        value: (r) => dollars(r.pay.privateMedianHourlyMinor),
+        value: (r) => moneyWords(r.pay.privateMedianHourlyMinor),
       },
       {
         name: "Changes",

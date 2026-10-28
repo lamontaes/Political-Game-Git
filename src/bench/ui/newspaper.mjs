@@ -6,6 +6,7 @@
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { makeTab, chooseTab } from "./tab.mjs";
+import { dateWords } from "../../english/plain-words.mjs";
 
 /**
  * The newspaper art (art/newspaper-mockups, owner Oct 28). Each paper keeps
@@ -87,12 +88,6 @@ export function newspaperScreen({
     b.onclick = fn;
     return b;
   };
-  const dateWords = (iso) =>
-    new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
   const imageFor = (story) => {
     const url =
       story.presentation?.imageUrl ?? story.imageUrl ?? photoOf(story);
