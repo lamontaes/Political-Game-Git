@@ -214,7 +214,8 @@ export function creatorRandomPlace(seed: string, draw: number) {
   const state = corePlaceStateIdentities().find(
     (row) => row.jurisdictionKey === place.stateJurisdictionKey,
   );
-  const stateKey = place.stateJurisdictionKey;
+  // A locality the draw returns always sits in a state (the draw groups by it).
+  const stateKey = place.stateJurisdictionKey ?? "";
   const town = creatorTowns(stateKey, "").find((row) => row.key === place.key);
   return {
     state: { key: stateKey, name: state?.name ?? stateKey },
