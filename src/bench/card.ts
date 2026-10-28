@@ -302,41 +302,42 @@ function personHistory(
       });
     if (fact.kind === "birth-date") {
       const place = placeName(birthplace?.facts?.placeId);
-      add(place ? "born" : "born-year", { place });
+      add(place ? "born.place" : "born.year", { place });
     } else if (fact.kind === "school:cohort-estimate" && f.schoolName)
-      add("school", { school: String(f.schoolName) });
-    else if (fact.kind === "life:moved-into-county") add("moved-in", {});
-    else if (fact.kind === "life:moved-away") add("moved-away", {});
+      add("school.started", { school: String(f.schoolName) });
+    else if (fact.kind === "life:moved-into-county") add("moved.in", {});
+    else if (fact.kind === "life:moved-away") add("moved.away", {});
     else if (fact.kind === "household:partners-met")
-      add(f.otherPersonId === viewerId ? "partners-met-you" : "partners-met", {
+      add(f.otherPersonId === viewerId ? "partner.met-you" : "partner.met", {
         name: personName(f.otherPersonId),
         place: placeName(f.placeId),
       });
     else if (fact.kind === "family:child")
-      add(f.otherPersonId === viewerId ? "child-you" : "child", {
+      add(f.otherPersonId === viewerId ? "child.you" : "child.born", {
         name: personName(f.otherPersonId),
       });
     else if (fact.kind === "work:tenure-summary")
-      add("work", {
+      add("work.started", {
         title: String(f.title ?? ""),
         employer:
           core.organizations.get(String(f.organizationId ?? ""))?.name ?? "",
       });
     else if (fact.kind === "family:parent-died" && f.relation)
-      add("parent-died", {
+      add("loss.parent", {
         relation:
           String(f.relation).charAt(0).toUpperCase() +
           String(f.relation).slice(1),
         name: [f.givenName, f.familyName].filter(Boolean).join(" "),
       });
     else if (fact.kind === "campaign:elected" && f.office)
-      add("elected", { office: String(f.office).replace(/-/g, " ") });
+      add("office.elected", { office: String(f.office).replace(/-/g, " ") });
   }
   const change = tie?.latestChange;
   if (change && change.after.level !== change.before.level)
     lines.push({
       date: change.date,
-      key: change.after.level > change.before.level ? "closer" : "apart",
+      key:
+        change.after.level > change.before.level ? "tie.closer" : "tie.apart",
       slots: { month: monthWords(change.date) },
       recordId: tie.id,
     });

@@ -16,7 +16,7 @@
   "maxWords": 12,
   "parts": [
     {
-      "key": "person-history.born",
+      "key": "person-history.born.place",
       "move": "born",
       "text": "Born in {place} in {year}.",
       "origin": "authored",
@@ -26,7 +26,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.born-year",
+      "key": "person-history.born.year",
       "move": "born",
       "text": "Born in {year}.",
       "origin": "authored",
@@ -36,7 +36,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.school",
+      "key": "person-history.school.started",
       "move": "school",
       "text": "Started at {school} in {year}.",
       "origin": "authored",
@@ -46,7 +46,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.moved-in",
+      "key": "person-history.moved.in",
       "move": "moved",
       "text": "Moved to the county in {year}.",
       "origin": "authored",
@@ -56,7 +56,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.moved-away",
+      "key": "person-history.moved.away",
       "move": "moved",
       "text": "Moved away in {year}.",
       "origin": "authored",
@@ -66,7 +66,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.partners-met",
+      "key": "person-history.partner.met",
       "move": "partner",
       "text": "Met {name} in {place} in {year}.",
       "origin": "authored",
@@ -76,7 +76,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.partners-met-you",
+      "key": "person-history.partner.met-you",
       "move": "partner",
       "text": "Met you in {place} in {year}.",
       "origin": "authored",
@@ -86,7 +86,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.child",
+      "key": "person-history.child.born",
       "move": "child",
       "text": "{name} was born in {year}.",
       "origin": "authored",
@@ -96,7 +96,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.child-you",
+      "key": "person-history.child.you",
       "move": "child",
       "text": "You were born in {year}.",
       "origin": "authored",
@@ -106,7 +106,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.work",
+      "key": "person-history.work.started",
       "move": "work",
       "text": "Started as {title} at {employer} in {year}.",
       "origin": "authored",
@@ -116,7 +116,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.parent-died",
+      "key": "person-history.loss.parent",
       "move": "loss",
       "text": "{relation}, {name}, died in {year}.",
       "origin": "authored",
@@ -126,7 +126,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.elected",
+      "key": "person-history.office.elected",
       "move": "office",
       "text": "Elected {office} in {year}.",
       "origin": "authored",
@@ -136,7 +136,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.closer",
+      "key": "person-history.tie.closer",
       "move": "tie",
       "text": "Grew closer to you in {month}.",
       "origin": "authored",
@@ -146,7 +146,7 @@
       "shippable": true
     },
     {
-      "key": "person-history.apart",
+      "key": "person-history.tie.apart",
       "move": "tie",
       "text": "Grew apart from you in {month}.",
       "origin": "authored",
