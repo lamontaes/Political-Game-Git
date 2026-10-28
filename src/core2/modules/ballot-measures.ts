@@ -14,6 +14,7 @@
  * otherwise), and an approved measure becomes the state's law on its
  * effective date, reaching named residents through the law-effects module.
  */
+import { townLean } from "./campaigns";
 import measuresData from "../data/elections/ballot-measures.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -147,17 +148,6 @@ const stateRows = new Map(
     }
   ).presidentialByState.map((s) => [s.stateUsps, s]),
 );
-
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
-}
 
 /** Who turned out for a race today. */
 function votedToday(api: CoreAPI): ReadonlySet<string> {
