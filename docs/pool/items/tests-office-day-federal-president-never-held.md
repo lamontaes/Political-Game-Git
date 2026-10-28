@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/federal-day-president-held
-pr:
+pr: #6709
 blocked-on:
 lead: red-main
 source: wire-office session, Oct 28 (found red on main)
