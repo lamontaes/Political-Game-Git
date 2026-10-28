@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #6637
 after: core-old-engine-03-schedules-jobs-traits-history
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 step 6"
