@@ -1,0 +1,143 @@
+{
+  "seed": "1042d088fb85644d",
+  "place": {
+    "seed": "135d5389dfbb4234c3befda84d3461ab3f572eb7e7c8b825dea3967dd3c35b7f",
+    "key": "1041700",
+    "name": "Leipsic, Delaware",
+    "state": "US-DE"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "kind": "question",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "enacted at state (law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480) effective 2025-01-21; then repealed at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+        "law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480:restored:estimated:restored:2025-01-21"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480:restored:estimated:restored:2025-01-21"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2488": 178,
+        "src/core2/modules/legislature.ts:3666": 147,
+        "src/core2/modules/outcome-web.ts:175": 33,
+        "src/core2/modules/world-legislating.ts:295": 22,
+        "src/core2/modules/world-legislating.ts:225": 16,
+        "src/core2/life.ts:555": 5,
+        "src/core2/modules/legislature.ts:4960": 5,
+        "src/core2/modules/world-legislating.ts:380": 2,
+        "src/core2/law-reach/group-a-voting.ts:105 <- src/core2/electorate-inputs.ts:260": 2,
+        "src/core2/modules/legislature.ts:4945": 1
+      },
+      "openingRow": "law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "restore-voting-to-turnout",
+            "status": "built",
+            "to": "voting.turnout-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 107,
+        "sample": [
+          "person_8375d1bf08c01988:printed:outlet:cable:0:national:law-took-effect:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+          "person_ccc9e303fc90389d:printed:outlet:cable:0:national:law-took-effect:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+          "person_46e40a763a61c8d1:printed:outlet:cable:0:national:law-took-effect:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 1,
+        "sample": [
+          "reach:law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-03-04:HB 22:restored:estimated:restored:2025-03-04"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "seconds": 10
+    }
+  ]
+}
