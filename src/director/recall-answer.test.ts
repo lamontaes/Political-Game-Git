@@ -115,6 +115,12 @@ it(`an official's answer at the petition table is read by the drive's count (see
       binding,
       `${where}: ${recall.id}: no recall scene staged`,
     ).toBeTruthy();
+    // A petition against the official is their own record: it stops the day
+    // where its scene is set (the petition table in town).
+    expect(
+      entry!.interrupt,
+      `${where}: ${recall.id}: the petition did not stop the day`,
+    ).toBe(true);
     const composed = purposeScene(core, director, memberId as never, entry!);
     expect(
       composed?.kind,
