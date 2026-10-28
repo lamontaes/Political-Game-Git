@@ -198,8 +198,9 @@ export interface LocalBusinessPlan {
  */
 export function localBusinessPlansFor(
   jurisdictionId: EntityId,
+  seed: string,
 ): readonly LocalBusinessPlan[] {
-  const supply = localBusinessSupplyFor(jurisdictionId);
+  const supply = localBusinessSupplyFor(jurisdictionId, seed);
   // Missing source coverage cannot establish businesses or their revenue.
   // Existing saved organizations and contracts remain available to readers.
   if (!supply) return [];
@@ -376,7 +377,7 @@ function seatMissingLocalBusinesses(
   // A town is seated once, whole. Businesses already there (a save from
   // before the list followed the town's counts) are kept as they are.
   if (seatedBusinessKeys(world, jurisdictionId).size > 0) return world;
-  const missing = localBusinessPlansFor(jurisdictionId);
+  const missing = localBusinessPlansFor(jurisdictionId, world.seed);
   if (missing.length === 0) return world;
   const today = world.currentDate;
   const currency = money(0, LOCAL_BUSINESS_ESTIMATE.currency).currency;

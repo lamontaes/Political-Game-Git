@@ -118,6 +118,7 @@ import {
   type PrintedStory,
 } from "../press-desk";
 import type { Story } from "./news";
+import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
@@ -248,7 +249,7 @@ export function pressParameter(key: string): number {
   return row.value;
 }
 
-interface PlaceNews {
+export interface PlaceNews {
   readonly newspapers: number;
   readonly tvStations: number;
   readonly radioStations: number;
@@ -272,6 +273,54 @@ const HABIT: Record<LocalKind, HabitKey> = {
   television: "localTv",
   radio: "localRadio",
 };
+
+/**
+ * The local outlets of each kind a state's published counts give a town, not
+ * yet rounded (Medill 2024, FCC 2025; the state split is estimated):
+ * calibration for the world's draw and its checks, never read by play.
+ */
+export function publishedOutletLevels(
+  counts: PlaceNews | undefined,
+  countyShare: number,
+): Record<LocalKind, number> {
+  return counts
+    ? {
+        newspaper: counts.newspapers * countyShare,
+        television: counts.tvStations / Math.max(1, counts.tvMarkets),
+        radio:
+          counts.radioStations * pressParameter("newsRadioShare") * countyShare,
+      }
+    : { newspaper: 0, television: 0, radio: 0 };
+}
+
+/**
+ * How many outlets of each kind this world's town has: the published level
+ * moved by the world's own draw, rounded, and never below one where the
+ * published count is at least one (owner, Oct 27: realistic, not real).
+ */
+export function worldOutletCounts(
+  seed: string,
+  counts: PlaceNews | undefined,
+  countyShare: number,
+): Record<LocalKind, number> {
+  const published = publishedOutletLevels(counts, countyShare);
+  const draw = (kind: LocalKind) => {
+    const level = Math.round(
+      worldLevel(
+        published[kind],
+        seed,
+        `press-world:${kind}`,
+        "pressWorldOutletSpreadShare",
+      ),
+    );
+    return Math.round(published[kind]) >= 1 ? Math.max(1, level) : level;
+  };
+  return {
+    newspaper: draw("newspaper"),
+    television: draw("television"),
+    radio: draw("radio"),
+  };
+}
 
 export const PRESS_MODULE: CoreModule = {
   id: PRESS_MODULE_ID,
@@ -508,17 +557,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     (county ? BASES.countyPopulation2024[county] : undefined) ?? townPeople;
   const share = Math.min(1, countyPeople / Math.max(1, statePeople));
   const cap = pressParameter("maxOutletsPerKind");
-  const wanted: Record<LocalKind, number> = counts
-    ? {
-        newspaper: Math.round(counts.newspapers * share),
-        television: Math.round(
-          counts.tvStations / Math.max(1, counts.tvMarkets),
-        ),
-        radio: Math.round(
-          counts.radioStations * pressParameter("newsRadioShare") * share,
-        ),
-      }
-    : { newspaper: 0, television: 0, radio: 0 };
+  const wanted = worldOutletCounts(core.seed, counts, share);
   const source = {
     tag: "ESTIMATED" as const,
     citation:
