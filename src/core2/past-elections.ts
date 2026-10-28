@@ -220,7 +220,7 @@ function townBands(
   const hit = byDate.get(date);
   if (hit) return hit;
   const at = makeIsoDate(date);
-  const voting = pastParameter(api, "pastVotingAge");
+  const voting = api.parameter("votingAge");
   const counts = new Map<
     string,
     { adults: number; lean: number; leans: number }
