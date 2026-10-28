@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: fixer/red-main-m1-11-prove-oneself
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T22:20:59.217Z
 ---
 
 **What.** The golden-path check M1-11 fails on clean main at 7897579380 in Washington, District of Columbia (place 1150000, seed b09f3d98a55b15d4dc5791c10adf3137f641b3c6e7abe324a7cefdfdf7ae2559). 35.1 percent of 231 displaced workers form a prove-oneself drive, outside the researched 2.9 to 30.7 percent band. Two earlier items fixed the same overshoot in North Canton, Ohio (#6044) and Eden, Utah (#5909), so the share still runs high in some places. It turned PR #6421's golden-path check red, which touches only the director.
