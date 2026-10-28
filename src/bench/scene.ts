@@ -25,6 +25,7 @@ import {
   ageBandOf,
   figureOn,
   colorsFor,
+  headOf,
   pickLook,
   type Figure,
   type FigurePerson,
@@ -738,14 +739,7 @@ export function stagePeople(
       unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
-    const who: Who = {
-      id,
-      birthDate: looks.birthDate,
-      ...(looks.gender ? { gender: looks.gender } : {}),
-      official: isOfficial(core, id),
-      ...(looks.seed ? { seed: looks.seed } : {}),
-      ...(looks.look ? { look: looks.look } : {}),
-    };
+    const who = whoOf(core, id, looks);
     const look = pickLook(core, who, place);
     if (!look) {
       unplaced.push({ personId: id, reason: "no-whole-figure" });
@@ -870,6 +864,48 @@ export function hides(
 }
 
 type Who = FigurePerson;
+/** A person as the figures read them: age, sex, seed, chosen look and office. */
+function whoOf(core: CoreState, id: string, looks: Looks): Who {
+  return {
+    id,
+    birthDate: looks.birthDate,
+    ...(looks.gender ? { gender: looks.gender } : {}),
+    official: isOfficial(core, id),
+    ...(looks.seed ? { seed: looks.seed } : {}),
+    ...(looks.look ? { look: looks.look } : {}),
+  };
+}
+
+/** A person's face for a map or list: their front figure in their own colors, and where its head is. */
+export interface PersonFace {
+  url: string;
+  /** The head in the figure's pixels: top, middle and width. */
+  head: readonly [number, number, number];
+  width: number;
+  height: number;
+}
+/** The same figure a room would draw for them in `place`, or null for a child or a look with no measured head. */
+export function faceOf(
+  core: CoreState,
+  id: string,
+  place: string,
+): PersonFace | null {
+  const looks = looksOf(core, id);
+  if (!looks) return null;
+  const who = whoOf(core, id, looks);
+  const look = pickLook(core, who, place);
+  const head = look && headOf(look);
+  if (!look || !head) return null;
+  const colors = new URLSearchParams(
+    colorsFor(who, look.sex, ageBandOf(core, who.birthDate)),
+  ).toString();
+  return {
+    url: `/art/people-engine/v2/${look.file}${colors ? `?${colors}` : ""}`,
+    head,
+    width: look.width,
+    height: look.height,
+  };
+}
 type Turn = NonNullable<Parameters<typeof figureOn>[5]>;
 // Presentation choices, TUNABLE by eye: how far below the lead a spot counts
 // as in front of them, how much farther that makes it, and how near the
