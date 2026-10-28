@@ -16,6 +16,7 @@ import {
   daysBetweenText as daysBetween,
 } from "../kernel/dates";
 import {
+  BUDGETS_MODULE_ID,
   budgetsOf,
   fiscalYearOf,
   governments,
@@ -110,6 +111,10 @@ function covered(
 export const publicBargaining: PolicyHandler = (api, change) => {
   ensureReachA(api);
   if (!change.inForce) return;
+  // A unit's contract follows a government's budget line, so a world opened
+  // without the budgets engine has no contract to date (the same read the
+  // staffing and money handlers make before they open its tables).
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   for (const gov of governments(api)) schedule(api, gov, change.lawId);
 };
 

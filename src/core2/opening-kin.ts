@@ -365,7 +365,7 @@ export function buildOpeningKin(
     deaths: [],
   };
   const startedAt = makeIsoDate(options.startedAt);
-  const adultAge = p("benchmarkAdultMinimumAge");
+  const adultAge = p("votingAge");
   const archiveDays = pastParameters.pastArchiveDays.value;
   const interval = p("kinInterbirthYears");
   const minParentAge = OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge;

@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/elections-night-for-voter
+pr: #6632
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T15:26:04.693Z
 ---
 
 **What.** src/bench/election-day.test.ts fails on clean main: electionNight(core, playerId) returns null after the player votes, because electionResults (src/bench/results.ts) finds no race on the newest night that is the player's or carries ballot.voted. Reproduced on main: Canaan, Connecticut (0910870), seed aeeca931fade0e61:0; North Granby, Connecticut (0954660), seed 0a54c3dcd64e7501:1, race contest:seat:gus2025:211229:board:0:2025-11-04.
