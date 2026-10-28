@@ -1,6 +1,21 @@
 {
   "entries": [
     {
+      "version": "0.61.1",
+      "releasedOn": "2026-10-28",
+      "revision": "2a1a2d27143ded3366c357d2b7ef4c55443f8a03",
+      "changeIds": [
+        "elections-night-reads-returns",
+        "elections-one-term-writer",
+        "elections-one-voting-age",
+        "elections-standing-in-campaign-engine",
+        "realistic-hud-rent-guard-red",
+        "realistic-population-per-world",
+        "screens-money-dates-one-wording",
+        "skills-lessons-2026-10-28-12"
+      ]
+    },
+    {
       "version": "0.61.0",
       "releasedOn": "2026-10-28",
       "revision": "b5cffd3874501b4e010c0f7ca0ee15cc33392ba7",
