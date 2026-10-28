@@ -1753,6 +1753,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "debate",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "volunteer-offered",
       "channel": "cause",
       "impactParameter": "directorVolunteerOfferImpact",

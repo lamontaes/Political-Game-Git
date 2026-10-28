@@ -182,7 +182,7 @@ export interface MacroWorldOffsets {
  * whole spread, so a world is near the published figure but never on it.
  * Seeded generation of the world's starting state, never an actor's outcome.
  */
-function worldOffset(
+export function worldOffset(
   seed: string,
   key: string,
   spread: number,

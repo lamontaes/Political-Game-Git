@@ -785,15 +785,15 @@ function townStory(
   if (!months || !regionId) return null;
   const region =
     regionalMonth(api, townId, months.now.month) ??
-    openingRegionMonths(months.now, (key) => api.parameter(key)).find(
-      (row) => row.regionId === regionId,
-    );
+    openingRegionMonths(months.now, core.startedAt, core.seed, (key) =>
+      api.parameter(key),
+    ).find((row) => row.regionId === regionId);
   if (!region) return null;
   const before = months.before
     ? (regionalMonth(api, townId, months.before.month) ??
-      openingRegionMonths(months.before, (key) => api.parameter(key)).find(
-        (row) => row.regionId === regionId,
-      ))
+      openingRegionMonths(months.before, core.startedAt, core.seed, (key) =>
+        api.parameter(key),
+      ).find((row) => row.regionId === regionId))
     : undefined;
   const area = regionName(region.regionId);
   return {
