@@ -5,12 +5,13 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/congress-vacancy-one-filler
 pr:
 blocked-on: gov-sampled-legislator-seats-never-refilled
 lead: wire-office
 source: wire-office session, Oct 28 (found while fixing the sampled seats)
+claimed-at: 2026-10-28T21:23:22.534Z
 ---
 
 **What.** The officials engine seats every member of Congress outside the town's state with no term in the offices engine. When one dies, `congressMembers` in src/core2/modules/legislature.ts seats a new member the next time the chamber sits (`seatOfficial` keyed by the day), with no vacancy, no rule and no special election. A House seat is filled only by a special election in law, so the House counts a member it would not have. That is a second filler beside the offices engine's vacancy engine, which #6701 opens to seats it keeps no term for.
