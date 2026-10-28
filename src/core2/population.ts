@@ -1123,7 +1123,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   };
   const living = new Map<string, number>();
   const cash = new Map<string, number>();
-  const rent = hudRentRowFor(town);
+  const rent = hudRentRowFor(town, options.seed);
   if (!rent)
     gaps.add(
       `No HUD shelter budget covers ${place.displayName}; only sourced nonhousing categories retained.`,

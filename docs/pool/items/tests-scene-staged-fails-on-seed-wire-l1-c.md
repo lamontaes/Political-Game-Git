@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** src/director/scene.test.ts 'builds each staged scene from its records, in second person, and opens a conversation' fails with 'expected 0 to be greater than 0' when GOLDEN_PATH_SEED=wire-l1-c, identically on clean main at 4732dda71c (Oct 28); its default seed scenes-a passes. The test builds its world with buildDeepPast from the seed, so the staged-scene count depends on which past the seed draws, and on this seed no moment stages a scene.
+**What.** src/director/scene.test.ts 'builds each staged scene from its records, in second person, and opens a conversation' fails with 'expected 0 to be greater than 0' when GOLDEN_PATH_SEED=wire-l1-c, identically on clean main at 4732dda71c (Oct 28); its default seed scenes-a passes. The test builds its world with buildDeepPast from the seed, so the staged-scene count depends on which past the seed draws, and on this seed no moment stages a scene. The cause is not yet traced to a record.
 
 **Rules.** One rule, all 56 places: a test that claims a rule holds must hold on any seed, or say which records it needs and build them from the world. No dice: the fix is the cause in the records, not a seed change.
 

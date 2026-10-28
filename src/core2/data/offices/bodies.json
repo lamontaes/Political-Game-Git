@@ -1,0 +1,54 @@
+{
+  "about": "One row per kind of lawmaking body (engine map line 28, E3: one bill engine, the level a row). The bill and budget engine (src/core2/modules/legislature.ts) reads a body's level, the legislature its chambers belong to, the chamber a bill or budget starts in, the words for the body, and who holds the veto, from these rows instead of branching on the office kind. `kindPrefix` matches an office kind (us-house also covers the delegate and at-large rows). A body with no `legislature` is a one-chamber body. `chamberId` is the nation's own id for a federal chamber, which has one office row per state. Structure is law (U.S. Const. art. I; state constitutions; county and municipal codes); each row cites it.",
+  "bodies": [
+    {
+      "kindPrefix": "us-house",
+      "level": "federal",
+      "legislature": "congress",
+      "chamberId": "federal:us-house",
+      "introducedFirst": true,
+      "words": "Congress",
+      "source": "U.S. Const. art. I, sec. 1 and 7: Congress is a House and a Senate; revenue bills originate in the House."
+    },
+    {
+      "kindPrefix": "us-senate",
+      "level": "federal",
+      "legislature": "congress",
+      "chamberId": "federal:us-senate",
+      "words": "Congress",
+      "source": "U.S. Const. art. I, sec. 1 and 3."
+    },
+    {
+      "kindPrefix": "legislature-",
+      "level": "state",
+      "legislature": "state-legislature",
+      "words": "the legislature",
+      "source": "Each state constitution's legislative article; Nebraska's one chamber is the one legislature- row its state has."
+    },
+    {
+      "kindPrefix": "county-board",
+      "level": "county",
+      "words": "the county board",
+      "source": "State county codes: the county's governing board adopts its budget (src/core2/gov-rules/county-governing-body-rules.ts)."
+    },
+    {
+      "kindPrefix": "council",
+      "level": "city",
+      "words": "the council",
+      "source": "Municipal charters and codes: the council is the municipal legislative body (src/core2/data/offices/body-names.json)."
+    },
+    {
+      "kindPrefix": "township-board",
+      "level": "city",
+      "words": "the township board",
+      "source": "State township codes: where the town's own government is its township, the township board is its legislative body."
+    }
+  ],
+  "vetoHolder": {
+    "federal": "president",
+    "state": "governor",
+    "county": "county-executive",
+    "city": "mayor",
+    "source": "U.S. Const. art. I, sec. 7 (the president's veto); state constitutions (the governor's); county and municipal charters (the county executive's and the mayor's, where the office exists)."
+  }
+}

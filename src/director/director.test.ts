@@ -94,6 +94,16 @@ function town(placeId: string): CoreInput {
     traits: { [risk]: 1 },
     familyIds: ["person:worker"],
     knownIds: ["person:worker"],
+    pastFacts: [
+      {
+        id: "fact:spouse:partner",
+        date: "1994-01-01",
+        kind: "family:partner",
+        summary: "Partner",
+        source,
+        facts: { otherPersonId: "person:worker" },
+      },
+    ],
   });
   const neighbor = person("person:neighbor", placeId);
   const classmate = person("person:classmate", placeId, {
@@ -384,7 +394,8 @@ describe("story director on the new core", () => {
       director.ledger.people
         .get("person:worker")!
         .keptFacts.get("knew-each-other:person:spouse:person:worker"),
-    ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
+      // The partnership's family fact dates when they knew each other.
+    ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
     expect(thread.tie).toBeCloseTo(0.79 + 0.3, 6);
     const later = "2022-07-01";
     expect(

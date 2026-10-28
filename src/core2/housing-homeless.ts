@@ -19,6 +19,8 @@ import { currentCloseness } from "./closeness";
 import { stopgap } from "./stopgaps";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
+import { housingWorldOffset } from "./housing-prices";
+import { parameter } from "./parameters";
 import { endResidentFlow } from "./residents-economy";
 import type { ModuleRow } from "./module-data";
 import { webFactorFor } from "./outcome-web-reach";
@@ -99,7 +101,7 @@ export function housingStatusCounts(
 }
 
 /** Year-round shelter beds per 10,000 people: the state's (HUD HIC 2025), an island area with no Continuum of Care at the island-area median, else the nation's. */
-export function shelterRateFor(usps: string): number {
+export function publishedShelterRateFor(usps: string): number {
   return (
     (shelterData.bedsPer10k as Record<string, number>)[usps] ??
     (
@@ -112,6 +114,19 @@ export function shelterRateFor(usps: string): number {
   );
 }
 
+/** The state's shelter beds per 10,000 people in this world: the published rate moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+export function shelterRateFor(usps: string, seed: string): number {
+  return (
+    publishedShelterRateFor(usps) *
+    (parameter("one") +
+      housingWorldOffset(
+        seed,
+        `shelter-beds:${usps}`,
+        "housingWorldShelterBedsSpreadShare",
+      ))
+  );
+}
+
 /** The place's year-round shelter beds: the state's beds per 10,000 (HUD HIC 2025) times its people. */
 export function shelterBeds(
   api: CoreAPI,
@@ -120,7 +135,7 @@ export function shelterBeds(
 ): number {
   // stopgapId: SG-WORLD-housing-shelter-beds-state-rate
   stopgap("SG-WORLD-housing-shelter-beds-state-rate");
-  const rate = shelterRateFor(usps);
+  const rate = shelterRateFor(usps, api.state.seed);
   // stopgapId: SG-WORLD-housing-shelter-territory
   if (!(usps in shelterData.bedsPer10k))
     stopgap("SG-WORLD-housing-shelter-territory");
