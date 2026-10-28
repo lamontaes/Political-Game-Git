@@ -2505,7 +2505,8 @@ body.dev .dev-ring {
 }
 .people-node img,
 .people-center img,
-.people-initial {
+.people-initial,
+.headshot {
   box-sizing: border-box;
   width: 60px;
   height: 60px;
@@ -2516,10 +2517,16 @@ body.dev .dev-ring {
   background: var(--iron);
 }
 .people-center img,
-.people-center .people-initial {
+.people-center .people-initial,
+.people-center .headshot {
   width: 72px;
   height: 72px;
   border-color: var(--gold);
+}
+/* The headshot's figure is placed inside the round frame by play.mjs. */
+.headshot {
+  display: block;
+  background-repeat: no-repeat;
 }
 .people-node .people-initial,
 .people-center .people-initial {
@@ -2529,7 +2536,8 @@ body.dev .dev-ring {
   font: 20px var(--name);
 }
 .people-node.selected img,
-.people-node.selected .people-initial {
+.people-node.selected .people-initial,
+.people-node.selected .headshot {
   border-width: 4px;
   border-color: var(--gold);
 }
@@ -2587,7 +2595,8 @@ body.dev .dev-ring {
   order: 0;
 }
 .people-list .people-node img,
-.people-list .people-initial {
+.people-list .people-initial,
+.people-list .headshot {
   width: 48px;
   height: 48px;
 }
