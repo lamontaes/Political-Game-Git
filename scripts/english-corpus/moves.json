@@ -249,13 +249,8 @@
         "tag": "close"
       },
       {
-        "move": "^(inaugural|state-of-the-union|state-floor)-close$",
+        "move": "^state-floor-close$",
         "tag": "close"
-      },
-      {
-        "move": "^inaugural-moment$",
-        "tag": "tell",
-        "key": "honor"
       },
       {
         "move": "-salutation$",
@@ -284,18 +279,6 @@
       },
       {
         "move": "^public-comment-story$",
-        "tag": "tell"
-      },
-      {
-        "move": "^state-of-the-union-ask$",
-        "tag": "request"
-      },
-      {
-        "move": "^state-of-the-union-guest$",
-        "tag": "introduce"
-      },
-      {
-        "move": "^state-of-the-union-report$",
         "tag": "tell"
       },
       {
@@ -699,44 +682,6 @@
         "tag": "answer"
       }
     ],
-    "counter": [
-      {
-        "move": "^clerk-answer$",
-        "tag": "answer",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-close$",
-        "tag": "close",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-(fee|form)$",
-        "tag": "tell",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-greet$",
-        "tag": "greet",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-id$",
-        "tag": "ask",
-        "key": "routine"
-      },
-      {
-        "move": "^visitor-ask$",
-        "text": "(?i)thank|appreciate",
-        "tag": "thank",
-        "key": "routine"
-      },
-      {
-        "move": "^visitor-ask$",
-        "tag": "ask",
-        "key": "routine"
-      }
-    ],
     "filing-visit": [
       {
         "move": "^clerk-close",
@@ -1039,14 +984,6 @@
       {
         "move": "-close$",
         "tag": "close"
-      },
-      {
-        "move": "^state-of-the-union-congress$",
-        "tag": "request"
-      },
-      {
-        "move": "^state-of-the-union-governors$",
-        "tag": "thank"
       },
       {
         "move": ".",

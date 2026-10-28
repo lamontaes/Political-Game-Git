@@ -668,7 +668,6 @@
     "minutes": "public",
     "winning-losing": "public",
     "speech-stages": "public",
-    "counter": "public",
     "conversation": "private",
     "scene-talk": "private",
     "interview": "private",
