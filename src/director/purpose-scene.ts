@@ -58,6 +58,7 @@ import { ELECTIONS_MODULE_ID, ballot } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
   enlistVolunteer,
+  type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
@@ -541,13 +542,38 @@ function composeBinding(
     deskFacts(core, facts, said, moment.causeId, askerId);
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
-  const standing = type.playerAsks
-    ? askStanding(core, said, askerId, askedId)
-    : undefined;
+  // A door on the player's own canvass: where the knock left the resident,
+  // and the race the player asks them about.
+  const door =
+    type.playerAsks && moment.causeKind === "event:campaign.door"
+      ? doorStanding(core, moment.causeId, askerId)
+      : undefined;
+  const standing = door
+    ? door.standing
+    : type.playerAsks
+      ? askStanding(core, said, askerId, askedId)
+      : undefined;
   if (type.playerAsks && !standing)
-    return { kind: "skipped", reason: "no bill on record to ask about" };
+    return {
+      kind: "skipped",
+      reason:
+        door === null
+          ? "no race on record to ask about"
+          : "no bill on record to ask about",
+    };
+  if (door) {
+    facts.name = {
+      text: `${asker.givenName} ${asker.familyName}`,
+      sourceRecordIds: [askerId],
+    };
+    facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
+    facts.office = {
+      text: door.office,
+      sourceRecordIds: [moment.causeId, door.contestId],
+    };
+  }
   // The player asks: their lines speak to the colleague by name.
-  if (standing) {
+  else if (standing) {
     facts.name = {
       text: `${asked.givenName} ${asked.familyName}`,
       sourceRecordIds: [askedId],
@@ -588,6 +614,47 @@ function composeBinding(
       })),
       talk: result.talk,
     },
+  };
+}
+
+/**
+ * Where a resident stands after the player knocked on their door: the
+ * campaign engine's warmth toward the player after the knock (its causes
+ * table), and the race of the campaign, by its contest's title. A favor
+ * plays no part at a door. Null where the knock or the race is not on record.
+ */
+function doorStanding(
+  core: Readonly<CoreState>,
+  causeId: string,
+  residentId: PersonId,
+): { standing: AskStanding; office: string; contestId: string } | null {
+  if (
+    !core.modules.has(CAMPAIGNS_MODULE_ID) ||
+    !core.modules.has(ELECTIONS_MODULE_ID)
+  )
+    return null;
+  const api = coreAPI(core as CoreState);
+  const cause = api
+    .moduleState(CAMPAIGNS_MODULE_ID)
+    .table("causes")
+    .get(causeId) as unknown as CauseRow | undefined;
+  if (!cause || cause.voterId !== residentId) return null;
+  const impression = api
+    .moduleState(CAMPAIGNS_MODULE_ID)
+    .table("impressions")
+    .get(`${residentId}|${cause.candidateId}`) as unknown as
+    { contestId?: string } | undefined;
+  const contest = impression?.contestId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(impression.contestId) as unknown as { title?: string } | undefined)
+    : undefined;
+  if (!contest?.title) return null;
+  return {
+    standing: { lean: cause.warmthAfter, favor: P.zero },
+    office: contest.title,
+    contestId: impression!.contestId!,
   };
 }
 

@@ -403,6 +403,7 @@ export function bodyScene(
  * lets a town act (`billCatalog`, never the raw catalog file).
  */
 function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+  const lineNames = budgetLineNames();
   const level =
     bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
   return billCatalog(api, level).map((menu) => ({
@@ -418,7 +419,11 @@ function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
       )
       .map((row) => ({
         kind: row.kind,
-        name: row.name,
+        // A budget line by its name on the budgets screen, never its key.
+        name:
+          (row.kind === "budget-line" &&
+            lineNames[`budget-line:${row.line}`]) ||
+          row.name,
         ...(row.question ? { question: row.question } : {}),
         ...(row.line ? { line: row.line } : {}),
         ...(row.series ? { series: row.series } : {}),

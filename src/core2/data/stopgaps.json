@@ -6724,8 +6724,8 @@
     "why": "A series a body can draft needs its bill-section words, which belong to the Words line (words-bill-section-local-income-tax-authority); the laws branch's own words were returned by Merger 2 on Oct 26.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "The Words line's bill-section row for local-income-tax-authority, then a state-level grant/withdraw policy in the bill catalog (scripts/research/build-bill-catalog.py) and its power in series-powers.json.",
-    "status": "open"
+    "replacement": "Resolved Oct 28: the bill catalog offers law:local-income-tax-authority to state chambers (scripts/research/build-bill-catalog.py), worded by the Words row from #6432, so a legislature grants or withdraws its towns' power to tax income by bill and a town's next income-tax bill reads the law in force.",
+    "status": "resolved"
   },
   {
     "id": "SG-LAW-death-tax-no-schedule",
