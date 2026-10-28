@@ -313,6 +313,8 @@ export const VOTING_MODULE: CoreModule = {
       results: { indexes: { byContest: { fields: ["contestId"] } } },
       /** Each place's votes in a contest, counted coarsely. */
       places: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** Each contest's returns as the night reports them, place by place. */
+      returns: {},
     },
   },
   onCalendarWork: votingCalendarWork,
@@ -853,10 +855,11 @@ function countedAdultsToday(api: CoreAPI): number {
   const held = countedByDay.get(api.state);
   if (held?.date === api.state.date) return held.n;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   let n = 0;
   for (const v of countedResidents(api.state as CoreState))
-    if (v.placeId === townPlaceId && ageOn(v, date) >= 18) n += v.weight;
+    if (v.placeId === townPlaceId && ageOn(v, date) >= adultAge) n += v.weight;
   countedByDay.set(api.state, { date, n });
   return n;
 }
@@ -868,6 +871,7 @@ function townAdults(api: CoreAPI): readonly PersonState[] {
   if (held?.date === api.state.date && held.size === api.state.people.size)
     return held.rows;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   const rows = [...(api.state.peopleByPlace.get(townPlaceId) ?? [])]
     .map((id) => api.state.people.get(id))
@@ -876,7 +880,7 @@ function townAdults(api: CoreAPI): readonly PersonState[] {
         !!p &&
         p.alive &&
         p.placeId === townPlaceId &&
-        ageOn(p, date) >= 18 &&
+        ageOn(p, date) >= adultAge &&
         !barredFromVoting(api, p.id),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -902,10 +906,14 @@ function townIncumbentLean(api: CoreAPI): number {
   const held = incumbentLeanByDay.get(api.state);
   if (held?.date === api.state.date) return held.mean;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   let sum = 0,
     weight = 0;
   for (const voter of countedResidents(api.state as CoreState)) {
-    if (voter.placeId !== townPlaceId || ageOn(voter, api.state.date) < 18)
+    if (
+      voter.placeId !== townPlaceId ||
+      ageOn(voter, api.state.date) < adultAge
+    )
       continue;
     sum += incumbentLeanOf(api, voter) * voter.weight;
     weight += voter.weight;
@@ -960,6 +968,7 @@ export interface RollVoter {
 export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
   const state = api.state as CoreState;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const date = state.date;
   const rows: RollVoter[] = townAdults(api).map((p) => ({
     id: p.id,
@@ -971,7 +980,7 @@ export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
   }));
   const scale = countedScale(api);
   for (const v of countedResidents(state))
-    if (v.placeId === townPlaceId && ageOn(v, date) >= 18)
+    if (v.placeId === townPlaceId && ageOn(v, date) >= adultAge)
       rows.push({
         id: v.id,
         target: "group",
@@ -1458,18 +1467,19 @@ export function holdPrimary(
   const access = parties[0]?.voterAccess ?? "";
   const date = api.state.date;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const lean0 = townLean(api);
   const named = [...api.state.people.values()]
     .filter(
       (p) =>
         p.alive &&
         p.placeId === townPlaceId &&
-        ageOn(p, date) >= 18 &&
+        ageOn(p, date) >= adultAge &&
         !barredFromVoting(api, p.id),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   const counted = countedResidents(api.state as CoreState).filter(
-    (v) => v.placeId === townPlaceId && ageOn(v, date) >= 18,
+    (v) => v.placeId === townPlaceId && ageOn(v, date) >= adultAge,
   );
   // Who identifies with a party: the firmest leans in town, at the real
   // identifier share (the same rule the parties engine ties named people by).
@@ -2252,6 +2262,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const filings = ballot(api, contestId);
   const date = api.state.date;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   // A ward seat is chosen by the voters of its ward alone; an at-large seat
   // by the whole town. A named adult the state's law bars for a felony
   // conviction can't vote.
@@ -2403,7 +2414,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   for (const voter of countedResidents(api.state as CoreState)) {
     if (voter.placeId !== townPlaceId) continue;
     const age = ageOn(voter, date);
-    if (age < 18) continue;
+    if (age < adultAge) continue;
     // Wards are drawn to equal population: the counted residents divide
     // among them in equal runs of the voters each stands for, as the named
     // households do.
@@ -2796,18 +2807,19 @@ function restOfTown(
   const population = Number(api.state.placeMetadata.referencePopulation);
   if (!Number.isFinite(population) || population <= 0) return 0;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   let people = 0,
     adults = 0;
   for (const p of api.state.people.values())
     if (p.alive && p.placeId === townPlaceId) {
       people += 1;
-      if (ageOn(p, date) >= 18) adults += 1;
+      if (ageOn(p, date) >= adultAge) adults += 1;
     }
   for (const v of countedResidents(api.state as CoreState))
     if (v.placeId === townPlaceId) {
       people += v.weight;
-      if (ageOn(v, date) >= 18) adults += v.weight;
+      if (ageOn(v, date) >= adultAge) adults += v.weight;
     }
   if (!people || population <= people) return 0;
   const eligible =
@@ -2960,9 +2972,10 @@ export function electorateSample(
   const hit = byKey.get(key);
   if (hit) return hit;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const today = api.state.date;
   const counted = countedResidents(api.state as CoreState).filter(
-    (v) => v.placeId === townPlaceId && ageOn(v, today) >= 18,
+    (v) => v.placeId === townPlaceId && ageOn(v, today) >= adultAge,
   );
   const voters: {
     id: string;
@@ -2976,7 +2989,7 @@ export function electorateSample(
         (p) =>
           p.alive &&
           p.placeId === townPlaceId &&
-          ageOn(p, today) >= 18 &&
+          ageOn(p, today) >= adultAge &&
           !barredFromVoting(api, p.id),
       );
   const lean0 = townLean(api);
@@ -3019,7 +3032,31 @@ export function electorateSample(
   return sample;
 }
 
-/** Keep each place's votes, so the game can show where the race was won. */
+/** One place reporting on election night, and where the race stands after it. */
+export interface ReturnsReport {
+  readonly placeId: string;
+  readonly name: string;
+  readonly cast: number;
+  readonly votes: Readonly<Record<string, number>>;
+  /** Every candidate's total once this place is in. */
+  readonly running: Readonly<Record<string, number>>;
+  /** The candidate ahead once this place is in; null when even. */
+  readonly leaderId: string | null;
+  readonly margin: number;
+}
+
+/** A contest's returns: the places in the order the night reports them. */
+export interface ReturnsRow {
+  readonly id: string;
+  readonly contestId: string;
+  readonly reports: readonly ReturnsReport[];
+}
+
+/**
+ * Keep each place's votes, so the game can show where the race was won, and
+ * the night's returns: the places report smallest first, as a small place's
+ * tally is done first, each with the running totals once it is in.
+ */
 function recordPlaces(
   api: CoreAPI,
   contestId: string,
@@ -3033,6 +3070,43 @@ function recordPlaces(
       placeId: place.id,
       contestId,
     } as unknown as ModuleRow);
+  const running: Record<string, number> = {};
+  for (const place of places)
+    for (const id of Object.keys(place.votes)) running[id] = 0;
+  const reports = [...places]
+    .filter((place) => place.cast > 0)
+    .sort((a, b) => a.cast - b.cast || a.id.localeCompare(b.id))
+    .map((place): ReturnsReport => {
+      for (const [id, votes] of Object.entries(place.votes))
+        running[id] = running[id]! + votes;
+      const order = Object.entries(running).sort(
+        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+      );
+      const margin = (order[0]?.[1] ?? 0) - (order[1]?.[1] ?? 0);
+      return {
+        placeId: place.id,
+        name: place.name,
+        cast: place.cast,
+        votes: place.votes,
+        running: { ...running },
+        leaderId: margin > 0 ? order[0]![0] : null,
+        margin,
+      };
+    });
+  table(api, "returns").put({
+    id: `returns:${contestId}`,
+    contestId,
+    reports,
+  } as unknown as ModuleRow);
+}
+
+/** A contest's election-night returns, as the count kept them. */
+export function returnsOf(
+  api: CoreAPI,
+  contestId: string,
+): ReturnsRow | undefined {
+  return table(api, "returns").get(`returns:${contestId}`) as unknown as
+    ReturnsRow | undefined;
 }
 
 /** Each place's votes in a contest. */

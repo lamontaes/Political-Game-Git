@@ -1005,7 +1005,7 @@ export function composeJournal(
           : undefined) ??
         one) > one;
     const age = ageAt(moment.date);
-    const young = age < P.benchmarkAdultMinimumAge;
+    const young = age < P.votingAge;
     let event: ReturnType<typeof render> = null;
     if (row.hasOwnLine && own) {
       const won = facts.winner?.text === personId;

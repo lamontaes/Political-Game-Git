@@ -829,12 +829,13 @@ function enrollPressEmployers(api: CoreAPI): void {
 function countedAudience(api: CoreAPI, outlet: OutletRow): number {
   const town = outlet.placeId;
   const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  const adultAge = api.parameter("votingAge");
   let total = 0;
   for (const row of countsThisMonth(api)) {
     if (row.placeId !== town) continue;
     for (const [bandKey, people] of Object.entries(row.byAgeBand ?? {})) {
       const low = Number(bandKey.split("-")[0]);
-      if (!Number.isFinite(low) || low < 18) continue;
+      if (!Number.isFinite(low) || low < adultAge) continue;
       total +=
         people *
         (NEWS.habits.byAge[bandOf(low)]?.[HABIT[outlet.kind as LocalKind]] ??
@@ -928,12 +929,13 @@ function habitOf(api: CoreAPI, p: PersonState) {
 function audienceOfKind(api: CoreAPI, kind: OutletKind): readonly string[] {
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const bands = new Map<Band, PersonState[]>();
   for (const id of api.state.peopleByPlace.get(town) ?? []) {
     const p = api.state.people.get(id);
     if (!p?.alive) continue;
     const age = ageOn(p, date);
-    if (age < 18) continue;
+    if (age < adultAge) continue;
     const band = bandOf(age);
     const list = bands.get(band) ?? [];
     list.push(p);
@@ -1050,10 +1052,11 @@ function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
     return held.adults;
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const adults = new Map<Band, number>();
   for (const voter of countedResidentsOf(api.state as CoreState, town)) {
     const age = ageOn(voter, date);
-    if (age < 18) continue;
+    if (age < adultAge) continue;
     const band = bandOf(age);
     adults.set(band, (adults.get(band) ?? 0) + voter.weight);
   }
@@ -2176,16 +2179,17 @@ export function townStand(api: CoreAPI, question: string): number {
   if (hit !== undefined) return hit;
   const town = lawChain(api).townPlaceId;
   const views = core.modules.has(VIEWS_MODULE_ID);
+  const adultAge = api.parameter("votingAge");
   let sum = 0;
   let adults = 0;
   for (const id of core.peopleByPlace.get(town) ?? []) {
     const p = core.people.get(id);
-    if (!p?.alive || ageOn(p, core.date) < 18) continue;
+    if (!p?.alive || ageOn(p, core.date) < adultAge) continue;
     sum += leanOf(api, id) / 2;
     adults += 1;
   }
   for (const voter of countedResidents(core)) {
-    if (voter.placeId !== town || ageOn(voter, core.date) < 18) continue;
+    if (voter.placeId !== town || ageOn(voter, core.date) < adultAge) continue;
     sum += ((views ? countedLean(api, voter) : 0) / 2) * voter.weight;
     adults += voter.weight;
   }

@@ -245,12 +245,13 @@ function scheduleWeek(api: CoreAPI, from: string): void {
 }
 
 function townAdults(api: CoreAPI): PersonState[] {
+  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   return [...(api.state.peopleByPlace.get(lawChain(api).townPlaceId) ?? [])]
     .map((id) => api.state.people.get(id))
     .filter(
       (p): p is PersonState =>
-        p !== undefined && p.alive && ageOn(p, date) >= 18,
+        p !== undefined && p.alive && ageOn(p, date) >= adultAge,
     )
     .sort((a, b) => a.id.localeCompare(b.id));
 }
@@ -369,6 +370,7 @@ export function commentSpeakers(
   lean: number;
 }[] {
   // The body's own members vote on the bill; public comment is the public's.
+  const adultAge = api.parameter("votingAge");
   const seated = new Set(
     members(api, bill.bodyOfficeId).flatMap((t) =>
       t.personId ? [t.personId] : [],
@@ -382,7 +384,7 @@ export function commentSpeakers(
     (v) =>
       v.placeId === town &&
       countedRecordOnly(core, v.id) &&
-      ageOn(v, api.state.date) >= 18,
+      ageOn(v, api.state.date) >= adultAge,
   );
   return [...townAdults(api), ...counted]
     .filter(
@@ -492,13 +494,16 @@ function roomTerm(api: CoreAPI, bill: BillRow): number {
  * housing while young (most renters are under 35).
  */
 export function concerns(api: CoreAPI, p: Readonly<PersonState>) {
+  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   const working =
     ((api.state as CoreState).work.commitmentsByPerson.get(p.id)?.size ?? 0) >
     0;
   const children = [...p.familyIds].some((id) => {
     const kin = api.state.people.get(id);
-    return kin?.alive && ageOn(kin, date) < 18 && kin.placeId === p.placeId;
+    return (
+      kin?.alive && ageOn(kin, date) < adultAge && kin.placeId === p.placeId
+    );
   });
   return concernsOf({ age: ageOn(p, date), working, children });
 }
@@ -537,6 +542,7 @@ const concernShares = new WeakMap<
  * model, two tiers).
  */
 export function townConcernShare(api: CoreAPI, question: string): number {
+  const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
   const date = core.date;
@@ -551,7 +557,7 @@ export function townConcernShare(api: CoreAPI, question: string): number {
         p.alive &&
         p.placeId === town &&
         !isDemoted(p) &&
-        ageOn(p, date) >= 18
+        ageOn(p, date) >= adultAge
       )
         lives.push({ touches: concerns(api, p), weight: 1 });
     if (rt) {
@@ -559,9 +565,10 @@ export function townConcernShare(api: CoreAPI, question: string): number {
       for (const h of store.liveHouseholds()) {
         const members = store.countedMembers(h);
         const ageOf = (m: number) => ageOn({ birthDate: store.born[m]! }, date);
-        const children = members.some((m) => ageOf(m) < 18);
+        const children = members.some((m) => ageOf(m) < adultAge);
         for (const m of members) {
-          if (store.text(store.placeIx[m]!) !== town || ageOf(m) < 18) continue;
+          if (store.text(store.placeIx[m]!) !== town || ageOf(m) < adultAge)
+            continue;
           const id = store.ids[m]!;
           const full = core.people.get(id);
           if (full && !isDemoted(full)) continue;
