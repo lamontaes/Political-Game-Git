@@ -1,6 +1,7 @@
 ---
 id: words-news-area-outside-metros-said-as-a-reader-would
 title: "The first night's jobs story names an area outside the metros as a reader would, not with the state where the town goes"
+lead: words
 area: words
 kind: bug
 priority: 2
