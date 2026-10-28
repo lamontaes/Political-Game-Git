@@ -63,7 +63,7 @@ jobs:
 
       - name: Check only the files this change touches
         # Owner rule (Oct 12, 2026): never run the full repository. Formatting,
-        # lint, American English and release declarations cover only the files
+        # lint and release declarations cover only the files
         # this pull request (or push) adds or edits; a change never fails on
         # files it didn't touch. Whole-repo typecheck and data validations are
         # not part of this check.
@@ -98,7 +98,6 @@ jobs:
           if [[ ${#code[@]} -gt 0 ]]; then
             npx eslint --no-warn-ignored "${code[@]}"
           fi
-          CHANGED_FILES="$(printf '%s\n' "${changed[@]}")" npx vitest run tests/american-english.test.ts
           RELEASE_DECLARATION_BASE="$declaration_base" \
           RELEASE_DECLARATION_HEAD="$VALIDATED_HEAD_SHA" \
           RELEASE_DECLARATION_MODE="$declaration_mode" \
@@ -111,12 +110,18 @@ jobs:
     # scripts/guards/index.ts; docs/design/guards.md explains each one.
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          # The guards judge what main becomes: the pull request merged into
+          # its base (GitHub's merge commit), so a branch cut before a guard
+          # existed is judged by today's guards, not by its own old copy.
+          ref: ${{ github.sha }}
 
       - name: Use Node 22
         uses: actions/setup-node@v7
@@ -132,6 +137,9 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           EVENT_BEFORE: ${{ github.event.before }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # The reading-line guard reads the pull request's body live.
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail

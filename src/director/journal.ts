@@ -501,7 +501,7 @@ function pastWorkMoments(
     if (facts.end === "let-go")
       moments.push(moment(row, ended, "job-ended:let-go", own));
     else if (facts.end === "moved-on") {
-      const next = spells[at + 1];
+      const next = spells.find((_, i) => i > at);
       const nextAt = employer(next);
       moments.push(
         moment(row, ended, "job-ended:moved-on", {

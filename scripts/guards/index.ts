@@ -58,10 +58,11 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/no-second-source.test.ts"),
   },
   {
-    id: "no-place-or-presence-restated",
-    rule: "No line restates where the player is or who is with them.",
-    readMore: ".claude/skills/scene-standard/SKILL.md",
-    command: vitest("tests/guards/no-place-or-presence-restated.test.ts"),
+    id: "families",
+    rule: "One engine per mechanic: every file is in one engine family, and reaches another family only through its entry files; the deep imports only shrink.",
+    readMore:
+      "docs/design/guards.md, One engine per mechanic; tests/guards/families.json",
+    command: vitest("tests/guards/families.test.ts"),
   },
   {
     id: "research-data-has-reader",
@@ -76,10 +77,24 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/no-module-load-registries.test.ts"),
   },
   {
-    id: "american-english",
-    rule: "American English everywhere.",
-    readMore: "AGENTS.md, Standing owner rules, American English",
-    command: vitest("tests/american-english-sweep.test.ts"),
+    id: "one-history",
+    rule: "One history: no new reader of the generated past, and no reader of a generated kind once its simulated kind exists; the proxy list only shrinks.",
+    readMore:
+      "tests/guards/one-history-proxies.json, its about line; docs/coordination/OWNER-DECISIONS.md, One history",
+    command: vitest("tests/guards/one-history.test.ts"),
+  },
+  {
+    id: "english",
+    rule: "Player text is American English, never restates where the player is or who is there, and carries no developer text; the known lists only shrink.",
+    readMore:
+      "tests/guards/english/ (allowlist.ts holds the one allowlist); AGENTS.md, American English everywhere",
+    command: vitest("tests/guards/english/"),
+  },
+  {
+    id: "kit-only-ui",
+    rule: "Every piece of UI comes from the UI kit in src/bench/ui/, nothing invented; the known markup outside it only shrinks.",
+    readMore: ".claude/skills/screen-to-mock/SKILL.md",
+    command: vitest("tests/guards/kit-only-ui.test.ts"),
   },
   {
     id: "canned-content",
@@ -109,6 +124,13 @@ export const GUARDS: readonly Guard[] = [
       "--check",
       "--changed",
     ],
+  },
+  {
+    id: "reading-line",
+    rule: "A question for the owner shows the look-first search: an OWNER DECISIONS NEEDED section that is not none carries the reading line.",
+    readMore:
+      ".agents/rules/smart-and-look-first.md; .claude/skills/look-first/SKILL.md",
+    command: ["node", "scripts/guards/reading-line.mjs"],
   },
   {
     id: "secrets",
