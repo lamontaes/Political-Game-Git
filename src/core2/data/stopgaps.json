@@ -5503,7 +5503,7 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/outcome-web.ts",
     "line": 522,
-    "whatItFakes": "The share of households that are food insecure (household.food-insecurity) is a place number in the outcome web's ledger: its start is the USDA state level and web links move it; no household's food budget or SNAP receipt decides it. The SNAP maximum's link is carried by the benefit and the household's monthly purchases instead (snap-maximum-to-food-insecurity, links.json carriedBy): what a household cannot buy of its everyday plan, kept on its month as unpaid everyday spending, stands for going without food, with no food line of its own.",
+    "whatItFakes": "The share of households that are food insecure (household.food-insecurity) is a place number in the outcome web's ledger: its start is the USDA state level and web links move it; no household's food budget or SNAP receipt decides it. Two links into it are carried by engines instead (links.json carriedBy): the SNAP maximum's by the benefit and the household's monthly purchases (snap-maximum-to-food-insecurity), and the grocery exemption's by the sales tax, the price review and the same purchases (grocery-exemption-to-food-insecurity). What a household cannot buy of its everyday plan, kept on its month as unpaid everyday spending, stands for going without food, with no food line of its own.",
     "why": "No engine records a household's food spending against its income or its SNAP benefit; the everyday plan (src/core2/cost-of-living.ts) buys food and other goods from one budget with no food category.",
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
@@ -6110,8 +6110,8 @@
     "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns household.food-insecurity multiplies its own person, household or organization rate by webReach(api, placeId, \"household.food-insecurity\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-household-income",
@@ -6537,7 +6537,7 @@
     "id": "SG-WEB-unread-school-college-completion-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 464,
+    "line": 458,
     "whatItFakes": "higher-education-spending-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6549,7 +6549,7 @@
     "id": "SG-WEB-unread-government-member-market-returns",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 428,
+    "line": 422,
     "whatItFakes": "congress-stock-ban-to-member-returns is not run by the outcome web, so it moves nothing (no measure: the web does not keep government.member-market-returns and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep government.member-market-returns and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6585,7 +6585,7 @@
     "id": "SG-WEB-unread-farmland-value-per-acre",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 446,
+    "line": 440,
     "whatItFakes": "farm-payments-cut-to-land-values moves farmland.value-per-acre only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6597,7 +6597,7 @@
     "id": "SG-WEB-unread-rail-intercity-ridership",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 458,
+    "line": 452,
     "whatItFakes": "federal-rail-expansion-to-riders moves rail.intercity-ridership only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6960,7 +6960,7 @@
     "id": "SG-WEB-unread-school-reading-proficient-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 434,
+    "line": 428,
     "whatItFakes": "library-materials-to-reading is not run by the outcome web, so it moves nothing (it has no researched size; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -7385,6 +7385,18 @@
     "addedBy": "wire-opening-and-home (Claude)",
     "addedAt": "2026-10-28",
     "replacement": "The members' take-home pay due before the next living day, from the payroll's withholding (withholdingFor, src/core2/tax-withholding.ts) or the pay last received, read by housingKeptBack in src/core2/cost-of-living.ts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-grocery-exemption-local-base",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 878,
+    "whatItFakes": "A state's grocery exemption spares groceries from every level's sales tax in the town, as if every state's local sales taxes followed the state's base. A county's or city's exemption spares only its own tax.",
+    "why": "No place data says which states let local sales taxes still reach groceries the state exempts (for example home-rule cities, or local option taxes kept on food), so the engine takes the common case of a uniform base.",
+    "addedBy": "laws-grocery-exemption-reaches-buyers",
+    "addedAt": "2026-10-28",
+    "replacement": "A per-state field in the starting-law research (data/research/laws/local-starting-law/sales-tax.json) saying whether local sales taxes follow the state's grocery exemption, sourced from each state's revenue department, read here so a state exemption spares only the levels its base covers.",
     "status": "open"
   }
 ]
