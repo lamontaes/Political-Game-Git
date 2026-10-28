@@ -293,6 +293,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
     relation,
+    // The family fact the relation is read from, the one scenes cite.
+    relationRecordId: kin?.factId ?? null,
     // Family and housemates know each other's ages; others are known by sight.
     age:
       family || housemate
