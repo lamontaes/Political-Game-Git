@@ -274,7 +274,7 @@ export interface SignatureBase {
 function eligibleVoters(api: CoreAPI, voters: readonly TownVoter[]): number {
   const placeKey = api.state.placeMetadata.placeKey as string | undefined;
   const eligibleShare =
-    citizenShareOf(placeKey, stateUsps(api)) *
+    citizenShareOf(placeKey, stateUsps(api), api.state.seed) *
     (1 - electorateChange(api).barred);
   return Math.round(voters.reduce((n, p) => n + p.weight, 0) * eligibleShare);
 }
