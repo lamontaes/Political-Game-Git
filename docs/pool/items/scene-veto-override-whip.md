@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/director-veto-override-whip
 pr: #6421
 blocked-on:
