@@ -109,11 +109,14 @@ import {
   worldOutletCounts,
   type PlaceNews,
 } from "./modules/press";
+import { NEWS_MODULE_ID } from "./modules/news";
+import { publishedSupportShare, supportShare } from "./campaign-views";
+import supportData from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-elections-per-world": [42, 44, 45, 48],
+  "realistic-elections-per-world": [42, 45],
   "realistic-school-names-generated": [37],
   "world-disasters-from-conditions": [41],
 };
@@ -235,7 +238,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         homePriceRatio(usps, from, a.date, b.seed),
       );
     // Row 7, the old core's county median home value, is checked beside its
-    // reader (src/simulation/county-home-value-world.test.ts): nothing here
+    // reader (the old engine's county-home-value-world.test.ts): nothing here
     // imports the old core.
     // Row 8: HUD fair market rents and the very low income limit, the place's
     // area (the state's average where HUD has none) at every bedroom count.
@@ -533,7 +536,11 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const size = (core: CoreState) =>
       Number(core.placeMetadata.referencePopulation);
     if (real === undefined || !town) return;
-    expect(size(a), `${where} referencePopulation: published`).not.toBe(real);
+    // A place the Census holds as empty stays 0 in every world: there is
+    // nothing to spread around zero (worldPopulationOf). Every place with
+    // people opens off its published count.
+    if (real > 0)
+      expect(size(a), `${where} referencePopulation: published`).not.toBe(real);
     expect(size(a), `${where} referencePopulation: the engine's draw`).toBe(
       placeReferencePopulation(geoid!, a.seed)?.value,
     );
@@ -740,6 +747,54 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     process.stdout.write(
       `TREASURY ${where}: ${da.size} debt holders, ${ca.size} charge shares, ${stakes} stakes\n`,
+    );
+  });
+
+  it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {
+    // Row 44: every race before the start both worlds hold, as the paper
+    // printed it (the one place the game keeps a past race's votes cast). A
+    // recorded total (a House, Senate or presidential race) is the same in
+    // every world unless drawn, so each race of a thousand votes or more must
+    // differ (a race of a few hundred can land on the same count twice).
+    const races = (core: CoreState) =>
+      new Map(
+        coreAPI(core)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows()
+          .map((row) => row.facts as Record<string, string>)
+          .filter((facts) => facts.recordKind === "election-result")
+          .map((facts) => [facts.contestId!, Number(facts.totalVotes)]),
+      );
+    const racesA = races(a),
+      racesB = races(b);
+    const shared = [...racesA.keys()].filter((id) => racesB.has(id));
+    expect(shared.length, `${where} row 44: past races`).toBeGreaterThan(0);
+    const large = shared.filter(
+      (id) => racesA.get(id)! >= 1000 && racesB.get(id)! >= 1000,
+    );
+    for (const id of large)
+      expect(racesA.get(id), `${where} row 44 ${id}`).not.toBe(racesB.get(id));
+    const cast = (held: Map<string, number>) =>
+      shared.reduce((n, id) => n + held.get(id)!, 0);
+    // Row 48: every question's national polled share.
+    const questions = Object.keys(
+      (supportData as unknown as { questions: Record<string, unknown> })
+        .questions,
+    );
+    expect(questions.length, where).toBeGreaterThan(0);
+    for (const question of questions) {
+      expect(
+        supportShare(a.seed, question),
+        `${where} row 48 ${question}`,
+      ).not.toBe(publishedSupportShare(question));
+      expect(
+        supportShare(a.seed, question),
+        `${where} row 48 ${question}`,
+      ).not.toBe(supportShare(b.seed, question));
+    }
+    process.stdout.write(
+      `VOTES-AND-POLLS ${where}: ${shared.length} past races (${large.length} of a thousand votes or more) cast ${cast(racesA)} and ${cast(racesB)} votes; ${questions[0]} polls ${supportShare(a.seed, questions[0]!).toFixed(3)} and ${supportShare(b.seed, questions[0]!).toFixed(3)} against ${publishedSupportShare(questions[0]!)}\n`,
     );
   });
 

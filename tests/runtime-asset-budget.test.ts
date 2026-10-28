@@ -247,10 +247,10 @@ describe("runtime asset budget audit", () => {
 
   it("is deterministic and read-only", () => {
     const root = createFixture();
-    const sentinel = path.join(root, "src/presentation/visual-integration.ts");
+    const sentinel = path.join(root, "src/appearance/visual-integration.ts");
     write(
       root,
-      "src/presentation/visual-integration.ts",
+      "src/appearance/visual-integration.ts",
       "eager glob sentinel\n",
     );
     const before = fs.readFileSync(sentinel, "utf8");
