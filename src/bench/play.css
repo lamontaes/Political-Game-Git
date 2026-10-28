@@ -1671,6 +1671,11 @@ body.dev .dev-ring {
   font: 600 12px var(--ui);
   color: var(--gold);
 }
+.calendar-list .record-pages {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 .calendar-paging {
   display: flex;
   gap: 10px;
