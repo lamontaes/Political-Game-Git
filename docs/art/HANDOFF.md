@@ -31,7 +31,7 @@ People are built the way Reddit builds avatars: "it uses the same model, and all
 1. **Pick the pose** for the spot (tags: pose, facing, seat) and the figure (sex, build).
 2. **Draw the layers in order:** body, pants, shoes, dress, shirt, tie, jacket, hair. A dress replaces both the shirt and the pants. Each layer is drawn at the figure's box. Nothing is moved or scaled relative to the body, because every part was painted on that body.
    - `body.png` is only the head and bare skin. The base clothes are parts too (`shirt-1`, `pants-1`, `shoes-1`). If a style isn't painted for a pose yet, draw style 1 of that layer instead of nothing, or the person has no feet. Jacket, tie, dress and hair may simply be left off.
-3. **Recolor each layer.** For plain or green pixels: the new color × (pixel brightness ÷ that layer's typical brightness), which keeps the folds. Warm pixels are skin: bare forearms in a tee, legs in shorts, scalp between curls. They take the person's skin color the same way. `stack.py dress()` is the reference.
+3. **Recolor each layer.** In a part painted in key green (hair: key blue), the garment is exactly the key pixels: they become the new color × (pixel brightness ÷ the 60th-percentile brightness of those pixels), which keeps the folds. Every other pixel in the part is bare skin or its outline (forearms in a tee, shins under a skirt, scalp between curls) and takes the person's skin color the same way. The base clothes (`shirt-1`, `pants-1`, `shoes-1`) are plain gray, not keyed: there, warm pixels are skin and the rest is garment. `stack.py dress()` is the reference.
 4. **Size the whole stack to the spot:** scale so the body's head width matches the spot's `headWidth`. All layers scale together.
 5. **Draw furniture in front** with the spot's `frontLine`.
 
@@ -55,7 +55,7 @@ The wardrobe replaces the outfit sheets with parts:
 3. **Drawing:** a wardrobe path beside `drawnFigure`.
    - Read `<pose>/parts.json` and take the figure `v2-<pose>-<f|m>-<build>`.
    - Draw body, pants, shoes, dress, shirt, tie, jacket, hair at the figure's box. A dress hides shirt and pants.
-   - Recolor each layer as `stack.py dress()` does: garment pixels become color × (brightness ÷ the layer's 60th-percentile brightness); warm pixels take the skin swatch the same way. `figure-colors.ts` already has the swatches and the brightness recolor.
+   - Recolor each layer as `stack.py dress()` does (step 3 above): key pixels take the garment color, the rest of a keyed part takes the skin swatch, both through brightness. `figure-colors.ts` already has the swatches and the brightness recolor.
 4. **Faces:** the wardrobe bodies have their own painted faces. More faces come the same way as hair: face edits per pose, not patches fitted from other figures.
 5. **Rooms:** `figureOn` / `placeSeated` choose a wardrobe pose from the spot's tags using `index.json`, then draw with the same stack.
    - Facing per sex: flip when the figure and spot point opposite ways.

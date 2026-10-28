@@ -8,10 +8,15 @@ from PIL import Image
 ORDER = ['pants', 'shoes', 'dress', 'shirt', 'tie', 'jacket', 'hair']
 
 def dress(P, rgb, skin):
-    """Plain gray pixels take the part's color (shading kept through brightness); warm pixels are skin and take the skin color."""
+    """A part painted in key green (or key blue for hair) is garment exactly where it is green; every other pixel in it is
+    bare skin (shins under a skirt, forearms in a tee) or outline, and takes the skin color. A plain gray part (the base
+    clothes) keeps the older rule: warm pixels are skin, the rest is garment. Shading is kept through brightness."""
     P = P.astype(float); on = P[..., 3] > 0
     mx, mn = P[..., :3].max(2), P[..., :3].min(2); sat = (mx - mn) / (mx + 1); lum = P[..., :3] @ [0.299, 0.587, 0.114]
-    warm = on & (sat >= 0.22) & (P[..., 0] >= P[..., 2]); gray = on & ~warm
+    r, g, b = P[..., 0], P[..., 1], P[..., 2]
+    key = on & (((g > r + 25) & (g > b + 10)) | ((b > r + 30) & (b > g + 15)))
+    if key.sum() > 0.3 * max(1, on.sum()): gray, warm = key, on & ~key
+    else: warm = on & (sat >= 0.22) & (P[..., 0] >= P[..., 2]); gray = on & ~warm
     for m, col in ((gray, rgb), (warm, skin)):
         if col is not None and m.any():
             ref = max(1.0, float(np.percentile(lum[m], 60)))

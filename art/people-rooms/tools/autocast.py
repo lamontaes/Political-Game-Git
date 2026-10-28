@@ -61,6 +61,7 @@ if __name__ == '__main__':
         names = DRESS.get(tags.get('dress', 'casual'), DRESS['casual'])
         fits = [o for o in OUT if o['id'] in names and sex in o['sexes'] and usable(o, have)]
         if not fits: fits = [o for o in OUT if o['id'] in DRESS['casual'] and sex in o['sexes'] and usable(o, have)]   # never work clothes by accident
+        if not fits: continue                                                  # a pose still being painted has too few pieces for any outfit
         o = rng.choice(fits)
         muted = o['formality'] in ('formal', 'business')                       # suits and blazers at work come in muted colors
         pal = lambda k: (MUTED.get(k) if muted and k in MUTED else GARMENT.get(k, GARMENT['shirt']))
