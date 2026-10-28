@@ -5,11 +5,12 @@ area: director
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/wire-opening-and-home
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T05:24:43.300Z
 ---
 
 **What.** Engine map (docs/reports/engine-map-2026-10-28.md) lines 1, 2, 3, 4, 6, 7, 8, 9 and 31. The address plays as the existing address situation type through scheduleMoment (src/director/scheduling.ts:672) and the kit talk box (src/bench/ui/talk-box.mjs); the stage list (src/director/opening-sequence.ts), the picture table (src/bench/data/opening-pictures.json) and castOf (src/bench/opening.ts:130) are deleted. The first night's news comes from printStory (src/core2/modules/news.ts:532) and composeNewsStory (src/english/english-newscast.ts:263); newsStory and townStory in src/director/opening-story.ts are deleted. Inaugural or State of the Union is read from the inauguration record (recordInauguration, src/core2/modules/offices.ts:621), never the year. National officials are filled in by fillInIdentity (src/core2/state.ts:2557) at their home state with a stored look. The Money sheet reads src/core2/accounts.ts through bankView (src/bench/bank.ts:6) or loses its four empty sections. The years before the start run through preStartHistory (src/core2/pre-start.ts:141): moves and schooling after the working life; buildDeepPast (src/core2/deep-past.ts:208) and its two live callers (src/bench/world.ts:337, src/core2/births-people.ts:156) are deleted. composeJournal (src/director/journal.ts:599) reads the pre-start history and the running log by record kind as one story, no heading per person. Planned acts run in the one day loop (advanceCore, src/core2/life.ts:535; closeDay in src/core2/player-v1.ts:517 folds into it). The past writes news through printStory, keeps one past-elections writer and one closures writer, and drops the four unread past tables. Time box: 6 hours.
