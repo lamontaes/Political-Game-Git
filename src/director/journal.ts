@@ -1,4 +1,8 @@
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  coreStateKeyOfPlaceholderId,
+  coreStateName,
+} from "../core2/place-lookup";
 import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -207,6 +211,19 @@ function familyCategory(
 }
 
 /**
+ * A place as a person names it: the town, county or territory, or the state
+ * for someone whose records put them elsewhere in it (the wider population's
+ * state-level households).
+ */
+function placeLabel(placeId: string | undefined): string | null {
+  if (!placeId) return null;
+  const place = corePlaceByJurisdictionId(placeId as never);
+  if (place) return place.displayName;
+  const state = coreStateKeyOfPlaceholderId(placeId);
+  return state ? coreStateName(state.slice("US-".length)) : null;
+}
+
+/**
  * The household's own story, read from the records the engines ran for the
  * years before the start (owner, Oct 28, 2026: "simulate to the birth
  * year"): the day the person and their partner set up home and the day their
@@ -256,10 +273,8 @@ function householdMoments(
     echoes: [] as Moment["echoes"],
   });
   const placeOf = (placeId: string | undefined, recordId: string): Facts => {
-    const row = placeId ? corePlaceByJurisdictionId(placeId as never) : null;
-    return row
-      ? { place: { text: row.displayName, sourceRecordIds: [recordId] } }
-      : {};
+    const text = placeLabel(placeId);
+    return text ? { place: { text, sourceRecordIds: [recordId] } } : {};
   };
   const moments: JournalMoment[] = [];
   // Each parent from the day the person was born: those who raised them at
@@ -679,12 +694,14 @@ export function composeJournal(
       : null;
   };
   const placeName = (placeId: string | undefined) => {
-    const place = placeId ? corePlaceByJurisdictionId(placeId as never) : null;
-    return place
-      ? { text: place.displayName, sourceRecordIds: [placeId!] }
-      : null;
+    const text = placeLabel(placeId);
+    return text ? { text, sourceRecordIds: [placeId!] } : null;
   };
 
+  // The run's work records before the start: each names its own employer.
+  const pastWorkIds = new Set(
+    pastWorkOf(core as CoreState, personId).map((row) => row.id),
+  );
   /** The recorded facts a moment can be told with. */
   const factsFor = (moment: JournalMoment): Facts | null => {
     const facts: Facts = { ...moment.actFacts };
@@ -706,8 +723,13 @@ export function composeJournal(
       const employer = employerOf(person.jobId);
       if (employer) facts.employer = employer;
     }
-    // A job of the run before the start names its own employer.
-    if (moment.causeKind.startsWith("job-") && !facts.employer) {
+    // A job of the run before the start names its own employer; a spell with
+    // none on record (work in another place before a move) names none.
+    if (
+      moment.causeKind.startsWith("job-") &&
+      !facts.employer &&
+      !pastWorkIds.has(moment.causeId)
+    ) {
       const job =
         core.jobs.get(moment.causeId) ??
         [...core.jobs.values()].find(
