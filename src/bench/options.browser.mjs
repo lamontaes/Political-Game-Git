@@ -49,11 +49,6 @@ try {
     "Generated world:",
     new URL(response.url()).searchParams.get("seed"),
   );
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 120000 });
-  await page.keyboard.press("Escape");
-  await sheet
-    .getByRole("button", { name: "Skip opening", exact: true })
-    .click();
   await page.locator("#card:not([hidden])").waitFor({ timeout: 60000 });
   await page.waitForFunction(
     () =>
