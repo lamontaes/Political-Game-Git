@@ -103,7 +103,11 @@ import {
   publishedStateExitShare,
   stateExitShare,
 } from "./modules/business";
-import { publishedUnitPrice, unitPrice } from "./modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  publishedUnitPrice,
+  unitPrice,
+} from "./modules/campaigns";
 import {
   publishedOutletLevels,
   worldOutletCounts,
@@ -840,13 +844,27 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         `${where} row 42 citizens`,
       ).not.toBe(citizenShareOf(placeKey, usps, b.seed));
     }
+    // The campaigns engine's starting town lean: the House district's 2024
+    // vote as each world's swing moved it.
+    const townLean = (core: CoreState) =>
+      (
+        coreAPI(core)
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("town")
+          .get("town") as unknown as { lean: number } | undefined
+      )?.lean;
+    const leanA = townLean(a),
+      leanB = townLean(b);
+    expect(leanA, `${where} row 42 town lean`).toBeDefined();
+    if (leanA !== 0 && Math.abs(leanA!) < 1)
+      expect(leanA, `${where} row 42 town lean`).not.toBe(leanB);
     const map = (seed: string) =>
       contestedStates2024(seed)
         .map((s) => `${s.usps}:${s.democraticTwoPartyShare.toFixed(6)}`)
         .join(" ");
     expect(map(a.seed), `${where} row 42 contested map`).not.toBe(map(b.seed));
     process.stdout.write(
-      `VOTE-2024 ${where}: ${usps} opens at ${stateRightShare(usps, a.seed)?.toFixed(4)} and ${stateRightShare(usps, b.seed)?.toFixed(4)} Republican; contested ${contestedStates2024(
+      `VOTE-2024 ${where}: town lean ${leanA?.toFixed(4)} and ${leanB?.toFixed(4)}; ${usps} opens at ${stateRightShare(usps, a.seed)?.toFixed(4)} and ${stateRightShare(usps, b.seed)?.toFixed(4)} Republican; contested ${contestedStates2024(
         a.seed,
       )
         .map((s) => s.usps)
