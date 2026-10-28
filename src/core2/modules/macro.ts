@@ -28,6 +28,7 @@ import {
   MACRO_HISTORY_SOURCE,
   checkBands,
   historyMonths,
+  publishedMonths,
   monthKey,
   publishedMonth,
   shiftMonth,
@@ -318,10 +319,13 @@ function open(api: CoreAPI): MacroStateRow {
   const p = params(api),
     core = api.state;
   const months = store(api).table("months");
-  const rows = [...historyMonths(core.startedAt, p)];
+  const rows = [...historyMonths(core.startedAt, core.seed, p)];
   // A custom world (M6-04): the opening month starts from the player's figures; its output gap follows by Okun's law.
   const custom = core.placeMetadata?.[CUSTOM_ECONOMY_KEY];
-  const realUnemploymentPct = rows.at(-p("one"))!.unemploymentPct;
+  // The published month is the calibration the regional layer's state rows sit around; this world's national offset moves them alike.
+  const realUnemploymentPct = publishedMonths(core.startedAt, p).at(
+    -p("one"),
+  )!.unemploymentPct;
   if (custom) {
     const chosen = JSON.parse(custom) as {
       unemploymentPct?: number;

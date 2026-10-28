@@ -11,6 +11,7 @@ pr:
 blocked-on:
 lead: director
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** src/director/scene-talk.test.ts fails three tests on clean main at a86a3ea0c6 (seed scene-talk-test): composes every purpose, plays every purpose in play, and composes a tree all stop at job-offer: expected skipped to be composed. Every purpose type after job-offer in situation-types.json goes unchecked while it stays red, so a later type's broken words would not show.
@@ -22,3 +23,5 @@ source: added with npm run pool -- add
 **Files.** src/director/scene-talk.test.ts, src/director/data/situation-types.json, src/director/purpose-scene.ts
 
 **Notes.** TODO
+
+**Notes.** Twin of `words-job-offer-scene-lines`: the skip is the missing job-offer narration and lines (stopgap SG-DIR-job-offer-lines), which that item writes. Dropped into it, with this evidence, Oct 28.

@@ -1,5 +1,9 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { homePlaceFor, workplacePlaceFor } from "./backdrop-places";
+import {
+  hasBackdrop,
+  homePlaceFor,
+  workplacePlaceFor,
+} from "./backdrop-places";
 import {
   BACKDROP_ASPECT,
   backdropStaging,
@@ -29,13 +33,6 @@ import {
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
 const BACKDROP_DIR = new URL("../../art/backdrops/", import.meta.url);
-// The presentation's hasBackdrop reads Vite's file glob; the bench reads the manifest.
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
-export const hasBackdrop = (place: string) => PICTURED.has(place);
 const FRONTS = figureRules.roomFronts as unknown as Record<
   string,
   number | undefined
