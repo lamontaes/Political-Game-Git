@@ -22,6 +22,7 @@ import {
 } from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 import { preStartHistory } from "../core2/pre-start";
+import { sharedHistory } from "../core2/shared-history";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
@@ -83,24 +84,11 @@ export function personCard(core: CoreState, personId: string) {
       actCount: row.actCount,
       sourceEventId: row.sourceEventId,
     }));
-  // How they came to hold a seat before the start, from the government's
-  // history before day one, each with the term record it stands on.
-  const seats = preStartHistory(core, {
-    kind: "office.seat-reached",
-    personId,
-  }).map((row) => ({
-    recordId: row.id,
-    termId: String(row.facts.termId),
-    officeId: String(row.facts.officeId),
-    reached: String(row.facts.reached),
-    since: row.date,
-  }));
   return {
     id: person.id,
     name: name(person.id),
     face: faceOf(core, person.id, place),
     birthDate: person.birthDate,
-    seats,
     age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
     alive: person.alive,
     home: household && {
@@ -178,15 +166,6 @@ export function personCard(core: CoreState, personId: string) {
       since: row.since,
       endedOn: row.endedOn,
     })),
-    // The life so far: each dated fact from the person's records.
-    past: [...(person.pastFacts ?? [])]
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .map((fact) => ({
-        id: fact.id,
-        date: fact.date,
-        kind: fact.kind,
-        summary: fact.summary,
-      })),
   };
 }
 
@@ -197,15 +176,20 @@ export function personCard(core: CoreState, personId: string) {
  */
 const OFFICES = "core2-offices-v1";
 
+/** An office's title, from the offices engine's table. */
+function officeTitle(core: CoreState, officeId: string): string | null {
+  const office = coreAPI(core)
+    .moduleState(OFFICES)
+    .table("offices")
+    .get(officeId) as { title?: string } | undefined;
+  return office?.title ?? null;
+}
+
 /** The offices a person serves in now, by title. */
 function servingOffices(core: CoreState, personId: string): string[] {
-  const api = coreAPI(core);
-  return servingTermsOf(api, personId).flatMap((term) => {
-    const office = api
-      .moduleState(OFFICES)
-      .table("offices")
-      .get(term.officeId) as { title?: string } | undefined;
-    return office?.title ? [office.title] : [];
+  return servingTermsOf(coreAPI(core), personId).flatMap((term) => {
+    const title = officeTitle(core, term.officeId);
+    return title ? [title] : [];
   });
 }
 
@@ -288,12 +272,11 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       fact.kind.startsWith("family:") && fact.facts?.otherPersonId === otherId,
   );
   const family = viewer.familyIds.has(otherId) || Boolean(kin);
-  const housemate = viewer.householdId === other.householdId;
+  // What the two share, from the one reader the director's scenes use.
+  const shared = sharedHistory(core, viewerId, otherId);
+  const housemate = shared.some((row) => row.kind === "household");
+  const coworker = shared.some((row) => row.kind === "coworker");
   const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
-  const viewerJob = viewer.jobId ? core.jobs.get(viewer.jobId) : undefined;
-  const coworker = Boolean(
-    job && viewerJob && job.organizationId === viewerJob.organizationId,
-  );
   const tie = [...(core.relationshipsByPerson.get(viewerId) ?? [])]
     .map((id) => core.relationships.get(id))
     .find(
@@ -348,12 +331,36 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         : null,
     tie: tie
       ? {
+          recordId: tie.id,
           kind: tie.kind,
           level: currentCloseness(core, tie),
           lastContactDate: tie.lastContactDate,
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
+    // What the two did or share besides family, each by the record that says
+    // so: the same rows the director's scenes and talks read.
+    shared: shared
+      .filter((row) => row.kind !== "family")
+      .map((row) => ({
+        kind: row.kind,
+        recordId: row.recordId,
+        employer:
+          row.kind === "coworker"
+            ? (core.organizations.get(row.recordId)?.name ?? null)
+            : null,
+      })),
+    // The seats they reached before the start, from the government's history
+    // before day one, each with the term record it stands on.
+    seats: preStartHistory(core, {
+      kind: "office.seat-reached",
+      personId: otherId,
+    }).map((row) => ({
+      recordId: row.id,
+      termId: String(row.facts.termId),
+      office: officeTitle(core, String(row.facts.officeId)),
+      year: Number(row.date.slice(0, 4)),
+    })),
     // An officeholder's colleagues in office, by their tie records.
     colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the

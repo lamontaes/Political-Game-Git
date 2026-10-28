@@ -2195,6 +2195,32 @@ async function showPerson(person) {
     ...(c.placeName
       ? [recordSection(labels.place, el("p", { textContent: c.placeName }))]
       : []),
+    // What the two share, by the records the director's scenes read too.
+    ...(c.shared?.length
+      ? [
+          recordSection(
+            labels.together,
+            ...c.shared.map((s) => {
+              const line = row(labels.sharedWords?.[s.kind], s.employer ?? "");
+              line.dataset.record = s.recordId;
+              return line;
+            }),
+          ),
+        ]
+      : []),
+    // The seats they reached before the start, from the government's history.
+    ...(c.seats?.length
+      ? [
+          recordSection(
+            labels.seats,
+            ...c.seats.map((s) => {
+              const line = row(s.office, `${labels.since} ${s.year}`);
+              line.dataset.record = s.recordId;
+              return line;
+            }),
+          ),
+        ]
+      : []),
     // An officeholder's colleagues in office, closest first, from their ties.
     ...(c.colleagues
       ? [
