@@ -1,7 +1,7 @@
 ---
 id: elections-measures-from-the-world
 title: "Ballot measures reach the ballot from the world's own legislatures and petitions, not only the 2026 list"
-area: government
+area: elections
 lead: wire-elections
 kind: wiring
 priority: 2
