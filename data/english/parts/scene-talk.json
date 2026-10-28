@@ -85475,6 +85475,14 @@
           "step": "reply",
           "move": "agree",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
         }
       ],
       "bearing": "curious",
@@ -85497,6 +85505,14 @@
           "subject": "scene",
           "purpose": "ask-support",
           "key": "vote-wanted",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
           "step": "reply",
           "move": "agree",
           "role": "asked"
@@ -85525,6 +85541,14 @@
           "step": "reply",
           "move": "decline",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
         }
       ],
       "bearing": "curious",
@@ -85547,6 +85571,14 @@
           "subject": "scene",
           "purpose": "ask-support",
           "key": "vote-wanted",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
           "step": "reply",
           "move": "decline",
           "role": "asked"
@@ -85575,6 +85607,14 @@
           "step": "reply",
           "move": "deflect",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
         }
       ],
       "bearing": "curious",
@@ -85597,6 +85637,14 @@
           "subject": "scene",
           "purpose": "ask-support",
           "key": "vote-wanted",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
           "step": "reply",
           "move": "deflect",
           "role": "asked"
@@ -85725,6 +85773,14 @@
           "step": "follow",
           "move": "thank",
           "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
         }
       ],
       "bearing": "eager",
@@ -85747,6 +85803,14 @@
           "subject": "scene",
           "purpose": "ask-support",
           "key": "vote-wanted",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
           "step": "follow",
           "move": "thank",
           "role": "asker"
@@ -85775,6 +85839,14 @@
           "step": "follow",
           "move": "press",
           "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
         }
       ],
       "bearing": "eager",
@@ -85797,6 +85869,14 @@
           "subject": "scene",
           "purpose": "ask-support",
           "key": "vote-wanted",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
           "step": "follow",
           "move": "press",
           "role": "asker"
@@ -85825,6 +85905,14 @@
           "step": "follow",
           "move": "accept",
           "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
         }
       ],
       "bearing": "eager",
@@ -85847,6 +85935,14 @@
           "subject": "scene",
           "purpose": "ask-support",
           "key": "vote-wanted",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
           "step": "follow",
           "move": "accept",
           "role": "asker"
@@ -116812,6 +116908,129 @@
       "tag": {
         "move": "tell",
         "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.door-you-knock-and-after-a-moment-name-opens-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You knock, and after a moment {name} opens the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Golden-path session (pool item golden-door-ask)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.door-name-comes-to-the-door-before-you-ve-finished-knocking",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes to the door before you've finished knocking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Golden-path session (pool item golden-door-ask)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.door-hi-i-m-self-i-m-running-for-office-and-i-d-like-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Hi, I'm {self}. I'm running for {office}, and I'd like your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "eager",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Golden-path session (pool item golden-door-ask)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.door-sorry-to-bother-you-i-m-self-i-m-on-the-ballot-for-office-an",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Sorry to bother you. I'm {self}, I'm on the ballot for {office}, and I'm asking for your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Golden-path session (pool item golden-door-ask)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "request",
+        "key": "door"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.door-hello-self-running-for-office-i-won-t-keep-you-long-can-i-co",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Hello. {self}, running for {office}. I won't keep you long. Can I count on your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "request",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Golden-path session (pool item golden-door-ask)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "request",
+        "key": "door"
       }
     }
   ]

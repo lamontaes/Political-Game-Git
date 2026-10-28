@@ -21,6 +21,7 @@ import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
+import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -1180,6 +1181,7 @@ function electionMorning(scene) {
     api("/api/election-day").then((day) => {
       if (!day)
         return (scene ? atThePolls(scene) : Promise.resolve()).then(resolve);
+      setClock(day.at);
       if (scene) {
         $("backdrop").src = scene.backdrop.url;
         drawPeople(scene.people);
@@ -2869,6 +2871,9 @@ const sheets = {
       return b;
     };
     const portrait = (p) => {
+      // A headshot: the person's own figure, cropped round to their head
+      // (no box; owner, Oct 28).
+      if (p.face) return headshot(p.face);
       const url = p.presentation?.portraitUrl ?? p.figureUrl;
       if (!url)
         return el("span", {
@@ -2883,6 +2888,13 @@ const sheets = {
       image.addEventListener("error", () => image.remove());
       return image;
     };
+    // A person's kind, for their line and the ring around their face.
+    const kindOf = (p) =>
+      household.has(p.personId)
+        ? "household"
+        : p.groups.includes("family")
+          ? "family"
+          : (p.groups[0] ?? "other");
     const draw = () => {
       const found = people.filter((p) =>
         p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
@@ -2903,6 +2915,7 @@ const sheets = {
             { className: "people-center" },
             portrait({
               name: me.card.name,
+              face: me.card.face,
               // The saved look, as the card and Who you are read it: not whatever room's figure.
               figureUrl: portraitUrl(),
             }),
@@ -2910,15 +2923,43 @@ const sheets = {
           ),
         );
       }
-      shown.forEach((p, i) => {
+      // People who share your home share a line with each other, as the
+      // household record ties them.
+      const at = (i) => {
         const angle =
           (i / Math.max(shown.length, 1)) * Math.PI * 2 - Math.PI / 2;
-        const x = 50 + Math.cos(angle) * 37,
-          y = 50 + Math.sin(angle) * 36;
+        return [50 + Math.cos(angle) * 37, 50 + Math.sin(angle) * 36];
+      };
+      if (!listMode)
+        shown.forEach((a, i) =>
+          shown.forEach((b, j) => {
+            if (
+              j <= i ||
+              !household.has(a.personId) ||
+              !household.has(b.personId)
+            )
+              return;
+            const line = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "line",
+            );
+            const [x1, y1] = at(i);
+            const [x2, y2] = at(j);
+            for (const [key, value] of Object.entries({
+              x1,
+              y1,
+              x2,
+              y2,
+              class: "people-edge household between",
+            }))
+              line.setAttribute(key, value);
+            svg.append(line);
+          }),
+        );
+      shown.forEach((p, i) => {
+        const [x, y] = at(i);
         const active = group === "all" || p.groups.includes(group);
-        const kind = household.has(p.personId)
-          ? "household"
-          : (p.groups[0] ?? "other");
+        const kind = kindOf(p);
         const line = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "line",
@@ -2937,7 +2978,9 @@ const sheets = {
           draw();
         });
         const changed = change.get(p.personId);
-        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
+        // The face's ring takes its kind's color; names sit on the far side
+        // of the face from you, so no line runs through them.
+        node.className = `people-node ${kind}${y < 50 ? " above" : ""}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
         node.setAttribute("aria-pressed", String(selected === p.personId));
         node.setAttribute("aria-label", p.name);
         node.style.left = `${x}%`;
@@ -3040,8 +3083,8 @@ const sheets = {
     const key = el(
       "div",
       { className: "people-key" },
-      ...["family", "household", "work", "politics", "other"].map((k) =>
-        el("span", { className: k, textContent: labels[k] }),
+      ...["family", "household", "friends", "work", "politics", "other"].map(
+        (k) => el("span", { className: k, textContent: labels[k] }),
       ),
     );
     draw();

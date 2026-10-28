@@ -1280,13 +1280,18 @@ export async function benchRequest(
         send(
           200,
           date && player?.personId
-            ? electionDay(
-                requireCore(),
-                player.personId,
-                visit ?? null,
-                canvassedOn.has(`${player.personId}|${date}`),
-                date,
-              )
+            ? {
+                ...electionDay(
+                  requireCore(),
+                  player.personId,
+                  visit ?? null,
+                  canvassedOn.has(`${player.personId}|${date}`),
+                  date,
+                ),
+                // The card shows election morning, not the midnight the
+                // clock stopped at to ask.
+                at: { date, minuteOfDay: player.dayStartMinute() },
+              }
             : null,
         );
         return;
