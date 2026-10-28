@@ -36,7 +36,8 @@
     "issue": "A policy question, by its name.",
     "incident": "The kind of disaster, from the declaration record.",
     "area": "The region a rate is measured for (a metro area, or the state), by name.",
-    "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record."
+    "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
+    "candidate": "A candidate, by name, from the campaign's record."
   },
   "maxWords": 14,
   "mining": {
@@ -5305,6 +5306,50 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.campaign-gift.name-gives-money-to-candidate",
+      "move": "campaign-gift",
+      "kind": "written",
+      "text": "{name} gives {money} to {candidate}",
+      "uses": [
+        {
+          "move": "campaign-gift",
+          "subject": "headline",
+          "role": "campaign-gift",
+          "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.campaign-gift.candidate-reports-a-gift-from-name",
+      "move": "campaign-gift",
+      "kind": "written",
+      "text": "{candidate} reports a gift from {name}",
+      "uses": [
+        {
+          "move": "campaign-gift",
+          "subject": "headline",
+          "role": "campaign-gift",
+          "choice": "headline"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "headline",
         "key": "news-received"

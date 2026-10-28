@@ -34,6 +34,7 @@ import { fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import {
   select,
+  searchBox,
   checkboxSetting,
   optionsOf,
   statusLine,
@@ -424,31 +425,13 @@ const words = (key) => {
 const amount = (value, unit) => {
   if (unit?.startsWith("minor"))
     return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+  // A rate as a person would say it: at most two decimals (a combined sales
+  // tax of 8.773% reads 8.77%; Medicare's 1.45% stays itself).
   if (unit?.startsWith("percent"))
-    return `${value}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
+    return `${Number(Number(value).toFixed(2))}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
-/**
- * Who sets a level's rate: the level and the government its seats name
- * ("State · Texas"). A stand-in row from another series (a state's average
- * local sales tax where the town records none) says what it is instead.
- */
-const lawLevelLabel = (law, level) =>
-  [
-    controls.levels?.[level.level] ?? words(level.level),
-    level.row.series !== law.series
-      ? `${words(level.row.series)}${level.row.estimate ? ` · ${words("estimate")}` : ""}`
-      : level.government,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-/** A law's later phase as a level row, with the government its level names. */
-const pendingLevel = (law, row) => ({
-  level: row.level,
-  row,
-  government: law.levels.find((l) => l.level === row.level)?.government,
-});
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -2725,54 +2708,6 @@ const sheets = {
     ];
   },
   async news() {
-    // The nation, region and job numbers above the paper, from the economy's records.
-    const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
-    const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
-    const econ = controls.news?.economy ?? {};
-    // A region's series by its control name and unit; a series with no
-    // control name is not shown.
-    const count = new Intl.NumberFormat("en-US");
-    const value = (unit, v) =>
-      unit === "percent"
-        ? `${v.toFixed(1)}%`
-        : unit === "thousands"
-          ? count.format(Math.round(v * 1000))
-          : unit === "dollars"
-            ? moneyWords(Math.round(v * 100))
-            : v.toFixed(1);
-    const economy = e.nation
-      ? [
-          row(
-            `${econ.nation} · ${monthWords(e.nation.month)}`,
-            `${econ.unemployment} ${pct(e.nation.unemploymentPct)} · ${econ.inflation} ${pct(e.nation.inflationPct)} · ${econ.policyRate} ${pct(e.nation.policyRatePct)} · ${econ.mortgage} ${pct(e.nation.mortgage30Pct)}`,
-          ),
-          ...(e.region
-            ? [
-                // The region's rate under the area it covers, beside the nation's.
-                row(
-                  `${e.region.name ? e.region.name.replace(/^./, (c) => c.toUpperCase()) : econ.region} · ${monthWords(e.region.month)}`,
-                  Object.entries(e.region)
-                    .filter(
-                      ([k, v]) => typeof v === "number" && econ.series?.[k],
-                    )
-                    .map(
-                      ([k, v]) =>
-                        `${econ.series[k].label} ${value(econ.series[k].unit, v)}`,
-                    )
-                    .join(" · "),
-                ),
-              ]
-            : []),
-          ...(e.jobs
-            ? [
-                row(
-                  econ.jobsHere,
-                  `${e.jobs.employed} ${econ.employed} · ${e.jobs.seekers} ${econ.looking} · ${e.jobs.openPositions} ${econ.open}`,
-                ),
-              ]
-            : []),
-        ]
-      : [];
     const labels = controls.news;
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
@@ -2795,7 +2730,6 @@ const sheets = {
         stories: [],
       });
     return [
-      ...economy,
       ...newspaperScreen({
         outlets,
         labels,
@@ -2804,56 +2738,6 @@ const sheets = {
         photoOf: storyPhoto,
       }),
     ];
-  },
-  /**
-   * Politics' own guide: what each tab is for, a page each, then how a
-   * player could run here, from the filing records: the race, the office
-   * that takes filings, and the dates.
-   */
-  async politicsGuide() {
-    const labels = controls.politics.guide;
-    const [government, terms] = await Promise.all([
-      api(`/api/government?id=${encodeURIComponent(me.id)}`),
-      api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
-    ]);
-    const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const next = government.nextFiling;
-    return recordScreen({
-      paged: true,
-      sections: [
-        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
-          title: controls.titles[tab],
-          items: [{ text: labels[tab] }],
-        })),
-        {
-          title: labels.runHere,
-          items: next
-            ? [
-                { fact: [labels.race, next.title] },
-                {
-                  fact: [
-                    labels.filesWith,
-                    next.filedWith.replace(
-                      /\s*\(counter: ([^)]*)\)/g,
-                      `, ${labels.atTheDeskOf} $1`,
-                    ),
-                  ],
-                },
-                { fact: [labels.filingOpens, dateWords(next.filingOpens)] },
-                {
-                  fact: [labels.filingDeadline, dateWords(next.filingDeadline)],
-                },
-                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
-                next.primaryDate && {
-                  fact: [labels.primary, dateWords(next.primaryDate)],
-                },
-                { fact: [labels.election, dateWords(next.electionDate)] },
-                next.estimated && { text: labels.estimated, tone: "small" },
-              ]
-            : [{ text: labels.noRace }],
-        },
-      ],
-    });
   },
   async guide() {
     return listScreen({
@@ -2929,7 +2813,6 @@ const sheets = {
             {
               actions: [
                 { label: labels.continue, onClick: closeSheet },
-                { label: labels.guide, onClick: () => openSheet("guide") },
                 // Dev mode, for a developer's session only.
                 {
                   label: labels.devMode,
@@ -3368,13 +3251,14 @@ const sheets = {
       // and the notes (owner, Oct 28: real rows, not printed lines; every
       // member clickable).
       const keyLine = (k) => {
+        // A leader's post is a Guide term (Speaker, Majority leader): the
+        // carbon-copy underline, its definition on hover (owner, Oct 28,
+        // point 23); the chamber follows as a note.
+        const lead = k.post && !k.own;
         const line = withNotes(
           personRow({
             name: k.name,
-            detail:
-              k.post && !k.own
-                ? `${words(k.post)}, ${k.chamber ?? k.officeTitle}`
-                : k.officeTitle,
+            detail: lead ? termLabel(words(k.post)) : k.officeTitle,
             face: k.face,
             onOpen: () => {
               closeSheet();
@@ -3382,6 +3266,7 @@ const sheets = {
             },
           }),
           [
+            lead ? (k.chamber ?? k.officeTitle) : null,
             k.own && k.post ? words(k.post) : null,
             k.stateName,
             // The President and Vice President a territory's voters do not choose.
@@ -3474,6 +3359,14 @@ const sheets = {
       })),
     });
   },
+  /**
+   * Issues: the law in force here as cards by subject (owner, Oct 28, point
+   * 21: "click an issue (minimum wage) and see the law itself and find the
+   * law"), each card opening the law's own screen: what is in force at each
+   * level and since when, the statute it rests on, the measure that enacted
+   * it, what is coming, and who voted. No row repeats the state the filter
+   * and the card already name.
+   */
   async issues() {
     const [v, changes] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
@@ -3483,55 +3376,187 @@ const sheets = {
     // A policy question's law reads yes or no; every other law, its amount.
     const lawText = (law, value, unit) =>
       law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
-    return listScreen({
-      search: { placeholder: labels.searchIssues },
-      size: 4,
-      labelOf: termLabel,
-      entries: (query) =>
-        v.law
-          .filter((l) =>
-            policyLabel(l.series).toLowerCase().includes(query.toLowerCase()),
-          )
-          .map((law) => ({
-            title: policyLabel(law.series),
-            value: law.text ?? lawText(law, law.value, law.unit),
-            opens: true,
-            facts: [
-              // A level's law and when it took effect; a starting answer to a
-              // question names its statute instead, as its research did not
-              // record the day it took effect.
-              ...law.levels
-                .filter((l) => l.row)
-                .map((level) => [
-                  lawLevelLabel(law, level),
-                  [
-                    lawText(law, level.row.value, level.row.unit),
-                    !law.yesNo || level.row.terms?.enactedBy
-                      ? dateWords(level.row.effectiveDate)
-                      : level.row.terms?.cite,
-                  ]
-                    .filter(Boolean)
-                    .join(" · "),
-                ]),
-              ...law.pending.map((pending) => [
-                `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
-                lawText(law, pending.value, pending.unit),
-              ]),
-              ...[...changes.took, ...changes.ahead]
-                .filter((c) => c.series === law.series)
-                .map((change) => [
-                  dateWords(change.date),
-                  [change.measure, change.jurisdiction, change.what]
-                    .filter(Boolean)
-                    .join(" · "),
-                ]),
-              ...(law.votes ?? []).map((vote) => [
-                vote.name,
-                controls.meeting?.[vote.vote] ?? "",
-              ]),
-            ].map(([label, value]) => [label, plain(value)]),
+    // Who sets it, by level: "Federal law", "State law", the local body's.
+    const setBy = (level) => labels.issueSetBy?.[level] ?? words(level);
+    // The subject a series belongs to: the policy question's own domain
+    // ("us-policy-positions:fiscal.adopt-income-tax"), or the table's for an amount.
+    const groupOf = (series) =>
+      series.includes(":")
+        ? series.split(":")[1].split(".")[0]
+        : (labels.issueGroupOf?.[series] ?? "fiscal");
+    const governingLevel = (law) =>
+      law.governing?.level ?? law.levels.find((l) => l.row)?.level ?? null;
+    const governingRow = (law) =>
+      law.levels.find((l) => l.level === governingLevel(law))?.row ??
+      law.governing;
+    const valueText = (law) =>
+      law.text ??
+      (law.value !== null && law.value !== undefined
+        ? lawText(law, law.value, law.unit)
+        : null);
+    // The law's own screen.
+    const showLaw = async (law) => {
+      const level = governingLevel(law);
+      const inForce = law.levels
+        .filter((l) => l.row)
+        .map((l) => ({
+          fact: [
+            setBy(l.level),
+            [
+              lawText(law, l.row.value, l.row.unit),
+              l.row.effectiveDate
+                ? `${labels.since} ${dateWords(l.row.effectiveDate)}`
+                : null,
+            ]
+              .filter(Boolean)
+              .join(" · "),
+          ],
+        }));
+      // The law itself: the statute the answer rests on, and the measure
+      // of this world that enacted it, read as its paper.
+      const statutes = law.levels
+        .filter((l) => l.row?.terms?.cite)
+        .map((l) => ({ fact: [labels.statute, l.row.terms.cite] }));
+      const measures = (
+        await Promise.all(
+          law.levels
+            .filter((l) => l.row?.terms?.enactedBy)
+            .map(async (l) => {
+              const billId = l.row.terms.enactedBy;
+              const paper = await api(
+                `/api/bill?billId=${encodeURIComponent(billId)}`,
+              ).catch(() => null);
+              return paper
+                ? {
+                    actions: [
+                      {
+                        label: `${labels.enactedBy} ${paper.title}`,
+                        onClick: () =>
+                          openBillPaper(
+                            billId,
+                            (...nodes) =>
+                              $("sheet-body").replaceChildren(...nodes),
+                            () => showLaw(law),
+                          ),
+                      },
+                    ],
+                  }
+                : null;
+            }),
+        )
+      ).filter(Boolean);
+      const coming = law.pending.map((pending) => ({
+        fact: [
+          `${setBy(pending.level)} · ${dateWords(pending.effectiveDate)}`,
+          lawText(law, pending.value, pending.unit),
+        ],
+      }));
+      const changed = [...changes.took, ...changes.ahead]
+        .filter((c) => c.series === law.series)
+        .map((change) => ({
+          fact: [
+            dateWords(change.date),
+            [change.measure, change.what].filter(Boolean).join(" · "),
+          ],
+        }));
+      const votes = (law.votes ?? []).map((vote) => ({
+        fact: [vote.name, controls.meeting?.[vote.vote] ?? ""],
+      }));
+      if (openTab !== "issues") return;
+      // One law reads in one column, in a panel that ends under it.
+      $("sheet-body").classList.remove("cols");
+      $("sheet").classList.add("fits");
+      $("sheet-body").replaceChildren(
+        ...recordScreen({
+          heading: {
+            name: policyLabel(law.series),
+            meta: level ? setBy(level) : "",
+          },
+          lede: valueText(law),
+          sections: [
+            {
+              title: labels.inForce,
+              items: [...inForce, ...statutes, ...measures],
+            },
+            coming.length && { title: labels.coming, items: coming },
+            changed.length && { title: labels.changed, items: changed },
+            votes.length && { title: labels.votes, items: votes },
+          ].filter(Boolean),
+        }),
+      );
+    };
+    // The cards, by subject, narrowed by the search.
+    const card = (law) => {
+      const level = governingLevel(law);
+      const row = governingRow(law);
+      return {
+        title: policyLabel(law.series),
+        value: valueText(law),
+        lines: [
+          level
+            ? `${setBy(level)}${row?.effectiveDate ? ` ${labels.since} ${row.effectiveDate.slice(0, 4)}` : ""}`
+            : null,
+        ],
+        label: policyLabel(law.series),
+        onSelect: () => void showLaw(law),
+        data: { series: law.series },
+      };
+    };
+    const order = Object.keys(labels.issueGroups ?? {});
+    const screen = async (query) => {
+      const match = (law) =>
+        policyLabel(law.series).toLowerCase().includes(query.toLowerCase());
+      const groups = new Map();
+      for (const law of v.law.filter(match)) {
+        const key = groupOf(law.series);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(law);
+      }
+      const sections = await Promise.all(
+        [...groups]
+          .sort(([a], [b]) => order.indexOf(a) - order.indexOf(b))
+          .map(async ([key, laws]) => ({
+            title: labels.issueGroups?.[key] ?? words(key),
+            items: [
+              {
+                node: (
+                  await listScreen({
+                    entries: () =>
+                      laws
+                        .sort((a, b) =>
+                          policyLabel(a.series).localeCompare(
+                            policyLabel(b.series),
+                          ),
+                        )
+                        .map(card),
+                    layout: "cards",
+                  })
+                )[0],
+              },
+            ],
           })),
-    });
+      );
+      return recordScreen({
+        controls: [
+          searchBox({
+            value: query,
+            placeholder: labels.searchIssues,
+            onInput: async (text) => {
+              const nodes = await screen(text);
+              if (openTab !== "issues") return;
+              // The sheet's own rule: many sections flow in columns across
+              // the window, a few sit in a panel that ends under them.
+              const cols = nodes.length > 12;
+              $("sheet-body").classList.toggle("cols", cols);
+              $("sheet").classList.toggle("fits", !cols);
+              $("sheet-body").replaceChildren(...nodes);
+            },
+          }),
+        ],
+        sections,
+      });
+    };
+    return screen("");
   },
 };
 // Screens shown as tabs across the top of one menu screen.
@@ -3543,7 +3568,6 @@ const groups = {
     "parties",
     "issues",
     "budgets",
-    "politicsGuide",
   ],
   who: ["who", "jobs"],
 };
@@ -3596,6 +3620,9 @@ async function openSheet(tab) {
   );
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
+  // News is the paper itself: the sheet is the page, its masthead the title
+  // (owner, Oct 28, point 25).
+  $("sheet").classList.toggle("paper-sheet", tab === "news");
   $("sheet-media").hidden = !character;
   fillArtwork(
     $("sheet-media"),
@@ -3621,7 +3648,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "who"].includes(tab) &&
+    !["calendar", "people", "who", "news"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid"),
   );
@@ -3635,7 +3662,8 @@ pageWhenChanged($("ballot-races"), $("ballot-pager"));
 pageWhenChanged($("cr-states"), $("cr-states-pager"));
 pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu, Who you are among them. The card under it shows only the date
+// the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,
+// point 23: not a tab in Politics). The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 // The rail is named from the controls file, so it is mounted once that loads.
 void controlsReady.then(() => {
@@ -3650,6 +3678,7 @@ void controlsReady.then(() => {
       "news",
       "people",
       "travel",
+      "guide",
     ],
     controls.titles,
   );

@@ -7422,5 +7422,29 @@
     "addedAt": "2026-10-28",
     "replacement": "A campaign event record (a rally with its venue, date and speaker) the director stages as a scene the player can travel to from the race's row, where the candidate's views are heard; the row then links to it.",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-file-claim-circumstances-tie",
+    "kind": "partial-model",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 235,
+    "whatItFakes": "Filing for unemployment weighs only the benefit's share of the lost pay and the layoff's stress beside temperament. Within a town the share is the same for nearly every worker, so temperament decides who skips far more than the study allows (thirds' odds 6 to 20 against 1.32), and the trait weight stays at the general 1.",
+    "why": "No study found gives the size of a household's savings or of expected time to reemployment on unemployment take-up; without one, adding either read would type a number.",
+    "addedBy": "traits-lead",
+    "addedAt": "2026-10-28",
+    "replacement": "The filing reads the household's cash runway and the place's seekers per opening at researched sizes, then traitWeightJobsBenefitsFileClaim is fitted to Vella, Richiardi and van de Ven 2025.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-unheld-filler-party",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/officials.ts",
+    "line": 173,
+    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (a sample member of another state's legislature, another state's governor) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party, and a governor's successor (a lieutenant governor elected on their own ticket in some states) is assumed to share the governor's.",
+    "why": "The officials engine seats these holders without the offices engine's terms, so no record names the appointee, the special election's candidates or the successor's own party.",
+    "addedBy": "gov-sampled-legislator-seats-never-refilled (Claude, wire-office)",
+    "addedAt": "2026-10-28",
+    "replacement": "The successor's own party from the state's statewide-office roster for a governor, and the appointing authority's choice or the special election's result (the voting engine's world races) for a legislative seat.",
+    "status": "open"
   }
 ]

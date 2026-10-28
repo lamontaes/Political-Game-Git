@@ -5,12 +5,13 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/federal-day-president-held
+pr: #6709
 blocked-on:
 lead: red-main
 source: wire-office session, Oct 28 (found red on main)
+claimed-at: 2026-10-28T21:46:13.631Z
 ---
 
 **What.** `src/core2/office-day-federal.test.ts` fails four of eleven cases on clean main at da7f383272 with OFFICE_FEDERAL_SEED=a1b2c3d4 (Oxford, Kansas) and on random seeds. The nominations stop never holds the president (line 172, held is false), the budget request's priorities are set by no one (line 202, setBy undefined against the president's term), switching to the sitting member throws "A held deadline is still open for this character" (line 281), and the player's own bill vote counts nothing. The same four fail before and after #6631 merged, so the cause is older than the legislature body rows.
