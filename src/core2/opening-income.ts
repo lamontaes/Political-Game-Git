@@ -1,3 +1,4 @@
+import { worldLevel } from "./world-draw";
 import { claimWaitCase, retirementClaimAgeMonths } from "./retirement-claim";
 import { startingSocialSecurityAges } from "./social-security-law";
 import dataJson from "./data/opening-income.json" with { type: "json" };
@@ -758,7 +759,10 @@ export function buildOpeningRetirementIncome(
       ),
     );
     const monthlyMinor = minor(
-      Math.floor(values.benefitMonthlyMinor! * factor),
+      Math.floor(
+        worldBenefitMonthlyMinor(values.benefitMonthlyMinor!, input.seed) *
+          factor,
+      ),
       "generated monthly award",
     );
     const awardFact: PastFact = {
@@ -1040,4 +1044,24 @@ export function buildOpeningRetirementIncome(
       gaps: data.gaps,
     },
   };
+}
+
+/**
+ * The average monthly Social Security benefit this world's participants draw:
+ * the published participant average, scaled by one benefit level drawn per
+ * world from its seed (realistic, not real; owner, Oct 27). The formula and
+ * the cost-of-living adjustment are law and are not touched.
+ */
+export function worldBenefitMonthlyMinor(
+  publishedMinor: number,
+  seed: string,
+): number {
+  return Math.round(
+    worldLevel(
+      publishedMinor,
+      seed,
+      "world-benefit-level",
+      "worldBenefitSpreadShare",
+    ),
+  );
 }

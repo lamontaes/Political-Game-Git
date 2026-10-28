@@ -34,7 +34,7 @@ import {
   LIVING_COSTS_SOURCE,
   REPRESENTATIVE_LIVING_COSTS,
   livingCostsRegionForState,
-  estimatedMonthlyHouseholdLivingCosts,
+  publishedMonthlyHouseholdLivingCosts,
 } from "../core2/reference/living-costs-data";
 import { townLeases } from "./living-world/town-rent";
 import { recordSalesTaxBases } from "./sales-tax-bases";
@@ -156,7 +156,7 @@ export function estimatedHouseholdLivingCostsAt(
     householdLocationAt(world, householdId, cutoff)?.jurisdictionId ??
     world.people[personId]!.homeJurisdictionId;
   const place = lifePlaceByJurisdictionId(locationId);
-  const estimate = estimatedMonthlyHouseholdLivingCosts(
+  const estimate = publishedMonthlyHouseholdLivingCosts(
     livingCostsRegionForState(place?.stateJurisdictionKey ?? null),
     residents.size,
   );

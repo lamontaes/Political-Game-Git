@@ -730,9 +730,18 @@ function repealLink(runs: { place: string; r: Result }[]): Link {
     } else {
       if (r.reach.open === 0) continue;
       had += 1;
-      if (r.afterUndo.open === 0) ok += 1;
+      // A row open after the repeal under a law a body passed in play (not
+      // the checker's) is the world enacting it again, not the repeal failing;
+      // it counts only when every open row is in the sample.
+      const theWorlds =
+        r.afterUndo.sample.length === r.afterUndo.open
+          ? r.afterUndo.sample.filter(
+              (id) => !r.lawIds.some((law) => id.includes(law)),
+            )
+          : [];
+      if (r.afterUndo.open - theWorlds.length === 0) ok += 1;
       notes.push(
-        `${place}: ${r.reach.open} open -> after repeal ${r.afterUndo.open} open, ${r.afterUndo.ended} ended`,
+        `${place}: ${r.reach.open} open -> after repeal ${r.afterUndo.open} open, ${r.afterUndo.ended} ended${theWorlds.length ? ` (${theWorlds.length} under a law the world passed itself, ${theWorlds[0]})` : ""}`,
       );
     }
   }

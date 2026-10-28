@@ -2638,7 +2638,6 @@ const sheets = {
     const gov = chosen ?? view.governments[0];
     if (!gov?.latest) return recordScreen({ controls: [pick], sections: [] });
     const latest = gov.latest;
-    const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
     // What the treasury actually took in and paid out, from its journal,
     // beside the plan: a treasury gone wrong shows here.
     const books = gov.books;
@@ -2698,12 +2697,9 @@ const sheets = {
             },
             {
               stats: [
-                [labels.revenue, total(latest.revenue)],
-                [labels.spending, total(latest.spending)],
-                [
-                  labels.balance,
-                  total(latest.revenue) - total(latest.spending),
-                ],
+                [labels.revenue, latest.revenueMinor],
+                [labels.spending, latest.spendingMinor],
+                [labels.balance, latest.balanceMinor],
                 ...(books
                   ? [
                       [labels.takenIn, books.takenInMinor],
@@ -2714,7 +2710,7 @@ const sheets = {
               ].map(([label, value]) => [label, roundedDollars(value)]),
             },
             books &&
-              books.paidOutMinor > total(latest.spending) && {
+              books.paidOutMinor > latest.spendingMinor && {
                 text: labels.overBudget,
                 tone: "warning",
               },
@@ -3073,8 +3069,6 @@ const sheets = {
   async government() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    const levelOf = (s) =>
-      ["state", "federal"].includes(s.level) ? s.level : "local";
     // The race you ran in opens first: its level, its office, its seat.
     const race = v.ownRace;
     // Which state's legislature the State view shows: the player's own, or any other.
@@ -3085,7 +3079,7 @@ const sheets = {
       if (openTab === "government") $("sheet-body").replaceChildren(...nodes);
     };
     const screen = async () => {
-      const level = governmentLevel ?? (race ? levelOf(race) : "local");
+      const level = governmentLevel ?? race?.tier ?? "local";
       const otherState = level === "local" ? "" : governmentState;
       const picker = tabBar({
         attr: "level",
@@ -3222,7 +3216,7 @@ const sheets = {
         }));
       } else {
         const offices = new Map();
-        for (const s of v.seats.filter((s) => levelOf(s) === level)) {
+        for (const s of v.seats.filter((s) => s.tier === level)) {
           if (!offices.has(s.officeId)) offices.set(s.officeId, []);
           offices.get(s.officeId).push(s);
         }
@@ -3234,13 +3228,7 @@ const sheets = {
         );
         bodies = [...offices.values()].map((seats) => {
           const first = seats[0];
-          const parties = new Map();
-          for (const s of seats)
-            if (s.holder?.party)
-              parties.set(
-                s.holder.party,
-                (parties.get(s.holder.party) ?? 0) + 1,
-              );
+          const parties = v.partySeatsByOffice[first.officeId] ?? [];
           return {
             title: first.title,
             items: [
@@ -3248,9 +3236,9 @@ const sheets = {
               first.presentation?.chamberUrl && {
                 picture: first.presentation.chamberUrl,
               },
-              parties.size && {
+              parties.length && {
                 node: barChart(
-                  [...parties].map(([label, value]) => ({ label, value })),
+                  parties.map((p) => ({ label: p.party, value: p.seats })),
                   labels.seats,
                 ),
               },
@@ -3340,26 +3328,14 @@ const sheets = {
   },
   async parties() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    const groups = new Map();
-    for (const seat of v.seats)
-      if (seat.holder?.party)
-        groups.set(seat.holder.party, [
-          ...(groups.get(seat.holder.party) ?? []),
-          seat,
-        ]);
     return recordScreen({
       grid: true,
-      sections: [...groups].map(([party, seats]) => ({
+      sections: v.parties.map(({ party, seats }) => ({
         title: party,
         items: [
           { total: [String(seats.length), controls.politics.seats] },
           {
-            pages: seats.map((s) => ({
-              node: row(
-                `${s.holder.givenName} ${s.holder.familyName}`,
-                s.title,
-              ),
-            })),
+            pages: seats.map((s) => ({ node: row(s.name, s.title) })),
             size: 6,
           },
         ],
