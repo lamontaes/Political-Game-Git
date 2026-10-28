@@ -277,20 +277,17 @@
     "search": "Search destinations",
     "filing": "Filing office",
     "go": "Go",
-    "back": "Back",
-    "next": "Continue",
     "open": "Open now",
     "closed": "Closed now",
-    "andOthers": "and {n} more",
     "reasons": {
       "work": "You work here",
-      "family": "Your family works here",
-      "study": "Someone at home studies here",
-      "known": "works here",
       "action": "You can",
       "serve": "Where you serve",
-      "filing": "You file here for"
-    }
+      "filing": "You file here"
+    },
+    "whatYouDo": "What you do here",
+    "whoWorks": "Who works here",
+    "district": "District"
   },
   "time": {
     "week": "Week"
@@ -585,8 +582,5 @@
     "politicsGuide": "Guide",
     "handoff": "Carry on as",
     "news": "News"
-  },
-  "guide": {
-    "search": "Search"
   }
 }
