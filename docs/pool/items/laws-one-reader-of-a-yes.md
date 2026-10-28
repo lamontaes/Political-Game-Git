@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-law-in-force
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:50:34.922Z
 ---
 
 **What.** Six places each read whether a policy question is law for the town by taking the latest row at each level: inForceHere and reassertStandingLaws in the law-reach host, yesLevels in group-a-records, questionRow in group-b-money and groceryExemption in budgets. The laws engine's lawInForce is the sourced reader and also applies tiers, a county ordinance that covers only unincorporated areas, and statutes enacted in play; the copies skip those rules, so they can disagree with the law the Issues screen shows (duplicates report row C4).
