@@ -2082,6 +2082,22 @@ async function showPerson(person) {
     ...(c.placeName
       ? [recordSection(labels.place, el("p", { textContent: c.placeName }))]
       : []),
+    // Their history from the records, oldest first (owner, Oct 28).
+    ...(c.history?.length
+      ? [
+          recordSection(
+            labels.history,
+            ...c.history.map((line) => {
+              const said = el("p", {
+                className: "person-history",
+                textContent: line.text,
+              });
+              said.dataset.record = line.recordId;
+              return said;
+            }),
+          ),
+        ]
+      : []),
     // An officeholder's colleagues in office, closest first, from their ties.
     ...(c.colleagues
       ? [
@@ -2774,12 +2790,6 @@ const sheets = {
     // record that changed the tie; one who left and is no longer among the
     // card's ties is still drawn, marked.
     const circle = me.card.circle ?? { joined: [], left: [] };
-    const dateText = (iso) =>
-      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      });
     const change = new Map([
       ...circle.joined.map((c) => [c.personId, { ...c, mark: "joined" }]),
       ...circle.left.map((c) => [c.personId, { ...c, mark: "left" }]),
@@ -2796,7 +2806,6 @@ const sheets = {
       (a, b) => Number(change.has(b.personId)) - Number(change.has(a.personId)),
     );
     let group = "all";
-    let selected;
     let page = 0;
     let listMode = false;
     const search = el("input", {
@@ -2913,19 +2922,19 @@ const sheets = {
           y1: 50,
           x2: x,
           y2: y,
-          class: `people-edge ${kind}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`,
+          class: `people-edge ${kind}${active ? "" : " dim"}`,
         }))
           line.setAttribute(key, value);
         svg.append(line);
+        // Clicking a person opens their card (owner, Oct 28).
         const node = button("", () => {
-          selected = p.personId;
-          draw();
+          closeSheet();
+          showPerson(p);
         });
         const changed = change.get(p.personId);
         // The face's ring takes its kind's color; names sit on the far side
         // of the face from you, so no line runs through them.
-        node.className = `people-node ${kind}${y < 50 ? " above" : ""}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
-        node.setAttribute("aria-pressed", String(selected === p.personId));
+        node.className = `people-node ${kind}${y < 50 ? " above" : ""}${active ? "" : " dim"}${changed ? ` circle-${changed.mark}` : ""}`;
         node.setAttribute("aria-label", p.name);
         node.style.left = `${x}%`;
         node.style.top = `${y}%`;
@@ -2944,7 +2953,6 @@ const sheets = {
           );
         canvas.append(node);
       });
-      const person = people.find((p) => p.personId === selected);
       detail.replaceChildren();
       // Nothing changed in the five closest this year: said, never an empty box.
       if (!change.size)
@@ -2954,41 +2962,6 @@ const sheets = {
             textContent: labels.noChange,
           }),
         );
-      if (person) {
-        const changed = change.get(person.personId);
-        detail.append(
-          el("span", {
-            textContent: [person.name, person.relation]
-              .filter(Boolean)
-              .join(" · "),
-          }),
-          ...(changed
-            ? [
-                el("span", {
-                  className: "circle-why",
-                  textContent: [
-                    changed.mark === "joined" ? labels.joined : labels.left,
-                    labels.causes?.[changed.cause] ?? words(changed.cause),
-                    dateText(changed.date),
-                  ].join(" · "),
-                }),
-              ]
-            : []),
-          button(labels.card, () => {
-            closeSheet();
-            showPerson(person);
-          }),
-        );
-        if (
-          (me.scene?.people ?? []).some((p) => p.personId === person.personId)
-        )
-          detail.append(
-            button(labels.talk, () => {
-              closeSheet();
-              talkTo(person.personId);
-            }),
-          );
-      }
       const back = button(labels.back, () => {
         page--;
         draw();

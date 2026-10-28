@@ -244,6 +244,118 @@ function colleaguesOf(core: CoreState, personId: string) {
     .slice(0, CLOSEST);
 }
 
+/** A record's date as people say a month: "January 2025". */
+const monthWords = (date: string) =>
+  new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+/**
+ * A person's history as their card tells it, oldest first: one worded line
+ * per dated record of their life (birth, school, a move, meeting a partner,
+ * a child, a job, a parent's death, an election won) and the tie to the
+ * viewer growing closer or apart. Each line names the record it stands on; a
+ * record whose words the bank cannot fill is left out.
+ */
+function personHistory(
+  core: CoreState,
+  viewerId: string,
+  other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
+  tie:
+    | {
+        id: string;
+        latestChange?: {
+          date: string;
+          before: { level: number };
+          after: { level: number };
+        };
+      }
+    | undefined,
+) {
+  const placeName = (id: unknown) =>
+    typeof id === "string"
+      ? (corePlaceByJurisdictionId(id as never)?.displayName ?? "")
+      : "";
+  const personName = (id: unknown) => {
+    const row = typeof id === "string" ? core.people.get(id) : undefined;
+    return row ? `${row.givenName} ${row.familyName}` : "";
+  };
+  const facts = other.pastFacts ?? [];
+  const birthplace = facts.find((fact) => fact.kind === "birthplace");
+  const lines: {
+    date: string;
+    key: string;
+    slots: Record<string, string>;
+    recordId: string;
+  }[] = [];
+  for (const fact of facts) {
+    const year = fact.date.slice(0, 4);
+    const f = fact.facts ?? {};
+    const add = (key: string, slots: Record<string, string>) =>
+      lines.push({
+        date: fact.date,
+        key,
+        slots: { year, ...slots },
+        recordId: fact.id,
+      });
+    if (fact.kind === "birth-date") {
+      const place = placeName(birthplace?.facts?.placeId);
+      add(place ? "born" : "born-year", { place });
+    } else if (fact.kind === "school:cohort-estimate" && f.schoolName)
+      add("school", { school: String(f.schoolName) });
+    else if (fact.kind === "life:moved-into-county") add("moved-in", {});
+    else if (fact.kind === "life:moved-away") add("moved-away", {});
+    else if (fact.kind === "household:partners-met")
+      add(f.otherPersonId === viewerId ? "partners-met-you" : "partners-met", {
+        name: personName(f.otherPersonId),
+        place: placeName(f.placeId),
+      });
+    else if (fact.kind === "family:child")
+      add(f.otherPersonId === viewerId ? "child-you" : "child", {
+        name: personName(f.otherPersonId),
+      });
+    else if (fact.kind === "work:tenure-summary")
+      add("work", {
+        title: String(f.title ?? ""),
+        employer:
+          core.organizations.get(String(f.organizationId ?? ""))?.name ?? "",
+      });
+    else if (fact.kind === "family:parent-died" && f.relation)
+      add("parent-died", {
+        relation:
+          String(f.relation).charAt(0).toUpperCase() +
+          String(f.relation).slice(1),
+        name: [f.givenName, f.familyName].filter(Boolean).join(" "),
+      });
+    else if (fact.kind === "campaign:elected" && f.office)
+      add("elected", { office: String(f.office).replace(/-/g, " ") });
+  }
+  const change = tie?.latestChange;
+  if (change && change.after.level !== change.before.level)
+    lines.push({
+      date: change.date,
+      key: change.after.level > change.before.level ? "closer" : "apart",
+      slots: { month: monthWords(change.date) },
+      recordId: tie.id,
+    });
+  // One school is said once, from the year they started there.
+  const said = new Set<string>();
+  return lines
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .flatMap((line) => {
+      const text = screenLine(
+        "person-history",
+        `person-history.${line.key}`,
+        line.slots,
+      );
+      if (!text || said.has(text.replace(/ in \d{4}\.$/, ""))) return [];
+      said.add(text.replace(/ in \d{4}\.$/, ""));
+      return [{ date: line.date, text, recordId: line.recordId }];
+    });
+}
+
 // Engineering bands for the sketch: a lean under the first is not said; one
 // past the second takes the strong line. Display wording only, never a choice.
 const SKETCH_SAID = 0.15;
@@ -359,6 +471,11 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
+    // Their history, to family, a housemate or anyone with a tie to them.
+    history:
+      family || housemate || tie
+        ? personHistory(core, viewerId, other, tie)
+        : [],
     // An officeholder's colleagues in office, by their tie records.
     colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the

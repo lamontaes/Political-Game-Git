@@ -2457,9 +2457,6 @@ body.dev .dev-ring {
 .people-edge.politics {
   stroke: rgba(176, 120, 96, 0.85);
 }
-.people-edge.selected {
-  stroke-width: 3px;
-}
 .people-node.dim,
 .people-edge.dim {
   opacity: 0.32;
@@ -2534,15 +2531,6 @@ body.dev .dev-ring {
   place-items: center;
   color: var(--gold);
   font: 20px var(--name);
-}
-.people-node.selected img,
-.people-node.selected .people-initial,
-.people-node.selected .headshot {
-  border-width: 4px;
-  border-color: var(--gold);
-}
-.people-node.selected b {
-  color: var(--gold);
 }
 .people-center {
   position: absolute;
@@ -2989,7 +2977,6 @@ body.dev .dev-ring {
 .people-node.circle-left {
   opacity: 0.7;
 }
-.people-selection .circle-why,
 .people-selection .circle-none {
   color: var(--gold);
 }

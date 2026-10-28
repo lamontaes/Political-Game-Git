@@ -66,9 +66,29 @@ try {
     .evaluate((e) => e.click());
   await page.locator(".relationship-web").waitFor();
   assert.ok((await page.locator(".people-node").count()) > 0);
+  // Clicking a person opens their card, with their history from the
+  // records, each line on its record (owner, Oct 28).
+  const opened = await page
+    .locator(".people-node")
+    .first()
+    .getAttribute("aria-label");
   await page.locator(".people-node").first().click();
-  assert.equal(await page.locator(".people-node.selected").count(), 1);
-  assert.equal(await page.locator(".people-edge.selected").count(), 1);
+  await page.locator("#person:not([hidden])").waitFor();
+  assert.equal(await page.locator("#person-name").innerText(), opened);
+  const history = await page
+    .locator("#person-facts .person-history")
+    .evaluateAll((lines) =>
+      lines.map((line) => [line.textContent, line.dataset.record]),
+    );
+  console.log("History:", history);
+  assert.ok(history.length > 0, "no history on the card");
+  for (const [text, record] of history) assert.ok(text && record, text);
+  await page.locator("#person-close").click();
+  await page
+    .locator('[data-tab="people"]')
+    .first()
+    .evaluate((e) => e.click());
+  await page.locator(".relationship-web").waitFor();
   await page.locator('[data-group="work"]').click();
   assert.ok((await page.locator(".people-node.dim").count()) > 0);
   await page.locator('[data-group="all"]').click();
@@ -83,13 +103,12 @@ try {
   await page.getByRole("button", { name: "List", exact: true }).click();
   assert.equal(await page.locator(".people-list").count(), 1);
   await page.locator(".people-node").click();
-  await page.getByRole("button", { name: "View person", exact: true }).click();
   await page.locator("#person:not([hidden])").waitFor();
   assert.equal(await page.locator("#person-name").innerText(), first);
   assert.equal(await page.locator("#card-clock").innerText(), clock);
   assert.deepEqual(errors, []);
   console.log(
-    "PASS filters, search, selection, list, person card and unchanged clock",
+    "PASS a click opens the card with history on records, filters, search, list and unchanged clock",
   );
 } finally {
   await browser.close();
