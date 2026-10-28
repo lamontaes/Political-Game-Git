@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/wire-school-names
-pr: #6638
+pr: #6664
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
