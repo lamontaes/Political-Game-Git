@@ -45,7 +45,12 @@ import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
-import { NEWS_MODULE_ID, newsKey, storiesHeard } from "../core2/modules/news";
+import {
+  NEWS_MODULE_ID,
+  newsKey,
+  storiesHeard,
+  storyOfReadEvent,
+} from "../core2/modules/news";
 import type { EntityId } from "../core2/kernel/brands";
 import {
   PRESS_MODULE_ID,
@@ -62,7 +67,7 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import { changesKnownTo } from "./bring-it-up";
+import { bringItUp, changesKnownTo } from "./bring-it-up";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -1906,6 +1911,27 @@ export function openConversation(
       ...opener,
       sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
+  // Away from a scene's occasion, they mention the newest change they know
+  // of and who they blame (bring-it-up, which passes both on). It is said
+  // once, here: the talk's own subjects skip that change.
+  const brought = occasion
+    ? null
+    : bringItUp(core as CoreState, otherId, playerId);
+  if (brought) {
+    const subjectId = `news:${brought.change.eventId}`;
+    for (const line of brought.lines)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId,
+        kind: "brought-up",
+        act: "tell",
+        ...line,
+      });
+    conversation.used.push(subjectId);
+    const storyId = storyOfReadEvent(brought.change.eventId);
+    if (storyId) conversation.used.push(`news:${storyId}`);
+    conversation.recorded.push(brought.toldEventId);
+  }
   // The topic of their last talk isn't opened again (the listener remembers).
   const remembered = core.knowledgeByPerson
     .get(otherId)
