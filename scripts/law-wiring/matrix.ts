@@ -10,6 +10,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
 import unwiredLinks from "../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
+import effectMatrix from "../../docs/reports/effect-web-matrix-2026-10-20.json" with { type: "json" };
 import { ownLeast, pickOwn, type OwnPair } from "./own-payments";
 import { splitByReader } from "./unread-links";
 import {
@@ -156,6 +157,25 @@ const NOT_AN_EFFECT = [
   "src/bench/",
 ];
 /** Laws with no researched outcome link, each with its registered stopgap. */
+/**
+ * Who reads each outcome-web link's factor, by file and line, from the effect
+ * matrix (scripts/outcome-web/effect-matrix.ts): a web link counts as wired
+ * only where its row names the reader beside the month's record id
+ * (OWNER-DECISIONS, Oct 28 05:30).
+ */
+const WEB_READERS = new Map(
+  (
+    effectMatrix as unknown as {
+      links: {
+        key: string;
+        points: { reaches?: { status: string; evidence?: string } };
+      }[];
+    }
+  ).links
+    .filter((l) => l.points.reaches?.status === "pass")
+    .map((l) => [l.key, l.points.reaches!.evidence ?? ""]),
+);
+
 const RESEARCH_GAPS = new Map(
   (
     researchGaps as {
@@ -553,8 +573,13 @@ function webLink(
           evidence: "data/research/outcome-web/links.json",
           why: "no researched outcome-web link starts from this law",
         };
+  // A link an engine now carries is not run by the web: a ledger row an
+  // older run kept for it is history, not this link's evidence.
+  const carriedNow = new Set(links.filter((l) => carried(l)).map((l) => l.key));
   const allFired = runs.flatMap(({ place, r }) =>
-    (r.web?.fired ?? []).map((f) => ({ place, f })),
+    (r.web?.fired ?? [])
+      .filter((f) => !carriedNow.has(f.link))
+      .map((f) => ({ place, f })),
   );
   // A fired ledger row whose factor no engine reads (unwired.json, open
   // stopgap) is a record, not wiring.
@@ -597,7 +622,8 @@ function webLink(
     const ev = fired
       .slice(0, 3)
       .map(
-        ({ place, f }) => `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}`,
+        ({ place, f }) =>
+          `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}${WEB_READERS.has(f.link) ? `, read by ${WEB_READERS.get(f.link)}` : ""}`,
       )
       .join("; ");
     const missing = [
@@ -725,9 +751,18 @@ function repealLink(runs: { place: string; r: Result }[]): Link {
     } else {
       if (r.reach.open === 0) continue;
       had += 1;
-      if (r.afterUndo.open === 0) ok += 1;
+      // A row open after the repeal under a law a body passed in play (not
+      // the checker's) is the world enacting it again, not the repeal failing;
+      // it counts only when every open row is in the sample.
+      const theWorlds =
+        r.afterUndo.sample.length === r.afterUndo.open
+          ? r.afterUndo.sample.filter(
+              (id) => !r.lawIds.some((law) => id.includes(law)),
+            )
+          : [];
+      if (r.afterUndo.open - theWorlds.length === 0) ok += 1;
       notes.push(
-        `${place}: ${r.reach.open} open -> after repeal ${r.afterUndo.open} open, ${r.afterUndo.ended} ended`,
+        `${place}: ${r.reach.open} open -> after repeal ${r.afterUndo.open} open, ${r.afterUndo.ended} ended${theWorlds.length ? ` (${theWorlds.length} under a law the world passed itself, ${theWorlds[0]})` : ""}`,
       );
     }
   }

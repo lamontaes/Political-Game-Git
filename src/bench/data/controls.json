@@ -28,7 +28,12 @@
     "people": "people",
     "about": "about",
     "countyLine": "in {county}",
-    "ageLine": "You will be {age} on {date}, the day your life begins."
+    "ageLine": "You will be {age} on {date}, the day your life begins.",
+    "summaryAge": "Age {age}",
+    "summaryBorn": "Born {date}",
+    "previous": "Previous {row}",
+    "next": "Next {row}",
+    "randomPlace": "Random place"
   },
   "endedBy": {
     "moment": "Something needs you",
@@ -97,7 +102,6 @@
     "core": "Starting the world",
     "government": "Seating the government",
     "opening": "Preparing the opening",
-    "pictures": "Loading the pictures",
     "done": "Ready"
   },
   "opening": {
@@ -110,6 +114,7 @@
     "work": "Work",
     "place": "Home",
     "school": "School",
+    "history": "History",
     "back": "Back",
     "continue": "Continue",
     "knows": "Knows",
@@ -120,14 +125,30 @@
       "group": "In a group with",
       "family": "Family"
     },
-    "rival": "Rival"
+    "rival": "Rival",
+    "publicRecord": {
+      "party": "Party",
+      "since": "In office since",
+      "votes": "Votes on record",
+      "sponsored": "Laws sponsored",
+      "signed": "Laws signed"
+    },
+    "together": "With you",
+    "sharedWords": {
+      "household": "Lives with you",
+      "coworker": "Works with you",
+      "worked": "Worked with you",
+      "schoolmate": "At school with you",
+      "campaign": "On a campaign with you"
+    },
+    "seats": "Seats held",
+    "since": "Since"
   },
   "options": {
     "version": "Version",
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
-    "skipOpening": "Skip opening",
     "guide": "Guide",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
@@ -170,7 +191,10 @@
     },
     "seat": "Seat",
     "heldBy": "Held by",
-    "openSeat": "No one holds it now"
+    "openSeat": "No one holds it now",
+    "for": "For",
+    "against": "Against",
+    "noStance": "—"
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",
@@ -186,12 +210,12 @@
     "own": "Decide for me"
   },
   "budgetEditor": {
-    "title": "Budget lines to send",
-    "-20": "Cut 20%",
-    "-10": "Cut 10%",
     "0": "No change",
     "10": "Add 10%",
-    "20": "Add 20%"
+    "20": "Add 20%",
+    "title": "Budget lines to send",
+    "-20": "Cut 20%",
+    "-10": "Cut 10%"
   },
   "deals": {
     "title": "Deal to offer when you talk",
@@ -200,11 +224,9 @@
     "back-their-item": "Back their item"
   },
   "officeStops": {
-    "own-bill-vote": "Your bill's vote",
-    "every-meeting": "Every meeting",
-    "desk": "Your desk",
+    "aYear": "a year",
+    "nextMeeting": "next meeting",
     "ownChoice": "Decided for me",
-    "interviewOutlet": "Ask for an interview with",
     "nameHeadPick": "Name to the post"
   },
   "floor": {
@@ -429,7 +451,6 @@
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
     },
-    "noneHere": "None here",
     "guide": {
       "government": "Who holds each seat over you, from your town to the nation, and when each term ends.",
       "issues": "The laws in force where you live, and who can change them.",
@@ -470,27 +491,37 @@
   },
   "money": {
     "cash": "Cash available",
-    "history": "Balance history",
-    "spending": "Where the money went",
     "home": "Home",
     "householdHome": "Your household’s home",
     "tenure": "Tenure",
     "owned": "Owned",
     "rented": "Rented",
-    "value": "Value",
     "rent": "Rent",
     "monthly": "per month",
     "deductions": "Paycheck deductions",
-    "assets": "Assets",
-    "debts": "Debts",
     "lastMonth": "Last month",
-    "monthHousing": "Home costs",
-    "monthEveryday": "Everyday living",
-    "monthPaid": "Paid",
-    "monthUnpaid": "Left unpaid",
     "loanPayments": "Loan payments",
-    "loanDue": "due",
-    "loanPaid": "paid"
+    "loanPaid": "paid",
+    "unpaid": "left unpaid",
+    "pastDue": "past due",
+    "cashByMonth": "Cash at each month’s review",
+    "assets": "What you own",
+    "assetKinds": {
+      "savings": "Savings",
+      "home": "Your home"
+    },
+    "debts": "What you owe",
+    "debtKinds": {
+      "personal": "Personal loan",
+      "startup": "Startup loan",
+      "mortgage": "Mortgage"
+    },
+    "reasons": {
+      "household.rent": "Rent",
+      "household.mortgage": "Mortgage payment",
+      "household.everyday-living": "Everyday living",
+      "household-purchase": "Purchases"
+    }
   },
   "localRaces": {
     "title": "Local races on the ballot",
@@ -506,6 +537,54 @@
     "saved": "Graded"
   },
   "talkBox": {
-    "continue": "Continue"
+    "continue": "Continue",
+    "markGap": "Mark gap"
+  },
+  "guide": {
+    "search": "Search"
+  },
+  "campaignActs": {
+    "volunteer": "Volunteers",
+    "donation": "Donations",
+    "endorsement": "Endorsements",
+    "ad": "Ad",
+    "poll": "Poll"
+  },
+  "campaignResults": {
+    "doors": "{n} doors",
+    "reached": "{n} reached",
+    "raised": "{amount} raised",
+    "spent": "{amount} spent"
+  },
+  "handoff": {
+    "play": "Play"
+  },
+  "seat": {
+    "draft": "Draft"
+  },
+  "titles": {
+    "people": "People",
+    "who": "Who you are",
+    "money": "Money and property",
+    "jobs": "Jobs and study",
+    "journal": "Journal",
+    "politics": "Politics",
+    "government": "Government",
+    "office": "Your office",
+    "campaigns": "Campaigns",
+    "parties": "Parties",
+    "issues": "Issues",
+    "calendar": "Calendar",
+    "budgets": "Budgets",
+    "travel": "Travel",
+    "options": "Options",
+    "patchNotes": "Patch notes",
+    "guide": "Guide",
+    "politicsGuide": "Guide",
+    "handoff": "Carry on as",
+    "news": "News"
+  },
+  "guide": {
+    "search": "Search"
   }
 }

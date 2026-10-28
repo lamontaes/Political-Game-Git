@@ -457,30 +457,6 @@
         "reason": "No measured decay of how much a faded tie still matters; kept as the October 8, 2026 design weight."
       }
     },
-    "directorFriendHalfLifeDays": {
-      "value": 548,
-      "tag": "ESTIMATED",
-      "citation": "Owner question 4 (P13 design note): about 18 months, the same value P15 uses for closeness between people who are not relatives. No study reports a half-life for closeness without contact: Roberts and Dunbar (2015), Human Nature 26(4):426-450, report only that friends' closeness fell over their 18-month study, and 18 months is the study's length, not a half-life. Checked: Roberts and Dunbar (2015) inner-layer friend retention over 18 months converts to a 526-day half-life if decay is exponential (25 students in a high-turnover transition).",
-      "spread": {
-        "low": 526,
-        "high": 548,
-        "unit": "days",
-        "citation": "Roberts and Dunbar (2015) converted to a half-life, 526 days; the owner's 18 months, 548."
-      },
-      "estimatedFrom": "Owner question 4 (about 18 months), the value P15 uses, checked against Roberts and Dunbar (2015) retention converted to a half-life"
-    },
-    "directorKinHalfLifeDays": {
-      "value": 1095,
-      "tag": "ESTIMATED",
-      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, the same value P15 uses for relatives. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Equal to the core's closenessKinHalfLifeDays (1095); the two had differed by a day. Checked: Roberts and Dunbar (2015) inner-layer kin retention over 18 months converts to a 1,078-day half-life if decay is exponential (25 students in a high-turnover transition).",
-      "spread": {
-        "low": 1078,
-        "high": 1095,
-        "unit": "days",
-        "citation": "Roberts and Dunbar (2015) converted to a half-life, 1,078 days; the owner's 36 months, 1,095."
-      },
-      "estimatedFrom": "Owner question 4 (36 months), the value P15 uses, checked against Roberts and Dunbar (2015) retention converted to a half-life"
-    },
     "directorRenewedFading": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -555,58 +531,6 @@
       "spread": {
         "low": 0.2,
         "high": 0.37,
-        "unit": "life-change units divided by 100",
-        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
-    },
-    "directorPastEraJobLoss": {
-      "value": 0.47,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Fired at work' row, 47 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates",
-      "spread": {
-        "low": 0.47,
-        "high": 0.61,
-        "unit": "life-change units divided by 100",
-        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
-    },
-    "directorPastEraFamilyDeath": {
-      "value": 0.63,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Death of a close family member' row, 63 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates",
-      "spread": {
-        "low": 0.63,
-        "high": 0.76,
-        "unit": "life-change units divided by 100",
-        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
-    },
-    "directorPastEraIllness": {
-      "value": 0.53,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Personal injury or illness' row, 53 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates",
-      "spread": {
-        "low": 0.53,
-        "high": 0.64,
-        "unit": "life-change units divided by 100",
-        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
-    },
-    "directorPastEraFinancialLoss": {
-      "value": 0.38,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in financial state' row, 38 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates",
-      "spread": {
-        "low": 0.38,
-        "high": 0.52,
         "unit": "life-change units divided by 100",
         "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
       }
@@ -1246,6 +1170,18 @@
         "ref": "WORDS-TALK-RECENT-DAYS"
       }
     },
+    "directorTalkAddressDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "citation": "The President's address is the day's news for a couple of weeks after it is given, counted from the day it was given, not from the day a person first heard of it: in play (Gilbert, West Virginia, Oct 28, 2026) people met in March still opened with \"Did you catch the President's speech?\" because they were filled in that day. Owner, Oct 27: scenes and talks read what is happening in the world now.",
+      "spread": "7 to 30 days, checked by reading the talks of a played season (src/director/conversation.test.ts)",
+      "stopgapId": "SG-WORDS-param-directorTalkRecentDays",
+      "checkRange": {
+        "min": 7,
+        "max": 30,
+        "ref": "WORDS-TALK-RECENT-DAYS"
+      }
+    },
     "directorTalkAddressImpact": {
       "value": 0.2,
       "tag": "TUNABLE",
@@ -1439,7 +1375,6 @@
       "parameter": "directorTiePartner"
     }
   ],
-  "backdropPastFactPrefixes": ["era:"],
   "pastFactMoments": [
     {
       "kindPrefix": "family:child",
@@ -1452,7 +1387,7 @@
       "counterpart": "partner"
     },
     {
-      "kindPrefix": "school:",
+      "kindPrefix": "school.started",
       "parameter": "directorPastSchoolStage"
     },
     {
@@ -1460,25 +1395,6 @@
       "parameter": "directorPastWorkStart"
     }
   ],
-  "pastEraHits": [
-    {
-      "factKey": "personalJobLoss",
-      "parameter": "directorPastEraJobLoss"
-    },
-    {
-      "factKey": "personalLoss",
-      "parameter": "directorPastEraFamilyDeath"
-    },
-    {
-      "factKey": "personalInfection",
-      "parameter": "directorPastEraIllness"
-    },
-    {
-      "factKey": "personalFinancialLoss",
-      "parameter": "directorPastEraFinancialLoss"
-    }
-  ],
-  "pastNotRecordedValues": ["not-inferred", "not-established"],
   "settingHours": {
     "note": "When a scene's setting can hold it, by the setting kind (situation-types.json settings), in minutes after midnight: a scene measured at the day's close stops the player's clock at the next minute its setting is open, never at midnight in a bedroom or an office (owner, Oct 27, 4 PM Eastern: no scene at midnight in an open office). A null opening is the controlled person's own day start (the core's playerDayStartMinute). One row per kind of setting, never per place.",
     "tag": "TUNABLE",

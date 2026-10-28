@@ -52,7 +52,7 @@ export function stakeOf(
   if (!filer || !relative || relative.id === filer.id || !relative.alive)
     return null;
   if (relative.householdId !== filer.householdId) return null;
-  if (ageOn(relative.birthDate, core.date) < RULES.adultAge.value) return null;
+  if (ageOn(relative.birthDate, core.date) < P.votingAge) return null;
   const household = core.households.get(filer.householdId);
   if (!household) return null;
   const members = [...household.memberIds]

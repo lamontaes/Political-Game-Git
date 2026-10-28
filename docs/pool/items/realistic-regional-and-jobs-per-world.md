@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/realistic-regional-and-jobs
+pr: #6593
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+claimed-at: 2026-10-28T05:27:53.451Z
 ---
 
 **What.** Rows 3, 4 and 10 to 13 of docs/reports/real-statistics-in-play-2026-10-27.md: regional unemployment, jobs, pay, income, price parity and sector mix; age unemployment ratios; employment-to-population; OEWS pay centers; sector mix; place earnings. Each opens on the published value. The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed.

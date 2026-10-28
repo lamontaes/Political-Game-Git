@@ -7,7 +7,7 @@ import { hasBackdrop } from "./backdrop-places";
 import {
   homeOf,
   orgPlace,
-  personBackdrop,
+  backdropFor,
   pictureFor,
   stagePeople,
   type StageReason,
@@ -146,7 +146,11 @@ export function storyScene(
   const cast = [
     personId,
     ...scene.presentIds.filter(
-      (id) => id !== personId && core.people.get(id)?.alive,
+      (id) =>
+        id !== personId &&
+        core.people.get(id)?.alive &&
+        // A speech heard is on the screen at home, not in the room.
+        id !== scene.speech?.speakerId,
     ),
   ].flatMap((id) => {
     const reason = reasonOf(id);
@@ -155,10 +159,15 @@ export function storyScene(
       ? [{ id, name: `${row.givenName} ${row.familyName}`, reason }]
       : [];
   });
+  const speaker = scene.speech
+    ? core.people.get(scene.speech.speakerId)
+    : undefined;
   const talk =
     purpose?.kind === "composed"
       ? {
-          typeKey: purpose.scene.typeKey,
+          // The exchange the player's replies name: a scene, or one of the
+          // bills the day's sitting took in.
+          typeKey: purpose.scene.unit ?? purpose.scene.typeKey,
           purpose: purpose.scene.purpose,
           askerId: purpose.scene.askerId,
           opening: [
@@ -173,7 +182,7 @@ export function storyScene(
   return {
     momentId,
     place: pictured,
-    backdrop: personBackdrop(core, personId, pictured, minuteOfDay),
+    backdrop: backdropFor(core, pictured, minuteOfDay, personId),
     people: stagePeople(core, pictured, cast).people,
     narration: [
       ...scene.narration,
@@ -186,9 +195,16 @@ export function storyScene(
         : []),
     ],
     talkToId: scene.talkToId,
+    // A speech heard plays in its speaker's own words, from its record.
+    ...(scene.speech ? { speech: scene.speech } : {}),
     talk,
     ...(purpose?.kind === "skipped" ? { talkSkipped: purpose.reason } : {}),
-    names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
+    names: Object.fromEntries([
+      ...cast.map((row) => [row.id, row.name]),
+      ...(scene.speech && speaker
+        ? [[speaker.id, `${speaker.givenName} ${speaker.familyName}`]]
+        : []),
+    ]),
   };
 }
 

@@ -47,7 +47,7 @@ import {
   type IndependentRecord,
   type SignatureIssue,
 } from "../officials-roster";
-import { recordPresident } from "../officials-president";
+import { nationalHomeState, recordPresident } from "../officials-president";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { filingRequirements } from "./elections";
 import { VIEWS_DATA, stanceOn } from "./views";
@@ -418,6 +418,7 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
       electionYear?: number;
     };
     const bodyKind = bodyKindOf(office.kind);
+    const party = unrecordedParty(api, term, office.kind, townState);
     out.push({
       key: term.seatId,
       seatId: term.seatId,
@@ -425,11 +426,14 @@ function specs(api: CoreAPI, seed: string, townState: string): Spec[] {
       body: bodyOf(office.jurisdiction, office.kind),
       bodyKind,
       officeKind: office.kind,
+      // A national official lives in their home state, never the player's.
       stateKey: term.identity.homeState.startsWith("US-")
         ? term.identity.homeState
-        : townState,
+        : term.identity.homeState === "US"
+          ? `US-${nationalHomeState(seed, office.kind, party.party).usps}`
+          : townState,
       district: seat?.district ?? null,
-      ...unrecordedParty(api, term, office.kind, townState),
+      ...party,
       serviceStart: term.serviceStart ?? term.startDate,
       nextElectionYear: seat?.electionYear ?? office.nextElectionYear ?? null,
       termYears: office.termYears,
@@ -1203,11 +1207,14 @@ export function officialParts(
   );
   const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
-    (sum, s) => sum + supportAt(row.districtLean, s.question) * s.position,
+    (sum, s) =>
+      sum +
+      supportAt(row.districtLean, s.question, api.state.seed) * s.position,
     0,
   );
   const state = stances.reduce(
-    (sum, s) => sum + supportAt(row.stateLean, s.question) * s.position,
+    (sum, s) =>
+      sum + supportAt(row.stateLean, s.question, api.state.seed) * s.position,
     0,
   );
   // A member of Congress also weighs what a budget line sends their state
@@ -1222,7 +1229,7 @@ export function officialParts(
             sum +
             Math.max(
               -1,
-              Math.min(1, Math.log2(stateStake(row.stateKey, s.question))),
+              Math.min(1, Math.log2(stateStake(api, row.stateKey, s.question))),
             ) *
               s.position,
           0,
@@ -1278,7 +1285,10 @@ export function officialParts(
   const press =
     weight("press") *
     visibility *
-    stances.reduce((sum, s) => sum + publicOffset(s.question) * s.position, 0);
+    stances.reduce(
+      (sum, s) => sum + publicOffset(s.question, api.state.seed) * s.position,
+      0,
+    );
   return {
     views,
     constituents,

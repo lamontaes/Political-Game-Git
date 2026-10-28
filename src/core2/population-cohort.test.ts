@@ -6,7 +6,7 @@ import { corePlaceStateIdentities } from "./place-lookup";
 import { parameter as p } from "./parameters";
 import { realLocalities } from "./places";
 import { buildPopulation } from "./population";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import type { CoreInput } from "./types";
 
 // The bench's player is a 17-year-old who turns 18 in play (src/bench/world.ts).
@@ -92,7 +92,7 @@ describe("the opening holds the player's cohort", () => {
   // (the opening failed for towns of 3 and 6 residents).
   const tiny = localities.filter((row) => {
     const real = row.sourceGeoid
-      ? placeReferencePopulation(row.sourceGeoid)?.value
+      ? publishedPlaceReferencePopulation(row.sourceGeoid)?.value
       : undefined;
     return real !== undefined && real <= 10;
   });

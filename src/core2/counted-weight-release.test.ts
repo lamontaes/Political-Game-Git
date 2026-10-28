@@ -15,7 +15,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { addDays } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { JOBS_MODULE_ID } from "./modules/jobs";
@@ -153,7 +153,7 @@ function check(where: string, seed: string, key: string, reference: number) {
 }
 
 it("Washington, D.C. at its Census size: a fill-in moves no employer's heads, and the worst staffing ratio stays within a tenth of the sample town's", () => {
-  const reference = placeReferencePopulation(WASHINGTON.key)?.value;
+  const reference = publishedPlaceReferencePopulation(WASHINGTON.key)?.value;
   expect(reference).toBeGreaterThan(LARGE);
   check(
     `Washington, D.C. (${WASHINGTON.key}), seed ${WASHINGTON.seed}`,
@@ -175,7 +175,7 @@ it(
     const pinned = process.env.WEIGHT_RELEASE_SEED;
     if (pinned) {
       const key = process.env.WEIGHT_RELEASE_KEY!;
-      const reference = placeReferencePopulation(
+      const reference = publishedPlaceReferencePopulation(
         corePlaceByKey(key)!.sourceGeoid!,
       )!.value;
       check(
@@ -193,7 +193,9 @@ it(
         "world-counted-weight-release",
       );
       const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
-      const reference = geoid ? placeReferencePopulation(geoid)?.value : null;
+      const reference = geoid
+        ? publishedPlaceReferencePopulation(geoid)?.value
+        : null;
       if (!reference || reference <= LARGE || draw.key === WASHINGTON.key) {
         tried.push(`${draw.name}: ${reference ?? "no population"}`);
         continue;

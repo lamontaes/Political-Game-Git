@@ -9,11 +9,17 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import housingData from "./data/housing/housing.json" with { type: "json" };
+import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { homePriceRatio } from "./housing-prices";
 import { advanceCore } from "./life";
-import { ownedHomes, rentValueOf, valueDateOf } from "./modules/housing";
+import {
+  ownedHomes,
+  publishedRentValueOf,
+  rentValueOf,
+  valueDateOf,
+} from "./modules/housing";
 import { searchCorePlaces } from "./place-lookup";
 import { coreAPI } from "./state";
 
@@ -73,15 +79,21 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
       expect(core.placeMetadata?.housingCounty, where).toBe(
         `nation:${state.slice(3)}`,
       );
+      // This world's owner share sits within its drawn spread of the census
+      // share (owner, Oct 27: realistic, not real), to a point of rounding.
       const own = dwellings.filter((d) => d[1] === "own").length;
       expect(
         Math.abs(own / dwellings.length - row.ownerShare),
         `${where}: owner share`,
-      ).toBeLessThan(0.01);
+      ).toBeLessThan(
+        housingParameters.housingWorldOwnerShareSpreadShare.value *
+          Math.min(row.ownerShare, 1 - row.ownerShare) +
+          0.01,
+      );
       // Rent and value come from the area's own row, and the value is dated
       // at the census (April 2020), so the price index moves it from there to
       // the start for every owner's home.
-      expect(rentValueOf(`nation:${state.slice(3)}`), where).toEqual([
+      expect(publishedRentValueOf(`nation:${state.slice(3)}`), where).toEqual([
         row.medianRentUsd,
         row.medianValueUsd,
       ]);
@@ -93,8 +105,9 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
           dwellings.filter((d) => d[1] === "rent").every((d) => d[2] > 0),
         `${where}: every home has a value or a rent`,
       ).toBe(true);
-      // Owners' median value at the opening is the census value moved by the
-      // price index from April 2020 to the start, not the census value itself.
+      // Owners' median value at the opening is this world's value (drawn
+      // around the census one) moved by the price index from April 2020 to
+      // the start.
       const openingValue = median(
         dwellings.filter((d) => d[1] === "own").map((d) => d[2]),
       );
@@ -102,9 +115,9 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
       // median is the census value indexed to the start, to the minor unit
       // its rounding allows.
       const indexed =
-        row.medianValueUsd *
+        rentValueOf(`nation:${state.slice(3)}`, core.seed)[1]! *
         100 *
-        homePriceRatio(state.slice(3), row.valueDate, core.date);
+        homePriceRatio(state.slice(3), row.valueDate, core.date, core.seed);
       expect(
         Math.abs(openingValue - indexed),
         `${where}: opening median value ${openingValue} against ${indexed}`,

@@ -18,7 +18,7 @@ import { floorDateOf } from "../core2/modules/world-legislating";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFor, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -143,6 +143,14 @@ function floorOf(core: CoreState, bill: BillRow) {
 }
 
 /** Your seat: the bodies you sit on, what you could change, and your bills. */
+/** How a bill's recorded votes came out: the yes and no counts the screens show. */
+function tallyOf(votes: readonly { vote: string }[]) {
+  return {
+    yes: votes.filter((row) => row.vote === "yes").length,
+    no: votes.filter((row) => row.vote === "no").length,
+  };
+}
+
 export function seatView(core: CoreState, personId: string) {
   if (!core.modules.has(LEGISLATURE))
     return {
@@ -157,14 +165,18 @@ export function seatView(core: CoreState, personId: string) {
     api.moduleState(LEGISLATURE).table("bills").rows() as unknown as BillRow[]
   )
     .filter((row) => row.sponsorId === personId)
-    .map((bill) => ({
-      bill,
-      ...floorOf(core, bill),
-      votes: votesOn(api, bill.id).map((row) => ({
-        ...row,
-        name: personName(core, row.memberId),
-      })),
-    }));
+    .map((bill) => {
+      const votes = votesOn(api, bill.id);
+      return {
+        bill,
+        ...floorOf(core, bill),
+        votes: votes.map((row) => ({
+          ...row,
+          name: personName(core, row.memberId),
+        })),
+        tally: tallyOf(votes),
+      };
+    });
   // Each body's own catalog: what its level can pass, with the amount in force.
   const bodies = bodiesOf(core, personId).map((body) => ({
     ...body,
@@ -338,6 +350,7 @@ export function billPaper(core: CoreState, billId: string) {
       ...row,
       name: personName(core, row.memberId),
     })),
+    tally: tallyOf(votesOn(api, bill.id)),
     decision:
       bill.status === "drafted"
         ? null
@@ -392,7 +405,7 @@ export function bodyScene(
   return {
     title: body.title,
     place,
-    backdrop: backdropFile(place, minute),
+    backdrop: backdropFor(core, place, minute),
     ...stagePeople(core, place, cast),
   };
 }
@@ -403,6 +416,7 @@ export function bodyScene(
  * lets a town act (`billCatalog`, never the raw catalog file).
  */
 function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+  const lineNames = budgetLineNames();
   const level =
     bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
   return billCatalog(api, level).map((menu) => ({
@@ -418,7 +432,11 @@ function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
       )
       .map((row) => ({
         kind: row.kind,
-        name: row.name,
+        // A budget line by its name on the budgets screen, never its key.
+        name:
+          (row.kind === "budget-line" &&
+            lineNames[`budget-line:${row.line}`]) ||
+          row.name,
         ...(row.question ? { question: row.question } : {}),
         ...(row.line ? { line: row.line } : {}),
         ...(row.series ? { series: row.series } : {}),

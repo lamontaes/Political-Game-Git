@@ -14,6 +14,8 @@ import index from "../../art/people-engine/v2/hair-on-figures/index.json" with {
 import faceIndex from "../../art/people-engine/v2/faces-on-figures/index.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
 import figures from "../../art/people-engine/v2/index.json" with { type: "json" };
+import poses from "../../art/people-rooms/poses/index.json" with { type: "json" };
+import backs from "../../art/people-engine/v2/figures-back.json" with { type: "json" };
 import { recolorFigure, type FigureColors, type Swatch } from "./figure-colors";
 
 /** Light to dark, then gray and white (presentation, TUNABLE by eye). */
@@ -31,7 +33,8 @@ export const HAIR_SWATCHES: readonly Swatch[] = [
 export const hairSwatch = (id: string) =>
   HAIR_SWATCHES.find((row) => row.id === id);
 
-type View = "front" | "threeq" | "threeqr" | "back";
+/** Painted views: front, three-quarter left and right, back, and for heads turned away, profile (prof) and three-quarter from behind (tqb). */
+type View = "front" | "threeq" | "threeqr" | "back" | "prof" | "tqb";
 interface Piece {
   view: View;
   sex: string;
@@ -92,7 +95,13 @@ function pick<T extends Piece>(
   figure: string,
   angle: string,
   facing: string,
+  /** A pose's own painted view of the head, and whether the piece is flipped with it. */
+  painted?: { view: View; mirror: boolean },
 ): { piece: T; mirror: boolean } | undefined {
+  if (painted) {
+    const piece = list.find((p) => p.view === painted.view);
+    return piece ? { piece, mirror: painted.mirror } : undefined;
+  }
   const wanted: View =
     angle === "back"
       ? "back"
@@ -240,22 +249,72 @@ const isBeard = (r: number, g: number, b: number) => {
   );
 };
 
-const ROWS = new Map(
-  (
-    figures.figures as {
+// Every figure the rooms draw: the set and the people seen from behind.
+interface Row {
+  sex: string;
+  angle: string;
+  facing: string;
+  /** The picture, from this file. */
+  path: URL;
+  /** A pose's painted head view (`-m` flipped), which picks its face and hair. */
+  painted?: { view: View; mirror: boolean };
+}
+const nameOf = (file: string) =>
+  file
+    .split("/")
+    .pop()!
+    .replace(/\.png$/, "");
+// Every figure the rooms draw: the set, the people seen from behind, and the
+// poses painted at furniture (art/people-rooms/poses).
+const ROWS = new Map<string, Row>([
+  ...(
+    [...figures.figures, ...backs.figures] as unknown as {
       file: string;
       sex: string;
       angle: string;
       facing: string;
     }[]
-  ).map((row) => [
-    row.file
-      .split("/")
-      .pop()!
-      .replace(/\.png$/, ""),
-    row,
-  ]),
-);
+  ).map(
+    (row) =>
+      [
+        nameOf(row.file),
+        {
+          ...row,
+          path: new URL(
+            `../../art/people-engine/v2/${row.file}`,
+            import.meta.url,
+          ),
+        },
+      ] as const,
+  ),
+  ...(
+    poses.figures as unknown as {
+      id: string;
+      file: string;
+      sex: string;
+      angle: string;
+      hairView: string;
+    }[]
+  ).map(
+    (pose) =>
+      [
+        pose.id,
+        {
+          sex: pose.sex === "f" ? "female" : "male",
+          angle: pose.angle,
+          facing: "",
+          path: new URL(
+            `../../art/people-rooms/poses/${pose.file}`,
+            import.meta.url,
+          ),
+          painted: {
+            view: pose.hairView.replace(/-m$/, "") as View,
+            mirror: pose.hairView.endsWith("-m"),
+          },
+        },
+      ] as const,
+  ),
+]);
 
 /**
  * A figure as the game draws a person: their face, their skin and clothing
@@ -266,9 +325,7 @@ export function drawnFigure(name: string, colors: FigureColors): Buffer {
   const row = ROWS.get(name);
   if (!row) throw new Error("No such figure.");
   const hairTo = colors.hairColor && hairSwatch(colors.hairColor);
-  let figure: Buffer = readFileSync(
-    new URL(`../../art/people-engine/v2/figures/${name}.png`, import.meta.url),
-  );
+  let figure: Buffer = readFileSync(row.path);
   const face = Number(colors.face);
   const facePick =
     face &&
@@ -277,6 +334,7 @@ export function drawnFigure(name: string, colors: FigureColors): Buffer {
       name,
       row.angle,
       row.facing,
+      row.painted,
     );
   if (facePick) {
     const png = PNG.sync.read(figure);
@@ -303,6 +361,7 @@ export function drawnFigure(name: string, colors: FigureColors): Buffer {
       name,
       row.angle,
       row.facing,
+      row.painted,
     );
   if (!hairPick || !hairTo) return colored;
   const png = PNG.sync.read(colored);

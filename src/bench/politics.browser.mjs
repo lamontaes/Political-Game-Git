@@ -44,13 +44,6 @@ try {
     const r = await response;
     assert.equal(r.status(), 200);
     console.log("Seed:", new URL(r.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
@@ -58,7 +51,7 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   const name = await page.locator("#card-name").innerText();
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     name,
@@ -69,7 +62,7 @@ try {
     .locator('[data-tab="politics"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".government-content").waitFor();
+  await page.locator("#sheet-body .record-section.wide").waitFor();
   assert.equal(
     await page
       .getByRole("button", { name: "Your office", exact: true })
@@ -97,7 +90,9 @@ try {
     );
     if (!first) continue;
     await page.locator(`[data-level="${level}"]`).click();
-    const shown = await page.locator(".government-content").innerText();
+    const shown = await page
+      .locator("#sheet-body .record-section.wide")
+      .innerText();
     assert.ok(
       !/story began/i.test(shown),
       `Politics (${level}): no opening line`,
@@ -139,17 +134,24 @@ try {
       nodes.map((node) => ({ value: node.value, label: node.textContent })),
     );
   assert.ok(options.length > 50, "every state is on the list");
-  const own = await page.locator(".government-content").innerText();
+  const own = await page
+    .locator("#sheet-body .record-section.wide")
+    .innerText();
   const pick = options.find((option) => option.value && option.value !== "");
   await picker.selectOption(pick.value);
   await page.waitForFunction(
     (before) =>
-      document.querySelector(".government-content")?.innerText !== before,
+      document.querySelector("#sheet-body .record-section.wide")?.innerText !==
+      before,
     own,
   );
-  const other = await page.locator(".government-content").innerText();
+  const other = await page
+    .locator("#sheet-body .record-section.wide")
+    .innerText();
   assert.ok(
-    (await page.locator(".government-content .government-body").count()) > 0,
+    (await page
+      .locator("#sheet-body .record-section.wide .record-section")
+      .count()) > 0,
     `${pick.label} lists its chambers`,
   );
   assert.notEqual(other, own, "another state lists its own members");
@@ -176,14 +178,14 @@ try {
       !(await page.locator("#sheet-body").innerText()).includes("undefined"),
     );
     if (tab === "Issues") {
-      await page.locator(".law-card summary").first().click();
-      assert.equal(await page.locator(".law-card[open]").count(), 1);
+      await page.locator("details.entry summary").first().click();
+      assert.equal(await page.locator("details.entry[open]").count(), 1);
     }
     await page.screenshot({
       path: `docs/reports/politics-hub-2026-10-14/${tab.toLowerCase()}.png`,
     });
   }
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   assert.deepEqual(errors, []);
   console.log(
     "PASS government filters, conditional office, every politics tab, law details and unchanged clock",

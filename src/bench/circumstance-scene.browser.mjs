@@ -46,9 +46,6 @@ try {
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
@@ -72,7 +69,18 @@ try {
     if (await page.locator("#talk:not([hidden])").isVisible()) {
       if (shots)
         await page.screenshot({ path: `${shots}/week-${week}-scene.png` });
-      await page.keyboard.press("Escape");
+      // Played to its end: the first reply each time, then Continue or Leave.
+      for (let beat = 0; beat < 20; beat++) {
+        if (!(await page.locator("#talk:not([hidden])").isVisible())) break;
+        const next = page
+          .locator(
+            "#talk-choices .reply, #talk-next:not([hidden]), #talk-leave:not([hidden])",
+          )
+          .first();
+        if (!(await next.isVisible())) break;
+        await next.click();
+        await page.waitForTimeout(800);
+      }
     }
   }
   assert.ok(found, `no scene from circumstance in ${WEEKS} weeks`);
@@ -90,23 +98,12 @@ try {
   assert.doesNotMatch(read.talk, /\b(?:person_|news\.read|jurisdiction_)/);
   assert.doesNotMatch(read.talk, /\d{4}-\d{2}-\d{2}/);
   if (shots) await page.screenshot({ path: `${shots}/circumstance-scene.png` });
-  // The person cast opens the talk; what they say comes from the record.
-  const talk = page
-    .locator("#talk-choices button", { hasText: "Talk" })
-    .first();
-  if (await talk.isVisible()) {
-    const before = await page.locator("#talk").innerText();
-    await talk.click();
-    await page.waitForFunction(
-      (text) => document.getElementById("talk").innerText !== text,
-      before,
-    );
-    const said = await page.locator("#talk").innerText();
-    console.log("Talk:", JSON.stringify(said));
-    assert.doesNotMatch(said, /\b(?:person_|news\.read|jurisdiction_)/);
-    if (shots)
-      await page.screenshot({ path: `${shots}/circumstance-talk.png` });
-  }
+  // The narrator first, then one Continue, then the person cast speaks (owner,
+  // Oct 28 sitting, 36), with no Talk step; what they say comes from the record.
+  assert.doesNotMatch(read.talk, /Talk ·/);
+  const said = await page.locator("#talk").innerText();
+  console.log("Talk:", JSON.stringify(said));
+  assert.doesNotMatch(said, /\b(?:person_|news\.read|jurisdiction_)/);
   assert.deepEqual(errors, []);
   console.log("OK");
 } finally {

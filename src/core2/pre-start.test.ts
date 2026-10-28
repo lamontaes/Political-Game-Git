@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { piecesInput, piecesSource } from "./core-pieces-fixture";
 import { createLifeCore } from "./life";
 import { PEOPLE_MODULE_ID } from "./modules/people";
+import { SCHOOL_MODULE_ID } from "./modules/school";
 import {
   coarseSteps,
   preStartHistory,
@@ -9,6 +10,7 @@ import {
   runPreStart,
   type PreStartModule,
 } from "./pre-start";
+import { defaultPreStart, preStartFromYear } from "./saves";
 
 describe("history before the start", () => {
   it("runs passes economy first, then governments, with records dated before day one", () => {
@@ -60,6 +62,7 @@ describe("history before the start", () => {
     expect(runPreStart(core, window)).toEqual([
       "fixture-macro",
       PEOPLE_MODULE_ID,
+      SCHOOL_MODULE_ID,
       "fixture-budgets",
     ]);
     expect(seen[0]).toBe("economy");
@@ -74,6 +77,24 @@ describe("history before the start", () => {
       facts: { lastPriceIndex: 100 + months.length - 1 },
     });
     expect(() => runPreStart(core, window)).toThrow(/already/);
+  });
+
+  it("starts a world with no player at its youngest adult's birth year", () => {
+    const core = createLifeCore(piecesInput());
+    const adults = [...core.people.values()].filter(
+      (person) =>
+        Number(core.date.slice(0, 4)) - Number(person.birthDate.slice(0, 4)) >=
+        18,
+    );
+    const youngest = adults
+      .map((person) => person.birthDate)
+      .sort()
+      .at(-1)!;
+    expect(preStartFromYear(core)).toBe(Number(youngest.slice(0, 4)));
+    expect(defaultPreStart(core)).toEqual({
+      from: `${youngest.slice(0, 4)}-01-01`,
+      step: "quarter",
+    });
   });
 
   it("refuses a record dated on or after the start", () => {

@@ -32,6 +32,7 @@ interface PackCondition {
   readonly prevalence: readonly PrevalenceBand[];
   readonly bySex?: { readonly male: number; readonly female: number };
   readonly mortalityWeight: { readonly value: number; readonly status: string };
+  /** Read only by the old engine's condition onsets; goes with src/simulation. */
   readonly onsetScale: {
     readonly value: number;
     readonly status: string;
@@ -66,6 +67,19 @@ export function conditionLabel(key: string): string | null {
  * past the last it holds. The infant row covers the first year of life only.
  */
 export function conditionPrevalence(
+  condition: PackCondition,
+  age: number,
+  category: MortalityCalibrationCategory,
+  /** The world's chronic-condition factor (world-base-rates.ts); one is the published table. */
+  worldFactor = 1,
+): number {
+  return Math.min(
+    1,
+    conditionPublished(condition, age, category) * worldFactor,
+  );
+}
+
+function conditionPublished(
   condition: PackCondition,
   age: number,
   category: MortalityCalibrationCategory,
@@ -129,6 +143,8 @@ export function startingConditionAssignments(
    * and personality decides only who.
    */
   behaviorSlopes: ReadonlyMap<string, number> = new Map(),
+  /** The world's chronic-condition factor (world-base-rates.ts). */
+  worldFactor = 1,
 ): ReadonlyMap<EntityId, readonly string[]> {
   const assignments = new Map<EntityId, string[]>(
     subjects.map(({ personId }) => [personId, []]),
@@ -174,7 +190,13 @@ export function startingConditionAssignments(
       // is sourced.
       const expected = cell.reduce(
         (total, person) =>
-          total + conditionPrevalence(condition, person.age, person.category),
+          total +
+          conditionPrevalence(
+            condition,
+            person.age,
+            person.category,
+            worldFactor,
+          ),
         0,
       );
       const owed = expected + (carried.get(condition.key) ?? 0);
@@ -227,8 +249,6 @@ interface SeverityGrade {
 export const SEVERITY_GRADES: readonly SeverityGrade[] =
   pack.severityGrades.grades;
 const AGE_FACTOR = pack.ageFactor;
-/** The scale at which the life table's hazard counts as strain (./mortality.ts). */
-export const BASE_RATE_SCALE: number = pack.baseRateScale.value;
 
 /**
  * The grade this person holds a condition at: their seeded place among the

@@ -16,7 +16,6 @@ import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
 } from "./opening-outside-market";
-import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import type { FinanceContractInput } from "./finance-types";
 import { FinanceReadGuard } from "./finance-plan";
 import {
@@ -39,6 +38,8 @@ import type {
 } from "./types";
 import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
 import schools from "./data/opening-public-schools.json" with { type: "json" };
+import { worldLevel } from "./world-draw";
+import { parameter } from "./parameters";
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -112,8 +113,6 @@ export interface ResidentsInput {
   accounts: readonly { placeId: PlaceId; accountId: string }[];
   households: readonly ResidentHouseholdRecord[];
   flows: readonly ResidentFlowInput[];
-  /** Each class and workgroup's size in the full build, by `${circle}|${contextKey}` (PEOPLE's peerCohortSize). */
-  cohortSizes?: Readonly<Record<string, number>>;
   /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
   calendars?: readonly WorkPayrollCalendarInput[];
   /**
@@ -122,16 +121,6 @@ export interface ResidentsInput {
    * place for one each). Every reader of a count multiplies by it.
    */
   weights?: Readonly<Record<PlaceId, number>>;
-  /**
-   * Counted people carry no deep past: fill-in rebuilds a household's from
-   * the world's seed and start date (deep past depends on nobody else).
-   */
-  pastBuild?: {
-    seed: string;
-    startedAt: IsoDate;
-    /** Per person, how many of their facts came before deep past. */
-    deepPastAt: Readonly<Record<string, number>>;
-  };
   source: Source;
 }
 
@@ -275,6 +264,27 @@ export interface CollapseOptions {
   unplacedWorkerIncome?: boolean;
   /** Real households each counted household of a place stands for (see `ResidentsInput.weights`). */
   weights?: Readonly<Record<PlaceId, number>>;
+}
+
+/** The median annual earnings (dollars) of a place's workers in the ACS 2024 table; undefined where the sample is too thin (calibration). */
+export function publishedPlaceEarnings(placeKey: string): number | undefined {
+  return (PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>)[placeKey];
+}
+
+/** This world's median earnings for a place: the published median moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+export function placeEarningsOf(
+  placeKey: string,
+  seed: string,
+): number | undefined {
+  const published = publishedPlaceEarnings(placeKey);
+  return published === undefined
+    ? undefined
+    : worldLevel(
+        published,
+        seed,
+        `place-earnings:${placeKey}`,
+        "jobsWorldPlaceEarningsSpreadShare",
+      );
 }
 
 export function collapseToTwoLevels(
@@ -764,9 +774,10 @@ export function collapseToTwoLevels(
   // place's own where its sample is firm enough), else the town's median
   // recorded wage. Many unplaced workers commute, so the town's own firms'
   // pay isn't theirs.
-  const placeEarnings = (
-    PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>
-  )[input.placeMetadata?.placeKey ?? ""];
+  const placeEarnings = placeEarningsOf(
+    input.placeMetadata?.placeKey ?? "",
+    input.seed,
+  );
   const median = placeEarnings
     ? placeEarnings * 100
     : (annualWages[Math.floor(annualWages.length / 2)] ?? 0);
@@ -774,7 +785,11 @@ export function collapseToTwoLevels(
     let n = 0;
     for (const id of ids) {
       const born = peopleById.get(id)?.birthDate;
-      if (born && Number(start.slice(0, 4)) - Number(born.slice(0, 4)) >= 18)
+      if (
+        born &&
+        Number(start.slice(0, 4)) - Number(born.slice(0, 4)) >=
+          parameter("votingAge")
+      )
         n++;
     }
     return n;
@@ -879,26 +894,16 @@ export function collapseToTwoLevels(
     }
   }
 
-  const deepPastAt: Record<string, number> = {};
   const households: ResidentHouseholdRecord[] = collapsedHomes.map((home) => ({
     household: home,
-    // Nobody in the counts has a past until they're filled in.
-    // Their upbringing is kept; deep past is rebuilt at fill-in, in place
-    // (facts written after deep past, e.g. retirement history, follow it).
+    // Nobody in the counts has a run past until they're filled in (the
+    // engines' pre-start passes write it then); their upbringing is kept.
     // Nor where they learned each name they know: fill-in rebuilds that from
     // their past (MEMORY-FLAT; modules/residents.ts, knownSources).
     people: home.memberIds.map((id) => {
       const { knownIdSources: _sources, ...row } = peopleById.get(id)!;
       void _sources;
-      const deep = `${row.id}:${DEFAULT_DEEP_PAST_DATA.version}:`;
-      const facts = row.pastFacts ?? [];
-      const first = facts.findIndex((fact) => fact.id.startsWith(deep));
-      if (first < 0) return row;
-      deepPastAt[row.id] = first;
-      return {
-        ...row,
-        pastFacts: facts.filter((fact) => !fact.id.startsWith(deep)),
-      };
+      return row;
     }),
     jobs: home.memberIds.flatMap((id) => jobsByPerson.get(id) ?? []),
     workCommitments: home.memberIds.flatMap(
@@ -941,18 +946,10 @@ export function collapseToTwoLevels(
       row.personIds.every((id) => keep.has(id)),
     ),
     focusPersonIds: input.focusPersonIds.filter((id) => keep.has(id)),
-    priorFactsSource: (input.priorFactsSource ?? []).filter((row) =>
-      keep.has(row.personId),
-    ),
     husks: [...husks.values()],
     ...(input.finance ? { finance: { ...input.finance, contracts } } : {}),
     residents: {
       version: "core2-residents-v1",
-      pastBuild: {
-        seed: input.seed,
-        startedAt: makeIsoDate(input.startedAt),
-        deepPastAt,
-      },
       accounts: [...accountByPlace].map(([placeId, accountId]) => ({
         placeId,
         accountId,

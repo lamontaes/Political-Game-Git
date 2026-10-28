@@ -31,19 +31,48 @@ try {
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 300000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
   console.log("Place:", await page.locator("#card-place").innerText());
   let narration = false;
   let conversation = false;
-  for (let turn = 0; turn < WEEKS * 4 && !narration; turn++) {
+  // The narrator speaks first and alone; Continue, then the person (owner,
+  // Oct 28 sitting, 36).
+  let narratorFirst = false;
+  for (
+    let turn = 0;
+    turn < WEEKS * 4 && !(narration && narratorFirst);
+    turn++
+  ) {
     if (await shown("talk")) {
       const replies = await page.locator("#talk-choices .reply").count();
-      if (!replies) {
+      const lines = await page.locator("#talk-lines > li").count();
+      const narrated = await page.locator("#talk-lines > li.narration").count();
+      if (!replies && lines && narrated === lines && !narratorFirst) {
+        assert.ok(await shown("talk-next"), "no Continue after the narrator");
+        if (shots)
+          await page.screenshot({ path: `${shots}/talk-narrator-first.png` });
+        await page.locator("#talk-next").click();
+        await page.waitForTimeout(1500);
+        if (await shown("talk")) {
+          const after = await page
+            .locator("#talk-lines > li.narration")
+            .count();
+          const spoken = await page.locator("#talk-lines > li.speech").count();
+          if (spoken > after) {
+            narratorFirst = true;
+            console.log(
+              "Then:",
+              (await page.locator("#talk-lines").innerText()).slice(0, 200),
+            );
+            if (shots)
+              await page.screenshot({ path: `${shots}/talk-then-person.png` });
+          }
+        }
+        continue;
+      }
+      if (!replies && !narration) {
         // Nothing to answer: Continue alone, at the bottom left of the box.
         narration = true;
         assert.ok(await shown("talk-next"), "no Continue");
@@ -63,10 +92,13 @@ try {
         if (shots)
           await page.screenshot({ path: `${shots}/talk-narration.png` });
         await page.locator("#talk-next").click();
-        await page.waitForFunction(
-          () => document.getElementById("talk").hidden,
-        );
-        break;
+        await page.waitForTimeout(1500);
+        continue;
+      }
+      if (!replies) {
+        await page.locator("#talk-next").click();
+        await page.waitForTimeout(1500);
+        continue;
       }
       // A beat with replies: no Continue in the box.
       assert.equal(await shown("talk-next"), false, "Continue beside replies");
@@ -96,9 +128,10 @@ try {
   }
   console.log("Clock:", await page.locator("#card-clock").innerText());
   assert.ok(narration, `no narration beat in ${WEEKS} weeks`);
+  assert.ok(narratorFirst, `no narrator-then-person beat in ${WEEKS} weeks`);
   assert.deepEqual(errors, []);
   console.log(
-    `PASS narration shows Continue alone, bottom left${conversation ? "; replies showed no Continue" : ""}`,
+    `PASS narration shows Continue alone, bottom left; the narrator speaks first, then the person${conversation ? "; replies showed no Continue" : ""}`,
   );
 } finally {
   await browser.close();

@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
-import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { applyCoreEvent } from "../core2/state";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { buildPopulation } from "../core2/population";
-import type { CoreState } from "../core2/types";
+import { sharedHistory } from "../core2/shared-history";
+import type { CoreState, PersonId } from "../core2/types";
 import { composeJournal, composeLookBack } from "./journal";
 import { JOURNAL_WORDS } from "../english/journal-words";
 import { createDirector, type Director } from "./ledger";
@@ -18,16 +18,14 @@ import type { Moment } from "./types";
 // relation, no school or workplace as an entry by itself, nothing invented.
 const seed = process.env.GOLDEN_PATH_SEED ?? "journal-test";
 const base = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(process.env.GOLDEN_PATH_SEED
-        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-        : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 400,
-    }),
-  ),
+  buildPopulation({
+    seed,
+    ...(process.env.GOLDEN_PATH_SEED
+      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+      : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 400,
+  }),
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
@@ -737,41 +735,49 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     ).toEqual([]);
   });
 
-  it("never titles a chapter by a school, and remembers a schoolmate who matters later", () => {
-    // Owner, Oct 14: school years are not entries unless something happened;
-    // a schoolmate who becomes important is remembered as their story.
-    // A watched person who remembers a schoolmate: the player, or another
-    // the story follows (a player grown up long since may have none recorded).
-    const remembers = (id: string) =>
-      (core.people.get(id)?.pastFacts ?? []).find(
-        (fact) =>
-          fact.kind === "social:generated-school-acquaintance" &&
-          fact.facts?.contextFactId &&
-          core.people.get(id)!.knownIds.has(fact.facts?.otherPersonId ?? ""),
-      );
+  it("never titles a chapter by an employer, and remembers a coworker who matters later", () => {
+    // Owner, Oct 14: settings are not entries unless something happened; a
+    // coworker who becomes important is remembered as their story. Who the
+    // coworkers are is the employer's staff (the jobs engine's records), not
+    // a generated fact (engine map line 12).
+    const mateOf = (id: string) =>
+      [...(core.people.get(id)?.knownIds ?? [])]
+        .sort()
+        .find((other) =>
+          sharedHistory(core, id as PersonId, other as PersonId).some(
+            (row) => row.kind === "coworker",
+          ),
+        );
     const holderId = [
       player.id,
       ...[...director.ledger.people.keys()].sort(),
-    ].find((id) => remembers(id))!;
-    expect(holderId, "nobody watched remembers a schoolmate").toBeDefined();
+    ].find(
+      (id) =>
+        mateOf(id) &&
+        (core.people.get(id)?.pastFacts ?? []).some(
+          (fact) => fact.kind === "work:opening",
+        ),
+    )!;
+    expect(holderId, "nobody watched knows a coworker").toBeDefined();
     const person = core.people.get(holderId)!;
-    const mate = remembers(holderId)!;
-    const school = (person.pastFacts ?? []).find(
-      (fact) => fact.id === mate.facts!.contextFactId,
+    const mateId = mateOf(holderId)!;
+    const employerId = core.jobs.get(person.jobId!)!.organizationId;
+    const setting = (person.pastFacts ?? []).find(
+      (fact) => fact.kind === "work:opening",
     )!;
     const moment: Moment = {
-      id: `${holderId}:${school.date}:past:${school.id}:${school.kind}`,
+      id: `${holderId}:${setting.date}:past:${setting.id}:${setting.kind}`,
       personId: holderId,
-      date: makeIsoDate(school.date),
-      label: `past:${school.kind}`,
+      date: makeIsoDate(setting.date),
+      label: `past:${setting.kind}`,
       causeId: holderId,
-      causeFactId: school.id,
-      causeKind: school.kind,
+      causeFactId: setting.id,
+      causeKind: setting.kind,
       counterpartIds: [],
       impact: 1,
       channels: [],
       hindsight: 1,
-      hindsightAt: makeIsoDate(school.date),
+      hindsightAt: makeIsoDate(setting.date),
       echoes: [],
     };
     const book = director.ledger.people.get(holderId)!;
@@ -783,7 +789,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       },
     } as Director;
     // The holder's household past is told whatever else the ledger holds;
-    // the school's moment adds nothing to it.
+    // the setting's moment adds nothing to it.
     const family = new Set(
       composeJournal(
         core,
@@ -806,19 +812,19 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         composeJournal(core, fixture, holderId, { officeOf: () => undefined }),
       ),
     ).toEqual([]);
-    // Years later the schoolmate holds office: they are remembered, in a
-    // chapter the school does not title.
+    // Years later the coworker holds office: they are remembered, in a
+    // chapter the employer does not title.
     const mayor = { text: "Mayor", sourceRecordIds: ["fixture-term"] };
     const chapters = composeJournal(core, fixture, holderId, {
-      officeOf: (id) => (id === mate.facts!.otherPersonId ? mayor : undefined),
+      officeOf: (id) => (id === mateId ? mayor : undefined),
     });
-    const schoolName = String(school.facts?.schoolName ?? "");
+    const employerName = core.organizations.get(employerId)!.name;
     for (const chapter of chapters)
-      if (schoolName) expect(chapter.title).not.toContain(schoolName);
+      expect(chapter.title).not.toContain(employerName);
     const lines = beyond(chapters) as (typeof chapters)[number]["lines"];
     expect(lines).toHaveLength(1);
     expect(lines[0]!.text).not.toMatch(/^Except/);
     expect(lines[0]!.text).toMatch(/mayor/);
-    expect(lines[0]!.sourceRecordIds).toContain(mate.id);
+    expect(lines[0]!.sourceRecordIds).toContain(employerId);
   });
 });

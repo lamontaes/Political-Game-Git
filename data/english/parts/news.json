@@ -46,7 +46,8 @@
     "area": "The region a rate is measured for (a metro area, or the state), by name.",
     "unemployment_rate": "The country's unemployment rate, as a number of percent, from the macro month record.",
     "wage_growth": "How much average hourly pay grew over the year, as a number of percent, from two macro month records.",
-    "quote": "One sentence of an address, as the record quotes it."
+    "quote": "One sentence of an address, as the record quotes it.",
+    "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record."
   },
   "maxWords": 14,
   "mining": {
@@ -1706,6 +1707,28 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.jobs-report.outside-states-largest-cities-unemployment-stands-at",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "Outside {outside} largest cities, unemployment stands at {percent} percent.",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "news",
+          "role": "jobs-report",
+          "choice": "lede"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Opus (Words: the area a jobs rate covers, said as a reader would)",
+      "date": "2026-10-28",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

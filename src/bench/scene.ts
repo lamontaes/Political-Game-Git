@@ -1,3 +1,5 @@
+import { servingTermsOf } from "../core2/modules/offices";
+import { hash as fnv } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
@@ -24,6 +26,7 @@ import {
   ageBandOf,
   figureOn,
   colorsFor,
+  headOf,
   pickLook,
   type Figure,
   type FigurePerson,
@@ -122,24 +125,18 @@ const OFFICE_WORK = scenePlaces.officeWorkplaces as unknown as Record<
   readonly string[]
 >;
 
-/** The kinds of office a person is serving in now (core2-offices-v1 terms). */
+/** The kinds of office a person is serving in now. */
 function servingOfficeKinds(core: CoreState, personId: string): string[] {
-  if (!core.modules.has(OFFICES)) return [];
-  const state = coreAPI(core).moduleState(OFFICES);
-  return (
-    state.table("terms").query("byPerson", [personId]) as unknown as {
-      status: string;
-      officeId: string;
-    }[]
-  )
-    .filter((term) => term.status === "serving")
-    .map(
-      (term) =>
-        (
-          state.table("offices").get(term.officeId) as
-            { kind?: string } | undefined
-        )?.kind ?? "",
-    );
+  const state = core.modules.has(OFFICES)
+    ? coreAPI(core).moduleState(OFFICES)
+    : null;
+  return servingTermsOf(coreAPI(core), personId).map(
+    (term) =>
+      (
+        state?.table("offices").get(term.officeId) as
+          { kind?: string } | undefined
+      )?.kind ?? "",
+  );
 }
 
 const COURTHOUSES = scenePlaces.courthouseByState as unknown as Record<
@@ -311,18 +308,36 @@ export function roomCondition(core: CoreState, personId: string): string[] {
   return ["lived-in"];
 }
 
-/** The picture for a place the person is in: at home, painted in their household's condition. */
-export function personBackdrop(
+const REGIONS = scenePlaces.regionalVariants as unknown as Record<
+  string,
+  readonly string[]
+>;
+/** The town's regional rebuilds of a place (region-new-england, region-alaska), from its state. stopgapId: SG-PLAY-region-states */
+function regionVariants(core: CoreState): string[] {
+  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  return Object.entries(REGIONS)
+    .filter(
+      ([variant, states]) => variant !== "about" && states.includes(state),
+    )
+    .map(([variant]) => variant);
+}
+
+/**
+ * The picture for a place in this world: the town's regional rebuild of it
+ * where one is painted, and at the person's home, the household's condition.
+ */
+export function backdropFor(
   core: CoreState,
-  personId: string,
   place: string,
   minuteOfDay: number,
+  personId?: string,
 ) {
-  return backdropFile(
-    place,
-    minuteOfDay,
-    homeRooms(core, personId).has(place) ? roomCondition(core, personId) : [],
-  );
+  return backdropFile(place, minuteOfDay, [
+    ...(personId && homeRooms(core, personId).has(place)
+      ? roomCondition(core, personId)
+      : []),
+    ...regionVariants(core),
+  ]);
 }
 
 /** Which room of the home a person is in at this minute of the day. */
@@ -335,9 +350,7 @@ function roomAt(minuteOfDay: number): Room {
 
 /** A stable pick from a list by an id, so the same home always looks the same. */
 function pickFor(id: string, options: readonly string[]): string {
-  let hash = 2166136261;
-  for (const char of id)
-    hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0;
+  const hash = fnv(id);
   return options[hash % options.length]!;
 }
 
@@ -546,6 +559,24 @@ export function backdropFile(
   };
 }
 
+/**
+ * Who works at an organization: its full people with an open job (living,
+ * sorted) and the counted residents still in the counts whose job is there,
+ * not filled in yet. The one reader of a workplace's staff for scenes and
+ * the town's places.
+ */
+export function staffOf(core: CoreState, organizationId: string) {
+  const full = [...core.jobs.values()]
+    .filter((row) => row.organizationId === organizationId && !row.endsAt)
+    .map((row) => row.personId)
+    .filter((id) => core.people.get(id)?.alive);
+  const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
+    .filter((row) => row.organizationId === organizationId)
+    .map((row) => row.personId)
+    .filter((id) => !core.people.has(id));
+  return { full: full.sort(), counted: counted.sort() };
+}
+
 /** Who is there: the household at home, coworkers at work, else the act's other person. */
 export function presentIds(
   core: CoreState,
@@ -559,25 +590,13 @@ export function presentIds(
   if (why === "work-shift" || why === "attend-scheduled-work-date-segment") {
     const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
     if (!job) return [];
-    const full = [...core.jobs.values()]
-      .filter(
-        (row) =>
-          row.organizationId === job.organizationId &&
-          row.personId !== personId &&
-          !row.endsAt,
-      )
-      .map((row) => row.personId)
-      .filter(alive)
-      .sort();
+    const staff = staffOf(core, job.organizationId);
+    const full = staff.full.filter((id) => id !== personId);
     // Two-level world: coworkers still in the counts are met here, so they
     // are filled in (OPUS-CORE's fillInPerson), up to the room's spots.
     const room = (backdropStaging(place)?.spots.length ?? 1) - 1;
-    const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
-      .filter((row) => row.organizationId === job.organizationId)
-      .map((row) => row.personId)
-      .sort()
-      .slice(0, Math.max(room - full.length, 0));
-    for (const id of counted) if (!core.people.has(id)) fillInPerson(core, id);
+    const counted = staff.counted.slice(0, Math.max(room - full.length, 0));
+    for (const id of counted) fillInPerson(core, id);
     return [...full, ...counted.filter(alive)];
   }
   // A bedroom is someone's own room: nobody is drawn in it unless the records
@@ -663,32 +682,18 @@ export function looksOf(core: CoreState, id: string): Looks | null {
 
 /** An official: someone known only by their term, or a resident holding a seat. */
 function isOfficial(core: CoreState, id: string): boolean {
-  if (!core.people.has(id)) return true;
-  const terms = coreAPI(core).moduleState(OFFICES).table("terms");
-  return (
-    terms.query("byPerson", [id]) as unknown as { status: string }[]
-  ).some((row) => row.status === "serving");
+  return !core.people.has(id) || servingTermsOf(coreAPI(core), id).length > 0;
 }
 
 /** The kinds of office someone serves in: by their own term, or by the person's serving terms. */
 function officeKinds(core: CoreState, id: string): string[] {
   if (!core.modules.has(OFFICES)) return [];
   const state = coreAPI(core).moduleState(OFFICES);
-  const terms = state.table("terms");
-  const own = terms.get(id) as { officeId: string } | undefined;
-  const serving = own
-    ? [own]
-    : (
-        terms.query("byPerson", [id]) as unknown as {
-          officeId: string;
-          status: string;
-        }[]
-      ).filter((row) => row.status === "serving");
-  return serving.flatMap((row) => {
-    const office = state.table("offices").get(row.officeId) as
-      { kind: string } | undefined;
-    return office ? [office.kind] : [];
-  });
+  const own = state.table("terms").get(id) as { officeId: string } | undefined;
+  if (!own) return servingOfficeKinds(core, id);
+  const office = state.table("offices").get(own.officeId) as
+    { kind: string } | undefined;
+  return office ? [office.kind] : [];
 }
 
 /**
@@ -751,14 +756,7 @@ export function stagePeople(
       unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
-    const who: Who = {
-      id,
-      birthDate: looks.birthDate,
-      ...(looks.gender ? { gender: looks.gender } : {}),
-      official: isOfficial(core, id),
-      ...(looks.seed ? { seed: looks.seed } : {}),
-      ...(looks.look ? { look: looks.look } : {}),
-    };
+    const who = whoOf(core, id, looks);
     const look = pickLook(core, who, place);
     if (!look) {
       unplaced.push({ personId: id, reason: "no-whole-figure" });
@@ -883,6 +881,48 @@ export function hides(
 }
 
 type Who = FigurePerson;
+/** A person as the figures read them: age, sex, seed, chosen look and office. */
+function whoOf(core: CoreState, id: string, looks: Looks): Who {
+  return {
+    id,
+    birthDate: looks.birthDate,
+    ...(looks.gender ? { gender: looks.gender } : {}),
+    official: isOfficial(core, id),
+    ...(looks.seed ? { seed: looks.seed } : {}),
+    ...(looks.look ? { look: looks.look } : {}),
+  };
+}
+
+/** A person's face for a map or list: their front figure in their own colors, and where its head is. */
+export interface PersonFace {
+  url: string;
+  /** The head in the figure's pixels: top, middle and width. */
+  head: readonly [number, number, number];
+  width: number;
+  height: number;
+}
+/** The same figure a room would draw for them in `place`, or null for a child or a look with no measured head. */
+export function faceOf(
+  core: CoreState,
+  id: string,
+  place: string,
+): PersonFace | null {
+  const looks = looksOf(core, id);
+  if (!looks) return null;
+  const who = whoOf(core, id, looks);
+  const look = pickLook(core, who, place);
+  const head = look && headOf(look);
+  if (!look || !head) return null;
+  const colors = new URLSearchParams(
+    colorsFor(who, look.sex, ageBandOf(core, who.birthDate)),
+  ).toString();
+  return {
+    url: `/art/people-engine/v2/${look.file}${colors ? `?${colors}` : ""}`,
+    head,
+    width: look.width,
+    height: look.height,
+  };
+}
 type Turn = NonNullable<Parameters<typeof figureOn>[5]>;
 // Presentation choices, TUNABLE by eye: how far below the lead a spot counts
 // as in front of them, how much farther that makes it, and how near the
@@ -962,7 +1002,7 @@ export function benchScene(
   return {
     place,
     why,
-    backdrop: personBackdrop(core, personId, place, minute),
+    backdrop: backdropFor(core, place, minute, personId),
     people,
     unplaced,
   };

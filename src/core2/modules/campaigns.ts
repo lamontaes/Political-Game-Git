@@ -48,8 +48,13 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  makeIsoDate,
+  daysBetweenText as daysBetween,
+} from "../kernel/dates";
 import { townDistrict } from "../offices-state";
+import { worldLevel } from "../world-draw";
 import { basePlaces } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
@@ -655,13 +660,15 @@ function retell(
   teller: Readonly<PersonState>,
   cause: CauseRow,
 ): void {
+  const adultAge = api.parameter("votingAge");
   const telling = Math.max(
     0,
     leanedScore(api.state, teller, "campaigns.retell", "tell", "keep", 1),
   );
   for (const id of teller.familyIds) {
     const listener = api.state.people.get(id);
-    if (!listener?.alive || ageOn(listener, api.state.date) < 18) continue;
+    if (!listener?.alive || ageOn(listener, api.state.date) < adultAge)
+      continue;
     reach(api, campaign, id, "retold", teller.id, {
       carriesPlatform: cause.agreement !== null,
       weight:
@@ -699,6 +706,7 @@ function townAddresses(api: CoreAPI): {
   readonly list: readonly Address[];
   readonly countedAdults: number;
 } {
+  const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
   const town = townRow(api).townPlaceId;
   const rt = residentsRuntime(core);
@@ -735,7 +743,7 @@ function townAddresses(api: CoreAPI): {
     for (const m of rt!.store.countedMembers(h)) {
       const born = rt!.store.born[m]!;
       if (born < eldest) eldest = born;
-      if (ageOn({ birthDate: born }, date) >= 18) countedAdults += 1;
+      if (ageOn({ birthDate: born }, date) >= adultAge) countedAdults += 1;
     }
     ids.set(h.id, { counted: true, eldest });
   }
@@ -759,13 +767,16 @@ function adultsAt(
   readonly birthDate: string;
   readonly slots: readonly Parameters<typeof atWork>[0][];
 }[] {
+  const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
   const date = api.state.date;
   if (!address.counted) {
     const household = core.households.get(address.id);
     return [...(household?.memberIds ?? [])]
       .map((id) => core.people.get(id))
-      .filter((p): p is PersonState => !!p && p.alive && ageOn(p, date) >= 18)
+      .filter(
+        (p): p is PersonState => !!p && p.alive && ageOn(p, date) >= adultAge,
+      )
       .map((p) => ({
         id: p.id,
         traits: p.traits,
@@ -781,7 +792,7 @@ function adultsAt(
   if (!store || !h || h.gone) return [];
   return store
     .countedMembers(h)
-    .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= 18)
+    .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= adultAge)
     .map((m) => ({
       id: store.ids[m]!,
       traits: store.packedTraits(m),
@@ -1134,15 +1145,42 @@ function standInSeller(api: CoreAPI, purchase: Purchase): string {
   return id;
 }
 
-/** A unit price from the campaign price research, in minor units. */
-function unitPrice(kind: string): number {
+function priceRow(kind: string) {
   const row = (
     unitPrices as unknown as {
-      prices: Record<string, { priceMinorUnits: number }>;
+      prices: Record<string, { priceMinorUnits: number; setByLaw?: boolean }>;
     }
   ).prices[kind];
   if (!row) throw new Error(`No campaign unit price: ${kind}`);
-  return row.priceMinorUnits;
+  return row;
+}
+
+/** A unit price as the campaign price research published it, in minor units: calibration for the world's draw and its checks, never read by play. */
+export function publishedUnitPrice(kind: string): number {
+  return priceRow(kind).priceMinorUnits;
+}
+
+/**
+ * A unit price in this world, in minor units: the published market price
+ * moved by the world's own draw (owner, Oct 27: realistic, not real), never
+ * below one cent. A price the Postal Service or a law sets (postage, a
+ * filing fee) stays as published.
+ */
+export function unitPrice(api: CoreAPI, kind: string): number {
+  const row = priceRow(kind);
+  return row.setByLaw
+    ? row.priceMinorUnits
+    : Math.max(
+        1,
+        Math.round(
+          worldLevel(
+            row.priceMinorUnits,
+            api.state.seed,
+            `campaign-world:price:${kind}`,
+            "campaignWorldUnitPriceSpreadShare",
+          ),
+        ),
+      );
 }
 
 /** Whether a work commitment has its holder at a shift at this minute of this day. */
@@ -1725,9 +1763,10 @@ export function donorReason(
   filingId: string,
   donorId: string,
 ): number {
+  const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
   const donor = api.state.people.get(donorId);
-  if (!donor?.alive || ageOn(donor, api.state.date) < 18)
+  if (!donor?.alive || ageOn(donor, api.state.date) < adultAge)
     return Number.NEGATIVE_INFINITY;
   const why = backingReasons(api, campaign, donor);
   return leanedScore(
@@ -1756,9 +1795,10 @@ export function askForDonation(
   filingId: string,
   donorId: string,
 ): number {
+  const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, filingId);
   const donor = api.state.people.get(donorId);
-  if (!donor?.alive || ageOn(donor, api.state.date) < 18) return 0;
+  if (!donor?.alive || ageOn(donor, api.state.date) < adultAge) return 0;
   const reason = donorReason(api, filingId, donorId);
   const spare =
     donor.liquidMinor -
@@ -1884,8 +1924,10 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const limit = contributionLimit(api, campaign.contestId);
   const minorPerDollar = api.parameter("minorPerDollar");
   const spare =
-    medianTransactionBalance(campaignParameter("outsideDonorIncomeUsd")) *
-    minorPerDollar;
+    medianTransactionBalance(
+      campaignParameter("outsideDonorIncomeUsd"),
+      api.state.seed,
+    ) * minorPerDollar;
   let total = 0;
   for (const place of places) {
     // The share of the place's adults on the candidate's side of the lean
@@ -2163,13 +2205,14 @@ export function whoComes(
   api: CoreAPI,
   campaign: CampaignRow,
 ): readonly string[] {
+  const adultAge = api.parameter("votingAge");
   const core = api.state as CoreState;
   const town = townRow(api).townPlaceId;
   const volunteers = new Set(campaign.volunteerIds);
   return reachablePeople(api, campaign).filter((id) => {
     const person = core.people.get(id);
     if (!person?.alive || person.placeId !== town) return false;
-    if (ageOn(person, api.state.date) < 18) return false;
+    if (ageOn(person, api.state.date) < adultAge) return false;
     if (volunteers.has(id)) return true;
     const why = backingReasons(api, campaign, person);
     const weeklyWork = [...(core.work.commitmentsByPerson.get(id) ?? [])]
@@ -2681,6 +2724,7 @@ export function commissionPoll(
   api: CoreAPI,
   input: { readonly filingId: string; readonly sampleSize: number },
 ): PollRow {
+  const adultAge = api.parameter("votingAge");
   const campaign = campaignFor(api, input.filingId);
   const town = townRow(api).townPlaceId;
   const date = api.state.date;
@@ -2689,7 +2733,9 @@ export function commissionPoll(
   const rt = residentsRuntime(core);
   const frame = [
     ...[...api.state.people.values()]
-      .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= 18)
+      .filter(
+        (p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge,
+      )
       .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
     ...[...(rt?.store.liveHouseholds() ?? [])]
       .filter((h) => h.placeId === town)
@@ -2697,7 +2743,7 @@ export function commissionPoll(
       .filter(
         (m) =>
           !api.state.people.has(rt!.store.ids[m]!) &&
-          ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18,
+          ageOn({ birthDate: rt!.store.born[m]! }, date) >= adultAge,
       )
       .map((m) => ({
         id: rt!.store.ids[m]!,
@@ -2827,7 +2873,7 @@ export function sendMail(
   quiet = false,
 ): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
-  const perPiece = unitPrice("mailer-print") + unitPrice("postage");
+  const perPiece = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
   const { list } = townAddresses(api);
   const pieces = Math.min(list.length, Math.floor(amountMinor / perPiece));
   if (pieces <= 0) return [];
@@ -2899,7 +2945,7 @@ export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
   spend(api, filingId, {
     kind: "event",
     sellerId: venue,
-    amountMinor: unitPrice("event-venue"),
+    amountMinor: unitPrice(api, "event-venue"),
     citation: "An evening's venue at the campaign-unit-prices event-venue row",
   });
   return makeStatements(api, {
@@ -3013,7 +3059,7 @@ export function rivalDay(
   const campaign = campaignFor(api, filingId);
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
-  const richness = cash / (cash + unitPrice("event-venue"));
+  const richness = cash / (cash + unitPrice(api, "event-venue"));
   const known = Math.min(1, campaignRecognition(api, filingId));
   const sociable = Math.max(
     0,
@@ -3239,9 +3285,9 @@ export function campaignTurn(
     eventFundMinor: eventFund,
     pollFundMinor: pollFund,
   });
-  if (eventFund >= unitPrice("event-venue") && daysLeft > 0) {
+  if (eventFund >= unitPrice(api, "event-venue") && daysLeft > 0) {
     eventAudience = holdEvent(api, filingId).length;
-    eventFund -= unitPrice("event-venue");
+    eventFund -= unitPrice(api, "event-venue");
   }
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
   if (pollFund >= campaignParameter("pollMinimumInterviews") * perInterview) {
@@ -3283,12 +3329,6 @@ const contestsSeen = new WeakMap<object, number>();
  * filed to election day. Races are noted when their contest appears (the
  * contests table read only when it has grown) and dropped once decided.
  */
-const daysBetween = (from: string, to: string) =>
-  Math.round(
-    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-      86_400_000,
-  );
-
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
   scheduleTurn(api);
@@ -3341,6 +3381,7 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * reached, over the town's adults of both kinds.
  */
 export function campaignRecognition(api: CoreAPI, filingId: string): number {
+  const adultAge = api.parameter("votingAge");
   const campaign = table(api, "campaigns").get(filingId) as unknown as
     CampaignRow | undefined;
   if (!campaign) return 0;
@@ -3349,7 +3390,7 @@ export function campaignRecognition(api: CoreAPI, filingId: string): number {
   let namedAdults = 0;
   for (const id of core.peopleByPlace.get(town) ?? []) {
     const p = core.people.get(id);
-    if (p?.alive && ageOn(p, api.state.date) >= 18) namedAdults += 1;
+    if (p?.alive && ageOn(p, api.state.date) >= adultAge) namedAdults += 1;
   }
   const heard = (
     table(api, "impressions").query("byCandidate", [

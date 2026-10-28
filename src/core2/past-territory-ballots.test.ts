@@ -5,7 +5,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
-import { PAST_MODULE_ID, type PastElectionRow } from "./past-module";
+import { NEWS_MODULE_ID } from "./modules/news";
+import { parameter } from "./parameters";
 import { coreAPI } from "./state";
 
 const places = territoryBallots.places as Record<
@@ -26,19 +27,32 @@ it("keeps a territory's prior delegate race within the delegate ballots reported
       placeKey: draw.key,
     });
     const api = coreAPI(core);
-    const elections = api
-      .moduleState(PAST_MODULE_ID)
-      .table("elections")
-      .rows() as unknown as PastElectionRow[];
+    // The prior races as the paper printed them in the year before day one.
+    const delegateRaces = api
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows()
+      .map((row) => row.facts as Record<string, string>)
+      .filter(
+        (facts) =>
+          facts.recordKind === "election-result" &&
+          /us-house|delegate/.test(facts.seatId!),
+      )
+      .map((facts) => ({
+        seatId: facts.seatId!,
+        totalVotes: Number(facts.totalVotes),
+      }));
     const where = `seed ${draw.seed}, place ${draw.key} (${usps})`;
-    const delegateRaces = elections.filter((e) =>
-      /us-house|delegate/.test(e.seatId),
-    );
     expect(delegateRaces.length, where).toBeGreaterThan(0);
+    // Each world draws its own count around the reported one (realistic, not
+    // real; owner, Oct 27), within the spread of its parameter row.
+    const most = Math.round(
+      delegate * (1 + parameter("worldPastVotesSpreadShare")),
+    );
     for (const race of delegateRaces) {
       expect(race.totalVotes, `${where}: ${race.seatId}`).toBeGreaterThan(0);
       expect(race.totalVotes, `${where}: ${race.seatId}`).toBeLessThanOrEqual(
-        delegate,
+        most,
       );
     }
     // The territory's own total is the base, not the town's few ballots: the

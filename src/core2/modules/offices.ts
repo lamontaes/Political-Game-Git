@@ -59,7 +59,7 @@ import {
   type VacancyRule,
 } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
-import { createHash } from "node:crypto";
+import { seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -249,7 +249,12 @@ export function enforceIncompatibility(
   }
 }
 
-function servingTermsOf(api: CoreAPI, personId: string): readonly TermRow[] {
+/** The terms a person is serving now: the one reader of "what office does this person hold". */
+export function servingTermsOf(
+  api: CoreAPI,
+  personId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
   return (
     table(api, "terms").query("byPerson", [personId]) as unknown as TermRow[]
   ).filter((term) => term.status === "serving");
@@ -396,6 +401,77 @@ function freshTermId(api: CoreAPI, seatId: string, date: string): string {
   return id;
 }
 
+/** What `seatTerm` writes: the new term, what happens to the terms it replaces, and the record of taking office. */
+export interface SeatTermInput {
+  readonly seatId: string;
+  readonly officeId: string;
+  /** The term's id; a fresh `term:<seat>:<date>` id where omitted. */
+  readonly termId?: string;
+  readonly personId: string | null;
+  readonly identity: TermRow["identity"];
+  readonly party: string | null;
+  readonly startDate: string;
+  readonly endDate: string | null;
+  readonly endEstimated: boolean;
+  readonly reached: string;
+  /** Where given, every term serving on the seat ends on the start date, for this reason. */
+  readonly endsServingBecause?: string;
+  /** Where given, the took-office event the officials and pay engines read. */
+  readonly tookOffice?: {
+    readonly placeId: string;
+    readonly source: Source;
+    readonly news: boolean;
+    readonly facts: Readonly<Record<string, string>>;
+  };
+}
+
+/**
+ * The one writer of a seat's terms: ends the terms serving on the seat (when
+ * asked), puts the new serving term, and emits took-office (when asked).
+ */
+export function seatTerm(api: CoreAPI, input: SeatTermInput): TermRow {
+  const terms = table(api, "terms");
+  if (input.endsServingBecause)
+    for (const term of terms.query("bySeatStatus", [
+      input.seatId,
+      "serving",
+    ]) as unknown as TermRow[])
+      terms.put({
+        ...term,
+        status: "ended",
+        endDate: input.startDate,
+        endEstimated: false,
+        endedBy: input.endsServingBecause,
+      } as unknown as ModuleRow);
+  const term: TermRow = {
+    id: input.termId ?? freshTermId(api, input.seatId, input.startDate),
+    seatId: input.seatId,
+    officeId: input.officeId,
+    personId: input.personId,
+    identity: input.identity,
+    party: input.party,
+    startDate: input.startDate,
+    endDate: input.endDate,
+    endEstimated: input.endEstimated,
+    reached: input.reached,
+    status: "serving",
+  };
+  terms.put(term as unknown as ModuleRow);
+  if (input.tookOffice)
+    api.emit({
+      id: `took-office:${input.seatId}:${input.startDate}`,
+      date: input.startDate,
+      kind: "took-office",
+      personIds: input.personId ? [input.personId] : [],
+      placeId: input.tookOffice.placeId,
+      source: input.tookOffice.source,
+      publicRecord: true,
+      news: input.tookOffice.news,
+      facts: input.tookOffice.facts,
+    });
+  return term;
+}
+
 function putOffice(api: CoreAPI, entry: OfficeWithSeats): void {
   table(api, "offices").put(entry.office as unknown as ModuleRow);
   for (const seat of entry.seats)
@@ -446,8 +522,7 @@ function seatNamedOfficial(
   });
   // stopgapId: SG-GOV-official-identity-only
   api.stopgap("SG-GOV-official-identity-only");
-  const term: TermRow = {
-    id: freshTermId(api, seat.id, date),
+  return seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,
     personId: null,
@@ -463,10 +538,7 @@ function seatNamedOfficial(
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
-    status: "serving",
-  };
-  table(api, "terms").put(term as unknown as ModuleRow);
-  return term;
+  });
 }
 
 function seatResident(
@@ -478,8 +550,7 @@ function seatResident(
   reached: string,
 ): TermRow {
   const person = api.state.people.get(personId)!;
-  const term: TermRow = {
-    id: freshTermId(api, seat.id, date),
+  return seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,
     personId,
@@ -495,10 +566,7 @@ function seatResident(
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
-    status: "serving",
-  };
-  table(api, "terms").put(term as unknown as ModuleRow);
-  return term;
+  });
 }
 
 /** Register the module and seat every office covering the town. */
@@ -733,10 +801,7 @@ function pastTerms(
             : "localOfficialTenureYears";
   const mean = Math.max(0, tenureYears(tenureKey) / years - 0.5);
   const q = mean / (1 + mean);
-  const hash = createHash("sha256")
-    .update(`${worldSeed}:${seat.id}:career`)
-    .digest("hex");
-  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
+  const u = seededUnit(worldSeed, `${seat.id}:career`);
   let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
   // No one first served younger than the minimum age.
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
@@ -850,10 +915,7 @@ function electionBehind(
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
   const [low, high] = tenureSpread(key);
-  const hash = createHash("sha256")
-    .update(`${seatSeed}:${start}:winner-share`)
-    .digest("hex");
-  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
+  const u = seededUnit(seatSeed, `${start}:winner-share`);
   return { date, share: low + (high - low) * u };
 }
 
@@ -1394,6 +1456,101 @@ export function repeatSpecialElection(
       sourceRecordIds: [vacancyId],
     });
   return repeated;
+}
+
+/** End every serving term on a seat today, and say why. */
+export function endServingTerms(
+  api: CoreAPI,
+  seatId: string,
+  endedBy: string,
+): readonly TermRow[] {
+  const terms = table(api, "terms");
+  const serving = terms.query("bySeatStatus", [
+    seatId,
+    "serving",
+  ]) as unknown as TermRow[];
+  for (const term of serving)
+    terms.put({
+      ...term,
+      status: "ended",
+      endDate: api.state.date,
+      endEstimated: false,
+      endedBy,
+    } as unknown as ModuleRow);
+  return serving;
+}
+
+/**
+ * The one term writer for an election's winner, at every level: the town's
+ * own count (`voting.ts`) and the races counted away from the town
+ * (`world-races.ts`) both seat through here. The serving term ends, the
+ * winner's term starts today, a special election fills its vacancy, and the
+ * `took-office` record the officials, elections and offices engines read is
+ * written with the result it cites.
+ */
+export function seatWinner(
+  api: CoreAPI,
+  winner: {
+    readonly seatId: string;
+    readonly officeId: string;
+    readonly personId: string | null;
+    readonly identity: TermRow["identity"];
+    readonly party: string | null;
+    readonly endDate: string | null;
+    readonly reached: string;
+    /** The record the seating cites: the contest or race decided. */
+    readonly resultId: string;
+    /** The office as the record names it. */
+    readonly title: string;
+    /** Who the record calls the winner: a person, a filing or a party's candidate. */
+    readonly winnerId: string;
+    readonly news: boolean;
+    readonly vacancyId?: string;
+    readonly serviceStart?: string;
+  },
+): string {
+  const date = api.state.date;
+  endServingTerms(api, winner.seatId, "term ended");
+  const termId = `term:${winner.seatId}:${date}:elected`;
+  table(api, "terms").put({
+    id: termId,
+    seatId: winner.seatId,
+    officeId: winner.officeId,
+    personId: winner.personId,
+    identity: winner.identity,
+    party: winner.party,
+    startDate: date,
+    ...(winner.serviceStart ? { serviceStart: winner.serviceStart } : {}),
+    endDate: winner.endDate,
+    endEstimated: false,
+    reached: winner.reached,
+    status: "serving",
+  } as unknown as ModuleRow);
+  if (winner.vacancyId) vacancyFilled(api, winner.vacancyId, termId);
+  api.emit({
+    id: `took-office:${winner.seatId}:${date}`,
+    date,
+    kind: "took-office",
+    personIds: winner.personId ? [winner.personId] : [],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Result of ${winner.resultId}`,
+      asOf: date,
+    },
+    publicRecord: true,
+    news: winner.news,
+    facts: {
+      office: winner.title,
+      seatId: winner.seatId,
+      winnerId: winner.winnerId,
+      termId,
+      resultId: winner.resultId,
+    },
+  });
+  return termId;
 }
 
 /** A special election's winner fills the vacancy. */

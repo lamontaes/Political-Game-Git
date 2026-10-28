@@ -26,14 +26,15 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Corporate income tax rate                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Your office                         |
 | Estate tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | part  | n/a  | yes     | yes    | yes       | partly     | Your office                         |
 | Inheritance tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Your office                         |
+| Local income tax authority                   | taxes-finance      | yes    | yes    | yes   | yes     | n/a   | n/a  | yes     | yes    | yes       | wired      | none                                |
 | adopt income tax                             | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | cap property tax growth                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
-| exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
+| exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | graduated income tax                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
-| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office                 |
-| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, Calendar, News |
-| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, Calendar, News |
-| SNAP maximum benefit                         | assistance         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Calendar, Your office       |
+| balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
+| fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
+| minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
+| SNAP maximum benefit                         | assistance         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
 | Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Your office                         |
 | State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Your office                         |
@@ -64,7 +65,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | partner with federal immigration enforcement | justice            | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | end cash bail                                | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Spending: corrections                        | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
-| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
+| restore voting after sentence                | justice            | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | raise juvenile court age                     | justice            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | child access prevention                      | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | permit to carry concealed                    | justice            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
@@ -82,15 +83,14 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | broaden local authority                      | government         | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | legislative term limits                      | government         | yes    | yes    | n/a   | yes     | n/a   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | ban discrimination in housing and work       | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
-| dedicated parks funding                      | rights             | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office                 |
+| dedicated parks funding                      | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | restrict abortion                            | rights             | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | age verification for social media            | technology         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | restrict government facial recognition       | technology         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
-| limit groundwater withdrawal                 | agriculture        | yes    | yes    | part  | yes     | yes   | SG   | yes     | yes    | part      | partly     | Issues, Your office, News           |
-| protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, Calendar, News |
-| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Budgets, Your office, News          |
-| local-income-tax-authority                   | starting law       | yes    | NO     | yes   | yes     | n/a   | n/a  | yes     | yes    | yes       | partly     | none                                |
+| limit groundwater withdrawal                 | agriculture        | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     | Issues, Your office, News           |
+| protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
+| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | none                                |
 | unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | yes  | yes     | n/a    | yes       | wired      | Issues, Calendar                    |
 
@@ -125,25 +125,10 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**exempt groceries from sales tax** (`us-policy-positions:fiscal.exempt-groceries-from-sales-tax`)
+**Local income tax authority** (`local-income-tax-authority`)
 
-- web: no production reader: grocery-exemption-to-food-insecurity (SG-WEB-unread-household-food-insecurity) move only the web's ledger
-
-**balanced operating budget** (`us-policy-positions:fiscal.balanced-operating-budget`)
-
-- web: no production reader: balanced-budget-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger
-
-**fund pensions to schedule** (`us-policy-positions:fiscal.fund-pensions-to-schedule`)
-
-- web: no production reader: pension-funding-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger
-
-**minimum reserve balance** (`us-policy-positions:fiscal.minimum-reserve-balance`)
-
-- web: no production reader: reserve-balance-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger
-
-**SNAP maximum benefit** (`snap-maximum`)
-
-- web: no production reader: snap-maximum-to-food-insecurity (SG-WEB-unread-household-food-insecurity) move only the web's ledger
+- money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax. The grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
+- web: The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own.
 
 **Federal unemployment tax rate** (`federal-unemployment-tax`)
 
@@ -204,7 +189,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
 
 - money: the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it. What it changes is who may vote, read by the board of elections when it builds the roll
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-convictions)
 
 **raise juvenile court age** (`us-policy-positions:justice-public-safety.raise-juvenile-court-age`)
 
@@ -233,10 +217,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - money: term limits bar a legislator who has served the limit from filing again; the statute charges, pays and taxes no one, so no money flows because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**dedicated parks funding** (`us-policy-positions:civil-family-community.dedicated-parks-funding`)
-
-- web: no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger
-
 **age verification for social media** (`us-policy-positions:technology-privacy.age-verification-for-social-media`)
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure youth social media use and mental health (SG-LAW-outcome-link-unresearched)
@@ -248,22 +228,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **limit groundwater withdrawal** (`us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal`)
 
 - reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- web: no production reader: groundwater-limits-to-irrigation-pumping (SG-WEB-unread-water-irrigation-groundwater) move only the web's ledger
 - allPlaces: reached people in one drawn place and not the other
-
-**protect farmland from development** (`us-policy-positions:agriculture-natural-resources.protect-farmland-from-development`)
-
-- web: no production reader: farmland-easements-to-farmland-lost (SG-WEB-unread-farmland-developed-acres) move only the web's ledger
-
-**Spending: parks** (`budget-line:parks`)
-
-- web: no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger
-
-**local-income-tax-authority** (`local-income-tax-authority`)
-
-- change: no bill catalog policy and no series-powers row: no body can propose, enact or repeal it
-- money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax. The grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
-- web: The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own.
 
 **local-minimum-wage-authority** (`local-minimum-wage-authority`)
 

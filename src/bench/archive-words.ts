@@ -1,4 +1,5 @@
 import type { EntityId } from "../core2/kernel/brands";
+import { spokenDate } from "../core2/kernel/dates";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
@@ -30,25 +31,6 @@ export interface WordedStory {
  * words (an election's outcome, a law enacted or taking effect); the rest stay
  * records until the banks grow.
  */
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-/** An ISO date as people say it: "January 20, 2025". */
-function sayDate(iso: string): string {
-  const [year, month, day] = iso.split("-").map(Number);
-  return `${MONTHS[month! - 1]} ${day}, ${year}`;
-}
 
 const MINOR_PER_DOLLAR = 100;
 let NAMES: Record<string, string> | undefined;
@@ -85,7 +67,7 @@ export function wordArchiveStory(
     kind = "vote-or-law";
     facts = {
       measure: fact(measure, [String(story.facts.lawId ?? "")]),
-      date: fact(sayDate(story.date)),
+      date: fact(spokenDate(story.date)),
       [recordKind === "law-enacted" ? "enacted" : "effective"]: fact("yes"),
     };
   } else if (recordKind === "budget-adopted") {
@@ -117,7 +99,7 @@ export function wordArchiveStory(
     speaker = survivor || story.id;
     facts = {
       name: fact(name, survivor ? [survivor] : []),
-      date: fact(sayDate(story.date)),
+      date: fact(spokenDate(story.date)),
     };
   } else return null;
   return worded(core, story.id, kind, speaker, facts, options);

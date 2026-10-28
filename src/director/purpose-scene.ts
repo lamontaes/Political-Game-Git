@@ -58,6 +58,7 @@ import { ELECTIONS_MODULE_ID, ballot } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
   enlistVolunteer,
+  type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
@@ -66,6 +67,12 @@ import { PRESS_STORY_EVENT } from "../core2/press-desk";
 
 export interface PurposeScene {
   typeKey: string;
+  /**
+   * Which of the moment's exchanges this is: the type's key, or for a bill the
+   * day's sitting took in, the key and that bill's record (`type|causeId`).
+   * The player's replies name it, and the moment counts it answered.
+   */
+  unit?: string;
   purpose: string;
   askerId: PersonId;
   askedId: PersonId;
@@ -116,30 +123,49 @@ export function purposeScene(
     next?: boolean;
   } = {},
 ): PurposeSceneResult | null {
-  const moment = director.ledger.people
-    .get(personId)
-    ?.momentsById.get(entry.momentId);
+  const book = director.ledger.people.get(personId);
+  const moment = book?.momentsById.get(entry.momentId);
   if (!moment) return null;
+  // Each scene the moment stages, and for a scene about one bill, each bill
+  // the day's sitting took in (one sponsor asking about several bills in one
+  // evening): each is its own exchange, about its own record.
+  const units = entry.bindings.flatMap((binding) => {
+    const type = TYPES.get(binding.typeKey) as
+      (PurposeType & { repeatsBy?: string }) | undefined;
+    if (!type?.purpose) return [];
+    const joined =
+      type.repeatsBy === "bill"
+        ? (binding.joined ?? []).flatMap((row) => {
+            const other = book!.momentsById.get(row.momentId);
+            return other
+              ? [{ unit: `${binding.typeKey}|${row.causeId}`, moment: other }]
+              : [];
+          })
+        : [];
+    return [{ unit: binding.typeKey, moment }, ...joined].map((row) => ({
+      ...row,
+      binding,
+    }));
+  });
   // Named, that scene; as the moment's next, the first the player has not
   // answered, so a record that stages several plays each in turn.
-  const bindings = entry.bindings.filter(
-    (row) =>
-      (TYPES.get(row.typeKey) as PurposeType | undefined)?.purpose &&
-      (options.typeKey
-        ? row.typeKey === options.typeKey
-        : !options.next || !entry.answered?.includes(row.typeKey)),
+  const chosen = units.filter((row) =>
+    options.typeKey
+      ? row.unit === options.typeKey
+      : !options.next || !entry.answered?.includes(row.unit),
   );
   let skipped: PurposeSceneResult | null = null;
-  for (const binding of bindings) {
+  for (const { unit, moment: about, binding } of chosen) {
     const result = composeBinding(
       core,
       director,
       personId,
-      moment,
+      about,
       binding,
       options,
     );
-    if (result.kind === "composed") return result;
+    if (result.kind === "composed")
+      return { kind: "composed", scene: { ...result.scene, unit } };
     skipped ??= result;
   }
   return skipped;
@@ -516,13 +542,38 @@ function composeBinding(
     deskFacts(core, facts, said, moment.causeId, askerId);
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
-  const standing = type.playerAsks
-    ? askStanding(core, said, askerId, askedId)
-    : undefined;
+  // A door on the player's own canvass: where the knock left the resident,
+  // and the race the player asks them about.
+  const door =
+    type.playerAsks && moment.causeKind === "event:campaign.door"
+      ? doorStanding(core, moment.causeId, askerId)
+      : undefined;
+  const standing = door
+    ? door.standing
+    : type.playerAsks
+      ? askStanding(core, said, askerId, askedId)
+      : undefined;
   if (type.playerAsks && !standing)
-    return { kind: "skipped", reason: "no bill on record to ask about" };
+    return {
+      kind: "skipped",
+      reason:
+        door === null
+          ? "no race on record to ask about"
+          : "no bill on record to ask about",
+    };
+  if (door) {
+    facts.name = {
+      text: `${asker.givenName} ${asker.familyName}`,
+      sourceRecordIds: [askerId],
+    };
+    facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
+    facts.office = {
+      text: door.office,
+      sourceRecordIds: [moment.causeId, door.contestId],
+    };
+  }
   // The player asks: their lines speak to the colleague by name.
-  if (standing) {
+  else if (standing) {
     facts.name = {
       text: `${asked.givenName} ${asked.familyName}`,
       sourceRecordIds: [askedId],
@@ -563,6 +614,47 @@ function composeBinding(
       })),
       talk: result.talk,
     },
+  };
+}
+
+/**
+ * Where a resident stands after the player knocked on their door: the
+ * campaign engine's warmth toward the player after the knock (its causes
+ * table), and the race of the campaign, by its contest's title. A favor
+ * plays no part at a door. Null where the knock or the race is not on record.
+ */
+function doorStanding(
+  core: Readonly<CoreState>,
+  causeId: string,
+  residentId: PersonId,
+): { standing: AskStanding; office: string; contestId: string } | null {
+  if (
+    !core.modules.has(CAMPAIGNS_MODULE_ID) ||
+    !core.modules.has(ELECTIONS_MODULE_ID)
+  )
+    return null;
+  const api = coreAPI(core as CoreState);
+  const cause = api
+    .moduleState(CAMPAIGNS_MODULE_ID)
+    .table("causes")
+    .get(causeId) as unknown as CauseRow | undefined;
+  if (!cause || cause.voterId !== residentId) return null;
+  const impression = api
+    .moduleState(CAMPAIGNS_MODULE_ID)
+    .table("impressions")
+    .get(`${residentId}|${cause.candidateId}`) as unknown as
+    { contestId?: string } | undefined;
+  const contest = impression?.contestId
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(impression.contestId) as unknown as { title?: string } | undefined)
+    : undefined;
+  if (!contest?.title) return null;
+  return {
+    standing: { lean: cause.warmthAfter, favor: P.zero },
+    office: contest.title,
+    contestId: impression!.contestId!,
   };
 }
 
@@ -766,11 +858,12 @@ export function replyInScene(
   const line = reply!.line;
   // One record per scene of the moment and reply path: a record that stages
   // several scenes keeps each one's replies apart.
-  const id = `scene-reply:${entry.momentId}:${scene.typeKey}:${path.join(".")}`;
+  const unit = scene.unit ?? scene.typeKey;
+  const id = `scene-reply:${entry.momentId}:${unit}:${path.join(".")}`;
   // Said once: the same reply again (a page reloaded) keeps the record.
   if (core.eventIds.has(id)) return id;
-  if (!entry.answered?.includes(scene.typeKey))
-    entry.answered = [...(entry.answered ?? []), scene.typeKey];
+  if (!entry.answered?.includes(unit))
+    entry.answered = [...(entry.answered ?? []), unit];
   // STOPGAP SG-WORDS-family-limit-unread: a reply that bounds the cost (a
   // limit on savings, evenings kept for a child) is recorded as said and as
   // time together; no engine reads the limit yet.

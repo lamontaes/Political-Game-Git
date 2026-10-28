@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/realistic-business-rows
+pr: #6600
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+claimed-at: 2026-10-28T07:21:38.436Z
 ---
 
 **What.** Rows 21 to 24, 26 and 27 of docs/reports/real-statistics-in-play-2026-10-27.md: BDS closure rates and outside ownership, union membership, businesses per resident, IRS margins and pay shares, local news outlets and campaign ad prices. Each opens on the published value. The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed.

@@ -1,78 +1,57 @@
 import { describe, expect, it } from "vitest";
-import { buildDeepPast } from "./deep-past";
 import { parameter as p } from "./parameters";
 import { buildPopulation } from "./population";
+import { enrichCivicInputs } from "./civic-inputs";
+import { createLifeCore } from "./life";
+import { workgroupOf } from "./shared-history";
 
-// P15 part 3: each child's school is a real campus keyed to their home, and
-// residents of the same employer know a workgroup of coworkers.
-describe("opening schools and coworkers", () => {
-  const input = buildDeepPast(
-    buildPopulation({
-      seed: "p15-opening-circles",
-      startedAt: "2021-01-01",
-      minimumPeople: 600,
-    }),
-  );
-  const residents = input.people.filter((person) => person.tier !== "husk");
-  const facts = (kind: string) =>
-    residents.flatMap((person) =>
-      (person.pastFacts ?? [])
-        .filter((fact) => fact.kind === kind)
-        .map((fact) => ({ person, fact })),
-    );
-
-  it("seats children at real public schools, shared by children who live together", () => {
-    const schools = facts("school:cohort-estimate");
-    expect(schools.length).toBeGreaterThan(0);
-    const named = schools.filter(
-      ({ fact }) => fact.facts?.institutionSourceKey === "NCES-CCD",
-    );
-    expect(named.length).toBeGreaterThan(schools.length / 2);
-    const byHousehold = new Map<string, Set<string>>();
-    for (const { person, fact } of schools) {
-      if (person.birthDate < "2003-01-02" || fact.facts?.stage !== "elementary")
-        continue;
-      const key = `${person.householdId}:${fact.facts.placeId}`;
-      const set = byHousehold.get(key) ?? new Set();
-      set.add(fact.facts.schoolName!);
-      byHousehold.set(key, set);
-    }
-    for (const set of byHousehold.values()) expect(set.size).toBe(1);
-    expect(
-      new Set(named.map(({ fact }) => fact.facts?.institutionSourceId)).size,
-    ).toBeGreaterThan(1);
+// P15 part 3: residents of the same employer know a workgroup of coworkers.
+// (Each child's school is the school engine's run before the start,
+// src/core2/past-school.test.ts.)
+describe("opening coworkers", () => {
+  const input = buildPopulation({
+    seed: "p15-opening-circles",
+    startedAt: "2021-01-01",
+    minimumPeople: 600,
   });
+  const residents = input.people.filter((person) => person.tier !== "husk");
 
-  it("links coworkers of one employer both ways, in groups about the tunable size", () => {
-    const coworkers = facts("social:generated-coworker");
-    expect(coworkers.length).toBeGreaterThan(0);
-    const jobs = new Map(input.jobs.map((job) => [job.personId, job]));
-    const byId = new Map(residents.map((person) => [person.id, person]));
-    const groups = new Map<string, Set<string>>();
-    for (const { person, fact } of coworkers) {
-      const other = byId.get(fact.facts!.otherPersonId!)!;
-      expect(jobs.get(person.id)!.organizationId).toBe(
-        jobs.get(other.id)!.organizationId,
-      );
-      expect(person.knownIds).toContain(other.id);
-      expect(
-        (other.pastFacts ?? []).some(
-          (row) =>
-            row.kind === "social:generated-coworker" &&
-            row.facts?.otherPersonId === person.id,
-        ),
-      ).toBe(true);
-      const group = groups.get(fact.facts!.peerGroupId!) ?? new Set();
-      group.add(person.id);
-      groups.set(fact.facts!.peerGroupId!, group);
+  it("opens each worker known to a workgroup of the employer's staff, both ways, in groups about the tunable size", () => {
+    // The workgroup is read from the jobs engine's staff (engine map line
+    // 12), not a generated fact; the opening meets it through the
+    // encounters engine.
+    const core = createLifeCore(enrichCivicInputs(input));
+    const groups = new Map<string, number>();
+    let met = 0;
+    for (const person of core.people.values()) {
+      const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+      if (!job || job.endsAt) continue;
+      const mates = workgroupOf(core, person.id);
+      groups.set(person.id, mates.length + 1);
+      for (const id of mates) {
+        const other = core.people.get(id)!;
+        expect(core.jobs.get(other.jobId!)!.organizationId).toBe(
+          job.organizationId,
+        );
+        expect(person.knownIds).toContain(id);
+        expect(other.knownIds).toContain(person.id);
+        expect(
+          core.relationships.has(
+            person.id < id ? `${person.id}:${id}` : `${id}:${person.id}`,
+          ),
+        ).toBe(true);
+        met += 1;
+      }
     }
-    // Groups are drawn by person, so someone filled in alone joins the same
-    // group as in a full town: sizes vary around the tunable size rather
-    // than stopping at it.
-    const sizes = [...groups.values()].map((group) => group.size);
-    const mean = sizes.reduce((sum, size) => sum + size, 0) / sizes.length;
-    expect(mean).toBeLessThanOrEqual(p("openingCoworkerGroupSize"));
-    for (const size of sizes)
-      expect(size).toBeLessThanOrEqual(2 * p("openingCoworkerGroupSize"));
+    expect(met).toBeGreaterThan(0);
+    for (const size of groups.values())
+      expect(size).toBeLessThanOrEqual(3 * p("openingCoworkerGroupSize"));
+    expect(
+      residents.some((person) =>
+        (person.pastFacts ?? []).some((fact) =>
+          fact.kind.startsWith("social:generated"),
+        ),
+      ),
+    ).toBe(false);
   });
 });

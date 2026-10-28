@@ -36,7 +36,7 @@ Every rule below comes from a merge audit. The ones that hurt most:
 
 ## 0. Red main comes first
 
-At the start of every run, before listing PRs, read the latest release workflow run on main: `gh api 'repos/lamontaes/Political-Game-Git/actions/workflows/release.yml/runs?branch=main&per_page=1'`. If its `conclusion` is `failure` and no other merger claimed `release-main-red` in the last 60 minutes:
+At the start of every run, before listing PRs, and again after every merge you make, read the latest run of **every** workflow on main, not only Release: `gh api 'repos/lamontaes/Political-Game-Git/actions/runs?branch=main&per_page=12'` (Release, Deterministic validation, M0 guards, Every place nightly). Main is red if any of them concluded `failure` on the newest commit. **A merge that turns main red is yours (owner, Oct 28: "Why does nobody own it?"):** the merger who merged it fixes it at the root the same hour, or comments on the PR naming the failing test, place and seed and hands it to the standing red-main session, whose section in the channel is `## Red main`. A red is never "not this item's"; it has one owner at every hour, named in that section. If main is red and no other merger claimed `release-main-red` in the last 60 minutes and the red-main section's newest block does not name it
 
 1. Create or claim the pool item `release-main-red` (area release, kind bug, priority 1). Create `docs/pool/items/release-main-red.md` if absent; set status `claimed` with your branch.
 2. Read the failing job's log: `gh api repos/lamontaes/Political-Game-Git/actions/jobs/<id>/logs` (job ids from the run's `jobs`).
@@ -106,6 +106,8 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - Quote-like text for a clause the row says was not read.
 
    **Guards**
+   - Run `npm run guards` on the merged result; `docs/design/guards.md` names the rule each guard holds. A count in a guard's list may only go down: a raised count is a send-back unless the PR names why the rule allows it.
+   - A PR that adds or changes a guard counted its baseline at its own head: merge main in and rerun `npm run guards` right before merging, or a merge that landed in between turns main red under the guard.
    - A change to a guard's allowlist, ceiling or skip list (`scripts/audit/*allowlist*`, `scripts/zero-dice-allowlist.json`, `AWAITING_READER_CEILING`, any test skip list) without the right category and a stated reason.
    - A file added to a bypass list to clear a red guard is always a send-back.
 

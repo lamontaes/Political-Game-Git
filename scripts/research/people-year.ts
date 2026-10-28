@@ -30,7 +30,7 @@ import {
 import { setTraitProbe } from "../../src/core2/trait-probe";
 import { drawPlace } from "../../tests/golden-path/place";
 import { viewOf } from "../../src/core2/modules/views";
-import { hudRentRowFor } from "../../src/core2/hud-rents";
+import { publishedHudRentRowFor } from "../../src/core2/hud-rents";
 import { coreStateName } from "../../src/core2/place-lookup";
 import { PEOPLE_MIND_VERSION } from "../../src/core2/people-mind";
 import type { EntityId } from "../../src/core2/kernel/brands";
@@ -374,7 +374,7 @@ const lengths = townPregnancies.map((row) => ({
 console.log(
   `Gestation (renewalGestationDays ${gestation}): band ${band(renewal.renewalGestationDays!)}. Town: ${lengths.length} pregnancies on record (${townPregnancies.filter((row) => String(row.conceivedAt) >= started).length} conceived in the year), lengths ${[...new Set(lengths.map((x) => x.days))].join(", ") || "n/a"} days (every pregnancy lasts the one median: still SG-M1-births-circumstances). Records: ${sample(lengths.map((x) => x.id))}.`,
 );
-const hud = hudRentRowFor(world.placeId as EntityId);
+const hud = publishedHudRentRowFor(world.placeId as EntityId);
 console.log(
   `Median family income a couple's pay is read against (renewalMedianAnnualIncomeMinor $${(renewal.renewalMedianAnnualIncomeMinor!.value / 100).toLocaleString("en-US")}): band $${((renewal.renewalMedianAnnualIncomeMinor!.spread!.low ?? 0) / 100).toLocaleString("en-US")} to $${((renewal.renewalMedianAnnualIncomeMinor!.spread!.high ?? 0) / 100).toLocaleString("en-US")}. This place ${hud?.veryLow4 != null ? `reads its own HUD area ${hud.area}: $${(hud.veryLow4 * renewal.renewalMedianPerVeryLowLimit!.value).toLocaleString("en-US")}, so the fallback was not read` : "has no HUD row and reads the fallback"}.`,
 );

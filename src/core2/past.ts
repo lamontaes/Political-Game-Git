@@ -16,6 +16,15 @@ import { buildPublicFigures } from "./past-public";
 import { pastTown } from "./past-bodies";
 import { openPastModule, pastTable, putPast } from "./past-module";
 
+// The one history and what two people share, for readers outside the family
+// (the history's own readers are re-exported from past-module.ts).
+export * from "./past-module";
+export {
+  attendedSchool,
+  sharedHistory,
+  type AttendedRow,
+} from "./shared-history";
+
 export interface PastSummary {
   readonly elections: number;
   readonly bills: number;

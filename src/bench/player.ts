@@ -20,9 +20,6 @@ import {
   type PollingVisit,
 } from "../director/polling-place";
 
-// Spec interrupt line, shown on screen; the director owns the stop itself.
-export const INTERRUPT_LINE = 0.5;
-
 type ChoicePacket = Extract<PlayerPacketV1, { kind: "choice" }>;
 const compareMoments = (a: PlayerMomentV1, b: PlayerMomentV1) =>
   a.date < b.date ? -1 : a.date > b.date ? 1 : a.minuteOfDay - b.minuteOfDay;
@@ -216,7 +213,7 @@ export class BenchPlayer {
   }
 
   /** The minute the controlled person's day starts, read from the core's parameters. */
-  private dayStartMinute() {
+  dayStartMinute() {
     // stopgapId: SG-PLAY-day-start-minute
     return parameter("playerDayStartMinute", this.core.data.parameters);
   }

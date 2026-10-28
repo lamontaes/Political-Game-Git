@@ -123,7 +123,6 @@
     "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
       "source": "State public-sector bargaining laws (Sanes and Schmitt, Regulation of Public Sector Collective Bargaining in the States, Center for Economic and Policy Research, 2014).",
       "mechanic": "public-bargaining",
-      "stopgapId": "SG-GOV-REACH-A-bargaining",
       "reaches": [
         {
           "id": "public-workers",
@@ -228,7 +227,7 @@
           "id": "borrowers",
           "target": "people",
           "select": {
-            "ageFrom": "adultAge"
+            "ageFrom": "votingAge"
           },
           "kind": "right",
           "what": "may not be charged more than the capped rate on a consumer loan",
@@ -257,7 +256,7 @@
           "id": "residents",
           "target": "counted",
           "select": {
-            "ageFrom": "adultAge"
+            "ageFrom": "votingAge"
           },
           "kind": "right",
           "what": "lives where more homes may be built on each lot",
@@ -307,7 +306,7 @@
           "id": "tenants",
           "target": "people",
           "select": {
-            "ageFrom": "adultAge"
+            "ageFrom": "votingAge"
           },
           "kind": "price",
           "what": "may not have their rent raised more than the capped share a year if they rent",
@@ -347,7 +346,7 @@
           "id": "tenants",
           "target": "counted",
           "select": {
-            "ageFrom": "adultAge"
+            "ageFrom": "votingAge"
           },
           "kind": "right",
           "what": "has a right to a lawyer when facing eviction",
@@ -560,7 +559,7 @@
           "target": "people",
           "select": {
             "ageFrom": "socialMediaAgeFrom",
-            "ageBelow": "adultAge"
+            "ageBelow": "votingAge"
           },
           "kind": "eligibility",
           "what": "needs a parent's consent to open a social media account",
@@ -607,7 +606,7 @@
           "id": "consumers",
           "target": "people",
           "select": {
-            "ageFrom": "adultAge"
+            "ageFrom": "votingAge"
           },
           "kind": "right",
           "what": "may see, correct and delete the data businesses hold on them",

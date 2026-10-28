@@ -1,3 +1,4 @@
+import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
   askForDonation,
@@ -14,8 +15,10 @@ import {
 import type { Stance } from "../core2/campaign-views";
 import {
   campaignDayChoices,
+  contestStanding,
   takeCampaignDayChoice,
-  type CampaignDayChoice,
+  whyNotToday,
+  type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
@@ -39,8 +42,8 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-views";
-import { backdropFile, stagePeople } from "./scene";
-import { dateWords, dollarsOf, nameList, standingLine } from "./race-words";
+import { backdropFor, stagePeople } from "./scene";
+import { dollarsOf, nameList, standingLine } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
@@ -58,41 +61,6 @@ const OUTINGS: Partial<
   event: "event",
   interview: "interview",
 };
-
-/**
- * Why the records keep a campaign outing from the player today, as the key of
- * its words in the screen's controls and the record figures they show.
- */
-function whyNot(
-  choice: CampaignDayChoice,
-): { key: string; priceMinor?: number; cashMinor?: number } | undefined {
-  switch (choice.kind) {
-    case "canvass":
-      return choice.facts.households > 0 ? undefined : { key: "noHouseholds" };
-    case "event":
-      if (choice.facts.platformStances === 0) return { key: "noPlatform" };
-      return choice.facts.cashMinor < choice.facts.venuePriceMinor
-        ? {
-            key: "eventMoney",
-            priceMinor: choice.facts.venuePriceMinor,
-            cashMinor: choice.facts.cashMinor,
-          }
-        : undefined;
-    case "interview": {
-      const { outletsHere, outletsDone, outletsFull } = choice.facts;
-      if (outletsHere === 0) return { key: "noOutlet" };
-      if (outletsDone === outletsHere) return { key: "interviewed" };
-      // The rest have no room this week, or (television) want a better-known candidate.
-      return { key: outletsFull > 0 ? "outletsFull" : "notKnown" };
-    }
-    case "raise-money":
-      return {
-        key: choice.facts.reachable === 0 ? "nobodyReached" : "allGave",
-      };
-    default:
-      return undefined;
-  }
-}
 
 /** The outlet to ask first: the town's own before a regional or national one. */
 function townFirst(api: CoreAPI, outletIds: readonly string[]) {
@@ -122,7 +90,7 @@ export function campaignView(core: CoreState, personId: string) {
         contacted: number;
         answers: Record<string, number>;
       }[];
-      const causes = contestCauses(core, filing.contestId, personId);
+      const causes = contestStanding(api, filing.contestId, personId);
       // The race by its own record: the office and the day it is decided.
       const contest = api
         .moduleState(ELECTIONS)
@@ -168,7 +136,7 @@ export function campaignView(core: CoreState, personId: string) {
                   choice.facts.outlets.map((o) => o.outletId),
                 ))
               : undefined;
-          const why = choice.available ? undefined : whyNot(choice);
+          const why = choice.available ? undefined : whyNotToday(choice);
           return [
             {
               outing,
@@ -194,65 +162,6 @@ export function campaignView(core: CoreState, personId: string) {
 }
 
 /**
- * The causes a contest turns on: for each candidate on its ballot, the acts
- * that reached voters (doors, speeches, ads, a retelling) with how many were
- * reached and how many came away warmer or cooler, and the same read once per
- * voter (a voter reached by two acts counts once), which is what the race's
- * standing sentences say. Read from the cause rows the campaign engine kept;
- * a read-only view.
- */
-function contestCauses(core: CoreState, contestId: string, personId: string) {
-  const api = coreAPI(core);
-  const filings = (
-    api
-      .moduleState(ELECTIONS)
-      .table("filings")
-      .query("byContest", [contestId]) as unknown as FilingRow[]
-  ).filter((row) => row.status !== "withdrawn");
-  return filings.map((filing) => {
-    const rows = api
-      .moduleState(CAMPAIGNS)
-      .table("causes")
-      .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
-    const acts = new Map<
-      string,
-      { act: string; reached: number; warmer: number; cooler: number }
-    >();
-    // Each voter's warmth moved by the sum of what every act did to it.
-    const moved = new Map<string, number>();
-    for (const row of rows) {
-      const entry = acts.get(row.act) ?? {
-        act: row.act,
-        reached: 0,
-        warmer: 0,
-        cooler: 0,
-      };
-      entry.reached += 1;
-      if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
-      else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
-      acts.set(row.act, entry);
-      moved.set(
-        row.voterId,
-        (moved.get(row.voterId) ?? 0) + (row.warmthAfter - row.warmthBefore),
-      );
-    }
-    const person = core.people.get(filing.personId);
-    return {
-      filingId: filing.id,
-      candidateId: filing.personId,
-      name: person
-        ? `${person.givenName} ${person.familyName}`
-        : filing.personId,
-      you: filing.personId === personId,
-      acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
-      reached: moved.size,
-      warmer: [...moved.values()].filter((d) => d > 0).length,
-      cooler: [...moved.values()].filter((d) => d < 0).length,
-    };
-  });
-}
-
-/**
  * Where the race stands, as sentences from the English engine's
  * campaign-standing bank: the voters the player reached and how many moved,
  * the opponents on the contest's filings and how many voters each reached,
@@ -265,7 +174,7 @@ export function raceStanding(
   lastPoll:
     | { date: string; contacted: number; answers: Record<string, number> }
     | undefined,
-  causes: ReturnType<typeof contestCauses>,
+  causes: readonly CandidateStanding[],
 ): string[] {
   const mine = causes.find((who) => who.you);
   const others = causes.filter((who) => !who.you);
@@ -317,7 +226,7 @@ export function raceStanding(
             lastPoll.contacted === 1 ? "poll-result-one" : "poll-result",
             id,
             {
-              date: dateWords(lastPoll.date),
+              date: spokenDate(lastPoll.date),
               contacted: lastPoll.contacted,
               // The candidates' answers, by name; the bank has no words for
               // the undecided yet, so they are left out of the tally.
@@ -435,7 +344,7 @@ function speechScene(
   );
   return {
     place,
-    backdrop: backdropFile(place, 18 * 60),
+    backdrop: backdropFor(core, place, 18 * 60),
     ...stagePeople(
       core,
       place,
@@ -508,7 +417,7 @@ function outingScene(
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   return {
     place,
-    backdrop: backdropFile(place, 16 * 60),
+    backdrop: backdropFor(core, place, 16 * 60),
     ...stagePeople(
       core,
       place,

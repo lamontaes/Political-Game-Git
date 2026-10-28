@@ -1,19 +1,11 @@
 /** A generated opening in a place drawn from all 56, the same route as the speed guard's month. */
-import { releaseRecentHistory } from "../../simulation/history-index";
-import {
-  forgetLastValidatedWorld,
-  withoutWorldChecks,
-} from "../../simulation/world";
-import { bookkeeping } from "../bookkeeping";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { withPrivateTuition } from "../opening-private-tuition";
 import { staffToCustomers } from "../opening-staffing";
 import { representativeSample } from "../representative-sample";
 import { withPublicSchoolDistrict } from "../opening-public-schools";
 import { buildPopulation } from "../population";
-import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
-import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningEconomy } from "../opening-economy";
 import { collapseToTwoLevels, fullPeople } from "../residents";
@@ -42,9 +34,6 @@ export function generatedOpening(
 ): CoreInput {
   const settings = options.settings ?? {};
   checkSettings(settings);
-  // World integrity checks are bookkeeping: on in tests and the bench only.
-  if (!bookkeeping())
-    return withoutWorldChecks(() => buildOpening(place, options, settings));
   return buildOpening(place, options, settings);
 }
 
@@ -66,21 +55,7 @@ function buildOpening(
     openingEmployment: true,
     scheduledWork: true,
   });
-  // Record each class and workgroup's size as the full build sees it, so a
-  // person filled in later joins the same-sized peer group (PEOPLE's
-  // peerCohortSize; called once their deep past supports it).
-  const cohortSizes: Record<string, number> = {};
-  const withPast = (
-    buildDeepPast as (
-      input: CoreInput,
-      options?: Record<string, unknown>,
-    ) => CoreInput
-  )(population, {
-    peerCohortSize: (circle: string, contextKey: string, present: number) => {
-      cohortSizes[`${circle}|${contextKey}`] = present;
-      return present;
-    },
-  });
+  const withPast = population;
   // The town's public school district, staffed from workers not yet placed;
   // built before custom settings so its pay scales like every other job.
   const schools = withPublicSchoolDistrict(enrichCivicInputs(withPast));
@@ -99,13 +74,13 @@ function buildOpening(
       (person) =>
         person.jobId &&
         ageOnDate(makeIsoDate(person.birthDate), start) >=
-          parameter("benchmarkAdultMinimumAge"),
+          parameter("votingAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   if (!player)
     throw new Error(`No eligible recorded adult worker in ${place.key}`);
   input = {
-    ...buildOpeningPeerContacts(input, { personIds: [player.id] }).input,
+    ...input,
     playerId: player.id,
   };
   input = {
@@ -165,12 +140,9 @@ function buildOpening(
     }
     input = scaleOutsideSales(outsideDemand, addOutsideMarket(built));
   }
-  // The generator's temporary world is done; let its indexes go.
-  releaseRecentHistory();
-  forgetLastValidatedWorld();
   if (!keep) return input;
   // The politics settings stay in worldSettings: the town's lean and the
   // cost of voting read them (electorate-inputs.ts customPolitics).
   const two = collapseToTwoLevels(input, { keep });
-  return { ...two, residents: { ...two.residents!, cohortSizes } };
+  return two;
 }

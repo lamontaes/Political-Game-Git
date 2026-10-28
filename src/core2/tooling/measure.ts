@@ -11,7 +11,6 @@ import {
   daysBetweenText,
 } from "../kernel/dates";
 import { stableHash } from "../kernel/ids";
-import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
 import { developerBanners } from "../stopgaps";
 import { buildPopulation } from "../population";
@@ -19,7 +18,6 @@ import { parameter } from "../parameters";
 import type { CoreInput, CoreState } from "../types";
 import { advanceCore, createLifeCore } from "../life";
 import { initialFocusPeople } from "../focus";
-import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "../data";
 import { gameStartDate } from "../game-start";
 import measurementData from "../data/measurement.json" with { type: "json" };
@@ -191,11 +189,6 @@ function traceSelection(
   focusPlaceIds: string[];
   visiblePlaceIds: string[];
   tierScope: "normal-circle-daily-town-weekly";
-  peerPrior: {
-    contactCount: number;
-    contacts: ReturnType<typeof buildOpeningPeerContacts>["contacts"];
-    reports: ReturnType<typeof buildOpeningPeerContacts>["reports"];
-  };
 } {
   const jobByPerson = new Map(input.jobs.map((job) => [job.personId, job]));
   const peopleById = new Map(input.people.map((person) => [person.id, person]));
@@ -210,8 +203,7 @@ function traceSelection(
   }
   const candidates = input.people.flatMap((person) => {
     if (
-      ageOnDate(person.birthDate, input.startedAt) <
-        P("benchmarkAdultMinimumAge") ||
+      ageOnDate(person.birthDate, input.startedAt) < P("votingAge") ||
       !person.countyId
     )
       return [];
@@ -248,8 +240,6 @@ function traceSelection(
       `Requested benchmark person is not an eligible recorded worker: ${requestedPlayerId}`,
     );
   const player = selected.person;
-  const peers = buildOpeningPeerContacts(input, { personIds: [player.id] });
-  input = peers.input;
   const household = input.households.find(
     (row) => row.id === player.householdId,
   );
@@ -287,11 +277,6 @@ function traceSelection(
     focusPlaceIds,
     visiblePlaceIds,
     tierScope,
-    peerPrior: {
-      contactCount: peers.contacts.length,
-      contacts: peers.contacts,
-      reports: peers.reports,
-    },
   };
 }
 
@@ -1024,17 +1009,9 @@ async function main(): Promise<void> {
     place: population.placeMetadata,
   });
   const populationMemoryAfter = memorySample();
-  const deepPastMemoryBefore = memorySample();
-  const deepPastStarted = performance.now();
-  const withDeepPast = buildDeepPast(population);
-  const deepPastCompleted = performance.now();
-  progress("deep-past-built", {
-    elapsedMilliseconds: deepPastCompleted - deepPastStarted,
-  });
-  const deepPastMemoryAfter = memorySample();
   const civicMemoryBefore = memorySample();
   const civicStarted = performance.now();
-  const withCivicInputs = enrichCivicInputs(withDeepPast);
+  const withCivicInputs = enrichCivicInputs(population);
   const civicCompleted = performance.now();
   progress("civic-inputs-built", {
     elapsedMilliseconds: civicCompleted - civicStarted,
@@ -1049,8 +1026,6 @@ async function main(): Promise<void> {
     elapsedMilliseconds: traceCompleted - traceStarted,
     people: traced.input.people.length,
     focusPersonCount: traced.focusPersonIds.length,
-    generatedHistoricalContacts: traced.peerPrior.contactCount,
-    peerReports: traced.peerPrior.reports,
   });
   const inputSha256 = preparedInputHash(traced.input, preparedInputOutputPath);
   const throughDate =
@@ -1124,7 +1099,7 @@ async function main(): Promise<void> {
       warmupRuns: warmupCount,
       warmRuns: measuredCount,
       ...(mode === "year" ? { yearSpanDays: P("yearSpanDays") } : {}),
-      benchmarkAdultMinimumAge: P("benchmarkAdultMinimumAge"),
+      votingAge: P("votingAge"),
       requestedPlayerId: playerId,
       openingEmployment,
       scheduledWork,
@@ -1174,15 +1149,6 @@ async function main(): Promise<void> {
           organizations: population.organizations.length,
         },
       },
-      deepPast: {
-        elapsedMilliseconds: deepPastCompleted - deepPastStarted,
-        memory: memoryDelta(deepPastMemoryBefore, deepPastMemoryAfter),
-        pastFactCount: withDeepPast.people.reduce(
-          (sum, person) => sum + (person.pastFacts?.length ?? zero),
-          zero,
-        ),
-        gapCount: withDeepPast.gaps.length,
-      },
       civicInputs: {
         elapsedMilliseconds: civicCompleted - civicStarted,
         memory: memoryDelta(civicMemoryBefore, civicMemoryAfter),
@@ -1193,8 +1159,7 @@ async function main(): Promise<void> {
       peerPriorAndTrace: {
         elapsedMilliseconds: traceCompleted - traceStarted,
         memory: memoryDelta(peerMemoryBefore, peerMemoryAfter),
-        scope:
-          "Selected recorded school peer group, circle selection, and input deep-freeze; outside annual timer. Group size and retained recognition are uncalibrated priors.",
+        scope: "Circle selection and input deep-freeze; outside annual timer.",
       },
     },
     trace: {
@@ -1205,7 +1170,6 @@ async function main(): Promise<void> {
       visiblePlaceIds: traced.visiblePlaceIds,
       tierScope: traced.tierScope,
       focusPersonIds: traced.focusPersonIds,
-      peerPrior: traced.peerPrior,
     },
     warmups,
     runs,

@@ -228,6 +228,27 @@ export function regionName(regionId: string): string | undefined {
   return `${state} outside the ${listed} area${metros.length ? "s" : ""}`;
 }
 
+/**
+ * The state's name when a region is the state outside its metro areas, so a
+ * line can say "outside Kentucky's largest cities" rather than put the
+ * state's name where a reader looks for their town; undefined for a metro.
+ */
+export function regionOutsideState(regionId: string): string | undefined {
+  const region = REGION_BY_ID.get(regionId);
+  if (!region || region.kind === "metro") return undefined;
+  // A state or territory with no metro area is the whole of itself.
+  if (
+    !REGIONS.some(
+      (row) => row.stateUsps === region.stateUsps && row.kind === "metro",
+    )
+  )
+    return undefined;
+  return (
+    corePlaceStateIdentities().find((row) => row.usps === region.stateUsps)
+      ?.name ?? undefined
+  );
+}
+
 /** A metro's first-named city: "Dallas" in "Dallas-Fort Worth-Arlington, TX". */
 function firstCity(region: RegionRow): string {
   return (region.title ?? region.id).split(",")[0]!.split(/[-/]/)[0]!.trim();

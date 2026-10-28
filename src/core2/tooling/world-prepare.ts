@@ -1,9 +1,7 @@
 /** The guard's world preparation (scripts/core2-guard/month.mjs), with a chosen start date. */
 import { ageOnDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
-import { buildDeepPast } from "../deep-past";
 import { initialFocusPeople } from "../focus";
-import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { parameter } from "../parameters";
 import { buildPopulation } from "../population";
 import { gameStartDate } from "../game-start";
@@ -21,20 +19,18 @@ export function prepareWorldAt(options: {
     openingEmployment: true,
     scheduledWork: true,
   });
-  let input = enrichCivicInputs(buildDeepPast(population));
+  let input = enrichCivicInputs(population);
   const player = input.people
     .filter(
       (person) =>
         person.countyId &&
         person.jobId &&
-        ageOnDate(person.birthDate, input.startedAt) >=
-          parameter("benchmarkAdultMinimumAge"),
+        ageOnDate(person.birthDate, input.startedAt) >= parameter("votingAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   if (!player)
     throw new Error("No eligible recorded adult worker in drawn place");
-  const peers = buildOpeningPeerContacts(input, { personIds: [player.id] });
-  input = { ...peers.input, playerId: player.id };
+  input = { ...input, playerId: player.id };
   input = {
     ...input,
     focusPersonIds: [...initialFocusPeople(input)].sort(),

@@ -1,0 +1,162 @@
+{
+  "seed": "b4e23a2055a3816d",
+  "place": {
+    "seed": "914c2a715334c3bd2a320d56578de541a632342058c7332150a9a6bd9ec0c7bc",
+    "key": "2723660",
+    "name": "Ghent, Minnesota",
+    "state": "US-MN"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "kind": "question",
+      "family": "agriculture",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2723660:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
+      "lawIds": [
+        "law:place:2723660:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+        "law:US-MN:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-08-01:HF 1",
+        "law:US-MN:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2026-01-22:law-wiring-cdbf4067-b",
+        "law:place:2723660:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2026-01-22:law-wiring-cdbf4067-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization_774941f61bfebef7",
+          "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_1766c3856f9c855d"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization_774941f61bfebef7",
+          "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_1766c3856f9c855d"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-MN:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-08-01:HF 1",
+          "level": "state",
+          "effectiveDate": "2025-08-01",
+          "value": 1
+        }
+      ],
+      "readers": {
+        "src/core2/modules/legislature.ts:2488": 3045,
+        "src/core2/modules/legislature.ts:3666": 529,
+        "src/core2/modules/world-legislating.ts:295": 160,
+        "src/core2/modules/world-legislating.ts:225": 86,
+        "src/core2/modules/outcome-web.ts:175": 86,
+        "src/core2/modules/housing.ts:1828": 24,
+        "src/core2/life.ts:555": 15,
+        "src/core2/modules/world-legislating.ts:380": 2,
+        "src/core2/modules/legislature.ts:4945": 2
+      },
+      "openingRow": "law:US-MN:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [
+          {
+            "token": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+            "gross": 150000,
+            "ids": [
+              "journal:2025-02-10:10554",
+              "journal:2025-02-10:10555",
+              "journal:2025-02-10:10556"
+            ],
+            "control": 150000
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 2,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "farmland-easements-to-farmland-lost",
+            "status": "built",
+            "to": "farmland.developed-acres"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 166,
+        "sample": [
+          "person_035a63e8bb29b858:printed:outlet:newspaper:0:jurisdiction_1766c3856f9c855d:law-took-effect:law:place:2723660:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+          "person_9788f2bfc2aa2493:printed:outlet:newspaper:0:jurisdiction_1766c3856f9c855d:law-took-effect:law:place:2723660:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+          "person_2b89d366de2c0b8a:printed:outlet:newspaper:0:jurisdiction_1766c3856f9c855d:law-took-effect:law:place:2723660:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 48
+    }
+  ]
+}

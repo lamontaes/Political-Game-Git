@@ -43,16 +43,13 @@ import {
   meetingItem,
   meetingSpeak,
   meetingSceneView,
-  officeStops,
   colleagueDeal,
-  interviewOutlet,
   nameHeadPick,
   budgetLinePick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
-import { governmentMap } from "./map";
 import {
   chooseAtCounter,
   officePlace,
@@ -71,6 +68,7 @@ import {
   chosenBirthDate,
   creatorStates,
   creatorTowns,
+  creatorRandomPlace,
   drawBirthday,
   drawName,
   readChosenPerson,
@@ -80,6 +78,7 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
+  portraitFace,
   portraitPng,
   readRecipe,
   setColor,
@@ -106,6 +105,7 @@ import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
+import { patchNoteReleases } from "./patch-notes";
 import { budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -317,12 +317,23 @@ export async function benchRequest(
               )
             : null;
           buildProgress = { stage: "done", done: 0, total: 0 };
+          // A scene the director already staged for today (the address the
+          // household watches that evening) plays first.
+          const staged = world.director.ledger.people
+            .get(entrant.personId)
+            ?.schedule.find(
+              (row) =>
+                row.date === world.core.date &&
+                row.outcome.startsWith("scene") &&
+                row.bindings.length > 0,
+            );
           send(200, {
             personId: entrant.personId,
             placeName: world.place.displayName,
             date: core.date,
             packet: player.packet,
             names: {},
+            ...(staged ? { sceneMomentId: staged.momentId } : {}),
           });
         } finally {
           building = false;
@@ -376,6 +387,25 @@ export async function benchRequest(
       ) {
         const content = await readFile(
           backdropPath(url.pathname.slice("/art/backdrops/".length)),
+        );
+        response.writeHead(200, {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(content);
+        return;
+      }
+      const newspaper = /^\/art\/newspaper\/([a-z0-9-]+\.jpg)$/.exec(
+        url.pathname,
+      );
+      if (request.method === "GET" && newspaper) {
+        // The newspaper art: engraved mastheads and front-page photos, cut
+        // from the originals in art/newspaper-mockups (lineage in its README).
+        const content = await readFile(
+          new URL(
+            newspaper[1]!,
+            new URL("../../art/newspaper-mockups/derived/", import.meta.url),
+          ),
         );
         response.writeHead(200, {
           "Content-Type": "image/jpeg",
@@ -504,6 +534,7 @@ export async function benchRequest(
         else if (route === "states") send(200, creatorStates());
         else if (route === "towns")
           send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? ""));
+        else if (route === "place") send(200, creatorRandomPlace(seed, draw));
         else if (route === "appearance") {
           const recipe = q.get("recipe")
             ? request.method === "POST"
@@ -563,6 +594,13 @@ export async function benchRequest(
                   makeIsoDate(core!.date),
                 ),
                 portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
+                // The face the creator saved, for Continue's headshot.
+                face: core!.people.get(personId)?.looks?.recipe
+                  ? portraitFace(
+                      readRecipe(core!.people.get(personId)!.looks!.recipe!),
+                      `/api/portrait?id=${encodeURIComponent(personId)}`,
+                    )
+                  : null,
                 placeName,
                 date: core!.date,
                 minuteOfDay:
@@ -586,8 +624,17 @@ export async function benchRequest(
         send(200, { version });
         return;
       }
-      if (request.method === "GET" && url.pathname === "/api/map") {
-        send(200, governmentMap(requireCore()));
+      if (request.method === "GET" && url.pathname === "/api/patch-notes") {
+        // The title's Patch notes: the release machinery's own file, one
+        // released section at a time (owner, Oct 28: "get them in").
+        send(200, {
+          releases: patchNoteReleases(
+            await readFile(
+              new URL("../../PATCH_NOTES.md", import.meta.url),
+              "utf8",
+            ),
+          ),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/bank") {
@@ -818,32 +865,6 @@ export async function benchRequest(
         send(200, officeView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
-      if (request.method === "POST" && url.pathname === "/api/office/stops") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        officeStops(
-          requireCore(),
-          player.personId,
-          url.searchParams.get("kind") ?? "",
-          url.searchParams.get("on") === "true",
-        );
-        send(200, officeView(requireCore(), player.personId));
-        return;
-      }
-      if (
-        request.method === "POST" &&
-        url.pathname === "/api/office/interview-outlet"
-      ) {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          interviewOutlet(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("outletId") ?? "",
-          ),
-        );
-        return;
-      }
       if (
         request.method === "POST" &&
         url.pathname === "/api/office/name-head-pick"
@@ -936,10 +957,7 @@ export async function benchRequest(
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/economy") {
-        send(
-          200,
-          economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
-        );
+        send(200, economyView(requireCore(), placeId));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/world-panels") {
@@ -1289,13 +1307,18 @@ export async function benchRequest(
         send(
           200,
           date && player?.personId
-            ? electionDay(
-                requireCore(),
-                player.personId,
-                visit ?? null,
-                canvassedOn.has(`${player.personId}|${date}`),
-                date,
-              )
+            ? {
+                ...electionDay(
+                  requireCore(),
+                  player.personId,
+                  visit ?? null,
+                  canvassedOn.has(`${player.personId}|${date}`),
+                  date,
+                ),
+                // The card shows election morning, not the midnight the
+                // clock stopped at to ask.
+                at: { date, minuteOfDay: player.dayStartMinute() },
+              }
             : null,
         );
         return;

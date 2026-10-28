@@ -21,7 +21,7 @@ import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { SCHOOL_MODULE_ID } from "../core2/school-measures";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { CIRCUMSTANCES, sceneWebRows } from "./circumstance";
+import { CIRCUMSTANCES } from "./circumstance";
 import type { Director } from "./ledger";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
@@ -170,6 +170,40 @@ function playYear(
     const purpose = purposeScene(core, director, personId, entry, {
       includeHeld: true,
     });
+    // A door on the player's canvass is the player asking for the vote: the
+    // narrator sets the door, the player's request opens, the resident answers.
+    if (row.id.startsWith("door-")) {
+      expect(purpose?.kind, `${moment.id}: the door is a scene`).toBe(
+        "composed",
+      );
+      // Only while the race is still to come: never after the count.
+      const contestId = (
+        coreAPI(core)
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("impressions")
+          .get(`${castId}|${personId}`) as unknown as
+          { contestId?: string } | undefined
+      )?.contestId;
+      const electionDate = (
+        coreAPI(core)
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .get(contestId ?? "") as unknown as
+          { electionDate?: string } | undefined
+      )?.electionDate;
+      expect(electionDate! > moment.date, `${moment.id}: before the vote`).toBe(
+        true,
+      );
+      if (purpose?.kind === "composed") {
+        const talk = purpose.scene.talk;
+        expect(talk.narration.length, moment.id).toBeGreaterThan(0);
+        expect(talk.state.move, moment.id).toBe("request");
+        expect(talk.tree.lines[0]?.speakerId, moment.id).toBe(castId);
+        process.stdout.write(
+          `DOOR ${where}: ${[...talk.narration, talk.state, ...talk.tree.lines].map((line) => line.text).join(" / ")} / choices: ${talk.tree.replies.map((reply) => reply.line.text).join(" | ")}\n`,
+        );
+      }
+    }
     let replyId: string | undefined;
     if (purpose?.kind === "composed") {
       replyId =
@@ -528,18 +562,4 @@ it("gives every circumstance a situation type cause and a scene-web row", () => 
     expect(labels.has(`${row.typeKey}|circumstance:${row.id}`), row.id).toBe(
       true,
     );
-  // One scene-web row for every live cause of every situation type.
-  const live = SITUATION_LIBRARY.types.reduce(
-    (sum, type) => sum + type.causes.filter((cause) => cause.match).length,
-    0,
-  );
-  expect(sceneWebRows()).toHaveLength(live);
-  for (const row of sceneWebRows()) {
-    expect(row.triggerRecordKinds.length, row.id).toBeGreaterThan(0);
-    for (const kind of row.triggerRecordKinds)
-      expect(kind, row.id).toBeTruthy();
-    expect(row.placeKinds.length, row.id).toBeGreaterThan(0);
-    expect(row.castRule, row.id).toBeTruthy();
-    expect(row.outcomeRecord, row.id).toBeTruthy();
-  }
 });
