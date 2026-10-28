@@ -36,8 +36,9 @@ export function officialHousehold(
     p("one"),
   ).monthlyMinor;
   const shelter =
-    hudStateRentRow(stateKey).rents[bedroomsForHousehold(p("one"))]! *
-    p("minorPerDollar");
+    hudStateRentRow(stateKey, api.state.seed).rents[
+      bedroomsForHousehold(p("one"))
+    ]! * p("minorPerDollar");
   return {
     livingCostDailyMinor: Math.round(
       ((everyday + shelter) * p("monthsPerYear")) / p("daysPerMeanYear"),

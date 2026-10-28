@@ -25,6 +25,7 @@ import { transferCash } from "./world-transfer";
 import { lawApplied } from "./law-reach/applied";
 import { townOutsideOf } from "./opening-outside-market";
 import type { CoreAPI, CoreState, Source } from "./types";
+import { housingWorldOffset } from "./housing-prices";
 
 /** The policy keys the builders' decision reads, and the law row each was governed by this month. */
 export const CONSTRUCTION_LAW_KEYS = {
@@ -97,7 +98,30 @@ export function openingZoning(): Zoning {
   };
 }
 
-function permitRates(usps: string): {
+/** The state's building permits per thousand people in this world: the published rates (Census Building Permits Survey) moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+export function permitRates(
+  usps: string,
+  seed: string,
+): {
+  singlePerThousand: number;
+  multiPerThousand: number;
+} {
+  const published = publishedPermitRates(usps);
+  const share =
+    1 +
+    housingWorldOffset(
+      seed,
+      `permits:${usps}`,
+      "housingWorldPermitSpreadShare",
+    );
+  return {
+    singlePerThousand: published.singlePerThousand * share,
+    multiPerThousand: published.multiPerThousand * share,
+  };
+}
+
+/** The state's published permits per thousand people (calibration). */
+export function publishedPermitRates(usps: string): {
   singlePerThousand: number;
   multiPerThousand: number;
 } {
@@ -231,7 +255,7 @@ export function buildMonth(
   const z = row.zoning;
   const elasticity = p("housingSupplyElasticity"),
     landElasticity = p("housingLandStartsElasticity");
-  const rates = permitRates(input.usps);
+  const rates = permitRates(input.usps, c.seed);
   const perMonth = residentsOf(c, input.placeId) / 1000 / MONTHS;
   const priceLevel = input.priceLevel / row.openingPriceLevel;
   // Houses: today's value against today's cost, relative to the opening's.
