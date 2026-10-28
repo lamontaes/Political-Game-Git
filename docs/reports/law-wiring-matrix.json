@@ -130,9 +130,9 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 72,
+    "wired": 75,
     "partly": 7,
-    "stopgapped": 10,
+    "stopgapped": 7,
     "shownOnAScreen": 87,
     "screensRead": [
       {
@@ -185,10 +185,10 @@
         "n/a": 7
       },
       "web": {
-        "wired": 61,
+        "wired": 64,
         "partial": 2,
         "missing": 0,
-        "stopgap": 10,
+        "stopgap": 7,
         "n/a": 16
       },
       "knowing": {
@@ -2437,7 +2437,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "balanced-budget",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -2465,9 +2465,9 @@
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 balanced-budget-to-borrowing-cost 8.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 balanced-budget-to-borrowing-cost 8.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 balanced-budget-to-borrowing-cost 8.0000 (ledger row only)",
-          "why": "no production reader: balanced-budget-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 balanced-budget-to-borrowing-cost 8.0000, read by src/core2/budgets-treasury.ts:189; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 balanced-budget-to-borrowing-cost 8.0000, read by src/core2/budgets-treasury.ts:189; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 balanced-budget-to-borrowing-cost 8.0000, read by src/core2/budgets-treasury.ts:189",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
@@ -2521,7 +2521,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "pension-funding",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -2549,9 +2549,9 @@
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 pension-funding-to-borrowing-cost 3.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 pension-funding-to-borrowing-cost 3.0000 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 pension-funding-to-borrowing-cost 3.0000 (ledger row only)",
-          "why": "no production reader: pension-funding-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 pension-funding-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 pension-funding-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 pension-funding-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
@@ -2613,7 +2613,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "reserve",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -2641,9 +2641,9 @@
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 reserve-balance-to-borrowing-cost 3.0000 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 reserve-balance-to-borrowing-cost 3.0000 (ledger row only); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 reserve-balance-to-borrowing-cost 3.0000 (ledger row only)",
-          "why": "no production reader: reserve-balance-to-borrowing-cost (SG-WEB-unread-gov-borrowing-cost) move only the web's ledger"
+          "status": "wired",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 reserve-balance-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 reserve-balance-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-03 reserve-balance-to-borrowing-cost 3.0000, read by src/core2/budgets-treasury.ts:189",
+          "why": ""
         },
         "knowing": {
           "status": "wired",

@@ -5,10 +5,10 @@
     "lawLinks": 134,
     "webCoverageWired": 125,
     "allEightPoints": 0,
-    "reachesOrCarried": 144,
-    "namedInAStopgap": 102,
+    "reachesOrCarried": 147,
+    "namedInAStopgap": 99,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 144,
+    "reachesTheWorld": 147,
     "aboutZero": 19,
     "withAnyModerator": 23,
     "byPoint": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 144,
+        "pass": 147,
         "partial": 0,
-        "fail": 81,
+        "fail": 78,
         "n/a": 19
       },
       "varied": {
@@ -4790,8 +4790,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it"
+          "evidence": "outcome read by src/core2/budgets-treasury.ts:189",
+          "why": "the web does not run it: it waits on press.local-newspaper, and it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -9968,9 +9968,8 @@
           "evidence": "data/research/outcome-web/links.json:5651 size -8, range [-20, 0], Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/budgets-treasury.ts:189"
         },
         "varied": {
           "status": "fail",
@@ -9996,8 +9995,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-gov-borrowing-cost"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "pension-funding-to-borrowing-cost",
@@ -10016,9 +10015,8 @@
           "evidence": "data/research/outcome-web/links.json:5673 size -3, range [-8, 0], Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/budgets-treasury.ts:189"
         },
         "varied": {
           "status": "fail",
@@ -10044,8 +10042,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-gov-borrowing-cost"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "reserve-balance-to-borrowing-cost",
@@ -10064,9 +10062,8 @@
           "evidence": "data/research/outcome-web/links.json:5695 size -3, range [-6, 0], Pew Charitable Trusts 2017; Wagner 2004"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/budgets-treasury.ts:189"
         },
         "varied": {
           "status": "fail",
@@ -10092,8 +10089,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-gov-borrowing-cost"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "fare-free-transit-to-ridership",
@@ -10690,8 +10687,8 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "evidence": "outcome read by src/core2/budgets-treasury.ts:189",
+          "why": "the web does not run it: it waits on federal.deficit-change-pct-of-gdp"
         },
         "varied": {
           "status": "fail",
@@ -12353,9 +12350,8 @@
     },
     {
       "measure": "gov.borrowing-cost",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/budgets-treasury.ts:189",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
