@@ -6,6 +6,14 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 05:30 UTC: the overnight plan (owner, 1:20 AM Eastern, "go ahead, I approve... standing approval for whatever you need")
+
+- **Order:** trim first (every duplicate deleted from the engine map's lines and the duplicates report), the carcass audit in parallel (everything neither engine, view nor guard listed with proof, handed to the trim), then wiring through the one engine per mechanic: five sessions (opening and home with history; people and the director; every screen from the kit; one election engine and the campaign; office, budgets and justice with the copied statistics drawn per world) plus the law links to named people. Items: wire-opening-and-home, wire-people-and-director, wire-screens-from-the-kit, wire-elections-and-campaigns, wire-office-budgets-justice, wire-law-links-to-people, carcass-audit-everything-not-engine-view-or-guard, trim-main-every-duplicate-deleted.
+- **"Wired" (owner's words, confirmed):** the simulation is the one layer; every engine (personality, speech, the director, laws, campaigns, elections, the economy, money, people's opinion of you, all of them) reads the same history and records; the golden path is only the player's view of it; realistic not real, so one save's history may be a boom and another's fifty bad years.
+- **No holds:** mergers merge every green PR all night; a golden-path red that reproduces on clean main does not block; anything unsure is a registered stopgap and a line in the morning report, never a question that waits.
+- **Branch protection is on** (validate and golden-path required; set by the owner's local session). Art intake into the game is on hold until the owner says; the local session keeps pushing art and writes docs/art/HANDOFF.md for a cloud session to finish its work.
+- **The 10 AM Eastern build:** the watcher dispatches it at 9:30 and writes docs/reports/morning-2026-10-28.md at 9:45 with the furthest step a player reaches, in words.
+
 ## Oct 28, 05:00 UTC: no session messages; GitHub and Drive only (owner, 1:30 AM Eastern)
 
 - **Sessions communicate through GitHub or Drive, never by message (owner: "tell every session to communicate via GitHub or Drive and not try to send messages because it doesn't work, and then work gets dropped").** Messages between sessions are refused or lost; the channel, MERGE-FIRST, PROGRESS, PR bodies and comments, and pool Notes carry everything. The Oct 27 "messaging opened" line is withdrawn.
