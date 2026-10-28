@@ -652,6 +652,8 @@ const TENURE = (
   tenure as unknown as { parameters: Record<string, { value: number }> }
 ).parameters;
 const tenureYears = (key: string) => TENURE[key]!.value;
+const tenureSpread = (key: string) =>
+  (TENURE[key] as unknown as { spread: readonly [number, number] }).spread;
 const shiftYears = (date: string, years: number) =>
   `${Number(date.slice(0, 4)) + years}${date.slice(4)}`;
 const LEGISLATIVE = /^(council|county-board|legislature-)/;
@@ -698,7 +700,11 @@ function pastTerms(
       ...term,
       startDate: created,
       serviceStart: created,
-      ...(office.elected ? { elected: electionBehind(office, created) } : {}),
+      ...(office.elected
+        ? {
+            elected: electionBehind(office, created, `${worldSeed}:${seat.id}`),
+          }
+        : {}),
     } as unknown as ModuleRow);
     return;
   }
@@ -769,7 +775,9 @@ function pastTerms(
       ? termStartInYear(office, shiftYears(start, -prior * years))
       : start;
   const won = (from: string) =>
-    office.elected ? { elected: electionBehind(office, from) } : {};
+    office.elected
+      ? { elected: electionBehind(office, from, `${worldSeed}:${seat.id}`) }
+      : {};
   // A holder too young for the office when the current term began came to it
   // partway through, on the day they reached the minimum age (a February 29
   // birthday counts on March 1), filling the seat rather than winning it.
@@ -812,12 +820,14 @@ function pastTerms(
 /**
  * The election that seated a term starting on a date: the general election
  * the November before a January start, else a local election some weeks
- * before; the winner's share is the average for that kind of office (an
- * estimate; the history only has to fit the world it opens).
+ * before. The winner's share is drawn once per seat and race from the
+ * world's seed inside the spread for that kind of office (owner, Oct 27:
+ * realistic, not real), so no two holders print the same share by rule.
  */
 function electionBehind(
   office: OfficeInput,
   start: string,
+  seatSeed: string,
 ): { date: string; share: number } {
   const year = Number(start.slice(0, 4));
   const date =
@@ -839,7 +849,12 @@ function electionBehind(
           : office.level === "state" || office.level === "federal"
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
-  return { date, share: tenureYears(key) };
+  const [low, high] = tenureSpread(key);
+  const hash = createHash("sha256")
+    .update(`${seatSeed}:${start}:winner-share`)
+    .digest("hex");
+  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
+  return { date, share: low + (high - low) * u };
 }
 
 /** A seat's elections before the start, oldest first (history to the opening). */
