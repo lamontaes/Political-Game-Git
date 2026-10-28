@@ -20,6 +20,7 @@ import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
+import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -846,14 +847,6 @@ function billBlock(item, buttons, onPaper) {
       textContent: [item.title, item.number, item.sponsor]
         .filter(Boolean)
         .join(" · "),
-    }),
-    el("div", {
-      textContent: item.provisions
-        .map(
-          (p) =>
-            `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
-        )
-        .join("; "),
     }),
     item.remarks.length
       ? el("div", {
@@ -2750,6 +2743,9 @@ const sheets = {
       return b;
     };
     const portrait = (p) => {
+      // A headshot: the person's own figure, cropped round to their head
+      // (no box; owner, Oct 28).
+      if (p.face) return headshot(p.face);
       const url = p.presentation?.portraitUrl ?? p.figureUrl;
       if (!url)
         return el("span", {
@@ -2791,6 +2787,7 @@ const sheets = {
             { className: "people-center" },
             portrait({
               name: me.card.name,
+              face: me.card.face,
               // The saved look, as the card and Who you are read it: not whatever room's figure.
               figureUrl: portraitUrl(),
             }),
@@ -3370,39 +3367,6 @@ const sheets = {
         c.lines.map((l) => l.text).join(" "),
       ),
     );
-  },
-  async map() {
-    const m = await api("/api/map");
-    if (!m) return [];
-    const ns = "http://www.w3.org/2000/svg";
-    const svg = document.createElementNS(ns, "svg");
-    const [x0, y0, x1, y1] = m.bbox;
-    svg.setAttribute("viewBox", `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
-    svg.setAttribute("class", "gov-map");
-    const shape = (d, cls, title) => {
-      const el2 = document.createElementNS(ns, "path");
-      el2.setAttribute("d", d);
-      el2.setAttribute("class", cls);
-      if (title) {
-        const t = document.createElementNS(ns, "title");
-        t.textContent = title;
-        el2.append(t);
-      }
-      svg.append(el2);
-    };
-    if (m.state) shape(m.state.d, "state");
-    for (const c of m.counties) shape(c.d, "county", c.name);
-    const legend = [];
-    for (const [layer, district] of Object.entries(m.yours)) {
-      if (!district?.d) continue;
-      shape(
-        district.d,
-        `yours ${layer}`,
-        `${district.name}: ${district.holders.join(", ")}`,
-      );
-      legend.push(row(district.name, district.holders.join(" · ")));
-    }
-    return [listRow("map", {}, svg), ...legend];
   },
   async handoff() {
     const people = [
@@ -4043,73 +4007,6 @@ const sheets = {
       }
     draw();
     return [...economy, outletPicker, paper];
-  },
-  async law() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    // What the law in force puts on your own record.
-    const yours = me.card.lawEffects
-      .filter((e) => !e.endedOn)
-      .map((e) => row(policyLabel(e.question), `${e.what} · ${e.since}`));
-    return [
-      ...yours,
-      ...v.law.map((law) =>
-        listRow(
-          "narrative",
-          {},
-          termLabel(policyLabel(law.series)),
-          ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
-          el(
-            "div",
-            {},
-            ...law.levels
-              .filter((level) => level.row)
-              .map((level) =>
-                el("div", {
-                  textContent: `${lawLevelLabel(law, level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
-                }),
-              ),
-            ...law.pending.map((row) =>
-              el("div", {
-                textContent: `${lawLevelLabel(law, pendingLevel(law, row))} · ${row.effectiveDate} → ${amount(row.value, row.unit)}`,
-              }),
-            ),
-          ),
-        ),
-      ),
-    ];
-  },
-  async changes() {
-    const { ahead, took } = await api(
-      `/api/changes?id=${encodeURIComponent(me.id)}`,
-    );
-    // Enacted, waiting for its date: the measure, what it sets, and when.
-    const coming = ahead.map((law) =>
-      listRow(
-        "narrative",
-        {},
-        el("b", {
-          textContent: `${law.date} · ${policyLabel(law.series)} · ${amount(law.value, law.unit)}`,
-        }),
-        `${law.measure} · ${law.jurisdiction}`,
-      ),
-    );
-    return [
-      ...coming,
-      ...took.map((law) =>
-        listRow(
-          "narrative",
-          {},
-          el("b", {
-            textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
-          }),
-          [
-            `${law.jurisdiction} · ${law.reached}`,
-            ...(law.you ? [`${me.card?.name ?? ""}: ${law.you}`] : []),
-            ...law.names.map((n) => `${n.name}: ${n.what}`),
-          ].join(" · "),
-        ),
-      ),
-    ];
   },
   /**
    * Politics' own guide: what each tab is for, a page each, then how a
@@ -4873,10 +4770,7 @@ const titles = {
   options: "Options",
   guide: "Guide",
   politicsGuide: "Guide",
-  changes: "What changed",
-  law: "Law here",
   handoff: "Carry on as",
-  map: "Map",
   news: "News",
 };
 // Screens shown as tabs across the top of one menu screen.
@@ -4959,7 +4853,7 @@ async function openSheet(tab) {
   // the calendar, the people web and two-column readers fill the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "map", "who"].includes(tab) &&
+    !["calendar", "people", "who"].includes(tab) &&
       !$("sheet-body").classList.contains("cols"),
   );
   show("sheet", true);
