@@ -3,12 +3,12 @@ import { addFamilyHistories } from "./past-family";
 import { groupedJsonTable } from "./reference/lazy-data";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countyGeoidsForPlace } from "./reference/government-units";
-import { corePlaceByJurisdictionId } from "./place-lookup";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import { placeReferencePopulation } from "./gov-rules/place-population";
 import { stableHash } from "./kernel/ids";
 import { SeededRng } from "./kernel/rng";
 import { kindergartenYear, onCalendar } from "./school-calendar";
-import { generatedSchoolName } from "./past-school-names";
+import { schoolNamer } from "./past-school-names";
 import { worldLevel } from "./world-draw";
 import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/deep-past.json" with { type: "json" };
@@ -192,6 +192,19 @@ export function buildDeepPast(
   );
   const unresolved = new Map<string, number>();
   const schoolCache = new Map<string, readonly SchoolRow[]>();
+  // The place each listed campus is in, so its name is its own town's and
+  // avoids its own town's real schools, whoever went there.
+  const campusPlace = new Map<string, string>();
+  // Schools named for a family take one of this world's own families.
+  const nameSchool = schoolNamer(
+    [
+      ...new Set(
+        input.people
+          .map((person) => person.familyName)
+          .filter((name): name is string => !!name),
+      ),
+    ].sort(),
+  );
   // Lists read from the county or territory rather than the place itself.
   const broadLists = new Set<readonly SchoolRow[]>();
 
@@ -229,7 +242,8 @@ export function buildDeepPast(
       : null;
     const teaching = (geoids: readonly string[]) =>
       geoids.flatMap((geoid) =>
-        (schoolsAt(geoid) ?? []).filter(([, , lowest, highest]) => {
+        (schoolsAt(geoid) ?? []).filter(([id, , lowest, highest]) => {
+          campusPlace.set(id, geoid);
           const low = grade(lowest);
           const high = grade(highest);
           return (
@@ -504,14 +518,18 @@ export function buildDeepPast(
         // The campus keeps the directory's place, grades and size; its name
         // is this world's own (owner, Oct 27: no real school's name ships).
         // A person with no listed campus gets a school of their own.
+        // A listed campus is named for its own place and never carries the
+        // name of a real school there, as people say it; a school of the
+        // world's own (none listed) is the person's place's.
+        const home = campusId ? campusPlace.get(campusId) : undefined;
         // The town's own name, without its state ("Anson", not "Anson, Texas").
         const [town = null] =
-          corePlaceByJurisdictionId(placeId as EntityId)?.displayName.split(
-            ", ",
-          ) ?? [];
-        // Never the name of a real school near the person, as people say it.
+          (home
+            ? corePlaceByKey(home)
+            : corePlaceByJurisdictionId(placeId as EntityId)
+          )?.displayName.split(", ") ?? [];
         const real = new Set(
-          listed.map(([, name]) =>
+          (home ? (schoolsAt(home) ?? []) : listed).map(([, name]) =>
             campusSpokenName(name, data.schools).toUpperCase(),
           ),
         );
@@ -520,7 +538,7 @@ export function buildDeepPast(
         const names = new SeededRng(input.seed).fork(
           `school-name:${campusId ?? `${placeId}:${stage.id}`}`,
         );
-        const schoolName = generatedSchoolName(
+        const schoolName = nameSchool(
           (list) => names.pick(list),
           stage,
           town,

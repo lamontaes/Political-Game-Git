@@ -4,13 +4,12 @@
  * and size as structure, and takes a name in the shapes American public
  * schools use (the town, a compass point and the town, a public figure, a
  * family name, or local landscape), weighted as the national directory counts
- * them per stage (src/core2/data/names/school-name-features.json). The caller
- * draws one name from a stage's candidates with the world's seed; this file
- * holds no draw of its own. Seeded generation of what exists, never an actor's
+ * them per stage (src/core2/data/names/school-name-features.json). A family
+ * name is one of the world's own families. The caller draws one name from a
+ * stage's candidates with the world's seed; this file holds no draw of its own. Seeded generation of what exists, never an actor's
  * outcome.
  */
 import SHAPES from "./data/names/school-name-features.json" with { type: "json" };
-import { DEFAULT_CORPUS_VERSION, getNameCorpus } from "./gov-rules/names-data";
 
 type Shape = "place" | "direction" | "figure" | "family" | "feature";
 const DATA = SHAPES as unknown as {
@@ -27,27 +26,28 @@ const TOWN = "\u0000town";
 /**
  * A stage's candidate names, before the stage's suffix: each shape's names
  * repeated so that the shape is drawn as often as the directory counts it,
- * shared evenly over its names. Built once per stage.
+ * shared evenly over its names. A shape with no names (a world with no
+ * families yet) is left out.
  */
-const candidates = new Map<string, readonly string[]>();
-function namesFor(stageId: string): readonly string[] {
-  const known = candidates.get(stageId);
-  if (known) return known;
+function namesFor(
+  stageId: string,
+  families: readonly string[],
+): readonly string[] {
   const counts = DATA.shapes[stageId] ?? DATA.shapes.elementary!;
   const lists: Record<Shape, readonly string[]> = {
     place: [TOWN],
     direction: DATA.directions.map((d) => `${d} ${TOWN}`),
     figure: DATA.figures,
-    family: getNameCorpus(DEFAULT_CORPUS_VERSION).familyNames,
+    family: families,
     feature: DATA.features,
   };
   const names: string[] = [];
   for (const shape of Object.keys(lists) as Shape[]) {
     const list = lists[shape];
+    if (!list.length) continue;
     const each = Math.max(1, Math.round(counts[shape] / list.length));
     for (const name of list) for (let i = 0; i < each; i += 1) names.push(name);
   }
-  candidates.set(stageId, names);
   return names;
 }
 
@@ -62,26 +62,32 @@ function said(raw: string, suffix: string, town: string | null): string | null {
 }
 
 /**
- * This world's name for one campus. `draw` picks one of a list with the
+ * The namer for one world's schools: `families` are the world's own family
+ * names. Each call names one campus: `draw` picks one of a list with the
  * campus's own seeded stream (the caller's), so everyone in the world who
  * went there says the same name and another world says another. `town` is
- * the name of the place the school serves. A name that matches one of `real`
- * (the upper-case names of the real schools near the person, as people say
- * them) is drawn again.
+ * the name of the place the school is in. A name that matches one of `real`
+ * (the upper-case names of the real schools there, as people say them) is
+ * drawn again.
  */
-export function generatedSchoolName(
-  draw: (names: readonly string[]) => string,
-  stage: { readonly id: string; readonly nameSuffix: string },
-  town: string | null,
-  real: ReadonlySet<string> = new Set(),
-): string {
-  const names = namesFor(stage.id);
-  let kept: string | null = null;
-  for (let tries = 0; tries <= DATA.redraws.value; tries += 1) {
-    const name = said(draw(names), stage.nameSuffix, town);
-    if (!name) continue;
-    kept = name;
-    if (!real.has(name.toUpperCase())) return name;
-  }
-  return kept ?? `${DATA.features[0]} ${stage.nameSuffix}`;
+export function schoolNamer(families: readonly string[]) {
+  const candidates = new Map<string, readonly string[]>();
+  return (
+    draw: (names: readonly string[]) => string,
+    stage: { readonly id: string; readonly nameSuffix: string },
+    town: string | null,
+    real: ReadonlySet<string> = new Set(),
+  ): string => {
+    let names = candidates.get(stage.id);
+    if (!names)
+      candidates.set(stage.id, (names = namesFor(stage.id, families)));
+    let kept: string | null = null;
+    for (let tries = 0; tries <= DATA.redraws.value; tries += 1) {
+      const name = said(draw(names), stage.nameSuffix, town);
+      if (!name) continue;
+      kept = name;
+      if (!real.has(name.toUpperCase())) return name;
+    }
+    return kept ?? `${DATA.features[0]} ${stage.nameSuffix}`;
+  };
 }

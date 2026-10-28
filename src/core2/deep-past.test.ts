@@ -10,7 +10,7 @@ import {
 import { parameter as p } from "./parameters";
 import { realLocalities } from "./places";
 import schoolsData from "./data/opening-schools.json" with { type: "json" };
-import { generatedSchoolName } from "./past-school-names";
+import { schoolNamer } from "./past-school-names";
 import type { CoreInput, PersonInput, Source } from "./types";
 
 const directoryName = new Map(
@@ -455,11 +455,13 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
   });
   it("two worlds name the same fifty campuses differently, each a school's name", () => {
     const stage = DEFAULT_DEEP_PAST_DATA.schools.stages[0]!;
-    const named = (worldSeed: string) =>
-      Array.from({ length: 50 }, (_, i) => {
+    const named = (worldSeed: string) => {
+      const name = schoolNamer(["Baker", "Ortiz", "Nguyen"]);
+      return Array.from({ length: 50 }, (_, i) => {
         const rng = new SeededRng(worldSeed).fork(`school-name:campus-${i}`);
-        return generatedSchoolName((list) => rng.pick(list), stage, "Anson");
+        return name((list) => rng.pick(list), stage, "Anson");
       });
+    };
     const a = named(seed),
       b = named(`${seed}:other-world`);
     for (const name of [...a, ...b])
