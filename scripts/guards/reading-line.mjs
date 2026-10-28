@@ -1,3 +1,4 @@
+/* global console, process */
 /**
  * The reading line: a pull request that asks the owner something shows it
  * looked first (`.agents/rules/smart-and-look-first.md`, the look-first
