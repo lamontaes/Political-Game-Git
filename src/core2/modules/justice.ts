@@ -43,7 +43,7 @@ import type {
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
-import { OFFICES_MODULE_ID, vacateSeat } from "./offices";
+import { OFFICES_MODULE_ID, servingTermsOf, vacateSeat } from "./offices";
 import { closenessBetween } from "../closeness";
 import {
   briberyRange,
@@ -55,7 +55,6 @@ import {
   partyOf,
   prominenceOf,
   prosecutorFor,
-  servingTermsOf,
   type ProsecutorOffice,
 } from "../justice-law";
 import { holdInCustody, releaseFromCustody } from "../justice-custody";
@@ -182,14 +181,6 @@ const addDays = (date: string, days: number) =>
     .toISOString()
     .slice(0, 10);
 
-function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
-  for (const id of api.state.relationshipsByPerson.get(a) ?? []) {
-    const row = api.state.relationships.get(id)!;
-    if (row.actorId === b || row.otherId === b) return row.level;
-  }
-  return api.parameter("zero");
-}
-
 /** A person's calibrated trait term between two options of a justice decision, or none for someone not a person yet. */
 function lean(
   api: CoreAPI,
@@ -280,7 +271,9 @@ export function reportReasons(
   const reasons = {
     duty: p(api, basis === "witness" ? "reportDutyPull" : "reportHearsayPull"),
     traits: lean(api, reporterId, "justice.report", "report", "keep-quiet"),
-    tie: -p(api, "reportTieWeight") * closeness(api, reporterId, accused),
+    tie:
+      -p(api, "reportTieWeight") *
+      closenessBetween(api.state, reporterId, accused),
   };
   const pull = Object.values(reasons).reduce((a, b) => a + b, zero(api));
   return { reasons, pull };

@@ -6,9 +6,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/player-stops
-pr:
+pr: #6476
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T00:31:17.093Z

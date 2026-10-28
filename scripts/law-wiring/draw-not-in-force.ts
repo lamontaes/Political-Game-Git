@@ -9,7 +9,7 @@
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
-import { inForceHere } from "../../src/core2/law-reach/host";
+import { yesLevels } from "../../src/core2/modules/laws";
 import { coreAPI } from "../../src/core2/state";
 import { drawLawPlace } from "./check";
 
@@ -26,7 +26,7 @@ for (let i = 1; i <= Number(max ?? 12) && wanted.size; i += 1) {
   });
   const api = coreAPI(w.core);
   const inForce = Object.fromEntries(
-    [...wanted].map((k) => [k, inForceHere(api, k)]),
+    [...wanted].map((k) => [k, yesLevels(api, k).length > 0]),
   );
   console.log(JSON.stringify({ seed, place: drawn, inForce }));
   for (const [k, on] of Object.entries(inForce)) if (!on) wanted.delete(k);

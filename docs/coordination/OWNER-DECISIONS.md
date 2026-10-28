@@ -6,6 +6,41 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 05:30 UTC: the overnight plan (owner, 1:20 AM Eastern, "go ahead, I approve... standing approval for whatever you need")
+
+- **Order:** trim first (every duplicate deleted from the engine map's lines and the duplicates report), the carcass audit in parallel (everything neither engine, view nor guard listed with proof, handed to the trim), then wiring through the one engine per mechanic: five sessions (opening and home with history; people and the director; every screen from the kit; one election engine and the campaign; office, budgets and justice with the copied statistics drawn per world) plus the law links to named people. Items: wire-opening-and-home, wire-people-and-director, wire-screens-from-the-kit, wire-elections-and-campaigns, wire-office-budgets-justice, wire-law-links-to-people, carcass-audit-everything-not-engine-view-or-guard, trim-main-every-duplicate-deleted.
+- **"Wired" (owner's words, confirmed):** the simulation is the one layer; every engine (personality, speech, the director, laws, campaigns, elections, the economy, money, people's opinion of you, all of them) reads the same history and records; the golden path is only the player's view of it; realistic not real, so one save's history may be a boom and another's fifty bad years.
+- **No holds:** mergers merge every green PR all night; a golden-path red that reproduces on clean main does not block; anything unsure is a registered stopgap and a line in the morning report, never a question that waits.
+- **Branch protection is on** (validate and golden-path required; set by the owner's local session). Art intake is written tonight as open PRs with proof sheets (the same scene with different people, poses, outfits, hair, faces and rooms) and merged only when the owner looks and says yes (owner, 1:40 AM: "a few steps away from ready to merge, but I want all the work to still be done... it just won't be fully attached until I give the visual okay"); mergers do not merge a PR marked OWNER VISUAL CHECK. The local session keeps pushing art and writes docs/art/HANDOFF.md for a cloud session to finish its work.
+- **The 10 AM Eastern build:** the watcher dispatches it at 9:30 and writes docs/reports/morning-2026-10-28.md at 9:45 with the furthest step a player reaches, in words.
+
+## Oct 28, 05:00 UTC: no session messages; GitHub and Drive only (owner, 1:30 AM Eastern)
+
+- **Sessions communicate through GitHub or Drive, never by message (owner: "tell every session to communicate via GitHub or Drive and not try to send messages because it doesn't work, and then work gets dropped").** Messages between sessions are refused or lost; the channel, MERGE-FIRST, PROGRESS, PR bodies and comments, and pool Notes carry everything. The Oct 27 "messaging opened" line is withdrawn.
+- **Guards first (owner: "That's what I want. Guards first").** No builder starts until the guards are on main and the owner has seen what they turn red; he decides the builders from that list.
+
+## Oct 28, 04:00 UTC: the map first (owner, 12:30 AM Eastern)
+
+- **The simulation is the one layer; everything else is a view of its records (owner, 12:45 AM Eastern: "All this stuff happens in the engines and the simulation, which is the overall layer. It's just different ways of displaying the same information... That's how literally every single game works. Make my game like how every other game works").** Screens, scenes, the Journal, News and speeches read the records; none computes or stores its own version of a fact. In AGENTS.md's first bullet.
+- **Every building session is stopped until the engine map is read (owner: "give me the map first"; "I will decide on these sessions... these are not questions you ask me until we even know the scope of the problem").** One read-only session writes docs/reports/engine-map-2026-10-28.md: every engine, its readers, its duplicates, what reaches each screen, every writer and reader of the past, every hard-coded number; no code changes. The owner decides the sessions from it.
+- **A new mechanic is forbidden; a missing piece is a stopgap and a question (owner: "Yes, a stopgap. Because I've been proven right literally every single time this comes up. It's in the code. Whatever you need, it's in the code").**
+- **Every piece of UI comes from the UI kit, nothing invented (owner: "The 20 play sheets, those all need to be from the UI kit. Every single piece of UI, not just the menu, needs to come from the UI kit. Every single piece, nothing invented").**
+- **Realistic, not real, for the whole world (owner: "no hard-coded percentages or situations in the world, just by the simulation, just like RimWorld, every world is different, every tile is different every single time").**
+- **One history (owner: "history's exactly like I said, it's going through a different system. There needs to be one. Everything needs to pull from the same history").**
+- **The mergers keep merging what is green; nothing else runs.**
+
+## Oct 28, 03:15 UTC: build the playable game, nothing hidden (owner, 11 PM Eastern Oct 27)
+
+- **Take out the depth and build the playable path (owner: "Take out all the depth. Literally just build it. I'm sick of the depth. I just want to play my game"; "I want everything merged, and I just want the game to work").** One session plays the golden path on main and fixes each stop, minimum viable; every open PR merges the hour it is green; the drafts close.
+- **Every cut corner is a registered stopgap in the existing register, never a new system (owner: "anytime a corner is cut or compromises is made, make sure that it's duly noted, flagged, everything. Using the same thing that everything else uses, not making up a new system").** No hard-coded numbers: cutting research means keeping the existing table value, not typing one.
+- **Every system is already built; use it (owner: "literally every single system in the game has been built. Use it. For every single item that is in the pool, the system is built. I guarantee it").** A new mechanic is a last resort and is flagged as a stopgap naming the engine the builder could not find.
+
+## Oct 28, 02:00 UTC: one UI package (owner, 9:55 PM Eastern Oct 27)
+
+- **One engine per mechanic, for the whole game (owner, 10:10 PM Eastern Oct 27: "There's one election engine. They all work the same, except some of them are assigned different things because they're state or a congressional thing. You shouldn't need a million different election levers"; and: "don't just take election specifically. The game generally").** Every mechanic has one engine; levels, offices, bodies, places and laws are rows it reads. The duplicates session inventories every family at once and collapses each to one; AGENTS.md carries the rule.
+- **One UI package: a few menu types, one renderer each, every screen a definition (owner: "Why are there so many individual UI elements? There needs to be one for every menu, and then a menu type, and then just insert it... How hard is it to just put in one UI package that I can update? It should not take 7 hours to change the menus when everything's already been designed"; and on Budgets: "It should not just be words on this blank background").** No screen draws itself; a screen is data (its type, sections, labels, readers) and the type's renderer draws it; changing a type changes every menu of that type. The screens designer builds it, Budgets and Jobs first; a lint fails any screen outside the package.
+- **UI is not done until the owner's build shows it:** eleven screens merged Oct 27 after v0.59.0 packaged, so he saw none of them; the CTO dispatches a build after every batch of screen merges rather than waiting for the two-hour cron.
+
 ## Oct 28, 01:00 UTC: the People screen (owner, 9 PM Eastern Oct 27, with a screenshot of v0.59.0)
 
 - **The people map is the earlier one he liked, restored, not redesigned (owner: "There was a people map that had already been made that I had already really liked. There's no reason to try to reinvent it. It had different colors for different people").** Colors per kind of person; visible lines.

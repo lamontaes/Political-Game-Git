@@ -249,7 +249,12 @@ export function enforceIncompatibility(
   }
 }
 
-function servingTermsOf(api: CoreAPI, personId: string): readonly TermRow[] {
+/** The terms a person is serving now: the one reader of "what office does this person hold". */
+export function servingTermsOf(
+  api: CoreAPI,
+  personId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
   return (
     table(api, "terms").query("byPerson", [personId]) as unknown as TermRow[]
   ).filter((term) => term.status === "serving");

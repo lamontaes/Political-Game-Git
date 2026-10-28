@@ -41,7 +41,8 @@ describe("figures are framed whole", () => {
     for (const place of Object.keys(staging.places)) {
       const stage = backdropStaging(place)!;
       const hero = stage.spots.find((spot) => spot.hero);
-      if (!hero) continue;
+      // A spot measured from a mannequin plate keeps the painter's placement.
+      if (!hero || hero.head) continue;
       const drawn = figureOn(look, "adult", place, stage, hero);
       if (!drawn) continue;
       const { topPercent, leftPercent, widthPercent } = drawn.figure;

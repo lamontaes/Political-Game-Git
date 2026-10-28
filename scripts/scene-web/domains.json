@@ -49,6 +49,7 @@
     ],
     "the-campaign": [
       "campaign-stop",
+      "door-ask",
       "filing",
       "party-ask",
       "party-recruit",
@@ -67,7 +68,8 @@
       "public-hearing",
       "section-bargain",
       "vote-asked",
-      "vote-confirmed"
+      "vote-confirmed",
+      "vote-sought"
     ],
     "the-executive": [
       "address",

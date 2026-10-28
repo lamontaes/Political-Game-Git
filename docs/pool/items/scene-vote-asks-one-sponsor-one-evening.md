@@ -6,9 +6,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/director-one-sponsor-one-evening
-pr:
+pr: #6480
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T00:55:10.865Z

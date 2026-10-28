@@ -16,7 +16,14 @@ const source = {
   asOf: "2020-01-01",
   citation: "Explicit bench adapter edge fixture",
 };
-function fixture(birthDate = "1980-01-01") {
+/**
+ * The fixture world. A household's contact on the first day is a scene that
+ * stops time (tieMet in src/director/scheduling.ts: a tie turned with someone
+ * met that day), so a case that needs a quiet week sets the player's own scene
+ * setting to allow no scene kind (setSceneFilter), leaving only the stops the
+ * case registers.
+ */
+function fixture(birthDate = "1980-01-01", scenes = true) {
   const input: CoreInput = {
     seed: "bench-adapter-edge-fixture",
     startedAt: "2021-01-01",
@@ -67,6 +74,7 @@ function fixture(birthDate = "1980-01-01") {
     modules: [director.module, { id: "fixture-offer-owner" }],
   });
   director.start(core);
+  if (!scenes) director.setSceneFilter("person", [], "2021-01-01");
   const player = new BenchPlayer(core, director);
   player.select("person");
   return { core, director, player };
@@ -110,7 +118,7 @@ describe("bench public player adapter", () => {
     expect(core.sequence).toBe(before);
   });
   it("lets the character answer its own choices when the day advances", () => {
-    const { player, core } = fixture();
+    const { player, core } = fixture("1980-01-01", false);
     const day = player.advance("day");
     // Day never opens a choice list (owner, Oct 14, 2026).
     expect(day.packet.kind).toBe("complete");
@@ -124,7 +132,7 @@ describe("bench public player adapter", () => {
     expect(core.date >= "2021-12-31").toBe(true);
   });
   it("stops a calendar jump at a big moment's own time while the character chooses for itself", () => {
-    const { player, core } = fixture();
+    const { player, core } = fixture("1980-01-01", false);
     const at = { date: "2021-03-01", minuteOfDay: 600 };
     registerModuleStopV1(core, {
       moduleId: "fixture-offer-owner",
@@ -141,8 +149,24 @@ describe("bench public player adapter", () => {
     expect(result.packet.at).toEqual(at);
     expect(result.selfChosen.length).toBeGreaterThan(0);
   });
+  it("a household's contact on the first day is a scene that stops the week there; a player who allows no scenes has a quiet week", () => {
+    const loud = fixture();
+    const stopped = loud.player.advance("week");
+    expect(stopped.packet.kind).toBe("stop");
+    expect(stopped.packet.at.date).toBe("2021-01-03");
+    // The stop is the director's interrupt for that contact, by record id.
+    if (stopped.packet.kind !== "stop") throw new Error("Expected a stop");
+    expect(stopped.packet.stop.modules[0]).toMatchObject({
+      moduleId: "p13-story-director",
+      recordId: "person:2021-01-02:other:person",
+      kind: "interrupt",
+    });
+    const quiet = fixture("1980-01-01", false).player.advance("week");
+    expect(quiet.packet.kind).toBe("complete");
+    expect(quiet.packet.at.date).toBe("2021-01-09");
+  });
   it("Week advances seven days and a director stop ends it on its own day", () => {
-    const { player, core } = fixture();
+    const { player, core } = fixture("1980-01-01", false);
     const week = player.advance("week");
     expect(week.packet.kind).toBe("complete");
     expect(week.packet.at.date).toBe("2021-01-09");

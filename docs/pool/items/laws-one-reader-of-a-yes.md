@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/dup-law-in-force
-pr:
+pr: #6475
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T01:50:34.922Z
