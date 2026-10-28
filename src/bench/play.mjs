@@ -15,13 +15,19 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { makeTab, chooseTab } from "./ui/tab.mjs";
+import { makeTab, chooseTab, tabBar } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
-import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
+import {
+  listRow,
+  personRow,
+  factRow,
+  noteLine,
+  withNotes,
+} from "./ui/list-row.mjs";
 import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
-import { picture, fillArtwork } from "./ui/picture.mjs";
+import { fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import { section as recordSection } from "./ui/section.mjs";
 import {
@@ -342,6 +348,9 @@ async function renderCard() {
 // The Guide's search, kept so an underlined term opens straight to it.
 // The government whose budget the Budgets tab shows, once the player picks one.
 let budgetGovernment;
+// The level and the other state the Government tab shows, once the player picks them.
+let governmentLevel;
+let governmentState = "";
 let guideQuery = "";
 // Each civic term and its one-line definition.
 let guideTerms = new Map();
@@ -3487,128 +3496,78 @@ const sheets = {
       ["state", "federal"].includes(s.level) ? s.level : "local";
     // The race you ran in opens first: its level, its office, its seat.
     const race = v.ownRace;
-    let level = race ? levelOf(race) : "local";
-    let otherState = "";
-    const picker = el("nav", { className: "government-picker" });
-    const content = el("div", { className: "government-content" });
-    // Another state's members at this level, its legislature or its members
-    // of Congress: every sitting member, by chamber.
-    const drawOtherState = async () => {
-      const other = await api(
-        `/api/government/state?${new URLSearchParams({ state: otherState, level })}`,
-      );
-      const chambers = new Map();
-      for (const s of other.legislators) {
-        if (!chambers.has(s.officeId)) chambers.set(s.officeId, []);
-        chambers.get(s.officeId).push(s);
-      }
-      content.replaceChildren(
-        menuPages(
-          [...chambers.values()].map((seats) =>
-            el(
-              "section",
-              { className: "government-body" },
-              el("h3", { textContent: seats[0].title }),
-              el("p", {
-                className: "government-place",
-                textContent: seats[0].government ?? "",
-              }),
-              menuPages(
-                seats.map((s) =>
-                  row(
-                    s.holder
-                      ? `${s.holder.givenName} ${s.holder.familyName}`
-                      : labels.vacant,
-                    s.holder?.party ?? "",
-                  ),
-                ),
-                6,
-              ),
-            ),
-          ),
-          1,
-        ),
-      );
+    // Which state's legislature the State view shows: the player's own, or any other.
+    const { states } = await api(`/api/government/state?state=`);
+    // A level or a state chosen redraws the sheet in place.
+    const redraw = async () => {
+      const nodes = await screen();
+      if (openTab === "government") $("sheet-body").replaceChildren(...nodes);
     };
-    const statePick = el("select", { className: "government-state" });
-    const draw = () => {
-      statePick.hidden = level === "local";
-      if (level !== "local" && otherState) {
-        drawOtherState();
-        chooseTab(picker, "level", level);
-        return;
-      }
-      const offices = new Map();
-      for (const s of v.seats.filter((s) => levelOf(s) === level)) {
-        if (!offices.has(s.officeId)) offices.set(s.officeId, []);
-        offices.get(s.officeId).push(s);
-      }
-      const raceOffice = [...offices.values()].findIndex((seats) =>
-        seats.some((s) => s.seatId === race?.seatId),
-      );
-      content.replaceChildren(
-        menuPages(
-          [...offices.values()].map((seats) => {
-            const first = seats[0];
-            const parties = new Map();
-            for (const s of seats)
-              if (s.holder?.party)
-                parties.set(
-                  s.holder.party,
-                  (parties.get(s.holder.party) ?? 0) + 1,
-                );
-            const card = el(
-              "section",
-              { className: "government-body" },
-              el("h3", { textContent: first.title }),
-              el("p", {
-                className: "government-place",
-                textContent: first.body ?? first.government ?? "",
-              }),
-            );
-            if (first.presentation?.chamberUrl)
-              card.append(
-                picture({
-                  src: first.presentation.chamberUrl,
-                  className: "government-chamber",
-                }),
-              );
-            if (parties.size)
-              card.append(
-                barChart(
-                  [...parties].map(([label, value]) => ({ label, value })),
-                  labels.seats,
-                ),
-              );
-            const members = seats.map((s) => {
-              const name = s.holder
-                ? `${s.holder.givenName} ${s.holder.familyName}`
-                : labels.vacant;
-              const line = s.holder?.personId
-                ? personRow({
-                    name,
-                    party: s.holder.party,
-                    onOpen: () => {
-                      closeSheet();
-                      showPerson({ personId: s.holder.personId });
-                    },
-                  })
-                : row(name, s.holder?.party ?? "");
-              // Years of service and how the holder won, from the term and the seat's elections.
-              if (s.holder) {
-                const won = s.elections.find(
-                  (e) => e.termId === s.holder.termId,
-                );
-                // The term as a voter would say it: when it ends, and how the
-                // holder won it where the world ran the race.
-                const monthYear = (iso) =>
-                  new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-                    month: "long",
-                    year: "numeric",
-                  });
-                const history = el("span", {
-                  className: "person-row-note",
-                  textContent: [
+    const screen = async () => {
+      const level = governmentLevel ?? (race ? levelOf(race) : "local");
+      const otherState = level === "local" ? "" : governmentState;
+      const picker = tabBar({
+        attr: "level",
+        className: "government-picker",
+        active: level,
+        tabs: ["local", "state", "federal"].map((key) => ({
+          key,
+          label: controls.levels?.[key] ?? words(key),
+          onSelect: () => {
+            governmentLevel = key;
+            void redraw();
+          },
+        })),
+      });
+      if (level !== "local")
+        picker.append(
+          select({
+            className: "government-state",
+            label: labels.stateFilter,
+            value: otherState,
+            options: [
+              { value: "", label: labels.ownState },
+              ...states.map((st) => ({ value: st.key, label: st.name })),
+            ],
+            onChange: (state) => {
+              governmentState = state;
+              void redraw();
+            },
+          }),
+        );
+      const holderName = (s) =>
+        s.holder
+          ? `${s.holder.givenName} ${s.holder.familyName}`
+          : labels.vacant;
+      // The term as a voter would say it: when it ends, and how the holder won
+      // it where the world ran the race.
+      const monthYear = (iso) =>
+        new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+          month: "long",
+          year: "numeric",
+        });
+      const member = (s) => {
+        const line = s.holder?.personId
+          ? personRow({
+              name: holderName(s),
+              party: s.holder.party,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: s.holder.personId });
+              },
+            })
+          : row(holderName(s), s.holder?.party ?? "");
+        const won =
+          s.holder && s.elections.find((e) => e.termId === s.holder.termId);
+        const result = controls.results;
+        // Years of service and how the holder won, from the term and the seat's
+        // elections; who won the seat and has not taken it yet; your own race.
+        return withNotes(
+          line,
+          s.holder
+            ? [
+                {
+                  text: [
                     won
                       ? labels.electedWith
                           .replace("{date}", monthYear(won.date))
@@ -3623,150 +3582,180 @@ const sheets = {
                   ]
                     .filter(Boolean)
                     .join(". "),
-                });
-                // The record the line reads, for the specs; never shown as text.
-                history.dataset.term = s.holder.termId;
-                if (won) history.dataset.election = won.termId;
-                if (history.textContent) line.append(history);
-              }
-              // Elected and not yet seated: who won the seat, and when they take office.
-              if (s.elect) {
-                const elect = listRow("elect", {
-                  textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
-                });
-                elect.dataset.contest = s.elect.contestId;
-                line.append(elect);
-              }
-              // Your race for this seat: won or lost, and the votes each side got.
-              if (race && s.seatId === race.seatId) {
-                const result = controls.results;
-                const own = listRow("own-race", {
-                  textContent: [
-                    result.yourRace,
-                    race.won ? result.won : result.lost,
-                    `${result.you} ${race.votes.toLocaleString("en-US")}`,
-                    race.rival
-                      ? `${race.rival.name} ${race.rival.votes.toLocaleString("en-US")}`
-                      : null,
-                  ]
-                    .filter(Boolean)
-                    .join(" · "),
-                });
-                own.dataset.contest = race.contestId;
-                own.dataset.record = race.recordId;
-                line.append(own);
-              }
-              return line;
-            });
-            card.append(
-              menuPages(
-                members,
-                6,
-                seats.findIndex((s) => s.seatId === race?.seatId),
-              ),
-            );
-            // Future public view records can supply these without changing the layout.
-            for (const vote of first.votes ?? [])
-              card.append(
-                el("h4", { textContent: vote.title }),
-                barChart(
-                  [
-                    { label: labels.yes, value: vote.yes },
-                    { label: labels.no, value: vote.no },
-                  ],
-                  labels.votes,
-                ),
-              );
-            for (const item of first.agenda ?? [])
-              card.append(row(item.date, item.title));
-            return card;
-          }),
-          1,
-          raceOffice,
-        ),
-      );
-      chooseTab(picker, "level", level);
-    };
-    for (const key of ["local", "state", "federal"]) {
-      picker.append(
-        makeTab({
-          key,
-          attr: "level",
-          label: controls.levels?.[key] ?? words(key),
-          onSelect: () => {
-            level = key;
-            draw();
-          },
-        }),
-      );
-    }
-    // Which state's legislature the State view shows: the player's own, or any other.
-    const { states } = await api(`/api/government/state?state=`);
-    statePick.append(
-      el("option", { value: "", textContent: labels.ownState }),
-      ...states.map((st) =>
-        el("option", { value: st.key, textContent: st.name }),
-      ),
-    );
-    statePick.setAttribute("aria-label", labels.stateFilter);
-    statePick.addEventListener("change", () => {
-      otherState = statePick.value;
-      draw();
-    });
-    picker.append(statePick);
-    draw();
-    // The key people: the player's own members first, then the President,
-    // the Vice President and each chamber's leader by post and chamber (a
-    // leader from another state names the state they serve). Every other
-    // member is behind the State and Federal filters.
-    const keyLine = (k) => {
-      const line =
-        k.post && !k.own
-          ? row(`${words(k.post)}, ${k.chamber ?? k.officeTitle}`, k.name)
-          : row(k.officeTitle, k.name);
-      for (const text of [k.own && k.post ? words(k.post) : null, k.stateName])
-        if (text)
-          line.append(el("span", { className: "label", textContent: text }));
-      // The President and Vice President a territory's voters do not choose.
-      if (k.chosenByHere === false)
-        line.append(
-          el("span", {
-            className: "label",
-            textContent: controls.politics.notChosenHere,
-          }),
+                  // The record the line reads, for the specs; never shown as text.
+                  data: {
+                    term: s.holder.termId,
+                    ...(won ? { election: won.termId } : {}),
+                  },
+                },
+              ]
+            : [],
+          [
+            s.elect && {
+              variant: "elect",
+              text: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
+              data: { contest: s.elect.contestId },
+            },
+            race &&
+              s.seatId === race.seatId && {
+                variant: "own-race",
+                text: [
+                  result.yourRace,
+                  race.won ? result.won : result.lost,
+                  `${result.you} ${race.votes.toLocaleString("en-US")}`,
+                  race.rival
+                    ? `${race.rival.name} ${race.rival.votes.toLocaleString("en-US")}`
+                    : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · "),
+                data: { contest: race.contestId, record: race.recordId },
+              },
+          ],
         );
-      // Play anyone: a resident officeholder can be taken over (bench only).
-      if (k.resident && k.personId !== me.id) {
-        const b = makeButton({
-          className: "dev-only",
-          textContent: "Play",
+      };
+      let bodies;
+      let start = 0;
+      if (otherState) {
+        // Another state's members at this level, its legislature or its members
+        // of Congress: every sitting member, by chamber.
+        const other = await api(
+          `/api/government/state?${new URLSearchParams({ state: otherState, level })}`,
+        );
+        const chambers = new Map();
+        for (const s of other.legislators) {
+          if (!chambers.has(s.officeId)) chambers.set(s.officeId, []);
+          chambers.get(s.officeId).push(s);
+        }
+        bodies = [...chambers.values()].map((seats) => ({
+          title: seats[0].title,
+          items: [
+            { text: seats[0].government ?? "", tone: "place" },
+            {
+              pages: seats.map((s) => ({
+                node: row(holderName(s), s.holder?.party ?? ""),
+              })),
+              size: 6,
+            },
+          ],
+        }));
+      } else {
+        const offices = new Map();
+        for (const s of v.seats.filter((s) => levelOf(s) === level)) {
+          if (!offices.has(s.officeId)) offices.set(s.officeId, []);
+          offices.get(s.officeId).push(s);
+        }
+        start = Math.max(
+          0,
+          [...offices.values()].findIndex((seats) =>
+            seats.some((s) => s.seatId === race?.seatId),
+          ),
+        );
+        bodies = [...offices.values()].map((seats) => {
+          const first = seats[0];
+          const parties = new Map();
+          for (const s of seats)
+            if (s.holder?.party)
+              parties.set(
+                s.holder.party,
+                (parties.get(s.holder.party) ?? 0) + 1,
+              );
+          return {
+            title: first.title,
+            items: [
+              { text: first.body ?? first.government ?? "", tone: "place" },
+              first.presentation?.chamberUrl && {
+                picture: first.presentation.chamberUrl,
+              },
+              parties.size && {
+                node: barChart(
+                  [...parties].map(([label, value]) => ({ label, value })),
+                  labels.seats,
+                ),
+              },
+              {
+                pages: seats.map((s) => ({ node: member(s) })),
+                size: 6,
+                start: seats.findIndex((s) => s.seatId === race?.seatId),
+              },
+              // Future public view records can supply these without changing the layout.
+              ...(first.votes ?? []).flatMap((vote) => [
+                { text: vote.title, tone: "subhead" },
+                {
+                  node: barChart(
+                    [
+                      { label: labels.yes, value: vote.yes },
+                      { label: labels.no, value: vote.no },
+                    ],
+                    labels.votes,
+                  ),
+                },
+              ]),
+              ...(first.agenda ?? []).map((item) => ({
+                node: row(item.date, item.title),
+              })),
+            ],
+          };
         });
-        b.addEventListener("click", () => playAs(k.personId));
-        line.append(b);
       }
-      return line;
+      // The key people: the player's own members first, then the President,
+      // the Vice President and each chamber's leader by post and chamber (a
+      // leader from another state names the state they serve). Every other
+      // member is behind the State and Federal filters.
+      const keyLine = (k) => {
+        const line = withNotes(
+          k.post && !k.own
+            ? row(`${words(k.post)}, ${k.chamber ?? k.officeTitle}`, k.name)
+            : row(k.officeTitle, k.name),
+          [
+            k.own && k.post ? words(k.post) : null,
+            k.stateName,
+            // The President and Vice President a territory's voters do not choose.
+            k.chosenByHere === false ? controls.politics.notChosenHere : null,
+          ].map((text) => ({ text, className: "label" })),
+        );
+        // Play anyone: a resident officeholder can be taken over (bench only).
+        if (k.resident && k.personId !== me.id) {
+          const b = makeButton({
+            className: "dev-only",
+            textContent: "Play",
+          });
+          b.addEventListener("click", () => playAs(k.personId));
+          line.append(b);
+        }
+        return line;
+      };
+      // The party the player belongs to, with the tie's record and how their
+      // views fit it; the parties they could join otherwise. Never joined: files
+      // unaffiliated.
+      const party = v.party ? partyRows(v.party) : [];
+      return recordScreen({
+        controls: [picker],
+        sections: [
+          {
+            wide: true,
+            items: [
+              {
+                pages: bodies.map((body) => ({ section: body })),
+                size: 1,
+                start,
+              },
+            ],
+          },
+          ...[
+            [labels.yourMembers, v.keyPeople.filter((k) => k.own)],
+            [labels.leaders, v.keyPeople.filter((k) => !k.own)],
+          ]
+            .filter(([, rows]) => rows.length)
+            .map(([title, rows]) => ({
+              title,
+              items: rows.map((k) => ({ node: keyLine(k) })),
+            })),
+          ...(party.length ? [{ items: party.map((node) => ({ node })) }] : []),
+        ],
+      });
     };
-    const own = v.keyPeople.filter((k) => k.own);
-    const leaders = v.keyPeople.filter((k) => !k.own);
-    // Each group stays in one column with its heading.
-    const keyPeople = [
-      [labels.yourMembers, own],
-      [labels.leaders, leaders],
-    ]
-      .filter(([, rows]) => rows.length)
-      .map(([title, rows]) =>
-        el(
-          "section",
-          { className: "key-people" },
-          el("h3", { textContent: title }),
-          ...rows.map(keyLine),
-        ),
-      );
-    // The party the player belongs to, with the tie's record and how their
-    // views fit it; the parties they could join otherwise. Never joined: files
-    // unaffiliated.
-    const party = v.party ? partyRows(v.party) : [];
-    return [picker, content, ...party, ...keyPeople];
+    return screen();
   },
   async parties() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);

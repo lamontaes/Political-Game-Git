@@ -2553,7 +2553,7 @@ body.dev .dev-ring {
   height: 48px;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
-#sheet-body:has(.government-content, .entries-rows, .screen-grid) {
+#sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
   max-width: none;
 }
 .government-picker,
@@ -2562,42 +2562,30 @@ body.dev .dev-ring {
   gap: 14px;
   margin: 12px 0 22px;
 }
-.government-body h3,
-.key-people h3,
 .entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
   margin: 12px 0;
 }
-.government-place {
+.record-place {
   font: 18px var(--speech);
   margin: 0 0 20px;
 }
-.government-body {
+.record-section.wide .record-section {
   max-width: 1000px;
 }
 /* A member's line: name and party, then the term, who won the seat and your
    race for it, each on a line of its own. */
-.government-body .row:has(> .row) {
+.record-section .row:has(> .row) {
   flex-wrap: wrap;
 }
-.government-body .row > .row {
+.record-section .row > .row {
   flex-basis: 100%;
   justify-content: flex-end;
   padding: 2px 0;
 }
-.government-body .row.own-race {
+.record-section .row.own-race {
   color: var(--gold);
-}
-.key-people {
-  break-inside: avoid;
-}
-.government-chamber {
-  float: left;
-  width: 38%;
-  max-height: 330px;
-  object-fit: cover;
-  margin: 0 24px 20px 0;
 }
 .record-chart {
   margin: 20px 0;

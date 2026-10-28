@@ -62,7 +62,7 @@ try {
     .locator('[data-tab="politics"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".government-content").waitFor();
+  await page.locator("#sheet-body .record-section.wide").waitFor();
   assert.equal(
     await page
       .getByRole("button", { name: "Your office", exact: true })
@@ -90,7 +90,9 @@ try {
     );
     if (!first) continue;
     await page.locator(`[data-level="${level}"]`).click();
-    const shown = await page.locator(".government-content").innerText();
+    const shown = await page
+      .locator("#sheet-body .record-section.wide")
+      .innerText();
     assert.ok(
       !/story began/i.test(shown),
       `Politics (${level}): no opening line`,
@@ -132,17 +134,24 @@ try {
       nodes.map((node) => ({ value: node.value, label: node.textContent })),
     );
   assert.ok(options.length > 50, "every state is on the list");
-  const own = await page.locator(".government-content").innerText();
+  const own = await page
+    .locator("#sheet-body .record-section.wide")
+    .innerText();
   const pick = options.find((option) => option.value && option.value !== "");
   await picker.selectOption(pick.value);
   await page.waitForFunction(
     (before) =>
-      document.querySelector(".government-content")?.innerText !== before,
+      document.querySelector("#sheet-body .record-section.wide")?.innerText !==
+      before,
     own,
   );
-  const other = await page.locator(".government-content").innerText();
+  const other = await page
+    .locator("#sheet-body .record-section.wide")
+    .innerText();
   assert.ok(
-    (await page.locator(".government-content .government-body").count()) > 0,
+    (await page
+      .locator("#sheet-body .record-section.wide .record-section")
+      .count()) > 0,
     `${pick.label} lists its chambers`,
   );
   assert.notEqual(other, own, "another state lists its own members");

@@ -30,7 +30,7 @@ const politicsTabs = async () => {
     .locator('[data-tab="politics"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".government-content").waitFor();
+  await page.locator("#sheet-body .record-section.wide").waitFor();
   await page.waitForFunction(
     () => document.querySelectorAll("#sheet-tabs button").length > 0,
   );

@@ -18,6 +18,7 @@
 //   { total: [value, label] }  a large count and what it counts
 //   { pages: [item, ...], size, start? }   items in pages of `size`, from `start`
 //   { actions: [{ label, onClick, className?, testid? }] }   buttons in a row
+//   { section: { title, items } }          a section inside a section's pages
 //   { node }                   a node another kit part drew (a chart, a select, a pager)
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
@@ -33,6 +34,8 @@ const TONES = {
   empty: ["p", "record-empty"],
   warning: ["p", "record-warning"],
   title: ["h2", "record-title"],
+  subhead: ["h4", "record-subhead"],
+  place: ["p", "record-place"],
 };
 
 const pair = (className, [label, value]) =>
@@ -51,6 +54,11 @@ function item(part) {
       { className: "record-count" },
       el("strong", { className: "record-total", textContent: part.total[0] }),
       el("span", { className: "label", textContent: part.total[1] }),
+    );
+  if (part.section)
+    return section(
+      part.section.title,
+      ...part.section.items.filter(Boolean).map(item),
     );
   if (part.pages) return menuPages(part.pages.map(item), part.size, part.start);
   if (part.actions)
