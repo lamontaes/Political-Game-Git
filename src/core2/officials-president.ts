@@ -12,6 +12,7 @@ import { coreStateName } from "./place-lookup";
 import { OFFICIALS_DATA, uniform } from "./officials-roster";
 import { partySide } from "./appointments";
 import type { CoreState, PersonInput, Source } from "./types";
+import { worldSwing } from "./modules/elections";
 
 type PastFact = NonNullable<PersonInput["pastFacts"]>[number];
 
@@ -42,6 +43,14 @@ const MAP = (
   }))
   .sort((a, b) => a.usps.localeCompare(b.usps));
 
+/** This world's 2024 map: each state's Democratic two-party share, moved by the world's swing. */
+function worldMap(seed: string): readonly { usps: string; share: number }[] {
+  return MAP.map((row) => ({
+    usps: row.usps,
+    share: Math.max(0, Math.min(1, row.share - worldSwing(seed, row.usps))),
+  }));
+}
+
 const MAP_SOURCE =
   "Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (data/source/electoral-calibration-2024).";
 
@@ -54,15 +63,17 @@ export const PRESIDENT_FACT = {
 } as const;
 
 /** The states contested on the 2024 map: a two-party share near even. */
-export function contestedStates2024(): readonly {
+export function contestedStates2024(seed: string): readonly {
   usps: string;
   democraticTwoPartyShare: number;
 }[] {
   const margin = DATA.contestedMargin.value;
-  return MAP.filter((row) => Math.abs(row.share - 0.5) < margin).map((row) => ({
-    usps: row.usps,
-    democraticTwoPartyShare: row.share,
-  }));
+  return worldMap(seed)
+    .filter((row) => Math.abs(row.share - 0.5) < margin)
+    .map((row) => ({
+      usps: row.usps,
+      democraticTwoPartyShare: row.share,
+    }));
 }
 
 function dayBetween(from: string, to: string, u: number): string {
@@ -84,12 +95,13 @@ export function nationalHomeState(
   party: string | null,
 ): { usps: string; share: number } {
   const side = partySide(party);
-  const carried = MAP.filter((row) =>
+  const map = worldMap(seed);
+  const carried = map.filter((row) =>
     side > 0 ? row.share < 0.5 : side < 0 ? row.share > 0.5 : true,
   );
   return (
     carried[Math.floor(uniform(`${seed}:${who}:home`) * carried.length)] ??
-    MAP[0]!
+    map[0]!
   );
 }
 
@@ -161,7 +173,7 @@ export function presidentRecord(input: {
     facts: { office: "president", year: DATA.electionDay.value.slice(0, 4) },
   });
   // Every contested state, and the home state.
-  const contested = contestedStates2024();
+  const contested = contestedStates2024(input.seed);
   const visited = new Map(
     contested.map((row) => [`US-${row.usps}`, row.democraticTwoPartyShare]),
   );
