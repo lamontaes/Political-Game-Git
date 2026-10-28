@@ -83,7 +83,7 @@
       "mortalityWeight": {
         "value": 1.0,
         "status": "RECORDED GAME CALIBRATION",
-        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The game's life-table check (src/core2/health.test.ts) calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
@@ -118,7 +118,7 @@
       "mortalityWeight": {
         "value": 1.0,
         "status": "RECORDED GAME CALIBRATION",
-        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The game's life-table check (src/core2/health.test.ts) calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
@@ -176,7 +176,7 @@
       "mortalityWeight": {
         "value": 1.0,
         "status": "RECORDED GAME CALIBRATION",
-        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The game's life-table check (src/core2/health.test.ts) calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
@@ -211,7 +211,7 @@
       "mortalityWeight": {
         "value": 1.0,
         "status": "RECORDED GAME CALIBRATION",
-        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The game's life-table check (src/core2/health.test.ts) calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
@@ -245,7 +245,7 @@
       "mortalityWeight": {
         "value": 1.0,
         "status": "RECORDED GAME CALIBRATION",
-        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The synthetic-cohort check calibrates the combined mortality totals."
+        "note": "Ruling 39 records an equal 1.0 relative weight before severity grade and age factor. The game's life-table check (src/core2/health.test.ts) calibrates the combined mortality totals."
       },
       "onsetScale": {
         "value": 0.4,
@@ -375,6 +375,6 @@
   "baseRateScale": {
     "value": 0.43,
     "status": "RECORDED GAME CALIBRATION",
-    "note": "Calibrated (Ruling 39). The life table's hazard counts against the strain threshold at this scale, so a person whose records multiply nothing lives past the table's median: the table's average includes the people with conditions. Checked on totals only, by the synthetic-cohort test."
+    "note": "Calibrated (Ruling 39). The life table's hazard counts against the strain threshold at this scale, so a person whose records multiply nothing lives past the table's median: the table's average includes the people with conditions. Read only by the old engine's strain threshold; the game counts the table's hazard against each person's resilience line at the parameter resilienceBaseRateScale instead."
   }
 }
