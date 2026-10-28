@@ -1738,7 +1738,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "political",
-        "registers": ["conversation", "counter", "journal"]
+        "registers": ["conversation", "journal"]
       },
       "purpose": "poll-problem",
       "asker": "workers",
@@ -3071,7 +3071,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "political",
-        "registers": ["filing-visit", "counter", "journal"]
+        "registers": ["filing-visit", "journal"]
       },
       "purpose": "filing-clerk",
       "asker": "clerk",
