@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-plates-third
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T06:19:03.307Z
 ---
 
 **What.** The art session's mannequin plates for ten golden-path rooms (WANTED pr-01 to pr-08, art/people-rooms/spots on claude/people-rooms-art) go into art/backdrops/staging.json through scripts/people/room-spots.ts with front-line masks; rooms that hold more people than painted keep their old spots after the plate's own.
