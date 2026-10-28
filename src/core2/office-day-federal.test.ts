@@ -244,7 +244,7 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
       expect(core.people.get(president)!.knownIds.has(p.id)).toBe(true);
     // Each is a worker of the town's coarse population: a job its counts show
     // and the age that job is open at.
-    const counts = coarsePlace(town.key);
+    const counts = coarsePlace(town.key, core.seed);
     for (const p of met) {
       const work = p.pastFacts?.find((f) => f.kind === "identity:work");
       const where = `${town.name} (${town.key}), seed ${seed}, ${p.id}`;

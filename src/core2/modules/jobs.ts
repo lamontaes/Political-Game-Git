@@ -88,6 +88,7 @@ import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson } from "../state";
+import { worldOffsetShare, worldRate } from "../world-draw";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
@@ -588,12 +589,32 @@ function ageBand(age: number): number {
   return Math.max(0, index);
 }
 
-/** A band's unemployment rate over the overall rate; a place's rate times it is the band's rate there. */
-function bandRatio(index: number): number {
+/** A band's published unemployment rate over the overall rate (calibration). */
+export function publishedBandRatio(index: number): number {
   const band = ageUnemployment.bands[index]!,
     total = ageUnemployment.total;
   return (
     band.unemployed / band.laborForce / (total.unemployed / total.laborForce)
+  );
+}
+
+/**
+ * A band's unemployment rate over the overall rate in this world; a place's
+ * rate times it is the band's rate there. The band's rate is the published
+ * one moved once by the world's offset, relative to its nearer bound (owner,
+ * Oct 27: realistic, not real).
+ */
+export function bandRatio(index: number, seed: string): number {
+  const band = ageUnemployment.bands[index]!,
+    total = ageUnemployment.total;
+  return (
+    worldRate(
+      band.unemployed / band.laborForce,
+      seed,
+      `age-unemployment:${index}`,
+      "jobsWorldAgeRateSpreadShare",
+    ) /
+    (total.unemployed / total.laborForce)
   );
 }
 
@@ -612,7 +633,8 @@ function bandQuotas(
     byPlace = new Map<string, { key: string; exact: number }[]>();
   for (const [key, jobs] of [...held].sort(([a], [b]) => a.localeCompare(b))) {
     const [placeId, index] = key.split("|") as [string, string];
-    const rate = bandRatio(Number(index)) * openingRate(api, placeId);
+    const rate =
+      bandRatio(Number(index), core(api).seed) * openingRate(api, placeId);
     byPlace.set(placeId, [
       ...(byPlace.get(placeId) ?? []),
       { key, exact: (jobs * rate) / (hundred - rate) },
@@ -908,11 +930,18 @@ function openPositions(api: CoreAPI, organizationId: string): PositionRow[] {
 }
 
 /** Each open business: the staff its demand calls for against the staff it has. */
-/** An industry's employment this month against the opening month's, from BLS CES seasonal factors; 1 for kinds with no series. */
+/**
+ * An industry's employment this month against the opening month's, from BLS
+ * CES seasonal factors; 1 for kinds with no series. With a world's seed
+ * (play), the industry's swing is this world's own: each month's deviation
+ * from 1 moved by one offset for the series (owner, Oct 27: realistic, not
+ * real). Without it, the published factors (calibration).
+ */
 export function seasonalStaffing(
   kindId: string,
   date: string,
   openedAt: string,
+  seed?: string,
 ): number {
   const code = (seasonal.kinds as Record<string, string>)[kindId];
   const factors = code
@@ -920,7 +949,17 @@ export function seasonalStaffing(
     : undefined;
   if (!factors) return 1;
   const month = (iso: string) => Number(iso.slice(5, 7)) - 1;
-  return factors[month(date)]! / factors[month(openedAt)]!;
+  const swing =
+    seed === undefined
+      ? 1
+      : 1 +
+        worldOffsetShare(
+          seed,
+          `seasonal:${code}`,
+          "jobsWorldSeasonalSpreadShare",
+        );
+  const at = (m: number) => 1 + (factors[m]! - 1) * swing;
+  return at(month(date)) / at(month(openedAt));
 }
 
 /** Persistent losses reduce affordable staff; a profitable month restores it smoothly. */
@@ -1057,7 +1096,7 @@ function reviewEmployers(api: CoreAPI): void {
           ((book.price / book.anchorPrice || 1) * book.capacityMinor)
         : row.openingStaff) *
       // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
-      seasonalStaffing(book.kindId, c.date, opened);
+      seasonalStaffing(book.kindId, c.date, opened, c.seed);
     const trading = businessTradingMonth(api, row.id);
     raiseUnfilledPay(api, row.id, positions, trading, staff);
     const observedStaff =

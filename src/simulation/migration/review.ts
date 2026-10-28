@@ -971,10 +971,15 @@ export function townOpenings(
       townJobRate(
         role.occupationClassification,
         town,
-        townPayPercentile(0, 0.5),
+        townPayPercentile(0, world.seed),
+        undefined,
+        world.seed,
       )?.hourlyMinor ??
       (role.occupationClassification
-        ? ((nationalMedianAnnualWage(role.occupationClassification) ?? 0) /
+        ? ((nationalMedianAnnualWage(
+            role.occupationClassification,
+            world.seed,
+          ) ?? 0) /
             (52 * 40)) *
           100
         : 0);
