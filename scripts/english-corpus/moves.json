@@ -79,9 +79,7 @@
       "journal": ["tell", "recall"],
       "scene-words": ["narrate", "deliver-news"],
       "headlines": ["headline"],
-      "news": ["deliver-news", "announce-result"],
-      "minutes": ["record", "announce-result"],
-      "notice": ["notice"]
+      "news": ["deliver-news", "announce-result"]
     }
   },
   "rules": {
@@ -728,46 +726,6 @@
         "tag": "headline"
       }
     ],
-    "interview": [
-      {
-        "move": "^official-close$",
-        "tag": "close"
-      },
-      {
-        "move": "^official-commit$",
-        "tag": "promise"
-      },
-      {
-        "move": "^official-deflect$",
-        "tag": "deflect"
-      },
-      {
-        "move": "^official-opponent$",
-        "tag": "disagree",
-        "key": "vote-wanted"
-      },
-      {
-        "move": "^official-(record|story)$",
-        "tag": "tell"
-      },
-      {
-        "move": "^reporter-open$",
-        "text": "(?i)thank",
-        "tag": "thank"
-      },
-      {
-        "move": "^reporter-open$",
-        "tag": "greet"
-      },
-      {
-        "move": "^reporter-record$",
-        "tag": "confront"
-      },
-      {
-        "move": "^reporter-",
-        "tag": "ask"
-      }
-    ],
     "journal": [
       {
         "move": "^death-",
@@ -835,18 +793,6 @@
         "tag": "tell"
       }
     ],
-    "minutes": [
-      {
-        "move": "^vote$",
-        "tag": "announce-result",
-        "key": "routine"
-      },
-      {
-        "move": ".",
-        "tag": "record",
-        "key": "routine"
-      }
-    ],
     "news": [
       {
         "move": "^(council-vote)$",
@@ -910,13 +856,6 @@
         "move": ".",
         "tag": "deliver-news",
         "key": "news-received"
-      }
-    ],
-    "notice": [
-      {
-        "move": ".",
-        "tag": "notice",
-        "key": "routine"
       }
     ],
     "opening-speech": [

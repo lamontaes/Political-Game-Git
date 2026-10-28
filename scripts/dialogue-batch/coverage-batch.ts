@@ -16,8 +16,7 @@
  *   journal          a chapter, composeJournal (src/director/journal.ts)
  *   speeches         a rally, public comment, election night, an honor,
  *                    composeAddress over address.json
- *   bills, notices,  a bill's text, a notice, the minutes, a hearing, a
- *   minutes, hearing meeting: composeFromBank over each bank
+ *   bills, meeting   a bill's text (composeBill), a chair calling a vote
  *   conversation     one turn's choice set (four replies, the lies, say
  *                    nothing), openConversation and say (play-lives.ts)
  *
@@ -39,7 +38,6 @@ import { coreAPI } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
 import { properName } from "../../src/director/words";
-import { composeFromBank } from "./bank-compose";
 import {
   endpointOf,
   ENDPOINT_CLASSES,
@@ -47,7 +45,6 @@ import {
 } from "./scene-endpoint";
 import { composeBill } from "../../src/english/bill-sections";
 import { billForm } from "../../src/core2/modules/legislature";
-import type { EnglishBank } from "./bank-compose";
 import { composeAddress } from "../../src/english/english-composition";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import { REGISTER_CARDS } from "../../src/english/speech-registers";
@@ -82,9 +79,6 @@ import {
   chooseSpeechPart,
 } from "../../src/director/speech-builder";
 import { saveWorld, worldCachePath } from "./grading-bench";
-import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
-import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
-import noticesJson from "../../data/english/parts/notice.json" with { type: "json" };
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
@@ -160,14 +154,6 @@ const longDate = (iso: string) =>
     year: "numeric",
     timeZone: "UTC",
   });
-/** A bill's name in quotation marks, as a short title cites it. */
-const quoted = (title: string) => `"${title}"`;
-const nameList = (names: readonly string[]) =>
-  names.length <= 1
-    ? (names[0] ?? "")
-    : names.length === 2
-      ? `${names[0]} and ${names[1]}`
-      : `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
 
 /** Part keys of a line in one mined bank (its slots filled), longest part first. */
 function partsOf(text: string, bank: string): string[] {
@@ -397,84 +383,7 @@ function readWorld(place: Place): {
       });
   }
 
-  // Notices: hearing and ordinance notices from bills, an election notice from contests.
-  const noticeBank = noticesJson as unknown as EnglishBank;
-  for (const bill of localBills.slice(0, 20)) {
-    const title = titleOf(bill);
-    if (!title) continue;
-    const body = bodyName(bill.bodyOfficeId);
-    for (const [move, facts, what] of [
-      [
-        "hearing",
-        { title: quoted(title), date: longDate(bill.introduced) },
-        "A hearing notice",
-      ],
-      [
-        "ordinance",
-        { designation: bill.number, title: quoted(title) },
-        "An ordinance listing",
-      ],
-    ] as const) {
-      const made = composeFromBank(
-        noticeBank,
-        move,
-        facts as Record<string, string>,
-        bill.id,
-      );
-      if (made)
-        raws.push({
-          ...base,
-          category: "notices",
-          speaker: `${body} clerk`,
-          context: `${what} for ${bill.number}, posted by the ${body}.`,
-          prior: "",
-          text: made.text,
-          parts: [made.partKey],
-          composer: "composeFromBank over data/english/parts/notice.json",
-          sourceRecordIds: [bill.id],
-        });
-    }
-  }
-  const contests = (
-    api.moduleState("core2-elections-v1").table("contests").rows() as any[]
-  ).filter(
-    (c) => offices.get(c.officeId)?.coversTown && c.electionDate >= core.date,
-  );
-  const byDate = new Map<string, string[]>();
-  for (const contest of contests)
-    byDate.set(contest.electionDate, [
-      ...(byDate.get(contest.electionDate) ?? []),
-      contest.title as string,
-    ]);
-  for (const [date, titles] of byDate) {
-    const made = composeFromBank(
-      noticeBank,
-      "election",
-      {
-        place: town,
-        date: longDate(date),
-        office: nameList([...new Set(titles)]),
-      },
-      date,
-    );
-    if (made)
-      raws.push({
-        ...base,
-        category: "notices",
-        speaker: `${town} election office`,
-        context: `The notice of the ${longDate(date)} election in ${town}, from the contests the elections module holds.`,
-        prior: "",
-        text: made.text,
-        parts: [made.partKey],
-        composer: "composeFromBank over data/english/parts/notice.json",
-        sourceRecordIds: contests
-          .filter((c) => c.electionDate === date)
-          .map((c) => c.id),
-      });
-  }
-
-  // Minutes and hearing exchanges and the chair, from a real roll call.
-  const minutesBank = minutesJson as unknown as EnglishBank;
+  // The chair of each town body calling a vote, from the bill's recorded outcome.
   const chairOf = (officeId: string) => {
     const head = holders(officeId)[0];
     const row = head ? personOf(head) : undefined;
@@ -500,64 +409,6 @@ function readWorld(place: Place): {
   for (const bill of localBills.filter((b) => titleOf(b)).slice(0, 12)) {
     const title = titleOf(bill)!;
     const body = bodyName(bill.bodyOfficeId);
-    const rolls = voteRows.filter((v) => v.billId === bill.id);
-    const yes = rolls
-      .filter((v) => v.vote === "yes")
-      .map((v) => nameOf(v.memberId));
-    const no = rolls
-      .filter((v) => v.vote === "no")
-      .map((v) => nameOf(v.memberId));
-    const date = longDate(bill.introduced);
-    const rollContext = `The roll call on ${bill.number} ("${title}") before the ${body}: ${yes.length} for, ${no.length} against; the bill ${bill.status}.`;
-    for (const [names2, opening] of [
-      [yes, "Voting for this action"],
-      [no, "Voting against this action"],
-    ] as const) {
-      if (!names2.length) continue;
-      const made = composeFromBank(
-        minutesBank,
-        "vote",
-        { members: nameList(names2) },
-        bill.id,
-        new RegExp(`^(?!${opening})`),
-      );
-      if (made)
-        raws.push({
-          ...base,
-          category: "minutes",
-          speaker: `${body} (minutes)`,
-          context: `${rollContext} Each name is read from a member's recorded vote.`,
-          prior: "",
-          text: made.text,
-          parts: [made.partKey],
-          forbid: "^Voting (?:for|against)",
-          composer: "composeFromBank over data/english/parts/minutes.json",
-          sourceRecordIds: [bill.id],
-        });
-    }
-    for (const move of ["discussion"]) {
-      const made = composeFromBank(
-        minutesBank,
-        move,
-        { topic: quoted(title) },
-        bill.id,
-        // A manager does not turn to an item (the chair takes it up), so those sentences are left out (owner, batch 7).
-        /view|extent|Against this background|judged|manager/,
-      );
-      if (made)
-        raws.push({
-          ...base,
-          category: "minutes",
-          speaker: `${body} (minutes)`,
-          context: `The discussion of "${title}" at the ${date} meeting (${bill.number}).`,
-          prior: "",
-          text: made.text,
-          parts: [made.partKey],
-          composer: "composeFromBank over data/english/parts/minutes.json",
-          sourceRecordIds: [bill.id],
-        });
-    }
-
     // The chair calls the vote, from the bill's recorded outcome.
     const chair = chairOf(bill.bodyOfficeId);
     const run = (what: string) =>
@@ -813,61 +664,6 @@ function readWorld(place: Place): {
       });
   }
 
-  /* ---- interviews the press engine ran ---- */
-  const interviewBank = interviewJson as unknown as EnglishBank;
-  const interviews = (
-    api.moduleState("core2-press-v1").table("interviews").rows() as any[]
-  ).filter((row) => row.status === "published");
-  let opposed = 0;
-  for (const interview of interviews.slice(0, 30)) {
-    const candidate = nameOf(interview.candidateId);
-    for (const answer of interview.answers as any[]) {
-      const topic = names[answer.question as string];
-      if (!topic) continue;
-      const issue = quoted(topic);
-      const asked = composeFromBank(
-        interviewBank,
-        "reporter-issue",
-        { issue },
-        `${interview.id}:${answer.question}:q`,
-      );
-      if (!asked) continue;
-      const move =
-        answer.position === null
-          ? "official-deflect"
-          : answer.position > 0
-            ? "official-commit"
-            : "";
-      if (!move) {
-        opposed += 1;
-        continue;
-      }
-      const made = composeFromBank(
-        interviewBank,
-        move,
-        { issue },
-        `${interview.id}:${answer.question}:a`,
-      );
-      if (!made) continue;
-      raws.push({
-        ...base,
-        category: "interview",
-        speaker: candidate,
-        context: `A local reporter's interview of ${candidate} (a candidate in ${town}, ${interview.date}); asked about ${issue}; the candidate's recorded answer is ${answer.position === null ? "to decline" : "support"}.`,
-        prior: `Reporter: ${asked.text}`,
-        text: made.text,
-        parts: [made.partKey],
-        composer:
-          "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
-        sourceRecordIds: [interview.id, interview.candidateId],
-      });
-    }
-  }
-  if (opposed)
-    gaps.push(
-      `recorded interview answers oppose the question's policy, and interview.json has no move for saying no to a policy (only commit and deflect), so those answers are left out`,
-    );
-
   /* ---- the journal of the watched circle ---- */
   for (const personId of circle) {
     const chapters = composeJournal(core, world.director, personId);
@@ -935,7 +731,7 @@ function readWorld(place: Place): {
     };
   }
   stood.push(
-    `${town}: ${decided} decided races, office levels ${[...new Set([...offices.values()].map((o) => o.level))].join("/")};  bills and roll calls are the legislature module's own rows (${localBills.length} local bills, ${voteRows.length} recorded votes); interviews are the press module's`,
+    `${town}: ${decided} decided races, office levels ${[...new Set([...offices.values()].map((o) => o.level))].join("/")};  bills and roll calls are the legislature module's own rows (${localBills.length} local bills, ${voteRows.length} recorded votes)`,
   );
   // A bill is named by its title; one with none on record is a defect to
   // file, never named by its own number (batch 10: 2027-1 ("2027-1")).
@@ -1290,13 +1086,10 @@ const SCENE_CAPS: Record<string, number> = {
   journal: 6,
   conversation: 8,
   meeting: 5,
-  minutes: 3,
   legislation: 3,
-  notices: 2,
   campaign: 4,
   speech: 4,
   emotion: 5,
-  interview: 3,
 };
 
 /** The scene a line belongs to: its kind and its situation; a journal line belongs to its chapter. */
@@ -1599,12 +1392,6 @@ function main() {
     ...new Set([
       ...cached.gaps.filter((g) => !g.includes("oppose the question's policy")),
       MEMBER_FLOOR_GAP,
-      ...(taken.interview
-        ? []
-        : [
-            "Interviews: every recorded question and answer names a policy by its catalog name, which nobody says aloud (owner, batch 9); they return when each policy carries its purpose phrase and moniker (owner ruling, Oct 14 afternoon, item 1).",
-          ]),
-      "Hearings: the hearing bank holds a witness's thanks, answers and agreement but no chair's or member's question, so no answer could follow a question it was asked; hearings return when a question move is mined.",
       "Scenes the world does not yet produce: a wedding, pork barreling (a member asking for a project in the district), a legislator arguing on the floor against another member by name.",
       "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet.",
       ...(items.length < SCENES
@@ -1660,13 +1447,10 @@ const KIND_TITLES: Record<string, string> = {
   conversation: "A conversation turn",
   meeting: "A meeting",
   hearing: "A hearing",
-  minutes: "The minutes",
   legislation: "Bill text",
-  notices: "A notice",
   campaign: "A rally",
   speech: "A speech, built in stages",
   emotion: "Election night or an honor",
-  interview: "An interview",
 };
 
 function scenePage(batch: {

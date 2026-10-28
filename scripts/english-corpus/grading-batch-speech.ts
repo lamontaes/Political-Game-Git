@@ -1,6 +1,6 @@
 /**
  * A grading batch of speeches, public comment, hearings, victory and
- * concession, interview answers and headlines, composed by the English
+ * concession and headlines, composed by the English
  * engine from the mined banks with facts drawn from generated places'
  * records: residents, the town, their employers, schools and years. Moves
  * whose facts no record holds (a bill, a stance) are left out of the turn, as
@@ -23,7 +23,6 @@ import { properName, spoken } from "../../src/director/words";
 import { composeGroundedLine } from "../../src/english/english-composition";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import { ADDRESS_BANK, ADDRESS_REGISTERS, composeTurn } from "./address-bank";
-import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import headlinesJson from "../../data/english/parts/headlines.json" with { type: "json" };
 
 const args = process.argv.slice(2);
@@ -54,7 +53,6 @@ const matcher = (parts: Part[]) => {
   return (text: string) => rows.find((row) => row.re.test(text))?.key;
 };
 const addressPart = matcher(ADDRESS_BANK.parts as unknown as Part[]);
-const INTERVIEW = (interviewJson as unknown as { parts: Part[] }).parts;
 const HEADLINES = (headlinesJson as unknown as { parts: Part[] }).parts;
 
 type Facts = Record<string, { text: string; sourceRecordIds: string[] }>;
@@ -223,57 +221,6 @@ for (const seed of seeds) {
         });
       });
     }
-    // Interview answers and questions, each a whole line.
-    // A few interview lines per person, spread across the bank.
-    for (const part of INTERVIEW.filter(
-      (_row, at) => at % adults.slice(0, 3).length === n,
-    ).slice(0, 8)) {
-      const role = part.uses[0]!.subject;
-      const line = composeGroundedLine(
-        packet(
-          seed,
-          `${seed}:${person.id}:${part.key}`,
-          facts,
-          "adult",
-          "words-interview-v1",
-        ),
-        {
-          key: `interview.${part.key}`,
-          version: "words-interview-v1",
-          surface: "dialogue",
-          act: role === "reporter" ? "ask" : "answer",
-          parts: {
-            core: {
-              variants: [
-                {
-                  key: part.key,
-                  kind: "template",
-                  text: part.text.replace(
-                    /\{(\w+)\}/g,
-                    (_a, s: string) => `{{${s.replace(/_/g, "-")}}}`,
-                  ),
-                },
-              ],
-            },
-          },
-        },
-      );
-      if (line.kind !== "rendered") continue;
-      items.push({
-        id: `${seed}:${person.id}:${part.key}`,
-        axis: `sounds like a ${role} in a local interview`,
-        situation: `A local reporter interviews ${facts.name!.text} in ${placeName}.`,
-        prior: "",
-        reply: `${role === "reporter" ? "Reporter" : facts.name!.text.split(" ")[0]}: ${line.text}`,
-        part: part.key,
-        parts: [part.key],
-        composer:
-          "composeGroundedLine, words from data/english/parts/interview.json",
-        kind: "press",
-        cell: cell("press", role, placeName),
-        seed,
-      });
-    }
     // Headlines whose facts the records hold: a closure, a remembrance.
     const headlineFacts: Facts = {
       ...facts,
@@ -373,7 +320,7 @@ writeFileSync(
   `${JSON.stringify(
     {
       id,
-      title: `Mined speeches, interviews and headlines batch ${id} (${chosen.length} lines)`,
+      title: `Mined speeches and headlines batch ${id} (${chosen.length} lines)`,
       at: new Date().toISOString(),
       head: execSync("git rev-parse HEAD").toString().trim(),
       status: "open",

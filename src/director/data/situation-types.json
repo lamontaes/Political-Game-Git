@@ -2109,7 +2109,7 @@
       "tag": {
         "key": "vote-wanted",
         "endpoint": "bill",
-        "registers": ["address/chair", "minutes", "journal"]
+        "registers": ["address/chair", "journal"]
       },
       "purpose": "floor-switch",
       "asker": "colleagues",
@@ -2471,7 +2471,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "bill",
-        "registers": ["address/public-comment", "notice", "minutes"]
+        "registers": ["address/public-comment"]
       },
       "purpose": "hearing-testify",
       "asker": "chair",
@@ -2564,7 +2564,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "political",
-        "registers": ["scene-talk", "scene-words", "interview"]
+        "registers": ["scene-talk", "scene-words"]
       },
       "purpose": "press-comment",
       "asker": "reporter",
@@ -2621,13 +2621,7 @@
       "tag": {
         "key": "threat",
         "endpoint": "political",
-        "registers": [
-          "newscast",
-          "headlines",
-          "conversation",
-          "interview",
-          "bring-it-up"
-        ]
+        "registers": ["newscast", "headlines", "conversation", "bring-it-up"]
       },
       "purpose": "scandal-comment",
       "asker": "reporter",
