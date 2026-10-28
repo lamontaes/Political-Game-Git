@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/director/scene.ts, src/director/scene-talk.ts, src/director/purpose-scene.ts, src/bench/campaign.ts, src/bench/staging.ts, src/bench/play.mjs, data/english/parts/scene-words.json
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "How do you know you knocked on 45 doors, 32 [22] reached? What the hell does that mean?" The Oct 8 6:30 p.m. montage ruling is in the CTO's memory notes only; the CTO records it in OWNER-DECISIONS.md. The identical figures are play-stop-35; the clock not moving for three hours and the daylight at midnight are play-stop-07-every-day-starts-at-midnight-a and -b; moving the act off the Campaigns tab is play-first-13-campaign-screen-to-mock-b; play-campaign-day-acts-as-scenes (done) built the street this replaces. Lead: words (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `director-producer-canvass-visit`; close into it and carry any line it lacks there. (keep only the 'says in words what it came to' line)

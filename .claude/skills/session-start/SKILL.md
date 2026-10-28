@@ -10,6 +10,8 @@ description: >
 
 # Session start: the pool worker loop
 
+**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** An item without a time box and a measurable done-when goes back to its writer, not built. Before any owner question or `owner-decision` stopgap, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/` for your area, `docs/play-first/LAW.md`, and search `docs/` for the subject; end the question with the reading line. Research first is allowed and expected. Every stopgap you register has its id as a marker in the code it fakes.
 
 Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: play first; the lane owns `src/bench`; "simulate it, don't ask"; "sessions never message each other")
@@ -55,6 +57,7 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
    - a `continue` that can skip every case;
    - a fixture you built by hand standing in for the generated world.
    - **A row you marked Not done or Not shown is not a finished PR.** Before opening it, run the row (screen drawn places first for one where the count is above zero, then name the place, seed and record id), or amend the item's Done-when to the slice you built and file a bounded item for the rest. A fixture is not the played chain, and a row whose evidence the body itself contradicts ("reach 0") fails the same way (Oct 27: #6216, #6326 and #6331, each sent back for one such row).
+   - **A test that needs a witness world finds one by drawing, and says what it passed over.** Pinning one place and seed breaks when main changes the world (the household of minors alone vanished), and drawing one place breaks when that place lacks the case (a filing with no campaign event). Run the new test on 10 fresh draws before the PR: draw places, in a bounded loop, until one holds the case, name the places passed over, throw if none does, and keep a pinned place only as a named regression beside it (Oct 27: #6139 and #6322 sent back for it).
 3. **Never weaken a test to get green.** No skips, early returns, narrowed ranges, raised timeouts without a measured reason, or exemptions for the cases that fail. If an existing test fails, find out why.
 4. **Claims match the diff.**
    - **The release declaration:** if any engine reads what you changed (a price, a payment, a choice, a count), the impact is `patch` or `minor`, not `none`. "No screen shows it" doesn't make it `none`.

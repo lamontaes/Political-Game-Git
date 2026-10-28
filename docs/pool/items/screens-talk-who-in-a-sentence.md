@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by: 
-pr:
+status: in-pr
+claimed-by: screens/person-card-plain
+pr: #6390
 blocked-on:
 source: "the owner's v0.56.2 sitting, Oct 27, 3:30 PM Eastern (Carlos Washington, 35, Salida, Colorado), filed by the screens designer"
 lead: play-first
 milestone: play-first
-claimed-at: 
+claimed-at: 2026-10-27T20:15:26.114Z
 ---
 
 **What.** In v0.56.2 the talk box subtitle read "Warehouse worker · Quinn Supply Company · partner"; the owner said "that needs work." It must say in a sentence a person would who this is to the player and what they do, through the English engine, for example "Your partner. Works at Quinn Supply." The name stays above it as it is now. A person the player has never met says only what they do.
@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/bench/play.mjs, src/bench/ui/talk-box.mjs, data/english/parts, src/bench/talk-history.browser.mjs
 
 **Notes.** Reading: OWNER-DECISIONS.md (Oct 27 afternoon screens rulings), DECISION-REGISTER.md, prior-rulings/, docs/play-first/LAW.md section 1, docs/ui/mocks/screens-2026-10-14/README.md; docs/ searched for the screen name. Principles: docs/design/screens/principles-2026-10-27.md.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (merged #6390; owner check per OD:105).

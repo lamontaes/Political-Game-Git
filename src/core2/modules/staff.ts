@@ -15,6 +15,7 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
+import { openBusinessOwnerIds } from "./business";
 import { workedToday } from "../job-lifecycle";
 import {
   coreAPI,
@@ -55,6 +56,8 @@ import {
   publicPayRoom,
   treasuryParameter,
 } from "../budgets-treasury";
+// The cases engine imports this one; these are read only when a review runs.
+import { caseLoad, recentCasesOf } from "./constituent-cases";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -396,8 +399,13 @@ export function staffCandidates(
   );
   const postHourly = campaignParameter("staffHourlyMinor");
   const out: StaffCandidate[] = [];
+  // Someone who runs an open business cannot take a post and keep it open:
+  // taking it closes the firm (Dickens, Iowa: four owners hired as aides on
+  // 2025-02-19, their firms closed with no successor on 2025-03-01).
+  const owners = openBusinessOwnerIds(api);
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
+    if (owners.has(person.id)) continue;
     const facts = personFacts(api, person, minimum, review);
     if (!facts.open) continue;
     if (person.tier === HUSK_TIER) {
@@ -428,7 +436,8 @@ export function staffCandidates(
   }
   // The town's counted adults who earn less than the post pays apply too.
   for (const voter of countedPool(api, town, minimum)) {
-    if (hired.has(voter.id) || inCustody(api, voter.id)) continue;
+    if (hired.has(voter.id) || owners.has(voter.id) || inCustody(api, voter.id))
+      continue;
     const known =
       official.knownIds.has(voter.id) || official.familyIds.has(voter.id);
     const link = official.familyIds.has(voter.id)
@@ -1012,6 +1021,8 @@ export function staffDecision(
   api: CoreAPI,
   officialId: string,
   told: "help" | "decline" = "help",
+  /** The share of the office's time other open cases take (`caseLoad`). */
+  load = 0,
 ): { stafferId: string; help: boolean; work: WorkRecord } | null {
   const staffer = [...servingStaffOf(api, officialId)].sort(
     (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
@@ -1029,7 +1040,9 @@ export function staffDecision(
       "staff.follow-through",
       "follow-through",
       "decline",
-      q.quality - campaignParameter("staffCaseFollowThrough"),
+      q.quality -
+        campaignParameter("staffCaseFollowThrough") -
+        campaignParameter("staffCaseLoadWeight") * load,
     );
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
@@ -1218,7 +1231,17 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         "staff.hire",
         "hire",
         "do-alone",
-        campaignParameter("staffHireBase") + budgetLean(api, officialId),
+        campaignParameter("staffHireBase") +
+          budgetLean(api, officialId) +
+          campaignParameter("staffHireLoadWeight") *
+            caseLoad(
+              api,
+              recentCasesOf(
+                api,
+                officialId,
+                campaignParameter("staffHireCaseDays"),
+              ),
+            ),
       )
     )
       continue;

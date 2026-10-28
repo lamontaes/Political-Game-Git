@@ -1,8 +1,9 @@
 /**
  * The opening's sequence (owner, Oct 14, 2026, late): the President giving
  * the address with the Vice President and key people behind; then Congress,
- * the player's own senators and representative; then the state's governor and legislators; then the council in the town's
- * own chamber; then the player's family, if they have one;
+ * the player's own senators and representative; then the state (owner, Oct 27:
+ * national people, not the council or the state's legislators); then the
+ * player's family, if they have one;
  * then home. Who the key people are is one list the owner ruled on Oct 15
  * (`src/core2/opening-key-people.ts`), shared with the Politics screen; this
  * file only says which of them each stage points out, by the reasons
@@ -15,10 +16,7 @@ import {
   type KeyPerson,
   type KeyReason,
 } from "../core2/opening-key-people";
-import {
-  coreStateName,
-  corePlaceByJurisdictionId,
-} from "../core2/place-lookup";
+import { coreStateName } from "../core2/place-lookup";
 import type { CoreState, PersonId } from "../core2/types";
 import openingData from "./data/opening-story.json" with { type: "json" };
 import journalRows from "./data/journal-rows.json" with { type: "json" };
@@ -179,12 +177,8 @@ export function openingSequence(
         name: row.name,
         post: row.leads ? postTitle(row.officeKind, row.leads.post) : null,
         office: row.officeTitle || null,
-        // Where their office is: their state, or for a council member the town.
-        state:
-          rule.reason === "own-council-member"
-            ? (corePlaceByJurisdictionId(player.placeId as never)
-                ?.displayName ?? null)
-            : stateName(row.stateKey),
+        // Where their office is: their state, none for a national office.
+        state: stateName(row.stateKey),
         relation: null,
         role: row.leads
           ? `key:${rule.reason}:${rule.scope}:${row.leads.post}`

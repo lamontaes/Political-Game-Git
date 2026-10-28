@@ -118,6 +118,21 @@ try {
     "News",
   );
   assert.equal(await page.locator(".story-image").count(), 0);
+  // A newspaper with story text (owner, Oct 27): the lead story is printed with
+  // at least two sentences under its headline, and no record row with a kind,
+  // series or jurisdiction label is on the page.
+  const leadText = (
+    await page.locator(".paper-story.lead p").allInnerTexts()
+  ).join(" ");
+  console.log("Lead story text:", leadText.slice(0, 200));
+  assert.ok(
+    (leadText.match(/[.!?]["”]?(\s|$)/g) ?? []).length >= 2,
+    `the lead story has under two sentences: ${leadText}`,
+  );
+  assert.doesNotMatch(
+    await page.locator("#sheet-body .paper").innerText(),
+    /\bSeries\b|\bJurisdiction\b|Public record/,
+  );
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: "docs/reports/news-front-page-2026-10-14/news.png",

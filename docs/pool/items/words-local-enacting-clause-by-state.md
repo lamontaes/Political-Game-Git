@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/english/parts/legislation.json, src/english/bill-sections.ts, data/research/gov/local-ordinance-style-2026.json
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the graded hold.

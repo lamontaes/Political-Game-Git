@@ -19,6 +19,7 @@ import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
+import { attendedSchool } from "./school";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -50,13 +51,16 @@ export interface SituationCause {
     /**
      * Facts of the cause's own record, every one of which must hold: a fact
      * ("winnerId") names the moment's person ("is": "subject") or someone
-     * else ("other"), or is one of the listed values ("equals"). A cause whose
-     * record is gone, or lacks the fact, matches nothing.
+     * else ("other"), is one of the listed values ("equals"), or is a list
+     * of people ("outIds") that includes the moment's person ("includes":
+     * "subject"). A cause whose record is gone, or lacks the fact, matches
+     * nothing.
      */
     causeFacts?: readonly {
       key: string;
       is?: "subject" | "other";
       equals?: readonly string[];
+      includes?: "subject";
     }[];
     /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
     occasion?: string;
@@ -194,6 +198,11 @@ export interface ScheduleEntry {
   rank: number;
   pace: number;
   bindings: SceneBinding[];
+  /**
+   * The bound scenes with a purpose the player has answered, by type: a
+   * record that stages several plays each in turn, the next once one ends.
+   */
+  answered?: string[];
   coverage?: CoverageRow;
 }
 
@@ -284,6 +293,11 @@ export function causeMatches(
     if (want.is && (fact === moment.personId) !== (want.is === "subject"))
       return false;
     if (want.equals && !want.equals.includes(fact)) return false;
+    if (
+      want.includes === "subject" &&
+      !(JSON.parse(fact) as unknown[]).includes(moment.personId)
+    )
+      return false;
   }
   if (
     match.occasion !== undefined &&
@@ -377,6 +391,12 @@ function fillRole(
         ...(core.households.get(subject?.householdId ?? "")?.memberIds ?? []),
       ].filter((id) => alive(core, id) && !taken.has(id)),
     );
+  const otherHousehold = () => {
+    const other = core.people.get(moment.counterpartIds[zero] ?? "");
+    return [...(core.households.get(other?.householdId ?? "")?.memberIds ?? [])]
+      .filter((id) => alive(core, id) && !taken.has(id))
+      .sort();
+  };
   const coworkers = () => {
     const job = subject?.jobId ? core.jobs.get(subject.jobId) : undefined;
     if (!job) return [];
@@ -451,7 +471,10 @@ function fillRole(
         ? household()
         : setting === "workplace"
           ? coworkers()
-          : [];
+          : setting === "other-home"
+            ? // At someone else's home (a door knocked): who else lives there.
+              otherHousehold()
+            : [];
     case "authority": {
       // At home: the subject's parent on record who lives with them, else
       // another older relative in the household (a guardian).
@@ -558,8 +581,13 @@ function resolveSetting(
         ? { kind, recordId: chamber }
         : undefined;
     }
+    case "school": {
+      // The school the subject attended, from the school engine's record.
+      const school = attendedSchool(core, subject.id)?.schoolId;
+      return school ? { kind, recordId: school } : undefined;
+    }
     default:
-      // School and letter need records the new core does not keep yet.
+      // A letter needs records the new core does not keep yet.
       return undefined;
   }
 }

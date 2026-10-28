@@ -311,6 +311,13 @@ const fitsGender = (text: string, gender: string | undefined) => {
   );
 };
 
+/**
+ * A row's own line can tell someone else's moment only when it names them:
+ * "{other} died." does, "I introduced {law}." would make it the reader's own.
+ */
+const namesTheOther = (wording: Wording) =>
+  /\{(?:other|named|relation)\}/.test(wording.text);
+
 function wordingsFor(
   words: JournalWords,
   move: JournalMove,
@@ -327,7 +334,7 @@ function wordingsFor(
             ? move.together
               ? (row?.groupLine ?? row?.line)
               : row?.line
-            : (row?.otherLine ?? row?.line),
+            : (row?.otherLine ?? row?.line?.filter(namesTheOther)),
       };
     }
     case "check": {
