@@ -4,17 +4,37 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
 
 ## What each folder holds
 
-| Path | What it is |
-|---|---|
-| `art/people-rooms/plates/<scene>.png` | An edit of `art/backdrops/<scene>__<variant>.jpg` with a flat green (#00FF00) mannequin at every natural spot. **Never drawn in the game.** It exists only to be measured. |
-| `art/people-rooms/spots/<scene>.json` | The measured spots, in pixels of the empty painting at its own size, each with the shared tags. |
-| `art/people-rooms/tags/<scene>.tags.json` | The scene's zones (desk, couch, crowd, lectern, gallery, aisle) that hand tags to the spots inside them. Edit a zone and re-run `tools/tag_spots.py`; don't hand-edit spots. |
-| `art/people-rooms/tools/` | `slots.py EMPTY PLATE OUT.json` measures a plate, `tag_spots.py TAGS SPOTS OUT` tags it, and `spotcheck.py OUT.jpg SPOTS...` draws the boxes for checking by eye. |
-| `art/people-engine/v2/hair-on-figures/` | Hair pieces painted onto the v2 figures' own heads, plus `index.json`. |
-| `art/people-engine/v2/faces-on-figures/` | Face patches (12 faces per sex, each with its own expression) painted onto the v2 figures' own heads, plus `index.json`. |
-| `art/people-engine/v2/figures/v2-sb*.png` + `figures-back.json` | Standing figures seen from behind (facing 180) in base, polo, vest and blazer, for crowds facing away. |
-| `art/people-engine/v2/garments/` | One garment map per v2 figure, plus `index.json`. |
-| `art/people-engine/v2/outfits.json` | Outfits by dress level, where worn, role, and which sheet holds each outfit for each pose. |
+| Path                                                            | What it is                                                                                                                                                                   |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `art/people-rooms/plates/<scene>.png`                           | An edit of `art/backdrops/<scene>__<variant>.jpg` with a flat green (#00FF00) mannequin at every natural spot. **Never drawn in the game.** It exists only to be measured.   |
+| `art/people-rooms/spots/<scene>.json`                           | The measured spots, in pixels of the empty painting at its own size, each with the shared tags.                                                                              |
+| `art/people-rooms/tags/<scene>.tags.json`                       | The scene's zones (desk, couch, crowd, lectern, gallery, aisle) that hand tags to the spots inside them. Edit a zone and re-run `tools/tag_spots.py`; don't hand-edit spots. |
+| `art/people-rooms/tools/`                                       | `slots.py EMPTY PLATE OUT.json` measures a plate, `tag_spots.py TAGS SPOTS OUT` tags it, and `spotcheck.py OUT.jpg SPOTS...` draws the boxes for checking by eye.            |
+| `art/people-engine/v2/hair-on-figures/`                         | Hair pieces painted onto the v2 figures' own heads, plus `index.json`.                                                                                                       |
+| `art/people-engine/v2/faces-on-figures/`                        | Face patches (12 faces per sex, each with its own expression) painted onto the v2 figures' own heads, plus `index.json`.                                                     |
+| `art/people-engine/v2/figures/v2-sb*.png` + `figures-back.json` | Standing figures seen from behind (facing 180) in base, polo, vest and blazer, for crowds facing away.                                                                       |
+| `art/people-engine/v2/garments/`                                | One garment map per v2 figure, plus `index.json`.                                                                                                                            |
+| `art/people-engine/v2/outfits.json`                             | Outfits by dress level, where worn, role, and which sheet holds each outfit for each pose.                                                                                   |
+
+## People, the Reddit way (Oct 28 night; read `docs/art/HANDOFF.md` first)
+
+The owner's model: one body per pose and angle, and every hairstyle, shirt, jacket, tie, pants, shoes, blouse, skirt and dress is its own transparent picture painted by Firefly on that exact body. Picking a part swaps one picture for another; every part and the skin take their own color.
+
+- **Where:** `art/people-engine/v2/wardrobe/<pose>/<figure>/<layer>-<n>.png`, with each figure's box in `<pose>/parts.json`.
+  - Figures are `v2-<pose>-<f|m>-<slim|medium|heavy>`.
+  - Layer order: body, pants, shoes, dress, shirt, tie, jacket, hair. A dress replaces both shirt and pants.
+- **Poses:** `wardrobe/index.json` lists every pose with its facing for women and men (minus = toward screen-left, 180 = away; flip for the mirror spot), hands, seat and what covers it. They are natural poses: relaxed, talking, arms folded, on the phone, walking, legs crossed, leaning in at a table, typing, at a lectern, profile, three-quarter from behind, from behind. `nat-s1` (relaxed, front) is the character creator pose. Sheet `31` is a stiff proof set, not for scenes.
+- **Part numbers:** `wardrobe/outfits.json` names every part number and holds 14 outfits tagged by role, place kind and category, time, day, occasion and season.
+- **Recoloring:**
+  - Plain or green pixels take the part's color times their brightness ratio, which keeps the folds.
+  - Warm pixels are skin and take the person's skin color.
+  - `art/people-rooms/tools/stack.py` (`dress()`) is the reference.
+- **Putting people in a room:** `tools/scene_people.py` stacks a person, then places them at a spot:
+  - **standing:** fills the mannequin from head to feet;
+  - **seated:** head width × 1.18, because mannequin heads have no ears;
+  - the furniture is drawn back in front below the spot's front line.
+- **Casting a room automatically:** `tools/autocast.py` reads each spot's tags and picks a pose, a body and an outfit whose parts exist for the place's dress level, with varied skin, hair and colors.
+- **Proofs:** `art/people-rooms/wardrobe-proof/` (creator sheets: one body, one row per arrow; outfits; five rooms cast automatically).
 
 ## Spots: how a person goes into a painting
 
@@ -81,3 +101,7 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
 - **Oct 27, fifth:** garment maps for the base and polo figures seen from behind (sb45, sb03): all 24 from-behind figures recolor now.
 - **Not delivered:** face front 03 (heart-shaped face / round face, laughing). Firefly dropped it three times and moved the figures on the fourth, so it fails the drift gate; 35 of 36 face sets are here.
 - **Known:** in governor-office the front visitor and the governor touch and measure as one spot (two Firefly tries drew them overlapping); seat one person there or split it.
+- **Oct 28 night (wardrobe):** the owner's Reddit-avatar model.
+  - Parts are painted in key green and hair in key blue so each piece is exact. Gray-on-gray cutting lost a suit jacket.
+  - Natural pose bases: 18. Parts are cut for sheet 31 and nat-s1, s2, s3, s5, c1, c2, c3. The rest are landing.
+  - Also: `index.json`, `outfits.json`, the tools above, the proofs, and `docs/art/HANDOFF.md`.
