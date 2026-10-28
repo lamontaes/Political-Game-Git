@@ -6,9 +6,12 @@
  * The jobs engine keeps deciding from its own records; this only reads the
  * web's factor for the people the records say belong to each group.
  */
-import { isNoncitizen as isNoncitizenOf, isUnauthorized } from "./citizenship";
+import {
+  isNoncitizen as isNoncitizenOf,
+  isUnauthorized,
+} from "./modules/people";
 import { ageOn, MemberState, type CountedStore } from "./counted-groups";
-import { citizenShareOf } from "./electorate-places";
+import { citizenShareOf } from "./modules/voting";
 import { lawChain } from "./modules/laws";
 import type { HouseholdKind } from "./counted-groups";
 import { parameter } from "./parameters";

@@ -121,6 +121,7 @@ import {
 } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
+export { citizenShareOf } from "../electorate-places";
 import {
   PARTIES_MODULE_ID,
   joinParty,
