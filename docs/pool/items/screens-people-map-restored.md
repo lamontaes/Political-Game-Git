@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/people-map
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:33:44.551Z
 ---
 
 **What.** The owner, Oct 28, on the People screen, relayed by the CTO at 01:05 UTC: restore the earlier people map he liked, with colors per kind of person and visible lines. Today every line is a thin gold hairline and faces sit in square boxes.
