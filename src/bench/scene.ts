@@ -1,3 +1,4 @@
+import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
   hasBackdrop,
@@ -366,7 +367,7 @@ export function homeOf(
     servingOfficeKinds(core, personId).map((kind) => RESIDENCES[kind]?.[room]),
   );
   if (residence) return residence;
-  const age = person ? ageOn(person.birthDate, core.date) : 30;
+  const age = person ? ageOnDate(person.birthDate, core.date) : 30;
   const living = () => {
     const state = stateOf(core.placeMetadata?.placeKey ?? "");
     const regional = Object.entries(
@@ -417,12 +418,6 @@ function homeRooms(core: CoreState, personId: string): Set<string> {
   return new Set(
     ROOM_BY_HOUR.map((row) => homeOf(core, personId, row.fromHour * 60)),
   );
-}
-
-/** Whole years of age on a date. */
-function ageOn(birthDate: string, date: string): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 }
 
 /** What the person is doing right now, from the open pause or their last act. */
