@@ -15,6 +15,7 @@ import spendingData from "./data/budgets/treasury-spending.json" with { type: "j
 import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
+import budgetBases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
 import { townOutsideOf } from "./opening-outside-market";
@@ -32,7 +33,7 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
-import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
+import { LAWS_MODULE_ID, lawChain, webReach } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
 import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { setRecipientIncomeAmount } from "./finance-state";
@@ -180,6 +181,69 @@ export function treasuryParameter(key: string): number {
   const row = DATA.parameters[key];
   if (!row) throw new Error(`Unknown treasury parameter: ${key}`);
   return row.value;
+}
+
+/** The line a state or local government pays its bondholders from (Census function 89, interest on general debt). */
+const INTEREST_LINE = "interest";
+/** What a state pays to borrow, in basis points over a AAA-rated state (the outcome web's measure its fiscal laws move). */
+const BORROWING_COST = "gov.borrowing-cost";
+
+/**
+ * A state's rate on its debt: its interest on general debt over its debt
+ * outstanding, both from the Census Bureau's state finances
+ * (public-budget-bases.json). A place the survey leaves out (a territory, or
+ * D.C., which reports no state debt) takes the median of the states that
+ * report both, as an estimate.
+ */
+const STATE_DEBT_RATES: ReadonlyMap<string, number> = (() => {
+  const places = (
+    budgetBases as unknown as {
+      places: Record<
+        string,
+        { state?: { debt?: number; spending?: { interest?: number } } }
+      >;
+    }
+  ).places;
+  const rates = new Map<string, number>();
+  for (const [key, place] of Object.entries(places)) {
+    const debt = place.state?.debt ?? 0;
+    const interest = place.state?.spending?.interest ?? 0;
+    if (debt > 0 && interest > 0) rates.set(key, interest / debt);
+  }
+  return rates;
+})();
+/** A state's rate on its debt, or the states' median where the survey has none (an estimate). */
+export function stateDebtRate(stateKey: string): number {
+  return STATE_DEBT_RATES.get(stateKey) ?? MEDIAN_STATE_DEBT_RATE;
+}
+const MEDIAN_STATE_DEBT_RATE = (() => {
+  const sorted = [...STATE_DEBT_RATES.values()].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2
+    ? sorted[mid]!
+    : (sorted[mid - 1]! + sorted[mid]!) / 2;
+})();
+
+/**
+ * The share of its planned interest a state owes this month: the outcome
+ * web's change in what the state pays to borrow (basis points its fiscal
+ * laws added or took off, gov.borrowing-cost) over the state's own rate on
+ * its debt, so a law that lowers the spread lowers every interest payment.
+ * One where the web moved nothing.
+ */
+function interestFactor(api: CoreAPI): number {
+  const chain = lawChain(api);
+  const added = webReach(api, chain.townPlaceId, BORROWING_COST).added;
+  if (!added) return 1;
+  // stopgapId: SG-EFFECT-WEB-prices-gov-borrowing: the change reprices the
+  // whole interest line at once, not only the bonds issued after it, and only
+  // the state's; no record keeps a government's bonds by issue date.
+  api.stopgap("SG-EFFECT-WEB-prices-gov-borrowing");
+  const rate = stateDebtRate(chain.stateKey);
+  return Math.max(
+    0,
+    1 + added / treasuryParameter("basisPointsPerUnit") / rate,
+  );
 }
 
 const LEVEL_ORDER = { federal: 0, state: 1, county: 2, city: 3 } as const;
@@ -1054,8 +1118,12 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
           { lines: Record<string, number> } | undefined
       )?.lines ?? {};
     const due: Record<string, number> = {};
+    // A state's interest this month is its twelfth at what it now pays to borrow.
+    const interest = gov.level === "state" ? interestFactor(api) : 1;
     for (const [line, amount] of Object.entries(budget.spendingMinor))
-      due[line] = Math.round(amount / months);
+      due[line] = Math.round(
+        (amount / months) * (line === INTEREST_LINE ? interest : 1),
+      );
     for (const [line, minor] of Object.entries(owed))
       due[line] = (due[line] ?? 0) + minor;
     // Aid to each lower treasury, charged to the lines that carry it.

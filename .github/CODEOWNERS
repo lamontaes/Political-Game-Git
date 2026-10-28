@@ -42,7 +42,6 @@
 /src/core2/modules/filing-clerk.ts @lamontaes
 /src/core2/modules/ballot-measures.ts @lamontaes
 /src/core2/modules/recalls.ts @lamontaes
-/src/core2/modules/world-races.ts @lamontaes
 /src/core2/modules/parties.ts @lamontaes
 /src/core2/modules/interest-groups.ts @lamontaes
 /src/core2/ballot-order.ts @lamontaes

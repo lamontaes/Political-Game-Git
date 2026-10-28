@@ -6,6 +6,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 18:15 UTC: the words and director plan approved (owner, 2:10 PM Eastern, "All the six are right")
+
+- **Ruling:** the plan at `docs/reports/words-director-plan-2026-10-28.md` is approved whole. Scene depth stays. Filing is petition, signatures, the clerk's check, then the ballot (this reverses "Filing: no fee or petition mechanic"). The narrator shows first, Continue, then the person talks (this replaces the Oct 27 "at once"). The batch-grading apparatus is deleted; one grade file, the reach table and the in-play grade control remain. The ungraded Oct 15 lines keep playing until a grade or a pattern ban removes them. One Opus session owns the director and the English engine together, with two Sonnet helpers.
+- **Signatures (owner's words):** "signatures should happen somewhat naturally, but I would like there to be some scenes where you earn people's signatures. Or maybe signatures is the game's way of introducing you to campaigning." The count fills as the candidate campaigns; some signature scenes exist; the elections engine keeps the petition record, the words session the scenes.
+- **Cadence (owner):** "start getting this merged so every time the Mac client updates, the dialogue and scenes are just a little bit better. Every time. Or maybe a lot better." The first PR is big: every verbatim voice note applied at once ("you can already get most of the way there with the voice notes").
+- **Items:** `words-director-one-path` (lead words) and `play-screens-sitting-oct28` (lead play-first). The elections session carries the filing rules and the petition record on its item.
+
 ## Oct 28, 14:50 UTC: history runs from the player's birth year (owner, 10:50 AM Eastern, "Yes, simulate to the birth year. Remember, it doesn't have to be any kind of depth. It's just got to be general to make the game flow.")
 
 - **Ruling:** the one history (engine map line 7) starts at the player's birth year, not in 2000. A 35-year-old's childhood, schooling, moves and household are run by the same engines at a coarse step (a year, not a day), general, with no depth: where the family lived and moved, who was in the household, school attended, first jobs. Enough that the opening, the Journal, the person card and the director have records to read; nothing more. The pre-start window parameter moves from a fixed year to "the player's birth year" for every drawn place.

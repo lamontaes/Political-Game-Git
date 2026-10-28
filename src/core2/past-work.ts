@@ -28,7 +28,7 @@ import {
   kindergartenYear,
   onCalendar,
   SCHOOL_STAGE_CALENDAR,
-} from "./school-calendar";
+} from "./past-school-calendar";
 import { decisionLean, traitLeanBetween } from "./trait-decisions";
 import jobsJson from "./data/jobs/jobs.json" with { type: "json" };
 import { profileFor } from "./opening-profile";

@@ -19,8 +19,8 @@ import {
   renderDevCharacterFixtures,
 } from "../scripts/art-asset-factory/dev-character-fixtures";
 import { renderDevG2Fixtures } from "../scripts/art-asset-factory/dev-character-fixtures-g2";
-import { computeCharacterGenerationSignature } from "../src/presentation/character-components";
-import type { PoseFamilyRegistryData } from "../src/presentation/pose-families";
+import { computeCharacterGenerationSignature } from "../src/appearance/character-components";
+import type { PoseFamilyRegistryData } from "../src/appearance/pose-families";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 
