@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/realistic-not-real-guard
+pr: #6473
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+claimed-at: 2026-10-28T01:35:04.157Z
 ---
 
 **What.** A guard that builds two played worlds (buildBenchWorld) from two seeds on drawn places and checks every audited non-law statistic: fails when a value is equal in both worlds or equal to its published row. Added to the local gate list in the local-gate standing skill. The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed.

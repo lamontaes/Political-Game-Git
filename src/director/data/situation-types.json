@@ -922,10 +922,13 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "canvass-visit",
+          "match": { "label": "circumstance:door-first" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
           "reason": "canvass",
           "bind": { "newcomer": "subject", "met": "counterpart" },
-          "opener": "newcomer"
+          "opener": "newcomer",
+          "setting": ["other-home"]
         },
         {
           "match": { "label": "circumstance:new-coworker" },
@@ -1368,10 +1371,13 @@
           "opener": "visitor"
         },
         {
-          "awaitingProducer": "canvass-visit",
+          "match": { "label": "circumstance:door-again" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
           "reason": "canvass",
           "bind": { "visitor": "subject", "cannot-come": "counterpart" },
-          "opener": "visitor"
+          "opener": "visitor",
+          "setting": ["other-home"]
         },
         {
           "match": {

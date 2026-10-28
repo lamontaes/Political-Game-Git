@@ -20,7 +20,8 @@ import { openingFrames } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
-import { recolorFigure } from "../../src/bench/figure-colors";
+import staging from "../../art/backdrops/staging.json" with { type: "json" };
+import { drawnFigure } from "../../src/bench/figure-hair";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import type { PlayerPacketV1 } from "../../src/core2/player-v1";
 
@@ -158,6 +159,27 @@ function shotsFor(seed: string) {
       });
     }
   }
+  // Every room measured from a mannequin plate: the player and up to eight
+  // officials, as the director might stage a scene there.
+  const officials = terms
+    .filter((t) => t.status === "serving" && t.personId)
+    .slice(0, 8)
+    .map((t) => ({
+      id: t.personId!,
+      name: `${t.identity.givenName} ${t.identity.familyName}`,
+      reason: "act" as const,
+    }));
+  const staged = (staging as { places: Record<string, { spotsFrom?: string }> })
+    .places;
+  for (const room of Object.keys(staged).filter((p) => staged[p]!.spotsFrom))
+    add(`plate-${room}`, {
+      place: room,
+      backdrop: scene.backdropFile(room, 11 * 60),
+      ...scene.stagePeople(core, room, [
+        { id: me, name: "you", reason: "you" as const },
+        ...officials,
+      ]),
+    });
   // A conversation: the player and the first other person in the household, at home.
   const other = household.find((id) => id !== me) ?? terms[0]?.personId;
   if (other) {
@@ -246,8 +268,8 @@ for (const seed of seeds) {
       let src = p.figureUrl;
       if (src.startsWith("/art/people-engine/v2/")) {
         w0++;
-        // Colored as the play server colors it (handler.ts): the figure
-        // recolored from the person's own colors in the query.
+        // Drawn as the play server draws it (handler.ts): the person's own
+        // colors and hair from the query.
         const u = new URL(src, "http://bench");
         const name = u.pathname
           .split("/")
@@ -259,11 +281,7 @@ for (const seed of seeds) {
         );
         writeFileSync(
           file,
-          recolorFigure(
-            readFileSync(`.${u.pathname}`),
-            name,
-            Object.fromEntries(u.searchParams),
-          ),
+          drawnFigure(name, Object.fromEntries(u.searchParams)),
         );
         src = `file://${file}`;
       } else {

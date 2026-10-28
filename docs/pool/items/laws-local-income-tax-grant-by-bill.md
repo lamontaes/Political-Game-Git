@@ -6,11 +6,12 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/local-income-tax-grant-bill
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:49:58.426Z
 ---
 
 **What.** The state's grant of local income-tax authority is read when a local body drafts an income-tax bill, and a state law row can grant or withdraw it, but no body can propose, enact or repeal the grant by bill (stopgap SG-LAW-local-income-tax-authority-change, src/core2/modules/legislature.ts). The Words half is on main: #6432 (words-bill-section-local-income-tax-authority) added the bill-section row for granting and withdrawing it. What is left is the catalog half the stopgap names: a state-level grant and withdraw policy in the bill catalog (scripts/research/build-bill-catalog.py) and its power in series-powers.json, so a state chamber drafts it like any other law. It is the last open half of laws-nine-links-taxes other than the estate tax.
