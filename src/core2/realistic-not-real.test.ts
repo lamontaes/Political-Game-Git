@@ -103,13 +103,17 @@ import {
   publishedStateExitShare,
   stateExitShare,
 } from "./modules/business";
-import { publishedUnitPrice, unitPrice } from "./modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  publishedUnitPrice,
+  unitPrice,
+} from "./modules/campaigns";
 import {
   publishedOutletLevels,
   worldOutletCounts,
   type PlaceNews,
 } from "./modules/press";
-import { PAST_MODULE_ID } from "./past-module";
+import { NEWS_MODULE_ID } from "./modules/news";
 import { publishedSupportShare, supportShare } from "./campaign-views";
 import supportData from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
 import electoralCorpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
@@ -247,7 +251,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         homePriceRatio(usps, from, a.date, b.seed),
       );
     // Row 7, the old core's county median home value, is checked beside its
-    // reader (src/simulation/county-home-value-world.test.ts): nothing here
+    // reader (the old engine's county-home-value-world.test.ts): nothing here
     // imports the old core.
     // Row 8: HUD fair market rents and the very low income limit, the place's
     // area (the state's average where HUD has none) at every bedroom count.
@@ -756,18 +760,20 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
   });
 
   it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {
-    // Row 44: every race before the start both worlds hold. A recorded
-    // total (a House, Senate or presidential race) is the same in every world
-    // unless drawn, so each race of a thousand votes or more must differ (a
-    // race of a few hundred can land on the same count twice).
+    // Row 44: every race before the start both worlds hold, as the paper
+    // printed it (the one place the game keeps a past race's votes cast). A
+    // recorded total (a House, Senate or presidential race) is the same in
+    // every world unless drawn, so each race of a thousand votes or more must
+    // differ (a race of a few hundred can land on the same count twice).
     const races = (core: CoreState) =>
       new Map(
-        (
-          coreAPI(core)
-            .moduleState(PAST_MODULE_ID)
-            .table("elections")
-            .rows() as unknown as { id: string; totalVotes: number }[]
-        ).map((row) => [row.id, row.totalVotes]),
+        coreAPI(core)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows()
+          .map((row) => row.facts as Record<string, string>)
+          .filter((facts) => facts.recordKind === "election-result")
+          .map((facts) => [facts.contestId!, Number(facts.totalVotes)]),
       );
     const racesA = races(a),
       racesB = races(b);
@@ -839,13 +845,27 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         `${where} row 42 citizens`,
       ).not.toBe(citizenShareOf(placeKey, usps, b.seed));
     }
+    // The campaigns engine's starting town lean: the House district's 2024
+    // vote as each world's swing moved it.
+    const townLean = (core: CoreState) =>
+      (
+        coreAPI(core)
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("town")
+          .get("town") as unknown as { lean: number } | undefined
+      )?.lean;
+    const leanA = townLean(a),
+      leanB = townLean(b);
+    expect(leanA, `${where} row 42 town lean`).toBeDefined();
+    if (leanA !== 0 && Math.abs(leanA!) < 1)
+      expect(leanA, `${where} row 42 town lean`).not.toBe(leanB);
     const map = (seed: string) =>
       contestedStates2024(seed)
         .map((s) => `${s.usps}:${s.democraticTwoPartyShare.toFixed(6)}`)
         .join(" ");
     expect(map(a.seed), `${where} row 42 contested map`).not.toBe(map(b.seed));
     process.stdout.write(
-      `VOTE-2024 ${where}: ${usps} opens at ${stateRightShare(usps, a.seed)?.toFixed(4)} and ${stateRightShare(usps, b.seed)?.toFixed(4)} Republican; contested ${contestedStates2024(
+      `VOTE-2024 ${where}: town lean ${leanA?.toFixed(4)} and ${leanB?.toFixed(4)}; ${usps} opens at ${stateRightShare(usps, a.seed)?.toFixed(4)} and ${stateRightShare(usps, b.seed)?.toFixed(4)} Republican; contested ${contestedStates2024(
         a.seed,
       )
         .map((s) => s.usps)
