@@ -2966,3 +2966,7 @@ details.entry[open] {
 .number-box {
   width: 90px;
 }
+/* The seat's draft form: what to change, the amount, Draft, side by side. */
+.row.seat-draft {
+  justify-content: flex-start;
+}
