@@ -149,46 +149,6 @@
       "code": "new SeededRng(seed).fork(`citizenship:${personId}`).next() >= citizenShare"
     },
     {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "if (!(total > p(\"zero\"))) return rows.length ? rng.pick(rows) : undefined;",
-      "class": "DECISION",
-      "keyedBy": "place and stage (not the child)",
-      "reason": "Falls back to a seeded school pick when no enrollment is known (stopgap SG-P15-school-assignment); a school a child attended follows from where the family lived, so this is not generation.",
-      "replacement": "the school follows from the home's location once homes have locations (SG-P15-school-assignment)"
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "let point = rng.next() * total;",
-      "class": "DECISION",
-      "keyedBy": "place and stage (not the child)",
-      "reason": "Enrollment-weighted school pick (stopgap SG-P15-school-assignment); a school a child attended follows from where the family lived, so this is not generation.",
-      "replacement": "the school follows from the home's location once homes have locations (SG-P15-school-assignment)"
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
-      "count": 1,
-      "code": "if (point < p(\"zero\")) return rows[i];"
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "`${rng.pick(SCHOOL_NAMES.features)} ${stage.nameSuffix}`;",
-      "class": "GENERATION",
-      "keyedBy": "school id (place and stage)",
-      "reason": "Generated name pattern for a school that has no record; who exists, not what anyone does.",
-      "replacement": null
-    },
-    {
       "file": "src/core2/electorate-places.ts",
       "kind": "fixed-share",
       "build": "pool:core-zero-dice-shares-in-code",
@@ -203,7 +163,7 @@
       "code": "let point = rng.next() * total;",
       "class": "IDENTITY",
       "keyedBy": "caller rng stream (person name)",
-      "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from src/simulation/given-name-cohorts.ts); who they are, not what they do.",
+      "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from the old engine's given-name-cohorts.ts); who they are, not what they do.",
       "replacement": null
     },
     {
@@ -301,13 +261,6 @@
       "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
       "code": "if (moveHazard(rates, fromAge, age) < line) return true;"
-    },
-    {
-      "file": "src/core2/opening-kin.ts",
-      "kind": "roll",
-      "build": "pool:core-zero-dice-generation-rolls",
-      "count": 1,
-      "code": "if (total + hazard >= line) {"
     },
     {
       "file": "src/core2/opening-kin.ts",
@@ -508,7 +461,7 @@
     {
       "file": "src/core2/town-households.ts",
       "kind": "fixed-share",
-      "build": "pool:core-zero-dice-shares-in-code",
+      "build": "pool:core-zero-dice-generation-rolls",
       "count": 1,
       "code": "export const SAME_SEX_COUPLE_SHARE = 0.015;"
     },

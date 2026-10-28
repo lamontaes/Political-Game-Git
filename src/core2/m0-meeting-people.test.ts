@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { enrichCivicInputs } from "./civic-inputs";
 import { CLOSENESS, levelFromHours } from "./closeness";
-import { buildDeepPast } from "./deep-past";
 import { ENCOUNTERS } from "./encounters";
 import { advanceCore, createLifeCore } from "./life";
 import { parameter } from "./parameters";
@@ -18,16 +17,14 @@ const DAYS = 91;
 // The golden-path runner draws the place and seed from all 56.
 const SEED = process.env.GOLDEN_PATH_SEED ?? "m0-07-a";
 const input = enrichCivicInputs(
-  buildDeepPast(
-    buildPopulation({
-      seed: SEED,
-      placeKey: process.env.GOLDEN_PATH_SEED
-        ? process.env.GOLDEN_PATH_PLACE_KEY
-        : undefined,
-      startedAt: "2021-01-01",
-      minimumPeople: 600,
-    }),
-  ),
+  buildPopulation({
+    seed: SEED,
+    placeKey: process.env.GOLDEN_PATH_SEED
+      ? process.env.GOLDEN_PATH_PLACE_KEY
+      : undefined,
+    startedAt: "2021-01-01",
+    minimumPeople: 600,
+  }),
 );
 const core = createLifeCore(input);
 const p = (key: string) => parameter(key, core.data.parameters);

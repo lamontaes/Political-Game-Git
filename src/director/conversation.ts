@@ -29,7 +29,12 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf } from "../core2/modules/people";
-import { heldSinceRecord } from "../core2/past-work";
+import {
+  PERSON_MOVED_IN,
+  heldSinceRecord,
+  preStartHistory,
+  schoolsAttended,
+} from "../core2/past";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
@@ -246,13 +251,17 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   return job && org ? { job, org } : null;
 }
 
-/** The last school a person's records name. */
-function schoolOf(person: Readonly<PersonState>) {
-  return (person.pastFacts ?? [])
-    .filter(
-      (row) => row.kind === "school:cohort-estimate" && row.facts?.schoolName,
-    )
-    .sort((a, b) => b.date.localeCompare(a.date))[zero];
+/** The last school a person's records name, by the school's own record. */
+function schoolOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
+  const named = schoolsAttended(core, person.id).filter((row) => row.name);
+  const school = named.at(-one);
+  return school
+    ? {
+        text: properName(school.name!),
+        sourceRecordIds: [school.recordId, school.schoolId],
+        recordId: school.recordId,
+      }
+    : undefined;
 }
 
 /** Whether a person is past school age, which sets the tense they speak of school in. */
@@ -1095,23 +1104,23 @@ export function subjectsBetween(
     });
   }
   // The speaker's own school, when the listener didn't share it.
-  const school = schoolOf(speaker);
+  const school = schoolOf(core, speaker);
   const shared = out.some((row) => row.kind === "shared-school");
   if (school && !shared)
     out.push({
       id: `school:${speakerId}`,
       kind: "school",
-      aboutId: school.id,
+      aboutId: school.recordId,
       facts: {
         school: {
-          text: properName(school.facts!.schoolName!),
-          sourceRecordIds: [school.id],
+          text: school.text,
+          sourceRecordIds: school.sourceRecordIds,
         },
       },
-      own: { key: `person:${speakerId}:school`, value: school.id },
+      own: { key: `person:${speakerId}:school`, value: school.recordId },
     });
   // Where the listener went to school, asked when they didn't share it.
-  if (!shared && schoolOf(listener))
+  if (!shared && schoolOf(core, listener))
     out.push({
       id: `their-school:${listenerId}`,
       kind: "their-school",
@@ -1293,13 +1302,13 @@ function replyFacts(
         : null;
     }
     case "their-school": {
-      const school = schoolOf(listener);
+      const school = schoolOf(core, listener);
       return school
         ? {
             facts: {
               school: {
-                text: properName(school.facts!.schoolName!),
-                sourceRecordIds: [school.id],
+                text: school.text,
+                sourceRecordIds: school.sourceRecordIds,
               },
             },
             stage: schoolStage(core, listener),
@@ -1350,13 +1359,21 @@ function playerFacts(
     };
   let stage: string | undefined;
   if (last.kind === "home" || last.kind === "home-new") {
-    const moved = (player.pastFacts ?? []).find(
-      (row) => row.kind === "life:moved-into-county",
-    );
-    const born = (player.pastFacts ?? []).find(
-      (row) =>
-        row.kind === "birthplace" && row.facts?.placeId === player.placeId,
-    );
+    // The move the run of the years before the start recorded, and where
+    // the player was born, from the run's birth record (or the opening's).
+    const moved = preStartHistory(core as CoreState, {
+      kind: PERSON_MOVED_IN,
+      personId: player.id,
+    })[zero];
+    const born =
+      preStartHistory(core as CoreState, {
+        kind: "person.birth",
+        personId: player.id,
+      }).find((row) => row.placeId === player.placeId) ??
+      (player.pastFacts ?? []).find(
+        (row) =>
+          row.kind === "birthplace" && row.facts?.placeId === player.placeId,
+      );
     if (moved) {
       facts.years = {
         text: String(

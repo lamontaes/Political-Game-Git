@@ -1,6 +1,6 @@
 /**
  * A person's look (the stored appearance): one writer for residents, people
- * filled in later and officials. Moved from src/simulation/person-appearance.ts,
+ * filled in later and officials. Moved from the old engine's person-appearance.ts,
  * which re-exports it.
  */
 import { stableHash } from "./kernel/ids";
@@ -35,6 +35,13 @@ export interface StoredAppearance {
  * `buildProductionWorld`, which declares it for the lives a player starts.
  */
 export const DEFAULT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v1";
+
+/**
+ * The recipe that keeps a person's face painted in the same skin as the body
+ * carrying it, declared for the lives a player starts. A person made under it
+ * carries it in their save; the character components read it (src/appearance).
+ */
+export const COHERENT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v2";
 
 /**
  * Derives a stable, person-owned appearance identity.

@@ -5,6 +5,7 @@ import {
   applyChosenPerson,
   birthYears,
   chosenBirthDate,
+  creatorRandomPlace,
   creatorStates,
   creatorTowns,
   drawBirthday,
@@ -25,7 +26,7 @@ import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { DEFAULT_DEEP_PAST_DATA } from "../core2/deep-past";
+import { schoolsAttended } from "../core2/past";
 import { gameStartDate } from "../core2/game-start";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { OPENING_KIN } from "../core2/opening-kin";
@@ -133,9 +134,6 @@ describe("the life drawn for the age the creator chose", () => {
   const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
   const place = drawPlace(seed, "creator-chosen-age");
   const minParentAge = OPENING_KIN.fertilityByAge.rows[0]!.minAge;
-  const abbreviations = Object.keys(
-    DEFAULT_DEEP_PAST_DATA.schools.directoryAbbreviations,
-  );
 
   it.each([18, 35, 70])(
     `gives a player of %i parents, schools, work and money that fit, in ${place.name}, seed ${place.seed}`,
@@ -217,64 +215,49 @@ describe("the life drawn for the age the creator chose", () => {
         `${where}: leads no party at the opening`,
       ).toHaveLength(0);
 
-      // Who you are: the schools the record holds, each in its full name,
-      // and the record of the high school the player went through.
+      // Who you are: the schools the school engine's run recorded for the
+      // years before the start, each named from its own record, and the
+      // record of the high school the player went through.
       const card = personCard(core, id);
       expect(card.age, where).toBe(age);
       expect(card.birthDate, where).toBe(chosenBirthDate(chosen));
-      const schools = (player.pastFacts ?? []).filter(
-        (fact) => fact.facts?.schoolName && fact.facts.stage,
-      );
-      const high = schools.find((fact) => fact.facts?.stage === "high");
+      const schools = schoolsAttended(core, id);
+      const high = schools.find((row) => row.stage === "high");
       expect(high, `${where}: a high school record`).toBeDefined();
-      for (const fact of schools)
+      for (const row of schools)
         expect(
-          ageOnDate(player.birthDate, makeIsoDate(fact.date)),
-          `${where}: ${fact.id}`,
+          ageOnDate(player.birthDate, makeIsoDate(row.date)),
+          `${where}: ${row.recordId}`,
         ).toBeGreaterThanOrEqual(4);
       expect(new Set(card.schools.map((row) => row.name)), where).toEqual(
-        new Set(schools.map((fact) => properName(fact.facts!.schoolName!))),
+        new Set(
+          schools.flatMap((row) => (row.name ? [properName(row.name)] : [])),
+        ),
       );
-      for (const row of card.schools)
-        expect(
-          abbreviations,
-          `${where}: ${row.recordId} ${row.name}`,
-        ).not.toContain(row.name.split(" ").at(-1)!.toUpperCase());
 
-      // Work: a job, or the record of who in the household earns instead.
-      const livelihood = (player.pastFacts ?? []).find(
-        (fact) => fact.kind === "household:livelihood",
+      // Work: a job, or someone in the household who earns instead.
+      const earners = household.memberIds.filter(
+        (member) => personOrFillIn(core, member)?.jobId,
       );
-      expect(livelihood?.facts?.householdId, where).toBe(player.householdId);
-      const earners = (livelihood?.facts?.earnerIds ?? "")
-        .split(" ")
-        .filter(Boolean);
-      for (const earner of earners) {
-        expect(household.memberIds, `${where}: earner ${earner}`).toContain(
-          earner,
-        );
-        expect(personOrFillIn(core, earner)!.jobId, earner).toBeDefined();
-      }
       if (!card.job)
         expect(
           earners.includes(id),
-          `${where}: ${id} holds no job but the record lists them as an earner`,
+          `${where}: ${id} holds no job but is counted as an earner`,
         ).toBe(false);
-      // Money: cash on hand, or the livelihood record of the household's
-      // jobs, savings and living costs that says where it stands.
+      // Money: cash on hand, or someone in the household with a job.
       expect(
-        card.liquidMinor > 0 || livelihood !== undefined,
+        card.liquidMinor > 0 || earners.length > 0,
         `${where}: money ${card.liquidMinor}`,
       ).toBe(true);
       console.info(
         `${where}: born ${player.birthDate} (drawn ${drawnBorn}); parents ${
           parents.map((parent) => `${parent} ${born(parent)}`).join(", ") ||
           "none recorded"
-        } (in the home: ${householdParents.join(", ") || "none"}); high school ${high?.id}; schools ${card.schools
+        } (in the home: ${householdParents.join(", ") || "none"}); high school ${high?.recordId}; schools ${card.schools
           .map((row) => `${row.name} (${row.recordId})`)
           .join(
             "; ",
-          )}; work ${card.job ? `${card.job.title} (${card.job.jobId})` : `none, ${livelihood?.id}, earners ${earners.join(" ") || "none"}`}; money ${card.liquidMinor}`,
+          )}; work ${card.job ? `${card.job.title} (${card.job.jobId})` : `none, earners ${earners.join(" ") || "none"}`}; money ${card.liquidMinor}`,
       );
     },
     600_000,
@@ -320,4 +303,26 @@ it("names every hair style and face capitalized, like the other rows", () => {
         );
     }
   }
+});
+
+describe("Random place in the creator", () => {
+  it("draws a state and one of its towns from all 56, the same for the same seed and press", () => {
+    const first = creatorRandomPlace("seed-a", 1);
+    expect(first.state.key).toMatch(/^us-/i);
+    expect(first.state.name.length).toBeGreaterThan(1);
+    expect(first.town.name.length).toBeGreaterThan(0);
+    expect(first.town.population).toBeGreaterThan(0);
+    // The town is one the state's own list offers, by key.
+    expect(
+      creatorTowns(first.state.key, "").some((t) => t.key === first.town.key),
+    ).toBe(true);
+    expect(creatorRandomPlace("seed-a", 1)).toEqual(first);
+    // Another press or another seed can land elsewhere; across a few draws it does.
+    const keys = new Set(
+      [1, 2, 3, 4, 5, 6].map(
+        (draw) => creatorRandomPlace("seed-a", draw).town.key,
+      ),
+    );
+    expect(keys.size).toBeGreaterThan(1);
+  });
 });

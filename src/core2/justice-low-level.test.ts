@@ -31,9 +31,9 @@ import { placeStateKeys } from "./places";
 import {
   LOW_LEVEL_MEASURE,
   PUBLIC_SAFETY_MODULE_ID,
-  type CaseRow,
   type SafetyMonth,
 } from "./public-safety";
+import { countedCases, type CountedCaseRow } from "./modules/justice";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -273,7 +273,7 @@ interface Phase {
   readonly earlier: WebMonth;
   /** The safety month row whose officers per 1,000 that earlier web month read. */
   readonly officersRow: SafetyMonth;
-  readonly cases: CaseRow[];
+  readonly cases: CountedCaseRow[];
   readonly expectedRate: number;
   /** The journal entry that paid the month's court costs, which the minor-offense cases are part of. */
   readonly court: { readonly id: string; readonly gross: number } | undefined;
@@ -340,9 +340,10 @@ describe(`a raised police line makes more minor arrests and a cut makes fewer (s
           const officersRow = safety(api)
             .table("months")
             .get(sourceId) as unknown as SafetyMonth;
-          const cases = (
-            safety(api).table("cases").rows() as unknown as CaseRow[]
-          ).filter((c) => c.id.startsWith(`case:${month.month}:lowlevel:`));
+          const cases = [
+            ...countedCases(api, "charged"),
+            ...countedCases(api, "decided"),
+          ].filter((c) => c.id.startsWith(`case:${month.month}:lowlevel:`));
           const size = WEB_LINKS.find((l) => l.key === LINK)!.size!;
           const expectedRate =
             base *

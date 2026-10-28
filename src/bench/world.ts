@@ -2,7 +2,6 @@ import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation } from "../core2/population";
-import { buildDeepPast } from "../core2/deep-past";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -324,9 +323,7 @@ function* benchWorldStages(
       : {}),
   });
   yield "past";
-  const schools = withPublicSchoolDistrict(
-    enrichCivicInputs(buildDeepPast(population)),
-  );
+  const schools = withPublicSchoolDistrict(enrichCivicInputs(population));
   // Public pay must exist before the custom world's wage multiplier runs.
   const input = applyWorldSettings(
     schools.receipt
@@ -433,7 +430,8 @@ function* benchWorldStages(
       // monthly row and every law that takes effect.
       OUTCOME_WEB_MODULE,
       // Every people engine a played world installs (OPUS-PEOPLE): health,
-      // drives, views, news, speeches, who runs, corruption and beliefs.
+      // drives, views, news, speeches, corruption and beliefs (who runs is
+      // installed by the voting engine, in every world).
       ...peopleModules(),
       director.module,
     ],
