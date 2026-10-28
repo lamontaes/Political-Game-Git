@@ -200,6 +200,7 @@ function grievance(
   const stance = publicSupport(
     personLean(api.state.people, person, townLean(api)),
     question,
+    api.state.seed,
   );
   return -stance * enacted * memberVote;
 }
