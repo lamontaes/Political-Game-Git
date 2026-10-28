@@ -6,7 +6,7 @@
     "webCoverageWired": 125,
     "allEightPoints": 0,
     "reachesOrCarried": 151,
-    "namedInAStopgap": 99,
+    "namedInAStopgap": 97,
     "notReachingAndNoStopgap": 0,
     "reachesTheWorld": 151,
     "aboutZero": 19,
@@ -1459,7 +1459,7 @@
         }
       },
       "wiredPoints": 5,
-      "stopgap": "SG-WEB-unread-population-out-migration"
+      "stopgap": null
     },
     {
       "key": "disaster-to-home-values",
@@ -1506,7 +1506,7 @@
         }
       },
       "wiredPoints": 5,
-      "stopgap": "SG-WEB-unread-housing-home-prices"
+      "stopgap": null
     },
     {
       "key": "coverage-to-catastrophic-bills",
@@ -3526,7 +3526,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2159, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2158, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3574,7 +3574,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2159, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2158, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -5797,7 +5797,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2159, src/core2/modules/moves.ts:78"
+          "evidence": "src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2158, src/core2/modules/moves.ts:78"
         },
         "varied": {
           "status": "fail",
@@ -12704,7 +12704,7 @@
     {
       "measure": "housing.eviction",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2159, src/core2/modules/moves.ts:78",
+      "evidence": "src/core2/modules/health.ts:726, src/core2/modules/housing.ts:2158, src/core2/modules/moves.ts:78",
       "countedTwice": false,
       "asCause": ["eviction-to-homelessness", "eviction-to-hospital-visits"],
       "asOutcome": [
