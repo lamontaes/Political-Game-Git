@@ -2,14 +2,15 @@
  * The owner's grades, read by the English engine (00s P3: "grades are DATA
  * the engine reads").
  *
- * A grading batch (`data/english/batches/batch-<n>.json`) lists real engine
- * lines with the part keys that made each one. The owner's grades come back
- * as `data/english/grades/batch-<n>.json`:
+ * The owner's grades come from his voice notes on played scenes, or from the
+ * grade control in play, as one grade file per set in `data/english/grades/`.
+ * Each row names the part keys of the line it grades:
  *
- *   { "batch": "batch-1", "grades": [ { "i": 0, "grade": "GOOD" },
- *     { "i": 4, "grade": "BAD", "note": "..." } ] }
+ *   { "batch": "voice-notes-oct15-28", "grades": [
+ *     { "i": 1, "grade": "GOOD", "parts": ["conversation.greet.a"] },
+ *     { "i": 4, "grade": "BAD", "note": "...", "parts": ["journal.vote.b"] } ] }
  *
- * `scripts/dialogue-batch/apply-grades.ts` folds every graded batch into one
+ * `scripts/dialogue-batch/apply-grades.ts` folds every grade file into one
  * ledger, `data/english/part-grades.json`, counted per part key. The engine
  * reads that ledger here: a part the owner graded BAD or FIX, and never GOOD,
  * is held back, so the next line comes from another part of the same bank.

@@ -40,7 +40,6 @@ interface Part {
 
 /** The banks people speak or narrate in; printed news keeps its dates. */
 const SPOKEN = new Set([
-  "address",
   "bring-it-up",
   "choice-names",
   "conversation",
