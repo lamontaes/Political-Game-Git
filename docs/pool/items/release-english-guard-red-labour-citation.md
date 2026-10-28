@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/release-english-guard-labour
-pr:
+pr: #6550
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T05:57:01.541Z
