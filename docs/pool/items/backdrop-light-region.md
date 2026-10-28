@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/backdrop-light-region
-pr:
+pr: #6578
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T06:38:58.770Z
