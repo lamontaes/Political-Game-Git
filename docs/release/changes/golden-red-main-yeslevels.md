@@ -5,4 +5,4 @@ section: Fixed
 title: The game starts again
 ---
 
-A merge left one part of the law engine reading from a file that no longer had what it needed, so the game stopped at loading. It loads again.
+One part of the law engine read from the wrong place, so the game stopped at loading. It loads again.
