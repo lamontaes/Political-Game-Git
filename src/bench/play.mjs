@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
@@ -12,7 +12,6 @@ import {
   addTalkLine,
   mountTalkKeys,
   mountSpeakers,
-  sayInBox,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
@@ -326,125 +325,6 @@ function drawPeople(people, onClick) {
       return f.occluder ? [box, occluderOf(f.occluder)] : [box];
     }),
   );
-}
-
-// ---- The opening (owner, Oct 14, 2026) ----
-// The President's address, full screen, sentence by sentence in the speech
-// box, the picture cutting when what the sentence is about changes; then
-// home that evening, where the night's news can be picked up, and the first
-// controls pointed out. Every word is the director's opening story.
-let skipOpening;
-// The opening, fetched and its pictures loaded during loading.
-let openingReady;
-/** How long a spoken line stays up: a beat plus reading time. */
-const lineMs = (text) => 1800 + text.length * 45;
-/** How long the camera stays on each person it points out. */
-const POINT_MS = 2400;
-/** Wait, cut short by a click; resolves true when Skip ends the address. */
-function holdOpening(ms) {
-  return new Promise((resolve) => {
-    const timer = setTimeout(() => resolve(false), ms);
-    skipOpening = () => {
-      clearTimeout(timer);
-      resolve(true);
-    };
-    $("opening-box").onclick = () => {
-      clearTimeout(timer);
-      resolve(false);
-    };
-  });
-}
-/** The camera passes the people on a stage, pointing each out by name and office. */
-function pointOut(figures) {
-  let timer;
-  const step = (index) => {
-    for (const node of document.querySelectorAll("#people .figure.pointed"))
-      node.classList.remove("pointed");
-    const figure = figures[index];
-    show("opening-point", Boolean(figure));
-    if (!figure) return;
-    $("opening-point-name").textContent = figure.name;
-    $("opening-point-role").textContent = [
-      figure.relation,
-      figure.post,
-      figure.office,
-      figure.state,
-    ]
-      .filter(Boolean)
-      .join(" · ");
-    const box = $("opening-point");
-    box.style.animation = "none";
-    void box.offsetWidth;
-    box.style.animation = "";
-    // Only the one person pointed out is lit.
-    [...document.querySelectorAll("#people .figure")]
-      .find((node) => node.dataset.person === figure.id)
-      ?.classList.add("pointed");
-    timer = setTimeout(() => step(index + 1), POINT_MS);
-  };
-  step(0);
-  const endsAt = Date.now() + figures.length * POINT_MS;
-  return {
-    left: () => Math.max(0, endsAt - Date.now()),
-    stop: () => {
-      clearTimeout(timer);
-      step(figures.length);
-    },
-  };
-}
-async function playOpening() {
-  const opening =
-    openingReady ?? (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
-  openingReady = undefined;
-  if (!opening?.frames?.length) return opening;
-  const { speaker } = opening;
-  // Who is speaking: the President, from the first frame.
-  $("opening-bust").style.backgroundImage = speaker.figureUrl
-    ? `url("${speaker.figureUrl}")`
-    : "";
-  $("opening-name").textContent = speaker.name;
-  $("opening-role").textContent = [speaker.title, ...speaker.detail]
-    .filter(Boolean)
-    .join(" · ");
-  show("opening-box", true);
-  $("game").classList.add("letterbox", "cinema");
-  frames: for (const frame of opening.frames) {
-    $("backdrop").src = frame.backdrop.url;
-    drawPeople(frame.people);
-    $("stage").classList.remove("cut");
-    void $("stage").offsetWidth;
-    $("stage").classList.add("cut");
-    // Who the camera points out: a household as the frame opens, anyone the
-    // address names on the line that names them.
-    const figures = frame.pointOut ?? [];
-    let camera = pointOut(figures.filter((row) => row.line === undefined));
-    // A stage the President says nothing over shows without the speech box.
-    show("opening-box", frame.lines.length > 0);
-    // A click moves on to the next sentence; Skip ends the address. The
-    // picture holds until the camera has passed everyone on it.
-    for (const [at, line] of frame.lines.entries()) {
-      sayInBox("opening-speech", line.text);
-      const named = figures.filter((row) => row.line === at);
-      if (named.length) {
-        camera.stop();
-        camera = pointOut(named);
-      }
-      const hold = Math.max(lineMs(line.text), camera.left());
-      if (await holdOpening(hold)) {
-        camera.stop();
-        break frames;
-      }
-    }
-    const left = camera.left();
-    const skipped = left > 0 && (await holdOpening(left));
-    camera.stop();
-    if (skipped) break;
-  }
-  skipOpening = undefined;
-  $("opening-box").onclick = null;
-  show("opening-box", false);
-  $("game").classList.remove("letterbox", "cinema");
-  return opening;
 }
 
 /**
@@ -4398,16 +4278,6 @@ const sheets = {
     });
     resume.addEventListener("click", closeSheet);
     actions.append(resume);
-    if (skipOpening) {
-      const skip = makeButton({
-        textContent: labels.skipOpening,
-      });
-      skip.addEventListener("click", () => {
-        closeSheet();
-        skipOpening?.();
-      });
-      actions.append(skip);
-    }
     const guide = makeButton({ textContent: labels.guide });
     guide.addEventListener("click", () => openSheet("guide"));
     actions.append(guide);
@@ -5727,36 +5597,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       await offerPlayAs(life);
       return;
     }
-    // Every picture the opening shows is loaded before it plays.
     const opening = await api(
       `/api/opening?id=${encodeURIComponent(life.personId)}`,
     );
-    const urls = [
-      ...new Set(
-        (opening?.frames ?? []).flatMap((frame) => [
-          frame.backdrop.url,
-          ...frame.people.map((person) => person.figureUrl),
-        ]),
-      ),
-    ];
-    let loaded = 0;
-    await Promise.all(
-      urls.map(
-        (src) =>
-          new Promise((resolve) => {
-            const img = new Image();
-            img.onload = img.onerror = () => {
-              loaded++;
-              bar.style.width = `${Math.round(((STEPS.length + loaded / urls.length) / (STEPS.length + 1)) * 100)}%`;
-              $("front-status").textContent =
-                `${controls.loading?.pictures ?? ""} ${loaded} / ${urls.length}`;
-              resolve();
-            };
-            img.src = src;
-          }),
-      ),
-    );
-    openingReady = opening;
     me = {
       id: life.personId,
       placeName: life.placeName,
@@ -5765,7 +5608,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       portrait: Boolean(person?.recipe),
     };
     show("front", false);
-    await playOpening();
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
     // Home that evening (the server's rule for the opening day), with the
     // night's news to pick up, then the first choices pointed out.

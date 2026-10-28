@@ -28,13 +28,6 @@ try {
     const response = await life;
     assert.equal(response.status(), 200);
     console.log("Seed:", new URL(response.url()).searchParams.get("seed"));
-    await page
-      .locator("#opening-box:not([hidden])")
-      .waitFor({ timeout: 120000 });
-    await page.keyboard.press("Escape");
-    await page
-      .getByRole("button", { name: "Skip opening", exact: true })
-      .click();
   }
   await page.waitForFunction(
     () =>
