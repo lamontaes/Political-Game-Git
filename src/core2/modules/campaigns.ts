@@ -48,7 +48,11 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  makeIsoDate,
+  daysBetweenText as daysBetween,
+} from "../kernel/dates";
 import { townDistrict } from "../offices-state";
 import { basePlaces } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
@@ -3285,12 +3289,6 @@ const contestsSeen = new WeakMap<object, number>();
  * filed to election day. Races are noted when their contest appears (the
  * contests table read only when it has grown) and dropped once decided.
  */
-const daysBetween = (from: string, to: string) =>
-  Math.round(
-    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-      86_400_000,
-  );
-
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
   scheduleTurn(api);

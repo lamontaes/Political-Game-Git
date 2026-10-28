@@ -11,6 +11,7 @@
  * place's counted tier, so meeting one again brings the same people back.
  * Named officials, the player's household and circle are never demoted.
  */
+import { daysBetweenText as daysBetween } from "../kernel/dates";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import {
   COUNTED_PLACE_PREFIX,
@@ -67,13 +68,6 @@ export interface DemotionRecord {
   /** Bills that became parts of the merged flows: flow id to monthly amount. */
   readonly parts: Readonly<Record<string, number>>;
   readonly lastContact: string;
-}
-
-function daysBetween(from: string, to: string): number {
-  return Math.round(
-    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-      86_400_000,
-  );
 }
 
 /** People who are never demoted: the player's household and circle, officials, public workers, owners. */
