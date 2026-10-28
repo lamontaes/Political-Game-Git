@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/director-scenes-play-in-turn
-pr:
+pr: #6440
 blocked-on:
 source: "Helper B, Oct 27, episode docs/design/scenes/from-life/concession-call-received.md"
 lead: director

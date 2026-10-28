@@ -91,10 +91,15 @@ describe("every law amount a body can draft has words", () => {
   const draftable = Object.keys(
     (seriesPowers as { series: Record<string, unknown> }).series,
   ).filter((series) => series !== "unemployment-insurance");
+  // A switch (a state's grant of a power) is granted or withdrawn, not raised.
+  const switches = draftable.filter(
+    (series) => BILL_SECTIONS.amounts[series]?.grant,
+  );
+  const amounts = draftable.filter((series) => !switches.includes(series));
 
   it("names the subject, composes a raise and a cut, and names the story topic of each", () => {
-    expect(draftable.length).toBeGreaterThan(10);
-    for (const series of draftable) {
+    expect(amounts.length).toBeGreaterThan(10);
+    for (const series of amounts) {
       expect(
         BILL_SECTIONS.amounts[series],
         `${series} needs a row`,
@@ -127,6 +132,39 @@ describe("every law amount a body can draft has words", () => {
         expect(made, `${series} ${word}`).toBeTruthy();
         expect(made.sections[0], `${series} ${word}`).toContain(word);
         expect(made.sections[0], series).not.toMatch(/[{}]|undefined|NaN/);
+      }
+    }
+  });
+
+  it("grants and withdraws a switch in words, never as a number", () => {
+    expect(switches).toContain("local-income-tax-authority");
+    for (const series of switches) {
+      expect(storyTopicName(series), `${series}: story topic`).toBe(
+        BILL_SECTIONS.amounts[series]!.subject,
+      );
+      for (const [value, words] of [
+        [1, BILL_SECTIONS.amounts[series]!.grant!],
+        [0, BILL_SECTIONS.amounts[series]!.withdraw!],
+      ] as const) {
+        const made = composeBill({
+          id: `b:${series}:${value}`,
+          number: "2026-1",
+          form: {
+            kind: "act",
+            enactingClause: "Be it enacted by the Legislature",
+          },
+          provisions: [{ kind: "law-amount", series, value, unit: "flag" }],
+          before: [{ value: 1 - value, unit: "flag", statute: null }],
+        })!;
+        expect(made, `${series} ${value}`).toBeTruthy();
+        expect(made.sections[0], `${series} ${value}`).toContain(words);
+        expect(
+          made.sections[0]!.replace(/^Section \d+\.\s*/, ""),
+          series,
+        ).not.toMatch(/[{}]|undefined|NaN|raised|lowered|\b[01]\b/);
+        console.log(
+          `${series} = ${value}: ${made.title} | ${made.sections[0]}`,
+        );
       }
     }
   });

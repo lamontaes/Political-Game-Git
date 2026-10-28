@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:48:37.925Z
 **Files.** src/core2/counted-groups.ts, src/core2/electorate.ts, src/core2/modules/residents.ts
 
 **Notes.** TODO Released from idle draft #5196 by the CTO, Oct 26.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): twin of `core-speed-kernel-walks-no-copies`; close into it and carry any line it lacks there.
