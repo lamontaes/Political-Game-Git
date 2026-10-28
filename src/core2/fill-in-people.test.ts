@@ -155,11 +155,10 @@ describe("fill-in from a recorded identity (officials)", () => {
       "identity:seat",
       "identity:nativity",
     ]);
-    // A named person is filled in whole: a childhood, schools and an era too.
+    // A named person is filled in whole: a childhood and schools too.
     for (const kind of [
       "birth-date",
       "school:cohort-estimate",
-      "era:public-context",
       "household:moment",
     ])
       expect(kinds, kind).toContain(kind);

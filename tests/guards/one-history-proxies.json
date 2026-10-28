@@ -12,11 +12,6 @@
       "simulatedBy": null
     },
     {
-      "kind": "era:public-context",
-      "writer": "src/core2/data/deep-past.json",
-      "simulatedBy": null
-    },
-    {
       "kind": "household:partners-met",
       "writer": "src/core2/past-family.ts",
       "simulatedBy": null

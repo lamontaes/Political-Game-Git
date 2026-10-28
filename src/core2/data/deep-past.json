@@ -102,57 +102,5 @@
       "kindPrefixes": ["view:", "political:view"],
       "gap": "No prior personal view record was supplied; living through an era does not establish a belief, vote, feeling, or quotation."
     }
-  ],
-  "eras": [
-    {
-      "id": "september-attacks",
-      "date": "2001-09-11",
-      "kind": "era:public-context",
-      "title": "September attacks",
-      "facts": {
-        "scope": "public historical context",
-        "personalExposure": "not-established",
-        "memory": "not-inferred"
-      },
-      "source": {
-        "tag": "SOURCED",
-        "citation": "National September 11 Memorial & Museum, dated attacks: https://www.911memorial.org/911-faqs",
-        "asOf": "2001-09-11"
-      }
-    },
-    {
-      "id": "recession-dating-announcement",
-      "date": "2008-12-01",
-      "kind": "era:public-context",
-      "title": "Great Recession dating announcement",
-      "facts": {
-        "scope": "public economic context",
-        "recessionPeakMonth": "2007-12",
-        "personalJobLoss": "not-inferred",
-        "personalFinancialLoss": "not-inferred"
-      },
-      "source": {
-        "tag": "SOURCED",
-        "citation": "NBER Business Cycle Dating Committee announcement, December 1, 2008, determining the December 2007 peak: https://www.nber.org/news/business-cycle-dating-committee-announcement-december-1-2008",
-        "asOf": "2008-12-01"
-      }
-    },
-    {
-      "id": "pandemic-characterization",
-      "date": "2020-03-11",
-      "kind": "era:public-context",
-      "title": "COVID pandemic characterization",
-      "facts": {
-        "scope": "public health context",
-        "personalInfection": "not-inferred",
-        "personalLoss": "not-inferred",
-        "personalCompliance": "not-inferred"
-      },
-      "source": {
-        "tag": "SOURCED",
-        "citation": "WHO Timeline of response, March 11, 2020: https://www.who.int/news/item/29-06-2020-covidtimeline",
-        "asOf": "2020-03-11"
-      }
-    }
   ]
 }

@@ -34,7 +34,6 @@ it(`every seated official has a childhood, schools and an era, in a drawn place 
       "identity:seat",
       "birth-date",
       "school:cohort-estimate",
-      "era:public-context",
       "household:moment",
     ])
       if (!kinds.has(kind)) missing.push(`${official.id} lacks ${kind}`);
@@ -69,7 +68,7 @@ it(`every seated official has a childhood, schools and an era, in a drawn place 
   // A past is dated before the person took office.
   for (const official of officials.slice(0, 50))
     for (const fact of official.pastFacts ?? [])
-      if (fact.kind.startsWith("school:") || fact.kind.startsWith("era:"))
+      if (fact.kind.startsWith("school:"))
         expect(fact.date <= core.startedAt, `${official.id} ${fact.kind}`).toBe(
           true,
         );

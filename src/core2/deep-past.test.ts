@@ -154,16 +154,13 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
         (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.schools.kind,
       ),
     ).toBe(false);
-    expect(
-      infant.pastFacts!.some((fact) => fact.kind === "era:public-context"),
-    ).toBe(false);
-    const younger = after.people.find((row) => row.id === "person:school-age")!;
-    expect(younger.pastFacts!.some((fact) => fact.date === "2001-09-11")).toBe(
-      false,
-    );
-    expect(younger.pastFacts!.some((fact) => fact.date === "2020-03-11")).toBe(
-      true,
-    );
+    // No public era is drawn into anyone's past: the years before the start
+    // are the engines' records (wire-opening-and-home, line 7).
+    for (const actor of after.people)
+      expect(
+        actor.pastFacts!.some((fact) => fact.kind.startsWith("era:")),
+        actor.id,
+      ).toBe(false);
   });
 
   it("matches school cohorts to place and keeps attendance and credentials estimated", () => {
@@ -289,31 +286,6 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     expect(
       second.people.find((row) => row.id === added.id)!.pastFacts!.length,
     ).toBeGreaterThan(p("zero"));
-  });
-
-  it("admits another dated era from data without assigning knowledge or an outcome", () => {
-    const extra = {
-      id: "additional-archive-date",
-      date: "2010-06-01",
-      kind: "era:additional-source",
-      title: "Additional archive context",
-      facts: { sourceRecordId: "archive:fixture" },
-      source,
-    };
-    const after = buildDeepPast(input(), {
-      data: {
-        ...DEFAULT_DEEP_PAST_DATA,
-        eras: [...DEFAULT_DEEP_PAST_DATA.eras, extra],
-      },
-    });
-    const adult = after.people[p("zero")]!;
-    const fact = adult.pastFacts!.find(
-      (row) => row.kind === extra.kind,
-    ) as PastFact;
-    expect(fact.date).toBe(extra.date);
-    expect(fact.source).toBe(extra.source);
-    expect(fact.facts!.knowledge).toBe("not-inferred");
-    expect(fact.facts!.cohortRelation).toBe("alive-on-context-date");
   });
 
   it("refuses conflicting birth dates and avoids backdating a town across missing move evidence", () => {
@@ -469,14 +441,5 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
     expect(spoken("Helen S Dunn Elementary School")).toBe(
       "Helen S Dunn Elementary School",
     );
-  });
-
-  it("adapts heterogeneous era facts without undefined values or weakened source tags", () => {
-    for (const era of DEFAULT_DEEP_PAST_DATA.eras) {
-      expect(era.source.tag).toBe("SOURCED");
-      expect(
-        Object.values(era.facts).every((value) => typeof value === "string"),
-      ).toBe(true);
-    }
   });
 });
