@@ -6,7 +6,7 @@ import {
   type OpeningPeerData,
 } from "./opening-peer-network";
 import { groupedJsonTable } from "./reference/lazy-data";
-import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countyGeoidsForPlace } from "./reference/government-units";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { placeReferencePopulation } from "./gov-rules/place-population";
@@ -86,13 +86,6 @@ export interface DeepPastData {
       startOffsetParameter: string;
       entryGrade: string;
     }[];
-  };
-  work: {
-    field: string;
-    kind: string;
-    label: string;
-    startKinds: readonly string[];
-    source: string;
   };
   preservedFields: readonly {
     field: string;
@@ -229,7 +222,6 @@ export function buildDeepPast(
     "birth",
     "era-context",
     data.schools.field,
-    data.work.field,
     ...data.preservedFields.map((field) => field.field),
   ]);
   const reports = ((input as ReportedInput).priorFactsSource ?? []).filter(
@@ -605,54 +597,8 @@ export function buildDeepPast(
           : schoolGap,
     );
 
-    const job = person.jobId ? jobById.get(person.jobId) : undefined;
-    const existingTenure = original.filter(
-      (fact) => fact.kind === data.work.kind,
-    );
-    const starts = job
-      ? original.filter(
-          (fact) =>
-            data.work.startKinds.includes(fact.kind) &&
-            fact.date >= birth &&
-            fact.date < cutoff &&
-            (fact.facts?.jobId === job.id || fact.id.startsWith(`${job.id}:`)),
-        )
-      : [];
-    const unambiguousStart =
-      new Set(starts.map((fact) => fact.date)).size === p("one");
-    if (job && !existingTenure.length && unambiguousStart) {
-      const start = starts[p("zero")]!;
-      add({
-        id: `${prefix}job:${job.id}`,
-        date: start.date,
-        kind: data.work.kind,
-        summary: data.work.label,
-        source: start.source,
-        facts: {
-          jobId: job.id,
-          organizationId: job.organizationId,
-          title: job.title,
-          startedAt: start.date,
-          tenureDaysAtOpening: String(
-            daysBetween(makeIsoDate(start.date), opening),
-          ),
-          earnings: "not-reconstructed",
-          sourceFactId: start.id,
-          stopgapId: marker.id,
-        },
-      });
-    }
-    record(
-      data.work.field,
-      [
-        ...existingTenure,
-        ...added.filter((fact) => fact.kind === data.work.kind),
-      ],
-      starts.length && !unambiguousStart && !existingTenure.length
-        ? "Supplied opening-job start dates conflict; no date selected or tenure inferred."
-        : "Only a supplied start of the opening job supports tenure; no median assigned to a missing personal job history.",
-    );
-
+    // The working life (the opening job's tenure included) is run before the
+    // start, not drawn here (src/core2/past-work.ts, history-past-work).
     for (const field of data.preservedFields) {
       const facts = original.filter(
         (fact) =>
