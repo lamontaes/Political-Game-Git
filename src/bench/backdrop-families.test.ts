@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
-import { backdropFile, hasBackdrop, pictureFor } from "./scene";
+import { hasBackdrop } from "./backdrop-places";
+import { backdropFile, pictureFor } from "./scene";
 import type { CoreState } from "../core2/types";
 
 const town = (placeKey: string) =>
