@@ -1,6 +1,13 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { colorsFor, pickLook, viewOf, wholeFigureFor } from "./whole-figures";
+import {
+  ageBandOf,
+  colorsFor,
+  figureOn,
+  pickLook,
+  viewOf,
+  type FigurePerson,
+} from "./whole-figures";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import backs from "../../art/people-engine/v2/figures-back.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
@@ -28,6 +35,18 @@ const person = {
   birthDate: "1984-05-02",
   official: false,
 };
+/** The person's look drawn on a spot: the chosen look through figureOn. */
+const wholeFigureFor = (
+  who: FigurePerson,
+  where: string,
+  stage: Parameters<typeof figureOn>[3],
+  spot: Parameters<typeof figureOn>[4],
+) => {
+  const front = pickLook(core, who, where);
+  return front
+    ? figureOn(front, ageBandOf(core, who.birthDate), where, stage, spot)
+    : null;
+};
 
 describe("the look chosen in the creator", () => {
   it("is the player's figure wherever they are drawn", () => {
@@ -45,8 +64,7 @@ describe("the look chosen in the creator", () => {
       facing: "left" as const,
     };
     expect(
-      wholeFigureFor(core, { ...person, look: chosen }, place, stage, spot)!
-        .url,
+      wholeFigureFor({ ...person, look: chosen }, place, stage, spot)!.url,
     ).toContain(look.file.split("/").pop());
   });
 });
@@ -59,7 +77,7 @@ describe(`contact shadows at ${place}`, () => {
 
   it("puts every standing person's shadow on their foot point, under their feet", () => {
     for (const spot of standing) {
-      const whole = wholeFigureFor(core, person, place, stage, spot)!;
+      const whole = wholeFigureFor(person, place, stage, spot)!;
       const { figure } = whole;
       if (spot.behindY !== undefined) {
         expect(figure.shadow).toBeNull();
@@ -90,7 +108,7 @@ describe(`contact shadows at ${place}`, () => {
   it("draws no shadow where a counter or desk hides the feet", () => {
     const spot = { ...standing[0]!, behindY: standing[0]!.y - 5 };
     expect(
-      wholeFigureFor(core, person, place, stage, spot)!.figure.shadow,
+      wholeFigureFor(person, place, stage, spot)!.figure.shadow,
     ).toBeNull();
   });
 });
@@ -223,7 +241,7 @@ describe(`the angle each spot asks for at ${place}`, () => {
   it("draws a back where the spot faces away, a face where it faces the viewer, else the three-quarter view", () => {
     for (const spot of stage.spots) {
       if (spot.pose === "podium") continue;
-      const whole = wholeFigureFor(core, person, place, stage, spot);
+      const whole = wholeFigureFor(person, place, stage, spot);
       if (!whole) continue;
       const drawn = rows.get(whole.file.split("/").pop()!)!;
       const wanted = viewOf(spot);

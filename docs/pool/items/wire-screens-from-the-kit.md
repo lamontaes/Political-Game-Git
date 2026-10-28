@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: screens/kit-package
-pr:
+pr: #6594
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T05:25:29.284Z

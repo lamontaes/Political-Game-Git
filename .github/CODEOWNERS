@@ -9,9 +9,11 @@
 /src/core2/tooling/** @lamontaes
 /src/core2/types.ts @lamontaes
 /src/core2/state.ts @lamontaes
+/src/core2/appearance.ts @lamontaes
 /src/core2/parameters.ts @lamontaes
 /src/core2/stopgaps.ts @lamontaes
 /src/core2/seeded.ts @lamontaes
+/src/core2/world-base-rates.ts @lamontaes
 /src/core2/world-draw.ts @lamontaes
 /src/core2/module-*.ts @lamontaes
 /src/core2/saves.ts @lamontaes
@@ -217,7 +219,6 @@
 /src/core2/opening-income*.ts @lamontaes
 /src/core2/opening-private-tuition.ts @lamontaes
 /src/core2/opening-public-schools.ts @lamontaes
-/src/core2/opening-peer-network.ts @lamontaes
 /src/core2/school-*.ts @lamontaes
 /src/core2/private-tuition-reenroll.ts @lamontaes
 /src/core2/residents*.ts @lamontaes
