@@ -17,8 +17,11 @@ import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
 import { amendBudget, governments } from "../modules/budgets";
 import { lawChain } from "../modules/laws";
-import { PLACE_PRICES_MODULE_ID, monthlyChange } from "../modules/place-prices";
-import goods from "../data/prices/goods.json";
+import {
+  PLACE_PRICES_MODULE_ID,
+  monthlyChange,
+  worldGoods,
+} from "../modules/place-prices";
 import { coreAPI } from "../state";
 import { budgetNow, residentsOf } from "./group-b-money";
 
@@ -53,7 +56,8 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
   const town = lawChain(api).townPlaceId;
   const rules = () => api.moduleState(PLACE_PRICES_MODULE_ID).table("rules");
   const ruleId = `${town}:vehicle-repair:road`;
-  const base = goods.goods["vehicle-repair"].poorShareBase;
+  const world = worldGoods(core.seed).goods;
+  const base = world["vehicle-repair"].poorShareBase;
   const day = (n: number) =>
     new Date(Date.parse(`${core.date}T00:00:00Z`) + n * 86_400_000)
       .toISOString()
@@ -90,6 +94,7 @@ it(`a cut highways line leaves more roads in poor condition and raises drivers' 
       },
       1,
       1,
+      world,
     );
     return m.payMinor - m.refundMinor;
   };

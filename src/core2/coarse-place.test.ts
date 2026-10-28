@@ -21,7 +21,7 @@ describe("coarse place counts", () => {
   it("count workers by age and by job, and the two totals agree", () => {
     let counted = 0;
     for (const place of places) {
-      const coarse = coarsePlace(place.key);
+      const coarse = coarsePlace(place.key, seed);
       const where = `${place.name} (${place.key}), seed ${seed}`;
       if (!coarse) continue;
       counted += 1;
@@ -43,7 +43,7 @@ describe("coarse place counts", () => {
   it("fill in the same person every time, with an age and wage the counts show", () => {
     let filled = 0;
     for (const place of places) {
-      const coarse = coarsePlace(place.key);
+      const coarse = coarsePlace(place.key, seed);
       const where = `${place.name} (${place.key}), seed ${seed}`;
       if (!coarse) continue;
       for (let i = 0; i < 20; i++) {
@@ -61,6 +61,8 @@ describe("coarse place counts", () => {
           met!.job.occupation,
           coarse.jurisdictionId,
           50,
+          undefined,
+          seed,
         );
         expect(met!.job.hourlyMinor, where).toBe(wage?.hourlyMinor ?? null);
       }

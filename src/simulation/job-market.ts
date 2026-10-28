@@ -306,6 +306,7 @@ function publicBodyRolePay(
   const annualMedian = stateMedianAnnualWage(
     role.occupationClassification,
     jurisdictionId,
+    world.seed,
   );
   if (annualMedian === null) return null;
   // OEWS annual wages use 2,080 hours; preserve the role's recorded offer hours.

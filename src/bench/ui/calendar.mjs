@@ -7,6 +7,7 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { listRow } from "./list-row.mjs";
 import { menuPages } from "./pager.mjs";
+import { dateWords, monthWords } from "../../english/plain-words.mjs";
 
 // The icon each kind of dated thing shows on its day.
 const dayIcon = (kind) =>
@@ -24,11 +25,8 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
   const byDate = new Map();
   for (const item of items)
     byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-  const dateWords = (iso, format = { month: "long", day: "numeric" }) =>
-    new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-      ...format,
-      ...(iso.slice(0, 4) === date.slice(0, 4) ? {} : { year: "numeric" }),
-    });
+  // A day on the calendar says its year only when it is not this year's.
+  const dayWords = (iso, options) => dateWords(iso, { ...options, year: date });
   const icon = (item) =>
     el("img", {
       src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
@@ -80,10 +78,7 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
         ? [
             el("span", {
               className: "when",
-              textContent: dateWords(item.date, {
-                month: "short",
-                day: "numeric",
-              }),
+              textContent: dayWords(item.date, { month: "short" }),
             }),
           ]
         : []),
@@ -112,11 +107,7 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
       { className: "calendar-side-head" },
       el("h3", {
         textContent: day
-          ? dateWords(selected, {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-            })
+          ? dayWords(selected, { weekday: true })
           : labels.upcoming,
       }),
       ...(day && selected > date
@@ -160,10 +151,9 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
       { className: "calendar-heading" },
       button(labels.previousMonth, () => move(-1), "month-step"),
       el("h3", {
-        textContent: month.toLocaleDateString("en-US", {
-          month: "long",
-          year: "numeric",
-        }),
+        textContent: monthWords(
+          `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}`,
+        ),
       }),
       button(labels.nextMonth, () => move(1), "month-step"),
       button(labels.today, () => goTo(date), "month-step"),
@@ -186,7 +176,7 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
       cell.dataset.date = iso;
       cell.setAttribute(
         "aria-label",
-        [dateWords(iso), ...entries.map((e) => e.line)].join(". "),
+        [dayWords(iso), ...entries.map((e) => e.line)].join(". "),
       );
       cell.setAttribute("aria-pressed", String(iso === selected));
       if (iso === date) cell.setAttribute("aria-current", "date");

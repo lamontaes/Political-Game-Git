@@ -9,7 +9,7 @@ import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import table from "./data/resident-employment-counties.json" with { type: "json" };
-import { residentEmploymentRate } from "./opening-employment";
+import { publishedResidentEmploymentRate } from "./opening-employment";
 
 const counties = JSON.parse(
   readFileSync("data/source/counties/corpus.json", "utf8"),
@@ -37,7 +37,7 @@ describe(`county employment rates (run seed ${seed})`, () => {
     ];
     for (const county of counties)
       for (const age of ageRows) {
-        const read = residentEmploymentRate(Number(age), county.geoid);
+        const read = publishedResidentEmploymentRate(Number(age), county.geoid);
         const where = `${county.displayName}, ${county.stateUsps} (${county.geoid}) age ${age}`;
         expect(read, where).toBeDefined();
         // A county with nobody of that age in its own table (a cell of zero) reads the national rate.
@@ -49,7 +49,7 @@ describe(`county employment rates (run seed ${seed})`, () => {
   });
 
   it("falls back to the national age proxy only where no county row exists", () => {
-    const read = residentEmploymentRate(40, "78010");
+    const read = publishedResidentEmploymentRate(40, "78010");
     expect(read?.basis).toBe(
       "national-CPS-age-with-tunable-missing-county-scale",
     );
