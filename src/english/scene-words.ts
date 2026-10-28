@@ -54,6 +54,8 @@ export interface SceneLine {
   sourceRecordIds: readonly string[];
   /** The facts the sentence names (its slots), so the director knows what it said. */
   usedFactKeys?: readonly string[];
+  /** The bank pieces that said it, so a grade reaches them. */
+  parts?: readonly string[];
 }
 
 /**
@@ -170,6 +172,7 @@ export function wordSceneLine(request: {
     text: result.text.charAt(zero).toUpperCase() + result.text.slice(one),
     sourceRecordIds: result.sourceRecordIds,
     usedFactKeys: result.usedFactKeys,
+    parts: [result.variantKey],
   };
 }
 
