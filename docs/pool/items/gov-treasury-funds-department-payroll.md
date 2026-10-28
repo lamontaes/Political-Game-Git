@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #5019
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split Oct 17 from the department pay change (world-public-employer-staff-never-paid, PR 4984) because the merger asked that the Government part land on its own. That change stacks on this one. Nothing is linked by this change alone, so no dollar moves until the departments carry an authority.
 
 Sent back 2026-10-26 from PR #5019 (branch claude/treasury-funds-departments): After normal main integration only seven historical public-school Notes lines remain; treasury reserve and jurisdiction engine/tests are already on main, while the body claims new payroll mechanics and has no Done-when table; reconcile acceptance and bound this to accurate notes-only work or retire the superseded PR; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (twin of done world-public-employer-staff-never-paid).

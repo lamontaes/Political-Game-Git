@@ -552,10 +552,16 @@
             />
           </svg>
         </button>
-        <div data-speaker="talk"></div>
+        <div data-speaker="talk" data-role="none"></div>
         <ol id="talk-lines" class="talk-lines"></ol>
         <div id="talk-choices" class="replies"></div>
         <div class="acts">
+          <button
+            id="talk-next"
+            class="action primary"
+            type="button"
+            data-label="talkBox.continue"
+          ></button>
           <button id="talk-silent" class="action small" type="button">
             Say nothing
           </button>

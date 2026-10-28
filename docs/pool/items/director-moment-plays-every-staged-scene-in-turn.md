@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/director-scenes-play-in-turn
 pr: #6440
 blocked-on:

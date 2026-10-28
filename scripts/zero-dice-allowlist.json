@@ -62,10 +62,10 @@
       "kind": "list-pick",
       "build": null,
       "count": 1,
-      "code": "let hash = 0; for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0; return options[hash % options.length]!;",
+      "code": "let hash = 2166136261; for (const char of id) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0; return options[hash % options.length]!;",
       "class": "PRESENTATION",
-      "keyedBy": "home id",
-      "reason": "How a home looks in the scene, the same every time: decoration, not a decision.",
+      "keyedBy": "id (home, or town + scene key)",
+      "reason": "How a home or a town's place looks in the scene, the same every time: decoration, not a decision.",
       "replacement": null
     },
     {

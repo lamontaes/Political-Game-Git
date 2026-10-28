@@ -1245,10 +1245,12 @@ body.dev .dev-ring {
 }
 
 /* ---- Conversation: lower third, portraits top left, scales upper right ---- */
+/* The box sits above the dock whenever the card is wide enough to reach
+   under it (--chat-bottom, set by play.mjs from both boxes' widths). */
 .chat {
   left: 50%;
   transform: translateX(-50%);
-  bottom: 26px;
+  bottom: var(--chat-bottom, 26px);
   width: min(680px, calc(100vw - 2 * var(--gutter)));
   padding: 13px 18px 12px;
 }
@@ -1303,6 +1305,17 @@ body.dev .dev-ring {
 }
 .chat .acts {
   margin-top: 8px;
+}
+/* The talk box's controls (owner, Oct 27, 6:20 PM): with nothing to answer, one
+   Continue at the bottom left and nothing else; in a conversation, the replies
+   with Say nothing and Leave only where each is a real choice. */
+#talk.narration #talk-silent,
+#talk.narration #talk-leave,
+#talk.narration #talk-lie,
+#talk:not(.narration) #talk-next,
+#talk.no-silent #talk-silent,
+#talk.no-leave #talk-leave {
+  display: none;
 }
 /* A journal line, bottom right. */
 .journal {

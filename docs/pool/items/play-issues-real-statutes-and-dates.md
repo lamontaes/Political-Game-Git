@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/government.ts, src/bench/play.mjs
 
 **Notes.** Found Oct 27 by the laws-and-effects lead at the CTO's request to check law rows for real figures. The office-incompatibility rows on Who you are show the law's real citation too (src/bench/legislature.ts, law.citation) and belong to this item. Bill sections quoting the research source of the law they amend are laws-bill-section-cites-research-source (laws-effects); whether the starting amounts themselves may equal the real ones is a question for the CTO in the leads channel.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: keep citations and enactment dates on starting laws; re-scope to real statistics only (OD:12). Do not strip law rows.

@@ -25,3 +25,5 @@ claimed-at:
 **Files.** src/director/circumstance.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, src/director/ledger.ts, src/director/scheduling.ts, src/director/circumstance.test.ts
 
 **Notes.** TODO
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (merged #6263).

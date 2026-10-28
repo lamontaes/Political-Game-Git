@@ -34,3 +34,5 @@ Sent back 2026-10-23 from PR #5036 (branch claude/snapshot-cover-s5): integratin
 Sent back 2026-10-23 from PR #5036 (branch claude/snapshot-cover-s5): Code conflicts are repaired but the body still claims exact restoration while six engines and candidacy/news divergence remain; provide bounded restore-shape acceptance and a Done-when table or finish the umbrella; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5036 (branch claude/snapshot-cover-s5): the corrected evidence table still marks empty uncoveredModules and exact round-trip restoration NOT MET, with nine uncovered modules and 14/20/16 differing fields; provide a valid bounded item for the completed slice or finish the umbrella, and reconcile title six versus body nine; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: demote to p3 / hold until the early-access save work; the owner's Continue is not blocked on it (load speed only).

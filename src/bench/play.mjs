@@ -8,6 +8,7 @@ import {
   talkLine,
   talkReply,
   fillTalk,
+  talkControls,
   addTalkLine,
   mountTalkKeys,
   mountSpeakers,
@@ -227,6 +228,32 @@ function screenArtwork({
     media.append(img);
   }
 }
+
+/**
+ * The talk box keeps clear of the player card: when the centered box would
+ * reach over the dock (a long status line widens the card), it stands above
+ * the dock instead, so no reply sits under the card.
+ */
+function clearDock() {
+  const game = $("game").getBoundingClientRect();
+  const dock = $("dock").getBoundingClientRect();
+  const width = Math.max(
+    ...[...document.querySelectorAll("#game .chat")].map(
+      (box) => box.offsetWidth,
+    ),
+  );
+  const left = game.left + (game.width - width) / 2;
+  $("game").style.setProperty(
+    "--chat-bottom",
+    left < dock.right + 8 ? `${Math.ceil(game.bottom - dock.top + 8)}px` : "",
+  );
+}
+// A box shown or resized, or the card widened, sets it again.
+const docking = new ResizeObserver(clearDock);
+docking.observe($("dock"));
+for (const box of document.querySelectorAll("#game .chat"))
+  docking.observe(box);
+window.addEventListener("resize", clearDock);
 
 /** Soft contact shadows on the floor at each person's feet, under everyone. */
 function shadowsOf(people) {
@@ -759,10 +786,9 @@ async function refresh() {
     await electionNight(night);
     return;
   }
-  // A law that took effect: what changed in town.
-  // A short notice on the card, not a screen taken over mid-play.
-  if (newChanges(await changeCount()))
-    $("card-why").textContent = controls.endedBy?.law ?? "";
+  // No card notice that "a law took effect" (owner, Oct 27: "Why am I getting a
+  // notification that a law took effect?"): a law that reaches the player is
+  // told by its own scene and story, which say how.
   if (openTab) await openSheet(openTab);
 }
 
@@ -1223,8 +1249,6 @@ for (const mode of ["day", "week"])
     coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
-// Laws enacted and laws taken effect so far: a new one of either opens What changed.
-let seenChanges = { ahead: 0, took: 0 };
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
 let seenNews = 0;
 async function newsCount() {
@@ -1239,14 +1263,6 @@ async function markNews(read) {
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
 }
-async function changeCount() {
-  const { ahead, took } = await api(
-    `/api/changes?id=${encodeURIComponent(me.id)}`,
-  );
-  return { ahead: ahead.length, took: took.length };
-}
-const newChanges = (now) =>
-  now.took > seenChanges.took || now.ahead > seenChanges.ahead;
 $("continue").addEventListener("click", () => {
   show("talk", false);
   return act(
@@ -1262,7 +1278,6 @@ let talkPersonId;
 async function setWho(personId, name) {
   talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
-  $("talk-role").textContent = "";
   const staged = [...(me.scene?.people ?? []), ...(filing?.people ?? [])].find(
     (p) => p.personId === personId,
   );
@@ -1274,7 +1289,6 @@ async function setWho(personId, name) {
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   if (!staged?.figureUrl) setBust("talk-bust", c.figureUrl);
-  $("talk-role").textContent = c.who ?? "";
 }
 /** The newest lines: yours, dim, then what was said back to you. */
 function spokenLines(lines, speakerOf) {
@@ -1328,6 +1342,7 @@ function renderTalk(value) {
   // Lying, the false set stands in place of the true choices.
   const lies = value.lies ?? [];
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
+  talkControls({ silent: true, leave: true });
   fillTalk({
     lines: spokenLines(value.lines, (line) => line.text),
     replies: replies(choices, (choice) => sayLine(choice.key)),
@@ -1376,6 +1391,18 @@ $("talk-lie").addEventListener("click", () => {
   lying = !lying;
   renderTalk(talk);
 });
+// Continue, bottom left, when there is nothing to answer: the beat is over, and
+// a stop that held the clock for it goes on.
+$("talk-next").addEventListener("click", async () => {
+  if (filing) {
+    $("talk-leave").click();
+    return;
+  }
+  if (talk) await post("/api/talk/leave");
+  renderTalk(undefined);
+  show("talk", false);
+  if (!$("continue").hidden) $("continue").click();
+});
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
@@ -1409,6 +1436,8 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
+  // At the counter you can walk out; silence there is not an answer.
+  talkControls({ silent: false, leave: true });
   // The narrator sets the counter up before the clerk speaks (the opening call only).
   fillTalk({
     lines: [
@@ -1665,6 +1694,8 @@ async function campaignRows() {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
+      // The outing's hours moved the clock: the card shows the new time.
+      if (result.packet) renderPacket(result.packet);
       campaignResult = [
         controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
@@ -1673,15 +1704,18 @@ async function campaignRows() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // Something that came up while out holds the clock: it is shown, as
+      // after Day, so Continue never stands over an empty screen.
+      const moment = storyStop(result.packet);
       // The doors and the calls are seen where they happen, with the people reached.
+      if (result.scene || moment) closeSheet();
       if (result.scene) {
-        closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
         $("card-why").textContent = campaignResult;
-        return;
       }
-      openSheet("campaigns");
+      if (moment) await showStory(moment.recordId);
+      if (!result.scene && !moment) openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
       const result = await post(
@@ -1875,6 +1909,8 @@ async function showStory(momentId) {
   $("talk-name").textContent = "";
   // A scene with a purpose is its own exchange; any other opens a talk.
   const withId = story.talk?.askerId ?? story.talkToId;
+  // Whether to talk to them is the player's; the narrator alone is a Continue.
+  talkControls({ silent: false, leave: Boolean(withId) });
   fillTalk({
     lines: [
       ...story.narration.map((line) =>
@@ -1907,6 +1943,8 @@ function playExchange(story) {
       held: line.held,
     });
   // The path is the index of each reply chosen, from the first.
+  // The asker follows up: no walking away mid-exchange, no silence as a reply.
+  talkControls({ silent: false, leave: false });
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
     fillTalk({ lines: said.slice(-4).map(lineOf) });
@@ -1922,18 +1960,30 @@ function playExchange(story) {
           const chosen = [...path, index];
           // The reply is the player's: the game keeps it (purpose-scene.ts
           // replyInScene).
-          api(
-            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
+          const kept = api(
+            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&typeKey=${encodeURIComponent(talk.typeKey)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
             "POST",
           );
           said.push(reply.line);
           if (reply.next) play(reply.next, chosen);
-          else fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
+          else {
+            fillTalk({ lines: said.slice(-4).map(lineOf), replies: [] });
+            // A moment that staged another scene plays it next.
+            kept.then(() => nextScene(story));
+          }
         },
       ),
     });
   };
   play(talk.tree, []);
+}
+/** The moment's next staged scene with a purpose, once one ends; none, and the talk stays closed. */
+async function nextScene(story) {
+  const next = await api(
+    `/api/story?momentId=${encodeURIComponent(story.momentId)}${HELD_VIEW ? "&held=1" : ""}`,
+  );
+  if (next.talk && next.talk.typeKey !== story.talk.typeKey)
+    showStory(story.momentId);
 }
 function storyStop(value) {
   return value?.kind === "stop"
@@ -2023,9 +2073,7 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      // The date is labeled; a tie with no contact on record shows nothing.
-      c.tie?.lastContactDate &&
-        row(labels.lastTalked, proseDate(c.tie.lastContactDate)),
+      // No "Last talked" (owner, Oct 27, 5 PM: never shown).
       ...(known
         ? [
             row("party", known.party),
@@ -4092,7 +4140,6 @@ const sheets = {
     const { ahead, took } = await api(
       `/api/changes?id=${encodeURIComponent(me.id)}`,
     );
-    seenChanges = { ahead: ahead.length, took: took.length };
     // Enacted, waiting for its date: the measure, what it sets, and when.
     const coming = ahead.map((law) =>
       listRow(
@@ -5083,7 +5130,6 @@ $("front-continue").addEventListener("click", async () => {
     names: {},
     portrait: life.portrait,
   };
-  seenChanges = await changeCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5574,7 +5620,6 @@ async function enterAs(life, personId) {
     names: life.names,
     portrait: false,
   };
-  seenChanges = await changeCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5668,8 +5713,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       names: life.names,
       portrait: Boolean(person?.recipe),
     };
-    // What was already law at the start isn't news; only what changes after.
-    seenChanges = await changeCount();
     show("front", false);
     await playOpening();
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
