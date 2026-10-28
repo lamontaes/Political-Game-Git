@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: golden/your-office
-pr:
+pr: #6497
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T02:48:20.021Z
