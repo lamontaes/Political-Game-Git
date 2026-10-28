@@ -2,7 +2,7 @@ import { makeIsoDate } from "./kernel/dates";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/civic-inputs.json" with { type: "json" };
-import { groupedJsonTable } from "./reference/lazy-data";
+import { LOCAL_INSTITUTIONS_TABLE } from "./reference/local-institutions";
 import { stopgap } from "./stopgaps";
 import type {
   CoreInput,
@@ -125,14 +125,8 @@ export function refreshOfficeStaff(
   core.publicOrganizations.set(organizationId, { ...office, staff });
 }
 
-// Read on first use, only for the states a world asks about.
-const DIRECTORY = groupedJsonTable(
-  new URL(
-    "../../data/research/places/local-institutions.json",
-    import.meta.url,
-  ),
-  ["places", "counties"],
-);
+// The places corpus's institutions table, through its one reader.
+const DIRECTORY = LOCAL_INSTITUTIONS_TABLE;
 const DIRECTORY_STORES: Readonly<Record<string, (geoid: string) => unknown>> = {
   places: DIRECTORY.section("places"),
   counties: DIRECTORY.section("counties"),
