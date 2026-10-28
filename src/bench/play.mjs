@@ -684,9 +684,6 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
-/** A title that is a bare slug reads as words; a name or a sentence stays as it is. */
-const slugWords = (text) =>
-  /^[a-z][a-z0-9-]*$/.test(text) ? words(text) : text;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
@@ -2636,17 +2633,12 @@ async function seatRows() {
 const dayIcon = (kind) =>
   ({
     birthday: "birthday",
+    "your-birthday": "birthday",
     "filing-opens": "deadline",
     "filing-deadline": "deadline",
     primary: "election",
     election: "election",
   })[kind] ?? "meeting";
-
-/** A record kind as words: "filing-deadline" reads "Filing deadline". */
-const kindName = (kind) => {
-  const name = kind.split(/[:.]/).pop();
-  return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
-};
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
@@ -3598,38 +3590,35 @@ const sheets = {
     const { date: recordDate, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
-    // Today is the day the player's clock names, which the calendar opens on.
-    const date = packet?.at.date ?? recordDate;
+    // Today is the world's day: the later of the clock's last packet and the
+    // record, so a day the world has reached never offers a jump to it.
+    const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
       byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-    const dateWords = (iso) =>
+    const dateWords = (iso, format = { month: "long", day: "numeric" }) =>
       new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
+        ...format,
+        ...(iso.slice(0, 4) === date.slice(0, 4) ? {} : { year: "numeric" }),
       });
-    const event = (item) =>
-      el(
-        "article",
-        { className: "calendar-event" },
-        el("span", { className: "label", textContent: kindName(item.kind) }),
-        el("p", {
-          textContent:
-            controls.policyNames?.[item.title] ?? slugWords(item.title),
-        }),
-      );
+    const icon = (item) =>
+      el("img", {
+        src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
+        alt: "",
+        className: "day-icon",
+      });
     let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
     let selected = date;
-    let upcomingPage = 0;
-    let dayPage = 0;
+    let listPage = 0;
     const root = el("div", { className: "calendar-layout" });
     const monthBox = el("section", { className: "calendar-month" });
-    const details = el("section", { className: "calendar-details" });
-    const upcoming = el("section", { className: "calendar-upcoming" });
-    const button = (label, fn) => {
-      const b = makeButton({ textContent: label });
+    const side = el("section", { className: "calendar-side" });
+    const button = (label, fn, className) => {
+      const b = makeButton({
+        textContent: label,
+        ...(className ? { className } : {}),
+      });
       b.addEventListener("click", fn);
       return b;
     };
@@ -3646,49 +3635,118 @@ const sheets = {
       }
       const b = makeButton({ className: "skip-forward" });
       b.setAttribute("aria-label", name);
+      b.title = name;
       b.append(svg);
       b.addEventListener("click", fn);
       return b;
     };
-    const skipControl = () =>
-      skipForward(labels.advance, () => {
-        closeSheet();
-        act(`/api/advance?mode=calendar&date=${selected}`);
-      });
-    const paging = (index, count, change) => {
-      const back = button(labels.back, () => change(index - 1));
-      const next = button(labels.next, () => change(index + 1));
-      back.disabled = index === 0;
-      next.disabled = (index + 1) * 3 >= count;
-      return el("nav", { className: "calendar-paging" }, back, next);
+    const goTo = (iso) => {
+      month = new Date(`${iso.slice(0, 7)}-01T12:00:00`);
+      select(iso);
     };
-    // The day panel opens only for a day that has something.
-    const drawDetails = () => {
-      const entries = byDate.get(selected) ?? [];
-      root.classList.toggle("has-day", entries.length > 0);
-      details.hidden = !entries.length;
-      if (!entries.length) {
-        details.replaceChildren();
-        return;
-      }
-      details.replaceChildren(
-        el("h3", { textContent: dateWords(selected) }),
-        ...entries.slice(dayPage * 3, dayPage * 3 + 3).map(event),
+    // One line per thing: its day, its icon and who and what in words. The
+    // player's own races carry the gold mark.
+    const entryRow = (item, withDate) => {
+      const row = listRow(
+        `calendar-entry${item.own ? " own" : ""}`,
+        { as: "button", type: "button" },
+        ...(withDate
+          ? [
+              el("span", {
+                className: "when",
+                textContent: dateWords(item.date, {
+                  month: "short",
+                  day: "numeric",
+                }),
+              }),
+            ]
+          : []),
+        icon(item),
+        el("span", { className: "what", textContent: item.line }),
       );
-      if (entries.length > 3)
-        details.append(
-          paging(dayPage, entries.length, (page) => {
-            dayPage = page;
-            drawDetails();
-          }),
+      row.addEventListener("click", () => goTo(item.date));
+      return row;
+    };
+    // Coming up lists the player's own dates first, then everything else by
+    // date; a chosen day lists that day. The list fills the side and pages.
+    const PAGE = 10;
+    const ahead = items
+      .filter((i) => i.date >= date)
+      .toSorted(
+        (a, b) => Number(b.own) - Number(a.own) || a.date.localeCompare(b.date),
+      );
+    const drawSide = () => {
+      // A chosen day heads the side: its own lines, then what follows it.
+      const day = selected !== date ? (byDate.get(selected) ?? []) : null;
+      const rows = day
+        ? [...day, ...items.filter((i) => i.date > selected && i.date >= date)]
+        : ahead;
+      const pageRows = rows.slice(listPage * PAGE, listPage * PAGE + PAGE);
+      const head = el(
+        "div",
+        { className: "calendar-side-head" },
+        el("h3", {
+          textContent: day
+            ? dateWords(selected, {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              })
+            : labels.upcoming,
+        }),
+        ...(day && selected > date
+          ? [
+              skipForward(labels.advance, () => {
+                closeSheet();
+                act(`/api/advance?mode=calendar&date=${selected}`);
+              }),
+            ]
+          : []),
+      );
+      const list = el(
+        "div",
+        { className: "calendar-list" },
+        ...pageRows.map((item) =>
+          entryRow(item, !day || item.date !== selected),
+        ),
+      );
+      const foot = [];
+      if (day)
+        foot.push(button(labels.upcoming, () => select(date), "action small"));
+      if (rows.length > PAGE) {
+        const back = button(
+          labels.back,
+          () => {
+            listPage--;
+            drawSide();
+          },
+          "action small",
         );
-      if (selected > date) details.append(skipControl());
+        const next = button(
+          labels.next,
+          () => {
+            listPage++;
+            drawSide();
+          },
+          "action small",
+        );
+        back.disabled = listPage === 0;
+        next.disabled = (listPage + 1) * PAGE >= rows.length;
+        foot.push(back, next);
+      }
+      side.replaceChildren(
+        head,
+        list,
+        ...(foot.length
+          ? [el("nav", { className: "calendar-paging" }, ...foot)]
+          : []),
+      );
     };
     const select = (iso) => {
       selected = iso;
-      dayPage = 0;
+      listPage = 0;
       drawMonth();
-      drawDetails();
+      drawSide();
     };
     const drawMonth = () => {
       const move = (delta) => {
@@ -3698,19 +3756,21 @@ const sheets = {
       const header = el(
         "nav",
         { className: "calendar-heading" },
-        button(labels.previousMonth, () => move(-1)),
+        button(labels.previousMonth, () => move(-1), "month-step"),
         el("h3", {
           textContent: month.toLocaleDateString("en-US", {
             month: "long",
             year: "numeric",
           }),
         }),
-        button(labels.nextMonth, () => move(1)),
+        button(labels.nextMonth, () => move(1), "month-step"),
+        button(labels.today, () => goTo(date), "month-step"),
       );
       const grid = el("div", { className: "month" });
       for (const weekday of labels.weekdays)
         grid.append(el("span", { className: "weekday", textContent: weekday }));
-      for (let i = 0; i < month.getDay(); i++) grid.append(el("span"));
+      for (let i = 0; i < month.getDay(); i++)
+        grid.append(el("span", { className: "blank" }));
       const days = new Date(
         month.getFullYear(),
         month.getMonth() + 1,
@@ -3719,86 +3779,42 @@ const sheets = {
       for (let day = 1; day <= days; day++) {
         const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
         const entries = byDate.get(iso) ?? [];
-        const cell = button(String(day), () => select(iso));
-        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}`;
+        const cell = button("", () => select(iso));
+        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}${iso < date ? " past" : ""}${entries.some((e) => e.own) ? " own" : ""}`;
         cell.dataset.date = iso;
-        cell.setAttribute("aria-label", dateWords(iso));
+        cell.setAttribute(
+          "aria-label",
+          [dateWords(iso), ...entries.map((e) => e.line)].join(". "),
+        );
         cell.setAttribute("aria-pressed", String(iso === selected));
         if (iso === date) cell.setAttribute("aria-current", "date");
-        // One small Kit 13 icon per kind of thing on the day.
-        if (entries.length)
+        cell.append(el("span", { className: "num", textContent: String(day) }));
+        // Each thing on the day, on the day: its icon and its line, as many as fit.
+        for (const entry of entries
+          .toSorted((a, b) => Number(b.own) - Number(a.own))
+          .slice(0, 2))
           cell.append(
             el(
               "span",
-              {
-                className: "entry",
-                title: entries
-                  .map(
-                    (i) =>
-                      controls.policyNames?.[i.title] ?? slugWords(i.title),
-                  )
-                  .join("\n"),
-              },
-              ...[...new Set(entries.map((i) => dayIcon(i.kind)))].map((icon) =>
-                el("img", {
-                  src: `/ui/kit13/calendar-${icon}.png`,
-                  alt: "",
-                  className: "day-icon",
-                }),
-              ),
+              { className: `entry${entry.own ? " own" : ""}` },
+              icon(entry),
+              el("span", { className: "what", textContent: entry.line }),
             ),
+          );
+        if (entries.length > 2)
+          cell.append(
+            el("span", {
+              className: "more",
+              textContent: `+${entries.length - 2}`,
+            }),
           );
         grid.append(cell);
       }
-      monthBox.replaceChildren(
-        header,
-        grid,
-        el(
-          "div",
-          { className: "calendar-month-foot" },
-          button(labels.today, () => {
-            month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-            select(date);
-          }),
-          // A day with nothing on it has no panel, so its date and the skip sit here.
-          ...(selected > date && !byDate.has(selected)
-            ? [
-                el("span", {
-                  className: "calendar-day-date",
-                  textContent: dateWords(selected),
-                }),
-                skipControl(),
-              ]
-            : []),
-        ),
-      );
-    };
-    const next = items
-      .filter((i) => i.date >= date)
-      .toSorted((a, b) => a.date.localeCompare(b.date));
-    const drawUpcoming = () => {
-      upcoming.replaceChildren(
-        el("h3", { textContent: labels.upcoming }),
-        ...next.slice(upcomingPage * 3, upcomingPage * 3 + 3).map((item) => {
-          const b = button(dateWords(item.date), () => {
-            month = new Date(`${item.date.slice(0, 7)}-01T12:00:00`);
-            select(item.date);
-          });
-          return el("div", {}, b, event(item));
-        }),
-      );
-      if (next.length > 3)
-        upcoming.append(
-          paging(upcomingPage, next.length, (page) => {
-            upcomingPage = page;
-            drawUpcoming();
-          }),
-        );
+      monthBox.replaceChildren(header, grid);
     };
     drawMonth();
-    drawDetails();
-    drawUpcoming();
-    root.append(monthBox, details, upcoming);
+    drawSide();
+    root.append(monthBox, side);
     return [root];
   },
   async news() {
