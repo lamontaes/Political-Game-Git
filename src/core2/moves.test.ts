@@ -116,6 +116,13 @@ const departedAdults = departures
   .flatMap((row) => row.withIds)
   .filter((id) => adults.some((row) => row.id === id));
 
+{
+  const ids = new Set(adults.map((r) => r.id));
+  const byCause: Record<string, number> = {};
+  let rows = 0, own = 0;
+  for (const d of departures) { rows++; for (const k of Object.keys(d.reasons)) byCause[k] = (byCause[k] ?? 0) + 1; own += d.withIds.filter((i) => ids.has(i)).length; }
+  console.log("DBGMV", input.placeMetadata?.placeName, "adults", adults.length, "exp", expected.toFixed(1), "rows", rows, "adultsOut", own, JSON.stringify(byCause));
+}
 const births = api
   .moduleState(RENEWAL_MODULE_ID)
   .table("births")
