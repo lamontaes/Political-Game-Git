@@ -3,7 +3,7 @@
  * leave room to hire. No imports from the town's employment, so hiring can
  * read the books without a cycle.
  */
-import { IRS_TOWN_BUSINESS_BOOKS } from "./town-business-books.generated";
+import { IRS_TOWN_BUSINESS_BOOKS } from "../../core2/reference/town-business-books.generated";
 import type { TownBusinessBooks } from "./town-finance-types";
 
 /** The industry in the IRS's table each kind of business is read from. */

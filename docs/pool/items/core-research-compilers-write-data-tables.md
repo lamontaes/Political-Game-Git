@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: researcher
 source: added with npm run pool -- add
 ---
 

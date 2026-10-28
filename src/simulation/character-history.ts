@@ -161,7 +161,7 @@ import {
   createCharacterHistoryContextPeople,
   createCharacterHistoryContextPerson,
   type CharacterHistoryContextPersonInput,
-} from "../core2/opening-people";
+} from "./character-history-context";
 
 export {
   characterHistoryContextPersonId,
