@@ -361,7 +361,7 @@ describe("each world's own economy (owner, Oct 27: realistic, not real)", () => 
     const open = a.at(-1)!,
       real = published.at(-1)!;
     const o = macroWorldOffsets("world-a", p);
-    const floor = p("macroWorldOffsetFloorShare");
+    const floor = parameter("worldDrawOffsetFloorShare");
     for (const [moved, spread] of [
       [
         open.unemploymentPct - real.unemploymentPct,

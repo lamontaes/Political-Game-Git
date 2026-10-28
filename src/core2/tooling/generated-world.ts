@@ -1,10 +1,4 @@
 /** A generated opening in a place drawn from all 56, the same route as the speed guard's month. */
-import { releaseRecentHistory } from "../../simulation/history-index";
-import {
-  forgetLastValidatedWorld,
-  withoutWorldChecks,
-} from "../../simulation/world";
-import { bookkeeping } from "../bookkeeping";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { withPrivateTuition } from "../opening-private-tuition";
 import { staffToCustomers } from "../opening-staffing";
@@ -41,9 +35,6 @@ export function generatedOpening(
 ): CoreInput {
   const settings = options.settings ?? {};
   checkSettings(settings);
-  // World integrity checks are bookkeeping: on in tests and the bench only.
-  if (!bookkeeping())
-    return withoutWorldChecks(() => buildOpening(place, options, settings));
   return buildOpening(place, options, settings);
 }
 
@@ -84,7 +75,7 @@ function buildOpening(
       (person) =>
         person.jobId &&
         ageOnDate(makeIsoDate(person.birthDate), start) >=
-          parameter("benchmarkAdultMinimumAge"),
+          parameter("votingAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   if (!player)
@@ -150,9 +141,6 @@ function buildOpening(
     }
     input = scaleOutsideSales(outsideDemand, addOutsideMarket(built));
   }
-  // The generator's temporary world is done; let its indexes go.
-  releaseRecentHistory();
-  forgetLastValidatedWorld();
   if (!keep) return input;
   // The politics settings stay in worldSettings: the town's lean and the
   // cost of voting read them (electorate-inputs.ts customPolitics).

@@ -656,11 +656,6 @@
       "tag": "SOURCED",
       "citation": "Johns Hopkins Center for Gun Violence Solutions, ages 10 to 19."
     },
-    "adultAge": {
-      "value": 18,
-      "tag": "SOURCED",
-      "citation": "Age of majority in nearly every state."
-    },
     "permitAge": {
       "value": 21,
       "tag": "SOURCED",
