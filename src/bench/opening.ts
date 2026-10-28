@@ -3,10 +3,10 @@ import { townSeats } from "../core2/modules/offices";
 import { corePlaceByKey } from "../core2/place-lookup";
 import { capitolPlaceFor, hasBackdrop } from "./backdrop-places";
 import {
-  backdropFile,
   stagePeople,
   homeOf,
   orgPlace,
+  personBackdrop,
   type StageReason,
 } from "./scene";
 import { fillInPerson } from "../core2/state";
@@ -166,7 +166,25 @@ export function openingFrames(
     return place ? { place, cast: castOf(picture?.cast) } : undefined;
   };
   const stageOf = stageOfLevel(story.sequence);
-  const stages = new Map(story.sequence.map((row) => [row.stage, row]));
+  // Names are read by id from the current records: the creator may have
+  // renamed the player's household since the story was composed, and the
+  // camera's labels must say who the records now say.
+  const nameNow = (id: string, name: string) => {
+    const person = core.people.get(id);
+    return person ? `${person.givenName} ${person.familyName}` : name;
+  };
+  const stages = new Map(
+    story.sequence.map((row) => [
+      row.stage,
+      {
+        ...row,
+        people: row.people.map((figure) => ({
+          ...figure,
+          name: nameNow(figure.id, figure.name),
+        })),
+      },
+    ]),
+  );
   /** Who stands on a stage: the President on theirs, the player with their family. */
   const stageCast = (stage: string) => [
     ...(stage === "president"
@@ -179,7 +197,7 @@ export function openingFrames(
   const frames: {
     stage: string;
     place: string;
-    backdrop: ReturnType<typeof backdropFile>;
+    backdrop: ReturnType<typeof personBackdrop>;
     cast: { id: string; name: string; title?: string }[];
     people: ReturnType<typeof stagePeople>["people"];
     /**
@@ -262,7 +280,7 @@ export function openingFrames(
     frames.push({
       stage,
       place,
-      backdrop: backdropFile(place, minute),
+      backdrop: personBackdrop(core, playerId, place, minute),
       cast: all,
       people,
       pointOut,

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: screens/opening-national-people
 pr: #6464
 blocked-on:

@@ -5,7 +5,7 @@ area: director
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dup-opening-test-pairs
 pr: #6459
 blocked-on:

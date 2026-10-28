@@ -210,6 +210,19 @@
         "citation": "Fewest days between any two scenes from circumstance for one player: at most about one a week, so a played year keeps quiet stretches between clusters (owner, Oct 26: Wildermyth pacing); checked by a played year in a drawn place (src/director/circumstance.test.ts), where a sitting member's year carried a hallway nearly every week at 4 days."
       }
     },
+    "directorCircumstanceDoorEveryDays": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Every campaign act is a scene (owner, Oct 27, 2026, 5 PM Eastern: door knocking is \"a short scene at 1 or 2 doors, maybe sometimes it's uneventful\"; OWNER-DECISIONS). A pacing weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 1,
+        "high": 7,
+        "unit": "days",
+        "citation": "Fewest days between two porch scenes: one each day the player knocks doors."
+      }
+    },
     "directorCircumstanceStreetEveryDays": {
       "value": 14,
       "tag": "TUNABLE",
@@ -312,6 +325,19 @@
         "high": 0.4,
         "unit": "life-change units divided by 100",
         "citation": "Hearing of the death of someone known through their household, as above."
+      }
+    },
+    "directorCircumstanceDoorImpact": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.1,
+        "high": 0.3,
+        "unit": "life-change units divided by 100",
+        "citation": "A door the player's own canvass knocked: below the end of their school year or their race, as one of many doors in a day's shift."
       }
     },
     "directorCircumstanceSchoolImpact": {
@@ -1723,6 +1749,11 @@
     },
     {
       "eventKind": "debate-invited",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "debate",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
     },

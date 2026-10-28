@@ -224,6 +224,7 @@ export function composeScene(
     ? [
         {
           text: sceneParagraph(sentences),
+          parts: sentences.flatMap((line) => line.parts ?? []),
           // A sitting that took in a later cause the same day cites it too.
           sourceRecordIds: [
             ...new Set([

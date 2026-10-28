@@ -5,7 +5,7 @@ area: director
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dup-old-situation-library
 pr: #6463
 blocked-on:

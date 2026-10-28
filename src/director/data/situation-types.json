@@ -349,22 +349,6 @@
           "opening": "tell"
         },
         {
-          "match": {
-            "label": "circumstance:race-result-known",
-            "causeFacts": [{ "key": "winnerId", "is": "other" }]
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "election-result",
-          "bind": {
-            "bearer": "counterpart",
-            "receiver": "subject",
-            "about": "winner"
-          },
-          "opener": "bearer",
-          "setting": ["public"],
-          "opening": "tell"
-        },
-        {
           "match": { "label": "circumstance:price-moved-street" },
           "causeEngine": "circumstance",
           "causeRecord": "law.effect-learned",
@@ -453,6 +437,78 @@
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal", "bring-it-up"]
       }
+    },
+    {
+      "key": "race-told",
+      "note": "A race is counted and, the day after, someone the player knows who is tied to a candidate tells who won (the circumstance race-result-known, cast from the ties of each named in the count). The reply is a scene reply the core's relationship writer reads as time together.",
+      "roles": [
+        {
+          "key": "bearer",
+          "fill": "household",
+          "count": "one",
+          "moves": [
+            "greet",
+            "tell",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "warn"
+          ],
+          "wants": ["speak-out", "help-others"],
+          "bearing": "curious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "comfort", "tell", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "braced"
+        },
+        {
+          "key": "about",
+          "fill": "counterpart",
+          "count": "one",
+          "present": false,
+          "moves": [],
+          "wants": ["stay-quiet"]
+        }
+      ],
+      "setting": ["public", "home", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:race-result-known",
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
+          "bind": {
+            "bearer": "counterpart",
+            "you": "subject",
+            "about": "winner"
+          },
+          "opener": "bearer",
+          "setting": ["public"],
+          "opening": "tell"
+        }
+      ],
+      "tag": {
+        "key": "race-heard",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "race-told",
+      "asker": "bearer",
+      "asked": "you",
+      "stakes": ["race", "opponent"]
     },
     {
       "key": "letter",
@@ -866,10 +922,13 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "canvass-visit",
+          "match": { "label": "circumstance:door-first" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
           "reason": "canvass",
           "bind": { "newcomer": "subject", "met": "counterpart" },
-          "opener": "newcomer"
+          "opener": "newcomer",
+          "setting": ["other-home"]
         },
         {
           "match": { "label": "circumstance:new-coworker" },
@@ -1312,10 +1371,13 @@
           "opener": "visitor"
         },
         {
-          "awaitingProducer": "canvass-visit",
+          "match": { "label": "circumstance:door-again" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
           "reason": "canvass",
           "bind": { "visitor": "subject", "cannot-come": "counterpart" },
-          "opener": "visitor"
+          "opener": "visitor",
+          "setting": ["other-home"]
         },
         {
           "match": {
@@ -3210,6 +3272,53 @@
       }
     },
     {
+      "key": "vote-sought",
+      "repeatsBy": "bill",
+      "purpose": "ask-vote",
+      "playerAsks": true,
+      "asker": "colleague",
+      "asked": "you",
+      "stakes": ["bill", "asker-position", "tie"],
+      "roles": [
+        {
+          "key": "colleague",
+          "fill": "members",
+          "count": "one",
+          "moves": ["agree", "stall", "refuse", "relent"],
+          "wants": ["keep-same"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "plea", "bargain", "press", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        }
+      ],
+      "setting": ["office", "chamber", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:vote-ahead",
+            "causeFacts": [{ "key": "askerId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "vote-ahead",
+          "bind": { "colleague": "counterpart", "you": "subject" },
+          "opener": "you",
+          "setting": ["office", "chamber", "phone"]
+        }
+      ],
+      "tag": {
+        "key": "vote-wanted",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "vote-confirmed",
       "purpose": "confirm-vote",
       "asker": "colleague",
@@ -3236,6 +3345,14 @@
       "setting": ["office", "chamber", "phone"],
       "timing": "at-cause",
       "causes": [
+        {
+          "match": { "label": "circumstance:override-whip" },
+          "causeEngine": "circumstance",
+          "causeRecord": "veto-override",
+          "bind": { "colleague": "counterpart", "you": "subject" },
+          "opener": "colleague",
+          "setting": ["chamber", "seat"]
+        },
         {
           "match": {
             "label": "cause:event:vote-promise",
@@ -3780,6 +3897,14 @@
           "bind": { "opponent": "counterpart", "you": "subject" },
           "opener": "opponent",
           "setting": ["public"]
+        },
+        {
+          "match": { "label": "cause:event:debate", "selfNamed": true },
+          "causeEngine": "meetings",
+          "causeRecord": "debate",
+          "bind": { "opponent": "counterpart", "you": "subject" },
+          "opener": "opponent",
+          "setting": ["venue", "public"]
         }
       ],
       "tag": {
