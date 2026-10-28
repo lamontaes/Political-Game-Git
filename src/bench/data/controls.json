@@ -420,6 +420,7 @@
   },
   "politics": {
     "seats": "Seats",
+    "seat": "seat",
     "yourMembers": "Your members",
     "leaders": "Leaders",
     "notChosenHere": "Not chosen by this place's voters",
