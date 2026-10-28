@@ -20,23 +20,17 @@ import {
 } from "../director/filing-visit";
 import { backdropFile, stagePeople, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
-import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState, PersonId } from "../core2/types";
 import { wordSceneMove, type Fact } from "../english/scene-talk-words";
-
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
 
 /** The picture for the office that takes a contest's filings. */
 export function officePlace(filedWith: string): string {
   const name = filedWith.toLowerCase();
   for (const row of scenePlaces.filingOffices)
     if (!row.match || new RegExp(row.match).test(name)) {
-      const place = row.places.find((p) => PICTURED.has(p));
+      const place = row.places.find((p) => hasBackdrop(p));
       if (place) return place;
     }
   return "clerk-counter";
