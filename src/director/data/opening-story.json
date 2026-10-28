@@ -1,9 +1,5 @@
 {
-  "about": "What the opening story reads that no record names yet: the town's lead story maps a public record's event kind to the newscast bank's kind of story.",
-  "townStoryKinds": {
-    "organization.closed": "closing",
-    "life.death": "death"
-  },
+  "about": "What the opening story reads that no record names yet: the numbers' rounding and the titles of each kind of address.",
   "numbers": {
     "about": "How the opening says its numbers: a figure to one decimal place (\"4.2 percent\"), and jobs in the thousands the payroll series counts and in millions past a million (\"1.9 million\"), and a change over the year as a percent of where it stood (\"up 3.9 percent\"). Writing conventions, not estimates (AP Stylebook, numerals).",
     "decimals": 1,
