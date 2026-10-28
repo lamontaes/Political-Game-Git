@@ -1,6 +1,20 @@
 {
   "entries": [
     {
+      "version": "0.61.2",
+      "releasedOn": "2026-10-28",
+      "revision": "82fca72e237182be1890da91aea25507ac218fa4",
+      "changeIds": [
+        "carcass-data-unread",
+        "carcass-reports-named-nowhere",
+        "carcass-reports-research-unread",
+        "carcass-tests-of-dead-code",
+        "realistic-business-per-world",
+        "remove-stray-root-files",
+        "screens-people-groups-from-card"
+      ]
+    },
+    {
       "version": "0.61.1",
       "releasedOn": "2026-10-28",
       "revision": "2a1a2d27143ded3366c357d2b7ef4c55443f8a03",
