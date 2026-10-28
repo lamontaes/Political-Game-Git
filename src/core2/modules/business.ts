@@ -2399,8 +2399,9 @@ export function businessesIn(
  * Businesses before the start (M1-14): every opening business gets a founding
  * date, so firms have ages. In a steady state where the state's businesses
  * exit at its BDS rate x a year, the share at least a years old is (1 - x)^a;
- * the largest businesses are the oldest. Foundings inside the window and each
- * year's exits (the same rate) are dated history.
+ * the largest businesses are the oldest. Foundings inside the window are
+ * dated history; the businesses that closed are named by the past's one
+ * closures writer (`buildPastClosures`, src/core2/past-business.ts).
  */
 function businessHistory(
   api: CoreAPI,
@@ -2450,23 +2451,6 @@ function businessHistory(
         source,
       });
   });
-  // Each year in the window, the businesses that closed (the same exit rate, a steady count).
-  const first = Number(window.from.slice(0, 4)),
-    last = Number(window.through.slice(0, 4));
-  for (let year = first; year <= last; year++) {
-    const date = makeIsoDate(
-      `${year}-12-31` > window.through ? window.through : `${year}-12-31`,
-    );
-    if (date < window.from) continue;
-    history.record({
-      id: `business.exits:${year}`,
-      date,
-      kind: "business.exits",
-      facts: { year, closed: Math.round(firms.length * exit) },
-      publicRecord: true,
-      source,
-    });
-  }
 }
 
 export const BUSINESS_MODULE: PreStartModule = {
