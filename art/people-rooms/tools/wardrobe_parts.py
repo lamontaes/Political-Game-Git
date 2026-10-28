@@ -40,12 +40,13 @@ def main():
     B = load(base_p); figB = figure(B); M = load(marker_p)
     near = lambda col, tol=120: (np.abs(M - np.array(col, float)).sum(2) < tol) & figB
     regions = {'shirt': near((255, 255, 0)), 'pants': near((0, 0, 255)), 'shoes': near((0, 255, 0))}
-    for k in regions: regions[k] = ndimage.binary_closing(regions[k], iterations=2) & figB
+    skinB = warm(B)
+    for k in regions: regions[k] = ndimage.binary_dilation(ndimage.binary_closing(regions[k], iterations=2), iterations=3) & figB & ~skinB   # each garment with its own outline, never skin
     clothes = regions['shirt'] | regions['pants'] | regions['shoes']
     cells = v2cut.body_cells((figB * 255).astype(np.uint8))
     H0 = load(hair_sheet) if hair_sheet else None
     rows = np.arange(FRAME[1])[:, None]
-    PARTS = [('shirt', 'sh', range(2, 6)), ('jacket', 'jk', range(1, 6)), ('tie', 'ti', range(1, 2)), ('pants', 'pa', range(2, 6)), ('shoes', 'ft', range(2, 6))]
+    PARTS = [('shirt', 'sh', range(2, 7)), ('jacket', 'jk', range(1, 6)), ('tie', 'ti', range(1, 2)), ('pants', 'pa', range(1, 7)), ('shoes', 'ft', range(2, 7)), ('dress', 'dr', range(1, 2))]
     edits = {}
     for part, code, rng in PARTS:
         for i in rng:
@@ -59,7 +60,7 @@ def main():
             if os.path.exists(p):
                 E = load(p); mx, mn = E.max(2), E.min(2); sat = (mx - mn) / (mx + 1)
                 hairs[i] = (E, (np.abs(E - H0).sum(2) > 60) & (sat < 0.22))
-    meta = {'sheet': sheet, 'frame': list(FRAME), 'order': ['body', 'pants', 'shoes', 'shirt', 'tie', 'jacket', 'hair'], 'figures': {}}
+    meta = {'sheet': sheet, 'frame': list(FRAME), 'order': ['body', 'pants', 'shoes', 'dress', 'shirt', 'tie', 'jacket', 'hair'], 'figures': {}}
     for r, c, (X0, Y0, X1, Y1), keep in cells:
         fid = f'v2-{sheet}-{SEX[r]}-{BUILDS[c]}'; od = f'{out}/{fid}'; os.makedirs(od, exist_ok=True)
         X0, Y0, X1, Y1 = max(0, X0 - 40), max(0, Y0 - 70), min(FRAME[0], X1 + 40), min(FRAME[1], Y1 + 10)   # room for big hair and wide jackets
@@ -70,13 +71,22 @@ def main():
             m = m & cell; a = (ndimage.gaussian_filter(m.astype(float), 0.5) * 255).clip(0, 255).astype(np.uint8)
             Image.fromarray(np.dstack([src.astype(np.uint8), a])[Y0:Y1, X0:X1]).save(f'{od}/{name}.png'); return int(m.sum())
         info = {'box': [int(X0), int(Y0), int(X1), int(Y1)], 'parts': {}}
-        info['parts']['body'] = save(keep & ~clothes, B, 'body')
-        for part in ('shirt', 'pants', 'shoes'): info['parts'][f'{part}-1'] = save(regions[part] & keep, B, f'{part}-1')
+        # leftovers below the chin that are neither skin nor marked clothing (belt, cuffs, buttons) belong to the nearest garment
+        rest = keep & ~clothes & ~skinB & cell & (rows > top + 0.16 * Hh)
+        lab = np.zeros(FRAME[::-1], np.uint8)
+        for n, k in enumerate(('shirt', 'pants', 'shoes'), 1): lab[regions[k] & keep] = n
+        dist, (iy, ix) = ndimage.distance_transform_edt(lab == 0, return_indices=True)
+        near = np.where(rest & (dist <= 12), lab[iy, ix], 0)
+        own = {k: (regions[k] & keep) | (near == n) for n, k in enumerate(('shirt', 'pants', 'shoes'), 1)}
+        info['parts']['body'] = save(keep & ~clothes & ~(near > 0), B, 'body')
+        for part in ('shirt', 'pants', 'shoes'): info['parts'][f'{part}-1'] = save(own[part], B, f'{part}-1')
         for (part, i), (E, figE, ch, key) in edits.items():
             if key:                                                                  # whole green garment + bare skin where the old garment was
                 m = figE & ch & band(-0.02, 1.02)
-                if part in ('shirt', 'pants'): m |= figE & warm(E) & regions[part] & ndimage.binary_dilation(ch, iterations=25)
+                if part in ('shirt', 'pants', 'shoes'): m |= figE & warm(E) & regions[part]          # skin the new garment uncovers (forearms, shins, ankles)
+                if part == 'dress': m |= figE & warm(E) & (regions['shirt'] | regions['pants'])
                 m = ndimage.binary_opening(m, iterations=1)
+                if (ch & cell).sum() < 400: continue                                    # this figure's garment did not change (women-only pieces on the men)
                 info['parts'][f'{part}-{i}'] = save(m, E, f'{part}-{i}'); continue
             if part == 'shirt': m = figE & (regions['shirt'] | (ch & band(0.10, 0.72)))
             elif part == 'jacket': m = figE & ch & band(0.10, 0.80)

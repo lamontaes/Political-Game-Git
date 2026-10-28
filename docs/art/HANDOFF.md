@@ -29,7 +29,7 @@ People are built the way Reddit builds avatars: "it uses the same model, and all
 ## Stacking a person (what the game does)
 
 1. **Pick the pose** for the spot (tags: pose, facing, seat) and the figure (sex, build).
-2. **Draw the layers in order:** body, pants, shoes, shirt, tie, jacket, hair. Each layer is drawn at the figure's box. Nothing is moved or scaled relative to the body, because every part was painted on that body.
+2. **Draw the layers in order:** body, pants, shoes, dress, shirt, tie, jacket, hair. A dress replaces both the shirt and the pants. Each layer is drawn at the figure's box. Nothing is moved or scaled relative to the body, because every part was painted on that body.
 3. **Recolor each layer.** For plain or green pixels: the new color × (pixel brightness ÷ that layer's typical brightness), which keeps the folds. Warm pixels are skin: bare forearms in a tee, legs in shorts, scalp between curls. They take the person's skin color the same way. `stack.py dress()` is the reference.
 4. **Size the whole stack to the spot:** scale so the body's head width matches the spot's `headWidth`. All layers scale together.
 5. **Draw furniture in front** with the spot's `frontLine`.
@@ -38,7 +38,10 @@ People are built the way Reddit builds avatars: "it uses the same model, and all
 
 1. **Base:** `__natBases(baseUrl)` edits the standing base into a natural pose, or use any existing base.
 2. **Marker map** (`__marker`): the base's shirt yellow, pants blue and shoes green. This gives the base's own garment regions.
-3. **Parts** (`__keyParts`): 18 edits of the base, each changing one garment and painting it in flat key green (#22C55E). Green makes the whole garment exact. Never find a garment by "what changed": a gray jacket over a gray shirt barely changes, and on Oct 28 that cut lost most of the jacket.
+3. **Parts** (`__keyParts`, 19 edits, plus `__womenParts`, 4 more): each edit changes one garment and paints it in flat key green (#22C55E). Green makes the whole garment exact.
+   - Never find a garment by "what changed": a gray jacket over a gray shirt barely changes, and on Oct 28 that cut lost most of the jacket.
+   - Pants are painted with the shirt tucked in tightly, so each pair reaches the waist and an untucked tee always covers its top edge. Without that, a tee over jeans left a gap at the waist.
+   - Women-only pieces (blouse, pencil skirt, sheath dress, low heels) change only the top row; the men's parts come out empty and are skipped.
 4. **Hair** (`__hair12`): 12 edits of the base, the hair in plain gray.
 5. **Download:**
    - Find them with `asset_search` (GenAIAsset, createDate desc). The key is in `[brackets]` at the start of the name.
@@ -56,13 +59,17 @@ People are built the way Reddit builds avatars: "it uses the same model, and all
 
 ## Queue order being followed tonight
 
-1. **Sheet 31 (standing, front):** the parts again in key green. This is the proof that the stack works; its hands hover, so it isn't a scene pose.
-2. **Twelve natural pose bases (`nb-*`):** relaxed front (`s1`, the character creator pose), three-quarter relaxed, talking, arms folded, phone, walking, front talking, three seated (`c1` sitting back with legs crossed, `c2` leaning in at a table, `c3` talking), and two from behind (`b1` standing, `b2` seated in an audience).
-3. **For every base that looks right at full size:** marker, 18 parts and 12 hair, then cut, check and push.
+1. **Sheet 31 (standing, front):** all parts in key green. This proves the stack works; its hands hover, so it isn't a scene pose.
+2. **Natural pose bases:** the first round turned the women into men, so the prompt now spells out their builds. Nine passed from the second round and are pushed under `wardrobe/nat-*/base.png`:
+   - standing: `s1` relaxed, front (the character creator pose); `s2` relaxed, three-quarter; `s3` talking; `s4` arms folded; `s5` on the phone;
+   - seated: `c1` sitting back, legs crossed; `c2` leaning in at a table; `c3` talking;
+   - from behind: `b1` standing.
+     Walking (`s6`), front talking (`s7`) and seated from behind (`b2`) are being repainted.
+3. **For each of the nine:** marker, 19 parts, 4 women's parts and 12 hair (about 36 jobs). Then cut, check at full size and push.
 4. **Then:** profile and three-quarter-from-behind versions of the most used poses. Three-quarter right is the mirror of three-quarter left.
 
 ## Not done yet
 
 - **Wiring is not done.** No code yet uses `wardrobe/` in the character creator or in rooms; that's the people-in-rooms builder's job.
-- **Missing pieces:** skirts and dresses, coats for winter, and hats.
+- **Missing pieces:** coats for winter, hats, uniforms (police, nurse, judge's robe), and more dresses and skirts.
 - **Out for scenes:** the four upright sitting sheets (37, 01, 70, 06) have marker and gray parts from before the green rule. They are stiff and shouldn't be used.

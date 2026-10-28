@@ -5,7 +5,7 @@ OUTFITS.json: list of {"name", "skin", "hair": [n, rgb] or null, "parts": {"pant
 import sys, json, numpy as np
 from PIL import Image
 
-ORDER = ['pants', 'shoes', 'shirt', 'tie', 'jacket', 'hair']
+ORDER = ['pants', 'shoes', 'dress', 'shirt', 'tie', 'jacket', 'hair']
 
 def dress(P, rgb, skin):
     """Plain gray pixels take the part's color (shading kept through brightness); warm pixels are skin and take the skin color."""
@@ -25,6 +25,7 @@ def person(parts_dir, fid, info, outfit):
         spec = outfit['hair'] if layer == 'hair' else outfit['parts'].get(layer)
         if not spec: continue
         n, rgb = spec
+        if not __import__('os').path.exists(f'{d}/{layer}-{n}.png'): continue
         img = Image.alpha_composite(img, dress(np.asarray(Image.open(f'{d}/{layer}-{n}.png')), rgb, outfit['skin']))
     return img, (X0, Y0)
 
