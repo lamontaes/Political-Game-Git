@@ -250,6 +250,12 @@ function isPercent(measure: string): boolean {
   return BASES[measure]?.unit.startsWith("percent") ?? false;
 }
 
+/** Each world's drawn levels, by seed, measure and place. */
+const worldBases = new Map<
+  string,
+  { readonly value: number; readonly source: Source }
+>();
+
 /**
  * A kept outcome's starting level in a state in this world: the published
  * level (`publishedBaseOf`) moved once by the world's own offset, drawn from
@@ -258,6 +264,21 @@ function isPercent(measure: string): boolean {
  * bound, so it stays between 0 and 100.
  */
 export function baseOf(
+  measure: string,
+  stateKey: string,
+  seed: string,
+): { readonly value: number; readonly source: Source } {
+  // Read every month by several engines: the world's draw is fixed, so it is
+  // drawn once per world, measure and place.
+  const key = `${seed}|${measure}|${stateKey}`;
+  const known = worldBases.get(key);
+  if (known) return known;
+  const drawn = drawnBaseOf(measure, stateKey, seed);
+  worldBases.set(key, drawn);
+  return drawn;
+}
+
+function drawnBaseOf(
   measure: string,
   stateKey: string,
   seed: string,
