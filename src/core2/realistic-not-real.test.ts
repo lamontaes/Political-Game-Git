@@ -17,6 +17,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { publishedMonths, type MacroMonth } from "./macro-model";
 import { MACRO_MODULE_ID } from "./modules/macro";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { CREDIT_MODULE_ID } from "./modules/credit";
 import { worldGoods } from "./modules/place-prices";
 import goodsData from "./data/prices/goods.json" with { type: "json" };
@@ -70,7 +71,6 @@ import type { CoreState } from "./types";
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
   "realistic-housing-per-world": [5, 7, 8, 9],
-  "realistic-money-and-population-per-world": [28],
   "realistic-business-per-world": [21, 22, 23, 24, 26, 27],
   "realistic-base-rates-per-world": [32, 33, 34, 35, 36],
   "realistic-elections-per-world": [42, 44, 45, 48],
@@ -341,6 +341,21 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         );
         expect(annual, `${where} ${flow.id}`).not.toBeCloseTo(earned, 0);
       }
+  });
+
+  it("the town's population (audit row 28)", () => {
+    const geoid = corePlaceByKey(place.key)?.sourceGeoid;
+    const real = geoid
+      ? publishedPlaceReferencePopulation(geoid)?.value
+      : undefined;
+    const size = (core: CoreState) =>
+      Number(core.placeMetadata.referencePopulation);
+    if (real === undefined) return;
+    expect(size(a), `${where} referencePopulation`).not.toBe(real);
+    expect(size(a), `${where} referencePopulation`).not.toBe(size(b));
+    process.stdout.write(
+      `POPULATION ${where}: ${size(a)} and ${size(b)} against ${real} published\n`,
+    );
   });
 
   it("lists every audited statistic still copied, with the item that fixes it", () => {

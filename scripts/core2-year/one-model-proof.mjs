@@ -43,7 +43,7 @@ const { countedDemotions } = await at("src/core2/modules/counted-demotion.ts");
 const { scheduleTax } = await at("src/core2/tax-withholding.ts");
 const { BUDGETS_MODULE_ID } = await at("src/core2/modules/budgets.ts");
 const { corePlaceByKey } = await at("src/core2/place-lookup.ts");
-const { placeReferencePopulation } = await at(
+const { publishedPlaceReferencePopulation } = await at(
   "src/simulation/nationwide-world/place-population.ts",
 );
 
@@ -107,7 +107,7 @@ async function run(withLaw) {
     placeName: world.place.displayName ?? world.place.name,
     state: stateKey,
     withLaw,
-    census: geoid ? placeReferencePopulation(geoid) : null,
+    census: geoid ? publishedPlaceReferencePopulation(geoid) : null,
     townPeopleAtOpening: {
       full: [...core.people.values()].filter(
         (p) => p.placeId === townId && p.alive && p.tier !== "husk",
