@@ -49,3 +49,14 @@ window.__NAT = [
  ['b2', 'Everyone is seen from behind, sitting on a seat that is not drawn (draw no chair or furniture), relaxed, as if in an audience watching a speaker in front of them; we see the backs of their heads, shirts and slacks.'],
  ['s7', 'Everyone faces the viewer in the middle of talking to them: weight on one leg, one hand raised in an open, natural gesture at chest height, the other hand relaxed at the side, a lively expression.']];
 window.__natBases = (baseUrl, tag = 'nb') => window.__NAT.map(([k, pose]) => ({key: `${tag}-${k}`, ref: baseUrl, prompt: `[${tag}-${k}] Edit the reference picture. Exactly six people, three in each row, each standing apart in their own place, no one else. The top row is three women and the bottom row three men, left to right slim, medium and heavy; every woman keeps a clearly feminine build, with narrower shoulders, a defined waist and fuller hips, and every woman moves like a woman. Keep the same six people: the same bald heads, faces, skin, ears, builds and body sizes, the same clothes (a plain gray collared long-sleeve shirt tucked into dress slacks, plain dress shoes), the same clean dark-outline style and the same plain white background, each person staying in their own place in the picture at the same size. Change only their pose: ${pose} Natural, alive and at ease, never stiff. No text.`}));
+// Women's pieces: only the three women in the top row change; the men stay exactly as they are (their parts come out empty).
+window.__womenParts = (sheet, baseUrl) => {
+ const keep = 'Edit the reference picture. Keep all six people exactly the same, pixel for pixel, except what the three women in the top row wear: the same heads, faces, hands, skin, bodies, poses, positions and sizes; the three men in the bottom row stay completely unchanged. ';
+ const tail = ' Draw it in the same clean dark-outline style, fitted to each woman\'s own build, but color it one flat bright green (#22C55E) with soft darker-green shading, so it stands apart from everything else. Nothing else changes. No text.';
+ const P = [
+  ['sh6', 'Change only the women\'s shirts: each woman wears a soft, plain blouse with a round neckline and long sleeves, tucked in.'],
+  ['pa6', 'Change only the women\'s pants: each woman wears a plain knee-length pencil skirt, showing her bare lower legs. The blouse or shirt stays tucked in, so the whole waistband shows.'],
+  ['dr1', 'Change only the women\'s clothes from the shoulders to the knees: each woman wears a plain knee-length sheath dress with short sleeves and a round neckline, showing her bare forearms and lower legs.'],
+  ['ft6', 'Change only the women\'s shoes: each woman wears plain low-heeled pumps.']];
+ return P.map(([k, what]) => ({key: `wk-${sheet}-${k}`, ref: baseUrl, prompt: `[wk-${sheet}-${k}] ` + keep + what + tail}));
+};
