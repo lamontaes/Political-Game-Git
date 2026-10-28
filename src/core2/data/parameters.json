@@ -14,6 +14,11 @@
     "tag": "SOURCED",
     "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
   },
+  "half": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
+  },
   "negativeOne": {
     "value": -1,
     "tag": "SOURCED",
@@ -6797,6 +6802,29 @@
       "high": 0.65,
       "unit": "ratio to the attendance weight",
       "citation": "From secondary conscientiousness over attendance and class grades (.21/.44 = 0.48) or GPA (.21/.41 = 0.51), to primary over class grades (.28/.44 = 0.64)."
+    }
+  },
+  "budgetWorldLineSpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's budget line sits from the published one, as a share of it: about a year's change in a state or local government's line (Census Annual Survey of State and Local Government Finances, fiscal 2021 to 2022, functions moved 2% to 10%) and the federal receipts and outlays' year-to-year change (Monthly Treasury Statement, fiscal 2024 to 2025).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published line is the center; a world's offset for each government and line is drawn once from its seed at Start, its size between budgetWorldOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published line",
+      "citation": "data/research/money/public-budget-bases.json; data/research/money/federal-budget-fy2025.json."
+    }
+  },
+  "budgetWorldOffsetFloorShare": {
+    "value": 0.34,
+    "tag": "TUNABLE",
+    "citation": "The smallest share of the spread a world's budget offset takes, so no world opens on the published line.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "share of the spread",
+      "citation": "Matches macroWorldOffsetFloorShare."
     }
   }
 }

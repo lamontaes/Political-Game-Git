@@ -6,8 +6,25 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 04:00 UTC: the map first (owner, 12:30 AM Eastern)
+
+- **The simulation is the one layer; everything else is a view of its records (owner, 12:45 AM Eastern: "All this stuff happens in the engines and the simulation, which is the overall layer. It's just different ways of displaying the same information... That's how literally every single game works. Make my game like how every other game works").** Screens, scenes, the Journal, News and speeches read the records; none computes or stores its own version of a fact. In AGENTS.md's first bullet.
+- **Every building session is stopped until the engine map is read (owner: "give me the map first"; "I will decide on these sessions... these are not questions you ask me until we even know the scope of the problem").** One read-only session writes docs/reports/engine-map-2026-10-28.md: every engine, its readers, its duplicates, what reaches each screen, every writer and reader of the past, every hard-coded number; no code changes. The owner decides the sessions from it.
+- **A new mechanic is forbidden; a missing piece is a stopgap and a question (owner: "Yes, a stopgap. Because I've been proven right literally every single time this comes up. It's in the code. Whatever you need, it's in the code").**
+- **Every piece of UI comes from the UI kit, nothing invented (owner: "The 20 play sheets, those all need to be from the UI kit. Every single piece of UI, not just the menu, needs to come from the UI kit. Every single piece, nothing invented").**
+- **Realistic, not real, for the whole world (owner: "no hard-coded percentages or situations in the world, just by the simulation, just like RimWorld, every world is different, every tile is different every single time").**
+- **One history (owner: "history's exactly like I said, it's going through a different system. There needs to be one. Everything needs to pull from the same history").**
+- **The mergers keep merging what is green; nothing else runs.**
+
+## Oct 28, 03:15 UTC: build the playable game, nothing hidden (owner, 11 PM Eastern Oct 27)
+
+- **Take out the depth and build the playable path (owner: "Take out all the depth. Literally just build it. I'm sick of the depth. I just want to play my game"; "I want everything merged, and I just want the game to work").** One session plays the golden path on main and fixes each stop, minimum viable; every open PR merges the hour it is green; the drafts close.
+- **Every cut corner is a registered stopgap in the existing register, never a new system (owner: "anytime a corner is cut or compromises is made, make sure that it's duly noted, flagged, everything. Using the same thing that everything else uses, not making up a new system").** No hard-coded numbers: cutting research means keeping the existing table value, not typing one.
+- **Every system is already built; use it (owner: "literally every single system in the game has been built. Use it. For every single item that is in the pool, the system is built. I guarantee it").** A new mechanic is a last resort and is flagged as a stopgap naming the engine the builder could not find.
+
 ## Oct 28, 02:00 UTC: one UI package (owner, 9:55 PM Eastern Oct 27)
 
+- **One engine per mechanic, for the whole game (owner, 10:10 PM Eastern Oct 27: "There's one election engine. They all work the same, except some of them are assigned different things because they're state or a congressional thing. You shouldn't need a million different election levers"; and: "don't just take election specifically. The game generally").** Every mechanic has one engine; levels, offices, bodies, places and laws are rows it reads. The duplicates session inventories every family at once and collapses each to one; AGENTS.md carries the rule.
 - **One UI package: a few menu types, one renderer each, every screen a definition (owner: "Why are there so many individual UI elements? There needs to be one for every menu, and then a menu type, and then just insert it... How hard is it to just put in one UI package that I can update? It should not take 7 hours to change the menus when everything's already been designed"; and on Budgets: "It should not just be words on this blank background").** No screen draws itself; a screen is data (its type, sections, labels, readers) and the type's renderer draws it; changing a type changes every menu of that type. The screens designer builds it, Budgets and Jobs first; a lint fails any screen outside the package.
 - **UI is not done until the owner's build shows it:** eleven screens merged Oct 27 after v0.59.0 packaged, so he saw none of them; the CTO dispatches a build after every batch of screen merges rather than waiting for the two-hour cron.
 
