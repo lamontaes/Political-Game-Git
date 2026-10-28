@@ -51,11 +51,8 @@ try {
     .locator('[data-tab="who"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".character-heading").waitFor();
-  assert.equal(
-    await page.locator(".character-heading .name").innerText(),
-    name,
-  );
+  await page.locator(".screen-heading").waitFor();
+  assert.equal(await page.locator(".screen-heading .name").innerText(), name);
   assert.equal(await page.locator(".screen-backdrop").count(), 0);
   assert.equal(await page.locator(".screen-portrait").count(), 1);
   assert.ok(
@@ -68,7 +65,7 @@ try {
   await page.screenshot({
     path: process.argv[2] ?? "test-results/character.png",
   });
-  const first = page.locator(".character-person").first();
+  const first = page.locator(".record-person").first();
   if (await first.count()) {
     const familyName = await first.innerText();
     await first.click();
@@ -99,7 +96,7 @@ try {
     .locator('[data-tab="who"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".character-heading").waitFor();
+  await page.locator(".screen-heading").waitFor();
   assert.equal(await page.locator("#sheet-media img").count(), 0);
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.waitForTimeout(100);
