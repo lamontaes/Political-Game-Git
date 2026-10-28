@@ -17,14 +17,13 @@
  * OPUS-WORDS owns this file until PLAY folds it into the bench.
  */
 import bankJson from "../../data/english/parts/choice-names.json" with { type: "json" };
-import { heldByGrades } from "../../src/english/english-grades";
+import { admittedParts } from "../../src/english/bank-parts";
 
 interface MinedPart {
   key: string;
   text: string;
   uses: { subject: string; role: string }[];
   transcriptsUsing: number;
-  shippable: boolean;
 }
 export const CHOICE_NAMES_BANK = bankJson as unknown as { parts: MinedPart[] };
 
@@ -58,8 +57,7 @@ export function benchControlNames(
     buttonText(part.text).toLowerCase() === current[action]?.toLowerCase();
   const best = new Map<string, MinedPart>();
   const bestTemplate = new Map<string, MinedPart>();
-  for (const part of bank.parts) {
-    if (!part.shippable || heldByGrades(part.key)) continue;
+  for (const part of admittedParts(bank.parts)) {
     for (const use of part.uses) {
       if (use.subject !== "action" || NOT_A_BUTTON.has(use.role)) continue;
       const into = /\{\w+\}/.test(part.text) ? bestTemplate : best;
@@ -102,13 +100,8 @@ export function stanceWords(bank: { parts: MinedPart[] } = CHOICE_NAMES_BANK): {
   answers: string[];
 } {
   const of = (role: string) =>
-    bank.parts
-      .filter(
-        (part) =>
-          part.shippable &&
-          !heldByGrades(part.key) &&
-          part.uses.some((use) => use.role === role),
-      )
-      .map((part) => part.text);
+    admittedParts(bank.parts, (part) =>
+      part.uses.some((use) => use.role === role),
+    ).map((part) => part.text);
   return { questions: of("stance-question"), answers: of("stance-answer") };
 }

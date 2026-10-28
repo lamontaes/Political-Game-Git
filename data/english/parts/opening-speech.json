@@ -36,7 +36,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -55,7 +54,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -74,7 +72,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -93,7 +90,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": false,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -112,7 +108,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -132,7 +127,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -152,7 +146,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -172,7 +165,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -192,7 +184,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -212,7 +203,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -232,7 +222,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -252,7 +241,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -273,7 +261,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -294,7 +281,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -315,7 +301,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": false,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -336,7 +321,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -356,7 +340,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -376,7 +359,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": false,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -396,7 +378,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -416,7 +397,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -437,7 +417,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -458,7 +437,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -486,7 +464,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": false,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -514,7 +491,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": false,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -542,7 +518,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -570,7 +545,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -598,7 +572,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -626,7 +599,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -654,7 +626,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -683,7 +654,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -712,7 +682,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -741,7 +710,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -770,7 +738,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -798,7 +765,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -826,7 +792,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -855,7 +820,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -884,7 +848,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -913,7 +876,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -942,7 +904,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -970,7 +931,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -998,7 +958,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1027,7 +986,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1056,7 +1014,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1085,7 +1042,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1114,7 +1070,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1142,7 +1097,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1170,7 +1124,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1199,7 +1152,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1228,7 +1180,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1256,7 +1207,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1277,7 +1227,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1299,7 +1248,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1321,7 +1269,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1343,7 +1290,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1372,7 +1318,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1400,7 +1345,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1428,7 +1372,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1456,7 +1399,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1484,7 +1426,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1512,7 +1453,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1540,7 +1480,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1567,7 +1506,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1594,7 +1532,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1621,7 +1558,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1648,7 +1584,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1675,7 +1610,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1702,7 +1636,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1729,7 +1662,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1756,7 +1688,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1783,7 +1714,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1810,7 +1740,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1837,7 +1766,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -1864,7 +1792,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1892,7 +1819,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1920,7 +1846,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1948,7 +1873,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -1984,7 +1908,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2020,7 +1943,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2058,7 +1980,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2096,7 +2017,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2124,7 +2044,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2152,7 +2071,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2180,7 +2098,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2208,7 +2125,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2236,7 +2152,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2264,7 +2179,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2292,7 +2206,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2320,7 +2233,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2348,7 +2260,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2376,7 +2287,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2404,7 +2314,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2431,7 +2340,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2458,7 +2366,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2485,7 +2392,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2512,7 +2418,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2539,7 +2444,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2566,7 +2470,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2593,7 +2496,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2620,7 +2522,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2647,7 +2548,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2674,7 +2574,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2701,7 +2600,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27"
@@ -2728,7 +2626,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2756,7 +2653,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2784,7 +2680,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2812,7 +2707,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2840,7 +2734,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2868,7 +2761,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2896,7 +2788,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2924,7 +2815,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2952,7 +2842,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -2980,7 +2869,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3008,7 +2896,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3036,7 +2923,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3064,7 +2950,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3092,7 +2977,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3120,7 +3004,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3148,7 +3031,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3176,7 +3058,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3204,7 +3085,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3232,7 +3112,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3260,7 +3139,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3288,7 +3166,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3316,7 +3193,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3344,7 +3220,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3372,7 +3247,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3400,7 +3274,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3428,7 +3301,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3456,7 +3328,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3484,7 +3355,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3512,7 +3382,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3540,7 +3409,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3568,7 +3436,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3596,7 +3463,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3624,7 +3490,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3652,7 +3517,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3680,7 +3544,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3708,7 +3571,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3736,7 +3598,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3764,7 +3625,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3790,7 +3650,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3816,7 +3675,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3842,7 +3700,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3868,7 +3725,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3894,7 +3750,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3920,7 +3775,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
@@ -3948,7 +3802,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -3976,7 +3829,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4004,7 +3856,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4032,7 +3883,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4060,7 +3910,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4088,7 +3937,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4116,7 +3964,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4144,7 +3991,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4172,7 +4018,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4200,7 +4045,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4220,7 +4064,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4240,7 +4083,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4260,7 +4102,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4280,7 +4121,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4301,7 +4141,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4322,7 +4161,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4350,7 +4188,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4378,7 +4215,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4406,7 +4242,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4435,7 +4270,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4464,7 +4298,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4493,7 +4326,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4522,7 +4354,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4551,7 +4382,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4580,7 +4410,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4608,7 +4437,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4634,7 +4462,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4660,7 +4487,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4680,7 +4506,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4700,7 +4525,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4720,7 +4544,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4740,7 +4563,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4760,7 +4582,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4780,7 +4601,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4800,7 +4620,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4820,7 +4639,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4840,7 +4658,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4860,7 +4677,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4881,7 +4697,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4902,7 +4717,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4930,7 +4744,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4958,7 +4771,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -4986,7 +4798,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5014,7 +4825,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5042,7 +4852,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5070,7 +4879,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5098,7 +4906,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5126,7 +4933,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5154,7 +4960,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5182,7 +4987,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5203,7 +5007,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5224,7 +5027,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5252,7 +5054,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5280,7 +5081,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5308,7 +5108,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5336,7 +5135,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5362,7 +5160,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5388,7 +5185,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5414,7 +5210,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5440,7 +5235,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5460,7 +5254,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5480,7 +5273,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5500,7 +5292,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5520,7 +5311,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-28",
@@ -5548,7 +5338,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-28",
@@ -5576,7 +5365,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-28",
@@ -5604,7 +5392,6 @@
         }
       ],
       "voice": "polished",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-28",
@@ -5632,7 +5419,6 @@
         }
       ],
       "voice": "plain",
-      "shippable": true,
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-28",

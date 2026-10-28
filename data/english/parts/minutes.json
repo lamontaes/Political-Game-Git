@@ -30,7 +30,6 @@
       "kind": "written",
       "text": "Attended {day}'s session only.",
       "minutesUsing": 33,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -47,7 +46,6 @@
       "kind": "written",
       "text": "Attended through the discussion of {topic}.",
       "minutesUsing": 45,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -64,7 +62,6 @@
       "kind": "written",
       "text": "Attended opening remarks for {session} only.",
       "minutesUsing": 9,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -81,7 +78,6 @@
       "kind": "written",
       "text": "{member} voted as an alternate member at this meeting.",
       "minutesUsing": 6,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-05-07",
@@ -98,7 +94,6 @@
       "kind": "written",
       "text": "The manager turned first to {topic}.",
       "minutesUsing": 36,
-      "shippable": false,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-06-17",
@@ -115,7 +110,6 @@
       "kind": "written",
       "text": "The manager then turned to {topic}.",
       "minutesUsing": 11,
-      "shippable": false,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-03-18",
@@ -132,7 +126,6 @@
       "kind": "written",
       "text": "The manager turned next to {topic}.",
       "minutesUsing": 22,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-04-29",
@@ -149,7 +142,6 @@
       "kind": "written",
       "text": "The staff provided an update on {topic}.",
       "minutesUsing": 17,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-01-29",
@@ -166,7 +158,6 @@
       "kind": "written",
       "text": "Participants discussed {topic}.",
       "minutesUsing": 24,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-12-10",
@@ -183,7 +174,6 @@
       "kind": "written",
       "text": "In their discussion of {topic}, participants {view}.",
       "minutesUsing": 39,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-10-29",
@@ -200,7 +190,6 @@
       "kind": "written",
       "text": "In their consideration of {topic}, participants noted that {view}.",
       "minutesUsing": 15,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-03-18",
@@ -217,7 +206,6 @@
       "kind": "written",
       "text": "Against this background, {view}.",
       "minutesUsing": 11,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2023-07-26",
@@ -234,7 +222,6 @@
       "kind": "written",
       "text": "The staff judged that {view}.",
       "minutesUsing": 21,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -251,7 +238,6 @@
       "kind": "written",
       "text": "Members concurred that {view}.",
       "minutesUsing": 24,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-04-29",
@@ -268,7 +254,6 @@
       "kind": "written",
       "text": "Members also concurred that {view}.",
       "minutesUsing": 9,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2023-09-20",
@@ -285,7 +270,6 @@
       "kind": "written",
       "text": "Participants agreed that {view}.",
       "minutesUsing": 26,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-04-29",
@@ -302,7 +286,6 @@
       "kind": "written",
       "text": "Members agreed that {view}.",
       "minutesUsing": 35,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-04-29",
@@ -319,7 +302,6 @@
       "kind": "written",
       "text": "Almost all members agreed that {view}.",
       "minutesUsing": 6,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -336,7 +318,6 @@
       "kind": "written",
       "text": "All participants judged it appropriate to {action}.",
       "minutesUsing": 3,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-09-17",
@@ -353,7 +334,6 @@
       "kind": "written",
       "text": "Participants judged that it was appropriate to {action}.",
       "minutesUsing": 4,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-01-29",
@@ -370,7 +350,6 @@
       "kind": "written",
       "text": "Members also acknowledged that {view}.",
       "minutesUsing": 5,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2022-01-26",
@@ -387,7 +366,6 @@
       "kind": "written",
       "text": "They also agreed that {view}.",
       "minutesUsing": 14,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-12-10",
@@ -404,7 +382,6 @@
       "kind": "written",
       "text": "Members viewed {subject} as {judgment}.",
       "minutesUsing": 9,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2025-01-29",
@@ -421,7 +398,6 @@
       "kind": "written",
       "text": "Many participants noted that {view}.",
       "minutesUsing": 31,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -438,7 +414,6 @@
       "kind": "written",
       "text": "Several participants noted that {view}.",
       "minutesUsing": 38,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -455,7 +430,6 @@
       "kind": "written",
       "text": "Some participants noted that {view}.",
       "minutesUsing": 37,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -472,7 +446,6 @@
       "kind": "written",
       "text": "A few participants noted that {view}.",
       "minutesUsing": 33,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -489,7 +462,6 @@
       "kind": "written",
       "text": "A couple of participants noted that {view}.",
       "minutesUsing": 29,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -506,7 +478,6 @@
       "kind": "written",
       "text": "Most participants noted that {view}.",
       "minutesUsing": 14,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-06-17",
@@ -523,7 +494,6 @@
       "kind": "written",
       "text": "The extent of these effects remains uncertain.",
       "minutesUsing": 6,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2023-12-13",
@@ -540,7 +510,6 @@
       "kind": "written",
       "text": "By unanimous vote, the {body} {action}.",
       "minutesUsing": 44,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -557,7 +526,6 @@
       "kind": "written",
       "text": "Voting for this action: {members}.",
       "minutesUsing": 43,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -574,7 +542,6 @@
       "kind": "written",
       "text": "Voting against this action: {members}.",
       "minutesUsing": 41,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -591,7 +558,6 @@
       "kind": "written",
       "text": "{member} dissented because {reason}.",
       "minutesUsing": 2,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2024-12-18",
@@ -608,7 +574,6 @@
       "kind": "written",
       "text": "{member} preferred to {alternative}.",
       "minutesUsing": 15,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -625,7 +590,6 @@
       "kind": "written",
       "text": "It was agreed that the next meeting of the {body} would be held on {date}.",
       "minutesUsing": 45,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",
@@ -642,7 +606,6 @@
       "kind": "written",
       "text": "The meeting adjourned at {time}.",
       "minutesUsing": 45,
-      "shippable": true,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-07-29",

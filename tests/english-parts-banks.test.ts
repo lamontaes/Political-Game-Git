@@ -2,11 +2,6 @@ import { readdirSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
-import {
-  heldByGrades,
-  PART_GRADES,
-  type PartGradeLedger,
-} from "../src/english/english-grades";
 
 /**
  * Part banks: pieces mined from public records (EM-1) and pieces authored to
@@ -36,7 +31,6 @@ type Part = {
   move: string;
   kind: "spoken" | "written";
   text: string;
-  shippable: boolean;
   /** An authored part names who wrote it and when; a mined part names its source. */
   origin?: "authored";
   author?: string;
@@ -67,24 +61,6 @@ export function provenanceProblems(part: Part): string[] {
   return problems;
 }
 
-/**
- * A part plays exactly when the owner's grades don't hold it. The grade
- * step (`scripts/dialogue-batch/apply-grades.ts`) sets the flag across every
- * bank, so a part he graded bad or fix stops playing everywhere and every
- * other part plays.
- */
-export function gradeProblems(
-  part: Part,
-  ledger: PartGradeLedger = PART_GRADES,
-): string[] {
-  const held = heldByGrades(part.key, ledger);
-  if (part.shippable && held)
-    return ["a part the owner graded bad or fix still plays"];
-  if (!part.shippable && !held)
-    return ["a part the owner never rejected is held out of play"];
-  return [];
-}
-
 type Bank = {
   schema: string;
   register: string;
@@ -111,7 +87,6 @@ describe("English part banks", () => {
       move: "y",
       kind: "spoken" as const,
       text: "Hello.",
-      shippable: true,
     };
     expect(
       provenanceProblems({
@@ -137,45 +112,13 @@ describe("English part banks", () => {
     ).toEqual([]);
   });
 
-  it("plays an ungraded or liked part, holds a rejected one, and refuses either the other way round", () => {
-    const part: Part = {
-      key: "x.y.1",
-      move: "y",
-      kind: "spoken",
-      text: "Hello.",
-      shippable: true,
-      origin: "authored",
-      author: "the Words session",
-      date: "2026-10-20",
-    };
-    const ledger = (good: number, bad: number) =>
-      ({
-        parts: {
-          "x.y.1": {
-            good,
-            bad,
-            fix: 0,
-            sharedGood: 0,
-            sharedBad: 0,
-            sharedFix: 0,
-          },
-        },
-      }) as unknown as PartGradeLedger;
-    const none = { parts: {} } as unknown as PartGradeLedger;
-    expect(gradeProblems(part, none)).toEqual([]);
-    expect(gradeProblems(part, ledger(1, 0))).toEqual([]);
-    expect(gradeProblems(part, ledger(0, 1))).toHaveLength(1);
-    expect(gradeProblems({ ...part, shippable: false }, ledger(0, 1))).toEqual(
-      [],
-    );
-    expect(gradeProblems({ ...part, shippable: false }, none)).toHaveLength(1);
-  });
-
   for (const { name, bank } of banks) {
     describe(name, () => {
-      it("plays every part the owner has not rejected, and none he has", () => {
+      // The owner's grades (`data/english/part-grades.json`, read by
+      // `heldByGrades`) are the one gate on what plays; a part has no flag.
+      it("leaves what plays to the owner's grades: no part carries a flag of its own", () => {
         for (const part of bank.parts)
-          expect(gradeProblems(part), part.key).toEqual([]);
+          expect(Object.keys(part), part.key).not.toContain("shippable");
       });
 
       it("validates against the bank schema", () => {

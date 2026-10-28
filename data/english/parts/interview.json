@@ -117,7 +117,6 @@
         "briefing": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "FISCAL YEAR 2020 BUDGET: MEMBERS' DAY",
         "date": "2019-03-06",
@@ -148,7 +147,6 @@
         "hearings": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "The President's News Conference in the Hague, Netherlands",
         "date": "2025-06-25",
@@ -184,7 +182,6 @@
         "nih": 1,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
         "date": "2025-05-05",
@@ -216,7 +213,6 @@
         "hearings": 13,
         "house": 2
       },
-      "shippable": true,
       "source": {
         "document": "MODERNIZING VA: LESSONS LEARNED IN THE 118TH CONGRESS",
         "date": "2024-12-12",
@@ -248,7 +244,6 @@
         "dcpd": 14,
         "hearings": 65
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -281,7 +276,6 @@
         "nasa": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre and Chair of the Council of Economic Advisers Jared Bernstein",
         "date": "2024-12-11",
@@ -313,7 +307,6 @@
         "dcpd": 5,
         "hearings": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Coal and an Exchange With Reporters",
         "date": "2026-06-04",
@@ -342,7 +335,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With Crown Prince Salman bin Hamad Al Khalifa of Bahrain and an Exchange With Reporters",
         "date": "2025-07-16",
@@ -379,7 +371,6 @@
         "nih": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Las Vegas, Nevada",
         "date": "2026-08-05",
@@ -410,7 +401,6 @@
         "briefing": 4,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "HEARING ON FISCAL YEAR 2026 DEPARTMENT OF HEALTH AND HUMAN SERVICES BUDGET",
         "date": "2025-05-14",
@@ -441,7 +431,6 @@
         "dcpd": 1,
         "hearings": 6
       },
-      "shippable": true,
       "source": {
         "document": "dcpd of 2025-04-24",
         "date": "2025-04-24",
@@ -475,7 +464,6 @@
         "nih": 1,
         "nps": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Matamela Cyril Ramaphosa of South Africa and an Exchange With Reporters",
         "date": "2025-05-21",
@@ -506,7 +494,6 @@
         "dcpd": 7,
         "hearings": 9
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure From New York City",
         "date": "2026-06-08",
@@ -537,7 +524,6 @@
         "dcpd": 27,
         "hearings": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Cuba and an Exchange With Reporters Upon Arrival at Joint Base Andrews, Maryland",
         "date": "2026-05-20",
@@ -568,7 +554,6 @@
         "dcpd": 8,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2026-03-15",
@@ -599,7 +584,6 @@
         "dcpd": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Jen Psaki and National Security Advisor Jake Sullivan, June 7, 2021",
         "date": "2021-06-07",
@@ -637,7 +621,6 @@
         "nps": 2,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Reception in Philadelphia, Pennsylvania",
         "date": "2023-12-11",
@@ -668,7 +651,6 @@
         "dcpd": 5,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
         "date": "2026-08-02",
@@ -698,7 +680,6 @@
         "briefing": 6,
         "hearings": 4
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre and NSC Coordinator for Strategic Communications John Kirby",
         "date": "2023-10-30",
@@ -730,7 +711,6 @@
         "nasa": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINATION OF THE MAIN STREET LENDING PROGRAM",
         "date": "2020-08-07",
@@ -760,7 +740,6 @@
         "briefing": 1,
         "hearings": 3
       },
-      "shippable": true,
       "source": {
         "document": "OVERSIGHT OF THE FEDERAL BUREAU OF INVESTIGATION",
         "date": "2021-06-10",
@@ -796,7 +775,6 @@
         "nasa": 1,
         "nps.gov (PDF)": 2
       },
-      "shippable": true,
       "source": {
         "document": "TRUMP'S REGULATORY ROLLBACK: SAVING AMERICANS $907 BILLION AND COUNTING",
         "date": "2025-11-19",
@@ -826,7 +804,6 @@
         "briefing": 1,
         "hearings": 7
       },
-      "shippable": true,
       "source": {
         "document": "WHY DOES THE UNITED STATES PAY, BY FAR, THE HIGHEST PRICES IN THE WORLD FOR PRESCRIPTION DRUGS?",
         "date": "2024-02-08",
@@ -856,7 +833,6 @@
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 2
       },
-      "shippable": true,
       "source": {
         "document": "OPEN HEARING ON FISA LEGISLATION",
         "date": "2017-06-07",
@@ -898,7 +874,6 @@
         "nps": 22,
         "nps.gov": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in Las Vegas, Nevada",
         "date": "2026-08-05",
@@ -937,7 +912,6 @@
         "nasa2": 2,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure for Las Vegas, Nevada",
         "date": "2026-04-16",
@@ -968,7 +942,6 @@
         "dcpd": 6,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure From Morristown, New Jersey",
         "date": "2025-05-25",
@@ -1002,7 +975,6 @@
         "house": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With President Ahmad Husayn al-Shara' of Syria and an Exchange With Reporters in Ankara, Turkey",
         "date": "2026-07-08",
@@ -1034,7 +1006,6 @@
         "dcpd": 18,
         "hearings": 54
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and a Question-and-Answer Session at the Forum Club of the Palm Beaches Dinner in West Palm Beach, Florida",
         "date": "2026-05-01",
@@ -1066,7 +1037,6 @@
         "dcpd": 9,
         "hearings": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During a Meeting With President Ursula von der Leyen of the European Commission and an Exchange With Reporters in New York City",
         "date": "2025-09-23",
@@ -1111,7 +1081,6 @@
         "nih": 1,
         "nps": 9
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to a Meeting With President Joseph Aoun of Lebanon and an Exchange With Reporters",
         "date": "2026-07-21",
@@ -1146,7 +1115,6 @@
         "nasa2": 2,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and a Question-and-Answer Session at the Future Investment Initiative Priority Miami Summit in Miami Beach, Florida",
         "date": "2026-03-27",
@@ -1181,7 +1149,6 @@
         "hearings": 4,
         "nps": 1
       },
-      "shippable": false,
       "source": {
         "document": "Remarks on the Situation in Israel and Iran and an Exchange With Reporters Aboard Air Force One En Route to Amsterdam, Netherlands",
         "date": "2025-06-24",
@@ -1213,7 +1180,6 @@
         "hearings": 10,
         "nps.gov (PDF)": 1
       },
-      "shippable": true,
       "source": {
         "document": "TO CONSIDER THE NOMINATIONS OF: MR. BRADLEY D. HANSELL TO BE UNDER SECRETARY OF DEFENSE FOR INTELLIGENCE AND SECURITY; MR. EARL G. MATTHEWS TO BE GENERAL COUNSEL OF THE DEPARTMENT OF DEFENSE; MR. DALE R. MARKS TO BE ASSISTANT SECRETARY OF DEFENSE FOR ENERGY, INSTALLATIONS, AND ENVIRONMENT; AND THE HONORABLE BRANDON M. WILLIAMS TO BE UNDER SECRETARY OF ENERGY FOR NUCLEAR SECURITY",
         "date": "2025-04-08",
@@ -1267,7 +1233,6 @@
         "va": 5,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1334,7 +1299,6 @@
         "va": 16,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -1365,7 +1329,6 @@
         "epa": 1,
         "hearings": 3
       },
-      "shippable": true,
       "source": {
         "document": "Biden-Harris Administration Announces Nearly $3.2 Million for Environmental Justice Projects in Communities Across Maryland as Part of Investing in America Agenda",
         "date": "2023-10-24",
@@ -1395,7 +1358,6 @@
         "briefing": 1,
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Event in Scranton, Pennsylvania",
         "date": "2024-04-16",
@@ -1430,7 +1392,6 @@
         "nps": 1,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "OVERDUE OVERSIGHT OF THE CAPITAL CITY: PART I",
         "date": "2023-03-29",
@@ -1463,7 +1424,6 @@
         "dcpd": 2,
         "hearings": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Campaign Reception in Freeport, Maine",
         "date": "2023-07-28",
@@ -1495,7 +1455,6 @@
         "hearings": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks During an Event With Seniors in Middleton, Florida",
         "date": "2026-05-01",
@@ -1525,7 +1484,6 @@
         "house": 1,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "NPS History Collection oral history: butler robin dec 19 2019",
         "date": "2019-12-19",
@@ -1560,7 +1518,6 @@
         "nasa": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Student Loan Debt Relief and an Exchange With Reporters",
         "date": "2022-08-24",
@@ -1590,7 +1547,6 @@
         "briefing": 2,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Principal Deputy Press Secretary Sarah Sanders and Homeland Security Advisor Tom Bossert",
         "date": "2017-05-11",
@@ -1620,7 +1576,6 @@
         "briefing": 10,
         "dcpd": 3
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre",
         "date": "2024-10-16",
@@ -1650,7 +1605,6 @@
         "briefing": 2,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in an Exchange With Reporters Prior to Departure From Schönefeld, Germany",
         "date": "2024-10-18",
@@ -1679,7 +1633,6 @@
       "bySource": {
         "briefing": 14
       },
-      "shippable": true,
       "source": {
         "document": "Press Gaggle by Press Secretary Karine Jean-Pierre and Secretary of Homeland Security Alejandro Mayorkas En Route Greenville, SC",
         "date": "2024-10-02",
@@ -1708,7 +1661,6 @@
       "bySource": {
         "briefing": 10
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre",
         "date": "2024-09-13",
@@ -1741,7 +1693,6 @@
         "hearings": 1,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the National Economy and an Exchange With Reporters",
         "date": "2025-01-10",
@@ -1774,7 +1725,6 @@
         "hearings": 5,
         "house": 1
       },
-      "shippable": true,
       "source": {
         "document": "CASE-BY-CASE: RETURNING PAROLE TO ITS PROPER PURPOSE",
         "date": "2025-07-15",
@@ -1804,7 +1754,6 @@
         "briefing": 1,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Gaggle by Press Secretary Sean Spicer",
         "date": "2017-06-19",
@@ -1835,7 +1784,6 @@
         "dcpd": 5,
         "nasa2": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Upon Arrival in Prestwick, United Kingdom",
         "date": "2025-07-25",
@@ -1876,7 +1824,6 @@
         "nasa2": 6,
         "nps": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
         "date": "2026-08-21",
@@ -1913,7 +1860,6 @@
         "nasa": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring the 2025 College Football National Champion Indiana University Hoosiers",
         "date": "2026-05-11",
@@ -1943,7 +1889,6 @@
         "briefing": 2,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre, Secretary of Education Miguel Cardona, and Deputy Director of the National Economic Council Bharat Ramamurti",
         "date": "2023-06-30",
@@ -1973,7 +1918,6 @@
         "briefing": 1,
         "dcpd": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Chairman of the State Affairs Commission Kim Jong Un of North Korea and an Exchange With Reporters in Hanoi, Vietnam",
         "date": "2019-02-28",
@@ -2002,7 +1946,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
         "date": "2026-09-04",
@@ -2036,7 +1979,6 @@
         "hearings": 114,
         "va": 2
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINING COMPETITION IN AMERICA'S SKIES",
         "date": "2025-09-30",
@@ -2068,7 +2010,6 @@
         "dcpd": 3,
         "hearings": 15
       },
-      "shippable": true,
       "source": {
         "document": "WADA SHAME: SWIMMING IN DENIAL OVER CHINESE DOPING",
         "date": "2025-06-17",
@@ -2114,7 +2055,6 @@
         "nps.gov (PDF)": 1,
         "wpa": 3
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -2147,7 +2087,6 @@
         "hearings": 4,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
         "date": "2025-09-02",
@@ -2191,7 +2130,6 @@
         "nih": 1,
         "nps": 22
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the 25th Anniversary of the September 11, 2001, Terrorist Attacks in Arlington, Virginia",
         "date": "2026-09-11",
@@ -2222,7 +2160,6 @@
         "dcpd": 6,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "SANCTUARY JURISDICTIONS: MAGNET FOR MIGRANTS, COVER FOR CRIMINALS",
         "date": "2025-04-09",
@@ -2261,7 +2198,6 @@
         "nih": 1,
         "nps": 6
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Honoring 2025 NCAA Collegiate National Champions",
         "date": "2026-04-21",
@@ -2292,7 +2228,6 @@
         "briefing": 1,
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Roundtable Discussion on the \"Antifa\" Organization and an Exchange With Reporters",
         "date": "2025-10-08",
@@ -2325,7 +2260,6 @@
         "hearings": 3,
         "wpa": 1
       },
-      "shippable": true,
       "source": {
         "document": "DEPARTMENT OF THE INTERIOR, ENVIRONMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
         "date": "2024-11-20",
@@ -2365,7 +2299,6 @@
         "nasa2": 4,
         "nps": 8
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Telerally for New Jersey Republican Gubernatorial Candidate Jack Ciattarelli",
         "date": "2025-06-02",
@@ -2396,7 +2329,6 @@
         "briefing": 2,
         "dcpd": 4
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Hurricane Milton Preparedness Efforts and an Exchange With Reporters",
         "date": "2024-10-09",
@@ -2428,7 +2360,6 @@
         "dcpd": 2,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "Remarks at a Document Signing Ceremony and Meeting With United States Ambassadorial Nominees and an Exchange With Reporters",
         "date": "2025-03-25",
@@ -2462,7 +2393,6 @@
         "dcpd": 2,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "AN UPDATE FROM THE TREASURY DEPARTMENT: COUNTERING ILLICIT FINANCE, TERRORISM AND SANCTIONS EVASION",
         "date": "2024-04-09",
@@ -2494,7 +2424,6 @@
         "dcpd": 1,
         "hearings": 1
       },
-      "shippable": true,
       "source": {
         "document": "COMBATTING THE YOUTH VAPING EPIDEMIC BY ENHANCING ENFORCEMENT AGAINST ILLEGAL E-CIGARETTES",
         "date": "2024-06-12",
@@ -2525,7 +2454,6 @@
         "hearings": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "ARTIFICIAL INTELLIGENCE: EXAMINING TRENDS IN INNOVATION AND COMPETITION",
         "date": "2025-04-02",
@@ -2558,7 +2486,6 @@
         "dcpd": 10,
         "hearings": 24
       },
-      "shippable": true,
       "source": {
         "document": "EXAMINING COMPETITION IN AMERICA'S SKIES",
         "date": "2025-09-30",
@@ -2589,7 +2516,6 @@
         "dcpd": 1,
         "hearings": 8
       },
-      "shippable": true,
       "source": {
         "document": "OVERSIGHT OF THE U.S. DEPARTMENT OF JUSTICE",
         "date": "2024-06-04",
@@ -2649,7 +2575,6 @@
         "va": 17,
         "wpa": 2
       },
-      "shippable": true,
       "source": {
         "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
         "date": "2026-09-30",
@@ -2686,7 +2611,6 @@
         "nasa": 2,
         "nasa2": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
         "date": "2026-08-19",
@@ -2720,7 +2644,6 @@
         "house": 2,
         "nasa": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on Signing a Proclamation on National Physical Fitness and Sports Month and an Exchange With Reporters",
         "date": "2026-05-05",
@@ -2757,7 +2680,6 @@
         "nasa": 2,
         "nps": 2
       },
-      "shippable": true,
       "source": {
         "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
@@ -2798,7 +2720,6 @@
         "nih": 4,
         "nps": 13
       },
-      "shippable": true,
       "source": {
         "document": "Remarks Prior to a Meeting With Chancellor Friedrich Merz of Germany and an Exchange With Reporters",
         "date": "2025-06-05",
@@ -2831,7 +2752,6 @@
         "nasa": 2,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "USAID'S FOREIGN POLICY AND INTERNATIONAL DEVELOPMENT PRIORITIES IN THE ERA OF GREAT POWER COMPETITION",
         "date": "2024-04-10",
@@ -2863,7 +2783,6 @@
         "nasa": 1,
         "nps": 1
       },
-      "shippable": true,
       "source": {
         "document": "Press Briefing by Press Secretary Karine Jean-Pierre and National Security Council Coordinator for Strategic Communications John Kirby, February 13, 2023",
         "date": "2023-02-13",
@@ -2893,7 +2812,6 @@
         "chrg": 1,
         "nasa": 1
       },
-      "shippable": true,
       "source": {
         "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2016",
         "date": "2015-02-25",
@@ -2922,7 +2840,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "H.J. Res. 29, Providing For Congressional Disapproval Under Chapter 8 Of Title 5, United States Code, Of The Rule Submitted By The National Labor Relations Board Relating To Representation Case Proc",
         "date": "2015-03-04",
@@ -2951,7 +2868,6 @@
       "bySource": {
         "dcpd": 2
       },
-      "shippable": true,
       "source": {
         "document": "Remarks on the COVID–19 Response and National Vaccination Efforts and an Exchange With Reporters",
         "date": "2021-05-04",
@@ -2980,7 +2896,6 @@
       "bySource": {
         "chrg": 2
       },
-      "shippable": true,
       "source": {
         "document": "A Country Without Borders: How Biden-Harris' Open-Borders Policies Have Undermined Our Safety And Security",
         "date": "2024-09-18",
