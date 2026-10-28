@@ -1,0 +1,75 @@
+{
+ "scene": "mayor-office",
+ "plate": "sg-p04",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "business"
+ },
+ "zones": [
+  {
+   "name": "stray legs under the visitor chairs",
+   "box": [
+    480,
+    600,
+    1320,
+    941
+   ],
+   "drop": true
+  },
+  {
+   "name": "mayor's desk",
+   "box": [
+    760,
+    260,
+    920,
+    400
+   ],
+   "pose": "sit",
+   "seat": "desk-chair",
+   "facing": 0,
+   "coveredBy": "desk",
+   "role": "mayor",
+   "dress": "formal"
+  },
+  {
+   "name": "visitor chair, left",
+   "box": [
+    470,
+    320,
+    730,
+    600
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": 180,
+   "coveredBy": "chair-back"
+  },
+  {
+   "name": "visitor chair, right",
+   "box": [
+    1050,
+    320,
+    1250,
+    520
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": -45,
+   "coveredBy": "chair"
+  },
+  {
+   "name": "stray pieces",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "drop": true
+  }
+ ]
+}

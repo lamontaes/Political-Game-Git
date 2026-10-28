@@ -79,6 +79,8 @@
     "src/core2/parameters.ts",
     "src/core2/bookkeeping.ts",
     "src/core2/seeded.ts",
+    "src/core2/housing-prices.ts",
+    "src/core2/stopgaps.ts",
     "src/player/LifeStartTransition.tsx",
     "src/player/observer-run-controller.ts",
     "src/player/observer-run-protocol.ts",
