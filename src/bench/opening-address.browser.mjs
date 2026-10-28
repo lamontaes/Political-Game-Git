@@ -1,4 +1,4 @@
-/* global process, console, document, URL */
+/* global process, console, URL */
 // The opening (wire-opening-and-home, engine map line 1): a new life opens on
 // the President's address in the talk box, staged by the director as the
 // `address` scene at home, in the President's own recorded words, with one
@@ -39,11 +39,17 @@ try {
       "Scene:",
       life.sceneMomentId,
     );
-    assert.ok(life.sceneMomentId, "the director staged no scene for the opening");
+    assert.ok(
+      life.sceneMomentId,
+      "the director staged no scene for the opening",
+    );
     assert.match(life.sceneMomentId, /president\.address/);
     await page.locator("#talk").waitFor({ state: "visible" });
     const said = await page.locator("#talk").innerText();
-    console.log(`${width}x${height}:`, said.slice(0, 300).replace(/\n/g, " | "));
+    console.log(
+      `${width}x${height}:`,
+      said.slice(0, 300).replace(/\n/g, " | "),
+    );
     assert.ok(said.length > 80, "the talk box says the address");
     if (shots)
       await page.screenshot({
