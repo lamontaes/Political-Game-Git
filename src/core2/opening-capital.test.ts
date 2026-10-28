@@ -154,10 +154,10 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     expect(row.calendarDays).toBe(365);
     expect(row.plannedPayrollMinor).toBe(5200);
     expect(row.plannedOtherCostsMinor).toBeCloseTo(
-      17188.49315068493,
+      15335.883907495925,
       p("emotionComparisonDigits"),
     );
-    expect(row.liquidMinor).toBe(2243);
+    expect(row.liquidMinor).toBe(2057);
     expect(row.commitmentIds).toEqual(["capital:commitment"]);
     expect(row.source.citation).toContain("JPMorgan Chase Institute");
     expect(row.source.citation).toContain("IRS");
@@ -192,7 +192,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(hourly).estimates[0]!.plannedPayrollMinor).toBe(10400);
-    expect(estimate(hourly).estimates[0]!.liquidMinor).toBe(4486);
+    expect(estimate(hourly).estimates[0]!.liquidMinor).toBe(4115);
     const shorter = {
       ...input,
       workCommitments: input.workCommitments!.map((row) => ({
@@ -204,7 +204,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(shorter).estimates[0]!.plannedPayrollMinor).toBe(2600);
-    expect(estimate(shorter).estimates[0]!.liquidMinor).toBe(1121);
+    expect(estimate(shorter).estimates[0]!.liquidMinor).toBe(1029);
   });
 
   it("counts a leap-year calendar and its 53 Mondays without a mean-year shortcut", () => {
@@ -221,7 +221,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = estimate(leap).estimates[0]!;
     expect(row.calendarDays).toBe(366);
     expect(row.plannedPayrollMinor).toBe(5300);
-    expect(row.liquidMinor).toBe(2280);
+    expect(row.liquidMinor).toBe(2091);
     expect(row.bufferDays).toBe(estimate(input).estimates[0]!.bufferDays);
     expect(row.from).toBe("2024-01-01");
     expect(row.through).toBe("2024-12-31");
@@ -241,7 +241,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = estimate(midyear).estimates[0]!;
     expect(row.calendarDays).toBe(184);
     expect(row.plannedPayrollMinor).toBe(2600);
-    expect(row.liquidMinor).toBe(2225);
+    expect(row.liquidMinor).toBe(2041);
     expect(row.startupQuantile).toBe(
       estimate(input).estimates[0]!.startupQuantile,
     );
@@ -283,7 +283,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(endsOnOpening).estimates[0]!.plannedPayrollMinor).toBe(100);
-    expect(estimate(endsOnOpening).estimates[0]!.liquidMinor).toBe(43);
+    expect(estimate(endsOnOpening).estimates[0]!.liquidMinor).toBe(40);
   });
 
   it.each([

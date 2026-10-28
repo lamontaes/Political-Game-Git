@@ -38,7 +38,8 @@ import bdsRates from "../data/business/bds-rates.json" with { type: "json" };
 import ownership from "../data/business/ownership.json" with { type: "json" };
 import openingFinance from "../data/opening-finance.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
-import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
+import { DEFAULT_BUSINESS_BOOKS_DATA, worldBookRatio } from "../business-books";
+import { worldRate } from "../world-draw";
 import { businessName, businessNameContext } from "../business-names";
 import type { BusinessBooksState } from "../finance-types";
 import {
@@ -170,6 +171,24 @@ function option(share: number, reasons: Record<string, number>): ActOffer {
 
 const OUTSIDE_FIRM = "outside-firm";
 
+/** The published share of the state's employment in multi-establishment firms (Census): calibration for the world's draw and its checks. */
+export function publishedOutsideOwnedShare(api: CoreAPI): number {
+  const usps = core(api).placeMetadata?.housingState ?? "";
+  return (
+    (ownership.byState as Record<string, number>)[usps] ?? ownership.national
+  );
+}
+
+/** This world's share of jobs in outside-owned firms: the published share moved by the world's own draw (owner, Oct 27: realistic, not real). */
+export function outsideOwnedShare(api: CoreAPI): number {
+  return worldRate(
+    publishedOutsideOwnedShare(api),
+    core(api).seed,
+    "business-world:outside-owned",
+    "businessWorldOutsideOwnedSpreadShare",
+  );
+}
+
 /**
  * The opening's businesses that belong to firms based outside the town: the
  * largest by staff, in order, until their share of the town's jobs reaches
@@ -178,9 +197,7 @@ const OUTSIDE_FIRM = "outside-firm";
  */
 function outsideOwned(api: CoreAPI): Map<string, string> {
   const c = core(api);
-  const usps = c.placeMetadata?.housingState ?? "";
-  const share =
-    (ownership.byState as Record<string, number>)[usps] ?? ownership.national;
+  const share = outsideOwnedShare(api);
   const sized = [...c.finance.businesses.entries()]
     .filter(([, book]) => !book.closedAt)
     .map(([id]) => ({
@@ -1570,7 +1587,8 @@ function annualOutflowsMinor(
   );
   return kind
     ? book.annualDemandMinor *
-        (api.parameter("one") - api.parameter(kind.marginParameter))
+        (api.parameter("one") -
+          worldBookRatio(core(api).seed, kind, "margin", api.parameter))
     : 0;
 }
 
@@ -1631,7 +1649,7 @@ function prospectMonthly(api: CoreAPI, market: Market): number {
   if (!kind) return 0;
   return (
     ((market.demandMinor / (market.incumbents.length + 1)) *
-      api.parameter(kind.marginParameter)) /
+      worldBookRatio(core(api).seed, kind, "margin", api.parameter)) /
     api.parameter("macroMonthsPerYear")
   );
 }
@@ -1644,7 +1662,7 @@ function startupCost(api: CoreAPI, market: Market): number {
   if (!kind) return 0;
   return (
     ((market.demandMinor / (market.incumbents.length + 1)) *
-      (1 - api.parameter(kind.marginParameter)) *
+      (1 - worldBookRatio(core(api).seed, kind, "margin", api.parameter)) *
       api.parameter("businessStartupMonthsOfCosts")) /
     api.parameter("macroMonthsPerYear")
   );
@@ -2121,10 +2139,12 @@ function found(
   const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
     (row) => row.id === kindId,
   )!;
-  const annualPayrollMinor = annualDemandMinor * p(kind.payrollShareParameter);
+  const annualPayrollMinor =
+    annualDemandMinor * worldBookRatio(c.seed, kind, "payrollShare", p);
   const annualOtherCostsMinor = Math.max(
     0,
-    annualDemandMinor * (1 - p(kind.marginParameter)) - annualPayrollMinor,
+    annualDemandMinor * (1 - worldBookRatio(c.seed, kind, "margin", p)) -
+      annualPayrollMinor,
   );
   api.addBusinessBooks({
     organizationId: id,
@@ -2194,7 +2214,7 @@ function found(
           founderId,
           equityMinor: funded,
           monthlyProfitMinor:
-            (annualDemandMinor * p(kind.marginParameter)) /
+            (annualDemandMinor * worldBookRatio(c.seed, kind, "margin", p)) /
             p("macroMonthsPerYear"),
         })
       : 0;
@@ -2327,12 +2347,27 @@ const FIPS_OF_USPS = new Map(
   ]),
 );
 
-/** The share of the state's businesses that close in a year (BDS), the nation's where the state has none. */
-export function stateExitShare(api: CoreAPI): number {
+/** The published share of the state's businesses that close in a year (BDS), the nation's where the state has none: calibration for the world's draw and its checks. */
+export function publishedStateExitShare(api: CoreAPI): number {
   const usps = core(api).placeMetadata?.housingState ?? "";
   return (
     (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
     api.parameter("macroHundred")
+  );
+}
+
+/**
+ * The share of this world's businesses that close in a year: the state's
+ * published rate moved by the world's own draw (owner, Oct 27: realistic,
+ * not real). A base rate that checks totals and sizes the past years'
+ * closures; no one business's closing is rolled from it.
+ */
+export function stateExitShare(api: CoreAPI): number {
+  return worldRate(
+    publishedStateExitShare(api),
+    core(api).seed,
+    "business-world:exit-rate",
+    "businessWorldExitRateSpreadShare",
   );
 }
 

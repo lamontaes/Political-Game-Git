@@ -11,12 +11,8 @@ import type { Parameter } from "./parameters";
 import type { ResidentFlowInput } from "./residents";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, Source } from "./types";
+import { worldUnionRatePct } from "./union-rate";
 
-const UNION_RATES = (
-  unionData as { states: Record<string, { membersPct: number }> }
-).states;
-const UNION_NATION_PCT = (unionData as { nationMembersPct: number })
-  .nationMembersPct;
 const P = businessParameters as unknown as Readonly<Record<string, Parameter>>;
 const p = (key: string) => P[key]!.value;
 const UNION = "membership:labor-union";
@@ -53,10 +49,11 @@ export function withMembershipDues(input: CoreInput): CoreInput {
     );
     const list = [...(pay.get(union.placeId) ?? [])].sort((a, b) => a - b);
     if (!account || !list.length) continue;
-    // The state's membership rate (BLS, 2025), else the nation's.
-    const rate =
-      UNION_RATES[input.placeMetadata?.housingState ?? ""]?.membersPct ??
-      UNION_NATION_PCT;
+    // This world's membership rate, drawn around the state's (BLS, 2025) or the nation's.
+    const rate = worldUnionRatePct(
+      input.seed,
+      input.placeMetadata?.housingState,
+    );
     const members = Math.round((list.length * rate) / 100);
     const medianMonthly =
       (list[Math.floor(list.length / 2)]! * DAYS_PER_YEAR) / MONTHS_PER_YEAR;

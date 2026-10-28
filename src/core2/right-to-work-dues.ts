@@ -12,7 +12,7 @@
  * stopgapId: SG-GOV-REACH-A-union-dues
  */
 import { daysBetweenText as daysBetween } from "./kernel/dates";
-import unionData from "./data/business/union-membership.json" with { type: "json" };
+import { worldUnionRatePct } from "./union-rate";
 import type { CoreAPI, CoreState } from "./types";
 import { lawChain, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
@@ -21,11 +21,6 @@ import { lawApplied } from "./law-reach/applied";
 import { reachParameter, REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 
 export const RTW_KEY = "us-policy-positions:labor-workforce.right-to-work";
-const UNION_RATES = (
-  unionData as { states: Record<string, { membersPct: number }> }
-).states;
-const UNION_NATION_PCT = (unionData as { nationMembersPct: number })
-  .nationMembersPct;
 
 export interface RtwRow {
   readonly id: string;
@@ -54,8 +49,8 @@ export function membershipPoints(row: RtwRow, date: string): number {
 }
 
 function localRate(api: CoreAPI): number {
-  const state = (api.state as CoreState).placeMetadata?.housingState ?? "";
-  return UNION_RATES[state]?.membersPct ?? UNION_NATION_PCT;
+  const core = api.state as CoreState;
+  return worldUnionRatePct(core.seed, core.placeMetadata?.housingState);
 }
 
 /** Whether a level of the town's chain has the right-to-work law in force today. */

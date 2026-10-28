@@ -14,6 +14,7 @@ import {
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "../core2/reference/place-county-relations.generated";
 import type { EntityId } from "../core2/kernel/brands";
+import { worldLevel } from "../core2/world-draw";
 
 export { LOCAL_BUSINESS_COUNTS_META, LOCAL_BUSINESS_COUNT_KINDS };
 
@@ -216,8 +217,31 @@ function populationBasis(
   };
 }
 
-/** The town's estimated businesses from recorded regional rates and population. */
+/**
+ * The town's businesses in this world: the published expectation (CBP
+ * establishments per resident times the town's population) moved once per
+ * town and kind by the world's own draw (owner, Oct 27: realistic, not real).
+ * Play reads this.
+ */
 export function localBusinessSupplyFor(
+  jurisdictionId: EntityId | null,
+  seed: string,
+): readonly LocalBusinessSupply[] | null {
+  return (
+    publishedLocalBusinessSupplyFor(jurisdictionId)?.map((row) => ({
+      ...row,
+      expected: worldLevel(
+        row.expected,
+        seed,
+        `business-counts:${jurisdictionId}:${row.kind}`,
+        "businessWorldCountSpreadShare",
+      ),
+    })) ?? null
+  );
+}
+
+/** The town's estimated businesses from recorded regional rates and population (calibration). */
+export function publishedLocalBusinessSupplyFor(
   jurisdictionId: EntityId | null,
 ): readonly LocalBusinessSupply[] | null {
   const place = jurisdictionId
