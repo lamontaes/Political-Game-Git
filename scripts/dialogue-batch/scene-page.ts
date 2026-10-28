@@ -40,7 +40,7 @@ import rulesFile from "../../src/director/data/scene-talk-rules.json" with { typ
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
 import { sentenceCount, wordCount } from "../../src/english/calibration";
 import { questionAbout } from "../../src/english/question-names";
-import { CATALOGUE_SCALES } from "../../src/simulation/personality-catalogue.generated";
+import { CATALOGUE_SCALES } from "../../src/core2/personality-catalogue.generated";
 import {
   directorScenes,
   directorStaged,

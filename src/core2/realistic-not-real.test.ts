@@ -235,7 +235,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         homePriceRatio(usps, from, a.date, b.seed),
       );
     // Row 7, the old core's county median home value, is checked beside its
-    // reader (src/simulation/county-home-value-world.test.ts): nothing here
+    // reader (the old engine's county-home-value-world.test.ts): nothing here
     // imports the old core.
     // Row 8: HUD fair market rents and the very low income limit, the place's
     // area (the state's average where HUD has none) at every bedroom count.

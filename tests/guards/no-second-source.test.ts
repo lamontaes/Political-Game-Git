@@ -8,7 +8,7 @@ import { describe, expect, it } from "vitest";
  * Oct 28 the owner had every twin already merged found and removed, and new
  * ones blocked. This guard blocks the kinds of twin that can be found by
  * reading the tree:
- *   - a new file outside src/simulation and src/presentation that imports
+ *   - a new file outside the deleted old-engine folders that imports
  *     them (the old-imports check refuses it; its list only shrinks);
  *   - a second file that emits an event kind another file already emits (the
  *     world's records of what happened). The kinds written by more than one
