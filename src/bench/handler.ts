@@ -43,9 +43,7 @@ import {
   meetingItem,
   meetingSpeak,
   meetingSceneView,
-  officeStops,
   colleagueDeal,
-  interviewOutlet,
   nameHeadPick,
   budgetLinePick,
   officeView,
@@ -376,6 +374,25 @@ export async function benchRequest(
       ) {
         const content = await readFile(
           backdropPath(url.pathname.slice("/art/backdrops/".length)),
+        );
+        response.writeHead(200, {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(content);
+        return;
+      }
+      const newspaper = /^\/art\/newspaper\/([a-z0-9-]+\.jpg)$/.exec(
+        url.pathname,
+      );
+      if (request.method === "GET" && newspaper) {
+        // The newspaper art: engraved mastheads and front-page photos, cut
+        // from the originals in art/newspaper-mockups (lineage in its README).
+        const content = await readFile(
+          new URL(
+            newspaper[1]!,
+            new URL("../../art/newspaper-mockups/derived/", import.meta.url),
+          ),
         );
         response.writeHead(200, {
           "Content-Type": "image/jpeg",
@@ -816,32 +833,6 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/office") {
         send(200, officeView(requireCore(), url.searchParams.get("id") ?? ""));
-        return;
-      }
-      if (request.method === "POST" && url.pathname === "/api/office/stops") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        officeStops(
-          requireCore(),
-          player.personId,
-          url.searchParams.get("kind") ?? "",
-          url.searchParams.get("on") === "true",
-        );
-        send(200, officeView(requireCore(), player.personId));
-        return;
-      }
-      if (
-        request.method === "POST" &&
-        url.pathname === "/api/office/interview-outlet"
-      ) {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          interviewOutlet(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("outletId") ?? "",
-          ),
-        );
         return;
       }
       if (

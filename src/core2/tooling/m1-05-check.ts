@@ -34,7 +34,10 @@ import housingData from "../data/housing/housing.json" with { type: "json" };
 import history from "../data/macro/history.json" with { type: "json" };
 import regionsData from "../data/regional/regions.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { rentValueOf, townFigures } from "../modules/housing";
+import {
+  publishedRentValueOf as rentValueOf,
+  townFigures,
+} from "../modules/housing";
 import { advanceCore } from "../life";
 import { buildPlayedWorld, nextDay, playYear } from "./m1-played-year";
 
