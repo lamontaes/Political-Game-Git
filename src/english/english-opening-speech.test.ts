@@ -3,7 +3,6 @@ import { composeAddress } from "./english-composition";
 import {
   OPENING_SPEECH_BANK,
   openingMove,
-  openingSpeechKind,
   type OpeningSpeechKind,
   type SpeechVoice,
 } from "./english-opening-speech";
@@ -135,10 +134,5 @@ describe("the opening address's pieces", () => {
     expect(out).toContain("rent stabilization");
     expect(out).not.toMatch(/already|yes/);
     expect(said("inaugural", "polished", "law", base)).toBeNull();
-  });
-
-  it("opens with the inaugural in an inauguration year", () => {
-    expect(openingSpeechKind(2029)).toBe("inaugural");
-    expect(openingSpeechKind(2027)).toBe("state-of-the-union");
   });
 });

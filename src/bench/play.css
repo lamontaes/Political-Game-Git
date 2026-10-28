@@ -1148,24 +1148,6 @@ body.dev .dev-ring {
   opacity: 0.85;
 }
 
-/* ---- The opening: a film, with letterbox bars ---- */
-#game.letterbox::before,
-#game.letterbox::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 9vh;
-  background: #000;
-  z-index: 5;
-}
-#game.letterbox::before {
-  top: 0;
-}
-#game.letterbox::after {
-  bottom: 0;
-}
-
 /* ---- The play HUD: the player card, bottom left (the only place the date and time appear) ---- */
 /* The menu icons and the card stand in one column, bottom left: the icons
    always above the card, however tall the card's status line makes it. */
@@ -1188,16 +1170,10 @@ body.dev .dev-ring {
   padding: 7px 18px 7px 7px;
   max-width: calc(100vw - 2 * var(--gutter));
 }
-/* With a screen open the card is the portrait alone, under the rail: the rail is
-   the one menu (owner, Oct 27: "one left menu, not a panel duplicating the rail"). */
-#game.sheet-open .me {
-  width: auto;
-}
-#game.sheet-open .me .time {
-  display: none;
-}
-/* The name and clock step out of sight but stay read aloud. */
-#game.sheet-open .me > div:not(.bust, .time) {
+/* The card is the date and time, and Day and Week (owner, Oct 27: "There
+   doesn't need to be any indicator other than the time and date on the
+   bottom"); the player's name and place are read aloud, not shown. */
+.me .card-id {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -1205,12 +1181,16 @@ body.dev .dev-ring {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-#card-bust {
-  cursor: pointer;
+/* An open screen is read-only and owns the bottom left: the card, which
+   would sit over its pager, steps away until the screen closes. */
+#game.sheet-open #card {
+  display: none;
 }
-.me .bust {
-  width: 54px;
-  height: 54px;
+#card-clock {
+  margin: 0;
+  padding-left: 11px;
+  font: 600 14px/1.35 var(--ui);
+  color: var(--text-strong);
 }
 .me .name {
   font-size: 16px;
@@ -1689,6 +1669,11 @@ body.dev .dev-ring {
   font: 600 12px var(--ui);
   color: var(--gold);
 }
+.calendar-list .record-pages {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 .calendar-paging {
   display: flex;
   gap: 10px;
@@ -1798,35 +1783,13 @@ body.dev .dev-ring {
 }
 
 /* ---- Opening (director/opening-story, owner Oct 14, 2026) ----
-   The President's address in the kit12 speech box (.panel.chat), full
-   screen; then the night's news on the table at home and its reader; then
-   the first choices glowing one at a time. Positions only: the look is
-   kit12's own components. */
+   The night's news on the table at home and its reader; then the first
+   choices glowing one at a time. A cinema scene hides the HUD. Positions
+   only: the look is kit12's own components. */
 #game.cinema #rings,
 #game.cinema #card,
 #game.cinema #journal-note {
   display: none;
-}
-#opening-box {
-  bottom: calc(9vh + 18px);
-  z-index: 6;
-  cursor: pointer;
-}
-#opening-point {
-  top: calc(9vh + 18px);
-  left: var(--gutter);
-  z-index: 6;
-  padding: 10px 16px;
-  animation: opening-point-in 0.4s ease-out;
-}
-#people .figure.pointed img {
-  filter: drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 14px var(--gold));
-}
-@keyframes opening-point-in {
-  from {
-    opacity: 0;
-    transform: translateX(-12px);
-  }
 }
 #news-surface {
   top: var(--gutter);
@@ -1954,10 +1917,9 @@ body.dev .dev-ring {
   }
 }
 
-/* Reduced motion (owner's UI brief, Sept 27, 2026): the opening's marker
-   and the first choices' glow hold still. */
+/* Reduced motion (owner's UI brief, Sept 27, 2026): the first choices'
+   glow holds still. */
 @media (prefers-reduced-motion: reduce) {
-  #opening-point,
   .coach {
     animation: none;
   }
@@ -2215,53 +2177,44 @@ body.dev .dev-ring {
   max-width: 900px;
   font: 20px/1.6 var(--speech);
 }
-#sheet-body:has(.work-overview) {
-  max-width: 1050px;
-}
-.work-overview,
-.study-overview {
-  margin: 20px 0 34px;
-}
-.work-overview h3,
-.study-overview h3,
-.work-heading {
-  font: 600 20px var(--name);
-  color: var(--gold);
-}
-.work-overview h2 {
+/* The record screen (ui/screen.mjs): every screen of one person's or one place's records. */
+.record-title {
   font: 600 34px var(--name);
   margin: 16px 0;
 }
-.work-employer,
-.work-empty {
+.record-empty {
   font: 22px var(--speech);
 }
-.work-stats {
+.record-stats {
   display: flex;
   gap: 64px;
   margin-top: 28px;
 }
-.work-stats strong {
+.record-stats strong {
   display: block;
   font: 24px var(--speech);
   margin-top: 8px;
 }
-.workplace-image {
+.record-picture {
   float: left;
   width: 40%;
   max-height: 260px;
   object-fit: cover;
   margin: 0 28px 20px 0;
 }
-.school-record {
+.record-fact,
+.record-figure {
   display: flex;
-  gap: 28px;
-  align-items: baseline;
-  margin: 18px 0;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
 }
-.school-record h4 {
-  font: 22px var(--speech);
-  margin: 0;
+.record-figure strong {
+  font: 500 24px var(--ui);
+}
+.record-pages-one .record-section {
+  max-width: 640px;
 }
 /* Character screen: layout additions on the existing Kit 13 panel. */
 #sheet.character-sheet {
@@ -2303,25 +2256,25 @@ body.dev .dev-ring {
   object-fit: contain;
   object-position: center bottom;
 }
-.character-heading .name {
+.screen-heading .name {
   margin: 0;
   font-size: clamp(24px, 2.5vw, 40px);
 }
-.character-meta,
-.character-relation {
+.screen-meta,
+.record-note {
   color: var(--text-2);
 }
-.character-meta {
+.screen-meta {
   margin: 8px 0 16px;
 }
 /* What you're like, as a short paragraph under your name. */
-#sheet-body .character-sketch {
+#sheet-body .screen-lede {
   font: 400 19px/1.45 var(--speech);
   max-width: 46ch;
   margin: 0 0 26px;
 }
-/* The record sections of the character sheet, two across. */
-.character-grid {
+/* The record sections of a record screen in a grid, two across. */
+.screen-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px 40px;
@@ -2336,7 +2289,7 @@ body.dev .dev-ring {
 .record-feature {
   font: 500 21px var(--speech);
 }
-.character-household {
+.record-people {
   list-style: none;
   margin: 10px 0 0;
   padding: 0;
@@ -2344,31 +2297,20 @@ body.dev .dev-ring {
   gap: 6px 24px;
   grid-template-columns: 1fr;
 }
-.character-household li {
+.record-people li {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.character-money {
-  display: flex;
-  align-items: baseline;
-  gap: 24px;
-}
-.character-money strong {
-  font: 500 24px var(--ui);
-}
-.character-relation {
+.record-note {
   font-size: 13px;
 }
-.character-feature {
-  font-weight: 600;
-}
-.character-views {
+.record-views {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 24px;
 }
-.character-views h4 {
+.record-views h4 {
   margin: 8px 0;
   color: var(--gold);
 }
@@ -2380,7 +2322,7 @@ body.dev .dev-ring {
     grid-template-columns: minmax(100px, 24%) minmax(0, 1fr);
     column-gap: 18px;
   }
-  .character-household {
+  .record-people {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
@@ -2609,7 +2551,7 @@ body.dev .dev-ring {
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(
   .government-content,
-  .issues-content,
+  .entries-rows,
   .budget-content,
   .party-section
 ) {
@@ -2625,7 +2567,7 @@ body.dev .dev-ring {
 .key-people h3,
 .party-section h3,
 .budget-content h3,
-.law-card h3 {
+.entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
   margin: 12px 0;
@@ -2759,23 +2701,24 @@ body.dev .dev-ring {
   grid-template-columns: 1fr 1fr;
   gap: 40px;
 }
-.law-card {
+/* The list screen (ui/list-screen.mjs): every searchable list of entries. */
+.entries-rows .entry {
   margin: 20px 0;
 }
-.law-card summary {
+details.entry summary {
   cursor: pointer;
   list-style: none;
 }
-.law-card summary::-webkit-details-marker {
+details.entry summary::-webkit-details-marker {
   display: none;
 }
-.law-card h3 {
+.entries-rows .entry h3 {
   font-size: 20px;
 }
-.law-value {
+.entry-value {
   font: 24px var(--speech);
 }
-.law-card[open] {
+details.entry[open] {
   margin-bottom: 28px;
 }
 #sheet-body:has(.money-section) {
@@ -2873,17 +2816,17 @@ body.dev .dev-ring {
   }
 }
 
-#sheet-body:has(.travel-destinations) {
+#sheet-body:has(.entries-cards) {
   max-width: 1200px;
 }
-.travel-destinations {
+.entries-cards {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px 14px;
   margin-top: 12px;
 }
-/* A pictured place card: the room, its name, who is there, why it is listed. */
-.travel-place {
+/* A pictured card: the room, its name, who is there, why it is listed. */
+.entry-go {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -2896,38 +2839,38 @@ body.dev .dev-ring {
   text-align: left;
   cursor: pointer;
 }
-.travel-place::after {
+.entry-go::after {
   display: none;
 }
-.travel-info {
+.entry-info {
   text-align: left;
 }
-.travel-info h3 {
+.entries-cards .entry h3 {
   font: 600 16px/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
-.travel-info p {
+.entries-cards .entry p {
   font: 14px/1.3 var(--ui);
   color: var(--text-2);
   margin: 0 0 2px;
 }
-.travel-info .travel-reason {
+.entries-cards .entry .entry-note {
   color: var(--gold);
   font-size: 13px;
 }
-.travel-image {
+.entry-picture {
   width: 100%;
   aspect-ratio: 5 / 2;
   object-fit: cover;
   border: 2px solid var(--brass);
 }
-.travel-place:hover .travel-image,
-.travel-place:focus-visible .travel-image {
+.entry-go:hover .entry-picture,
+.entry-go:focus-visible .entry-picture {
   border-color: var(--gold);
 }
 @media (max-width: 1100px) {
-  .travel-destinations {
+  .entries-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -2935,18 +2878,6 @@ body.dev .dev-ring {
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
   opacity: 0.55;
-}
-
-/* Politics' guide: one tab's purpose a page, then the race a player could file for. */
-.politics-guide-page {
-  max-width: 640px;
-}
-.politics-guide-page .guide-fact {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
 }
 
 /* While a talk is open the player card gives up its Day and Week, so it never covers the talk's first reply. */

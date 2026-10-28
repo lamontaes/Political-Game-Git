@@ -17,6 +17,7 @@ export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
 import { meetAtWork } from "./encounters";
 import { workgroupOf } from "./shared-history";
+import { derivePersonAppearance } from "./appearance";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
@@ -2548,6 +2549,18 @@ export interface RecordedIdentity {
  * PEOPLE's builder supplies them (stopgap SG-CORE-identity-fill-in-traits).
  * Returns the existing person if already full.
  */
+/** A stored look for someone filled in, under the recipe of the people already here. */
+function lookOf(
+  core: CoreState,
+  personId: string,
+): { appearanceSeed: string; recipeVersion: string } {
+  let recipe: string | undefined;
+  for (const person of core.people.values())
+    if ((recipe = person.looks?.recipeVersion)) break;
+  const look = derivePersonAppearance(personId, recipe);
+  return { appearanceSeed: look.seed, recipeVersion: look.recipeVersion };
+}
+
 export function fillInIdentity(
   core: CoreState,
   identity: RecordedIdentity,
@@ -2664,7 +2677,12 @@ export function fillInIdentity(
     source: identity.source,
     familyIds: [],
     knownIds: [],
-    ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
+    // Their look is stored once, from the one writer residents' looks come
+    // from, under the recipe the world's people already carry.
+    looks: {
+      ...(identity.gender ? { gender: identity.gender } : {}),
+      ...lookOf(core, identity.id),
+    },
     pastFacts: facts,
   };
   // A named person is filled in whole: the childhood, schools and era the

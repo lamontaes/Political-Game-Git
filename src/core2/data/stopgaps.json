@@ -7147,8 +7147,8 @@
     "why": "The inauguration record (inauguration:2025-01-20) carries no venue, and the Capitol steps have no podium in the painted pictures, so the President could not be drawn at a lectern with the Vice President and others behind him at the White House.",
     "addedBy": "play-first lane agent 4",
     "addedAt": "2026-10-27",
-    "replacement": "The inauguration record carries its venue, and the Capitol steps picture gets a podium spot; the setting reads the record.",
-    "status": "open"
+    "replacement": "Resolved Oct 28 by deletion: the opening's picture table is gone (trim-main-every-duplicate-deleted, row W1/B1 of docs/reports/duplicates-on-main-2026-10-28.md), so nothing stages the address at the House rostrum. When the address plays as the director's address situation type (director-opening-as-a-scene), its place comes from the scene's own place rule; the inauguration record still carries no venue.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-contract-conflict-named-members",
@@ -7264,7 +7264,7 @@
     "id": "SG-WIRE-PEOPLE-SCHOOLMATES",
     "kind": "history-gap",
     "file": "src/core2/state.ts",
-    "line": 260,
+    "line": 261,
     "whatItFakes": "Nobody opens the game knowing a schoolmate. The generated school acquaintances (social:generated-school-acquaintance) are deleted with their writer (engine map line 12), and schooling before the start is not simulated yet, so a player who has just turned 18 starts out knowing only family, household and, with a job, their workgroup. Schoolmates are read from the school engine's attended records once a school year is attended in play.",
     "why": "One history (owner, Oct 28): the generated past is deleted as each piece is simulated; the schooling pass before the start is engine map line 7 (wire-opening-and-home), and a classmate meeting needs that record.",
     "addedBy": "wire-people-and-director",
