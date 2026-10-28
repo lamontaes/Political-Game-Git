@@ -565,13 +565,6 @@ async function renderScene() {
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawPeople(scene.people, (p) => talkTo(p.personId));
   me.scene = scene;
-  // The look chosen in the creator is the player's own portrait.
-  setBust(
-    "card-bust",
-    me.portrait
-      ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-      : scene.people.find((p) => p.personId === me.id)?.figureUrl,
-  );
 }
 
 async function renderCard() {
@@ -4858,21 +4851,22 @@ async function openSheet(tab) {
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
-// the one menu. The player's portrait opens Who you are (owner, Oct 20 and 27).
+// the one menu, Who you are among them. The card under it shows only the date
+// and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
 mountRail(
   $("rings"),
-  ["journal", "calendar", "money", "politics", "news", "people", "travel"],
+  [
+    "who",
+    "journal",
+    "calendar",
+    "money",
+    "politics",
+    "news",
+    "people",
+    "travel",
+  ],
   titles,
 );
-// The portrait is the way to Who you are: named from the screen's title, and a
-// key opens it as a click does.
-$("card-bust").title = titles.who;
-$("card-bust").setAttribute("aria-label", titles.who);
-$("card-bust").addEventListener("keydown", (event) => {
-  if (event.key !== "Enter" && event.key !== " ") return;
-  event.preventDefault();
-  $("card-bust").click();
-});
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
