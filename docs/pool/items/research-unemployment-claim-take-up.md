@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-ui-take-up
-pr:
+pr: #6681
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T18:24:54.894Z
