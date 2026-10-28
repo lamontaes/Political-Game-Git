@@ -65,7 +65,7 @@
     "src/core2/people-mind.ts",
     "src/core2/person-names.ts",
     "src/core2/place-lookup.ts",
-    "src/core2/school-calendar.ts",
+    "src/core2/past-school-calendar.ts",
     "src/core2/town-households.ts",
     "src/core2/town-employment-mix.ts",
     "src/core2/town-workplaces.ts",

@@ -27,14 +27,13 @@ const WAITING = {
     "teacher-quality-to-earnings",
     "neighborhood-years-to-adult-outcomes",
   ],
-  /** No researched size the game can apply, or about zero. */
+  /** No researched size the game can apply (a link about zero is graded not applicable and is not listed). */
   "SG-LABOR-unsized-links": [
     "graduation-to-earnings",
     "transit-loss-to-unemployment",
     "broadband-to-employment",
     "incentive-deal-to-industry-jobs",
     "more-immigration-to-workforce",
-    "work-requirement-to-employment",
   ],
   /** No engine records formal-sector employment. */
   "SG-LABOR-pretrial-employment": ["pretrial-detention-to-employment"],

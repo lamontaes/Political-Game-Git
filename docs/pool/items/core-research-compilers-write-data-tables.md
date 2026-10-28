@@ -5,12 +5,13 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fdic-compilers-tables
+pr: #6658
 blocked-on:
 lead: researcher
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T17:23:33.672Z
 ---
 
 **What.** scripts/research/compile-fdic-county-deposits.py and scripts/research/compile-fdic-town-banks.py still write src/simulation/living-world/town-deposits.generated.ts and town-bank-shapes.generated.ts, which only the old engine reads. The core reads data/tables/town-deposits.json (src/core2/modules/credit.ts); town-bank-shapes.json has no game reader yet. The snapshot exporter that turned those modules into JSON was deleted with the old engine's scripts (core-old-engine-06). Make each compiler write its data/tables JSON directly, in the same shape: the module's export names as top-level keys, formatted with the repository's Prettier JSON parser.
