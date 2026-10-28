@@ -2,9 +2,6 @@
   "version": 1,
   "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
   "formulaSiteAliases": {
-    "src/core2/modules/jobs.ts:2262": "jobs.counted-retire",
-    "src/core2/modules/jobs.ts:2517": "jobs.counted-look",
-    "src/core2/modules/jobs.ts:2587": "jobs.counted-look",
     "src/core2/modules/business.ts:1542": "business.counted-found"
   },
   "openingRecordKinds": {
@@ -192,9 +189,9 @@
       "fix": "Calibrate when a study gives the odds of an owner joining a trade association by trait (traits-wire-civic)."
     },
     "jobs-benefits.file-claim": {
-      "class": "circumstances saturate the choice",
-      "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds). Pooled over seven played years (59 claims weighed, src/core2/jobs-benefits.ts), every eligible worker files with temperament off, against real take-up of 70 to 80%, and no weight up to 0.5 turns any of them; at the general weight of 1, 7% decline.",
-      "fix": "Bring the filing base down to the researched take-up (research-unemployment-claim-take-up), then fit the weight."
+      "class": "circumstances tie",
+      "why": "Filing weighs the base, the benefit's share of the lost pay (a log term at McQuillan and Moore's take-up elasticity) and the layoff's stress beside temperament (src/core2/jobs-benefits.ts filingDecision). Over every business worker of three drawn towns, take-up is 0.73 (Wayland, Michigan) and 0.76 (Washington, District of Columbia), against the studies' 0.734 mean, but the share is the same for nearly every worker in a town, so temperament sorts who skips: the thirds' odds ratio runs 6 to 20 against Vella, Richiardi and van de Ven's 1.32 at any trait weight. Played years: 45 of 67 filed in Wayland, Michigan (2684880, seed 0c4eea785dc2; temperament turned 17) and 2 of 5 in Hillsboro, Virginia (5137288, seed 7100e8c6f85d).",
+      "fix": "Weigh the household's cash runway and how soon the worker expects to be hired (the place's seekers per opening) once a study gives their sizes on take-up, then fit the weight (SG-TRAITS-file-claim-circumstances-tie)."
     },
     "parties.join": {
       "class": "circumstances saturate the choice",
@@ -229,16 +226,6 @@
     "jobs.accept-offer": {
       "class": "no study number",
       "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read and Kanfer et al. 2001 (Journal of Applied Psychology 86(5)) give only the range of correlations across all antecedents of job search behavior (-.15 to .46) in the abstract read, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
-      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
-    },
-    "jobs.counted-retire": {
-      "class": "no study number",
-      "why": "No retirement-timing study with a number by trait was found, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
-      "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
-    },
-    "jobs.counted-look": {
-      "class": "no study number",
-      "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
       "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
     },
     "jobs.counted-apply": {

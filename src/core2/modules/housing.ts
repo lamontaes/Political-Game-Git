@@ -1956,7 +1956,11 @@ function payCounsel(api: CoreAPI, caseId: string, caseSite: string) {
   api.stopgap("SG-GOV-REACH-A-eviction-cases");
   const provider = townOutsideOf(c.organizations.values(), placeId);
   if (!provider) return;
-  const paymentId = `counsel:${caseId}`;
+  // The payment names the statute row it pays under, as a paycheck's tax line
+  // names the law row it took.
+  const paymentId = statute?.governing
+    ? `counsel:${caseId}:${statute.governing.id}`
+    : `counsel:${caseId}`;
   const paid = transferCash(
     api,
     paymentId,

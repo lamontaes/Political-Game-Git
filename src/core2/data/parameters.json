@@ -5831,24 +5831,6 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
-  "traitWeightJobsCountedRetire": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-retire decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
-  },
-  "traitWeightJobsCountedLook": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.counted-look decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
-    }
-  },
   "traitWeightJobsCountedApply": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6286,10 +6268,10 @@
   "traitWeightJobsBenefitsFileClaim": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs-benefits.file-claim decision. An eligible worker files for unemployment when the base reason plus their lean toward filing is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "citation": "The trait weight of the jobs-benefits.file-claim decision, at the general traitWeight (1). Vella, Richiardi and van de Ven 2025 give an odds ratio of 1.32 between the thirds (row jobs-benefits.file-claim in data/research/trait-effect-sizes.json), but no weight reaches it: within a town the benefit replaces the same share of pay for nearly every worker, so temperament and the layoff's stress (itself read through temperament) are the only reasons that vary, and the thirds' odds run 6 to 20 at any weight from 0.1 to 1.2 once take-up is near 0.73 (SG-TRAITS-file-claim-circumstances-tie).",
     "spread": {
       "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "reason": "No weight fits the study until the filing reads circumstances that vary between workers; until then, the general weight's spread, 0.2 to 1.0."
     }
   },
   "traitWeightNewsPassOn": {
