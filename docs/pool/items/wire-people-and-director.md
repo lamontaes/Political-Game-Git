@@ -5,12 +5,12 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/wire-people-and-director
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T05:25:06.603Z
+claimed-at:
 ---
 
 **What.** Engine map lines 10, 11, 12, 13 and 25. One relation reader, familyRelation and closenessBetween (src/core2/closeness.ts:269 and :85), serves the director, the person card, the family sheet and the calendar; kinRelations (src/director/ledger.ts:260) and the eight prefix loops are deleted. Director threads fade by closenessBetween; the director's own half-life rows are deleted. Coworkers and schoolmates come from the employer's staff (the jobs engine) and the school's records (src/director/school.ts), not generated acquaintance facts. The person card shows the past and seats it already receives. One polling-place path: the situation type, not the bespoke visit. Time box: 4 hours.
