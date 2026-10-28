@@ -1804,6 +1804,18 @@ async function showPerson(person) {
             return { node: line };
           }),
         },
+        // Their history from the records, oldest first (owner, Oct 28).
+        c.history?.length && {
+          title: labels.history,
+          items: c.history.map((h) => {
+            const line = el("p", {
+              className: "person-history",
+              textContent: h.text,
+            });
+            line.dataset.record = h.recordId;
+            return { node: line };
+          }),
+        },
         // An officeholder's colleagues in office, closest first, from their ties.
         c.colleagues && {
           title: labels.knows,
