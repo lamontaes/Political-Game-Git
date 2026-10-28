@@ -17,6 +17,7 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
+import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
@@ -233,8 +234,17 @@ it("stages the filing talk only for a relative with a stake, and records what th
               closenessBetween(core, scene.askedId, scene.askerId),
               `${here}: a strained ending left the tie as it was`,
             ).toBeLessThan(before);
+            // The journal tells what the ending kept, from that record.
+            const told = composeJournal(core, director, filer)
+              .flatMap((chapter) => chapter.lines)
+              .find((line) => line.momentIds.includes(id!));
+            expect(told?.sourceRecordIds, `${here}: no journal line`).toContain(
+              id,
+            );
             sawStrain = true;
-            notes.push(`${here}: ending ${String(facts?.ending)} kept (${id})`);
+            notes.push(
+              `${here}: ending ${String(facts?.ending)} kept (${id}); journal: "${told?.text}"`,
+            );
           }
         }
         if (root.line.move === "deflect" && !sawPutOff) {

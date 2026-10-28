@@ -946,6 +946,7 @@ export function replyInScene(
       asOf: core.date,
     },
   });
+  entry.replies = [...(entry.replies ?? []), id];
   // Talking is time together, recorded through the core's own writer.
   coreAPI(core).relationship(
     scene.askedId,

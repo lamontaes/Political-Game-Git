@@ -7963,6 +7963,330 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.scene-line-promise.i-made-other-a-promise",
+      "move": "scene-line-promise",
+      "kind": "spoken",
+      "text": "I made {other} a promise.",
+      "uses": [
+        {
+          "move": "scene-line-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-promise.i-gave-other-my-word-and-i-meant-it",
+      "move": "scene-line-promise",
+      "kind": "spoken",
+      "text": "I gave {other} my word, and I meant it.",
+      "uses": [
+        {
+          "move": "scene-line-promise",
+          "subject": "scene",
+          "role": "line",
+          "choice": "promise",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:promise",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-favor-owed.i-owe-other-a-favor-now",
+      "move": "scene-line-favor-owed",
+      "kind": "spoken",
+      "text": "I owe {other} a favor now.",
+      "uses": [
+        {
+          "move": "scene-line-favor-owed",
+          "subject": "scene",
+          "role": "line",
+          "choice": "favor-owed",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:favor-owed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-favor-owed.other-came-through-for-me-i-won-t-forget-it",
+      "move": "scene-line-favor-owed",
+      "kind": "spoken",
+      "text": "{other} came through for me. I won't forget it.",
+      "uses": [
+        {
+          "move": "scene-line-favor-owed",
+          "subject": "scene",
+          "role": "line",
+          "choice": "favor-owed",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:favor-owed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-relationship-strained.things-got-tense-between-other-and-me",
+      "move": "scene-line-relationship-strained",
+      "kind": "spoken",
+      "text": "Things got tense between {other} and me.",
+      "uses": [
+        {
+          "move": "scene-line-relationship-strained",
+          "subject": "scene",
+          "role": "line",
+          "choice": "relationship-strained",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:relationship-strained",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-relationship-strained.other-and-i-didn-t-part-on-good-terms-that-day",
+      "move": "scene-line-relationship-strained",
+      "kind": "spoken",
+      "text": "{other} and I didn't part on good terms that day.",
+      "uses": [
+        {
+          "move": "scene-line-relationship-strained",
+          "subject": "scene",
+          "role": "line",
+          "choice": "relationship-strained",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:relationship-strained",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-trust-lost.other-caught-me-in-a-lie",
+      "move": "scene-line-trust-lost",
+      "kind": "spoken",
+      "text": "{other} caught me in a lie.",
+      "uses": [
+        {
+          "move": "scene-line-trust-lost",
+          "subject": "scene",
+          "role": "line",
+          "choice": "trust-lost",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:trust-lost",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-trust-lost.i-wasn-t-straight-with-other-and-i-got-caught",
+      "move": "scene-line-trust-lost",
+      "kind": "spoken",
+      "text": "I wasn't straight with {other}, and I got caught.",
+      "uses": [
+        {
+          "move": "scene-line-trust-lost",
+          "subject": "scene",
+          "role": "line",
+          "choice": "trust-lost",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:trust-lost",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-meeting-set.other-and-i-set-a-time-to-meet",
+      "move": "scene-line-meeting-set",
+      "kind": "spoken",
+      "text": "{other} and I set a time to meet.",
+      "uses": [
+        {
+          "move": "scene-line-meeting-set",
+          "subject": "scene",
+          "role": "line",
+          "choice": "meeting-set",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:meeting-set",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-meeting-set.i-put-a-meeting-with-other-on-the-calendar",
+      "move": "scene-line-meeting-set",
+      "kind": "spoken",
+      "text": "I put a meeting with {other} on the calendar.",
+      "uses": [
+        {
+          "move": "scene-line-meeting-set",
+          "subject": "scene",
+          "role": "line",
+          "choice": "meeting-set",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:meeting-set",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-story-runs.what-i-told-other-went-on-the-record",
+      "move": "scene-line-story-runs",
+      "kind": "spoken",
+      "text": "What I told {other} went on the record.",
+      "uses": [
+        {
+          "move": "scene-line-story-runs",
+          "subject": "scene",
+          "role": "line",
+          "choice": "story-runs",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:story-runs",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-story-runs.other-got-a-quote-out-of-me",
+      "move": "scene-line-story-runs",
+      "kind": "spoken",
+      "text": "{other} got a quote out of me.",
+      "uses": [
+        {
+          "move": "scene-line-story-runs",
+          "subject": "scene",
+          "role": "line",
+          "choice": "story-runs",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:story-runs",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
