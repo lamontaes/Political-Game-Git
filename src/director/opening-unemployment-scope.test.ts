@@ -16,7 +16,12 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { regionName, regionOfPlace } from "../core2/modules/regional";
+import { possessive } from "./words";
+import {
+  regionName,
+  regionOutsideState,
+  regionOfPlace,
+} from "../core2/modules/regional";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 6;
@@ -35,6 +40,11 @@ it(`every unemployment rate on the opening night names its scope, seed ${seed}`,
     const story = director.ledger.opening!;
     const opening = openingFrames(core, world.playerId!, story);
     const area = regionName(regionOfPlace(placeId) ?? "");
+    // An area outside the state's metros is said by what it is outside of
+    // ("outside Kentucky's cities"), never with the state's name standing
+    // where a reader looks for their town.
+    const outside = regionOutsideState(regionOfPlace(placeId) ?? "");
+    const scope = outside ? `outside ${possessive(outside)}` : area;
     const rate = /\bunemploy\w*\b.*\d/i;
     const speech = opening.frames
       .flatMap((frame) => frame.lines)
@@ -55,7 +65,11 @@ it(`every unemployment rate on the opening night names its scope, seed ${seed}`,
     // The news gives the region's rate under the region's name, never as the nation's.
     for (const text of news) {
       expect(area, where).toBeTruthy();
-      expect(text, `${where}: ${text}`).toContain(area!);
+      expect(text, `${where}: ${text}`).toMatch(
+        new RegExp(scope!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"),
+      );
+      if (outside)
+        expect(text, `${where}: ${text}`).not.toContain(`${outside} outside`);
       expect(text, `${where}: ${text}`).not.toMatch(
         /\bnational\b|\bnationwide\b|\bacross the country\b/i,
       );
