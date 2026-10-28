@@ -1,6 +1,6 @@
 {
  "schema": "ocd-people-poses/1",
- "note": "Poses painted in place at furniture already in the game, cut into reusable figures. Field names follow art/people-engine/v2/index.json (ocd-people-v2/1); added: interacts, gesture, hairView, head, frontEdgeY, boxInScene, sceneSize.",
+ "note": "Poses painted in place at furniture already in the game, cut into reusable figures. Field names follow art/people-engine/v2/index.json (ocd-people-v2/1); added: interacts, gesture, hairView (front, threeq, threeqr, back, prof, tqb; '-m' = mirror), head, frontEdgeY, boxInScene, sceneSize.",
  "figures": [
   {
    "id": "pose-counter-01",
@@ -52,7 +52,7 @@
    "facing": -130,
    "gesture": "explaining with one hand",
    "interacts": "counter: standing at it",
-   "hairView": "threeq",
+   "hairView": "tqb-m",
    "sex": "m",
    "build": "heavy",
    "ageBand": "adult",
@@ -204,7 +204,7 @@
    "facing": -90,
    "gesture": "talking to a seated visitor",
    "interacts": "desk: one hand flat on the desktop",
-   "hairView": "threeq",
+   "hairView": "prof",
    "sex": "m",
    "build": "slim",
    "ageBand": "adult",
@@ -660,7 +660,7 @@
    "facing": 150,
    "gesture": "explaining with an open hand",
    "interacts": "visitor chair",
-   "hairView": "back",
+   "hairView": "tqb",
    "sex": "m",
    "build": "slim",
    "ageBand": "adult",
@@ -698,7 +698,7 @@
    "facing": 120,
    "gesture": "listening, hands folded on the knee",
    "interacts": "visitor chair",
-   "hairView": "threeqr",
+   "hairView": "tqb",
    "sex": "f",
    "build": "medium",
    "ageBand": "adult",
