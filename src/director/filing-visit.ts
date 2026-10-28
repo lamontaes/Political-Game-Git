@@ -8,8 +8,8 @@
  * visit says which move each line makes and the facts it stands on; the
  * English engine (`src/english/filing-visit-words.ts`) words it.
  */
-import { spokenDate } from "../core2/kernel/dates";
 import type { CoreState, PersonId } from "../core2/types";
+import { spokenDate } from "./words";
 import {
   wordFilingMove,
   type Fact,
@@ -147,7 +147,7 @@ export function pickContest(
   const facts: Record<string, Fact> = {
     office: { text: contest.title, sourceRecordIds: ids },
     deadline: {
-      text: spokenDate(contest.filingDeadline),
+      text: spokenDate(contest.filingDeadline, core.date),
       sourceRecordIds: ids,
     },
     "filing-office": { text: terms.filedWith, sourceRecordIds: ids },
@@ -160,7 +160,7 @@ export function pickContest(
   for (const check of unmet) {
     const required =
       check.rule === "filing-deadline"
-        ? spokenDate(check.required)
+        ? spokenDate(check.required, core.date)
         : check.required;
     const actual = check.actual;
     const line = say(

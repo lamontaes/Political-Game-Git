@@ -611,6 +611,9 @@ interface HouseholdMonthRow {
   paidMinor: number;
   /** What the household's cash didn't cover: everyday living it went without, rent or loan payments it owes. */
   unpaidMinor: number;
+  /** Why everyday living went short: what the members held on its day, and what they kept back for their home. */
+  livingHeldMinor?: number;
+  keptBackMinor?: number;
   unemploymentMemberIds: string[];
   application?: { id: string; approved: boolean; limitMinor: number };
 }
@@ -666,6 +669,10 @@ function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
     row.billsMinor += plan.lastRequestedMinor;
     row.paidMinor += plan.lastPaidMinor;
     row.unpaidMinor += plan.lastRequestedMinor - plan.lastPaidMinor;
+    if (plan.lastHeldMinor !== undefined)
+      row.livingHeldMinor = plan.lastHeldMinor;
+    if (plan.lastKeptBackMinor !== undefined)
+      row.keptBackMinor = plan.lastKeptBackMinor;
   }
   const homeOf = new Map<string, string>();
   for (const person of c.people.values())
