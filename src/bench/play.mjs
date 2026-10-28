@@ -19,14 +19,17 @@ import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
-import { listRow, personRow, factRow } from "./ui/list-row.mjs";
+import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
 import { picture, fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import { section as recordSection } from "./ui/section.mjs";
-import { searchBox, select, checkboxSetting } from "./ui/fields.mjs";
+import { select, checkboxSetting, optionsOf } from "./ui/fields.mjs";
+import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { recordScreen } from "./ui/screen.mjs";
+import { listScreen } from "./ui/list-screen.mjs";
+import { roomPeople, clockLines } from "./ui/room.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -88,7 +91,7 @@ function setClock(at) {
     Math.floor(at.minuteOfDay / 60),
     at.minuteOfDay % 60,
   ).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-  $("card-clock").replaceChildren(day, el("br"), time);
+  $("card-clock").replaceChildren(...clockLines(day, time));
 }
 /** A figure cropped to head and shoulders (Kit 12's bust). */
 function setBust(id, url) {
@@ -144,75 +147,12 @@ for (const box of document.querySelectorAll("#game .chat"))
   docking.observe(box);
 window.addEventListener("resize", clearDock);
 
-/** Soft contact shadows on the floor at each person's feet, under everyone. */
-function shadowsOf(people) {
-  return people
-    .filter((person) => person.figure.shadow)
-    .map(({ figure: { shadow: s } }) => {
-      const node = el("div", { className: "shadow" });
-      Object.assign(node.style, {
-        left: `${s.leftPercent}%`,
-        top: `${s.topPercent}%`,
-        width: `${s.widthPercent}%`,
-        height: `${s.heightPercent}%`,
-      });
-      return node;
-    });
-}
-
-/**
- * What the painting has in front of a person (a desk, a chair back), laid
- * back over them: the picture's own pixels through the spot's mask, lined up
- * with the picture, so it is right in every light and weather.
- */
-function occluderOf(o) {
-  const node = el("div", { className: "occluder" });
-  const along = (start, size) =>
-    size >= 100 ? 0 : (start / (100 - size)) * 100;
-  Object.assign(node.style, {
-    left: `${o.leftPercent}%`,
-    top: `${o.topPercent}%`,
-    width: `${o.widthPercent}%`,
-    height: `${o.heightPercent}%`,
-    backgroundImage: `url("${$("backdrop").src}")`,
-    backgroundSize: `${10000 / o.widthPercent}% ${10000 / o.heightPercent}%`,
-    backgroundPosition: `${along(o.leftPercent, o.widthPercent)}% ${along(o.topPercent, o.heightPercent)}%`,
-    maskImage: `url("${o.url}")`,
-    webkitMaskImage: `url("${o.url}")`,
-  });
-  return node;
-}
-
-/** The people in a picture; anyone but you can be clicked for their dossier. */
 function drawPeople(people, onClick) {
   $("people").replaceChildren(
-    ...shadowsOf(people),
-    ...people.flatMap((person) => {
-      const f = person.figure;
-      const img = el("img", { src: person.figureUrl, alt: person.name });
-      // A whole figure turns to face the room.
-      if (f.mirrored) img.style.transform = "scaleX(-1)";
-      const box = el("div", { className: "figure" }, img);
-      box.dataset.person = person.personId ?? "";
-      Object.assign(box.style, {
-        left: `${f.leftPercent}%`,
-        top: `${f.topPercent}%`,
-        width: `${f.widthPercent}%`,
-        height: `${f.heightPercent}%`,
-      });
-      if (onClick && person.personId !== me?.id) {
-        box.classList.add("talkable");
-        box.tabIndex = 0;
-        box.setAttribute("role", "button");
-        box.setAttribute("aria-label", person.name);
-        box.addEventListener("click", () => onClick(person));
-        box.addEventListener("keydown", (event) => {
-          if (event.key !== "Enter" && event.key !== " ") return;
-          event.preventDefault();
-          onClick(person);
-        });
-      }
-      return f.occluder ? [box, occluderOf(f.occluder)] : [box];
+    ...roomPeople(people, {
+      selfId: me?.id,
+      backdropUrl: $("backdrop").src,
+      onClick,
     }),
   );
 }
@@ -3829,31 +3769,23 @@ const sheets = {
     });
   },
   async guide() {
-    const list = el("div", { className: "flow" });
-    const fill = async (query) => {
-      guideQuery = query;
-      const rows = await api(`/api/guide?q=${encodeURIComponent(query)}`);
-      list.replaceChildren(
-        ...rows.map((t) => {
-          const line = listRow(
-            "narrative",
-            { as: "details", open: rows.length === 1 },
-            el("summary", {}, el("b", { textContent: t.term }), ` ${t.short}`),
-            el("p", { textContent: t.explanation }),
-          );
-          if (t.contextNote)
-            line.append(el("p", { textContent: t.contextNote }));
-          return line;
-        }),
-      );
-    };
-    const search = searchBox({
-      value: guideQuery,
-      placeholder: controls.guide.search,
-      onInput: fill,
+    return listScreen({
+      search: {
+        value: guideQuery,
+        placeholder: controls.guide.search,
+        onQuery: (query) => (guideQuery = query),
+      },
+      entries: async (query) => {
+        const terms = await api(`/api/guide?q=${encodeURIComponent(query)}`);
+        return terms.map((t) => ({
+          title: t.term,
+          lede: t.short,
+          lines: [t.explanation, t.contextNote],
+          opens: true,
+          open: terms.length === 1,
+        }));
+      },
     });
-    await fill(guideQuery);
-    return [search, list];
   },
   async options() {
     await controlsReady;
@@ -3920,9 +3852,6 @@ const sheets = {
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.travel;
-    const search = el("input", { type: "search", placeholder: labels.search });
-    search.setAttribute("aria-label", labels.search);
-    const content = el("div", { className: "travel-destinations" });
     // The offices that take your filings: one card each, naming the races.
     const byOffice = new Map();
     for (const c of government.contests) {
@@ -3971,57 +3900,33 @@ const sheets = {
         : p.presentCount
           ? `${labels.open} · ${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
           : labels.closed;
-    const draw = () => {
-      const found = destinations.filter((p) =>
-        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
-      );
-      const cards = found.map((p) => {
-        const go = () =>
-          p.filing ? openFiling(p.filedWith) : visit(p.organizationId);
-        const card = makeCard("travel-place", { as: "button" });
-        card.type = "button";
-        card.setAttribute("aria-label", `${labels.go}: ${p.name}`);
-        if (p.presentation?.imageUrl) {
-          const image = el("img", {
-            src: p.presentation.imageUrl,
-            alt: "",
-            className: "travel-image",
-          });
-          image.onerror = () => image.remove();
-          card.append(image);
-        }
-        // The record behind the reason, for the specs; never shown as text.
-        card.dataset.reason = (
-          p.filing
-            ? [p.filedWith]
-            : p.reasons.length
-              ? p.reasons.map((r) => r.recordId)
-              : [p.organizationId]
-        ).join(" ");
-        card.append(
-          el(
-            "div",
-            { className: "travel-info" },
-            el("h3", { textContent: p.name }),
-            el("p", { className: "travel-here", textContent: hereLine(p) }),
-            ...(reasonLine(p)
-              ? [
-                  el("p", {
-                    className: "travel-reason",
-                    textContent: reasonLine(p),
-                  }),
-                ]
-              : []),
-          ),
-        );
-        card.onclick = go;
-        return card;
-      });
-      content.replaceChildren(...cards);
-    };
-    search.addEventListener("input", draw);
-    draw();
-    return [search, content];
+    return listScreen({
+      search: { placeholder: labels.search },
+      layout: "cards",
+      entries: (query) =>
+        destinations
+          .filter((p) =>
+            p.name.toLowerCase().includes(query.trim().toLowerCase()),
+          )
+          .map((p) => ({
+            title: p.name,
+            picture: p.presentation?.imageUrl,
+            lines: [hereLine(p)],
+            note: reasonLine(p),
+            label: `${labels.go}: ${p.name}`,
+            onSelect: () =>
+              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+            // The record behind the reason, for the specs; never shown as text.
+            data: {
+              reason: (p.filing
+                ? [p.filedWith]
+                : p.reasons.length
+                  ? p.reasons.map((r) => r.recordId)
+                  : [p.organizationId]
+              ).join(" "),
+            },
+          })),
+    });
   },
   async politics() {
     return sheets.government();
@@ -4378,12 +4283,6 @@ const sheets = {
       api(`/api/changes?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.politics;
-    const search = el("input", {
-      type: "search",
-      placeholder: labels.searchIssues,
-    });
-    search.setAttribute("aria-label", labels.searchIssues);
-    const list = el("div", { className: "issues-content" });
     // A policy question's law reads yes or no; every other law, its amount.
     const lawText = (law, value, unit) =>
       law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
@@ -4393,74 +4292,55 @@ const sheets = {
         day: "numeric",
         year: "numeric",
       });
-    const draw = () =>
-      list.replaceChildren(
-        menuPages(
-          v.law
-            .filter((l) =>
-              policyLabel(l.series)
-                .toLowerCase()
-                .includes(search.value.toLowerCase()),
-            )
-            .map((law) => {
-              const detail = makeCard(
-                "law-card",
-                { as: "details" },
-                el(
-                  "summary",
-                  {},
-                  el("h3", { textContent: policyLabel(law.series) }),
-                  el("strong", {
-                    className: "law-value",
-                    textContent: law.text ?? lawText(law, law.value, law.unit),
-                  }),
-                ),
-              );
+    return listScreen({
+      search: { placeholder: labels.searchIssues },
+      size: 4,
+      labelOf: termLabel,
+      entries: (query) =>
+        v.law
+          .filter((l) =>
+            policyLabel(l.series).toLowerCase().includes(query.toLowerCase()),
+          )
+          .map((law) => ({
+            title: policyLabel(law.series),
+            value: law.text ?? lawText(law, law.value, law.unit),
+            opens: true,
+            facts: [
               // A level's law and when it took effect; a starting answer to a
               // question names its statute instead, as its research did not
               // record the day it took effect.
-              for (const level of law.levels.filter((l) => l.row))
-                detail.append(
-                  row(
-                    lawLevelLabel(law, level),
-                    [
-                      lawText(law, level.row.value, level.row.unit),
-                      !law.yesNo || level.row.terms?.enactedBy
-                        ? dateWords(level.row.effectiveDate)
-                        : level.row.terms?.cite,
-                    ]
-                      .filter(Boolean)
-                      .join(" · "),
-                  ),
-                );
-              for (const pending of law.pending)
-                detail.append(
-                  row(
-                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
-                    lawText(law, pending.value, pending.unit),
-                  ),
-                );
-              for (const change of [...changes.took, ...changes.ahead].filter(
-                (c) => c.series === law.series,
-              ))
-                detail.append(
-                  row(
-                    dateWords(change.date),
-                    [change.measure, change.jurisdiction, change.what]
-                      .filter(Boolean)
-                      .join(" · "),
-                  ),
-                );
-              for (const vote of law.votes ?? [])
-                detail.append(row(vote.name, vote.vote));
-              return detail;
-            }),
-          4,
-        ),
-      );
-    search.addEventListener("input", draw);
-    draw();
-    return [search, list];
+              ...law.levels
+                .filter((l) => l.row)
+                .map((level) => [
+                  lawLevelLabel(law, level),
+                  [
+                    lawText(law, level.row.value, level.row.unit),
+                    !law.yesNo || level.row.terms?.enactedBy
+                      ? dateWords(level.row.effectiveDate)
+                      : level.row.terms?.cite,
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                ]),
+              ...law.pending.map((pending) => [
+                `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
+                lawText(law, pending.value, pending.unit),
+              ]),
+              ...[...changes.took, ...changes.ahead]
+                .filter((c) => c.series === law.series)
+                .map((change) => [
+                  dateWords(change.date),
+                  [change.measure, change.jurisdiction, change.what]
+                    .filter(Boolean)
+                    .join(" · "),
+                ]),
+              ...(law.votes ?? []).map((vote) => [
+                vote.name,
+                controls.meeting?.[vote.vote] ?? "",
+              ]),
+            ].map(([label, value]) => [label, plain(value)]),
+          })),
+    });
   },
 };
 const titles = {
@@ -4778,17 +4658,18 @@ function proseDate(iso) {
 const genderName = (g) =>
   document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
-  ...MONTHS.map((name, i) =>
-    el("option", { value: String(i + 1), textContent: name }),
-  ),
+  ...optionsOf(MONTHS.map((name, i) => ({ value: i + 1, label: name }))),
 );
 function fillDays() {
   const month = Number($("cr-month").value);
   const length = new Date(Date.UTC(2001, month, 0)).getUTCDate();
   const keep = Number($("cr-day").value) || 1;
   $("cr-day").replaceChildren(
-    ...Array.from({ length }, (_, i) =>
-      el("option", { value: String(i + 1), textContent: String(i + 1) }),
+    ...optionsOf(
+      Array.from({ length }, (_, i) => ({
+        value: i + 1,
+        label: String(i + 1),
+      })),
     ),
   );
   $("cr-day").value = String(Math.min(keep, length));
@@ -4800,9 +4681,7 @@ async function fillYears(keepYear) {
   setup.start = start;
   const want = keepYear ?? Number($("cr-year").value);
   $("cr-year").replaceChildren(
-    ...years.map((row) =>
-      el("option", { value: String(row.year), textContent: row.label }),
-    ),
+    ...optionsOf(years.map((row) => ({ value: row.year, label: row.label }))),
   );
   const nearest = years.reduce(
     (best, row) =>
@@ -4967,29 +4846,6 @@ async function listTowns() {
 $("cr-town-search").addEventListener("input", () => void listTowns());
 
 // A row of color swatches: each a button named for its color, the chosen one marked.
-function swatchRow(row) {
-  const buttons = row.swatches.map((swatch) => {
-    const b = makeButton({
-      className: "swatch-button",
-      style: `background:${swatch.color}`,
-    });
-    b.setAttribute("aria-label", `${row.label}: ${swatch.label}`);
-    b.setAttribute("aria-pressed", String(swatch.chosen));
-    b.title = swatch.label;
-    b.dataset.swatch = swatch.id;
-    b.addEventListener("click", () => void pickColor(row.id, swatch.id));
-    return b;
-  });
-  const line = el(
-    "div",
-    { className: "look-row swatch-row" },
-    el("span", { className: "label", textContent: row.label }),
-    el("span", { className: "swatches" }, ...buttons),
-    el("span", { className: "look-value", textContent: row.value }),
-  );
-  line.dataset.testid = `engine-appearance-${row.id}`;
-  return line;
-}
 async function pickColor(row, value) {
   const view = await post(
     `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, value })}`,
@@ -5004,39 +4860,14 @@ function showLook(view) {
   $("cr-portrait").src =
     `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
   $("cr-rows").replaceChildren(
-    ...view.rows.map((row) => {
-      if (row.swatches) return swatchRow(row);
-      const arrow = (by, glyph) => {
-        const b = makeButton({
-          className: "action small",
-          textContent: glyph,
-        });
-        b.setAttribute(
-          "aria-label",
-          `${by < 0 ? "Previous" : "Next"} ${row.label.toLowerCase()}`,
-        );
-        b.addEventListener("click", () => void moveLook(row.id, by));
-        return b;
-      };
-      const value = el("span", { className: "look-value" });
-      if (row.swatch)
-        value.append(
-          Object.assign(el("i", { className: "swatch" }), {
-            style: `background:${row.swatch}`,
-          }),
-        );
-      value.append(row.value);
-      const line = el(
-        "div",
-        { className: "look-row" },
-        el("span", { className: "label", textContent: row.label }),
-        arrow(-1, "‹"),
-        value,
-        arrow(1, "›"),
-      );
-      line.dataset.testid = `engine-appearance-${row.id}`;
-      return line;
-    }),
+    ...view.rows.map((row) =>
+      lookRow(row, {
+        onPick: (id, swatch) => void pickColor(id, swatch),
+        onMove: (id, by) => void moveLook(id, by),
+        arrowLabel: (by, r) =>
+          `${by < 0 ? "Previous" : "Next"} ${r.label.toLowerCase()}`,
+      }),
+    ),
   );
   $("cr-reset").disabled =
     JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);
@@ -5133,9 +4964,7 @@ async function offerPlayAs(life) {
         b.addEventListener("click", () => void enterAs(life, h.personId));
         return b;
       }),
-      ...(found.length === 0
-        ? [el("p", { className: "label", textContent: labels.none })]
-        : []),
+      ...(found.length === 0 ? [noteLine(labels.none)] : []),
     );
   };
   $("pick-search").oninput = draw;
