@@ -296,6 +296,25 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.61.1
+
+_Released October 28, 2026._
+
+### Fixed
+
+- **State and federal winners take office on the record like everyone else.**
+  When a governor, a member of Congress, a state legislator or the President
+  wins a race decided away from your town, the seat now changes hands the same
+  way a town seat does. Their taking office is on the public record, and the
+  next election for that seat runs against the new holder.
+
+### Changed
+
+- **Each new world's town opens with its own population** Each new game's town
+  opens with its own population, a few percent around the census count, and
+  everything that reads the town's size reads that number. The town list in the
+  creator still shows the census count.
+
 ## PRE-ALPHA 0.61.0
 
 _Released October 28, 2026._
