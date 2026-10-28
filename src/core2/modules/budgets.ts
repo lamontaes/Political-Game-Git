@@ -41,7 +41,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { countyGovernmentUnit } from "../reference/government-units";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, yesLevels } from "./laws";
 import { seededUnit } from "../past-module";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
@@ -1127,20 +1127,7 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
 
 /** The grocery exemption law row in force for the town (the latest yes at any level), or null. */
 function groceryExemption(api: CoreAPI): LawRowInput | null {
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  const date = api.state.date;
-  for (const { jurisdiction } of lawChain(api).levels) {
-    const latest = (
-      laws.query("bySeries", [
-        jurisdiction,
-        GROCERY_EXEMPTION,
-      ]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    if (latest?.value === 1) return latest;
-  }
-  return null;
+  return yesLevels(api, GROCERY_EXEMPTION)[0]?.row ?? null;
 }
 
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */

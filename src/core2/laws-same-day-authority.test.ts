@@ -12,13 +12,12 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { inForceHere } from "./law-reach/host";
 import { stableHash } from "./kernel/ids";
 import { placeLocalities } from "./places";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { advanceCore } from "./life";
 import { draftBill } from "./modules/legislature";
-import { enactLaw, lawChain, lawInForce } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce, yesLevels } from "./modules/laws";
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreAPI } from "./types";
@@ -63,7 +62,7 @@ function town(salt: string) {
       (s) => s.office.kind === "council" && s.holder?.personId,
     );
     const where = `${place.displayName} (${place.key}), seed ${hash}`;
-    if (inForceHere(api, QUESTION) && council)
+    if (yesLevels(api, QUESTION).length > 0 && council)
       return { core, api, council, where };
     tried.push(
       `${where}: ${council ? "no grant at the opening" : "no council member"}`,
