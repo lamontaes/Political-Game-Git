@@ -112,11 +112,19 @@ import {
 import { PAST_MODULE_ID } from "./past-module";
 import { publishedSupportShare, supportShare } from "./campaign-views";
 import supportData from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
+import electoralCorpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
+import {
+  citizenShareOf,
+  publishedCitizenShareOf,
+  stateRightShare,
+  stateTwoPartyVotes,
+} from "./electorate-places";
+import { contestedStates2024 } from "./officials-president";
 import type { CoreState } from "./types";
 
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
-  "realistic-elections-per-world": [42, 45],
+  "realistic-elections-per-world": [45],
   "realistic-school-names-generated": [37],
   "world-disasters-from-conditions": [41],
 };
@@ -783,6 +791,60 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     process.stdout.write(
       `VOTES-AND-POLLS ${where}: ${shared.length} past races cast ${cast(racesA)} and ${cast(racesB)} votes; ${questions[0]} polls ${supportShare(a.seed, questions[0]!).toFixed(3)} and ${supportShare(b.seed, questions[0]!).toFixed(3)} against ${publishedSupportShare(questions[0]!)}\n`,
+    );
+  });
+
+  it("the 2024 vote by state and county, its turnout, the town's citizen share and the contested map (audit row 42)", () => {
+    const states = (
+      electoralCorpus as unknown as {
+        presidentialByState: {
+          stateUsps: string;
+          totalsByParty: Record<string, number>;
+        }[];
+      }
+    ).presidentialByState;
+    expect(states.length, where).toBeGreaterThan(0);
+    for (const { stateUsps: usps, totalsByParty } of states) {
+      const dem = totalsByParty.democratic ?? 0,
+        rep = totalsByParty.republican ?? 0;
+      const shareA = stateRightShare(usps, a.seed)!,
+        shareB = stateRightShare(usps, b.seed)!;
+      expect(shareA, `${where} row 42 ${usps} share`).not.toBeCloseTo(
+        rep / (dem + rep),
+        6,
+      );
+      expect(shareA, `${where} row 42 ${usps} share`).not.toBe(shareB);
+      expect(
+        stateTwoPartyVotes(usps, a.seed),
+        `${where} row 42 ${usps} votes`,
+      ).not.toBe(stateTwoPartyVotes(usps, b.seed));
+    }
+    const usps = lawChain(coreAPI(a)).stateKey.slice(3);
+    const placeKey = a.placeMetadata.placeKey as string | undefined;
+    const published = publishedCitizenShareOf(placeKey, usps);
+    if (published < 1) {
+      expect(
+        citizenShareOf(placeKey, usps, a.seed),
+        `${where} row 42 citizens`,
+      ).not.toBe(published);
+      expect(
+        citizenShareOf(placeKey, usps, a.seed),
+        `${where} row 42 citizens`,
+      ).not.toBe(citizenShareOf(placeKey, usps, b.seed));
+    }
+    const map = (seed: string) =>
+      contestedStates2024(seed)
+        .map((s) => `${s.usps}:${s.democraticTwoPartyShare.toFixed(6)}`)
+        .join(" ");
+    expect(map(a.seed), `${where} row 42 contested map`).not.toBe(map(b.seed));
+    process.stdout.write(
+      `VOTE-2024 ${where}: ${usps} opens at ${stateRightShare(usps, a.seed)?.toFixed(4)} and ${stateRightShare(usps, b.seed)?.toFixed(4)} Republican; contested ${contestedStates2024(
+        a.seed,
+      )
+        .map((s) => s.usps)
+        .join(",")} and ${contestedStates2024(b.seed)
+        .map((s) => s.usps)
+        .join(",")}\n`,
     );
   });
 

@@ -7421,5 +7421,53 @@
       "unit": "share of the votes cast",
       "citation": "U.S. Elections Project turnout by state, 2018 to 2024 (approximate; a researcher should confirm the figures)"
     }
+  },
+  "worldNationalSwingSpreadShare": {
+    "value": 0.025,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's national Republican two-party share of the 2024 vote sits from the real one: about the swing between recent presidential elections (2016 to 2020 about 2 points toward the Democrats, 2020 to 2024 about 3 points toward the Republicans; MIT Election Data and Science Lab).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.04,
+      "unit": "two-party share",
+      "citation": "Presidential two-party national swings, 2000 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldStateSwingSpreadShare": {
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "How far a state's 2024 two-party share moves from the national swing in a world: about the spread of states' swings around the national one between presidential elections (most states within 2 points of the national swing, 2020 to 2024).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.03,
+      "unit": "two-party share",
+      "citation": "State swings against the national swing, 2016 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldTurnoutSpreadShare": {
+    "value": 0.04,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's 2024 votes cast in a state sit from the real count, as a share of it: about the change in a state's presidential turnout between elections (2020 to 2024 within about 5% in most states; U.S. Elections Project).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the votes cast",
+      "citation": "U.S. Elections Project state turnout, 2016 to 2024 (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldCitizenShareSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's citizen share of a town's adults sits from the survey's, relative to its nearer bound: about the ACS five-year margin of error for a place's noncitizen count.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published 2024 figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.1,
+      "unit": "share of the room to the nearer bound",
+      "citation": "ACS 2020-2024 B05001 place margins (approximate; a researcher should confirm the figures)"
+    }
   }
 }

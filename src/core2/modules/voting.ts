@@ -2790,6 +2790,7 @@ function countedScale(api: CoreAPI): number {
     citizenShareOf(
       api.state.placeMetadata.placeKey as string | undefined,
       usps,
+      api.state.seed,
     ) *
     (1 - electorateChange(api).barred)
   );
