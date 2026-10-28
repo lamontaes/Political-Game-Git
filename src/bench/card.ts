@@ -45,6 +45,17 @@ export function personCard(core: CoreState, personId: string) {
   const household = core.households.get(person.householdId);
   // Faces for the People map: each the figure a room here would draw.
   const place = scenePlace(core, personId).place;
+  // The People screen's groups a tie falls in: family by kind, by a relation
+  // word or by sharing the home; coworkers at work; friends; politics.
+  const homeIds = new Set(household?.memberIds ?? []);
+  const groupsOf = (otherId: string, kind: string, relation: unknown) => [
+    ...(kind === "family" || relation || homeIds.has(otherId)
+      ? ["family"]
+      : []),
+    ...(kind === "coworker" ? ["work"] : []),
+    ...(kind === "friend" ? ["friends"] : []),
+    ...(kind === "politics" ? ["politics"] : []),
+  ];
   const ties = [...(core.relationshipsByPerson.get(personId) ?? [])]
     .map((id) => core.relationships.get(id))
     .filter((row) => row !== undefined)
@@ -55,6 +66,11 @@ export function personCard(core: CoreState, personId: string) {
         name: name(otherId),
         kind: row.kind,
         relation: relationWord(core, otherId, relationOf.get(otherId)),
+        groups: groupsOf(
+          otherId,
+          row.kind,
+          relationWord(core, otherId, relationOf.get(otherId)),
+        ),
         level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
@@ -98,6 +114,7 @@ export function personCard(core: CoreState, personId: string) {
           personId: id,
           name: name(id),
           relation: relationWord(core, id, relationOf.get(id)),
+          groups: ["family"],
           alive: core.people.get(id)?.alive ?? true,
           face: faceOf(core, id, place),
         })),

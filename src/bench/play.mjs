@@ -2254,20 +2254,9 @@ const sheets = {
       records.set(person.personId, {
         ...prior,
         ...person,
+        // The groups each record puts them in (the card view's), joined.
         groups: [
-          ...new Set([
-            ...(prior.groups ?? []),
-            ...(person.groups ?? []),
-            ...(person.kind === "family" ||
-            person.relation ||
-            household.has(person.personId)
-              ? ["family"]
-              : []),
-            ...(person.kind === "coworker" ? ["work"] : []),
-            ...(["friend", "politics"].includes(person.kind)
-              ? [person.kind === "friend" ? "friends" : "politics"]
-              : []),
-          ]),
+          ...new Set([...(prior.groups ?? []), ...(person.groups ?? [])]),
         ],
       });
     }
