@@ -80,11 +80,9 @@
       "scene-words": ["narrate", "deliver-news"],
       "headlines": ["headline"],
       "news": ["deliver-news", "announce-result"],
-      "newspaper-ledes": ["deliver-news"],
       "legislation": ["enact", "title", "provision"],
       "minutes": ["record", "announce-result"],
-      "notice": ["notice"],
-      "winning-losing": ["announce-result"]
+      "notice": ["notice"]
     }
   },
   "rules": {
@@ -786,39 +784,6 @@
         "tag": "headline"
       }
     ],
-    "hearing": [
-      {
-        "move": "^agree$",
-        "tag": "agree"
-      },
-      {
-        "move": "^(answer|confirm)$",
-        "tag": "answer"
-      },
-      {
-        "move": "^chair-procedure$",
-        "text": "(?i)so ordered|without objection",
-        "tag": "announce-result",
-        "key": "routine"
-      },
-      {
-        "move": "^chair-procedure$",
-        "tag": "call-to-order",
-        "key": "routine"
-      },
-      {
-        "move": "^repair$",
-        "tag": "apologize"
-      },
-      {
-        "move": "^thanks$",
-        "tag": "thank"
-      },
-      {
-        "move": "^time$",
-        "tag": "close"
-      }
-    ],
     "interview": [
       {
         "move": "^official-close$",
@@ -943,21 +908,6 @@
         "key": "routine"
       }
     ],
-    "meeting": [
-      {
-        "move": "^closer$",
-        "tag": "close"
-      },
-      {
-        "move": "^opener$",
-        "tag": "address-chair"
-      },
-      {
-        "move": "^procedural$",
-        "tag": "call-to-order",
-        "key": "routine"
-      }
-    ],
     "minutes": [
       {
         "move": "^vote$",
@@ -1035,13 +985,6 @@
         "key": "news-received"
       }
     ],
-    "newspaper-ledes": [
-      {
-        "move": ".",
-        "tag": "deliver-news",
-        "key": "news-received"
-      }
-    ],
     "notice": [
       {
         "move": ".",
@@ -1097,17 +1040,6 @@
       {
         "move": "^stage-",
         "tag": "tell"
-      }
-    ],
-    "winning-losing": [
-      {
-        "move": "^lost$",
-        "tag": "announce-result",
-        "key": "loss"
-      },
-      {
-        "move": ".",
-        "tag": "announce-result"
       }
     ],
     "scene-talk": [
