@@ -14,6 +14,7 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
+import { headshot } from "./ui/headshot.mjs";
 import { makeTab, tabBar } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -3688,8 +3689,17 @@ $("cr-month").addEventListener("change", async () => {
 });
 $("cr-day").addEventListener("change", () => fillYears());
 $("cr-year").addEventListener("change", derivedAge);
+/** A filled field drops its missing mark and the line at the bottom. */
+function filledIn() {
+  for (const group of document.querySelectorAll("#cr-character .missing"))
+    group.classList.remove("missing");
+  $("front-status").textContent = "";
+}
+for (const id of ["cr-given", "cr-family"])
+  $(id).addEventListener("input", filledIn);
 function pickGender(g) {
   setup.gender = g;
+  filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
@@ -3741,10 +3751,19 @@ $("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
 $("cr-character-next").addEventListener("click", () => {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
-  if (!setup.gender || !given || !family) {
-    $("front-status").textContent = !setup.gender
-      ? $("cr-character").querySelector("legend").textContent
-      : $("cr-random-name").textContent;
+  // A field left empty is named at the bottom and its group marked until it
+  // is filled (owner, Oct 28: "It should flash red, or say what is missing
+  // at the bottom").
+  const missing = !setup.gender
+    ? { group: "gender-choices", text: controls.creator.missingGender }
+    : !given || !family
+      ? { group: "creator-name", text: controls.creator.missingName }
+      : null;
+  if (missing) {
+    $("front-status").textContent = missing.text;
+    document
+      .querySelector(`[data-testid="${missing.group}"]`)
+      .classList.add("missing");
     return;
   }
   $("front-status").textContent = "";
