@@ -211,11 +211,6 @@
       "tag": "SOURCED",
       "source": "NCES, Digest of Education Statistics 2023, table 303.50: most undergraduates are 18 to 24."
     },
-    "adultAge": {
-      "value": 18,
-      "tag": "SOURCED",
-      "source": "Age of majority in the states (the age a household's adults are counted from)."
-    },
     "drivingAge": {
       "value": 16,
       "tag": "SOURCED",
