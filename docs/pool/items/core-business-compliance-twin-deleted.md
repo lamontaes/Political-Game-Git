@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-compliance-payment
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:11:41.340Z
 ---
 
 **What.** business-operating-rules.ts carried payOperatingCosts, a monthly compliance payment with the same transfer id as the business module's live payCompliance, and business.ts exported three wrappers (setBusinessOperatingLimit, addBusinessComplianceCost, endBusinessOperatingRule) that write the same rules the module already writes from the law. Nothing calls any of the four (duplicates report row C11).
