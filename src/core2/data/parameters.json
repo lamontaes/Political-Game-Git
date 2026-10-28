@@ -6827,6 +6827,42 @@
       "citation": "Matches macroWorldOffsetFloorShare."
     }
   },
+  "budgetWorldDebtSpreadShare": {
+    "value": 0.04,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's opening federal debt held by the public sits from the published balance, as a share of it: about half a year's growth (Treasury, Debt to the Penny: held by the public rose about 7% from fiscal 2024's end to fiscal 2025's).",
+    "estimatedFrom": "Owner, Oct 27: realistic, not real. The published balance is the center; the offset is drawn once from the world's seed at Start (budgetWorldFactor).",
+    "spread": {
+      "low": 0.02,
+      "high": 0.07,
+      "unit": "share of the published balance",
+      "citation": "data/research/money/federal-budget-fy2025.json debtHeldByPublic."
+    }
+  },
+  "budgetWorldShareSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far each share of a published public-money mix (who holds the federal debt, who a spending line pays, which services a government charges for) sits from the published share, relative to it, before the mix is summed back to its total: about a year's change (Treasury Bulletin ownership table: the foreign share moved from about 33% to 30% of debt held by the public in two years; Census charges by function move a few percent a year).",
+    "estimatedFrom": "Owner, Oct 27: realistic, not real. Each share is moved once by the world's factor (budgetWorldShares) and the mix renormalized.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published share",
+      "citation": "src/core2/data/budgets/federal-debt.json; src/core2/data/budgets/spending-payees.json; data/research/money/service-charges-2022.json."
+    }
+  },
+  "budgetWorldStakeSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's federal spending per resident in a state on one budget line sits from the published ratio to the national average: about a year's change in USAspending's state totals by agency (grants and contracts swing 5% to 20% a year).",
+    "estimatedFrom": "Owner, Oct 27: realistic, not real. Each state's stake in each line is moved once by the world's factor (budgetWorldFactor).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of the published ratio",
+      "citation": "data/research/federal/federal-spending-by-state-fy2024.json."
+    }
+  },
   "pastWorkLayoffsPerQuarter": {
     "value": 0.035,
     "tag": "ESTIMATED",
