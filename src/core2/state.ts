@@ -4,7 +4,6 @@ import {
   CLOSENESS,
   closenessAfter,
   openingClosenessHours,
-  openingPeerHours,
   temperedHours,
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
@@ -16,10 +15,11 @@ import {
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
+import { meetAtWork } from "./encounters";
+import { workgroupOf } from "./shared-history";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
-  peerCohortSize,
   residentsRuntime,
   enterResidentMarket,
   countedSinceOpening,
@@ -249,33 +249,29 @@ function admitOwnerCashAccount(
 const OPENING_FAMILY_CAUSE = "opening-family";
 
 /**
- * Opening peer ties: a person ties to each classmate and coworker the opening
- * records name (the generated peer circles), at the closeness those shared
- * hours leave. Full people and counted ones are read the same way. A world
+ * Opening peer ties: a person meets the coworkers of their workgroup at their
+ * employer (the jobs engine's staff, `workgroupOf`), as a new hire does
+ * (`meetAtWork`), at the closeness the hours of a casual friendship leave.
+ * Full people and counted ones filled in later are read the same way. A world
  * built to play (createLifeCore) opens these for every resident; people filled
- * in or promoted later open theirs as they join.
+ * in or promoted later open theirs as they join. Classmates meet in the school
+ * engine's records once a school year is attended, not before.
  */
 export function openOpeningPeerTies(
   core: CoreState,
   api: CoreAPI,
   actor: PersonState,
 ): void {
-  for (const id of actor.knownIds) {
-    if (actor.familyIds.has(id)) continue;
-    const relationshipId = pairKey(actor.id, id);
-    if (core.relationships.has(relationshipId)) continue;
-    if (!core.people.has(id) && !core.husks.has(id)) continue;
-    const hours = openingPeerHours(core, actor, id);
-    if (hours <= api.parameter("zero")) continue;
-    api.relationship(
-      actor.id,
-      id,
-      CLOSENESS.peerTies.kind as Relationship["kind"],
-      hours,
-      undefined,
-      { cause: CLOSENESS.peerTies.cause },
-    );
-  }
+  const job = actor.jobId ? core.jobs.get(actor.jobId) : undefined;
+  if (!job || job.endsAt) return;
+  meetAtWork(
+    api,
+    actor.id,
+    job.organizationId,
+    workgroupOf(core, actor.id),
+    api.parameter(CLOSENESS.peerTies.hoursParameter),
+    job.id,
+  );
 }
 
 function assertKnownIdSources(
@@ -2233,24 +2229,17 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       ]),
     );
     const rebuilt = new Map(
-      buildDeepPast(
-        {
-          seed: build.seed,
-          startedAt: build.startedAt,
-          people: rebuild.map((row) => ({
-            ...row,
-            pastFacts: before.get(row.id)!.head,
-          })),
-          households: [taken.household],
-          jobs: taken.jobs,
-          gaps: [],
-        } as unknown as CoreInput,
-        {
-          // The opening's class and workgroup sizes, so the same peer groups form.
-          peerCohortSize: (circle, contextKey, present) =>
-            peerCohortSize(core, circle, contextKey) ?? present,
-        },
-      ).people.map((row) => [row.id, row]),
+      buildDeepPast({
+        seed: build.seed,
+        startedAt: build.startedAt,
+        people: rebuild.map((row) => ({
+          ...row,
+          pastFacts: before.get(row.id)!.head,
+        })),
+        households: [taken.household],
+        jobs: taken.jobs,
+        gaps: [],
+      } as unknown as CoreInput).people.map((row) => [row.id, row]),
     );
     record = {
       ...taken,

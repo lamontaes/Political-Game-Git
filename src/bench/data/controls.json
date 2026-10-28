@@ -125,6 +125,8 @@
     "sharedWords": {
       "household": "Lives with you",
       "coworker": "Works with you",
+      "worked": "Worked with you",
+      "schoolmate": "At school with you",
       "campaign": "On a campaign with you"
     },
     "seats": "Seats held",

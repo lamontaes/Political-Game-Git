@@ -2201,7 +2201,7 @@ async function showPerson(person) {
           recordSection(
             labels.together,
             ...c.shared.map((s) => {
-              const line = row(labels.sharedWords?.[s.kind], s.employer ?? "");
+              const line = row(labels.sharedWords?.[s.kind], s.name ?? "");
               line.dataset.record = s.recordId;
               return line;
             }),

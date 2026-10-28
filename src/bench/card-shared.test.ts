@@ -37,12 +37,12 @@ it("the card lists the shared history and seats by the scenes' record ids", () =
   for (const id of sharing) {
     const card = knownCard(core, me, id);
     expect(
-      card.shared.map((row) => `${row.kind}:${row.recordId}`),
+      card.shared.map((row) => row.recordId),
       `${where}: ${id}`,
     ).toEqual(
       sharedHistory(core, me, id)
         .filter((row) => row.kind !== "family")
-        .map((row) => `${row.kind}:${row.recordId}`),
+        .map((row) => row.recordId),
     );
     if (card.tie)
       expect(card.tie.recordId, where).toBe(
