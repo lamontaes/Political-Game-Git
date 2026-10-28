@@ -56,6 +56,8 @@ describe("deterministic validation workflow capacity", () => {
       validate.indexOf("  scope:\n"),
     );
     expect(guardsJob).not.toContain("if:");
+    // The guards read the merged result, so an old branch meets today's guards.
+    expect(guardsJob).toContain("ref: ${{ github.sha }}");
   });
 
   it("checks only the changed files in validate", () => {
@@ -71,6 +73,11 @@ describe("deterministic validation workflow capacity", () => {
 
   it("preserves trusted checkout, action versions, and exact PR-head refs", () => {
     expect(validate.match(/actions\/checkout@v7/g)).toHaveLength(3);
+    expect(
+      validate.match(
+        /ref: \$\{\{ github\.event\.pull_request\.head\.sha \|\| github\.sha \}\}/g,
+      ),
+    ).toHaveLength(2);
     expect(validate.match(/actions\/setup-node@v7/g)).toHaveLength(3);
     expect(validate).toContain(
       "ref: ${{ github.event.pull_request.head.sha || github.sha }}",
