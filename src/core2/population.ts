@@ -269,8 +269,8 @@ function selectedPlace(
   for (const place of realLocalities()) {
     if (place.scope !== "locality" || !place.sourceGeoid) continue;
     if (
-      (placeReferencePopulation(place.sourceGeoid)?.value ?? p("zero")) <
-      minimumPeople
+      (placeReferencePopulation(place.sourceGeoid, options.seed)?.value ??
+        p("zero")) < minimumPeople
     )
       continue;
     if (countyContexts(place).length !== p("one")) continue;
@@ -542,7 +542,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   // A town smaller than the target opens at its real size (its Census
   // reference population); a size asked for by name is kept as asked.
   const real = place.sourceGeoid
-    ? placeReferencePopulation(place.sourceGeoid)?.value
+    ? placeReferencePopulation(place.sourceGeoid, options.seed)?.value
     : undefined;
   const minimumPeople =
     options.minimumPeople === undefined &&
@@ -863,15 +863,17 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     const hoursDaily = weeklyHoursOf(role) / p("daysPerWeek");
     const percentile = townPayPercentile(
       daysBetween(relationship.startedAt, startedAt) / p("daysPerMeanYear"),
+      options.seed,
     );
     const rate = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
       percentile,
       startMinimumHourly,
+      options.seed,
     );
     const fallbackAnnual = role.occupationClassification
-      ? nationalMedianAnnualWage(role.occupationClassification)
+      ? nationalMedianAnnualWage(role.occupationClassification, options.seed)
       : null;
     const hourlyMinor =
       rate?.hourlyMinor ??
@@ -1121,7 +1123,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   };
   const living = new Map<string, number>();
   const cash = new Map<string, number>();
-  const rent = hudRentRowFor(town);
+  const rent = hudRentRowFor(town, options.seed);
   if (!rent)
     gaps.add(
       `No HUD shelter budget covers ${place.displayName}; only sourced nonhousing categories retained.`,
@@ -1446,11 +1448,13 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       householdMixBasis: mix.basis,
       referencePopulation: String(
         place.sourceGeoid
-          ? (placeReferencePopulation(place.sourceGeoid)?.value ?? "not-held")
+          ? (placeReferencePopulation(place.sourceGeoid, options.seed)?.value ??
+              "not-held")
           : "not-held",
       ),
       referencePopulationSource: place.sourceGeoid
-        ? (placeReferencePopulation(place.sourceGeoid)?.source ?? "not-held")
+        ? (placeReferencePopulation(place.sourceGeoid, options.seed)?.source ??
+          "not-held")
         : "not-held",
       livingCostSource: `${LIVING_COSTS_SOURCE}; ${TOWN_RENT_META.fairMarketRents}`,
       cashSource:

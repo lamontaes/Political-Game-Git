@@ -956,7 +956,7 @@ export function townOpenings(
     for (const tag of event.tags)
       if (tag.startsWith("opening:")) taken.add(tag.slice("opening:".length));
   }
-  const rentRow = hudRentRowFor(town);
+  const rentRow = hudRentRowFor(town, world.seed);
   const rentMinor = rentRow
     ? marketRentMinor(world, town, rentRow, bedroomsForHousehold(1), today)
     : null;
@@ -971,10 +971,15 @@ export function townOpenings(
       townJobRate(
         role.occupationClassification,
         town,
-        townPayPercentile(0, 0.5),
+        townPayPercentile(0, world.seed),
+        undefined,
+        world.seed,
       )?.hourlyMinor ??
       (role.occupationClassification
-        ? ((nationalMedianAnnualWage(role.occupationClassification) ?? 0) /
+        ? ((nationalMedianAnnualWage(
+            role.occupationClassification,
+            world.seed,
+          ) ?? 0) /
             (52 * 40)) *
           100
         : 0);

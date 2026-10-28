@@ -7033,6 +7033,135 @@
       "citation": "Matches macroWorldOffsetFloorShare."
     }
   },
+  "jobsWorldAgeRateSpreadShare": {
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's unemployment rate for an age band sits from the published CPS annual average, relative to the rate (the nearer bound): band rates move about a tenth from one year to the next outside a recession (BLS CPS Table A-10, unemployment rate by age, annual averages).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.25,
+      "unit": "share of the published rate",
+      "citation": "BLS CPS Table A-10 and Table 3 annual averages; year-to-year change of each age band rate."
+    }
+  },
+  "jobsWorldSeasonalSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's seasonal swing in an industry's staffing sits from the published 2010-2019 swing, as a share of the swing (BLS CES not seasonally adjusted over seasonally adjusted employment, by month).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the published monthly deviation from 1",
+      "citation": "BLS CES seasonal factors by supersector; the swing for construction and retail differs by a fifth or more between 2000-2009 and 2010-2019."
+    }
+  },
+  "jobsWorldEmploymentRateSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's share of an age band that is employed in a county sits from the ACS 2020-2024 share, relative to its nearer bound: about the ACS five-year county margin of error on employment counts plus a year of change (B23001).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.1,
+      "unit": "share of the distance to the nearer bound",
+      "citation": "ACS B23001 county margins of error; BLS LAUS county employment-population change year to year."
+    }
+  },
+  "jobsWorldPaySpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's pay for an occupation in an area sits from the BLS OEWS May 2025 wage there: about the OEWS relative standard error of an area median (2% to 8%) plus a year of wage growth (3% to 5%).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published wage",
+      "citation": "BLS OEWS May 2025 relative standard errors; BLS Employment Cost Index 12-month change."
+    }
+  },
+  "jobsWorldTenurePercentileSpreadPoints": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's pay percentile for a new hire and for a long-serving worker sit from the 25th and 75th that the game assumes: the OEWS tables publish quartile points, and an employer's pay scale runs a few percentile points either way.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 3,
+      "high": 10,
+      "unit": "percentile points",
+      "citation": "BLS OEWS percentile tables (10th, 25th, 50th, 75th, 90th); spacing of the published points."
+    }
+  },
+  "jobsWorldTenureYearsSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's years of tenure to the top of its pay range sit from the 20 years the game assumes, as a share of them (BLS Employee Tenure survey: median tenure by age band runs from 2.8 years for 25 to 34 to 9.9 years for 55 to 64).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.35,
+      "unit": "share of the tenure years",
+      "citation": "BLS Employee Tenure in 2024, Table 1."
+    }
+  },
+  "townPayStartPercentile": {
+    "value": 25,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: where in its occupation's wage distribution a new hire starts, before the world's offset.",
+    "spread": {
+      "low": 10,
+      "high": 50,
+      "unit": "percentile",
+      "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles."
+    }
+  },
+  "townPayEndPercentile": {
+    "value": 75,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: where a worker with the full tenure sits in the wage distribution, before the world's offset.",
+    "spread": {
+      "low": 50,
+      "high": 90,
+      "unit": "percentile",
+      "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles."
+    }
+  },
+  "townPayTenureYears": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "GAME ASSUMPTION, labeled: years at an employer from the starting to the ending pay percentile, before the world's offset.",
+    "spread": {
+      "low": 10,
+      "high": 30,
+      "unit": "years",
+      "citation": "BLS Employee Tenure: median tenure runs 9.9 years for 55 to 64 and the 90th percentile of tenure is well over 20."
+    }
+  },
+  "jobsWorldSectorMixSpreadShare": {
+    "value": 0.1,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's jobs in a sector or public group in a town sit from the Census County Business Patterns 2023 and BLS state ownership counts: sector employment in a county moves 2% to 10% a year and CBP withholds or rounds small cells.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.2,
+      "unit": "share of the published sector jobs",
+      "citation": "Census CBP year-to-year change by county sector; BLS state employment by ownership."
+    }
+  },
+  "jobsWorldPlaceEarningsSpreadShare": {
+    "value": 0.06,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's median earnings of a place's workers sit from the ACS 2024 median: the ACS place margin of error on median earnings (3% to 10% in small places) plus a year of wage growth.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.12,
+      "unit": "share of the published median earnings",
+      "citation": "ACS B20002 place margins of error; BLS Employment Cost Index 12-month change."
+    }
+  },
   "worldCashSpreadShare": {
     "value": 0.3,
     "tag": "ESTIMATED",
@@ -7127,6 +7256,78 @@
       "high": 0.2,
       "unit": "share of the published tuition",
       "citation": "NCES Digest of Education Statistics Table 205.50, average tuition across years and school levels (approximate; a researcher should confirm the figures)"
+    }
+  },
+  "worldBaseRateMortalitySpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's death rates sit from the SSA 2023 period life table, as a share: about the year-to-year change in U.S. age-adjusted death rates outside the pandemic years (CDC NCHS Data Brief 521, 2010-2019 changes of 0.5% to 3%) plus the gap between period and cohort tables.",
+    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the published rate",
+      "citation": "SSA 2023 period life table; CDC NCHS age-adjusted death rates."
+    }
+  },
+  "worldBaseRateNatalitySpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's age-specific birth rates sit from the CDC natality tables, as a share: about two years of change in U.S. age-specific fertility (NVSS Births: Final Data 2023 and 2024, rates moved 1% to 4% a year).",
+    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.02,
+      "high": 0.1,
+      "unit": "share of the published rate",
+      "citation": "data/research/renewal/natality-2023.json and natality-2024.json."
+    }
+  },
+  "worldBaseRateMoversSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's leaving rates sit from the ACS 2024 mover rates, as a share: about the ACS one-year margin on state out-mover rates plus a year's change (ACS B07001, state margins 3% to 10%).",
+    "estimatedFrom": "The published table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published rate",
+      "citation": "data/research/migration/mover-rates-acs-2024.json."
+    }
+  },
+  "worldBaseRateConditionsSpreadShare": {
+    "value": 0.08,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's chronic-condition prevalence sits from the published pack, as a share: about the survey margin on adult chronic-condition prevalence (CDC BRFSS and NHIS state estimates differ from the national figure by 5% to 15%).",
+    "estimatedFrom": "The published prevalence table is the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the published prevalence",
+      "citation": "CDC BRFSS state-level prevalence ranges; the condition pack's own sources."
+    }
+  },
+  "worldBaseRateTimeUseSpreadShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's daily hours of unmodeled activities sit from the ATUS diary figures, as a share: about the ATUS year-to-year change in hours of personal care, household work and meals (BLS American Time Use Survey 2022 to 2024, 1% to 5%).",
+    "estimatedFrom": "The published hours are the center; a world's factor is drawn once from its seed. Owner, Oct 27: every statistic starts realistic, not real, unless it is in law. Each published base-rate table (deaths, births, moves, chronic conditions, time use) is the center; each world scales the whole table once by its own factor, drawn from its seed at Start (seeded generation of the starting world). The rate still checks totals and never picks one actor's outcome (no dice).",
+    "spread": {
+      "low": 0.02,
+      "high": 0.08,
+      "unit": "share of the published hours",
+      "citation": "src/core2/data/time-use-reference.json (BLS ATUS)."
+    }
+  },
+  "worldPopulationSpreadShare": {
+    "value": 0.03,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's town population sits from the Census Bureau's published reference figure, as a share of it. A place's count moves by a few percent between the estimate and the next census or survey (Census Vintage 2025 estimates against the 2020 Census and ACS 2020-2024 five-year counts).",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.06,
+      "unit": "share of the published population",
+      "citation": "Census Vintage estimates against the decennial census, median absolute difference for incorporated places (approximate; a researcher should confirm the figures)"
     }
   },
   "businessWorldExitRateSpreadShare": {

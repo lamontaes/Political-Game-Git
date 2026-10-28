@@ -18,6 +18,7 @@
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
  * year's totals.
  */
+import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
@@ -886,11 +887,12 @@ function webLeavingFor(
   }
   const age = ageOf(api, person);
   const tenure = ownsHome(api, person.householdId) ? "own" : "rent";
+  const adultAge = api.parameter("votingAge");
   const children = (
     core.households.get(person.householdId)?.memberIds ?? []
   ).some((id) => {
     const member = core.people.get(id);
-    return member?.alive && ageOf(api, member) < 18;
+    return member?.alive && ageOf(api, member) < adultAge;
   });
   const householdKind: Subject["householdKind"] = children
     ? "with-children"
@@ -939,7 +941,9 @@ function accumulate(
   // region's conditions move how many.
   const web = webLeavingFor(api, person);
   const stage =
-    (lifeStageRate(api, person, band) / api.parameter("monthsPerYear")) *
+    ((lifeStageRate(api, person, band) *
+      worldRateFactor(api.state.seed, "movers")) /
+      api.parameter("monthsPerYear")) *
     m(api, "movesLifeStageScale") *
     (factor / (typical?.get(band) ?? factor)) *
     conditions.factor *

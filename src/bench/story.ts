@@ -146,7 +146,11 @@ export function storyScene(
   const cast = [
     personId,
     ...scene.presentIds.filter(
-      (id) => id !== personId && core.people.get(id)?.alive,
+      (id) =>
+        id !== personId &&
+        core.people.get(id)?.alive &&
+        // A speech heard is on the screen at home, not in the room.
+        id !== scene.speech?.speakerId,
     ),
   ].flatMap((id) => {
     const reason = reasonOf(id);
@@ -155,6 +159,9 @@ export function storyScene(
       ? [{ id, name: `${row.givenName} ${row.familyName}`, reason }]
       : [];
   });
+  const speaker = scene.speech
+    ? core.people.get(scene.speech.speakerId)
+    : undefined;
   const talk =
     purpose?.kind === "composed"
       ? {
@@ -188,9 +195,16 @@ export function storyScene(
         : []),
     ],
     talkToId: scene.talkToId,
+    // A speech heard plays in its speaker's own words, from its record.
+    ...(scene.speech ? { speech: scene.speech } : {}),
     talk,
     ...(purpose?.kind === "skipped" ? { talkSkipped: purpose.reason } : {}),
-    names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
+    names: Object.fromEntries([
+      ...cast.map((row) => [row.id, row.name]),
+      ...(scene.speech && speaker
+        ? [[speaker.id, `${speaker.givenName} ${speaker.familyName}`]]
+        : []),
+    ]),
   };
 }
 

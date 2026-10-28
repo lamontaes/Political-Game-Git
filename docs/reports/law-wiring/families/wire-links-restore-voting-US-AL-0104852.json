@@ -1,0 +1,138 @@
+{
+  "seed": "b958c6b5269b8a79",
+  "place": {
+    "seed": "ec94ec098d15063188c5046481c610a7f2695cb5feae6e614c6168e8125eb42e",
+    "key": "0104852",
+    "name": "Bear Creek, Alabama",
+    "state": "US-AL"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "kind": "question",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "enacted at state (law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480) effective 2025-01-21; then repealed at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+        "law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 7,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480:restored:estimated:restored:2025-01-21"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 7,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480:restored:estimated:restored:2025-01-21"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2488": 941,
+        "src/core2/modules/legislature.ts:3666": 170,
+        "src/core2/modules/world-legislating.ts:295": 24,
+        "src/core2/modules/world-legislating.ts:225": 16,
+        "src/core2/life.ts:555": 5,
+        "src/core2/modules/outcome-web.ts:175": 4,
+        "src/core2/modules/world-legislating.ts:380": 2
+      },
+      "openingRow": "law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "restore-voting-to-turnout",
+            "status": "built",
+            "to": "voting.turnout-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 144,
+        "sample": [
+          "person_73e8ec11e41f6df2:printed:outlet:cable:0:national:law-took-effect:law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+          "person_02fdd1773d8edf52:printed:outlet:cable:0:national:law-took-effect:law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+          "person_edcdb5fee118c784:printed:outlet:cable:0:national:law-took-effect:law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "seconds": 12
+    }
+  ]
+}

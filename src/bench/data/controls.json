@@ -124,6 +124,13 @@
       "family": "Family"
     },
     "rival": "Rival",
+    "publicRecord": {
+      "party": "Party",
+      "since": "In office since",
+      "votes": "Votes on record",
+      "sponsored": "Laws sponsored",
+      "signed": "Laws signed"
+    },
     "together": "With you",
     "sharedWords": {
       "household": "Lives with you",
@@ -482,39 +489,37 @@
   },
   "money": {
     "cash": "Cash available",
-    "history": "Balance history",
-    "spending": "Where the money went",
     "home": "Home",
     "householdHome": "Your household’s home",
     "tenure": "Tenure",
     "owned": "Owned",
     "rented": "Rented",
-    "value": "Value",
     "rent": "Rent",
     "monthly": "per month",
     "deductions": "Paycheck deductions",
-    "assets": "Assets",
-    "debts": "Debts",
     "lastMonth": "Last month",
-    "monthHousing": "Home costs",
-    "monthEveryday": "Everyday living",
-    "monthPaid": "Paid",
-    "monthUnpaid": "Left unpaid",
     "loanPayments": "Loan payments",
-    "loanDue": "due",
     "loanPaid": "paid",
-    "bank": "Bank",
-    "householdSavings": "Household savings",
-    "bankBooks": "Bank books",
-    "bankCash": "Bank cash",
-    "businessLoans": "Business loans",
-    "householdLoans": "Household loans",
-    "mortgages": "Mortgages",
-    "totalAssets": "Total assets",
-    "depositsOwed": "Deposits owed",
-    "mortgageFunding": "Mortgage funding",
-    "bankEquity": "Bank equity",
-    "liabilitiesAndEquity": "Liabilities and equity"
+    "unpaid": "left unpaid",
+    "pastDue": "past due",
+    "cashByMonth": "Cash at each month’s review",
+    "assets": "What you own",
+    "assetKinds": {
+      "savings": "Savings",
+      "home": "Your home"
+    },
+    "debts": "What you owe",
+    "debtKinds": {
+      "personal": "Personal loan",
+      "startup": "Startup loan",
+      "mortgage": "Mortgage"
+    },
+    "reasons": {
+      "household.rent": "Rent",
+      "household.mortgage": "Mortgage payment",
+      "household.everyday-living": "Everyday living",
+      "household-purchase": "Purchases"
+    }
   },
   "localRaces": {
     "title": "Local races on the ballot",
@@ -532,6 +537,9 @@
   "talkBox": {
     "continue": "Continue",
     "markGap": "Mark gap"
+  },
+  "guide": {
+    "search": "Search"
   },
   "campaignActs": {
     "volunteer": "Volunteers",
@@ -551,6 +559,27 @@
   },
   "seat": {
     "draft": "Draft"
+  },
+  "titles": {
+    "people": "People",
+    "who": "Who you are",
+    "money": "Money and property",
+    "jobs": "Jobs and study",
+    "journal": "Journal",
+    "politics": "Politics",
+    "government": "Government",
+    "office": "Your office",
+    "campaigns": "Campaigns",
+    "parties": "Parties",
+    "issues": "Issues",
+    "calendar": "Calendar",
+    "budgets": "Budgets",
+    "travel": "Travel",
+    "options": "Options",
+    "guide": "Guide",
+    "politicsGuide": "Guide",
+    "handoff": "Carry on as",
+    "news": "News"
   },
   "guide": {
     "search": "Search"

@@ -10,6 +10,7 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
+import { familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
@@ -81,6 +82,8 @@ export interface SituationCause {
   bind?: Readonly<Record<string, string>>;
   opener?: string;
   opening?: string;
+  /** The role whose recorded speech the scene plays, said in its words. */
+  said?: string;
   /**
    * The key the exchange's pieces are tagged with when this cause fires the
    * type, in place of the type's own tag key: one purpose, a different
@@ -168,6 +171,8 @@ export interface SceneBinding {
   opener?: string;
   opening?: string;
   reason?: string;
+  /** The role whose recorded speech the scene plays (the address heard at home). */
+  said?: string;
   openUntil: IsoDate;
   /** Later moments of the same day this sitting took in, each with its cause record. */
   joined?: { momentId: string; causeId: string }[];
@@ -478,17 +483,11 @@ function fillRole(
     case "authority": {
       // At home: the subject's parent on record who lives with them, else
       // another older relative in the household (a guardian).
-      const kinIn = new Map<PersonId, string>();
-      for (const fact of subject?.pastFacts ?? [])
-        if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-          kinIn.set(
-            fact.facts.otherPersonId as PersonId,
-            fact.kind.slice("family:".length),
-          );
+      const kinIn = familyFactsOf(subject);
       const members = household();
       for (const relations of GUARDIAN_RELATIONS) {
         const found = members.filter((id) =>
-          relations.includes(kinIn.get(id) ?? ""),
+          relations.includes(kinIn.get(id)?.relation ?? ""),
         );
         if (found.length) return found;
       }
@@ -656,6 +655,7 @@ function bindType(
       ...(cause.opener ? { opener: cause.opener } : {}),
       ...(cause.opening ? { opening: cause.opening } : {}),
       ...(cause.reason ? { reason: cause.reason } : {}),
+      ...(cause.said ? { said: cause.said } : {}),
       openUntil: addDays(
         makeIsoDate(moment.date),
         library.scheduling.openDays[type.timing] ?? zero,

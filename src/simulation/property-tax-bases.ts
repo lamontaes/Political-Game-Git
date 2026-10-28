@@ -142,7 +142,9 @@ export function recordPropertyTaxBases(
           resourceFlowTermsAt(world, row.resourceFlowId)?.amount.minorUnits ??
           0,
       );
-    const rentRow = owner ? null : hudRentRowFor(dwelling.jurisdictionId);
+    const rentRow = owner
+      ? null
+      : hudRentRowFor(dwelling.jurisdictionId, world.seed);
     const recordedRent = (rent[0] ?? 0) * 12;
     const estimatedRent =
       recordedRent === 0 && rentRow

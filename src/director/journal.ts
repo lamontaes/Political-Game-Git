@@ -1,4 +1,5 @@
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { familyFactsOf } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -163,25 +164,10 @@ function raceMargin(
   return "middle";
 }
 
-/** The person's relatives by id, with the family fact that records each. */
 function listOf(items: readonly string[]): string {
   return items.length < P.two + one
     ? items.join(" and ")
     : `${items.slice(zero, -one).join(", ")} and ${items.at(-one)}`;
-}
-
-function relatives(person: PersonState) {
-  const out = new Map<PersonId, { relation: string; factId: string }>();
-  for (const fact of person.pastFacts ?? []) {
-    const otherId = fact.facts?.otherPersonId;
-    if (!otherId || !fact.kind.startsWith("family:")) continue;
-    if (!out.has(otherId))
-      out.set(otherId, {
-        relation: fact.kind.slice("family:".length),
-        factId: fact.id,
-      });
-  }
-  return out;
 }
 
 /**
@@ -614,7 +600,7 @@ export function composeJournal(
   const person = core.people.get(personId);
   const book = director.ledger.people.get(personId);
   if (!person || !book) return [];
-  const kin = relatives(person);
+  const kin = familyFactsOf(person);
   const named = new Set<PersonId>();
   const saidAs = new Map<string, PersonId>();
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
@@ -1019,7 +1005,7 @@ export function composeJournal(
           : undefined) ??
         one) > one;
     const age = ageAt(moment.date);
-    const young = age < P.benchmarkAdultMinimumAge;
+    const young = age < P.votingAge;
     let event: ReturnType<typeof render> = null;
     if (row.hasOwnLine && own) {
       const won = facts.winner?.text === personId;
