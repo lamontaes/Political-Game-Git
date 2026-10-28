@@ -9,7 +9,7 @@ import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { racesOf, WORLD_RACES_MODULE_ID } from "../core2/modules/world-races";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFor, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -228,7 +228,7 @@ export function resultsScene(core: CoreState, playerId: string) {
   });
   return {
     place,
-    backdrop: backdropFile(place, ran ? 22 * 60 : 18 * 60),
+    backdrop: backdropFor(core, place, ran ? 22 * 60 : 18 * 60),
     people: stagePeople(core, place, cast).people,
   };
 }
