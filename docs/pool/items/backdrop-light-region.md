@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/backdrop-light-region
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T06:38:58.770Z
 ---
 
 **What.** The art session painted morning and night versions of 58 places and regional rebuilds of main-street, rally-town-square and the doorsteps for 8 regions (art/backdrops-variants on claude/people-rooms-art). Put them in art/backdrops and the manifest; the existing hour rule reads the light; a region list in data picks the rebuild from the town's state, through one picker every scene with a world uses.
