@@ -71,12 +71,7 @@ import {
 } from "../english/question-names";
 import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
-import {
-  openingChambers,
-  openingSequence,
-  type OpeningFigure,
-  type OpeningStage,
-} from "./opening-sequence";
+import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -136,11 +131,6 @@ export interface OpeningStory {
   };
   /** That evening's news: the address, then the town's own lead story. */
   readonly newscast: readonly OpeningNewsStory[];
-  /**
-   * The sequence the address plays over (owner, Oct 14, 2026, late): the
-   * President's stage, Congress, the state, the family; who each points out.
-   */
-  readonly sequence: readonly OpeningStage[];
   /** The handoff: the player's household at home on the evening of day one. */
   readonly home: {
     readonly date: string;
@@ -160,9 +150,6 @@ interface OpeningData {
   };
   townStoryKinds: Readonly<Record<string, StoryKind>>;
   speechTitles: Readonly<Record<OpeningSpeechKind, string>>;
-  named: {
-    rules: readonly { role: string; says?: string; fact?: string }[];
-  };
 }
 const DATA = openingData as unknown as OpeningData;
 const N = DATA.numbers;
@@ -853,50 +840,6 @@ function newsStory(
 }
 
 /**
- * Who the camera points out, each with the reason they are there: the first
- * address sentence that names them (a salutation's "Mr. Speaker"), their
- * place on the owner's list of key people, or the player's own household at
- * home. Anyone else is
- * left out (owner, Oct 14, 2026: a person lit with no recorded reason is a
- * defect).
- */
-function withReasons(
-  stages: readonly OpeningStage[],
-  sentences: readonly OpeningSentence[],
-  core: CoreState,
-): OpeningStage[] {
-  const namedBy = (figure: OpeningFigure): number | undefined => {
-    for (const rule of DATA.named.rules.filter(
-      (row) => row.role === figure.role,
-    )) {
-      const at = sentences.findIndex((sentence) =>
-        rule.says
-          ? new RegExp(rule.says).test(sentence.text)
-          : rule.fact
-            ? sentence.facts.includes(rule.fact) &&
-              sentence.sourceRecordIds.includes(figure.id)
-            : false,
-      );
-      if (at >= P.zero) return at;
-    }
-    return undefined;
-  };
-  return stages.map((stage) => ({
-    ...stage,
-    people: stage.people.flatMap((figure) => {
-      if (figure.role === "household")
-        return core.people.get(figure.id)?.alive ? [figure] : [];
-      const at = namedBy(figure);
-      // A key person (owner, Oct 15) is pointed out for being key, on their
-      // stage; the sentence that names them, if any, is the line they are lit on.
-      if (at === undefined)
-        return figure.role.startsWith("key:") ? [figure] : [];
-      return [{ ...figure, namedBy: at }];
-    }),
-  }));
-}
-
-/**
  * Compose the opening from the world's records. Pure: reads the core and
  * writes nothing. Null when the world seats no President or the address
  * can't open and close from the record.
@@ -919,10 +862,8 @@ export function composeOpeningStory(
   )
     ? "inaugural"
     : "state-of-the-union";
-  const staged = openingSequence(core, playerId, president.id);
   const sentences = composeAddressOf(core, president, official, kind);
   if (!sentences?.length) return null;
-  const sequence = withReasons(staged, sentences, core);
   const pastFact = (kindKey: string) =>
     (president.pastFacts ?? []).find((row) => row.kind === kindKey);
   const home = pastFact(PRESIDENT_FACT.homeState);
@@ -1008,7 +949,6 @@ export function composeOpeningStory(
       sourceRecordIds: allIds,
     },
     newscast: program,
-    sequence,
     home: {
       date: core.date,
       householdId: player.householdId,
@@ -1030,12 +970,11 @@ export function recordOpeningStory(
   core: CoreState,
   playerId: PersonId,
 ): OpeningStory | null {
-  // The chambers the sequence points out leaders of organize now, the first
-  // time anything needs their leaders, so composing reads them as they stand.
+  // The key chambers organize now, the first time anything needs their
+  // leaders, so composing reads them as they stand.
   const api = coreAPI(core);
   if (api.state.modules.has(LEADERSHIP_MODULE_ID))
-    for (const chamber of openingChambers(core, playerId))
-      organize(api, chamber);
+    for (const chamber of keyChambersOf(core, playerId)) organize(api, chamber);
   const story = composeOpeningStory(core, playerId);
   if (!story) return null;
   applyCoreEvent(core, {

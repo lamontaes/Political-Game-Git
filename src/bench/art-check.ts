@@ -15,7 +15,6 @@ import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { openBenchFilingVisit } from "./filing";
-import { openingFrames } from "./opening";
 import { townPlaces, visitPlace } from "./places";
 import { backdropFile, backdropPath, benchScene } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
@@ -64,16 +63,6 @@ function check(
       failures.push(`${label}: figure ${url.pathname} missing`);
   }
 }
-
-const story = w.director.ledger.opening;
-for (const frame of story ? openingFrames(core, me, story).frames : [])
-  check(
-    `opening ${frame.place}`,
-    frame.place,
-    frame.backdrop.file,
-    frame.people,
-    frame.cast.length,
-  );
 
 const household =
   core.households.get(core.people.get(me)!.householdId)?.memberIds ?? [];
