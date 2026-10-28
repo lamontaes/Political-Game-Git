@@ -855,10 +855,11 @@ function countedAdultsToday(api: CoreAPI): number {
   const held = countedByDay.get(api.state);
   if (held?.date === api.state.date) return held.n;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   let n = 0;
   for (const v of countedResidents(api.state as CoreState))
-    if (v.placeId === townPlaceId && ageOn(v, date) >= 18) n += v.weight;
+    if (v.placeId === townPlaceId && ageOn(v, date) >= adultAge) n += v.weight;
   countedByDay.set(api.state, { date, n });
   return n;
 }
@@ -870,6 +871,7 @@ function townAdults(api: CoreAPI): readonly PersonState[] {
   if (held?.date === api.state.date && held.size === api.state.people.size)
     return held.rows;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   const rows = [...(api.state.peopleByPlace.get(townPlaceId) ?? [])]
     .map((id) => api.state.people.get(id))
@@ -878,7 +880,7 @@ function townAdults(api: CoreAPI): readonly PersonState[] {
         !!p &&
         p.alive &&
         p.placeId === townPlaceId &&
-        ageOn(p, date) >= 18 &&
+        ageOn(p, date) >= adultAge &&
         !barredFromVoting(api, p.id),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -904,10 +906,14 @@ function townIncumbentLean(api: CoreAPI): number {
   const held = incumbentLeanByDay.get(api.state);
   if (held?.date === api.state.date) return held.mean;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   let sum = 0,
     weight = 0;
   for (const voter of countedResidents(api.state as CoreState)) {
-    if (voter.placeId !== townPlaceId || ageOn(voter, api.state.date) < 18)
+    if (
+      voter.placeId !== townPlaceId ||
+      ageOn(voter, api.state.date) < adultAge
+    )
       continue;
     sum += incumbentLeanOf(api, voter) * voter.weight;
     weight += voter.weight;
@@ -962,6 +968,7 @@ export interface RollVoter {
 export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
   const state = api.state as CoreState;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const date = state.date;
   const rows: RollVoter[] = townAdults(api).map((p) => ({
     id: p.id,
@@ -973,7 +980,7 @@ export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
   }));
   const scale = countedScale(api);
   for (const v of countedResidents(state))
-    if (v.placeId === townPlaceId && ageOn(v, date) >= 18)
+    if (v.placeId === townPlaceId && ageOn(v, date) >= adultAge)
       rows.push({
         id: v.id,
         target: "group",
@@ -1460,18 +1467,19 @@ export function holdPrimary(
   const access = parties[0]?.voterAccess ?? "";
   const date = api.state.date;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const lean0 = townLean(api);
   const named = [...api.state.people.values()]
     .filter(
       (p) =>
         p.alive &&
         p.placeId === townPlaceId &&
-        ageOn(p, date) >= 18 &&
+        ageOn(p, date) >= adultAge &&
         !barredFromVoting(api, p.id),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   const counted = countedResidents(api.state as CoreState).filter(
-    (v) => v.placeId === townPlaceId && ageOn(v, date) >= 18,
+    (v) => v.placeId === townPlaceId && ageOn(v, date) >= adultAge,
   );
   // Who identifies with a party: the firmest leans in town, at the real
   // identifier share (the same rule the parties engine ties named people by).
@@ -2254,6 +2262,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const filings = ballot(api, contestId);
   const date = api.state.date;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   // A ward seat is chosen by the voters of its ward alone; an at-large seat
   // by the whole town. A named adult the state's law bars for a felony
   // conviction can't vote.
@@ -2405,7 +2414,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   for (const voter of countedResidents(api.state as CoreState)) {
     if (voter.placeId !== townPlaceId) continue;
     const age = ageOn(voter, date);
-    if (age < 18) continue;
+    if (age < adultAge) continue;
     // Wards are drawn to equal population: the counted residents divide
     // among them in equal runs of the voters each stands for, as the named
     // households do.
@@ -2798,18 +2807,19 @@ function restOfTown(
   const population = Number(api.state.placeMetadata.referencePopulation);
   if (!Number.isFinite(population) || population <= 0) return 0;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   let people = 0,
     adults = 0;
   for (const p of api.state.people.values())
     if (p.alive && p.placeId === townPlaceId) {
       people += 1;
-      if (ageOn(p, date) >= 18) adults += 1;
+      if (ageOn(p, date) >= adultAge) adults += 1;
     }
   for (const v of countedResidents(api.state as CoreState))
     if (v.placeId === townPlaceId) {
       people += v.weight;
-      if (ageOn(v, date) >= 18) adults += v.weight;
+      if (ageOn(v, date) >= adultAge) adults += v.weight;
     }
   if (!people || population <= people) return 0;
   const eligible =
@@ -2962,9 +2972,10 @@ export function electorateSample(
   const hit = byKey.get(key);
   if (hit) return hit;
   const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
   const today = api.state.date;
   const counted = countedResidents(api.state as CoreState).filter(
-    (v) => v.placeId === townPlaceId && ageOn(v, today) >= 18,
+    (v) => v.placeId === townPlaceId && ageOn(v, today) >= adultAge,
   );
   const voters: {
     id: string;
@@ -2978,7 +2989,7 @@ export function electorateSample(
         (p) =>
           p.alive &&
           p.placeId === townPlaceId &&
-          ageOn(p, today) >= 18 &&
+          ageOn(p, today) >= adultAge &&
           !barredFromVoting(api, p.id),
       );
   const lean0 = townLean(api);

@@ -145,6 +145,7 @@ function fullUnits(
   wanted: ReadonlySet<string>,
 ): Map<string, Unit[]> {
   const c = core(api);
+  const adultAge = api.parameter("votingAge");
   const incomes = fullHouseholdIncomes(c);
   const dwellings = api.moduleState("housing");
   const hasHousing = c.modules.has("housing");
@@ -159,7 +160,7 @@ function fullUnits(
     if (!people.length) continue;
     const fifth = incomeBandOf(incomes.get(home.id) ?? 0);
     const ages = people.map((p) => ageOn(p.birthDate, c.date));
-    const children = ages.filter((a) => a < 18).length;
+    const children = ages.filter((a) => a < adultAge).length;
     const kind =
       children > 0
         ? "with-children"

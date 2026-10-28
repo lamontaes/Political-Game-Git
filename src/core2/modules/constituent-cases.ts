@@ -147,8 +147,9 @@ export function problemOf(
 } | null {
   const state = api.state as CoreState;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   const age = ageOn(person, date);
-  if (age < 18) return null;
+  if (age < adultAge) return null;
   const floor = lawInForce(api, "minimum-wage").value;
   const jobs = [...(state.work.commitmentsByPerson.get(person.id) ?? [])]
     .map((id) => state.work.commitments.get(id))
@@ -318,6 +319,7 @@ function countedOutOfWork(
   const rt = residentsRuntime(state);
   if (!rt || !state.modules.has(JOBS_MODULE_ID)) return [];
   const date = state.date;
+  const adultAge = api.parameter("votingAge");
   const seekers = api
     .moduleState(JOBS_MODULE_ID)
     .table("countedSeekers")
@@ -336,7 +338,7 @@ function countedOutOfWork(
     // Someone already on file as a person (one returned to the counts) is not a new fill-in.
     if (m === undefined || state.people.has(seeker.personId)) continue;
     if (
-      ageOn({ birthDate: store.born[m]! }, date) < 18 ||
+      ageOn({ birthDate: store.born[m]! }, date) < adultAge ||
       ageOn({ birthDate: store.born[m]! }, date) >=
         campaignParameter("caseRetirementAge")
     )
