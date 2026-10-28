@@ -494,12 +494,6 @@
       "stopgapId": "SG-WEB-unread-crime-rate-index"
     },
     {
-      "link": "grocery-exemption-to-food-insecurity",
-      "outcome": "household.food-insecurity",
-      "reason": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-household-food-insecurity"
-    },
-    {
       "link": "gas-hookup-ban-to-child-asthma",
       "outcome": "health.child-asthma-pct",
       "reason": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",

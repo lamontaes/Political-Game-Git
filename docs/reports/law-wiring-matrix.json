@@ -130,9 +130,9 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 75,
+    "wired": 76,
     "partly": 7,
-    "stopgapped": 7,
+    "stopgapped": 6,
     "shownOnAScreen": 87,
     "screensRead": [
       {
@@ -185,10 +185,10 @@
         "n/a": 7
       },
       "web": {
-        "wired": 64,
+        "wired": 65,
         "partial": 2,
         "missing": 0,
-        "stopgap": 7,
+        "stopgap": 6,
         "n/a": 16
       },
       "knowing": {
@@ -251,7 +251,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1431",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1432; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1432; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 highways-spending-to-poor-roads -0.0582, read by through poor-roads-to-prices: src/core2/finance-state.ts:1432",
           "why": ""
         },
         "knowing": {
@@ -2270,7 +2270,7 @@
       "family": "taxes-finance",
       "reachGroup": "B",
       "mechanic": "records",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -2298,9 +2298,9 @@
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-08 grocery-exemption-to-food-insecurity -0.0200 (ledger row only); Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-09 grocery-exemption-to-food-insecurity -0.0200 (ledger row only); Colome, South Dakota, US-SD (seed 8a0a30a37a501): web:jurisdiction_309b0ef82ebd0e42:2025-10 grocery-exemption-to-food-insecurity -0.0200 (ledger row only)",
-          "why": "no production reader: grocery-exemption-to-food-insecurity (SG-WEB-unread-household-food-insecurity) move only the web's ledger"
+          "status": "wired",
+          "evidence": "grocery-exemption-to-poverty: carried by src/core2/world-poverty.ts: the measure counts income before taxes (Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101); grocery-exemption-to-food-insecurity: carried by the sales tax engine, which spares the grocery share of each retail seller's sales where the exemption holds (syncSalesTax in src/core2/modules/budgets.ts), the business price review, which passes the tax change into the seller's tax-inclusive price (salesTaxPassThrough in src/core2/finance-state.ts), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan at those prices from what its members hold, so the exemption buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger) (Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
@@ -4750,7 +4750,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1431",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1432; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-06 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1432; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-07 container-deposit-to-prices -0.0005, read by src/core2/finance-state.ts:1432",
           "why": ""
         },
         "knowing": {
