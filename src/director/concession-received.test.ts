@@ -18,6 +18,7 @@ import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import { storyReply, storyScene } from "../bench/story";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
@@ -174,6 +175,34 @@ const run = (drawSeed: string): string | null => {
   // The winner is the player here: the core keeps the reasons of the player's
   // own circle, and a reply is a record of what they said to whom.
   core.playerId = winner;
+
+  // In ordinary play through the bench, the count's scenes come in turn: each
+  // ends with a reply, and the moment then plays the next one it staged, the
+  // victory night before the call, never the same scene twice.
+  const played: string[] = [];
+  for (;;) {
+    const shown = storyScene(core, director, winner, entry!.momentId, 20 * 60);
+    const typeKey = shown.talk?.typeKey;
+    if (!typeKey || played.includes(typeKey)) break;
+    played.push(typeKey);
+    const kept = storyReply(core, director, winner, entry!.momentId, [0], {
+      typeKey,
+    });
+    expect(core.durableLog.get(kept.recordId)?.facts?.causeId, where).toBe(
+      causeId,
+    );
+  }
+  process.stdout.write(
+    `IN TURN ${where}: ${played.join(" then ")}, from ${causeId}\n`,
+  );
+  expect(played, `${where}: the count's scenes in turn`).toContain(
+    "concession-received",
+  );
+  if (entry!.bindings.some((row) => row.typeKey === "race-won"))
+    expect(
+      played.indexOf("race-won"),
+      `${where}: ${played.join(", ")}`,
+    ).toBeLessThan(played.indexOf("concession-received"));
   const id = replyInScene(core, director, winner, entry!, [0], {
     typeKey: "concession-received",
   });

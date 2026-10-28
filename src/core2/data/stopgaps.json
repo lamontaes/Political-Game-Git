@@ -7093,12 +7093,12 @@
     "id": "SG-PLAY-figure-color-masks-from-picture",
     "kind": "faked-mechanic",
     "file": "src/bench/figure-colors.ts",
-    "line": 61,
-    "whatItFakes": "A figure's skin and clothing regions are guessed from pixel colors (warm saturated pixels are skin, unsaturated mid-gray pixels are clothing) instead of read from a painted mask, so the gray shoes follow the clothes color and a very dark skin tone loses some facial shading.",
+    "line": 99,
+    "whatItFakes": "Skin is still guessed from pixel colors (warm saturated pixels), and the 282 v2 figures without a garment map yet (art/people-engine/v2/garments covers 108) take their clothing from the unsaturated mid-gray pixels below the head, split by height into shirt, pants and shoes, or with a vest or blazer into a one-color suit and shoes.",
     "why": "The v2 figures are flat pictures in one skin tone and gray clothes with no mask layers; play-stop-34 needed color choice in the creator and rooms inside its time box without repainting 389 figures.",
     "addedBy": "claude/play-stop-34",
     "addedAt": "2026-10-27",
-    "replacement": "A painted skin mask and clothing mask for each figure (asset-scene-admission), read by recolorFigure in place of the color test.",
+    "replacement": "The art session's garment maps for every v2 figure and a skin mask (asset-scene-admission), read by recolorFigure; the color test is then deleted.",
     "status": "open"
   },
   {
@@ -7209,6 +7209,18 @@
     "addedBy": "claude/integration-one-employment",
     "addedAt": "2026-10-27",
     "replacement": "Bank lines for the job-offer purpose and the job-offer scene opening, written by the Words lead through civic-prose; the offer then shows as a call from the person at the employer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-day-start-minute",
+    "kind": "missing-mechanic",
+    "file": "src/bench/player.ts",
+    "line": 212,
+    "whatItFakes": "Every controlled person's day starts at one minute (7:00 AM, playerDayStartMinute): Day, Week and a calendar jump land on it, and the director's scenes at home wait for it, instead of the person's own wake time.",
+    "why": "The core keeps no wake or sleep time for a person; work shifts start and end, but nothing says when anyone gets up.",
+    "addedBy": "claude/integration-clock-and-hours",
+    "addedAt": "2026-10-27",
+    "replacement": "A person's own wake time from their work schedule, household and age (American Time Use Survey sleep and waking hours by age and employment), read by the bench's day driver and the director's openedAt.",
     "status": "open"
   },
   {

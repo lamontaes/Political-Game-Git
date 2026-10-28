@@ -443,5 +443,35 @@
       "PR"
     ],
     "default": ["county-courthouse-classical", "county-courthouse"]
+  },
+  "pictureFamilies": {
+    "about": "Pictures of one kind of place: a scene that names any of them is drawn from the whole family, chosen for the town (and for the business or situation) by its own key, so the same place looks the same every time and two towns differ (owner, Oct 27: 'why is this the only storefront scene used?'). Where the town's choice has no painting for the hour's light (night, morning), the next member in the town's order that has one is used. Families are picture choices checked by eye against the paintings, TUNABLE.",
+    "families": [
+      [
+        "main-street",
+        "downtown-sidewalk",
+        "sidewalk-main-street",
+        "sidewalk-downtown",
+        "courthouse-square"
+      ],
+      ["sidewalk-suburban", "bus-stop"],
+      [
+        "store",
+        "general-store",
+        "grocery-store",
+        "hardware-store-interior",
+        "gas-station-store"
+      ],
+      ["coffee-shop", "diner", "diner-counter"],
+      ["tavern", "steakhouse-private-room"],
+      ["park", "community-garden", "playground"],
+      [
+        "community-room",
+        "lodge-hall",
+        "church-supper-hall",
+        "union-hall-interior"
+      ],
+      ["strip-mall-parking-lot", "farmers-market"]
+    ]
   }
 }

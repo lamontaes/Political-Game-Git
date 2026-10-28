@@ -28,3 +28,5 @@ Sent back 2026-10-16 from PR #713 (branch codex/assignments-5-money-sources-safe
 Sent back 2026-10-23 from PR #713 (branch codex/assignments-5-money-sources-safe): PR body lacks the Done-when evidence table mapping every acceptance requirement to proof; add the dependency repair, changed-file test and drawn-place or bounded research evidence, clean main integration, and gate-line rows; finish on that branch, merge main into it first.
 
 Sent back 2026-10-26 from PR #713 (branch codex/assignments-5-money-sources-safe): required rights-review evidence remains explicitly open; all 48 committed state originals retain UNKNOWN rights and no declared license, so record applicable terms/review evidence or bound to inputs with an established redistribution basis; finish on that branch, merge main into it first.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (rights gate withdrawn; PR #713 closed by OD:541).

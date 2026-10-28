@@ -7,6 +7,7 @@ import {
   backdropFile,
   homeOf,
   orgPlace,
+  pictureFor,
   stagePeople,
   type StageReason,
 } from "./scene";
@@ -79,13 +80,10 @@ export function storyScene(
   // A scene with a purpose plays as its exchange: the asker's open and
   // statement, the replies the player taps, the answers, to its close. Its
   // situation is the one staged (a filing's household at home, not the clerk).
-  const purpose = purposeScene(
-    core,
-    director,
-    personId as PersonId,
-    entry,
-    options.held ? { includeHeld: true } : {},
-  );
+  const purpose = purposeScene(core, director, personId as PersonId, entry, {
+    ...(options.held ? { includeHeld: true } : {}),
+    next: true,
+  });
   const lead =
     purpose?.kind === "composed"
       ? entry.bindings.find((row) => row.typeKey === purpose.scene.typeKey)
@@ -122,6 +120,13 @@ export function storyScene(
       )
       .find((row): row is string => !!row && PICTURED.has(row)) ??
     homeOf(core, personId, minuteOfDay);
+  // The town's own picture of that kind of place, at this hour's light.
+  const pictured = pictureFor(
+    core,
+    place,
+    scene.setting.recordId ?? scene.setting.kind,
+    minuteOfDay,
+  );
   // Who stands in the room needs a reason on record: the
   // people the moment is about (who opened it, whom it names, who asks), and
   // at home the household who live there. Anyone else the situation listed
@@ -175,9 +180,9 @@ export function storyScene(
       : null;
   return {
     momentId,
-    place,
-    backdrop: backdropFile(place, minuteOfDay),
-    people: stagePeople(core, place, cast).people,
+    place: pictured,
+    backdrop: backdropFile(pictured, minuteOfDay),
+    people: stagePeople(core, pictured, cast).people,
     narration: [
       ...scene.narration,
       ...(purpose?.kind === "composed"
@@ -204,7 +209,7 @@ export function storyReply(
   personId: string,
   momentId: string,
   path: readonly number[],
-  options: { held?: boolean } = {},
+  options: { held?: boolean; typeKey?: string } = {},
 ) {
   const entry = director.ledger.people
     .get(personId)
@@ -216,7 +221,12 @@ export function storyReply(
     personId as PersonId,
     entry,
     path,
-    options.held ? { includeHeld: true } : {},
+    {
+      ...(options.held ? { includeHeld: true } : {}),
+      // The scene the reply was said in, so the next one of the moment
+      // does not take its place partway through.
+      ...(options.typeKey ? { typeKey: options.typeKey } : {}),
+    },
   );
   if (!recordId) throw new Error("Not a reply the scene offers.");
   return { recordId };

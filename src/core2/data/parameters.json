@@ -49,6 +49,17 @@
     "tag": "SOURCED",
     "citation": "Civil calendar: one day contains 24 nominal hours; date arithmetic uses UTC date-only days."
   },
+  "playerDayStartMinute": {
+    "value": 420,
+    "tag": "TUNABLE",
+    "citation": "The minute of the day (7:00 AM) on which the controlled person's day starts when the player presses Day, Week or a calendar jump: the clock lands on the morning, never on midnight. A starting point inside the range of American adults' average waking time on a workday; the core records no wake time of its own yet, so this stands in for it until a person's own wake time is read.",
+    "spread": {
+      "low": 360,
+      "high": 480,
+      "unit": "minutes after midnight",
+      "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
+    }
+  },
   "daysPerWeek": {
     "value": 7,
     "tag": "SOURCED",
