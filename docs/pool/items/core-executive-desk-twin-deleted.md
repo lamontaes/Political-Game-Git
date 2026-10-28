@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dup-desk-decision
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:00:39.541Z
 ---
 
 **What.** The executive module kept its own desk table of every bill on an executive's desk, filled by a legislature hook. Only decideOnDesk and deskOf read it, and nothing calls either; the live desk is office-day's decideDesk, which reads the bill's own status and records the act. The table is a record nobody reads beside the real one (duplicates report row C10).
