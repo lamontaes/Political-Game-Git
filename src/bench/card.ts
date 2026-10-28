@@ -367,6 +367,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     publicKnowledge: core.modules.has(PAST_MODULE_ID)
       ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
       : null,
+    // Their headshot for the talk box: the same face the People map draws.
+    face: faceOf(core, otherId, scenePlace(core, viewerId).place),
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [
