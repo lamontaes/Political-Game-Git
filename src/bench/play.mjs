@@ -2640,12 +2640,6 @@ const dayIcon = (kind) =>
     election: "election",
   })[kind] ?? "meeting";
 
-/** A record kind as words: "filing-deadline" reads "Filing deadline". */
-const kindName = (kind) => {
-  const name = kind.split(/[:.]/).pop();
-  return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
-};
-
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
   return me.portrait
