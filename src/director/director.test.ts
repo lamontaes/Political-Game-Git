@@ -87,6 +87,14 @@ function town(placeId: string): CoreInput {
         summary: "High school cohort",
         source,
       },
+      {
+        id: "fact:worker:partner",
+        date: "1994-01-01",
+        kind: "family:partner",
+        summary: "Partner",
+        source,
+        facts: { otherPersonId: "person:spouse" },
+      },
     ],
   });
   const spouse = person("person:spouse", placeId, {
@@ -978,13 +986,6 @@ describe("story director on the new core", () => {
             ...row,
             pastFacts: [
               ...(row.pastFacts ?? []),
-              {
-                id: "fact:worker:partner",
-                date: "1994-01-01",
-                kind: "family:partner",
-                summary: "Partner",
-                source,
-              },
               {
                 id: "fact:worker:opening-job",
                 date: startedAt,
