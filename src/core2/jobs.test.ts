@@ -244,7 +244,12 @@ describe("jobs", () => {
     const jobs = api.moduleState("jobs");
     const custody = api.moduleState(JUSTICE_MODULE_ID).table("custody");
     for (const personId of ["s1", "s2"]) {
-      custody.put({ id: `custody:${personId}`, personId, status: "serving" });
+      custody.put({
+        id: `custody:${personId}`,
+        kind: "person",
+        personId,
+        status: "serving",
+      });
       // Stale applications exercise hiring independently of the new-search guard.
       for (const table of ["seekers", "countedSeekers"])
         jobs.table(table).put({
@@ -272,7 +277,12 @@ describe("jobs", () => {
     advanceCore(core, "2021-04-30");
     expect(jobs.table("seekers").get("s1")).toBeUndefined();
     expect(jobs.table("seekers").get("s2")).toBeUndefined();
-    custody.put({ id: "custody:s1", personId: "s1", status: "released" });
+    custody.put({
+      id: "custody:s1",
+      kind: "person",
+      personId: "s1",
+      status: "released",
+    });
     advanceCore(core, "2021-07-31");
     expect(
       jobs
@@ -311,10 +321,12 @@ describe("jobs", () => {
       });
       for (const table of ["seekers", "countedSeekers"])
         jobs.table(table).put({ id: "s1", personId: "s1", isSeeker: true });
-      api
-        .moduleState(JUSTICE_MODULE_ID)
-        .table("custody")
-        .put({ id: "custody:s1", personId: "s1", status: "serving" });
+      api.moduleState(JUSTICE_MODULE_ID).table("custody").put({
+        id: "custody:s1",
+        kind: "person",
+        personId: "s1",
+        status: "serving",
+      });
       expect(
         startPublicJob(api, {
           personId: "s1",
