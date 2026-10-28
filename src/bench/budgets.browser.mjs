@@ -91,11 +91,13 @@ try {
     .locator('[data-tab="travel"]')
     .first()
     .evaluate((e) => e.click());
-  const go = page.locator("#sheet-body button", { hasText: /Go/ });
+  const go = page.locator("#sheet-body .entry", { hasText: /You file here/ });
   await go.first().waitFor();
   let atCounter = false;
   for (let i = 0; i < (await go.count()) && !atCounter; i++) {
     await go.nth(i).click();
+    const placeGo = page.locator('[data-testid="place-go"]');
+    if (await placeGo.isVisible().catch(() => false)) await placeGo.click();
     atCounter = await page
       .locator("#talk:not([hidden])")
       .waitFor({ timeout: 5000 })
@@ -104,11 +106,17 @@ try {
   }
   assert.ok(atCounter, "no place in Travel takes filings");
   await page.locator("#talk-choices button").first().click();
-  await page.locator("#filing-overlay:not([hidden])").waitFor();
+  await page
+    .locator("#talk-choices button", { hasText: /file for this office/i })
+    .first()
+    .waitFor();
   const filed = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/filing/choose",
   );
-  await page.locator("#talk-choices button").first().click();
+  await page
+    .locator("#talk-choices button", { hasText: /file for this office/i })
+    .first()
+    .click();
   const result = (await (await filed).json()).result;
   assert.equal(
     result?.filing?.status,
@@ -118,10 +126,6 @@ try {
   await page
     .locator("#talk-leave")
     .click()
-    .catch(() => {});
-  await page
-    .locator("#filing-overlay")
-    .waitFor({ state: "hidden", timeout: 10000 })
     .catch(() => {});
 
   // Filed: the tab is there, and every sum reads in a rounded unit.
