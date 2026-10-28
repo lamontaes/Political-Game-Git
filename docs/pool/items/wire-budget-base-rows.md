@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/wire-budget-base-rows
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T05:59:20.342Z
 ---
 
 **What.** Line 29 of the engine map (E4). publishedBudgetFor in src/core2/modules/budgets.ts builds each government's base by a branch (federal, island area, state, local split by county share). The exporter writes one row per government per place; the engine reads the row the government names.
