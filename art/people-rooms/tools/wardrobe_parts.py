@@ -21,13 +21,27 @@ def load(p):
 
 def figure(E):
     bg = np.median(np.concatenate([E[:6].reshape(-1, 3), E[-6:].reshape(-1, 3), E[:, :6].reshape(-1, 3), E[:, -6:].reshape(-1, 3)]), 0)
-    return ndimage.binary_fill_holes(ndimage.binary_opening(np.abs(E - bg).sum(2) > 45, iterations=1))
+    f = ndimage.binary_opening(np.abs(E - bg).sum(2) > 45, iterations=1)
+    holes, n = ndimage.label(ndimage.binary_fill_holes(f) & ~f)                         # ground between an arm and the body stays ground
+    if n: f |= np.isin(holes, 1 + np.where(ndimage.sum(np.ones_like(f), holes, range(1, n + 1)) < 150)[0])
+    return f
 
 def green(E):
     """The part Firefly painted in key green: green pixels, closed, plus the dark outline right around them."""
-    r, g, b = E[..., 0], E[..., 1], E[..., 2]
-    gr = (g > r + 35) & (g > b + 15) & (g > 70)
-    gr = ndimage.binary_fill_holes(ndimage.binary_closing(ndimage.binary_opening(gr, iterations=1), iterations=2))
+    return keyed(E, lambda r, g, b: (g > r + 35) & (g > b + 15) & (g > 70))
+
+def blue(E):
+    """Hair Firefly painted in key blue, plus its outline and the scalp showing between curls."""
+    return keyed(E, lambda r, g, b: (b > r + 40) & (b > g + 20) & (b > 70))
+
+def keyed(E, test):
+    r, g, b = E[..., 0], E[..., 1], E[..., 2]; mx, mn = E.max(2), E.min(2)
+    gr = test(r, g, b) & ((mx - mn) / (mx + 1) > 0.25) & (E.sum(2) < 3 * 235)         # pale edge blends with the white ground are not the garment
+    gr = ndimage.binary_closing(ndimage.binary_opening(gr, iterations=1), iterations=2)
+    holes, n = ndimage.label(ndimage.binary_fill_holes(gr) & ~gr)                       # fill only small dark holes (buttons, seams), never ground showing through
+    if n:
+        idx = np.arange(1, n + 1); size = ndimage.sum(np.ones_like(gr), holes, idx); lum = ndimage.mean(E.sum(2) / 3, holes, idx)
+        gr |= np.isin(holes, idx[(size < 250) & (lum < 200)])
     dark = E.sum(2) < 3 * 110
     return gr | (dark & ndimage.binary_dilation(gr, iterations=3) & ~ndimage.binary_erosion(gr, iterations=1))
 
@@ -43,10 +57,14 @@ def main():
     skinB = warm(B)
     for k in regions: regions[k] = ndimage.binary_dilation(ndimage.binary_closing(regions[k], iterations=2), iterations=3) & figB & ~skinB   # each garment with its own outline, never skin
     clothes = regions['shirt'] | regions['pants'] | regions['shoes']
+    D = lambda m, n: ndimage.binary_dilation(m, iterations=n)
+    feet = D(regions['shoes'], 4)
+    zone = {'shoes': D(regions['shoes'], 10), 'pants': D(regions['pants'], 30) & ~feet, 'shirt': D(regions['shirt'], 30) & ~feet,
+            'jacket': (D(regions['shirt'], 60) | D(regions['pants'], 20)) & ~feet, 'tie': D(regions['shirt'], 6), 'dress': D(regions['shirt'] | regions['pants'], 30) & ~feet}
     cells = v2cut.body_cells((figB * 255).astype(np.uint8))
     H0 = load(hair_sheet) if hair_sheet else None
     rows = np.arange(FRAME[1])[:, None]
-    PARTS = [('shirt', 'sh', range(2, 7)), ('jacket', 'jk', range(1, 6)), ('tie', 'ti', range(1, 2)), ('pants', 'pa', range(1, 7)), ('shoes', 'ft', range(2, 7)), ('dress', 'dr', range(1, 2))]
+    PARTS = [('shirt', 'sh', range(2, 7)), ('jacket', 'jk', range(1, 8)), ('tie', 'ti', range(1, 2)), ('pants', 'pa', range(1, 7)), ('shoes', 'ft', range(2, 7)), ('dress', 'dr', range(1, 2))]
     edits = {}
     for part, code, rng in PARTS:
         for i in rng:
@@ -56,8 +74,10 @@ def main():
     hairs = {}
     if hair_pre:
         for i in range(1, 13):
+            pb = f"{os.path.dirname(hair_pre)}/{os.path.basename(hair_pre).replace('hk-', 'hb-').replace('hr-', 'hb-')}-{i:02d}.png"
             p = f'{hair_pre}-{i:02d}.png'
-            if os.path.exists(p):
+            if os.path.exists(pb): E = load(pb); hairs[i] = (E, blue(E))                # key blue: the whole hair, even over a gray shirt
+            elif os.path.exists(p):
                 E = load(p); mx, mn = E.max(2), E.min(2); sat = (mx - mn) / (mx + 1)
                 hairs[i] = (E, (np.abs(E - H0).sum(2) > 60) & (sat < 0.22))
     meta = {'sheet': sheet, 'frame': list(FRAME), 'order': ['body', 'pants', 'shoes', 'dress', 'shirt', 'tie', 'jacket', 'hair'], 'figures': {}}
@@ -67,9 +87,12 @@ def main():
         ys = np.where(keep.any(1))[0]; top, bot = ys.min(), ys.max(); Hh = bot - top
         cell = np.zeros(FRAME[::-1], bool); cell[Y0:Y1, X0:X1] = True
         band = lambda a, b: cell & (rows >= top + a * Hh) & (rows <= top + b * Hh)
+        near_body = {False: ndimage.binary_dilation(keep, iterations=22), True: ndimage.binary_dilation(keep, iterations=48)}
         def save(m, src, name):
-            m = m & cell; a = (ndimage.gaussian_filter(m.astype(float), 0.5) * 255).clip(0, 255).astype(np.uint8)
-            Image.fromarray(np.dstack([src.astype(np.uint8), a])[Y0:Y1, X0:X1]).save(f'{od}/{name}.png'); return int(m.sum())
+            m = m & cell & near_body[name.startswith('hair')]                                # nothing stray far from this body
+            a = (ndimage.gaussian_filter(m.astype(float), 0.5) * 255).clip(0, 255).astype(np.uint8)
+            rgb = np.where(a[..., None] > 0, src, 0).astype(np.uint8)                       # nothing kept under transparent pixels
+            Image.fromarray(np.dstack([rgb, a])[Y0:Y1, X0:X1]).save(f'{od}/{name}.png', optimize=True); return int(m.sum())
         info = {'box': [int(X0), int(Y0), int(X1), int(Y1)], 'parts': {}}
         # leftovers below the chin that are neither skin nor marked clothing (belt, cuffs, buttons) belong to the nearest garment
         rest = keep & ~clothes & ~skinB & cell & (rows > top + 0.16 * Hh)
@@ -77,16 +100,27 @@ def main():
         for n, k in enumerate(('shirt', 'pants', 'shoes'), 1): lab[regions[k] & keep] = n
         dist, (iy, ix) = ndimage.distance_transform_edt(lab == 0, return_indices=True)
         near = np.where(rest & (dist <= 12), lab[iy, ix], 0)
+        dp = ndimage.distance_transform_edt(lab != 2)
+        near = np.where(rest & (dp <= 12), 2, near)                                      # the belt and waistband go with the pants
         own = {k: (regions[k] & keep) | (near == n) for n, k in enumerate(('shirt', 'pants', 'shoes'), 1)}
         info['parts']['body'] = save(keep & ~clothes & ~(near > 0), B, 'body')
         for part in ('shirt', 'pants', 'shoes'): info['parts'][f'{part}-1'] = save(own[part], B, f'{part}-1')
         for (part, i), (E, figE, ch, key) in edits.items():
             if key:                                                                  # whole green garment + bare skin where the old garment was
-                m = figE & ch & band(-0.02, 1.02)
-                if part in ('shirt', 'pants', 'shoes'): m |= figE & warm(E) & regions[part]          # skin the new garment uncovers (forearms, shins, ankles)
-                if part == 'dress': m |= figE & warm(E) & (regions['shirt'] | regions['pants'])
+                m = figE & ch & band(-0.02, 1.02) & zone[part]                         # only near where this garment sits on the base: an edit that greened too much keeps just its own piece
+                if part in ('shirt', 'pants', 'shoes', 'dress'):                          # skin the new garment uncovers (forearms, shins, ankles), with its own outline
+                    reg = (regions['shirt'] | regions['pants']) if part == 'dress' else regions[part]
+                    sk = figE & warm(E) & reg
+                    m |= sk | (figE & (E.sum(2) < 3 * 110) & ndimage.binary_dilation(sk, iterations=3) & ndimage.binary_dilation(reg, iterations=3))
+                if part == 'pants': m |= figE & regions['pants'] & ~warm(E) & ~feet           # hems and seams in the old pants area that are not skin: no gap above the shoes
+                if part == 'pants':                                                       # the belt Firefly left unpainted just above the green
+                    g2 = ch & cell; top_g = np.where(g2.any(0), g2.argmax(0), FRAME[1])
+                    m |= figE & ~warm(E) & (rows >= top_g[None, :] - 28) & (rows < top_g[None, :]) & cell & ndimage.binary_dilation(g2, iterations=28)   # runs up under the shirt, so no waist gap
                 m = ndimage.binary_opening(m, iterations=1)
                 if (ch & cell).sum() < 400: continue                                    # this figure's garment did not change (women-only pieces on the men)
+                ref = (regions[{'shoes': 'shoes', 'pants': 'pants'}.get(part, 'shirt')] & keep).sum()
+                if part != 'tie' and m.sum() < 0.35 * ref:                               # Firefly lost most of this garment: leave it out, it gets repainted
+                    print('thin', fid, f'{part}-{i}', int(m.sum()), int(ref), file=sys.stderr); continue
                 info['parts'][f'{part}-{i}'] = save(m, E, f'{part}-{i}'); continue
             if part == 'shirt': m = figE & (regions['shirt'] | (ch & band(0.10, 0.72)))
             elif part == 'jacket': m = figE & ch & band(0.10, 0.80)
