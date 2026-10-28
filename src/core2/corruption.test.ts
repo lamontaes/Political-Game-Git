@@ -2,7 +2,6 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
   considerBribe,
@@ -34,14 +33,12 @@ function corruptionCases(
   placeKey?: string,
   fresh = false,
 ): string | null {
-  const input = buildDeepPast(
-    buildPopulation({
-      seed,
-      ...(placeKey ? { placeKey } : {}),
-      startedAt: "2021-01-01",
-      minimumPeople: 500,
-    }),
-  );
+  const input = buildPopulation({
+    seed,
+    ...(placeKey ? { placeKey } : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 500,
+  });
   const core = createLifeCore(input, { modules: [corruptionModule] });
   const api = coreAPI(core);
   const adults = [...core.people.values()].filter(

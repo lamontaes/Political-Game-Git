@@ -26,8 +26,26 @@ describe("the outcome web's unwired links", () => {
       return !coverage.wired && !("carriedBy" in coverage);
     });
     expect(unrun.length).toBeGreaterThan(0);
+    // A link its research finds about zero has no effect to carry, so it is
+    // graded not applicable and is not on the list (effect-matrix.ts).
+    const aboutZero = (link: (typeof WEB_LINKS)[number]) =>
+      (link as { status?: string }).status === "about-zero";
     for (const link of unrun)
-      expect(listed.has(link.key), `${link.key} is not run`).toBe(true);
+      expect(listed.has(link.key), `${link.key} is not run`).toBe(
+        !aboutZero(link),
+      );
+  });
+
+  it("leave off every link its research finds about zero", () => {
+    const listed = new Set(data.links.map((row) => row.link));
+    const zero = WEB_LINKS.filter(
+      (link) => (link as { status?: string }).status === "about-zero",
+    );
+    expect(zero.length).toBeGreaterThan(0);
+    for (const link of zero) {
+      expect(link.size, link.key).toBe(0);
+      expect(listed.has(link.key), `${link.key} is about zero`).toBe(false);
+    }
   });
 
   it("say the monthly ledger only for links the web runs", () => {
