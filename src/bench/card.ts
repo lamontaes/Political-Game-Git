@@ -1,3 +1,4 @@
+import { servingTermsOf } from "../core2/modules/offices";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { drivesReport } from "../core2/modules/drives";
 import { reachOn } from "../core2/law-reach/host";
@@ -193,20 +194,14 @@ const OFFICES = "core2-offices-v1";
 
 /** The offices a person serves in now, by title. */
 function servingOffices(core: CoreState, personId: string): string[] {
-  if (!core.modules.has(OFFICES)) return [];
-  const offices = coreAPI(core).moduleState(OFFICES);
-  return (
-    offices.table("terms").query("byPerson", [personId]) as unknown as {
-      status: string;
-      officeId: string;
-    }[]
-  )
-    .filter((term) => term.status === "serving")
-    .flatMap((term) => {
-      const office = offices.table("offices").get(term.officeId) as
-        { title?: string } | undefined;
-      return office?.title ? [office.title] : [];
-    });
+  const api = coreAPI(core);
+  return servingTermsOf(api, personId).flatMap((term) => {
+    const office = api
+      .moduleState(OFFICES)
+      .table("offices")
+      .get(term.officeId) as { title?: string } | undefined;
+    return office?.title ? [office.title] : [];
+  });
 }
 
 /**
