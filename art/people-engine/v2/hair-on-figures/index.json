@@ -1,5 +1,5 @@
 {
-  "about": "Hair pieces painted by Firefly onto the v2 figures' own heads (Oct 27, 2026). Each piece is an RGBA layer in the same pixel frame as figures/<figure>.png (lay it straight on top), plain gray to recolor. head = [top, centerX, width] of that figure's head, to move a piece onto another figure of the same view: scale by width ratio, align top and centre. threeq pieces face left; mirror them for right-facing figures.",
+  "about": "Hair pieces painted by Firefly onto the v2 figures' own heads (Oct 27, 2026). Each piece is an RGBA layer in the same pixel frame as figures/<figure>.png (lay it straight on top), plain gray to recolor. head = [top, centerX, width] of that figure's head, to move a piece onto another figure of the same view: scale by width ratio, align top and center. threeq pieces face left; mirror them for right-facing figures.",
   "styles": {
     "female": [
       "shoulder-length wavy",

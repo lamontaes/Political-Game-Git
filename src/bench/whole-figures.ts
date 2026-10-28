@@ -594,7 +594,7 @@ const PICTURE_HEIGHT = 941;
 /** Percent of the picture kept above a standing head (presentation, TUNABLE by eye). */
 const HEADROOM = 5;
 /** Percent of the picture kept beside a figure at either side (presentation, TUNABLE by eye). */
-const SIDE_ROOM = 4;
+export const SIDE_ROOM = 4;
 /** A figure's left edge, moved in from the picture's sides where its spot would crowd it. */
 const inFrame = (left: number, width: number) =>
   Math.max(SIDE_ROOM, Math.min(left, 100 - width - SIDE_ROOM));
