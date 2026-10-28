@@ -47,6 +47,13 @@ import {
   type LawInForceAnswer,
 } from "../laws-in-force";
 
+/**
+ * How a law's effect reaches a person through the outcome web: the web's factor
+ * for one subject in one place, read by an engine in another family at the
+ * moment it decides (this family's entry, tests/guards/families.json).
+ */
+export { webReach } from "../outcome-web-reach";
+
 export const LAWS_MODULE_ID = "core2-laws-v1";
 const CHAIN_ID = "chain";
 /** The count of laws enacted in play, across every series: their order. */

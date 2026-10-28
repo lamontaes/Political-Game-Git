@@ -32,6 +32,7 @@ interface PackCondition {
   readonly prevalence: readonly PrevalenceBand[];
   readonly bySex?: { readonly male: number; readonly female: number };
   readonly mortalityWeight: { readonly value: number; readonly status: string };
+  /** Read only by the old engine's condition onsets; goes with src/simulation. */
   readonly onsetScale: {
     readonly value: number;
     readonly status: string;
@@ -248,8 +249,6 @@ interface SeverityGrade {
 export const SEVERITY_GRADES: readonly SeverityGrade[] =
   pack.severityGrades.grades;
 const AGE_FACTOR = pack.ageFactor;
-/** The scale at which the life table's hazard counts as strain (./mortality.ts). */
-export const BASE_RATE_SCALE: number = pack.baseRateScale.value;
 
 /**
  * The grade this person holds a condition at: their seeded place among the

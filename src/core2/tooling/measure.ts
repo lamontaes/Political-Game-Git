@@ -11,7 +11,6 @@ import {
   daysBetweenText,
 } from "../kernel/dates";
 import { stableHash } from "../kernel/ids";
-import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
 import { developerBanners } from "../stopgaps";
 import { buildPopulation } from "../population";
@@ -1010,17 +1009,9 @@ async function main(): Promise<void> {
     place: population.placeMetadata,
   });
   const populationMemoryAfter = memorySample();
-  const deepPastMemoryBefore = memorySample();
-  const deepPastStarted = performance.now();
-  const withDeepPast = buildDeepPast(population);
-  const deepPastCompleted = performance.now();
-  progress("deep-past-built", {
-    elapsedMilliseconds: deepPastCompleted - deepPastStarted,
-  });
-  const deepPastMemoryAfter = memorySample();
   const civicMemoryBefore = memorySample();
   const civicStarted = performance.now();
-  const withCivicInputs = enrichCivicInputs(withDeepPast);
+  const withCivicInputs = enrichCivicInputs(population);
   const civicCompleted = performance.now();
   progress("civic-inputs-built", {
     elapsedMilliseconds: civicCompleted - civicStarted,
@@ -1157,15 +1148,6 @@ async function main(): Promise<void> {
           jobs: population.jobs.length,
           organizations: population.organizations.length,
         },
-      },
-      deepPast: {
-        elapsedMilliseconds: deepPastCompleted - deepPastStarted,
-        memory: memoryDelta(deepPastMemoryBefore, deepPastMemoryAfter),
-        pastFactCount: withDeepPast.people.reduce(
-          (sum, person) => sum + (person.pastFacts?.length ?? zero),
-          zero,
-        ),
-        gapCount: withDeepPast.gaps.length,
       },
       civicInputs: {
         elapsedMilliseconds: civicCompleted - civicStarted,

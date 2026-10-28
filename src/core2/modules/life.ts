@@ -6,6 +6,7 @@ import { closenessBetween } from "../closeness";
 import { VIEWS_MODULE_ID, stancesOf } from "./views";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
+import { webReach } from "./laws";
 import type {
   ActOffer,
   ActionDefinition,
@@ -17,6 +18,14 @@ import type {
 
 const p = (api: CoreAPI, key: string) => api.parameter(key);
 const zero = (api: CoreAPI) => p(api, "zero");
+
+/**
+ * The outcome web's share of a place's residents who live near a park or
+ * recreation facility (County Health Rankings), which the parks line and a
+ * dedicated parks tax move (parks-spending-to-exercise-access). A rest act
+ * reads it: rest in reach of a park relieves more.
+ */
+export const PARK_ACCESS = "parks.access-to-exercise";
 const positive = (api: CoreAPI, value: number) => Math.max(zero(api), value);
 
 /** Shared offer builder; P15 people offers reuse it so drive selection stays identical. */
@@ -378,7 +387,16 @@ export const LIFE_MODULE: CoreModule = {
         api.state.date,
         parameterValues(api.state.data.parameters),
       );
-      affect.stress *= Math.exp(-p(api, chosen.definition.effectParameter));
+      // The rest's relief times the web's factor on the share of the place's
+      // residents near a park, so a parks law that moves that share moves
+      // every resting person's relief by the same proportion.
+      // stopgapId: SG-GOV-REACH-B-park-use: one for one with the share; no
+      // visit, trip or exercise record, and the counted tier has no rest act.
+      api.stopgap("SG-GOV-REACH-B-park-use");
+      const parks = webReach(api, actor.placeId, PARK_ACCESS);
+      affect.stress *= Math.exp(
+        -p(api, chosen.definition.effectParameter) * parks.factor,
+      );
       api.updatePerson(actorId, { affect });
     },
     contact: (api, actorId, chosen, _date, _days, decision) => {

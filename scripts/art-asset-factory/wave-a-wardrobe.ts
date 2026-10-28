@@ -6,7 +6,7 @@ import type {
   CharacterBodyContacts,
   CharacterComponentCandidateDefinition,
   CharacterComponentManifestRecord,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 import { hashArtFile } from "./content-hash";
 import {
   measureEdgeError,
@@ -20,7 +20,7 @@ import {
 import {
   GARMENT_FIT_DEFAULT_BOUNDS,
   type BodyFitReference,
-} from "../../src/presentation/garment-fit";
+} from "../../src/appearance/garment-fit";
 import * as PImage from "pureimage";
 import { Writable } from "node:stream";
 

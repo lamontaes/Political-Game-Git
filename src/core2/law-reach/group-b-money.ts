@@ -1204,6 +1204,9 @@ interface ReserveRow {
   readonly governmentId: string;
   readonly accountId: string;
   readonly targetMinor: number;
+  /** The day of the last set-aside, and how many were made that day. */
+  readonly setAsideOn?: string;
+  readonly setAsidesThatDay?: number;
 }
 
 /**
@@ -1266,10 +1269,17 @@ export function holdReserve(
       input.modeledShare,
   );
   const need = Math.max(0, target - held);
+  // The law can be read twice in a day (the day it takes effect is often the
+  // first of the fiscal year, when the treasury's close reads it again); a
+  // set-aside the treasury could pay only in part tops up at the second
+  // read, under its own transfer id.
+  const prior = getRow<ReserveRow>(api, "taken", id);
+  const sameDay = prior?.setAsideOn === api.state.date;
+  const count = sameDay ? (prior?.setAsidesThatDay ?? 1) : 0;
   const receipt =
     need > 0
       ? accounts.transfer({
-          id: `reach-b:reserve:${input.key}:${gov.id}:${api.state.date}`,
+          id: `reach-b:reserve:${input.key}:${gov.id}:${api.state.date}${count ? `:${count + 1}` : ""}`,
           from: main,
           to: accountId,
           amountMinor: need,
@@ -1284,6 +1294,11 @@ export function holdReserve(
     governmentId: gov.id,
     accountId,
     targetMinor: target,
+    ...(receipt
+      ? { setAsideOn: api.state.date, setAsidesThatDay: count + 1 }
+      : sameDay
+        ? { setAsideOn: prior!.setAsideOn, setAsidesThatDay: count }
+        : {}),
   } satisfies ReserveRow);
   // The treasury was held to the reserve: the balance set aside is the money.
   if (input.lawId)

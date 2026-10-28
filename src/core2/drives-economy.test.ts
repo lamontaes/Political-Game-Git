@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA } from "./data";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
   createDrivesModule,
@@ -17,17 +16,15 @@ import { coreAPI } from "./state";
 // in a drawn town closes on one day, recorded as the finance writer records a
 // closure; the research is in data/research/drives/economic-losses.json.
 const seed = process.env.GOLDEN_PATH_SEED ?? "drives-economy";
-const input = buildDeepPast(
-  buildPopulation({
-    seed,
-    ...(process.env.GOLDEN_PATH_SEED
-      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-      : {}),
-    startedAt: "2021-01-01",
-    minimumPeople: 800,
-    openingEmployment: true,
-  }),
-);
+const input = buildPopulation({
+  seed,
+  ...(process.env.GOLDEN_PATH_SEED
+    ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+    : {}),
+  startedAt: "2021-01-01",
+  minimumPeople: 800,
+  openingEmployment: true,
+});
 const core = createLifeCore(input, {
   data: withDrives(DEFAULT_DATA, DEFAULT_DRIVES_DATA),
   modules: [createDrivesModule(DEFAULT_DRIVES_DATA)],
