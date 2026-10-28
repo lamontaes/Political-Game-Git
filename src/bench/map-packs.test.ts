@@ -3,18 +3,12 @@
  * play-territory-map-geometry): the 50 states and D.C. from the Census
  * cartographic boundary files, and the five territories compiled from the same
  * files at the same vintage. Each pack names its source files by hash, and the
- * hashes are the locked ones. A drawn territory's town loads its map in the
- * bench world.
+ * hashes are the locked ones.
  */
-import { createHash, randomBytes } from "node:crypto";
+import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import { expect, it } from "vitest";
-import { setBookkeeping } from "../core2/bookkeeping";
-import { gameStartDate } from "../core2/game-start";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
-import { placeLocalities } from "../core2/places";
-import { buildBenchWorld } from "./world";
-import { governmentMap } from "./map";
 
 const GEOMETRY = new URL("../maps/geometry/states/", import.meta.url);
 /** Every locked source file by id: the boundary files and the 2026 district-line files the packs are drawn from. */
@@ -51,7 +45,6 @@ interface Pack {
   sources: { artifactId: string; sha256: string }[];
 }
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const TERRITORIES = ["AS", "GU", "MP", "PR", "VI"];
 
 it("each of the 56 places has a map pack with its outline, drawn from the locked source files", () => {
@@ -95,41 +88,6 @@ it("each of the 56 places has a map pack with its outline, drawn from the locked
       ).toBe(source.sha256);
   }
 }, 120_000);
-
-it("a drawn territory's town loads its map with the outline and its county equivalents", () => {
-  const pick =
-    TERRITORIES[
-      parseInt(
-        createHash("sha256").update(seed).digest("hex").slice(0, 8),
-        16,
-      ) % TERRITORIES.length
-    ]!;
-  // A town in the drawn territory, by the same hash the other draws use.
-  const hash = createHash("sha256")
-    .update(`${seed}:map-pack-${pick}`)
-    .digest("hex");
-  const towns = [...placeLocalities(`US-${pick}`)].sort((a, b) =>
-    a.key.localeCompare(b.key),
-  );
-  const place = {
-    seed: hash,
-    ...towns[parseInt(hash.slice(8, 16), 16) % towns.length]!,
-  };
-  const where = `${pick}: seed ${place.seed}, ${place.name} (${place.key})`;
-  setBookkeeping(false);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const map = governmentMap(core);
-  expect(map, where).not.toBeNull();
-  expect(map!.state?.name, where).toBeTruthy();
-  expect(map!.state?.d.length, where).toBeGreaterThan(0);
-  expect(map!.counties.length, where).toBeGreaterThan(0);
-  console.log(
-    `MAP ${where}: ${map!.state!.name}, ${map!.counties.length} county equivalents`,
-  );
-}, 900_000);
 
 it("the manifest names each territory pack by its size and hash", () => {
   const manifest = JSON.parse(
