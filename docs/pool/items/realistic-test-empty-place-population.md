@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/realistic-empty-place
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T18:41:03.768Z
 ---
 
 **What.** The two-seeds guard's population row (audit row 28) asserts that a world's town population differs from the published count. The population engine keeps a place the Census holds as empty at 0 in every world, by its own rule in worldPopulationOf, because a spread around zero has nothing to draw. When the guard draws one of the places published at zero, as it did for Four Mile Road, Alaska (0226835), seed 1735aa89f0ce5894, the check compares 0 with 0 and fails on clean main and on every PR whose CI draws such a place.
