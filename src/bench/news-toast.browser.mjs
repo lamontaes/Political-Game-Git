@@ -52,9 +52,6 @@ async function newGame(page) {
   const r = await response;
   assert.equal(r.status(), 200);
   const seed = new URL(r.url()).searchParams.get("seed");
-  await page.locator("#opening-box:not([hidden])").waitFor({ timeout: 120000 });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Skip opening", exact: true }).click();
   await page.locator("#news-surface:not([hidden])").waitFor({ timeout: 60000 });
   const place = await page.locator("#card-place").innerText();
   tag = `${place.replace(/\W+/g, "-")}-seed-${seed}`;
