@@ -47,10 +47,7 @@ import recallAnswers from "../data/campaigns/recall-answers.json" with { type: "
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
 import type { PetitionSignatureBase } from "../gov-rules/municipal-election-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
-
-const daysBetween = (from: string, to: string) =>
-  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-  86_400_000;
+import { daysBetweenText as daysBetween } from "../kernel/dates";
 
 export const RECALLS_MODULE_ID = "core2-recalls-v1";
 

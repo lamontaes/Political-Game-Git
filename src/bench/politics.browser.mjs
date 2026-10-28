@@ -169,8 +169,8 @@ try {
       !(await page.locator("#sheet-body").innerText()).includes("undefined"),
     );
     if (tab === "Issues") {
-      await page.locator(".law-card summary").first().click();
-      assert.equal(await page.locator(".law-card[open]").count(), 1);
+      await page.locator("details.entry summary").first().click();
+      assert.equal(await page.locator("details.entry[open]").count(), 1);
     }
     await page.screenshot({
       path: `docs/reports/politics-hub-2026-10-14/${tab.toLowerCase()}.png`,
