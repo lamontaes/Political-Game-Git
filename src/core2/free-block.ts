@@ -20,6 +20,7 @@ import {
   hoursLost,
 } from "./closeness";
 import { parameter } from "./parameters";
+import { worldRateFactor } from "./world-base-rates";
 import { plannedWorkMinutesOnDate } from "./modules/work";
 import freeBlockJson from "./data/free-block.json" with { type: "json" };
 import timeUse from "./data/time-use-reference.json" with { type: "json" };
@@ -152,6 +153,17 @@ function reserveRows(api: CoreAPI): ReserveRow[] {
 
 /** The person's daily hours of unmodeled activities, smooth in age between groups. */
 function reserveHours(api: CoreAPI, actor: Readonly<PersonState>): number {
+  // This world's day: the published hours times its own time-use factor.
+  return (
+    publishedReserveHours(api, actor) *
+    worldRateFactor(api.state.seed, "timeUse")
+  );
+}
+
+function publishedReserveHours(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+): number {
   const rows = reserveRows(api);
   const age =
     daysBetweenText(actor.birthDate, api.state.date) /

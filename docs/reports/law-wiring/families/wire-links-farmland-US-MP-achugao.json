@@ -1,0 +1,158 @@
+{
+  "seed": "8b3f14260c5df0ef",
+  "place": {
+    "seed": "477f73bb857031ccd83e8de2bc1cf1d30827eb451ac64797e8b5e36f9ebd1a85",
+    "key": "territory:MP:achugao",
+    "name": "Achugao, Northern Mariana Islands",
+    "state": "US-MP"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "kind": "question",
+      "family": "agriculture",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:6900300:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:6900300:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+        "law:place:6900300:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-02-26:law-wiring-cdbf4067-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_b54e7762dc5e5d50"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_b54e7762dc5e5d50"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2488": 417,
+        "src/core2/modules/legislature.ts:3666": 135,
+        "src/core2/modules/outcome-web.ts:175": 34,
+        "src/core2/modules/world-legislating.ts:225": 8,
+        "src/core2/life.ts:555": 5,
+        "src/core2/modules/legislature.ts:4960": 5,
+        "src/core2/modules/world-legislating.ts:380": 2,
+        "src/core2/modules/housing.ts:1828": 2,
+        "src/core2/modules/legislature.ts:4945": 1
+      },
+      "openingRow": "law:US-MP:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:433",
+            "treatment": 35482,
+            "control": 35180,
+            "ids": ["journal:2025-02-25:7898"]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+            "gross": 200000,
+            "ids": [
+              "journal:2025-02-15:7631",
+              "journal:2025-02-15:7632",
+              "journal:2025-02-15:7633"
+            ],
+            "control": 200000
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "farmland-easements-to-farmland-lost",
+            "status": "built",
+            "to": "farmland.developed-acres"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 89,
+        "sample": [
+          "person_41ac201c2cd0e01d:printed:outlet:newspaper:2:jurisdiction_b54e7762dc5e5d50:law-took-effect:law:place:6900300:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+          "person_3a6d11d385b46b3a:printed:outlet:newspaper:2:jurisdiction_b54e7762dc5e5d50:law-took-effect:law:place:6900300:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+          "person_8fca8ca7c7b2d43f:printed:outlet:newspaper:2:jurisdiction_b54e7762dc5e5d50:law-took-effect:law:place:6900300:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 7
+    }
+  ]
+}

@@ -233,7 +233,7 @@
     "src/core2/town-pay.ts": 1,
     "src/core2/trait-pairs.ts": 2,
     "src/core2/trait-test-kit.ts": 2,
-    "src/core2/turnout-web.ts": 3,
+    "src/core2/turnout-web.ts": 1,
     "src/core2/wage-floor.ts": 1,
     "src/core2/work-attendance.ts": 3,
     "src/core2/work-cash.ts": 11,

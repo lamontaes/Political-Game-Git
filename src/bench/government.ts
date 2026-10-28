@@ -176,8 +176,33 @@ export function governmentView(core: CoreState, personId: string) {
     for (const row of governments(api))
       if (!governmentOf.has(row.level))
         governmentOf.set(row.level, readable(row.name));
+  // The tier a seat is listed under on the Politics screens: a state or
+  // federal office is its own; every other level is local.
+  const tierOf = (level: string) =>
+    level === "state" || level === "federal" ? level : "local";
+  // How many seats each party holds, by office and over all the town sees.
+  const partySeatsByOffice: Record<string, { party: string; seats: number }[]> =
+    {};
+  const seatsByParty = new Map<string, { name: string; title: string }[]>();
+  for (const { office, holder } of seats) {
+    if (!holder?.party) continue;
+    const counts = (partySeatsByOffice[office.id] ??= []);
+    const row = counts.find((c) => c.party === holder.party);
+    if (row) row.seats += 1;
+    else counts.push({ party: holder.party, seats: 1 });
+    seatsByParty.set(holder.party, [
+      ...(seatsByParty.get(holder.party) ?? []),
+      {
+        name: `${holder.identity.givenName} ${holder.identity.familyName}`,
+        title: office.title,
+      },
+    ]);
+  }
+  const race = ownRace(core, personId);
   return {
     date: core.date,
+    partySeatsByOffice,
+    parties: [...seatsByParty].map(([party, held]) => ({ party, seats: held })),
     // Every law in force here: the amounts, then each policy question a level
     // has a law on, answered yes or no.
     law: lawHere(api).map((row) => ({
@@ -197,6 +222,7 @@ export function governmentView(core: CoreState, personId: string) {
       officeId: office.id,
       title: office.title,
       level: office.level,
+      tier: tierOf(office.level),
       government: office.governmentName,
       // A local seat's body as its record names it, place included ("Eolia
       // Board of Trustees"); a state chamber's name ("Senate") leaves its
@@ -243,7 +269,7 @@ export function governmentView(core: CoreState, personId: string) {
     filings,
     nextFiling: nextFiling(core),
     // The newest race the person ran in that has a result, for its seat's row.
-    ownRace: ownRace(core, personId),
+    ownRace: race && { ...race, tier: tierOf(race.level) },
     ofVotingAge: ofVotingAge(core, personId),
     party: partyView(core, personId),
   };
