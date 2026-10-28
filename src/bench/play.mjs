@@ -19,19 +19,18 @@ import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
-import { listRow, personRow, factRow } from "./ui/list-row.mjs";
-import {
-  pageIn,
-  pageWhenChanged,
-  menuPages,
-  stepPages,
-  pagerWords,
-} from "./ui/pager.mjs";
+import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
+import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
 import { picture, fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
 import { section as recordSection } from "./ui/section.mjs";
-import { searchBox, select, checkboxSetting } from "./ui/fields.mjs";
+import { select, checkboxSetting, optionsOf } from "./ui/fields.mjs";
+import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
+import { recordScreen } from "./ui/screen.mjs";
+import { listScreen } from "./ui/list-screen.mjs";
+import { roomPeople, clockLines } from "./ui/room.mjs";
+import { calendarScreen } from "./ui/calendar.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -93,7 +92,7 @@ function setClock(at) {
     Math.floor(at.minuteOfDay / 60),
     at.minuteOfDay % 60,
   ).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-  $("card-clock").replaceChildren(day, el("br"), time);
+  $("card-clock").replaceChildren(...clockLines(day, time));
 }
 /** A figure cropped to head and shoulders (Kit 12's bust). */
 function setBust(id, url) {
@@ -149,75 +148,12 @@ for (const box of document.querySelectorAll("#game .chat"))
   docking.observe(box);
 window.addEventListener("resize", clearDock);
 
-/** Soft contact shadows on the floor at each person's feet, under everyone. */
-function shadowsOf(people) {
-  return people
-    .filter((person) => person.figure.shadow)
-    .map(({ figure: { shadow: s } }) => {
-      const node = el("div", { className: "shadow" });
-      Object.assign(node.style, {
-        left: `${s.leftPercent}%`,
-        top: `${s.topPercent}%`,
-        width: `${s.widthPercent}%`,
-        height: `${s.heightPercent}%`,
-      });
-      return node;
-    });
-}
-
-/**
- * What the painting has in front of a person (a desk, a chair back), laid
- * back over them: the picture's own pixels through the spot's mask, lined up
- * with the picture, so it is right in every light and weather.
- */
-function occluderOf(o) {
-  const node = el("div", { className: "occluder" });
-  const along = (start, size) =>
-    size >= 100 ? 0 : (start / (100 - size)) * 100;
-  Object.assign(node.style, {
-    left: `${o.leftPercent}%`,
-    top: `${o.topPercent}%`,
-    width: `${o.widthPercent}%`,
-    height: `${o.heightPercent}%`,
-    backgroundImage: `url("${$("backdrop").src}")`,
-    backgroundSize: `${10000 / o.widthPercent}% ${10000 / o.heightPercent}%`,
-    backgroundPosition: `${along(o.leftPercent, o.widthPercent)}% ${along(o.topPercent, o.heightPercent)}%`,
-    maskImage: `url("${o.url}")`,
-    webkitMaskImage: `url("${o.url}")`,
-  });
-  return node;
-}
-
-/** The people in a picture; anyone but you can be clicked for their dossier. */
 function drawPeople(people, onClick) {
   $("people").replaceChildren(
-    ...shadowsOf(people),
-    ...people.flatMap((person) => {
-      const f = person.figure;
-      const img = el("img", { src: person.figureUrl, alt: person.name });
-      // A whole figure turns to face the room.
-      if (f.mirrored) img.style.transform = "scaleX(-1)";
-      const box = el("div", { className: "figure" }, img);
-      box.dataset.person = person.personId ?? "";
-      Object.assign(box.style, {
-        left: `${f.leftPercent}%`,
-        top: `${f.topPercent}%`,
-        width: `${f.widthPercent}%`,
-        height: `${f.heightPercent}%`,
-      });
-      if (onClick && person.personId !== me?.id) {
-        box.classList.add("talkable");
-        box.tabIndex = 0;
-        box.setAttribute("role", "button");
-        box.setAttribute("aria-label", person.name);
-        box.addEventListener("click", () => onClick(person));
-        box.addEventListener("keydown", (event) => {
-          if (event.key !== "Enter" && event.key !== " ") return;
-          event.preventDefault();
-          onClick(person);
-        });
-      }
-      return f.occluder ? [box, occluderOf(f.occluder)] : [box];
+    ...roomPeople(people, {
+      selfId: me?.id,
+      backdropUrl: $("backdrop").src,
+      onClick,
     }),
   );
 }
@@ -1959,6 +1895,32 @@ async function showPerson(person) {
     ...(c.placeName
       ? [recordSection(labels.place, el("p", { textContent: c.placeName }))]
       : []),
+    // What the two share, by the records the director's scenes read too.
+    ...(c.shared?.length
+      ? [
+          recordSection(
+            labels.together,
+            ...c.shared.map((s) => {
+              const line = row(labels.sharedWords?.[s.kind], s.employer ?? "");
+              line.dataset.record = s.recordId;
+              return line;
+            }),
+          ),
+        ]
+      : []),
+    // The seats they reached before the start, from the government's history.
+    ...(c.seats?.length
+      ? [
+          recordSection(
+            labels.seats,
+            ...c.seats.map((s) => {
+              const line = row(s.office, `${labels.since} ${s.year}`);
+              line.dataset.record = s.recordId;
+              return line;
+            }),
+          ),
+        ]
+      : []),
     // An officeholder's colleagues in office, closest first, from their ties.
     ...(c.colleagues
       ? [
@@ -2474,15 +2436,6 @@ async function seatRows() {
 }
 
 /** The Kit 13 calendar icon a kind of dated record is drawn with. */
-const dayIcon = (kind) =>
-  ({
-    birthday: "birthday",
-    "your-birthday": "birthday",
-    "filing-opens": "deadline",
-    "filing-deadline": "deadline",
-    primary: "election",
-    election: "election",
-  })[kind] ?? "meeting";
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
@@ -2805,116 +2758,67 @@ const sheets = {
       "en-US",
       { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
-    const personLink = (member) => {
-      const button = makeButton({
-        className: "character-person",
-        textContent: member.name,
-      });
-      button.addEventListener("click", () => {
-        closeSheet();
-        showPerson(member);
-      });
-      return el(
-        "li",
-        {},
-        button,
-        el("span", {
-          className: "character-relation",
-          textContent: member.relation ?? "",
-        }),
-      );
-    };
-    const rows = [
-      el(
-        "header",
-        { className: "character-heading" },
-        el("h2", { className: "name", textContent: c.name }),
-        el("p", {
-          className: "character-meta",
-          textContent: `${labels.age} ${c.age} · ${labels.born} ${born}`,
-        }),
-      ),
-    ];
-    // What you're like, in plain sentences, never the traits' names (owner, Oct 27).
-    if (c.sketch)
-      rows.push(
-        el("p", {
-          className: "character-sketch narrative",
-          textContent: c.sketch,
-        }),
-      );
-    rows.push(
-      recordSection(
-        c.age < 18 ? labels.householdHome : labels.home,
-        el("p", { textContent: c.home?.placeName ?? me.placeName }),
-        el(
-          "ul",
-          { className: "character-household" },
-          ...(c.home?.members ?? []).map(personLink),
-        ),
-      ),
-    );
-    if (c.job)
-      rows.push(
-        recordSection(
-          labels.work,
-          el("p", { className: "character-feature", textContent: c.job.title }),
-          el("p", { textContent: c.job.employer ?? "" }),
-        ),
-      );
-    if (c.schools?.length)
-      rows.push(
-        recordSection(
-          labels.school,
-          ...[...c.schools]
-            .reverse()
-            .map((school) => el("p", { textContent: school.name })),
-        ),
-      );
     const views =
       c.views ??
       (c.view && controls.leanWords?.[c.view]
-        ? [{ label: labels.views, text: controls.leanWords[c.view] }]
+        ? [{ text: controls.leanWords[c.view] }]
         : []);
-    if (views.length)
-      rows.push(
-        recordSection(
-          labels.views,
-          el(
-            "div",
-            { className: "character-views" },
-            ...views.map((view) =>
-              el(
-                "article",
-                {},
-                view.label !== labels.views
-                  ? el("h4", { textContent: view.label })
-                  : "",
-                el("p", { className: "narrative", textContent: view.text }),
-              ),
-            ),
-          ),
-        ),
-      );
-    rows.push(
-      el(
-        "div",
-        { className: "character-money" },
-        el("span", { className: "label", textContent: labels.money }),
-        el("strong", { textContent: dollars(c.liquidMinor) }),
-      ),
-    );
-    // The record sections side by side under the name and the sketch, so the
-    // screen reads as a character sheet, not a column down one side.
-    const [heading, ...rest] = rows;
-    const sketch = rest[0]?.classList?.contains("character-sketch")
-      ? rest.shift()
-      : null;
-    return [
-      heading,
-      ...(sketch ? [sketch] : []),
-      el("div", { className: "character-grid" }, ...rest),
-    ];
+    // What you're like, in plain sentences, never the traits' names (owner, Oct 27);
+    // the record sections side by side under it, as a character sheet.
+    return recordScreen({
+      heading: {
+        name: c.name,
+        meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
+      },
+      lede: c.sketch,
+      grid: true,
+      sections: [
+        {
+          title: c.age < 18 ? labels.householdHome : labels.home,
+          items: [
+            { text: c.home?.placeName ?? me.placeName },
+            {
+              people: (c.home?.members ?? []).map((member) => ({
+                name: member.name,
+                note: member.relation,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson(member);
+                },
+              })),
+            },
+          ],
+        },
+        c.job && {
+          title: labels.work,
+          items: [
+            { text: c.job.title, tone: "feature" },
+            { text: c.job.employer ?? "" },
+          ],
+        },
+        c.schools?.length && {
+          title: labels.school,
+          items: [...c.schools].reverse().map((school) => ({
+            text: school.name,
+          })),
+        },
+        views.length && {
+          title: labels.views,
+          items: [
+            {
+              views: views.map((v) => ({
+                label: v.label !== labels.views ? v.label : undefined,
+                text: v.text,
+              })),
+            },
+          ],
+        },
+        {
+          title: labels.money,
+          items: [{ text: dollars(c.liquidMinor), tone: "feature" }],
+        },
+      ].filter(Boolean),
+    });
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -3118,71 +3022,40 @@ const sheets = {
   async jobs() {
     const labels = controls.jobs;
     const job = me.card.job;
-    const work = makeCard(
-      "work-overview",
-      { as: "section" },
-      el("h3", { textContent: labels.work }),
-    );
-    if (job) {
-      if (job.presentation?.imageUrl) {
-        const image = el("img", {
-          src: job.presentation.imageUrl,
-          alt: "",
-          className: "workplace-image",
-        });
-        image.onerror = () => image.remove();
-        work.append(image);
-      }
-      work.append(
-        el("h2", { textContent: job.title }),
-        el("p", {
-          className: "work-employer",
-          textContent: job.employer ?? "",
-        }),
-        el(
-          "div",
-          { className: "work-stats" },
-          el(
-            "div",
-            {},
-            el("span", { className: "label", textContent: labels.pay }),
-            el("strong", {
-              textContent: `${dollars(job.wageDailyMinor)} ${labels.daily}`,
-            }),
-          ),
-          el(
-            "div",
-            {},
-            el("span", { className: "label", textContent: labels.hours }),
-            el("strong", {
-              textContent: `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
-            }),
-          ),
-        ),
-      );
-    } else
-      work.append(
-        el("p", { className: "work-empty", textContent: labels.noJob }),
-      );
-    const result = [work];
-    const schools = [...(me.card.schools ?? [])].reverse();
-    const education = el(
-      "section",
-      { className: "study-overview" },
-      el("h3", { textContent: labels.study }),
-    );
-    education.append(
-      ...schools.map((s) =>
-        el(
-          "article",
-          { className: "school-record" },
-          el("span", { className: "label", textContent: s.date.slice(0, 4) }),
-          el("h4", { textContent: s.name }),
-        ),
-      ),
-    );
-    result.push(education);
-    return result;
+    return recordScreen({
+      sections: [
+        {
+          title: labels.work,
+          items: job
+            ? [
+                job.presentation?.imageUrl && {
+                  picture: job.presentation.imageUrl,
+                },
+                { text: job.title, tone: "title" },
+                { text: job.employer ?? "", tone: "feature" },
+                {
+                  stats: [
+                    [
+                      labels.pay,
+                      `${dollars(job.wageDailyMinor)} ${labels.daily}`,
+                    ],
+                    [
+                      labels.hours,
+                      `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
+                    ],
+                  ],
+                },
+              ]
+            : [{ text: labels.noJob, tone: "empty" }],
+        },
+        {
+          title: labels.study,
+          items: [...(me.card.schools ?? [])]
+            .reverse()
+            .map((s) => ({ fact: [s.date.slice(0, 4), s.name] })),
+        },
+      ],
+    });
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -3359,228 +3232,17 @@ const sheets = {
     // record, so a day the world has reached never offers a jump to it.
     const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
-    const byDate = new Map();
-    for (const item of items)
-      byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-    const dateWords = (iso, format = { month: "long", day: "numeric" }) =>
-      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-        ...format,
-        ...(iso.slice(0, 4) === date.slice(0, 4) ? {} : { year: "numeric" }),
-      });
-    const icon = (item) =>
-      el("img", {
-        src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
-        alt: "",
-        className: "day-icon",
-      });
-    let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-    let selected = date;
-    let listPage = 0;
-    const root = el("div", { className: "calendar-layout" });
-    const monthBox = el("section", { className: "calendar-month" });
-    const side = el("section", { className: "calendar-side" });
-    const button = (label, fn, className) => {
-      const b = makeButton({
-        textContent: label,
-        ...(className ? { className } : {}),
-      });
-      b.addEventListener("click", fn);
-      return b;
-    };
-    // Skip-forward icon, no label text: the control's name is its aria-label.
-    const skipForward = (name, fn) => {
-      const ns = "http://www.w3.org/2000/svg";
-      const svg = document.createElementNS(ns, "svg");
-      svg.setAttribute("viewBox", "0 0 24 24");
-      svg.setAttribute("aria-hidden", "true");
-      for (const d of ["M5 5l9 7-9 7z", "M14 5l9 7-9 7z"]) {
-        const path = document.createElementNS(ns, "path");
-        path.setAttribute("d", d);
-        svg.append(path);
-      }
-      const b = makeButton({ className: "skip-forward" });
-      b.setAttribute("aria-label", name);
-      b.title = name;
-      b.append(svg);
-      b.addEventListener("click", fn);
-      return b;
-    };
-    const goTo = (iso) => {
-      month = new Date(`${iso.slice(0, 7)}-01T12:00:00`);
-      select(iso);
-    };
-    // One line per thing: its day, its icon and who and what in words. The
-    // player's own races carry the gold mark.
-    const entryRow = (item, withDate) => {
-      const row = listRow(
-        `calendar-entry${item.own ? " own" : ""}`,
-        { as: "button", type: "button" },
-        ...(withDate
-          ? [
-              el("span", {
-                className: "when",
-                textContent: dateWords(item.date, {
-                  month: "short",
-                  day: "numeric",
-                }),
-              }),
-            ]
-          : []),
-        icon(item),
-        el("span", { className: "what", textContent: item.line }),
-      );
-      row.addEventListener("click", () => goTo(item.date));
-      return row;
-    };
-    // Coming up lists the player's own dates first, then everything else by
-    // date; a chosen day lists that day. The list fills the side and pages.
-    const PAGE = 10;
-    const ahead = items
-      .filter((i) => i.date >= date)
-      .toSorted(
-        (a, b) => Number(b.own) - Number(a.own) || a.date.localeCompare(b.date),
-      );
-    const drawSide = () => {
-      // A chosen day heads the side: its own lines, then what follows it.
-      const day = selected !== date ? (byDate.get(selected) ?? []) : null;
-      const rows = day
-        ? [...day, ...items.filter((i) => i.date > selected && i.date >= date)]
-        : ahead;
-      const pageRows = rows.slice(listPage * PAGE, listPage * PAGE + PAGE);
-      const head = el(
-        "div",
-        { className: "calendar-side-head" },
-        el("h3", {
-          textContent: day
-            ? dateWords(selected, {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-              })
-            : labels.upcoming,
-        }),
-        ...(day && selected > date
-          ? [
-              skipForward(labels.advance, () => {
-                closeSheet();
-                act(`/api/advance?mode=calendar&date=${selected}`);
-              }),
-            ]
-          : []),
-      );
-      const list = el(
-        "div",
-        { className: "calendar-list" },
-        ...pageRows.map((item) =>
-          entryRow(item, !day || item.date !== selected),
-        ),
-      );
-      const foot = [];
-      if (day)
-        foot.push(button(labels.upcoming, () => select(date), "action small"));
-      if (rows.length > PAGE) {
-        const back = button(
-          labels.back,
-          () => {
-            listPage--;
-            drawSide();
-          },
-          "action small",
-        );
-        const next = button(
-          labels.next,
-          () => {
-            listPage++;
-            drawSide();
-          },
-          "action small",
-        );
-        back.disabled = listPage === 0;
-        next.disabled = (listPage + 1) * PAGE >= rows.length;
-        foot.push(back, next);
-      }
-      side.replaceChildren(
-        head,
-        list,
-        ...(foot.length
-          ? [el("nav", { className: "calendar-paging" }, ...foot)]
-          : []),
-      );
-    };
-    const select = (iso) => {
-      selected = iso;
-      listPage = 0;
-      drawMonth();
-      drawSide();
-    };
-    const drawMonth = () => {
-      const move = (delta) => {
-        month = new Date(month.getFullYear(), month.getMonth() + delta, 1, 12);
-        drawMonth();
-      };
-      const header = el(
-        "nav",
-        { className: "calendar-heading" },
-        button(labels.previousMonth, () => move(-1), "month-step"),
-        el("h3", {
-          textContent: month.toLocaleDateString("en-US", {
-            month: "long",
-            year: "numeric",
-          }),
-        }),
-        button(labels.nextMonth, () => move(1), "month-step"),
-        button(labels.today, () => goTo(date), "month-step"),
-      );
-      const grid = el("div", { className: "month" });
-      for (const weekday of labels.weekdays)
-        grid.append(el("span", { className: "weekday", textContent: weekday }));
-      for (let i = 0; i < month.getDay(); i++)
-        grid.append(el("span", { className: "blank" }));
-      const days = new Date(
-        month.getFullYear(),
-        month.getMonth() + 1,
-        0,
-      ).getDate();
-      for (let day = 1; day <= days; day++) {
-        const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-        const entries = byDate.get(iso) ?? [];
-        const cell = button("", () => select(iso));
-        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}${iso < date ? " past" : ""}${entries.some((e) => e.own) ? " own" : ""}`;
-        cell.dataset.date = iso;
-        cell.setAttribute(
-          "aria-label",
-          [dateWords(iso), ...entries.map((e) => e.line)].join(". "),
-        );
-        cell.setAttribute("aria-pressed", String(iso === selected));
-        if (iso === date) cell.setAttribute("aria-current", "date");
-        cell.append(el("span", { className: "num", textContent: String(day) }));
-        // Each thing on the day, on the day: its icon and its line, as many as fit.
-        for (const entry of entries
-          .toSorted((a, b) => Number(b.own) - Number(a.own))
-          .slice(0, 2))
-          cell.append(
-            el(
-              "span",
-              { className: `entry${entry.own ? " own" : ""}` },
-              icon(entry),
-              el("span", { className: "what", textContent: entry.line }),
-            ),
-          );
-        if (entries.length > 2)
-          cell.append(
-            el("span", {
-              className: "more",
-              textContent: `+${entries.length - 2}`,
-            }),
-          );
-        grid.append(cell);
-      }
-      monthBox.replaceChildren(header, grid);
-    };
-    drawMonth();
-    drawSide();
-    root.append(monthBox, side);
-    return [root];
+    return [
+      calendarScreen({
+        date,
+        items,
+        labels,
+        onAdvance: (day) => {
+          closeSheet();
+          act(`/api/advance?mode=calendar&date=${day}`);
+        },
+      }),
+    ];
   },
   async news() {
     // The nation, region and job numbers above the paper, from the economy's records.
@@ -3849,91 +3511,62 @@ const sheets = {
       api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
     ]);
     const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const row = (label, value) =>
-      el(
-        "div",
-        { className: "guide-fact" },
-        el("span", { className: "label", textContent: label }),
-        el("strong", { textContent: value }),
-      );
-    const page = (heading, ...body) =>
-      el(
-        "section",
-        { className: "politics-guide-page" },
-        el("h3", { textContent: heading }),
-        ...body,
-      );
-    const pages = ["government", "issues", "parties", "campaigns"].map((tab) =>
-      page(titles[tab], el("p", { textContent: labels[tab] })),
-    );
     const next = government.nextFiling;
-    pages.push(
-      page(
-        labels.runHere,
-        ...(next
-          ? [
-              row(labels.race, next.title),
-              row(
-                labels.filesWith,
-                next.filedWith.replace(
-                  /\s*\(counter: ([^)]*)\)/g,
-                  `, ${labels.atTheDeskOf} $1`,
-                ),
-              ),
-              row(labels.filingOpens, proseDate(next.filingOpens)),
-              row(labels.filingDeadline, proseDate(next.filingDeadline)),
-              ...(deadlineTerm
-                ? [
-                    el("p", {
-                      className: "small",
-                      textContent: deadlineTerm.short,
-                    }),
-                  ]
-                : []),
-              ...(next.primaryDate
-                ? [row(labels.primary, proseDate(next.primaryDate))]
-                : []),
-              row(labels.election, proseDate(next.electionDate)),
-              ...(next.estimated
-                ? [
-                    el("p", {
-                      className: "small",
-                      textContent: labels.estimated,
-                    }),
-                  ]
-                : []),
-            ]
-          : [el("p", { textContent: labels.noRace })]),
-      ),
-    );
-    return [stepPages(pages, "politics-guide")];
+    return recordScreen({
+      paged: true,
+      sections: [
+        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
+          title: titles[tab],
+          items: [{ text: labels[tab] }],
+        })),
+        {
+          title: labels.runHere,
+          items: next
+            ? [
+                { fact: [labels.race, next.title] },
+                {
+                  fact: [
+                    labels.filesWith,
+                    next.filedWith.replace(
+                      /\s*\(counter: ([^)]*)\)/g,
+                      `, ${labels.atTheDeskOf} $1`,
+                    ),
+                  ],
+                },
+                { fact: [labels.filingOpens, proseDate(next.filingOpens)] },
+                {
+                  fact: [labels.filingDeadline, proseDate(next.filingDeadline)],
+                },
+                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
+                next.primaryDate && {
+                  fact: [labels.primary, proseDate(next.primaryDate)],
+                },
+                { fact: [labels.election, proseDate(next.electionDate)] },
+                next.estimated && { text: labels.estimated, tone: "small" },
+              ]
+            : [{ text: labels.noRace }],
+        },
+      ],
+    });
   },
   async guide() {
-    const list = el("div", { className: "flow" });
-    const fill = async (query) => {
-      guideQuery = query;
-      const rows = await api(`/api/guide?q=${encodeURIComponent(query)}`);
-      list.replaceChildren(
-        ...rows.map((t) => {
-          const line = listRow(
-            "narrative",
-            { as: "details", open: rows.length === 1 },
-            el("summary", {}, el("b", { textContent: t.term }), ` ${t.short}`),
-            el("p", { textContent: t.explanation }),
-          );
-          if (t.contextNote)
-            line.append(el("p", { textContent: t.contextNote }));
-          return line;
-        }),
-      );
-    };
-    const search = searchBox({
-      value: guideQuery,
-      placeholder: controls.guide.search,
-      onInput: fill,
+    return listScreen({
+      search: {
+        value: guideQuery,
+        placeholder: controls.guide.search,
+        onQuery: (query) => (guideQuery = query),
+      },
+      entries: async (query) => {
+        const terms = await api(`/api/guide?q=${encodeURIComponent(query)}`);
+        return terms.map((t) => ({
+          title: t.term,
+          lede: t.short,
+          lines: [t.explanation, t.contextNote],
+          opens: true,
+          open: terms.length === 1,
+        }));
+      },
     });
-    await fill(guideQuery);
-    return [search, list];
   },
   async options() {
     await controlsReady;
@@ -4000,9 +3633,6 @@ const sheets = {
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.travel;
-    const search = el("input", { type: "search", placeholder: labels.search });
-    search.setAttribute("aria-label", labels.search);
-    const content = el("div", { className: "travel-destinations" });
     // The offices that take your filings: one card each, naming the races.
     const byOffice = new Map();
     for (const c of government.contests) {
@@ -4051,57 +3681,33 @@ const sheets = {
         : p.presentCount
           ? `${labels.open} · ${p.presentNames.join(", ")}${p.presentCount > p.presentNames.length ? ` ${labels.andOthers.replace("{n}", p.presentCount - p.presentNames.length)}` : ""}`
           : labels.closed;
-    const draw = () => {
-      const found = destinations.filter((p) =>
-        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
-      );
-      const cards = found.map((p) => {
-        const go = () =>
-          p.filing ? openFiling(p.filedWith) : visit(p.organizationId);
-        const card = makeCard("travel-place", { as: "button" });
-        card.type = "button";
-        card.setAttribute("aria-label", `${labels.go}: ${p.name}`);
-        if (p.presentation?.imageUrl) {
-          const image = el("img", {
-            src: p.presentation.imageUrl,
-            alt: "",
-            className: "travel-image",
-          });
-          image.onerror = () => image.remove();
-          card.append(image);
-        }
-        // The record behind the reason, for the specs; never shown as text.
-        card.dataset.reason = (
-          p.filing
-            ? [p.filedWith]
-            : p.reasons.length
-              ? p.reasons.map((r) => r.recordId)
-              : [p.organizationId]
-        ).join(" ");
-        card.append(
-          el(
-            "div",
-            { className: "travel-info" },
-            el("h3", { textContent: p.name }),
-            el("p", { className: "travel-here", textContent: hereLine(p) }),
-            ...(reasonLine(p)
-              ? [
-                  el("p", {
-                    className: "travel-reason",
-                    textContent: reasonLine(p),
-                  }),
-                ]
-              : []),
-          ),
-        );
-        card.onclick = go;
-        return card;
-      });
-      content.replaceChildren(...cards);
-    };
-    search.addEventListener("input", draw);
-    draw();
-    return [search, content];
+    return listScreen({
+      search: { placeholder: labels.search },
+      layout: "cards",
+      entries: (query) =>
+        destinations
+          .filter((p) =>
+            p.name.toLowerCase().includes(query.trim().toLowerCase()),
+          )
+          .map((p) => ({
+            title: p.name,
+            picture: p.presentation?.imageUrl,
+            lines: [hereLine(p)],
+            note: reasonLine(p),
+            label: `${labels.go}: ${p.name}`,
+            onSelect: () =>
+              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+            // The record behind the reason, for the specs; never shown as text.
+            data: {
+              reason: (p.filing
+                ? [p.filedWith]
+                : p.reasons.length
+                  ? p.reasons.map((r) => r.recordId)
+                  : [p.organizationId]
+              ).join(" "),
+            },
+          })),
+    });
   },
   async politics() {
     return sheets.government();
@@ -4458,12 +4064,6 @@ const sheets = {
       api(`/api/changes?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.politics;
-    const search = el("input", {
-      type: "search",
-      placeholder: labels.searchIssues,
-    });
-    search.setAttribute("aria-label", labels.searchIssues);
-    const list = el("div", { className: "issues-content" });
     // A policy question's law reads yes or no; every other law, its amount.
     const lawText = (law, value, unit) =>
       law.yesNo ? (value ? labels.yes : labels.no) : amount(value, unit);
@@ -4473,74 +4073,55 @@ const sheets = {
         day: "numeric",
         year: "numeric",
       });
-    const draw = () =>
-      list.replaceChildren(
-        menuPages(
-          v.law
-            .filter((l) =>
-              policyLabel(l.series)
-                .toLowerCase()
-                .includes(search.value.toLowerCase()),
-            )
-            .map((law) => {
-              const detail = makeCard(
-                "law-card",
-                { as: "details" },
-                el(
-                  "summary",
-                  {},
-                  el("h3", { textContent: policyLabel(law.series) }),
-                  el("strong", {
-                    className: "law-value",
-                    textContent: law.text ?? lawText(law, law.value, law.unit),
-                  }),
-                ),
-              );
+    return listScreen({
+      search: { placeholder: labels.searchIssues },
+      size: 4,
+      labelOf: termLabel,
+      entries: (query) =>
+        v.law
+          .filter((l) =>
+            policyLabel(l.series).toLowerCase().includes(query.toLowerCase()),
+          )
+          .map((law) => ({
+            title: policyLabel(law.series),
+            value: law.text ?? lawText(law, law.value, law.unit),
+            opens: true,
+            facts: [
               // A level's law and when it took effect; a starting answer to a
               // question names its statute instead, as its research did not
               // record the day it took effect.
-              for (const level of law.levels.filter((l) => l.row))
-                detail.append(
-                  row(
-                    lawLevelLabel(law, level),
-                    [
-                      lawText(law, level.row.value, level.row.unit),
-                      !law.yesNo || level.row.terms?.enactedBy
-                        ? dateWords(level.row.effectiveDate)
-                        : level.row.terms?.cite,
-                    ]
-                      .filter(Boolean)
-                      .join(" · "),
-                  ),
-                );
-              for (const pending of law.pending)
-                detail.append(
-                  row(
-                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
-                    lawText(law, pending.value, pending.unit),
-                  ),
-                );
-              for (const change of [...changes.took, ...changes.ahead].filter(
-                (c) => c.series === law.series,
-              ))
-                detail.append(
-                  row(
-                    dateWords(change.date),
-                    [change.measure, change.jurisdiction, change.what]
-                      .filter(Boolean)
-                      .join(" · "),
-                  ),
-                );
-              for (const vote of law.votes ?? [])
-                detail.append(row(vote.name, vote.vote));
-              return detail;
-            }),
-          4,
-        ),
-      );
-    search.addEventListener("input", draw);
-    draw();
-    return [search, list];
+              ...law.levels
+                .filter((l) => l.row)
+                .map((level) => [
+                  lawLevelLabel(law, level),
+                  [
+                    lawText(law, level.row.value, level.row.unit),
+                    !law.yesNo || level.row.terms?.enactedBy
+                      ? dateWords(level.row.effectiveDate)
+                      : level.row.terms?.cite,
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                ]),
+              ...law.pending.map((pending) => [
+                `${lawLevelLabel(law, pendingLevel(law, pending))} · ${dateWords(pending.effectiveDate)}`,
+                lawText(law, pending.value, pending.unit),
+              ]),
+              ...[...changes.took, ...changes.ahead]
+                .filter((c) => c.series === law.series)
+                .map((change) => [
+                  dateWords(change.date),
+                  [change.measure, change.jurisdiction, change.what]
+                    .filter(Boolean)
+                    .join(" · "),
+                ]),
+              ...(law.votes ?? []).map((vote) => [
+                vote.name,
+                controls.meeting?.[vote.vote] ?? "",
+              ]),
+            ].map(([label, value]) => [label, plain(value)]),
+          })),
+    });
   },
 };
 const titles = {
@@ -4858,17 +4439,18 @@ function proseDate(iso) {
 const genderName = (g) =>
   document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
-  ...MONTHS.map((name, i) =>
-    el("option", { value: String(i + 1), textContent: name }),
-  ),
+  ...optionsOf(MONTHS.map((name, i) => ({ value: i + 1, label: name }))),
 );
 function fillDays() {
   const month = Number($("cr-month").value);
   const length = new Date(Date.UTC(2001, month, 0)).getUTCDate();
   const keep = Number($("cr-day").value) || 1;
   $("cr-day").replaceChildren(
-    ...Array.from({ length }, (_, i) =>
-      el("option", { value: String(i + 1), textContent: String(i + 1) }),
+    ...optionsOf(
+      Array.from({ length }, (_, i) => ({
+        value: i + 1,
+        label: String(i + 1),
+      })),
     ),
   );
   $("cr-day").value = String(Math.min(keep, length));
@@ -4880,9 +4462,7 @@ async function fillYears(keepYear) {
   setup.start = start;
   const want = keepYear ?? Number($("cr-year").value);
   $("cr-year").replaceChildren(
-    ...years.map((row) =>
-      el("option", { value: String(row.year), textContent: row.label }),
-    ),
+    ...optionsOf(years.map((row) => ({ value: row.year, label: row.label }))),
   );
   const nearest = years.reduce(
     (best, row) =>
@@ -5047,29 +4627,6 @@ async function listTowns() {
 $("cr-town-search").addEventListener("input", () => void listTowns());
 
 // A row of color swatches: each a button named for its color, the chosen one marked.
-function swatchRow(row) {
-  const buttons = row.swatches.map((swatch) => {
-    const b = makeButton({
-      className: "swatch-button",
-      style: `background:${swatch.color}`,
-    });
-    b.setAttribute("aria-label", `${row.label}: ${swatch.label}`);
-    b.setAttribute("aria-pressed", String(swatch.chosen));
-    b.title = swatch.label;
-    b.dataset.swatch = swatch.id;
-    b.addEventListener("click", () => void pickColor(row.id, swatch.id));
-    return b;
-  });
-  const line = el(
-    "div",
-    { className: "look-row swatch-row" },
-    el("span", { className: "label", textContent: row.label }),
-    el("span", { className: "swatches" }, ...buttons),
-    el("span", { className: "look-value", textContent: row.value }),
-  );
-  line.dataset.testid = `engine-appearance-${row.id}`;
-  return line;
-}
 async function pickColor(row, value) {
   const view = await post(
     `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, value })}`,
@@ -5084,39 +4641,14 @@ function showLook(view) {
   $("cr-portrait").src =
     `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
   $("cr-rows").replaceChildren(
-    ...view.rows.map((row) => {
-      if (row.swatches) return swatchRow(row);
-      const arrow = (by, glyph) => {
-        const b = makeButton({
-          className: "action small",
-          textContent: glyph,
-        });
-        b.setAttribute(
-          "aria-label",
-          `${by < 0 ? "Previous" : "Next"} ${row.label.toLowerCase()}`,
-        );
-        b.addEventListener("click", () => void moveLook(row.id, by));
-        return b;
-      };
-      const value = el("span", { className: "look-value" });
-      if (row.swatch)
-        value.append(
-          Object.assign(el("i", { className: "swatch" }), {
-            style: `background:${row.swatch}`,
-          }),
-        );
-      value.append(row.value);
-      const line = el(
-        "div",
-        { className: "look-row" },
-        el("span", { className: "label", textContent: row.label }),
-        arrow(-1, "‹"),
-        value,
-        arrow(1, "›"),
-      );
-      line.dataset.testid = `engine-appearance-${row.id}`;
-      return line;
-    }),
+    ...view.rows.map((row) =>
+      lookRow(row, {
+        onPick: (id, swatch) => void pickColor(id, swatch),
+        onMove: (id, by) => void moveLook(id, by),
+        arrowLabel: (by, r) =>
+          `${by < 0 ? "Previous" : "Next"} ${r.label.toLowerCase()}`,
+      }),
+    ),
   );
   $("cr-reset").disabled =
     JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);
@@ -5213,9 +4745,7 @@ async function offerPlayAs(life) {
         b.addEventListener("click", () => void enterAs(life, h.personId));
         return b;
       }),
-      ...(found.length === 0
-        ? [el("p", { className: "label", textContent: labels.none })]
-        : []),
+      ...(found.length === 0 ? [noteLine(labels.none)] : []),
     );
   };
   $("pick-search").oninput = draw;

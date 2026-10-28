@@ -62,7 +62,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator(".law-card").first().waitFor();
+  await page.locator("details.entry").first().waitFor();
   if (shots)
     await page.screenshot({
       path: `${shots}/${process.env.SHOT_NAME ?? "after"}-issues.png`,
@@ -71,14 +71,14 @@ try {
   const cards = new Map();
   // Every law in force here, amounts and policy questions: up to 30 pages of 4.
   for (let p = 0; p < 30; p++) {
-    for (const card of await page.locator(".law-card summary").all()) {
+    for (const card of await page.locator("details.entry summary").all()) {
       const name = await card.locator("h3").innerText();
       cards.set(
         name.toLowerCase(),
-        await card.locator(".law-value").innerText(),
+        await card.locator(".entry-value").innerText(),
       );
     }
-    const next = page.locator(".issues-content .record-pager button").nth(1);
+    const next = page.locator(".entries .record-pager button").nth(1);
     if (!(await next.count()) || (await next.isDisabled())) break;
     await next.click();
   }
