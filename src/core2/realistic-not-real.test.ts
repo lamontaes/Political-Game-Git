@@ -253,7 +253,9 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     );
     process.stdout.write(
       `MONEY ${where}: cash ${Math.round(cash(a))} against ${Math.round(cash(b))}, bank ${bank(a)} against ${bank(b)}\n`,
+    );
   });
+
   it("the federal debt, its holders, the payees' and charges' mixes and the states' federal stakes (audit rows 51 and 52)", () => {
     // What each holder held at the opening: its balance less what it lent since.
     const debt = (core: CoreState) =>
