@@ -19,4 +19,5 @@ The owner's mocks are `docs/ui/mocks/screens-2026-10-14/README.md` (cited as MOC
 - One way to each screen: no rail icon and menu line that both open the same thing unless the mock shows both.
 - Nothing on screen does nothing: a control with no effect, a toast with no way to close, an empty panel or heading is a defect.
 - Panels fit the window and use their space: no large empty areas, no see-through text panels over busy art.
+- **A screen PR lands in its stack's merge order, then merges main and sets the kit baseline from the guard.** Sibling screen PRs all edit `src/bench/play.mjs` and `tests/guards/kit-only-ui-baseline.json`, and mergers never hand-merge UI code, so each one that lands first sends the rest back. Merge main, keep both sides of `play.mjs`, run `tests/guards/kit-only-ui.test.ts`, set the baseline to the count the guard reports (it only shrinks), and rerun the screen's browser check in a drawn place (Oct 28: #6557, #6563, #6564 and #6594 each sent back for this one conflict in a two-hour window).
 - **Merger:** a screen change without a mock line, or with a second renderer for an existing control, is a send-back.

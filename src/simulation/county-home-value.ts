@@ -4,6 +4,7 @@ import {
   COUNTY_HOME_VALUE_META,
   COUNTY_HOME_VALUE_ROWS,
 } from "./county-home-value.generated";
+import { housingWorldOffset } from "../core2/housing-prices";
 import type { EntityId } from "../core2/kernel/brands";
 
 export { COUNTY_HOME_VALUE_META };
@@ -57,10 +58,32 @@ export function nationalMedianHomeValue(): number {
 }
 
 /**
- * The home value for a place the game lives in; the nation's when the place
- * is unknown or is not in a county the survey covers.
+ * The home value for a place the game lives in, in this world: the survey's
+ * median moved once by the world's own offset (owner, Oct 27: realistic, not
+ * real); the nation's when the place is unknown or is not in a county the
+ * survey covers. Play reads this.
  */
 export function homeValueForJurisdiction(
+  jurisdictionId: EntityId | null,
+  seed: string,
+): CountyHomeValue {
+  const published = publishedHomeValueForJurisdiction(jurisdictionId);
+  return {
+    ...published,
+    dollars: Math.round(
+      published.dollars *
+        (1 +
+          housingWorldOffset(
+            seed,
+            `old-core-home-value:${jurisdictionId ?? "nation"}`,
+            "housingWorldRentValueSpreadShare",
+          )),
+    ),
+  };
+}
+
+/** The published (ACS) home value for a place (calibration). */
+export function publishedHomeValueForJurisdiction(
   jurisdictionId: EntityId | null,
 ): CountyHomeValue {
   const place = jurisdictionId

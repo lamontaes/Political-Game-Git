@@ -19,7 +19,6 @@ import {
 import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import { decisionLean } from "../trait-decisions";
 import housingData from "../data/housing/housing.json" with { type: "json" };
-import { seededUnit } from "../seeded";
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
@@ -56,6 +55,7 @@ import {
 import {
   ACS_VALUE_DATE,
   homePriceRatio,
+  housingWorldOffset,
   type PriceLevel,
 } from "../housing-prices";
 import {
@@ -267,20 +267,6 @@ export function rentValueOf(
             "housingWorldRentValueSpreadShare",
           ));
   return [moved(rent, "rent"), moved(value, "value")];
-}
-
-/** A signed offset, between the floor share of the spread and the whole spread, fixed by the world's seed: generation of the starting world, never an actor's outcome. */
-function housingWorldOffset(seed: string, key: string, spread: string): number {
-  const unit = (part: string) =>
-    seededUnit(seed, `housing-world:${key}:${part}`);
-  const floor = pv("housingWorldOffsetFloorShare");
-  return (
-    (unit("sign") < housingMacroParameter("macroHalf")
-      ? -housingMacroParameter("one")
-      : housingMacroParameter("one")) *
-    (floor + (housingMacroParameter("one") - floor) * unit("size")) *
-    pv(spread)
-  );
 }
 
 /**
@@ -641,7 +627,12 @@ export function withHousing(input: CoreInput): CoreInput {
       medianValue *
         100 *
         // ACS values are dated mid-2022; the state's house price index moves them to the start.
-        homePriceRatio(town.usps, valueDateOf(town.county), input.startedAt) *
+        homePriceRatio(
+          town.usps,
+          valueDateOf(town.county),
+          input.startedAt,
+          input.seed,
+        ) *
         (incomeScale(row.income) / ownerMedianScale),
     ),
   }));
@@ -654,6 +645,7 @@ export function withHousing(input: CoreInput): CoreInput {
           dueAt: makeIsoDate(dueAt),
           bankId: bank.id,
           usps: town.usps,
+          seed: input.seed,
           // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
           bankRoomMinor:
             bank.liquidMinor *
@@ -1209,6 +1201,7 @@ function buyHomes(api: CoreAPI): void {
       c.placeMetadata?.housingState ?? "",
       valueDateOf(c.placeMetadata?.housingCounty ?? ""),
       c.date,
+      c.seed,
       macroPrices(api),
     );
     // The home the household's income would buy at the county's median, as rent scales with income.
@@ -2404,6 +2397,7 @@ export function ownedHomes(
       c.placeMetadata?.housingState ?? "",
       opened,
       c.date,
+      c.seed,
       macroPrices(api),
     ));
   const out: { householdId: string; placeId: string; valueMinor: number }[] =

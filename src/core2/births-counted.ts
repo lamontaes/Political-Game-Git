@@ -683,7 +683,7 @@ export function applyCountedFlows(
 
     // Births: the state's rate for every counted woman of each age, summed;
     // the households whose circumstances stand best toward a child first.
-    const hud = hudRentRowFor(placeId as EntityId);
+    const hud = hudRentRowFor(placeId as EntityId, api.state.seed);
     const median =
       hud?.veryLow4 != null
         ? hud.veryLow4 * CENTS_PER_DOLLAR * p("renewalMedianPerVeryLowLimit")

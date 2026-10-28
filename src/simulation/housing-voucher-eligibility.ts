@@ -65,7 +65,7 @@ export function housingVoucherIncomeScope(
       ? Math.max(known, reference.householdIncomeDollars * 100)
       : known,
   );
-  const hud = hudRentRowFor(location.jurisdictionId);
+  const hud = hudRentRowFor(location.jurisdictionId, world.seed);
   const localLimit = hud ? veryLowIncomeLimit(hud, members.length) : null;
   const size = Math.max(1, members.length);
   const factors = incomeScope.familySizeFactors;
