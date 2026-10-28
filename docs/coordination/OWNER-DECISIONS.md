@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 00:15 UTC: after the audit
+
+- **Sessions message the CTO and their paired sessions; the files stay the record (CTO, Oct 28, from the audit's note that AGENTS.md still said sessions never message).** The owner opened messaging on the scene line Oct 27 ("message back and forth") and every session has messaged the CTO since; the rule now says so. A message never replaces a channel block, a PR comment or a pool Notes line.
+- **The retroactive look-first audit (owner, 7:15 PM Eastern Oct 27: "YOU NEED TO DO THIS RETROACTIVELY FOR EVERYTHING").** Report #6445: of 191 open PRs, 27 contradict a ruling, 83 repeat code on main, 52 repeat another PR; of 479 priority 1 and 2 items, 37 twins, 40 already built. The CTO closed 13 PRs and dropped the twin and already-built items on Oct 28 00:15 UTC; Merger 4 closes the rest of the audit's "close" rows and merges its "merge as is" rows; the sessions doing work twice were told which owns it.
+
 ## Oct 27, 5:40 to 6:15 PM Eastern: the v0.59.0 screenshots (owner, to the CTO)
 
 - **Menu subtitles are removed, never replaced (owner: "REMOVE. THE. MENU. SUBTITLES. DO NOT REPLACE THEM").** Continue, Saved games and Patch notes show only their names; the Oct 24 line "every dimmed entry says why" is withdrawn. PR #6436.

@@ -4,7 +4,7 @@ title: "ART-5 classroom and library chair seat positions (#3492)"
 area: art
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5339
 blocked-on:
