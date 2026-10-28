@@ -225,6 +225,146 @@
    "kind": "scene tag zones (hand-written)",
    "room": "debate-stage"
   },
+  "art/people-rooms/plates/clerk-counter.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "clerk-counter",
+   "edit": "sg-p01"
+  },
+  "art/people-rooms/spots/clerk-counter.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "clerk-counter",
+   "edit": "sg-p01"
+  },
+  "art/people-rooms/tags/clerk-counter.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "clerk-counter"
+  },
+  "art/people-rooms/plates/council-chamber.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "council-chamber",
+   "edit": "sg-p02"
+  },
+  "art/people-rooms/spots/council-chamber.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "council-chamber",
+   "edit": "sg-p02"
+  },
+  "art/people-rooms/tags/council-chamber.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "council-chamber"
+  },
+  "art/people-rooms/plates/home-kitchen.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "home-kitchen",
+   "edit": "sg-p03"
+  },
+  "art/people-rooms/spots/home-kitchen.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "home-kitchen",
+   "edit": "sg-p03"
+  },
+  "art/people-rooms/tags/home-kitchen.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "home-kitchen"
+  },
+  "art/people-rooms/plates/mayor-office.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "mayor-office",
+   "edit": "sg-p04"
+  },
+  "art/people-rooms/spots/mayor-office.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "mayor-office",
+   "edit": "sg-p04"
+  },
+  "art/people-rooms/tags/mayor-office.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "mayor-office"
+  },
+  "art/people-rooms/plates/coffee-shop.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "coffee-shop",
+   "edit": "sg-p05"
+  },
+  "art/people-rooms/spots/coffee-shop.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "coffee-shop",
+   "edit": "sg-p05"
+  },
+  "art/people-rooms/tags/coffee-shop.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "coffee-shop"
+  },
+  "art/people-rooms/plates/door-knocking-suburban.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "door-knocking-suburban",
+   "edit": "sg-p06s"
+  },
+  "art/people-rooms/spots/door-knocking-suburban.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "door-knocking-suburban",
+   "edit": "sg-p06s"
+  },
+  "art/people-rooms/tags/door-knocking-suburban.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "door-knocking-suburban"
+  },
+  "art/people-rooms/plates/door-knocking-urban.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "door-knocking-urban",
+   "edit": "sg-p06u"
+  },
+  "art/people-rooms/spots/door-knocking-urban.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "door-knocking-urban",
+   "edit": "sg-p06u"
+  },
+  "art/people-rooms/tags/door-knocking-urban.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "door-knocking-urban"
+  },
+  "art/people-rooms/plates/door-knocking-rural.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "door-knocking-rural",
+   "edit": "sg-p06r"
+  },
+  "art/people-rooms/spots/door-knocking-rural.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "door-knocking-rural",
+   "edit": "sg-p06r"
+  },
+  "art/people-rooms/tags/door-knocking-rural.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "door-knocking-rural"
+  },
+  "art/people-rooms/plates/polling-place.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "polling-place",
+   "edit": "sg-p07"
+  },
+  "art/people-rooms/spots/polling-place.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "polling-place",
+   "edit": "sg-p07"
+  },
+  "art/people-rooms/tags/polling-place.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "polling-place"
+  },
+  "art/people-rooms/plates/election-night-venue.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "election-night-venue",
+   "edit": "sg-p08"
+  },
+  "art/people-rooms/spots/election-night-venue.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "election-night-venue",
+   "edit": "sg-p08"
+  },
+  "art/people-rooms/tags/election-night-venue.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "election-night-venue"
+  },
   "art/people-engine/v2/hair-on-figures/back/01/v2-06-f-slim-hair.png": {
    "kind": "hair piece",
    "figure": "v2-06-f-slim",
@@ -6700,6 +6840,106 @@
     "art/people-rooms/plates/debate-stage.png",
     "art/people-rooms/spots/debate-stage.json",
     "art/people-rooms/tags/debate-stage.tags.json"
+   ]
+  },
+  "sg-p01": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/clerk-counter__midday.jpg",
+   "prompt": "[sg-p01] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one standing behind the counter facing the viewer as the clerk, one standing at the counter turned three-quarters toward the clerk, and one standing in line behind them. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/clerk-counter.png",
+    "art/people-rooms/spots/clerk-counter.json",
+    "art/people-rooms/tags/clerk-counter.tags.json"
+   ]
+  },
+  "sg-p02": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/council-chamber__midday.jpg",
+   "prompt": "[sg-p02] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, five sitting at the dais facing the viewer, one standing at the public lectern with their back to the viewer, and one sitting in the public seats. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/council-chamber.png",
+    "art/people-rooms/spots/council-chamber.json",
+    "art/people-rooms/tags/council-chamber.tags.json"
+   ]
+  },
+  "sg-p03": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/home-kitchen__midday.jpg",
+   "prompt": "[sg-p03] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, two sitting at the table turned three-quarters toward each other, and one standing at the counter. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/home-kitchen.png",
+    "art/people-rooms/spots/home-kitchen.json",
+    "art/people-rooms/tags/home-kitchen.tags.json"
+   ]
+  },
+  "sg-p04": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/mayor-office__midday.jpg",
+   "prompt": "[sg-p04] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one sitting behind the desk facing the viewer, and two sitting in the visitor chairs in front of the desk, one of them seen from behind. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/mayor-office.png",
+    "art/people-rooms/spots/mayor-office.json",
+    "art/people-rooms/tags/mayor-office.tags.json"
+   ]
+  },
+  "sg-p05": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/coffee-shop__midday.jpg",
+   "prompt": "[sg-p05] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, two sitting at one table facing each other, one on the left and one on the right, one sitting on a stool at the counter, and one standing in line. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/coffee-shop.png",
+    "art/people-rooms/spots/coffee-shop.json",
+    "art/people-rooms/tags/coffee-shop.tags.json"
+   ]
+  },
+  "sg-p06s": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/door-knocking-suburban__midday.jpg",
+   "prompt": "[sg-p06s] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one standing in the open doorway facing the viewer, and one standing on the step turned three-quarters toward the door. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/door-knocking-suburban.png",
+    "art/people-rooms/spots/door-knocking-suburban.json",
+    "art/people-rooms/tags/door-knocking-suburban.tags.json"
+   ]
+  },
+  "sg-p06u": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/door-knocking-urban__midday.jpg",
+   "prompt": "[sg-p06u] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one standing in the open doorway facing the viewer, and one standing on the step turned three-quarters toward the door. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/door-knocking-urban.png",
+    "art/people-rooms/spots/door-knocking-urban.json",
+    "art/people-rooms/tags/door-knocking-urban.tags.json"
+   ]
+  },
+  "sg-p06r": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/door-knocking-rural__midday.jpg",
+   "prompt": "[sg-p06r] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one standing in the open doorway facing the viewer, and one standing on the step turned three-quarters toward the door. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/door-knocking-rural.png",
+    "art/people-rooms/spots/door-knocking-rural.json",
+    "art/people-rooms/tags/door-knocking-rural.tags.json"
+   ]
+  },
+  "sg-p07": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/polling-place__midday.jpg",
+   "prompt": "[sg-p07] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, two sitting at the check-in table facing the viewer, two standing in voting booths with their backs to the viewer, and one standing in line. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/polling-place.png",
+    "art/people-rooms/spots/polling-place.json",
+    "art/people-rooms/tags/polling-place.tags.json"
+   ]
+  },
+  "sg-p08": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/election-night-venue__midday.jpg",
+   "prompt": "[sg-p08] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one standing at the lectern facing the viewer, and five standing in the crowd in front of the stage, seen from behind and turned three-quarters. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/election-night-venue.png",
+    "art/people-rooms/spots/election-night-venue.json",
+    "art/people-rooms/tags/election-night-venue.tags.json"
    ]
   },
   "hr-back-01": {
