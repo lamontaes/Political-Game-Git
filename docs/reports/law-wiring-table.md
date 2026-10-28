@@ -26,6 +26,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Corporate income tax rate                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Your office                         |
 | Estate tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | part  | n/a  | yes     | yes    | yes       | partly     | Your office                         |
 | Inheritance tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Your office                         |
+| Local income tax authority                   | taxes-finance      | yes    | yes    | yes   | yes     | n/a   | n/a  | yes     | yes    | yes       | wired      | none                                |
 | adopt income tax                             | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | cap property tax growth                      | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
@@ -90,7 +91,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | part  | yes     | yes   | SG   | yes     | yes    | part      | partly     | Issues, Your office, News           |
 | protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, Calendar, News |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Budgets, Your office, News          |
-| local-income-tax-authority                   | starting law       | yes    | NO     | yes   | yes     | n/a   | n/a  | yes     | yes    | yes       | partly     | none                                |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | none                                |
 | unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | yes  | yes     | n/a    | yes       | wired      | Issues, Calendar                    |
 
@@ -124,6 +124,11 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **Inheritance tax rate** (`inheritance-tax`)
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
+
+**Local income tax authority** (`local-income-tax-authority`)
+
+- money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax. The grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
+- web: The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own.
 
 **exempt groceries from sales tax** (`us-policy-positions:fiscal.exempt-groceries-from-sales-tax`)
 
@@ -258,12 +263,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **Spending: parks** (`budget-line:parks`)
 
 - web: no production reader: parks-spending-to-exercise-access (SG-GOV-REACH-B-park-use) move only the web's ledger
-
-**local-income-tax-authority** (`local-income-tax-authority`)
-
-- change: no bill catalog policy and no series-powers row: no body can propose, enact or repeal it
-- money: the law only grants or withholds a power: a state's permission for its localities to levy an income tax. The grant itself charges, pays and taxes no one, and any money moves through the income tax a council then enacts, graded as the income-tax law's money (as labor declares for the local minimum wage authority)
-- web: The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own.
 
 **local-minimum-wage-authority** (`local-minimum-wage-authority`)
 
