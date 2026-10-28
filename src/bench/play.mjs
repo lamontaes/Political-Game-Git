@@ -1300,11 +1300,28 @@ function renderFilingOverlay(value) {
     ]),
   );
 }
-async function openFiling(filedWith) {
+/**
+ * To the filing office, as a hot link from a race takes you (owner, Oct 28:
+ * "menus carry hot links that take you there"): the counter opens, and when
+ * a race is named its choice is made at once, so the clerk is on that race.
+ */
+async function openFiling(filedWith, contestId) {
   closeSheet();
   renderTalk(undefined);
+  const opened = await post(
+    `/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`,
+  );
+  const pick =
+    contestId &&
+    opened.visit?.choices.find(
+      (c) => c.action.kind === "pick" && c.action.contestId === contestId,
+    );
   renderFiling(
-    await post(`/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`),
+    pick
+      ? await post(
+          `/api/filing/choose?${new URLSearchParams({ key: pick.key })}`,
+        )
+      : opened,
   );
 }
 
@@ -1352,43 +1369,6 @@ let speechState = null;
  * with each filer by name, from the filing records, marked unopposed or
  * unfilled where that is what the records hold.
  */
-async function localRacesBlock() {
-  const { date, races } = await api("/api/government/local-races");
-  const labels = controls.localRaces;
-  // A block of its own: each race is a row under the title, not squeezed beside it.
-  const block = makeCard(
-    "race local-races",
-    {},
-    line(date ? `${labels.title} · ${dateWords(date)}` : labels.title, "label"),
-  );
-  if (!races.length) block.append(line(labels.noBallot, "label"));
-  for (const race of races) {
-    const names = race.filers.map(
-      (f) => `${f.name ?? ""}${f.party ? ` (${f.party})` : ""}`,
-    );
-    const mark = !race.filers.length
-      ? labels.noFilers
-      : race.filers.length === 1 && race.filingClosed
-        ? labels.unopposed
-        : null;
-    const line = row(
-      race.title,
-      [
-        names.join(", "),
-        mark,
-        race.filingClosed
-          ? null
-          : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
-      ]
-        .filter(Boolean)
-        .join(" · "),
-    );
-    line.classList.add("local-race");
-    line.dataset.contest = race.contestId;
-    block.append(line);
-  }
-  return block;
-}
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
@@ -3056,28 +3036,70 @@ const sheets = {
   async office() {
     return seatRows();
   },
+  /**
+   * Campaigns: the coming ballot's real races (owner, Oct 28, point 19), each
+   * opening to who runs, with their filed views, every candidate's name their
+   * card, and File for it taking you to the office that takes the filing.
+   * The player's own filed campaign stays above it (screens-campaign-board
+   * is the one board that replaces those rows).
+   */
   async campaigns() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    // A filing whose race has been decided reads as won or lost.
-    const decided = new Map(
-      (await api(`/api/results?id=${encodeURIComponent(me.id)}`))
-        .filter((race) => race.mine)
-        .map((race) => [race.contestId, race.mine.won]),
-    );
-    const labels = controls.results;
+    const [v, ballot] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api("/api/government/local-races"),
+    ]);
+    const labels = controls.localRaces;
+    const stance = voteWords();
+    const filed = new Set(v.filings.map((f) => f.contestId));
+    const candidate = (f) =>
+      withNotes(
+        personRow({
+          name: f.name ?? "",
+          party: f.party,
+          face: f.face,
+          onOpen: () => {
+            closeSheet();
+            showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+          },
+        }),
+        f.stances.map((s) => ({
+          text: `${policyLabel(s.question)}: ${s.position > 0 ? (stance.for ?? "") : (stance.against ?? "")}`,
+        })),
+      );
+    const fileForIt = (race) => {
+      const b = makeButton({ textContent: labels.fileForIt });
+      b.dataset.testid = "file-for-it";
+      b.addEventListener("click", () =>
+        openFiling(race.filedWith, race.contestId),
+      );
+      return buttonRow(b);
+    };
+    const races = ballot.races.map((race) => ({
+      title: race.title,
+      value: filed.has(race.contestId)
+        ? labels.youFiled
+        : race.filers.length
+          ? labels.running.replace("{n}", race.filers.length)
+          : labels.noFilers,
+      lede: dateWords(race.electionDate),
+      note: race.filingClosed
+        ? null
+        : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
+      opens: true,
+      open: ballot.races.length === 1,
+      nodes: [
+        ...race.filers.map(candidate),
+        ...(race.filingOpen && !filed.has(race.contestId) && race.filedWith
+          ? [fileForIt(race)]
+          : []),
+      ],
+      data: { contest: race.contestId },
+    }));
     return [
-      ...(await campaignRows()),
-      await localRacesBlock(),
-      ...v.filings.map((f) =>
-        row(
-          decided.has(f.contestId)
-            ? decided.get(f.contestId)
-              ? labels.won
-              : labels.lost
-            : words(f.status),
-          f.filedWith,
-        ),
-      ),
+      ...(v.filings.length ? await campaignRows() : []),
+      ...(await listScreen({
+        entries: () => (races.length ? races : [{ title: labels.noBallot }]),
+      })),
     ];
   },
   async government() {

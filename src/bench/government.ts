@@ -377,6 +377,9 @@ export function localRaces(core: CoreState) {
       !first || contest.electionDate < first ? contest.electionDate : first,
     null,
   );
+  // The viewer's room, for the candidates' headshots (the same faces the
+  // People map draws).
+  const place = facePlace(core, core.playerId ?? undefined);
   const races = contests
     .filter((contest) => contest.electionDate === date)
     .map((contest) => {
@@ -391,18 +394,41 @@ export function localRaces(core: CoreState) {
           return {
             filingId: row.id,
             personId: row.personId,
+            // The id a click opens and their face: a resident by their
+            // person, a named official by their term (holderFace's rule).
+            ...holderFace(
+              core,
+              { id: row.personId, personId: row.personId },
+              place,
+            ),
             name: who ? `${who.givenName} ${who.familyName}` : null,
             party: row.party ?? null,
+            // Their views as filed: each stance on the filing record
+            // ("question=1" for, "question=-1" against).
+            stances: row.platform
+              .map((entry) => {
+                const [question, value] = entry.split("=");
+                return { question: question ?? "", position: Number(value) };
+              })
+              .filter((s) => s.question && Number.isFinite(s.position)),
           };
         })
         .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+      const office = filingOfficeFor(api, contest.id);
       return {
         contestId: contest.id,
         title: contest.district
           ? `${contest.title} (${contest.district})`
           : contest.title,
+        electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
         filingClosed: contest.filingDeadline < core.date,
+        // Filing is open today: the office takes a filing for it.
+        filingOpen:
+          (contest.filingOpens === null || contest.filingOpens <= core.date) &&
+          contest.filingDeadline >= core.date,
+        // Where a filing for it is made, for the hot link to the office.
+        filedWith: office?.filedWith ?? null,
         filers,
       };
     })
