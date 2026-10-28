@@ -351,11 +351,24 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   // its money is the lines its own move rows name, what the treasury paid on
   // them with the act and without it. An act that moved no line (a budget
   // already in balance) moved no money, whatever else differed between worlds.
+  // A budget-line law is the same with its own line (the raise the checker
+  // made): the treasury pays the line's workers and contractors through the
+  // town's outside market, so its money is the payments the line's payment ids
+  // name, here and in the control world, and it counts where the treasury paid
+  // more on the line with the raise (a difference the other way is drift). Where
+  // it did not, the law's other payments below are looked at.
+  const line = law.kind === "budget-line";
+  const what = line ? "raise" : "act";
   const moved = runs.filter(({ r }) => r.money?.lines);
   if (moved.length) {
     const paid = moved.flatMap(({ place, r }) =>
       r.money
-        .lines!.filter((l) => l.treatment !== l.control)
+        .lines!.filter(
+          (l) =>
+            l.treatment !== l.control &&
+            (!line ||
+              Math.sign(l.treatment - l.control) === Math.sign(l.moved)),
+        )
         .map((l) => ({ place, l, opening: r.inForceAtOpening })),
     );
     if (paid.length)
@@ -365,32 +378,33 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
           .slice(0, 3)
           .map(
             ({ place, l, opening }) =>
-              `${place}: the ${l.government} treasury's payments on ${l.line}, which the act moved by ${l.moved}: ${
+              `${place}: the ${l.government} treasury's payments on ${l.line}, which the ${what} moved by ${l.moved}: ${
                 opening
                   ? `${l.control} with the act in force, ${l.treatment} with it repealed`
-                  : `${l.control} without the act, ${l.treatment} with it`
+                  : `${l.control} without the ${what}, ${l.treatment} with it`
               }${l.before ? `, payments before ${l.before}` : ""} (${l.ids[0] ?? ""})`,
           )
           .join("; "),
         why: "",
       };
     const none = moved.every(({ r }) => !r.money.lines!.length);
-    return {
-      status: "missing",
-      evidence: moved
-        .map(
-          ({ place, r }) =>
-            `${place}: ${
-              r.money.lines!.length
-                ? `the act moved ${r.money.lines!.map((l) => l.line).join(", ")} and the treasury paid the same with and without it`
-                : "the act's move rows hold no line"
-            }`,
-        )
-        .join("; "),
-      why: none
-        ? "the act moved no budget line in the drawn places (the budget it balances had nothing to cut), so it moved no money"
-        : "the treasury paid the same on the lines the act moved with and without it",
-    };
+    if (!line)
+      return {
+        status: "missing",
+        evidence: moved
+          .map(
+            ({ place, r }) =>
+              `${place}: ${
+                r.money.lines!.length
+                  ? `the act moved ${r.money.lines!.map((l) => l.line).join(", ")} and the treasury paid the same with and without it`
+                  : "the act's move rows hold no line"
+              }`,
+          )
+          .join("; "),
+        why: none
+          ? "the act moved no budget line in the drawn places (the budget it balances had nothing to cut), so it moved no money"
+          : "the treasury paid the same on the lines the act moved with and without it",
+      };
   }
   const direct = runs.flatMap(({ place, r }) =>
     (r.money?.direct ?? [])

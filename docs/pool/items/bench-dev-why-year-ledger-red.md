@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: dropped
 claimed-by: claude/n3-bench-dev-why-year-ledger-red
 pr: #4974
 blocked-on:

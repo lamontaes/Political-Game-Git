@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: dropped
 claimed-by: claude/m003-job-ends-greenland
 pr: #6018
 blocked-on:

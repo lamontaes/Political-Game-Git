@@ -117,7 +117,8 @@
       "cause:event:debate-invited",
       "cause:event:rival-word",
       "cause:event:rival-filed",
-      "cause:event:party-asked"
+      "cause:event:party-asked",
+      "cause:event:vote-ahead"
     ],
     "ownRecordSettings": ["home", "office", "phone"],
     "metWhereYouAre": ["circumstance:"]
@@ -3237,6 +3238,17 @@
           "bind": { "colleague": "counterpart", "you": "subject" },
           "opener": "colleague",
           "setting": ["chamber"]
+        },
+        {
+          "match": {
+            "label": "cause:event:vote-ahead",
+            "causeFacts": [{ "key": "askedId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "vote-ahead",
+          "bind": { "colleague": "counterpart", "you": "subject" },
+          "opener": "colleague",
+          "setting": ["office", "chamber"]
         },
         {
           "match": { "label": "circumstance:hallway-colleague" },

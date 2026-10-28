@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: director-officeholder-address-scene

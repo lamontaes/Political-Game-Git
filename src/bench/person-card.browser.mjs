@@ -62,10 +62,14 @@ try {
     name,
   );
   await page.waitForTimeout(1500);
-  const role = (await page.locator("#talk-role").innerText()).trim();
-  console.log("Talk box:", name, "|", role);
-  assert.ok(!role.includes("·"), `a list, not a sentence: ${role}`);
-  if (role) assert.match(role, /\.$/, `not a sentence: ${role}`);
+  // Under the name, nothing: the talk box is the name, the line and the
+  // replies (owner, Oct 27, 6:20 PM).
+  assert.equal(await page.locator("#talk-role").count(), 0, "a subtitle");
+  // A conversation offers its replies, Say nothing and Leave, and no Continue.
+  assert.ok(await page.locator("#talk-choices .reply").count());
+  assert.ok(await page.locator("#talk-silent").isVisible());
+  assert.ok(await page.locator("#talk-leave").isVisible());
+  assert.equal(await page.locator("#talk-next").isVisible(), false);
   const known = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/known",
   );
@@ -111,6 +115,8 @@ try {
   assert.ok(read.home, "the card shows nothing about the person's life");
   for (const { value, label } of read.values)
     assert.ok(label, `a value with no label: ${value}`);
+  // "Last talked" is never shown (owner, Oct 27, 5 PM).
+  assert.doesNotMatch(text, /last talked/i, "a Last talked line");
   if (card.tie?.lastContactDate)
     assert.ok(!text.includes(card.tie.lastContactDate));
   await page.waitForFunction(

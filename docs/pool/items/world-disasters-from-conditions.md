@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/disasters.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): the row SG-CORE-disasters-from-records stays open while its pool item is done; the owner's Oct 16 ruling answers its question. Split before building.
+
+**Evidence, Oct 27 (realistic-not-real audit).** FEMA declarations after the start are replayed on their real dates with their real aid (src/core2/modules/disasters.ts:107-200). The owner's Oct 27 ruling covers every statistic, so the declarations calibrate hazard causes rather than happen as themselves (docs/reports/real-statistics-in-play-2026-10-27.md row 41).

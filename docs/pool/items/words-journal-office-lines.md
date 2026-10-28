@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by: claude/words-journal-office-lines
 pr:
 blocked-on:
