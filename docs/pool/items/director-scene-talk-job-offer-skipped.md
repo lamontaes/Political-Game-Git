@@ -5,12 +5,13 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-scene-talk-job-offer
 pr:
 blocked-on:
 lead: director
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:47:38.765Z
 ---
 
 **What.** src/director/scene-talk.test.ts fails three tests on clean main at a86a3ea0c6 (seed scene-talk-test): composes every purpose, plays every purpose in play, and composes a tree all stop at job-offer: expected skipped to be composed. Every purpose type after job-offer in situation-types.json goes unchecked while it stays red, so a later type's broken words would not show.
