@@ -135,6 +135,8 @@
     "sharedWords": {
       "household": "Lives with you",
       "coworker": "Works with you",
+      "worked": "Worked with you",
+      "schoolmate": "At school with you",
       "campaign": "On a campaign with you"
     },
     "seats": "Seats held",
@@ -447,7 +449,6 @@
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
     },
-    "noneHere": "None here",
     "guide": {
       "government": "Who holds each seat over you, from your town to the nation, and when each term ends.",
       "issues": "The laws in force where you live, and who can change them.",

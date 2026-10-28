@@ -214,6 +214,7 @@ export function hireStaffMember(
           openingLiquidMinor: Math.round(
             medianTransactionBalance(
               input.parameter(input.role.payParameter) / minorPerDollar,
+              core.seed,
             ) * minorPerDollar,
           ),
         }

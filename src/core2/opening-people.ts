@@ -7,10 +7,8 @@ import {
   householdLocationAt,
   householdMembershipsAt,
 } from "../simulation/life-queries";
-import {
-  appearanceLineageFromPeople,
-  derivePersonAppearance,
-} from "../simulation/person-appearance";
+import { appearanceLineageFromPeople } from "../simulation/person-appearance";
+import { derivePersonAppearance } from "./appearance";
 import { assertWorldIntegrity } from "../simulation/world";
 import type {
   EntityId,
