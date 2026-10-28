@@ -922,10 +922,13 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "canvass-visit",
+          "match": { "label": "circumstance:door-first" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
           "reason": "canvass",
           "bind": { "newcomer": "subject", "met": "counterpart" },
-          "opener": "newcomer"
+          "opener": "newcomer",
+          "setting": ["other-home"]
         },
         {
           "match": { "label": "circumstance:new-coworker" },
@@ -1368,10 +1371,13 @@
           "opener": "visitor"
         },
         {
-          "awaitingProducer": "canvass-visit",
+          "match": { "label": "circumstance:door-again" },
+          "causeEngine": "circumstance",
+          "causeRecord": "campaign.door",
           "reason": "canvass",
           "bind": { "visitor": "subject", "cannot-come": "counterpart" },
-          "opener": "visitor"
+          "opener": "visitor",
+          "setting": ["other-home"]
         },
         {
           "match": {
@@ -3293,6 +3299,14 @@
       "timing": "at-cause",
       "causes": [
         {
+          "match": { "label": "circumstance:override-whip" },
+          "causeEngine": "circumstance",
+          "causeRecord": "veto-override",
+          "bind": { "colleague": "counterpart", "you": "subject" },
+          "opener": "colleague",
+          "setting": ["chamber", "seat"]
+        },
+        {
           "match": {
             "label": "cause:event:vote-promise",
             "selfNamed": true,
@@ -3836,6 +3850,14 @@
           "bind": { "opponent": "counterpart", "you": "subject" },
           "opener": "opponent",
           "setting": ["public"]
+        },
+        {
+          "match": { "label": "cause:event:debate", "selfNamed": true },
+          "causeEngine": "meetings",
+          "causeRecord": "debate",
+          "bind": { "opponent": "counterpart", "you": "subject" },
+          "opener": "opponent",
+          "setting": ["venue", "public"]
         }
       ],
       "tag": {

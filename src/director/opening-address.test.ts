@@ -158,7 +158,9 @@ describe("the opening address from a world's records", () => {
     const rows = (
       recorded.length
         ? recorded
-        : historyMonths(world.core.startedAt, (key) => api.parameter(key))
+        : historyMonths(world.core.startedAt, world.core.seed, (key) =>
+            api.parameter(key),
+          )
     )
       .slice()
       .sort((a, b) => a.month.localeCompare(b.month));

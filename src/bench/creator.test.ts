@@ -1,5 +1,4 @@
 import { randomBytes } from "node:crypto";
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   ageAtStart,
@@ -20,7 +19,7 @@ import {
   portraitPng,
   readRecipe,
 } from "./appearance";
-import { recolorFigure } from "./figure-colors";
+import { drawnFigure } from "./figure-hair";
 import { lookFigures } from "./whole-figures";
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
@@ -78,9 +77,15 @@ describe("the New game creator", () => {
     const recipe = drawnAppearance("female", "seed", 0);
     expect(recipe.sex).toBe("female");
     const labels = appearanceRows(recipe, "female").map((row) => row.label);
-    expect(labels.slice(0, 3)).toEqual(["Build", "Clothes", "Skin"]);
+    expect(labels.slice(0, 5)).toEqual([
+      "Build",
+      "Clothes",
+      "Skin",
+      "Hair",
+      "Hair color",
+    ]);
     // A color for each piece the outfit has: a jacket only with a vest or blazer.
-    expect(labels.slice(3)).toEqual([
+    expect(labels.slice(5)).toEqual([
       ...(recipe.outfit === "vest" || recipe.outfit === "blazer"
         ? ["Jacket color"]
         : []),
@@ -95,8 +100,8 @@ describe("the New game creator", () => {
     expect(() =>
       readRecipe(JSON.stringify({ ...next, outfit: "hair" })),
     ).toThrow();
-    // The portrait is the standing v2 figure in the look's own colors, through
-    // the same recolor the rooms draw it with.
+    // The portrait is the standing v2 figure in the look's own colors and
+    // hair, through the same drawing the rooms use.
     const png = portraitPng(next);
     expect(png.subarray(1, 4).toString()).toBe("PNG");
     const file = lookFigures().find(
@@ -107,10 +112,7 @@ describe("the New game creator", () => {
     )!.file;
     expect(
       png.equals(
-        recolorFigure(
-          readFileSync(
-            new URL(`../../art/people-engine/v2/${file}`, import.meta.url),
-          ),
+        drawnFigure(
           file
             .split("/")
             .pop()!

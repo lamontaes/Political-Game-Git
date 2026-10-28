@@ -262,6 +262,28 @@ export function weightedPayrollMinor(
 }
 
 /**
+ * How many times its book a business runs at: its payroll with its counted
+ * workers at their weight over the book's payroll (one with no payroll).
+ * Every reader of the book's other figures (its demand, its other costs)
+ * multiplies by it the same way.
+ */
+export function staffedScale(
+  core: CoreState,
+  organizationId: string,
+  annualPayrollMinor: number,
+  daysPerYear: number,
+): number {
+  return annualPayrollMinor > 0
+    ? weightedPayrollMinor(
+        core,
+        organizationId,
+        annualPayrollMinor,
+        daysPerYear,
+      ) / annualPayrollMinor
+    : 1;
+}
+
+/**
  * How many real jobs one counted job stands for: its worker's household
  * weight, unless its employer's staffing set it otherwise (`CountedStore.
  * headsOfJob`); one where the counts no longer hold the worker.

@@ -2228,6 +2228,7 @@
     "scene-talk.state-confront.this-is-a-recall-petition-with-your-name-on-it-it-s-about-bill": "confront|braced|private",
     "scene-talk.state-confront.we-re-collecting-signatures-to-recall-you-you-voted-for-bill-that-s-why": "confront|braced|private",
     "scene-talk.state-confront.you-can-t-win-this-you-know": "confront|braced|private",
+    "scene-talk.state-confront.you-were-wrong-about-issue-tonight-and-i-ll-keep-saying-so": "confront|braced|private",
     "scene-talk.state-farewell.so-this-is-it-for-a-while": "farewell|tender|private",
     "scene-talk.state-warn.there-ll-be-two-hundred-people-outside-your-event-saturday-maybe-more-": "warn|braced|private",
     "scene-words.cause-acquitted-other.other-has-been-acquitted": "deliver-news|none|narration",

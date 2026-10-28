@@ -385,6 +385,50 @@
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceSchoolImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "door-first",
+      "recordKinds": ["campaign.door"],
+      "recordFactEquals": { "first": ["true"], "stake": ["true"] },
+      "lived": true,
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "anyone",
+      "cast": "a resident who opened their door to the player's own canvass for the first time, the one whose agreement with the player's platform, for or against, is the day's strongest",
+      "typeKey": "first-meeting",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceDoorImpact",
+      "everyParameter": "directorCircumstanceDoorEveryDays"
+    },
+    {
+      "id": "door-again",
+      "recordKinds": ["campaign.door"],
+      "recordFactEquals": { "first": ["false"], "stake": ["true"] },
+      "lived": true,
+      "place": "other-home",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "anyone",
+      "cast": "a resident the player's canvass has knocked on before, who opens the door again, the one whose agreement with the player's platform, for or against, is the day's strongest",
+      "typeKey": "visit",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceDoorImpact",
+      "everyParameter": "directorCircumstanceDoorEveryDays"
+    },
+    {
+      "id": "override-whip",
+      "recordKinds": ["veto-override"],
+      "recordFactEquals": { "passed": ["false"] },
+      "place": "seat",
+      "pool": ["fact:sponsorId"],
+      "where": "pool",
+      "player": "listed:members",
+      "cast": "the sponsor of a bill whose veto override failed, asking a member who voted no or stayed out (the record lists the most movable first) for the next try",
+      "typeKey": "vote-confirmed",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
     }
   ]
 }

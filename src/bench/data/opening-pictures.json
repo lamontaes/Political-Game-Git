@@ -10,9 +10,6 @@
     "state": {
       "places": ["capitol", "governor-office"]
     },
-    "town": {
-      "places": ["council-chamber", "town-hall"]
-    },
     "family": {
       "places": ["@home"]
     }
@@ -35,15 +32,9 @@
       "places": ["@visited-capitol"]
     }
   ],
-  "levels": {
-    "towns": {
-      "places": ["main-street", "council-chamber"],
-      "cast": "town"
-    }
-  },
+  "levels": {},
   "cast": {
-    "congress": [["us-senate", "us-house"]],
-    "town": [["mayor", "municipal-council"], ["county-board"]]
+    "congress": [["us-senate", "us-house"]]
   },
   "hour": 12,
   "cutaways": [
