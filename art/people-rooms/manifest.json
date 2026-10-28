@@ -1,0 +1,2415 @@
+{
+ "generatedBy": "CTO session, Oct 27, 2026",
+ "files": {
+  "art/people-rooms/plates/oval-office-resolute.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "oval-office-resolute",
+   "edit": "sg-oval"
+  },
+  "art/people-rooms/spots/oval-office-resolute.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "oval-office-resolute",
+   "edit": "sg-oval"
+  },
+  "art/people-rooms/tags/oval-office-resolute.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "oval-office-resolute"
+  },
+  "art/people-rooms/plates/us-house-floor.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "us-house-floor",
+   "edit": "sg-house"
+  },
+  "art/people-rooms/spots/us-house-floor.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "us-house-floor",
+   "edit": "sg-house"
+  },
+  "art/people-rooms/tags/us-house-floor.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "us-house-floor"
+  },
+  "art/people-rooms/plates/lincoln-memorial.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "lincoln-memorial",
+   "edit": "sg-lincoln"
+  },
+  "art/people-rooms/spots/lincoln-memorial.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "lincoln-memorial",
+   "edit": "sg-lincoln"
+  },
+  "art/people-rooms/tags/lincoln-memorial.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "lincoln-memorial"
+  },
+  "art/people-rooms/plates/rally-town-square.png": {
+   "kind": "mannequin plate (measured, never drawn)",
+   "room": "rally-town-square",
+   "edit": "sg-rallytown"
+  },
+  "art/people-rooms/spots/rally-town-square.json": {
+   "kind": "tagged spots measured from the plate",
+   "room": "rally-town-square",
+   "edit": "sg-rallytown"
+  },
+  "art/people-rooms/tags/rally-town-square.tags.json": {
+   "kind": "scene tag zones (hand-written)",
+   "room": "rally-town-square"
+  },
+  "art/people-engine/v2/hair-on-figures/back/03/v2-06-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-slim",
+   "sheet": "06",
+   "view": "back",
+   "style": "short natural afro",
+   "edit": "hr-back-03"
+  },
+  "art/people-engine/v2/hair-on-figures/back/03/v2-06-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-medium",
+   "sheet": "06",
+   "view": "back",
+   "style": "short natural afro",
+   "edit": "hr-back-03"
+  },
+  "art/people-engine/v2/hair-on-figures/back/03/v2-06-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-heavy",
+   "sheet": "06",
+   "view": "back",
+   "style": "short natural afro",
+   "edit": "hr-back-03"
+  },
+  "art/people-engine/v2/hair-on-figures/back/03/v2-06-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-slim",
+   "sheet": "06",
+   "view": "back",
+   "style": "short tight curls",
+   "edit": "hr-back-03"
+  },
+  "art/people-engine/v2/hair-on-figures/back/03/v2-06-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-medium",
+   "sheet": "06",
+   "view": "back",
+   "style": "short tight curls",
+   "edit": "hr-back-03"
+  },
+  "art/people-engine/v2/hair-on-figures/back/03/v2-06-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-heavy",
+   "sheet": "06",
+   "view": "back",
+   "style": "short tight curls",
+   "edit": "hr-back-03"
+  },
+  "art/people-engine/v2/hair-on-figures/back/06/v2-06-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-slim",
+   "sheet": "06",
+   "view": "back",
+   "style": "high bun",
+   "edit": "hr-back-06"
+  },
+  "art/people-engine/v2/hair-on-figures/back/06/v2-06-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-medium",
+   "sheet": "06",
+   "view": "back",
+   "style": "high bun",
+   "edit": "hr-back-06"
+  },
+  "art/people-engine/v2/hair-on-figures/back/06/v2-06-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-heavy",
+   "sheet": "06",
+   "view": "back",
+   "style": "high bun",
+   "edit": "hr-back-06"
+  },
+  "art/people-engine/v2/hair-on-figures/back/06/v2-06-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-slim",
+   "sheet": "06",
+   "view": "back",
+   "style": "slicked back",
+   "edit": "hr-back-06"
+  },
+  "art/people-engine/v2/hair-on-figures/back/06/v2-06-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-medium",
+   "sheet": "06",
+   "view": "back",
+   "style": "slicked back",
+   "edit": "hr-back-06"
+  },
+  "art/people-engine/v2/hair-on-figures/back/06/v2-06-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-heavy",
+   "sheet": "06",
+   "view": "back",
+   "style": "slicked back",
+   "edit": "hr-back-06"
+  },
+  "art/people-engine/v2/hair-on-figures/back/09/v2-06-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-slim",
+   "sheet": "06",
+   "view": "back",
+   "style": "shoulder-length locs",
+   "edit": "hr-back-09"
+  },
+  "art/people-engine/v2/hair-on-figures/back/09/v2-06-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-medium",
+   "sheet": "06",
+   "view": "back",
+   "style": "shoulder-length locs",
+   "edit": "hr-back-09"
+  },
+  "art/people-engine/v2/hair-on-figures/back/09/v2-06-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-heavy",
+   "sheet": "06",
+   "view": "back",
+   "style": "shoulder-length locs",
+   "edit": "hr-back-09"
+  },
+  "art/people-engine/v2/hair-on-figures/back/09/v2-06-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-slim",
+   "sheet": "06",
+   "view": "back",
+   "style": "short locs",
+   "edit": "hr-back-09"
+  },
+  "art/people-engine/v2/hair-on-figures/back/09/v2-06-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-medium",
+   "sheet": "06",
+   "view": "back",
+   "style": "short locs",
+   "edit": "hr-back-09"
+  },
+  "art/people-engine/v2/hair-on-figures/back/09/v2-06-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-heavy",
+   "sheet": "06",
+   "view": "back",
+   "style": "short locs",
+   "edit": "hr-back-09"
+  },
+  "art/people-engine/v2/hair-on-figures/back/10/v2-06-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-slim",
+   "sheet": "06",
+   "view": "back",
+   "style": "long loose curls",
+   "edit": "hr-back-10"
+  },
+  "art/people-engine/v2/hair-on-figures/back/10/v2-06-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-medium",
+   "sheet": "06",
+   "view": "back",
+   "style": "long loose curls",
+   "edit": "hr-back-10"
+  },
+  "art/people-engine/v2/hair-on-figures/back/10/v2-06-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-f-heavy",
+   "sheet": "06",
+   "view": "back",
+   "style": "long loose curls",
+   "edit": "hr-back-10"
+  },
+  "art/people-engine/v2/hair-on-figures/back/10/v2-06-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-slim",
+   "sheet": "06",
+   "view": "back",
+   "style": "cornrows",
+   "edit": "hr-back-10"
+  },
+  "art/people-engine/v2/hair-on-figures/back/10/v2-06-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-medium",
+   "sheet": "06",
+   "view": "back",
+   "style": "cornrows",
+   "edit": "hr-back-10"
+  },
+  "art/people-engine/v2/hair-on-figures/back/10/v2-06-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-06-m-heavy",
+   "sheet": "06",
+   "view": "back",
+   "style": "cornrows",
+   "edit": "hr-back-10"
+  },
+  "art/people-engine/v2/hair-on-figures/front/01/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "shoulder-length wavy",
+   "edit": "hr-front-01"
+  },
+  "art/people-engine/v2/hair-on-figures/front/01/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "shoulder-length wavy",
+   "edit": "hr-front-01"
+  },
+  "art/people-engine/v2/hair-on-figures/front/01/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "shoulder-length wavy",
+   "edit": "hr-front-01"
+  },
+  "art/people-engine/v2/hair-on-figures/front/01/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "short cropped",
+   "edit": "hr-front-01"
+  },
+  "art/people-engine/v2/hair-on-figures/front/01/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "short cropped",
+   "edit": "hr-front-01"
+  },
+  "art/people-engine/v2/hair-on-figures/front/01/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "short cropped",
+   "edit": "hr-front-01"
+  },
+  "art/people-engine/v2/hair-on-figures/front/02/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "long straight",
+   "edit": "hr-front-02"
+  },
+  "art/people-engine/v2/hair-on-figures/front/02/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "long straight",
+   "edit": "hr-front-02"
+  },
+  "art/people-engine/v2/hair-on-figures/front/02/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "long straight",
+   "edit": "hr-front-02"
+  },
+  "art/people-engine/v2/hair-on-figures/front/02/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "short side part",
+   "edit": "hr-front-02"
+  },
+  "art/people-engine/v2/hair-on-figures/front/02/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "short side part",
+   "edit": "hr-front-02"
+  },
+  "art/people-engine/v2/hair-on-figures/front/02/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "short side part",
+   "edit": "hr-front-02"
+  },
+  "art/people-engine/v2/hair-on-figures/front/03/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "short natural afro",
+   "edit": "hr-front-03"
+  },
+  "art/people-engine/v2/hair-on-figures/front/03/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "short natural afro",
+   "edit": "hr-front-03"
+  },
+  "art/people-engine/v2/hair-on-figures/front/03/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "short natural afro",
+   "edit": "hr-front-03"
+  },
+  "art/people-engine/v2/hair-on-figures/front/03/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "short tight curls",
+   "edit": "hr-front-03"
+  },
+  "art/people-engine/v2/hair-on-figures/front/03/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "short tight curls",
+   "edit": "hr-front-03"
+  },
+  "art/people-engine/v2/hair-on-figures/front/03/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "short tight curls",
+   "edit": "hr-front-03"
+  },
+  "art/people-engine/v2/hair-on-figures/front/04/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-front-04"
+  },
+  "art/people-engine/v2/hair-on-figures/front/04/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-front-04"
+  },
+  "art/people-engine/v2/hair-on-figures/front/04/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-front-04"
+  },
+  "art/people-engine/v2/hair-on-figures/front/04/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "buzz cut",
+   "edit": "hr-front-04"
+  },
+  "art/people-engine/v2/hair-on-figures/front/04/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "buzz cut",
+   "edit": "hr-front-04"
+  },
+  "art/people-engine/v2/hair-on-figures/front/04/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "buzz cut",
+   "edit": "hr-front-04"
+  },
+  "art/people-engine/v2/hair-on-figures/front/06/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "high bun",
+   "edit": "hr-front-06"
+  },
+  "art/people-engine/v2/hair-on-figures/front/06/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "high bun",
+   "edit": "hr-front-06"
+  },
+  "art/people-engine/v2/hair-on-figures/front/06/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "high bun",
+   "edit": "hr-front-06"
+  },
+  "art/people-engine/v2/hair-on-figures/front/06/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "slicked back",
+   "edit": "hr-front-06"
+  },
+  "art/people-engine/v2/hair-on-figures/front/06/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "slicked back",
+   "edit": "hr-front-06"
+  },
+  "art/people-engine/v2/hair-on-figures/front/06/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "slicked back",
+   "edit": "hr-front-06"
+  },
+  "art/people-engine/v2/hair-on-figures/front/07/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "low ponytail",
+   "edit": "hr-front-07"
+  },
+  "art/people-engine/v2/hair-on-figures/front/07/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "low ponytail",
+   "edit": "hr-front-07"
+  },
+  "art/people-engine/v2/hair-on-figures/front/07/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "low ponytail",
+   "edit": "hr-front-07"
+  },
+  "art/people-engine/v2/hair-on-figures/front/07/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "receding hairline",
+   "edit": "hr-front-07"
+  },
+  "art/people-engine/v2/hair-on-figures/front/07/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "receding hairline",
+   "edit": "hr-front-07"
+  },
+  "art/people-engine/v2/hair-on-figures/front/07/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "receding hairline",
+   "edit": "hr-front-07"
+  },
+  "art/people-engine/v2/hair-on-figures/front/08/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "pixie cut",
+   "edit": "hr-front-08"
+  },
+  "art/people-engine/v2/hair-on-figures/front/08/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "pixie cut",
+   "edit": "hr-front-08"
+  },
+  "art/people-engine/v2/hair-on-figures/front/08/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "pixie cut",
+   "edit": "hr-front-08"
+  },
+  "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "crew cut",
+   "edit": "hr-front-08"
+  },
+  "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "crew cut",
+   "edit": "hr-front-08"
+  },
+  "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "crew cut",
+   "edit": "hr-front-08"
+  },
+  "art/people-engine/v2/hair-on-figures/front/10/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "long loose curls",
+   "edit": "hr-front-10"
+  },
+  "art/people-engine/v2/hair-on-figures/front/10/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "long loose curls",
+   "edit": "hr-front-10"
+  },
+  "art/people-engine/v2/hair-on-figures/front/10/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "long loose curls",
+   "edit": "hr-front-10"
+  },
+  "art/people-engine/v2/hair-on-figures/front/10/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "cornrows",
+   "edit": "hr-front-10"
+  },
+  "art/people-engine/v2/hair-on-figures/front/10/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "cornrows",
+   "edit": "hr-front-10"
+  },
+  "art/people-engine/v2/hair-on-figures/front/10/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "cornrows",
+   "edit": "hr-front-10"
+  },
+  "art/people-engine/v2/hair-on-figures/front/12/v2-37-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "layered, swept to one side",
+   "edit": "hr-front-12"
+  },
+  "art/people-engine/v2/hair-on-figures/front/12/v2-37-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "layered, swept to one side",
+   "edit": "hr-front-12"
+  },
+  "art/people-engine/v2/hair-on-figures/front/12/v2-37-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "layered, swept to one side",
+   "edit": "hr-front-12"
+  },
+  "art/people-engine/v2/hair-on-figures/front/12/v2-37-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "view": "front",
+   "style": "bald crown, short sides",
+   "edit": "hr-front-12"
+  },
+  "art/people-engine/v2/hair-on-figures/front/12/v2-37-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "view": "front",
+   "style": "bald crown, short sides",
+   "edit": "hr-front-12"
+  },
+  "art/people-engine/v2/hair-on-figures/front/12/v2-37-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "view": "front",
+   "style": "bald crown, short sides",
+   "edit": "hr-front-12"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "shoulder-length wavy",
+   "edit": "hr-threeq-01"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "shoulder-length wavy",
+   "edit": "hr-threeq-01"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "shoulder-length wavy",
+   "edit": "hr-threeq-01"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short cropped",
+   "edit": "hr-threeq-01"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short cropped",
+   "edit": "hr-threeq-01"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short cropped",
+   "edit": "hr-threeq-01"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long straight",
+   "edit": "hr-threeq-02"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long straight",
+   "edit": "hr-threeq-02"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long straight",
+   "edit": "hr-threeq-02"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short side part",
+   "edit": "hr-threeq-02"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short side part",
+   "edit": "hr-threeq-02"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short side part",
+   "edit": "hr-threeq-02"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short natural afro",
+   "edit": "hr-threeq-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short natural afro",
+   "edit": "hr-threeq-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short natural afro",
+   "edit": "hr-threeq-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short tight curls",
+   "edit": "hr-threeq-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short tight curls",
+   "edit": "hr-threeq-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short tight curls",
+   "edit": "hr-threeq-03"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-threeq-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-threeq-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "chin-length bob with bangs",
+   "edit": "hr-threeq-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "buzz cut",
+   "edit": "hr-threeq-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "buzz cut",
+   "edit": "hr-threeq-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "buzz cut",
+   "edit": "hr-threeq-04"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long box braids",
+   "edit": "hr-threeq-05"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long box braids",
+   "edit": "hr-threeq-05"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long box braids",
+   "edit": "hr-threeq-05"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "low fade, textured top",
+   "edit": "hr-threeq-05"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "low fade, textured top",
+   "edit": "hr-threeq-05"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "low fade, textured top",
+   "edit": "hr-threeq-05"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "high bun",
+   "edit": "hr-threeq-06"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "high bun",
+   "edit": "hr-threeq-06"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "high bun",
+   "edit": "hr-threeq-06"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "slicked back",
+   "edit": "hr-threeq-06"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "slicked back",
+   "edit": "hr-threeq-06"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "slicked back",
+   "edit": "hr-threeq-06"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "low ponytail",
+   "edit": "hr-threeq-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "low ponytail",
+   "edit": "hr-threeq-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "low ponytail",
+   "edit": "hr-threeq-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "receding hairline",
+   "edit": "hr-threeq-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "receding hairline",
+   "edit": "hr-threeq-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "receding hairline",
+   "edit": "hr-threeq-07"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "pixie cut",
+   "edit": "hr-threeq-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "pixie cut",
+   "edit": "hr-threeq-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "pixie cut",
+   "edit": "hr-threeq-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "crew cut",
+   "edit": "hr-threeq-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "crew cut",
+   "edit": "hr-threeq-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "crew cut",
+   "edit": "hr-threeq-08"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "shoulder-length locs",
+   "edit": "hr-threeq-09"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "shoulder-length locs",
+   "edit": "hr-threeq-09"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "shoulder-length locs",
+   "edit": "hr-threeq-09"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short locs",
+   "edit": "hr-threeq-09"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short locs",
+   "edit": "hr-threeq-09"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "short locs",
+   "edit": "hr-threeq-09"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-f-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long loose curls",
+   "edit": "hr-threeq-10"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-f-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long loose curls",
+   "edit": "hr-threeq-10"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-f-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "long loose curls",
+   "edit": "hr-threeq-10"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-m-slim-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "cornrows",
+   "edit": "hr-threeq-10"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-m-medium-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "cornrows",
+   "edit": "hr-threeq-10"
+  },
+  "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-m-heavy-hair.png": {
+   "kind": "hair piece",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "view": "threeq",
+   "style": "cornrows",
+   "edit": "hr-threeq-10"
+  },
+  "art/people-engine/v2/garments/v2-01-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-01-f-heavy",
+   "sheet": "01",
+   "edit": "gm-01"
+  },
+  "art/people-engine/v2/garments/v2-01-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-01-f-medium",
+   "sheet": "01",
+   "edit": "gm-01"
+  },
+  "art/people-engine/v2/garments/v2-01-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-01-f-slim",
+   "sheet": "01",
+   "edit": "gm-01"
+  },
+  "art/people-engine/v2/garments/v2-01-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-01-m-heavy",
+   "sheet": "01",
+   "edit": "gm-01"
+  },
+  "art/people-engine/v2/garments/v2-01-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-01-m-medium",
+   "sheet": "01",
+   "edit": "gm-01"
+  },
+  "art/people-engine/v2/garments/v2-01-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-01-m-slim",
+   "sheet": "01",
+   "edit": "gm-01"
+  },
+  "art/people-engine/v2/garments/v2-02-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-02-f-heavy",
+   "sheet": "02",
+   "edit": "gm-02"
+  },
+  "art/people-engine/v2/garments/v2-02-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-02-f-medium",
+   "sheet": "02",
+   "edit": "gm-02"
+  },
+  "art/people-engine/v2/garments/v2-02-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-02-f-slim",
+   "sheet": "02",
+   "edit": "gm-02"
+  },
+  "art/people-engine/v2/garments/v2-02-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-02-m-heavy",
+   "sheet": "02",
+   "edit": "gm-02"
+  },
+  "art/people-engine/v2/garments/v2-02-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-02-m-medium",
+   "sheet": "02",
+   "edit": "gm-02"
+  },
+  "art/people-engine/v2/garments/v2-02-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-02-m-slim",
+   "sheet": "02",
+   "edit": "gm-02"
+  },
+  "art/people-engine/v2/garments/v2-06-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-06-f-heavy",
+   "sheet": "06",
+   "edit": "gm-06"
+  },
+  "art/people-engine/v2/garments/v2-06-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-06-f-medium",
+   "sheet": "06",
+   "edit": "gm-06"
+  },
+  "art/people-engine/v2/garments/v2-06-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-06-f-slim",
+   "sheet": "06",
+   "edit": "gm-06"
+  },
+  "art/people-engine/v2/garments/v2-06-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-06-m-heavy",
+   "sheet": "06",
+   "edit": "gm-06"
+  },
+  "art/people-engine/v2/garments/v2-06-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-06-m-medium",
+   "sheet": "06",
+   "edit": "gm-06"
+  },
+  "art/people-engine/v2/garments/v2-06-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-06-m-slim",
+   "sheet": "06",
+   "edit": "gm-06"
+  },
+  "art/people-engine/v2/garments/v2-08-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-08-f-heavy",
+   "sheet": "08",
+   "edit": "gm-08"
+  },
+  "art/people-engine/v2/garments/v2-08-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-08-f-medium",
+   "sheet": "08",
+   "edit": "gm-08"
+  },
+  "art/people-engine/v2/garments/v2-08-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-08-f-slim",
+   "sheet": "08",
+   "edit": "gm-08"
+  },
+  "art/people-engine/v2/garments/v2-08-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-08-m-heavy",
+   "sheet": "08",
+   "edit": "gm-08"
+  },
+  "art/people-engine/v2/garments/v2-08-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-08-m-medium",
+   "sheet": "08",
+   "edit": "gm-08"
+  },
+  "art/people-engine/v2/garments/v2-08-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-08-m-slim",
+   "sheet": "08",
+   "edit": "gm-08"
+  },
+  "art/people-engine/v2/garments/v2-13-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-13-f-heavy",
+   "sheet": "13",
+   "edit": "gm-13"
+  },
+  "art/people-engine/v2/garments/v2-13-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-13-f-medium",
+   "sheet": "13",
+   "edit": "gm-13"
+  },
+  "art/people-engine/v2/garments/v2-13-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-13-f-slim",
+   "sheet": "13",
+   "edit": "gm-13"
+  },
+  "art/people-engine/v2/garments/v2-13-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-13-m-heavy",
+   "sheet": "13",
+   "edit": "gm-13"
+  },
+  "art/people-engine/v2/garments/v2-13-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-13-m-medium",
+   "sheet": "13",
+   "edit": "gm-13"
+  },
+  "art/people-engine/v2/garments/v2-13-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-13-m-slim",
+   "sheet": "13",
+   "edit": "gm-13"
+  },
+  "art/people-engine/v2/garments/v2-14-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-14-f-heavy",
+   "sheet": "14",
+   "edit": "gm-14"
+  },
+  "art/people-engine/v2/garments/v2-14-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-14-f-medium",
+   "sheet": "14",
+   "edit": "gm-14"
+  },
+  "art/people-engine/v2/garments/v2-14-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-14-f-slim",
+   "sheet": "14",
+   "edit": "gm-14"
+  },
+  "art/people-engine/v2/garments/v2-14-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-14-m-heavy",
+   "sheet": "14",
+   "edit": "gm-14"
+  },
+  "art/people-engine/v2/garments/v2-14-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-14-m-medium",
+   "sheet": "14",
+   "edit": "gm-14"
+  },
+  "art/people-engine/v2/garments/v2-14-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-14-m-slim",
+   "sheet": "14",
+   "edit": "gm-14"
+  },
+  "art/people-engine/v2/garments/v2-21-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-21-f-heavy",
+   "sheet": "21",
+   "edit": "gm-21"
+  },
+  "art/people-engine/v2/garments/v2-21-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-21-f-medium",
+   "sheet": "21",
+   "edit": "gm-21"
+  },
+  "art/people-engine/v2/garments/v2-21-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-21-f-slim",
+   "sheet": "21",
+   "edit": "gm-21"
+  },
+  "art/people-engine/v2/garments/v2-21-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-21-m-heavy",
+   "sheet": "21",
+   "edit": "gm-21"
+  },
+  "art/people-engine/v2/garments/v2-21-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-21-m-medium",
+   "sheet": "21",
+   "edit": "gm-21"
+  },
+  "art/people-engine/v2/garments/v2-21-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-21-m-slim",
+   "sheet": "21",
+   "edit": "gm-21"
+  },
+  "art/people-engine/v2/garments/v2-23-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-23-f-heavy",
+   "sheet": "23",
+   "edit": "gm-23"
+  },
+  "art/people-engine/v2/garments/v2-23-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-23-f-medium",
+   "sheet": "23",
+   "edit": "gm-23"
+  },
+  "art/people-engine/v2/garments/v2-23-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-23-f-slim",
+   "sheet": "23",
+   "edit": "gm-23"
+  },
+  "art/people-engine/v2/garments/v2-23-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-23-m-heavy",
+   "sheet": "23",
+   "edit": "gm-23"
+  },
+  "art/people-engine/v2/garments/v2-23-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-23-m-medium",
+   "sheet": "23",
+   "edit": "gm-23"
+  },
+  "art/people-engine/v2/garments/v2-23-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-23-m-slim",
+   "sheet": "23",
+   "edit": "gm-23"
+  },
+  "art/people-engine/v2/garments/v2-26-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-26-f-heavy",
+   "sheet": "26",
+   "edit": "gm-26"
+  },
+  "art/people-engine/v2/garments/v2-26-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-26-f-medium",
+   "sheet": "26",
+   "edit": "gm-26"
+  },
+  "art/people-engine/v2/garments/v2-26-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-26-f-slim",
+   "sheet": "26",
+   "edit": "gm-26"
+  },
+  "art/people-engine/v2/garments/v2-26-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-26-m-heavy",
+   "sheet": "26",
+   "edit": "gm-26"
+  },
+  "art/people-engine/v2/garments/v2-26-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-26-m-medium",
+   "sheet": "26",
+   "edit": "gm-26"
+  },
+  "art/people-engine/v2/garments/v2-26-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-26-m-slim",
+   "sheet": "26",
+   "edit": "gm-26"
+  },
+  "art/people-engine/v2/garments/v2-36-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-36-f-heavy",
+   "sheet": "36",
+   "edit": "gm-36"
+  },
+  "art/people-engine/v2/garments/v2-36-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-36-f-medium",
+   "sheet": "36",
+   "edit": "gm-36"
+  },
+  "art/people-engine/v2/garments/v2-36-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-36-f-slim",
+   "sheet": "36",
+   "edit": "gm-36"
+  },
+  "art/people-engine/v2/garments/v2-36-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-36-m-heavy",
+   "sheet": "36",
+   "edit": "gm-36"
+  },
+  "art/people-engine/v2/garments/v2-36-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-36-m-medium",
+   "sheet": "36",
+   "edit": "gm-36"
+  },
+  "art/people-engine/v2/garments/v2-36-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-36-m-slim",
+   "sheet": "36",
+   "edit": "gm-36"
+  },
+  "art/people-engine/v2/garments/v2-37-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-37-f-heavy",
+   "sheet": "37",
+   "edit": "gm-37"
+  },
+  "art/people-engine/v2/garments/v2-37-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-37-f-medium",
+   "sheet": "37",
+   "edit": "gm-37"
+  },
+  "art/people-engine/v2/garments/v2-37-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-37-f-slim",
+   "sheet": "37",
+   "edit": "gm-37"
+  },
+  "art/people-engine/v2/garments/v2-37-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-37-m-heavy",
+   "sheet": "37",
+   "edit": "gm-37"
+  },
+  "art/people-engine/v2/garments/v2-37-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-37-m-medium",
+   "sheet": "37",
+   "edit": "gm-37"
+  },
+  "art/people-engine/v2/garments/v2-37-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-37-m-slim",
+   "sheet": "37",
+   "edit": "gm-37"
+  },
+  "art/people-engine/v2/garments/v2-45-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-45-f-heavy",
+   "sheet": "45",
+   "edit": "gm-45"
+  },
+  "art/people-engine/v2/garments/v2-45-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-45-f-medium",
+   "sheet": "45",
+   "edit": "gm-45"
+  },
+  "art/people-engine/v2/garments/v2-45-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-45-f-slim",
+   "sheet": "45",
+   "edit": "gm-45"
+  },
+  "art/people-engine/v2/garments/v2-45-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-45-m-heavy",
+   "sheet": "45",
+   "edit": "gm-45"
+  },
+  "art/people-engine/v2/garments/v2-45-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-45-m-medium",
+   "sheet": "45",
+   "edit": "gm-45"
+  },
+  "art/people-engine/v2/garments/v2-45-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-45-m-slim",
+   "sheet": "45",
+   "edit": "gm-45"
+  },
+  "art/people-engine/v2/garments/v2-49-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-49-f-heavy",
+   "sheet": "49",
+   "edit": "gm-49"
+  },
+  "art/people-engine/v2/garments/v2-49-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-49-f-medium",
+   "sheet": "49",
+   "edit": "gm-49"
+  },
+  "art/people-engine/v2/garments/v2-49-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-49-f-slim",
+   "sheet": "49",
+   "edit": "gm-49"
+  },
+  "art/people-engine/v2/garments/v2-49-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-49-m-heavy",
+   "sheet": "49",
+   "edit": "gm-49"
+  },
+  "art/people-engine/v2/garments/v2-49-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-49-m-medium",
+   "sheet": "49",
+   "edit": "gm-49"
+  },
+  "art/people-engine/v2/garments/v2-49-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-49-m-slim",
+   "sheet": "49",
+   "edit": "gm-49"
+  },
+  "art/people-engine/v2/garments/v2-53-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-53-f-heavy",
+   "sheet": "53",
+   "edit": "gm-53"
+  },
+  "art/people-engine/v2/garments/v2-53-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-53-f-medium",
+   "sheet": "53",
+   "edit": "gm-53"
+  },
+  "art/people-engine/v2/garments/v2-53-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-53-f-slim",
+   "sheet": "53",
+   "edit": "gm-53"
+  },
+  "art/people-engine/v2/garments/v2-53-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-53-m-heavy",
+   "sheet": "53",
+   "edit": "gm-53"
+  },
+  "art/people-engine/v2/garments/v2-53-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-53-m-medium",
+   "sheet": "53",
+   "edit": "gm-53"
+  },
+  "art/people-engine/v2/garments/v2-53-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-53-m-slim",
+   "sheet": "53",
+   "edit": "gm-53"
+  },
+  "art/people-engine/v2/garments/v2-57-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-57-f-heavy",
+   "sheet": "57",
+   "edit": "gm-57"
+  },
+  "art/people-engine/v2/garments/v2-57-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-57-f-medium",
+   "sheet": "57",
+   "edit": "gm-57"
+  },
+  "art/people-engine/v2/garments/v2-57-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-57-f-slim",
+   "sheet": "57",
+   "edit": "gm-57"
+  },
+  "art/people-engine/v2/garments/v2-57-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-57-m-heavy",
+   "sheet": "57",
+   "edit": "gm-57"
+  },
+  "art/people-engine/v2/garments/v2-57-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-57-m-medium",
+   "sheet": "57",
+   "edit": "gm-57"
+  },
+  "art/people-engine/v2/garments/v2-57-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-57-m-slim",
+   "sheet": "57",
+   "edit": "gm-57"
+  },
+  "art/people-engine/v2/garments/v2-61-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-61-f-heavy",
+   "sheet": "61",
+   "edit": "gm-61"
+  },
+  "art/people-engine/v2/garments/v2-61-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-61-f-medium",
+   "sheet": "61",
+   "edit": "gm-61"
+  },
+  "art/people-engine/v2/garments/v2-61-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-61-f-slim",
+   "sheet": "61",
+   "edit": "gm-61"
+  },
+  "art/people-engine/v2/garments/v2-61-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-61-m-heavy",
+   "sheet": "61",
+   "edit": "gm-61"
+  },
+  "art/people-engine/v2/garments/v2-61-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-61-m-medium",
+   "sheet": "61",
+   "edit": "gm-61"
+  },
+  "art/people-engine/v2/garments/v2-61-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-61-m-slim",
+   "sheet": "61",
+   "edit": "gm-61"
+  },
+  "art/people-engine/v2/garments/v2-66-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-66-f-heavy",
+   "sheet": "66",
+   "edit": "gm-66"
+  },
+  "art/people-engine/v2/garments/v2-66-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-66-f-medium",
+   "sheet": "66",
+   "edit": "gm-66"
+  },
+  "art/people-engine/v2/garments/v2-66-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-66-f-slim",
+   "sheet": "66",
+   "edit": "gm-66"
+  },
+  "art/people-engine/v2/garments/v2-66-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-66-m-heavy",
+   "sheet": "66",
+   "edit": "gm-66"
+  },
+  "art/people-engine/v2/garments/v2-66-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-66-m-medium",
+   "sheet": "66",
+   "edit": "gm-66"
+  },
+  "art/people-engine/v2/garments/v2-66-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-66-m-slim",
+   "sheet": "66",
+   "edit": "gm-66"
+  },
+  "art/people-engine/v2/garments/v2-70-f-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-70-f-heavy",
+   "sheet": "70",
+   "edit": "gm-70"
+  },
+  "art/people-engine/v2/garments/v2-70-f-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-70-f-medium",
+   "sheet": "70",
+   "edit": "gm-70"
+  },
+  "art/people-engine/v2/garments/v2-70-f-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-70-f-slim",
+   "sheet": "70",
+   "edit": "gm-70"
+  },
+  "art/people-engine/v2/garments/v2-70-m-heavy-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-70-m-heavy",
+   "sheet": "70",
+   "edit": "gm-70"
+  },
+  "art/people-engine/v2/garments/v2-70-m-medium-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-70-m-medium",
+   "sheet": "70",
+   "edit": "gm-70"
+  },
+  "art/people-engine/v2/garments/v2-70-m-slim-garments.png": {
+   "kind": "garment map",
+   "figure": "v2-70-m-slim",
+   "sheet": "70",
+   "edit": "gm-70"
+  },
+  "art/people-engine/v2/hair-on-figures/index.json": {
+   "kind": "hair index (head anchors, style names)"
+  },
+  "art/people-engine/v2/garments/index.json": {
+   "kind": "garment index (key colors, coverage per figure)"
+  },
+  "art/people-engine/v2/outfits.json": {
+   "kind": "outfit tags (dress level, places, roles, sheets per pose)"
+  },
+  "art/people-rooms/README.md": {
+   "kind": "how to use this art"
+  },
+  "art/people-rooms/MANIFEST.md": {
+   "kind": "this list"
+  },
+  "art/people-rooms/manifest.json": {
+   "kind": "this list, every file"
+  },
+  "art/people-rooms/tools/slots.py": {
+   "kind": "measuring tool"
+  },
+  "art/people-rooms/tools/tag_spots.py": {
+   "kind": "measuring tool"
+  },
+  "art/people-rooms/tools/spotcheck.py": {
+   "kind": "measuring tool"
+  }
+ },
+ "edits": {
+  "sg-oval": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/oval-office-resolute__midday.jpg",
+   "prompt": "[sg-oval] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one sitting in the chair behind the desk, two sitting on each couch, one in each armchair, and two standing near the desk. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/oval-office-resolute.png",
+    "art/people-rooms/spots/oval-office-resolute.json",
+    "art/people-rooms/tags/oval-office-resolute.tags.json"
+   ]
+  },
+  "sg-house": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/us-house-floor__midday.jpg",
+   "prompt": "[sg-house] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, one in every chair and seat on the floor and on the rostrum, all facing the rostrum. The big blue panels nearest the viewer are the BACKS of chairs that face away from the viewer: a mannequin sits on the far side of each of those chair backs, so only its head and shoulders show above the chair back. Two mannequins stand in the center aisle. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/us-house-floor.png",
+    "art/people-rooms/spots/us-house-floor.json",
+    "art/people-rooms/tags/us-house-floor.tags.json"
+   ]
+  },
+  "sg-lincoln": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/lincoln-memorial__night.jpg",
+   "prompt": "[sg-lincoln] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, standing on the steps and the plaza in front of the memorial, a scattered group of visitors, smaller the farther away they are. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/lincoln-memorial.png",
+    "art/people-rooms/spots/lincoln-memorial.json",
+    "art/people-rooms/tags/lincoln-memorial.tags.json"
+   ]
+  },
+  "sg-rallytown": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/backdrops/rally-town-square__midday.jpg",
+   "prompt": "[sg-rallytown] Edit the reference picture. Keep the room EXACTLY the same: every wall, window, piece of furniture, chair, desk, couch, rug, object, color, line and the camera angle stay identical, pixel for pixel; do not move, redraw, add or remove anything in the room. Only add people-shaped placeholders: smooth mannequins with no face, no hair, no clothes and no details, painted one flat pure bright green (#00FF00, like a green screen) with no shading and no outline, a crowd standing in the square facing where a speaker would stand, plus one speaker standing at that spot. Every mannequin is a realistic adult size for its place in the room, about seven and a half heads tall, sitting fully down on the seat with its back against the chair back, thighs on the seat, or standing with both feet on the floor; nothing floats, nothing stands on furniture. Chairs, desks and furniture in front of a mannequin hide the parts of it behind them. No other changes. Same art style. No text.",
+   "files": [
+    "art/people-rooms/plates/rally-town-square.png",
+    "art/people-rooms/spots/rally-town-square.json",
+    "art/people-rooms/tags/rally-town-square.tags.json"
+   ]
+  },
+  "hr-back-03": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-06.png",
+   "prompt": "[hr-back-03] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a short rounded natural afro. The three men in the bottom row all have short tight curls. Everyone is seen from behind; draw the hair as seen from the back of the head, covering the back of the head and neck as that style would. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/back/03/v2-06-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/03/v2-06-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/03/v2-06-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/03/v2-06-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/03/v2-06-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/03/v2-06-m-heavy-hair.png"
+   ]
+  },
+  "hr-back-06": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-06.png",
+   "prompt": "[hr-back-06] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a neat high bun. The three men in the bottom row all have slicked-back medium-length hair. Everyone is seen from behind; draw the hair as seen from the back of the head, covering the back of the head and neck as that style would. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/back/06/v2-06-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/06/v2-06-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/06/v2-06-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/06/v2-06-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/06/v2-06-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/06/v2-06-m-heavy-hair.png"
+   ]
+  },
+  "hr-back-09": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-06.png",
+   "prompt": "[hr-back-09] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have shoulder-length locs. The three men in the bottom row all have short locs. Everyone is seen from behind; draw the hair as seen from the back of the head, covering the back of the head and neck as that style would. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/back/09/v2-06-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/09/v2-06-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/09/v2-06-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/09/v2-06-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/09/v2-06-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/09/v2-06-m-heavy-hair.png"
+   ]
+  },
+  "hr-back-10": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-06.png",
+   "prompt": "[hr-back-10] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have long loose curls. The three men in the bottom row all have neat cornrows. Everyone is seen from behind; draw the hair as seen from the back of the head, covering the back of the head and neck as that style would. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/back/10/v2-06-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/10/v2-06-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/10/v2-06-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/10/v2-06-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/10/v2-06-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/back/10/v2-06-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-01": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-01] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have shoulder-length wavy hair. The three men in the bottom row all have a short cropped cut. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/01/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/01/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/01/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/01/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/01/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/01/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-02": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-02] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have long straight hair past the shoulders. The three men in the bottom row all have a short side-parted cut. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/02/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/02/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/02/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/02/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/02/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/02/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-03": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-03] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a short rounded natural afro. The three men in the bottom row all have short tight curls. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/03/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/03/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/03/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/03/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/03/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/03/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-04": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-04] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a chin-length bob with straight bangs. The three men in the bottom row all have a close buzz cut. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/04/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/04/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/04/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/04/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/04/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/04/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-06": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-06] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a neat high bun. The three men in the bottom row all have slicked-back medium-length hair. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/06/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/06/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/06/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/06/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/06/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/06/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-07": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-07] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a low ponytail. The three men in the bottom row all have short hair with a receding hairline. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/07/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/07/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/07/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/07/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/07/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/07/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-08": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-08] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a short pixie cut. The three men in the bottom row all have a classic crew cut. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/08/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/08/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/08/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/08/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-10": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-10] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have long loose curls. The three men in the bottom row all have neat cornrows. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/10/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/10/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/10/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/10/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/10/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/10/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-front-12": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[hr-front-12] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have medium layered hair swept to one side. The three men in the bottom row all have short hair on the sides with a bald crown. Everyone faces the viewer. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/front/12/v2-37-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/12/v2-37-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/12/v2-37-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/12/v2-37-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/12/v2-37-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/front/12/v2-37-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-01": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-01] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have shoulder-length wavy hair. The three men in the bottom row all have a short cropped cut. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/01/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-02": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-02] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have long straight hair past the shoulders. The three men in the bottom row all have a short side-parted cut. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/02/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-03": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-03] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a short rounded natural afro. The three men in the bottom row all have short tight curls. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/03/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-04": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-04] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a chin-length bob with straight bangs. The three men in the bottom row all have a close buzz cut. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/04/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-05": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-05] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have long box braids. The three men in the bottom row all have a low fade with a short textured top. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/05/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-06": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-06] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a neat high bun. The three men in the bottom row all have slicked-back medium-length hair. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/06/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-07": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-07] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a low ponytail. The three men in the bottom row all have short hair with a receding hairline. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/07/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-08": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-08] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have a short pixie cut. The three men in the bottom row all have a classic crew cut. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/08/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-09": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-09] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have shoulder-length locs. The three men in the bottom row all have short locs. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/09/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "hr-threeq-10": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[hr-threeq-10] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, clothes, outlines and shading, pixel for pixel. Only give each person hair, drawn in the same clean dark-outline style, every person's hair the same plain medium gray. The three women in the top row all have long loose curls. The three men in the bottom row all have neat cornrows. Everyone is turned three-quarters, as in the picture; draw the hair as seen from that same angle. The hair sits naturally on each head at the right size and does not cover the face. Nothing else changes. No text.",
+   "files": [
+    "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-f-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-f-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-f-heavy-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-m-slim-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-m-medium-hair.png",
+    "art/people-engine/v2/hair-on-figures/threeq/10/v2-01-m-heavy-hair.png"
+   ]
+  },
+  "gm-01": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-01.png",
+   "prompt": "[gm-01] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-01-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-01-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-01-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-01-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-01-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-01-m-slim-garments.png"
+   ]
+  },
+  "gm-02": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-02.png",
+   "prompt": "[gm-02] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-02-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-02-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-02-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-02-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-02-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-02-m-slim-garments.png"
+   ]
+  },
+  "gm-06": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-06.png",
+   "prompt": "[gm-06] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-06-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-06-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-06-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-06-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-06-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-06-m-slim-garments.png"
+   ]
+  },
+  "gm-08": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-08.png",
+   "prompt": "[gm-08] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-08-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-08-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-08-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-08-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-08-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-08-m-slim-garments.png"
+   ]
+  },
+  "gm-13": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-13.png",
+   "prompt": "[gm-13] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-13-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-13-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-13-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-13-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-13-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-13-m-slim-garments.png"
+   ]
+  },
+  "gm-14": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-14.png",
+   "prompt": "[gm-14] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-14-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-14-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-14-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-14-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-14-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-14-m-slim-garments.png"
+   ]
+  },
+  "gm-21": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-21.png",
+   "prompt": "[gm-21] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-21-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-21-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-21-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-21-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-21-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-21-m-slim-garments.png"
+   ]
+  },
+  "gm-23": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-23.png",
+   "prompt": "[gm-23] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-23-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-23-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-23-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-23-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-23-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-23-m-slim-garments.png"
+   ]
+  },
+  "gm-26": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-26.png",
+   "prompt": "[gm-26] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-26-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-26-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-26-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-26-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-26-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-26-m-slim-garments.png"
+   ]
+  },
+  "gm-36": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-36.png",
+   "prompt": "[gm-36] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-36-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-36-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-36-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-36-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-36-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-36-m-slim-garments.png"
+   ]
+  },
+  "gm-37": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-37.png",
+   "prompt": "[gm-37] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-37-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-37-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-37-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-37-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-37-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-37-m-slim-garments.png"
+   ]
+  },
+  "gm-45": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-45.png",
+   "prompt": "[gm-45] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-45-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-45-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-45-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-45-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-45-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-45-m-slim-garments.png"
+   ]
+  },
+  "gm-49": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-49.png",
+   "prompt": "[gm-49] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-49-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-49-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-49-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-49-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-49-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-49-m-slim-garments.png"
+   ]
+  },
+  "gm-53": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-53.png",
+   "prompt": "[gm-53] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-53-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-53-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-53-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-53-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-53-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-53-m-slim-garments.png"
+   ]
+  },
+  "gm-57": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-57.png",
+   "prompt": "[gm-57] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-57-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-57-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-57-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-57-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-57-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-57-m-slim-garments.png"
+   ]
+  },
+  "gm-61": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-61.png",
+   "prompt": "[gm-61] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-61-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-61-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-61-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-61-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-61-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-61-m-slim-garments.png"
+   ]
+  },
+  "gm-66": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-66.png",
+   "prompt": "[gm-66] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-66-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-66-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-66-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-66-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-66-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-66-m-slim-garments.png"
+   ]
+  },
+  "gm-70": {
+   "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+   "reference": "art/people-engine/v2/sheets/clarify-70.png",
+   "prompt": "[gm-70] Edit the reference picture. Keep all six people exactly the same: the same pose, position, size, face, body, outlines and shading, pixel for pixel. Change only the colors of the clothes to flat, pure marker colors: every jacket, blazer or vest pure red, every shirt, top or t-shirt under it (or worn alone) pure yellow, every pair of pants, shorts or skirt pure blue, every pair of shoes pure green. Keep the dark outlines and the folds of the cloth. Skin, eyes, any cup, tablet or papers, and the plain background stay exactly as they are. No text.",
+   "files": [
+    "art/people-engine/v2/garments/v2-70-f-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-70-f-medium-garments.png",
+    "art/people-engine/v2/garments/v2-70-f-slim-garments.png",
+    "art/people-engine/v2/garments/v2-70-m-heavy-garments.png",
+    "art/people-engine/v2/garments/v2-70-m-medium-garments.png",
+    "art/people-engine/v2/garments/v2-70-m-slim-garments.png"
+   ]
+  }
+ }
+}
