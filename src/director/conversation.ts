@@ -949,62 +949,54 @@ export function subjectsBetween(
       },
       own: { key: `person:${speakerId}:place`, value: speaker.placeId },
     });
-  for (const fact of speaker.pastFacts ?? []) {
-    if (fact.facts?.otherPersonId !== listenerId) continue;
-    const context = (speaker.pastFacts ?? []).find(
-      (row) => row.id === fact.facts?.contextFactId,
-    );
-    if (fact.kind === "social:generated-school-acquaintance" && context)
+  // School and work the two shared, from the school's and the employer's
+  // records: the same rows the person card shows.
+  const thisYear = Number(core.date.slice(zero, core.date.indexOf("-")));
+  for (const row of sharedHistory(core, speakerId, listenerId)) {
+    if (row.kind === "schoolmate" && row.year !== undefined) {
+      const school = core.organizations.get(row.recordId);
+      if (!school) continue;
       out.push({
-        id: `shared-school:${context.id}`,
+        id: `shared-school:${row.recordId}:${row.year}`,
         kind: "shared-school",
-        aboutId: context.id,
+        aboutId: row.recordId,
         facts: {
           school: {
-            text: properName(context.facts?.schoolName ?? ""),
-            sourceRecordIds: [fact.id, context.id],
+            text: properName(school.name),
+            sourceRecordIds: [row.recordId],
           },
           years: {
-            text: String(
-              Number(core.date.slice(zero, core.date.indexOf("-"))) -
-                Number(context.date.slice(zero, context.date.indexOf("-"))),
-            ),
-            sourceRecordIds: [context.id],
+            text: String(thisYear - row.year),
+            sourceRecordIds: [row.recordId],
           },
           // A reason to raise it: the years since, past the rules' threshold.
-          ...(Number(core.date.slice(zero, core.date.indexOf("-"))) -
-            Number(context.date.slice(zero, context.date.indexOf("-"))) >=
-          LONG_AGO_YEARS
-            ? { "long-ago": { text: "yes", sourceRecordIds: [context.id] } }
+          ...(thisYear - row.year >= LONG_AGO_YEARS
+            ? { "long-ago": { text: "yes", sourceRecordIds: [row.recordId] } }
             : {}),
         },
       });
-    if (fact.kind === "social:generated-coworker") {
-      const past = core.jobs.get(
-        (fact.facts?.contextFactId ?? "").split(":")[zero]!,
-      );
-      const org = past
-        ? core.organizations.get(past.organizationId)
-        : undefined;
-      if (org && org.id !== mine?.org.id)
-        out.push({
-          id: `shared-work:${org.id}`,
-          kind: "shared-work",
-          aboutId: org.id,
-          facts: {
-            employer: {
-              text: properName(org.name),
-              sourceRecordIds: [fact.id, org.id],
-            },
-            // A past job that ended long ago is a reason to ask after it.
-            ...(past?.endsAt &&
-            Number(core.date.slice(zero, core.date.indexOf("-"))) -
-              Number(past.endsAt.slice(zero, past.endsAt.indexOf("-"))) >=
-              LONG_AGO_YEARS
-              ? { "long-ago": { text: "yes", sourceRecordIds: [org.id] } }
-              : {}),
+    }
+    if (row.kind === "coworker" && row.recordId !== mine?.org.id) {
+      const org = core.organizations.get(row.recordId);
+      if (!org) continue;
+      out.push({
+        id: `shared-work:${org.id}`,
+        kind: "shared-work",
+        aboutId: org.id,
+        facts: {
+          employer: {
+            text: properName(org.name),
+            sourceRecordIds: [org.id],
           },
-        });
+          // Work together that ended long ago is a reason to ask after it.
+          ...(row.endedOn &&
+          thisYear -
+            Number(row.endedOn.slice(zero, row.endedOn.indexOf("-"))) >=
+            LONG_AGO_YEARS
+            ? { "long-ago": { text: "yes", sourceRecordIds: [org.id] } }
+            : {}),
+        },
+      });
     }
   }
   for (const id of [...speaker.knownIds].sort()) {
