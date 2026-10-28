@@ -81,7 +81,6 @@
       "headlines": ["headline"],
       "news": ["deliver-news", "announce-result"],
       "newspaper-ledes": ["deliver-news"],
-      "legislation": ["enact", "title", "provision"],
       "minutes": ["record", "announce-result"],
       "notice": ["notice"],
       "winning-losing": ["announce-result"]
@@ -924,23 +923,6 @@
       {
         "move": ".",
         "tag": "tell"
-      }
-    ],
-    "legislation": [
-      {
-        "move": "^enacting-clause$",
-        "tag": "enact",
-        "key": "routine"
-      },
-      {
-        "move": "(title|section-heading)$",
-        "tag": "title",
-        "key": "routine"
-      },
-      {
-        "move": ".",
-        "tag": "provision",
-        "key": "routine"
       }
     ],
     "meeting": [
