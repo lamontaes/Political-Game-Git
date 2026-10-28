@@ -281,7 +281,6 @@
         "src/core2/opening-income*.ts",
         "src/core2/opening-private-tuition.ts",
         "src/core2/opening-public-schools.ts",
-        "src/core2/opening-peer-network.ts",
         "src/core2/school-*.ts",
         "src/core2/private-tuition-reenroll.ts",
         "src/core2/residents*.ts",
