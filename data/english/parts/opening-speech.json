@@ -5525,6 +5525,118 @@
       "author": "Words and director session",
       "date": "2026-10-28",
       "bearing": "solemn"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-sta-i-was-born-and-raised-in-home-state-and-everything-i-bring-t",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I was born and raised in {home-state}, and everything I bring to this work, I owe to it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["home-state"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["home-state"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28",
+      "bearing": "tender"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-sta-i-was-born-and-raised-in-home-state-everything-i-have-i-owe",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I was born and raised in {home-state}. Everything I have, I owe to it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["home-state"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["home-state"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28",
+      "bearing": "tender"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-year-and-it-is-f",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Prices rose {inflation-rate} percent over the year, and it is families who are paying for it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["inflation-rate", "prices-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["inflation-rate", "prices-up"]
+        }
+      ],
+      "voice": "polished",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28",
+      "topic": "inflation"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-prices-are-up-inflation-rate-percent-and-families-are-the-on",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Prices are up {inflation-rate} percent, and families are the ones paying for it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["inflation-rate", "prices-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["inflation-rate", "prices-up"]
+        }
+      ],
+      "voice": "plain",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words builder (Claude Code)",
+      "date": "2026-10-28",
+      "topic": "inflation"
     }
   ]
 }

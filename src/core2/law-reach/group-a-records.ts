@@ -311,6 +311,7 @@ function townCitizenShare(api: CoreAPI): number {
   return citizenShareOf(
     api.state.placeMetadata.placeKey as string | undefined,
     lawChain(api).stateKey.slice(3),
+    api.state.seed,
   );
 }
 

@@ -61,8 +61,8 @@
         "n/a": 0
       }
     },
-    "traitDecisions": 90,
-    "traitDecisionsRan": 69
+    "traitDecisions": 89,
+    "traitDecisionsRan": 73
   },
   "links": [
     {
@@ -756,7 +756,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894"
+          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1895"
         },
         "varied": {
           "status": "fail",
@@ -850,7 +850,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904"
+          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1905"
         },
         "varied": {
           "status": "fail",
@@ -2269,7 +2269,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
+          "evidence": "src/core2/jobs-web.ts:25, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
         },
         "varied": {
           "status": "fail",
@@ -3876,7 +3876,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:20, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871"
+          "evidence": "src/core2/jobs-web.ts:23, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871"
         },
         "varied": {
           "status": "pass",
@@ -4114,7 +4114,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:23"
+          "evidence": "src/core2/jobs-web.ts:26"
         },
         "varied": {
           "status": "fail",
@@ -4161,7 +4161,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:24"
+          "evidence": "src/core2/jobs-web.ts:27"
         },
         "varied": {
           "status": "fail",
@@ -4549,7 +4549,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
+          "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
         },
         "varied": {
           "status": "fail",
@@ -6039,7 +6039,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
+          "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870"
         },
         "varied": {
           "status": "fail",
@@ -6464,7 +6464,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
+          "evidence": "src/core2/jobs-web.ts:25, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928"
         },
         "varied": {
           "status": "fail",
@@ -6748,7 +6748,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:21, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892"
+          "evidence": "src/core2/jobs-web.ts:24, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892"
         },
         "varied": {
           "status": "pass",
@@ -12613,7 +12613,7 @@
     {
       "measure": "health.youth-firearm-deaths",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894",
+      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1895",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["child-access-law-to-youth-gun-deaths"]
@@ -12621,7 +12621,7 @@
     {
       "measure": "health.youth-firearm-suicide",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904",
+      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1905",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["min-age-to-youth-gun-suicide"]
@@ -12942,7 +12942,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928",
+      "evidence": "src/core2/jobs-web.ts:25, src/core2/modules/jobs.ts:2864, src/core2/modules/jobs.ts:2873, src/core2/modules/jobs.ts:2902, src/core2/modules/jobs.ts:2904, src/core2/modules/jobs.ts:2926, src/core2/modules/jobs.ts:2928",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12953,7 +12953,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:20, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871",
+      "evidence": "src/core2/jobs-web.ts:23, src/core2/modules/jobs.ts:2862, src/core2/modules/jobs.ts:2871",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -12997,7 +12997,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870",
+      "evidence": "src/core2/jobs-web.ts:22, src/core2/modules/jobs.ts:2861, src/core2/modules/jobs.ts:2870",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -13008,7 +13008,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:21, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892",
+      "evidence": "src/core2/jobs-web.ts:24, src/core2/modules/jobs.ts:2863, src/core2/modules/jobs.ts:2872, src/core2/modules/jobs.ts:2892",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -13025,7 +13025,7 @@
     {
       "measure": "labor.undocumented-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:23",
+      "evidence": "src/core2/jobs-web.ts:26",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["enforcement-to-undocumented-employment"]
@@ -13057,7 +13057,7 @@
     {
       "measure": "labor.us-born-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:24",
+      "evidence": "src/core2/jobs-web.ts:27",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["enforcement-to-us-born-employment"]
@@ -13622,16 +13622,16 @@
   ],
   "traits": {
     "source": "docs/reports/trait-wiring-2026-10-20.json",
-    "place": "3223500",
-    "seed": "7ae8589566f5",
+    "place": "5137288",
+    "seed": "7100e8c6f85d",
     "span": ["2025-01-20", "2026-01-20"],
     "decisions": [
       {
         "id": "life.daily-act",
         "route": "chooser",
         "site": "src/core2/life.ts",
-        "callsInYear": 24015,
-        "turnedShare": 0.15960857797210076,
+        "callsInYear": 5167,
+        "turnedShare": 0.14282949487129862,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13644,8 +13644,8 @@
         "id": "work.attend-shift",
         "route": "chooser",
         "site": "src/core2/modules/work.ts",
-        "callsInYear": 45960,
-        "turnedShare": 0.0026327241079199303,
+        "callsInYear": 23035,
+        "turnedShare": 0.002127197742565661,
         "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
@@ -13654,7 +13654,7 @@
         "id": "drives.respond",
         "route": "chooser",
         "site": "src/core2/modules/drives.ts",
-        "callsInYear": 2345,
+        "callsInYear": 7061,
         "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -13669,7 +13669,7 @@
         "route": "chooser",
         "site": "src/core2/modules/macro.ts",
         "callsInYear": 96,
-        "turnedShare": 0.07291666666666667,
+        "turnedShare": 0.052083333333333336,
         "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
@@ -13678,8 +13678,8 @@
         "id": "business.owner-draw",
         "route": "chooser",
         "site": "src/core2/modules/business.ts",
-        "callsInYear": 209,
-        "turnedShare": 0.07177033492822966,
+        "callsInYear": 215,
+        "turnedShare": 0.20465116279069767,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13692,7 +13692,7 @@
         "id": "business.open-location",
         "route": "chooser",
         "site": "src/core2/modules/business.ts",
-        "callsInYear": 227,
+        "callsInYear": 297,
         "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -13706,8 +13706,8 @@
         "id": "business.found",
         "route": "chooser",
         "site": "src/core2/modules/business.ts",
-        "callsInYear": 21026,
-        "turnedShare": 0.013507086464377437,
+        "callsInYear": 7977,
+        "turnedShare": 0,
         "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
@@ -13716,8 +13716,8 @@
         "id": "jobs.review-worker",
         "route": "chooser",
         "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 1642,
-        "turnedShare": 0.015834348355663823,
+        "callsInYear": 519,
+        "turnedShare": 0.0038535645472061657,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13730,8 +13730,8 @@
         "id": "jobs.start-looking",
         "route": "chooser",
         "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 900,
-        "turnedShare": 0.12222222222222222,
+        "callsInYear": 4004,
+        "turnedShare": 0.0024975024975024975,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13744,8 +13744,8 @@
         "id": "jobs.apply",
         "route": "chooser",
         "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 447,
-        "turnedShare": 0.035794183445190156,
+        "callsInYear": 5,
+        "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13758,8 +13758,8 @@
         "id": "jobs.accept-offer",
         "route": "chooser",
         "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 984,
-        "turnedShare": 0.047764227642276426,
+        "callsInYear": 3,
+        "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13772,8 +13772,8 @@
         "id": "housing.buy-home",
         "route": "chooser",
         "site": "src/core2/modules/housing.ts",
-        "callsInYear": 455,
-        "turnedShare": 0.04395604395604396,
+        "callsInYear": 48,
+        "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13786,8 +13786,8 @@
         "id": "credit.borrow",
         "route": "chooser",
         "site": "src/core2/modules/credit.ts",
-        "callsInYear": 14127,
-        "turnedShare": 0,
+        "callsInYear": 6050,
+        "turnedShare": 0.015873015873015872,
         "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
@@ -13796,8 +13796,8 @@
         "id": "candidacy.run",
         "route": "chooser",
         "site": "src/core2/modules/candidacy.ts",
-        "callsInYear": 7842,
-        "turnedShare": 0.00038255547054322876,
+        "callsInYear": 2886,
+        "turnedShare": 0,
         "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
@@ -13806,21 +13806,17 @@
         "id": "speech.retell",
         "route": "chooser",
         "site": "src/core2/modules/speech.ts",
-        "callsInYear": 591,
-        "turnedShare": 0.10321489001692047,
+        "callsInYear": 2351,
+        "turnedShare": 0.0076563164610803916,
         "status": "ran",
-        "weightTag": "TUNABLE",
-        "gap": {
-          "class": "circumstances saturate the choice",
-          "why": "Hibbing, Ritchie and Anderson 2011 give conscientiousness 0.63 on talking about local politics with family (odds ratio 1.49 between the thirds). The listener keeps a fixed reason to stay quiet (0.6) against a retelling reason of 0.01 to 0.04 for how far the speech moved them, so temperament alone sorts who retells: the third leaning most toward retelling retold 0.26 and the third leaning least 0.00 at weight 1, and no weight up to 0.2 in steps of 0.005 comes near the study (trait-calibrate cannot reach it). The general weight of 1 stands.",
-          "fix": "Give the retelling its own circumstances, then fit the weight (traits-retell-circumstances)."
-        }
+        "weightTag": "ESTIMATED",
+        "gap": null
       },
       {
         "id": "contracts.award",
         "route": "formula",
         "site": "src/core2/modules/contracts.ts",
-        "callsInYear": 702,
+        "callsInYear": 1515,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -13834,7 +13830,7 @@
         "id": "corruption.offer",
         "route": "chooser",
         "site": "src/core2/modules/corruption.ts",
-        "callsInYear": 271,
+        "callsInYear": 1212,
         "turnedShare": 0,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -13848,9 +13844,9 @@
         "id": "corruption.take",
         "route": "chooser",
         "site": "src/core2/modules/corruption.ts",
-        "callsInYear": 7,
-        "turnedShare": 0,
-        "status": "ran",
+        "callsInYear": 0,
+        "turnedShare": null,
+        "status": "never-ran",
         "weightTag": "ESTIMATED",
         "gap": {
           "class": "circumstances saturate the choice",
@@ -13862,9 +13858,9 @@
         "id": "corruption.tell",
         "route": "chooser",
         "site": "src/core2/modules/corruption.ts",
-        "callsInYear": 10,
-        "turnedShare": 0,
-        "status": "ran",
+        "callsInYear": 0,
+        "turnedShare": null,
+        "status": "never-ran",
         "weightTag": "TUNABLE",
         "gap": {
           "class": "trigger needs a record nobody writes",
@@ -13876,8 +13872,8 @@
         "id": "renewal.plan-child",
         "route": "chooser",
         "site": "src/core2/births-plan.ts",
-        "callsInYear": 630,
-        "turnedShare": 0.0031746031746031746,
+        "callsInYear": 228,
+        "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13887,39 +13883,11 @@
         }
       },
       {
-        "id": "jobs.counted-retire",
-        "route": "formula",
-        "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 1093,
-        "turnedShare": null,
-        "status": "ran",
-        "weightTag": "TUNABLE",
-        "gap": {
-          "class": "no study number",
-          "why": "No retirement-timing study with a number by trait was found, so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
-          "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
-        }
-      },
-      {
-        "id": "jobs.counted-look",
-        "route": "formula",
-        "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 12745,
-        "turnedShare": null,
-        "status": "ran",
-        "weightTag": "TUNABLE",
-        "gap": {
-          "class": "no study number",
-          "why": "Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) gives only the direction in the text read (emotional stability best predicts intentions to quit), so the decision keeps the general weight of 1 (the pool item's rule for a decision with no study number); a fit to an assumed 1.2 per standard deviation is not used.",
-          "fix": "Read the per-trait sizes from the paper's tables and fit the weight to them (research-jobs-turnover-zimmerman-per-trait)."
-        }
-      },
-      {
         "id": "jobs.counted-apply",
         "route": "formula",
         "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 119702,
-        "turnedShare": 0.035794183445190156,
+        "callsInYear": 5,
+        "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13932,8 +13900,8 @@
         "id": "jobs.counted-accept",
         "route": "formula",
         "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 11668,
-        "turnedShare": 0.047764227642276426,
+        "callsInYear": 5,
+        "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
@@ -13946,7 +13914,7 @@
         "id": "business.counted-found",
         "route": "formula",
         "site": "src/core2/modules/business.ts",
-        "callsInYear": 18839,
+        "callsInYear": 128,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -13956,7 +13924,7 @@
         "id": "retirement.claim-age",
         "route": "formula",
         "site": "src/core2/modules/retirement-claims.ts",
-        "callsInYear": 3985,
+        "callsInYear": 1923,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -13980,7 +13948,7 @@
         "id": "views.persuasion",
         "route": "formula",
         "site": "src/core2/modules/views.ts",
-        "callsInYear": 6672,
+        "callsInYear": 22259,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -13990,7 +13958,7 @@
         "id": "views.trust",
         "route": "formula",
         "site": "src/core2/modules/views.ts",
-        "callsInYear": 6628,
+        "callsInYear": 21929,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14000,7 +13968,7 @@
         "id": "conversation.believe-claim",
         "route": "formula",
         "site": "src/core2/heard-claims.ts",
-        "callsInYear": 105608,
+        "callsInYear": 19369,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14038,7 +14006,7 @@
         "id": "moves.move-away",
         "route": "formula",
         "site": "src/core2/modules/moves.ts",
-        "callsInYear": 24961,
+        "callsInYear": 21992,
         "turnedShare": 0,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14048,7 +14016,7 @@
         "id": "voting.turnout",
         "route": "formula",
         "site": "src/core2/modules/voting.ts",
-        "callsInYear": 2773,
+        "callsInYear": 340,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14062,7 +14030,7 @@
         "id": "voting.back-incumbent",
         "route": "formula",
         "site": "src/core2/modules/voting.ts",
-        "callsInYear": 2773,
+        "callsInYear": 2334,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -14076,21 +14044,17 @@
         "id": "voting.exit-poll",
         "route": "formula",
         "site": "src/core2/modules/voting.ts",
-        "callsInYear": 0,
+        "callsInYear": 16,
         "turnedShare": null,
-        "status": "never-ran",
-        "weightTag": "TUNABLE",
-        "gap": {
-          "class": "no study number",
-          "why": "Runs after a race in the played year (TRAIT_AUDIT_ELECTION=1): 94 voters told or declined in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and 12 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026). The case without temperament is below zero in every call, so temperament decides each one (turned 88% and 100%). No study gives a size, so the general weight of 1 stands; in Halfway the third leaning most toward telling told 1.00 of the time and the third leaning least 0.65, net 35.",
-          "fix": "Give the case the voter's own reasons to tell or decline, then calibrate to a survey-response size (traits-wire-civic)."
-        }
+        "status": "ran",
+        "weightTag": "ESTIMATED",
+        "gap": null
       },
       {
         "id": "voting.stand-again",
         "route": "formula",
-        "site": "src/core2/stand-again.ts",
-        "callsInYear": 19,
+        "site": "src/core2/modules/candidacy.ts",
+        "callsInYear": 10,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14118,9 +14082,9 @@
         "id": "recalls.organize",
         "route": "formula",
         "site": "src/core2/modules/recalls.ts",
-        "callsInYear": 230,
+        "callsInYear": 0,
         "turnedShare": null,
-        "status": "ran",
+        "status": "never-ran",
         "weightTag": "TUNABLE",
         "gap": {
           "class": "needs a petition's cause",
@@ -14132,9 +14096,9 @@
         "id": "recalls.sign",
         "route": "formula",
         "site": "src/core2/modules/recalls.ts",
-        "callsInYear": 3003,
+        "callsInYear": 0,
         "turnedShare": null,
-        "status": "ran",
+        "status": "never-ran",
         "weightTag": "TUNABLE",
         "gap": {
           "class": "needs a petition's cause",
@@ -14160,9 +14124,9 @@
         "id": "campaigns.volunteer",
         "route": "formula",
         "site": "src/core2/modules/campaigns.ts",
-        "callsInYear": 0,
+        "callsInYear": 3251,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": {
           "class": "circumstances tie",
@@ -14174,9 +14138,9 @@
         "id": "campaigns.donate",
         "route": "formula",
         "site": "src/core2/modules/campaigns.ts",
-        "callsInYear": 0,
+        "callsInYear": 5095,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
       },
@@ -14184,9 +14148,9 @@
         "id": "campaigns.endorse",
         "route": "formula",
         "site": "src/core2/modules/campaigns.ts",
-        "callsInYear": 0,
+        "callsInYear": 212,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
       },
@@ -14194,9 +14158,9 @@
         "id": "campaigns.open-door",
         "route": "formula",
         "site": "src/core2/modules/campaigns.ts",
-        "callsInYear": 0,
+        "callsInYear": 2503,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
       },
@@ -14204,9 +14168,9 @@
         "id": "campaigns.retell",
         "route": "formula",
         "site": "src/core2/modules/campaigns.ts",
-        "callsInYear": 0,
+        "callsInYear": 5376,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
       },
@@ -14214,9 +14178,9 @@
         "id": "campaigns.answer-poll",
         "route": "formula",
         "site": "src/core2/modules/campaigns.ts",
-        "callsInYear": 0,
+        "callsInYear": 10480,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": {
           "class": "runs only in an election window",
@@ -14228,9 +14192,9 @@
         "id": "campaigns.rival-hours",
         "route": "formula",
         "site": "src/core2/modules/campaigns.ts",
-        "callsInYear": 0,
+        "callsInYear": 636,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "TUNABLE",
         "gap": null
       },
@@ -14238,7 +14202,7 @@
         "id": "parties.join",
         "route": "formula",
         "site": "src/core2/modules/parties.ts",
-        "callsInYear": 107,
+        "callsInYear": 18,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14252,7 +14216,7 @@
         "id": "parties.attend",
         "route": "formula",
         "site": "src/core2/modules/parties.ts",
-        "callsInYear": 1526,
+        "callsInYear": 24408,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14262,7 +14226,7 @@
         "id": "staff.hire",
         "route": "formula",
         "site": "src/core2/modules/staff.ts",
-        "callsInYear": 40,
+        "callsInYear": 86,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14276,7 +14240,7 @@
         "id": "staff.dismiss",
         "route": "formula",
         "site": "src/core2/modules/staff.ts",
-        "callsInYear": 230,
+        "callsInYear": 251,
         "turnedShare": null,
         "status": "ran",
         "weightTag": null,
@@ -14290,7 +14254,7 @@
         "id": "interest-groups.member-join",
         "route": "formula",
         "site": "src/core2/modules/interest-groups.ts",
-        "callsInYear": 9528,
+        "callsInYear": 2984,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14300,7 +14264,7 @@
         "id": "interest-groups.employer-join",
         "route": "formula",
         "site": "src/core2/modules/interest-groups.ts",
-        "callsInYear": 3,
+        "callsInYear": 2,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -14314,7 +14278,7 @@
         "id": "interest-groups.lobbyist",
         "route": "formula",
         "site": "src/core2/modules/interest-groups.ts",
-        "callsInYear": 1989,
+        "callsInYear": 633,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14328,21 +14292,17 @@
         "id": "offices.accept-appointment",
         "route": "formula",
         "site": "src/core2/modules/offices.ts",
-        "callsInYear": 1,
+        "callsInYear": 0,
         "turnedShare": null,
-        "status": "ran",
+        "status": "never-ran",
         "weightTag": "TUNABLE",
-        "gap": {
-          "class": "rare",
-          "why": "Weighed only when a city, county or township seat falls vacant and the post fills by appointment: fillVacancy's appoint (src/core2/modules/offices.ts:1135, decision read at :1162) offers the post only to a city, county or township seat, only under a vacancy rule that appoints (successor, appointment, or appointment-then-special, called at :1216, :1218 and :1238), and only when no named successor is given first (:1190). A vacancy needs the serving official to die or move away; none did in the election window.",
-          "fix": "Audit a drawn year that holds a local vacancy filled by appointment (traits-accept-appointment-vacancy-proof)."
-        }
+        "gap": null
       },
       {
         "id": "legislature.member-position",
         "route": "formula",
         "site": "src/core2/modules/legislature.ts",
-        "callsInYear": 16194,
+        "callsInYear": 17661,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14352,7 +14312,7 @@
         "id": "legislature.hold-hearing",
         "route": "formula",
         "site": "src/core2/modules/legislature.ts",
-        "callsInYear": 83,
+        "callsInYear": 72,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14362,7 +14322,7 @@
         "id": "legislature.sign-or-veto",
         "route": "formula",
         "site": "src/core2/modules/legislature.ts",
-        "callsInYear": 35,
+        "callsInYear": 25,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14382,7 +14342,7 @@
         "id": "world-legislating.bring-agenda",
         "route": "formula",
         "site": "src/core2/modules/world-legislating.ts",
-        "callsInYear": 5882,
+        "callsInYear": 18158,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14392,7 +14352,7 @@
         "id": "constituent-cases.bring-case",
         "route": "formula",
         "site": "src/core2/modules/constituent-cases.ts",
-        "callsInYear": 1877,
+        "callsInYear": 29,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14406,24 +14366,20 @@
         "id": "constituent-cases.handle-case",
         "route": "formula",
         "site": "src/core2/modules/constituent-cases.ts",
-        "callsInYear": 113,
+        "callsInYear": 5,
         "turnedShare": null,
         "status": "ran",
-        "weightTag": "TUNABLE",
-        "gap": {
-          "class": "circumstances do not vary",
-          "why": "The official's own call now comes first, and their staffer carries it out (src/core2/modules/constituent-cases.ts, officeHandles). It ran 17 times in Jerry City, Ohio's played year and 438 times in New Britain, Connecticut's, and every official helped: the case is the same constant every time (constituentHelpBase), so a weight only sets a trait bar and cannot reach the study's odds (Barrick and Mount 1991, conscientiousness r .22, 2.44 between the thirds). The general weight of 1 stands.",
-          "fix": "Give the case its own circumstances (the problem's severity, the office's open cases), then calibrate (traits-integrity-cases-vary)."
-        }
+        "weightTag": "ESTIMATED",
+        "gap": null
       },
       {
         "id": "staff.follow-through",
         "route": "formula",
         "site": "src/core2/modules/staff.ts",
-        "callsInYear": 109,
+        "callsInYear": 2,
         "turnedShare": null,
         "status": "ran",
-        "weightTag": "TUNABLE",
+        "weightTag": "ESTIMATED",
         "gap": {
           "class": "circumstances saturate the choice",
           "why": "A staffer's follow-through ran 17 times in Jerry City, Ohio's played year and 438 times in New Britain, Connecticut's, where every staffer saw every case through: the work's quality always clears staffCaseFollowThrough, so personality turns none and the study's odds (Barrick and Mount 1991, r .22, 2.44 between the thirds) cannot be reached. The general weight of 1 stands.",
@@ -14431,24 +14387,34 @@
         }
       },
       {
+        "id": "jobs.value-worker",
+        "route": "formula",
+        "site": "src/core2/modules/jobs.ts",
+        "callsInYear": 80,
+        "turnedShare": null,
+        "status": "ran",
+        "weightTag": "ESTIMATED",
+        "gap": null
+      },
+      {
         "id": "jobs-benefits.file-claim",
         "route": "formula",
         "site": "src/core2/jobs-benefits.ts",
-        "callsInYear": 45,
+        "callsInYear": 5,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
-          "class": "circumstances saturate the choice",
-          "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds). Pooled over seven played years (59 claims weighed, src/core2/jobs-benefits.ts), every eligible worker files with temperament off, against real take-up of 70 to 80%, and no weight up to 0.5 turns any of them; at the general weight of 1, 7% decline.",
-          "fix": "Bring the filing base down to the researched take-up (research-unemployment-claim-take-up), then fit the weight."
+          "class": "circumstances tie",
+          "why": "Filing weighs the base, the benefit's share of the lost pay (a log term at McQuillan and Moore's take-up elasticity) and the layoff's stress beside temperament (src/core2/jobs-benefits.ts filingDecision). Over every business worker of three drawn towns, take-up is 0.73 (Wayland, Michigan) and 0.76 (Washington, District of Columbia), against the studies' 0.734 mean, but the share is the same for nearly every worker in a town, so temperament sorts who skips: the thirds' odds ratio runs 6 to 20 against Vella, Richiardi and van de Ven's 1.32 at any trait weight. Played years: 45 of 67 filed in Wayland, Michigan (2684880, seed 0c4eea785dc2; temperament turned 17) and 2 of 5 in Hillsboro, Virginia (5137288, seed 7100e8c6f85d).",
+          "fix": "Weigh the household's cash runway and how soon the worker expects to be hired (the place's seekers per opening) once a study gives their sizes on take-up, then fit the weight (SG-TRAITS-file-claim-circumstances-tie)."
         }
       },
       {
         "id": "news.pass-on",
         "route": "formula",
         "site": "src/core2/modules/news.ts",
-        "callsInYear": 94186,
+        "callsInYear": 17384,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14458,7 +14424,7 @@
         "id": "press.follow-news",
         "route": "formula",
         "site": "src/core2/modules/press.ts",
-        "callsInYear": 232,
+        "callsInYear": 21,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14468,23 +14434,19 @@
         "id": "press.accept-interview",
         "route": "formula",
         "site": "src/core2/modules/press.ts",
-        "callsInYear": 0,
+        "callsInYear": 172,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
-        "gap": {
-          "class": "circumstances saturate the choice",
-          "why": "The case is closeness to the reporter less any grudge less interviewShyness, which is -1 (src/core2/modules/press.ts:2821), so it is at least 1 for every candidate without a grudge: all 120 accepted in Halfway, Missouri (2929962, seed 3e9ed70a5fb7, December 3, 2025 to December 3, 2026) and all 70 in Marblehead, Ohio (3947502, seed 7772ab1c8196, January 20, 2025 to January 20, 2026), and temperament turned none.",
-          "fix": "Set interviewShyness from how often candidates decline interviews, so the case sits near even for a stranger reporter, then refit the weight (traits-wire-civic)."
-        }
+        "gap": null
       },
       {
         "id": "press.shade-answer",
         "route": "formula",
         "site": "src/core2/modules/press.ts",
-        "callsInYear": 0,
+        "callsInYear": 82,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
       },
@@ -14492,9 +14454,9 @@
         "id": "press.dig",
         "route": "formula",
         "site": "src/core2/modules/press.ts",
-        "callsInYear": 0,
+        "callsInYear": 3,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
           "class": "no study number",
@@ -14520,7 +14482,7 @@
         "id": "meetings.take-part",
         "route": "formula",
         "site": "src/core2/modules/meetings.ts",
-        "callsInYear": 1470,
+        "callsInYear": 559,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14530,7 +14492,7 @@
         "id": "school.attend",
         "route": "chooser",
         "site": "src/core2/modules/school.ts",
-        "callsInYear": 16313,
+        "callsInYear": 668,
         "turnedShare": 0,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -14544,9 +14506,9 @@
         "id": "justice.report",
         "route": "formula",
         "site": "src/core2/modules/justice.ts",
-        "callsInYear": 6,
+        "callsInYear": 0,
         "turnedShare": null,
-        "status": "ran",
+        "status": "never-ran",
         "weightTag": "TUNABLE",
         "gap": {
           "class": "trigger needs a record nobody writes",
@@ -14558,9 +14520,9 @@
         "id": "justice.prosecute",
         "route": "formula",
         "site": "src/core2/modules/justice.ts",
-        "callsInYear": 1,
+        "callsInYear": 0,
         "turnedShare": null,
-        "status": "ran",
+        "status": "never-ran",
         "weightTag": "TUNABLE",
         "gap": {
           "class": "trigger needs a record nobody writes",
@@ -14572,9 +14534,9 @@
         "id": "justice.plea",
         "route": "formula",
         "site": "src/core2/modules/justice.ts",
-        "callsInYear": 4,
+        "callsInYear": 0,
         "turnedShare": null,
-        "status": "ran",
+        "status": "never-ran",
         "weightTag": "TUNABLE",
         "gap": {
           "class": "trigger needs a record nobody writes",
@@ -14586,7 +14548,7 @@
         "id": "meetings.hold-town-hall",
         "route": "formula",
         "site": "src/core2/modules/meetings.ts",
-        "callsInYear": 10,
+        "callsInYear": 46,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14596,7 +14558,7 @@
         "id": "campaigns.party-firmness",
         "route": "formula",
         "site": "src/core2/campaign-stances.ts",
-        "callsInYear": 540,
+        "callsInYear": 2,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14606,7 +14568,7 @@
         "id": "estates.will",
         "route": "formula",
         "site": "src/core2/estates.ts",
-        "callsInYear": 3,
+        "callsInYear": 1,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -14620,7 +14582,7 @@
         "id": "estates.trust",
         "route": "formula",
         "site": "src/core2/estates.ts",
-        "callsInYear": 18,
+        "callsInYear": 10,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -14634,8 +14596,8 @@
         "id": "legislature.attend-sitting",
         "route": "chooser",
         "site": "src/core2/modules/legislature.ts",
-        "callsInYear": 419,
-        "turnedShare": 0.014319809069212411,
+        "callsInYear": 1032,
+        "turnedShare": 0.009689922480620155,
         "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": null
@@ -14644,9 +14606,9 @@
         "id": "legislature.poison-pill",
         "route": "formula",
         "site": "src/core2/modules/legislature.ts",
-        "callsInYear": 0,
+        "callsInYear": 1,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "ESTIMATED",
         "gap": {
           "class": "rare",
@@ -14658,7 +14620,7 @@
         "id": "office-day-state.attend",
         "route": "formula",
         "site": "src/core2/office-day-state.ts",
-        "callsInYear": 315,
+        "callsInYear": 280,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14668,7 +14630,7 @@
         "id": "office-day-state.leader-request",
         "route": "formula",
         "site": "src/core2/office-day-state.ts",
-        "callsInYear": 37,
+        "callsInYear": 69,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14678,9 +14640,9 @@
         "id": "appointments.weigh",
         "route": "formula",
         "site": "src/core2/appointments.ts",
-        "callsInYear": 0,
+        "callsInYear": 1,
         "turnedShare": null,
-        "status": "never-ran",
+        "status": "ran",
         "weightTag": "TUNABLE",
         "gap": {
           "class": "runs at the opening; in the played year only on a vacancy",
@@ -14692,7 +14654,7 @@
         "id": "jobs.raise-for-opening",
         "route": "formula",
         "site": "src/core2/modules/jobs.ts",
-        "callsInYear": 86,
+        "callsInYear": 214,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "TUNABLE",
@@ -14720,7 +14682,7 @@
         "id": "relationships.warm-to",
         "route": "formula",
         "site": "src/core2/closeness.ts",
-        "callsInYear": 244934,
+        "callsInYear": 32638,
         "turnedShare": null,
         "status": "ran",
         "weightTag": "ESTIMATED",
@@ -14744,7 +14706,7 @@
         "id": "housing.settle-arrears",
         "route": "formula",
         "site": "src/core2/modules/housing.ts",
-        "callsInYear": 24,
+        "callsInYear": 1,
         "turnedShare": null,
         "status": "ran",
         "weightTag": null,

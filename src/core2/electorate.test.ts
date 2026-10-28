@@ -136,13 +136,17 @@ describe(`the one electorate (seed ${seed})`, () => {
       usps,
       ...[1, 2].map((i) => pick(states, `other:${i}`).slice(3)),
     ]) {
-      const counted = countPlaces(sample, statePlaces(other), typical);
+      const counted = countPlaces(
+        sample,
+        statePlaces(other, api.state.seed),
+        typical,
+      );
       const r = counted.votes.R ?? 0,
         d = counted.votes.D ?? 0;
       const share = r / (r + d);
-      const real = stateRightShare(other)!;
+      const real = stateRightShare(other, api.state.seed)!;
       console.log(
-        `${other}: counted R ${share.toFixed(3)} against 2024 ${real.toFixed(3)} (tolerance ${tolerance}, sample from ${where})`,
+        `${other}: counted R ${share.toFixed(3)} against this world's 2024 ${real.toFixed(3)} (tolerance ${tolerance}, sample from ${where})`,
       );
       expect(Math.abs(share - real), other).toBeLessThan(tolerance);
     }
@@ -150,7 +154,7 @@ describe(`the one electorate (seed ${seed})`, () => {
 
   it("standing moves the vote by its research size, and the same inputs give the same votes", () => {
     const sample = electorateSample(api, PRESIDENTIAL, 0);
-    const places = statePlaces(usps);
+    const places = statePlaces(usps, api.state.seed);
     const share = (field: readonly CountedFieldEntry[]) => {
       const v = countPlaces(sample, places, field).votes;
       return (v.R ?? 0) / ((v.R ?? 0) + (v.D ?? 0));

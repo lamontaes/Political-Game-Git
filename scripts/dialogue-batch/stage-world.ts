@@ -5,8 +5,8 @@
  * point). Development tooling; nothing here words anything, and no scene or
  * cast is written by hand.
  *
- * The grading bench (`grading-bench.ts`) reads the types' statuses from here;
- * its test stages a drawn place's year through `stageWorld`.
+ * Its test and `src/director/played-talks.test.ts` stage a drawn place's year
+ * through `stageWorld`.
  *
  * The place is drawn from all 56 by the seed and the world is the bench's
  * (`buildBenchWorld`, two-level), built once. The player's circle is watched by

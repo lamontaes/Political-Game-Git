@@ -1,5 +1,7 @@
 # Law wiring table
 
+Laws wired: 83 of 89 (2 partly, 4 on a stopgap). Research links reaching people or carried by an engine: 151 of 244 (19 the research finds about zero, 74 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
 | Law                                          | Family             | exists | change | reach | systems | money | web  | knowing | repeal | allPlaces | Overall    | Seen on                             |
@@ -24,7 +26,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Sales tax rate                               | taxes-finance      | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Calendar, Your office       |
 | Property tax rate                            | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar       |
 | Corporate income tax rate                    | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Your office                         |
-| Estate tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | part  | n/a  | yes     | yes    | yes       | partly     | Your office                         |
+| Estate tax rate                              | taxes-finance      | yes    | yes    | yes   | yes     | n/a   | n/a  | yes     | yes    | yes       | wired      | Your office                         |
 | Inheritance tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Your office                         |
 | Local income tax authority                   | taxes-finance      | yes    | yes    | yes   | yes     | n/a   | n/a  | yes     | yes    | yes       | wired      | none                                |
 | adopt income tax                             | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
@@ -43,8 +45,8 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | allow multifamily in single family zones     | housing            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Spending: housing                            | housing            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | inclusionary requirement                     | housing            | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
-| rent stabilization                           | housing            | yes    | yes    | yes   | yes     | part  | yes  | yes     | yes    | yes       | partly     | Issues, Your office, News           |
-| right to counsel in eviction                 | housing            | yes    | yes    | part  | yes     | part  | yes  | yes     | yes    | part      | partly     | Issues, Your office, News           |
+| rent stabilization                           | housing            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
+| right to counsel in eviction                 | housing            | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | Minimum wage                                 | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | raise federal minimum wage                   | labor              | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | local minimum wage authority                 | labor              | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
@@ -56,7 +58,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | cap consumer loan rates                      | business           | yes    | yes    | yes   | yes     | SG    | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office                 |
 | ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office                 |
 | clean electricity standard                   | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
-| clean air plan for polluted counties         | energy-environment | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     | Issues, Your office, Calendar, News |
+| clean air plan for polluted counties         | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Budgets, Your office, News          |
 | bottle deposit                               | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | price carbon                                 | energy-environment | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
@@ -88,7 +90,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | age verification for social media            | technology         | yes    | yes    | yes   | yes     | yes   | SG   | yes     | yes    | yes       | stopgapped | Issues, Your office, News           |
 | restrict government facial recognition       | technology         | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | n/a  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
-| limit groundwater withdrawal                 | agriculture        | yes    | yes    | part  | yes     | yes   | yes  | yes     | yes    | part      | partly     | Issues, Your office, News           |
+| limit groundwater withdrawal                 | agriculture        | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, News           |
 | protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Issues, Your office, Calendar, News |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | yes  | yes     | yes    | yes       | wired      | Budgets, Your office, News          |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | n/a   | yes  | yes     | yes    | yes       | wired      | none                                |
@@ -118,7 +120,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Estate tax rate** (`estate-tax`)
 
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
+- money: its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **Inheritance tax rate** (`inheritance-tax`)
@@ -146,16 +148,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**rent stabilization** (`us-policy-positions:housing-land-use.rent-stabilization`)
-
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-
-**right to counsel in eviction** (`us-policy-positions:housing-land-use.right-to-counsel-in-eviction`)
-
-- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8), North Pownal, Vermont, US-VT (seed f72df05648f09350)
-- money: money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached
-- allPlaces: reached people in one drawn place and not the other
-
 **local minimum wage authority** (`us-policy-positions:labor-workforce.local-minimum-wage-authority`)
 
 - money: the law grants a local government the power to set its own minimum wage; the grant itself charges, pays and taxes no one, and any money moves through the wage a council then enacts, graded as the minimum wage law's money
@@ -168,11 +160,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - money: The cap applies only to the bank's consumer loan (about 13 percent against a 36 percent ceiling), so no borrower's rate changes and the law moves no dollar; the game has no small-dollar lender for it to bind (SG-WORLD-credit-rate-cap-no-small-lender)
 - web: no production reader: loan-rate-cap-to-high-cost-borrowing (SG-WEB-unread-finance-high-cost-loans) move only the web's ledger
-
-**clean air plan for polluted counties** (`us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties`)
-
-- reach: reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10), Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- allPlaces: reached people in one drawn place and not the other
 
 **Spending: naturalResources** (`budget-line:naturalResources`)
 
@@ -220,11 +207,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **consumer data privacy law** (`us-policy-positions:technology-privacy.consumer-data-privacy-law`)
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-
-**limit groundwater withdrawal** (`us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal`)
-
-- reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- allPlaces: reached people in one drawn place and not the other
 
 **local-minimum-wage-authority** (`local-minimum-wage-authority`)
 
