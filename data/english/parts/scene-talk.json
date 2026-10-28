@@ -54,6 +54,110 @@
   "maxWords": 70,
   "parts": [
     {
+      "key": "scene-talk.narrate-narrate.the-filing-for-office-is-on-the-record-somebody-still-has-to-get-child-to-bed-ev",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The filing for {office} is on the record. Somebody still has to get {child} to bed every night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-filed-for-office-the-evenings-with-child-were-already-short",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You filed for {office}. The evenings with {child} were already short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-filed-for-office-this-morning-and-you-haven-t-worked-out-how-the-money-lasts",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You filed for {office} this morning, and you haven't worked out how the money lasts {remaining}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.word-that-you-filed-for-office-got-home-before-you-did",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Word that you filed for {office} got home before you did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-10-28",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.you-re-going-over-bill-at-your-desk-when-name-knocks-on-the-open-door",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -381,10 +485,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-lives-in-place-and-has-come-to-your-office-for-help",
+      "key": "scene-talk.narrate-narrate.name-one-of-the-people-you-represent-has-come-to-your-office",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} lives in {place} and has come to your office for help.",
+      "text": "{name}, one of the people you represent, has come to your office for help.",
       "uses": [
         {
           "subject": "scene",
@@ -398,8 +502,8 @@
       "bearing": "calm",
       "shippable": true,
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
@@ -3159,7 +3263,7 @@
         }
       ],
       "bearing": "glad",
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -3976,7 +4080,7 @@
         }
       ],
       "bearing": "guarded",
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -14807,7 +14911,7 @@
         }
       ],
       "bearing": "braced",
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -15666,7 +15770,7 @@
         }
       ],
       "bearing": "glad",
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -15772,31 +15876,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "promise",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-request.put-them-on-the-phones-the-doors-can-wait-a-week",
-      "move": "reply-request",
-      "kind": "spoken",
-      "text": "Put them on the phones. The doors can wait a week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "request",
-          "role": "asked",
-          "purpose": "rally-volunteer",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "request",
         "key": "vote-wanted"
       }
     },
@@ -31946,10 +32025,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-give-your-name-at-the-table-in-place-name-runs-a-finger-down-the-l",
+      "key": "scene-talk.narrate-narrate.you-give-your-name-at-the-table-name-runs-a-finger-down-the-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You give your name at the table in {place}. {name} runs a finger down the list twice.",
+      "text": "You give your name at the table. {name} runs a finger down the list twice.",
       "uses": [
         {
           "subject": "scene",
@@ -31963,8 +32042,8 @@
       "bearing": "braced",
       "shippable": true,
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "narrate",
         "key": "routine"
@@ -42963,7 +43042,7 @@
         }
       ],
       "bearing": "calm",
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -43243,7 +43322,7 @@
         }
       ],
       "bearing": "glad",
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -43771,31 +43850,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "warn",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-line-at-place-moves-fast-until-it-reaches-you-name-flips-the-binde",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The line at {place} moves fast until it reaches you. {name} flips the binder back to the first page.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "poll-problem",
-          "key": "routine"
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
         "key": "routine"
       }
     },
@@ -78545,7 +78599,7 @@
         }
       ],
       "bearing": "calm",
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -83991,10 +84045,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-who-chairs-the-party-in-place-has-come-by-the-house",
+      "key": "scene-talk.narrate-narrate.name-who-chairs-the-local-party-has-come-by-the-house",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name}, who chairs the party in {place}, has come by the house.",
+      "text": "{name}, who chairs the local party, has come by the house.",
       "uses": [
         {
           "subject": "scene",
@@ -84008,18 +84062,18 @@
       "bearing": "hopeful",
       "shippable": true,
       "origin": "authored",
-      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
-      "date": "2026-10-26",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "narrate",
         "key": "run-asked"
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.there-s-a-knock-at-the-door-it-s-name-who-runs-the-party-in-place",
+      "key": "scene-talk.narrate-narrate.there-s-a-knock-at-the-door-it-s-name-who-runs-the-local-par",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "There's a knock at the door. It's {name}, who runs the party in {place}.",
+      "text": "There's a knock at the door. It's {name}, who runs the local party.",
       "uses": [
         {
           "subject": "scene",
@@ -84033,8 +84087,8 @@
       "bearing": "hopeful",
       "shippable": true,
       "origin": "authored",
-      "author": "Words session (pool item words-scene-party-asks-you-to-run)",
-      "date": "2026-10-26",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "narrate",
         "key": "run-asked"
@@ -87997,110 +88051,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-filed-for-office-and-the-race-has-remaining-left-to-run-name-is-home",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You filed for {office}, and the race has {remaining} left to run. {name} is home.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-was-home-when-the-filing-went-on-the-record-office-with-remaining-until-the",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} was home when the filing went on the record: {office}, with {remaining} until the vote.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "requiresFacts": ["stake-money"]
-        }
-      ],
-      "bearing": "guarded",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-filed-for-office-name-is-at-home-with-child",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You filed for {office}. {name} is at home with {child}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "requiresFacts": ["stake-time"]
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-filing-for-office-is-on-the-record-and-name-is-in-with-child-when-you-come-t",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The filing for {office} is on the record, and {name} is in with {child} when you come through the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "requiresFacts": ["stake-time"]
-        }
-      ],
-      "bearing": "guarded",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-we-spend-and-the-race-runs-remaining-how-do-we",
       "move": "state-ask",
       "kind": "spoken",
@@ -91533,32 +91483,6 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.then-that-s-settled",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Then that's settled.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "bribe-offer",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.close-thank.you-ll-see-i-keep-my-word",
       "move": "close-thank",
       "kind": "spoken",
@@ -93243,10 +93167,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-recognizes-you-on-the-street-in-place",
+      "key": "scene-talk.narrate-narrate.name-recognizes-you-on-the-street",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} recognizes you on the street in {place}.",
+      "text": "{name} recognizes you on the street.",
       "uses": [
         {
           "subject": "scene",
@@ -93260,8 +93184,8 @@
       "bearing": "calm",
       "shippable": true,
       "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
+      "author": "Words and director session",
+      "date": "2026-10-28",
       "tag": {
         "move": "narrate",
         "key": "news-received"
@@ -94856,31 +94780,6 @@
       "date": "2026-10-26",
       "tag": {
         "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.talk-soon",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Talk soon.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "invite-interview",
-          "key": "favor-asked",
-          "step": "close",
-          "move": "thank",
-          "role": "asker"
-        }
-      ],
-      "bearing": "glad",
-      "shippable": true,
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "thank",
         "key": "favor-asked"
       }
     },
@@ -99319,58 +99218,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "accept",
-        "key": "cut-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.half-doesn-t-cover-the-gap-can-you-find-the-rest",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Half doesn't cover the gap. Can you find the rest?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "cut-argument",
-          "key": "cut-heard",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "guarded",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "cut-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.that-keeps-the-doors-open-it-doesn-t-keep-the-program",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "That keeps the doors open. It doesn't keep the program.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "cut-argument",
-          "key": "cut-heard",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "guarded",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
         "key": "cut-heard"
       }
     },
@@ -105725,32 +105572,6 @@
         }
       ],
       "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (housemate)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.i-m-glad-that-s-settled",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "I'm glad that's settled.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "housemate-arrives",
-          "key": "arrival",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
       "shippable": true,
       "origin": "authored",
       "author": "Finisher helper (housemate)",
@@ -114747,32 +114568,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.it-s-settled-winner-won-the-office-race",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "It's settled. {winner} won the {office} race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["winner", "office", "winner-is-other"]
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "race-heard"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.i-won-the-office-race-i-wanted-you-to-hear-it-from-me",
       "move": "state-tell",
       "kind": "spoken",
@@ -115694,31 +115489,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-have-to-go-we-ll-talk-soon",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have to go. We'll talk soon.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "race-heard"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.i-only-know-what-came-out-of-the-count-people-are-still-sorting-out-what-it-mean",
       "move": "follow-answer",
       "kind": "spoken",
@@ -116278,32 +116048,6 @@
         }
       ],
       "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-first-talk-soon",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you, {first}. Talk soon.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "glad",
       "shippable": true,
       "origin": "authored",
       "author": "Finisher helper (race told)",

@@ -50,7 +50,8 @@ describe("the filing visit", () => {
       check("minimum-age", true, "18", "40"),
     ]);
     const said = visit.lines.at(-1)!.text;
-    expect(said).toBe("The deadline is March 5, 2021.");
+    // Said as people say a date: no year within the year (words.ts spokenDate).
+    expect(said).toBe("The deadline is March 5.");
     expect(visit.choices.map((row) => row.action)).toEqual([
       { kind: "file", contestId: contest.id },
     ]);
