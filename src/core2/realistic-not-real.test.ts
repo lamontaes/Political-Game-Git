@@ -550,7 +550,11 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const size = (core: CoreState) =>
       Number(core.placeMetadata.referencePopulation);
     if (real === undefined || !town) return;
-    expect(size(a), `${where} referencePopulation: published`).not.toBe(real);
+    // A place the Census holds as empty stays 0 in every world: there is
+    // nothing to spread around zero (worldPopulationOf). Every place with
+    // people opens off its published count.
+    if (real > 0)
+      expect(size(a), `${where} referencePopulation: published`).not.toBe(real);
     expect(size(a), `${where} referencePopulation: the engine's draw`).toBe(
       placeReferencePopulation(geoid!, a.seed)?.value,
     );
