@@ -20,6 +20,7 @@ import {
   checkEligibility,
   fileCandidacy,
   filingOfficeFor,
+  incumbentOf,
   openContests,
   type ContestRow,
   type FilingRow,
@@ -431,6 +432,19 @@ export function localRaces(core: CoreState) {
         filedWith: office?.filedWith ?? null,
         filers,
       };
+    })
+    // Two seats of one office on the ballot (two council seats) read the same;
+    // each is told apart by whoever holds it now, from its term record.
+    .map((race, _at, all) => {
+      if (all.filter((other) => other.title === race.title).length < 2)
+        return race;
+      const holder = incumbentOf(api, race.contestId);
+      return holder
+        ? {
+            ...race,
+            title: `${race.title} (${holder.identity.givenName} ${holder.identity.familyName})`,
+          }
+        : race;
     })
     .sort(
       (a, b) =>
