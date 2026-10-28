@@ -2171,60 +2171,18 @@ async function officeRows() {
   const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
   if (!v.jobs.length) return [];
   const words = controls.officeStops ?? {};
-  const toggles = v.stops.map((stop) => {
-    const box = el("input", { type: "checkbox", checked: stop.on });
-    box.addEventListener("change", async () => {
-      await post(
-        `/api/office/stops?${new URLSearchParams({ kind: stop.kind, on: String(box.checked) })}`,
-      );
-    });
-    return el("label", {}, box, ` ${words[stop.kind] ?? stop.kind} `);
-  });
   return [
     ...v.jobs.map((job) =>
       listRow(
         "campaign",
         { title: job.citation },
         el("b", { textContent: job.title }),
-        ` ${dollars(job.annualMinor)} · ${job.weeklyHours} h · ${job.payer}`,
-        job.lastPaid
-          ? ` · ${job.lastPaid.on} ${dollars(job.lastPaid.amountMinor)}`
+        ` ${dollars(job.annualMinor)} ${words.aYear ?? ""}`,
+        job.nextMeeting
+          ? ` · ${words.nextMeeting ?? ""} ${proseDate(job.nextMeeting)}`
           : "",
-        job.nextMeeting ? ` · ${job.nextMeeting}` : "",
       ),
     ),
-    listRow("campaign", {}, ...toggles),
-    // The outlet the next interview asks; left on the character's own, the widest reach.
-    ...(v.outlets?.length
-      ? [
-          listRow(
-            "campaign",
-            { as: "label" },
-            `${words.interviewOutlet ?? ""} `,
-            (() => {
-              const pick = el(
-                "select",
-                {},
-                el("option", { value: "", textContent: words.ownChoice ?? "" }),
-                ...v.outlets.map((o) =>
-                  el("option", {
-                    value: o.id,
-                    disabled: o.hadThem,
-                    textContent: `${o.name} · ${o.reach}`,
-                  }),
-                ),
-              );
-              pick.addEventListener("change", async () => {
-                if (pick.value)
-                  await post(
-                    `/api/office/interview-outlet?${new URLSearchParams({ outletId: pick.value })}`,
-                  );
-              });
-              return pick;
-            })(),
-          ),
-        ]
-      : []),
     // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
     ...(v.heads ?? []).map((head) =>
       listRow(
@@ -2317,7 +2275,7 @@ async function officeRows() {
     ),
     ...v.acts.map((a) =>
       row(
-        `${a.date} · ${controls.actions?.[a.kind] ?? a.kind}`,
+        `${proseDate(a.date)} · ${controls.actions?.[a.kind] ?? a.kind}`,
         `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
       ),
     ),
