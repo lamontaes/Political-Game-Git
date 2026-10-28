@@ -3027,6 +3027,19 @@ function dealValue(
   return weight * (1 + Math.max(0, tie));
 }
 
+/**
+ * What a yes given as a favor to `askerId` is worth on `memberId`'s position:
+ * the weight a scene reply's favor carries at the roll (`replyPull`), so an
+ * answer in a scene can be weighed by what the roll call will read.
+ */
+export function favorWorth(
+  api: CoreAPI,
+  memberId: string,
+  askerId: string,
+): number {
+  return dealValue(api, "favor", memberId, askerId);
+}
+
 /** What a sponsor owes the members who took their deals (favors, backing their items). */
 export function obligationsOf(
   api: CoreAPI,
