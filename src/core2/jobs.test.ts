@@ -58,6 +58,19 @@ function drawPlace(): { key: string; state: string } {
 
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
+/**
+ * The same data with a filing base every owed fixture worker clears: these
+ * one-trait workers sit at the middle with no other reasons, so the tests of
+ * what the program pays read a filed claim; who files is jobs-benefits' and
+ * hardship-coping's to test.
+ */
+const filingData = {
+  ...data,
+  parameters: {
+    ...data.parameters,
+    benefitsFileBase: { ...data.parameters.benefitsFileBase!, value: 2 },
+  },
+};
 const start = "2021-01-01",
   employer = "organization:shop",
   place = "place:jobs-fixture";
@@ -92,7 +105,7 @@ function input(): CoreInput {
   const workers = ["w1", "w2", "w3", "w4"].map((id, i) =>
     // The least reliable worker, only slightly below the middle: a fixture
     // person carries this one trait alone, so it decides their whole lean,
-    // and they still file for the benefits they are owed (benefitsFileBase).
+    // and they still file for the benefits they are owed (filingData).
     person(id, 50_000, i === 0 ? -0.1 : i - 1),
   );
   const seekers = ["s1", "s2"].map((id, i) =>
@@ -484,7 +497,7 @@ describe("jobs", () => {
           ],
           placeMetadata: { placeKey: drawn.key },
         } as CoreInput,
-        { data, modules: [JOBS_MODULE] },
+        { data: filingData, modules: [JOBS_MODULE] },
       ),
       api = coreAPI(core);
     openLaws(core);
@@ -1113,7 +1126,7 @@ describe("closure during an employed job search", () => {
         },
         { keep: new Set(["w1", "w4", "s1", "s2"]) },
       ),
-      { data, modules: [JOBS_MODULE, closing] },
+      { data: filingData, modules: [JOBS_MODULE, closing] },
     );
     openLaws(core);
     withBooks(core, 1);
