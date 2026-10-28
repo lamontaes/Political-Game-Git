@@ -154,7 +154,7 @@
     "appointments.weigh": {
       "class": "runs at the opening; in the played year only on a vacancy",
       "why": "The appointer's loyalty against merit (src/core2/appointments.ts:46) is weighed whenever a town's mayor or council fills a department post (src/core2/modules/executive.ts:276) and when a governor the player plays nominates a cabinet member (:815); the world's governors fill their cabinets without it (appointStateCabinet). The audit now counts the opening apart from the year (its `opening`): in Canton City (Hensel), North Dakota (place key 3812060, seed d6aed6c1ceaf, January 20, 2025) the mayor weighed all 8 department posts; retained opening records include appointed:appointment:town:city-administrator:2025-01-20, appointed:appointment:town:police-chief:2025-01-20 and appointed:appointment:town:fire-chief:2025-01-20 on the integrated main result. The played year still lacks a call: afterward only a department head who dies or moves away fills a post (executive.ts:1165-1172), and none did in the original played-year audit.",
-      "fix": "The opening's calls are counted (callsAtOpening in the matrix); a played-year call needs a drawn year in which a department head dies or moves away, as traits-accept-appointment-vacancy-proof finds for a local seat."
+      "fix": "Done Oct 28: the state cabinet is filled through the governor's weighing (appointStateCabinet) and a cabinet post whose holder died or left is refilled at the next review (executive.ts deskReview; test cabinet-vacancy.traits.test.ts). The opening's calls are counted (callsAtOpening in the matrix); a played-year call needs a drawn year in which a department head or cabinet member dies or leaves, or a governor takes office (SG-TRAITS-people-fire-producers)."
     },
     "housing.settle-arrears": {
       "class": "counted households have no arrears of their own",
@@ -169,7 +169,7 @@
     "relationships.fall-out": {
       "class": "trigger needs a record nobody writes",
       "why": "Runs when a relationship change carries negative hours (src/core2/state.ts:1068, src/core2/closeness.ts:259). Two engines write them: a grudge drive's confrontation (src/core2/modules/drives.ts:1809), offered only against a living person (:1583) while the drive's target is the employer, landlord or closed business it blames (src/core2/data/drives.json:685-694), so no confrontation was offered; and a taken bribe the official voted against (src/core2/modules/corruption.ts:545), which needs a taken bribe.",
-      "fix": "Let a grudge drive name the person behind the organization (the manager who fired, the landlord who evicted) so a confrontation can be offered; the bribe route follows corruption.offer (pool item people-grudge-confront-person)."
+      "fix": "Done Oct 28: a counted decider (a business owner nobody has met) is held responsible and met when the holder confronts them (drives.ts responsibleId, confront; test grudge-counted-decider.traits.test.ts). What remains: in the five drawn places measured, the laid-off full workers' grudges aimed at outside-market employers, which name no person (SG-TRAITS-people-fire-producers); the bribe route follows corruption.offer."
     },
     "contracts.award": {
       "class": "not a two-way choice",

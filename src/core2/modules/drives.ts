@@ -18,7 +18,7 @@ import {
 } from "./residents";
 import { countedPersonOf } from "../counted-actor";
 import { initialPersonState } from "../person-state";
-import { resolveOperation } from "../state";
+import { fillInPerson, resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
 import type {
@@ -426,19 +426,27 @@ type RequirementTest = (
   event: CoreEventInput,
 ) => boolean;
 
+/** Whether a person is still in the wider population (counted, not yet filled in). */
+const countedIn = (api: CoreAPI) => (personId: string) =>
+  !api.state.people.has(personId) &&
+  countedPersonOf(api.state as CoreState, personId) !== undefined;
+
 /** Who an event holds responsible for a harm: a person or institution its record names. */
 export function responsibleId(
   data: DrivesData,
   event: CoreEventInput,
   people: ReadonlyMap<string, Readonly<PersonState>>,
+  counted?: (personId: string) => boolean,
 ) {
   const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
   if (named) return named;
   // The person the record names as deciding the harm (the owner or manager
-  // who decided a layoff), when they are a living full person: a grudge can
-  // then be held against someone, not only the institution.
+  // who decided a layoff), when they are a living full person or one still in
+  // the wider population (filled in when the holder has it out with them): a
+  // grudge can then be held against someone, not only the institution.
   const decider = event.facts?.[data.factKeys.decidedBy];
-  if (decider && people.get(decider)?.alive) return decider;
+  if (decider && (people.get(decider)?.alive || counted?.(decider)))
+    return decider;
   // Some engines name the responsible party as the event's topic (the
   // employer behind a layoff, the landlord behind an eviction).
   if (data.responsibleInTopic?.includes(event.kind) && event.topic)
@@ -456,11 +464,14 @@ const requirementOperations: Readonly<Record<string, RequirementTest>> = {
   "event-topic": (_api, _data, _actor, event) =>
     !!event.topic && !!event.desiredChange,
   "event-responsible": (api, data, actor, event) => {
-    const id = responsibleId(data, event, api.state.people);
+    const counted = countedIn(api);
+    const id = responsibleId(data, event, api.state.people, counted);
     return (
       !!id &&
       id !== actor.id &&
-      (api.state.people.has(id) || api.state.organizations.has(id))
+      (api.state.people.has(id) ||
+        api.state.organizations.has(id) ||
+        counted(id))
     );
   },
   "has-living-family": (api, _data, actor) =>
@@ -541,9 +552,14 @@ function driveIdentity(
   kind: DriveKindRow,
   actor: Readonly<PersonState>,
   event: CoreEventInput,
-  people: ReadonlyMap<string, Readonly<PersonState>>,
+  api: CoreAPI,
 ) {
-  const responsible = responsibleId(data, event, people);
+  const responsible = responsibleId(
+    data,
+    event,
+    api.state.people,
+    countedIn(api),
+  );
   const topic =
     kind.shareable && event.topic
       ? event.topic
@@ -924,13 +940,7 @@ export function respond(
       const urgency = considered.find(
         (entry) => entry.responseId === row.id,
       )!.urgency;
-      const identity = driveIdentity(
-        data,
-        kind,
-        actor,
-        event,
-        api.state.people,
-      );
+      const identity = driveIdentity(data, kind, actor, event, api);
       trace.driveId = identity.id;
       const holders = counted ? runtime.countedByPerson : runtime.byPerson;
       let mine = holders.get(actor.id);
@@ -1820,7 +1830,9 @@ export function createDrivesModule(
         servingDrives(api, actor, action)
           .filter(
             (drive) =>
-              drive.targetId && api.state.people.get(drive.targetId)?.alive,
+              drive.targetId &&
+              (api.state.people.get(drive.targetId)?.alive ||
+                countedIn(api)(drive.targetId)),
           )
           .map((drive) => ({
             ...driveOffer(api, action, drive.targetId!, drive),
@@ -2018,6 +2030,10 @@ export function createDrivesModule(
       confront: (api, actorId, offer) => {
         const drive = drivesOf(api, actorId, offer);
         traceAct(api, actorId, offer, drive);
+        // Having it out with someone still in the wider population is meeting
+        // them: they are filled in as they are for anyone who meets them.
+        if (countedIn(api)(offer.targetId))
+          fillInPerson(api.state as CoreState, offer.targetId);
         api.relationship(
           actorId,
           offer.targetId,
