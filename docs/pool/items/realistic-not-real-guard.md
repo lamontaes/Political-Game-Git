@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/realistic-not-real-guard
 pr: #6473
 blocked-on:

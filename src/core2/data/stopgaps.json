@@ -1455,7 +1455,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a bargaining engine that negotiates the unit's contract with the public employer and applies it with CORE's rerateJob(jobId, hourlyMinor, source) (builder item gov-public-sector-bargaining); WORLD: union membership on workers' records (world-union-membership-record). Oct 23, 2026: the band the counted public workers' union share checks against is sourced in data/research/laws/bls-2025-union-public-sector.json (BLS Union Members 2025: public sector 32.9 percent in 2025, 32.2 in 2024; private 5.9; union median weekly earnings $1,404 against $1,174 nonunion), checked by scripts/research/check-law-reach-sources.ts.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A recognized public unit's contract is bargained at its funding government's budget date: the unit's pay rises by the growth of the employer's own budget line through rerateJob, only where the law is in force, and a repeal stops the next contract (src/core2/law-reach/group-a-bargaining.ts). Strikes and member stances are not built."
   },
   {
     "id": "SG-GOV-REACH-A-union-dues",
