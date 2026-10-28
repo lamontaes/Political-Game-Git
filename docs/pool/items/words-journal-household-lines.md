@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by: claude/words-journal-household-lines
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T11:04:57.062Z
 **Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts. Playtest Oct 26 sitting 1 (installed v0.34.0): Journal opens "Our family came from Albion, Pennsylvania. I was raised by my parent Kendall. My father Brian lived somewhere else. My brother Leo was born after me." and the first toast is "My brother Leo was born after me." Owner: "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up."
 
 Oct 25 audit: unblocked; PR #5647 (the held hand-written parts) merged Oct 23, so the slot is empty on main and waits for the engine's line.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built.

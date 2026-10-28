@@ -210,6 +210,19 @@
         "citation": "Fewest days between any two scenes from circumstance for one player: at most about one a week, so a played year keeps quiet stretches between clusters (owner, Oct 26: Wildermyth pacing); checked by a played year in a drawn place (src/director/circumstance.test.ts), where a sitting member's year carried a hallway nearly every week at 4 days."
       }
     },
+    "directorCircumstanceDoorEveryDays": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Every campaign act is a scene (owner, Oct 27, 2026, 5 PM Eastern: door knocking is \"a short scene at 1 or 2 doors, maybe sometimes it's uneventful\"; OWNER-DECISIONS). A pacing weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 1,
+        "high": 7,
+        "unit": "days",
+        "citation": "Fewest days between two porch scenes: one each day the player knocks doors."
+      }
+    },
     "directorCircumstanceStreetEveryDays": {
       "value": 14,
       "tag": "TUNABLE",
@@ -312,6 +325,19 @@
         "high": 0.4,
         "unit": "life-change units divided by 100",
         "citation": "Hearing of the death of someone known through their household, as above."
+      }
+    },
+    "directorCircumstanceDoorImpact": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
+      "stopgapId": "SG-DIRECTOR-circumstance-weights",
+      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "spread": {
+        "low": 0.1,
+        "high": 0.3,
+        "unit": "life-change units divided by 100",
+        "citation": "A door the player's own canvass knocked: below the end of their school year or their race, as one of many doors in a day's shift."
       }
     },
     "directorCircumstanceSchoolImpact": {
@@ -1453,6 +1479,24 @@
     }
   ],
   "pastNotRecordedValues": ["not-inferred", "not-established"],
+  "settingHours": {
+    "note": "When a scene's setting can hold it, by the setting kind (situation-types.json settings), in minutes after midnight: a scene measured at the day's close stops the player's clock at the next minute its setting is open, never at midnight in a bedroom or an office (owner, Oct 27, 4 PM Eastern: no scene at midnight in an open office). A null opening is the controlled person's own day start (the core's playerDayStartMinute). One row per kind of setting, never per place.",
+    "tag": "TUNABLE",
+    "citation": "Ordinary American hours by kind of place: a household awake from its morning to about 10 PM; visits and calls in the daytime and early evening; offices and workplaces on a daytime shift; local councils and boards often meeting in the evening; schools in a school day.",
+    "spread": "Openings 6:00 to 10:00 AM and closings 3:00 to 11:00 PM by kind; checked against the American Time Use Survey's share of people at home, at work and in public places by hour.",
+    "rows": {
+      "home": { "opens": null, "closes": 1320 },
+      "other-home": { "opens": 600, "closes": 1260 },
+      "phone": { "opens": null, "closes": 1290 },
+      "letter": { "opens": null, "closes": 1320 },
+      "workplace": { "opens": 480, "closes": 1080 },
+      "office": { "opens": 540, "closes": 1020 },
+      "chamber": { "opens": 540, "closes": 1290 },
+      "school": { "opens": 480, "closes": 930 },
+      "public": { "opens": 480, "closes": 1260 },
+      "venue": { "opens": 480, "closes": 1320 }
+    }
+  },
   "interruptStop": {
     "reasonKey": "p13-story-director:interrupting-moment",
     "citation": "The story director's stored moment: its impact, measured from the change on each channel and sized by the person's traits, is at or over the interrupt line, the Holmes and Rahe (1967) marriage anchor of 50 life-change units divided by 100 (owner ruling, October 9, 2026; CTO ruling on at-or-over, October 10, 2026)."
@@ -1528,6 +1572,11 @@
     },
     {
       "eventKind": "bill-amendment",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "vote-ahead",
       "channel": "cause",
       "impactParameter": "directorFloorVoteImpact"
     },
@@ -1700,6 +1749,11 @@
     },
     {
       "eventKind": "debate-invited",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "debate",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
     },

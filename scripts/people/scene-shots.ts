@@ -18,6 +18,7 @@ import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
+import { drawnFigure } from "../../src/bench/figure-hair";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import type { PlayerPacketV1 } from "../../src/core2/player-v1";
 
@@ -224,7 +225,22 @@ for (const seed of seeds) {
       let src = p.figureUrl;
       if (src.startsWith("/art/people-engine/v2/")) {
         w0++;
-        src = `file://${root}${src}`;
+        // Drawn as the play server draws it (handler.ts): the person's own
+        // colors and hair from the query.
+        const u = new URL(src, "http://bench");
+        const name = u.pathname
+          .split("/")
+          .pop()!
+          .replace(/\.png$/, "");
+        const file = resolve(
+          out,
+          `fig-${createHash("md5").update(src).digest("hex")}.png`,
+        );
+        writeFileSync(
+          file,
+          drawnFigure(name, Object.fromEntries(u.searchParams)),
+        );
+        src = `file://${file}`;
       } else {
         o0++;
         const u = new URL(p.figureUrl, "http://bench");

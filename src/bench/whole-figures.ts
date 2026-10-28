@@ -16,8 +16,15 @@ import backs from "../../art/people-engine/v2/figures-back.json" with { type: "j
 import rules from "./data/whole-figures.json" with { type: "json" };
 import heads from "./data/figure-heads.json" with { type: "json" };
 import { orgPlace } from "./scene";
-import { CLOTHES_SWATCHES, DEFAULT_SKIN } from "./figure-colors";
+import {
+  DEFAULT_SKIN,
+  GARMENTS,
+  GARMENT_SWATCHES,
+  hasGarmentMap,
+  type FigureColors,
+} from "./figure-colors";
 import { occluderFor, type Occluder } from "./occluders";
+import { hairStyles } from "./figure-hair";
 import type { CoreState } from "../core2/types";
 
 export interface Figure {
@@ -112,6 +119,14 @@ const BACKS: V2Row[] = (
     footY: foot,
   };
 });
+
+/**
+ * A look painted turned each way is mirrored on screen to face anyone, so the
+ * figure with a garment map (each piece its own color) is drawn first.
+ */
+function mappedFirst(a: Figure, b: Figure): number {
+  return Number(hasGarmentMap(b.file)) - Number(hasGarmentMap(a.file));
+}
 const PAINTED: Figure[] = [...(index.figures as unknown as V2Row[]), ...BACKS]
   .filter(
     (row) =>
@@ -119,11 +134,13 @@ const PAINTED: Figure[] = [...(index.figures as unknown as V2Row[]), ...BACKS]
       !row.flag &&
       (row.pose === "stand" || row.pose === "sit"),
   )
-  .map(toFigure);
+  .map(toFigure)
+  .sort(mappedFirst);
 /** The lectern pose: facing the room, hands forward on the podium the picture has. */
 const LECTERNS: Figure[] = (index.figures as unknown as V2Row[])
   .filter((row) => row.prop === "none" && !row.flag && row.pose === "lectern")
-  .map(toFigure);
+  .map(toFigure)
+  .sort(mappedFirst);
 /** The same person at a lectern: their sex and age band, their outfit and build where painted. */
 function lecternFor(front: Figure, band: Figure["ageBand"]): Figure | null {
   const same = LECTERNS.filter(
@@ -303,15 +320,17 @@ const SKIN_WEIGHTS: Readonly<Record<string, number>> = {
 };
 
 /**
- * The skin and clothes color a person wears: the ones they chose in the
- * creator, else ones set once from their own appearance record's seed (their
+ * The skin and each piece of clothing's color a person wears: the ones they
+ * chose in the creator, else ones set once from their own appearance record's seed (their
  * id where the record has none), so the same person is the same color in every
  * scene and neighbors differ.
  */
-export function colorsFor(person: FigurePerson): {
-  skin: string;
-  clothes: string;
-} {
+export function colorsFor(
+  person: FigurePerson,
+  /** The sex of the figure drawn, for the hair styles painted for it. */
+  sex?: string,
+  band?: Figure["ageBand"],
+): FigureColors {
   const seed = person.seed ?? person.id;
   const total = Object.values(SKIN_WEIGHTS).reduce((a, b) => a + b, 0);
   let at = mixed(`${seed}:skin`) % total;
@@ -323,13 +342,64 @@ export function colorsFor(person: FigurePerson): {
     }
     at -= weight;
   }
-  const clothes =
-    CLOTHES_SWATCHES[mixed(`${seed}:clothes`) % CLOTHES_SWATCHES.length]!.id;
+  // Each piece of clothing its own color, set once from the person's seed.
+  const garments = Object.fromEntries(
+    GARMENTS.map((garment) => [
+      garment,
+      person.look?.[garment] ??
+        GARMENT_SWATCHES[garment][
+          mixed(`${seed}:${garment}`) % GARMENT_SWATCHES[garment].length
+        ]!.id,
+    ]),
+  );
+  // Hair: a style painted for the figure's sex and a color, set once from
+  // the seed; older people mostly gray or white.
+  const styles = hairStyles(person.look?.sex ?? sex ?? person.gender ?? "");
+  const hair =
+    person.look?.hair ??
+    (styles.length
+      ? String(styles[mixed(`${seed}:hair`) % styles.length]!.style)
+      : undefined);
+  const weights = band === "older" ? HAIR_WEIGHTS_OLDER : HAIR_WEIGHTS;
+  const sum = Object.values(weights).reduce((a, b) => a + b, 0);
+  let left = mixed(`${seed}:hair-color`) % sum;
+  let hairColor = Object.keys(weights)[0]!;
+  for (const [id, weight] of Object.entries(weights)) {
+    if (left < weight) {
+      hairColor = id;
+      break;
+    }
+    left -= weight;
+  }
   return {
     skin: person.look?.skin ?? skin,
-    clothes: person.look?.clothes ?? clothes,
+    ...garments,
+    ...(hair ? { hair, hairColor: person.look?.hairColor ?? hairColor } : {}),
   };
 }
+
+// How common each hair color is, a rough ESTIMATE for American adults (no
+// census counts hair color; spread about 5 points a color), and for people
+// 65 and older, most of whom have gone gray or white. Presentation weights,
+// registered as stopgapId: SG-PLAY-people-hair-color-weights, until a
+// sourced survey replaces them.
+const HAIR_WEIGHTS: Readonly<Record<string, number>> = {
+  black: 30,
+  "dark-brown": 30,
+  brown: 18,
+  "light-brown": 8,
+  blonde: 8,
+  auburn: 3,
+  strawberry: 3,
+};
+const HAIR_WEIGHTS_OLDER: Readonly<Record<string, number>> = {
+  gray: 45,
+  white: 20,
+  "dark-brown": 12,
+  black: 10,
+  brown: 8,
+  blonde: 5,
+};
 
 /** Who is being drawn: their record, and whether they hold office. */
 export interface FigurePerson {
@@ -345,7 +415,12 @@ export interface FigurePerson {
     build: string;
     outfit: string;
     skin?: string;
-    clothes?: string;
+    jacket?: string;
+    shirt?: string;
+    pants?: string;
+    shoes?: string;
+    hair?: string;
+    hairColor?: string;
   };
 }
 

@@ -31,3 +31,5 @@ milestone: play-first
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Adopt PR #5898 (branch art/people-whole-out-of-play). Its body says every v2 figure is bald with one skin tone; if the owner rejects that on its screenshot, people stand generated-in from the appearance engine instead. #4283 is the source of the set; nothing in it is merged. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
 
 CTO, Oct 25 18:20 UTC: #5898 is merged (the v2 set stands in every room; src/bench/whole-figures.test.ts fails on any art/people-whole load). The owner's installed-build check of the four screens closes it; nothing for the lane to build unless that check stops.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (merged #5898; owner installed-build check per OD:105).
