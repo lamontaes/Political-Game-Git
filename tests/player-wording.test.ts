@@ -75,7 +75,7 @@ describe("the words a player reads", () => {
   });
 
   it("keeps developer fixtures outside the player ratchet while checking the same live copy", () => {
-    const words = "Reported in the queue.";
+    const words = "Reported on the record.";
     const source = `export const panel = <p>${words}</p>;`;
     expect(countSourceWording(source, "src/scenarios/Example.tsx")).toEqual({
       banned: {},
@@ -85,7 +85,7 @@ describe("the words a player reads", () => {
     const live = countSourceWording(source, "src/player/Example.tsx");
     expect(live.banned).toEqual({
       "src/player/Example.tsx :: reported": 1,
-      "src/player/Example.tsx :: queue": 1,
+      "src/player/Example.tsx :: on the record": 1,
     });
     expect(live.handWritten).toEqual({ "src/player/Example.tsx": 1 });
     expect(
@@ -95,7 +95,7 @@ describe("the words a player reads", () => {
       ).banned,
     ).toEqual({
       "src/simulation/Example.ts :: reported": 1,
-      "src/simulation/Example.ts :: queue": 1,
+      "src/simulation/Example.ts :: on the record": 1,
     });
   });
 

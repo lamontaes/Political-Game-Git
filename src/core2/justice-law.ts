@@ -12,7 +12,11 @@ import rows from "./data/justice/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, Source } from "./types";
 import { lawChain } from "./modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  servingTermsOf,
+  type TermRow,
+} from "./modules/offices";
 import type { OfficeInput } from "./offices-local";
 
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -304,17 +308,6 @@ export function bribeProceedsForfeited(
       estimatedFrom: "SG-GOV-justice-forfeiture-by-place",
     },
   };
-}
-
-/** The offices a person serves in now. */
-export function servingTermsOf(
-  api: CoreAPI,
-  personId: PersonId,
-): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return (
-    terms(api).query("byPerson", [personId]) as unknown as TermRow[]
-  ).filter((t) => t.status === "serving");
 }
 
 /** How much a case about this person is worth to a prosecutor, from the highest office they hold. */
