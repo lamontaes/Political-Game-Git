@@ -9,7 +9,8 @@ import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { racesOf, WORLD_RACES_MODULE_ID } from "../core2/modules/world-races";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
-import { backdropFile, hasBackdrop, stagePeople } from "./scene";
+import { backdropFile, stagePeople } from "./scene";
+import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const ELECTIONS = "core2-elections-v1";

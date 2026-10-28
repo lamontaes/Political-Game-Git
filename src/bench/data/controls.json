@@ -352,7 +352,6 @@
   },
   "news": {
     "title": "News",
-    "records": "Public record",
     "economy": {
       "nation": "Nation",
       "region": "Region",
@@ -492,11 +491,6 @@
     "loanPayments": "Loan payments",
     "loanDue": "due",
     "loanPaid": "paid"
-  },
-  "staffingNews": {
-    "jobsLost": "Jobs lost",
-    "sales": "Sales",
-    "costs": "Costs"
   },
   "localRaces": {
     "title": "Local races on the ballot",
