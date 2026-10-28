@@ -32,7 +32,6 @@
   },
   "endedBy": {
     "moment": "Something needs you",
-    "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
@@ -111,7 +110,6 @@
     "work": "Work",
     "place": "Home",
     "school": "School",
-    "lastTalked": "Last talked",
     "back": "Back",
     "continue": "Continue",
     "knows": "Knows",
@@ -291,10 +289,22 @@
     "member": "Your party",
     "agreement": "Views fit",
     "fit": [
-      { "atLeast": 0.6, "label": "Close" },
-      { "atLeast": 0.2, "label": "Mostly" },
-      { "atLeast": -0.2, "label": "Mixed" },
-      { "atLeast": -1, "label": "Far apart" }
+      {
+        "atLeast": 0.6,
+        "label": "Close"
+      },
+      {
+        "atLeast": 0.2,
+        "label": "Mostly"
+      },
+      {
+        "atLeast": -0.2,
+        "label": "Mixed"
+      },
+      {
+        "atLeast": -1,
+        "label": "Far apart"
+      }
     ]
   },
   "leanWords": {
@@ -342,7 +352,6 @@
   },
   "news": {
     "title": "News",
-    "records": "Public record",
     "economy": {
       "nation": "Nation",
       "region": "Region",
@@ -355,10 +364,22 @@
       "looking": "looking",
       "open": "open",
       "series": {
-        "unemploymentPct": { "label": "Unemployment", "unit": "percent" },
-        "jobsThousands": { "label": "Jobs", "unit": "thousands" },
-        "hourlyEarnings": { "label": "Hourly pay", "unit": "dollars" },
-        "priceLevelPct": { "label": "Price level", "unit": "index" }
+        "unemploymentPct": {
+          "label": "Unemployment",
+          "unit": "percent"
+        },
+        "jobsThousands": {
+          "label": "Jobs",
+          "unit": "thousands"
+        },
+        "hourlyEarnings": {
+          "label": "Hourly pay",
+          "unit": "dollars"
+        },
+        "priceLevelPct": {
+          "label": "Price level",
+          "unit": "index"
+        }
       }
     },
     "back": "Back to front page",
@@ -471,16 +492,14 @@
     "loanDue": "due",
     "loanPaid": "paid"
   },
-  "staffingNews": {
-    "jobsLost": "Jobs lost",
-    "sales": "Sales",
-    "costs": "Costs"
-  },
   "localRaces": {
     "title": "Local races on the ballot",
     "unopposed": "Unopposed",
     "noFilers": "No one has filed",
     "filingCloses": "Filing closes",
     "noBallot": "No local election is on the calendar"
+  },
+  "talkBox": {
+    "continue": "Continue"
   }
 }

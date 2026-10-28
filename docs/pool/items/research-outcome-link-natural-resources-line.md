@@ -6,7 +6,7 @@ lead: laws
 kind: research
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:

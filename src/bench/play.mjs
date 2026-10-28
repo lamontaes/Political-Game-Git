@@ -8,6 +8,7 @@ import {
   talkLine,
   talkReply,
   fillTalk,
+  talkControls,
   addTalkLine,
   mountTalkKeys,
   mountSpeakers,
@@ -785,10 +786,9 @@ async function refresh() {
     await electionNight(night);
     return;
   }
-  // A law that took effect: what changed in town.
-  // A short notice on the card, not a screen taken over mid-play.
-  if (newChanges(await changeCount()))
-    $("card-why").textContent = controls.endedBy?.law ?? "";
+  // No card notice that "a law took effect" (owner, Oct 27: "Why am I getting a
+  // notification that a law took effect?"): a law that reaches the player is
+  // told by its own scene and story, which say how.
   if (openTab) await openSheet(openTab);
 }
 
@@ -1249,8 +1249,6 @@ for (const mode of ["day", "week"])
     coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
-// Laws enacted and laws taken effect so far: a new one of either opens What changed.
-let seenChanges = { ahead: 0, took: 0 };
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
 let seenNews = 0;
 async function newsCount() {
@@ -1265,14 +1263,6 @@ async function markNews(read) {
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
 }
-async function changeCount() {
-  const { ahead, took } = await api(
-    `/api/changes?id=${encodeURIComponent(me.id)}`,
-  );
-  return { ahead: ahead.length, took: took.length };
-}
-const newChanges = (now) =>
-  now.took > seenChanges.took || now.ahead > seenChanges.ahead;
 $("continue").addEventListener("click", () => {
   show("talk", false);
   return act(
@@ -1288,7 +1278,6 @@ let talkPersonId;
 async function setWho(personId, name) {
   talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
-  $("talk-role").textContent = "";
   const staged = [...(me.scene?.people ?? []), ...(filing?.people ?? [])].find(
     (p) => p.personId === personId,
   );
@@ -1300,7 +1289,6 @@ async function setWho(personId, name) {
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   if (!staged?.figureUrl) setBust("talk-bust", c.figureUrl);
-  $("talk-role").textContent = c.who ?? "";
 }
 /** The newest lines: yours, dim, then what was said back to you. */
 function spokenLines(lines, speakerOf) {
@@ -1354,6 +1342,7 @@ function renderTalk(value) {
   // Lying, the false set stands in place of the true choices.
   const lies = value.lies ?? [];
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
+  talkControls({ silent: true, leave: true });
   fillTalk({
     lines: spokenLines(value.lines, (line) => line.text),
     replies: replies(choices, (choice) => sayLine(choice.key)),
@@ -1402,6 +1391,18 @@ $("talk-lie").addEventListener("click", () => {
   lying = !lying;
   renderTalk(talk);
 });
+// Continue, bottom left, when there is nothing to answer: the beat is over, and
+// a stop that held the clock for it goes on.
+$("talk-next").addEventListener("click", async () => {
+  if (filing) {
+    $("talk-leave").click();
+    return;
+  }
+  if (talk) await post("/api/talk/leave");
+  renderTalk(undefined);
+  show("talk", false);
+  if (!$("continue").hidden) $("continue").click();
+});
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
@@ -1435,6 +1436,8 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
+  // At the counter you can walk out; silence there is not an answer.
+  talkControls({ silent: false, leave: true });
   // The narrator sets the counter up before the clerk speaks (the opening call only).
   fillTalk({
     lines: [
@@ -1906,6 +1909,8 @@ async function showStory(momentId) {
   $("talk-name").textContent = "";
   // A scene with a purpose is its own exchange; any other opens a talk.
   const withId = story.talk?.askerId ?? story.talkToId;
+  // Whether to talk to them is the player's; the narrator alone is a Continue.
+  talkControls({ silent: false, leave: Boolean(withId) });
   fillTalk({
     lines: [
       ...story.narration.map((line) =>
@@ -1938,6 +1943,8 @@ function playExchange(story) {
       held: line.held,
     });
   // The path is the index of each reply chosen, from the first.
+  // The asker follows up: no walking away mid-exchange, no silence as a reply.
+  talkControls({ silent: false, leave: false });
   const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
     fillTalk({ lines: said.slice(-4).map(lineOf) });
@@ -2066,9 +2073,7 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      // The date is labeled; a tie with no contact on record shows nothing.
-      c.tie?.lastContactDate &&
-        row(labels.lastTalked, proseDate(c.tie.lastContactDate)),
+      // No "Last talked" (owner, Oct 27, 5 PM: never shown).
       ...(known
         ? [
             row("party", known.party),
@@ -3863,7 +3868,6 @@ const sheets = {
       });
     let chosen = outlets.keys().next().value;
     let page = 0;
-    let recordPage = 0;
     const paper = el("section", { className: "paper" });
     const outletPicker = el("nav", { className: "outlet-picker" });
     const button = (label, fn) => {
@@ -3934,99 +3938,6 @@ const sheets = {
       };
       drawArticle();
     };
-    const publicRecords = () => {
-      const records = rows.filter((r) => !r.headline && !r.lede);
-      const block = el(
-        "section",
-        { className: "paper-records" },
-        el("h3", { textContent: labels.records }),
-      );
-      for (const record of records.slice(recordPage * 3, recordPage * 3 + 3))
-        block.append(
-          el(
-            "article",
-            {},
-            el("span", {
-              className: "label",
-              textContent: dateWords(record.date),
-            }),
-            // An employer's layoff shows its jobs lost, sales and costs.
-            el("h4", {
-              textContent: record.staffing
-                ? record.staffing.employer
-                : kindName(
-                    // A story the press archived is named by the record it tells of.
-                    record.kind === "press.archived"
-                      ? (record.facts?.recordKind ?? record.kind)
-                      : record.kind,
-                  ),
-            }),
-            el("p", {
-              textContent: record.staffing
-                ? [
-                    `${controls.staffingNews.jobsLost}: ${record.staffing.jobsLost}`,
-                    ...(record.staffing.salesMinor !== undefined
-                      ? [
-                          `${controls.staffingNews.sales}: ${dollars(record.staffing.salesMinor)}`,
-                        ]
-                      : []),
-                    ...(record.staffing.costsMinor !== undefined
-                      ? [
-                          `${controls.staffingNews.costs}: ${dollars(record.staffing.costsMinor)}`,
-                        ]
-                      : []),
-                  ].join(" · ")
-                : // Who the record is about, each by their role in it.
-                  [
-                    ...new Set(
-                      Object.entries(record.facts ?? {}).flatMap(
-                        ([role, v]) => {
-                          // The record's kind is the heading already.
-                          if (typeof v !== "string" || role === "recordKind")
-                            return [];
-                          const label = words(role.replace(/Id$/, ""));
-                          const name = record.names?.[v] ?? me.names?.[v];
-                          // A person by name, a date in words, a plain value
-                          // by its label; record ids are never shown.
-                          if (name) return [`${label} ${name}`];
-                          // A yes-or-no fact reads as its label when true.
-                          if (v === "true") return [label];
-                          if (v === "false") return [];
-                          if (/^\d{4}-\d{2}-\d{2}$/.test(v))
-                            return [`${label} ${proseDate(v)}`];
-                          // A code with no name (a jurisdiction key, a
-                          // status) is never shown.
-                          if (
-                            /[:_]/.test(v) ||
-                            !v.trim() ||
-                            /^[A-Z0-9]+(?:-[A-Z0-9]+)+$/.test(v) ||
-                            /^[a-z]+(?:\.[a-z-]+)+$/.test(v)
-                          )
-                            return [];
-                          // A proper name keeps its own capitals.
-                          return [`${label} ${/[A-Z]/.test(v) ? v : words(v)}`];
-                        },
-                      ),
-                    ),
-                  ].join(" · "),
-            }),
-          ),
-        );
-      if (records.length > 3) {
-        const back = button(labels.previous, () => {
-          recordPage--;
-          draw();
-        });
-        back.disabled = recordPage === 0;
-        const next = button(labels.next, () => {
-          recordPage++;
-          draw();
-        });
-        next.disabled = (recordPage + 1) * 3 >= records.length;
-        block.append(el("nav", { className: "paper-pager" }, back, next));
-      }
-      return block;
-    };
     const draw = () => {
       const outlet = outlets.get(chosen);
       const layout = ["broadsheet", "modern", "tabloid", "weekly"].includes(
@@ -4035,22 +3946,36 @@ const sheets = {
         ? outlet.layout
         : "broadsheet";
       paper.className = `paper paper-${layout}`;
-      const section = el("div", { className: "paper-stories" });
-      outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
+      // A front page (owner, Oct 27: "News is a newspaper with story text"):
+      // the lead story with its text, the next stories with theirs beside it,
+      // and stories with only a headline as briefs. Every word is the English
+      // engine's; record rows with kinds and series names are not printed.
+      // Print takes the story's written paragraphs, else its lede; a
+      // newscast's spoken lines (greetings, hand-offs) are not print.
+      const told = (story) =>
+        story.paragraphs ?? (story.lede && story.headline ? [story.lede] : []);
+      const pageStories = outlet.stories.slice(page * 6, page * 6 + 6);
+      const [lead, ...rest] = pageStories;
+      const withText = rest.filter((story) => told(story).length);
+      const briefs = rest.filter((story) => !told(story).length);
+      const storyBlock = (story, className, paragraphs) => {
         const headline = button(storyHeadline(story), () => article(story));
         headline.className = "story-headline";
-        section.append(
-          el(
-            "article",
-            { className: `paper-story${index === 0 ? " lead" : ""}` },
-            ...imageFor(story),
-            headline,
-            ...(story.lede && story.headline
-              ? [el("p", { className: "story-lede", textContent: story.lede })]
-              : []),
-          ),
+        return el(
+          "article",
+          { className: `paper-story ${className}` },
+          ...(className === "lead" ? imageFor(story) : []),
+          headline,
+          ...told(story)
+            .slice(0, paragraphs)
+            .map((text, at) =>
+              el("p", {
+                className: at === 0 ? "story-lede" : "story-text",
+                textContent: text,
+              }),
+            ),
         );
-      });
+      };
       paper.replaceChildren(
         el(
           "header",
@@ -4061,9 +3986,19 @@ const sheets = {
             textContent: dateWords(me.date),
           }),
         ),
-        section,
+        el(
+          "div",
+          { className: "paper-stories" },
+          ...(lead ? [storyBlock(lead, "lead", 4)] : []),
+          el(
+            "div",
+            { className: "paper-column" },
+            ...withText.map((story) => storyBlock(story, "second", 2)),
+            ...briefs.map((story) => storyBlock(story, "brief", 0)),
+          ),
+        ),
       );
-      if (outlet.stories.length > 3) {
+      if (outlet.stories.length > 6) {
         const back = button(labels.previous, () => {
           page--;
           draw();
@@ -4073,10 +4008,9 @@ const sheets = {
           page++;
           draw();
         });
-        next.disabled = (page + 1) * 3 >= outlet.stories.length;
+        next.disabled = (page + 1) * 6 >= outlet.stories.length;
         paper.append(el("nav", { className: "paper-pager" }, back, next));
       }
-      paper.append(publicRecords());
       chooseTab(outletPicker, "outlet", chosen);
     };
     if (outlets.size > 1)
@@ -4135,7 +4069,6 @@ const sheets = {
     const { ahead, took } = await api(
       `/api/changes?id=${encodeURIComponent(me.id)}`,
     );
-    seenChanges = { ahead: ahead.length, took: took.length };
     // Enacted, waiting for its date: the measure, what it sets, and when.
     const coming = ahead.map((law) =>
       listRow(
@@ -5126,7 +5059,6 @@ $("front-continue").addEventListener("click", async () => {
     names: {},
     portrait: life.portrait,
   };
-  seenChanges = await changeCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5617,7 +5549,6 @@ async function enterAs(life, personId) {
     names: life.names,
     portrait: false,
   };
-  seenChanges = await changeCount();
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
   $("game").classList.add("in-play");
@@ -5711,8 +5642,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       names: life.names,
       portrait: Boolean(person?.recipe),
     };
-    // What was already law at the start isn't news; only what changes after.
-    seenChanges = await changeCount();
     show("front", false);
     await playOpening();
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;

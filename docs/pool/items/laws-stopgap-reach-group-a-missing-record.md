@@ -4,7 +4,7 @@ title: "Stopgaps in reach-group-a (missing-record): 3 open"
 area: laws
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:

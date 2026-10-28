@@ -5,7 +5,6 @@
  * gives null, and the screen shows nothing for it.
  */
 import calendarJson from "../../data/english/parts/calendar.json" with { type: "json" };
-import talkWhoJson from "../../data/english/parts/talk-who.json" with { type: "json" };
 import personSketchJson from "../../data/english/parts/person-sketch.json" with { type: "json" };
 import { heldByGrades } from "./english-grades";
 
@@ -17,9 +16,6 @@ interface ScreenPart {
 const BANKS: Readonly<Record<string, ReadonlyMap<string, ScreenPart>>> = {
   calendar: new Map(
     (calendarJson.parts as ScreenPart[]).map((part) => [part.key, part]),
-  ),
-  "talk-who": new Map(
-    (talkWhoJson.parts as ScreenPart[]).map((part) => [part.key, part]),
   ),
   "person-sketch": new Map(
     (personSketchJson.parts as ScreenPart[]).map((part) => [part.key, part]),

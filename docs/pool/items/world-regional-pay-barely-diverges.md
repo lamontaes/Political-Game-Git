@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/regional-pay
-pr:
+pr: #6447
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T23:56:12.505Z
