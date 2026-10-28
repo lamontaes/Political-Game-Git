@@ -93,8 +93,8 @@ BUDGET_LINES = {
 
 SERIES = {
     "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour", ["federal", "state", "city"]),
-    "income-tax": ("taxes-finance", "Taxes", "Local income tax rate", "percent", ["city"]),
-    "sales-tax": ("taxes-finance", "Taxes", "Local sales tax rate", "percent", ["city"]),
+    "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent", ["city"]),
+    "sales-tax": ("taxes-finance", "Taxes", "Sales tax rate", "percent", ["city"]),
     # Each government sets its own employees' pay floor (CTO ruling, Oct 14, 2026).
     "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year", ["federal", "state", "city"]),
     # The other amounts the starting law holds, at the levels series-powers.json
@@ -110,6 +110,9 @@ SERIES = {
     "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages", ["federal"]),
     "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages", ["state"]),
     "unemployment-weekly-maximum": ("assistance", "Unemployment benefits", "Unemployment weekly maximum", "USD/week", ["state"]),
+    # A state's grant of its towns' power to tax income: raised to 1 it
+    # grants, lowered to 0 it withdraws (no unit; the Words row words each).
+    "local-income-tax-authority": ("taxes-finance", "Taxes", "Local income tax authority", None, ["state"]),
 }
 
 
@@ -117,7 +120,8 @@ def main():
     subjects = {key: {"id": key, "name": name, "topics": {t: {"name": t, "policies": []} for t in topics}} for key, name, topics in SUBJECTS}
     for series, (subject, topic, name, unit, levels) in SERIES.items():
         subjects[subject]["topics"][topic]["policies"].append({
-            "id": f"law:{series}", "name": name, "kind": "law-amount", "series": series, "unit": unit,
+            "id": f"law:{series}", "name": name, "kind": "law-amount", "series": series,
+            **({"unit": unit} if unit else {}),
             "operations": ["raise", "lower"], "levels": levels,
         })
     for line, (subject, topic) in BUDGET_LINES.items():
