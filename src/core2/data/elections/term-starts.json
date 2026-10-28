@@ -7,6 +7,12 @@
     "estimatedFrom": "Most state and local terms begin in early January after the November election (state constitutions and charters); the exact day varies by state and is not yet read.",
     "spread": ["01-01", "01-20"]
   },
+  "townOffNovember": {
+    "days": 28,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "A city or township office elected outside November takes its seat a few weeks after the vote, at the body's first regular meeting after the canvass, not on the next January 1 (municipal charters set it town by town; none is read yet). Golden-path playthrough, Oct 28, 2026: a council seat won in Gilbert, West Virginia on April 1 started on January 1, 2026, nine months later; the owner ruled every winner taking office on January 1 a defect (Oct 14).",
+    "spread": [7, 92]
+  },
   "states": {
     "US-AK": {
       "statewideExecutive": {
