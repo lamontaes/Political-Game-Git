@@ -162,7 +162,16 @@ for (const scene of scenes) {
   const before = (stage.spots as { id: string; x: number; y: number }[]).map(
     (spot) => {
       const mask = (
-        occluders.places[scene]?.spots as Record<string, { file: string }>
+        occluders.places[scene]?.spots as Record<
+          string,
+          {
+            file: string;
+            leftPercent: number;
+            topPercent: number;
+            widthPercent: number;
+            heightPercent: number;
+          }
+        >
       )?.[spot.id];
       return {
         spot,
@@ -252,10 +261,16 @@ for (const scene of scenes) {
       if (mask) {
         mkdirSync(`${OCCLUDERS}/${scene}`, { recursive: true });
         writeFileSync(`${OCCLUDERS}/${scene}/${n}.png`, mask.png);
-        const { png: _png, ...placed } = mask;
-        masks[id] = { ...placed, file: `${scene}/${n}.png` };
+        masks[id] = {
+          leftPercent: mask.leftPercent,
+          topPercent: mask.topPercent,
+          widthPercent: mask.widthPercent,
+          heightPercent: mask.heightPercent,
+          file: `${scene}/${n}.png`,
+        };
       }
-      const { hero: _hero, ...rest } = spot as typeof spot & { hero?: boolean };
+      const rest: Record<string, unknown> = { ...spot };
+      delete rest.hero;
       return { ...rest, id };
     });
   // The hero stands on the standing spot nearest the old hero's place.
