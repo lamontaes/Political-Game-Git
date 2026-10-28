@@ -1794,6 +1794,24 @@ async function showPerson(person) {
         },
         c.school && { title: labels.school, items: [{ text: c.school.name }] },
         c.placeName && { title: labels.place, items: [{ text: c.placeName }] },
+        // What the two share, by the records the director's scenes read too.
+        c.shared?.length && {
+          title: labels.together,
+          items: c.shared.map((s) => {
+            const line = row(labels.sharedWords?.[s.kind], s.employer ?? "");
+            line.dataset.record = s.recordId;
+            return { node: line };
+          }),
+        },
+        // The seats they reached before the start, from the government's history.
+        c.seats?.length && {
+          title: labels.seats,
+          items: c.seats.map((s) => {
+            const line = row(s.office, `${labels.since} ${s.year}`);
+            line.dataset.record = s.recordId;
+            return { node: line };
+          }),
+        },
         // An officeholder's colleagues in office, closest first, from their ties.
         c.colleagues && {
           title: labels.knows,
