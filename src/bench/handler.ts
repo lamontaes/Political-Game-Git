@@ -43,16 +43,13 @@ import {
   meetingItem,
   meetingSpeak,
   meetingSceneView,
-  officeStops,
   colleagueDeal,
-  interviewOutlet,
   nameHeadPick,
   budgetLinePick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
-import { familyView } from "./family";
 import { governmentMap } from "./map";
 import {
   chooseAtCounter,
@@ -385,6 +382,25 @@ export async function benchRequest(
         response.end(content);
         return;
       }
+      const newspaper = /^\/art\/newspaper\/([a-z0-9-]+\.jpg)$/.exec(
+        url.pathname,
+      );
+      if (request.method === "GET" && newspaper) {
+        // The newspaper art: engraved mastheads and front-page photos, cut
+        // from the originals in art/newspaper-mockups (lineage in its README).
+        const content = await readFile(
+          new URL(
+            newspaper[1]!,
+            new URL("../../art/newspaper-mockups/derived/", import.meta.url),
+          ),
+        );
+        response.writeHead(200, {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(content);
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/scene") {
         const current = requireCore();
         const id = url.searchParams.get("id") ?? "";
@@ -589,10 +605,6 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/map") {
         send(200, governmentMap(requireCore()));
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/family") {
-        send(200, familyView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/bank") {
@@ -821,32 +833,6 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/office") {
         send(200, officeView(requireCore(), url.searchParams.get("id") ?? ""));
-        return;
-      }
-      if (request.method === "POST" && url.pathname === "/api/office/stops") {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        officeStops(
-          requireCore(),
-          player.personId,
-          url.searchParams.get("kind") ?? "",
-          url.searchParams.get("on") === "true",
-        );
-        send(200, officeView(requireCore(), player.personId));
-        return;
-      }
-      if (
-        request.method === "POST" &&
-        url.pathname === "/api/office/interview-outlet"
-      ) {
-        if (!player?.personId) throw new Error("Choose a resident first.");
-        send(
-          200,
-          interviewOutlet(
-            requireCore(),
-            player.personId,
-            url.searchParams.get("outletId") ?? "",
-          ),
-        );
         return;
       }
       if (
@@ -1294,13 +1280,18 @@ export async function benchRequest(
         send(
           200,
           date && player?.personId
-            ? electionDay(
-                requireCore(),
-                player.personId,
-                visit ?? null,
-                canvassedOn.has(`${player.personId}|${date}`),
-                date,
-              )
+            ? {
+                ...electionDay(
+                  requireCore(),
+                  player.personId,
+                  visit ?? null,
+                  canvassedOn.has(`${player.personId}|${date}`),
+                  date,
+                ),
+                // The card shows election morning, not the midnight the
+                // clock stopped at to ask.
+                at: { date, minuteOfDay: player.dayStartMinute() },
+              }
             : null,
         );
         return;

@@ -216,7 +216,7 @@ export class BenchPlayer {
   }
 
   /** The minute the controlled person's day starts, read from the core's parameters. */
-  private dayStartMinute() {
+  dayStartMinute() {
     // stopgapId: SG-PLAY-day-start-minute
     return parameter("playerDayStartMinute", this.core.data.parameters);
   }
@@ -288,7 +288,6 @@ export class BenchPlayer {
         // The birthday is met in its morning, like any day's first scene
         // (owner, Oct 27: nothing at midnight): the day is lived to its start.
         if (
-          packet &&
           comesOfAge === from.date &&
           from.minuteOfDay < this.dayStartMinute() &&
           compareMoments(from, through) < 0 &&
@@ -306,6 +305,9 @@ export class BenchPlayer {
               ),
             },
           });
+          // This can be the run's first call into the core, which binds its
+          // clock to this character.
+          this.clockBound = true;
           continue;
         }
         if (packet && this.comesOfAgeStop(comesOfAge, began, from.date)) break;

@@ -207,8 +207,14 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        // Four replies, always, each saying something else.
+        // Up to four replies, each a different move: never one answer
+        // reworded (owner, Oct 27, 4 PM Eastern: "four replies are four
+        // different answers"), so a stage with fewer moves offers fewer.
         const texts = talk.choices.map((row) => row.text);
+        const moves = talk.choices.map((row) =>
+          row.move.startsWith("ack:") ? "ack" : row.move,
+        );
+        expect(new Set(moves).size, texts.join(" / ")).toBe(moves.length);
         // An acknowledgment ("Okay.", "All right.") takes in a statement; it
         // is never a reply to a question, which every reply moves on
         //. Where a question has fewer than four real
@@ -219,7 +225,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           for (const choice of talk.choices)
             expect(choice.move, choice.text).not.toMatch(/^ack:/);
           expect(texts.length).toBeGreaterThanOrEqual(P.two);
-        } else expect(texts).toHaveLength(four);
+        } else expect(texts.length).toBeGreaterThanOrEqual(P.two);
         expect(texts.length).toBeLessThanOrEqual(four);
         expect(new Set(texts).size).toBe(texts.length);
         // A second move only follows from the first (owner, batch 6): the

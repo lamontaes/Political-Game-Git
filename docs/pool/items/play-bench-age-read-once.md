@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dup-bench-age
 pr: #6479
 blocked-on:

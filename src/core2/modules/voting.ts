@@ -41,7 +41,7 @@ import {
 import { breakElectionTie } from "../election-ties";
 import { ageOnElection, turnoutWeb } from "../turnout-web";
 import {
-  OPENING_CARRY,
+  openingVoterCarry,
   habitOf,
   interestOf,
   namedTurnout,
@@ -1124,7 +1124,10 @@ function decideTurnout(
   );
   let votes = false;
   if (named) {
-    const act = namedTurnout(record?.carry ?? OPENING_CARRY, propensity);
+    const act = namedTurnout(
+      record?.carry ?? openingVoterCarry(voter.id),
+      propensity,
+    );
     votes = act.votes;
     records?.put({
       id: voter.id,
