@@ -12,6 +12,7 @@
  * the speech engine, so the audience's views move by the speaker's standing
  * with them: the chosen words are read by another engine, not only shown.
  */
+import { heldSinceRecord } from "../core2/past-work";
 import {
   speechPartsByReach,
   speechStagePieces,
@@ -88,12 +89,11 @@ function factsOf(
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   if (org)
     facts.employer = { text: properName(org.name), sourceRecordIds: [org.id] };
-  const tenure = (person.pastFacts ?? []).find(
-    (fact) => fact.kind === "work:tenure-summary" && fact.facts?.startedAt,
-  );
+  // How long they have held it, from the record of their working life.
+  const tenure = heldSinceRecord(core as CoreState, person.id, person.jobId);
   if (tenure) {
     const years = ageOnDate(
-      makeIsoDate(tenure.facts!.startedAt!),
+      makeIsoDate(String(tenure.facts.startedAt)),
       makeIsoDate(core.date),
     );
     if (years > P.zero)
