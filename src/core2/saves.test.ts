@@ -187,7 +187,7 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
       twoLevel: true,
       settings: { population: 1500 },
     };
-    // A new game runs history from 2000 by default (owner ruling, M1-14).
+    // A new game runs history from the player's birth year (owner, Oct 28, 2026).
     const windows: string[] = [];
     const history: CoreModule = {
       id: "fixture-history-window",
@@ -198,7 +198,8 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
       },
     } as CoreModule;
     const game = newGame(recipe, { modules: () => [history] });
-    expect(windows).toEqual(["2000-01-01/quarter"]);
+    const player = game.core.people.get(game.core.playerId!)!;
+    expect(windows).toEqual([`${player.birthDate.slice(0, 4)}-01-01/quarter`]);
     runCommand(game, "advance", { through: day(19) });
     const counted = [...residentsRuntime(game.core)!.households.values()].find(
       (row) => row.people.length,

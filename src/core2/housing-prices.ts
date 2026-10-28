@@ -8,39 +8,27 @@ import housingData from "./data/housing/housing.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 import { parameter } from "./parameters";
-import { seededUnit } from "./seeded";
+import { worldOffsetUnit } from "./world-draw";
 import { stopgap } from "./stopgaps";
 
 const HOUSING_ROWS = housingParameters as unknown as Record<
   string,
   { value: number }
 >;
-const drawn = new Map<string, number>();
-
 /**
  * A signed offset between the floor share of the named housing spread row and
  * the whole spread, fixed by the world's seed and the key: generation of the
  * starting world, never an actor's outcome (owner, Oct 27: realistic, not
- * real). Drawn once per world and key.
+ * real). The one world draw (world-draw.ts), times this table's spread row.
  */
 export function housingWorldOffset(
   seed: string,
   key: string,
   spread: string,
 ): number {
-  const id = `${seed}|${key}|${spread}`;
-  const known = drawn.get(id);
-  if (known !== undefined) return known;
-  const unit = (part: string) =>
-    seededUnit(seed, `housing-world:${key}:${part}`);
-  const floor = HOUSING_ROWS.housingWorldOffsetFloorShare!.value;
-  const one = parameter("one");
-  const value =
-    (unit("sign") < parameter("half") ? -one : one) *
-    (floor + (one - floor) * unit("size")) *
-    HOUSING_ROWS[spread]!.value;
-  drawn.set(id, value);
-  return value;
+  return (
+    worldOffsetUnit(seed, `housing-world:${key}`) * HOUSING_ROWS[spread]!.value
+  );
 }
 
 const HPI = housingData.housePriceIndex.states as unknown as Record<
