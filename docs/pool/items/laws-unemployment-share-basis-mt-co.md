@@ -3,7 +3,7 @@ id: laws-unemployment-share-basis-mt-co
 title: "Two states' unemployment rows pay about half the benefit their law gives (fraction and basis quarters mismatched)"
 area: laws
 lead: laws
-kind: fix
+kind: bug
 priority: 2
 size: S
 status: open
