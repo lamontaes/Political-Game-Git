@@ -173,6 +173,20 @@ describe("privilege separation", () => {
     );
   });
 
+  it("passes the push token only from the caller that publishes", () => {
+    // A called workflow sees no secrets unless its caller passes them, so the
+    // publish step's RELEASE_PUSH_TOKEN stays empty without this.
+    expect(workflow).toMatch(
+      /secrets:\s+RELEASE_PUSH_TOKEN:\s+description:[^\n]+\n\s+required: false/,
+    );
+    expect(packaging).toContain(
+      "RELEASE_PUSH_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN }}",
+    );
+    expect(pushWorkflow).not.toContain("RELEASE_PUSH_TOKEN");
+    expect(pushWorkflow).not.toContain("secrets: inherit");
+    expect(packaging).not.toContain("secrets: inherit");
+  });
+
   it("gives write authority only to the minimal publisher", () => {
     // The candidate's publisher and the desktop release's; neither runs
     // repository code.
