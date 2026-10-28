@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/realistic-budgets-treasury
+pr: #6565
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+claimed-at: 2026-10-28T06:01:03.275Z
 ---
 
 **What.** Rows 50 to 52 of docs/reports/real-statistics-in-play-2026-10-27.md: federal, state and local budget lines per resident, federal debt holders, Treasury payees and federal spending by state. Each opens on the published value. Tax and benefit rates in law stay. The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed.

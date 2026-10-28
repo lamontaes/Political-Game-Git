@@ -147,3 +147,17 @@ describe(`a face on ${name}`, () => {
     }
   });
 });
+
+it("draws every person seen from behind, with their hair from behind", async () => {
+  const { default: backs } = await import(
+    "../../art/people-engine/v2/figures-back.json",
+    { with: { type: "json" } }
+  );
+  for (const row of backs.figures) {
+    const name = row.id;
+    const bald = drawnFigure(name, {});
+    const style = String(hairStyles(row.sex)[0]!.style);
+    const haired = drawnFigure(name, { hair: style, hairColor: "black" });
+    expect(haired.equals(bald), name).toBe(false);
+  }
+});
