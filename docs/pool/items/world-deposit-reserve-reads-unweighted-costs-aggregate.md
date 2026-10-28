@@ -13,7 +13,6 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-
 **What.** A bounded part of `world-deposit-reserve-reads-unweighted-costs`: the deposit reserve in src/core2/credit-deposits.ts reads a business's payroll and its other costs times one staffed scale (the payroll with its counted workers at their weight over the book's payroll), the same scale the seller-capacity cap reads, so a town opened at its Census size puts about as much of its flows in the bank as the same town at the sample size. A single firm's deposits on a given day are whatever sat above its reserve at the last monthly sweep, so per-business ratios swing either way and are not claimed here.
 
 **Rules.** One model, two tiers: every reader of a business figure multiplies by the weight the same way. Wire to the world: the deposits and the cash on hand move on the journal, shown in a played world.
