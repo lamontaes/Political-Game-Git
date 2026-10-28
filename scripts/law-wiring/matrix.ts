@@ -120,6 +120,10 @@ interface Result {
     reenacted?: { id: string; effectiveDate: string; value: number } | null;
   };
   heard: { people: number; sample: string[] };
+  /** Who the law could bind in the drawn place, for a law whose handler binds one kind of subject (older result files have none). */
+  subjects?: { count: number; why: string; ids: string[] };
+  /** The law's own applied rows in the window and how many record an amount (older result files have none). */
+  applied?: { rows: number; withAmount: number; sample: string[] };
   afterUndo: ReachCount;
   /** Reach still citing the changed row once the old amount is put back (older result files have none). */
   afterUndoChanged?: ReachCount;
@@ -163,6 +167,34 @@ const NOT_AN_EFFECT = [
  * only where its row names the reader beside the month's record id
  * (OWNER-DECISIONS, Oct 28 05:30).
  */
+/**
+ * The research links counted once, here beside the laws (the effect matrix
+ * is the one grader of links): how many reach people or are carried by an
+ * engine, how many the research finds about zero, and how many are unread,
+ * each named in a stopgap.
+ */
+const LINK_COUNTS = (() => {
+  const summary = (
+    effectMatrix as unknown as {
+      summary: {
+        links: number;
+        reachesTheWorld: number;
+        aboutZero?: number;
+        namedInAStopgap: number;
+        notReachingAndNoStopgap: number;
+      };
+    }
+  ).summary;
+  const aboutZero = summary.aboutZero ?? 0;
+  return {
+    links: summary.links,
+    reaching: summary.reachesTheWorld,
+    aboutZero,
+    unread: summary.links - summary.reachesTheWorld - aboutZero,
+    unreadWithNoStopgap: summary.notReachingAndNoStopgap,
+  };
+})();
+
 const WEB_READERS = new Map(
   (
     effectMatrix as unknown as {
@@ -273,20 +305,29 @@ function reachLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
         `${p.place}: ${p.c.open} open (full ${p.c.fullPeople}, counted groups ${p.c.countedGroups}/${p.c.countedPeople} people, households ${p.c.households}, orgs ${p.c.organizations}, govts ${p.c.governments}) e.g. ${p.c.sample[0] ?? "-"}`,
     )
     .join("; ");
-  const zero = per.filter((p) => p.c.open === 0).map((p) => p.place);
+  // A place where the law has nobody to bind (no county out of attainment,
+  // no farm, no eviction filed) reaching nobody is the statute's own terms.
+  const none = per.filter((p) => p.c.open === 0 && p.r.subjects?.count === 0);
+  const zero = per
+    .filter((p) => p.c.open === 0 && p.r.subjects?.count !== 0)
+    .map((p) => p.place);
+  const evidenceAll = [
+    evidence,
+    ...none.map((p) => `${p.place}: nobody to bind (${p.r.subjects!.why})`),
+  ].join("; ");
   if (zero.length)
     return {
       status: "partial",
-      evidence,
+      evidence: evidenceAll,
       why: `reached nobody in ${zero.join(", ")}`,
     };
   if (!counted && per.some((p) => p.c.fullPeople > 0))
     return {
       status: "partial",
-      evidence,
+      evidence: evidenceAll,
       why: "full people only: no counted group is reached (one model, two tiers)",
     };
-  return { status: "wired", evidence, why: "" };
+  return { status: "wired", evidence: evidenceAll, why: "" };
 }
 
 function systemsLink(
@@ -515,6 +556,25 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
     ].join("; ");
     return { status: "wired", evidence: ev, why: "" };
   }
+  // The law's own applied rows say its terms bound nobody in any drawn place
+  // (an estate under the exemption, a lease whose market rise stayed under the
+  // cap): no dollar of its own moved, by its own records.
+  if (
+    runs.length &&
+    runs.every(
+      ({ r }) => r.applied && r.applied.rows > 0 && !r.applied.withAmount,
+    )
+  )
+    return {
+      status: "n/a",
+      evidence: runs
+        .map(
+          ({ place, r }) =>
+            `${place}: ${r.applied!.rows} applied rows, none with an amount owed, paid or held (e.g. ${r.applied!.sample[0]})`,
+        )
+        .join("; "),
+      why: "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held",
+    };
   const any = runs.flatMap(({ place, r }) =>
     (r.money?.diff ?? []).map((d) => ({ place, d })),
   );
@@ -814,6 +874,8 @@ function table(
   const lines = [
     "# Law wiring table",
     "",
+    `Laws wired: ${rows.filter((r) => r.overall === "wired").length} of ${rows.length} (${rows.filter((r) => r.overall === "partly").length} partly, ${rows.filter((r) => r.overall === "stopgapped").length} on a stopgap). Research links reaching people or carried by an engine: ${LINK_COUNTS.reaching} of ${LINK_COUNTS.links} (${LINK_COUNTS.aboutZero} the research finds about zero, ${LINK_COUNTS.unread} unread, ${LINK_COUNTS.unreadWithNoStopgap} of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.`,
+    "",
     "Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).",
     "",
     "| Law | Family | " + LINKS.join(" | ") + " | Overall | Seen on |",
@@ -924,15 +986,16 @@ function main(): void {
       links.web = webLink(law, rs, links.systems);
       links.knowing = knowingLink(rs);
       links.repeal = repealLink(rs);
+      // A place with nobody for the law to bind is left out: reaching nobody
+      // there is the statute's terms, not a place the wiring missed.
+      const open = ({ r }: { r: Result }) =>
+        r.inForceAtOpening ? r.openingReach.open : r.reach.open;
+      const bindable = rs.filter(
+        (p) => open(p) > 0 || p.r.subjects?.count !== 0,
+      );
       const sameEverywhere =
-        rs.every(
-          ({ r }) =>
-            (r.inForceAtOpening ? r.openingReach.open : r.reach.open) > 0,
-        ) ||
-        rs.every(
-          ({ r }) =>
-            (r.inForceAtOpening ? r.openingReach.open : r.reach.open) === 0,
-        );
+        bindable.every((p) => open(p) > 0) ||
+        bindable.every((p) => open(p) === 0);
       links.allPlaces = {
         status:
           sameEverywhere && links.reach.status !== "missing"
@@ -1018,6 +1081,8 @@ function main(): void {
       wired: rows.filter((r) => r.overall === "wired").length,
       partly: rows.filter((r) => r.overall === "partly").length,
       stopgapped: rows.filter((r) => r.overall === "stopgapped").length,
+      // The research links, counted once (the effect matrix's grade).
+      researchLinks: LINK_COUNTS,
       // Laws a player sees on at least one screen, and where that was read.
       shownOnAScreen: rows.filter((r) => r.screens.length).length,
       screensRead:
