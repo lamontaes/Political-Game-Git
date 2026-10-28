@@ -5424,6 +5424,18 @@
       "citation": "From a 7-hour to an 8.5-hour school day; checked against the town generator's recorded teacher roles."
     }
   },
+  "unauthorizedShareOfNoncitizens": {
+    "value": 0.45,
+    "tag": "ESTIMATED",
+    "citation": "Pew Research Center, 'What we know about unauthorized immigrants living in the U.S.' (July 22, 2024; https://www.pewresearch.org/short-reads/2024/07/22/what-we-know-about-unauthorized-immigrants-living-in-the-us/), from the 2022 American Community Survey: 'The unauthorized immigrant population in the United States grew to 11.0 million in 2022', which is '23% of the foreign-born population', and 'in 2022, 49% of all immigrants in the country were naturalized U.S. citizens'. Noncitizens are then 51% of about 47.8 million immigrants, about 24.4 million, of whom 11.0 million are unauthorized: 0.45. Read by the jobs engine (src/core2/jobs-web.ts) through isUnauthorized in src/core2/citizenship.ts.",
+    "estimatedFrom": "11.0 million unauthorized over (11.0 / 0.23) x 0.51 noncitizen immigrants, national, 2022.",
+    "spread": {
+      "low": 0.35,
+      "high": 0.6,
+      "unit": "share of noncitizens without work authorization",
+      "citation": "States differ: Pew's same report puts 42% of unauthorized immigrants in California and Texas, where the share of noncitizens is higher than in states whose noncitizens are mostly lawful permanent residents; Pew's August 2025 revision of the 2022 total moves the national share by a few points."
+    }
+  },
   "citizenShareStatePriorAdults": {
     "value": 200,
     "tag": "TUNABLE",
