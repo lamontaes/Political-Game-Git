@@ -1,0 +1,87 @@
+{
+ "house-suburban-living__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-suburban-living__midday.jpg",
+  "prompt": "[bvm-01] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "house-bedroom__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/house-bedroom__midday.jpg",
+  "prompt": "[bvm-02] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "home-kitchen__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/home-kitchen__midday.jpg",
+  "prompt": "[bvm-03] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "apartment-starter-living__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-starter-living__midday.jpg",
+  "prompt": "[bvm-04] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "apartment-kitchen__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-kitchen__midday.jpg",
+  "prompt": "[bvm-05] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "small-apartment__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/small-apartment__midday.jpg",
+  "prompt": "[bvm-06] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "bedroom-teen__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/bedroom-teen__midday.jpg",
+  "prompt": "[bvm-07] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "dorm-room__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/dorm-room__midday.jpg",
+  "prompt": "[bvm-08] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "trailer-home-living__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/trailer-home-living__midday.jpg",
+  "prompt": "[bvm-09] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "apartment-nice-living__lived-in.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-nice-living__midday.jpg",
+  "prompt": "[bvm-10] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it lived-in and untidy, the way real homes usually are: a jacket over a chair back, shoes by the door, mail and papers piled on a table, a mug and a plate left out, a laundry basket, a few toys or books on a shelf out of place, a crumpled throw blanket, cords and chargers, slightly crooked frames. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "apartment-starter-living__rundown.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-starter-living__midday.jpg",
+  "prompt": "[bvr-01] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it run-down and neglected, a place where the landlord fixes nothing: water stains and a sagging patch on the ceiling, peeling and scuffed paint, a cracked window pane taped over, worn and stained carpet or curling linoleum, bent blinds, mismatched secondhand furniture with torn upholstery, a bare bulb where a fixture should be, an overflowing trash bag, dishes piled up. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "small-apartment__rundown.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/small-apartment__midday.jpg",
+  "prompt": "[bvr-02] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it run-down and neglected, a place where the landlord fixes nothing: water stains and a sagging patch on the ceiling, peeling and scuffed paint, a cracked window pane taped over, worn and stained carpet or curling linoleum, bent blinds, mismatched secondhand furniture with torn upholstery, a bare bulb where a fixture should be, an overflowing trash bag, dishes piled up. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "apartment-kitchen__rundown.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-kitchen__midday.jpg",
+  "prompt": "[bvr-03] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it run-down and neglected, a place where the landlord fixes nothing: water stains and a sagging patch on the ceiling, peeling and scuffed paint, a cracked window pane taped over, worn and stained carpet or curling linoleum, bent blinds, mismatched secondhand furniture with torn upholstery, a bare bulb where a fixture should be, an overflowing trash bag, dishes piled up. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "apartment-older-walkup__rundown.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-older-walkup__midday.jpg",
+  "prompt": "[bvr-04] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it run-down and neglected, a place where the landlord fixes nothing: water stains and a sagging patch on the ceiling, peeling and scuffed paint, a cracked window pane taped over, worn and stained carpet or curling linoleum, bent blinds, mismatched secondhand furniture with torn upholstery, a bare bulb where a fixture should be, an overflowing trash bag, dishes piled up. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "apartment-public-housing__rundown.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-public-housing__midday.jpg",
+  "prompt": "[bvr-05] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it run-down and neglected, a place where the landlord fixes nothing: water stains and a sagging patch on the ceiling, peeling and scuffed paint, a cracked window pane taped over, worn and stained carpet or curling linoleum, bent blinds, mismatched secondhand furniture with torn upholstery, a bare bulb where a fixture should be, an overflowing trash bag, dishes piled up. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "bedroom-plain__rundown.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/bedroom-plain__midday.jpg",
+  "prompt": "[bvr-06] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it run-down and neglected, a place where the landlord fixes nothing: water stains and a sagging patch on the ceiling, peeling and scuffed paint, a cracked window pane taped over, worn and stained carpet or curling linoleum, bent blinds, mismatched secondhand furniture with torn upholstery, a bare bulb where a fixture should be, an overflowing trash bag, dishes piled up. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ },
+ "apartment-basement-studio__rundown.jpg": {
+  "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
+  "reference": "art/backdrops/apartment-basement-studio__midday.jpg",
+  "prompt": "[bvr-07] Edit the reference picture. Keep the room exactly the same: the same layout, camera angle, walls, windows, doors, furniture and where each piece stands, the same light and the same art style. Make it run-down and neglected, a place where the landlord fixes nothing: water stains and a sagging patch on the ceiling, peeling and scuffed paint, a cracked window pane taped over, worn and stained carpet or curling linoleum, bent blinds, mismatched secondhand furniture with torn upholstery, a bare bulb where a fixture should be, an overflowing trash bag, dishes piled up. Nothing new sits on the seats, the couch, the chairs or the bed, and the open floor in front of them stays clear, because people will stand and sit there. No people. No text."
+ }
+}
