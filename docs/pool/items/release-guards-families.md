@@ -5,9 +5,9 @@ area: release
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/guards-families
-pr:
+pr: #6512
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T03:31:36.550Z
