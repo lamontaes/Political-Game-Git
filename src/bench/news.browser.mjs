@@ -117,7 +117,30 @@ try {
     await page.locator("#sheet-body .paper-masthead h2").innerText(),
     "News",
   );
-  assert.equal(await page.locator(".story-image").count(), 0);
+  // The newspaper art (owner, Oct 28): the paper's name is set in an engraved
+  // masthead, and a lead photo, when there is one, is the art of the room
+  // where that level of government acts; every picture loads.
+  assert.equal(
+    await page.locator("#sheet-body .paper-masthead h2.engraved").count(),
+    1,
+  );
+  const art = await page.evaluate(() => [
+    getComputedStyle(document.querySelector("#sheet-body .paper-masthead h2"))
+      .backgroundImage,
+    ...[...document.querySelectorAll("#sheet-body .story-image")].map((image) =>
+      image.getAttribute("src"),
+    ),
+  ]);
+  console.log("Newspaper art:", art);
+  for (const url of art.map((value) =>
+    value.replace(/^url\("?(?:https?:\/\/[^/]+)?/, "").replace(/"?\)$/, ""),
+  )) {
+    assert.match(url, /^\/art\/newspaper\/[a-z0-9-]+\.jpg$/);
+    assert.equal(
+      (await page.request.get(`http://localhost:3000${url}`)).status(),
+      200,
+    );
+  }
   // A newspaper with story text (owner, Oct 27): the lead story is printed with
   // at least two sentences under its headline, and no record row with a kind,
   // series or jurisdiction label is on the page.
