@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/realistic-not-real-guard
-pr:
+pr: #6473
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
