@@ -34,6 +34,7 @@ import { PRESIDENT_FACT } from "../core2/officials-president";
 import {
   regionalMonth,
   regionName,
+  regionOutsideState,
   regionOfPlace,
 } from "../core2/modules/regional";
 import { openingRegionMonths } from "../core2/regional-model";
@@ -81,7 +82,7 @@ import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
-import { properName, spoken, spokenDate } from "./words";
+import { possessive, properName, spoken, spokenDate } from "./words";
 
 export interface OpeningSentence {
   readonly level: OpeningLevel;
@@ -795,7 +796,10 @@ function townStory(
         api.parameter(key),
       ).find((row) => row.regionId === regionId))
     : undefined;
-  const area = regionName(region.regionId);
+  // An area outside the state's metros is said by what it is outside of;
+  // a metro by its own name ("the Louisville area").
+  const outside = regionOutsideState(region.regionId);
+  const area = outside ? undefined : regionName(region.regionId);
   return {
     kind: "jobs-report",
     recordId: region.id,
@@ -804,6 +808,7 @@ function townStory(
       // so the story names that area as its place, not the town.
       place: area ? fact(area, region.id) : fact(townName, townId),
       ...(area ? { area: fact(area, region.id) } : {}),
+      ...(outside ? { outside: fact(possessive(outside), region.id) } : {}),
       percent: fact(region.unemploymentPct.toFixed(N.decimals), region.id),
       ...(before && region.unemploymentPct < before.unemploymentPct
         ? { "unemployment-down": fact("yes", region.id, before.id) }
