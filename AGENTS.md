@@ -41,6 +41,7 @@ This section overrides anything heavier elsewhere in this file, in a skill or in
 
 ## How every session works
 
+0. **Three rules before anything (owner, Oct 27 night).** Every system is already built: find the engine that does it and wire through it; a new mechanic is a last resort and is itself a stopgap naming the engine you could not find. Every cut corner is a registered stopgap in `src/core2/data/stopgaps.json` (the director's own file for director ones), never a typed number, never a new tracking system. If you do not understand the ask, say so in your channel block or PR body and stop; do not guess and build.
 1. **Start** (`session-start`): read this file, the item and its Notes, and the last rulings in `docs/coordination/OWNER-DECISIONS.md`. Install, then run the golden-path suite (`node --import tsx tests/golden-path/runner.mjs`) before changing anything.
 2. **Red main comes first** (owner, Oct 15). If the latest release run on main is red, claim `release-main-red`, fix it at the root on its own PR, then return to your item.
 3. **Build** one item at a time to its done-when, committing each meaningful unit with its tests passing.
