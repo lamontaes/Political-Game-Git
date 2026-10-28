@@ -12,7 +12,7 @@ import { coreStateName } from "./place-lookup";
 import { OFFICIALS_DATA, uniform } from "./officials-roster";
 import { partySide } from "./appointments";
 import type { CoreState, PersonInput, Source } from "./types";
-import { worldSwing } from "./electorate-places";
+import { worldSwing } from "./modules/elections";
 
 type PastFact = NonNullable<PersonInput["pastFacts"]>[number];
 
