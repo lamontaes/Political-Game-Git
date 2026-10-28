@@ -1,0 +1,38 @@
+{
+ "id": "pose-desk-02",
+ "file": "pose-desk-02.png",
+ "garments": "pose-desk-02-garments.png",
+ "sheet": "in-scene",
+ "scene": "oval-office-resolute",
+ "plate": "ds-o3.png",
+ "pose": "sit",
+ "angle": "three-quarter",
+ "facing": 35,
+ "gesture": "leaning back, hand at the chin, thinking",
+ "interacts": "desk chair: elbow on the armrest",
+ "hairView": "threeqr",
+ "sex": "f",
+ "build": "medium",
+ "ageBand": "adult",
+ "prop": "none",
+ "outfit": "suit",
+ "width": 149,
+ "height": 137,
+ "boxInScene": [
+  613,
+  217,
+  762,
+  354
+ ],
+ "sceneSize": [
+  1365,
+  768
+ ],
+ "head": {
+  "top": 4,
+  "x": 76.5,
+  "width": 38
+ },
+ "frontEdgeY": null,
+ "clothesLabelled": 0.61
+}

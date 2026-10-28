@@ -3,6 +3,120 @@
  "note": "Poses painted in place at furniture already in the game, cut into reusable figures. Field names follow art/people-engine/v2/index.json (ocd-people-v2/1); added: interacts, gesture, hairView, head, frontEdgeY, boxInScene, sceneSize.",
  "figures": [
   {
+   "id": "pose-desk-01",
+   "file": "pose-desk-01.png",
+   "garments": "pose-desk-01-garments.png",
+   "sheet": "in-scene",
+   "scene": "oval-office-resolute",
+   "plate": "ds-o1.png",
+   "pose": "sit",
+   "angle": "three-quarter",
+   "facing": 20,
+   "gesture": "writing, head down",
+   "interacts": "desk: forearm and hand on the desktop",
+   "hairView": "front",
+   "sex": "m",
+   "build": "medium",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 147,
+   "height": 137,
+   "boxInScene": [
+    627,
+    224,
+    774,
+    361
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 80.0,
+    "width": 41
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.66
+  },
+  {
+   "id": "pose-desk-02",
+   "file": "pose-desk-02.png",
+   "garments": "pose-desk-02-garments.png",
+   "sheet": "in-scene",
+   "scene": "oval-office-resolute",
+   "plate": "ds-o3.png",
+   "pose": "sit",
+   "angle": "three-quarter",
+   "facing": 35,
+   "gesture": "leaning back, hand at the chin, thinking",
+   "interacts": "desk chair: elbow on the armrest",
+   "hairView": "threeqr",
+   "sex": "f",
+   "build": "medium",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 149,
+   "height": 137,
+   "boxInScene": [
+    613,
+    217,
+    762,
+    354
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 76.5,
+    "width": 38
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.61
+  },
+  {
+   "id": "pose-desk-03",
+   "file": "pose-desk-03.png",
+   "garments": "pose-desk-03-garments.png",
+   "sheet": "in-scene",
+   "scene": "mayor-office",
+   "plate": "ds-m1.png",
+   "pose": "sit",
+   "angle": "front",
+   "facing": 0,
+   "gesture": "leaning in, listening to a visitor",
+   "interacts": "desk: forearms on the desktop",
+   "hairView": "front",
+   "sex": "f",
+   "build": "heavy",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 166,
+   "height": 170,
+   "boxInScene": [
+    627,
+    236,
+    793,
+    406
+   ],
+   "sceneSize": [
+    1366,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 88.0,
+    "width": 59
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.65
+  },
+  {
    "id": "pose-lectern-01",
    "file": "pose-lectern-01.png",
    "garments": "pose-lectern-01-garments.png",
@@ -153,6 +267,310 @@
    },
    "frontEdgeY": null,
    "clothesLabelled": 0.8
+  },
+  {
+   "id": "pose-lectern-05",
+   "file": "pose-lectern-05.png",
+   "garments": "pose-lectern-05-garments.png",
+   "sheet": "in-scene",
+   "scene": "council-chamber",
+   "plate": "lp-c2.png",
+   "pose": "lectern",
+   "angle": "back",
+   "facing": 180,
+   "gesture": "leaning in to the microphone",
+   "interacts": "public lectern: both hands on the top",
+   "hairView": "back",
+   "sex": "m",
+   "build": "slim",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 150,
+   "height": 198,
+   "boxInScene": [
+    843,
+    199,
+    993,
+    397
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 72.5,
+    "width": 42
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.78
+  },
+  {
+   "id": "pose-podium-01",
+   "file": "pose-podium-01.png",
+   "garments": "pose-podium-01-garments.png",
+   "sheet": "in-scene",
+   "scene": "debate-stage",
+   "plate": "dd-1.png",
+   "pose": "lectern",
+   "angle": "three-quarter",
+   "facing": 20,
+   "gesture": "talking, one hand raised palm open",
+   "interacts": "podium: one hand on the top",
+   "hairView": "front",
+   "sex": "f",
+   "build": "medium",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 153,
+   "height": 121,
+   "boxInScene": [
+    324,
+    15,
+    477,
+    136
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 58.0,
+    "width": 41
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.5
+  },
+  {
+   "id": "pose-podium-02",
+   "file": "pose-podium-02.png",
+   "garments": "pose-podium-02-garments.png",
+   "sheet": "in-scene",
+   "scene": "debate-stage",
+   "plate": "dd-1.png",
+   "pose": "lectern",
+   "angle": "three-quarter",
+   "facing": -30,
+   "gesture": "listening, turned to the other speaker",
+   "interacts": "podium: both hands on the front edge",
+   "hairView": "front",
+   "sex": "m",
+   "build": "medium",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 97,
+   "height": 125,
+   "boxInScene": [
+    949,
+    13,
+    1046,
+    138
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 36.0,
+    "width": 37
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.59
+  },
+  {
+   "id": "pose-podium-03",
+   "file": "pose-podium-03.png",
+   "garments": "pose-podium-03-garments.png",
+   "sheet": "in-scene",
+   "scene": "debate-stage",
+   "plate": "dd-2.png",
+   "pose": "lectern",
+   "angle": "three-quarter",
+   "facing": -20,
+   "gesture": "explaining with both hands open",
+   "interacts": "podium: hands above it",
+   "hairView": "front",
+   "sex": "m",
+   "build": "heavy",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 199,
+   "height": 127,
+   "boxInScene": [
+    296,
+    17,
+    495,
+    144
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 98.5,
+    "width": 44
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.59
+  },
+  {
+   "id": "pose-podium-04",
+   "file": "pose-podium-04.png",
+   "garments": "pose-podium-04-garments.png",
+   "sheet": "in-scene",
+   "scene": "debate-stage",
+   "plate": "dd-2.png",
+   "pose": "lectern",
+   "angle": "front",
+   "facing": 0,
+   "gesture": "one finger raised, asking to speak",
+   "interacts": "podium: one hand on the top",
+   "hairView": "front",
+   "sex": "f",
+   "build": "slim",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 149,
+   "height": 119,
+   "boxInScene": [
+    887,
+    16,
+    1036,
+    135
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 84.0,
+    "width": 43
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.54
+  },
+  {
+   "id": "pose-podium-05",
+   "file": "pose-podium-05.png",
+   "garments": "pose-podium-05-garments.png",
+   "sheet": "in-scene",
+   "scene": "debate-stage",
+   "plate": "dd-3.png",
+   "pose": "lectern",
+   "angle": "three-quarter",
+   "facing": 30,
+   "gesture": "open palm toward the other speaker",
+   "interacts": "podium: one hand on the top",
+   "hairView": "front",
+   "sex": "m",
+   "build": "slim",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 182,
+   "height": 133,
+   "boxInScene": [
+    323,
+    11,
+    505,
+    144
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 63.0,
+    "width": 43
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.55
+  },
+  {
+   "id": "pose-podium-06",
+   "file": "pose-podium-06.png",
+   "garments": "pose-podium-06-garments.png",
+   "sheet": "in-scene",
+   "scene": "debate-stage",
+   "plate": "dd-3.png",
+   "pose": "lectern",
+   "angle": "three-quarter",
+   "facing": 20,
+   "gesture": "talking into the microphone",
+   "interacts": "podium: one hand on the microphone",
+   "hairView": "front",
+   "sex": "f",
+   "build": "heavy",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 113,
+   "height": 126,
+   "boxInScene": [
+    937,
+    20,
+    1050,
+    146
+   ],
+   "sceneSize": [
+    1365,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 33.0,
+    "width": 37
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.52
+  },
+  {
+   "id": "pose-visitor-01",
+   "file": "pose-visitor-01.png",
+   "garments": "pose-visitor-01-garments.png",
+   "sheet": "in-scene",
+   "scene": "mayor-office",
+   "plate": "ds-m1.png",
+   "pose": "sit",
+   "angle": "back",
+   "facing": 150,
+   "gesture": "explaining with an open hand",
+   "interacts": "visitor chair",
+   "hairView": "back",
+   "sex": "m",
+   "build": "slim",
+   "ageBand": "adult",
+   "prop": "none",
+   "outfit": "suit",
+   "width": 225,
+   "height": 204,
+   "boxInScene": [
+    407,
+    278,
+    632,
+    482
+   ],
+   "sceneSize": [
+    1366,
+    768
+   ],
+   "head": {
+    "top": 4,
+    "x": 59.0,
+    "width": 65
+   },
+   "frontEdgeY": null,
+   "clothesLabelled": 0.64
   }
  ]
 }
