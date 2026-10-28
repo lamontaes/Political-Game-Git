@@ -239,7 +239,7 @@ describe(`drinking-water violations are read into low birth weight, in a generat
 
 describe(`a law ripples through the web and lands on people (seed ${seed})`, () => {
   const place = drawPlace(seed, "outcome-web-law");
-  it(`${place.name}, ${place.state}: a grocery sales tax exemption cuts food insecurity after its lag and the effect ends the day the law does`, () => {
+  it(`${place.name}, ${place.state}: a behavioral health crisis response law cuts violent crime after its lag and the effect ends the day the law does`, () => {
     const core = createLifeCore(
       generatedOpening(place, {
         twoLevel: true,
@@ -249,7 +249,10 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
     );
     const api = coreAPI(core);
     const town = core.people.get(core.playerId!)!.placeId;
-    const exempt = link("grocery-exemption-to-food-insecurity");
+    // The grocery exemption's food-insecurity link was the example here until
+    // the price review and the household's purchases carried it (links.json
+    // carriedBy); any lagged law link the web runs shows the same rule.
+    const exempt = link("crisis-response-to-crime");
     const series = exempt.from.slice("law:".length);
     const lawEvent = (date: string, value: string) => {
       advanceCore(core, date);
@@ -277,24 +280,22 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
     // Lag 6: the law reads as of six months back, so September 3 is the first month it acts.
     advanceCore(core, `${Y}-10-05`);
     const at = (month: string) => monthOf(api, town, month);
-    const foodBase = at(`${Y}-01`).bases["household.food-insecurity"]!;
+    const crimeBase = at(`${Y}-01`).bases["crime.violent"]!;
     expect(exempt.lagMonths).toBe(6);
-    expect(at(`${Y}-08`).values["household.food-insecurity"]).toBeCloseTo(
-      foodBase,
-    );
-    expect(at(`${Y}-09`).values["household.food-insecurity"]).toBeCloseTo(
-      foodBase * (1 + exempt.size!),
+    expect(at(`${Y}-08`).values["crime.violent"]).toBeCloseTo(crimeBase);
+    expect(at(`${Y}-09`).values["crime.violent"]).toBeCloseTo(
+      crimeBase * (1 + exempt.size!),
     );
 
     // Repeal: the lagged effect ends the day the law does, not a lag later.
     lawEvent(`${Y}-10-10`, "0");
-    expect(
-      monthOf(api, town, `${Y}-10`).values["household.food-insecurity"],
-    ).toBeCloseTo(foodBase);
+    expect(monthOf(api, town, `${Y}-10`).values["crime.violent"]).toBeCloseTo(
+      crimeBase,
+    );
     advanceCore(core, `${Y}-11-05`);
-    expect(
-      monthOf(api, town, `${Y}-11`).values["household.food-insecurity"],
-    ).toBeCloseTo(foodBase);
+    expect(monthOf(api, town, `${Y}-11`).values["crime.violent"]).toBeCloseTo(
+      crimeBase,
+    );
     expect((core as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)).toBe(true);
   }, 300_000);
 });
