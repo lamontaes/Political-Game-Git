@@ -25,5 +25,6 @@ The same place seen from another position: the same furniture, colors and light.
 - `inaugural-platform` (the West Front platform seen from the Mall) and `inaugural-lectern-close` (a television close shot of the empty lectern with the seal, glass panels and the dome behind, with room above it for the speaker), for the opening's inaugural address.
 
 Generator: Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K.
+- Opening montage places (owner, Oct 28: a montage "of him working... of America" while the president speaks, the way the RFK and FDR funeral trains showed the country): `oval-office-exterior-window__night` (the Oval Office seen through its lit windows from the South Lawn, reusable when a senator brings the player to the president), `white-house-colonnade__morning`, `west-wing-conference-room__midday`, and four places for people to line a route: `rail-crossing-plains__midday`, `train-depot-platform__midday`, `highway-roadside-town__midday`, `overpass-city__midday`.
 
 Redraws of soft paintings are in `art/backdrops-redraw/`, not here.
