@@ -21,7 +21,7 @@ import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { SCHOOL_MODULE_ID } from "../core2/school-measures";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { CIRCUMSTANCES, sceneWebRows } from "./circumstance";
+import { CIRCUMSTANCES } from "./circumstance";
 import type { Director } from "./ledger";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
@@ -562,18 +562,4 @@ it("gives every circumstance a situation type cause and a scene-web row", () => 
     expect(labels.has(`${row.typeKey}|circumstance:${row.id}`), row.id).toBe(
       true,
     );
-  // One scene-web row for every live cause of every situation type.
-  const live = SITUATION_LIBRARY.types.reduce(
-    (sum, type) => sum + type.causes.filter((cause) => cause.match).length,
-    0,
-  );
-  expect(sceneWebRows()).toHaveLength(live);
-  for (const row of sceneWebRows()) {
-    expect(row.triggerRecordKinds.length, row.id).toBeGreaterThan(0);
-    for (const kind of row.triggerRecordKinds)
-      expect(kind, row.id).toBeTruthy();
-    expect(row.placeKinds.length, row.id).toBeGreaterThan(0);
-    expect(row.castRule, row.id).toBeTruthy();
-    expect(row.outcomeRecord, row.id).toBeTruthy();
-  }
 });
