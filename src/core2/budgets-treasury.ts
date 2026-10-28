@@ -22,8 +22,6 @@ import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
   baseBudget,
-  budgetWorldFactor,
-  budgetWorldShares,
   budgetsOf,
   carriedMeasureOf,
   enactedBudgetChanges,
@@ -106,30 +104,10 @@ function splitBy(total: number, weights: readonly number[]): number[] {
   return parts;
 }
 
-/** This world's share of the federal debt each holder holds and lends, drawn around the published shares. */
-function holderShares(api: CoreAPI): number[] {
-  const shares = budgetWorldShares(
-    api,
-    "budget-world:federal-debt-holders",
-    Object.fromEntries(DEBT.holders.map((h) => [h.id, h.share])),
-  );
-  return DEBT.holders.map((h) => shares[h.id]!);
-}
-
-/** This world's mix of who a spending line pays outside the town, drawn around the published mix. */
-function payeeShares(api: CoreAPI, line: string): Record<string, number> {
-  const known = PAYEES.lines[line] ? line : PAYEES.fallbackLine;
-  return budgetWorldShares(
-    api,
-    `budget-world:payees:${known}`,
-    PAYEES.lines[known]!,
-  );
-}
-
 /**
- * The federal debt by holder. The first read opens the balance at this
- * world's debt held by the public (the Treasury's Debt to the Penny moved by
- * the world's factor) split by this world's holder shares.
+ * The federal debt by holder. The first read opens each balance at the
+ * Treasury's debt held by the public (Debt to the Penny) split by the
+ * holders' shares.
  */
 export function federalDebtOf(api: CoreAPI): DebtRow[] {
   const rows = table(api, "federalDebt");
@@ -138,16 +116,8 @@ export function federalDebtOf(api: CoreAPI): DebtRow[] {
       (federalBudget as unknown as { debtHeldByPublic: Record<string, number> })
         .debtHeldByPublic[DEBT.balanceAsOf] ?? 0;
     const opening = splitBy(
-      Math.round(
-        held *
-          100 *
-          budgetWorldFactor(
-            api,
-            "budget-world:federal-debt",
-            "budgetWorldDebtSpreadShare",
-          ),
-      ),
-      holderShares(api),
+      Math.round(held * 100),
+      DEBT.holders.map((h) => h.share),
     );
     DEBT.holders.forEach((h, i) =>
       rows.put({
@@ -631,7 +601,8 @@ export function publicPayRoom(
       committed += job.wageDailyMinor * treasuryParameter("daysPerYear");
   // Only the part of a line that is wages can pay a post: the rest buys
   // goods and services, makes benefit payments or pays interest.
-  const wages = payeeShares(api, line).workers;
+  const wages = (PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!)
+    .workers;
   return Math.round(
     (budget.spendingMinor[line] ?? 0) * (wages ?? 0) - committed,
   );
@@ -854,7 +825,10 @@ function borrowFederal(
   const date = api.state.date;
   const lent: Record<string, number> = {};
   const holders = federalDebtOf(api);
-  const wanted = splitBy(amountMinor, holderShares(api));
+  const wanted = splitBy(
+    amountMinor,
+    DEBT.holders.map((h) => h.share),
+  );
   holders.forEach((holder, i) => {
     if (wanted[i]! <= 0) return;
     const paid = accounts.transfer({
@@ -1278,7 +1252,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       } else {
         // The part of the line that leaves the town goes to the groups the
         // line pays, each by its share of the line.
-        const shares = payeeShares(api, line);
+        const shares = PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!;
         const groups = Object.entries(shares);
         const owed = splitBy(
           p.outside,

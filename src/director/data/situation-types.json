@@ -2091,7 +2091,13 @@
       "tag": {
         "key": "vote-wanted",
         "endpoint": "bill",
-        "registers": ["address/chair", "minutes", "journal"]
+        "registers": [
+          "meeting",
+          "address/chair",
+          "minutes",
+          "winning-losing",
+          "journal"
+        ]
       },
       "purpose": "floor-switch",
       "asker": "colleagues",
@@ -2453,7 +2459,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "bill",
-        "registers": ["address/public-comment", "notice", "minutes"]
+        "registers": ["hearing", "address/public-comment", "notice", "minutes"]
       },
       "purpose": "hearing-testify",
       "asker": "chair",

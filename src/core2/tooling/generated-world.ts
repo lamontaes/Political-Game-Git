@@ -13,6 +13,7 @@ import { withPublicSchoolDistrict } from "../opening-public-schools";
 import { buildPopulation } from "../population";
 import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
+import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningEconomy } from "../opening-economy";
 import { collapseToTwoLevels, fullPeople } from "../residents";
@@ -65,7 +66,21 @@ function buildOpening(
     openingEmployment: true,
     scheduledWork: true,
   });
-  const withPast = buildDeepPast(population);
+  // Record each class and workgroup's size as the full build sees it, so a
+  // person filled in later joins the same-sized peer group (PEOPLE's
+  // peerCohortSize; called once their deep past supports it).
+  const cohortSizes: Record<string, number> = {};
+  const withPast = (
+    buildDeepPast as (
+      input: CoreInput,
+      options?: Record<string, unknown>,
+    ) => CoreInput
+  )(population, {
+    peerCohortSize: (circle: string, contextKey: string, present: number) => {
+      cohortSizes[`${circle}|${contextKey}`] = present;
+      return present;
+    },
+  });
   // The town's public school district, staffed from workers not yet placed;
   // built before custom settings so its pay scales like every other job.
   const schools = withPublicSchoolDistrict(enrichCivicInputs(withPast));
@@ -90,7 +105,7 @@ function buildOpening(
   if (!player)
     throw new Error(`No eligible recorded adult worker in ${place.key}`);
   input = {
-    ...input,
+    ...buildOpeningPeerContacts(input, { personIds: [player.id] }).input,
     playerId: player.id,
   };
   input = {
@@ -157,5 +172,5 @@ function buildOpening(
   // The politics settings stay in worldSettings: the town's lean and the
   // cost of voting read them (electorate-inputs.ts customPolitics).
   const two = collapseToTwoLevels(input, { keep });
-  return two;
+  return { ...two, residents: { ...two.residents!, cohortSizes } };
 }

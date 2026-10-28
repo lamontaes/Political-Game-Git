@@ -31,6 +31,15 @@ import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { ownStance } from "../core2/officials-roster";
 import { PRESIDENT_FACT } from "../core2/officials-president";
+import {
+  regionalMonth,
+  regionName,
+  regionOutsideState,
+  regionOfPlace,
+} from "../core2/modules/regional";
+import { openingRegionMonths } from "../core2/regional-model";
+import { NEWS_MODULE_ID } from "../core2/modules/news";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
 import type { LawRowInput } from "../core2/laws-starting";
@@ -48,6 +57,11 @@ import {
   type OpeningSpeechKind,
   type SpeechVoice,
 } from "../english/english-opening-speech";
+import {
+  composeNewsStory,
+  NEWSCAST_BANK,
+  type StoryKind,
+} from "../english/english-newscast";
 import openingData from "./data/opening-story.json" with { type: "json" };
 import { ADDRESS_FACT } from "./opening-facts";
 import {
@@ -60,7 +74,9 @@ import addressData from "./data/opening-address.json" with { type: "json" };
 import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
+import { possessive, properName, spoken, spokenDate } from "./words";
 
 export interface OpeningSentence {
   readonly level: OpeningLevel;
@@ -72,6 +88,22 @@ export interface OpeningSentence {
   readonly values: Readonly<Record<string, string>>;
   /** The state a place line names, from the campaign visit it came from. */
   readonly stateKey?: string;
+}
+
+export interface OpeningNewsStory {
+  /** The kind of story the newscast bank composed it as. */
+  readonly kind: StoryKind;
+  /** The record the story is about. */
+  readonly recordId: string;
+  readonly headline?: string;
+  readonly lede?: string;
+  /** The story as the paper prints it: the lede, the figures, one quote. */
+  readonly paragraphs?: readonly string[];
+  readonly broadcast: readonly {
+    speaker: "anchor" | "reporter";
+    text: string;
+  }[];
+  readonly sourceRecordIds: readonly string[];
 }
 
 export interface OpeningStory {
@@ -97,6 +129,8 @@ export interface OpeningStory {
     readonly text: string;
     readonly sourceRecordIds: readonly string[];
   };
+  /** That evening's news: the address, then the town's own lead story. */
+  readonly newscast: readonly OpeningNewsStory[];
   /** The handoff: the player's household at home on the evening of day one. */
   readonly home: {
     readonly date: string;
@@ -114,10 +148,23 @@ interface OpeningData {
     jobsPerMillion: number;
     percentPerRatio: number;
   };
+  townStoryKinds: Readonly<Record<string, StoryKind>>;
   speechTitles: Readonly<Record<OpeningSpeechKind, string>>;
 }
 const DATA = openingData as unknown as OpeningData;
 const N = DATA.numbers;
+
+/** The anchor's greetings and sign-offs, the newscast bank's lines with no slot. */
+const anchorLines = (role: string) =>
+  new Set(
+    NEWSCAST_BANK.parts
+      .filter((part) =>
+        part.uses.some((use) => use.subject === "anchor" && use.role === role),
+      )
+      .map((part) => part.text),
+  );
+const ANCHOR_OPENS = anchorLines("open");
+const ANCHOR_CLOSES = anchorLines("close");
 
 /** The offices engine's public record of the taking of office on Inauguration Day. */
 const INAUGURATION_EVENT = "inauguration";
@@ -668,6 +715,130 @@ function composeAddressOf(
   return sentences;
 }
 
+/** The town's own lead story on the opening day, from its records. */
+function townStory(
+  core: CoreState,
+  townId: string,
+  townName: string,
+): { kind: StoryKind; recordId: string; facts: Facts } | null {
+  const api = coreAPI(core);
+  const stories = core.modules.has(NEWS_MODULE_ID)
+    ? (api.moduleState(NEWS_MODULE_ID).table("stories").rows() as unknown as {
+        id: string;
+        kind: string;
+        date: string;
+        placeId: string;
+        facts: Record<string, string>;
+      }[])
+    : [];
+  for (const story of stories
+    .filter((row) => row.date === core.date && row.placeId === townId)
+    .sort((a, b) => a.id.localeCompare(b.id))) {
+    const kind = DATA.townStoryKinds[story.kind];
+    if (!kind) continue;
+    // The person a death names and the business a closure names, by the
+    // record ids the story carries.
+    const named = story.id
+      .split(":")
+      .map((token) => core.people.get(token))
+      .find(Boolean);
+    const organization = Object.keys(story.facts)
+      .map((key) => /^organization:(.+):status$/.exec(key)?.[P.one])
+      .map((id) => (id ? core.organizations.get(id) : undefined))
+      .find(Boolean);
+    const facts: Facts = { place: fact(townName, townId) };
+    if (kind === "death") {
+      if (!named) continue;
+      facts.name = fact(fullName(named), named.id, story.id);
+      facts.age = fact(
+        String(ageOnDate(makeIsoDate(named.birthDate), makeIsoDate(core.date))),
+        named.id,
+      );
+    }
+    if (kind === "closing") {
+      if (!organization) continue;
+      facts.subject = fact(
+        properName(organization.name),
+        organization.id,
+        story.id,
+      );
+    }
+    return { kind, recordId: story.id, facts };
+  }
+  // No closure or death today: the jobs figure for the town's area, from
+  // the regional engine's month (BLS state and metro series).
+  const months = macroMonths(core);
+  const regionId = regionOfPlace(townId);
+  if (!months || !regionId) return null;
+  const region =
+    regionalMonth(api, townId, months.now.month) ??
+    openingRegionMonths(months.now, core.startedAt, core.seed, (key) =>
+      api.parameter(key),
+    ).find((row) => row.regionId === regionId);
+  if (!region) return null;
+  const before = months.before
+    ? (regionalMonth(api, townId, months.before.month) ??
+      openingRegionMonths(months.before, core.startedAt, core.seed, (key) =>
+        api.parameter(key),
+      ).find((row) => row.regionId === regionId))
+    : undefined;
+  // An area outside the state's metros is said by what it is outside of;
+  // a metro by its own name ("the Louisville area").
+  const outside = regionOutsideState(region.regionId);
+  const area = outside ? undefined : regionName(region.regionId);
+  return {
+    kind: "jobs-report",
+    recordId: region.id,
+    facts: {
+      // The rate is the region's (a metro, or the state outside its metros),
+      // so the story names that area as its place, not the town.
+      place: area ? fact(area, region.id) : fact(townName, townId),
+      ...(area ? { area: fact(area, region.id) } : {}),
+      ...(outside ? { outside: fact(possessive(outside), region.id) } : {}),
+      percent: fact(region.unemploymentPct.toFixed(N.decimals), region.id),
+      ...(before && region.unemploymentPct < before.unemploymentPct
+        ? { "unemployment-down": fact("yes", region.id, before.id) }
+        : {}),
+    },
+  };
+}
+
+/** The facts among `keys` that `facts` carries. */
+const factsAmong = (facts: Facts, keys: readonly string[]): Facts =>
+  Object.fromEntries(
+    keys.flatMap((key) => (facts[key] ? [[key, facts[key]!] as const] : [])),
+  );
+
+function newsStory(
+  core: CoreState,
+  kind: StoryKind,
+  recordId: string,
+  facts: Facts,
+): OpeningNewsStory {
+  // stopgapId: SG-PEOPLE-newscast-register
+  markWordsStopgap("SG-PEOPLE-newscast-register");
+  const story = composeNewsStory(
+    {
+      ...packet(
+        `opening-news:${core.date}:${recordId}`,
+        core.seed,
+        recordId,
+        "default",
+        { evening: fact("yes", recordId), ...facts },
+        [recordId],
+      ),
+      bankVersion: "words-newscast-v1",
+    },
+    kind,
+  );
+  // The anchor names themself only from the station's record (the bank's
+  // "I'm {name}" otherwise takes the story's name).
+  const broadcast = story.broadcast.filter(
+    (line) => !/\bI'm\b/.test(line.text) || facts.anchor,
+  );
+  return { kind, recordId, ...story, broadcast };
+}
+
 /**
  * Compose the opening from the world's records. Pure: reads the core and
  * writes nothing. Null when the world seats no President or the address
@@ -682,6 +853,8 @@ export function composeOpeningStory(
   const official = officialsIn(api, "US:president")[P.zero];
   const president = official ? core.people.get(official.id) : undefined;
   if (!player || !official || !president) return null;
+  const town = corePlaceByJurisdictionId(player.placeId as never);
+  const townName = town ? spoken(town) : null;
   // Inaugural only when the offices engine recorded the taking of office
   // today (recordInauguration); every other opening is the address to Congress.
   const kind: OpeningSpeechKind = core.eventIds.has(
@@ -703,7 +876,56 @@ export function composeOpeningStory(
     sentences.find((row) => row.level === "country") ??
     sentences[P.zero]!;
   const id = `${OPENING_ADDRESS_EVENT}:${core.date}`;
+  const inauguration = `${INAUGURATION_EVENT}:${core.date}`;
   const allIds = [...new Set(sentences.flatMap((row) => row.sourceRecordIds))];
+  // The evening news: the address, then the town's own lead story.
+  const newscast: OpeningNewsStory[] = [
+    newsStory(core, "address", id, {
+      name: fact(
+        fullName(president),
+        president.id,
+        ...(elected ? [elected.id] : []),
+        // The offices engine's record of the taking of office, when the
+        // world opens on Inauguration Day.
+        ...(core.eventIds.has(inauguration) ? [inauguration] : []),
+      ),
+      // On Inauguration Day the story is the swearing-in, from the offices
+      // engine's record; any other year it is the address to Congress.
+      ...(kind === "inaugural"
+        ? {
+            inaugural: fact(
+              "yes",
+              ...(core.eventIds.has(inauguration) ? [inauguration] : [id]),
+            ),
+          }
+        : { "joint-session": fact("yes", id) }),
+      date: fact(spokenDate(core.date, core.date), id),
+      // The country's figures the address argued from, and the line of it
+      // the news remembers.
+      ...factsAmong(countryFacts(core, kind).facts, [
+        "unemployment-rate",
+        "wage-growth",
+      ]),
+      quote: fact(remembered.text, id, ...remembered.sourceRecordIds),
+      ...(townName ? { place: fact(townName, player.placeId) } : {}),
+    }),
+  ];
+  const local = townName ? townStory(core, player.placeId, townName) : null;
+  if (local)
+    newscast.push(newsStory(core, local.kind, local.recordId, local.facts));
+  // One broadcast: the anchor greets once, at the top, and signs off once.
+  const program = newscast.map((item, index) => ({
+    ...item,
+    broadcast: item.broadcast.filter(
+      (line, at) =>
+        !(index > P.zero && at === P.zero && ANCHOR_OPENS.has(line.text)) &&
+        !(
+          index < newscast.length - P.one &&
+          at === item.broadcast.length - P.one &&
+          ANCHOR_CLOSES.has(line.text)
+        ),
+    ),
+  }));
   const household = core.households.get(player.householdId);
   return {
     id,
@@ -726,6 +948,7 @@ export function composeOpeningStory(
       text: sentences.map((row) => row.text).join(" "),
       sourceRecordIds: allIds,
     },
+    newscast: program,
     home: {
       date: core.date,
       householdId: player.householdId,

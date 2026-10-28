@@ -46,7 +46,7 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   const name = await page.locator("#card-name").innerText();
-  const clock = await page.locator("#card-clock").textContent();
+  const clock = await page.locator("#card-clock").innerText();
   console.log(
     "Player:",
     name,
@@ -109,7 +109,7 @@ try {
   await page.getByRole("button", { name: "View person", exact: true }).click();
   await page.locator("#person:not([hidden])").waitFor();
   assert.equal(await page.locator("#person-name").innerText(), first);
-  assert.equal(await page.locator("#card-clock").textContent(), clock);
+  assert.equal(await page.locator("#card-clock").innerText(), clock);
   assert.deepEqual(errors, []);
   console.log(
     "PASS filters, search, selection, list, person card and unchanged clock",

@@ -11,8 +11,8 @@ import type { OpeningStory } from "../director/opening-story";
 export const OPENING_EVENING_MINUTE = 20 * 60 + 30;
 
 /**
- * The opening: who gives the address and the evening at home (that night's
- * news is the news engine's, read by /api/news). Read-only. The address's pictures and the people pointed out were
+ * The opening: who gives the address, that night's news and the evening at
+ * home. Read-only. The address's pictures and the people pointed out were
  * the opening's own scene system (deleted, row W1 of
  * docs/reports/duplicates-on-main-2026-10-28.md); the address plays as the
  * director's `address` situation type through the talk box once
@@ -36,6 +36,12 @@ export function openingFrames(
       // The office alone (owner, Oct 26: "President · Michigan" read as where
       // the player is); the President's home state is not part of his tag.
       detail: [] as string[],
+    },
+    /** That night's news, which the player picks up at home. */
+    news: {
+      id: story.id,
+      stories: story.newscast,
+      address: story.address.sentences.map((row) => row.text),
     },
     home: { ...story.home, minuteOfDay: OPENING_EVENING_MINUTE },
   };

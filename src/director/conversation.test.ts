@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
-import { financeIndex } from "../core2/finance-state";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
@@ -82,22 +81,8 @@ const recordedRelative = (personId: string, id: string) => {
  * after relatives have a pair to start from. Read from the opening records,
  * never from a conversation's output.
  */
-/** Everyone the person may know at the opening: who they know, and their employer's staff. */
-const peersOf = (person: (typeof base.people)[number]) => [
-  ...new Set([
-    ...person.knownIds,
-    ...base.jobs
-      .filter(
-        (job) =>
-          job.personId !== person.id &&
-          person.jobId !== undefined &&
-          job.organizationId === orgOf(person.jobId),
-      )
-      .map((job) => job.personId),
-  ]),
-];
 const hasRelativePair = (person: (typeof base.people)[number]) =>
-  peersOf(person).some((otherId) => {
+  person.knownIds.some((otherId) => {
     const other = byId.get(otherId);
     if (!other || !fullAlive(otherId)) return false;
     const mine = person.familyIds.find(
@@ -126,7 +111,7 @@ const player = base.people.find(
     age(person.birthDate) >= 25 &&
     age(person.birthDate) < 60 &&
     person.jobId &&
-    peersOf(person).length > 4 &&
+    person.knownIds.length > 4 &&
     base.households.find((row) => row.id === person.householdId)!.memberIds
       .length > 1 &&
     base.jobs.some(
@@ -560,37 +545,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       checked += 1;
       if (checked >= 3) break;
     }
-    // Edge case by hand: shared work that ended decades ago. The opening
-    // keeps few ended jobs, so a job record the player held long ago at
-    // another person's employer is put on that employer's books for this check.
-    const known = [...core.people.values()]
-      .filter((row) => row.alive && row.tier !== "husk" && row.id !== me.id)
-      .map((row) => row.id)
-      .sort()
-      .find((id) => {
-        const job = core.people.get(id)?.jobId;
-        const org = job ? core.jobs.get(job)?.organizationId : undefined;
-        return org && org !== myOrg();
-      })!;
-    expect(known, "nobody works elsewhere").toBeDefined();
-    const theirOrg = core.jobs.get(
-      core.people.get(known)!.jobId!,
-    )!.organizationId;
-    const formerId = `test-former-job:${player.id}`;
-    core.jobs.set(formerId, {
-      ...core.jobs.get(me.jobId!)!,
-      id: formerId,
-      organizationId: theirOrg,
-      endsAt: makeIsoDate("1995-06-30"),
-    });
-    financeIndex(core.finance.jobsByOrganization, theirOrg, formerId);
-    const work = subjectsBetween(core, player.id, known, director).find(
-      (row) => row.kind === "shared-work",
-    );
-    core.jobs.delete(formerId);
-    core.finance.jobsByOrganization.get(theirOrg)!.delete(formerId);
-    expect(work?.aboutId).toBe(theirOrg);
-    expect(work?.facts["long-ago"]).toBeTruthy();
+    expect(checked).toBeGreaterThan(0);
   });
   it("never asks the player what the asker already knows (a relative, where they live)", () => {
     const kin = [...me.familyIds].filter((id) => core.people.get(id)?.alive);

@@ -411,16 +411,14 @@ function hear(
   story: Story,
   access: KnownFact["access"],
   sourceId: string,
-  /** The day they heard it: today, or an earlier day for a story of the past. */
-  on: string = api.state.date,
 ): boolean {
   const id = `${personId}:${story.id}`;
   if (heard(api).get(id)) return false;
-  heard(api).put({ id, personId, storyId: story.id, date: on });
+  heard(api).put({ id, personId, storyId: story.id, date: api.state.date });
   addRecent(recentOf(api), personId, {
     storyId: story.id,
     storyDate: story.date,
-    heardDate: on,
+    heardDate: api.state.date,
   });
   const counts = countsOf(api);
   counts.set(
@@ -431,7 +429,7 @@ function hear(
     api.observe(personId, {
       key,
       value,
-      learnedAt: on,
+      learnedAt: api.state.date,
       sourceId,
       access,
     });
@@ -445,7 +443,7 @@ function hear(
       delivered(api).put({
         id: row,
         storyId: story.id,
-        date: on,
+        date: api.state.date,
         personId,
       });
   }
@@ -481,41 +479,25 @@ function forgetOldNews(api: CoreAPI): void {
   }
 }
 
-/**
- * How many days after a story is printed a reader reads it, by their habits
- * and trust; null if they never do. The one delivery rule, for today's news
- * and the news of the years before the start.
- */
-export function readingDelay(api: CoreAPI, personId: PersonId): number | null {
-  const view = viewOf(api, personId);
-  const engagement = view?.engagement ?? api.parameter("zero");
-  if (engagement <= api.parameter("zero")) return null;
-  // People who trust the media less check it less, and hear later.
-  const reach =
-    engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
-  const exact = Math.ceil(n(api, "newsOutletDelayDays") / reach);
-  return exact > n(api, "newsMaxAgeDays") ? null : exact;
-}
-
-/**
- * Schedules a story's delivery to each reader by their habits and trust. A
- * reading day already past (a story printed before the start) is heard on
- * that day at once; `atOnce` readers (the story's own subject) hear it the
- * day it happened.
- */
+/** Schedules a story's delivery to each reader by their habits and trust. */
 function scheduleDeliveries(
   api: CoreAPI,
   story: Story,
   readerIds: Iterable<PersonId>,
   skip: ReadonlySet<PersonId>,
-  atOnce: ReadonlySet<PersonId> = new Set(),
 ): number {
   let scheduled = 0;
   const maxAge = n(api, "newsMaxAgeDays");
   for (const personId of readerIds) {
     if (skip.has(personId)) continue;
-    const exact = atOnce.has(personId) ? 0 : readingDelay(api, personId);
-    if (exact === null) continue;
+    const view = viewOf(api, personId);
+    const engagement = view?.engagement ?? api.parameter("zero");
+    if (engagement <= api.parameter("zero")) continue;
+    // People who trust the media less check it less, and hear later.
+    const reach =
+      engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
+    const exact = Math.ceil(n(api, "newsOutletDelayDays") / reach);
+    if (exact > maxAge) continue;
     // A printed story's readers catch up with it in waves: the next day,
     // then each time the delay grows by the wave factor, so a story is read
     // on a few days rather than every day of its life (one reading event
@@ -531,19 +513,12 @@ function scheduleDeliveries(
             ),
         )
       : exact;
-    const date = addDays(
-      makeIsoDate(story.date),
-      atOnce.has(personId) ? 0 : delay,
-    );
-    if (date < api.state.date)
-      hear(api, personId, story, "public", story.id, date);
-    else
-      deliveries(api).put({
-        id: `${story.id}:${personId}`,
-        storyId: story.id,
-        personId,
-        date,
-      });
+    deliveries(api).put({
+      id: `${story.id}:${personId}`,
+      storyId: story.id,
+      personId,
+      date: addDays(makeIsoDate(story.date), delay),
+    });
     scheduled += 1;
   }
   return scheduled;
@@ -558,14 +533,12 @@ export function printStory(
   api: CoreAPI,
   story: Story,
   readerIds: readonly PersonId[],
-  /** Readers who hear it the day it happened (its own subject). */
-  atOnce: readonly PersonId[] = [],
 ): number {
   // A world without news keeps the press's own record of the story only.
   if (!api.state.modules.has(NEWS_MODULE_ID) || stories(api).get(story.id))
     return 0;
   stories(api).put(story as unknown as { id: string });
-  return scheduleDeliveries(api, story, readerIds, new Set(), new Set(atOnce));
+  return scheduleDeliveries(api, story, readerIds, new Set());
 }
 
 /**

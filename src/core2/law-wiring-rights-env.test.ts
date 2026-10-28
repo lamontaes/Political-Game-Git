@@ -605,6 +605,7 @@ it("moves the outcome web's measures after their lags and ends every record on r
     for (const [link, key] of [
       ["abortion-ban-to-births", KEYS.abortion],
       ["emission-rules-to-particulates", KEYS.cleanAir],
+      ["groundwater-limits-to-irrigation-pumping", KEYS.groundwater],
       ["facial-recognition-limit-to-crime", KEYS.facial],
     ] as const) {
       expect(lastRow.values[`law:${key}`], `${where}: web reads ${key}`).toBe(
@@ -616,14 +617,6 @@ it("moves the outcome web's measures after their lags and ends every record on r
           `${where}: web link ${link} (law began as no)`,
         ).toBeDefined();
     }
-    // The groundwater link is carried by the business engine's farm limit (above), so the web does not run it.
-    expect(
-      months.some(
-        (m) =>
-          m.effects["groundwater-limits-to-irrigation-pumping"] !== undefined,
-      ),
-      `${where}: the web leaves the carried groundwater link alone`,
-    ).toBe(false);
     // The shift's link has a two-year lag: the web reads the law this year, and moves its measure after.
     expect(
       lastRow.values[`law:${KEYS.shift}`],

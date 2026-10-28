@@ -34,7 +34,7 @@ try {
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
-  const clock = await page.locator("#card-clock").textContent();
+  const clock = await page.locator("#card-clock").innerText();
   console.log(
     "Player:",
     await page.locator("#card-name").innerText(),
@@ -136,7 +136,7 @@ try {
       .evaluate((e) => document.activeElement === e),
     true,
   );
-  assert.equal(await page.locator("#card-clock").textContent(), clock);
+  assert.equal(await page.locator("#card-clock").innerText(), clock);
   assert.equal(await page.locator("#sheet").isVisible(), false);
   await page.locator("#talk-leave").click();
   console.log(

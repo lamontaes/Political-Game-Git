@@ -45,6 +45,8 @@ export const REAL_SAMPLES: Record<
   journal: { banks: ["journal"], lines: 20 },
   notices: { banks: ["notices"], lines: 2 },
   minutes: { banks: ["minutes"], lines: 4 },
+  hearing: { banks: ["hearing"], lines: 4 },
+  meeting: { banks: ["meeting"], lines: 12 },
   campaign: { banks: ["address"], lines: 8 },
   interview: { banks: ["interview"], lines: 8 },
   emotion: { banks: ["address"], lines: 18 },

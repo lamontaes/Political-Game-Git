@@ -635,6 +635,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     input: {
       version: input.version,
       accounts: input.accounts,
+      ...(input.cohortSizes ? { cohortSizes: input.cohortSizes } : {}),
       ...(input.calendars ? { calendars: input.calendars } : {}),
       ...(input.weights ? { weights: input.weights } : {}),
       // Counted people carry no past: fill-in builds each one's from the seed.
@@ -1509,6 +1510,19 @@ export function countedStaffOf(
     if (job.organizationId === organizationId && countedJob(core, jobId))
       jobs += 1;
   return jobs;
+}
+
+/**
+ * The records' count of people in a school class or workgroup, as the full
+ * build saw it, so people filled in later join the same-sized peer group.
+ * Pass as buildDeepPast's peerCohortSize option.
+ */
+export function peerCohortSize(
+  core: CoreState,
+  circle: string,
+  contextKey: string,
+): number | undefined {
+  return runtimes.get(core)?.input.cohortSizes?.[`${circle}|${contextKey}`];
 }
 
 /** The record of someone still in the wider population, built from their group's columns. */

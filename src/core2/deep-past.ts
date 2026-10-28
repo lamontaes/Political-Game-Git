@@ -1,5 +1,10 @@
 import { OPENING_KIN } from "./opening-kin";
 import { addFamilyHistories } from "./past-family";
+import {
+  buildOpeningPeerContacts,
+  DEFAULT_OPENING_PEER_DATA,
+  type OpeningPeerData,
+} from "./opening-peer-network";
 import { groupedJsonTable } from "./reference/lazy-data";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countyGeoidsForPlace } from "./reference/government-units";
@@ -13,6 +18,7 @@ import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/deep-past.json" with { type: "json" };
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
+import coworkerJson from "./data/opening-coworkers.json" with { type: "json" };
 import type { CoreInput, PersonInput, Source } from "./types";
 
 type PriorFact = NonNullable<PersonInput["pastFacts"]>[number] & {
@@ -39,6 +45,8 @@ const SCHOOLS = SCHOOL_TABLE.rest.bind(SCHOOL_TABLE) as () => {
   placesByCounty: Readonly<Record<string, readonly string[]>>;
   bucketsByState: Readonly<Record<string, readonly string[]>>;
 };
+
+const OPENING_COWORKER_DATA = coworkerJson as OpeningPeerData;
 
 export interface DeepPastFieldSource {
   personId: string;
@@ -116,6 +124,16 @@ export const DEFAULT_DEEP_PAST_DATA: DeepPastData = {
 export interface DeepPastOptions {
   data?: DeepPastData;
   parameters?: Readonly<Record<string, Parameter>>;
+  /**
+   * The two-level population: the records' count of people in a class or
+   * workplace (by circle version and context), so people filled in later
+   * join the same peer groups as in a fully built town.
+   */
+  peerCohortSize?: (
+    circle: string,
+    contextKey: string,
+    present: number,
+  ) => number;
 }
 
 type ReportedInput = CoreInput & {
@@ -219,6 +237,7 @@ export function buildDeepPast(
   const schoolCache = new Map<string, readonly SchoolRow[]>();
   // Lists read from the county or territory rather than the place itself.
   const broadLists = new Set<readonly SchoolRow[]>();
+  const jobById = new Map(input.jobs.map((job) => [job.id, job]));
 
   const report = (row: DeepPastFieldSource): void => {
     const key = `${row.personId}:${row.field}`;
@@ -637,15 +656,49 @@ export function buildDeepPast(
     gaps.add(
       `${gapPrefix}${field}: ${count} people retain an unresolved personal-history field; consult priorFactsSource for the constraint.`,
     );
+  // P15: every resident gets remembered acquaintances from their own school
+  // context, by the same rule the benchmark player had, and knows the
+  // coworkers of their workgroup since the later of their start dates.
+  const circles = [DEFAULT_OPENING_PEER_DATA, OPENING_COWORKER_DATA];
+  const residentIds = people
+    .filter((person) => person.tier !== OPENING_KIN.kinTier)
+    .map((person) => person.id);
+  let withPast: CoreInput = {
+    ...input,
+    people,
+    // The circle steps append their own gaps; keep them last on every rebuild.
+    gaps: [...gaps].filter(
+      (gap) => !circles.some((circle) => circle.scopeGap === gap),
+    ),
+  };
+  // A coworker's context is their opening job: employer and title come from
+  // the job record the work:opening fact belongs to.
+  const jobContext = (
+    person: PersonInput,
+    fact: PriorFact,
+  ): Readonly<Record<string, string>> | undefined => {
+    const job = person.jobId ? jobById.get(person.jobId) : undefined;
+    return job && fact.id.startsWith(`${job.id}:`)
+      ? { organizationId: job.organizationId, title: job.title }
+      : undefined;
+  };
   // The world has a past: each household's shared history and the moments
-  // its members remember (owner, Oct 14, 2026). Coworkers and classmates are
-  // the employer's and the school's records, read where they are needed
-  // (src/core2/shared-history.ts), not facts written here.
-  const withPast = addFamilyHistories(
-    { ...input, people, gaps: [...gaps] },
-    OPENING_KIN.kinTier,
-    data.version,
-  );
+  // its members remember (owner, Oct 14, 2026).
+  withPast = addFamilyHistories(withPast, OPENING_KIN.kinTier, data.version);
+  for (const circle of circles)
+    withPast = buildOpeningPeerContacts(withPast, {
+      personIds: residentIds,
+      data: circle,
+      ...(options.peerCohortSize
+        ? {
+            cohortSize: (contextKey: string, present: number) =>
+              options.peerCohortSize!(circle.version, contextKey, present),
+          }
+        : {}),
+      ...(circle === OPENING_COWORKER_DATA
+        ? { contextValues: jobContext }
+        : {}),
+    }).input;
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];
   } = { ...withPast, priorFactsSource: reports };

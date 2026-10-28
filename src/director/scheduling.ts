@@ -19,7 +19,7 @@ import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
-import { attendedSchool } from "../core2/past";
+import { attendedSchool } from "./school";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;

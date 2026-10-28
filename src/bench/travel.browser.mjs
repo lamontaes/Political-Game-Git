@@ -46,7 +46,7 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   const name = await page.locator("#card-name").innerText();
-  const clock = await page.locator("#card-clock").textContent();
+  const clock = await page.locator("#card-clock").innerText();
   console.log(
     "Player:",
     name,
@@ -88,7 +88,7 @@ try {
   await page.screenshot({
     path: `${process.env.SHOTS ?? "docs/reports/travel-cards-2026-10-27"}/travel.png`,
   });
-  assert.equal(await page.locator("#card-clock").textContent(), clock);
+  assert.equal(await page.locator("#card-clock").innerText(), clock);
   assert.deepEqual(errors, []);
   console.log(
     "PASS destinations, search, optional artwork omitted and unchanged clock",

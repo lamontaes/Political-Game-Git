@@ -1226,7 +1226,7 @@ export function officialParts(
             sum +
             Math.max(
               -1,
-              Math.min(1, Math.log2(stateStake(api, row.stateKey, s.question))),
+              Math.min(1, Math.log2(stateStake(row.stateKey, s.question))),
             ) *
               s.position,
           0,

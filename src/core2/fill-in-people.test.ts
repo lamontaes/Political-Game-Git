@@ -96,7 +96,14 @@ describe("filling in people gets the same past as the whole town", () => {
     startedAt: "2021-01-01",
     minimumPeople: 400,
   });
-  const town = buildDeepPast(population);
+  // The records' size of each class and workplace, read from the full build.
+  const cohorts = new Map<string, number>();
+  const town = buildDeepPast(population, {
+    peerCohortSize: (circle, contextKey, present) => {
+      cohorts.set(`${circle}|${contextKey}`, present);
+      return present;
+    },
+  });
   const byId = new Map(town.people.map((person) => [person.id, person]));
 
   it(`in ${population.placeMetadata?.placeName} (seed ${seed})`, () => {
@@ -106,14 +113,20 @@ describe("filling in people gets the same past as the whole town", () => {
       const ids = new Set<string>(household.memberIds);
       for (const id of household.memberIds)
         for (const other of byId.get(id)!.familyIds) ids.add(other);
-      const alone = buildDeepPast({
-        ...population,
-        people: population.people.filter((row) => ids.has(row.id)),
-        households: population.households.filter((row) =>
-          row.memberIds.some((id) => ids.has(id)),
-        ),
-        jobs: population.jobs.filter((row) => ids.has(row.personId)),
-      });
+      const alone = buildDeepPast(
+        {
+          ...population,
+          people: population.people.filter((row) => ids.has(row.id)),
+          households: population.households.filter((row) =>
+            row.memberIds.some((id) => ids.has(id)),
+          ),
+          jobs: population.jobs.filter((row) => ids.has(row.personId)),
+        },
+        {
+          peerCohortSize: (circle, contextKey) =>
+            cohorts.get(`${circle}|${contextKey}`)!,
+        },
+      );
       for (const person of alone.people) {
         // Ties to people not yet filled in appear when they are.
         const expected = (byId.get(person.id)!.pastFacts ?? []).filter(

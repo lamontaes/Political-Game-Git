@@ -73,34 +73,10 @@ it("a campaign volunteer is met as someone known, with distinct replies", () => 
     const filingId = `filing:${filed.id}:${me}`;
     // The people the player knows outside the household say yes to the
     // campaign, as the owner's volunteer did, and the season plays.
-    // A player who just turned 18 may know only family at the start (no
-    // schooling before the start is simulated yet, SG-WIRE-PEOPLE-SCHOOLMATES),
-    // so townspeople they meet on the campaign make up the rest, met as the
-    // encounters engine meets a group's members.
     const household = core.people.get(me)!.householdId;
-    const known = [...core.people.get(me)!.knownIds]
-      .sort()
-      .filter((id) => core.people.get(id)?.householdId !== household);
-    const town = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          row.tier !== "husk" &&
-          row.householdId !== household &&
-          !core.people.get(me)!.familyIds.has(row.id) &&
-          !known.includes(row.id),
-      )
-      .map((row) => row.id)
-      .sort();
-    for (const id of [...known, ...town].slice(0, 12)) {
-      if (!enlistVolunteer(api, filingId, id)) continue;
-      api.meet(me, id as PersonId, {
-        placeId: core.people.get(me)!.placeId,
-        sourceId: filingId,
-        cause: "met-in-group",
-        hours: 1,
-      });
-    }
+    for (const id of [...core.people.get(me)!.knownIds].sort().slice(0, 12))
+      if (core.people.get(id)?.householdId !== household)
+        enlistVolunteer(api, filingId, id);
     const volunteers = campaignFor(api, filingId).volunteerIds;
     if (!volunteers.length) {
       tried.push(`${where}: nobody the player knows could volunteer`);

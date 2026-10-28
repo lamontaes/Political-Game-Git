@@ -190,6 +190,29 @@ for (const [stage, key] of [
   );
 }
 
+// 3. School peer groups.
+{
+  const size = row("openingPeerGroupSize");
+  const groups = new Map<string, { members: number; facts: string[] }>();
+  for (const person of people())
+    for (const fact of factsOf(
+      person,
+      "social:generated-school-acquaintance",
+    )) {
+      const id = fact.facts?.peerGroupId ?? "";
+      const group = groups.get(id) ?? {
+        members: Number(fact.facts?.peerGroupMembers),
+        facts: [],
+      };
+      group.facts.push(fact.id);
+      groups.set(id, group);
+    }
+  const sizes = [...groups.values()].map((g) => g.members);
+  console.log(
+    `\nopeningPeerGroupSize ${size.value} (band ${size.spread?.low} to ${size.spread?.high} students per class): ${groups.size} generated peer groups, sizes ${JSON.stringify(sizes.sort((a, b) => a - b))}; counted voters are each known by ${size.value - 1} school peers in candidacy.ts countedKnown. Groups: ${ids([...groups.keys()])}; facts ${ids([...groups.values()].flatMap((g) => g.facts))}.`,
+  );
+}
+
 // 4 and 5. Opening education and faith against ACS B15001 and Pew RLS.
 {
   const adults = people().filter(

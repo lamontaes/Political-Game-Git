@@ -61,6 +61,7 @@ import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
+import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
@@ -367,7 +368,10 @@ function* benchWorldStages(
     const countScale =
       options.countScale ??
       (minimumPeople ? 1 : censusScale(place, population));
-    let withPlayer: CoreInput = { ...input, playerId };
+    let withPlayer: CoreInput = {
+      ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
+      playerId,
+    };
     withPlayer = {
       ...withPlayer,
       focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),
