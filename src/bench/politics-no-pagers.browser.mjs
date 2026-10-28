@@ -25,6 +25,16 @@ const controls = () =>
     bodies: document.querySelectorAll("#sheet-body .record-section").length,
     rows: document.querySelectorAll("#sheet-body .person-row").length,
     hidden: [...document.querySelectorAll("#sheet-body .paged-out")].length,
+    // A row or face past the box's edge is clipped: shown to nobody.
+    outside: (() => {
+      const box = document.getElementById("sheet-body").getBoundingClientRect();
+      return [
+        ...document.querySelectorAll("#sheet-body .person-row, .face-cell"),
+      ].filter((row) => {
+        const r = row.getBoundingClientRect();
+        return r.right > box.right + 1 || r.bottom > box.bottom + 1;
+      }).length;
+    })(),
   }));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -41,13 +51,15 @@ try {
   }
   await page.locator('.ring[data-tab="politics"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
+  await page.locator("#sheet-body .screen-grid").waitFor();
+  await page.waitForTimeout(1200);
   const seen = [];
   for (const level of ["local", "state", "federal"]) {
     await page
       .locator(`.government-picker .tab[data-level="${level}"]`)
       .click();
-    await page.waitForTimeout(900);
-    await page.locator("#sheet-body .person-row").first().waitFor();
+    await page.waitForTimeout(1200);
+    await page.locator("#sheet-body .person-row:visible").first().waitFor();
     const c = await controls();
     seen.push({ screen: `Government ${level}`, ...c });
   }
@@ -56,16 +68,21 @@ try {
   await page.waitForTimeout(600);
   seen.push({ screen: "Parties", ...(await controls()) });
   if (process.env.SHOT_DIR) {
+    await page.screenshot({ path: `${process.env.SHOT_DIR}/22-parties.png` });
     await page.locator('#sheet-tabs [data-tab="government"]').click();
-    await page.locator(`.government-picker .tab[data-level="local"]`).click();
-    await page.waitForTimeout(900);
-    await page.screenshot({
-      path: `${process.env.SHOT_DIR}/22-government-no-pagers.png`,
-    });
+    for (const level of ["state", "local"]) {
+      await page
+        .locator(`.government-picker .tab[data-level="${level}"]`)
+        .click();
+      await page.waitForTimeout(900);
+      await page.screenshot({
+        path: `${process.env.SHOT_DIR}/22-government-${level}.png`,
+      });
+    }
   }
   for (const s of seen) {
     console.log(
-      `${s.screen}: ${s.bodies} sections, ${s.rows} rows, ${s.pagers} pagers, sheet pager ${s.sheetPager ? "shown" : "hidden"}, ${s.hidden} rows paged out${s.words.length ? `, words ${s.words.join("/")}` : ""}`,
+      `${s.screen}: ${s.bodies} sections, ${s.rows} rows, ${s.pagers} pagers, sheet pager ${s.sheetPager ? "shown" : "hidden"}, ${s.hidden} rows paged out, ${s.outside} clipped${s.words.length ? `, words ${s.words.join("/")}` : ""}`,
     );
     assert.equal(
       s.pagers,
@@ -82,6 +99,7 @@ try {
       `${s.screen}: the screen does not fit the window and pages`,
     );
     assert.equal(s.hidden, 0, `${s.screen}: rows kept off the page`);
+    assert.equal(s.outside, 0, `${s.screen}: rows clipped past the box`);
   }
   assert.deepEqual(errors, [], "page errors");
   console.log("ok: no Back or Continue in the Politics menus, everything fits");

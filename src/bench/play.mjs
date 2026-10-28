@@ -16,6 +16,7 @@ import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import { districtMap, partyLegend } from "./ui/map.mjs";
+import { faceGrid } from "./ui/face-grid.mjs";
 import { makeTab, tabBar } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -3118,8 +3119,8 @@ const sheets = {
               },
             })
           : row(holderName(s), "");
-      const member = (s) => {
-        const line = holderRow(s);
+      const member = (s, withOffice = false) => {
+        const line = holderRow(s, withOffice ? s.title : undefined);
         const won =
           s.holder && s.elections.find((e) => e.termId === s.holder.termId);
         const result = controls.results;
@@ -3202,25 +3203,30 @@ const sheets = {
           if (!offices.has(s.officeId)) offices.set(s.officeId, []);
           offices.get(s.officeId).push(s);
         }
-        bodies = [...offices.values()].map((seats) => {
+        // A body of several seats is its own section; the one-seat offices
+        // of one government (a county's sheriff, clerk, assessor) share a
+        // section named for it, each row naming the office, so the screen
+        // holds every office at once (owner, Oct 28, point 22).
+        const body = (seats, title, detail) => {
           const first = seats[0];
           const parties = v.partySeatsByOffice[first.officeId] ?? [];
           return {
-            title: first.title,
+            title,
             items: [
               // A local body is named under its office ("Apache County Board
               // of Supervisors"); a state or federal office's government is
               // the state the filter already names, so no "Governor / Ohio"
               // line (owner, Oct 28, point 16).
-              level === "local" && first.body
+              level === "local" && first.body && first.body !== title
                 ? { text: first.body, tone: "place" }
                 : null,
               first.presentation?.chamberUrl && {
                 picture: first.presentation.chamberUrl,
               },
               // The parties' seats, for a body of more than one seat: one
-              // governor gets no bar with a 1 on it (owner, Oct 28, point 17).
-              parties.length && seats.length > 1
+              // governor gets no bar with a 1 on it (owner, Oct 28, point 17),
+              // and neither does a government's group of one-seat offices.
+              parties.length && seats.length > 1 && !detail
                 ? {
                     node: barChart(
                       parties.map((p) => ({ label: p.party, value: p.seats })),
@@ -3228,7 +3234,34 @@ const sheets = {
                     ),
                   }
                 : null,
-              ...seats.map((s) => ({ node: member(s) })),
+              // A body of more than twelve seats (a legislature) shows its
+              // members as a grid of headshots, each opening their card.
+              ...(seats.length > 12
+                ? [
+                    {
+                      node: faceGrid(
+                        seats.map((s) => ({
+                          name: holderName(s),
+                          party: s.holder?.party ?? null,
+                          face: s.holder?.face ?? null,
+                          district: s.district,
+                          onOpen: () => {
+                            if (!s.holder) return;
+                            closeSheet();
+                            showPerson({
+                              personId: s.holder.cardId,
+                              figureUrl: s.holder.face?.url,
+                            });
+                          },
+                        })),
+                        (person) =>
+                          [person.name, person.party, person.district]
+                            .filter(Boolean)
+                            .join(", "),
+                      ),
+                    },
+                  ]
+                : seats.map((s) => ({ node: member(s, detail) }))),
               // Future public view records can supply these without changing the layout.
               ...(first.votes ?? []).flatMap((vote) => [
                 { text: vote.title, tone: "subhead" },
@@ -3247,7 +3280,24 @@ const sheets = {
               })),
             ],
           };
-        });
+        };
+        const several = [...offices.values()].filter((s) => s.length > 1);
+        const single = new Map();
+        for (const seats of [...offices.values()].filter(
+          (s) => s.length === 1,
+        )) {
+          const key = seats[0].body ?? seats[0].government ?? seats[0].title;
+          if (!single.has(key)) single.set(key, []);
+          single.get(key).push(seats[0]);
+        }
+        bodies = [
+          ...several.map((seats) => body(seats, seats[0].title)),
+          ...[...single].map(([name, seats]) =>
+            seats.length === 1
+              ? body(seats, seats[0].title)
+              : body(seats, name, true),
+          ),
+        ];
       }
       // The key people: the player's own members first, then the President,
       // the Vice President and each chamber's leader by post and chamber (a
@@ -3507,10 +3557,13 @@ async function openSheet(tab) {
   );
   // A screen is as tall as what it holds (owner, Oct 27: "so much dead space");
   // the calendar, the people web and two-column readers fill the window.
+  // A screen that ends under its content fits; one that flows in columns or
+  // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
     !["calendar", "people", "who"].includes(tab) &&
-      !$("sheet-body").classList.contains("cols"),
+      !$("sheet-body").classList.contains("cols") &&
+      !$("sheet-body").querySelector(".screen-grid"),
   );
   show("sheet", true);
   $("game").classList.add("sheet-open");
