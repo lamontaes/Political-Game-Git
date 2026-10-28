@@ -1,0 +1,31 @@
+---
+id: words-recall-count-names-the-answer
+title: "A recall petition's count says how many signed and that the official's answer moved it"
+lead: words
+milestone: play-first
+area: play
+kind: wiring
+priority: 2
+size: S
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: added with npm run pool -- add
+---
+
+**What.** With recall-reply-moves-the-drive, the recall's due-day count reads the official's answer to the petition's organizer: the recall-outcome record (failed or on-ballot) now carries signatures, required, before (the count without the answer) and answerIds (the scene replies it read). The news and headline banks still say only that a petition got enough signatures or did not ('The petition to recall {name} has enough signatures for a vote.'), so the player never sees the count or why it moved. In Glen Gardner, New Jersey (seed recall-a1 draw 4), the member heard the petitioners out and 21 fewer signed (463 to 442), and nothing on screen says so.
+
+**Rules.** Ask why: the line says why the count moved only from the record's own facts (before, signatures and the answer it read), never a guess. No hand-written player text in code: the words are bank pieces graded like every other.
+
+**Done when.** In a drawn place where the official answered a recall petition, the news line and the journal line for the petition's count name the signatures and, where the answer moved them, that it did, each citing the recall-outcome record id and the reply id, shown by a test on the composed lines and a screenshot.
+
+**Time box.** 2 hours.
+
+**You will see.** After you answer the petitioners, the news of the petition's count says how many signed and that fewer did after you heard them out.
+
+**Screenshot.** The news or journal line for a petition's count after the official's answer, from a drawn place.
+
+**Files.** data/english/parts/news.json, data/english/parts/journal.json, src/director/data/journal-rows.json
+
+**Notes.** Found Oct 28 01:20 by the laws-and-effects lead building recall-reply-moves-the-drive.

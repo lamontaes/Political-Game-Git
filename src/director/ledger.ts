@@ -36,6 +36,7 @@ import {
   spacingAllows,
   type QueuedRecord,
 } from "./circumstance";
+import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
@@ -1417,6 +1418,7 @@ export function createDirector(
         ...newCoworkers(core, book.personId),
         ...newHousemates(core, book.personId),
         ...schoolFinished(core, book.personId),
+        ...doorsKnocked(core, book.personId),
       ];
       // A record read directly today (a school year's end) is held for the
       // rows that come days after it, as a logged event is when recorded.

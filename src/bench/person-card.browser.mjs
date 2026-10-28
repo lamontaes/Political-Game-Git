@@ -115,6 +115,8 @@ try {
   assert.ok(read.home, "the card shows nothing about the person's life");
   for (const { value, label } of read.values)
     assert.ok(label, `a value with no label: ${value}`);
+  // "Last talked" is never shown (owner, Oct 27, 5 PM).
+  assert.doesNotMatch(text, /last talked/i, "a Last talked line");
   if (card.tie?.lastContactDate)
     assert.ok(!text.includes(card.tie.lastContactDate));
   await page.waitForFunction(

@@ -2,11 +2,11 @@ import { composeScene } from "../director/scene";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
-import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
+import { hasBackdrop } from "./backdrop-places";
 import {
-  backdropFile,
   homeOf,
   orgPlace,
+  personBackdrop,
   pictureFor,
   stagePeople,
   type StageReason,
@@ -15,11 +15,6 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
 
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
 const SETTINGS = scenePlaces.sceneSettings as Record<string, string[]>;
 const SITUATIONS = scenePlaces.situationPlaces as Record<string, string[]>;
 const SCHOOLS = scenePlaces.schoolPlacesByAge;
@@ -37,6 +32,8 @@ function shownLine(line: SceneTalkLine) {
     ...(line.speakerId ? { speakerId: line.speakerId } : {}),
     role: line.role,
     text: line.text,
+    // The pieces that said it, so a grade in play reaches them.
+    parts: line.parts,
     // A piece held until the owner grades it, shown only in the grading view.
     held: !line.parts.every(shipped),
   };
@@ -118,7 +115,7 @@ export function storyScene(
             ? orgPlace(core, scene.setting.recordId)
             : step,
       )
-      .find((row): row is string => !!row && PICTURED.has(row)) ??
+      .find((row): row is string => !!row && hasBackdrop(row)) ??
     homeOf(core, personId, minuteOfDay);
   // The town's own picture of that kind of place, at this hour's light.
   const pictured = pictureFor(
@@ -181,13 +178,14 @@ export function storyScene(
   return {
     momentId,
     place: pictured,
-    backdrop: backdropFile(pictured, minuteOfDay),
+    backdrop: personBackdrop(core, personId, pictured, minuteOfDay),
     people: stagePeople(core, pictured, cast).people,
     narration: [
       ...scene.narration,
       ...(purpose?.kind === "composed"
         ? purpose.scene.talk.narration.map((line) => ({
             text: line.text,
+            parts: line.parts,
             held: !line.parts.every(shipped),
           }))
         : []),

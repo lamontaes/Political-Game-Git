@@ -216,7 +216,7 @@ try {
     }
     await page.locator(`.month .day[data-date="${targetDate}"]`).click();
     const clockBefore = await page.locator("#card-clock").innerText();
-    const skip = page.locator(".calendar-details .skip-forward");
+    const skip = page.locator(".calendar-side-head .skip-forward");
     // No skip control means the player's day is not before that day yet.
     if (!(await skip.count())) {
       await page.keyboard.press("Escape");

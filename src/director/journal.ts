@@ -8,7 +8,11 @@ import {
 } from "../core2/modules/legislature";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import type { LawRowInput } from "../core2/laws-starting";
-import { billTitleOf, billTitleSaid } from "../english/bill-names";
+import {
+  billNumberAndTitle,
+  billTitleOf,
+  billTitleSaid,
+} from "../english/bill-names";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -89,6 +93,8 @@ type JournalMoment = Pick<
 function billName(
   core: Readonly<CoreState>,
   billId: string | undefined,
+  /** Said with its number first ("HB 9, the Income Tax Act"), as a scene about it names it. */
+  withNumber = false,
 ): string | undefined {
   if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
   const api = coreAPI(core as CoreState);
@@ -97,7 +103,10 @@ function billName(
     .table("bills")
     .get(billId) as unknown as BillRow | undefined;
   const title = row ? billTitleOf(row)?.title : undefined;
-  return title ? billTitleSaid(title) : undefined;
+  if (!title) return undefined;
+  return withNumber && row?.number
+    ? billNumberAndTitle(row.number, row.form.kind, title)
+    : billTitleSaid(title);
 }
 
 /**
@@ -596,8 +605,12 @@ export function composeJournal(
       const value =
         spec.format === "organization"
           ? core.organizations.get(logged?.topic ?? "")?.name
-          : spec.format === "billName"
-            ? billName(core, logged?.facts?.[spec.fact])
+          : spec.format === "billName" || spec.format === "billNumberAndName"
+            ? billName(
+                core,
+                logged?.facts?.[spec.fact],
+                spec.format === "billNumberAndName",
+              )
             : spec.format === "lawName"
               ? law?.text
               : logged?.facts?.[spec.fact];

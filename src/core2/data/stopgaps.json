@@ -7114,6 +7114,18 @@
     "status": "open"
   },
   {
+    "id": "SG-PLAY-people-hair-color-weights",
+    "kind": "estimated-data",
+    "file": "src/bench/whole-figures.ts",
+    "line": 339,
+    "whatItFakes": "The hair color of a person other than the player is drawn from one rough national spread, and for people 65 and older from a mostly gray and white one, the same in every place.",
+    "why": "The people records hold no hair color; the figures need one now that hair is drawn (owner, Oct 27). No census counts hair color, so the weights are an estimate, about five points a color.",
+    "addedBy": "claude/people-hair",
+    "addedAt": "2026-10-27",
+    "replacement": "A hair color set when the person is made from a sourced spread by age and ancestry, stored on their appearance record.",
+    "status": "open"
+  },
+  {
     "id": "SG-TRAITS-counted-hardship-stress",
     "kind": "partial-model",
     "file": "src/core2/trait-decisions.ts",
@@ -7221,6 +7233,18 @@
     "addedBy": "claude/integration-clock-and-hours",
     "addedAt": "2026-10-27",
     "replacement": "A person's own wake time from their work schedule, household and age (American Time Use Survey sleep and waking hours by age and employment), read by the bench's day driver and the director's openedAt.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-room-condition-rule",
+    "kind": "tunable",
+    "file": "src/bench/scene.ts",
+    "line": 300,
+    "whatItFakes": "Whether a home's room is drawn tidy, lived-in or rundown is read from the household's third of the town's homes by value or rent, its tenure and its size, because no dwelling record carries a condition.",
+    "why": "The art session painted lived-in and rundown versions of the home rooms (art/backdrops, Oct 28) and the housing module keeps value, rent and tenure but no repair state.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "A dwelling condition the housing module keeps (repairs, landlord upkeep, age of the building), read here in place of the third.",
     "status": "open"
   }
 ]

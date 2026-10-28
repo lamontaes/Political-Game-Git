@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: screens/news-a-newspaper
 pr: #6396
 blocked-on:

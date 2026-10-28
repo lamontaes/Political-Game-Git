@@ -515,7 +515,7 @@ select:focus-visible {
   text-transform: uppercase;
   color: var(--gold);
 }
-.row:not(.narrative, .campaign, .race) > :last-child:not(b) {
+.row:not(.narrative, .campaign, .race, .calendar-entry) > :last-child:not(b) {
   text-align: right;
 }
 
@@ -1524,74 +1524,85 @@ body.dev .dev-ring {
   -webkit-backdrop-filter: none;
 }
 
-/* Calendar uses the existing panel frame and Kit 13 controls. */
+/* Calendar: the month fills the panel, each day shows what is on it in words, and
+   Coming up (or the chosen day) is a dense list beside it (principles 1, 5, 7). */
 #sheet-body:has(.calendar-layout) {
   max-width: none;
+  display: flex;
 }
 .calendar-layout {
+  flex: 1;
   display: grid;
-  grid-template-columns: minmax(360px, 1.7fr) minmax(220px, 1fr);
-  gap: 24px;
-  max-width: 1000px;
-  margin: 0 auto;
+  grid-template-columns: minmax(0, 2.1fr) minmax(300px, 1fr);
+  gap: 28px;
+  min-height: 0;
 }
-/* The day panel opens between the month and Coming up only for a day with something. */
-.calendar-layout.has-day {
-  grid-template-columns: minmax(360px, 1.7fr) minmax(200px, 1fr) minmax(
-      180px,
-      1fr
-    );
-}
-.calendar-day-date {
-  font: 600 15px var(--ui);
-  color: var(--gold);
-}
-.calendar-month-foot {
+.calendar-month,
+.calendar-side {
   display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.calendar-details[hidden] {
-  display: none;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 .calendar-layout h3 {
   font: 600 17px var(--name);
   color: var(--gold);
-  margin: 0 0 18px;
+  margin: 0;
 }
 .calendar-heading {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 .calendar-heading h3 {
-  margin: 0;
+  min-width: 170px;
   text-align: center;
 }
-.calendar-heading button {
-  font-size: 11px;
-  padding: 6px;
+#sheet-body .calendar-heading .month-step {
+  font-size: 12px;
+  padding: 4px 10px;
+  min-height: 28px;
+  margin: 0;
+}
+#sheet-body .calendar-heading .month-step:last-child {
+  margin-left: auto;
 }
 #sheet-body .month {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 6px;
-  margin-bottom: 18px;
+  grid-template-rows: auto;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 4px;
+  min-height: 0;
 }
 .month .weekday {
   font: 500 11px var(--ui);
   color: var(--gold);
-  text-align: center;
-  padding-bottom: 8px;
+  text-align: left;
+  padding: 0 6px 4px;
 }
-.month .day {
-  height: 56px;
-  min-height: 56px;
-  padding: 6px;
+#sheet-body .month .day {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  min-height: 0;
+  height: auto;
+  margin: 0;
+  padding: 4px 6px;
+  overflow: hidden;
+  text-align: left;
+  font-weight: 400;
   background: rgba(255, 255, 255, 0.05);
-  position: relative;
+  box-shadow: none;
+}
+.month .day .num {
+  font: 600 13px var(--ui);
+}
+.month .day.past {
+  opacity: 0.55;
 }
 .month .day.today {
   color: var(--gold);
@@ -1606,48 +1617,86 @@ body.dev .dev-ring {
 }
 .month .entry {
   display: flex;
-  gap: 3px;
-  margin-top: 4px;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  font: 13px/1.25 var(--ui);
+  color: var(--text);
 }
-.month .day-icon {
-  width: 20px;
-  height: 20px;
+.month .entry.own,
+.calendar-entry.own .what {
+  color: var(--gold);
+}
+.month .entry {
+  align-items: start;
+}
+.month .entry .what {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.month .more {
+  font: 11px var(--ui);
+  color: var(--muted, var(--text));
+}
+.month .day-icon,
+.calendar-entry .day-icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
   object-fit: contain;
+  filter: brightness(2.2);
 }
-.calendar-event {
-  margin-bottom: 20px;
+.calendar-entry .what {
+  text-align: left;
 }
-.calendar-event p {
-  font: 17px/1.4 var(--speech);
-  margin: 5px 0;
+.calendar-side-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+  margin-bottom: 8px;
+}
+.calendar-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+#sheet-body .calendar-entry {
+  display: grid;
+  grid-template-columns: 84px 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 7px 8px;
+  text-align: left;
+  font: 15px/1.3 var(--ui);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+  border: 0;
+}
+#sheet-body .calendar-entry:not(:has(.when)) {
+  grid-template-columns: 18px minmax(0, 1fr);
+}
+.calendar-entry .when {
+  white-space: nowrap;
+  font: 600 12px var(--ui);
+  color: var(--gold);
 }
 .calendar-paging {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
+  margin-top: 10px;
 }
-.calendar-upcoming > div > button {
-  padding-left: 0;
-  color: var(--gold);
-}
-@media (max-width: 1100px) {
-  .calendar-layout,
-  .calendar-layout.has-day {
-    grid-template-columns: minmax(300px, 1.6fr) 1fr;
-    gap: 18px;
-  }
-  .calendar-upcoming {
-    grid-column: 1 / -1;
-    display: flex;
-    gap: 20px;
-    align-items: start;
-  }
-  .calendar-upcoming > div {
-    flex: 1;
-  }
-  .calendar-event p {
-    font-size: 14px;
-  }
+#sheet-body .calendar-paging button {
+  white-space: nowrap;
+  margin: 0;
 }
 
 /* Family: each member where they are now. */
@@ -2111,28 +2160,37 @@ body.dev .dev-ring {
   object-fit: cover;
   margin-bottom: 14px;
 }
-.paper-records {
-  margin-top: 28px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+/* The front page: a rule under the masthead, the lead story's text in the
+   wide column, the next stories and the briefs in the column beside it. */
+.paper-masthead {
+  padding-bottom: 12px;
+  border-bottom: 3px double rgba(214, 189, 132, 0.45);
 }
-.paper-records > h3,
-.paper-records > nav {
-  grid-column: 1 / -1;
+.story-text {
+  font: 17px/1.55 var(--speech);
+  margin: 10px 0;
 }
-.paper-records h3 {
-  font: 17px var(--name);
-  color: var(--gold);
-  margin: 0;
+.paper-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-left: 26px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
 }
-.paper-records h4 {
-  font: 19px var(--speech);
-  margin: 8px 0;
+.paper-story.second + .paper-story,
+.paper-story.brief + .paper-story {
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-.paper-records p {
-  font: 15px var(--speech);
-  margin: 6px 0;
+#sheet-body .paper-story.second .story-headline {
+  font-size: 21px;
+}
+.paper-story.second .story-lede {
+  font-size: 16px;
+  margin: 8px 0 0;
+}
+#sheet-body .paper-story.brief .story-headline {
+  font: 600 16px/1.3 var(--speech);
 }
 .paper-pager,
 .outlet-picker {
@@ -2148,7 +2206,7 @@ body.dev .dev-ring {
   color: var(--text-strong);
 }
 .paper-modern .paper-stories {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1.4fr 1fr;
 }
 .paper-modern .paper-story.lead {
   grid-row: auto;
@@ -2180,7 +2238,6 @@ body.dev .dev-ring {
 }
 .paper-weekly .paper-story.lead {
   grid-row: auto;
-  grid-column: 1 / -1;
 }
 .article-title {
   font: 600 32px var(--speech);
@@ -2941,4 +2998,29 @@ body.dev .dev-ring {
   gap: 8px;
   position: sticky;
   top: 0;
+}
+
+/* The owner's grade on a line (dev mode): small, after the line. */
+.grade-line {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.grade-line button {
+  padding: 0 6px;
+  font-size: 0.75em;
+}
+.grade-note {
+  font-size: 0.75em;
+  width: 7em;
+}
+.grade-saved {
+  font-size: 0.75em;
+  opacity: 0.7;
+}
+
+/* What a person is like, on their card: a short paragraph above the facts. */
+#person-facts .person-sketch {
+  margin: 0 0 18px;
 }

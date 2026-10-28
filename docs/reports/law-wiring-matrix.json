@@ -82,8 +82,8 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 65,
-    "partly": 10,
+    "wired": 67,
+    "partly": 8,
     "stopgapped": 14,
     "shownOnAScreen": 87,
     "screensRead": [
@@ -130,8 +130,8 @@
         "n/a": 0
       },
       "money": {
-        "wired": 76,
-        "partial": 5,
+        "wired": 78,
+        "partial": 3,
         "missing": 0,
         "stopgap": 1,
         "n/a": 7
@@ -3151,7 +3151,7 @@
       "family": "housing",
       "reachGroup": "A",
       "mechanic": "housing-assistance",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -3165,19 +3165,18 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open (full 0, counted groups 7/7 people, households 1, orgs 0, govts 0) e.g. applied|budget-line:housing|household_10931c8c88d368c5; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 8 open (full 0, counted groups 6/6 people, households 2, orgs 0, govts 0) e.g. applied|budget-line:housing|household_018e4ce91545651b; North Pownal, Vermont, US-VT (seed f72df05648f09350): 8 open (full 0, counted groups 6/6 people, households 2, orgs 0, govts 0) e.g. applied|budget-line:housing|household_a4b7a810f4d3def2",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 9 open (full 0, counted groups 5/5 people, households 4, orgs 0, govts 0) e.g. applied|budget-line:housing|household_10931c8c88d368c5; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 11 open (full 0, counted groups 4/4 people, households 5, orgs 2, govts 0) e.g. applied|budget-line:housing|household_0191bce915485942; North Pownal, Vermont, US-VT (seed f72df05648f09350): 11 open (full 0, counted groups 7/7 people, households 2, orgs 2, govts 0) e.g. applied|budget-line:housing|household_a4c8ac10f4e258f1",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/counted-money.ts, src/core2/budgets-treasury.ts, src/core2/work-payroll-cash.ts, src/core2/cost-of-living.ts, src/core2/finance-cash.ts",
+          "evidence": "src/core2/world-transfer.ts, src/core2/budgets-treasury.ts, src/core2/counted-money.ts, src/core2/credit-deposits.ts, src/core2/modules/residents.ts",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 351441698 -> 355226667 (journal:2025-01-23:1639); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:908 710208788552590 -> 710208785253190 (journal:2025-02-01:1741); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 372375957 -> 369153331 (journal:2025-01-27:1666)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): the place:2666300 treasury's payments on housing, which the raise moved by 10000000: 503152 without the raise, 4592412 with it (journal:2025-02-01:1928); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): the place:3149425 treasury's payments on housing, which the raise moved by 10000000: 1499830 without the raise, 5952636 with it (journal:2025-02-01:1895); North Pownal, Vermont, US-VT (seed f72df05648f09350): the place:5051325 treasury's payments on housing, which the raise moved by 10000000: 3247351 without the raise, 10034413 with it (journal:2025-02-01:2140)",
+          "why": ""
         },
         "web": {
           "status": "wired",
@@ -3186,12 +3185,12 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 49 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:housing:law-wiring-63831aa3); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:housing:law-wiring-63831aa3); North Pownal, Vermont, US-VT (seed f72df05648f09350): 82 people heard (person_5e19b62599c71fbc:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:budget-line-changed:budget:place:5051325:2024:housing:law-wiring-63831aa3)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 82 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:housing:law-wiring-63831aa3); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 73 people heard (person_1f0aeb3215325dc6:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:housing:law-wiring-63831aa3); North Pownal, Vermont, US-VT (seed f72df05648f09350): 71 people heard (person_96687d4e53359991:printed:outlet:newspaper:0:jurisdiction_ad8bfc17f930c028:budget-line-changed:budget:place:5051325:2024:housing:law-wiring-63831aa3)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 8 open under the changed row -> after the old amount is put back 0 still cite it; North Pownal, Vermont, US-VT (seed f72df05648f09350): 8 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 9 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 11 open under the changed row -> after the old amount is put back 0 still cite it; North Pownal, Vermont, US-VT (seed f72df05648f09350): 11 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
@@ -5109,7 +5108,7 @@
       "family": "justice",
       "reachGroup": "A",
       "mechanic": "staffing",
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -5123,19 +5122,18 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 38 open (full 0, counted groups 35/35 people, households 0, orgs 1, govts 2) e.g. reach:law-wiring-b12dcfab:positions:organization:treasury:place:2666300:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 38 open (full 0, counted groups 35/35 people, households 0, orgs 1, govts 2) e.g. reach:law-wiring-b12dcfab:positions:organization:treasury:place:3149425:2025-01-20",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 30 open (full 0, counted groups 26/26 people, households 0, orgs 2, govts 2) e.g. reach:law-wiring-b12dcfab:positions:organization:treasury:place:2666300:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 38 open (full 0, counted groups 34/34 people, households 0, orgs 2, govts 2) e.g. reach:law-wiring-b12dcfab:positions:organization:treasury:place:3149425:2025-01-20",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/credit-deposits.ts, src/core2/work-payroll-cash.ts, src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/credit-deposits.ts, src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/finance-cash.ts, src/core2/public-safety.ts",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1282 1290009658 -> 1293841521 (journal:2025-01-21:1606); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1264 661129450 -> 657308258 (journal:2025-02-01:2669); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:545 349463418 -> 349222293 (journal:2025-01-23:1677)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): the place:2666300 treasury's payments on corrections, which the raise moved by 10000000: 3550 without the raise, 4526011 with it (journal:2025-02-01:1923); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): the place:3149425 treasury's payments on corrections, which the raise moved by 10000000: 0 without the raise, 5290623 with it (journal:2025-02-01:1909)",
+          "why": ""
         },
         "web": {
           "status": "n/a",
@@ -5144,12 +5142,12 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 50 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:corrections:law-wiring-b12dcfab); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 77 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:corrections:law-wiring-b12dcfab)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 87 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:corrections:law-wiring-b12dcfab); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 73 people heard (person_1f0aeb3215325dc6:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:corrections:law-wiring-b12dcfab)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 38 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 38 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 30 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 38 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
