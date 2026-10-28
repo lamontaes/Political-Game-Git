@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/guards-kit-only-ui
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:54:36.594Z
 ---
 
 **What.** The owner ruled that every piece of UI comes from the UI kit and nothing is invented. Nothing stops a screen file from building its own markup with el, createElement, innerHTML or an HTML template. Today play.mjs and dev.mjs build 395 pieces of markup outside src/bench/ui, and a new file could add more without any check turning red.
