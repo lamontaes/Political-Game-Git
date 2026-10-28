@@ -1,6 +1,7 @@
 ---
 id: words-person-card-third-person-sketch
 title: "The person card says what someone is like in the third person, from their record"
+lead: words
 area: words
 kind: feature
 priority: 2
