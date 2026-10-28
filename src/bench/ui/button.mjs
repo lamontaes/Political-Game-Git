@@ -27,3 +27,8 @@ export function mountPagers(root = document) {
     slot.append(back, next);
   }
 }
+
+/** Buttons side by side, wrapping (the `.acts` row under a block or a panel). */
+export function buttonRow(...buttons) {
+  return el("div", { className: "acts" }, ...buttons);
+}

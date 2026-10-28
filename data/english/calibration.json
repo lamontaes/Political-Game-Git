@@ -663,10 +663,7 @@
   "registerClasses": {
     "address": "public",
     "opening-speech": "public",
-    "hearing": "public",
-    "meeting": "public",
     "minutes": "public",
-    "winning-losing": "public",
     "speech-stages": "public",
     "conversation": "private",
     "scene-talk": "private",
@@ -676,7 +673,6 @@
     "newscast": "broadcast",
     "news": "broadcast",
     "headlines": "broadcast",
-    "newspaper-ledes": "broadcast",
     "notice": "broadcast",
     "journal": "narration",
     "scene-words": "narration",

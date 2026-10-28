@@ -55,7 +55,7 @@ try {
       document.getElementById("card-name").textContent.trim() &&
       document.getElementById("card-clock").textContent.trim(),
   );
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   const name = await page.locator("#card-name").innerText();
   console.log(
     "Player:",
@@ -85,7 +85,7 @@ try {
   await page.evaluate(() => document.fonts.ready);
   if (process.argv[2]) await page.screenshot({ path: process.argv[2] });
   await sheet.getByRole("button", { name: "Continue", exact: true }).click();
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   await page.keyboard.press("Escape");
   await page.getByTestId("quit-to-title").click();
   await page.getByTestId("title-menu").waitFor();
@@ -97,7 +97,7 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   assert.equal(await page.locator("#card-name").innerText(), name);
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   assert.deepEqual(errors, []);
   console.log(
     "PASS opening skip, compact Options, no interrupt toggles, no time spent, quit and resume the same life",
