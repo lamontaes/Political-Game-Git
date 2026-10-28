@@ -668,7 +668,10 @@ function familyCohortIndex(world: World, reuse = true): FamilyCohortIndex {
         role.locationJurisdictionId,
         townPayPercentile(
           daysBetween(relationship.startedAt, world.currentDate) / 365.25,
+          world.seed,
         ),
+        undefined,
+        world.seed,
       );
       const hours = role.timeDemand.expectedWeekly;
       if (rate && hours)

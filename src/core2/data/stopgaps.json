@@ -7272,7 +7272,8 @@
     "replacement": "world-draw.ts is the one draw: worldOffset and budgetWorldFactor call it and the macro and budget floor parameters are deleted for worldDrawOffsetFloorShare.",
     "status": "open"
   },
-  {    "id": "SG-WIRE-PEOPLE-SCHOOLMATES",
+  {
+    "id": "SG-WIRE-PEOPLE-SCHOOLMATES",
     "kind": "history-gap",
     "file": "src/core2/state.ts",
     "line": 261,
@@ -7281,6 +7282,18 @@
     "addedBy": "wire-people-and-director",
     "addedAt": "2026-10-28",
     "replacement": "The pre-start schooling pass (engine map line 7) records each person's school and school years in the school engine's attended records; sharedHistory reads schoolmates from them and the opening meets each student's class through the encounters engine.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-plate-overflow-spots",
+    "kind": "placeholder-art",
+    "file": "scripts/people/room-spots.ts",
+    "line": 231,
+    "whatItFakes": "Where a room holds more people than its mannequin plate painted (a council's gallery, an election-night crowd, a big household), the old hand-typed spots the plate does not cover stay after the plate's own spots, with their depth masks, instead of measured ones.",
+    "why": "The plates for the opening rooms paint a few people each (art/people-rooms/spots, Oct 28); the rooms seat more, and dropping the old spots would leave people unplaced.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
     "status": "open"
   }
 ]
