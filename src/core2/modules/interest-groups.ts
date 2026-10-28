@@ -571,12 +571,13 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
   const state = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
   // Each resident's view on the question itself (+ for it, - against it).
   const feeling = [...(state.peopleByPlace.get(town) ?? [])]
     .map((id) => state.people.get(id))
     .filter(
       (p): p is PersonState =>
-        !!p && p.alive && ageOn(p, date) >= 18 && p.id !== state.playerId,
+        !!p && p.alive && ageOn(p, date) >= adultAge && p.id !== state.playerId,
     )
     .sort((a, b) => a.id.localeCompare(b.id))
     .map((p) => ({

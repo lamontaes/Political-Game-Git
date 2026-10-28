@@ -17,7 +17,7 @@ if (args.includes("--prepare")) {
   const { lifePlaceStateIdentities, lifePlaceSearch } = await load(
     "src/simulation/life-places.ts",
   );
-  const { placeReferencePopulation } = await load(
+  const { publishedPlaceReferencePopulation } = await load(
     "src/simulation/nationwide-world/place-population.ts",
   );
   const { buildPopulation } = await load("src/core2/population.ts");
@@ -32,7 +32,7 @@ if (args.includes("--prepare")) {
   const candidates = localities.filter(
     (place) =>
       place.sourceGeoid &&
-      placeReferencePopulation(place.sourceGeoid)?.value >= 800,
+      publishedPlaceReferencePopulation(place.sourceGeoid)?.value >= 800,
   );
   const pool = candidates.length ? candidates : localities;
   if (!pool.length)

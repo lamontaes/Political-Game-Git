@@ -36,7 +36,7 @@
     "src/bench/scene-check.ts": 1,
     "src/bench/scene.ts": 1,
     "src/bench/words.ts": 1,
-    "src/bench/world.ts": 39,
+    "src/bench/world.ts": 38,
     "src/core2/accounts.ts": 2,
     "src/core2/act-cash.ts": 2,
     "src/core2/appointments.ts": 2,

@@ -11,7 +11,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { realLocalities } from "./places";
@@ -25,7 +25,7 @@ function bigPlace() {
     const place = drawPlace(seed, `census-firms-${attempt}`);
     const row = realLocalities().find((r) => r.key === place.key);
     const real = row?.sourceGeoid
-      ? placeReferencePopulation(row.sourceGeoid)?.value
+      ? publishedPlaceReferencePopulation(row.sourceGeoid)?.value
       : undefined;
     if (real !== undefined && real > 20_000) return { ...place, real };
   }
