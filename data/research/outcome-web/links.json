@@ -770,8 +770,8 @@
     },
     {
       "key": "disaster-to-public-transfers",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "gov.nondisaster-transfers",
       "strength": "strong",
       "shape": {
@@ -787,12 +787,12 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.015, 0.027],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome. Transfers are not kept by kind (stopgap SG-EFFECT-WEB-prices-nondisaster-transfers)."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome. Transfers are not kept by kind (stopgap SG-EFFECT-WEB-prices-nondisaster-transfers). Oct 28 update: the cause is now readable (disaster.severe, from the disasters engine's news events; see disaster-to-out-migration), so only the outcome waits. Looked for an engine that records transfers by kind and found payment engines but no place total: src/core2/jobs-benefits.ts pays each unemployment claim by the law's share of the claimant's lost pay, src/core2/housing-assistance.ts pays rent assistance (reasonKey housing.assistance), and FEMA aid is paid under its own reason keys, but no engine sums medical, income-support and unemployment-insurance payments for a place. Multiplying one claim's benefit by this link's size would misread the research, which measures total transfers per resident (more claimants and more medical spending, not larger benefits per claim). The engine that would read this factor is a place-level public transfers ledger that sums those payments by kind; none exists, so the link stays unread (SG-EFFECT-WEB-prices-nondisaster-transfers)."
     },
     {
       "key": "disaster-to-out-migration",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "population.out-migration",
       "strength": "moderate",
       "shape": {
@@ -808,13 +808,13 @@
       "from": "disaster.severe",
       "evidence": "provisional",
       "range": [0.025, 0.1],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study)."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study). Oct 28 update, built: the cause is now read from the disasters engine's own records (src/core2/modules/disasters.ts severeDisasterReading), not from every declaration. Roth Tran and Wilson 2023 (FRBSF Working Paper 2020-34, p. 19-20) size the average FEMA Major Disaster declaration at no out-migration effect: \"the response of population to a disaster is small and generally statistically insignificant up to at least eight years out\", with \"modest longer-run declines in both in-migration and out-migration that roughly cancel each other out\". Only the most damaging disasters move people: \"a disaster with damages p.c. equal to the 99th percentile causes population to decline by roughly 1.5% after eight years\" (p. 25-26), the same size as this row's 1.5 points. So the cause is a severity from 0 to 1 on FEMA's inspected damaged homes per resident, 0 at the 90th percentile of the game's own FEMA town rows and 1 at the 95th (src/core2/data/disasters/severity.json), held for the ten years after the incident begins, and the researched size applies at severity 1. The size and range are unchanged. Assumed and registered as SG-WEB-disaster-severity-damage-proxy: FEMA's damaged-home figures stand for the study's deaths, and the ramp ends stand for its severe class."
     },
     {
       "key": "disaster-to-home-values",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
-      "to": "housing.home-prices",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "housing.home-value",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -829,7 +829,7 @@
       "from": "disaster.severe",
       "evidence": "researched",
       "range": [-0.053, -0.038],
-      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and home prices are not a kept place outcome."
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and home prices are not a kept place outcome. Oct 28 update, built: the cause is read from the disasters engine's own records (severity, not every declaration; see disaster-to-out-migration), and the outcome is now the kept index housing.home-value (before, `to` was housing.home-prices, which is the housing engine's own median home value that the births links read as a cause; one name could not be both the engine's reading and the web's factor on it). The housing engine values each owned home, and prices each purchase and sale, at the web's factor (src/core2/modules/housing.ts ownedHomes, sellHome), so the engine's median home value, the births links' cause, already includes it. The only source found that sizes the effect of FEMA Major Disaster declarations on prices is Roth Tran and Wilson 2023 (FRBSF Working Paper 2020-34), and it finds no fall for the average declaration: \"We find that the HPI is essentially flat in the near-term before increasing a good amount over the longer term. As of eight years after a disaster, the local HPI is estimated to be about 1.4% higher than it would have been otherwise.\" (p. 19) and, for the most damaging, \"the medium-run (1-3 years out) response to very severe disasters is strongly positive while the longer-run response is strongly negative\" (p. 25, with no number in the text). Calling every declaration severe would put -5.2% where the average declaration shows no fall, so the size is left as researched for a severe disaster and applies only at severity 1 (0 to 1 on FEMA's inspected damaged homes per resident, src/core2/data/disasters/severity.json). Not re-sized: that paper's severe-disaster price effect is shown only in a figure, with no figure the text quotes. Assumed and registered as SG-WEB-disaster-severity-damage-proxy."
     },
     {
       "key": "coverage-to-catastrophic-bills",
