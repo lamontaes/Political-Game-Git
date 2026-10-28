@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/household-living-keep-back
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T17:53:24.378Z
 ---
 
 **What.** In a played world built from main plus the wire-opening branches (Blandford, Massachusetts, key 2506050, start 2025-01-20, player 35), after 70 days both seeds proof-a and proof-b show the household's living plan with lastRequestedMinor 154,390 and 215,020 and lastPaidMinor 0 (living:household_69fe72be79d75b39:2025-03-01, living:household_769522fd427db55f:2025-03-01), while the mortgage receipt paid in full and the household held 610 and 1,036 dollars. Read through bankView (src/bench/bank.ts, PR #6556); the plan is written by settleLivingDay in src/core2/cost-of-living.ts. Either the household is truly short after the mortgage (then the Money sheet is right and the cause should be on record) or the living plan's payer order or members' accounts leave a paying member out.
