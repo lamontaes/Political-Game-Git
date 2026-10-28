@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 14:50 UTC: history runs from the player's birth year (owner, 10:50 AM Eastern, "Yes, simulate to the birth year. Remember, it doesn't have to be any kind of depth. It's just got to be general to make the game flow.")
+
+- **Ruling:** the one history (engine map line 7) starts at the player's birth year, not in 2000. A 35-year-old's childhood, schooling, moves and household are run by the same engines at a coarse step (a year, not a day), general, with no depth: where the family lived and moved, who was in the household, school attended, first jobs. Enough that the opening, the Journal, the person card and the director have records to read; nothing more. The pre-start window parameter moves from a fixed year to "the player's birth year" for every drawn place.
+- **Also:** every wire line whose time box ended restarts on the same item, with no time box (owner: "whatever else didn't finish its time box, start those too"). Restarted 10:30 to 10:55 AM: elections, office and budgets, laws, opening and home, and the old engine's port-and-delete (the carcass's last 881 files).
+
 ## Oct 28, 14:40 UTC: every red on main has one owner (owner, 10:40 AM Eastern, "fix the red items on main. Why does nobody own it? ... why are you letting stuff slip through the cracks?")
 
 - **Ruling:** a red on main is never "not this item's". It has one owner at every hour: the merger whose merge turned it red, for the first hour, then the standing red-main session (channel section `## Red main`), which fixes every red at the root on its own PR and posts each red, its cause and its PR every two hours. Wire sessions whose engine holds the red take it first; after an hour without a PR the red-main session takes it.
