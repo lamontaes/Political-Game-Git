@@ -683,44 +683,6 @@
         "tag": "answer"
       }
     ],
-    "counter": [
-      {
-        "move": "^clerk-answer$",
-        "tag": "answer",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-close$",
-        "tag": "close",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-(fee|form)$",
-        "tag": "tell",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-greet$",
-        "tag": "greet",
-        "key": "routine"
-      },
-      {
-        "move": "^clerk-id$",
-        "tag": "ask",
-        "key": "routine"
-      },
-      {
-        "move": "^visitor-ask$",
-        "text": "(?i)thank|appreciate",
-        "tag": "thank",
-        "key": "routine"
-      },
-      {
-        "move": "^visitor-ask$",
-        "tag": "ask",
-        "key": "routine"
-      }
-    ],
     "filing-visit": [
       {
         "move": "^clerk-close",
