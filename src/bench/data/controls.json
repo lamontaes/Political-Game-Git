@@ -32,8 +32,6 @@
   },
   "endedBy": {
     "moment": "Something needs you",
-    "job-offered": "A job offer",
-    "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
@@ -44,29 +42,19 @@
     "against": "Against",
     "pass": "Pass"
   },
-  "campaignActs": {
-    "title": "What the race turns on",
-    "reached": "reached",
-    "door": "Doors",
-    "volunteer-door": "Volunteers' doors",
-    "speech": "Speeches",
-    "interview": "Interviews",
-    "town-hall": "Town halls",
-    "debate": "Debates",
-    "retold": "Retold",
-    "ad": "Ads",
-    "attack-ad": "Attack ads",
-    "endorsement": "Endorsements",
-    "donation-ask": "Asking for money",
-    "constituent-case": "Cases for constituents",
-    "mail": "Mail",
-    "event": "Events"
+  "raceStanding": {
+    "title": "Where the race stands"
   },
   "speech": {
     "begin": "Give a speech",
     "give": "Give the speech",
     "venue": "Where",
     "retold": "retold"
+  },
+  "campaignVolunteers": {
+    "one": "1 volunteer",
+    "other": "{n} volunteers",
+    "asked": "Asked {asked}, {yes} said yes: {volunteers} now"
   },
   "campaignOutings": {
     "doors": "Knock on doors",
@@ -123,7 +111,6 @@
     "place": "Home",
     "school": "School",
     "lastTalked": "Last talked",
-    "talk": "Talk",
     "back": "Back",
     "continue": "Continue",
     "knows": "Knows",
@@ -142,6 +129,8 @@
     "fullScreenUnavailable": "Full screen is unavailable.",
     "continue": "Continue",
     "skipOpening": "Skip opening",
+    "guide": "Guide",
+    "devMode": "Dev mode",
     "quitToTitle": "Quit to title"
   },
   "polling": {
@@ -219,10 +208,6 @@
     "interviewOutlet": "Ask for an interview with",
     "nameHeadPick": "Name to the post"
   },
-  "titleUnavailable": {
-    "saves": "Saved games come with the save format at early-access preparation.",
-    "patchNotes": "Patch notes have no page on the new core yet."
-  },
   "floor": {
     "status": {
       "drafted": "Drafted",
@@ -242,6 +227,22 @@
     "voted": "Voted",
     "yes": "yes",
     "no": "no"
+  },
+  "bill": {
+    "open": "Read the bill",
+    "back": "Back to your seat",
+    "sponsor": "Sponsor",
+    "sections": "Sections",
+    "estimate": "What it would do",
+    "amends": "Amends",
+    "from": "from",
+    "to": "to",
+    "line": "Budget line",
+    "workers": "workers reach higher pay",
+    "decided": "Decided",
+    "lawInForce": "the law in force",
+    "backMeeting": "Back to the meeting",
+    "backDesk": "Back to the desk"
   },
   "advanced": {
     "none": "No one holds an office that matches"
@@ -289,10 +290,22 @@
     "member": "Your party",
     "agreement": "Views fit",
     "fit": [
-      { "atLeast": 0.6, "label": "Close" },
-      { "atLeast": 0.2, "label": "Mostly" },
-      { "atLeast": -0.2, "label": "Mixed" },
-      { "atLeast": -1, "label": "Far apart" }
+      {
+        "atLeast": 0.6,
+        "label": "Close"
+      },
+      {
+        "atLeast": 0.2,
+        "label": "Mostly"
+      },
+      {
+        "atLeast": -0.2,
+        "label": "Mixed"
+      },
+      {
+        "atLeast": -1,
+        "label": "Far apart"
+      }
     ]
   },
   "leanWords": {
@@ -311,8 +324,7 @@
     "school": "School",
     "money": "Money",
     "family": "Family",
-    "views": "Politics",
-    "traits": "Traits"
+    "views": "Politics"
   },
   "people": {
     "all": "All",
@@ -353,10 +365,22 @@
       "looking": "looking",
       "open": "open",
       "series": {
-        "unemploymentPct": { "label": "Unemployment", "unit": "percent" },
-        "jobsThousands": { "label": "Jobs", "unit": "thousands" },
-        "hourlyEarnings": { "label": "Hourly pay", "unit": "dollars" },
-        "priceLevelPct": { "label": "Price level", "unit": "index" }
+        "unemploymentPct": {
+          "label": "Unemployment",
+          "unit": "percent"
+        },
+        "jobsThousands": {
+          "label": "Jobs",
+          "unit": "thousands"
+        },
+        "hourlyEarnings": {
+          "label": "Hourly pay",
+          "unit": "dollars"
+        },
+        "priceLevelPct": {
+          "label": "Price level",
+          "unit": "index"
+        }
       }
     },
     "back": "Back to front page",
@@ -366,18 +390,10 @@
   "jobs": {
     "work": "Work",
     "study": "Study",
-    "offers": "Job offers",
     "pay": "Pay",
     "hours": "Hours",
     "daily": "per day",
-    "hourly": "per hour",
-    "deadline": "Answer by",
-    "accept": "Take it",
-    "decline": "Turn it down",
-    "notNow": "Not now",
-    "noJob": "No current job",
-    "unavailable": "Offer no longer available",
-    "failed": "Could not send your answer. Try again."
+    "noJob": "No current job"
   },
   "politics": {
     "seats": "Seats",
@@ -388,12 +404,8 @@
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
-    "reached": {
-      "in office at the opening": "Serving when your story began",
-      "elected": "Elected"
-    },
-    "electedOn": "Elected",
-    "ofVote": "of the vote",
+    "electedWith": "Elected {date} with {share} of the vote",
+    "termEnds": "Term ends {date}",
     "adopted": "Adopted",
     "elected": "Elected",
     "takesOffice": "Takes office",
@@ -418,7 +430,23 @@
       "income-tax": "Income tax rate",
       "sales-tax": "Sales tax rate"
     },
-    "noneHere": "None here"
+    "noneHere": "None here",
+    "guide": {
+      "government": "Who holds each seat over you, from your town to the nation, and when each term ends.",
+      "issues": "The laws in force where you live, and who can change them.",
+      "parties": "The parties here, what each stands for, and how close each is to you.",
+      "campaigns": "Your race once you file: money, volunteers, ads, and how the vote leans.",
+      "runHere": "How you could run here",
+      "race": "Next race",
+      "filesWith": "Files with",
+      "atTheDeskOf": "at the desk of the",
+      "filingOpens": "Filing opens",
+      "filingDeadline": "Filing deadline",
+      "primary": "Primary",
+      "election": "Election day",
+      "estimated": "These dates are estimates; no calendar on record names them.",
+      "noRace": "No race here is open for filing yet."
+    }
   },
   "results": {
     "you": "You",
@@ -471,5 +499,8 @@
     "noFilers": "No one has filed",
     "filingCloses": "Filing closes",
     "noBallot": "No local election is on the calendar"
+  },
+  "talkBox": {
+    "continue": "Continue"
   }
 }

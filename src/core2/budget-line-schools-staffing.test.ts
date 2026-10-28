@@ -240,6 +240,7 @@ function amendSchoolsLine(direction: -1 | 1, breakProducer?: () => void) {
     const activeNow = new Set(teachers(district.id).map((j) => j.personId));
     return {
       where,
+      governmentId: city.id,
       core,
       api,
       staffInPlace,
@@ -280,7 +281,10 @@ it("a cut to the city's schools line ends named teachers' jobs at the public sch
   const row = staffingOf(r.api, "budget-line:schools", r.district.id);
   expect(row, r.where).not.toBeNull();
   expect(row!.baseStaff, r.where).toBe(
-    !r.earlier
+    // An earlier row set by another government's line (a state's schools line
+    // beside this city's) funded its own positions, so this line starts from
+    // the staff in place (group-a-staffing.ts baseStaffFor).
+    !r.earlier || r.earlier.governmentId !== r.governmentId
       ? baseDay(r, row!.setOn)
       : r.earlier.fiscalYear === row!.fiscalYear
         ? r.earlier.baseStaff
@@ -308,7 +312,10 @@ it("a raise to the city's schools line hires named adults who had no work at the
   const row = staffingOf(r.api, "budget-line:schools", r.district.id);
   expect(row, r.where).not.toBeNull();
   expect(row!.baseStaff, r.where).toBe(
-    !r.earlier
+    // An earlier row set by another government's line (a state's schools line
+    // beside this city's) funded its own positions, so this line starts from
+    // the staff in place (group-a-staffing.ts baseStaffFor).
+    !r.earlier || r.earlier.governmentId !== r.governmentId
       ? baseDay(r, row!.setOn)
       : r.earlier.fiscalYear === row!.fiscalYear
         ? r.earlier.baseStaff

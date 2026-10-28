@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-bill-on-paper-clickable
-pr:
+pr: #6407
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
