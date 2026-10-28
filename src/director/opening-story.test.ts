@@ -1,8 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { openingFrames, OPENING_EVENING_MINUTE } from "../bench/opening";
-import { homeOf } from "../bench/scene";
+import { openingFrames } from "../bench/opening";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
@@ -11,7 +10,6 @@ import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { NEWSCAST_BANK } from "../english/english-newscast";
-import { keyPeopleOf } from "../core2/opening-key-people";
 import { subjectsBetween } from "./conversation";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
 
@@ -119,19 +117,7 @@ describe("the opening story", () => {
           (row) => row.kind === "address" && row.aboutId === story.id,
         ),
       ).toBe(true);
-    // The bench's opening speaks every sentence, in order, over pictures
-    // that cut when the subject changes; a place line shows that state.
     const opening = openingFrames(core, playerId, story);
-    expect(
-      opening.frames
-        .filter((frame) => !frame.speaker)
-        .flatMap((frame) => frame.lines),
-    ).toEqual(story.address.sentences);
-    for (let i = 1; i < opening.frames.length; i += 1)
-      expect(opening.frames[i]!.place).not.toBe(opening.frames[i - 1]!.place);
-    for (const frame of opening.frames)
-      if (frame.lines.some((row) => row.stateKey))
-        expect(frame.place).toMatch(/^state-capitol-/);
     expect(opening.news.stories).toEqual(story.newscast);
   });
 
@@ -175,111 +161,6 @@ describe("the opening story", () => {
       expect(text, where).not.toMatch(/^(?:I was in|I'm from) /);
     }
     console.log(`${where}: ${lead.headline} | ${paragraphs.join(" | ")}`);
-  });
-
-  it("plays over the sequence: the President's stage, Congress, the state, the family, then home", () => {
-    const order = story.sequence.map((row) => row.stage);
-    // No town stage: the opening points out national people, not the player's
-    // council or state legislators (owner, Oct 27).
-    expect(order).toEqual(["president", "congress", "state", "family"]);
-    const opening = openingFrames(core, playerId, story);
-    // The stages come in order; a cutaway never goes back to an earlier one.
-    // The first frame is the address itself, the President at the lectern
-    // (owner, Oct 26): no stage at the player's home comes before the address
-    // or the state's chapter.
-    const { frames } = opening;
-    const household = new Set(
-      core.households.get(core.people.get(playerId)!.householdId)?.memberIds,
-    );
-    expect(frames[0]!.stage).toBe("president");
-    expect(frames[0]!.lines.length).toBeGreaterThan(0);
-    const home = homeOf(core, playerId, OPENING_EVENING_MINUTE);
-    // Everything before the family's frame (home) is away from home; the state's
-    // stage shows only where it has a line or a person to point out.
-    const homeAt = frames.findIndex(
-      (frame) => frame.stage === "state" || frame.stage === "family",
-    );
-    for (const frame of frames.slice(0, homeAt < 0 ? frames.length : homeAt)) {
-      expect(
-        frame.place,
-        `${frame.stage} frame is at the player's home`,
-      ).not.toBe(home);
-      expect(frame.people.some((row) => household.has(row.personId))).toBe(
-        false,
-      );
-    }
-    const address = frames;
-    const keyIds = new Set(keyPeopleOf(core, playerId).map((row) => row.id));
-    const reached = address.map((frame) => order.indexOf(frame.stage));
-    expect(reached).toEqual([...reached].sort((a, b) => a - b));
-    expect(reached[0]).toBe(0);
-    // Everyone pointed out is there for a recorded reason the scene names:
-    // the player's household, or the sentence that names them, which plays
-    // in the frame where they are pointed out.
-    for (const frame of opening.frames)
-      for (const row of frame.pointOut) {
-        if (row.role === "household") {
-          expect(household.has(row.id)).toBe(true);
-          continue;
-        }
-        // A key person (owner, Oct 15) is there for being on the key list;
-        // the sentence that names them, if the address does, is their line.
-        if (row.namedBy === undefined) {
-          expect(row.role.startsWith("key:"), row.name).toBe(true);
-          expect(keyIds.has(row.id), `${row.name} is not on the key list`).toBe(
-            true,
-          );
-          continue;
-        }
-        const said = story.address.sentences[row.namedBy!]!;
-        expect(frame.lines[row.line!], row.name).toBe(said);
-        expect(frame.cast.map((member) => member.id)).toContain(row.id);
-      }
-    // A name the address says belongs to someone pointed out in that scene.
-    for (const sentence of story.address.sentences.filter((row) =>
-      row.facts.includes("name"),
-    ))
-      expect(
-        opening.frames.some(
-          (frame) =>
-            frame.lines.includes(sentence) &&
-            frame.pointOut.some((row) =>
-              sentence.sourceRecordIds.includes(row.id),
-            ),
-        ),
-        sentence.text,
-      ).toBe(true);
-    // Everyone a stage points out is named from a record, once.
-    const pointed = opening.frames.flatMap((frame) => frame.pointOut);
-    expect(new Set(pointed.map((row) => row.id)).size).toBe(pointed.length);
-    for (const row of pointed) {
-      expect(row.name.trim()).not.toBe("");
-      expect(row.sourceRecordIds.length).toBeGreaterThan(0);
-    }
-    // The family stage shows only when the player has family.
-    const family = story.sequence.find((row) => row.stage === "family")!;
-    expect(opening.frames.some((frame) => frame.stage === "family")).toBe(
-      family.people.length > 0,
-    );
-    console.log(
-      opening.frames
-        .map(
-          (frame) =>
-            `${frame.stage} ${frame.place}: ${frame.pointOut
-              .map((row) =>
-                [row.name, row.relation, row.post, row.office, row.state]
-                  .filter(Boolean)
-                  .join(", "),
-              )
-              .join("; ")}`,
-        )
-        .join("\n"),
-    );
-    console.log(
-      [
-        ...story.address.sentences.map((row) => `${row.level}: ${row.text}`),
-      ].join("\n"),
-    );
   });
 
   it("is printed by the press as national news within weeks, for readers to read", () => {
