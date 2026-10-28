@@ -42,6 +42,7 @@ import {
   type HistoryWriter,
   type PreStartWindow,
 } from "./pre-start";
+import { residenceOn } from "./past-moves";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
 import { coreAPI } from "./state";
@@ -469,9 +470,12 @@ export function runPastWork(
     better?: number,
   ) => {
     // The day-one employer is the one they went to last, never before.
+    // Before they came to the county they worked where they lived then,
+    // where the world keeps no employers (history-past-moves).
+    const livedIn = residenceOn(c, run.plan.person, date).placeId;
     const open = firms.filter(
       (firm) =>
-        firm.placeId === run.plan.person.placeId &&
+        firm.placeId === livedIn &&
         (!firm.foundedAt || firm.foundedAt <= date) &&
         firm.id !== left &&
         firm.id !== run.plan.current?.organizationId,
@@ -682,7 +686,9 @@ function recordsOf(
 ): Omit<HistoryRecord, "moduleId">[] {
   const { plan } = run;
   const personId = plan.person.id;
-  const placeId = plan.person.placeId;
+  // Each spell where the person lived when it began (history-past-moves).
+  const placeOn = (date: string) =>
+    residenceOn(api.state, plan.person, date).placeId;
   const inWindow = (date: IsoDate) => (date < window.from ? window.from : date);
   const said = source(api, "Pre-start working life (src/core2/past-work.ts).");
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
@@ -694,7 +700,7 @@ function recordsOf(
       id: spellId(index),
       date: inWindow(row.spell.startedAt),
       kind: PAST_WORK_SPELL,
-      placeId,
+      placeId: placeOn(row.spell.startedAt),
       personIds: [personId],
       facts: {
         personId,
@@ -719,7 +725,7 @@ function recordsOf(
       id: `past-work:${personId}:out:${index + 1}`,
       date: inWindow(row.startedAt),
       kind: PAST_WORK_OUT,
-      placeId,
+      placeId: placeOn(row.startedAt),
       personIds: [personId],
       facts: {
         personId,
@@ -751,7 +757,7 @@ function recordsOf(
       id: `past-work:${personId}:held`,
       date: inWindow(plan.current.since),
       kind: PAST_WORK_SPELL,
-      placeId,
+      placeId: plan.person.placeId,
       personIds: [personId],
       facts: {
         personId,
