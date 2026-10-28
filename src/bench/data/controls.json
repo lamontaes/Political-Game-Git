@@ -482,5 +482,11 @@
     "noFilers": "No one has filed",
     "filingCloses": "Filing closes",
     "noBallot": "No local election is on the calendar"
+  },
+  "grade": {
+    "good": "Good",
+    "bad": "Bad",
+    "note": "One word",
+    "saved": "Graded"
   }
 }

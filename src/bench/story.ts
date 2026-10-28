@@ -36,6 +36,8 @@ function shownLine(line: SceneTalkLine) {
     ...(line.speakerId ? { speakerId: line.speakerId } : {}),
     role: line.role,
     text: line.text,
+    // The pieces that said it, so a grade in play reaches them.
+    parts: line.parts,
     // A piece held until the owner grades it, shown only in the grading view.
     held: !line.parts.every(shipped),
   };
@@ -183,6 +185,7 @@ export function storyScene(
       ...(purpose?.kind === "composed"
         ? purpose.scene.talk.narration.map((line) => ({
             text: line.text,
+            parts: line.parts,
             held: !line.parts.every(shipped),
           }))
         : []),

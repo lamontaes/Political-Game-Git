@@ -2929,3 +2929,23 @@ body.dev .dev-ring {
   position: sticky;
   top: 0;
 }
+
+/* The owner's grade on a line (dev mode): small, after the line. */
+.grade-line {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.grade-line button {
+  padding: 0 6px;
+  font-size: 0.75em;
+}
+.grade-note {
+  font-size: 0.75em;
+  width: 7em;
+}
+.grade-saved {
+  font-size: 0.75em;
+  opacity: 0.7;
+}
