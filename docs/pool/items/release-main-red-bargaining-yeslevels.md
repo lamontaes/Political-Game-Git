@@ -6,11 +6,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/main-red-bargaining-yeslevels
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T03:15:34.029Z
 ---
 
 **What.** Since #6475 merged at 02:51 UTC on Oct 28, src/core2/law-reach/group-a-bargaining.ts and src/core2/law-reach-bargaining.test.ts import yesLevels from group-a-records.ts, which no longer exports it. npm run typecheck fails on main (TS2305), and at run time the public bargaining handler throws 'yesLevels is not a function' at its first calendar day, so every played world that runs the law reach crashes. #5415 (public bargaining) merged before #6475, and #6475's branch never had the file.
