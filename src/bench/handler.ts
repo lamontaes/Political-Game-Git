@@ -4,7 +4,6 @@ import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
-import { bringItUp } from "../director/bring-it-up";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -135,22 +134,10 @@ let buildProgress: { stage: string; done: number; total: number } = {
 // The opening, prepared during loading.
 
 let opening: ReturnType<typeof openingFrames> | null | undefined;
-// What the other person brought up when the conversation opened (OPUS-PEOPLE's
-// "bring it up"): their lines come first in the conversation.
-let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
-    // The greeting comes before whatever they bring up.
-    lines: [
-      ...value.lines.filter((line) => line.kind === "greet"),
-      ...broughtUp.map((line) => ({
-        ...line,
-        speakerId: value.otherId,
-        act: "tell",
-      })),
-      ...value.lines.filter((line) => line.kind !== "greet"),
-    ].map((line) => ({
+    lines: value.lines.map((line) => ({
       ...line,
       speaker: (() => {
         const person = requireCore().people.get(line.speakerId);
@@ -451,9 +438,6 @@ export async function benchRequest(
           otherId,
           director ? { director, ...(occasionId ? { occasionId } : {}) } : {},
         );
-        // They mention the newest change they know of, and who they blame.
-        broughtUp =
-          bringItUp(requireCore(), otherId, player.personId)?.lines ?? [];
         send(200, talkView(conversation));
         return;
       }
