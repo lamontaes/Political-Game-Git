@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: screens/people-faces
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:46:32.515Z
 ---
 
 **What.** The owner, Oct 28, on the People screen, relayed by the CTO at 01:05 UTC: no black box around anyone; each person is a headshot or the cut-out figure. Ties not in the room show initials in a square box.
