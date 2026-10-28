@@ -60,17 +60,19 @@ try {
     `Politics has no Guide control: ${(await page.locator("#sheet-tabs button").allInnerTexts()).join(", ")}`,
   );
   await guide.click();
-  await page.locator(".politics-guide-page").waitFor();
+  await page.locator(".record-pages-one .record-section").waitFor();
 
   // One page per tab, each its purpose in a line, in order.
-  const next = page.locator(".politics-guide .record-pager button").nth(1);
+  const next = page.locator(".record-pages-one .record-pager button").nth(1);
   for (const [tab, title] of [
     ["government", "Government"],
     ["issues", "Issues"],
     ["parties", "Parties"],
     ["campaigns", "Campaigns"],
   ]) {
-    const text = await page.locator(".politics-guide-page").innerText();
+    const text = await page
+      .locator(".record-pages-one .record-section")
+      .innerText();
     assert.ok(
       text.toLowerCase().includes(title.toLowerCase()),
       `the ${tab} page is not headed ${title}`,
@@ -91,7 +93,9 @@ try {
       )}`,
     )
   ).json();
-  const run = await page.locator(".politics-guide-page").innerText();
+  const run = await page
+    .locator(".record-pages-one .record-section")
+    .innerText();
   const lower = run.toLowerCase();
   assert.ok(
     lower.includes(labels.runHere.toLowerCase()),

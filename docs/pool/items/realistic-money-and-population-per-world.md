@@ -7,10 +7,11 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #6588
 blocked-on:
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+claimed-at:
 ---
 
 **What.** Rows 14 to 18 and 28 of docs/reports/real-statistics-in-play-2026-10-27.md: SCF starting cash, living costs and goods prices, the average Social Security benefit, county deposits, private school share and tuition, and place population. Each opens on the published value. The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed.
