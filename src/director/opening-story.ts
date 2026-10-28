@@ -43,7 +43,6 @@ import type {
 import { composeAddress } from "../english/english-composition";
 import {
   openingMove,
-  openingSpeechKind,
   type OpeningLevel,
   type OpeningMove,
   type OpeningSpeechKind,
@@ -683,9 +682,13 @@ export function composeOpeningStory(
   const official = officialsIn(api, "US:president")[P.zero];
   const president = official ? core.people.get(official.id) : undefined;
   if (!player || !official || !president) return null;
-  const kind = openingSpeechKind(
-    Number(core.date.slice(P.zero, core.date.indexOf("-"))),
-  );
+  // Inaugural only when the offices engine recorded the taking of office
+  // today (recordInauguration); every other opening is the address to Congress.
+  const kind: OpeningSpeechKind = core.eventIds.has(
+    `${INAUGURATION_EVENT}:${core.date}`,
+  )
+    ? "inaugural"
+    : "state-of-the-union";
   const sentences = composeAddressOf(core, president, official, kind);
   if (!sentences?.length) return null;
   const pastFact = (kindKey: string) =>

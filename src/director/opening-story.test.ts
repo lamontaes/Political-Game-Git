@@ -73,6 +73,13 @@ describe("the opening story", () => {
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });
 
+  it("is inaugural only on the offices engine's inauguration record", () => {
+    const sworn = core.eventIds.has(`inauguration:${core.date}`);
+    expect(story.speechKind).toBe(sworn ? "inaugural" : "state-of-the-union");
+    // The world opens on Inauguration Day by default: the record is there.
+    if (date === "2025-01-20") expect(sworn).toBe(true);
+  });
+
   it("names no place of the player's: the address is national only", () => {
     const president = core.people.get(story.president.id)!;
     // Owner, Oct 27: "nothing about your state". No sentence is put to the
