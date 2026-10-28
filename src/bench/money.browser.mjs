@@ -46,7 +46,7 @@ try {
       document.getElementById("card-clock").textContent.trim(),
   );
   const name = await page.locator("#card-name").innerText();
-  const clock = await page.locator("#card-clock").innerText();
+  const clock = await page.locator("#card-clock").textContent();
   console.log(
     "Player:",
     name,
@@ -62,7 +62,7 @@ try {
   assert.equal(await page.locator(".money-history").count(), 0);
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: "docs/reports/money-layout/money.png" });
-  assert.equal(await page.locator("#card-clock").innerText(), clock);
+  assert.equal(await page.locator("#card-clock").textContent(), clock);
   await page.route("**/api/card?*", async (route) => {
     const r = await route.fetch();
     const json = await r.json();

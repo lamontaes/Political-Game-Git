@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/creator-hair-label
-pr:
+pr: #6591
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T07:03:39.869Z
