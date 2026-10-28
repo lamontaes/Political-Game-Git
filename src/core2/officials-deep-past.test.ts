@@ -39,6 +39,32 @@ it(`every seated official has a childhood, schools and an era, in a drawn place 
       if (!kinds.has(kind)) missing.push(`${official.id} lacks ${kind}`);
   }
   expect(missing.slice(0, 5), `${where}: ${missing.length} gaps`).toEqual([]);
+  // Each has a stored look, written once when filled in (opening root cause 6).
+  const faceless = officials.filter((p) => !p.looks?.appearanceSeed);
+  expect(
+    faceless.map((p) => p.id).slice(0, 5),
+    `${where}: officials with no look`,
+  ).toEqual([]);
+  // A national official lives and went to school in their home state, not the
+  // player's (opening root cause 10).
+  const president = officials.find((p) =>
+    p.pastFacts?.some(
+      (f) =>
+        f.kind === "identity:seat" && f.facts?.seatKey === "seat:US:president",
+    ),
+  )!;
+  const home = president.pastFacts!.find(
+    (f) => f.kind === "identity:home-state",
+  )!.facts!.stateKey;
+  expect(president.placeId, `${where}: the President's home`).toBe(home);
+  const schools = president.pastFacts!.filter((f) =>
+    f.kind.startsWith("school:"),
+  );
+  expect(schools.length, `${where}: the President's schools`).toBeGreaterThan(
+    0,
+  );
+  for (const school of schools)
+    expect(school.facts?.placeId, `${where}: ${school.id}`).toBe(home);
   // A past is dated before the person took office.
   for (const official of officials.slice(0, 50))
     for (const fact of official.pastFacts ?? [])
