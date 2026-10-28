@@ -299,6 +299,12 @@ function playerHolds(
       return !!body && standing.officeIds.has(body);
     }
     default:
+      if (rule.startsWith("listed:"))
+        // The record's fact lists the player (the members an override's
+        // sponsor could still move).
+        return (record.facts[rule.slice("listed:".length)] ?? "")
+          .split(",")
+          .includes(playerId);
       throw new Error(`Unknown circumstance player rule: ${rule}`);
   }
 }

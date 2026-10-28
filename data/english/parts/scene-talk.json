@@ -48,7 +48,8 @@
     "roll": "The count on a presented bill, yes to no, from the vote records.",
     "deadline": "The day a presented bill must be signed or vetoed by, from the presentment.",
     "for": "Present when the visitor is the bill's sponsor, from the bill record.",
-    "against": "Present when the visitor lobbied against the bill, from the lobbying record."
+    "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
+    "winner": "Whoever won the race a count settled, by name, from the election result record."
   },
   "maxWords": 70,
   "parts": [
@@ -83161,7 +83162,7 @@
       "key": "scene-talk.narrate-narrate.the-debate-is-over-and-the-candidates-are-leaving-the-stage-name-stops",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The debate is over, and the candidates are leaving the stage. {name} stops you on the way out.",
+      "text": "{name} debated you tonight and isn't finished with you.",
       "uses": [
         {
           "subject": "scene",
@@ -83187,7 +83188,7 @@
       "key": "scene-talk.narrate-narrate.the-cameras-are-off-name-walks-over-before-you-reach-the-door",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The cameras are off. {name} walks over before you reach the door.",
+      "text": "{name} has something to say that wasn't for the cameras.",
       "uses": [
         {
           "subject": "scene",
@@ -83386,6 +83387,318 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "boast",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.good-to-have-that-one-behind-us",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Good to have that one behind us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-held-up-well-out-there",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You held up well out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-how-do-you-think-that-went",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So. How do you think that went?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.you-were-wrong-about-issue-tonight-and-i-ll-keep-saying-so",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You were wrong about {issue} tonight, and I'll keep saying so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.we-ll-never-agree-on-issue-i-wanted-to-say-it-to-your-face-not-only-on-stage",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "We'll never agree on {issue}. I wanted to say it to your face, not only on stage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-meant-what-i-said-about-issue-there-was-nothing-personal-in-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I meant what I said about {issue}. There was nothing personal in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.did-you-mean-what-you-said-about-issue-or-was-that-for-the-cameras",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Did you mean what you said about {issue}, or was that for the cameras?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.be-careful-what-you-promise-on-issue-people-were-listening-tonight",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Be careful what you promise on {issue}. People were listening tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.that-was-a-fair-fight-i-still-intend-to-beat-you",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "That was a fair fight. I still intend to beat you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.whatever-happens-in-this-race-that-was-a-decent-night-for-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Whatever happens in this race, that was a decent night for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-ll-stand-by-every-word-i-said-on-issue",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I'll stand by every word I said on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.people-heard-where-i-stand-on-issue-that-s-all-i-wanted",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "People heard where I stand on {issue}. That's all I wanted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
       "tag": {
         "move": "boast",
         "key": "threat"
@@ -113975,6 +114288,2530 @@
       "tag": {
         "move": "warn",
         "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-knows-people-on-the-office-ballot-and-has-the-result-to-share",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} knows people on the {office} ballot and has the result to share.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-family-and-wanted-to-be-the-one-to-tell-you-who-won-the-office-race",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is family and wanted to be the one to tell you who won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["kin", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-ran-in-the-office-race-and-lost-and-has-come-to-tell-you-the-result-themsel",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} ran in the {office} race and lost, and has come to tell you the result themselves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost", "office"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-just-won-the-office-race-and-you-are-one-of-the-people-they-wanted-to-tell",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} just won the {office} race, and you are one of the people they wanted to tell.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "office"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-the-result-of-the-office-race-and-thinks-you-will-want-to-hear-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has the result of the {office} race and thinks you will want to hear it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-knows-you-were-on-the-ballot-in-the-office-race-they-have-the-result-and-th",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} knows you were on the ballot in the {office} race. They have the result, and they came to tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-do-you-have-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, do you have a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.did-you-hear-the-news-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Did you hear the news, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-need-to-tell-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, I need to tell you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-it-s-about-the-count",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, it's about the count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-the-results-are-in",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}. The results are in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.winner-won-the-office-race-the-count-is-done",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{winner} won the {office} race. The count is done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.guess-who-won-the-office-race-winner",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Guess who won the {office} race? {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-wanted-you-to-hear-this-from-me-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I wanted you to hear this from me. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-s-settled-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It's settled. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-won-the-office-race-i-wanted-you-to-hear-it-from-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I won the {office} race. I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "office"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-won-the-office-race-first-i-still-can-t-quite-believe-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I won the {office} race, {first}. I still can't quite believe it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "office"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-lost-the-office-race-winner-won-it-and-i-didn-t-want-you-hearing-it-secondhand",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I lost the {office} race. {winner} won it, and I didn't want you hearing it secondhand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost", "winner", "office"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-didn-t-make-it-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I didn't make it. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost", "winner", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm sorry, {first}. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran", "winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-didn-t-go-your-way-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It didn't go your way. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran", "winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-count-came-out-for-winner-you-came-up-short",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The count came out for {winner}. You came up short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran", "winner", "winner-is-other"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-did-it-happen",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How did it happen?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-the-count-look-like",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did the count look like?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.does-anyone-know-why-it-went-that-way",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Does anyone know why it went that way?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-turned-out-for-winner",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who turned out for {winner}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "winner-is-other"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-turned-out-for-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who turned out for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-went-wrong-for-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What went wrong for me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-are-you-taking-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How are you taking it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.whatever-this-means-for-you-i-m-on-your-side",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Whatever this means for you, I'm on your side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.whatever-comes-of-it-we-ll-manage",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Whatever comes of it, we'll manage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-know-this-one-carried-weight-take-your-time-with-it",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I know this one carried weight. Take your time with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.congratulations-you-earned-it",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Congratulations. You earned it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.congratulations-i-mean-that",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Congratulations. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-m-sorry-that-s-a-hard-result-to-carry",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry. That's a hard result to carry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.you-gave-that-race-everything-nobody-can-say-you-didn-t",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "You gave that race everything. Nobody can say you didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.don-t-worry-about-me-i-ll-be-all-right",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Don't worry about me. I'll be all right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.it-stings-but-i-ll-get-through-it",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "It stings, but I'll get through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-matters-to-me-whoever-won-i-live-under-what-they-decide",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It matters to me whoever won. I live under what they decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-be-watching-what-they-do-with-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll be watching what they do with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-changes-what-i-have-to-think-about-next",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It changes what I have to think about next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-put-everything-into-that-race-it-s-going-to-take-me-a-while",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I put everything into that race. It's going to take me a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-thought-i-had-a-chance-i-m-not-going-to-pretend-i-m-fine",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I thought I had a chance. I'm not going to pretend I'm fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-have-to-deal-with-winner-sooner-or-later",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll have to deal with {winner} sooner or later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "winner-is-other"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-glad-it-was-you-whatever-else-comes-of-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm glad it was you, whatever else comes of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-doesn-t-change-my-week",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It doesn't change my week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-d-rather-not-make-a-big-thing-of-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'd rather not make a big thing of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.people-will-talk-about-it-for-a-while-i-suppose",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "People will talk about it for a while, I suppose.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-think-about-that-right-now",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't think about that right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.give-me-a-little-time-with-this",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me a little time with this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-call-you-once-i-ve-sorted-it-out",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll call you once I've sorted it out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-we-ll-talk-soon",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. We'll talk soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "leave",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-only-know-what-came-out-of-the-count-people-are-still-sorting-out-what-it-mean",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I only know what came out of the count. People are still sorting out what it means.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.honestly-i-m-still-trying-to-work-that-out-myself",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Honestly, I'm still trying to work that out myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-got-the-most-votes-that-s-all-i-know-for-sure",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} got the most votes. That's all I know for sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "winner-is-other"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-got-the-most-votes-that-s-all-i-know-for-sure",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I got the most votes. That's all I know for sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-still-going-over-it-myself-i-ll-tell-you-when-i-understand-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm still going over it myself. I'll tell you when I understand it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-means-more-than-you-d-think",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That means more than you'd think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-helps-first-it-really-does",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That helps, {first}. It really does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-re-kind-to-say-so",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You're kind to say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-hold-onto-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll hold onto that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-understand",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.take-whatever-time-you-need",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Take whatever time you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-won-t-push",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I won't push.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-let-it-sit",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll let it sit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.so-what-will-you-do-about-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "So what will you do about it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.does-it-change-your-plans",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Does it change your plans?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-can-t-set-it-aside-forever",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You can't set it aside forever.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.are-you-sure-you-re-all-right-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Are you sure you're all right, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-hearing-me-out-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for hearing me out, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-i-told-you-myself",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad I told you myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-talk-soon",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. Talk soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-we-ll-leave-it-at-that",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. We'll leave it at that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.okay-first-whenever-you-re-ready",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay, {first}. Whenever you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-i-ll-let-you-be",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. I'll let you be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-and-we-ll-talk-again",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over, and we'll talk again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.it-won-t-look-any-smaller-tomorrow",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "It won't look any smaller tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.promise-me-you-ll-think-about-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Promise me you'll think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-talk-again-once-you-ve-had-time",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll talk again once you've had time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "open",
+          "after": "leave"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-leave-it-too-long-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't leave it too long, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "open",
+          "after": "leave"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-check-in-on-you-soon",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll check in on you soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "outcome": "open",
+          "after": "leave"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher helper (race told)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "warn",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-i-m-glad-i-caught-you-it-s-about-the-race",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, I'm glad I caught you. It's about the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-thought-you-d-want-to-know-before-you-heard-it-anywhere-else",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I thought you'd want to know before you heard it anywhere else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-you-ll-want-to-hear-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}. You'll want to hear this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-keep-this-short-the-count-s-done",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll keep this short. The count's done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-s-winner-first-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It's {winner}, {first}. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-know-it-matters-to-you-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I know it matters to you. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.winner-took-the-office-race-that-s-the-count",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{winner} took the {office} race. That's the count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.for-what-it-s-worth-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "For what it's worth, {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-count-s-in-i-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The count's in. I won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-won-the-office-race-now-the-work-starts",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I won the {office} race. Now the work starts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-lost-first-winner-won-the-office-race-and-i-wanted-to-tell-you-myself",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I lost, {first}. {winner} won the {office} race, and I wanted to tell you myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost", "winner", "office"]
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.winner-beat-me-for-office-that-s-how-it-went",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{winner} beat me for {office}. That's how it went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-lost", "winner", "office"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-won-t-like-this-winner-won-the-office-race",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You won't like this. {winner} won the {office} race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran", "winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-wasn-t-your-night-winner-won-the-office-race-but-you-ran-a-race-people-will-remember",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It wasn't your night. {winner} won the {office} race, but you ran a race people will remember.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["you-ran", "winner", "office", "winner-is-other"]
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Finisher (English engine and scenes)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
       }
     }
   ]
