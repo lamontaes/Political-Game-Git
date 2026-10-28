@@ -113,6 +113,7 @@ import {
   worldOutletCounts,
   type PlaceNews,
 } from "./modules/press";
+import { schoolsAttended } from "./past";
 import { NEWS_MODULE_ID } from "./modules/news";
 import { publishedSupportShare, supportShare } from "./campaign-views";
 import supportData from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
@@ -129,7 +130,6 @@ import type { CoreState } from "./types";
 /** Audit rows still copied, by the pool item that fixes each. */
 export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
   "realistic-elections-per-world": [45],
-  "realistic-school-names-generated": [37],
   "world-disasters-from-conditions": [41],
 };
 // Drawn, each with its own two-world test: row 6 in housing-world.test.ts,
@@ -759,6 +759,28 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     process.stdout.write(
       `TREASURY ${where}: ${da.size} debt holders, ${ca.size} charge shares, ${stakes} stakes\n`,
+    );
+  });
+
+  it("the schools people went to are their world's own (audit row 37)", () => {
+    // The real school directory is gone from play: a school a person went to
+    // is a school organization of the world, named by its own record.
+    for (const core of [a, b]) {
+      const named = [...core.people.keys()].flatMap((id) =>
+        schoolsAttended(core, id).filter((row) => row.name),
+      );
+      expect(named.length, `${where} row 37: named schools`).toBeGreaterThan(0);
+      for (const row of named)
+        expect(
+          core.organizations.get(row.schoolId)?.name,
+          `${where} row 37 ${row.recordId}`,
+        ).toBe(row.name);
+    }
+    const first = [...a.people.keys()]
+      .flatMap((id) => schoolsAttended(a, id).filter((row) => row.name))
+      .at(0)!;
+    process.stdout.write(
+      `SCHOOLS ${where}: ${first.recordId} names ${first.name} (${first.schoolId})\n`,
     );
   });
 

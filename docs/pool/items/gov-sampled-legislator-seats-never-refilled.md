@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/sampled-seats-refilled
+pr: #6701
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T20:39:08.586Z
 ---
 
 **What.** The Every place nightly's Seats check fails in all 56 places, on Oct 27 (run 40512841605) and Oct 28 (run 40706056832, run seed 5a7c867eec0d34f1). Each failure is a sampled seat of another state's legislature, for example seat:US-WA:lower:sample:Democratic:0 roster empty since 2025-02-21 in Sugar City, Idaho (seed 7fc7b53d5104). src/core2/modules/officials.ts builds those seats at the opening (the sample of members per chamber) and the vacancy engine in the offices module never opens a vacancy for them, so when the member dies, retires or resigns the seat stays empty until the run ends. Real legislatures fill such a seat by special election or by appointment, by each state's rule.
