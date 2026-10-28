@@ -40,7 +40,6 @@ export const PAST_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       laws: { indexes: { byLaw: { fields: ["lawId"] } } },
-      elections: { indexes: { bySeat: { fields: ["seatId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
       loaded: {},
     },
@@ -60,6 +59,35 @@ export function putPast(api: CoreAPI, name: string, row: object): void {
 }
 
 export { seededUnit } from "./seeded";
+
+// The one history, for the engines that run or read it (light imports only:
+// the engines load this entry while the core is still loading).
+export {
+  pastForLater,
+  preStartHistory,
+  type HistoryRecord,
+  type HistoryWriter,
+  type PreStartModule,
+  type PreStartWindow,
+} from "./pre-start";
+export {
+  PAST_WORK_OUT,
+  PAST_WORK_SPELL,
+  heldSinceRecord,
+  pastWorkFor,
+  pastWorkHistory,
+  pastWorkOf,
+} from "./past-work";
+export { residenceOn } from "./past-moves";
+export {
+  SCHOOL_STARTED,
+  schoolHistory,
+  schoolHistoryFor,
+  schoolName,
+  schoolOfPlace,
+  schoolsAttended,
+  type SchoolAttended,
+} from "./past-school";
 
 /** A value inside [low, high], fixed by the seed and key. */
 export function seededBetween(

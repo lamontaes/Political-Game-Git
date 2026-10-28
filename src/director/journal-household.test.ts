@@ -3,53 +3,81 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import { FAMILY_PARTNERED } from "../core2/modules/people";
+import { preStartHistory } from "../core2/pre-start";
+import { SCHOOL_STARTED, schoolsAttended } from "../core2/past";
 import { composeJournal } from "./journal";
 
-// Household roots, where the partners met and a parent's new job are told in
-// "My life" from the dated facts the family history keeps (pool item
-// words-past-household-roots-and-moments): each line cites its fact's record id.
-// A random place from all 56.
+// The household's years before the start are told in "My life" from the
+// records the engines ran for them (owner, Oct 28, 2026: "simulate to the
+// birth year"): the first school a child started at (the school engine) and
+// the day partners set up home (the people engine), each line citing its
+// record's id. Places are drawn from all 56 until one holds a named school.
 const seed =
   process.env.JOURNAL_HOUSEHOLD_SEED ?? randomBytes(8).toString("hex");
 
 describe("the household's story in the journal", () => {
-  it("tells roots, where the partners met and a parent's new job, each citing its fact", () => {
-    const place = drawPlace(seed, "journal-household");
-    const where = `seed ${seed}, ${place.name} (${place.key})`;
-    const world = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const { core, director } = world;
-    const told = new Set<string>();
-    const kinds = [
-      "household:roots",
-      "household:partners-met",
-      "household:moment",
-    ];
-    let tried = 0;
-    for (const person of core.people.values()) {
-      if (!(person.pastFacts ?? []).some((f) => kinds.includes(f.kind)))
-        continue;
-      director.watch(core, person.id);
-      const lines = composeJournal(core, director, person.id).flatMap(
-        (chapter) => chapter.lines,
+  it("tells the first school and the day partners set up home, each citing its run record", () => {
+    const passed: string[] = [];
+    for (let draw = 0; draw < 6; draw += 1) {
+      const place = drawPlace(`${seed}:${draw}`, "journal-household");
+      const where = `seed ${seed}:${draw}, ${place.name} (${place.key})`;
+      const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+        playerBirthDate: "1990-06-15",
+      });
+      const started = preStartHistory(core, { kind: SCHOOL_STARTED }).filter(
+        (row) =>
+          row.facts.grade === 0 &&
+          schoolsAttended(core, String(row.facts.personId)).some(
+            (school) => school.recordId === row.id && school.name,
+          ),
       );
-      for (const fact of person.pastFacts ?? []) {
-        const line = lines.find((row) => row.sourceRecordIds.includes(fact.id));
-        if (line && kinds.includes(fact.kind)) {
-          told.add(fact.kind);
+      if (!started.length) {
+        passed.push(`${where}: no named first school`);
+        continue;
+      }
+      const told = new Set<string>();
+      const partnered = preStartHistory(core, { kind: FAMILY_PARTNERED });
+      const people = [
+        ...new Set([
+          ...started.slice(0, 20).map((row) => String(row.facts.personId)),
+          ...partnered.slice(0, 20).flatMap((row) => row.personIds ?? []),
+        ]),
+      ];
+      for (const id of people) {
+        director.watch(core, id as never);
+        const lines = composeJournal(core, director, id as never).flatMap(
+          (chapter) => chapter.lines,
+        );
+        for (const row of [...started, ...partnered]) {
+          const line = lines.find((entry) =>
+            entry.sourceRecordIds.includes(row.id),
+          );
+          if (!line) continue;
+          told.add(row.kind);
           expect(line.text, where).not.toMatch(/\{|undefined/);
-          if (fact.kind === "household:roots")
-            expect(line.text, where).toMatch(/came from/);
-          if (fact.kind === "household:partners-met")
-            expect(line.text, where).toMatch(/met/);
+          if (row.kind === SCHOOL_STARTED)
+            expect(line.text, `${where}: ${row.id}`).toMatch(
+              /school|start|began/i,
+            );
+          if (row.kind === FAMILY_PARTNERED)
+            expect(line.text, `${where}: ${row.id}`).toMatch(
+              /met|found each other|knew each other/,
+            );
         }
       }
-      tried += 1;
-      if (tried >= 40) break;
+      expect(
+        [...told],
+        `${where}; passed over: ${passed.join("; ")}`,
+      ).toContain(SCHOOL_STARTED);
+      if (partnered.length)
+        expect([...told], `${where}: ${partnered.length} couples`).toContain(
+          FAMILY_PARTNERED,
+        );
+      return;
     }
-    expect(tried, where).toBeGreaterThan(0);
-    expect([...told], where).toContain("household:roots");
-  }, 300_000);
+    throw new Error(`No drawn place held a named school: ${passed.join("; ")}`);
+  }, 900_000);
 });

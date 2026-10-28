@@ -5,9 +5,9 @@ area: release
 kind: cleanup
 priority: 1
 size: S
-status: blocked
+status: in-pr
 claimed-by:
-pr:
+pr: #6659
 after:
 blocked-on: core-old-engine-07-appearance-and-delete
 source: "repo audit Oct 19 (docs/reports/repo-audit-2026-10-19.md)"

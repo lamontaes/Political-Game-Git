@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
   CANDIDACY_PARAMETERS,
@@ -11,9 +10,10 @@ import {
   platformFromViews,
   decideToRun,
   RUN,
+  standAgainReason,
+  standsAgain,
 } from "./modules/candidacy";
 import { viewsModule } from "./modules/views";
-import { standAgainReason, standsAgain } from "./stand-again";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 
@@ -21,16 +21,14 @@ import { applyCoreEvent, coreAPI } from "./state";
 // how closely they follow politics, the cause they carry, temperament, work
 // hours and age. A recorded cause can change who runs.
 const seed = process.env.GOLDEN_PATH_SEED ?? "candidacy-a";
-const input = buildDeepPast(
-  buildPopulation({
-    seed,
-    ...(process.env.GOLDEN_PATH_SEED
-      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-      : {}),
-    startedAt: "2021-01-01",
-    minimumPeople: 1200,
-  }),
-);
+const input = buildPopulation({
+  seed,
+  ...(process.env.GOLDEN_PATH_SEED
+    ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+    : {}),
+  startedAt: "2021-01-01",
+  minimumPeople: 1200,
+});
 const core = createLifeCore(input, { modules: [viewsModule, candidacyModule] });
 const api = coreAPI(core);
 const adults = [...core.people.values()].filter(

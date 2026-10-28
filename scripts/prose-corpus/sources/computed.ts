@@ -53,7 +53,7 @@ export interface ComputedSurface {
 
 /**
  * The computed surfaces whose literals a player reads. Every surface listed
- * before Oct 28, 2026 was an old-engine file (src/simulation, src/presentation),
+ * before Oct 28, 2026 was an old-engine file (the two deleted old folders),
  * removed with that engine; the game's prose now comes from the English
  * engine's banks, and a computed surface is added here only for a live file.
  */

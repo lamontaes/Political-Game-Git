@@ -42,7 +42,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds, leanedYes } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import { candidatePlatform } from "../campaign-stances";
 import { contestPositions } from "../contest-positions";
@@ -72,7 +72,7 @@ import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
-import { standAgainReason, standsAgain } from "../stand-again";
+import { campaignParameter } from "../campaign-views";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -1306,6 +1306,45 @@ function weighClosedContest(
     .put({ ...row, filedOn: contest.filingDeadline } as unknown as {
       id: string;
     });
+}
+
+/**
+ * Whether a serving incumbent stands again: the base reason, less what their
+ * age takes from it, and their calibrated trait lean toward standing over
+ * retiring (voting.stand-again).
+ */
+export function standsAgain(
+  api: CoreAPI,
+  incumbent: Readonly<PersonState>,
+): boolean {
+  return leanedYes(
+    api.state,
+    incumbent,
+    "voting.stand-again",
+    "stand",
+    "retire",
+    standAgainReason(api, incumbent),
+  );
+}
+
+/** The reasons to stand again before personality: the base, less the weight of age past the pivot. */
+export function standAgainReason(
+  api: CoreAPI,
+  incumbent: Readonly<PersonState>,
+): number {
+  return (
+    campaignParameter("votingStandAgainBase") -
+    campaignParameter("votingStandAgainAgeWeight") *
+      Math.min(
+        1,
+        Math.max(
+          0,
+          (ageOnDate(incumbent.birthDate, api.state.date) -
+            campaignParameter("votingStandAgainAgePivot")) /
+            campaignParameter("votingStandAgainAgeSpan"),
+        ),
+      )
+  );
 }
 
 /** Each day: weigh the contests whose weighing day has come, then file for those whose window opened. */

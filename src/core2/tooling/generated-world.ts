@@ -5,7 +5,6 @@ import { staffToCustomers } from "../opening-staffing";
 import { representativeSample } from "../representative-sample";
 import { withPublicSchoolDistrict } from "../opening-public-schools";
 import { buildPopulation } from "../population";
-import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningEconomy } from "../opening-economy";
@@ -56,7 +55,7 @@ function buildOpening(
     openingEmployment: true,
     scheduledWork: true,
   });
-  const withPast = buildDeepPast(population);
+  const withPast = population;
   // The town's public school district, staffed from workers not yet placed;
   // built before custom settings so its pay scales like every other job.
   const schools = withPublicSchoolDistrict(enrichCivicInputs(withPast));
