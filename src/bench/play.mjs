@@ -21,6 +21,7 @@ import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
+import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -966,14 +967,6 @@ function billBlock(item, buttons, onPaper) {
       textContent: [item.title, item.number, item.sponsor]
         .filter(Boolean)
         .join(" · "),
-    }),
-    el("div", {
-      textContent: item.provisions
-        .map(
-          (p) =>
-            `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
-        )
-        .join("; "),
     }),
     item.remarks.length
       ? el("div", {
@@ -2870,6 +2863,9 @@ const sheets = {
       return b;
     };
     const portrait = (p) => {
+      // A headshot: the person's own figure, cropped round to their head
+      // (no box; owner, Oct 28).
+      if (p.face) return headshot(p.face);
       const url = p.presentation?.portraitUrl ?? p.figureUrl;
       if (!url)
         return el("span", {
@@ -2911,6 +2907,7 @@ const sheets = {
             { className: "people-center" },
             portrait({
               name: me.card.name,
+              face: me.card.face,
               // The saved look, as the card and Who you are read it: not whatever room's figure.
               figureUrl: portraitUrl(),
             }),

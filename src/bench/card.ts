@@ -13,7 +13,7 @@ import { pronounWords } from "../english/pronoun-words";
 import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
-import { scenePlace, stagePeople } from "./scene";
+import { faceOf, scenePlace, stagePeople } from "./scene";
 import {
   BALANCED_TRAIT,
   PEOPLE_TRAITS,
@@ -43,6 +43,8 @@ export function personCard(core: CoreState, personId: string) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
   const household = core.households.get(person.householdId);
+  // Faces for the People map: each the figure a room here would draw.
+  const place = scenePlace(core, personId).place;
   const ties = [...(core.relationshipsByPerson.get(personId) ?? [])]
     .map((id) => core.relationships.get(id))
     .filter((row) => row !== undefined)
@@ -56,6 +58,7 @@ export function personCard(core: CoreState, personId: string) {
         level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
+        face: faceOf(core, otherId, place),
         // Why the tie last changed, from its own record.
         latestChange: row.latestChange && {
           date: row.latestChange.date,
@@ -95,6 +98,7 @@ export function personCard(core: CoreState, personId: string) {
   return {
     id: person.id,
     name: name(person.id),
+    face: faceOf(core, person.id, place),
     birthDate: person.birthDate,
     seats,
     age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
@@ -108,6 +112,7 @@ export function personCard(core: CoreState, personId: string) {
           name: name(id),
           relation: relationWord(core, id, relationOf.get(id)),
           alive: core.people.get(id)?.alive ?? true,
+          face: faceOf(core, id, place),
         })),
     },
     job: job && {
