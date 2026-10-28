@@ -6451,7 +6451,8 @@
       "who": "Households with incomes under 130 percent of the poverty line, the likely SNAP-eligible, 12.5 percent of all households.",
       "lagWhy": "The 2011 report compares late 2008 with late 2009, eight months after the April 2009 rise; the benefit is spent in the month it is paid, so the link takes effect at once.",
       "aboutZero": false,
-      "notes": "Linear in the rise since the opening. The same benefit also moves program.snap-receipt:moved-by-causes only through the work requirement, so this link and snap-to-food-insecurity do not count one cause twice. The engine that pays it is the budgets engine's monthly close (src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household the maximum in force less its expected food spending."
+      "notes": "Linear in the rise since the opening. The same benefit also moves program.snap-receipt:moved-by-causes only through the work requirement, so this link and snap-to-food-insecurity do not count one cause twice. The engine that pays it is the budgets engine's monthly close (src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household the maximum in force less its expected food spending.",
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     {
       "key": "health-hospitals-spending-to-infant-mortality",

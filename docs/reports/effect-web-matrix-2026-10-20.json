@@ -3,12 +3,12 @@
   "summary": {
     "links": 244,
     "lawLinks": 134,
-    "webCoverageWired": 124,
+    "webCoverageWired": 123,
     "allEightPoints": 0,
-    "reachesOrCarried": 148,
+    "reachesOrCarried": 149,
     "namedInAStopgap": 99,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 148,
+    "reachesTheWorld": 149,
     "aboutZero": 19,
     "withAnyModerator": 23,
     "byPoint": {
@@ -25,9 +25,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 148,
+        "pass": 149,
         "partial": 0,
-        "fail": 77,
+        "fail": 76,
         "n/a": 19
       },
       "varied": {
@@ -83,7 +83,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112"
+          "evidence": "src/core2/modules/crime.ts:580"
         },
         "varied": {
           "status": "fail",
@@ -177,7 +177,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:105"
+          "evidence": "src/core2/modules/crime.ts:606"
         },
         "varied": {
           "status": "fail",
@@ -223,7 +223,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98"
+          "evidence": "src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -269,7 +269,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -316,7 +316,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118"
+          "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593"
         },
         "varied": {
           "status": "fail",
@@ -362,7 +362,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/public-safety.ts:130"
+          "evidence": "src/core2/public-safety.ts:121"
         },
         "varied": {
           "status": "fail",
@@ -756,7 +756,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956"
+          "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894"
         },
         "varied": {
           "status": "fail",
@@ -850,7 +850,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966"
+          "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904"
         },
         "varied": {
           "status": "fail",
@@ -7084,7 +7084,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -7459,7 +7459,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112"
+          "evidence": "src/core2/modules/crime.ts:580"
         },
         "varied": {
           "status": "fail",
@@ -7787,7 +7787,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -7834,7 +7834,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8070,7 +8070,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8117,7 +8117,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8449,7 +8449,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8733,7 +8733,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8780,7 +8780,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8827,7 +8827,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -8921,7 +8921,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106"
+          "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618"
         },
         "varied": {
           "status": "fail",
@@ -11587,7 +11587,7 @@
       "to": "household.food-insecurity",
       "causeKind": "engine",
       "lawLink": false,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -11598,9 +11598,8 @@
           "evidence": "data/research/outcome-web/links.json:6414 size -0.00148, range [-0.00185, -0.00111], Nord and Prell 2011, USDA ERS Amber Waves (June 13, 2011) \"Food Security of SNAP Recipients Improved Following the 2009 Stimulus Package\" and Economic Research Report 116; Nord 2013, USDA ERS Amber Waves (October 24, 2013) \"Effects of Changes in SNAP Benefits on Food Security\" (ERR-151); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 2"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.snap-maximum-change-pct"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
         },
         "varied": {
           "status": "fail",
@@ -11626,8 +11625,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-household-food-insecurity"
+      "wiredPoints": 5,
+      "stopgap": "SG-WEB-food-insecurity-ledger"
     },
     {
       "key": "health-hospitals-spending-to-infant-mortality",
@@ -11643,7 +11642,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6457 size -0.00685, range [-0.00856, -0.00514], Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3"
+          "evidence": "data/research/outcome-web/links.json:6458 size -0.00685, range [-0.00856, -0.00514], Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3"
         },
         "reaches": {
           "status": "pass",
@@ -11660,7 +11659,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6457 lag 9 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6458 lag 9 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11690,7 +11689,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6501 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
+          "evidence": "data/research/outcome-web/links.json:6502 size 0.000113, range [0.00006, 0.00017], Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)"
         },
         "reaches": {
           "status": "fail",
@@ -11708,7 +11707,7 @@
         },
         "timing": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:6501 lag 0, phase-in 24, fade none"
+          "evidence": "data/research/outcome-web/links.json:6502 lag 0, phase-in 24, fade none"
         },
         "knowing": {
           "status": "fail",
@@ -11737,7 +11736,7 @@
         },
         "size": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:6547",
+          "evidence": "data/research/outcome-web/links.json:6548",
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
@@ -11756,7 +11755,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:6547 lag 0 months (researched)",
+          "evidence": "data/research/outcome-web/links.json:6548 lag 0 months (researched)",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -11919,7 +11918,7 @@
     {
       "measure": "crime.assault",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:618, src/core2/public-safety.ts:98",
+      "evidence": "src/core2/modules/crime.ts:618",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-assault", "crime-level-to-assault"]
@@ -11927,7 +11926,7 @@
     {
       "measure": "crime.burglary",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:580, src/core2/public-safety.ts:112",
+      "evidence": "src/core2/modules/crime.ts:580",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-burglary", "crime-level-to-burglary"]
@@ -11964,7 +11963,7 @@
     {
       "measure": "crime.property",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593, src/core2/public-safety.ts:118",
+      "evidence": "src/core2/modules/crime.ts:580, src/core2/modules/crime.ts:593",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-property-crime"]
@@ -12002,7 +12001,7 @@
     {
       "measure": "crime.robbery",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:606, src/core2/public-safety.ts:105",
+      "evidence": "src/core2/modules/crime.ts:606",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-robbery", "crime-level-to-robbery"]
@@ -12019,7 +12018,7 @@
     {
       "measure": "crime.violent",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618, src/core2/public-safety.ts:99, src/core2/public-safety.ts:106",
+      "evidence": "src/core2/modules/crime.ts:606, src/core2/modules/crime.ts:618",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12616,7 +12615,7 @@
     {
       "measure": "health.youth-firearm-deaths",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1956",
+      "evidence": "src/core2/death-cause.ts:386, src/core2/public-safety.ts:1894",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["child-access-law-to-youth-gun-deaths"]
@@ -12624,7 +12623,7 @@
     {
       "measure": "health.youth-firearm-suicide",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1966",
+      "evidence": "src/core2/death-cause.ts:438, src/core2/public-safety.ts:1904",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["min-age-to-youth-gun-suicide"]
@@ -12852,7 +12851,7 @@
     {
       "measure": "justice.low-level-arrests",
       "status": "engine-reads-web",
-      "evidence": "src/core2/public-safety.ts:130",
+      "evidence": "src/core2/public-safety.ts:121",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-low-level-arrests"]

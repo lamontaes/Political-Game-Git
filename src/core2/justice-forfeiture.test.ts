@@ -19,7 +19,11 @@ import {
   considerBribe,
   type CrimeRecord,
 } from "./modules/corruption";
-import { JUSTICE_MODULE_ID, type SentenceRow } from "./modules/justice";
+import {
+  JUSTICE_MODULE_ID,
+  type CountedSentenceRow,
+  type SentenceRow,
+} from "./modules/justice";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
@@ -82,8 +86,14 @@ function play(seed: string) {
   const sentences = api
     .moduleState(JUSTICE_MODULE_ID)
     .table("sentences")
-    .rows() as unknown as SentenceRow[];
-  return { core, api, sentences, taken };
+    .rows() as unknown as (SentenceRow | CountedSentenceRow)[];
+  // A convicted official's sentences, not the counted cases of ordinary crime.
+  return {
+    core,
+    api,
+    sentences: sentences.filter((s): s is SentenceRow => s.kind === "person"),
+    taken,
+  };
 }
 
 it("forfeits the bribe money a convicted official took, to the treasury, before the fine", () => {

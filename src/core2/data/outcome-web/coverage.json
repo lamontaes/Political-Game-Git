@@ -122,7 +122,6 @@
     "highways-spending-to-poor-roads",
     "poor-roads-to-prices",
     "parks-spending-to-exercise-access",
-    "snap-maximum-to-food-insecurity",
     "health-hospitals-spending-to-infant-mortality",
     "higher-education-spending-to-college-completion"
   ],
@@ -588,6 +587,10 @@
     "public-pay-floor-to-other-employers-wages": {
       "waitingOn": [],
       "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay"
+    },
+    "snap-maximum-to-food-insecurity": {
+      "waitingOn": [],
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     "welfare-spending-to-poverty": {
       "waitingOn": [],
