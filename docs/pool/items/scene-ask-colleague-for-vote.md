@@ -7,7 +7,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/director-player-asks-for-a-vote
 pr: #6460
 blocked-on:
