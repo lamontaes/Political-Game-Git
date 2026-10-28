@@ -351,7 +351,7 @@
     "id": "SG-P8-life-utility",
     "kind": "estimated-behavior",
     "file": "src/core2/data/content.json",
-    "line": 11,
+    "line": 10,
     "whatItFakes": "Prototype need, goal, affect and trait utility mappings; authored player-circle daily, local-town weekly, state monthly and inactive husk cadence; one scored discretionary act per tier activation instead of a complete activity plan; empirical individual-choice calibration remains incomplete.",
     "why": "The authored cadence is an explicit coarse prototype default. One scored act per activation does not establish a complete calendar or empirical activity distribution.",
     "addedBy": "SOL-1258",
@@ -4719,7 +4719,7 @@
     "id": "SG-GOV-policy-power-unresolved",
     "kind": "missing-record",
     "file": "src/core2/policy-authority.ts",
-    "line": 93,
+    "line": 94,
     "whatItFakes": "A question with no mapping in the powers catalog, or a local question whose gating state law is not on record, cannot be introduced; the authority result records a disputed missing grant rather than silently permitting the action. (Oct 15: a territory's cell the catalog has not read now takes its state cell, an estimate; see SG-GOV-policy-power-conditions.)",
     "why": "All 59 policy questions are mapped. What remains unresolved is a gating state law not yet recorded, which the engine cannot infer from absent research.",
     "replacement": "The gating state laws recorded in the opening law table for every place, read before introduction and executive orders.",
@@ -5650,7 +5650,7 @@
     "id": "SG-EFFECT-WEB-prices-gov-borrowing",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/prices-web-gaps.ts",
-    "line": 11,
+    "line": 10,
     "whatItFakes": "Five links (balanced-budget, pension-funding, reserve-balance, federal-deficit and newspaper-closure to borrowing cost) move a state's general-obligation spread, in basis points over a AAA state.",
     "why": "No state or local government borrows in the core: only the federal treasury borrows (budgets-treasury.ts) and its interest is a budget line, not a rate a bond sets, so no engine pays or records a state bond rate. The newspaper link also has no place-level newspaper series and no size.",
     "addedBy": "effect-web-prices",
@@ -7258,6 +7258,30 @@
     "addedBy": "history-past-work (Claude Opus)",
     "addedAt": "2026-10-28",
     "replacement": "history-past-moves (each move before the start a record, so a spell runs in the place the person lived), the regional economy series in the economy pass, business sizes from the business pass's history, and history-past-officials for officials' careers.",
+    "status": "open"
+  },
+  {
+    "id": "SG-BENCH-money-recent-months",
+    "kind": "uncalibrated-tunable",
+    "file": "src/bench/bank.ts",
+    "line": 10,
+    "whatItFakes": "The Money sheet lists the six most recent monthly cash rows; six is a display window, not a measured span.",
+    "why": "The credit engine keeps one household row per monthly review with no limit, and the sheet needs some length; no parameter table row sets how far back a player looks.",
+    "addedBy": "claude/wire-opening-and-home",
+    "addedAt": "2026-10-28",
+    "replacement": "A TUNABLE display window in the parameter table, checked against how many months a player scrolls back, or a chart that draws every kept row.",
+    "status": "open"
+  },
+  {
+    "id": "SG-BENCH-money-spending-reasons",
+    "kind": "missing-record",
+    "file": "src/bench/bank.ts",
+    "line": 94,
+    "whatItFakes": "Where last month went is grouped by the contract kind on each standing bill’s latest receipt plus the everyday living plan, standing in for the transfer’s reasonKey; a one-off transfer (a purchase, a fee, a gift) is not listed.",
+    "why": "The accounts engine (src/core2/accounts.ts) returns a transfer’s reasonKey on its receipt but keeps neither the receipt nor the reason; the cash journal keeps postings and a source id only, and the finance engine keeps only the latest receipt per standing contract.",
+    "addedBy": "claude/wire-opening-and-home",
+    "addedAt": "2026-10-28",
+    "replacement": "The accounts engine keeping each household transfer’s reasonKey on its journal receipt, so the sheet groups every outflow of the month by it.",
     "status": "open"
   }
 ]

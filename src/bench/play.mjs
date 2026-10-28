@@ -3250,72 +3250,83 @@ const sheets = {
           dwelling.tenure === "own" ? labels.owned : labels.rented,
         ),
       );
-      if (dwelling.valueMinor !== undefined)
-        home.append(row(labels.value, dollars(dwelling.valueMinor)));
       if (dwelling.rentMinor !== undefined)
         home.append(
           row(labels.rent, `${dollars(dwelling.rentMinor)} ${labels.monthly}`),
         );
       root.append(home);
     }
-    if (bank?.month)
+    // Cash, spending, assets and debts: the ledger's and the credit engine's
+    // records for the household, served by /api/bank.
+    const monthName = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      });
+    const dayName = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+      });
+    const named = (table, key) =>
+      table?.[key] ?? words(String(key).split(".").pop());
+    const owedWords = (paid, asked) =>
+      asked > paid
+        ? `${dollars(paid)} ${labels.loanPaid} · ${dollars(asked - paid)} ${labels.unpaid}`
+        : dollars(paid);
+    if (bank?.cash?.months?.length)
       root.append(
-        el(
-          "section",
-          { className: "money-month" },
-          el("h3", { textContent: `${labels.lastMonth} · ${bank.month.date}` }),
-          row(labels.monthHousing, dollars(bank.month.housingMinor)),
-          row(labels.monthEveryday, dollars(bank.month.everydayMinor)),
-          row(labels.monthPaid, dollars(bank.month.paidMinor)),
-          row(labels.monthUnpaid, dollars(bank.month.unpaidMinor)),
-          ...(bank.loanPayments?.length
-            ? [
-                el("h3", { textContent: labels.loanPayments }),
-                ...bank.loanPayments.map((payment) =>
-                  row(
-                    payment.date,
-                    `${dollars(payment.paidMinor)} ${labels.loanPaid} · ${dollars(payment.dueMinor)} ${labels.loanDue}`,
-                  ),
-                ),
-              ]
-            : []),
+        recordSection(
+          labels.cashByMonth,
+          ...bank.cash.months.map((entry) =>
+            row(monthName(entry.date), dollars(entry.cashMinor)),
+          ),
         ),
       );
-    if (bank)
+    if (bank?.spending?.length || bank?.loanPayments?.length)
       root.append(
-        el(
-          "section",
-          { className: "money-bank" },
-          ...[
-            row("Bank", bank.name),
+        recordSection(
+          labels.lastMonth,
+          ...(bank.spending ?? []).map((line) =>
             row(
-              "Household savings",
-              `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
+              named(labels.reasons, line.reasonKey),
+              owedWords(line.paidMinor, line.requestedMinor),
             ),
-            ...(bank.books
-              ? [
-                  row("Bank books", bank.books.date),
-                  row("Bank cash", dollars(bank.books.cashMinor)),
-                  row("Business loans", dollars(bank.books.businessLoansMinor)),
-                  row(
-                    "Household loans",
-                    dollars(bank.books.householdLoansMinor),
-                  ),
-                  row("Mortgages", dollars(bank.books.mortgagesMinor)),
-                  row("Total assets", dollars(bank.books.assetsMinor)),
-                  row("Deposits owed", dollars(bank.books.depositsMinor)),
-                  row(
-                    "Mortgage funding",
-                    dollars(bank.books.mortgageFundingMinor),
-                  ),
-                  row("Bank equity", dollars(bank.books.equityMinor)),
-                  row(
-                    "Liabilities and equity",
-                    dollars(bank.books.liabilitiesAndEquityMinor),
-                  ),
-                ]
-              : []),
-          ],
+          ),
+          ...(bank.loanPayments ?? []).map((payment) =>
+            row(
+              `${labels.loanPayments} · ${dayName(payment.date)}`,
+              owedWords(payment.paidMinor, payment.dueMinor),
+            ),
+          ),
+        ),
+      );
+    if (bank?.assets?.length)
+      root.append(
+        recordSection(
+          labels.assets,
+          ...bank.assets.map((asset) =>
+            row(
+              asset.kind === "savings"
+                ? `${labels.assetKinds.savings} · ${bank.name}`
+                : labels.assetKinds[asset.kind],
+              dollars(asset.valueMinor),
+            ),
+          ),
+        ),
+      );
+    if (bank?.debts?.length)
+      root.append(
+        recordSection(
+          labels.debts,
+          ...bank.debts.map((debt) =>
+            row(
+              named(labels.debtKinds, debt.kind),
+              debt.pastDueMinor > 0
+                ? `${dollars(debt.owedMinor)} · ${dollars(debt.pastDueMinor)} ${labels.pastDue}`
+                : dollars(debt.owedMinor),
+            ),
+          ),
         ),
       );
     const deductions = Object.entries(budget.withholding?.byLine ?? {});
