@@ -911,23 +911,36 @@ function countedAdultsToday(api: CoreAPI): number {
 const countedByDay = new WeakMap<object, { date: string; n: number }>();
 
 /** The town's named adults today, from the place index. */
+/**
+ * Whether a named person votes in the town's contests on a date, by the
+ * count's own rule (the one rule every reader of it uses: the count, the
+ * director's polling place, the household who go along): alive, living in
+ * the town, of voting age that day, and not barred by the law in force.
+ */
+export function mayVoteOn(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): boolean {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return false;
+  const person = api.state.people.get(personId);
+  return Boolean(
+    person?.alive &&
+    person.placeId === town(api).townPlaceId &&
+    ageOn(person, date) >= api.parameter("votingAge") &&
+    !barredFromVoting(api, person.id),
+  );
+}
+
 function townAdults(api: CoreAPI): readonly PersonState[] {
   const held = adultsByDay.get(api.state);
   if (held?.date === api.state.date && held.size === api.state.people.size)
     return held.rows;
   const { townPlaceId } = town(api);
-  const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   const rows = [...(api.state.peopleByPlace.get(townPlaceId) ?? [])]
     .map((id) => api.state.people.get(id))
-    .filter(
-      (p): p is PersonState =>
-        !!p &&
-        p.alive &&
-        p.placeId === townPlaceId &&
-        ageOn(p, date) >= adultAge &&
-        !barredFromVoting(api, p.id),
-    )
+    .filter((p): p is PersonState => !!p && mayVoteOn(api, p.id, date))
     .sort((a, b) => a.id.localeCompare(b.id));
   adultsByDay.set(api.state, {
     date,
@@ -2144,8 +2157,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // stopgapId: SG-GOV-ward-map
   if (wards > 0) api.stopgap("SG-GOV-ward-map");
   const named = townAdults(api).filter(
-    (p) =>
-      !barredFromVoting(api, p.id) && (!wards || inWard(api, p, wards, ward)),
+    (p) => !wards || inWard(api, p, wards, ward),
   );
   const playerId = (api.state as CoreState).playerId ?? null;
   const namedVotes: Record<string, number> = {};
