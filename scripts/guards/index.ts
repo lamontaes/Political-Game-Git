@@ -58,12 +58,6 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/no-second-source.test.ts"),
   },
   {
-    id: "no-place-or-presence-restated",
-    rule: "No line restates where the player is or who is with them.",
-    readMore: ".claude/skills/scene-standard/SKILL.md",
-    command: vitest("tests/guards/no-place-or-presence-restated.test.ts"),
-  },
-  {
     id: "research-data-has-reader",
     rule: "An effect is a read, not a record: every research file has code that reads it, and the unread list only shrinks.",
     readMore: "AGENTS.md, Standing owner rules, An effect is a read",
@@ -83,10 +77,17 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/one-history.test.ts"),
   },
   {
-    id: "american-english",
-    rule: "American English everywhere.",
-    readMore: "AGENTS.md, Standing owner rules, American English",
-    command: vitest("tests/american-english-sweep.test.ts"),
+    id: "english",
+    rule: "Player text is American English, never restates where the player is or who is there, and carries no developer text; the known lists only shrink.",
+    readMore:
+      "tests/guards/english/ (allowlist.ts holds the one allowlist); AGENTS.md, American English everywhere",
+    command: vitest("tests/guards/english/"),
+  },
+  {
+    id: "kit-only-ui",
+    rule: "Every piece of UI comes from the UI kit in src/bench/ui/, nothing invented; the known markup outside it only shrinks.",
+    readMore: ".claude/skills/screen-to-mock/SKILL.md",
+    command: vitest("tests/guards/kit-only-ui.test.ts"),
   },
   {
     id: "canned-content",

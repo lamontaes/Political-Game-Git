@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/guards-kit-only-ui
 pr: #6500
 blocked-on:

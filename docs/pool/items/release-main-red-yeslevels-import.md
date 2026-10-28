@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: dropped
 claimed-by: claude/main-red-yeslevels-import
 pr: #6508
 blocked-on:

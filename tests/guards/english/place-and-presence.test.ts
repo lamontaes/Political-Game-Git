@@ -12,7 +12,7 @@ import { describe, expect, it } from "vitest";
  * with you".
  */
 
-const ROOT = path.resolve(__dirname, "../..");
+const ROOT = path.resolve(__dirname, "../../..");
 
 /** A sentence that only says where the player is. */
 const PLACE =
