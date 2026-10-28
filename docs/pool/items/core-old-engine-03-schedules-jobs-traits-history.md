@@ -27,3 +27,5 @@ claimed-at: 2026-10-28T14:54:34.350Z
 Oct 25 audit: Branch claude/port-town-employment (PR #5540) carries a start on town employment (from the dropped world-port-town-employment).
 
 Oct 25 audit: Branch claude/old-imports-opening-work (PR #5035) carries a start on opening-work.ts (from the dropped core-old-imports-opening-work).
+
+Old engine session, Oct 28: PR #6637 (branch claude/old-engine-opening-port) finishes every line but "the old files no longer exist": src/core2 and src/bench import nothing from src/simulation, and ten drawn towns plus a played year in Rockingham, Georgia (seed 7c4b3250b2f08409) match main by record id. The lifted old files are still imported by about 800 other old-engine files, so they go with the folder in core-delete-old-engine, whose done-when already requires it; the CTO marks this item done when #6637 merges (`--by=cto`).
