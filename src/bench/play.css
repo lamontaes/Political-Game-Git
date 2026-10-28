@@ -4142,3 +4142,21 @@ details.entry[open] {
 .row.seat-draft {
   justify-content: flex-start;
 }
+
+/* An issue card's value: large but wrapping inside its card, never past its
+   edge; the cards are as wide as a value needs, so a word is not cut. */
+.record-section .entries-cards {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.entries-cards .entry .entry-value {
+  display: block;
+  font-size: 20px;
+  line-height: 1.15;
+  overflow-wrap: break-word;
+  margin: 2px 0 4px;
+}
+.entries-cards .entry .entry-line {
+  font: 13px var(--ui);
+  color: var(--text-2);
+  margin: 0;
+}
