@@ -291,6 +291,20 @@ function householdMoments(
       beat: "roots",
     });
   }
+  // Their own birth, where the run's record puts their family that day: the
+  // story starts there (owner, Oct 27: "written like a story from birth").
+  for (const row of history("person.birth", person.id)) {
+    const actFacts = placeOf(row.placeId, row.id);
+    if (actFacts.place)
+      moments.push({
+        ...base(row.id, row.date),
+        causeKind: "person.birth",
+        counterpartIds: [],
+        selfNamed: true,
+        actFacts,
+        beat: "roots",
+      });
+  }
   // The day they and their partner set up home, where their records put
   // them then.
   for (const row of history(FAMILY_PARTNERED, person.id)) {

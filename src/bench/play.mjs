@@ -2525,15 +2525,19 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
-    // A chapter's title heads it only when there is more than one chapter: a
-    // lone title over the only story restates the screen (principles rule 3).
+    // One story from birth, a paragraph to each turn of the life, with no
+    // heading over any part of it (owner, Oct 27: "written like a story,
+    // not individual sections... from birth"; "remove all those
+    // subheadings").
     return recordScreen({
-      sections: chapters.map((c) => ({
-        title: chapters.length > 1 ? c.title : undefined,
-        items: [
-          { text: c.lines.map((l) => l.text).join(" "), tone: "narrative" },
-        ],
-      })),
+      sections: [
+        {
+          items: chapters.map((c) => ({
+            text: c.lines.map((l) => l.text).join(" "),
+            tone: "narrative",
+          })),
+        },
+      ],
     });
   },
   async handoff() {
