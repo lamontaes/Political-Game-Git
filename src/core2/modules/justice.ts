@@ -43,7 +43,7 @@ import type {
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
-import { OFFICES_MODULE_ID, vacateSeat } from "./offices";
+import { OFFICES_MODULE_ID, servingTermsOf, vacateSeat } from "./offices";
 import { closenessBetween } from "../closeness";
 import {
   briberyRange,
@@ -55,7 +55,6 @@ import {
   partyOf,
   prominenceOf,
   prosecutorFor,
-  servingTermsOf,
   type ProsecutorOffice,
 } from "../justice-law";
 import { holdInCustody, releaseFromCustody } from "../justice-custody";
