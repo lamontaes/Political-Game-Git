@@ -80,6 +80,13 @@
     "trailingDays": 365,
     "repeatDays": 30,
     "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running.",
+    "seasonCap": {
+      "value": 6,
+      "days": 91,
+      "tag": "TUNABLE",
+      "spread": [3, 12],
+      "note": "The most scenes of one situation type a person is staged in a season (91 days, a quarter of a year); past it, that type's causes go to the journal until the window moves on. Checked against the played year Neodesha, Kansas, seed words-0115 (docs/reports/scene-web.md), where the floor vote fired 121 times and 29 of 80 types fired: six a season leaves room for a legislator's weekly sittings to stage one scene in two and lets other types through (the plan of Oct 28, section 3)."
+    },
     "openDays": {
       "at-cause": 7,
       "effective-date": 3,
@@ -158,7 +165,10 @@
       "timing": "effective-date",
       "causes": [
         {
-          "bind": { "leaving": "subject", "staying": "kin" },
+          "bind": {
+            "leaving": "subject",
+            "staying": "kin"
+          },
           "opener": "leaving",
           "opening": "farewell",
           "match": {
@@ -167,7 +177,9 @@
           }
         },
         {
-          "match": { "label": "circumstance:moved-away-farewell" },
+          "match": {
+            "label": "circumstance:moved-away-farewell"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "person.moved-away",
           "bind": {
@@ -305,7 +317,10 @@
           "opening": "tell"
         },
         {
-          "match": { "label": "money:job-ended", "counterpart": "none" },
+          "match": {
+            "label": "money:job-ended",
+            "counterpart": "none"
+          },
           "bind": {
             "bearer": "subject",
             "receiver": "household",
@@ -328,7 +343,10 @@
           }
         },
         {
-          "match": { "label": "money:job-ended", "counterpart": "some" },
+          "match": {
+            "label": "money:job-ended",
+            "counterpart": "some"
+          },
           "bind": {
             "bearer": "counterpart",
             "receiver": "subject",
@@ -351,7 +369,9 @@
           "opening": "tell"
         },
         {
-          "match": { "label": "circumstance:price-moved-street" },
+          "match": {
+            "label": "circumstance:price-moved-street"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "law.effect-learned",
           "bind": {
@@ -364,7 +384,9 @@
           "opening": "tell"
         },
         {
-          "match": { "label": "circumstance:story-read-home" },
+          "match": {
+            "label": "circumstance:story-read-home"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "news.read",
           "bind": {
@@ -377,7 +399,9 @@
           "opening": "tell"
         },
         {
-          "match": { "label": "circumstance:national-news-work" },
+          "match": {
+            "label": "circumstance:national-news-work"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "news.read",
           "bind": {
@@ -390,7 +414,9 @@
           "opening": "tell"
         },
         {
-          "match": { "label": "circumstance:death-known-street" },
+          "match": {
+            "label": "circumstance:death-known-street"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "life.death",
           "bind": {
@@ -403,7 +429,9 @@
           "opening": "tell"
         },
         {
-          "match": { "label": "circumstance:rent-news-street" },
+          "match": {
+            "label": "circumstance:rent-news-street"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "news.read",
           "bind": {
@@ -416,7 +444,9 @@
           "opening": "tell"
         },
         {
-          "match": { "label": "circumstance:national-news-street" },
+          "match": {
+            "label": "circumstance:national-news-street"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "news.read",
           "bind": {
@@ -665,10 +695,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:job-lost-calls" },
+          "match": {
+            "label": "circumstance:job-lost-calls"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "work.job-lost",
-          "bind": { "asking": "counterpart", "asked": "subject" },
+          "bind": {
+            "asking": "counterpart",
+            "asked": "subject"
+          },
           "opener": "asking",
           "setting": ["phone"]
         }
@@ -765,7 +800,9 @@
           "opener": "host"
         },
         {
-          "match": { "label": "circumstance:graduation-home" },
+          "match": {
+            "label": "circumstance:graduation-home"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "school.finished",
           "bind": {
@@ -924,7 +961,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:new-coworker" },
+          "match": {
+            "label": "circumstance:new-coworker"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "job",
           "bind": {
@@ -1029,19 +1068,29 @@
       "timing": "effective-date",
       "causes": [
         {
-          "match": { "label": "circumstance:school-last-day" },
+          "match": {
+            "label": "circumstance:school-last-day"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "school.finished",
-          "bind": { "leaving": "subject", "staying": "counterpart" },
+          "bind": {
+            "leaving": "subject",
+            "staying": "counterpart"
+          },
           "opener": "staying",
           "opening": "farewell",
           "setting": ["school"]
         },
         {
-          "match": { "label": "money:job-left" },
+          "match": {
+            "label": "money:job-left"
+          },
           "causeEngine": "jobs",
           "causeRecord": "job",
-          "bind": { "leaving": "subject", "staying": "former-coworkers" },
+          "bind": {
+            "leaving": "subject",
+            "staying": "former-coworkers"
+          },
           "opener": "leaving",
           "opening": "farewell",
           "setting": ["workplace"]
@@ -1256,8 +1305,13 @@
       "timing": "next-together",
       "causes": [
         {
-          "match": { "echo": "kept-fact-due" },
-          "bind": { "betrayed": "subject", "betrayer": "counterpart" },
+          "match": {
+            "echo": "kept-fact-due"
+          },
+          "bind": {
+            "betrayed": "subject",
+            "betrayer": "counterpart"
+          },
           "opener": "betrayed"
         }
       ],
@@ -1348,7 +1402,10 @@
       "timing": "next-together",
       "causes": [
         {
-          "bind": { "cannot-come": "subject", "visitor": "kin" },
+          "bind": {
+            "cannot-come": "subject",
+            "visitor": "kin"
+          },
           "opener": "visitor",
           "match": {
             "label": "feeling:event:justice.imprisoned",
@@ -1360,7 +1417,10 @@
             "label": "feeling:event:health.serious-illness",
             "counterpart": "some"
           },
-          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
+          "bind": {
+            "visitor": "subject",
+            "cannot-come": "counterpart"
+          },
           "opener": "visitor"
         },
         {
@@ -1368,7 +1428,10 @@
             "label": "feeling:event:health.serious-illness",
             "counterpart": "none"
           },
-          "bind": { "visitor": "kin", "cannot-come": "subject" },
+          "bind": {
+            "visitor": "kin",
+            "cannot-come": "subject"
+          },
           "opener": "visitor",
           "opening": "comfort"
         },
@@ -1377,14 +1440,22 @@
             "label": "feeling:event:justice.held-before-trial",
             "counterpart": "none"
           },
-          "bind": { "cannot-come": "subject", "visitor": "kin" },
+          "bind": {
+            "cannot-come": "subject",
+            "visitor": "kin"
+          },
           "opener": "visitor"
         },
         {
-          "match": { "label": "circumstance:held-known-visit" },
+          "match": {
+            "label": "circumstance:held-known-visit"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "justice.held-before-trial",
-          "bind": { "visitor": "subject", "cannot-come": "counterpart" },
+          "bind": {
+            "visitor": "subject",
+            "cannot-come": "counterpart"
+          },
           "opener": "visitor",
           "setting": ["venue"]
         }
@@ -1420,10 +1491,15 @@
       "timing": "effective-date",
       "causes": [
         {
-          "match": { "label": "circumstance:new-housemate" },
+          "match": {
+            "label": "circumstance:new-housemate"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "household-member",
-          "bind": { "household": "subject", "newcomer": "counterpart" },
+          "bind": {
+            "household": "subject",
+            "newcomer": "counterpart"
+          },
           "opener": "newcomer",
           "setting": ["home"]
         }
@@ -1600,10 +1676,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:organizing-warning" },
+          "match": {
+            "label": "circumstance:organizing-warning"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "initiative.organizing-started",
-          "bind": { "warning": "counterpart", "at-risk": "subject" },
+          "bind": {
+            "warning": "counterpart",
+            "at-risk": "subject"
+          },
           "opener": "warning",
           "setting": ["phone"]
         }
@@ -1652,7 +1733,10 @@
             "threadTurn": "grew",
             "afterTurn": "soured"
           },
-          "bind": { "one": "subject", "other": "counterpart" },
+          "bind": {
+            "one": "subject",
+            "other": "counterpart"
+          },
           "opener": "other"
         }
       ],
@@ -2000,7 +2084,12 @@
         {
           "match": {
             "label": "cause:event:primary-result",
-            "causeFacts": [{ "key": "outIds", "includes": "subject" }]
+            "causeFacts": [
+              {
+                "key": "outIds",
+                "includes": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "primary-result",
@@ -2494,22 +2583,38 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
-          "bind": { "reporter": "press-corps", "official": "subject" },
+          "bind": {
+            "reporter": "press-corps",
+            "official": "subject"
+          },
           "opener": "reporter",
           "opening": "greet"
         },
         {
           "match": {
             "label": "cause:event:veto-override",
-            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "veto-override",
-          "bind": { "reporter": "press-corps", "official": "subject" },
+          "bind": {
+            "reporter": "press-corps",
+            "official": "subject"
+          },
           "opener": "reporter",
           "opening": "greet"
         },
@@ -2520,14 +2625,20 @@
           },
           "causeEngine": "legislature",
           "causeRecord": "office.introduced",
-          "bind": { "reporter": "press-corps", "official": "subject" },
+          "bind": {
+            "reporter": "press-corps",
+            "official": "subject"
+          },
           "opener": "reporter",
           "opening": "greet"
         },
         {
           "causeEngine": "press",
           "causeRecord": "interview-published",
-          "bind": { "reporter": "press", "official": "subject" },
+          "bind": {
+            "reporter": "press",
+            "official": "subject"
+          },
           "opener": "reporter",
           "opening": "greet",
           "match": {
@@ -2536,10 +2647,15 @@
           }
         },
         {
-          "match": { "label": "circumstance:hallway-reporter" },
+          "match": {
+            "label": "circumstance:hallway-reporter"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "bill-held-in-committee",
-          "bind": { "reporter": "counterpart", "official": "subject" },
+          "bind": {
+            "reporter": "counterpart",
+            "official": "subject"
+          },
           "opener": "reporter",
           "setting": ["seat", "venue"]
         }
@@ -2683,10 +2799,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:morning-after" },
+          "match": {
+            "label": "circumstance:morning-after"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "election-result",
-          "bind": { "visitor": "counterpart", "you": "subject" },
+          "bind": {
+            "visitor": "counterpart",
+            "you": "subject"
+          },
           "opener": "visitor",
           "setting": ["home"]
         }
@@ -2725,26 +2846,41 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:vote-read-street" },
+          "match": {
+            "label": "circumstance:vote-read-street"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "news.read",
-          "bind": { "constituent": "counterpart", "you": "subject" },
+          "bind": {
+            "constituent": "counterpart",
+            "you": "subject"
+          },
           "opener": "constituent",
           "setting": ["public"]
         },
         {
-          "match": { "label": "circumstance:law-reached-street" },
+          "match": {
+            "label": "circumstance:law-reached-street"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "law.effect-learned",
-          "bind": { "constituent": "counterpart", "you": "subject" },
+          "bind": {
+            "constituent": "counterpart",
+            "you": "subject"
+          },
           "opener": "constituent",
           "setting": ["public"]
         },
         {
-          "match": { "label": "circumstance:law-news-street" },
+          "match": {
+            "label": "circumstance:law-news-street"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "news.read",
-          "bind": { "constituent": "counterpart", "you": "subject" },
+          "bind": {
+            "constituent": "counterpart",
+            "you": "subject"
+          },
           "opener": "constituent",
           "setting": ["public"]
         }
@@ -2782,28 +2918,43 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:meeting-colleague" },
+          "match": {
+            "label": "circumstance:meeting-colleague"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
-          "bind": { "other": "counterpart", "you": "subject" },
+          "bind": {
+            "other": "counterpart",
+            "you": "subject"
+          },
           "sceneKey": "colleague-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         },
         {
-          "match": { "label": "circumstance:meeting-reporter" },
+          "match": {
+            "label": "circumstance:meeting-reporter"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
-          "bind": { "other": "counterpart", "you": "subject" },
+          "bind": {
+            "other": "counterpart",
+            "you": "subject"
+          },
           "sceneKey": "reporter-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         },
         {
-          "match": { "label": "circumstance:lobbyist-hallway" },
+          "match": {
+            "label": "circumstance:lobbyist-hallway"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "case.made",
-          "bind": { "other": "counterpart", "you": "subject" },
+          "bind": {
+            "other": "counterpart",
+            "you": "subject"
+          },
           "sceneKey": "lobbyist-word",
           "opener": "other",
           "setting": ["seat", "venue"]
@@ -3238,26 +3389,42 @@
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-amendment",
-          "bind": { "colleague": "counterpart", "you": "subject" },
+          "bind": {
+            "colleague": "counterpart",
+            "you": "subject"
+          },
           "opener": "colleague",
           "setting": ["chamber"]
         },
         {
           "match": {
             "label": "cause:event:vote-ahead",
-            "causeFacts": [{ "key": "askedId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "askedId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "vote-ahead",
-          "bind": { "colleague": "counterpart", "you": "subject" },
+          "bind": {
+            "colleague": "counterpart",
+            "you": "subject"
+          },
           "opener": "colleague",
           "setting": ["office", "chamber"]
         },
         {
-          "match": { "label": "circumstance:hallway-colleague" },
+          "match": {
+            "label": "circumstance:hallway-colleague"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "committee-hearing",
-          "bind": { "colleague": "counterpart", "you": "subject" },
+          "bind": {
+            "colleague": "counterpart",
+            "you": "subject"
+          },
           "opener": "colleague",
           "setting": ["seat", "venue"]
         }
@@ -3298,20 +3465,30 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:door-first" },
+          "match": {
+            "label": "circumstance:door-first"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "campaign.door",
           "reason": "canvass",
-          "bind": { "resident": "counterpart", "you": "subject" },
+          "bind": {
+            "resident": "counterpart",
+            "you": "subject"
+          },
           "opener": "you",
           "setting": ["other-home"]
         },
         {
-          "match": { "label": "circumstance:door-again" },
+          "match": {
+            "label": "circumstance:door-again"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "campaign.door",
           "reason": "canvass",
-          "bind": { "resident": "counterpart", "you": "subject" },
+          "bind": {
+            "resident": "counterpart",
+            "you": "subject"
+          },
           "opener": "you",
           "setting": ["other-home"]
         }
@@ -3354,11 +3531,19 @@
         {
           "match": {
             "label": "cause:event:vote-ahead",
-            "causeFacts": [{ "key": "askerId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "askerId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "vote-ahead",
-          "bind": { "colleague": "counterpart", "you": "subject" },
+          "bind": {
+            "colleague": "counterpart",
+            "you": "subject"
+          },
           "opener": "you",
           "setting": ["office", "chamber", "phone"]
         }
@@ -3397,10 +3582,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:override-whip" },
+          "match": {
+            "label": "circumstance:override-whip"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "veto-override",
-          "bind": { "colleague": "counterpart", "you": "subject" },
+          "bind": {
+            "colleague": "counterpart",
+            "you": "subject"
+          },
           "opener": "colleague",
           "setting": ["chamber", "seat"]
         },
@@ -3408,11 +3598,19 @@
           "match": {
             "label": "cause:event:vote-promise",
             "selfNamed": true,
-            "causeFacts": [{ "key": "memberId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "memberId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "vote-promise",
-          "bind": { "colleague": "counterpart", "you": "subject" },
+          "bind": {
+            "colleague": "counterpart",
+            "you": "subject"
+          },
           "opener": "colleague"
         }
       ],
@@ -3450,10 +3648,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:bill-introduced-carry" },
+          "match": {
+            "label": "circumstance:bill-introduced-carry"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "office.introduced",
-          "bind": { "member": "counterpart", "you": "subject" },
+          "bind": {
+            "member": "counterpart",
+            "you": "subject"
+          },
           "opener": "member",
           "setting": ["seat", "venue"]
         },
@@ -3461,11 +3664,19 @@
           "match": {
             "label": "cause:event:carry-asked",
             "selfNamed": true,
-            "causeFacts": [{ "key": "memberId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "memberId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "carry-asked",
-          "bind": { "member": "counterpart", "you": "subject" },
+          "bind": {
+            "member": "counterpart",
+            "you": "subject"
+          },
           "opener": "member"
         }
       ],
@@ -3510,10 +3721,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:donor-ask-street" },
+          "match": {
+            "label": "circumstance:donor-ask-street"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "cause.donated",
-          "bind": { "donor": "counterpart", "you": "subject" },
+          "bind": {
+            "donor": "counterpart",
+            "you": "subject"
+          },
           "opener": "donor",
           "setting": ["public"]
         },
@@ -3521,11 +3737,19 @@
           "match": {
             "label": "money:event:campaign-gift",
             "selfNamed": true,
-            "causeFacts": [{ "key": "candidateId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "candidateId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "campaign-gift",
-          "bind": { "donor": "counterpart", "you": "subject" },
+          "bind": {
+            "donor": "counterpart",
+            "you": "subject"
+          },
           "opener": "donor"
         }
       ],
@@ -3852,7 +4076,12 @@
         {
           "match": {
             "label": "cause:event:primary-result",
-            "causeFacts": [{ "key": "outIds", "includes": "subject" }]
+            "causeFacts": [
+              {
+                "key": "outIds",
+                "includes": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "primary-result",
@@ -3897,7 +4126,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:away-evening" },
+          "match": {
+            "label": "circumstance:away-evening"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "public-meeting",
           "bind": {
@@ -3942,18 +4173,29 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:rival-message" },
+          "match": {
+            "label": "circumstance:rival-message"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "campaign-message",
-          "bind": { "opponent": "counterpart", "you": "subject" },
+          "bind": {
+            "opponent": "counterpart",
+            "you": "subject"
+          },
           "opener": "opponent",
           "setting": ["public"]
         },
         {
-          "match": { "label": "cause:event:debate", "selfNamed": true },
+          "match": {
+            "label": "cause:event:debate",
+            "selfNamed": true
+          },
           "causeEngine": "meetings",
           "causeRecord": "debate",
-          "bind": { "opponent": "counterpart", "you": "subject" },
+          "bind": {
+            "opponent": "counterpart",
+            "you": "subject"
+          },
           "opener": "opponent",
           "setting": ["venue", "public"]
         }
@@ -4148,11 +4390,19 @@
           "match": {
             "label": "cause:event:bill-failed",
             "selfNamed": true,
-            "causeFacts": [{ "key": "sponsorId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "sponsorId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "bill-failed",
-          "bind": { "aide": "staff", "you": "subject" },
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
           "opener": "aide"
         },
         {

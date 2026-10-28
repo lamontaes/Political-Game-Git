@@ -1300,11 +1300,28 @@ function renderFilingOverlay(value) {
     ]),
   );
 }
-async function openFiling(filedWith) {
+/**
+ * To the filing office, as a hot link from a race takes you (owner, Oct 28:
+ * "menus carry hot links that take you there"): the counter opens, and when
+ * a race is named its choice is made at once, so the clerk is on that race.
+ */
+async function openFiling(filedWith, contestId) {
   closeSheet();
   renderTalk(undefined);
+  const opened = await post(
+    `/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`,
+  );
+  const pick =
+    contestId &&
+    opened.visit?.choices.find(
+      (c) => c.action.kind === "pick" && c.action.contestId === contestId,
+    );
   renderFiling(
-    await post(`/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`),
+    pick
+      ? await post(
+          `/api/filing/choose?${new URLSearchParams({ key: pick.key })}`,
+        )
+      : opened,
   );
 }
 
@@ -1352,43 +1369,6 @@ let speechState = null;
  * with each filer by name, from the filing records, marked unopposed or
  * unfilled where that is what the records hold.
  */
-async function localRacesBlock() {
-  const { date, races } = await api("/api/government/local-races");
-  const labels = controls.localRaces;
-  // A block of its own: each race is a row under the title, not squeezed beside it.
-  const block = makeCard(
-    "race local-races",
-    {},
-    line(date ? `${labels.title} · ${dateWords(date)}` : labels.title, "label"),
-  );
-  if (!races.length) block.append(line(labels.noBallot, "label"));
-  for (const race of races) {
-    const names = race.filers.map(
-      (f) => `${f.name ?? ""}${f.party ? ` (${f.party})` : ""}`,
-    );
-    const mark = !race.filers.length
-      ? labels.noFilers
-      : race.filers.length === 1 && race.filingClosed
-        ? labels.unopposed
-        : null;
-    const line = row(
-      race.title,
-      [
-        names.join(", "),
-        mark,
-        race.filingClosed
-          ? null
-          : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
-      ]
-        .filter(Boolean)
-        .join(" · "),
-    );
-    line.classList.add("local-race");
-    line.dataset.contest = race.contestId;
-    block.append(line);
-  }
-  return block;
-}
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
@@ -3056,28 +3036,70 @@ const sheets = {
   async office() {
     return seatRows();
   },
+  /**
+   * Campaigns: the coming ballot's real races (owner, Oct 28, point 19), each
+   * opening to who runs, with their filed views, every candidate's name their
+   * card, and File for it taking you to the office that takes the filing.
+   * The player's own filed campaign stays above it (screens-campaign-board
+   * is the one board that replaces those rows).
+   */
   async campaigns() {
-    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    // A filing whose race has been decided reads as won or lost.
-    const decided = new Map(
-      (await api(`/api/results?id=${encodeURIComponent(me.id)}`))
-        .filter((race) => race.mine)
-        .map((race) => [race.contestId, race.mine.won]),
-    );
-    const labels = controls.results;
+    const [v, ballot] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api("/api/government/local-races"),
+    ]);
+    const labels = controls.localRaces;
+    const stance = voteWords();
+    const filed = new Set(v.filings.map((f) => f.contestId));
+    const candidate = (f) =>
+      withNotes(
+        personRow({
+          name: f.name ?? "",
+          party: f.party,
+          face: f.face,
+          onOpen: () => {
+            closeSheet();
+            showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+          },
+        }),
+        f.stances.map((s) => ({
+          text: `${policyLabel(s.question)}: ${s.position > 0 ? (stance.for ?? "") : (stance.against ?? "")}`,
+        })),
+      );
+    const fileForIt = (race) => {
+      const b = makeButton({ textContent: labels.fileForIt });
+      b.dataset.testid = "file-for-it";
+      b.addEventListener("click", () =>
+        openFiling(race.filedWith, race.contestId),
+      );
+      return buttonRow(b);
+    };
+    const races = ballot.races.map((race) => ({
+      title: race.title,
+      value: filed.has(race.contestId)
+        ? labels.youFiled
+        : race.filers.length
+          ? labels.running.replace("{n}", race.filers.length)
+          : labels.noFilers,
+      lede: dateWords(race.electionDate),
+      note: race.filingClosed
+        ? null
+        : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
+      opens: true,
+      open: ballot.races.length === 1,
+      nodes: [
+        ...race.filers.map(candidate),
+        ...(race.filingOpen && !filed.has(race.contestId) && race.filedWith
+          ? [fileForIt(race)]
+          : []),
+      ],
+      data: { contest: race.contestId },
+    }));
     return [
-      ...(await campaignRows()),
-      await localRacesBlock(),
-      ...v.filings.map((f) =>
-        row(
-          decided.has(f.contestId)
-            ? decided.get(f.contestId)
-              ? labels.won
-              : labels.lost
-            : words(f.status),
-          f.filedWith,
-        ),
-      ),
+      ...(v.filings.length ? await campaignRows() : []),
+      ...(await listScreen({
+        entries: () => (races.length ? races : [{ title: labels.noBallot }]),
+      })),
     ];
   },
   async government() {
@@ -3108,22 +3130,27 @@ const sheets = {
           },
         })),
       });
-      if (level !== "local")
-        picker.append(
-          select({
-            className: "government-state",
-            label: labels.stateFilter,
-            value: otherState,
-            options: [
-              { value: "", label: labels.ownState },
-              ...states.map((st) => ({ value: st.key, label: st.name })),
-            ],
-            onChange: (state) => {
-              governmentState = state;
-              void redraw();
-            },
-          }),
-        );
+      // The state filter under the level tabs: the kit's dropdown in its own
+      // box, reading the player's state by name, never "Your state" (owner,
+      // Oct 28, point 15).
+      const stateFilter =
+        level !== "local"
+          ? select({
+              className: "government-state",
+              label: labels.stateFilter,
+              value: otherState,
+              options: [
+                { value: "", label: v.homeState?.name ?? labels.ownState },
+                ...states
+                  .filter((st) => st.key !== v.homeState?.key)
+                  .map((st) => ({ value: st.key, label: st.name })),
+              ],
+              onChange: (state) => {
+                governmentState = state;
+                void redraw();
+              },
+            })
+          : null;
       const holderName = (s) =>
         s.holder
           ? `${s.holder.givenName} ${s.holder.familyName}`
@@ -3377,7 +3404,7 @@ const sheets = {
       // unaffiliated.
       const party = v.party ? partyRows(v.party) : [];
       return recordScreen({
-        controls: [picker],
+        controls: [picker, stateFilter].filter(Boolean),
         // Every body and every member on the screen at once, side by side:
         // no Back and Continue in a menu (owner, Oct 28, point 22).
         grid: true,
@@ -3603,6 +3630,10 @@ async function openSheet(tab) {
 }
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
+// The creator's states and towns page like every other list; nothing in a
+// menu scrolls (kit13 APPROVED; owner, Oct 28: "the Mac's native scroller").
+pageWhenChanged($("cr-states"), $("cr-states-pager"));
+pageWhenChanged($("cr-towns"), $("cr-towns-pager"));
 // The rail over the player card: a column of round icons, News among them; it is
 // the one menu, Who you are among them. The card under it shows only the date
 // and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
@@ -3851,8 +3882,17 @@ $("cr-month").addEventListener("change", async () => {
 });
 $("cr-day").addEventListener("change", () => fillYears());
 $("cr-year").addEventListener("change", derivedAge);
+/** A filled field drops its missing mark and the line at the bottom. */
+function filledIn() {
+  for (const group of document.querySelectorAll("#cr-character .missing"))
+    group.classList.remove("missing");
+  $("front-status").textContent = "";
+}
+for (const id of ["cr-given", "cr-family"])
+  $(id).addEventListener("input", filledIn);
 function pickGender(g) {
   setup.gender = g;
+  filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
@@ -3904,10 +3944,19 @@ $("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
 $("cr-character-next").addEventListener("click", () => {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
-  if (!setup.gender || !given || !family) {
-    $("front-status").textContent = !setup.gender
-      ? $("cr-character").querySelector("legend").textContent
-      : $("cr-random-name").textContent;
+  // A field left empty is named at the bottom and its group marked until it
+  // is filled (owner, Oct 28: "It should flash red, or say what is missing
+  // at the bottom").
+  const missing = !setup.gender
+    ? { group: "gender-choices", text: controls.creator.missingGender }
+    : !given || !family
+      ? { group: "creator-name", text: controls.creator.missingName }
+      : null;
+  if (missing) {
+    $("front-status").textContent = missing.text;
+    document
+      .querySelector(`[data-testid="${missing.group}"]`)
+      .classList.add("missing");
     return;
   }
   $("front-status").textContent = "";
@@ -3925,7 +3974,17 @@ $("cr-character-next").addEventListener("click", () => {
   void showStates();
 });
 $("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
-$("cr-place-back").addEventListener("click", () => frontPanel("cr-character"));
+$("cr-place-back").addEventListener("click", () => {
+  // After a state is picked, Back returns to the states, not to the name
+  // and birthday (owner, Oct 28, point 5).
+  if (setup.state) {
+    setup.state = null;
+    setup.town = null;
+    void showStates();
+    return;
+  }
+  frontPanel("cr-character");
+});
 
 // Where are you from: a state, then a city or town with its population.
 let states = [];
