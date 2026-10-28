@@ -12,7 +12,6 @@ import { writeFileSync } from "node:fs";
 import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
 import type { EngineTextOrigin } from "../../english/runtime-text-origin";
 import { enrichCivicInputs } from "../../core2/civic-inputs";
-import { buildDeepPast } from "../../core2/deep-past";
 import { initialFocusPeople } from "../../core2/focus";
 import { advanceCore, createLifeCore } from "../../core2/life";
 import { buildPopulation } from "../../core2/population";
@@ -56,13 +55,11 @@ const seeds = args.filter(
 for (const drawn of seeds) {
   seed = drawn;
   const input0 = enrichCivicInputs(
-    buildDeepPast(
-      buildPopulation({
-        seed: drawn,
-        startedAt: "2021-01-01",
-        minimumPeople: 600,
-      }),
-    ),
+    buildPopulation({
+      seed: drawn,
+      startedAt: "2021-01-01",
+      minimumPeople: 600,
+    }),
   );
   place = input0.placeMetadata?.placeName ?? "";
   const age = (birth: string) =>

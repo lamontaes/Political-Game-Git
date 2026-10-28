@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fdic-compilers-tables
-pr:
+pr: #6658
 blocked-on:
 lead: researcher
 source: added with npm run pool -- add

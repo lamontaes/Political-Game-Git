@@ -1387,7 +1387,7 @@
       "counterpart": "partner"
     },
     {
-      "kindPrefix": "school:",
+      "kindPrefix": "school.started",
       "parameter": "directorPastSchoolStage"
     },
     {
