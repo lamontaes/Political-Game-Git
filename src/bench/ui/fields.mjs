@@ -9,21 +9,57 @@ export function searchBox({ value = "", placeholder, onInput }) {
   return box;
 }
 
-/** A select of `options` ({ value, label }), `value` chosen; `onChange` gets the new value. */
-export function select({ options, value, label, className = "", onChange }) {
+/**
+ * A select of `options` ({ value, label, data? }), `value` chosen; `onChange` gets the
+ * new value. An option with `group` and `options` instead is a group of choices under
+ * its name. An option's `data` is kept on it (a choice typed in dollars).
+ */
+export function select({
+  options,
+  value,
+  label,
+  name,
+  className = "",
+  onChange,
+}) {
+  const option = (o) => {
+    const node = el("option", {
+      value: String(o.value),
+      textContent: o.label,
+      selected: o.value === value || o.selected === true,
+    });
+    Object.assign(node.dataset, o.data ?? {});
+    return node;
+  };
   const box = el(
     "select",
-    { className, ariaLabel: label ?? "" },
+    { className, ariaLabel: label ?? "", ...(name ? { name } : {}) },
     ...options.map((o) =>
-      el("option", {
-        value: o.value,
-        textContent: o.label,
-        selected: o.value === value,
-      }),
+      o.group
+        ? el("optgroup", { label: o.group }, ...o.options.map(option))
+        : option(o),
     ),
   );
-  if (onChange) box.addEventListener("change", () => onChange(box.value));
+  if (onChange) box.addEventListener("change", () => onChange(box.value, box));
   return box;
+}
+
+/** A box for a number, `value` to start; `label` is its spoken name. */
+export function numberBox({
+  value = 0,
+  min,
+  step,
+  label,
+  className = "number-box",
+}) {
+  return el("input", {
+    type: "number",
+    value: String(value),
+    className,
+    ...(min !== undefined ? { min: String(min) } : {}),
+    ...(step !== undefined ? { step: String(step) } : {}),
+    ...(label ? { ariaLabel: label } : {}),
+  });
 }
 
 /** A labeled checkbox line; the checkbox is returned too, for screens that set it. */
@@ -39,9 +75,18 @@ export function checkboxSetting({ label, checked, testid }) {
   return { line, box };
 }
 
-/** The choices of a select, for a select the page already holds ({ value, label }). */
+/** The choices of a select the page already holds ({ value, label, selected? }). */
 export function optionsOf(items) {
   return items.map((o) =>
-    el("option", { value: String(o.value), textContent: o.label }),
+    el("option", {
+      value: String(o.value),
+      textContent: o.label,
+      selected: Boolean(o.selected),
+    }),
   );
+}
+
+/** A line that says what a setting did, read out when it changes; empty until then. */
+export function statusLine() {
+  return el("p", { role: "status", className: "option-status" });
 }
