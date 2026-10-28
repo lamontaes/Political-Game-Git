@@ -228,14 +228,23 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
           publishedHudStateRentRow(place.state))
         : (hudRentRowFor(jurisdiction, s) ?? hudStateRentRow(place.state, s)),
     );
+    // One factor moves an area's whole row and each cell is rounded to the
+    // dollar, so two worlds with close factors can share a cell (Cataula,
+    // Georgia, seed 80e1c5b9f2b35bea: a $924 studio in both). Each cell is
+    // off the published one (the floor share guarantees it); the worlds'
+    // rows, income limits included, differ as a whole.
     area.mine.rents.forEach((rent, bedrooms) =>
-      differs(
-        `HUD rent, ${bedrooms} bedrooms (${area.mine.area})`,
+      expect(
         rent,
-        area.real.rents[bedrooms]!,
-        area.other.rents[bedrooms]!,
-      ),
+        `${where} HUD rent, ${bedrooms} bedrooms (${area.mine.area}): published`,
+      ).not.toBe(area.real.rents[bedrooms]!),
     );
+    const whole = (row: typeof area.mine) =>
+      JSON.stringify([row.rents, row.veryLow4, row.low4]);
+    expect(
+      whole(area.mine),
+      `${where} HUD row (${area.mine.area}): other world`,
+    ).not.toBe(whole(area.other));
     // Row 9: shelter beds and permits per the state's people.
     differs(
       `shelter beds per 10,000 in ${usps}`,
