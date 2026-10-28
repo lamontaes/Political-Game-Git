@@ -4,11 +4,11 @@
   "place": "5137288",
   "span": ["2025-01-20", "2026-01-20"],
   "yearSeconds": {
-    "played": 48,
-    "flat": 39,
-    "mirror": 33
+    "played": 29,
+    "flat": 32,
+    "mirror": 30
   },
-  "buildSeconds": 4,
+  "buildSeconds": 3,
   "summary": {
     "decisions": 89,
     "ran": 73,
@@ -31,68 +31,68 @@
       "relationships.fall-out"
     ],
     "ranAtOpeningOnly": [],
-    "calibrated": 50,
+    "calibrated": 49,
     "outcomes": 23,
     "outcomesWired": 19,
     "outcomesPartly": 2
   },
   "neighbors": {
     "pairs": 211,
-    "meanDistancePlayed": 0.2677070409280943,
+    "meanDistancePlayed": 0.21321100533507606,
     "meanDistanceFlat": 0.217353916382013,
-    "meanDistanceSelfMirrored": 0.15115919904165098,
+    "meanDistanceSelfMirrored": 0.0892052405118893,
     "sample": [
       {
         "a": "person_990be2c5b342c6d9",
         "b": "person_906d11bb732fc9a0",
-        "played": 0.5905598243688256,
+        "played": 0.5167224080267561,
         "flat": 0.38558558558558564,
-        "mirrorSelf": 0.3283959107560868
+        "mirrorSelf": 0.03551712823582913
       },
       {
         "a": "person_990be1c5b342c526",
         "b": "person_a0504b8d0f17b5be",
-        "played": 0.4398704618636778,
+        "played": 0.2204920312462212,
         "flat": 0.07836058763277966,
-        "mirrorSelf": 0.3339892294946148
+        "mirrorSelf": 0.018070845656698406
       },
       {
         "a": "person_41b8963dd11afdff",
         "b": "person_452a0f4648b80420",
-        "played": 0.2827505927539187,
+        "played": 0.38020123676763445,
         "flat": 0.07663611720666064,
-        "mirrorSelf": 0.3423807589910204
+        "mirrorSelf": 0.046323864994675445
       },
       {
         "a": "person_41b8953dd11afc4c",
         "b": "person_4a1c6d8ace848bb3",
-        "played": 0.48383342233802606,
+        "played": 0.22474747474747478,
         "flat": 0.27931580202484446,
-        "mirrorSelf": 0.42579742927448083
+        "mirrorSelf": 0.31154571501106154
       },
       {
         "a": "person_ed8eac57378edd78",
         "b": "person_a0504c8d0f17b771",
-        "played": 0.3948384542451994,
+        "played": 0.33104833204387196,
         "flat": 0.4592413187611639,
-        "mirrorSelf": 0.3201415414713739
+        "mirrorSelf": 0.04683508114552666
       }
     ]
   },
   "eventShifts": [
     {
       "kind": "person",
-      "played": 102,
+      "played": 96,
       "flat": 48,
       "mirror": 194,
-      "shift": 0.6216216216216216
+      "shift": 0.6758620689655173
     },
     {
       "kind": "campaign-message",
-      "played": 41,
+      "played": 42,
       "flat": 11,
       "mirror": 59,
-      "shift": 0.36
+      "shift": 0.33663366336633666
     },
     {
       "kind": "law",
@@ -110,10 +110,10 @@
     },
     {
       "kind": "interview",
-      "played": 229,
+      "played": 233,
       "flat": 144,
       "mirror": 196,
-      "shift": 0.15529411764705883
+      "shift": 0.17249417249417248
     },
     {
       "kind": "town-hall",
@@ -158,13 +158,6 @@
       "shift": 0.06870937790157845
     },
     {
-      "kind": "filing",
-      "played": 705,
-      "flat": 623,
-      "mirror": 668,
-      "shift": 0.053896576839038604
-    },
-    {
       "kind": "law.effect-learned",
       "played": 78,
       "flat": 76,
@@ -177,6 +170,13 @@
       "flat": 75,
       "mirror": 85,
       "shift": 0.04819277108433735
+    },
+    {
+      "kind": "filing",
+      "played": 699,
+      "flat": 623,
+      "mirror": 668,
+      "shift": 0.04535479151426482
     },
     {
       "kind": "lobby",
@@ -193,6 +193,13 @@
       "shift": 0.030350855894136216
     },
     {
+      "kind": "printed",
+      "played": 844,
+      "flat": 1025,
+      "mirror": 865,
+      "shift": 0.024575775307197192
+    },
+    {
       "kind": "budget",
       "played": 46,
       "flat": 48,
@@ -205,13 +212,6 @@
       "flat": 109,
       "mirror": 110,
       "shift": 0.0091324200913242
-    },
-    {
-      "kind": "printed",
-      "played": 861,
-      "flat": 1025,
-      "mirror": 865,
-      "shift": 0.004634994206257242
     },
     {
       "kind": "meeting",
@@ -255,16 +255,16 @@
       "kind": "decision",
       "route": "chooser",
       "site": "src/core2/life.ts",
-      "callsInYear": 30488,
+      "callsInYear": 5167,
       "callsAtOpening": 0,
       "openingRecords": null,
-      "chooserCalls": 30488,
+      "chooserCalls": 5167,
       "formulaCalls": 0,
-      "turnedShare": 0.22582655471004986,
+      "turnedShare": 0.14282949487129862,
       "leanGap": {
         "option": "rest",
-        "lowThird": 0.16169315601686668,
-        "highThird": 0.8360363282517029
+        "lowThird": 0.31181102362204727,
+        "highThird": 0.8992125984251969
       },
       "formulaMeanAbsLean": null,
       "formulaTurnedShare": null,
@@ -303,11 +303,11 @@
       "openingRecords": null,
       "chooserCalls": 23035,
       "formulaCalls": 0,
-      "turnedShare": 0.0003907097894508357,
+      "turnedShare": 0.002127197742565661,
       "leanGap": {
         "option": "decline-scheduled-work-date-segment",
-        "lowThird": 0.0036467830164105238,
-        "highThird": 0.011070591299817661
+        "lowThird": 0.013414951810367283,
+        "highThird": 0.04245897369106538
       },
       "formulaMeanAbsLean": null,
       "formulaTurnedShare": null,
@@ -343,26 +343,26 @@
       "kind": "decision",
       "route": "chooser",
       "site": "src/core2/modules/drives.ts",
-      "callsInYear": 6734,
+      "callsInYear": 7061,
       "callsAtOpening": 0,
       "openingRecords": null,
-      "chooserCalls": 3457,
-      "formulaCalls": 3277,
+      "chooserCalls": 3672,
+      "formulaCalls": 3389,
       "turnedShare": 0,
       "leanGap": {
         "option": "take-up-cause",
-        "lowThird": 0.0010362694300518134,
-        "highThird": 0.24974093264248703
+        "lowThird": 0.0020768431983385254,
+        "highThird": 0.181723779854621
       },
-      "formulaMeanAbsLean": 0.2017313025731024,
-      "formulaTurnedShare": 0.020750686603600854,
-      "formulaLeanedCalls": 3277,
+      "formulaMeanAbsLean": 0.20356271335746856,
+      "formulaTurnedShare": 0.01888462673354972,
+      "formulaLeanedCalls": 3389,
       "formulaThirds": {
-        "calls": 3277,
+        "calls": 3389,
         "lowThird": 1,
         "highThird": 1,
         "netOddsRatio": 1,
-        "deciders": 150,
+        "deciders": 142,
         "crossedNetOddsRatio": 1
       },
       "outcomeThirds": null,
@@ -488,16 +488,16 @@
       "kind": "decision",
       "route": "chooser",
       "site": "src/core2/modules/business.ts",
-      "callsInYear": 213,
+      "callsInYear": 215,
       "callsAtOpening": 0,
       "openingRecords": null,
-      "chooserCalls": 213,
+      "chooserCalls": 215,
       "formulaCalls": 0,
-      "turnedShare": 0.2112676056338028,
+      "turnedShare": 0.20465116279069767,
       "leanGap": {
         "option": "business-owner-keep",
         "lowThird": 0.014084507042253521,
-        "highThird": 0.6197183098591549
+        "highThird": 0.6338028169014085
       },
       "formulaMeanAbsLean": null,
       "formulaTurnedShare": null,
@@ -838,12 +838,12 @@
       "kind": "decision",
       "route": "chooser",
       "site": "src/core2/modules/credit.ts",
-      "callsInYear": 6051,
+      "callsInYear": 6050,
       "callsAtOpening": 0,
       "openingRecords": null,
-      "chooserCalls": 64,
+      "chooserCalls": 63,
       "formulaCalls": 5987,
-      "turnedShare": 0.015625,
+      "turnedShare": 0.015873015873015872,
       "leanGap": {
         "option": "credit-do-without",
         "lowThird": 1,
@@ -953,10 +953,10 @@
       "openingRecords": null,
       "chooserCalls": 2886,
       "formulaCalls": 0,
-      "turnedShare": 0.0003465003465003465,
+      "turnedShare": 0,
       "leanGap": {
         "option": "candidacy-stay-out",
-        "lowThird": 0.9906444906444907,
+        "lowThird": 0.9916839916839917,
         "highThird": 1
       },
       "formulaMeanAbsLean": null,
@@ -1003,16 +1003,16 @@
       "kind": "decision",
       "route": "chooser",
       "site": "src/core2/modules/speech.ts",
-      "callsInYear": 2363,
+      "callsInYear": 2351,
       "callsAtOpening": 0,
       "openingRecords": null,
-      "chooserCalls": 2363,
+      "chooserCalls": 2351,
       "formulaCalls": 0,
-      "turnedShare": 0.00761743546339399,
+      "turnedShare": 0.0076563164610803916,
       "leanGap": {
         "option": "speech-retell",
-        "lowThird": 0.3392630241423126,
-        "highThird": 0.3443456162642948
+        "lowThird": 0.34099616858237547,
+        "highThird": 0.34355044699872284
       },
       "formulaMeanAbsLean": null,
       "formulaTurnedShare": null,
@@ -1631,35 +1631,35 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/views.ts",
-      "callsInYear": 22270,
+      "callsInYear": 22259,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 22270,
+      "formulaCalls": 22259,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.39072033821871727,
+      "formulaMeanAbsLean": 0.39145587674680343,
       "formulaTurnedShare": null,
       "formulaLeanedCalls": 0,
       "formulaThirds": null,
       "outcomeThirds": {
         "unit": "size",
-        "calls": 22270,
-        "kept": 11227,
+        "calls": 22259,
+        "kept": 11225,
         "lowThird": {
-          "withTraits": 0.0016727985034740809,
-          "flat": 0.002053203367183317,
-          "meanLean": -0.6903665419561952
+          "withTraits": 0.0016527973803795802,
+          "flat": 0.0020305910184442596,
+          "meanLean": -0.6916335204490983
         },
         "highThird": {
-          "withTraits": 0.0024314743452699132,
-          "flat": 0.0022388605024051328,
-          "meanLean": 0.26935069481560764
+          "withTraits": 0.0024762245388933466,
+          "flat": 0.0022801218925421005,
+          "meanLean": 0.27073106121358026
         },
-        "ratioWithTraits": 1.4535368965360793,
-        "ratioFlat": 1.0904231593368703,
-        "netRatio": 1.3330025908657634,
-        "netShift": 0.0005730187065740168
+        "ratioWithTraits": 1.4982021198053077,
+        "ratioFlat": 1.122885835616972,
+        "netRatio": 1.3342426026614873,
+        "netShift": 0.0005738962844159254
       },
       "researchTarget": {
         "oddsRatio": 1.3723656465102092,
@@ -1723,35 +1723,35 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/views.ts",
-      "callsInYear": 21952,
+      "callsInYear": 21929,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 21952,
+      "formulaCalls": 21929,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.35808443243772514,
+      "formulaMeanAbsLean": 0.3582442960353197,
       "formulaTurnedShare": null,
       "formulaLeanedCalls": 0,
       "formulaThirds": null,
       "outcomeThirds": {
         "unit": "size",
-        "calls": 21952,
-        "kept": 11195,
+        "calls": 21929,
+        "kept": 11192,
         "lowThird": {
-          "withTraits": 0.6683395762530204,
-          "flat": 0.7010878935942042,
-          "meanLean": -0.1925924149021774
+          "withTraits": 0.664838464879361,
+          "flat": 0.6975205308310918,
+          "meanLean": -0.19450675603217737
         },
         "highThird": {
-          "withTraits": 0.7552176638970743,
-          "flat": 0.6652061203430764,
-          "meanLean": 0.6383424283034072
+          "withTraits": 0.7564415536192997,
+          "flat": 0.6660761139410236,
+          "meanLean": 0.6403601608579118
         },
-        "ratioWithTraits": 1.129990936839514,
-        "ratioFlat": 0.9488198647003074,
-        "netRatio": 1.1909435909591026,
-        "netShift": 0.12275986089518176
+        "ratioWithTraits": 1.137782474358731,
+        "ratioFlat": 0.9549197256565304,
+        "netRatio": 1.1914954145244807,
+        "netShift": 0.12304750563000677
       },
       "researchTarget": {
         "oddsRatio": 2.2414516942949025,
@@ -1876,23 +1876,23 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/heard-claims.ts",
-      "callsInYear": 22037,
+      "callsInYear": 19369,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 22037,
+      "formulaCalls": 19369,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.4299029805581586,
-      "formulaTurnedShare": 0.0025865589690066706,
-      "formulaLeanedCalls": 22037,
+      "formulaMeanAbsLean": 0.4201672535428541,
+      "formulaTurnedShare": 0.003200991274717332,
+      "formulaLeanedCalls": 19369,
       "formulaThirds": {
-        "calls": 11203,
-        "lowThird": 0.9903588644884842,
-        "highThird": 0.9943760042849491,
-        "netOddsRatio": 2.3908855470169774,
+        "calls": 10936,
+        "lowThird": 0.9849108367626886,
+        "highThird": 0.9912208504801098,
+        "netOddsRatio": 2.640035175541176,
         "deciders": 140,
-        "crossedNetOddsRatio": 2.9572330272492424
+        "crossedNetOddsRatio": 2.4909658069511007
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -2178,19 +2178,19 @@
         "calls": 242,
         "kept": 242,
         "lowThird": {
-          "withTraits": 0.09825113749999999,
-          "flat": 0.14431635,
+          "withTraits": 0.09824967500000001,
+          "flat": 0.14431344999999998,
           "meanLean": -0.4078549999999998
         },
         "highThird": {
-          "withTraits": 0.19068064999999995,
-          "flat": 0.11615001250000001,
+          "withTraits": 0.19077848749999995,
+          "flat": 0.11628641249999998,
           "meanLean": 0.5410637500000001
         },
-        "ratioWithTraits": 2.0980542074934094,
-        "ratioFlat": 0.7872063356031485,
-        "netRatio": 2.6651896873846987,
-        "netShift": 0.12059584999999996
+        "ratioWithTraits": 2.099381150720914,
+        "ratioFlat": 0.7882222007587408,
+        "netRatio": 2.6634382394964957,
+        "netShift": 0.12055584999999995
       },
       "researchTarget": {
         "oddsRatio": 1.9759158255253648,
@@ -2274,7 +2274,7 @@
         "calls": 18421,
         "kept": 10842,
         "lowThird": {
-          "withTraits": 0.38018815716657445,
+          "withTraits": 0.38046485888212506,
           "flat": 0.48450470392916434,
           "meanLean": 0.013530603209739707
         },
@@ -2283,10 +2283,10 @@
           "flat": 0.49474266740453793,
           "meanLean": 0.826621057000538
         },
-        "ratioWithTraits": 2.629165542077726,
+        "ratioWithTraits": 2.6260814971905613,
         "ratioFlat": 1.041810003845595,
-        "netRatio": 2.5236516566099225,
-        "netShift": 0.22689540675152176
+        "netRatio": 2.520691380863116,
+        "netShift": 0.22661870503597115
       },
       "researchTarget": null,
       "research": [
@@ -2315,16 +2315,16 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/voting.ts",
-      "callsInYear": 32,
+      "callsInYear": 16,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 32,
+      "formulaCalls": 16,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.38497574955908254,
+      "formulaMeanAbsLean": 0.3849757495590827,
       "formulaTurnedShare": 0,
-      "formulaLeanedCalls": 32,
+      "formulaLeanedCalls": 16,
       "formulaThirds": null,
       "outcomeThirds": null,
       "researchTarget": {
@@ -2556,23 +2556,23 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/campaigns.ts",
-      "callsInYear": 3250,
+      "callsInYear": 3251,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 3250,
+      "formulaCalls": 3251,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.3953664019739532,
-      "formulaTurnedShare": 0.00676923076923077,
-      "formulaLeanedCalls": 3250,
+      "formulaMeanAbsLean": 0.3959744319704172,
+      "formulaTurnedShare": 0.0064595509074131035,
+      "formulaLeanedCalls": 3251,
       "formulaThirds": {
-        "calls": 3250,
+        "calls": 3251,
         "lowThird": 0.0009233610341643582,
-        "highThird": 0.024007386888273315,
-        "netOddsRatio": 15.911654693713869,
+        "highThird": 0.023084025854108958,
+        "netOddsRatio": 15.296749882242107,
         "deciders": 342,
-        "crossedNetOddsRatio": 9.859532425147615
+        "crossedNetOddsRatio": 9.061488092665254
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -2641,23 +2641,23 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/campaigns.ts",
-      "callsInYear": 5085,
+      "callsInYear": 5095,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 5085,
+      "formulaCalls": 5095,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.33980818640365174,
-      "formulaTurnedShare": 0.12940019665683383,
-      "formulaLeanedCalls": 5085,
+      "formulaMeanAbsLean": 0.34064202759897255,
+      "formulaTurnedShare": 0.12208047105004907,
+      "formulaLeanedCalls": 5095,
       "formulaThirds": {
-        "calls": 5085,
-        "lowThird": 0.35870206489675516,
-        "highThird": 0.5309734513274337,
-        "netOddsRatio": 3.3903484972592453,
+        "calls": 5095,
+        "lowThird": 0.35924617196702,
+        "highThird": 0.532979976442874,
+        "netOddsRatio": 3.2189134414372145,
         "deciders": 349,
-        "crossedNetOddsRatio": 3.126165985070238
+        "crossedNetOddsRatio": 3.092006841668038
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -2700,23 +2700,23 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/campaigns.ts",
-      "callsInYear": 209,
+      "callsInYear": 212,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 209,
+      "formulaCalls": 212,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.33075941604109793,
-      "formulaTurnedShare": 0.19138755980861244,
-      "formulaLeanedCalls": 209,
+      "formulaMeanAbsLean": 0.3271035885144901,
+      "formulaTurnedShare": 0.19339622641509435,
+      "formulaLeanedCalls": 212,
       "formulaThirds": {
-        "calls": 209,
-        "lowThird": 0.2318840579710145,
-        "highThird": 0.7391304347826086,
-        "netOddsRatio": 8.050966564761667,
-        "deciders": 53,
-        "crossedNetOddsRatio": 8.92763854964812
+        "calls": 212,
+        "lowThird": 0.2,
+        "highThird": 0.7428571428571429,
+        "netOddsRatio": 8.338812166398371,
+        "deciders": 58,
+        "crossedNetOddsRatio": 8.64978077743491
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -2781,23 +2781,23 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/campaigns.ts",
-      "callsInYear": 2520,
+      "callsInYear": 2503,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 2520,
+      "formulaCalls": 2503,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.49371656430475563,
-      "formulaTurnedShare": 0.0380952380952381,
-      "formulaLeanedCalls": 2520,
+      "formulaMeanAbsLean": 0.49279854045201726,
+      "formulaTurnedShare": 0.03835397522972433,
+      "formulaLeanedCalls": 2503,
       "formulaThirds": {
-        "calls": 2520,
-        "lowThird": 0.2702380952380952,
-        "highThird": 0.22738095238095238,
-        "netOddsRatio": 1.8827995843866245,
+        "calls": 2503,
+        "lowThird": 0.26618705035971224,
+        "highThird": 0.22422062350119903,
+        "netOddsRatio": 1.9044247937545373,
         "deciders": 128,
-        "crossedNetOddsRatio": 1.3633971802877032
+        "crossedNetOddsRatio": 1.3688455982276726
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -2840,18 +2840,18 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/campaigns.ts",
-      "callsInYear": 5377,
+      "callsInYear": 5376,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 5377,
+      "formulaCalls": 5376,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.40500458897631814,
+      "formulaMeanAbsLean": 0.4045062584987767,
       "formulaTurnedShare": 0,
-      "formulaLeanedCalls": 5377,
+      "formulaLeanedCalls": 5376,
       "formulaThirds": {
-        "calls": 5377,
+        "calls": 5376,
         "lowThird": 1,
         "highThird": 1,
         "netOddsRatio": 1,
@@ -2912,7 +2912,7 @@
       "formulaThirds": {
         "calls": 10048,
         "lowThird": 0.049865631531800535,
-        "highThird": 0.15736040609137056,
+        "highThird": 0.15706180949537174,
         "netOddsRatio": 1,
         "deciders": 130,
         "crossedNetOddsRatio": 1.0658055261700379
@@ -2962,23 +2962,23 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/campaigns.ts",
-      "callsInYear": 638,
+      "callsInYear": 636,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 638,
+      "formulaCalls": 636,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.48388531366181603,
-      "formulaTurnedShare": 0.4169278996865204,
-      "formulaLeanedCalls": 638,
+      "formulaMeanAbsLean": 0.4847802283542906,
+      "formulaTurnedShare": 0.4166666666666667,
+      "formulaLeanedCalls": 636,
       "formulaThirds": {
-        "calls": 319,
+        "calls": 318,
         "lowThird": 0.5,
         "highThird": 1,
         "netOddsRatio": 213.00000000000253,
-        "deciders": 14,
-        "crossedNetOddsRatio": 2553.000000000183
+        "deciders": 13,
+        "crossedNetOddsRatio": 2544.999999999916
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -3118,23 +3118,23 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/parties.ts",
-      "callsInYear": 24440,
+      "callsInYear": 24408,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 24440,
+      "formulaCalls": 24408,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.400501199058404,
-      "formulaTurnedShare": 0.05225040916530278,
-      "formulaLeanedCalls": 24440,
+      "formulaMeanAbsLean": 0.40054457519813624,
+      "formulaTurnedShare": 0.05264667322189446,
+      "formulaLeanedCalls": 24408,
       "formulaThirds": {
-        "calls": 11444,
-        "lowThird": 0.03277399056109072,
-        "highThird": 0.21735710540115363,
-        "netOddsRatio": 6.223105603804324,
-        "deciders": 104,
-        "crossedNetOddsRatio": 4.646769968903312
+        "calls": 11440,
+        "lowThird": 0.032782585890375034,
+        "highThird": 0.2174141096249672,
+        "netOddsRatio": 6.226088682117725,
+        "deciders": 105,
+        "crossedNetOddsRatio": 4.541425282991401
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -3215,7 +3215,7 @@
         "highThird": 0.32142857142857145,
         "netOddsRatio": 1.1749622926093515,
         "deciders": 29,
-        "crossedNetOddsRatio": 1.1747823352741547
+        "crossedNetOddsRatio": 1.1818462280486401
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -3347,7 +3347,7 @@
         "highThird": 0.2535211267605634,
         "netOddsRatio": 1.7095286895868114,
         "deciders": 62,
-        "crossedNetOddsRatio": 1.849409370217038
+        "crossedNetOddsRatio": 1.846810343916985
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -3792,7 +3792,7 @@
       "turnedShare": null,
       "leanGap": null,
       "formulaMeanAbsLean": 0.39172782367653464,
-      "formulaTurnedShare": 0.09995594228439256,
+      "formulaTurnedShare": 0.09990087013988325,
       "formulaLeanedCalls": 18158,
       "formulaThirds": {
         "calls": 9110,
@@ -3843,24 +3843,17 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/constituent-cases.ts",
-      "callsInYear": 30,
+      "callsInYear": 29,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 30,
+      "formulaCalls": 29,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.5081270131621195,
+      "formulaMeanAbsLean": 0.5217624038395673,
       "formulaTurnedShare": 0,
-      "formulaLeanedCalls": 30,
-      "formulaThirds": {
-        "calls": 30,
-        "lowThird": 0.3,
-        "highThird": 0.2,
-        "netOddsRatio": 1,
-        "deciders": 9,
-        "crossedNetOddsRatio": 1
-      },
+      "formulaLeanedCalls": 29,
+      "formulaThirds": null,
       "outcomeThirds": null,
       "researchTarget": {
         "oddsRatio": 1.6844784657179457,
@@ -4137,7 +4130,7 @@
       "turnedShare": null,
       "leanGap": null,
       "formulaMeanAbsLean": 0.2782291388305175,
-      "formulaTurnedShare": 0.2,
+      "formulaTurnedShare": 0.4,
       "formulaLeanedCalls": 5,
       "formulaThirds": null,
       "outcomeThirds": null,
@@ -4240,11 +4233,11 @@
       ],
       "gap": {
         "class": "circumstances tie",
-        "why": "Filing now weighs the base, the benefit's share of the lost pay (a log term at the take-up elasticity of McQuillan and Moore 2025) and the layoff's stress beside temperament (src/core2/jobs-benefits.ts filingDecision). Crossed over every worker of three drawn towns, take-up is 0.58 to 0.68 (studies: 0.55 to 0.83, mean 0.734) and the thirds' odds ratio 1.38 to 1.55 against Vella, Richiardi and van de Ven's 1.32: the share is about half for every worker below the state's weekly maximum, so temperament still sorts more filers than the study allows.",
-        "fix": "Weigh how soon the worker expects to be hired (the place's seekers per opening) and the household's cash runway beside the benefit once a study gives their sizes on take-up, then refit."
+        "why": "Filing weighs the base, the benefit's share of the lost pay (a log term at McQuillan and Moore's take-up elasticity) and the layoff's stress beside temperament (src/core2/jobs-benefits.ts filingDecision). Over every business worker of three drawn towns, take-up is 0.73 (Wayland, Michigan) and 0.76 (Washington, District of Columbia), against the studies' 0.734 mean, but the share is the same for nearly every worker in a town, so temperament sorts who skips: the thirds' odds ratio runs 6 to 20 against Vella, Richiardi and van de Ven's 1.32 at any trait weight. Played years: 66 of 69 filed in Wayland (one turned by temperament), 2 of 9 in Piltzville, Montana and 2 of 5 in Hillsboro, Virginia.",
+        "fix": "Weigh the household's cash runway and how soon the worker expects to be hired (the place's seekers per opening) once a study gives their sizes on take-up, then fit the weight (SG-TRAITS-file-claim-circumstances-tie)."
       },
-      "weight": 0.55,
-      "weightTag": "ESTIMATED",
+      "weight": 1,
+      "weightTag": "TUNABLE",
       "status": "ran"
     },
     {
@@ -4252,35 +4245,35 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/news.ts",
-      "callsInYear": 27134,
+      "callsInYear": 17384,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 27134,
+      "formulaCalls": 17384,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.47597331240705115,
+      "formulaMeanAbsLean": 0.47500895883774047,
       "formulaTurnedShare": null,
       "formulaLeanedCalls": 0,
       "formulaThirds": null,
       "outcomeThirds": {
         "unit": "size",
-        "calls": 47144,
-        "kept": 13714,
+        "calls": 31320,
+        "kept": 12132,
         "lowThird": {
-          "withTraits": 0.894717965653033,
+          "withTraits": 0.8945425182987216,
           "flat": 1,
-          "meanLean": -0.5849052723692905
+          "meanLean": -0.5858822205736623
         },
         "highThird": {
-          "withTraits": 1.1152601336687813,
+          "withTraits": 1.116688982937698,
           "flat": 1,
-          "meanLean": 0.6403430977904389
+          "meanLean": 0.6482825173096046
         },
-        "ratioWithTraits": 1.2464935057549447,
+        "ratioWithTraits": 1.2483352776360634,
         "ratioFlat": 1,
-        "netRatio": 1.2464935057549447,
-        "netShift": 0.22054216801574833
+        "netRatio": 1.2483352776360634,
+        "netShift": 0.22214646463897647
       },
       "researchTarget": {
         "oddsRatio": 1.2682945883699484,
@@ -4453,23 +4446,23 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/modules/press.ts",
-      "callsInYear": 336,
+      "callsInYear": 172,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 336,
+      "formulaCalls": 172,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.39812508107539135,
+      "formulaMeanAbsLean": 0.3952434388890039,
       "formulaTurnedShare": 0,
-      "formulaLeanedCalls": 336,
+      "formulaLeanedCalls": 172,
       "formulaThirds": {
-        "calls": 168,
-        "lowThird": 0.4642857142857143,
-        "highThird": 0.6428571428571429,
+        "calls": 172,
+        "lowThird": 0.43859649122807015,
+        "highThird": 0.631578947368421,
         "netOddsRatio": 1,
         "deciders": 9,
-        "crossedNetOddsRatio": 1.4478913629398227
+        "crossedNetOddsRatio": 1.4303889965452337
       },
       "outcomeThirds": null,
       "researchTarget": {
@@ -4644,7 +4637,7 @@
         "calls": 559,
         "kept": 559,
         "lowThird": {
-          "withTraits": 0.3225806451612903,
+          "withTraits": 0.3333333333333333,
           "flat": 0.3870967741935484,
           "meanLean": -0.6095801075268811
         },
@@ -4653,10 +4646,10 @@
           "flat": 0.553763440860215,
           "meanLean": 0.4531860215053767
         },
-        "ratioWithTraits": 2.889982628836133,
+        "ratioWithTraits": 2.7532738853503194,
         "ratioFlat": 1.9575882717323962,
-        "netRatio": 1.4762974781610236,
-        "netShift": 0.09139784946236568
+        "netRatio": 1.4064621887593194,
+        "netShift": 0.08064516129032268
       },
       "researchTarget": {
         "oddsRatio": 2.9690914591330184,
@@ -4933,16 +4926,16 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/campaign-stances.ts",
-      "callsInYear": 4,
+      "callsInYear": 2,
       "callsAtOpening": 0,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 4,
+      "formulaCalls": 2,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.3247642261095175,
+      "formulaMeanAbsLean": 0.40040040040040026,
       "formulaTurnedShare": 1,
-      "formulaLeanedCalls": 4,
+      "formulaLeanedCalls": 2,
       "formulaThirds": null,
       "outcomeThirds": null,
       "researchTarget": {
@@ -5515,14 +5508,14 @@
       "kind": "decision",
       "route": "formula",
       "site": "src/core2/closeness.ts",
-      "callsInYear": 50206,
+      "callsInYear": 32638,
       "callsAtOpening": 14176,
       "openingRecords": null,
       "chooserCalls": 0,
-      "formulaCalls": 50206,
+      "formulaCalls": 32638,
       "turnedShare": null,
       "leanGap": null,
-      "formulaMeanAbsLean": 0.4362365509286809,
+      "formulaMeanAbsLean": 0.46448142995832026,
       "formulaTurnedShare": null,
       "formulaLeanedCalls": 0,
       "formulaThirds": null,

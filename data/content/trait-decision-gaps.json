@@ -190,8 +190,8 @@
     },
     "jobs-benefits.file-claim": {
       "class": "circumstances tie",
-      "why": "Filing now weighs the base, the benefit's share of the lost pay (a log term at the take-up elasticity of McQuillan and Moore 2025) and the layoff's stress beside temperament (src/core2/jobs-benefits.ts filingDecision). Crossed over every worker of three drawn towns, take-up is 0.58 to 0.68 (studies: 0.55 to 0.83, mean 0.734) and the thirds' odds ratio 1.38 to 1.55 against Vella, Richiardi and van de Ven's 1.32: the share is about half for every worker below the state's weekly maximum, so temperament still sorts more filers than the study allows.",
-      "fix": "Weigh how soon the worker expects to be hired (the place's seekers per opening) and the household's cash runway beside the benefit once a study gives their sizes on take-up, then refit."
+      "why": "Filing weighs the base, the benefit's share of the lost pay (a log term at McQuillan and Moore's take-up elasticity) and the layoff's stress beside temperament (src/core2/jobs-benefits.ts filingDecision). Over every business worker of three drawn towns, take-up is 0.73 (Wayland, Michigan) and 0.76 (Washington, District of Columbia), against the studies' 0.734 mean, but the share is the same for nearly every worker in a town, so temperament sorts who skips: the thirds' odds ratio runs 6 to 20 against Vella, Richiardi and van de Ven's 1.32 at any trait weight. Played years: 45 of 67 filed in Wayland, Michigan (2684880, seed 0c4eea785dc2; temperament turned 17) and 2 of 5 in Hillsboro, Virginia (5137288, seed 7100e8c6f85d).",
+      "fix": "Weigh the household's cash runway and how soon the worker expects to be hired (the place's seekers per opening) once a study gives their sizes on take-up, then fit the weight (SG-TRAITS-file-claim-circumstances-tie)."
     },
     "parties.join": {
       "class": "circumstances saturate the choice",

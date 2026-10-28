@@ -7375,5 +7375,17 @@
     "addedAt": "2026-10-28",
     "replacement": "Each pose painted for both sexes and every build and outfit (or a wardrobe that dresses the pose's body), so the person's own look holds in the pose.",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-file-claim-circumstances-tie",
+    "kind": "partial-model",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 235,
+    "whatItFakes": "Filing for unemployment weighs only the benefit's share of the lost pay and the layoff's stress beside temperament. Within a town the share is the same for nearly every worker, so temperament decides who skips far more than the study allows (thirds' odds 6 to 20 against 1.32), and the trait weight stays at the general 1.",
+    "why": "No study found gives the size of a household's savings or of expected time to reemployment on unemployment take-up; without one, adding either read would type a number.",
+    "addedBy": "traits-lead",
+    "addedAt": "2026-10-28",
+    "replacement": "The filing reads the household's cash runway and the place's seekers per opening at researched sizes, then traitWeightJobsBenefitsFileClaim is fitted to Vella, Richiardi and van de Ven 2025.",
+    "status": "open"
   }
 ]

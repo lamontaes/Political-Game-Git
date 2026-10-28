@@ -231,6 +231,8 @@ export function filingDecision(
   const replacement =
     api.parameter("benefitsFileReplacementWeight") * Math.log(replaced);
   const hardship = hardshipReason(c, feeling, "jobs-benefits.file-claim");
+  // Savings and expected time to a new job are not weighed yet, so temperament sorts who skips.
+  api.stopgap("SG-TRAITS-file-claim-circumstances-tie");
   // The stress is one more reason in the case; the trait term is the lean
   // toward filing over skipping at the decision's calibrated weight.
   const { yes, term } = leanedYesWithTerm(
