@@ -821,8 +821,9 @@ export function startTownJobPay(
     const baseline = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
-      townPayPercentile(tenure),
+      townPayPercentile(tenure, world.seed),
       minimum,
+      world.seed,
     );
     if (!baseline) continue;
     const credentialPay = recordedCredentialHourlyPay(world, work.id, startsAt);
@@ -1438,6 +1439,7 @@ function teacherFloorFor(
     stateMedianAnnualWage(
       TEACHER_FLOOR_OCCUPATION,
       role.locationJurisdictionId,
+      world.seed,
     ),
   );
 }

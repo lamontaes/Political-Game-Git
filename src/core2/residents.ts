@@ -39,6 +39,7 @@ import type {
 } from "./types";
 import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
 import schools from "./data/opening-public-schools.json" with { type: "json" };
+import { worldLevel } from "./world-draw";
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -275,6 +276,27 @@ export interface CollapseOptions {
   unplacedWorkerIncome?: boolean;
   /** Real households each counted household of a place stands for (see `ResidentsInput.weights`). */
   weights?: Readonly<Record<PlaceId, number>>;
+}
+
+/** The median annual earnings (dollars) of a place's workers in the ACS 2024 table; undefined where the sample is too thin (calibration). */
+export function publishedPlaceEarnings(placeKey: string): number | undefined {
+  return (PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>)[placeKey];
+}
+
+/** This world's median earnings for a place: the published median moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+export function placeEarningsOf(
+  placeKey: string,
+  seed: string,
+): number | undefined {
+  const published = publishedPlaceEarnings(placeKey);
+  return published === undefined
+    ? undefined
+    : worldLevel(
+        published,
+        seed,
+        `place-earnings:${placeKey}`,
+        "jobsWorldPlaceEarningsSpreadShare",
+      );
 }
 
 export function collapseToTwoLevels(
@@ -764,9 +786,10 @@ export function collapseToTwoLevels(
   // place's own where its sample is firm enough), else the town's median
   // recorded wage. Many unplaced workers commute, so the town's own firms'
   // pay isn't theirs.
-  const placeEarnings = (
-    PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>
-  )[input.placeMetadata?.placeKey ?? ""];
+  const placeEarnings = placeEarningsOf(
+    input.placeMetadata?.placeKey ?? "",
+    input.seed,
+  );
   const median = placeEarnings
     ? placeEarnings * 100
     : (annualWages[Math.floor(annualWages.length / 2)] ?? 0);
