@@ -19,7 +19,7 @@ import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { appliedOn, type LawAppliedRow } from "./law-reach/applied";
-import { inForceHere, reachedBy } from "./law-reach/host";
+import { reachedBy } from "./law-reach/host";
 import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import { townFacts } from "./law-reach/group-b-people";
 import { ownerOf } from "./modules/business";
@@ -31,7 +31,7 @@ import {
   townPeople,
 } from "./law-reach/group-a-records";
 import { countedStaffOf } from "./modules/residents";
-import { enactLaw, lawChain } from "./modules/laws";
+import { enactLaw, lawChain, yesLevels } from "./modules/laws";
 import { amendBudget, budgetsOf, governments } from "./modules/budgets";
 import { outsideAccountOf } from "./budgets-treasury";
 import { corePlaceByKey } from "./place-lookup";
@@ -230,7 +230,7 @@ function eligibleTown(tried: string[]): World {
 function repealAll(w: World) {
   const lawKeys = Object.values(KEYS);
   const startedYes = new Map(
-    lawKeys.map((key) => [key, inForceHere(w.api, key)]),
+    lawKeys.map((key) => [key, yesLevels(w.api, key).length > 0]),
   );
   for (const key of lawKeys) setLaw(w.core, w.api, key, 0);
   step(w.core, 3);

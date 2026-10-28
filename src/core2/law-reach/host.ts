@@ -12,7 +12,12 @@
  */
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
-import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  yesLevels,
+} from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import { registerLawReach } from "./index";
 import { REACH_A_MODULE_ID } from "./group-a-records";
@@ -101,27 +106,6 @@ export function openLawReach(core: CoreState): void {
 const STANDING_BENEFITS: readonly string[] = ["snap-maximum"];
 
 /**
- * Whether a policy is law for the town on a date: any level of its chain
- * (federal, state, county or city) whose latest row in force says yes. A
- * higher level saying no doesn't undo a lower level's yes.
- */
-export function inForceHere(api: CoreAPI, question: string): boolean {
-  const date = api.state.date;
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  return lawChain(api).levels.some(({ jurisdiction }) => {
-    const latest = (
-      laws.query("bySeries", [
-        jurisdiction,
-        question,
-      ]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    return latest?.value === 1;
-  });
-}
-
-/**
  * What a policy does once it's law: one handler per policy key, registered
  * by the law-reach files. Called whenever the law in force on that key may
  * have changed, with whether it's now in force for the town.
@@ -167,7 +151,7 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     event.kind === "budget-line-changed"
       ? true
       : key.includes(":")
-        ? inForceHere(api, key)
+        ? yesLevels(api, key).length > 0
         : true;
   if (event.kind === "law-took-effect") endReplaced(api, key, inForce);
   const list = handlers.get(key);
@@ -200,15 +184,8 @@ export function reassertStandingLaws(
   if (!api.state.modules.has(LAWS_MODULE_ID)) return;
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
-  const table = api.moduleState(LAWS_MODULE_ID).table("laws");
   for (const key of keys)
-    for (const { level, jurisdiction } of lawChain(api).levels) {
-      const latest = (
-        table.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
-      )
-        .filter((r) => r.effectiveDate <= date)
-        .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-      if (latest?.value !== 1) continue;
+    for (const { level, jurisdiction, row: latest } of yesLevels(api, key)) {
       runHandlers(api, {
         id: `${STANDING_EVENT}${latest.id}:${date}`,
         date,
