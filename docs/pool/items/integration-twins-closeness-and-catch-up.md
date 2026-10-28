@@ -17,7 +17,7 @@ claimed-at: 2026-10-28T00:45:00.000Z
 
 **What.** The justice engine weighs a witness's tie to the accused with its own closeness function, which returns the raw relationship level with no fading since the last contact, while every other reader of a tie uses closenessBetween (src/core2/closeness.ts), which fades it. And src/core2/life.ts keeps catchUpLife, a second day loop beside advanceCore and the player clock's closeDay, which nothing in play calls. This item deletes both twins, so a tie reads the same everywhere and a day is lived by one loop.
 
-**Rules.** One source per fact (owner, Oct 27, 4 PM Eastern); replace, never layer; no dice.
+**Rules.** Replace, never layer: the second closeness reader and the uncalled day loop are deleted in this change, not kept beside the ones every engine reads (owner, Oct 27, 4 PM Eastern: one source per fact).
 
 **Done when.** The justice engine's local closeness is deleted and its one reader calls closenessBetween; catchUpLife and its now-unused imports are deleted; typecheck, eslint and the justice tests pass, with any failure shown red on clean main with the same seed.
 
