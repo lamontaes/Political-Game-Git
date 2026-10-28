@@ -1,0 +1,62 @@
+{
+ "scene": "polling-place",
+ "plate": "sg-p07",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 0,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "poll workers at the table",
+   "box": [
+    1150,
+    280,
+    1400,
+    420
+   ],
+   "pose": "sit",
+   "seat": "chair",
+   "facing": 0,
+   "coveredBy": "table",
+   "role": "poll-worker"
+  },
+  {
+   "name": "voting booths",
+   "box": [
+    700,
+    250,
+    1000,
+    420
+   ],
+   "pose": "stand",
+   "facing": 180,
+   "coveredBy": "booth",
+   "role": "voter"
+  },
+  {
+   "name": "in line",
+   "box": [
+    300,
+    240,
+    480,
+    700
+   ],
+   "pose": "stand",
+   "facing": 45
+  },
+  {
+   "name": "stray pieces",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "drop": true
+  }
+ ]
+}

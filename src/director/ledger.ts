@@ -11,7 +11,7 @@
  */
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
-import { closenessBetween } from "../core2/closeness";
+import { closenessBetween, familyFactsOf, formerKin } from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -263,59 +263,6 @@ export function createDirector(
     };
   }
 
-  /** The kin relation each family member holds to the person, from recorded family links. */
-  function kinRelations(
-    core: Readonly<CoreState>,
-    personId: PersonId,
-  ): Map<PersonId, string[]> {
-    const parents = new Map<PersonId, Set<PersonId>>();
-    const partners = new Map<PersonId, Set<PersonId>>();
-    const add = (
-      map: Map<PersonId, Set<PersonId>>,
-      a: PersonId,
-      b: PersonId,
-    ) => {
-      let set = map.get(a);
-      if (!set) map.set(a, (set = new Set()));
-      set.add(b);
-    };
-    for (const link of core.familyLinks.values()) {
-      const [a, b] = link.personIds;
-      const left = core.people.get(a);
-      const right = core.people.get(b);
-      if (!left || !right) continue;
-      if (link.kind === "partner") {
-        add(partners, a, b);
-        add(partners, b, a);
-      } else {
-        const [parent, child] =
-          left.birthDate <= right.birthDate ? [a, b] : [b, a];
-        add(parents, child, parent);
-      }
-    }
-    const children = new Map<PersonId, Set<PersonId>>();
-    for (const [child, set] of parents)
-      for (const parent of set) add(children, parent, child);
-    const out = new Map<PersonId, string[]>();
-    const mark = (id: PersonId, relation: string) => {
-      if (id === personId) return;
-      const list = out.get(id) ?? [];
-      if (!list.includes(relation)) list.push(relation);
-      out.set(id, list);
-    };
-    const myParents = parents.get(personId) ?? new Set<PersonId>();
-    for (const id of myParents) mark(id, "parent");
-    for (const id of children.get(personId) ?? []) mark(id, "child");
-    for (const id of partners.get(personId) ?? []) mark(id, "partner");
-    for (const parent of myParents) {
-      for (const id of children.get(parent) ?? []) mark(id, "sibling");
-      for (const id of parents.get(parent) ?? []) mark(id, "grandparent");
-    }
-    for (const child of children.get(personId) ?? [])
-      for (const id of children.get(child) ?? []) mark(id, "grandchild");
-    return out;
-  }
-
   function ensureThread(
     book: PersonLedger,
     otherId: PersonId,
@@ -418,7 +365,13 @@ export function createDirector(
     const home = new Set(
       core.households.get(actor.householdId)?.memberIds ?? [],
     );
-    const kin = kinRelations(core, personId);
+    // Each relative by the relation the person's own family facts record
+    // (the one reader, familyFactsOf); an ended tie is no longer kin.
+    const kin = new Map(
+      [...familyFactsOf(actor)]
+        .filter(([, fact]) => !formerKin(fact.relation))
+        .map(([id, fact]): [PersonId, string[]] => [id, [fact.relation]]),
+    );
     for (const id of new Set([...actor.familyIds, ...kin.keys(), ...home])) {
       if (id === personId) continue;
       const other = core.people.get(id);

@@ -13,8 +13,9 @@ import table from "./data/resident-employment-counties.json" with { type: "json"
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { parameter } from "./parameters";
 import {
-  residentEmploymentRate,
+  publishedResidentEmploymentRate,
   type OpeningEmploymentAllocation,
 } from "./opening-employment";
 
@@ -28,7 +29,7 @@ describe(`island-area employment by age (run seed ${seed})`, () => {
     const rows = table.counties as Record<string, Record<string, number[]>>;
     for (const area of ISLAND_AREAS)
       for (const age of AGES) {
-        const read = residentEmploymentRate(age, area);
+        const read = publishedResidentEmploymentRate(age, area);
         const where = `island area ${area} age ${age}`;
         const [population, employed] = rows[area]![`acs-age-${age}`]!;
         expect(read, where).toBeDefined();
@@ -67,9 +68,15 @@ describe(`island-area employment by age (run seed ${seed})`, () => {
       // The band is placed by the island's own table: its rate is the table's employed share.
       const [population, employed] = rows[area]![band.key.split(":")[1]!]!;
       expect(band.basis, `${where} ${band.key}`).toMatch(/^county-ACS/);
-      expect(band.rate, `${where} ${band.key}`).toBeCloseTo(
-        employed! / population!,
-        10,
+      // This world's rate sits within its drawn spread of the table's share.
+      const share = employed! / population!;
+      expect(
+        Math.abs(band.rate - share),
+        `${where} ${band.key}`,
+      ).toBeLessThanOrEqual(
+        parameter("jobsWorldEmploymentRateSpreadShare") *
+          Math.min(share, 1 - share) +
+          1e-9,
       );
       expect(
         band.remaining,

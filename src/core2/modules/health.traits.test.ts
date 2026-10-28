@@ -17,6 +17,7 @@ import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
 import { startingConditionAssignments } from "../condition-pack";
 import { parameter } from "../parameters";
+import { worldRateFactor } from "../world-base-rates";
 import { healthReport, DEFAULT_HEALTH_DATA } from "./health";
 import type { CoreState } from "../types";
 
@@ -62,6 +63,8 @@ describe("health reads conscientiousness", () => {
         category: DEFAULT_HEALTH_DATA.calibrationCategory,
         monthlyHouseholdIncomeMinor: null,
       })),
+      new Map(),
+      worldRateFactor(SEED, "conditions"),
     );
     let expected = 0;
     let held = 0;

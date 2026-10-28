@@ -69,6 +69,8 @@ import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" }
 import { incomeBandOf } from "../counted-income-fifth";
 
 export { incomeBandOf };
+/** The world's private-school tuition, for the law that subsidizes it (the people family's entry). */
+export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";

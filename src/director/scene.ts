@@ -1,4 +1,5 @@
 import { ADDRESS_FACT } from "./opening-facts";
+import { familyFactsOf } from "../core2/modules/people";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
@@ -72,13 +73,7 @@ export function composeScene(
     openUntil: moment.date,
   };
 
-  const relation = new Map<string, { relation: string; factId: string }>();
-  for (const fact of person.pastFacts ?? [])
-    if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-      relation.set(fact.facts.otherPersonId, {
-        relation: fact.kind.slice("family:".length),
-        factId: fact.id,
-      });
+  const relation = familyFactsOf(person);
   const named = new Set<PersonId>();
   // Someone in the scene, as you know them: by relation, else by name.
   const who = (id: PersonId): Fact | null => {
