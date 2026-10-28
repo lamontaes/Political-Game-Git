@@ -21,4 +21,4 @@ claimed-at: 2026-10-27T23:18:30.676Z
 
 **Files.** src/core2/past-work.ts, src/core2/modules/people.ts, src/core2/deep-past.ts, src/director/journal.ts, src/director/conversation.ts, src/director/speech-builder.ts, src/core2/modules/executive.ts
 
-**Notes.** TODO
+**Notes.** TODO Oct 28, 21:15 UTC (elections wire session): src/core2/trait-coverage.test.ts "finds every decision in code that weighs traits" fails on clean main with "src/core2/past-work.ts decides with traits but is not in the decision table": past-work.ts needs its row in data/content/trait-decisions.json (then `node --import tsx scripts/traits/trait-coverage.ts`).

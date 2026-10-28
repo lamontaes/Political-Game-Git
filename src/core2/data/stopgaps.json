@@ -2445,6 +2445,18 @@
     "status": "open"
   },
   {
+    "id": "SG-P15-bribe-falling-out-rare",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/modules/corruption.ts",
+    "line": 380,
+    "whatItFakes": "How often a taken bribe leads to a telling and a press tip in one played year: officials keep a median-or-better cushion, so a town takes a handful of bribes a year at the Pletzer-calibrated take pull, and a falling-out (an award that went to another firm, a bill voted the other way) between the two parties needs one of those few to be cheated before corruption.tell and press.tip are weighed.",
+    "why": "Takes now fire (seated officials' savings spread around the SCF median, officialSavingsSpreadSigma) and contract awards settle a taken bribe (settleBribe), but in the audited years the bought firm won every award, so no tie soured and no one was told. Forcing a breach would be a dice-free but invented mechanic.",
+    "addedBy": "traits-fire-integrity helper",
+    "addedAt": "2026-10-28",
+    "replacement": "Measure the share of taken bribes cheated across 56 drawn places over several years (scripts/research/core-parameters-year.ts) and calibrate the official savings spread and the bribe-share-of-stake against Global Corruption Barometer incidence; or let a letdown arise from the contract engine's own losing bidders.",
+    "status": "open"
+  },
+  {
     "id": "SG-P15-opening-profile",
     "kind": "partial-model",
     "file": "src/core2/data/profile/parameters.json",
@@ -7243,8 +7255,8 @@
     "why": "Owner, Oct 27: a job offer comes through a person and a scene or not at all. The bench's faceless offer card was removed; the lines for the new purpose belong to the Words lead.",
     "addedBy": "claude/integration-one-employment",
     "addedAt": "2026-10-27",
-    "replacement": "Bank lines for the job-offer purpose and the job-offer scene opening, written by the Words lead through civic-prose; the offer then shows as a call from the person at the employer.",
-    "status": "open"
+    "replacement": "Resolved Oct 28 (words and director session): the scene-talk bank holds the job-offer purpose's lines (the call, the offer with the position and the hourly pay from the offer record, the four replies, the follow-ups and closes); purpose-scene words the offer record's employer, position, pay and deadline; the job-offered record joins scheduling.ownRecordScenes, so the call stops the day.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-day-start-minute",
@@ -7397,6 +7409,42 @@
     "addedBy": "laws-grocery-exemption-reaches-buyers",
     "addedAt": "2026-10-28",
     "replacement": "A per-state field in the starting-law research (data/research/laws/local-starting-law/sales-tax.json) saying whether local sales taxes follow the state's grocery exemption, sourced from each state's revenue department, read here so a state exemption spares only the levels its base covers.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-candidate-rally",
+    "kind": "missing-mechanic",
+    "file": "src/bench/play.mjs",
+    "line": 0,
+    "whatItFakes": "The Campaigns tab lists the coming ballot's races with who runs and their filed stances, and a candidate's name opens their card; the owner's 'clicking a candidate's rally lets you go there and learn their views' has no rally to go to, so there is no rally link.",
+    "why": "No engine keeps a candidate's rallies as events with a place and a time: the campaigns module holds filings, contests, bills, stories, terms and ties, and the director's rally-opponent situation fires from a paid message or a debate, never from a place the player travels to.",
+    "addedBy": "screens session (sitting Oct 28, point 19)",
+    "addedAt": "2026-10-28",
+    "replacement": "A campaign event record (a rally with its venue, date and speaker) the director stages as a scene the player can travel to from the race's row, where the candidate's views are heard; the row then links to it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-file-claim-circumstances-tie",
+    "kind": "partial-model",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 235,
+    "whatItFakes": "Filing for unemployment weighs only the benefit's share of the lost pay and the layoff's stress beside temperament. Within a town the share is the same for nearly every worker, so temperament decides who skips far more than the study allows (thirds' odds 6 to 20 against 1.32), and the trait weight stays at the general 1.",
+    "why": "No study found gives the size of a household's savings or of expected time to reemployment on unemployment take-up; without one, adding either read would type a number.",
+    "addedBy": "traits-lead",
+    "addedAt": "2026-10-28",
+    "replacement": "The filing reads the household's cash runway and the place's seekers per opening at researched sizes, then traitWeightJobsBenefitsFileClaim is fitted to Vella, Richiardi and van de Ven 2025.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-unheld-filler-party",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/officials.ts",
+    "line": 173,
+    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (a sample member of another state's legislature, another state's governor) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party, and a governor's successor (a lieutenant governor elected on their own ticket in some states) is assumed to share the governor's.",
+    "why": "The officials engine seats these holders without the offices engine's terms, so no record names the appointee, the special election's candidates or the successor's own party.",
+    "addedBy": "gov-sampled-legislator-seats-never-refilled (Claude, wire-office)",
+    "addedAt": "2026-10-28",
+    "replacement": "The successor's own party from the state's statewide-office roster for a governor, and the appointing authority's choice or the special election's result (the voting engine's world races) for a legislative seat.",
     "status": "open"
   }
 ]
