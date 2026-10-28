@@ -5,9 +5,9 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/guards-one-english
-pr:
+pr: #6498
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T02:52:45.460Z
