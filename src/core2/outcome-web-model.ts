@@ -15,7 +15,7 @@ import ledger from "../../data/research/outcome-web/placeholder-ledger.json" wit
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
 import { GOV_MEASURES } from "./gov-measure-keys";
-import { createHash } from "node:crypto";
+import { seededUnit } from "./seeded";
 import type { Source } from "./types";
 
 export type Shape =
@@ -264,21 +264,14 @@ export function baseOf(
 ): { readonly value: number; readonly source: Source } {
   const published = publishedBaseOf(measure, stateKey);
   const local = KEPT_LOCAL[measure];
-  if (LAW_MEASURES.has(measure) || local?.scale === "index") return published;
+  const index =
+    local?.scale === "index" || BASES[measure]?.unit.startsWith("index");
+  if (LAW_MEASURES.has(measure) || index) return published;
   // A national level (a kept outcome with no per-place figures) is one level
   // for the whole world, the same in every state.
   const where = local && !local.places ? "nation" : stateKey;
-  // A number in [0, 1) fixed by the world's seed and the key (the same hash
-  // as past-module's seededUnit, which this model cannot import: it would
-  // close an import cycle through the state).
   const at = (part: string) =>
-    parseInt(
-      createHash("sha256")
-        .update(`${seed}:outcome-base:${measure}:${where}:${part}`)
-        .digest("hex")
-        .slice(0, 8),
-      16,
-    ) / 0x1_0000_0000;
+    seededUnit(seed, `outcome-base:${measure}:${where}:${part}`);
   const floor = WORLD.floorShare.value;
   const share =
     (at("sign") < 0.5 ? -1 : 1) *

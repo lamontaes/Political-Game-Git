@@ -5,14 +5,18 @@
  * the published one; a rate in law and an index that starts at 100 keep theirs.
  */
 import { describe, expect, it } from "vitest";
+import bases from "../../data/research/outcome-web/place-outcome-bases-2024.json" with { type: "json" };
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import { KEPT_OUTCOMES, baseOf, publishedBaseOf } from "./outcome-web-model";
 import { placeStateKeys } from "./places";
 
 const LAW = new Set(local.worldBases.lawMeasures);
 const kept = local.keptOutcomes as Record<string, { scale?: string }>;
+const units = bases.measures as Record<string, { unit: string }>;
 const fixed = (measure: string) =>
-  LAW.has(measure) || kept[measure]?.scale === "index";
+  LAW.has(measure) ||
+  kept[measure]?.scale === "index" ||
+  (units[measure]?.unit.startsWith("index") ?? false);
 
 describe("each world's outcome levels", () => {
   const keys = placeStateKeys();
