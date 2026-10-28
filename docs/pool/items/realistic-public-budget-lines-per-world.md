@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/realistic-budgets
 pr: #6474
 blocked-on:

@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/backdrop-conditions
 pr: #6471
 blocked-on:
