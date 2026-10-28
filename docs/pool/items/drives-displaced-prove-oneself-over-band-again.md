@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: fixer/red-main-m1-11-prove-oneself
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T22:20:59.217Z
 ---
 
 **What.** The golden-path check M1-11 fails on clean main at 7897579380 in Washington, District of Columbia (place 1150000, seed b09f3d98a55b15d4dc5791c10adf3137f641b3c6e7abe324a7cefdfdf7ae2559). 35.1 percent of 231 displaced workers form a prove-oneself drive, outside the researched 2.9 to 30.7 percent band. Two earlier items fixed the same overshoot in North Canton, Ohio (#6044) and Eden, Utah (#5909), so the share still runs high in some places. It turned PR #6421's golden-path check red, which touches only the director.
@@ -20,7 +21,7 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/drives.ts, src/bench/m1-11-check.ts
 
-**Notes.** TODO
+**Notes.** TODO Oct 28, 22:10 UTC (laws session): red again on clean main d133f66564 in Fall City, Washington (GOLDEN_PATH_SEED=45f189dc90ac79f989b104e6824c2c5eba0d5664f3e7856b2db9338863337d40, GOLDEN_PATH_PLACE_KEY=5323200): 41.3% of 46 displaced workers set out to prove themselves, outside 0.0-37.8%; it turned golden-path-year red on PR 6702.
 
 
 Evidence (integrator, Oct 27, 23:55 UTC): red on main at 5e91d81dd1 in Waimanalo, Hawaii: GOLDEN_PATH_SEED=42d24355021f2f81ea874d86a02d00959f83148b52996a86deb64475e1b44e2f GOLDEN_PATH_PLACE_KEY=1578050 (drawn for PR #6397 head 4f608298), "36.4% of 165 displaced workers set out to prove themselves, outside 2.3-31.7%"; identical on clean main and on the PR.

@@ -32,6 +32,7 @@ import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { worldSwing } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
@@ -246,21 +247,25 @@ const source = (date: string): Source => ({
   estimatedFrom: "data/officials/officials.json",
 });
 
-/** A state's lean, right positive: its 2024 presidential two-party vote. */
-function stateLeanOf(stateKey: string): number {
+/** A state's lean, right positive: its 2024 presidential two-party vote, as this world's swing moved it. */
+function stateLeanOf(stateKey: string, seed: string): number {
   const share = stateShare.get(stateKey.slice(3));
-  return share === null || share === undefined ? 0 : 1 - 2 * share;
+  return share === null || share === undefined
+    ? 0
+    : 1 - 2 * (share - worldSwing(seed, stateKey.slice(3)));
 }
 
 /** A seat's lean and where it's read from. */
 function seatLean(
+  seed: string,
   stateKey: string,
   bodyKind: BodyKind,
   district: string | null,
   party: string | null,
   officeKind = "",
 ): { lean: number; source: string } {
-  const state = stateLeanOf(stateKey);
+  const state = stateLeanOf(stateKey, seed);
+  const swing = worldSwing(seed, stateKey.slice(3));
   const chamber = /^legislature-(upper|lower|unicameral)$/.exec(
     officeKind,
   )?.[1];
@@ -273,7 +278,7 @@ function seatLean(
     if (own)
       return {
         lean:
-          (own.republican - own.democratic) / (own.republican + own.democratic),
+          2 * (own.republican / (own.republican + own.democratic) + swing) - 1,
         source: "2024 state legislative vote in the district (MEDSL)",
       };
   }
@@ -281,7 +286,10 @@ function seatLean(
     const code = /^\d+$/.test(district) ? district.padStart(2, "0") : "00";
     const share = houseShare.get(`${stateKey.slice(3)}-${code}`);
     if (share !== null && share !== undefined)
-      return { lean: 1 - 2 * share, source: "2024 House vote (Clerk)" };
+      return {
+        lean: 1 - 2 * (share - swing),
+        source: "2024 House vote (Clerk)",
+      };
   }
   if (bodyKind === "us-house" || bodyKind === "legislature")
     // A district without a read result leans to its holder's party by the
@@ -446,7 +454,8 @@ function unrecordedParty(
   // stopgapId: SG-OFFICIALS-unrecorded-party
   api.stopgap("SG-OFFICIALS-unrecorded-party");
   return {
-    party: stateLeanOf(stateKey) > 0 ? "Republican" : "Democratic",
+    party:
+      stateLeanOf(stateKey, api.state.seed) > 0 ? "Republican" : "Democratic",
     partySource: "estimated: the party that carried the state in 2024",
   };
 }
@@ -715,7 +724,14 @@ function seatAll(
   const leans = new Map(
     all.map((s) => [
       s.key,
-      seatLean(s.stateKey, s.bodyKind, s.district, s.party, s.officeKind),
+      seatLean(
+        api.state.seed,
+        s.stateKey,
+        s.bodyKind,
+        s.district,
+        s.party,
+        s.officeKind,
+      ),
     ]),
   );
   const groups = new Map<string, number[]>();
@@ -805,7 +821,7 @@ function seatAll(
       leadership: roles.get(spec.key) ?? null,
       districtLean: lean.lean,
       leanSource: lean.source,
-      stateLean: stateLeanOf(spec.stateKey),
+      stateLean: stateLeanOf(spec.stateKey, api.state.seed),
       serviceStart: spec.serviceStart,
       nextElectionYear: spec.nextElectionYear,
       termYears: spec.termYears,
@@ -1452,6 +1468,7 @@ export function officialCandidate(
       : facts.bodyKind;
   const pool = new Set(candidacy.ladder[ladderKey] ?? []);
   const seatLeanNow = seatLean(
+    api.state.seed,
     facts.stateKey,
     facts.bodyKind,
     facts.seat.district,
@@ -1609,6 +1626,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
   if (!base) return;
   const party = term.party ?? held?.party ?? ran?.party ?? null;
   const lean = seatLean(
+    api.state.seed,
     facts.stateKey,
     facts.bodyKind,
     facts.seat.district,
@@ -1635,7 +1653,7 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
     leadership: null,
     districtLean: lean.lean,
     leanSource: lean.source,
-    stateLean: stateLeanOf(facts.stateKey),
+    stateLean: stateLeanOf(facts.stateKey, api.state.seed),
     serviceStart: api.state.date,
     nextElectionYear,
     termYears: facts.office.termYears,
