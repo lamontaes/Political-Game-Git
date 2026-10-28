@@ -49,7 +49,7 @@ describe(`turnout and the outcome web (${place.name}, seed ${seed})`, () => {
     const appeal = { a: { total: 1 }, b: { total: -1 } };
 
     // Shift the record: a redistricting effect (read by the engine) and an
-    // all-mail effect (a law the law reach already applies, so left out).
+    // all-mail effect (a link the law reach carries, so the web never reads it).
     months.put({
       ...row,
       effects: {

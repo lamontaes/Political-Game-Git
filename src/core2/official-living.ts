@@ -10,7 +10,7 @@
  * Consumer Finances says a family at their pay keeps in checking and savings.
  */
 import {
-  estimatedMonthlyHouseholdLivingCosts,
+  worldMonthlyHouseholdLivingCosts,
   livingCostsRegionForState,
 } from "./reference/living-costs-data";
 import { bedroomsForHousehold, hudStateRentRow } from "./hud-rents";
@@ -31,7 +31,8 @@ export function officialHousehold(
   annualPayMinor: number,
 ): OfficialHousehold {
   const p = (key: string) => api.parameter(key);
-  const everyday = estimatedMonthlyHouseholdLivingCosts(
+  const everyday = worldMonthlyHouseholdLivingCosts(
+    api.state.seed,
     livingCostsRegionForState(stateKey),
     p("one"),
   ).monthlyMinor;
@@ -43,8 +44,10 @@ export function officialHousehold(
       ((everyday + shelter) * p("monthsPerYear")) / p("daysPerMeanYear"),
     ),
     savingsMinor: Math.round(
-      medianTransactionBalance(annualPayMinor / p("minorPerDollar")) *
-        p("minorPerDollar"),
+      medianTransactionBalance(
+        annualPayMinor / p("minorPerDollar"),
+        api.state.seed,
+      ) * p("minorPerDollar"),
     ),
   };
 }
