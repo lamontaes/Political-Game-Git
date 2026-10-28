@@ -93,6 +93,43 @@ function ownBudgetLines(api: CoreAPI, office: OfficeRecord): Set<string> {
   );
 }
 
+/**
+ * Each filing's platform held against its contest's positions on the day it
+ * was filed. The platform is fixed then, while the positions follow the law
+ * in force and the latest budget, which play changes later (a state law
+ * giving towns a question, a new year's budget). Filings already made when
+ * the world opens are checked at once; later ones as they are filed.
+ */
+function checkAtFiling(api: CoreAPI, where: string) {
+  const found = { stances: 0, misses: [] as string[] };
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  const check = (filingId: string) => {
+    const filing = elections.table("filings").get(filingId) as unknown as
+      FilingRow | undefined;
+    const contest =
+      filing &&
+      (elections.table("contests").get(filing.contestId) as unknown as
+        ContestRow | undefined);
+    if (!filing || !contest) return;
+    const allowed = contestPositions(api, contest);
+    for (const stance of parsePlatform(filing.platform)) {
+      found.stances += 1;
+      if (!allowed.includes(stance.question))
+        found.misses.push(
+          `${where}: filing ${filing.id} states ${stance.question} on ${api.state.date}, not a position of ${contest.officeId}`,
+        );
+    }
+  };
+  for (const row of elections.table("filings").rows() as unknown as FilingRow[])
+    check(row.id);
+  api.subscribeEvents(
+    `contest-positions-at-filing:${where}`,
+    ["candidate-filed"],
+    (_, event) => check(event.id.slice("candidate-filed:".length)),
+  );
+  return found;
+}
+
 /** One contest of each wanted kind of office in the world, or what is missing. */
 function contestsOfKinds(api: CoreAPI) {
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
@@ -132,6 +169,7 @@ it("a contest lists only the questions its seat's government decides, and a play
       placeKey: place.key,
     });
     const api = coreAPI(core);
+    const atFiling = checkAtFiling(api, where);
     const found = contestsOfKinds(api);
     const missing = Object.entries(found)
       .filter(([, hit]) => !hit)
@@ -266,18 +304,16 @@ it("a contest lists only the questions its seat's government decides, and a play
       tried.push(`${where}: no filing stated a position in ${day} days`);
       continue;
     }
-    let checked = 0;
-    for (const filing of stated) {
-      const contest = contests.get(filing.contestId)!;
-      const allowed = contestPositions(api, contest);
-      for (const stance of parsePlatform(filing.platform)) {
-        expect(
-          allowed,
-          `${where}: filing ${filing.id} states ${stance.question}, not a position of ${contest.officeId}`,
-        ).toContain(stance.question);
-        checked += 1;
-      }
-    }
+    // Each platform as it was filed, against its contest's positions that day.
+    expect(atFiling.misses, where).toEqual([]);
+    const checked = atFiling.stances;
+    // What play changed after filing: stances their contest no longer lists.
+    const drifted = stated.flatMap((filing) => {
+      const allowed = contestPositions(api, contests.get(filing.contestId)!);
+      return parsePlatform(filing.platform)
+        .filter((stance) => !allowed.includes(stance.question))
+        .map((stance) => `${filing.id} ${stance.question}`);
+    });
     const line = (name: string, hit: NonNullable<(typeof found)["council"]>) =>
       `  ${name} ${hit.office.id} (${hit.office.level}, contest ${hit.contest.id}): ${lists[name as keyof typeof lists].length} positions ${JSON.stringify(
         lists[name as keyof typeof lists].map((q) => q.split(":").pop()),
@@ -289,7 +325,7 @@ it("a contest lists only the questions its seat's government decides, and a play
         .map(([name, hit]) => line(name, hit!))
         .join(
           "\n",
-        )}\n  played ${day} days: ${stated.length} filings stated ${checked} positions, all in their contest's list\n`,
+        )}\n  played ${day} days: ${stated.length} filings stated ${checked} positions, each in its contest's list the day it was filed; ${drifted.length} no longer listed by then${drifted.length ? ` (e.g. ${drifted[0]})` : ""}\n`,
     );
     return;
   }
@@ -326,6 +362,7 @@ function noQuestionTown(place: ReturnType<typeof drawPlace>): string | null {
     placeKey: place.key,
   });
   const api = coreAPI(core);
+  const atFiling = checkAtFiling(api, where);
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const officeOf = (contest: ContestRow) =>
     offices.get(contest.officeId) as unknown as OfficeRecord;
@@ -413,13 +450,10 @@ function noQuestionTown(place: ReturnType<typeof drawPlace>): string | null {
   if (!chosen.event)
     return `${where}: ${filing.id} offered no campaign event when seen, its race held ${contest.electionDate}, and no other local filing with a budget line offered one in ${day} days`;
   const stances = parsePlatform(filing.platform);
-  // The platform holds only its own contest's positions.
+  // Every platform holds only its own contest's positions as they stood the
+  // day it was filed; the positions follow the law and the budget after.
+  expect(atFiling.misses, where).toEqual([]);
   const positions = contestPositions(api, contest);
-  for (const stance of stances)
-    expect(
-      positions,
-      `${where}: ${filing.id} states ${stance.question}, not a position of ${contest.officeId}`,
-    ).toContain(stance.question);
   // The campaign event opens on a platform with a position; only the
   // venue's price can keep it shut.
   const event = chosen!.event;

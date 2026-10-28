@@ -1,0 +1,13 @@
+{
+  "law.effect-learned": [
+    "src/core2/budgets-treasury.ts",
+    "src/core2/estates.ts",
+    "src/core2/housing-occupancy.ts",
+    "src/core2/modules/place-prices.ts"
+  ],
+  "took-office": [
+    "src/core2/modules/offices.ts",
+    "src/core2/modules/voting.ts",
+    "src/core2/office-day-state.ts"
+  ]
+}

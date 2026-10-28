@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/m111-long
-pr:
+pr: #6456
 blocked-on:
 lead: speed
 source: added with npm run pool -- add
