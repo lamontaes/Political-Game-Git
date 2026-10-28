@@ -6,11 +6,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/player-stops
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T00:31:17.093Z
 ---
 
 **What.** On main at 7f526c5105, npx vitest run src/bench/player.test.ts fails 3 of 12. 'lets the character answer its own choices when the day advances' expects more than one self-chosen answer and gets 0; 'stops a calendar jump at a big moment's own time while the character chooses for itself' stops at 2021-01-03 00:00 instead of the moment's own time; 'Week advances seven days and a director stop ends it on its own day' gets a stop where it expects a completed week. The cases build their own fixture world, so a change in what the director stages or stops on has outrun them; the laws-and-effects lead found it while running the bench tests for the ask-before-the-roll branch, where the same three fail the same way.
