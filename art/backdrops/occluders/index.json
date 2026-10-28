@@ -5295,188 +5295,21 @@
     "debate-stage": {
       "parent": "debate-stage__midday.jpg",
       "parentSha256": "0be51f098db779cf7bb412e01e6179139a83aad00c9d7d7aa829d4e3ae98641e",
+      "from": "art/people-rooms/spots/debate-stage.json",
       "spots": {
         "debate-stage:spot:0": {
           "file": "debate-stage/0.png",
-          "leftPercent": 21.77,
-          "topPercent": 13.603,
-          "widthPercent": 15.431,
-          "heightPercent": 27.736
+          "leftPercent": 20.574,
+          "topPercent": 16.153,
+          "widthPercent": 11.005,
+          "heightPercent": 49.097
         },
         "debate-stage:spot:1": {
           "file": "debate-stage/1.png",
-          "leftPercent": 62.261,
-          "topPercent": 13.603,
-          "widthPercent": 15.431,
-          "heightPercent": 27.736
-        },
-        "debate-stage:spot:3": {
-          "file": "debate-stage/3.png",
-          "leftPercent": 32.955,
-          "topPercent": 58.448,
-          "widthPercent": 1.495,
-          "heightPercent": 1.913
-        },
-        "debate-stage:spot:6": {
-          "file": "debate-stage/6.png",
-          "leftPercent": 67.943,
-          "topPercent": 54.729,
-          "widthPercent": 5.502,
-          "heightPercent": 21.573
-        },
-        "debate-stage:spot:7": {
-          "file": "debate-stage/7.png",
-          "leftPercent": 4.605,
-          "topPercent": 54.729,
-          "widthPercent": 22.787,
-          "heightPercent": 34.538
-        },
-        "debate-stage:spot:8": {
-          "file": "debate-stage/8.png",
-          "leftPercent": 18.6,
-          "topPercent": 51.86,
-          "widthPercent": 22.787,
-          "heightPercent": 37.407
-        },
-        "debate-stage:spot:9": {
-          "file": "debate-stage/9.png",
-          "leftPercent": 32.596,
-          "topPercent": 45.271,
-          "widthPercent": 22.787,
-          "heightPercent": 43.996
-        },
-        "debate-stage:spot:10": {
-          "file": "debate-stage/10.png",
-          "leftPercent": 72.608,
-          "topPercent": 54.623,
-          "widthPercent": 22.787,
-          "heightPercent": 34.644
-        },
-        "debate-stage:spot:11": {
-          "file": "debate-stage/11.png",
-          "leftPercent": 58.612,
-          "topPercent": 51.753,
-          "widthPercent": 22.787,
-          "heightPercent": 37.513
-        },
-        "debate-stage:spot:12": {
-          "file": "debate-stage/12.png",
-          "leftPercent": 44.617,
-          "topPercent": 45.271,
-          "widthPercent": 22.787,
-          "heightPercent": 43.996
-        },
-        "debate-stage:spot:13": {
-          "file": "debate-stage/13.png",
-          "leftPercent": 0,
-          "topPercent": 59.511,
-          "widthPercent": 27.871,
-          "heightPercent": 40.489
-        },
-        "debate-stage:spot:14": {
-          "file": "debate-stage/14.png",
-          "leftPercent": 8.014,
-          "topPercent": 59.617,
-          "widthPercent": 27.931,
-          "heightPercent": 40.383
-        },
-        "debate-stage:spot:15": {
-          "file": "debate-stage/15.png",
-          "leftPercent": 20.036,
-          "topPercent": 51.753,
-          "widthPercent": 27.931,
-          "heightPercent": 48.247
-        },
-        "debate-stage:spot:16": {
-          "file": "debate-stage/16.png",
-          "leftPercent": 72.129,
-          "topPercent": 59.617,
-          "widthPercent": 27.871,
-          "heightPercent": 40.383
-        },
-        "debate-stage:spot:17": {
-          "file": "debate-stage/17.png",
-          "leftPercent": 64.055,
-          "topPercent": 59.617,
-          "widthPercent": 27.931,
-          "heightPercent": 40.383
-        },
-        "debate-stage:spot:18": {
-          "file": "debate-stage/18.png",
-          "leftPercent": 52.033,
-          "topPercent": 51.753,
-          "widthPercent": 27.931,
-          "heightPercent": 48.247
-        },
-        "debate-stage:spot:19": {
-          "file": "debate-stage/19.png",
-          "leftPercent": 0,
-          "topPercent": 66.1,
-          "widthPercent": 20.634,
-          "heightPercent": 33.9
-        },
-        "debate-stage:spot:20": {
-          "file": "debate-stage/20.png",
-          "leftPercent": 0,
-          "topPercent": 66.1,
-          "widthPercent": 20.574,
-          "heightPercent": 33.9
-        },
-        "debate-stage:spot:21": {
-          "file": "debate-stage/21.png",
-          "leftPercent": 8.732,
-          "topPercent": 59.617,
-          "widthPercent": 32.536,
-          "heightPercent": 40.383
-        },
-        "debate-stage:spot:22": {
-          "file": "debate-stage/22.png",
-          "leftPercent": 18.72,
-          "topPercent": 55.685,
-          "widthPercent": 32.536,
-          "heightPercent": 44.315
-        },
-        "debate-stage:spot:23": {
-          "file": "debate-stage/23.png",
-          "leftPercent": 28.708,
-          "topPercent": 55.685,
-          "widthPercent": 32.596,
-          "heightPercent": 44.315
-        },
-        "debate-stage:spot:24": {
-          "file": "debate-stage/24.png",
-          "leftPercent": 79.605,
-          "topPercent": 66.1,
-          "widthPercent": 20.395,
-          "heightPercent": 33.9
-        },
-        "debate-stage:spot:25": {
-          "file": "debate-stage/25.png",
-          "leftPercent": 80.562,
-          "topPercent": 66.312,
-          "widthPercent": 19.438,
-          "heightPercent": 33.688
-        },
-        "debate-stage:spot:26": {
-          "file": "debate-stage/26.png",
-          "leftPercent": 58.732,
-          "topPercent": 59.617,
-          "widthPercent": 32.536,
-          "heightPercent": 40.383
-        },
-        "debate-stage:spot:27": {
-          "file": "debate-stage/27.png",
-          "leftPercent": 48.744,
-          "topPercent": 55.685,
-          "widthPercent": 32.536,
-          "heightPercent": 44.315
-        },
-        "debate-stage:spot:28": {
-          "file": "debate-stage/28.png",
-          "leftPercent": 38.696,
-          "topPercent": 55.685,
-          "widthPercent": 32.596,
-          "heightPercent": 44.315
+          "leftPercent": 68.66,
+          "topPercent": 16.153,
+          "widthPercent": 10.945,
+          "heightPercent": 49.203
         }
       }
     },
@@ -7115,62 +6948,35 @@
     "governor-office": {
       "parent": "governor-office__midday.jpg",
       "parentSha256": "01833d6da4be7a85855a4defd7c89c79a6fe38836df385ca927676860e823bfc",
+      "from": "art/people-rooms/spots/governor-office.json",
       "spots": {
-        "governor-office:spot:0": {
-          "file": "governor-office/0.png",
-          "leftPercent": 20.275,
-          "topPercent": 40.17,
-          "widthPercent": 19.438,
-          "heightPercent": 33.794
-        },
         "governor-office:spot:1": {
           "file": "governor-office/1.png",
-          "leftPercent": 55.622,
-          "topPercent": 42.614,
-          "widthPercent": 20.754,
-          "heightPercent": 35.707
-        },
-        "governor-office:spot:10": {
-          "file": "governor-office/2.png",
-          "leftPercent": 66.567,
-          "topPercent": 49.841,
-          "widthPercent": 20.813,
-          "heightPercent": 28.48
+          "leftPercent": 22.309,
+          "topPercent": 40.383,
+          "widthPercent": 15.371,
+          "heightPercent": 30.074
         },
         "governor-office:spot:2": {
-          "file": "governor-office/3.png",
-          "leftPercent": 75.12,
-          "topPercent": 65.569,
-          "widthPercent": 24.88,
-          "heightPercent": 25.186
+          "file": "governor-office/2.png",
+          "leftPercent": 62.62,
+          "topPercent": 42.508,
+          "widthPercent": 11.842,
+          "heightPercent": 35.175
         },
         "governor-office:spot:3": {
-          "file": "governor-office/4.png",
-          "leftPercent": 43.421,
-          "topPercent": 40.489,
-          "widthPercent": 1.256,
-          "heightPercent": 11.902
+          "file": "governor-office/3.png",
+          "leftPercent": 72.01,
+          "topPercent": 41.445,
+          "widthPercent": 10.945,
+          "heightPercent": 26.142
         },
-        "governor-office:spot:6": {
-          "file": "governor-office/7.png",
-          "leftPercent": 30.263,
-          "topPercent": 46.759,
-          "widthPercent": 2.691,
-          "heightPercent": 23.592
-        },
-        "governor-office:spot:8": {
-          "file": "governor-office/9.png",
-          "leftPercent": 0.598,
-          "topPercent": 46.44,
-          "widthPercent": 28.828,
-          "heightPercent": 53.56
-        },
-        "governor-office:spot:9": {
-          "file": "governor-office/10.png",
-          "leftPercent": 15.311,
-          "topPercent": 46.546,
-          "widthPercent": 29.366,
-          "heightPercent": 53.454
+        "governor-office:spot:5": {
+          "file": "governor-office/5.png",
+          "leftPercent": 7.177,
+          "topPercent": 46.227,
+          "widthPercent": 18.062,
+          "heightPercent": 37.194
         }
       }
     },
@@ -8110,36 +7916,8 @@
     "house-bedroom": {
       "parent": "house-bedroom__midday.jpg",
       "parentSha256": "3f781faf02d59f60208441029ccc993d9cb6cd75ffe4886896c5f5d955a87fbd",
-      "spots": {
-        "house-bedroom:spot:1": {
-          "file": "house-bedroom/1.png",
-          "leftPercent": 14.833,
-          "topPercent": 31.243,
-          "widthPercent": 22.368,
-          "heightPercent": 39.107
-        },
-        "house-bedroom:spot:2": {
-          "file": "house-bedroom/2.png",
-          "leftPercent": 85.706,
-          "topPercent": 30.074,
-          "widthPercent": 7.476,
-          "heightPercent": 40.276
-        },
-        "house-bedroom:spot:3": {
-          "file": "house-bedroom/3.png",
-          "leftPercent": 21.471,
-          "topPercent": 81.615,
-          "widthPercent": 41.029,
-          "heightPercent": 18.385
-        },
-        "house-bedroom:spot:4": {
-          "file": "house-bedroom/4.png",
-          "leftPercent": 37.5,
-          "topPercent": 81.722,
-          "widthPercent": 41.029,
-          "heightPercent": 18.278
-        }
-      }
+      "from": "art/people-rooms/spots/house-bedroom.json",
+      "spots": {}
     },
     "house-gulf-coast-raised": {
       "parent": "house-gulf-coast-raised__midday.jpg",
@@ -8293,29 +8071,8 @@
     "house-suburban-living": {
       "parent": "house-suburban-living__midday.jpg",
       "parentSha256": "9a9b40c414262eed5e2cc6403a593a876bf10bddda568d43589f878b547db181",
-      "spots": {
-        "house-suburban-living:spot:1": {
-          "file": "house-suburban-living/1.png",
-          "leftPercent": 18.182,
-          "topPercent": 43.571,
-          "widthPercent": 29.665,
-          "heightPercent": 56.111
-        },
-        "house-suburban-living:spot:2": {
-          "file": "house-suburban-living/2.png",
-          "leftPercent": 33.134,
-          "topPercent": 56.854,
-          "widthPercent": 25.718,
-          "heightPercent": 34.538
-        },
-        "house-suburban-living:spot:3": {
-          "file": "house-suburban-living/3.png",
-          "leftPercent": 0,
-          "topPercent": 85.228,
-          "widthPercent": 43.481,
-          "heightPercent": 14.772
-        }
-      }
+      "from": "art/people-rooms/spots/house-suburban-living.json",
+      "spots": {}
     },
     "hurricane-boarded-street": {
       "parent": "hurricane-boarded-street__midday.jpg",
@@ -8762,20 +8519,205 @@
     "national-convention-floor": {
       "parent": "national-convention-floor__midday.jpg",
       "parentSha256": "5f3e8f987d04698732df9bc29bdb95764d5320a6803b4b9b50ade11a1050011c",
+      "from": "art/people-rooms/spots/national-convention-floor.json",
       "spots": {
-        "national-convention-floor:spot:6": {
-          "file": "national-convention-floor/6.png",
-          "leftPercent": 80.323,
-          "topPercent": 73.751,
-          "widthPercent": 19.677,
-          "heightPercent": 26.249
+        "national-convention-floor:spot:3": {
+          "file": "national-convention-floor/3.png",
+          "leftPercent": 79.187,
+          "topPercent": 47.503,
+          "widthPercent": 5.203,
+          "heightPercent": 6.057
+        },
+        "national-convention-floor:spot:8": {
+          "file": "national-convention-floor/8.png",
+          "leftPercent": 35.167,
+          "topPercent": 48.672,
+          "widthPercent": 4.426,
+          "heightPercent": 7.014
+        },
+        "national-convention-floor:spot:9": {
+          "file": "national-convention-floor/9.png",
+          "leftPercent": 73.325,
+          "topPercent": 49.628,
+          "widthPercent": 3.409,
+          "heightPercent": 5.526
+        },
+        "national-convention-floor:spot:10": {
+          "file": "national-convention-floor/10.png",
+          "leftPercent": 23.206,
+          "topPercent": 55.048,
+          "widthPercent": 21.531,
+          "heightPercent": 44.952
+        },
+        "national-convention-floor:spot:11": {
+          "file": "national-convention-floor/11.png",
+          "leftPercent": 18.541,
+          "topPercent": 47.715,
+          "widthPercent": 1.974,
+          "heightPercent": 3.082
+        },
+        "national-convention-floor:spot:12": {
+          "file": "national-convention-floor/12.png",
+          "leftPercent": 54.605,
+          "topPercent": 47.928,
+          "widthPercent": 3.409,
+          "heightPercent": 6.695
+        },
+        "national-convention-floor:spot:16": {
+          "file": "national-convention-floor/16.png",
+          "leftPercent": 8.313,
+          "topPercent": 48.14,
+          "widthPercent": 4.366,
+          "heightPercent": 9.245
+        },
+        "national-convention-floor:spot:17": {
+          "file": "national-convention-floor/17.png",
+          "leftPercent": 11.782,
+          "topPercent": 48.565,
+          "widthPercent": 2.512,
+          "heightPercent": 4.251
+        },
+        "national-convention-floor:spot:18": {
+          "file": "national-convention-floor/18.png",
+          "leftPercent": 5.861,
+          "topPercent": 48.14,
+          "widthPercent": 2.093,
+          "heightPercent": 3.932
+        },
+        "national-convention-floor:spot:19": {
+          "file": "national-convention-floor/19.png",
+          "leftPercent": 87.919,
+          "topPercent": 49.203,
+          "widthPercent": 3.05,
+          "heightPercent": 4.676
+        },
+        "national-convention-floor:spot:20": {
+          "file": "national-convention-floor/20.png",
+          "leftPercent": 91.687,
+          "topPercent": 48.247,
+          "widthPercent": 5.562,
+          "heightPercent": 11.69
+        },
+        "national-convention-floor:spot:22": {
+          "file": "national-convention-floor/22.png",
+          "leftPercent": 76.495,
+          "topPercent": 50.903,
+          "widthPercent": 5.263,
+          "heightPercent": 7.758
+        },
+        "national-convention-floor:spot:23": {
+          "file": "national-convention-floor/23.png",
+          "leftPercent": 0,
+          "topPercent": 49.416,
+          "widthPercent": 2.871,
+          "heightPercent": 5.101
+        },
+        "national-convention-floor:spot:24": {
+          "file": "national-convention-floor/24.png",
+          "leftPercent": 23.146,
+          "topPercent": 49.628,
+          "widthPercent": 9.031,
+          "heightPercent": 18.704
+        },
+        "national-convention-floor:spot:25": {
+          "file": "national-convention-floor/25.png",
+          "leftPercent": 3.947,
+          "topPercent": 49.734,
+          "widthPercent": 3.469,
+          "heightPercent": 5.42
+        },
+        "national-convention-floor:spot:26": {
+          "file": "national-convention-floor/26.png",
+          "leftPercent": 17.344,
+          "topPercent": 53.348,
+          "widthPercent": 7.057,
+          "heightPercent": 10.521
+        },
+        "national-convention-floor:spot:27": {
+          "file": "national-convention-floor/27.png",
+          "leftPercent": 82.835,
+          "topPercent": 55.898,
+          "widthPercent": 13.337,
+          "heightPercent": 23.379
+        },
+        "national-convention-floor:spot:28": {
+          "file": "national-convention-floor/28.png",
+          "leftPercent": 7.177,
+          "topPercent": 57.386,
+          "widthPercent": 9.27,
+          "heightPercent": 14.984
+        },
+        "national-convention-floor:spot:29": {
+          "file": "national-convention-floor/29.png",
+          "leftPercent": 19.737,
+          "topPercent": 60.361,
+          "widthPercent": 12.022,
+          "heightPercent": 17.535
+        },
+        "national-convention-floor:spot:30": {
+          "file": "national-convention-floor/30.png",
+          "leftPercent": 65.73,
+          "topPercent": 60.468,
+          "widthPercent": 14.354,
+          "heightPercent": 28.055
+        },
+        "national-convention-floor:spot:31": {
+          "file": "national-convention-floor/31.png",
+          "leftPercent": 0.778,
+          "topPercent": 60.361,
+          "widthPercent": 11.483,
+          "heightPercent": 17.535
+        },
+        "national-convention-floor:spot:32": {
+          "file": "national-convention-floor/32.png",
+          "leftPercent": 6.34,
+          "topPercent": 71.413,
+          "widthPercent": 21.531,
+          "heightPercent": 28.587
+        },
+        "national-convention-floor:spot:33": {
+          "file": "national-convention-floor/33.png",
+          "leftPercent": 77.392,
+          "topPercent": 71.413,
+          "widthPercent": 16.447,
+          "heightPercent": 28.587
+        },
+        "national-convention-floor:spot:36": {
+          "file": "national-convention-floor/36.png",
+          "leftPercent": 26.196,
+          "topPercent": 66.95,
+          "widthPercent": 7.416,
+          "heightPercent": 18.81
+        },
+        "national-convention-floor:spot:38": {
+          "file": "national-convention-floor/38.png",
+          "leftPercent": 20.754,
+          "topPercent": 97.662,
+          "widthPercent": 5.084,
+          "heightPercent": 2.338
+        },
+        "national-convention-floor:spot:39": {
+          "file": "national-convention-floor/39.png",
+          "leftPercent": 74.522,
+          "topPercent": 97.662,
+          "widthPercent": 4.725,
+          "heightPercent": 2.338
         }
       }
     },
     "national-convention-stage": {
       "parent": "national-convention-stage__midday.jpg",
       "parentSha256": "e375c59e0672368a2758cb1022e2021b67ad30571e0796c8dc27de74abf473f4",
-      "spots": {}
+      "from": "art/people-rooms/spots/national-convention-stage.json",
+      "spots": {
+        "national-convention-stage:spot:0": {
+          "file": "national-convention-stage/0.png",
+          "leftPercent": 8.014,
+          "topPercent": 63.868,
+          "widthPercent": 18.541,
+          "heightPercent": 36.132
+        }
+      }
     },
     "newspaper-newsroom": {
       "parent": "newspaper-newsroom__midday.jpg",
@@ -9003,10 +8945,10 @@
       "spots": {
         "oval-office-resolute:spot:2": {
           "file": "oval-office-resolute/2.png",
-          "leftPercent": 45.096,
-          "topPercent": 43.996,
-          "widthPercent": 10.167,
-          "heightPercent": 21.785
+          "leftPercent": 44.557,
+          "topPercent": 44.208,
+          "widthPercent": 11.423,
+          "heightPercent": 21.679
         }
       }
     },
@@ -10087,34 +10029,14 @@
     "rally-courthouse-square": {
       "parent": "rally-courthouse-square__midday.jpg",
       "parentSha256": "17e841046e30c911c58de1277efed81b47b3a0d4c6587e110c97f473cd5be053",
+      "from": "art/people-rooms/spots/rally-courthouse-square.json",
       "spots": {
         "rally-courthouse-square:spot:0": {
           "file": "rally-courthouse-square/0.png",
-          "leftPercent": 23.744,
-          "topPercent": 53.985,
-          "widthPercent": 5.502,
-          "heightPercent": 6.376
-        },
-        "rally-courthouse-square:spot:1": {
-          "file": "rally-courthouse-square/1.png",
-          "leftPercent": 12.081,
-          "topPercent": 53.56,
-          "widthPercent": 5.861,
-          "heightPercent": 7.333
-        },
-        "rally-courthouse-square:spot:2": {
-          "file": "rally-courthouse-square/2.png",
-          "leftPercent": 31.041,
-          "topPercent": 50.159,
-          "widthPercent": 5.921,
-          "heightPercent": 10.733
-        },
-        "rally-courthouse-square:spot:9": {
-          "file": "rally-courthouse-square/9.png",
-          "leftPercent": 78.888,
-          "topPercent": 76.302,
-          "widthPercent": 21.112,
-          "heightPercent": 23.698
+          "leftPercent": 21.77,
+          "topPercent": 51.328,
+          "widthPercent": 5.144,
+          "heightPercent": 11.265
         }
       }
     },
@@ -10175,55 +10097,154 @@
     "rally-stage": {
       "parent": "rally-stage__midday.jpg",
       "parentSha256": "0b4ebd4ae74fb4dd4d2f6806bdd21a864f0ef1c418443cd987dc474020444231",
+      "from": "art/people-rooms/spots/rally-stage.json",
       "spots": {
         "rally-stage:spot:0": {
           "file": "rally-stage/0.png",
-          "leftPercent": 16.507,
-          "topPercent": 32.412,
-          "widthPercent": 18.002,
-          "heightPercent": 30.712
+          "leftPercent": 15.251,
+          "topPercent": 37.407,
+          "widthPercent": 10.407,
+          "heightPercent": 49.097
+        },
+        "rally-stage:spot:1": {
+          "file": "rally-stage/1.png",
+          "leftPercent": 93.959,
+          "topPercent": 39.745,
+          "widthPercent": 4.007,
+          "heightPercent": 18.385
+        },
+        "rally-stage:spot:2": {
+          "file": "rally-stage/2.png",
+          "leftPercent": 84.27,
+          "topPercent": 40.276,
+          "widthPercent": 7.536,
+          "heightPercent": 18.172
+        },
+        "rally-stage:spot:3": {
+          "file": "rally-stage/3.png",
+          "leftPercent": 73.864,
+          "topPercent": 46.44,
+          "widthPercent": 7.955,
+          "heightPercent": 14.134
+        },
+        "rally-stage:spot:4": {
+          "file": "rally-stage/4.png",
+          "leftPercent": 63.397,
+          "topPercent": 45.165,
+          "widthPercent": 2.931,
+          "heightPercent": 16.153
+        },
+        "rally-stage:spot:5": {
+          "file": "rally-stage/5.png",
+          "leftPercent": 76.854,
+          "topPercent": 40.701,
+          "widthPercent": 12.5,
+          "heightPercent": 45.165
         },
         "rally-stage:spot:6": {
           "file": "rally-stage/6.png",
-          "leftPercent": 81.699,
-          "topPercent": 46.652,
-          "widthPercent": 4.785,
-          "heightPercent": 2.869
+          "leftPercent": 58.134,
+          "topPercent": 45.271,
+          "widthPercent": 7.356,
+          "heightPercent": 17.216
         },
         "rally-stage:spot:7": {
           "file": "rally-stage/7.png",
-          "leftPercent": 80.981,
-          "topPercent": 46.334,
-          "widthPercent": 8.493,
-          "heightPercent": 1.275
+          "leftPercent": 93.84,
+          "topPercent": 45.484,
+          "widthPercent": 6.16,
+          "heightPercent": 17.322
         },
         "rally-stage:spot:8": {
           "file": "rally-stage/8.png",
-          "leftPercent": 81.519,
-          "topPercent": 46.227,
-          "widthPercent": 10.945,
-          "heightPercent": 11.371
+          "leftPercent": 89.414,
+          "topPercent": 49.628,
+          "widthPercent": 10.586,
+          "heightPercent": 47.184
         },
         "rally-stage:spot:9": {
           "file": "rally-stage/9.png",
-          "leftPercent": 84.569,
-          "topPercent": 45.909,
-          "widthPercent": 10.885,
-          "heightPercent": 7.758
+          "leftPercent": 76.794,
+          "topPercent": 49.097,
+          "widthPercent": 12.022,
+          "heightPercent": 39.32
         },
         "rally-stage:spot:10": {
           "file": "rally-stage/10.png",
-          "leftPercent": 87.56,
-          "topPercent": 45.696,
-          "widthPercent": 10.885,
-          "heightPercent": 3.932
+          "leftPercent": 69.797,
+          "topPercent": 49.522,
+          "widthPercent": 8.134,
+          "heightPercent": 26.78
         },
         "rally-stage:spot:11": {
           "file": "rally-stage/11.png",
-          "leftPercent": 89.115,
-          "topPercent": 42.402,
-          "widthPercent": 10.885,
-          "heightPercent": 3.188
+          "leftPercent": 55.263,
+          "topPercent": 50.584,
+          "widthPercent": 13.098,
+          "heightPercent": 42.614
+        },
+        "rally-stage:spot:12": {
+          "file": "rally-stage/12.png",
+          "leftPercent": 74.581,
+          "topPercent": 52.816,
+          "widthPercent": 14.892,
+          "heightPercent": 47.184
+        },
+        "rally-stage:spot:13": {
+          "file": "rally-stage/13.png",
+          "leftPercent": 88.337,
+          "topPercent": 52.497,
+          "widthPercent": 4.904,
+          "heightPercent": 15.94
+        },
+        "rally-stage:spot:14": {
+          "file": "rally-stage/14.png",
+          "leftPercent": 71.89,
+          "topPercent": 53.241,
+          "widthPercent": 4.785,
+          "heightPercent": 15.303
+        },
+        "rally-stage:spot:15": {
+          "file": "rally-stage/15.png",
+          "leftPercent": 62.859,
+          "topPercent": 51.966,
+          "widthPercent": 10.108,
+          "heightPercent": 34.113
+        },
+        "rally-stage:spot:16": {
+          "file": "rally-stage/16.png",
+          "leftPercent": 56.459,
+          "topPercent": 53.454,
+          "widthPercent": 9.151,
+          "heightPercent": 29.756
+        },
+        "rally-stage:spot:17": {
+          "file": "rally-stage/17.png",
+          "leftPercent": 90.969,
+          "topPercent": 55.685,
+          "widthPercent": 3.23,
+          "heightPercent": 10.733
+        },
+        "rally-stage:spot:18": {
+          "file": "rally-stage/18.png",
+          "leftPercent": 72.189,
+          "topPercent": 55.898,
+          "widthPercent": 3.23,
+          "heightPercent": 11.052
+        },
+        "rally-stage:spot:19": {
+          "file": "rally-stage/19.png",
+          "leftPercent": 64.533,
+          "topPercent": 55.048,
+          "widthPercent": 2.512,
+          "heightPercent": 8.927
+        },
+        "rally-stage:spot:20": {
+          "file": "rally-stage/20.png",
+          "leftPercent": 65.789,
+          "topPercent": 55.792,
+          "widthPercent": 2.691,
+          "heightPercent": 9.352
         }
       }
     },
@@ -10234,80 +10255,73 @@
       "spots": {
         "rally-town-square:spot:0": {
           "file": "rally-town-square/0.png",
-          "leftPercent": 64.833,
+          "leftPercent": 63.278,
           "topPercent": 52.285,
-          "widthPercent": 5.263,
+          "widthPercent": 8.373,
           "heightPercent": 26.674
         },
         "rally-town-square:spot:3": {
           "file": "rally-town-square/3.png",
-          "leftPercent": 43.72,
+          "leftPercent": 39.354,
           "topPercent": 66.844,
-          "widthPercent": 5.323,
+          "widthPercent": 14.055,
           "heightPercent": 33.156
         },
         "rally-town-square:spot:5": {
           "file": "rally-town-square/5.png",
-          "leftPercent": 41.806,
+          "leftPercent": 40.73,
           "topPercent": 68.757,
-          "widthPercent": 1.914,
+          "widthPercent": 2.99,
           "heightPercent": 14.878
         },
         "rally-town-square:spot:13": {
           "file": "rally-town-square/13.png",
-          "leftPercent": 48.086,
+          "leftPercent": 44.976,
           "topPercent": 65.675,
-          "widthPercent": 3.947,
+          "widthPercent": 10.167,
           "heightPercent": 25.824
         },
         "rally-town-square:spot:16": {
           "file": "rally-town-square/16.png",
-          "leftPercent": 55.682,
+          "leftPercent": 54.964,
           "topPercent": 66.312,
-          "widthPercent": 2.093,
+          "widthPercent": 3.529,
           "heightPercent": 6.376
         },
         "rally-town-square:spot:19": {
           "file": "rally-town-square/19.png",
-          "leftPercent": 69.498,
+          "leftPercent": 68.72,
           "topPercent": 66.1,
-          "widthPercent": 1.675,
+          "widthPercent": 3.23,
           "heightPercent": 7.12
         },
         "rally-town-square:spot:20": {
           "file": "rally-town-square/20.png",
-          "leftPercent": 51.914,
+          "leftPercent": 51.316,
           "topPercent": 65.356,
-          "widthPercent": 1.555,
+          "widthPercent": 2.751,
           "heightPercent": 6.801
         },
         "rally-town-square:spot:21": {
           "file": "rally-town-square/21.png",
-          "leftPercent": 53.828,
+          "leftPercent": 53.289,
           "topPercent": 65.356,
-          "widthPercent": 1.615,
+          "widthPercent": 2.691,
           "heightPercent": 6.057
         },
         "rally-town-square:spot:22": {
           "file": "rally-town-square/22.png",
-          "leftPercent": 57.656,
+          "leftPercent": 57.177,
           "topPercent": 63.974,
-          "widthPercent": 1.196,
+          "widthPercent": 2.153,
           "heightPercent": 5.951
         },
         "rally-town-square:spot:23": {
           "file": "rally-town-square/23.png",
-          "leftPercent": 59.39,
+          "leftPercent": 57.476,
           "topPercent": 64.612,
-          "widthPercent": 2.452,
+          "widthPercent": 6.28,
           "heightPercent": 16.791
-        },
-        "rally-town-square:spot:podium-0": {
-          "file": "rally-town-square/27.png",
-          "leftPercent": 59.928,
-          "topPercent": 59.936,
-          "widthPercent": 10.108,
-          "heightPercent": 8.82
         }
       }
     },
@@ -14104,6 +14118,7 @@
     "us-capitol-exterior": {
       "parent": "us-capitol-exterior__midday.jpg",
       "parentSha256": "016d3c91f829c637f3c79c7c60f32d5b23b04b0417c6c8103d0ead6aa8be84ca",
+      "from": "art/people-rooms/spots/us-capitol-exterior.json",
       "spots": {}
     },
     "us-house-floor": {
@@ -14113,653 +14128,646 @@
       "spots": {
         "us-house-floor:spot:0": {
           "file": "us-house-floor/0.png",
-          "leftPercent": 0.12,
+          "leftPercent": 0,
           "topPercent": 7.333,
-          "widthPercent": 1.914,
+          "widthPercent": 2.273,
           "heightPercent": 5.101
         },
         "us-house-floor:spot:1": {
           "file": "us-house-floor/1.png",
-          "leftPercent": 98.684,
+          "leftPercent": 97.548,
           "topPercent": 7.226,
-          "widthPercent": 1.316,
+          "widthPercent": 2.452,
           "heightPercent": 12.221
         },
         "us-house-floor:spot:2": {
           "file": "us-house-floor/2.png",
-          "leftPercent": 45.156,
+          "leftPercent": 44.737,
           "topPercent": 6.482,
-          "widthPercent": 2.153,
+          "widthPercent": 2.99,
           "heightPercent": 8.183
         },
         "us-house-floor:spot:3": {
           "file": "us-house-floor/3.png",
-          "leftPercent": 52.691,
+          "leftPercent": 52.333,
           "topPercent": 6.376,
-          "widthPercent": 2.213,
+          "widthPercent": 2.931,
           "heightPercent": 7.651
         },
         "us-house-floor:spot:4": {
           "file": "us-house-floor/4.png",
-          "leftPercent": 62.62,
+          "leftPercent": 62.201,
           "topPercent": 6.376,
-          "widthPercent": 2.213,
+          "widthPercent": 3.05,
           "heightPercent": 9.245
         },
         "us-house-floor:spot:5": {
           "file": "us-house-floor/5.png",
-          "leftPercent": 68.301,
+          "leftPercent": 63.278,
           "topPercent": 6.482,
-          "widthPercent": 6.818,
+          "widthPercent": 16.866,
           "heightPercent": 58.555
         },
         "us-house-floor:spot:6": {
           "file": "us-house-floor/6.png",
-          "leftPercent": 97.309,
+          "leftPercent": 96.172,
           "topPercent": 6.695,
-          "widthPercent": 1.495,
+          "widthPercent": 3.768,
           "heightPercent": 13.496
         },
         "us-house-floor:spot:7": {
           "file": "us-house-floor/7.png",
-          "leftPercent": 17.763,
+          "leftPercent": 12.38,
           "topPercent": 11.371,
-          "widthPercent": 6.818,
+          "widthPercent": 17.584,
           "heightPercent": 57.173
         },
         "us-house-floor:spot:8": {
           "file": "us-house-floor/8.png",
-          "leftPercent": 24.462,
+          "leftPercent": 24.282,
           "topPercent": 6.482,
-          "widthPercent": 1.794,
+          "widthPercent": 1.974,
           "heightPercent": 7.758
         },
         "us-house-floor:spot:9": {
           "file": "us-house-floor/9.png",
-          "leftPercent": 26.734,
+          "leftPercent": 26.675,
           "topPercent": 6.376,
-          "widthPercent": 4.725,
+          "widthPercent": 4.844,
           "heightPercent": 7.864
         },
         "us-house-floor:spot:10": {
           "file": "us-house-floor/10.png",
-          "leftPercent": 35.167,
+          "leftPercent": 34.749,
           "topPercent": 6.482,
-          "widthPercent": 2.153,
+          "widthPercent": 2.99,
           "heightPercent": 9.139
         },
         "us-house-floor:spot:11": {
           "file": "us-house-floor/11.png",
-          "leftPercent": 38.577,
+          "leftPercent": 38.218,
           "topPercent": 6.482,
-          "widthPercent": 2.093,
+          "widthPercent": 2.811,
           "heightPercent": 7.545
         },
         "us-house-floor:spot:12": {
           "file": "us-house-floor/12.png",
-          "leftPercent": 57.656,
+          "leftPercent": 57.297,
           "topPercent": 6.482,
-          "widthPercent": 2.093,
+          "widthPercent": 2.811,
           "heightPercent": 7.545
         },
         "us-house-floor:spot:13": {
           "file": "us-house-floor/13.png",
-          "leftPercent": 77.751,
+          "leftPercent": 77.333,
           "topPercent": 6.482,
-          "widthPercent": 2.213,
-          "heightPercent": 10.84
+          "widthPercent": 3.05,
+          "heightPercent": 9.458
         },
         "us-house-floor:spot:14": {
           "file": "us-house-floor/14.png",
-          "leftPercent": 41.806,
+          "leftPercent": 41.447,
           "topPercent": 6.482,
-          "widthPercent": 2.033,
+          "widthPercent": 2.751,
           "heightPercent": 7.545
         },
         "us-house-floor:spot:15": {
           "file": "us-house-floor/15.png",
-          "leftPercent": 43.481,
+          "leftPercent": 43.122,
           "topPercent": 6.482,
-          "widthPercent": 2.033,
+          "widthPercent": 2.751,
           "heightPercent": 7.545
         },
         "us-house-floor:spot:16": {
           "file": "us-house-floor/16.png",
-          "leftPercent": 59.39,
+          "leftPercent": 58.971,
           "topPercent": 6.482,
-          "widthPercent": 2.093,
+          "widthPercent": 2.931,
           "heightPercent": 8.183
         },
         "us-house-floor:spot:17": {
           "file": "us-house-floor/17.png",
-          "leftPercent": 61.005,
+          "leftPercent": 60.586,
           "topPercent": 6.482,
-          "widthPercent": 2.213,
+          "widthPercent": 3.05,
           "heightPercent": 9.139
         },
         "us-house-floor:spot:18": {
           "file": "us-house-floor/18.png",
-          "leftPercent": 75.299,
+          "leftPercent": 74.88,
           "topPercent": 6.482,
-          "widthPercent": 1.495,
+          "widthPercent": 2.333,
           "heightPercent": 5.207
         },
         "us-house-floor:spot:19": {
           "file": "us-house-floor/19.png",
-          "leftPercent": 84.809,
+          "leftPercent": 84.51,
           "topPercent": 6.482,
-          "widthPercent": 1.495,
+          "widthPercent": 2.093,
           "heightPercent": 4.782
         },
         "us-house-floor:spot:20": {
           "file": "us-house-floor/20.png",
-          "leftPercent": 7.955,
+          "leftPercent": 7.656,
           "topPercent": 6.376,
-          "widthPercent": 1.376,
+          "widthPercent": 1.974,
           "heightPercent": 4.676
         },
         "us-house-floor:spot:21": {
           "file": "us-house-floor/21.png",
-          "leftPercent": 9.33,
+          "leftPercent": 9.091,
           "topPercent": 8.82,
-          "widthPercent": 0.419,
-          "heightPercent": 5.845
+          "widthPercent": 0.598,
+          "heightPercent": 4.676
         },
         "us-house-floor:spot:22": {
           "file": "us-house-floor/22.png",
-          "leftPercent": 13.636,
+          "leftPercent": 13.218,
           "topPercent": 6.27,
-          "widthPercent": 1.555,
+          "widthPercent": 2.392,
           "heightPercent": 5.42
         },
         "us-house-floor:spot:23": {
           "file": "us-house-floor/23.png",
-          "leftPercent": 36.842,
+          "leftPercent": 36.483,
           "topPercent": 6.482,
-          "widthPercent": 2.093,
+          "widthPercent": 2.811,
           "heightPercent": 8.502
         },
         "us-house-floor:spot:24": {
           "file": "us-house-floor/24.png",
           "leftPercent": 90.132,
           "topPercent": 6.482,
-          "widthPercent": 0.538,
+          "widthPercent": 0.778,
           "heightPercent": 6.801
         },
         "us-house-floor:spot:25": {
           "file": "us-house-floor/25.png",
           "leftPercent": 91.806,
           "topPercent": 8.82,
-          "widthPercent": 0.239,
+          "widthPercent": 0.538,
           "heightPercent": 4.57
-        },
-        "us-house-floor:spot:27": {
-          "file": "us-house-floor/27.png",
-          "leftPercent": 6.579,
-          "topPercent": 11.371,
-          "widthPercent": 1.495,
-          "heightPercent": 5.313
         },
         "us-house-floor:spot:28": {
           "file": "us-house-floor/28.png",
-          "leftPercent": 10.825,
+          "leftPercent": 10.586,
           "topPercent": 8.927,
-          "widthPercent": 0.658,
+          "widthPercent": 0.897,
           "heightPercent": 4.57
         },
         "us-house-floor:spot:29": {
           "file": "us-house-floor/29.png",
           "leftPercent": 88.457,
           "topPercent": 8.82,
-          "widthPercent": 0.778,
+          "widthPercent": 0.957,
           "heightPercent": 4.782
         },
         "us-house-floor:spot:30": {
           "file": "us-house-floor/30.png",
-          "leftPercent": 93.361,
+          "leftPercent": 92.943,
           "topPercent": 8.82,
-          "widthPercent": 1.675,
-          "heightPercent": 7.864
+          "widthPercent": 0.778,
+          "heightPercent": 6.482
         },
         "us-house-floor:spot:31": {
           "file": "us-house-floor/31.png",
-          "leftPercent": 91.866,
+          "leftPercent": 90.849,
           "topPercent": 8.927,
-          "widthPercent": 1.495,
+          "widthPercent": 3.529,
           "heightPercent": 11.265
         },
         "us-house-floor:spot:32": {
           "file": "us-house-floor/32.png",
-          "leftPercent": 79.187,
+          "leftPercent": 78.888,
           "topPercent": 8.927,
-          "widthPercent": 2.691,
+          "widthPercent": 3.289,
           "heightPercent": 7.758
         },
         "us-house-floor:spot:33": {
           "file": "us-house-floor/33.png",
-          "leftPercent": 12.5,
+          "leftPercent": 12.081,
           "topPercent": 8.714,
-          "widthPercent": 1.615,
+          "widthPercent": 2.452,
           "heightPercent": 5.526
         },
         "us-house-floor:spot:34": {
           "file": "us-house-floor/34.png",
-          "leftPercent": 85.825,
+          "leftPercent": 85.526,
           "topPercent": 8.502,
-          "widthPercent": 1.615,
+          "widthPercent": 2.213,
           "heightPercent": 5.101
         },
         "us-house-floor:spot:35": {
           "file": "us-house-floor/35.png",
-          "leftPercent": 76.256,
+          "leftPercent": 75.957,
           "topPercent": 8.927,
-          "widthPercent": 1.495,
+          "widthPercent": 2.093,
           "heightPercent": 4.676
         },
         "us-house-floor:spot:36": {
           "file": "us-house-floor/36.png",
-          "leftPercent": 54.844,
+          "leftPercent": 54.426,
           "topPercent": 8.82,
-          "widthPercent": 1.734,
+          "widthPercent": 2.572,
           "heightPercent": 5.207
         },
         "us-house-floor:spot:37": {
           "file": "us-house-floor/37.png",
-          "leftPercent": 64.773,
+          "leftPercent": 64.354,
           "topPercent": 9.671,
-          "widthPercent": 1.615,
+          "widthPercent": 2.452,
           "heightPercent": 5.313
         },
         "us-house-floor:spot:38": {
           "file": "us-house-floor/38.png",
-          "leftPercent": 33.672,
+          "leftPercent": 33.254,
           "topPercent": 9.564,
-          "widthPercent": 1.555,
+          "widthPercent": 2.392,
           "heightPercent": 5.42
         },
         "us-house-floor:spot:39": {
           "file": "us-house-floor/39.png",
-          "leftPercent": 40.132,
+          "leftPercent": 39.713,
           "topPercent": 8.82,
-          "widthPercent": 1.675,
+          "widthPercent": 2.512,
           "heightPercent": 5.207
         },
         "us-house-floor:spot:40": {
           "file": "us-house-floor/40.png",
-          "leftPercent": 1.555,
+          "leftPercent": 1.136,
           "topPercent": 10.308,
-          "widthPercent": 1.495,
+          "widthPercent": 2.333,
           "heightPercent": 5.632
         },
         "us-house-floor:spot:41": {
           "file": "us-house-floor/41.png",
-          "leftPercent": 24.043,
+          "leftPercent": 23.565,
           "topPercent": 11.371,
-          "widthPercent": 1.734,
+          "widthPercent": 2.691,
           "heightPercent": 5.951
         },
         "us-house-floor:spot:42": {
           "file": "us-house-floor/42.png",
-          "leftPercent": 74.163,
+          "leftPercent": 73.744,
           "topPercent": 11.371,
-          "widthPercent": 1.914,
+          "widthPercent": 2.751,
           "heightPercent": 5.951
         },
         "us-house-floor:spot:43": {
           "file": "us-house-floor/43.png",
           "leftPercent": 0,
           "topPercent": 9.671,
-          "widthPercent": 1.376,
+          "widthPercent": 2.632,
           "heightPercent": 13.603
         },
         "us-house-floor:spot:44": {
           "file": "us-house-floor/44.png",
-          "leftPercent": 98.624,
+          "leftPercent": 97.368,
           "topPercent": 9.671,
-          "widthPercent": 1.376,
+          "widthPercent": 2.632,
           "heightPercent": 13.603
         },
         "us-house-floor:spot:45": {
           "file": "us-house-floor/45.png",
-          "leftPercent": 97.069,
+          "leftPercent": 95.873,
           "topPercent": 10.308,
-          "widthPercent": 1.495,
+          "widthPercent": 3.888,
           "heightPercent": 12.859
         },
         "us-house-floor:spot:46": {
           "file": "us-house-floor/46.png",
-          "leftPercent": 48.565,
+          "leftPercent": 48.086,
           "topPercent": 37.832,
-          "widthPercent": 3.05,
+          "widthPercent": 4.007,
           "heightPercent": 7.97
         },
         "us-house-floor:spot:47": {
           "file": "us-house-floor/47.png",
-          "leftPercent": 39.892,
+          "leftPercent": 39.234,
           "topPercent": 39.851,
-          "widthPercent": 2.572,
+          "widthPercent": 3.888,
           "heightPercent": 8.714
         },
         "us-house-floor:spot:48": {
           "file": "us-house-floor/48.png",
-          "leftPercent": 57.656,
+          "leftPercent": 57.117,
           "topPercent": 39.851,
-          "widthPercent": 2.572,
+          "widthPercent": 3.648,
           "heightPercent": 8.077
         },
         "us-house-floor:spot:49": {
           "file": "us-house-floor/49.png",
-          "leftPercent": 44.318,
+          "leftPercent": 43.66,
           "topPercent": 40.489,
-          "widthPercent": 2.632,
+          "widthPercent": 3.947,
           "heightPercent": 8.608
         },
         "us-house-floor:spot:50": {
           "file": "us-house-floor/50.png",
-          "leftPercent": 53.17,
+          "leftPercent": 52.512,
           "topPercent": 40.489,
-          "widthPercent": 2.572,
+          "widthPercent": 3.888,
           "heightPercent": 8.608
         },
         "us-house-floor:spot:51": {
           "file": "us-house-floor/51.png",
-          "leftPercent": 23.744,
+          "leftPercent": 23.325,
           "topPercent": 42.614,
-          "widthPercent": 2.033,
+          "widthPercent": 2.871,
           "heightPercent": 5.951
         },
         "us-house-floor:spot:52": {
           "file": "us-house-floor/52.png",
-          "leftPercent": 37.141,
+          "leftPercent": 36.483,
           "topPercent": 44.102,
-          "widthPercent": 2.99,
+          "widthPercent": 4.306,
           "heightPercent": 9.458
         },
         "us-house-floor:spot:53": {
           "file": "us-house-floor/53.png",
-          "leftPercent": 60.048,
+          "leftPercent": 59.39,
           "topPercent": 43.996,
-          "widthPercent": 2.99,
+          "widthPercent": 4.306,
           "heightPercent": 9.458
         },
         "us-house-floor:spot:54": {
           "file": "us-house-floor/54.png",
-          "leftPercent": 74.103,
+          "leftPercent": 73.684,
           "topPercent": 42.614,
-          "widthPercent": 2.093,
+          "widthPercent": 2.931,
           "heightPercent": 5.951
         },
         "us-house-floor:spot:55": {
           "file": "us-house-floor/55.png",
-          "leftPercent": 3.828,
+          "leftPercent": 0,
           "topPercent": 48.14,
-          "widthPercent": 5.562,
+          "widthPercent": 13.397,
           "heightPercent": 51.86
         },
         "us-house-floor:spot:56": {
           "file": "us-house-floor/56.png",
-          "leftPercent": 89.653,
+          "leftPercent": 84.211,
           "topPercent": 45.271,
-          "widthPercent": 6.878,
+          "widthPercent": 15.789,
           "heightPercent": 54.729
         },
         "us-house-floor:spot:57": {
           "file": "us-house-floor/57.png",
-          "leftPercent": 28.05,
+          "leftPercent": 27.392,
           "topPercent": 43.889,
-          "widthPercent": 2.392,
+          "widthPercent": 3.708,
           "heightPercent": 8.714
         },
         "us-house-floor:spot:58": {
           "file": "us-house-floor/58.png",
-          "leftPercent": 69.557,
+          "leftPercent": 69.019,
           "topPercent": 43.889,
-          "widthPercent": 2.452,
+          "widthPercent": 3.529,
           "heightPercent": 8.077
         },
         "us-house-floor:spot:59": {
           "file": "us-house-floor/59.png",
-          "leftPercent": 2.691,
+          "leftPercent": 2.033,
           "topPercent": 44.102,
-          "widthPercent": 1.555,
+          "widthPercent": 2.871,
           "heightPercent": 8.183
         },
         "us-house-floor:spot:60": {
           "file": "us-house-floor/60.png",
-          "leftPercent": 95.873,
+          "leftPercent": 95.096,
           "topPercent": 44.102,
-          "widthPercent": 1.555,
+          "widthPercent": 3.11,
           "heightPercent": 8.927
         },
         "us-house-floor:spot:61": {
           "file": "us-house-floor/61.png",
-          "leftPercent": 9.689,
+          "leftPercent": 9.031,
           "topPercent": 44.527,
-          "widthPercent": 1.555,
+          "widthPercent": 2.871,
           "heightPercent": 8.183
         },
         "us-house-floor:spot:62": {
           "file": "us-house-floor/62.png",
-          "leftPercent": 80.981,
+          "leftPercent": 80.383,
           "topPercent": 44.527,
-          "widthPercent": 1.615,
+          "widthPercent": 2.811,
           "heightPercent": 7.333
         },
         "us-house-floor:spot:63": {
           "file": "us-house-floor/63.png",
-          "leftPercent": 1.196,
+          "leftPercent": 0.538,
           "topPercent": 44.74,
-          "widthPercent": 1.555,
+          "widthPercent": 2.871,
           "heightPercent": 8.502
         },
         "us-house-floor:spot:64": {
           "file": "us-house-floor/64.png",
-          "leftPercent": 8.254,
+          "leftPercent": 7.476,
           "topPercent": 45.165,
-          "widthPercent": 1.555,
+          "widthPercent": 3.11,
           "heightPercent": 9.245
         },
         "us-house-floor:spot:65": {
           "file": "us-house-floor/65.png",
-          "leftPercent": 17.344,
+          "leftPercent": 16.687,
           "topPercent": 44.527,
-          "widthPercent": 1.495,
+          "widthPercent": 2.811,
           "heightPercent": 8.077
         },
         "us-house-floor:spot:66": {
           "file": "us-house-floor/66.png",
-          "leftPercent": 88.935,
+          "leftPercent": 88.278,
           "topPercent": 44.527,
-          "widthPercent": 1.495,
+          "widthPercent": 2.811,
           "heightPercent": 8.289
         },
         "us-house-floor:spot:67": {
           "file": "us-house-floor/67.png",
-          "leftPercent": 97.309,
+          "leftPercent": 96.531,
           "topPercent": 44.952,
-          "widthPercent": 1.615,
+          "widthPercent": 3.17,
           "heightPercent": 9.033
         },
         "us-house-floor:spot:68": {
           "file": "us-house-floor/68.png",
           "leftPercent": 0,
           "topPercent": 49.416,
-          "widthPercent": 2.153,
+          "widthPercent": 2.871,
           "heightPercent": 10.84
         },
         "us-house-floor:spot:69": {
           "file": "us-house-floor/69.png",
-          "leftPercent": 82.356,
+          "leftPercent": 81.758,
           "topPercent": 44.952,
-          "widthPercent": 1.615,
+          "widthPercent": 2.811,
           "heightPercent": 7.651
         },
         "us-house-floor:spot:70": {
           "file": "us-house-floor/70.png",
-          "leftPercent": 15.55,
+          "leftPercent": 14.773,
           "topPercent": 45.165,
-          "widthPercent": 1.495,
+          "widthPercent": 3.05,
           "heightPercent": 9.033
         },
         "us-house-floor:spot:71": {
           "file": "us-house-floor/71.png",
-          "leftPercent": 80.502,
+          "leftPercent": 77.033,
           "topPercent": 63.868,
-          "widthPercent": 8.313,
+          "widthPercent": 15.251,
           "heightPercent": 36.132
         },
         "us-house-floor:spot:72": {
           "file": "us-house-floor/72.png",
-          "leftPercent": 12.799,
+          "leftPercent": 10.766,
           "topPercent": 46.865,
-          "widthPercent": 3.11,
+          "widthPercent": 7.177,
           "heightPercent": 29.33
         },
         "us-house-floor:spot:73": {
           "file": "us-house-floor/73.png",
-          "leftPercent": 97.608,
+          "leftPercent": 97.129,
           "topPercent": 49.628,
-          "widthPercent": 2.392,
-          "heightPercent": 8.714
+          "widthPercent": 2.871,
+          "heightPercent": 8.608
         },
         "us-house-floor:spot:74": {
           "file": "us-house-floor/74.png",
-          "leftPercent": 11.782,
+          "leftPercent": 10.885,
           "topPercent": 46.546,
-          "widthPercent": 1.495,
+          "widthPercent": 3.289,
           "heightPercent": 10.84
         },
         "us-house-floor:spot:75": {
           "file": "us-house-floor/75.png",
-          "leftPercent": 20.156,
+          "leftPercent": 19.677,
           "topPercent": 53.56,
-          "widthPercent": 4.007,
+          "widthPercent": 4.964,
           "heightPercent": 8.714
         },
         "us-house-floor:spot:76": {
           "file": "us-house-floor/76.png",
-          "leftPercent": 70.694,
+          "leftPercent": 68.122,
           "topPercent": 53.56,
-          "widthPercent": 10.766,
+          "widthPercent": 15.909,
           "heightPercent": 42.508
         },
         "us-house-floor:spot:80": {
           "file": "us-house-floor/80.png",
-          "leftPercent": 87.38,
+          "leftPercent": 84.39,
           "topPercent": 51.116,
-          "widthPercent": 4.067,
+          "widthPercent": 10.048,
           "heightPercent": 34.538
         },
         "us-house-floor:spot:81": {
           "file": "us-house-floor/81.png",
-          "leftPercent": 8.493,
+          "leftPercent": 5.622,
           "topPercent": 51.222,
-          "widthPercent": 3.708,
+          "widthPercent": 9.45,
           "heightPercent": 33.05
         },
         "us-house-floor:spot:82": {
           "file": "us-house-floor/82.png",
-          "leftPercent": 2.811,
+          "leftPercent": 1.376,
           "topPercent": 51.541,
-          "widthPercent": 1.974,
+          "widthPercent": 4.844,
           "heightPercent": 15.515
         },
         "us-house-floor:spot:83": {
           "file": "us-house-floor/83.png",
-          "leftPercent": 95.036,
+          "leftPercent": 93.541,
           "topPercent": 51.541,
-          "widthPercent": 1.974,
+          "widthPercent": 4.964,
           "heightPercent": 16.153
         },
         "us-house-floor:spot:84": {
           "file": "us-house-floor/84.png",
-          "leftPercent": 22.428,
+          "leftPercent": 21.292,
           "topPercent": 53.985,
-          "widthPercent": 6.4,
+          "widthPercent": 8.672,
           "heightPercent": 21.36
         },
         "us-house-floor:spot:85": {
           "file": "us-house-floor/85.png",
-          "leftPercent": 33.433,
+          "leftPercent": 25.299,
           "topPercent": 54.41,
-          "widthPercent": 10.407,
+          "widthPercent": 26.675,
           "heightPercent": 45.59
         },
         "us-house-floor:spot:86": {
           "file": "us-house-floor/86.png",
-          "leftPercent": 56.28,
+          "leftPercent": 48.385,
           "topPercent": 54.304,
-          "widthPercent": 10.287,
+          "widthPercent": 26.077,
           "heightPercent": 45.696
         },
         "us-house-floor:spot:87": {
           "file": "us-house-floor/87.png",
-          "leftPercent": 25.897,
+          "leftPercent": 24.462,
           "topPercent": 68.65,
-          "widthPercent": 9.211,
+          "widthPercent": 12.081,
           "heightPercent": 23.167
         },
         "us-house-floor:spot:88": {
           "file": "us-house-floor/88.png",
-          "leftPercent": 65.012,
+          "leftPercent": 62.919,
           "topPercent": 68.65,
-          "widthPercent": 9.151,
+          "widthPercent": 13.337,
           "heightPercent": 29.224
         },
         "us-house-floor:spot:89": {
           "file": "us-house-floor/89.png",
           "leftPercent": 0,
           "topPercent": 67.375,
-          "widthPercent": 8.074,
+          "widthPercent": 11.902,
           "heightPercent": 32.625
         },
         "us-house-floor:spot:90": {
           "file": "us-house-floor/90.png",
-          "leftPercent": 92.703,
+          "leftPercent": 88.756,
           "topPercent": 67.481,
-          "widthPercent": 7.297,
+          "widthPercent": 11.244,
           "heightPercent": 32.519
         },
         "us-house-floor:spot:91": {
           "file": "us-house-floor/91.png",
-          "leftPercent": 42.823,
+          "leftPercent": 41.986,
           "topPercent": 63.231,
-          "widthPercent": 1.017,
+          "widthPercent": 2.691,
           "heightPercent": 9.564
         },
         "us-house-floor:spot:92": {
           "file": "us-house-floor/92.png",
-          "leftPercent": 56.16,
+          "leftPercent": 55.203,
           "topPercent": 63.231,
-          "widthPercent": 1.136,
+          "widthPercent": 3.05,
           "heightPercent": 11.158
         },
         "us-house-floor:spot:93": {
           "file": "us-house-floor/93.png",
-          "leftPercent": 6.1,
+          "leftPercent": 0.179,
           "topPercent": 90.117,
-          "widthPercent": 20.574,
+          "widthPercent": 32.416,
           "heightPercent": 9.883
         },
         "us-house-floor:spot:94": {
           "file": "us-house-floor/94.png",
-          "leftPercent": 72.787,
+          "leftPercent": 66.866,
           "topPercent": 90.223,
-          "widthPercent": 20.754,
+          "widthPercent": 32.596,
           "heightPercent": 9.777
         },
         "us-house-floor:spot:95": {
           "file": "us-house-floor/95.png",
-          "leftPercent": 39.833,
+          "leftPercent": 38.218,
           "topPercent": 69.288,
-          "widthPercent": 2.093,
+          "widthPercent": 5.323,
           "heightPercent": 18.916
         },
         "us-house-floor:spot:96": {
           "file": "us-house-floor/96.png",
-          "leftPercent": 58.194,
+          "leftPercent": 56.699,
           "topPercent": 69.288,
-          "widthPercent": 1.914,
+          "widthPercent": 4.904,
           "heightPercent": 17.428
         },
         "us-house-floor:spot:97": {
@@ -14771,44 +14779,44 @@
         },
         "us-house-floor:spot:98": {
           "file": "us-house-floor/98.png",
-          "leftPercent": 60.825,
+          "leftPercent": 58.254,
           "topPercent": 79.065,
-          "widthPercent": 3.23,
+          "widthPercent": 8.373,
           "heightPercent": 20.935
         },
         "us-house-floor:spot:99": {
           "file": "us-house-floor/99.png",
           "leftPercent": 0,
           "topPercent": 89.586,
-          "widthPercent": 2.751,
+          "widthPercent": 5.263,
           "heightPercent": 10.414
         },
         "us-house-floor:spot:100": {
           "file": "us-house-floor/100.png",
-          "leftPercent": 97.428,
+          "leftPercent": 95.156,
           "topPercent": 89.586,
-          "widthPercent": 2.572,
+          "widthPercent": 4.844,
           "heightPercent": 10.414
         },
         "us-house-floor:spot:101": {
           "file": "us-house-floor/101.png",
-          "leftPercent": 23.385,
+          "leftPercent": 22.667,
           "topPercent": 93.943,
-          "widthPercent": 1.196,
+          "widthPercent": 2.632,
           "heightPercent": 6.057
         },
         "us-house-floor:spot:102": {
           "file": "us-house-floor/102.png",
-          "leftPercent": 23.385,
+          "leftPercent": 17.943,
           "topPercent": 97.662,
-          "widthPercent": 6.758,
+          "widthPercent": 17.644,
           "heightPercent": 2.338
         },
         "us-house-floor:spot:103": {
           "file": "us-house-floor/103.png",
-          "leftPercent": 69.916,
+          "leftPercent": 64.833,
           "topPercent": 97.768,
-          "widthPercent": 6.28,
+          "widthPercent": 16.447,
           "heightPercent": 2.232
         },
         "us-house-floor:spot:podium-0": {
@@ -14823,545 +14831,231 @@
     "us-senate-floor": {
       "parent": "us-senate-floor__midday.jpg",
       "parentSha256": "429d9437a6df60588b189b9a43d747aae02c18e2eeda8566e23eaae5645b22d6",
+      "from": "art/people-rooms/spots/us-senate-floor.json",
       "spots": {
+        "us-senate-floor:spot:0": {
+          "file": "us-senate-floor/0.png",
+          "leftPercent": 0,
+          "topPercent": 6.376,
+          "widthPercent": 4.187,
+          "heightPercent": 11.158
+        },
         "us-senate-floor:spot:1": {
           "file": "us-senate-floor/1.png",
-          "leftPercent": 45.096,
-          "topPercent": 35.175,
-          "widthPercent": 9.809,
-          "heightPercent": 18.916
+          "leftPercent": 94.797,
+          "topPercent": 6.801,
+          "widthPercent": 4.127,
+          "heightPercent": 10.414
         },
         "us-senate-floor:spot:2": {
           "file": "us-senate-floor/2.png",
-          "leftPercent": 33.313,
-          "topPercent": 38.363,
-          "widthPercent": 9.809,
-          "heightPercent": 18.491
+          "leftPercent": 0,
+          "topPercent": 9.033,
+          "widthPercent": 5.024,
+          "heightPercent": 18.385
         },
         "us-senate-floor:spot:3": {
           "file": "us-senate-floor/3.png",
-          "leftPercent": 57.297,
-          "topPercent": 38.47,
-          "widthPercent": 9.809,
-          "heightPercent": 18.385
+          "leftPercent": 27.033,
+          "topPercent": 11.796,
+          "widthPercent": 3.589,
+          "heightPercent": 10.84
         },
         "us-senate-floor:spot:4": {
           "file": "us-senate-floor/4.png",
-          "leftPercent": 57.895,
-          "topPercent": 50.478,
-          "widthPercent": 2.572,
-          "heightPercent": 3.401
+          "leftPercent": 71.651,
+          "topPercent": 11.902,
+          "widthPercent": 3.349,
+          "heightPercent": 7.333
         },
         "us-senate-floor:spot:5": {
           "file": "us-senate-floor/5.png",
-          "leftPercent": 38.756,
-          "topPercent": 50.478,
-          "widthPercent": 4.187,
-          "heightPercent": 10.414
+          "leftPercent": 63.098,
+          "topPercent": 11.796,
+          "widthPercent": 3.349,
+          "heightPercent": 9.458
         },
         "us-senate-floor:spot:6": {
           "file": "us-senate-floor/6.png",
-          "leftPercent": 64.354,
-          "topPercent": 63.762,
-          "widthPercent": 5.562,
-          "heightPercent": 13.603
+          "leftPercent": 69.258,
+          "topPercent": 12.009,
+          "widthPercent": 3.289,
+          "heightPercent": 10.202
         },
         "us-senate-floor:spot:7": {
           "file": "us-senate-floor/7.png",
-          "leftPercent": 24.522,
-          "topPercent": 63.549,
-          "widthPercent": 11.005,
-          "heightPercent": 27.843
+          "leftPercent": 24.88,
+          "topPercent": 11.902,
+          "widthPercent": 3.409,
+          "heightPercent": 10.946
         },
         "us-senate-floor:spot:8": {
           "file": "us-senate-floor/8.png",
-          "leftPercent": 33.792,
-          "topPercent": 48.459,
-          "widthPercent": 15.251,
-          "heightPercent": 28.799
+          "leftPercent": 33.493,
+          "topPercent": 11.902,
+          "widthPercent": 3.409,
+          "heightPercent": 9.989
         },
         "us-senate-floor:spot:9": {
           "file": "us-senate-floor/9.png",
-          "leftPercent": 50.957,
-          "topPercent": 48.459,
-          "widthPercent": 15.251,
-          "heightPercent": 28.799
+          "leftPercent": 92.823,
+          "topPercent": 9.671,
+          "widthPercent": 5.443,
+          "heightPercent": 19.872
         },
         "us-senate-floor:spot:10": {
           "file": "us-senate-floor/10.png",
-          "leftPercent": 32.177,
-          "topPercent": 46.652,
-          "widthPercent": 11.663,
-          "heightPercent": 21.785
+          "leftPercent": 2.751,
+          "topPercent": 9.458,
+          "widthPercent": 2.392,
+          "heightPercent": 9.777
         },
         "us-senate-floor:spot:11": {
           "file": "us-senate-floor/11.png",
-          "leftPercent": 39.175,
-          "topPercent": 45.909,
-          "widthPercent": 11.663,
-          "heightPercent": 22.529
+          "leftPercent": 71.711,
+          "topPercent": 13.815,
+          "widthPercent": 2.871,
+          "heightPercent": 10.521
         },
         "us-senate-floor:spot:12": {
           "file": "us-senate-floor/12.png",
-          "leftPercent": 49.163,
+          "leftPercent": 54.605,
           "topPercent": 45.909,
-          "widthPercent": 11.663,
-          "heightPercent": 22.529
-        },
-        "us-senate-floor:spot:13": {
-          "file": "us-senate-floor/13.png",
-          "leftPercent": 56.16,
-          "topPercent": 45.909,
-          "widthPercent": 11.663,
-          "heightPercent": 22.529
+          "widthPercent": 7.775,
+          "heightPercent": 16.259
         },
         "us-senate-floor:spot:14": {
           "file": "us-senate-floor/14.png",
-          "leftPercent": 19.976,
-          "topPercent": 50.372,
-          "widthPercent": 16.029,
-          "heightPercent": 28.693
+          "leftPercent": 4.605,
+          "topPercent": 42.295,
+          "widthPercent": 4.486,
+          "heightPercent": 11.69
         },
         "us-senate-floor:spot:15": {
           "file": "us-senate-floor/15.png",
-          "leftPercent": 27.99,
-          "topPercent": 51.753,
-          "widthPercent": 16.029,
-          "heightPercent": 27.311
+          "leftPercent": 15.191,
+          "topPercent": 41.552,
+          "widthPercent": 3.888,
+          "heightPercent": 9.671
         },
         "us-senate-floor:spot:16": {
           "file": "us-senate-floor/16.png",
-          "leftPercent": 36.005,
-          "topPercent": 48.14,
-          "widthPercent": 15.969,
-          "heightPercent": 30.925
+          "leftPercent": 91.089,
+          "topPercent": 42.402,
+          "widthPercent": 4.246,
+          "heightPercent": 10.946
         },
         "us-senate-floor:spot:17": {
           "file": "us-senate-floor/17.png",
-          "leftPercent": 48.026,
-          "topPercent": 48.14,
-          "widthPercent": 15.969,
-          "heightPercent": 30.925
+          "leftPercent": 24.522,
+          "topPercent": 41.977,
+          "widthPercent": 3.349,
+          "heightPercent": 8.82
         },
         "us-senate-floor:spot:18": {
           "file": "us-senate-floor/18.png",
-          "leftPercent": 55.981,
-          "topPercent": 50.691,
-          "widthPercent": 16.029,
-          "heightPercent": 28.374
+          "leftPercent": 21.531,
+          "topPercent": 42.827,
+          "widthPercent": 3.589,
+          "heightPercent": 9.458
         },
         "us-senate-floor:spot:19": {
           "file": "us-senate-floor/19.png",
-          "leftPercent": 63.995,
-          "topPercent": 50.691,
-          "widthPercent": 16.029,
-          "heightPercent": 28.374
+          "leftPercent": 6.998,
+          "topPercent": 44.315,
+          "widthPercent": 6.459,
+          "heightPercent": 16.472
         },
         "us-senate-floor:spot:20": {
           "file": "us-senate-floor/20.png",
-          "leftPercent": 9.809,
-          "topPercent": 53.773,
-          "widthPercent": 20.335,
-          "heightPercent": 35.919
+          "leftPercent": 84.928,
+          "topPercent": 47.29,
+          "widthPercent": 8.612,
+          "heightPercent": 18.916
         },
         "us-senate-floor:spot:21": {
           "file": "us-senate-floor/21.png",
-          "leftPercent": 17.823,
-          "topPercent": 57.386,
-          "widthPercent": 20.335,
-          "heightPercent": 32.306
+          "leftPercent": 17.285,
+          "topPercent": 45.058,
+          "widthPercent": 4.187,
+          "heightPercent": 13.815
         },
         "us-senate-floor:spot:22": {
           "file": "us-senate-floor/22.png",
-          "leftPercent": 25.837,
-          "topPercent": 55.473,
-          "widthPercent": 20.335,
-          "heightPercent": 34.219
+          "leftPercent": 89.952,
+          "topPercent": 52.816,
+          "widthPercent": 10.048,
+          "heightPercent": 35.813
         },
         "us-senate-floor:spot:23": {
           "file": "us-senate-floor/23.png",
-          "leftPercent": 33.852,
+          "leftPercent": 27.452,
           "topPercent": 50.266,
-          "widthPercent": 20.335,
-          "heightPercent": 39.426
+          "widthPercent": 6.639,
+          "heightPercent": 17.641
         },
         "us-senate-floor:spot:24": {
           "file": "us-senate-floor/24.png",
-          "leftPercent": 45.813,
-          "topPercent": 50.266,
-          "widthPercent": 20.335,
-          "heightPercent": 39.426
+          "leftPercent": 58.852,
+          "topPercent": 51.222,
+          "widthPercent": 7.775,
+          "heightPercent": 19.66
         },
         "us-senate-floor:spot:25": {
           "file": "us-senate-floor/25.png",
-          "leftPercent": 53.828,
-          "topPercent": 54.198,
-          "widthPercent": 20.335,
-          "heightPercent": 35.494
+          "leftPercent": 19.139,
+          "topPercent": 51.647,
+          "widthPercent": 9.151,
+          "heightPercent": 25.717
         },
         "us-senate-floor:spot:26": {
           "file": "us-senate-floor/26.png",
-          "leftPercent": 61.842,
-          "topPercent": 57.386,
-          "widthPercent": 20.335,
-          "heightPercent": 32.306
+          "leftPercent": 33.373,
+          "topPercent": 51.116,
+          "widthPercent": 7.596,
+          "heightPercent": 19.766
         },
         "us-senate-floor:spot:27": {
           "file": "us-senate-floor/27.png",
-          "leftPercent": 69.856,
-          "topPercent": 54.516,
-          "widthPercent": 20.335,
-          "heightPercent": 35.175
+          "leftPercent": 0,
+          "topPercent": 53.029,
+          "widthPercent": 9.868,
+          "heightPercent": 34.431
         },
         "us-senate-floor:spot:28": {
           "file": "us-senate-floor/28.png",
-          "leftPercent": 0,
-          "topPercent": 64.612,
-          "widthPercent": 24.641,
-          "heightPercent": 35.388
+          "leftPercent": 28.469,
+          "topPercent": 53.879,
+          "widthPercent": 10.167,
+          "heightPercent": 26.036
         },
         "us-senate-floor:spot:29": {
           "file": "us-senate-floor/29.png",
-          "leftPercent": 7.656,
-          "topPercent": 64.293,
-          "widthPercent": 24.701,
-          "heightPercent": 35.707
+          "leftPercent": 5.502,
+          "topPercent": 54.835,
+          "widthPercent": 12.5,
+          "heightPercent": 32.731
         },
         "us-senate-floor:spot:30": {
           "file": "us-senate-floor/30.png",
-          "leftPercent": 15.67,
-          "topPercent": 62.699,
-          "widthPercent": 24.701,
-          "heightPercent": 37.301
+          "leftPercent": 61.124,
+          "topPercent": 53.879,
+          "widthPercent": 10.407,
+          "heightPercent": 26.567
         },
         "us-senate-floor:spot:31": {
           "file": "us-senate-floor/31.png",
-          "leftPercent": 23.684,
-          "topPercent": 53.773,
-          "widthPercent": 24.641,
-          "heightPercent": 46.227
+          "leftPercent": 6.818,
+          "topPercent": 69.075,
+          "widthPercent": 30.024,
+          "heightPercent": 30.925
         },
         "us-senate-floor:spot:32": {
           "file": "us-senate-floor/32.png",
-          "leftPercent": 31.639,
-          "topPercent": 52.604,
-          "widthPercent": 24.701,
-          "heightPercent": 47.396
-        },
-        "us-senate-floor:spot:33": {
-          "file": "us-senate-floor/33.png",
-          "leftPercent": 43.66,
-          "topPercent": 52.604,
-          "widthPercent": 24.701,
-          "heightPercent": 47.396
-        },
-        "us-senate-floor:spot:34": {
-          "file": "us-senate-floor/34.png",
-          "leftPercent": 51.675,
-          "topPercent": 52.604,
-          "widthPercent": 24.641,
-          "heightPercent": 47.396
-        },
-        "us-senate-floor:spot:35": {
-          "file": "us-senate-floor/35.png",
-          "leftPercent": 59.629,
-          "topPercent": 63.018,
-          "widthPercent": 24.701,
-          "heightPercent": 36.982
-        },
-        "us-senate-floor:spot:36": {
-          "file": "us-senate-floor/36.png",
-          "leftPercent": 67.644,
-          "topPercent": 64.293,
-          "widthPercent": 24.701,
-          "heightPercent": 35.707
-        },
-        "us-senate-floor:spot:37": {
-          "file": "us-senate-floor/37.png",
-          "leftPercent": 75.359,
-          "topPercent": 64.506,
-          "widthPercent": 24.641,
-          "heightPercent": 35.494
-        },
-        "us-senate-floor:spot:38": {
-          "file": "us-senate-floor/38.png",
-          "leftPercent": 0,
-          "topPercent": 68.757,
-          "widthPercent": 27.691,
-          "heightPercent": 31.243
-        },
-        "us-senate-floor:spot:39": {
-          "file": "us-senate-floor/39.png",
-          "leftPercent": 6.998,
-          "topPercent": 68.969,
-          "widthPercent": 19.737,
-          "heightPercent": 31.031
-        },
-        "us-senate-floor:spot:40": {
-          "file": "us-senate-floor/40.png",
-          "leftPercent": 9.51,
-          "topPercent": 64.187,
-          "widthPercent": 29.007,
-          "heightPercent": 35.813
-        },
-        "us-senate-floor:spot:41": {
-          "file": "us-senate-floor/41.png",
-          "leftPercent": 17.464,
-          "topPercent": 63.974,
-          "widthPercent": 29.067,
-          "heightPercent": 36.026
-        },
-        "us-senate-floor:spot:42": {
-          "file": "us-senate-floor/42.png",
-          "leftPercent": 25.478,
-          "topPercent": 54.729,
-          "widthPercent": 29.067,
-          "heightPercent": 45.271
-        },
-        "us-senate-floor:spot:43": {
-          "file": "us-senate-floor/43.png",
-          "leftPercent": 45.455,
-          "topPercent": 54.729,
-          "widthPercent": 29.067,
-          "heightPercent": 45.271
-        },
-        "us-senate-floor:spot:44": {
-          "file": "us-senate-floor/44.png",
-          "leftPercent": 53.469,
-          "topPercent": 63.124,
-          "widthPercent": 29.067,
-          "heightPercent": 36.876
-        },
-        "us-senate-floor:spot:45": {
-          "file": "us-senate-floor/45.png",
-          "leftPercent": 61.483,
-          "topPercent": 64.081,
-          "widthPercent": 29.007,
-          "heightPercent": 35.919
-        },
-        "us-senate-floor:spot:46": {
-          "file": "us-senate-floor/46.png",
-          "leftPercent": 75.778,
-          "topPercent": 68.863,
-          "widthPercent": 17.105,
-          "heightPercent": 31.137
-        },
-        "us-senate-floor:spot:47": {
-          "file": "us-senate-floor/47.png",
-          "leftPercent": 74.402,
-          "topPercent": 68.65,
-          "widthPercent": 25.598,
-          "heightPercent": 31.35
-        },
-        "us-senate-floor:spot:48": {
-          "file": "us-senate-floor/48.png",
-          "leftPercent": 1.675,
-          "topPercent": 39.107,
-          "widthPercent": 4.665,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:49": {
-          "file": "us-senate-floor/49.png",
-          "leftPercent": 9.689,
-          "topPercent": 39.107,
-          "widthPercent": 4.605,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:50": {
-          "file": "us-senate-floor/50.png",
-          "leftPercent": 17.703,
-          "topPercent": 39.107,
-          "widthPercent": 4.605,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:51": {
-          "file": "us-senate-floor/51.png",
-          "leftPercent": 25.658,
-          "topPercent": 39.107,
-          "widthPercent": 4.665,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:52": {
-          "file": "us-senate-floor/52.png",
-          "leftPercent": 33.672,
-          "topPercent": 39.107,
-          "widthPercent": 4.665,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:53": {
-          "file": "us-senate-floor/53.png",
-          "leftPercent": 61.663,
-          "topPercent": 39.107,
-          "widthPercent": 4.665,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:54": {
-          "file": "us-senate-floor/54.png",
-          "leftPercent": 69.677,
-          "topPercent": 39.107,
-          "widthPercent": 4.665,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:55": {
-          "file": "us-senate-floor/55.png",
-          "leftPercent": 77.691,
-          "topPercent": 39.107,
-          "widthPercent": 4.605,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:56": {
-          "file": "us-senate-floor/56.png",
-          "leftPercent": 85.706,
-          "topPercent": 39.107,
-          "widthPercent": 4.605,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:57": {
-          "file": "us-senate-floor/57.png",
-          "leftPercent": 93.66,
-          "topPercent": 39.107,
-          "widthPercent": 4.665,
-          "heightPercent": 8.82
-        },
-        "us-senate-floor:spot:58": {
-          "file": "us-senate-floor/58.png",
-          "leftPercent": 0,
-          "topPercent": 37.938,
-          "widthPercent": 10.706,
-          "heightPercent": 20.51
-        },
-        "us-senate-floor:spot:59": {
-          "file": "us-senate-floor/59.png",
-          "leftPercent": 6.639,
-          "topPercent": 39.32,
-          "widthPercent": 10.706,
-          "heightPercent": 19.129
-        },
-        "us-senate-floor:spot:60": {
-          "file": "us-senate-floor/60.png",
-          "leftPercent": 14.653,
-          "topPercent": 37.832,
-          "widthPercent": 10.706,
-          "heightPercent": 20.616
-        },
-        "us-senate-floor:spot:61": {
-          "file": "us-senate-floor/61.png",
-          "leftPercent": 22.608,
-          "topPercent": 40.064,
-          "widthPercent": 10.766,
-          "heightPercent": 18.385
-        },
-        "us-senate-floor:spot:62": {
-          "file": "us-senate-floor/62.png",
-          "leftPercent": 30.622,
-          "topPercent": 38.363,
-          "widthPercent": 10.766,
-          "heightPercent": 20.085
-        },
-        "us-senate-floor:spot:63": {
-          "file": "us-senate-floor/63.png",
-          "leftPercent": 58.612,
-          "topPercent": 38.47,
-          "widthPercent": 10.766,
-          "heightPercent": 19.979
-        },
-        "us-senate-floor:spot:64": {
-          "file": "us-senate-floor/64.png",
-          "leftPercent": 66.627,
-          "topPercent": 39.957,
-          "widthPercent": 10.766,
-          "heightPercent": 18.491
-        },
-        "us-senate-floor:spot:65": {
-          "file": "us-senate-floor/65.png",
-          "leftPercent": 74.641,
-          "topPercent": 37.832,
-          "widthPercent": 10.706,
-          "heightPercent": 20.616
-        },
-        "us-senate-floor:spot:66": {
-          "file": "us-senate-floor/66.png",
-          "leftPercent": 82.656,
-          "topPercent": 39.32,
-          "widthPercent": 10.706,
-          "heightPercent": 19.129
-        },
-        "us-senate-floor:spot:67": {
-          "file": "us-senate-floor/67.png",
-          "leftPercent": 89.294,
-          "topPercent": 37.832,
-          "widthPercent": 10.706,
-          "heightPercent": 20.616
-        },
-        "us-senate-floor:spot:68": {
-          "file": "us-senate-floor/68.png",
-          "leftPercent": 0,
-          "topPercent": 40.276,
-          "widthPercent": 16.806,
-          "heightPercent": 28.693
-        },
-        "us-senate-floor:spot:69": {
-          "file": "us-senate-floor/69.png",
-          "leftPercent": 3.589,
-          "topPercent": 38.045,
-          "widthPercent": 16.806,
-          "heightPercent": 30.925
-        },
-        "us-senate-floor:spot:70": {
-          "file": "us-senate-floor/70.png",
-          "leftPercent": 11.603,
-          "topPercent": 37.832,
-          "widthPercent": 16.806,
-          "heightPercent": 31.137
-        },
-        "us-senate-floor:spot:71": {
-          "file": "us-senate-floor/71.png",
-          "leftPercent": 19.557,
-          "topPercent": 40.064,
-          "widthPercent": 16.866,
-          "heightPercent": 28.905
-        },
-        "us-senate-floor:spot:72": {
-          "file": "us-senate-floor/72.png",
-          "leftPercent": 27.572,
-          "topPercent": 37.194,
-          "widthPercent": 16.866,
-          "heightPercent": 31.775
-        },
-        "us-senate-floor:spot:73": {
-          "file": "us-senate-floor/73.png",
-          "leftPercent": 55.562,
-          "topPercent": 37.407,
-          "widthPercent": 16.866,
-          "heightPercent": 31.562
-        },
-        "us-senate-floor:spot:74": {
-          "file": "us-senate-floor/74.png",
-          "leftPercent": 63.577,
-          "topPercent": 39.32,
-          "widthPercent": 16.866,
-          "heightPercent": 29.649
-        },
-        "us-senate-floor:spot:75": {
-          "file": "us-senate-floor/75.png",
-          "leftPercent": 71.591,
-          "topPercent": 37.832,
-          "widthPercent": 16.806,
-          "heightPercent": 31.137
-        },
-        "us-senate-floor:spot:76": {
-          "file": "us-senate-floor/76.png",
-          "leftPercent": 79.605,
-          "topPercent": 38.045,
-          "widthPercent": 16.806,
-          "heightPercent": 30.925
-        },
-        "us-senate-floor:spot:77": {
-          "file": "us-senate-floor/77.png",
-          "leftPercent": 83.194,
-          "topPercent": 40.276,
-          "widthPercent": 16.806,
-          "heightPercent": 28.693
+          "leftPercent": 14.115,
+          "topPercent": 60.574,
+          "widthPercent": 3.589,
+          "heightPercent": 7.014
         }
       }
     },
@@ -15443,6 +15137,7 @@
     "white-house-exterior": {
       "parent": "white-house-exterior__midday.jpg",
       "parentSha256": "e158e8a3f880651eb6cdb8aeaadc99d3aac6ebdb5bac8c714098f79baa570401",
+      "from": "art/people-rooms/spots/white-house-exterior.json",
       "spots": {}
     },
     "wildfire-smoke-street": {
@@ -15495,41 +15190,49 @@
     "workforce-center": {
       "parent": "workforce-center__midday.jpg",
       "parentSha256": "8b67f8803aa60e2be25aaad3ba2b02521b7a5e93c3a5b6588a54889778e88396",
+      "from": "art/people-rooms/spots/workforce-center.json",
       "spots": {
         "workforce-center:spot:2": {
           "file": "workforce-center/2.png",
-          "leftPercent": 77.093,
-          "topPercent": 46.652,
+          "leftPercent": 33.792,
+          "topPercent": 50.797,
           "widthPercent": 5.861,
-          "heightPercent": 10.733
+          "heightPercent": 12.115
+        },
+        "workforce-center:spot:3": {
+          "file": "workforce-center/3.png",
+          "leftPercent": 39.892,
+          "topPercent": 50.797,
+          "widthPercent": 5.742,
+          "heightPercent": 10.84
+        },
+        "workforce-center:spot:4": {
+          "file": "workforce-center/4.png",
+          "leftPercent": 70.455,
+          "topPercent": 54.091,
+          "widthPercent": 8.074,
+          "heightPercent": 21.254
         },
         "workforce-center:spot:5": {
           "file": "workforce-center/5.png",
-          "leftPercent": 80.502,
-          "topPercent": 66.631,
-          "widthPercent": 12.978,
-          "heightPercent": 19.129
+          "leftPercent": 46.053,
+          "topPercent": 50.797,
+          "widthPercent": 5.921,
+          "heightPercent": 11.371
         },
         "workforce-center:spot:6": {
           "file": "workforce-center/6.png",
-          "leftPercent": 85.825,
-          "topPercent": 61.424,
-          "widthPercent": 14.175,
-          "heightPercent": 29.649
+          "leftPercent": 29.366,
+          "topPercent": 50.903,
+          "widthPercent": 5.443,
+          "heightPercent": 13.815
         },
         "workforce-center:spot:7": {
           "file": "workforce-center/7.png",
-          "leftPercent": 32.775,
-          "topPercent": 52.391,
-          "widthPercent": 9.45,
-          "heightPercent": 18.385
-        },
-        "workforce-center:spot:8": {
-          "file": "workforce-center/8.png",
-          "leftPercent": 44.258,
-          "topPercent": 52.391,
-          "widthPercent": 9.51,
-          "heightPercent": 18.385
+          "leftPercent": 23.804,
+          "topPercent": 53.241,
+          "widthPercent": 8.493,
+          "heightPercent": 23.911
         }
       }
     }

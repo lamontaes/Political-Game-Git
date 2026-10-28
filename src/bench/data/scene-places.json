@@ -473,5 +473,9 @@
       ],
       ["strip-mall-parking-lot", "farmers-market"]
     ]
+  },
+  "roomCondition": {
+    "about": "How kept a home's rooms look (src/bench/scene.ts roomCondition). A household in the town's top third of homes of its kind (by value or rent) with at most this many people keeps its rooms as painted; a renter in the cheapest third gets the rundown room; every other home is lived-in. TUNABLE (spread 1 to 3 people), read from the housing records until a dwelling carries its own condition. stopgapId: SG-PLAY-room-condition-rule",
+    "tidyAtMostMembers": 2
   }
 }

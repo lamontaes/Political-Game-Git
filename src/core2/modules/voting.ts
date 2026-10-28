@@ -82,6 +82,7 @@ import {
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  townLean,
   campaignFor,
   impressionOf,
   parsePlatform,
@@ -416,20 +417,6 @@ function town(api: CoreAPI) {
     townPlaceId: string;
   };
 }
-function townLean(api: CoreAPI): number {
-  // Read once a day: the counted electorate asks it once per voter.
-  const held = townLeans.get(api.state);
-  if (held?.date === api.state.date) return held.lean;
-  const lean = (
-    api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("town")
-      .get("town") as unknown as { lean: number }
-  ).lean;
-  townLeans.set(api.state, { date: api.state.date, lean });
-  return lean;
-}
-const townLeans = new WeakMap<object, { date: string; lean: number }>();
 
 /**
  * Who holds a contest's seat today: the term serving on it, read from the
