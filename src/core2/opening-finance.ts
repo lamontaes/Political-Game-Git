@@ -2,7 +2,7 @@ import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualif
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import {
-  estimatedMonthlyHouseholdLivingCosts,
+  worldMonthlyHouseholdLivingCosts,
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
   REPRESENTATIVE_LIVING_COSTS,
@@ -818,7 +818,7 @@ export function createOpeningFinance(
   const regions = new Map<string, LivingCostsRegion>();
   const baskets = new Map<
     string,
-    ReturnType<typeof estimatedMonthlyHouseholdLivingCosts>
+    ReturnType<typeof worldMonthlyHouseholdLivingCosts>
   >();
   const unboundHouseholdMonthlyByPlace = new Map<string, number>();
   const regionFor = (household: HouseholdInput): LivingCostsRegion => {
@@ -923,7 +923,11 @@ export function createOpeningFinance(
       basketKey = JSON.stringify([region, members.length]);
     let basket = baskets.get(basketKey);
     if (!basket) {
-      basket = estimatedMonthlyHouseholdLivingCosts(region, members.length);
+      basket = worldMonthlyHouseholdLivingCosts(
+        input.seed,
+        region,
+        members.length,
+      );
       baskets.set(basketKey, basket);
     }
     const categories = basket.categories.filter(

@@ -1,28 +1,31 @@
 /**
  * Each world's base-rate tables (owner, Oct 27: realistic, not real): one
- * factor per published table (deaths, births, moves), drawn once from the
- * world's seed, that scales the whole table. A base rate checks totals and
- * never picks one actor's outcome; the factor only makes the world's own
- * rates differ from the published ones.
+ * factor per published table (deaths, births, moves, chronic conditions, time
+ * use), drawn once from the world's seed by the shared world draw, that scales
+ * the whole table. A base rate checks totals and never picks one actor's
+ * outcome; the factor only makes the world's own rates differ from the
+ * published ones. The spreads are parameter rows.
  */
-import rates from "./data/world/base-rates.json" with { type: "json" };
-import { seededUnit } from "./seeded";
+import { parameter as p } from "./parameters";
+import { worldLevel } from "./world-draw";
 
-export type BaseRateTable = keyof typeof rates.tables;
+const SPREAD = {
+  mortality: "worldBaseRateMortalitySpreadShare",
+  natality: "worldBaseRateNatalitySpreadShare",
+  movers: "worldBaseRateMoversSpreadShare",
+  conditions: "worldBaseRateConditionsSpreadShare",
+  timeUse: "worldBaseRateTimeUseSpreadShare",
+} as const;
 
-const factors = new Map<string, number>();
+export type BaseRateTable = keyof typeof SPREAD;
+export const BASE_RATE_TABLES = Object.keys(SPREAD) as BaseRateTable[];
 
-/** The world's factor for a published base-rate table: between the floor share of its spread and the whole spread away from one. */
+/** The world's factor for a published base-rate table: one moved by the world's offset for that table. */
 export function worldRateFactor(seed: string, table: BaseRateTable): number {
-  const key = `${seed}:${table}`;
-  let factor = factors.get(key);
-  if (factor === undefined) {
-    const at = (part: string) =>
-      seededUnit(seed, `world-base-rate:${table}:${part}`);
-    const floor = rates.floorShare.value;
-    const size = floor + (1 - floor) * at("size");
-    factor = 1 + (at("sign") < 0.5 ? -1 : 1) * size * rates.tables[table].value;
-    factors.set(key, factor);
-  }
-  return factor;
+  return worldLevel(p("one"), seed, `world-base-rate:${table}`, SPREAD[table]);
+}
+
+/** The parameter row holding a table's spread. */
+export function baseRateSpreadRow(table: BaseRateTable): string {
+  return SPREAD[table];
 }

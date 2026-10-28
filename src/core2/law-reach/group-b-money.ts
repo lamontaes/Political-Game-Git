@@ -25,7 +25,11 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { enactLaw, lawChain, lawInForce } from "../modules/laws";
-import { countedJob, residentsRuntime } from "../modules/residents";
+import {
+  countedJob,
+  residentsRuntime,
+  worldPrivateTuitionAnnualUsd,
+} from "../modules/residents";
 import type { LawRowInput } from "../laws-starting";
 import {
   graduatedSchedule,
@@ -904,7 +908,7 @@ export function voucherShare(api: CoreAPI): number {
   return Math.min(
     1,
     reachParameter("voucherAmountDollars") /
-      api.parameter("openingPrivateTuitionAnnualUsd"),
+      worldPrivateTuitionAnnualUsd(api.state.seed),
   );
 }
 
