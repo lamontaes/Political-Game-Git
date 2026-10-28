@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-done-push-token
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T19:38:26.646Z
 ---
 
 **What.** Every merged pull request's pool-done run that reaches its push fails with GH006: protected branch update failed, 2 of 2 required status checks are expected. The job pushes with the workflow token that actions/checkout stores, and branch protection refuses that token, as it refused the release publish until the owner added RELEASE_PUSH_TOKEN and #6608 passed it through. The last flip on main is 03:46 UTC; since 08:18 UTC 27 runs failed this way, and items merged all day still read in-pr.
