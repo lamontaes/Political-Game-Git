@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/backdrop-conditions
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:23:12.354Z
 ---
 
 **What.** The art session painted lived-in and rundown versions of seventeen home rooms (WANTED rows cto-1 to cto-17, art/backdrops-variants on claude/people-rooms-art). Put them in art/backdrops and the backdrop manifest, and draw each home in its household's condition, read from its records, in every scene at home.
