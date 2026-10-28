@@ -360,8 +360,7 @@ function* benchWorldStages(
     // people generated, and each counted household stands for as many real
     // households as the Census count is over the sample, unless asked for.
     const countScale =
-      options.countScale ??
-      (minimumPeople ? 1 : censusScale(population));
+      options.countScale ?? (minimumPeople ? 1 : censusScale(population));
     let withPlayer: CoreInput = { ...input, playerId };
     withPlayer = {
       ...withPlayer,

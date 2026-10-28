@@ -270,8 +270,7 @@ function selectedPlace(
     if (place.scope !== "locality" || !place.sourceGeoid) continue;
     if (
       (placeReferencePopulation(place.sourceGeoid, options.seed)?.value ??
-        p("zero")) <
-      minimumPeople
+        p("zero")) < minimumPeople
     )
       continue;
     if (countyContexts(place).length !== p("one")) continue;
@@ -1450,7 +1449,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       referencePopulation: String(
         place.sourceGeoid
           ? (placeReferencePopulation(place.sourceGeoid, options.seed)?.value ??
-            "not-held")
+              "not-held")
           : "not-held",
       ),
       referencePopulationSource: place.sourceGeoid

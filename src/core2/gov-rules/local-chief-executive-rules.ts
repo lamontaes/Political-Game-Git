@@ -143,7 +143,9 @@ export function readMayorTerm(reading: MunicipalReading): number | null {
 
 export function localChiefExecutiveRules(
   unit: GovernmentUnitIdentity,
-  populationOf: (placeGeoid: string) => number | null = publishedPlacePopulation,
+  populationOf: (
+    placeGeoid: string,
+  ) => number | null = publishedPlacePopulation,
 ): LocalChiefExecutiveRules | null {
   if (unit.unitType !== "municipality" || !unit.functionalActive) return null;
   const government = municipalGovernmentForUnit(unit);
