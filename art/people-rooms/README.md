@@ -24,7 +24,7 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
    - A park bench at +45 takes the same figures as a couch at +45.
 3. **Size and place it.**
    - Scale the figure so its head width equals the spot's `headWidth`.
-   - Line up its head top with `headTop` and its head centre with `headX`.
+   - Line up its head top with `headTop` and its head center with `headX`.
    - The figure's own head numbers are in `hair-on-figures/index.json` under `head` = [top, centreX, width], in the figure's own pixels.
 4. **Hide what's behind furniture.** For each column, starting at `frontLineX0`, `frontLine` gives the lowest row where the mannequin still showed. Below that row the furniture is in front, so the room is drawn over the figure.
    - This replaces the single horizontal cut (`clipBelowY`) that chops legs today.
@@ -40,7 +40,7 @@ Made Oct 27, 2026 from the owner's mannequin idea (playtest sitting 1). The CTO 
 
 - **Pick a piece** by `view` (front, threeq, back), `style` (1–12) and `sex`. `styles` in the index lists the names.
 - **On the figure it was painted on:** lay it straight on top. It's the same frame as `figures/<figure>.png`.
-- **On another figure of the same view:** scale by the ratio of the two head widths, then line up head top and centre (`cto-notes/firefly/people-rooms/tools/hairfit.py` on the CTO's Mac does this).
+- **On another figure of the same view:** scale by the ratio of the two head widths, then line up head top and center (`cto-notes/firefly/people-rooms/tools/hairfit.py` on the CTO's Mac does this).
 - **Three-quarter pieces face left.** Mirror them for right-facing figures.
 - **Color:** the pieces are plain gray, so recolor by luminance, the same way as clothes.
 
