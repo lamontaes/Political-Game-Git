@@ -16,7 +16,7 @@ import {
   governmentUnitsForPlace,
 } from "../core2/reference/government-units";
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
-import { placeReferencePopulation } from "../core2/gov-rules/place-population";
+import { publishedPlaceReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
 import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
 
@@ -175,6 +175,7 @@ function stateTownFacts(stateKey: string) {
  * opens at the model's own size, so it reads that, marked `estimated`; a name
  * the state repeats carries its county.
  * stopgapId: SG-PLAY-town-count-estimate
+ * stopgapId: SG-WORLD-creator-town-count-published
  */
 export function creatorTowns(stateKey: string, query: string) {
   const apart = stateTownFacts(stateKey);
@@ -183,7 +184,7 @@ export function creatorTowns(stateKey: string, query: string) {
     scope: "locality",
   }).map((place) => {
     const population = place.sourceGeoid
-      ? placeReferencePopulation(place.sourceGeoid)
+      ? publishedPlaceReferencePopulation(place.sourceGeoid)
       : null;
     const county = apart.get(place.key);
     return {
