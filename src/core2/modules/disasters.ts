@@ -16,7 +16,6 @@ import households from "../data/disasters/households.json" with { type: "json" }
 import severityData from "../data/disasters/severity.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import lookup from "../data/places/place-lookup.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../kernel/dates";
 import { stateOfPlaceKey } from "../places";
 import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
@@ -29,8 +28,6 @@ import {
 
 export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
-const SEVERITY_STOPGAP = "SG-WEB-disaster-severity-damage-proxy";
-const HAZARD_KIND = "hazard.disaster";
 const BUILDER_CLASSIFICATION = "enterprise:construction";
 
 /** A government's name reduced to its place name: "Liberty, City of" → "liberty". */
@@ -216,7 +213,7 @@ function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   api.emit({
     id: `disaster:${disaster.number}:${town}`,
     date: core.date,
-    kind: HAZARD_KIND,
+    kind: "hazard.disaster",
     personIds: [],
     placeId: town,
     publicRecord: true,
@@ -404,38 +401,6 @@ export const DISASTERS_MODULE: CoreModule = {
     return undefined;
   },
 };
-
-/**
- * The outcome web's `disaster.severe` for the town: the severity of the most
- * severe disaster that began here since the world opened, within the years a
- * severe disaster is read to last (Boustan, Kahn, Rhode and Yanguas 2020 pool
- * disasters by decade), citing that disaster's news event. Zero while none
- * has; null for a place the disasters engine keeps no records of.
- */
-export function severeDisasterReading(
-  api: CoreAPI,
-  placeId: string,
-): { value: number; recordId: string | null } | null {
-  const core = api.state;
-  if (core.people.get(core.playerId ?? "")?.placeId !== placeId) return null;
-  // stopgapId: SG-WEB-disaster-severity-damage-proxy
-  api.stopgap(SEVERITY_STOPGAP);
-  const since = addDays(
-    makeIsoDate(core.date),
-    -Math.round(
-      severityData.effectYears.value * api.parameter("daysPerMeanYear"),
-    ),
-  );
-  let value = 0,
-    recordId: string | null = null;
-  for (const id of core.logByKind.get(HAZARD_KIND) ?? []) {
-    const event = core.durableLog.get(id);
-    const severity = Number(event?.facts?.severity);
-    if (!event || event.placeId !== placeId || !(event.date > since)) continue;
-    if (severity > value) [value, recordId] = [severity, event.id];
-  }
-  return { value, recordId };
-}
 
 /**
  * What FEMA obligated to the town's county and town governments for a

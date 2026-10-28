@@ -12,7 +12,7 @@ import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
 import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";
-import { webFactorFor } from "./outcome-web-reach";
+import { webFactorFor } from "./modules/laws";
 import type { CoreAPI, CoreState } from "./types";
 
 const HOUSING = "housing";

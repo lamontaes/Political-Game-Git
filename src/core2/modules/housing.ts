@@ -59,7 +59,6 @@ import {
   type PriceLevel,
 } from "../housing-prices";
 import { HOME_VALUE_MEASURE } from "../housing-sale";
-import { webFactorFor } from "../outcome-web-reach";
 import {
   occupyCompletedRentals,
   houseUnassignedHouseholds,
@@ -70,7 +69,7 @@ import {
   renewRentalLeases,
 } from "../housing-occupancy";
 import { residentsRuntime } from "./residents";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, webFactorFor } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
