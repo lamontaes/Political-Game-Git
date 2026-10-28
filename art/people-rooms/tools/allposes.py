@@ -11,10 +11,14 @@ cells = []
 for pose in order:
     if not os.path.exists(f'{WD}/{pose}/parts.json'): continue
     meta = json.load(open(f'{WD}/{pose}/parts.json'))
+    if any(len(meta['figures'][f'v2-{pose}-{s}-medium']['parts']) < 25 for s in 'fm'): continue   # a pose still being painted isn't shown yet
     for sex in 'fm':
         fid = f'v2-{pose}-{sex}-medium'; info = meta['figures'][fid]; have = set(info['parts'])
         o = json.loads(json.dumps(LOOK[sex])); o['parts'] = {k: v for k, v in o['parts'].items() if v[0] == 1 and k in ('shirt','pants','shoes') or f'{k}-{v[0]}' in have}
-        if o['hair'] and f"hair-{o['hair'][0]}" not in have: o['hair'] = None
+        hairs = sorted(int(p[5:]) for p in have if p.startswith('hair-'))
+        if hairs and f"hair-{o['hair'][0]}" not in have: o['hair'][0] = min(hairs, key=lambda n: abs(n - o['hair'][0]))   # nearest style painted for this pose
+        if not hairs: o['hair'] = None
+        if o['hair'] and IDX[pose].get('ageBand') == 'older': o['hair'][1] = [200, 200, 195]          # older adults go gray
         img, _ = person(f'{WD}/{pose}', fid, info, o); cells.append((pose, sex, img))
 cw = max(c[2].width for c in cells); ch = max(c[2].height for c in cells) + 30; cols = 6
 S = Image.new('RGB', (cw * cols, ch * ((len(cells) + cols - 1) // cols)), (214, 205, 188)); d = ImageDraw.Draw(S)
