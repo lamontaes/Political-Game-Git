@@ -35,7 +35,7 @@
     }
   },
   "postLines": {
-    "about": "The budget line a public post's pay draws on, by the post's id prefix (longest prefix wins). Staff serve the official's office; town department heads serve their department; an elected official's salary is general administration (the nearest Census function is 25, central staff services).",
+    "about": "The budget line a public post's pay draws on, by the post's id prefix (longest prefix wins); a job whose id names no post (an opening employer's staff) draws on its employer's line, by the employer's class (byEmployerClass), else general administration. Staff serve the official's office; town department heads serve their department; an elected official's salary is general administration (the nearest Census function is 25, central staff services).",
     "tag": "SOURCED",
     "source": "Census Bureau, Government Finance and Employment Classification Manual (2006, updated 2022): functions 23 (financial administration), 25 (central staff), 62 (police), 24 (fire), 61 (parks), 44 (highways), 50 (housing and community development).",
     "lines": {
@@ -48,6 +48,12 @@
       "town:public-works": "highways",
       "town:planning": "housing",
       "job:public-schools:": "schools"
+    },
+    "byEmployerClass": {
+      "service:police": "police",
+      "service:fire": "fire",
+      "service:school": "schools",
+      "service:public-school": "schools"
     },
     "federal": "otherPrograms"
   },

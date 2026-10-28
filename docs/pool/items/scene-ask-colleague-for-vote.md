@@ -7,9 +7,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/director-player-asks-for-a-vote
-pr:
+pr: #6460
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T00:17:57.681Z

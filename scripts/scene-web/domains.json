@@ -55,14 +55,20 @@
       "rally-opponent",
       "speech-afterward"
     ],
-    "election-day-and-night": ["polling-place", "race-lost", "race-won"],
+    "election-day-and-night": [
+      "polling-place",
+      "race-lost",
+      "race-told",
+      "race-won"
+    ],
     "legislating": [
       "bill-carry",
       "floor-vote",
       "public-hearing",
       "section-bargain",
       "vote-asked",
-      "vote-confirmed"
+      "vote-confirmed",
+      "vote-sought"
     ],
     "the-executive": [
       "address",

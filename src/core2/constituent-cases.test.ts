@@ -2,30 +2,32 @@
  * M3-08 (simple): residents bring real problems from their own records to a
  * local official at office hours; the official helps or turns them away (or
  * the office decides by the official's own duty), and the outcome moves that
- * resident's view of the official, as a recorded cause.
+ * resident's view of the official, as a recorded cause. The town is built as
+ * the game builds it (`buildBenchWorld`, two-level, every module), so its
+ * problems come as its jobs, homes and health change.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
 import { govReport } from "./gov-test-report";
-import { buildPopulation } from "./population";
-import { advanceCore, createLifeCore } from "./life";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import { openLaws } from "./modules/laws";
-import { openOffices } from "./modules/offices";
-import { openElections } from "./modules/elections";
-import { impressionOf, openCampaigns } from "./modules/campaigns";
-import { openLegislature } from "./modules/legislature";
+import { impressionOf } from "./modules/campaigns";
 import {
   allCases,
   handleCase,
-  openCases,
   casesOpenFor,
   problemOf,
 } from "./modules/constituent-cases";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
-const START = "2026-01-05";
+const START = gameStartDate();
+/** Two months of office hours, then the response window after them. */
+const ASKED = addDays(makeIsoDate(START), 60);
+const SETTLED = addDays(makeIsoDate(START), 75);
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`cases:${Date.now()}`).digest("hex");
@@ -41,7 +43,7 @@ describe("M3-08 constituent cases", () => {
   it("residents bring problems from their records, and how they're handled changes their view", () => {
     let report: Record<string, unknown> | null = null;
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 8 && !report; attempt += 1) {
+    for (let attempt = 0; attempt < 4 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
         ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
@@ -58,23 +60,17 @@ describe("M3-08 constituent cases", () => {
       if (!places.length) continue;
       const key = pick(places, `place:${attempt}`).key;
       tried.push(`${state} ${key}`);
-      const core = createLifeCore(
-        buildPopulation({
-          seed,
-          placeKey: key,
-          startedAt: START,
-          minimumPeople: 200,
-        }),
+      const { core } = buildBenchWorld(
+        createHash("sha256").update(`${seed}:world:${attempt}`).digest("hex"),
+        START,
+        { twoLevel: true, placeKey: key },
       );
-      openLaws(core);
-      openOffices(core, seed);
-      openElections(core);
-      openCampaigns(core);
-      openLegislature(core);
-      openCases(core);
       const api = coreAPI(core);
-      advanceCore(core, "2026-02-05");
-      const cases = allCases(api);
+      // About one adult in five reaches an official in a year (Pew, 2018);
+      // two months gives a town a few problems brought.
+      advanceCore(core, ASKED);
+      // The cases still open on the day: earlier ones the office has settled.
+      const cases = allCases(api).filter((c) => c.status === "open");
       if (cases.length < 2) continue;
       // Every case is a problem the resident's own records show.
       for (const c of cases)
@@ -108,13 +104,11 @@ describe("M3-08 constituent cases", () => {
       expect(after).toBeGreaterThan(before);
       expect(afterD).toBeLessThan(beforeD);
       // The rest are handled by the office within the response window.
-      advanceCore(core, "2026-02-20");
-      const done = allCases(api).filter((c) => c.opened <= "2026-02-05");
+      advanceCore(core, SETTLED);
+      const done = allCases(api).filter((c) => c.opened <= ASKED);
       expect(done.every((c) => c.status !== "open")).toBe(true);
       expect(
-        casesOpenFor(api, helped.officialId).filter(
-          (c) => c.opened <= "2026-02-05",
-        ),
+        casesOpenFor(api, helped.officialId).filter((c) => c.opened <= ASKED),
       ).toEqual([]);
       report = {
         seed,
@@ -133,5 +127,5 @@ describe("M3-08 constituent cases", () => {
       `fewer than two cases in ${tried.join(", ")}`,
     ).not.toBeNull();
     govReport("constituent-cases", JSON.stringify(report));
-  });
+  }, 1_800_000);
 });

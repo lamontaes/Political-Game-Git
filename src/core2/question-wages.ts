@@ -12,11 +12,16 @@ import {
   reachParameter,
   reachTable,
   tomorrow,
-  yesLevels,
   type MechanicRow,
 } from "./law-reach/group-a-records";
 import { appliedOn, lawNoLongerApplies } from "./law-reach/applied";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  yesLevels,
+} from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI } from "./types";
 

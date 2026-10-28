@@ -14,6 +14,7 @@
  * grievance, and a majority to remove ends the member's term, the seat then
  * filling by its vacancy rule.
  */
+import { townLean } from "./campaigns";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
@@ -145,17 +146,6 @@ const addDays = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
     .toISOString()
     .slice(0, 10);
-
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
-}
 
 function adults(api: CoreAPI): readonly Readonly<PersonState>[] {
   const town = lawChain(api).townPlaceId;

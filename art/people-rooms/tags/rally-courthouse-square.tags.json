@@ -1,0 +1,40 @@
+{
+ "scene": "rally-courthouse-square",
+ "plate": "sg-rallycourt2",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 180,
+  "seat": "none",
+  "hands": "free",
+  "coveredBy": "none",
+  "dress": "casual"
+ },
+ "zones": [
+  {
+   "name": "speaker at the gazebo lectern",
+   "box": [
+    370,
+    390,
+    460,
+    530
+   ],
+   "pose": "lectern",
+   "facing": 0,
+   "coveredBy": "lectern",
+   "role": "speaker",
+   "hands": "on lectern",
+   "dress": "business"
+  },
+  {
+   "name": "crowd facing the gazebo",
+   "box": [
+    0,
+    0,
+    1672,
+    941
+   ],
+   "pose": "stand",
+   "facing": 180
+  }
+ ]
+}
