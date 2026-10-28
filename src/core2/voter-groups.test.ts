@@ -152,7 +152,10 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
     votes2024: 0,
     source: "the town's counted adults",
   };
-  const places = [town, ...statePlaces(place.state.slice(3), weighted)];
+  const places = [
+    town,
+    ...statePlaces(place.state.slice(3), core.seed, weighted),
+  ];
   const counted = countPlaces(sample, places, typical);
   expect(counted.places.length, where).toBe(places.length);
   // The town casts its people's turnout, rounded to whole voters. Read at a

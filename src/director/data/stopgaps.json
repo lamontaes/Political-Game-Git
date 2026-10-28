@@ -407,5 +407,17 @@
     "addedAt": "2026-10-27",
     "replacement": "A household limit the campaigns engine reads when the candidate gives their own money, with the reply naming it (pool item campaigns-household-limit-read).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-favor-promise-keeps-unread",
+    "kind": "missing-hook",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "A scene that ends with a favor owed or a promise made writes it on the scene's own record (facts ending and keeps), but no engine reads keeps yet: the favor is not called in and the promise is not held against the player.",
+    "why": "The favor belongs to the legislature's obligations (obligationsOf) and the relationship record, the promise to the campaigns engine's promises; both engines are other leads'. Endings that strain a tie or lose trust are written to closeness now.",
+    "addedBy": "Words and director session",
+    "addedAt": "2026-10-28",
+    "replacement": "The legislature's keepReply and the campaigns engine read keeps (favor-owed, promise) from scene.reply and record the obligation and the promise; the journal says it from that record.",
+    "status": "open"
   }
 ]
