@@ -180,17 +180,19 @@ function colorRow(
 
 /** The style's name, or Bald where none is chosen. */
 function hairName(recipe: LookRecipe): string {
-  return (
-    hairStyles(recipe.sex).find((row) => String(row.style) === recipe.hair)
-      ?.name ?? "Bald"
-  );
+  const name = hairStyles(recipe.sex).find(
+    (row) => String(row.style) === recipe.hair,
+  )?.name;
+  return name ? sentenceCase(name) : "Bald";
 }
+/** A painted piece's name as the creator's rows read: capitalized, like Slim and Button shirt. */
+const sentenceCase = (name: string) => name[0]!.toUpperCase() + name.slice(1);
 /** The face's worded name, or the figure's own painted face where none is chosen. */
 function faceName(recipe: LookRecipe): string {
   const name = faces(recipe.sex).find(
     (row) => String(row.face) === recipe.face,
   )?.name;
-  return name ? name[0]!.toUpperCase() + name.slice(1) : "Plain";
+  return name ? sentenceCase(name) : "Plain";
 }
 
 /** Bald first, then each painted style. */
