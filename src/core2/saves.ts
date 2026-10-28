@@ -135,7 +135,7 @@ registerCommand<Parameters<typeof fillInIdentity>[1]>(
 export function preStartFromYear(core: CoreState): number | undefined {
   const player = core.playerId ? core.people.get(core.playerId) : undefined;
   if (player) return Number(player.birthDate.slice(0, 4));
-  const adultAge = coreAPI(core).parameter("benchmarkAdultMinimumAge");
+  const adultAge = coreAPI(core).parameter("votingAge");
   let youngest: string | undefined;
   for (const person of core.people.values()) {
     if (person.tier === "husk") continue;

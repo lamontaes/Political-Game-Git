@@ -8,7 +8,7 @@
  * the pieces for each stage, filled from the speaker's records, and a subject
  * with no record for its slots is never offered.
  */
-import { heldSinceRecord } from "../core2/past-work";
+import { heldSinceRecord, schoolsAttended } from "../core2/past";
 import {
   speechPartsByReach,
   speechStagePieces,
@@ -94,13 +94,12 @@ function factsOf(
     if (years > P.zero)
       facts.years = { text: String(years), sourceRecordIds: [tenure.id] };
   }
-  const school = (person.pastFacts ?? []).find(
-    (fact) => fact.facts?.schoolName,
-  );
+  // The first school the person's records name, by its own record.
+  const school = schoolsAttended(core, person.id).find((row) => row.name);
   if (school)
     facts.school = {
-      text: properName(school.facts!.schoolName!),
-      sourceRecordIds: [school.id],
+      text: properName(school.name!),
+      sourceRecordIds: [school.recordId, school.schoolId],
     };
   const household = core.households.get(person.householdId);
   const children = (household?.memberIds ?? []).filter((id) => {

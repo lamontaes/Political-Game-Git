@@ -2,7 +2,7 @@ import type {
   CharacterComponentAvailability,
   CharacterComponentCandidateDefinition,
   CharacterComponentDefinition,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 
 export type MeasurementConfidence =
   | "exact"
@@ -114,7 +114,7 @@ export interface AssetManifestEntry {
   requires_transparency?: boolean;
   /**
    * Present only when asset_type is "character-component". The definition
-   * contract lives in src/presentation/character-components.ts so the art
+   * contract lives in src/appearance/character-components.ts so the art
    * validator and the runtime share one implementation.
    */
   component?: CharacterComponentDefinition;
@@ -133,7 +133,7 @@ export type {
   CharacterCatalogData,
   CharacterComponentCandidateDefinition,
   CharacterComponentDefinition,
-} from "../../src/presentation/character-components";
+} from "../../src/appearance/character-components";
 
 export interface EnvironmentFamily {
   family_id: string;

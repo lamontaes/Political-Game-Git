@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
-import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import { newsKey, newsModule, printStory, trustOf } from "./modules/news";
 import { viewOf, viewsModule, stancesOf } from "./modules/views";
@@ -13,16 +12,14 @@ import { drawPlace } from "../../scripts/core2-year/place";
 // own habits, and through the people they talk to; people who never hear it
 // don't know it.
 const seed = process.env.GOLDEN_PATH_SEED ?? "news-a";
-const input = buildDeepPast(
-  buildPopulation({
-    seed,
-    ...(process.env.GOLDEN_PATH_SEED
-      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-      : {}),
-    startedAt: "2021-01-01",
-    minimumPeople: 500,
-  }),
-);
+const input = buildPopulation({
+  seed,
+  ...(process.env.GOLDEN_PATH_SEED
+    ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+    : {}),
+  startedAt: "2021-01-01",
+  minimumPeople: 500,
+});
 const core = createLifeCore(input, { modules: [viewsModule, newsModule] });
 const api = coreAPI(core);
 const subject = [...core.people.values()].find(
@@ -113,14 +110,12 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
         "news-county",
       );
       const local = createLifeCore(
-        buildDeepPast(
-          buildPopulation({
-            seed: drawn.seed,
-            placeKey: drawn.key,
-            startedAt: "2021-01-01",
-            minimumPeople: 500,
-          }),
-        ),
+        buildPopulation({
+          seed: drawn.seed,
+          placeKey: drawn.key,
+          startedAt: "2021-01-01",
+          minimumPeople: 500,
+        }),
         { modules: [viewsModule, newsModule] },
       );
       const localApi = coreAPI(local);

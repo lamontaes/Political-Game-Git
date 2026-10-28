@@ -88,8 +88,8 @@ Every shortcut is a row in `src/core2/data/stopgaps.json` (the director has its 
   - `world.ts` builds the world. `src/bench/*.browser.mjs` are the browser checks.
 - **`desktop/`: the Electron shell and updater.** It bundles the bench handler; no game logic.
 - **Political geography:** `src/districts/` and `src/maps/`.
+- **`src/appearance/`: the art pipeline's character components, garment fit and pose families**, outside the engine; the art scripts and their tests read it, and it reads only the core's stored appearance.
 - **Old or unused folders, to be removed with the old core:**
-  - `src/presentation/` (appearance engine, garment fit, pose families);
   - `src/fiscal-authority/` and `src/education/` (used only by `src/simulation`);
   - `src/authoring/` (the art-bench event model, used by one dev script);
   - `src/source/` (three unused type files);
