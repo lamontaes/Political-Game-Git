@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-seated-side-room
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T05:52:16.656Z
 ---
 
 **What.** src/bench/seated.test.ts fails on main for any room with a seat near a side (PEOPLE_TEST_PLACE=county-courtroom): since #6427 a figure keeps SIDE_ROOM (4%) at either side, and the test still expects the clamp at the picture's edge.
