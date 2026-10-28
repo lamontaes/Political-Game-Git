@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/director/office-scene.ts, src/director/director.test.ts
 
 **Notes.** TODO
+
+Merge-first: stale, back to the pool (Merger 4, Oct 28): PR #5384 closed; branch claude/director-literal, last push Oct 20, sent back. Claiming this item transfers that branch to you.

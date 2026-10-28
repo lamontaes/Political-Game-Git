@@ -28,3 +28,5 @@ Sent back 2026-10-20 from PR #5404 (branch claude/relocation-moves-whole-s14): d
 Sent back 2026-10-20 from PR #5149 (branch claude/relocation-dead-member): The required played-world replay is still missing. The body says no seed was captured, but the PR comments supply Dover NH 3318820, seed ee04c2985f301a47, and report that this fix gets past Invalid relocation then stops at moves.ts with A whole household moves under its own id. Finish that ordinary generated-world route and name the moved household/records on a completed year; the hand-built one-living/one-dead state.test.ts fixture does not prove the eviction route stops crashing. Preserve the household identity and all living/dead membership invariants rather than narrowing the check.; finish on that branch, merge main into it first.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (cannot reproduce; reopen with a captured seed).
+
+Merge-first: stale, back to the pool (Merger 4, Oct 28): PR #5149 closed; branch claude/relocation-dead-member, last push Oct 19, sent back twice. Claiming this item transfers that branch to you.
