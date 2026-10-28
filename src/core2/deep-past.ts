@@ -6,7 +6,7 @@ import {
   type OpeningPeerData,
 } from "./opening-peer-network";
 import { groupedJsonTable } from "./reference/lazy-data";
-import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countyGeoidsForPlace } from "./reference/government-units";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { placeReferencePopulation } from "./gov-rules/place-population";

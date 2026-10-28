@@ -43,6 +43,7 @@ import {
   type PreStartWindow,
 } from "./pre-start";
 import { registerWorldMapPart } from "./snapshot";
+import { stopgap } from "./stopgaps";
 import { coreAPI } from "./state";
 import type {
   CoreAPI,
@@ -171,6 +172,7 @@ function monthOn(months: readonly Conditions[], date: string): Conditions {
 
 /** The town's businesses, their founding dates (the business pass) and openings a quarter. */
 function firmsOf(api: CoreAPI): Firm[] {
+  stopgap("SG-HIST-past-work-day-one-town");
   const c = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
   const founded = new Map(
