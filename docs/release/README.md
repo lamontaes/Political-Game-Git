@@ -184,6 +184,8 @@ so a push to `main` cannot take its place in the queue either.
 
 ## Required checks
 
+**Set on main on Oct 28, 2026 at 03:47 UTC** from the owner's Mac with the owner's account (the command below), and read back: `validate` and `golden-path` required, up to date off, admins not enforced, force pushes and deletions off.
+
 Two checks hold main: `validate` (the aggregate in
 `.github/workflows/validate.yml`, which requires the `guards` job and the
 changed-file checks) and `golden-path` (`.github/workflows/m0-guard.yml`).

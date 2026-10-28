@@ -216,7 +216,7 @@ export class BenchPlayer {
   }
 
   /** The minute the controlled person's day starts, read from the core's parameters. */
-  private dayStartMinute() {
+  dayStartMinute() {
     // stopgapId: SG-PLAY-day-start-minute
     return parameter("playerDayStartMinute", this.core.data.parameters);
   }

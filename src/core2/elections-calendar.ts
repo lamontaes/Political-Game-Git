@@ -583,6 +583,7 @@ interface TermStartRow {
 }
 interface TermStartTable {
   default: TermStartRow & { monthDay: string };
+  townOffNovember: { days: number };
   states: Record<string, Record<string, TermStartRow>>;
 }
 
@@ -664,6 +665,20 @@ export function termStartAfter(
   }
   const rule = office.termStarts ? undefined : termStartRow(office)?.rule;
   if (rule) return ruleStartAfter(rule, electionDate);
+  // A town office elected outside November sits weeks after its vote, not
+  // the next January (SG-GOV-term-end-estimate, until charters are read).
+  const month = electionDate.slice(5, 7);
+  if (
+    !office.termStarts &&
+    !termStartRow(office) &&
+    (office.level === "city" || office.level === "township") &&
+    month !== "11" &&
+    month !== "12"
+  )
+    return addDays(
+      makeIsoDate(electionDate),
+      (termStartData as unknown as TermStartTable).townOffNovember.days,
+    );
   const starts = office.termStarts ?? termStartDefault(office);
   const year = Number(electionDate.slice(0, 4));
   const same = `${year}-${starts}`;

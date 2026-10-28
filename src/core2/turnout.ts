@@ -131,5 +131,31 @@ export function namedTurnout(
     : { votes: false, carry: owed };
 }
 
-/** The carry a person starts with, before any election in play: even. */
+/** The carry a campaign's door answers start with: even. */
 export const OPENING_CARRY = 0.5;
+
+/**
+ * The carry a named voter starts with, before any election in play: a point of
+ * their own record spread evenly over the electorate, from their id (seeded
+ * generation of the starting record, as a person's starting lean is). Every
+ * start at the same carry would make a first election turn out only those
+ * whose propensity alone reaches a whole vote, so a town whose voters all sit
+ * under one half would have no named turnout at all (Troy, Vermont, seed
+ * 30d6e503...: 56 voters at 0.006 to 0.16). Spread over zero to one, the share
+ * who vote in a first election is the share their propensities say, and each
+ * voter's act is still decided by their own propensity and record.
+ */
+export function openingVoterCarry(voterId: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < voterId.length; i++) {
+    h ^= voterId.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  // Finish with an avalanche so ids that differ in a few characters start far apart.
+  h ^= h >>> 16;
+  h = Math.imul(h, 2246822507);
+  h ^= h >>> 13;
+  h = Math.imul(h, 3266489909);
+  h ^= h >>> 16;
+  return (h >>> 0) / 4294967296;
+}

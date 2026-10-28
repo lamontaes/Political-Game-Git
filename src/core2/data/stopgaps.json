@@ -4575,8 +4575,8 @@
     "id": "SG-WORLD-housing-foreclosure-steps",
     "kind": "assumed-data",
     "file": "src/core2/housing-foreclosure.ts",
-    "line": 68,
-    "whatItFakes": "A state's foreclosure timeline that was not read from its statute (55 places) or that has no published average (42 places) is taken from secondary summaries or the national average days to complete (ATTOM, 563 days in Q2 2026).",
+    "line": 99,
+    "whatItFakes": "A state's foreclosure timeline that was not read from its statute (55 places) is taken from secondary summaries; a place with no published average days to complete (42 places) takes the median of its process (nonjudicial 174, judicial 2007, both 2293 days, computed from the 14 published averages) in place of the national average (ATTOM, 563 days in Q2 2026).",
     "why": "Foreclosure statutes and timelines were gathered for 56 places in one pass; places below high confidence still need their statute text read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
@@ -6724,8 +6724,8 @@
     "why": "A series a body can draft needs its bill-section words, which belong to the Words line (words-bill-section-local-income-tax-authority); the laws branch's own words were returned by Merger 2 on Oct 26.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "The Words line's bill-section row for local-income-tax-authority, then a state-level grant/withdraw policy in the bill catalog (scripts/research/build-bill-catalog.py) and its power in series-powers.json.",
-    "status": "open"
+    "replacement": "Resolved Oct 28: the bill catalog offers law:local-income-tax-authority to state chambers (scripts/research/build-bill-catalog.py), worded by the Words row from #6432, so a legislature grants or withdraws its towns' power to tax income by bill and a town's next income-tax bill reads the law in force.",
+    "status": "resolved"
   },
   {
     "id": "SG-LAW-death-tax-no-schedule",
@@ -7147,8 +7147,8 @@
     "why": "The inauguration record (inauguration:2025-01-20) carries no venue, and the Capitol steps have no podium in the painted pictures, so the President could not be drawn at a lectern with the Vice President and others behind him at the White House.",
     "addedBy": "play-first lane agent 4",
     "addedAt": "2026-10-27",
-    "replacement": "The inauguration record carries its venue, and the Capitol steps picture gets a podium spot; the setting reads the record.",
-    "status": "open"
+    "replacement": "Resolved Oct 28 by deletion: the opening's picture table is gone (trim-main-every-duplicate-deleted, row W1/B1 of docs/reports/duplicates-on-main-2026-10-28.md), so nothing stages the address at the House rostrum. When the address plays as the director's address situation type (director-opening-as-a-scene), its place comes from the scene's own place rule; the inauguration record still carries no venue.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-contract-conflict-named-members",
