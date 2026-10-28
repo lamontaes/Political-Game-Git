@@ -932,6 +932,7 @@
       "from": "health.coverage-pct",
       "evidence": "provisional",
       "range": [-0.4, -0.1],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach pays them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one obligation record per payment) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)",
       "notes": "Person-level: it acts through each person's covered years, so it waits on the person pipeline, not on a place rate. Miller, Johnson and Wherry report effects by 3-year age bin (Appendix Figure A5) and by sex (Appendix Table A10) but the text gives only direction (largest reductions at ages 59-64, larger for males, similar for under-138-percent-of-poverty and less-than-high-school), and the figure and table values are in the online appendix, so no weights are set."
     },
     {
@@ -1009,14 +1010,14 @@
     {
       "key": "job-loss-to-death-risk",
       "status": "person-level",
-      "unsupportedReason": "size-not-set",
+      "unsupportedReason": null,
       "to": "health.death-risk",
       "strength": "strong",
       "shape": {
         "kind": "acute-decay",
         "halfLifeDays": 1095
       },
-      "size": null,
+      "size": 0.847,
       "per": "displacement",
       "lagMonths": 0,
       "group": "displaced long-tenure workers",
@@ -1025,7 +1026,9 @@
       "source": "Sullivan and von Wachter 2009 (QJE)",
       "from": "person.displaced-from-long-job",
       "evidence": "researched",
-      "notes": "Person-level: it acts on a worker displaced from a long job, decaying after the loss, so it waits on the person pipeline, not on a place rate."
+      "range": [0.5, 1],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through displacementFactor in src/core2/health-own.ts), which reads the jobs engine's closure or layoff record on the person (displacementsNow in src/core2/job-displacement.ts: the changes table in src/core2/modules/jobs.ts, with the tenure of the job that ended) and multiplies their death hazard by one plus the paper's excess for the years since, scaled by tenure up to six years (src/core2/data/health/displacement.json). Counted people are not read (stopgap SG-HEALTH-own-records-counted)",
+      "notes": "Person-level: it acts on a worker displaced from a long job, decaying after the loss. The size is the first year's excess, the paper's long-run coefficient 0.131 plus its added coefficient for 1 year after 0.716 (Table 4 column 1, workers with at least 6 years of tenure at firms that lost 30% or more of their jobs); the paper's abstract reads the first years as 50-100% and twenty years on as 10-15%. The jobs engine keeps no firm peak to test the paper's 30% loss of jobs, but it lets the long-tenured go only after everyone it values less, so a layoff of a worker with years on the job is a deep cut. One half-life cannot carry a decline to a long-run floor, so the engine reads the paper's own table by years since (src/core2/data/health/displacement.json), linear between its points. The sample is men and the table is not split by sex here, so the excess is applied to women too (ESTIMATED); the paper finds little effect for workers displaced near retirement age, which the pooled table does not carry."
     },
     {
       "key": "recession-to-total-mortality",
@@ -1049,13 +1052,13 @@
     {
       "key": "long-hours-to-heart-and-stroke",
       "status": "person-level",
-      "unsupportedReason": "size-not-set",
+      "unsupportedReason": null,
       "to": "health.stroke-and-heart-deaths",
       "strength": "moderate",
       "shape": {
         "kind": "exposure-years"
       },
-      "size": null,
+      "size": 0.17,
       "per": "years at 55+ hours",
       "lagMonths": 0,
       "group": "workers",
@@ -1064,7 +1067,9 @@
       "source": "WHO and ILO 2021",
       "from": "labor.share-working-55-plus-hours",
       "evidence": "researched",
-      "notes": "Person-level: it acts through each worker's years of 55-plus-hour weeks, so it waits on the person pipeline, not on a place rate."
+      "range": [0.05, 0.31],
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through longHoursFactor in src/core2/health-own.ts), which reads the weekly hours recorded on the job they hold (hoursDaily times daysPerWeek on the job in the core's jobs) and multiplies their death hazard by one plus the heart disease and stroke shares of deaths at their age times each cause's relative risk less one at those hours (src/core2/data/health/long-hours.json), for as long as they hold it. Counted people are not read (stopgap SG-HEALTH-own-records-counted)",
+      "notes": "Person-level: it acts through each worker's years at long weekly hours, which the hazard accumulates while they hold such a job. The size is the relative risk of ischemic heart disease mortality at 55 or more hours a week against 35 to 40, 1.17 (1.05 to 1.31); the relative risk for stroke, 1.35 (1.13 to 1.61), is stroke morbidity (Pega et al. 2021, Table 1) and is read in src/core2/data/health/long-hours.json with the hours ramp the paper's lower categories give, and the shares of deaths from heart disease and stroke by age (NCHS NVSR 74(10) Table 1, 2023). The comparison is a worker at 35 to 40 hours, and the life table's own average holds the few at long hours, so the table is not rescaled."
     },
     {
       "key": "eitc-to-low-birthweight",

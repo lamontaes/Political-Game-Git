@@ -5290,7 +5290,7 @@
     "why": "Four links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits; the two about-zero links run at size 0.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones.",
+    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones. education-to-mortality (contested: Lleras-Muney 2005 and the re-examinations) is left unread on purpose: no size the notes would accept was found. Its reader, the day a sourced size exists, is the monthly look in src/core2/modules/health.ts (refreshWebFactors, through src/core2/health-own.ts), reading the education category on the person's record (profile:education, src/core2/opening-profile.ts) as the cause.",
     "status": "open"
   },
   {
@@ -5298,11 +5298,11 @@
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
     "line": 78,
-    "whatItFakes": "Coverage to catastrophic bills (coverage-to-catastrophic-bills) and depression (coverage-to-depression); job loss to death risk (job-loss-to-death-risk); long hours to heart disease (long-hours-to-heart-and-stroke); childhood food stamps to adult health (child-food-stamps-to-adult-health); the earned income credit to low birth weight (eitc-to-low-birthweight) are person-level links with no cause recorded on the person.",
+    "whatItFakes": "Coverage to catastrophic bills (coverage-to-catastrophic-bills) and depression (coverage-to-depression); childhood food stamps to adult health (child-food-stamps-to-adult-health); the earned income credit to low birth weight (eitc-to-low-birthweight) are person-level links with no cause recorded on the person.",
     "why": "A person's coverage history, displacement, weekly hours, childhood benefit years and a birth weight are not stored.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor.",
+    "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor. The reader is the monthly look in src/core2/modules/health.ts (refreshWebFactors), which books a per-person factor from health-own.ts (plan.own): coverage-to-mortality-55-64, job-loss-to-death-risk and long-hours-to-heart-and-stroke are read that way now (carriedBy in data/research/outcome-web/links.json), and the links still waiting here are read the same way once the person's record exists (a stored coverage history for catastrophic bills and depression, childhood benefit years, a birth weight).",
     "status": "open"
   },
   {
@@ -7505,6 +7505,18 @@
     "addedBy": "wire-office-budgets-justice (Claude, wire-office)",
     "addedAt": "2026-10-28",
     "replacement": "Each such seat's last contested result (2022 or 2023 returns for the chambers that vote in other years, the district's presidential vote where none), read the same way.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-own-records-counted",
+    "kind": "partial-model",
+    "file": "src/core2/modules/health.ts",
+    "line": 596,
+    "whatItFakes": "coverage-to-mortality-55-64 cuts a full person's death hazard at 55 to 64 by their own Medicaid coverage, and job-loss-to-death-risk raises it for a worker whose long job ended in a closure or layoff (src/core2/health-own.ts, src/core2/job-displacement.ts), and long-hours-to-heart-and-stroke raises it for a worker whose job is recorded at long weekly hours. A counted person has none of these records of their own (the Medicaid payment keeps a count for the town's counted adults; the counted flows read no closure and no job hours), so the counted flows (src/core2/births-counted.ts) keep the place-level twin, medicaid-expansion-to-mortality, which is the same cause averaged over the low-income 55- to 64-year-olds enrolled or not, and take no job-loss or long-hours excess. The research finds the excess only at firms that lost 30% or more of their jobs; the jobs engine keeps no firm peak, so a layoff counts when it reaches a worker with years on the job, which it lets go only after everyone it values less (a deep cut), and a worker's sex is not split although the paper's sample is men.",
+    "why": "The payment records named people one by one but counted adults only as a number (payCoverage returns counted), so no counted person can be marked covered or uncovered; the counted tier's closures are not tied to the health flows.",
+    "addedBy": "laws-lead-mortality-helper",
+    "addedAt": "2026-10-28",
+    "replacement": "payCoverage keeps the covered counted households by id, and the counted flows multiply a counted member's chance of a serious illness by the same (1 + size x covered) / (1 + size x covered at the first look) factor, leaving the place-level twin out for them as for a full person; the counted flows read the jobs engine's closure records (the changes table, counted workers included) and the counted jobs' hours, and multiply a displaced or long-hours counted member's chance by the same excess.",
     "status": "open"
   }
 ]
