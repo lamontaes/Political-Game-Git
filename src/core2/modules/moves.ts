@@ -131,6 +131,8 @@ interface Pull {
   webRecord?: string;
   /** At the opening: the pushes less the holds the opening pull was ranked by. */
   openingNet?: number;
+  /** Months to go at the opening, before their own pace: the most pushed have the fewest. */
+  openingMonths?: number;
 }
 
 function pullOf(api: CoreAPI, person: Readonly<PersonState>): Pull {
@@ -1021,6 +1023,7 @@ function openingPulls(
           .sort(),
       };
       pull.openingNet = row.net;
+      pull.openingMonths = (one - at) / meanGain;
       savePull(api, pull);
     }
     start = end + one;
