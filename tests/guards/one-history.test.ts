@@ -8,7 +8,7 @@ import list from "./one-history-proxies.json";
  * One history (owner: "history's exactly like I said, it's going through a
  * different system. There needs to be one. Everything needs to pull from the
  * same history"). The years before the start are being moved from a generated
- * proxy (buildDeepPast) to the engines running them. Until each kind is
+ * proxy (buildDeepPast, deleted Oct 28) to the engines running them. Until each kind is
  * simulated, this guard holds the line:
  *
  *  - no new reader: the files in src/director, src/bench and
@@ -25,7 +25,7 @@ import list from "./one-history-proxies.json";
 const ROOT = path.resolve(__dirname, "../..");
 const READER_DIRS = ["src/director", "src/bench", "src/core2/modules"];
 /** The length of the proxy list when this guard began; it may only go down. */
-const PROXY_CEILING = 8;
+const PROXY_CEILING = 1;
 
 type Proxy = { kind: string; writer: string; simulatedBy: string | null };
 const proxies = list.proxies as Proxy[];

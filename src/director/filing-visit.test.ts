@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { buildDeepPast } from "../core2/deep-past";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { openFilingVisit, pickContest, type FilingCheck } from "./filing-visit";
@@ -7,13 +6,11 @@ import { openFilingVisit, pickContest, type FilingCheck } from "./filing-visit";
 // Golden path step 3: the clerk at the filing office speaks from GOV's
 // records (contest, deadline, each eligibility rule).
 const core = createLifeCore(
-  buildDeepPast(
-    buildPopulation({
-      seed: "filing-visit",
-      startedAt: "2021-01-01",
-      minimumPeople: 200,
-    }),
-  ),
+  buildPopulation({
+    seed: "filing-visit",
+    startedAt: "2021-01-01",
+    minimumPeople: 200,
+  }),
 );
 const player = [...core.people.values()].find((row) => row.tier !== "husk")!;
 const contest = {

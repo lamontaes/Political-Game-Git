@@ -15,7 +15,6 @@ import faithJson from "../../data/research/core/pew-rls-2023-24-faith-by-state.j
 import jointUseJson from "../../data/research/core/shpps-2012-joint-use.json" with { type: "json" };
 import parametersJson from "../../src/core2/data/parameters.json" with { type: "json" };
 import partnershipJson from "../../src/core2/data/opening-partnership.json" with { type: "json" };
-import deepPastJson from "../../src/core2/data/deep-past.json" with { type: "json" };
 
 type Shares = Record<string, number>;
 interface Row {
@@ -165,13 +164,15 @@ export function checkDeepPastResearch(): string[] {
   // not time any child's entry into a grade; the value is the difference of
   // two modal ages and the spread's high end uses the mean pace of enrolled
   // children, which counts children held back.
-  const stages = (
-    deepPastJson as unknown as {
-      schools: {
-        stages: { startOffsetParameter: string; entryGrade: string }[];
-      };
-    }
-  ).schools.stages;
+  // The stages the school engine's run reads (src/core2/modules/school.ts).
+  const stages = [
+    { startOffsetParameter: "zero", entryGrade: "KG" },
+    {
+      startOffsetParameter: "deepPastMiddleSchoolOffsetYears",
+      entryGrade: "06",
+    },
+    { startOffsetParameter: "deepPastHighSchoolOffsetYears", entryGrade: "09" },
+  ];
   for (const stage of stages) {
     if (stage.startOffsetParameter === "zero") {
       expect(stage.entryGrade === "KG", "The first stage is not kindergarten.");

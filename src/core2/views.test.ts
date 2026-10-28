@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { stableHash } from "./kernel/ids";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { corePlaceStateIdentities } from "./place-lookup";
-import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
   countedEngagement,
@@ -55,14 +54,12 @@ const towns = seeds.map((seed) => {
     seed === process.env.GOLDEN_PATH_SEED && process.env.GOLDEN_PATH_PLACE_KEY
       ? { key: process.env.GOLDEN_PATH_PLACE_KEY }
       : drawnPlace(seed);
-  const input = buildDeepPast(
-    buildPopulation({
-      seed,
-      placeKey: place.key,
-      startedAt: "2021-01-01",
-      minimumPeople: 800,
-    }),
-  );
+  const input = buildPopulation({
+    seed,
+    placeKey: place.key,
+    startedAt: "2021-01-01",
+    minimumPeople: 800,
+  });
   const core = createLifeCore(input, { modules: [viewsModule] });
   const api = coreAPI(core);
   const adults = [...core.people.values()].filter(

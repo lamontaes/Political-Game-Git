@@ -14,6 +14,7 @@ import type {
   CoreState,
   IsoDate,
   PersonId,
+  PersonState,
   PlaceId,
   Source,
 } from "./types";
@@ -56,6 +57,8 @@ export interface PreStartPass {
   phase: PreStartPhase;
   /** Runs once; step through `coarseSteps(window)` and date every record. */
   run(api: CoreAPI, window: PreStartWindow, history: HistoryWriter): void;
+  /** The same run for people filled in after it, written with `recordPreStartLater`. */
+  later?(core: CoreState, people: readonly PersonState[]): void;
 }
 
 export interface PreStartModule extends CoreModule {
@@ -135,6 +138,16 @@ export function recordPreStartLater(
   history.sort(
     (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
   );
+}
+
+/** Every installed engine's pre-start history for people filled in after the run (a named person met in play). */
+export function pastForLater(
+  core: CoreState,
+  people: readonly PersonState[],
+): void {
+  if (!windows.has(core) || !people.length) return;
+  for (const module of core.modules.values())
+    (module as PreStartModule).preStart?.later?.(core, people);
 }
 
 /** What happened before the start, oldest first. */

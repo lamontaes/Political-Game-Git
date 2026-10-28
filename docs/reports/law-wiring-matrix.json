@@ -130,9 +130,9 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 75,
+    "wired": 76,
     "partly": 7,
-    "stopgapped": 7,
+    "stopgapped": 6,
     "shownOnAScreen": 87,
     "screensRead": [
       {
@@ -185,10 +185,10 @@
         "n/a": 7
       },
       "web": {
-        "wired": 64,
+        "wired": 65,
         "partial": 2,
         "missing": 0,
-        "stopgap": 7,
+        "stopgap": 6,
         "n/a": 16
       },
       "knowing": {
@@ -2700,7 +2700,7 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -2728,9 +2728,9 @@
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 snap-maximum-to-food-insecurity -0.0147 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 snap-maximum-to-food-insecurity -0.0147 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 snap-maximum-to-food-insecurity -0.0147 (ledger row only)",
-          "why": "no production reader: snap-maximum-to-food-insecurity (SG-WEB-unread-household-food-insecurity) move only the web's ledger"
+          "status": "wired",
+          "evidence": "snap-maximum-to-food-insecurity: carried by the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger) (Nord and Prell 2011, USDA ERS Amber Waves (June 13, 2011) \"Food Security of SNAP Recipients Improved Following the 2009 Stimulus Package\" and Economic Research Report 116; Nord 2013, USDA ERS Amber Waves (October 24, 2013) \"Effects of Changes in SNAP Benefits on Food Security\" (ERR-151); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 2)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",

@@ -34,7 +34,7 @@
     "src/districts/**/*.ts",
     "src/environment/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/presentation/**/*.ts",
+    "src/appearance/**/*.ts",
     "src/release/**/*.ts",
     "src/simulation/**/*.ts",
     "src/core2/kernel/**/*.ts",
@@ -67,7 +67,7 @@
     "src/core2/people-mind.ts",
     "src/core2/person-names.ts",
     "src/core2/place-lookup.ts",
-    "src/core2/school-calendar.ts",
+    "src/core2/past-school-calendar.ts",
     "src/core2/town-households.ts",
     "src/core2/town-employment-mix.ts",
     "src/core2/town-workplaces.ts",
@@ -91,5 +91,5 @@
     "tests/source/**/*.ts",
     "vite.config.ts"
   ],
-  "exclude": ["src/presentation/**/*.test.ts", "src/authoring/**/*.test.ts"]
+  "exclude": ["src/appearance/**/*.test.ts", "src/authoring/**/*.test.ts"]
 }
