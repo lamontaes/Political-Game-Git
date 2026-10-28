@@ -1,6 +1,7 @@
 ---
 id: words-printed-stories-have-a-body
 title: "Printed stories have a body: the lede and then sentences the record gives, not only a brief"
+lead: words
 area: words
 kind: feature
 priority: 2
