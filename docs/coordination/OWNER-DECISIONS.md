@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None. The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Oct 28, 20:20 UTC: family batches on every wire line (owner, 4:15 PM Eastern, "go ahead and do family batches for the links reaching people and traits, etc.")
+
+- **Ruling:** every wire line ships by family from now: the links reaching people (laws), the traits decisions, the office statistics, the director's producers, the screens' points, grouped by the engine or menu that owns them. One PR per family, one drawn-place proof per family naming the record ids, matrices regenerated once per family PR. Two Sonnet helpers per lead, each on one family in its own worktree; the lead reviews every diff. The per-unit rule of Oct 27 stays for a finished scene, screen or law that stands alone; it no longer applies to matrix lines.
+- **Why:** one law per PR with a full proof each ran at about one an hour, and every PR rebased against the others on the stopgap register and the parameter table. The stopgap register is being split into per-family files to end those collisions.
+
 ## Oct 28, 18:15 UTC: the words and director plan approved (owner, 2:10 PM Eastern, "All the six are right")
 
 - **Ruling:** the plan at `docs/reports/words-director-plan-2026-10-28.md` is approved whole. Scene depth stays. Filing is petition, signatures, the clerk's check, then the ballot (this reverses "Filing: no fee or petition mechanic"). The narrator shows first, Continue, then the person talks (this replaces the Oct 27 "at once"). The batch-grading apparatus is deleted; one grade file, the reach table and the in-play grade control remain. The ungraded Oct 15 lines keep playing until a grade or a pattern ban removes them. One Opus session owns the director and the English engine together, with two Sonnet helpers.

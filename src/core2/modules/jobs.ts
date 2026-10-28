@@ -3376,7 +3376,6 @@ function openToOffers(api: CoreAPI): SeekerRow | undefined {
  * (owner, Oct 27: a job offer comes through a person and a scene or not at
  * all); the employer withdraws it unanswered after the deadline. With nobody at
  * the employer to make it, there is no offer.
- * stopgapId: SG-DIR-job-offer-lines
  */
 function offerToPlayer(
   api: CoreAPI,

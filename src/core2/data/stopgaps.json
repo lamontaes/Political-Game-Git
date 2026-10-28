@@ -7255,8 +7255,8 @@
     "why": "Owner, Oct 27: a job offer comes through a person and a scene or not at all. The bench's faceless offer card was removed; the lines for the new purpose belong to the Words lead.",
     "addedBy": "claude/integration-one-employment",
     "addedAt": "2026-10-27",
-    "replacement": "Bank lines for the job-offer purpose and the job-offer scene opening, written by the Words lead through civic-prose; the offer then shows as a call from the person at the employer.",
-    "status": "open"
+    "replacement": "Resolved Oct 28 (words and director session): the scene-talk bank holds the job-offer purpose's lines (the call, the offer with the position and the hourly pay from the offer record, the four replies, the follow-ups and closes); purpose-scene words the offer record's employer, position, pay and deadline; the job-offered record joins scheduling.ownRecordScenes, so the call stops the day.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-day-start-minute",
