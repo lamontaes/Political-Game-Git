@@ -4460,9 +4460,13 @@ function decide(
   } as unknown as ModuleRow);
   // An even split with no holder's side seats no one.
   if (!winnerParty) return;
+  // The winner is seated on the term's first day; where that day has come
+  // by the count's own day, the morning after (the calendar takes only a
+  // day not yet run).
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
     key: `seat:${row.id}`,
-    date: race.seatedOn > api.state.date ? race.seatedOn : api.state.date,
+    date:
+      race.seatedOn > api.state.date ? race.seatedOn : dayAfter(api.state.date),
     kind: "seat-winner",
     source: {
       tag: "SOURCED",
