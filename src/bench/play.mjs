@@ -1426,7 +1426,7 @@ function renderFiling(value) {
     lines: [
       ...(lines.length <= 1
         ? (value.intro ?? []).map((line) =>
-            el("li", { className: "speech narration", textContent: line.text }),
+            talkLine({ kind: "speech narration", text: line.text }),
           )
         : []),
       ...spokenLines(lines, (line) => line.text),
@@ -1484,11 +1484,7 @@ function renderFiling(value) {
       paged: (items) => menuPages(items, 8),
     });
     buttons.unshift(
-      makeButton({
-        className: "reply",
-        textContent: counter.chooseRace,
-        onclick: () => show("race-menu", true),
-      }),
+      talkReply({}, counter.chooseRace, () => show("race-menu", true)),
     );
     if (!value.result && !value.overlay) show("race-menu", true);
   }
