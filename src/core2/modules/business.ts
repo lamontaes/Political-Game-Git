@@ -11,7 +11,7 @@ import { BUSINESS_MODULE_ID } from "../business-module-id";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
-import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import { WEB_LINKS } from "../outcome-web-model";
 import { chooseAct } from "../choice";
 import { countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
@@ -1160,6 +1160,16 @@ function routeOutsideCosts(api: CoreAPI): void {
   }
 }
 
+/**
+ * The researched cut in irrigation pumping under a withdrawal cap (the outcome
+ * web's groundwater-limits-to-irrigation-pumping row, Deines, Kendall, Butler
+ * and Hyndman 2019). This engine carries that link: each farm's groundwater
+ * input falls by its size, so the web does not run it a second time.
+ */
+const GROUNDWATER_LINK = WEB_LINKS.find(
+  (link) => link.key === "groundwater-limits-to-irrigation-pumping",
+)!;
+
 /** Read the withdrawal statute where farm production limits are set. */
 function readGroundwaterLaw(api: CoreAPI): void {
   const c = core(api);
@@ -1198,14 +1208,14 @@ function readGroundwaterLaw(api: CoreAPI): void {
     setOperatingLimit(api, table, {
       organizationId: id,
       input: "groundwater",
-      share: 1 - resourceParameters.parameters.groundwaterWithdrawalShare.value,
+      share: 1 + GROUNDWATER_LINK.size!,
       cause,
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: `${law.governing.id}: ${String(law.governing.source)}; ${resourceParameters.parameters.groundwaterWithdrawalShare.source}`,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${GROUNDWATER_LINK.source}`,
         estimatedFrom:
-          "Agricultural operating limit using the existing withdrawal estimate and irrigation-output elasticity; individual irrigation exposure is not recorded.",
+          "Agricultural operating limit at the outcome web's researched pumping cut and the irrigation-output elasticity; individual irrigation exposure is not recorded.",
       },
     });
     recordGroundwaterLoss(api, question, law.governing.id, id);
