@@ -6,9 +6,9 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/local-income-tax-grant-bill
-pr:
+pr: #6488
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-28T01:49:58.426Z

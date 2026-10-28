@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/player-offers
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-28T02:27:14.600Z
+claimed-at:
 ---
 
 **What.** Four drawn towns from the start of the game (the controlled person is a jobless 18-year-old; the seed is `off:0` to `off:3`): Addison (Webster Springs), West Virginia and Fort Laramie, Wyoming made the player no job offer in a whole year; Winchester, Kentucky made 3 by day 240 and 7 by day 365; Falmouth, Maine made 1 by day 56 and 6 by day 365. The player is never a registered seeker (the engine never answers for the controlled person), so an offer comes only when an employer's open position picks them. In a town where positions open rarely or fit poorly, a player who wants work gets nothing to accept. Find why employers in those towns never pick the player (openings, fit score, age band) and give the player a way to find work that is not luck: the same open positions every other jobless adult is matched to should reach the player as offers on the same rule.
@@ -38,3 +38,4 @@ Sent back 2026-10-20 from PR #5174 (branch claude/player-jobless-offers): This i
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: build OD:192 (offers from the region's outside employers); the fit-rule change is a simulation call (OD:131 'simulate it, don't ask').
+Oct 28 (claude pool worker): measured, not a defect on main. For the item's seeds `off:0` to `off:5` (drawPlace(`off:${i}`, "player-job-offers"), twelve weeks, the first week an offer reached the player by `jobOffersFor`): Kupreanof, Alaska (0242160) and Utica, Oklahoma (4076350) had 1 and 4 open positions in town but the player was 17 at the twelve weeks' end, under `jobsData.workingAge` 18 (`openToOffers`, src/core2/modules/jobs.ts line 3300), so no offer is the working-age rule; Celada, Puerto Rico (7216440) had no open position at any week (maxOpen 0), 5 seekers and 15 counted seekers; Hampton, New Hampshire (3332980), Futiga, American Samoa (territory:AS:futiga) and Brashear, Missouri (2908002) each made the player an offer in week 6 with 1, 7 and 6 open positions. The player applies to every open position in their place (`runWeek` after the full seekers) and is offered by the same best-applicant rule, so when a position is open and the player is 18 an offer comes within the 12 weeks in all three such towns. What remains is the player under 18 at the opening (the creator or the opening picks a 17-year-old in two of six towns: whether play should start a 17-year-old with nothing to do, or let a 16 and 17 year old seek work, is a design call for the opening/creator owner, not this engine) and a town with no openings. Left open for the CTO; nothing built.
