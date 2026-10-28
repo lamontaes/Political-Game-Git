@@ -118,7 +118,7 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
   },
   {
     pattern:
-      /^(scripts\/prose-eval\/(american-spelling|american-english|american-english-scope|prose-ranges|spelling)(\.test)?\.ts|scripts\/report-check\/report-check(\.test)?\.(mjs|ts)|tests\/(content-)?american-english(\.test|-sweep\.test)\.ts|src\/presentation\/legislation-american-english\.test\.ts)$/,
+      /^(scripts\/prose-eval\/(american-spelling|american-english|american-english-scope|prose-ranges|spelling)(\.test)?\.ts|scripts\/report-check\/report-check(\.test)?\.(mjs|ts)|tests\/guards\/english\/[\w-]+(\.test)?\.ts|src\/presentation\/legislation-american-english\.test\.ts)$/,
     reason: "the word tables and their tests name the British forms on purpose",
   },
 ];

@@ -6,7 +6,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/director-one-sponsor-one-evening
 pr: #6480
 blocked-on:

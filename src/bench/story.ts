@@ -158,7 +158,9 @@ export function storyScene(
   const talk =
     purpose?.kind === "composed"
       ? {
-          typeKey: purpose.scene.typeKey,
+          // The exchange the player's replies name: a scene, or one of the
+          // bills the day's sitting took in.
+          typeKey: purpose.scene.unit ?? purpose.scene.typeKey,
           purpose: purpose.scene.purpose,
           askerId: purpose.scene.askerId,
           opening: [
