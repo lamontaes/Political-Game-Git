@@ -39,15 +39,6 @@ export const dollarsOf = (minor: number): string =>
     maximumFractionDigits: minor % 100 === 0 ? 0 : 2,
   });
 
-/** A record's date as people write it: "March 3, 2026". */
-export const dateWords = (iso: string): string =>
-  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
 /**
  * One sentence for a move, said to the player, from the engine's stable pick
  * among the bank's wordings; every slot is a fact citing its record.
