@@ -15,12 +15,17 @@ def dress(P, rgb, skin):
     mx, mn = P[..., :3].max(2), P[..., :3].min(2); sat = (mx - mn) / (mx + 1); lum = P[..., :3] @ [0.299, 0.587, 0.114]
     r, g, b = P[..., 0], P[..., 1], P[..., 2]
     key = on & (((g > r + 25) & (g > b + 10)) | ((b > r + 30) & (b > g + 15)))
-    if key.sum() > 0.3 * max(1, on.sum()): gray, warm = key, on & ~key
+    if key.sum() > 0.3 * max(1, on.sum()):
+        near = key.copy()                                    # the garment's own outline hugs it: within 3 px and not skin-colored
+        for _ in range(3):
+            n = near.copy(); n[1:] |= near[:-1]; n[:-1] |= near[1:]; n[:, 1:] |= near[:, :-1]; n[:, :-1] |= near[:, 1:]; near = n
+        skinlike = (sat >= 0.18) & (P[..., 0] >= P[..., 2])
+        gray = key | (on & near & ~skinlike); warm = on & ~gray
     else: warm = on & (sat >= 0.22) & (P[..., 0] >= P[..., 2]); gray = on & ~warm
     for m, col in ((gray, rgb), (warm, skin)):
         if col is not None and m.any():
             ref = max(1.0, float(np.percentile(lum[m], 60)))
-            P[m, :3] = np.clip(np.array(col, float) * (lum[m] / ref)[:, None], 0, 255)
+            P[m, :3] = np.clip(np.array(col, float) * np.minimum(lum[m] / ref, 1.3)[:, None], 0, 255)   # edge pixels blended with the white sheet don't glow
     return Image.fromarray(P.astype(np.uint8))
 
 def person(parts_dir, fid, info, outfit):
