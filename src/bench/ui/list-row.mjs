@@ -54,3 +54,8 @@ export function personRow({ name, detail, party, portraitUrl, onOpen }) {
       );
   return line;
 }
+
+/** A short note in a list in the label style (nothing found, nothing yet). */
+export function noteLine(text) {
+  return el("p", { className: "label", textContent: text });
+}
