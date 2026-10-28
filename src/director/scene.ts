@@ -143,6 +143,7 @@ export function composeScene(
     ? undefined
     : (opener?.personIds.find((id) => id !== personId) ??
       moment.counterpartIds.find((id) => binding.presentIds.includes(id)));
+  const wasNamed = talkToId ? named.has(talkToId) : false;
   const lead = binding.said
     ? null
     : render(
@@ -172,6 +173,10 @@ export function composeScene(
         (facts) => (facts.other ? "other" : "alone"),
       );
   if (lead) sentences.push(lead);
+  // A lead that did not say the name leaves it unsaid: the next line to name
+  // them says it in full.
+  if (talkToId && !wasNamed && !lead?.usedFactKeys?.includes("other"))
+    named.delete(talkToId);
 
   // How the scene opens, from its first move: the one who opens it and
   // what they came to do ("Your mother has something to tell you.").
