@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./kernel/dates";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
-import { buildDeepPast } from "./deep-past";
 import { buildOpeningKin, type KinHouseholdInput } from "./opening-kin";
 import { buildPopulation } from "./population";
 import { piecesInput, piecesSource } from "./core-pieces-fixture";
@@ -96,7 +95,7 @@ describe("filling in people gets the same past as the whole town", () => {
     startedAt: "2021-01-01",
     minimumPeople: 400,
   });
-  const town = buildDeepPast(population);
+  const town = population;
   const byId = new Map(town.people.map((person) => [person.id, person]));
 
   it(`in ${population.placeMetadata?.placeName} (seed ${seed})`, () => {
@@ -106,14 +105,14 @@ describe("filling in people gets the same past as the whole town", () => {
       const ids = new Set<string>(household.memberIds);
       for (const id of household.memberIds)
         for (const other of byId.get(id)!.familyIds) ids.add(other);
-      const alone = buildDeepPast({
+      const alone = {
         ...population,
         people: population.people.filter((row) => ids.has(row.id)),
         households: population.households.filter((row) =>
           row.memberIds.some((id) => ids.has(id)),
         ),
         jobs: population.jobs.filter((row) => ids.has(row.personId)),
-      });
+      };
       for (const person of alone.people) {
         // Ties to people not yet filled in appear when they are.
         const expected = (byId.get(person.id)!.pastFacts ?? []).filter(
@@ -155,13 +154,13 @@ describe("fill-in from a recorded identity (officials)", () => {
       "identity:seat",
       "identity:nativity",
     ]);
-    // A named person is filled in whole: a childhood and schools too.
-    for (const kind of [
-      "birth-date",
-      "school:cohort-estimate",
-      "household:moment",
-    ])
-      expect(kinds, kind).toContain(kind);
+    // Their childhood is not generated: the years before the start come
+    // from the engines' runs (src/core2/past-school.test.ts).
+    for (const kind of kinds)
+      expect(
+        kind.startsWith("school:") || kind.startsWith("household:"),
+        kind,
+      ).toBe(false);
     expect(fillInIdentity(core, identity)).toBe(person);
     // Traits come from the seeded temperament model: filled, and the same
     // person in a fresh world with the same seed.

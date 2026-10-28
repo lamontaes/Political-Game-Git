@@ -2,7 +2,6 @@ import { createStableId } from "./kernel/ids";
 import { SeededRng } from "./kernel/rng";
 import { drawCanonicalNamedIdentity } from "./person-names";
 import { generatePersonIdentity } from "./gov-rules/person-identity";
-import { buildDeepPast } from "./deep-past";
 import { OPENING_KIN } from "./opening-kin";
 import {
   openingTemperaments,
@@ -153,24 +152,5 @@ export function buildNewborn(
       })),
     ],
   };
-  const past = buildDeepPast({
-    seed: api.state.seed,
-    startedAt: api.state.date,
-    people: [person],
-    households: [],
-    jobs: [],
-    organizations: [],
-    focusPersonIds: [],
-    focusPlaceIds: [],
-    calendarDates: [],
-    gaps: [],
-  });
-  const newborn = past.people[0]!;
-  if (
-    newborn.pastFacts?.some(
-      (fact) => fact.date < newborn.birthDate || fact.date > api.state.date,
-    )
-  )
-    throw new Error("Newborn has a past outside its recorded life.");
-  return { person: newborn, kin };
+  return { person, kin };
 }
