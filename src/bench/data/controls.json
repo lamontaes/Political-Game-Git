@@ -499,5 +499,8 @@
   },
   "talkBox": {
     "continue": "Continue"
+  },
+  "guide": {
+    "search": "Search"
   }
 }
