@@ -5,10 +5,10 @@
     "lawLinks": 134,
     "webCoverageWired": 124,
     "allEightPoints": 0,
-    "reachesOrCarried": 144,
+    "reachesOrCarried": 145,
     "namedInAStopgap": 116,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 144,
+    "reachesTheWorld": 145,
     "withAnyModerator": 23,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 144,
+        "pass": 145,
         "partial": 0,
-        "fail": 100,
+        "fail": 99,
         "n/a": 0
       },
       "varied": {
@@ -10975,9 +10975,8 @@
           "evidence": "data/research/outcome-web/links.json:6124 size 0.000157, range [-0.000279, 0.000575], Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: parks.access-to-exercise moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/life.ts:28"
         },
         "varied": {
           "status": "fail",
@@ -11003,7 +11002,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
+      "wiredPoints": 5,
       "stopgap": "SG-GOV-REACH-B-park-use"
     },
     {
@@ -13132,9 +13131,8 @@
     },
     {
       "measure": "parks.access-to-exercise",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/modules/life.ts:28",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["parks-spending-to-exercise-access"]

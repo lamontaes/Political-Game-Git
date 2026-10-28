@@ -10,6 +10,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
 import unwiredLinks from "../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
+import effectMatrix from "../../docs/reports/effect-web-matrix-2026-10-20.json" with { type: "json" };
 import { ownLeast, pickOwn, type OwnPair } from "./own-payments";
 import { splitByReader } from "./unread-links";
 import {
@@ -156,6 +157,25 @@ const NOT_AN_EFFECT = [
   "src/bench/",
 ];
 /** Laws with no researched outcome link, each with its registered stopgap. */
+/**
+ * Who reads each outcome-web link's factor, by file and line, from the effect
+ * matrix (scripts/outcome-web/effect-matrix.ts): a web link counts as wired
+ * only where its row names the reader beside the month's record id
+ * (OWNER-DECISIONS, Oct 28 05:30).
+ */
+const WEB_READERS = new Map(
+  (
+    effectMatrix as unknown as {
+      links: {
+        key: string;
+        points: { reaches?: { status: string; evidence?: string } };
+      }[];
+    }
+  ).links
+    .filter((l) => l.points.reaches?.status === "pass")
+    .map((l) => [l.key, l.points.reaches!.evidence ?? ""]),
+);
+
 const RESEARCH_GAPS = new Map(
   (
     researchGaps as {
@@ -602,7 +622,8 @@ function webLink(
     const ev = fired
       .slice(0, 3)
       .map(
-        ({ place, f }) => `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}`,
+        ({ place, f }) =>
+          `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}${WEB_READERS.has(f.link) ? `, read by ${WEB_READERS.get(f.link)}` : ""}`,
       )
       .join("; ");
     const missing = [

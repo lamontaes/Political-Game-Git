@@ -1876,14 +1876,14 @@
   },
   {
     "id": "SG-GOV-REACH-B-park-use",
-    "kind": "missing-engine",
-    "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 437,
-    "whatItFakes": "The parks line is a service level record on residents and recreation firms, and the outcome web moves the place's recorded access to exercise opportunities from it (parks-spending-to-exercise-access); no one's time use or well-being changes.",
-    "why": "People's leisure doesn't read park service levels.",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/life.ts",
+    "line": 393,
+    "whatItFakes": "The parks line and a dedicated parks tax reach people through the rest act: each rest's stress relief (restEffect, the life module's recover handler) is multiplied by the outcome web's factor on the share of the place's residents near a park or recreation facility (parks-spending-to-exercise-access), one for one with that share. No person records a park visit, a trip or exercise, and the counted tier has no rest act, so a counted resident's stress (restingStress in src/core2/person-state.ts) does not read park access.",
+    "why": "No study sizes how much more rest relieves near a park than away from one, and the game keeps no park visits or exercise; the share of residents near a park is the one park record the outcome web keeps, so the rest act scales by it. Counted residents keep only their resting stress, with no acts to scale.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE time-use and needs: park service level read by leisure choices and well-being (placeService({ placeId, service: \"parks\", level })).",
+    "replacement": "OPUS-PEOPLE time use: a park visit as a free-time act where the place's parks service reaches the person (placeService({ placeId, service: \"parks\", level })), sized from time-use and park-use research, read by both tiers' stress through the same rule.",
     "status": "open"
   },
   {
@@ -6203,7 +6203,7 @@
     "id": "SG-WEB-unread-labor-unemployment-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 578,
+    "line": 572,
     "whatItFakes": "social-security-tax-to-unemployment, medicare-tax-to-unemployment, federal-unemployment-tax-to-unemployment, state-unemployment-tax-to-unemployment move labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6539,7 +6539,7 @@
     "id": "SG-WEB-unread-school-college-completion-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 602,
+    "line": 596,
     "whatItFakes": "higher-education-spending-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, budget.higherEducation-added-pct",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -7330,6 +7330,18 @@
     "addedBy": "people-in-rooms builder",
     "addedAt": "2026-10-28",
     "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-region-states",
+    "kind": "estimate",
+    "file": "src/bench/scene.ts",
+    "line": 314,
+    "whatItFakes": "Which states take a place's regional rebuild (New England, Mountain West, Southwest, Plains, Deep South, Alaska, Puerto Rico, Pacific islands) is a list in data drawn from the Census Bureau's divisions and common usage; states no region names show the plain painting.",
+    "why": "The art session painted eight regional rebuilds of four places (Oct 28); no record of a place's regional character exists to read.",
+    "addedBy": "people-in-rooms builder",
+    "addedAt": "2026-10-28",
+    "replacement": "Each place's own architectural region in the place records (or a finer list per county), read here in place of the state list.",
     "status": "open"
   }
 ]
