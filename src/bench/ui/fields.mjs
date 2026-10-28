@@ -14,7 +14,14 @@ export function searchBox({ value = "", placeholder, onInput }) {
  * new value. An option with `group` and `options` instead is a group of choices under
  * its name. An option's `data` is kept on it (a choice typed in dollars).
  */
-export function select({ options, value, label, className = "", onChange }) {
+export function select({
+  options,
+  value,
+  label,
+  name,
+  className = "",
+  onChange,
+}) {
   const option = (o) => {
     const node = el("option", {
       value: String(o.value),
@@ -26,7 +33,7 @@ export function select({ options, value, label, className = "", onChange }) {
   };
   const box = el(
     "select",
-    { className, ariaLabel: label ?? "" },
+    { className, ariaLabel: label ?? "", ...(name ? { name } : {}) },
     ...options.map((o) =>
       o.group
         ? el("optgroup", { label: o.group }, ...o.options.map(option))
@@ -37,9 +44,22 @@ export function select({ options, value, label, className = "", onChange }) {
   return box;
 }
 
-/** A box for a number, `value` to start. */
-export function numberBox({ value = 0, className = "number-box" }) {
-  return el("input", { type: "number", value: String(value), className });
+/** A box for a number, `value` to start; `label` is its spoken name. */
+export function numberBox({
+  value = 0,
+  min,
+  step,
+  label,
+  className = "number-box",
+}) {
+  return el("input", {
+    type: "number",
+    value: String(value),
+    className,
+    ...(min !== undefined ? { min: String(min) } : {}),
+    ...(step !== undefined ? { step: String(step) } : {}),
+    ...(label ? { ariaLabel: label } : {}),
+  });
 }
 
 /** A labeled checkbox line; the checkbox is returned too, for screens that set it. */
@@ -55,10 +75,14 @@ export function checkboxSetting({ label, checked, testid }) {
   return { line, box };
 }
 
-/** The choices of a select, for a select the page already holds ({ value, label }). */
+/** The choices of a select the page already holds ({ value, label, selected? }). */
 export function optionsOf(items) {
   return items.map((o) =>
-    el("option", { value: String(o.value), textContent: o.label }),
+    el("option", {
+      value: String(o.value),
+      textContent: o.label,
+      selected: Boolean(o.selected),
+    }),
   );
 }
 

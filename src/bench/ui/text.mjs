@@ -28,3 +28,8 @@ export function heading(text, level = "h3") {
 export function labeled(text, control) {
   return el("label", {}, ` ${text} `, control);
 }
+
+/** A small note set beside a control (a race's seat and day on its reply). */
+export function smallText(text, className = "") {
+  return el("small", { className, textContent: text });
+}

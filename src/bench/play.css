@@ -2958,6 +2958,11 @@ details.entry[open] {
 }
 
 /* What a person is like, on their card: a short paragraph above the facts. */
-#person-facts .person-sketch {
+#person-facts .screen-lede {
   margin: 0 0 18px;
+}
+
+/* A number typed into a form line (the seat's draft amount). */
+.number-box {
+  width: 90px;
 }

@@ -29,7 +29,6 @@ import {
 import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
 import { fillArtwork } from "./ui/picture.mjs";
 import { barChart } from "./ui/chart.mjs";
-import { section as recordSection } from "./ui/section.mjs";
 import {
   select,
   checkboxSetting,
@@ -45,7 +44,7 @@ import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
-import { bold, line, heading, labeled } from "./ui/text.mjs";
+import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
   newspaperScreen,
   engraveMasthead,
@@ -759,11 +758,7 @@ function electionMorning(scene) {
   return new Promise((resolve) => {
     const labels = controls.electionDay ?? {};
     const say = (lines) =>
-      $("election-day-lines").append(
-        ...lines.map((line) =>
-          el("p", { className: "prose", textContent: line.text }),
-        ),
-      );
+      $("election-day-lines").append(...lines.map((line) => prose(line.text)));
     const buttons = (...rows) =>
       $("election-day-acts").replaceChildren(
         ...rows.map(([text, fn]) => {
@@ -859,9 +854,7 @@ function electionNight(night) {
       const last = at === night.steps.length - 1;
       $("returns-title").textContent = night.title;
       $("returns-lines").replaceChildren(
-        ...step.lines.map((line) =>
-          el("p", { className: "prose", textContent: line.text }),
-        ),
+        ...step.lines.map((line) => prose(line.text)),
       );
       $("returns-count").replaceChildren(
         ...step.totals.map((entry) =>
@@ -872,9 +865,7 @@ function electionNight(night) {
         ),
         ...(last && night.nation.races.length
           ? [
-              ...night.nation.lines.map((line) =>
-                el("p", { className: "prose", textContent: line.text }),
-              ),
+              ...night.nation.lines.map((line) => prose(line.text)),
               ...night.nation.races.map((race) =>
                 row(
                   race.state,
@@ -1185,7 +1176,7 @@ function renderFiling(value) {
     lines: [
       ...(lines.length <= 1
         ? (value.intro ?? []).map((line) =>
-            el("li", { className: "speech narration", textContent: line.text }),
+            talkLine({ kind: "speech narration", text: line.text }),
           )
         : []),
       ...spokenLines(lines, (line) => line.text),
@@ -1225,9 +1216,7 @@ function renderFiling(value) {
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
-    buttons[i].append(
-      el("small", { className: "reply-facts", textContent: factsOf(choice) }),
-    );
+    buttons[i].append(smallText(factsOf(choice), "reply-facts"));
   });
   if (asMenu) {
     fillChoiceMenu($("race-menu"), {
@@ -1299,32 +1288,27 @@ function renderFilingOverlay(value) {
       listRow(
         "",
         {},
-        el("b", { textContent: policyLabel(question) }),
-        el(
-          "select",
-          { name: question },
-          el("option", {
-            value: "",
-            textContent: controls.filing?.noStance ?? "",
-          }),
-          el("option", { value: "1", textContent: controls.filing?.for ?? "" }),
-          el("option", {
-            value: "-1",
-            textContent: controls.filing?.against ?? "",
-          }),
-        ),
+        bold(policyLabel(question)),
+        select({
+          name: question,
+          options: [
+            { value: "", label: controls.filing?.noStance ?? "" },
+            { value: "1", label: controls.filing?.for ?? "" },
+            { value: "-1", label: controls.filing?.against ?? "" },
+          ],
+        }),
       ),
     ),
   );
   $("filing-party").replaceChildren(
-    el("option", { value: "", textContent: controls.filing?.noStance ?? "" }),
-    ...overlay.parties.map((name) =>
-      el("option", {
+    ...optionsOf([
+      { value: "", label: controls.filing?.noStance ?? "" },
+      ...overlay.parties.map((name) => ({
         value: name,
-        textContent: name,
+        label: name,
         selected: name === overlay.party,
-      }),
-    ),
+      })),
+    ]),
   );
 }
 async function openFiling(filedWith) {
@@ -1382,17 +1366,12 @@ let speechState = null;
 async function localRacesBlock() {
   const { date, races } = await api("/api/government/local-races");
   const labels = controls.localRaces;
-  const block = el(
-    "div",
-    { className: "row race local-races" },
-    el("b", {
-      textContent: date ? `${labels.title} · ${proseDate(date)}` : labels.title,
-    }),
+  const block = listRow(
+    "race local-races",
+    {},
+    bold(date ? `${labels.title} · ${proseDate(date)}` : labels.title),
   );
-  if (!races.length)
-    block.append(
-      el("div", { className: "label", textContent: labels.noBallot }),
-    );
+  if (!races.length) block.append(line(labels.noBallot, "label"));
   for (const race of races) {
     const names = race.filers.map(
       (f) => `${f.name ?? ""}${f.party ? ` (${f.party})` : ""}`,
@@ -1501,16 +1480,12 @@ async function campaignRows() {
       }
       openSheet("campaigns");
     };
-    const venue = el(
-      "select",
-      {},
-      ...(v.venues ?? []).map((place) =>
-        el("option", {
-          value: place,
-          textContent: controls.venues?.[place] ?? place,
-        }),
-      ),
-    );
+    const venue = select({
+      options: (v.venues ?? []).map((place) => ({
+        value: place,
+        label: controls.venues?.[place] ?? "",
+      })),
+    });
     const button = (label, kind, extra) => {
       const b = makeButton({ textContent: label });
       b.addEventListener("click", () =>
@@ -1522,19 +1497,17 @@ async function campaignRows() {
       listRow(
         "campaign",
         {},
-        el("b", {
-          textContent: [
+        bold(
+          [
             contest?.title,
             contest ? proseDate(contest.electionDate) : null,
-            controls.filing?.status?.[filing.status] ?? words(filing.status),
+            controls.filing?.status?.[filing.status] ?? "",
           ]
             .filter(Boolean)
             .join(" · "),
-        }),
+        ),
         `${controls.campaignResults.raised.replace("{amount}", dollars(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", dollars(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}`,
-        el(
-          "div",
-          {},
+        buttonRow(
           ...(outings ?? []).map((choice) => {
             // A grayed outing says why, from the records.
             const why = choice.why
@@ -1553,9 +1526,7 @@ async function campaignRows() {
             return b;
           }),
         ),
-        el(
-          "div",
-          {},
+        buttonRow(
           button(controls.campaignActs.volunteer, "volunteer"),
           button(controls.campaignActs.donation, "donation"),
           button(controls.campaignActs.endorsement, "endorsement"),
@@ -1566,12 +1537,11 @@ async function campaignRows() {
         ),
         // The player's own money into the campaign: the amount is theirs to set.
         (() => {
-          const dollarsIn = el("input", {
-            type: "number",
-            min: "0",
-            step: "1",
-            value: "0",
-            ariaLabel: controls.campaignContribute.dollars,
+          const dollarsIn = numberBox({
+            value: 0,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
           });
           const give = makeButton({
             textContent: controls.campaignContribute.give,
@@ -1581,7 +1551,7 @@ async function campaignRows() {
               amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
             }),
           );
-          return el("div", {}, dollarsIn, give);
+          return buttonRow(dollarsIn, give);
         })(),
         speechCard({
           words: controls.speech,
@@ -1628,11 +1598,9 @@ async function campaignRows() {
           }),
         ),
         // Where the race stands, in plain sentences from the English engine.
-        el("b", { textContent: controls.raceStanding.title }),
-        ...(standing ?? []).map((line) =>
-          el("div", { className: "row", textContent: line }),
-        ),
-        campaignResult ? el("div", { textContent: campaignResult }) : "",
+        bold(controls.raceStanding.title),
+        ...(standing ?? []).map((text) => listRow("", { textContent: text })),
+        campaignResult ? line(campaignResult) : "",
       ),
     );
   }
@@ -1651,7 +1619,7 @@ function whyRows(why) {
     ...why.facts.map(
       (row) => `${row.key}: ${row.text} (${row.recordIds.join(", ")})`,
     ),
-  ].map((text) => el("li", { className: "why", textContent: text }));
+  ].map((text) => talkLine({ kind: "why", text }));
 }
 /** The owner's grade control on a scene line (dev mode): it reaches the line's pieces. */
 function gradeOf(line, momentId) {
@@ -1819,56 +1787,37 @@ async function showPerson(person) {
   // from the record, shown beside the tie if there is one.
   const known = c.publicKnowledge;
   const stance = voteWords();
+  // What they are like, said of them, first (the screens designer, Oct 27).
   $("person-facts").replaceChildren(
-    // What they are like, said of them, first (the screens designer, Oct 27).
-    ...(c.sketch
-      ? [
-          el("p", {
-            className: "person-sketch narrative",
-            textContent: c.sketch,
-          }),
-        ]
-      : []),
-    ...(c.work
-      ? [
-          recordSection(
-            labels.work,
-            el("p", {
-              className: "record-feature",
-              textContent: c.work.title ?? "",
-            }),
-            el("p", { textContent: c.work.employer ?? "" }),
-          ),
-        ]
-      : []),
-    ...(c.school
-      ? [recordSection(labels.school, el("p", { textContent: c.school.name }))]
-      : []),
-    ...(c.placeName
-      ? [recordSection(labels.place, el("p", { textContent: c.placeName }))]
-      : []),
-    // An officeholder's colleagues in office, closest first, from their ties.
-    ...(c.colleagues
-      ? [
-          recordSection(
-            labels.knows,
-            ...(c.colleagues.length
-              ? c.colleagues.map((k) => {
-                  const line = row(
-                    k.name,
-                    `${k.office} · ${k.level < 0 ? labels.rival : (labels.tieWords?.[k.kind] ?? "")}`,
-                  );
-                  line.dataset.tie = k.recordId;
-                  return line;
-                })
-              : [el("p", { textContent: labels.noColleagues })]),
-          ),
-        ]
-      : []),
-    ...[
-      // No "Last talked" (owner, Oct 27, 5 PM: never shown).
-      ...(known
-        ? [
+    ...recordScreen({
+      lede: c.sketch,
+      sections: [
+        c.work && {
+          title: labels.work,
+          items: [
+            { text: c.work.title ?? "", tone: "feature" },
+            { text: c.work.employer ?? "" },
+          ],
+        },
+        c.school && { title: labels.school, items: [{ text: c.school.name }] },
+        c.placeName && { title: labels.place, items: [{ text: c.placeName }] },
+        // An officeholder's colleagues in office, closest first, from their ties.
+        c.colleagues && {
+          title: labels.knows,
+          items: c.colleagues.length
+            ? c.colleagues.map((k) => {
+                const line = row(
+                  k.name,
+                  `${k.office} · ${k.level < 0 ? labels.rival : (labels.tieWords?.[k.kind] ?? "")}`,
+                );
+                line.dataset.tie = k.recordId;
+                return { node: line };
+              })
+            : [{ text: labels.noColleagues }],
+        },
+        // No "Last talked" (owner, Oct 27, 5 PM: never shown).
+        known && {
+          items: [
             row("party", known.party),
             row("since", known.serviceStart),
             row("votes", known.votesOnRecord),
@@ -1880,9 +1829,10 @@ async function showPerson(person) {
                 p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
               ),
             ),
-          ]
-        : []),
-    ].filter(Boolean),
+          ].map((node) => ({ node })),
+        },
+      ].filter(Boolean),
+    }),
   );
   for (const button of document.querySelectorAll("[data-person-label]"))
     button.textContent = labels[button.dataset.personLabel];
