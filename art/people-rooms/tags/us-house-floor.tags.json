@@ -1,0 +1,66 @@
+{
+ "scene": "us-house-floor",
+ "plate": "sg-house",
+ "defaults": {
+  "camera": "eye-level",
+  "facing": 180,
+  "seat": "chair",
+  "hands": "free",
+  "coveredBy": "chair-back",
+  "dress": "formal"
+ },
+ "zones": [
+  {
+   "name": "gallery",
+   "box": [
+    0,
+    0,
+    1672,
+    115
+   ],
+   "pose": "sit",
+   "seat": "gallery-seat",
+   "facing": 0,
+   "coveredBy": "railing",
+   "dress": "business"
+  },
+  {
+   "name": "center aisle",
+   "box": [
+    745,
+    395,
+    930,
+    660
+   ],
+   "pose": "stand",
+   "seat": "none",
+   "facing": 180,
+   "coveredBy": "none"
+  },
+  {
+   "name": "speaker's rostrum",
+   "box": [
+    650,
+    260,
+    1020,
+    425
+   ],
+   "pose": "sit",
+   "seat": "desk-chair",
+   "facing": 0,
+   "coveredBy": "desk",
+   "role": "presiding"
+  },
+  {
+   "name": "members",
+   "box": [
+    0,
+    115,
+    1672,
+    941
+   ],
+   "pose": "sit",
+   "facing": 180
+  }
+ ]
+}

@@ -17,6 +17,7 @@ import { openingFrames } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
+import { drawnFigure } from "../../src/bench/figure-hair";
 import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import type { PlayerPacketV1 } from "../../src/core2/player-v1";
 
@@ -74,6 +75,14 @@ function shotsFor(seed: string) {
   for (const s of story ? openingFrames(core, me, story).frames : [])
     add(`intro-${s.place}`, s);
   add("home", scene.benchScene(core, me));
+  // The player alone in the close-up bedroom (the January 22 bedroom scene).
+  add("bedroom", {
+    place: "bedroom-plain",
+    backdrop: scene.backdropFile("bedroom-plain", 22 * 60),
+    ...scene.stagePeople(core, "bedroom-plain", [
+      { id: me, name: "you", reason: "you" },
+    ]),
+  });
   // A workplace: someone in the household with a job, on shift.
   const household =
     core.households.get(core.people.get(me)!.householdId)?.memberIds ?? [];
@@ -132,6 +141,19 @@ function shotsFor(seed: string) {
       backdrop: scene.backdropFile(placeName, 11 * 60),
       ...scene.stagePeople(core, placeName, people),
     });
+    // The Oval Office with the Resolute desk, the opening's President's room:
+    // the President with the Vice President and the Speaker.
+    if (label === "oval-office") {
+      const guests = cast(["vice-president", "us-house"]).slice(0, 2);
+      add("oval-office-resolute", {
+        place: "oval-office-resolute",
+        backdrop: scene.backdropFile("oval-office-resolute", 11 * 60),
+        ...scene.stagePeople(core, "oval-office-resolute", [
+          ...people,
+          ...guests,
+        ]),
+      });
+    }
   }
   // A conversation: the player and the first other person in the household, at home.
   const other = household.find((id) => id !== me) ?? terms[0]?.personId;
@@ -181,7 +203,22 @@ for (const seed of seeds) {
       let src = p.figureUrl;
       if (src.startsWith("/art/people-engine/v2/")) {
         w0++;
-        src = `file://${root}${src}`;
+        // Drawn as the play server draws it (handler.ts): the person's own
+        // colors and hair from the query.
+        const u = new URL(src, "http://bench");
+        const name = u.pathname
+          .split("/")
+          .pop()!
+          .replace(/\.png$/, "");
+        const file = resolve(
+          out,
+          `fig-${createHash("md5").update(src).digest("hex")}.png`,
+        );
+        writeFileSync(
+          file,
+          drawnFigure(name, Object.fromEntries(u.searchParams)),
+        );
+        src = `file://${file}`;
       } else {
         o0++;
         const u = new URL(p.figureUrl, "http://bench");

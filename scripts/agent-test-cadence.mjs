@@ -77,7 +77,8 @@ export function planCadence(changedFiles, options = {}) {
     });
   }
 
-  if (has(/^src\/core2\//)) {
+  // Any file can add an importer of the old folders; the check refuses one.
+  if (has(/^(?!src\/(simulation|presentation)\/).*\.(ts|tsx|mts|mjs|js)$/)) {
     stages.push({
       label: "Old-engine imports",
       command: "npm run old-imports",

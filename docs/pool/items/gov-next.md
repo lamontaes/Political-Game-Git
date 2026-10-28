@@ -27,3 +27,5 @@ claimed-at:
 **Split (Oct 16).** Checked against main: the campaign-day controls (knock doors, volunteers, donations, endorsements, an ad, a poll) and a one-statement speech are on the politics sheet, and the filing overlay picks a party label. What is missing: the English adapter for speech parts (`words-speech-part-words`), the part-by-part speech builder on /play (`play-speech-builder`) and a join-a-party control (`play-join-party`). This item is done when the three are.
 
 Oct 20 (pool feeder): spec written; the three children exist (words-speech-part-words in a PR, the other two done); the item closes with one end-to-end play of the day.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (roll-up; remaining work is play-first-13-campaign-screen-to-mock-b).

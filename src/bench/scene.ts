@@ -1,5 +1,9 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { homePlaceFor, workplacePlaceFor } from "./backdrop-places";
+import {
+  hasBackdrop,
+  homePlaceFor,
+  workplacePlaceFor,
+} from "./backdrop-places";
 import {
   BACKDROP_ASPECT,
   backdropStaging,
@@ -14,6 +18,7 @@ import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
+import { GARMENTS } from "./figure-colors";
 import {
   ageBandOf,
   figureOn,
@@ -28,13 +33,6 @@ import {
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
 const BACKDROP_DIR = new URL("../../art/backdrops/", import.meta.url);
-// The presentation's hasBackdrop reads Vite's file glob; the bench reads the manifest.
-const PICTURED = new Set(
-  manifest.backdrops
-    .filter((row) => row.variant === "midday")
-    .map((row) => row.place),
-);
-export const hasBackdrop = (place: string) => PICTURED.has(place);
 const FRONTS = figureRules.roomFronts as unknown as Record<
   string,
   number | undefined
@@ -110,7 +108,8 @@ export function orgPlace(
   const kind =
     ORG_KINDS[classification] ??
     classification.slice(classification.indexOf(":") + 1);
-  return workplacePlaceFor(null, null, kind);
+  // Each business its own picture of its kind.
+  return pictureFor(core, workplacePlaceFor(null, null, kind), org.id);
 }
 
 const RESIDENCES = scenePlaces.officialResidences as unknown as Record<
@@ -191,10 +190,15 @@ function workplaceOf(core: CoreState, person: PersonState): string {
     ? (ORG_KINDS[classification] ??
       classification.slice(classification.indexOf(":") + 1))
     : null;
-  return workplacePlaceFor(
-    (job.occupationClassification ?? null) as Occupation,
-    null,
-    kind,
+  // Each employer its own picture of its kind.
+  return pictureFor(
+    core,
+    workplacePlaceFor(
+      (job.occupationClassification ?? null) as Occupation,
+      null,
+      kind,
+    ),
+    job.organizationId,
   );
 }
 
@@ -294,8 +298,9 @@ function roomAt(minuteOfDay: number): Room {
 
 /** A stable pick from a list by an id, so the same home always looks the same. */
 function pickFor(id: string, options: readonly string[]): string {
-  let hash = 0;
-  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  let hash = 2166136261;
+  for (const char of id)
+    hash = Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0;
   return options[hash % options.length]!;
 }
 
@@ -433,7 +438,7 @@ export function scenePlace(
             : step;
     if (place && hasBackdrop(place))
       return {
-        place,
+        place: pictureFor(core, place, act?.targetId ?? step, minuteOfDay),
         why: act ? `${act.actionId}` : "at home",
         ...(act?.targetId ? { targetId: act.targetId } : {}),
       };
@@ -441,11 +446,49 @@ export function scenePlace(
   return { place: homeOf(core, personId, minuteOfDay), why: "at home" };
 }
 
-export function backdropFile(place: string, minuteOfDay: number) {
+/** The light a picture is painted in at this minute of the day (morning, midday, night). */
+function lightAt(minuteOfDay: number): string {
   const hour = Math.floor(minuteOfDay / 60);
   let wanted = "midday";
   for (const row of scenePlaces.variantByHour)
     if (hour >= row.fromHour) wanted = row.variant;
+  return wanted;
+}
+
+const FAMILIES = new Map<string, readonly string[]>();
+for (const family of scenePlaces.pictureFamilies.families)
+  for (const place of family) FAMILIES.set(place, family);
+const LIGHTS = new Map<string, Set<string>>();
+for (const row of manifest.backdrops) {
+  if (!LIGHTS.has(row.place)) LIGHTS.set(row.place, new Set());
+  LIGHTS.get(row.place)!.add(row.variant);
+}
+
+/**
+ * The picture for a place a scene names: any picture of its family
+ * (data/scene-places.json pictureFamilies), chosen for this town and this
+ * business or situation (`key`) so the same place looks the same every time
+ * and two towns differ. At an hour whose light the town's choice is not
+ * painted in, the next of the family in the town's order that is.
+ */
+export function pictureFor(
+  core: CoreState,
+  place: string,
+  key: string,
+  minuteOfDay?: number,
+): string {
+  const family = FAMILIES.get(place)?.filter(hasBackdrop);
+  if (!family?.length) return place;
+  const town = core.placeMetadata?.placeKey ?? "";
+  const first = family.indexOf(pickFor(`${town}:${key}:${family[0]}`, family));
+  const order = [...family.slice(first), ...family.slice(0, first)];
+  if (minuteOfDay === undefined) return order[0]!;
+  const light = lightAt(minuteOfDay);
+  return order.find((row) => LIGHTS.get(row)?.has(light)) ?? order[0]!;
+}
+
+export function backdropFile(place: string, minuteOfDay: number) {
+  const wanted = lightAt(minuteOfDay);
   const rows = manifest.backdrops.filter((row) => row.place === place);
   const row =
     rows.find((r) => r.variant === wanted) ??
@@ -524,10 +567,8 @@ interface Looks {
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { sex, build, outfit, skin, clothes } = JSON.parse(text) as Record<
-      string,
-      unknown
-    >;
+    const record = JSON.parse(text) as Record<string, unknown>;
+    const { sex, build, outfit } = record;
     return typeof sex === "string" &&
       typeof build === "string" &&
       typeof outfit === "string"
@@ -535,8 +576,11 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
           sex,
           build,
           outfit,
-          ...(typeof skin === "string" ? { skin } : {}),
-          ...(typeof clothes === "string" ? { clothes } : {}),
+          ...Object.fromEntries(
+            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap((key) =>
+              typeof record[key] === "string" ? [[key, record[key]]] : [],
+            ),
+          ),
         }
       : undefined;
   } catch {
@@ -544,6 +588,10 @@ function chosenLook(text: string | undefined): FigurePerson["look"] {
   }
 }
 const OFFICES = "core2-offices-v1";
+/** Which seats a room keeps for each kind of office (data/whole-figures.json). */
+const SEAT_ROLES = figureRules.seatRoles as unknown as Readonly<
+  Record<string, readonly string[]>
+>;
 export function looksOf(core: CoreState, id: string): Looks | null {
   const person = core.people.get(id);
   if (person) {
@@ -575,6 +623,27 @@ function isOfficial(core: CoreState, id: string): boolean {
   return (
     terms.query("byPerson", [id]) as unknown as { status: string }[]
   ).some((row) => row.status === "serving");
+}
+
+/** The kinds of office someone serves in: by their own term, or by the person's serving terms. */
+function officeKinds(core: CoreState, id: string): string[] {
+  if (!core.modules.has(OFFICES)) return [];
+  const state = coreAPI(core).moduleState(OFFICES);
+  const terms = state.table("terms");
+  const own = terms.get(id) as { officeId: string } | undefined;
+  const serving = own
+    ? [own]
+    : (
+        terms.query("byPerson", [id]) as unknown as {
+          officeId: string;
+          status: string;
+        }[]
+      ).filter((row) => row.status === "serving");
+  return serving.flatMap((row) => {
+    const office = state.table("offices").get(row.officeId) as
+      { kind: string } | undefined;
+    return office ? [office.kind] : [];
+  });
 }
 
 /**
@@ -665,13 +734,22 @@ export function stagePeople(
         name,
         reason,
         look,
-        colors: new URLSearchParams(colorsFor(who)).toString(),
+        colors: new URLSearchParams(colorsFor(who, look.sex, band)).toString(),
         band,
         spot: podium,
       });
       continue;
     }
-    let index = free.findIndex((spot) => clear(spot) && fits(spot));
+    // A seat the room keeps for an office (the Resolute desk's chair) goes to
+    // whoever holds it.
+    const kept = officeKinds(core, id).flatMap(
+      (kind) => SEAT_ROLES[kind] ?? [],
+    );
+    const own = kept.length
+      ? free.findIndex((spot) => kept.includes(spot.role ?? "") && fits(spot))
+      : -1;
+    let index =
+      own >= 0 ? own : free.findIndex((spot) => clear(spot) && fits(spot));
     if (index < 0) index = free.findIndex(fits);
     if (index < 0) {
       unplaced.push({
@@ -680,7 +758,9 @@ export function stagePeople(
       });
       continue;
     }
-    const colors = new URLSearchParams(colorsFor(who)).toString();
+    const colors = new URLSearchParams(
+      colorsFor(who, look.sex, band),
+    ).toString();
     placed.push({
       id,
       name,

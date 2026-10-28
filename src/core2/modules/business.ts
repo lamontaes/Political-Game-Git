@@ -2259,6 +2259,26 @@ export function ownerOf(
   )?.ownerId;
 }
 
+const ownerIdsByDay = new WeakMap<
+  object,
+  { readonly date: string; readonly ids: ReadonlySet<string> }
+>();
+
+/** The people who own a business that is still open (full or counted), for a reader that must not draw them away from it. One scan a day. */
+export function openBusinessOwnerIds(api: CoreAPI): ReadonlySet<string> {
+  const c = api.state as CoreState;
+  if (!c.modules.has(BUSINESS_MODULE_ID)) return new Set();
+  const held = ownerIdsByDay.get(c);
+  if (held?.date === c.date) return held.ids;
+  const ids = new Set<string>();
+  for (const row of store(api)
+    .table("owners")
+    .query("all", [true]) as unknown as OwnerRow[])
+    if (!c.finance.businesses.get(row.id)?.closedAt) ids.add(row.ownerId);
+  ownerIdsByDay.set(c, { date: c.date, ids });
+  return ids;
+}
+
 /**
  * A person who already owns a business the book was added for (an outlet's
  * publisher, say) is recorded as its owner, so the owner's draws, hiring and
@@ -2493,24 +2513,3 @@ export const BUSINESS_MODULE: PreStartModule = {
     if (!store(api).table("state").get("business:state")) open(api);
   },
 };
-
-/** A law limits an input a business uses (groundwater): its output and sales fall (OPUS-GOV's law reach calls this). */
-export function setBusinessOperatingLimit(
-  api: CoreAPI,
-  input: Parameters<typeof setOperatingLimit>[2],
-): void {
-  setOperatingLimit(api, store(api).table("operating"), input);
-}
-
-/** A law adds a compliance cost to a business's operations (a clean air plan). */
-export function addBusinessComplianceCost(
-  api: CoreAPI,
-  input: Parameters<typeof addRegulatoryCost>[2],
-): void {
-  addRegulatoryCost(api, store(api).table("operating"), input);
-}
-
-/** A repeal: `limit:<organization>:<input>` or `cost:<organization>:<cause>`. */
-export function endBusinessOperatingRule(api: CoreAPI, id: string): void {
-  endOperatingRule(api, store(api).table("operating"), id);
-}

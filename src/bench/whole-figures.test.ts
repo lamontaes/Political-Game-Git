@@ -139,13 +139,13 @@ describe("choosing each person's look", () => {
     expect(colorsFor(who)).toEqual(colorsFor({ ...who }));
   });
 
-  it("gives neighbors their own skin and clothes colors from their own records", () => {
+  it("gives neighbors their own skin and clothing colors from their own records", () => {
     const seen = new Set<string>();
     const skins = new Set<string>();
     for (let n = 0; n < 40; n++) {
       const c = colorsFor({ ...person, id: `person:street-${n}` });
-      seen.add(`${c.skin}:${c.clothes}`);
-      skins.add(c.skin);
+      seen.add(`${c.skin}:${c.jacket}:${c.shirt}:${c.pants}:${c.shoes}`);
+      skins.add(c.skin!);
     }
     expect(seen.size).toBeGreaterThan(20);
     expect(skins.size).toBeGreaterThan(3);
@@ -161,10 +161,19 @@ describe("choosing each person's look", () => {
           build: "slim",
           outfit: "base",
           skin: "ebony",
-          clothes: "red",
+          jacket: "red",
+          shirt: "white",
+          pants: "navy",
+          shoes: "black",
         },
       }),
-    ).toEqual({ skin: "ebony", clothes: "red" });
+    ).toMatchObject({
+      skin: "ebony",
+      jacket: "red",
+      shirt: "white",
+      pants: "navy",
+      shoes: "black",
+    });
   });
 });
 

@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { campaignDay } from "../bench/campaign";
 import { fileForOffice } from "../bench/government";
-import { answerJobOffer, jobsView } from "../bench/jobs";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -17,6 +17,7 @@ import {
 import { advanceCore } from "../core2/life";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
+import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { SCHOOL_MODULE_ID } from "../core2/school-measures";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -42,6 +43,8 @@ import { SITUATION_LIBRARY } from "./scheduling";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 365;
 const DRAWS = 2;
+/** Days between the filed player's canvasses (the bench's campaign day, once a week). */
+const DOOR_DAYS = 7;
 
 /**
  * The families of circumstance (owner, Oct 27) that every drawn year
@@ -105,6 +108,7 @@ function playYear(
   director: Director,
   personId: PersonId,
   where: string,
+  options: { canvass?: boolean } = {},
 ): Fired[] {
   // Followed as play follows the person it controls: their records are kept.
   core.focusPersonIds.add(personId);
@@ -117,11 +121,15 @@ function playYear(
     if (!entry || !moment?.label.startsWith("circumstance:")) return;
     const record = core.durableLog.get(moment.causeId);
     // A cause is a logged record, or a core record read directly (a job, a
-    // household member, a school year's result).
-    const result = coreAPI(core)
+    // household member, a school year's result, a door the campaign knocked).
+    const result = (coreAPI(core)
       .moduleState(SCHOOL_MODULE_ID)
       .table("results")
-      .get(moment.causeId) as unknown as { date: string } | undefined;
+      .get(moment.causeId) ??
+      coreAPI(core)
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("causes")
+        .get(moment.causeId)) as unknown as { date: string } | undefined;
     expect(
       record ??
         core.jobs.get(moment.causeId) ??
@@ -183,25 +191,63 @@ function playYear(
       ...(replyId ? { replyId } : {}),
     });
   };
-  let packet = advancePlayerV1(core, {
-    controlledPersonId: personId,
-    through: {
-      date: addDays(makeIsoDate(core.date), DAYS),
-      minuteOfDay: P.zero,
+  let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
+    core,
+    {
+      controlledPersonId: personId,
+      through: {
+        date: addDays(makeIsoDate(core.date), DAYS),
+        minuteOfDay: P.zero,
+      },
     },
-  });
-  while (packet.kind !== "complete") {
+  );
+  // A candidate knocks doors as the bench's campaign day lets them: at a
+  // stop, once a week, while their race is still to come.
+  let canvassedOn: string | undefined;
+  const canvass = () => {
+    if (!options.canvass) return;
+    if (canvassedOn && addDays(makeIsoDate(canvassedOn), DOOR_DAYS) > core.date)
+      return;
+    const api = coreAPI(core);
+    const filing = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [personId]) as unknown as FilingRow[]
+    ).find(
+      (row) =>
+        row.status === "on-ballot" &&
+        ((
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("contests")
+            .get(row.contestId) as unknown as
+            { electionDate: string } | undefined
+        )?.electionDate ?? "") > core.date,
+    );
+    if (!filing) return;
+    campaignDay(core, personId, { filingId: filing.id, kind: "canvass" });
+    canvassedOn = core.date;
+  };
+  // A life can end inside the year: the clock refuses a person who has died,
+  // and the played year ends with them.
+  const resume = (input: Parameters<typeof resumePlayerV1>[1]) => {
+    try {
+      return resumePlayerV1(core, input);
+    } catch (error) {
+      if (core.people.get(personId)?.alive) throw error;
+      return undefined;
+    }
+  };
+  while (packet && packet.kind !== "complete") {
     if (packet.kind === "stop") {
+      canvass();
       for (const stop of packet.stop.modules) {
-        const offer = jobsView(core, personId).offers.find((item) =>
-          stop.recordId.startsWith(`${item.id}:`),
-        );
-        if (offer) answerJobOffer(core, personId, offer.id, "accept");
         open(stop.recordId);
       }
-      packet = resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId });
+      packet = resume({ kind: "stop", pauseId: packet.pauseId });
     } else
-      packet = resumePlayerV1(core, {
+      packet = resume({
         kind: "choice",
         pauseId: packet.pauseId,
         offerId: packet.offers[P.zero]!.offerId,
@@ -215,6 +261,18 @@ function playYear(
     expect(tie, `${row.replyId}: a tie with the cast`).toBeTruthy();
     expect(tie!.lastContactDate >= row.date, row.replyId).toBe(true);
   }
+  // A reply to an override's sponsor is kept by the legislature as a favor or
+  // a strain the member's next vote on the sponsor's bills reads.
+  for (const row of fired.filter(
+    (item) => item.row === "override-whip" && item.replyId,
+  ))
+    expect(
+      coreAPI(core)
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("replies")
+        .get(row.replyId!),
+      `${row.replyId}: the legislature keeps the reply`,
+    ).toBeTruthy();
   // Spaced: never two on one day.
   const days = fired.map((row) => row.date);
   expect(new Set(days).size).toBe(days.length);
@@ -231,6 +289,13 @@ function localMember(core: CoreState): PersonId | null {
   if (!core.modules.has(OFFICES_MODULE_ID)) return null;
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return null;
   const town = core.people.get(core.playerId!)?.placeId;
+  // A town's own body first: it meets in the evening, a county board by day.
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const county = (term: TermRow) =>
+    (offices.get(term.officeId) as unknown as { kind: string } | undefined)
+      ?.kind === "county-board"
+      ? P.one
+      : P.zero;
   const terms = api
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
@@ -246,7 +311,9 @@ function localMember(core: CoreState): PersonId | null {
     })
     .sort(
       (a, b) =>
-        a.officeId.localeCompare(b.officeId) || a.id.localeCompare(b.id),
+        county(a) - county(b) ||
+        a.officeId.localeCompare(b.officeId) ||
+        a.id.localeCompare(b.id),
     );
   return (local[0]?.personId as PersonId | undefined) ?? null;
 }
@@ -360,7 +427,11 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
       }`;
       tried.push(personId ? where : `${where}: no full-person member or race`);
       if (personId)
-        fired.push(...playYear(world.core, world.director, personId, where));
+        fired.push(
+          ...playYear(world.core, world.director, personId, where, {
+            canvass: as === "candidate",
+          }),
+        );
     }
   }
   const byRow = new Map<string, Fired[]>();
@@ -383,7 +454,9 @@ it(`a record anywhere in the world calls a scene where the player is (seed ${see
   );
   expect(unfired(), tried.join("; ")).toEqual([]);
   // Up to six played years, each about a minute: the budget for all of them.
-}, 1_800_000);
+  // Each played test fails by its own limit, with its seed in its name, well
+  // inside CI's 45-minute unit job: the two together fit it.
+}, 1_200_000);
 
 /** The last day a race may be held and still have its morning after inside the played year. */
 const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 2);
@@ -441,7 +514,7 @@ it(`the morning after the player's race is a scene, cited to the count (seed ${s
   throw new Error(
     `no place in ${MORNING_TRIES} draws held a race the new adult could enter that year: ${tried.join("; ")}`,
   );
-}, 1_800_000);
+}, 720_000);
 
 it("gives every circumstance a situation type cause and a scene-web row", () => {
   const labels = new Set(

@@ -728,9 +728,10 @@ export function retainLog(
     (id) =>
       core.focusPersonIds.has(id) ||
       id === core.playerId ||
-      (event.kind === "person.acted" &&
-        event.actorId === id &&
-        isExplicitlyControlledPersonV1(core, id)),
+      // The person the player controls is the player however they were
+      // chosen (a new life, or an officeholder picked in Advanced): what
+      // names them is theirs to keep, as for the generated player.
+      isExplicitlyControlledPersonV1(core, id),
   );
   const publicRecord =
     event.publicRecord && core.visiblePlaceIds.has(event.placeId);
@@ -1588,6 +1589,14 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!given || !family) throw new Error("A name is needed.");
       if (makeIsoDate(identity.birthDate) > core.date)
         throw new Error("A birth date cannot be in the future.");
+      // The household that carried the player's drawn family name carries the
+      // chosen one, so the family the player meets shares it.
+      const drawn = actor.familyName;
+      for (const id of core.households.get(actor.householdId)?.memberIds ??
+        []) {
+        const member = core.people.get(id);
+        if (member && member.familyName === drawn) member.familyName = family;
+      }
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;

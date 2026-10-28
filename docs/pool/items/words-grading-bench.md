@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -31,3 +31,5 @@ Split 2026-10-16 into words-bench-defects, words-bench-stage, words-bench-compos
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
 
 Oct 20: Switched from blocked to the automatic after: gate on words-bench-datapoints, words-bench-page, so it opens by itself the moment those items are done.
+
+Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (superseded by words-grade-control-on-scene + words-grades-calibrate-by-trait-and-register).

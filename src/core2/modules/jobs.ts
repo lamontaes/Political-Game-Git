@@ -87,12 +87,7 @@ import type {
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
-import {
-  playerClockFrontierV1,
-  registerModuleStopV1,
-  releaseModuleStopV1,
-  type ModuleStopTokenV1,
-} from "../player-stops-v1";
+import { fillInPerson } from "../state";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
@@ -138,6 +133,8 @@ export interface JobOfferRow {
   personId: string;
   positionId: string;
   organizationId: string;
+  /** The person at the employer who makes the offer: the scene it stages is theirs. */
+  offeredBy: string;
   title: string;
   hourlyMinor: number;
   fit: number;
@@ -3249,8 +3246,51 @@ function roleTemplate(
     : undefined;
 }
 
-/** Stops registered for each pending offer, released when it is answered. */
-const offerStops = new WeakMap<CoreState, Map<string, ModuleStopTokenV1[]>>();
+/** The kind of an employer's offer of a job to the person the player controls. */
+export const JOB_OFFERED_EVENT = "job-offered";
+/** The replies in an offer's scene that take the job (the same moves an invitation's scene reads). */
+const ACCEPTING_REPLIES: ReadonlySet<string> = new Set(["agree", "relent"]);
+/** The replies in an offer's scene that turn it down. */
+const REFUSING_REPLIES: ReadonlySet<string> = new Set(["decline"]);
+
+/**
+ * Who makes an offer at an employer: the full person, other than the
+ * applicant, who has held a job there the longest (ties by id). With none, the
+ * employer's first counted worker by id, filled in as a full person now. Null
+ * when the employer has nobody to make it.
+ */
+function hiringPerson(
+  api: CoreAPI,
+  organizationId: string,
+  applicantId: string,
+): string | null {
+  const c = core(api);
+  const staff = fullJobs(api, organizationId)
+    .filter((job) => job.personId !== applicantId)
+    .filter((job) => c.people.get(job.personId)?.alive)
+    .filter((job) => !isDemoted(c.people.get(job.personId)!))
+    .map((job) => ({ job, years: tenureYears(api, job) }))
+    .sort((a, b) => b.years - a.years || a.job.id.localeCompare(b.job.id));
+  if (staff[0]) return staff[0].job.personId;
+  const rt = residentsRuntime(c);
+  const counted = [...(rt?.jobs.values() ?? [])]
+    .filter(
+      (job) =>
+        job.organizationId === organizationId &&
+        job.endsAt === undefined &&
+        job.personId !== applicantId,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  for (const job of counted) {
+    try {
+      const person = fillInPerson(c, job.personId);
+      if (person.alive) return person.id;
+    } catch {
+      // Not in the counts any longer: the next worker.
+    }
+  }
+  return null;
+}
 
 /**
  * The person the player controls as an applicant this week: out of work, of
@@ -3288,9 +3328,13 @@ function openToOffers(api: CoreAPI): SeekerRow | undefined {
 }
 
 /**
- * The employer picked the person the player controls: it offers them the
- * job and holds the position until the deadline. The clock stops now so the
- * player sees the offer, and again on the deadline.
+ * The employer picked the person the player controls: a person at the
+ * employer makes the offer and holds the position until the deadline. The offer
+ * is the `job-offered` record the director stages as a call from that person
+ * (owner, Oct 27: a job offer comes through a person and a scene or not at
+ * all); the employer withdraws it unanswered after the deadline. With nobody at
+ * the employer to make it, there is no offer.
+ * stopgapId: SG-DIR-job-offer-lines
  */
 function offerToPlayer(
   api: CoreAPI,
@@ -3301,12 +3345,15 @@ function offerToPlayer(
   const c = core(api);
   const id = `job-offer:${position.id}:${personId}`;
   if (store(api).table("offers").get(id)) return;
+  const offeredBy = hiringPerson(api, position.organizationId, personId);
+  if (!offeredBy) return;
   const deadline = addDays(makeIsoDate(c.date), api.parameter("jobsOfferDays"));
   const row: JobOfferRow = {
     id,
     personId,
     positionId: position.id,
     organizationId: position.organizationId,
+    offeredBy,
     title: position.title,
     // The pay offered is what the person would be hired at, schooling included.
     hourlyMinor: hirePay(api, position, personId),
@@ -3331,57 +3378,52 @@ function offerToPlayer(
     ),
     sourceRecordIds: [id],
   });
-  if (!isExplicitlyControlledPersonV1(c, personId)) return;
-  const stopSource = source(
-    api,
-    `${position.organizationId} offered ${position.title} at ${position.hourlyMinor} cents an hour (${id}).`,
-  );
-  const now = playerClockFrontierV1(c, personId) ?? {
-    date: addDays(makeIsoDate(c.date), 1),
-    minuteOfDay: 0,
-  };
-  offerStops.set(c, offerStops.get(c) ?? new Map());
-  offerStops.get(c)!.set(id, [
-    registerModuleStopV1(c, {
-      moduleId: JOBS_MODULE_ID,
-      recordId: `${id}:offered`,
-      controlledPersonId: personId,
-      at: now,
-      kind: "interrupt",
-      reasonKey: jobsData.reasons.offered,
-      source: stopSource,
-      hold: false,
-    }),
-    registerModuleStopV1(c, {
-      moduleId: JOBS_MODULE_ID,
-      recordId: `${id}:deadline`,
-      controlledPersonId: personId,
-      at: { date: deadline, minuteOfDay: 0 },
-      // Held: the clock stops at the deadline until the player answers on
-      // the play screen or the employer's withdrawal settles the offer.
-      kind: "interrupt",
-      reasonKey: jobsData.reasons.offered,
-      source: stopSource,
-      hold: true,
-    }),
-  ]);
+  const offerer = c.people.get(offeredBy)!;
+  api.emit({
+    id: `${JOB_OFFERED_EVENT}:${id}`,
+    date: c.date,
+    kind: JOB_OFFERED_EVENT,
+    personIds: [personId, offeredBy],
+    placeId: offerer.placeId,
+    source: source(
+      api,
+      `${offeredBy} at ${position.organizationId} offered ${position.title} at ${position.hourlyMinor} cents an hour (${id}).`,
+    ),
+    facts: {
+      offeredBy,
+      invitedId: personId,
+      offerId: id,
+      organizationId: position.organizationId,
+      title: position.title,
+      hourlyMinor: String(row.hourlyMinor),
+      deadline,
+    },
+  });
 }
 
-/** Closes an offer: its stops released, its position free for others again. */
+/**
+ * The player's answer to an offer, said in the scene it stages: a yes takes the
+ * job, a no turns it down, anything else leaves it waiting for its deadline.
+ */
+function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  const offer = core(api).durableLog.get(String(facts.causeId ?? "") as never);
+  if (offer?.kind !== JOB_OFFERED_EVENT) return;
+  const invitedId = String(offer.facts?.invitedId ?? "");
+  if (!event.personIds.includes(invitedId)) return;
+  const move = String(facts.move);
+  const offerId = String(offer.facts?.offerId ?? "");
+  if (ACCEPTING_REPLIES.has(move)) acceptJobOffer(api, offerId);
+  else if (REFUSING_REPLIES.has(move)) declineJobOffer(api, offerId);
+}
+
+/** Closes an offer: its position free for others again. */
 function settleOffer(
   api: CoreAPI,
   row: JobOfferRow,
   status: JobOfferRow["status"],
 ): void {
   const c = core(api);
-  for (const token of offerStops.get(c)?.get(row.id) ?? []) {
-    try {
-      releaseModuleStopV1(c, token);
-    } catch {
-      // A one-shot interrupt the player already acknowledged is gone.
-    }
-  }
-  offerStops.get(c)?.delete(row.id);
   store(api)
     .table("offers")
     .put({ ...row, status, answeredAt: c.date } as never);
@@ -3755,8 +3797,13 @@ export const JOBS_MODULE: CoreModule = {
     "life.death",
     MOVED_AWAY_EVENT,
     "justice.imprisoned",
+    "scene.reply",
   ],
   onEvent(api, event) {
+    if (event.kind === "scene.reply") {
+      answerOffer(api, event);
+      return;
+    }
     if (event.kind === "justice.imprisoned") {
       for (const personId of event.personIds) {
         if (!inCustody(api, personId)) continue;
