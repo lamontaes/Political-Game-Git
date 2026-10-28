@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/realistic-macro-opening
 pr: #6446
 blocked-on:

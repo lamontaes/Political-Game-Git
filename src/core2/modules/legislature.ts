@@ -1,3 +1,4 @@
+import { townLean } from "./campaigns";
 import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
@@ -2364,17 +2365,6 @@ export function leanOf(
   // A holder the officials engine hasn't seated (a world without it) leans
   // with nothing: no party line stands in for a person.
   return 0;
-}
-
-function townLean(api: CoreAPI): number {
-  return (
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0
-  );
 }
 
 /**

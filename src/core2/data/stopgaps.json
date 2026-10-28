@@ -7114,6 +7114,18 @@
     "status": "open"
   },
   {
+    "id": "SG-PLAY-people-hair-color-weights",
+    "kind": "estimated-data",
+    "file": "src/bench/whole-figures.ts",
+    "line": 339,
+    "whatItFakes": "The hair color of a person other than the player is drawn from one rough national spread, and for people 65 and older from a mostly gray and white one, the same in every place.",
+    "why": "The people records hold no hair color; the figures need one now that hair is drawn (owner, Oct 27). No census counts hair color, so the weights are an estimate, about five points a color.",
+    "addedBy": "claude/people-hair",
+    "addedAt": "2026-10-27",
+    "replacement": "A hair color set when the person is made from a sourced spread by age and ancestry, stored on their appearance record.",
+    "status": "open"
+  },
+  {
     "id": "SG-TRAITS-counted-hardship-stress",
     "kind": "partial-model",
     "file": "src/core2/trait-decisions.ts",

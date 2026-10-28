@@ -12,7 +12,7 @@ const $ = (id) => document.getElementById(id);
  * `who` named over it), `speech` (what is being said now), `narration` or `label` (a
  * record's status). A lying line is red; a held one is underlined in the grading view.
  */
-export function talkLine({ kind = "speech", text, who, lying, held }) {
+export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
   const classes = [kind];
   if (lying) classes.push("lying");
   if (held) classes.push("held");
@@ -23,7 +23,34 @@ export function talkLine({ kind = "speech", text, who, lying, held }) {
       ? [el("span", { className: "history-who", textContent: who })]
       : []),
     text,
+    ...(grade ? [gradeControl(grade)] : []),
   );
+}
+
+/**
+ * The owner's grade on a line, in dev mode only: Good or Bad and one word.
+ * `grade` is `{ labels, send }`; `send(word, note)` writes the grade and the
+ * control then says it was graded.
+ */
+function gradeControl({ labels, send }) {
+  const note = el("input", {
+    className: "grade-note",
+    placeholder: labels.note,
+    size: 10,
+  });
+  const box = el("span", { className: "grade-line dev-only" });
+  const pick = (word) => async () => {
+    await send(word, note.value);
+    box.replaceChildren(
+      el("span", { className: "grade-saved", textContent: labels.saved }),
+    );
+  };
+  const good = makeButton({ textContent: labels.good });
+  good.addEventListener("click", pick("good"));
+  const bad = makeButton({ textContent: labels.bad });
+  bad.addEventListener("click", pick("bad"));
+  box.append(good, bad, note);
+  return box;
 }
 
 /**

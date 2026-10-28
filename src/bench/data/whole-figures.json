@@ -54,6 +54,7 @@
   },
   "seatRoles": {
     "about": "A seat a room keeps for an office, by the office kind on its records: the role a mannequin plate tags on the spot (art/people-rooms/spots). The holder takes it when present; anyone else may sit there when it is free.",
-    "president": ["president"]
+    "president": ["president"],
+    "governor": ["governor"]
   }
 }
