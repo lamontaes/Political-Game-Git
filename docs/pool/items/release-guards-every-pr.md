@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/guards-every-pr
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T02:36:59.844Z
 ---
 
 **What.** The guards that hold the owner's standing rules (zero dice, old imports, the tests/guards files, the American English sweep, the canned-content guard, the director's numbers test, the pool check, the secrets scan and the wording ratchet) run only locally or when their own file changes, so a pull request can break a rule without a red check. The owner asked to completely guard the game against what he is trying to do. This item adds one guards job to validate.yml that always runs them all, names the rule and where to read it on a failure, and makes the validate aggregate require it.
