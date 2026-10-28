@@ -82,14 +82,11 @@ function lastDay(
       if (found) break;
       packet = resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId });
     } else
+      // As the bench plays a day: the character makes its own pick (on a
+      // school day, school), so the classmates are theirs.
       packet = resumePlayerV1(core, {
-        kind: "choice",
+        kind: "own-choice",
         pauseId: packet.pauseId,
-        // The player goes to school on a school day, so the classmates are theirs.
-        offerId: (
-          packet.offers.find((row) => row.actionId === "attend-school") ??
-          packet.offers[P.zero]!
-        ).offerId,
       });
   }
   open();
