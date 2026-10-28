@@ -523,10 +523,13 @@
     }
   },
   "localRaces": {
-    "title": "Local races on the ballot",
+    "title": "On the ballot",
     "unopposed": "Unopposed",
     "noFilers": "No one has filed",
+    "running": "{n} running",
     "filingCloses": "Filing closes",
+    "fileForIt": "File for it",
+    "youFiled": "You are running",
     "noBallot": "No local election is on the calendar"
   },
   "grade": {

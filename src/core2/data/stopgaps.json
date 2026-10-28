@@ -7375,5 +7375,17 @@
     "addedAt": "2026-10-28",
     "replacement": "Each pose painted for both sexes and every build and outfit (or a wardrobe that dresses the pose's body), so the person's own look holds in the pose.",
     "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-candidate-rally",
+    "kind": "missing-mechanic",
+    "file": "src/bench/play.mjs",
+    "line": 0,
+    "whatItFakes": "The Campaigns tab lists the coming ballot's races with who runs and their filed stances, and a candidate's name opens their card; the owner's 'clicking a candidate's rally lets you go there and learn their views' has no rally to go to, so there is no rally link.",
+    "why": "No engine keeps a candidate's rallies as events with a place and a time: the campaigns module holds filings, contests, bills, stories, terms and ties, and the director's rally-opponent situation fires from a paid message or a debate, never from a place the player travels to.",
+    "addedBy": "screens session (sitting Oct 28, point 19)",
+    "addedAt": "2026-10-28",
+    "replacement": "A campaign event record (a rally with its venue, date and speaker) the director stages as a scene the player can travel to from the race's row, where the candidate's views are heard; the row then links to it.",
+    "status": "open"
   }
 ]
