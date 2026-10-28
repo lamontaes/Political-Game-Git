@@ -2055,6 +2055,15 @@ async function showPerson(person) {
   const known = c.publicKnowledge;
   const stance = voteWords();
   $("person-facts").replaceChildren(
+    // What they are like, said of them, first (the screens designer, Oct 27).
+    ...(c.sketch
+      ? [
+          el("p", {
+            className: "person-sketch narrative",
+            textContent: c.sketch,
+          }),
+        ]
+      : []),
     ...(c.work
       ? [
           recordSection(
