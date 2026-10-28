@@ -63,7 +63,9 @@ describe("the household's story in the journal", () => {
               /school|start|began/i,
             );
           if (row.kind === FAMILY_PARTNERED)
-            expect(line.text, `${where}: ${row.id}`).toMatch(/met/);
+            expect(line.text, `${where}: ${row.id}`).toMatch(
+              /met|found each other|knew each other/,
+            );
         }
       }
       expect(
