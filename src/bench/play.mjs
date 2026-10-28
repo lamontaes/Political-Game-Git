@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { el } from "./ui/dom.mjs";
@@ -19,7 +19,14 @@ import { makeTab, chooseTab } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
-import { listRow, personRow } from "./ui/list-row.mjs";
+import { listRow, personRow, factRow } from "./ui/list-row.mjs";
+import { pageIn, pageWhenChanged, menuPages, pagerWords } from "./ui/pager.mjs";
+import { picture, fillArtwork } from "./ui/picture.mjs";
+import { barChart } from "./ui/chart.mjs";
+import { section as recordSection } from "./ui/section.mjs";
+import { searchBox, select, checkboxSetting } from "./ui/fields.mjs";
+import { termWord } from "./ui/term.mjs";
+import { recordScreen } from "./ui/screen.mjs";
 import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
@@ -48,88 +55,6 @@ async function displayVersion() {
   return `v${number}`;
 }
 const post = (path) => api(path, "POST");
-/**
- * Nothing inside a menu scrolls: what does not fit in `box` is split into pages, and the
- * pager's Back and Continue turn them. Columns flow sideways; a plain list pages at a row.
- *
- * A pager keeps its page when only the measure changes (paging itself resizes the box,
- * which must not throw the player back to the first page); new content starts at page 0.
- */
-const pagerPage = new WeakMap();
-function pageIn(box, pager, keepPage = false) {
-  box.scrollTo(0, 0);
-  const [back, next] = pager.querySelectorAll("button");
-  // Measure with every row showing; a page then hides the rows that are not its own.
-  for (const hidden of box.querySelectorAll(".paged-out"))
-    hidden.classList.remove("paged-out");
-  // A block taller than the box (a grid of cards, a long screen) would be one page of its own
-  // and hide behind a Continue; its children are the rows instead, so page 0 shows the first of them.
-  const rowsIn = (parent) =>
-    [...parent.children].flatMap((kid) =>
-      kid.classList.contains("flow") ||
-      (kid.offsetHeight > box.clientHeight && kid.children.length > 1)
-        ? rowsIn(kid)
-        : [kid],
-    );
-  const rows = rowsIn(box);
-  const tops = rows.map((row) => row.offsetTop);
-  const stops = [0];
-  let sideways = false;
-  if (box.clientHeight > 0) {
-    if (box.scrollWidth > box.clientWidth + 2) {
-      sideways = true;
-      const step =
-        box.clientWidth + (parseFloat(getComputedStyle(box).columnGap) || 0);
-      for (let x = step; x < box.scrollWidth - 2; x += step) stops.push(x);
-    } else if (box.scrollHeight > box.clientHeight + 2) {
-      let top = 0;
-      rows.forEach((kid, index) => {
-        // A row taller than the box starts no page of its own at the top: a second stop at
-        // 0 would make page 0 empty and hide every row.
-        if (
-          tops[index] > top &&
-          tops[index] + kid.offsetHeight - top > box.clientHeight
-        ) {
-          top = tops[index];
-          stops.push(top);
-        }
-      });
-    }
-  }
-  let at = keepPage ? (pagerPage.get(pager) ?? 0) : 0;
-  const go = (index) => {
-    at = index;
-    pagerPage.set(pager, at);
-    if (sideways) box.scrollTo(stops[at], 0);
-    else {
-      // A plain list shows one page of rows: the rest are out of the box, not scrolled past.
-      const from = stops[at];
-      const to = stops[at + 1] ?? Infinity;
-      rows.forEach((row, index) =>
-        row.classList.toggle(
-          "paged-out",
-          stops.length > 1 && (tops[index] < from || tops[index] >= to),
-        ),
-      );
-      box.scrollTo(0, 0);
-    }
-    back.hidden = at === 0;
-    next.hidden = at === stops.length - 1;
-  };
-  back.onclick = () => go(at - 1);
-  next.onclick = () => go(at + 1);
-  pager.hidden = stops.length === 1;
-  go(Math.min(at, stops.length - 1));
-}
-/** Pages again whenever the box's contents change (a search narrowing a list, a redrawn ballot). */
-function pageWhenChanged(box, pager) {
-  new MutationObserver(() =>
-    requestAnimationFrame(() => pageIn(box, pager)),
-  ).observe(box, { childList: true, subtree: true });
-  new ResizeObserver(() =>
-    requestAnimationFrame(() => pageIn(box, pager, true)),
-  ).observe(box);
-}
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 const compactWords = new Intl.NumberFormat("en-US", {
@@ -190,43 +115,7 @@ function plain(value) {
 }
 /** One labeled line; a value that can't be put in a reader's words hides the line. */
 function row(label, value) {
-  const text = plain(value);
-  const line = listRow(
-    "",
-    {},
-    termLabel(label),
-    el("span", { className: "record-value", textContent: text ?? "" }),
-  );
-  if (text === null) line.hidden = true;
-  return line;
-}
-/** Layout only: labels and content are supplied by the screen's record adapter. */
-function recordSection(title, ...content) {
-  return el(
-    "section",
-    { className: "record-section" },
-    el("h3", { className: "label", textContent: title }),
-    ...content,
-  );
-}
-/** Optional artwork slots. No sample person, room, or fallback artwork. */
-function screenArtwork({
-  portraitUrl,
-  backgroundUrl,
-  name,
-  into = $("sheet-media"),
-}) {
-  const media = into;
-  media.replaceChildren();
-  for (const [src, className, alt] of [
-    [backgroundUrl, "screen-backdrop", ""],
-    [portraitUrl, "screen-portrait", name],
-  ]) {
-    if (!src) continue;
-    const img = el("img", { src, className, alt });
-    img.addEventListener("error", () => img.remove(), { once: true });
-    media.append(img);
-  }
+  return factRow(termLabel(label), plain(value));
 }
 
 /**
@@ -636,21 +525,18 @@ $("tip-learned").addEventListener("click", () => {
  */
 function termLabel(text) {
   const key = String(text).trim().toLowerCase();
-  if (!guideTerms.has(key)) return el("b", { textContent: text });
-  const b = el("b", {
-    className: learned.has(key) ? "" : "term",
-    textContent: text,
+  return termWord({
+    text,
+    isTerm: guideTerms.has(key),
+    learned: learned.has(key),
+    onHover: (b) => showTip(b, key),
+    onLeave: hideTipSoon,
+    onOpen: () => {
+      show("tip", false);
+      guideQuery = text;
+      openSheet("guide");
+    },
   });
-  b.addEventListener("mouseenter", () => {
-    if (b.classList.contains("term")) showTip(b, key);
-  });
-  b.addEventListener("mouseleave", hideTipSoon);
-  b.addEventListener("click", () => {
-    show("tip", false);
-    guideQuery = text;
-    openSheet("guide");
-  });
-  return b;
 }
 
 let controls = {};
@@ -699,6 +585,7 @@ const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
   controls = value;
+  pagerWords(controls.politics);
   // A dimmed title entry's reason is a control name from data, never typed here.
   for (const el of document.querySelectorAll("[data-label]"))
     el.textContent =
@@ -2020,14 +1907,13 @@ async function showPerson(person) {
   closeSheet();
   const labels = controls.person;
   // Only this person's supplied artwork. Null deliberately leaves a clear slot.
-  screenArtwork({
+  fillArtwork($("person-media"), {
     portraitUrl:
       c.presentation?.portraitUrl !== undefined
         ? c.presentation.portraitUrl
         : (c.figureUrl ?? person.figureUrl),
     backgroundUrl: c.presentation?.backgroundUrl,
     name: c.name,
-    into: $("person-media"),
   });
   $("person-name").textContent = c.name;
   $("person-role").textContent = [
@@ -2600,61 +2486,6 @@ function portraitUrl() {
     : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
 }
 /** A record image has no substitute when its producer has not supplied one. */
-function recordImage(url, className) {
-  const image = el("img", { src: url, alt: "", className });
-  image.addEventListener("error", () => image.remove());
-  return image;
-}
-/** Small pages keep all records reachable without scrolling a menu. */
-function menuPages(items, size = 5, start = 0) {
-  let at = Math.floor(Math.max(0, start) / size);
-  const box = el("div", { className: "record-pages" });
-  const draw = () => {
-    const back = makeButton({
-      textContent: controls.politics.back,
-      disabled: at === 0,
-    });
-    const next = makeButton({
-      textContent: controls.politics.next,
-      disabled: (at + 1) * size >= items.length,
-    });
-    back.onclick = () => {
-      at--;
-      draw();
-    };
-    next.onclick = () => {
-      at++;
-      draw();
-    };
-    box.replaceChildren(
-      ...items.slice(at * size, at * size + size),
-      ...(items.length > size
-        ? [el("nav", { className: "record-pager" }, back, next)]
-        : []),
-    );
-  };
-  draw();
-  return box;
-}
-/** Bars compare actual record amounts; no invented historical series. */
-function comparison(items, label, format = (value) => String(value)) {
-  const max = Math.max(0, ...items.map((i) => Math.abs(i.value)));
-  return el(
-    "div",
-    { className: "record-chart", role: "img", ariaLabel: label },
-    ...items.map((item) => {
-      const bar = el("span", { className: "record-bar" });
-      bar.style.width = `${max ? (Math.abs(item.value) / max) * 100 : 0}%`;
-      return el(
-        "div",
-        { className: "record-chart-line" },
-        el("span", { textContent: item.label }),
-        el("div", { className: "record-track" }, bar),
-        el("strong", { textContent: format(item.value) }),
-      );
-    }),
-  );
-}
 
 // ---- Menus ----
 const sheets = {
@@ -2969,116 +2800,67 @@ const sheets = {
       "en-US",
       { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
-    const personLink = (member) => {
-      const button = makeButton({
-        className: "character-person",
-        textContent: member.name,
-      });
-      button.addEventListener("click", () => {
-        closeSheet();
-        showPerson(member);
-      });
-      return el(
-        "li",
-        {},
-        button,
-        el("span", {
-          className: "character-relation",
-          textContent: member.relation ?? "",
-        }),
-      );
-    };
-    const rows = [
-      el(
-        "header",
-        { className: "character-heading" },
-        el("h2", { className: "name", textContent: c.name }),
-        el("p", {
-          className: "character-meta",
-          textContent: `${labels.age} ${c.age} · ${labels.born} ${born}`,
-        }),
-      ),
-    ];
-    // What you're like, in plain sentences, never the traits' names (owner, Oct 27).
-    if (c.sketch)
-      rows.push(
-        el("p", {
-          className: "character-sketch narrative",
-          textContent: c.sketch,
-        }),
-      );
-    rows.push(
-      recordSection(
-        c.age < 18 ? labels.householdHome : labels.home,
-        el("p", { textContent: c.home?.placeName ?? me.placeName }),
-        el(
-          "ul",
-          { className: "character-household" },
-          ...(c.home?.members ?? []).map(personLink),
-        ),
-      ),
-    );
-    if (c.job)
-      rows.push(
-        recordSection(
-          labels.work,
-          el("p", { className: "character-feature", textContent: c.job.title }),
-          el("p", { textContent: c.job.employer ?? "" }),
-        ),
-      );
-    if (c.schools?.length)
-      rows.push(
-        recordSection(
-          labels.school,
-          ...[...c.schools]
-            .reverse()
-            .map((school) => el("p", { textContent: school.name })),
-        ),
-      );
     const views =
       c.views ??
       (c.view && controls.leanWords?.[c.view]
-        ? [{ label: labels.views, text: controls.leanWords[c.view] }]
+        ? [{ text: controls.leanWords[c.view] }]
         : []);
-    if (views.length)
-      rows.push(
-        recordSection(
-          labels.views,
-          el(
-            "div",
-            { className: "character-views" },
-            ...views.map((view) =>
-              el(
-                "article",
-                {},
-                view.label !== labels.views
-                  ? el("h4", { textContent: view.label })
-                  : "",
-                el("p", { className: "narrative", textContent: view.text }),
-              ),
-            ),
-          ),
-        ),
-      );
-    rows.push(
-      el(
-        "div",
-        { className: "character-money" },
-        el("span", { className: "label", textContent: labels.money }),
-        el("strong", { textContent: dollars(c.liquidMinor) }),
-      ),
-    );
-    // The record sections side by side under the name and the sketch, so the
-    // screen reads as a character sheet, not a column down one side.
-    const [heading, ...rest] = rows;
-    const sketch = rest[0]?.classList?.contains("character-sketch")
-      ? rest.shift()
-      : null;
-    return [
-      heading,
-      ...(sketch ? [sketch] : []),
-      el("div", { className: "character-grid" }, ...rest),
-    ];
+    // What you're like, in plain sentences, never the traits' names (owner, Oct 27);
+    // the record sections side by side under it, as a character sheet.
+    return recordScreen({
+      heading: {
+        name: c.name,
+        meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
+      },
+      lede: c.sketch,
+      grid: true,
+      sections: [
+        {
+          title: c.age < 18 ? labels.householdHome : labels.home,
+          items: [
+            { text: c.home?.placeName ?? me.placeName },
+            {
+              people: (c.home?.members ?? []).map((member) => ({
+                name: member.name,
+                note: member.relation,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson(member);
+                },
+              })),
+            },
+          ],
+        },
+        c.job && {
+          title: labels.work,
+          items: [
+            { text: c.job.title, tone: "feature" },
+            { text: c.job.employer ?? "" },
+          ],
+        },
+        c.schools?.length && {
+          title: labels.school,
+          items: [...c.schools].reverse().map((school) => ({
+            text: school.name,
+          })),
+        },
+        views.length && {
+          title: labels.views,
+          items: [
+            {
+              views: views.map((v) => ({
+                label: v.label !== labels.views ? v.label : undefined,
+                text: v.text,
+              })),
+            },
+          ],
+        },
+        {
+          title: labels.money,
+          items: [{ text: dollars(c.liquidMinor), tone: "feature" }],
+        },
+      ].filter(Boolean),
+    });
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -3282,71 +3064,40 @@ const sheets = {
   async jobs() {
     const labels = controls.jobs;
     const job = me.card.job;
-    const work = makeCard(
-      "work-overview",
-      { as: "section" },
-      el("h3", { textContent: labels.work }),
-    );
-    if (job) {
-      if (job.presentation?.imageUrl) {
-        const image = el("img", {
-          src: job.presentation.imageUrl,
-          alt: "",
-          className: "workplace-image",
-        });
-        image.onerror = () => image.remove();
-        work.append(image);
-      }
-      work.append(
-        el("h2", { textContent: job.title }),
-        el("p", {
-          className: "work-employer",
-          textContent: job.employer ?? "",
-        }),
-        el(
-          "div",
-          { className: "work-stats" },
-          el(
-            "div",
-            {},
-            el("span", { className: "label", textContent: labels.pay }),
-            el("strong", {
-              textContent: `${dollars(job.wageDailyMinor)} ${labels.daily}`,
-            }),
-          ),
-          el(
-            "div",
-            {},
-            el("span", { className: "label", textContent: labels.hours }),
-            el("strong", {
-              textContent: `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
-            }),
-          ),
-        ),
-      );
-    } else
-      work.append(
-        el("p", { className: "work-empty", textContent: labels.noJob }),
-      );
-    const result = [work];
-    const schools = [...(me.card.schools ?? [])].reverse();
-    const education = el(
-      "section",
-      { className: "study-overview" },
-      el("h3", { textContent: labels.study }),
-    );
-    education.append(
-      ...schools.map((s) =>
-        el(
-          "article",
-          { className: "school-record" },
-          el("span", { className: "label", textContent: s.date.slice(0, 4) }),
-          el("h4", { textContent: s.name }),
-        ),
-      ),
-    );
-    result.push(education);
-    return result;
+    return recordScreen({
+      sections: [
+        {
+          title: labels.work,
+          items: job
+            ? [
+                job.presentation?.imageUrl && {
+                  picture: job.presentation.imageUrl,
+                },
+                { text: job.title, tone: "title" },
+                { text: job.employer ?? "", tone: "feature" },
+                {
+                  stats: [
+                    [
+                      labels.pay,
+                      `${dollars(job.wageDailyMinor)} ${labels.daily}`,
+                    ],
+                    [
+                      labels.hours,
+                      `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
+                    ],
+                  ],
+                },
+              ]
+            : [{ text: labels.noJob, tone: "empty" }],
+        },
+        {
+          title: labels.study,
+          items: [...(me.card.schools ?? [])]
+            .reverse()
+            .map((s) => ({ fact: [s.date.slice(0, 4), s.name] })),
+        },
+      ],
+    });
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -3393,13 +3144,13 @@ const sheets = {
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    const select = el("select");
-    select.setAttribute("aria-label", labels.budget);
-    for (const gov of view.governments)
-      select.append(el("option", { value: gov.id, textContent: gov.name }));
+    const pick = select({
+      options: view.governments.map((g) => ({ value: g.id, label: g.name })),
+      label: labels.budget,
+    });
     const content = el("section", { className: "budget-content" });
     const draw = () => {
-      const gov = view.governments.find((g) => g.id === select.value);
+      const gov = view.governments.find((g) => g.id === pick.value);
       content.replaceChildren();
       if (!gov?.latest) return;
       const latest = gov.latest;
@@ -3458,7 +3209,7 @@ const sheets = {
         [labels.revenue, latest.revenue],
         [labels.spending, latest.spending],
       ]) {
-        const chart = comparison(
+        const chart = barChart(
           lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
           roundedDollars,
@@ -3510,10 +3261,10 @@ const sheets = {
       view.governments.find((g) => g.level === level && g.latest),
     );
     const town = local.find(Boolean);
-    if (town) select.value = town.id;
-    select.addEventListener("change", draw);
+    if (town) pick.value = town.id;
+    pick.addEventListener("change", draw);
     draw();
-    return [select, content];
+    return [pick, content];
   },
   async calendar() {
     const { date: recordDate, items } = await api(
@@ -4013,104 +3764,49 @@ const sheets = {
       api(`/api/guide?q=${encodeURIComponent("filing deadline")}`),
     ]);
     const deadlineTerm = terms.find((t) => t.key === "filing-deadline");
-    const row = (label, value) =>
-      el(
-        "div",
-        { className: "guide-fact" },
-        el("span", { className: "label", textContent: label }),
-        el("strong", { textContent: value }),
-      );
-    const page = (heading, ...body) =>
-      el(
-        "section",
-        { className: "politics-guide-page" },
-        el("h3", { textContent: heading }),
-        ...body,
-      );
-    const pages = ["government", "issues", "parties", "campaigns"].map((tab) =>
-      page(titles[tab], el("p", { textContent: labels[tab] })),
-    );
     const next = government.nextFiling;
-    pages.push(
-      page(
-        labels.runHere,
-        ...(next
-          ? [
-              row(labels.race, next.title),
-              row(
-                labels.filesWith,
-                next.filedWith.replace(
-                  /\s*\(counter: ([^)]*)\)/g,
-                  `, ${labels.atTheDeskOf} $1`,
-                ),
-              ),
-              row(labels.filingOpens, proseDate(next.filingOpens)),
-              row(labels.filingDeadline, proseDate(next.filingDeadline)),
-              ...(deadlineTerm
-                ? [
-                    el("p", {
-                      className: "small",
-                      textContent: deadlineTerm.short,
-                    }),
-                  ]
-                : []),
-              ...(next.primaryDate
-                ? [row(labels.primary, proseDate(next.primaryDate))]
-                : []),
-              row(labels.election, proseDate(next.electionDate)),
-              ...(next.estimated
-                ? [
-                    el("p", {
-                      className: "small",
-                      textContent: labels.estimated,
-                    }),
-                  ]
-                : []),
-            ]
-          : [el("p", { textContent: labels.noRace })]),
-      ),
-    );
-    let at = 0;
-    const box = el("div", { className: "politics-guide" });
-    const draw = () => {
-      const back = el("button", {
-        type: "button",
-        textContent: controls.politics.back,
-        disabled: at === 0,
-      });
-      const forward = el("button", {
-        type: "button",
-        textContent: controls.politics.next,
-        disabled: at === pages.length - 1,
-      });
-      back.onclick = () => {
-        at--;
-        draw();
-      };
-      forward.onclick = () => {
-        at++;
-        draw();
-      };
-      box.replaceChildren(
-        pages[at],
-        el("nav", { className: "record-pager" }, back, forward),
-      );
-    };
-    draw();
-    return [box];
+    return recordScreen({
+      paged: true,
+      sections: [
+        ...["government", "issues", "parties", "campaigns"].map((tab) => ({
+          title: titles[tab],
+          items: [{ text: labels[tab] }],
+        })),
+        {
+          title: labels.runHere,
+          items: next
+            ? [
+                { fact: [labels.race, next.title] },
+                {
+                  fact: [
+                    labels.filesWith,
+                    next.filedWith.replace(
+                      /\s*\(counter: ([^)]*)\)/g,
+                      `, ${labels.atTheDeskOf} $1`,
+                    ),
+                  ],
+                },
+                { fact: [labels.filingOpens, proseDate(next.filingOpens)] },
+                {
+                  fact: [labels.filingDeadline, proseDate(next.filingDeadline)],
+                },
+                deadlineTerm && { text: deadlineTerm.short, tone: "small" },
+                next.primaryDate && {
+                  fact: [labels.primary, proseDate(next.primaryDate)],
+                },
+                { fact: [labels.election, proseDate(next.electionDate)] },
+                next.estimated && { text: labels.estimated, tone: "small" },
+              ]
+            : [{ text: labels.noRace }],
+        },
+      ],
+    });
   },
   async guide() {
-    const search = el("input", {
-      type: "search",
-      value: guideQuery,
-      placeholder: "Search",
-    });
     const list = el("div", { className: "flow" });
-    const fill = async () => {
-      guideQuery = search.value;
-      const rows = await api(
-        `/api/guide?q=${encodeURIComponent(search.value)}`,
-      );
+    const fill = async (query) => {
+      guideQuery = query;
+      const rows = await api(`/api/guide?q=${encodeURIComponent(query)}`);
       list.replaceChildren(
         ...rows.map((t) => {
           const line = listRow(
@@ -4125,8 +3821,12 @@ const sheets = {
         }),
       );
     };
-    search.addEventListener("input", fill);
-    await fill();
+    const search = searchBox({
+      value: guideQuery,
+      placeholder: controls.guide.search,
+      onInput: fill,
+    });
+    await fill(guideQuery);
     return [search, list];
   },
   async options() {
@@ -4141,11 +3841,11 @@ const sheets = {
       ),
     ];
     if (document.fullscreenEnabled) {
-      const fullScreen = el("input", {
-        type: "checkbox",
-        checked: Boolean(document.fullscreenElement),
+      const { line, box: fullScreen } = checkboxSetting({
+        label: labels.fullScreen,
+        checked: document.fullscreenElement,
+        testid: "options-fullscreen",
       });
-      fullScreen.dataset.testid = "options-fullscreen";
       const status = el("p", { role: "status", className: "option-status" });
       fullScreen.addEventListener("change", async () => {
         fullScreen.disabled = true;
@@ -4161,15 +3861,7 @@ const sheets = {
           fullScreen.disabled = false;
         }
       });
-      rows.push(
-        el(
-          "label",
-          { className: "option-setting" },
-          el("span", { textContent: labels.fullScreen }),
-          fullScreen,
-        ),
-        status,
-      );
+      rows.push(line, status);
     }
     const actions = el("div", { className: "acts options-actions" });
     const resume = makeButton({
@@ -4423,14 +4115,14 @@ const sheets = {
             );
             if (first.presentation?.chamberUrl)
               card.append(
-                recordImage(
-                  first.presentation.chamberUrl,
-                  "government-chamber",
-                ),
+                picture({
+                  src: first.presentation.chamberUrl,
+                  className: "government-chamber",
+                }),
               );
             if (parties.size)
               card.append(
-                comparison(
+                barChart(
                   [...parties].map(([label, value]) => ({ label, value })),
                   labels.seats,
                 ),
@@ -4524,7 +4216,7 @@ const sheets = {
             for (const vote of first.votes ?? [])
               card.append(
                 el("h4", { textContent: vote.title }),
-                comparison(
+                barChart(
                   [
                     { label: labels.yes, value: vote.yes },
                     { label: labels.no, value: vote.no },
@@ -4825,7 +4517,8 @@ async function openSheet(tab) {
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
   $("sheet-media").hidden = !character;
-  screenArtwork(
+  fillArtwork(
+    $("sheet-media"),
     character
       ? {
           portraitUrl:
