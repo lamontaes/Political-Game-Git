@@ -15,7 +15,7 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { makeTab, chooseTab, tabBar } from "./ui/tab.mjs";
+import { makeTab, tabBar } from "./ui/tab.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
@@ -42,6 +42,7 @@ import { recordScreen } from "./ui/screen.mjs";
 import { listScreen } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
+import { peopleWeb } from "./ui/people-web.mjs";
 import {
   newspaperScreen,
   engraveMasthead,
@@ -49,7 +50,6 @@ import {
   readerMore,
   sameFor,
 } from "./ui/newspaper.mjs";
-import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -2423,251 +2423,28 @@ const sheets = {
     const people = [...records.values()].sort(
       (a, b) => Number(change.has(b.personId)) - Number(change.has(a.personId)),
     );
-    let group = "all";
-    let selected;
-    let page = 0;
-    let listMode = false;
-    const search = el("input", {
-      type: "search",
-      placeholder: labels.search,
-      className: "people-search",
+    return peopleWeb({
+      people,
+      household,
+      change,
+      self: {
+        name: me.card.name,
+        face: me.card.face,
+        // The saved look, as the card and Who you are read it: not whatever room's figure.
+        figureUrl: portraitUrl(),
+      },
+      inRoom: new Set((me.scene?.people ?? []).map((p) => p.personId)),
+      labels,
+      dateText,
+      onCard: (person) => {
+        closeSheet();
+        showPerson(person);
+      },
+      onTalk: (person) => {
+        closeSheet();
+        talkTo(person.personId);
+      },
     });
-    search.setAttribute("aria-label", labels.search);
-    const filters = el("nav", { className: "people-filters" });
-    const canvas = el("div", { className: "relationship-web" });
-    const detail = el("div", { className: "people-selection" });
-    const pager = el("nav", { className: "people-pager" });
-    const button = (text, fn) => {
-      const b = makeButton({ textContent: text });
-      b.addEventListener("click", fn);
-      return b;
-    };
-    const portrait = (p) => {
-      // A headshot: the person's own figure, cropped round to their head
-      // (no box; owner, Oct 28).
-      if (p.face) return headshot(p.face);
-      const url = p.presentation?.portraitUrl ?? p.figureUrl;
-      if (!url)
-        return el("span", {
-          className: "people-initial",
-          textContent: p.name
-            .split(/\s+/)
-            .map((s) => s[0])
-            .slice(0, 2)
-            .join(""),
-        });
-      const image = el("img", { src: url, alt: "" });
-      image.addEventListener("error", () => image.remove());
-      return image;
-    };
-    // A person's kind, for their line and the ring around their face.
-    const kindOf = (p) =>
-      household.has(p.personId)
-        ? "household"
-        : p.groups.includes("family")
-          ? "family"
-          : (p.groups[0] ?? "other");
-    const draw = () => {
-      const found = people.filter((p) =>
-        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
-      );
-      page = Math.min(page, Math.max(0, Math.ceil(found.length / 8) - 1));
-      const shown = found.slice(page * 8, page * 8 + 8);
-      canvas.replaceChildren();
-      canvas.classList.toggle("people-list", listMode);
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      svg.setAttribute("viewBox", "0 0 100 100");
-      svg.setAttribute("preserveAspectRatio", "none");
-      svg.classList.add("people-lines");
-      if (!listMode) {
-        canvas.append(
-          svg,
-          el(
-            "div",
-            { className: "people-center" },
-            portrait({
-              name: me.card.name,
-              face: me.card.face,
-              // The saved look, as the card and Who you are read it: not whatever room's figure.
-              figureUrl: portraitUrl(),
-            }),
-            el("b", { textContent: me.card.name }),
-          ),
-        );
-      }
-      // People who share your home share a line with each other, as the
-      // household record ties them.
-      const at = (i) => {
-        const angle =
-          (i / Math.max(shown.length, 1)) * Math.PI * 2 - Math.PI / 2;
-        return [50 + Math.cos(angle) * 37, 50 + Math.sin(angle) * 36];
-      };
-      if (!listMode)
-        shown.forEach((a, i) =>
-          shown.forEach((b, j) => {
-            if (
-              j <= i ||
-              !household.has(a.personId) ||
-              !household.has(b.personId)
-            )
-              return;
-            const line = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "line",
-            );
-            const [x1, y1] = at(i);
-            const [x2, y2] = at(j);
-            for (const [key, value] of Object.entries({
-              x1,
-              y1,
-              x2,
-              y2,
-              class: "people-edge household between",
-            }))
-              line.setAttribute(key, value);
-            svg.append(line);
-          }),
-        );
-      shown.forEach((p, i) => {
-        const [x, y] = at(i);
-        const active = group === "all" || p.groups.includes(group);
-        const kind = kindOf(p);
-        const line = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "line",
-        );
-        for (const [key, value] of Object.entries({
-          x1: 50,
-          y1: 50,
-          x2: x,
-          y2: y,
-          class: `people-edge ${kind}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`,
-        }))
-          line.setAttribute(key, value);
-        svg.append(line);
-        const node = button("", () => {
-          selected = p.personId;
-          draw();
-        });
-        const changed = change.get(p.personId);
-        // The face's ring takes its kind's color; names sit on the far side
-        // of the face from you, so no line runs through them.
-        node.className = `people-node ${kind}${y < 50 ? " above" : ""}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}${changed ? ` circle-${changed.mark}` : ""}`;
-        node.setAttribute("aria-pressed", String(selected === p.personId));
-        node.setAttribute("aria-label", p.name);
-        node.style.left = `${x}%`;
-        node.style.top = `${y}%`;
-        node.append(
-          portrait(p),
-          el("b", { textContent: p.name }),
-          el("span", { textContent: p.relation ?? "" }),
-        );
-        if (changed)
-          node.append(
-            el("em", {
-              className: "circle-mark",
-              textContent:
-                changed.mark === "joined" ? labels.joined : labels.left,
-            }),
-          );
-        canvas.append(node);
-      });
-      const person = people.find((p) => p.personId === selected);
-      detail.replaceChildren();
-      // Nothing changed in the five closest this year: said, never an empty box.
-      if (!change.size)
-        detail.append(
-          el("span", {
-            className: "circle-none",
-            textContent: labels.noChange,
-          }),
-        );
-      if (person) {
-        const changed = change.get(person.personId);
-        detail.append(
-          el("span", {
-            textContent: [person.name, person.relation]
-              .filter(Boolean)
-              .join(" · "),
-          }),
-          ...(changed
-            ? [
-                el("span", {
-                  className: "circle-why",
-                  textContent: [
-                    changed.mark === "joined" ? labels.joined : labels.left,
-                    labels.causes?.[changed.cause] ?? words(changed.cause),
-                    dateText(changed.date),
-                  ].join(" · "),
-                }),
-              ]
-            : []),
-          button(labels.card, () => {
-            closeSheet();
-            showPerson(person);
-          }),
-        );
-        if (
-          (me.scene?.people ?? []).some((p) => p.personId === person.personId)
-        )
-          detail.append(
-            button(labels.talk, () => {
-              closeSheet();
-              talkTo(person.personId);
-            }),
-          );
-      }
-      const back = button(labels.back, () => {
-        page--;
-        draw();
-      });
-      back.disabled = page === 0;
-      const next = button(labels.next, () => {
-        page++;
-        draw();
-      });
-      next.disabled = (page + 1) * 8 >= found.length;
-      pager.replaceChildren(...(found.length > 8 ? [back, next] : []));
-      chooseTab(filters, "group", group);
-    };
-    for (const key of ["all", "family", "friends", "work", "politics"]) {
-      filters.append(
-        makeTab({
-          key,
-          attr: "group",
-          label: labels[key],
-          onSelect: () => {
-            group = key;
-            draw();
-          },
-        }),
-      );
-    }
-    const mode = button(labels.list, () => {
-      listMode = !listMode;
-      mode.textContent = listMode ? labels.web : labels.list;
-      draw();
-    });
-    search.addEventListener("input", () => {
-      page = 0;
-      draw();
-    });
-    const key = el(
-      "div",
-      { className: "people-key" },
-      ...["family", "household", "friends", "work", "politics", "other"].map(
-        (k) => el("span", { className: k, textContent: labels[k] }),
-      ),
-    );
-    draw();
-    return [
-      el("div", { className: "people-toolbar" }, search, mode),
-      filters,
-      canvas,
-      detail,
-      key,
-      pager,
-    ];
   },
   async who() {
     const c = me.card;
