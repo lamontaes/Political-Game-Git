@@ -6,11 +6,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/person-card-sketch
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-28T01:14:19.118Z
 ---
 
 **What.** The screens designer (channel, Oct 27, 21:55 and 23:55) needs lines for what a person is like on the nearly empty person card. The person-sketch bank speaks only in the second person ("You keep to yourself.") for Who you are. The card for anyone else needs the same sketch in the third person ("She keeps to herself."), with the pronouns from the person's record.
