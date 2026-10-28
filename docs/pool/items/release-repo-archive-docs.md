@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:

@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: dropped
 claimed-by: claude/counted-zero-income
 pr: #6441
 blocked-on:

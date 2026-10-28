@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/director-producer-away-from-home
-pr:
+pr: #6449
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-27T23:48:19.971Z

@@ -335,12 +335,16 @@ export function stepRegionMonth(
   const month = shiftMonth(previous.month, one, p);
   const nationalPayGrowth =
     nationalNow.hourlyEarnings / nationalBefore.hourlyEarnings;
+  // A tight labor market (unemployment under the nation's) runs pay ahead of the nation's, a slack one behind, by the pooled state fit.
   const hourlyEarnings =
     previous.hourlyEarnings *
     nationalPayGrowth *
     (one +
       (p("macroWageGrowthPerUnemployment") *
         (gapNow - previous.openingGapPct)) /
+        hundred /
+        p("macroMonthsPerYear") +
+      (p("regionalPayGrowthPerGapPoint") * gapNow) /
         hundred /
         p("macroMonthsPerYear"));
   return {

@@ -268,6 +268,17 @@
       "citation": "Blanchard and Katz 1992; Dao, Furceri and Loungani 2017."
     }
   },
+  "regionalPayGrowthPerGapPoint": {
+    "value": -0.1934,
+    "tag": "SOURCED",
+    "citation": "Pooled OLS of a state's December-over-December change in CES average hourly earnings, less the mean of the states, on its December unemployment rate less the mean of the states (LAUS), 51 states, Decembers 2015 to 2024, 520 state-years from data/research/regional/series/state-monthly.json: slope -0.193 percentage points of pay change a year per point of unemployment gap, SE 0.071, R-squared 0.018. States' pay changes are mostly not explained by their labor-market conditions (the pay deviation's standard deviation is 1.94 points), so this term moves states apart by their conditions and the rest of the real spread is left unmodeled.",
+    "spread": {
+      "low": -0.3334,
+      "high": -0.0534,
+      "unit": "percentage points of a year's pay growth against the nation's, per point of the unemployment gap",
+      "citation": "Pooled OLS of a state's December-over-December change in CES average hourly earnings, less the mean of the states, on its December unemployment rate less the mean of the states (LAUS), 51 states, Decembers 2015 to 2024, 520 state-years from data/research/regional/series/state-monthly.json: slope -0.193 percentage points of pay change a year per point of unemployment gap, SE 0.071, R-squared 0.018. States' pay changes are mostly not explained by their labor-market conditions (the pay deviation's standard deviation is 1.94 points), so this term moves states apart by their conditions and the rest of the real spread is left unmodeled."
+    }
+  },
   "regionalPriceLevelPayElasticity": {
     "value": 0.277,
     "tag": "SOURCED",

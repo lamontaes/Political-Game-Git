@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by: claude/political-game-pool-7xkkii
 pr:
 blocked-on:

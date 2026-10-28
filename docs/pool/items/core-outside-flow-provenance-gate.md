@@ -4,7 +4,7 @@ title: "Outside-flow provenance gate fails on main"
 area: core
 kind: bug
 priority: 1
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:

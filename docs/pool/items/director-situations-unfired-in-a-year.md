@@ -4,7 +4,7 @@ title: "Situations a played year never fires: justice, a workplace first day, a 
 area: director
 kind: wiring
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
