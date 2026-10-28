@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.61.2
+
+_Released October 28, 2026._
+
+### Changed
+
+- **Each new world opens with its own business climate** Each new game opens
+  with its own business closure rate, share of jobs in outside firms, union
+  membership, number of businesses for its size, industry margins, local news
+  outlets and campaign prices, drawn around the published figures. Postage and
+  filing fees stay the law.
+
 ## PRE-ALPHA 0.61.1
 
 _Released October 28, 2026._
