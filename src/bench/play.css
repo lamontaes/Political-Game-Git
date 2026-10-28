@@ -2548,7 +2548,7 @@ body.dev .dev-ring {
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(
   .government-content,
-  .issues-content,
+  .entries-rows,
   .budget-content,
   .party-section
 ) {
@@ -2564,7 +2564,7 @@ body.dev .dev-ring {
 .key-people h3,
 .party-section h3,
 .budget-content h3,
-.law-card h3 {
+.entries-rows .entry h3 {
   font: 600 24px var(--name);
   color: var(--gold);
   margin: 12px 0;
@@ -2698,23 +2698,24 @@ body.dev .dev-ring {
   grid-template-columns: 1fr 1fr;
   gap: 40px;
 }
-.law-card {
+/* The list screen (ui/list-screen.mjs): every searchable list of entries. */
+.entries-rows .entry {
   margin: 20px 0;
 }
-.law-card summary {
+details.entry summary {
   cursor: pointer;
   list-style: none;
 }
-.law-card summary::-webkit-details-marker {
+details.entry summary::-webkit-details-marker {
   display: none;
 }
-.law-card h3 {
+.entries-rows .entry h3 {
   font-size: 20px;
 }
-.law-value {
+.entry-value {
   font: 24px var(--speech);
 }
-.law-card[open] {
+details.entry[open] {
   margin-bottom: 28px;
 }
 #sheet-body:has(.money-section) {
@@ -2812,17 +2813,17 @@ body.dev .dev-ring {
   }
 }
 
-#sheet-body:has(.travel-destinations) {
+#sheet-body:has(.entries-cards) {
   max-width: 1200px;
 }
-.travel-destinations {
+.entries-cards {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px 14px;
   margin-top: 12px;
 }
-/* A pictured place card: the room, its name, who is there, why it is listed. */
-.travel-place {
+/* A pictured card: the room, its name, who is there, why it is listed. */
+.entry-go {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -2835,38 +2836,38 @@ body.dev .dev-ring {
   text-align: left;
   cursor: pointer;
 }
-.travel-place::after {
+.entry-go::after {
   display: none;
 }
-.travel-info {
+.entry-info {
   text-align: left;
 }
-.travel-info h3 {
+.entries-cards .entry h3 {
   font: 600 16px/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
-.travel-info p {
+.entries-cards .entry p {
   font: 14px/1.3 var(--ui);
   color: var(--text-2);
   margin: 0 0 2px;
 }
-.travel-info .travel-reason {
+.entries-cards .entry .entry-note {
   color: var(--gold);
   font-size: 13px;
 }
-.travel-image {
+.entry-picture {
   width: 100%;
   aspect-ratio: 5 / 2;
   object-fit: cover;
   border: 2px solid var(--brass);
 }
-.travel-place:hover .travel-image,
-.travel-place:focus-visible .travel-image {
+.entry-go:hover .entry-picture,
+.entry-go:focus-visible .entry-picture {
   border-color: var(--gold);
 }
 @media (max-width: 1100px) {
-  .travel-destinations {
+  .entries-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
