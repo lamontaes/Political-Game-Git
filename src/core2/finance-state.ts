@@ -1362,7 +1362,7 @@ export function reviewBusiness(
     throw new Error("Business review is absent, closed or not due.");
   const data = core.data.businessBooks ?? DEFAULT_BUSINESS_BOOKS_DATA;
   for (const stopgapId of data.stopgapIds) api.stopgap(stopgapId);
-  const options = { data, parameters: core.data.parameters },
+  const options = { data, parameters: core.data.parameters, seed: core.seed },
     place = core.organizations.get(id)!.placeId;
   const date = new Date(`${core.date}T00:00:00.000Z`);
   date.setUTCDate(p("one"));
