@@ -1,0 +1,100 @@
+"""Make the wardrobe parts of one pose transparent. Every part was painted by Firefly as an edit of the pose's base
+(the six bodies in a collared shirt, slacks and dress shoes), so every part is already in place on its body: this only
+keeps each part's own pixels and makes the rest transparent. Stacking body, pants, shoes, shirt, tie, jacket and
+hair in any combination needs no measuring, moving or scaling.
+usage: python3 wardrobe_parts.py BASE MARKER SHEET EDITS_DIR OUTDIR [HAIR_SHEET HAIR_EDITS_PREFIX]
+  BASE: the pose base (white background); MARKER: Firefly's flat-color map of the base (shirt yellow, pants blue,
+  shoes green); EDITS_DIR holds wp-SHEET-<part>.png; HAIR_SHEET + HAIR_EDITS_PREFIX: the bald sheet the hair was
+  painted on and its edits PREFIX-01..12.png (same bodies, same place).
+Writes OUTDIR/<figure>/{body,shirt-1..5,jacket-1..5,tie-1,pants-1..5,shoes-1..5,hair-1..12}.png and OUTDIR/parts.json."""
+import sys, os, json, numpy as np
+from PIL import Image
+from scipy import ndimage
+import v2cut
+
+FRAME = (1536, 1024)
+BUILDS = ['slim', 'medium', 'heavy']; SEX = ['f', 'm']
+
+def load(p):
+    im = Image.open(p).convert('RGBA').resize(FRAME, Image.LANCZOS); bg = Image.new('RGBA', FRAME, (255, 255, 255, 255))   # sheets with transparency sit on white, like the edits
+    return np.asarray(Image.alpha_composite(bg, im).convert('RGB')).astype(float)
+
+def figure(E):
+    bg = np.median(np.concatenate([E[:6].reshape(-1, 3), E[-6:].reshape(-1, 3), E[:, :6].reshape(-1, 3), E[:, -6:].reshape(-1, 3)]), 0)
+    return ndimage.binary_fill_holes(ndimage.binary_opening(np.abs(E - bg).sum(2) > 45, iterations=1))
+
+def green(E):
+    """The part Firefly painted in key green: green pixels, closed, plus the dark outline right around them."""
+    r, g, b = E[..., 0], E[..., 1], E[..., 2]
+    gr = (g > r + 35) & (g > b + 15) & (g > 70)
+    gr = ndimage.binary_fill_holes(ndimage.binary_closing(ndimage.binary_opening(gr, iterations=1), iterations=2))
+    dark = E.sum(2) < 3 * 110
+    return gr | (dark & ndimage.binary_dilation(gr, iterations=3) & ~ndimage.binary_erosion(gr, iterations=1))
+
+def warm(E):
+    mx, mn = E.max(2), E.min(2); return ((mx - mn) / (mx + 1) >= 0.18) & (E[..., 0] > E[..., 2] + 20) & (E[..., 0] >= E[..., 1])
+
+def main():
+    base_p, marker_p, sheet, ed, out = sys.argv[1:6]
+    hair_sheet = sys.argv[6] if len(sys.argv) > 6 else None; hair_pre = sys.argv[7] if len(sys.argv) > 7 else None
+    B = load(base_p); figB = figure(B); M = load(marker_p)
+    near = lambda col, tol=120: (np.abs(M - np.array(col, float)).sum(2) < tol) & figB
+    regions = {'shirt': near((255, 255, 0)), 'pants': near((0, 0, 255)), 'shoes': near((0, 255, 0))}
+    for k in regions: regions[k] = ndimage.binary_closing(regions[k], iterations=2) & figB
+    clothes = regions['shirt'] | regions['pants'] | regions['shoes']
+    cells = v2cut.body_cells((figB * 255).astype(np.uint8))
+    H0 = load(hair_sheet) if hair_sheet else None
+    rows = np.arange(FRAME[1])[:, None]
+    PARTS = [('shirt', 'sh', range(2, 6)), ('jacket', 'jk', range(1, 6)), ('tie', 'ti', range(1, 2)), ('pants', 'pa', range(2, 6)), ('shoes', 'ft', range(2, 6))]
+    edits = {}
+    for part, code, rng in PARTS:
+        for i in rng:
+            for pre, key in (('wk', True), ('wp', False)):
+                p = f'{ed}/{pre}-{sheet}-{code}{i}.png'
+                if os.path.exists(p): E = load(p); edits[(part, i)] = (E, figure(E), green(E) if key else np.abs(E - B).sum(2) > 60, key); break
+    hairs = {}
+    if hair_pre:
+        for i in range(1, 13):
+            p = f'{hair_pre}-{i:02d}.png'
+            if os.path.exists(p):
+                E = load(p); mx, mn = E.max(2), E.min(2); sat = (mx - mn) / (mx + 1)
+                hairs[i] = (E, (np.abs(E - H0).sum(2) > 60) & (sat < 0.22))
+    meta = {'sheet': sheet, 'frame': list(FRAME), 'order': ['body', 'pants', 'shoes', 'shirt', 'tie', 'jacket', 'hair'], 'figures': {}}
+    for r, c, (X0, Y0, X1, Y1), keep in cells:
+        fid = f'v2-{sheet}-{SEX[r]}-{BUILDS[c]}'; od = f'{out}/{fid}'; os.makedirs(od, exist_ok=True)
+        X0, Y0, X1, Y1 = max(0, X0 - 40), max(0, Y0 - 70), min(FRAME[0], X1 + 40), min(FRAME[1], Y1 + 10)   # room for big hair and wide jackets
+        ys = np.where(keep.any(1))[0]; top, bot = ys.min(), ys.max(); Hh = bot - top
+        cell = np.zeros(FRAME[::-1], bool); cell[Y0:Y1, X0:X1] = True
+        band = lambda a, b: cell & (rows >= top + a * Hh) & (rows <= top + b * Hh)
+        def save(m, src, name):
+            m = m & cell; a = (ndimage.gaussian_filter(m.astype(float), 0.5) * 255).clip(0, 255).astype(np.uint8)
+            Image.fromarray(np.dstack([src.astype(np.uint8), a])[Y0:Y1, X0:X1]).save(f'{od}/{name}.png'); return int(m.sum())
+        info = {'box': [int(X0), int(Y0), int(X1), int(Y1)], 'parts': {}}
+        info['parts']['body'] = save(keep & ~clothes, B, 'body')
+        for part in ('shirt', 'pants', 'shoes'): info['parts'][f'{part}-1'] = save(regions[part] & keep, B, f'{part}-1')
+        for (part, i), (E, figE, ch, key) in edits.items():
+            if key:                                                                  # whole green garment + bare skin where the old garment was
+                m = figE & ch & band(-0.02, 1.02)
+                if part in ('shirt', 'pants'): m |= figE & warm(E) & regions[part] & ndimage.binary_dilation(ch, iterations=25)
+                m = ndimage.binary_opening(m, iterations=1)
+                info['parts'][f'{part}-{i}'] = save(m, E, f'{part}-{i}'); continue
+            if part == 'shirt': m = figE & (regions['shirt'] | (ch & band(0.10, 0.72)))
+            elif part == 'jacket': m = figE & ch & band(0.10, 0.80)
+            elif part == 'tie': m = figE & ch & band(0.12, 0.60)
+            elif part == 'pants': m = figE & (regions['pants'] | (ch & band(0.40, 0.97)))
+            else: m = figE & (regions['shoes'] | (ch & band(0.84, 1.01)))
+            m = ndimage.binary_opening(m, iterations=1)
+            info['parts'][f'{part}-{i}'] = save(m, E, f'{part}-{i}')
+        for i, (E, hm) in hairs.items():
+            m = hm & band(-0.15, 0.45) & ndimage.binary_dilation(keep, iterations=40)
+            m = ndimage.binary_opening(m, iterations=1); lab, n = ndimage.label(ndimage.binary_dilation(m, iterations=2))
+            if n:
+                headz = band(-0.05, 0.14) & ndimage.binary_dilation(keep, iterations=4)
+                m &= np.isin(lab, [j + 1 for j in range(n) if ((lab == j + 1) & headz).any()])
+            m = ndimage.binary_fill_holes(ndimage.binary_closing(m, iterations=2))
+            info['parts'][f'hair-{i}'] = save(m, E, f'hair-{i}')
+        meta['figures'][fid] = info
+    json.dump(meta, open(f'{out}/parts.json', 'w'), indent=1)
+    print(sheet, {k: len(v['parts']) for k, v in meta['figures'].items()})
+
+if __name__ == '__main__': main()
