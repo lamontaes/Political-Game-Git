@@ -1,8 +1,9 @@
-// The newspaper: the menu type of News. A front page per outlet (its engraved masthead,
-// the date, the lead story with its text and photo, the next stories beside it, briefs
-// below, principle 9), a story opened to read, and the outlet tabs. The screen hands it
-// the outlets with their stories in words, the labels, the day, and how to name a story
-// and find its photo.
+// The newspaper: the menu type of News. The sheet is the paper itself (owner, Oct 28,
+// point 25: "the page, the type, the columns, every story on it"): a front page per
+// outlet (its masthead, the dateline, the lead story with its text and photo, the next
+// stories beside it, the briefs across the foot), a story opened to read under the same
+// masthead, and the outlet tabs. The screen hands it the outlets with their stories in
+// words, the labels, the day, and how to name a story and find its photo.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { makeTab, chooseTab } from "./tab.mjs";
@@ -39,6 +40,7 @@ const MASTHEADS = {
     },
   ],
 };
+const LAYOUTS = ["broadsheet", "modern", "tabloid", "weekly"];
 /** One of `list`, always the same one for the same record. */
 export const sameFor = (list, key) =>
   list[
@@ -80,14 +82,8 @@ export function newspaperScreen({
   photoOf,
 }) {
   let chosen = outlets.keys().next().value;
-  let page = 0;
   const paper = el("section", { className: "paper" });
   const outletPicker = el("nav", { className: "outlet-picker" });
-  const button = (label, fn) => {
-    const b = makeButton({ textContent: label });
-    b.onclick = fn;
-    return b;
-  };
   const imageFor = (story) => {
     const url =
       story.presentation?.imageUrl ?? story.imageUrl ?? photoOf(story);
@@ -100,127 +96,147 @@ export function newspaperScreen({
     image.onerror = () => image.remove();
     return [image];
   };
-  const article = (story) => {
-    let articlePage = 0;
-    const text =
-      story.paragraphs ??
-      story.broadcast?.map((line) => line.text) ??
-      [story.lede].filter(Boolean);
-    const chunks = text.flatMap((paragraph) => {
-      const tokens = paragraph.split(/\s+/);
-      const result = [];
-      for (let i = 0; i < tokens.length; i += 100)
-        result.push(tokens.slice(i, i + 100).join(" "));
-      return result;
+  // A story's printed text: its written paragraphs, else its lede when the
+  // lede is not the headline said again; a newscast's spoken lines (greetings,
+  // hand-offs) are not print, and a headline is never its own body.
+  const told = (story) =>
+    story.paragraphs ??
+    (story.lede && story.headline && story.lede !== story.headline
+      ? [story.lede]
+      : []);
+  // The masthead: the paper's name (clicking it returns to the front page), the
+  // dateline under it. A broadsheet or weekly sets its name in the engraved
+  // plate of the mockups' art; a modern paper or a tabloid runs it on a bar.
+  const masthead = (outlet, layout) => {
+    const name = makeButton({
+      className: "paper-masthead-name",
+      textContent: outlet.name ?? labels.title,
     });
-    const drawArticle = () => {
-      const back = button(labels.back, draw);
-      const body = el(
+    name.onclick = draw;
+    if (layout === "broadsheet" || layout === "weekly")
+      engraveMasthead(name, outlet);
+    return [
+      el("header", { className: "paper-masthead" }, name),
+      el(
         "div",
-        { className: "article-body" },
-        ...chunks
-          .slice(articlePage * 2, articlePage * 2 + 2)
-          .map((text) => el("p", { textContent: text })),
-      );
-      const prev = button(labels.previous, () => {
-        articlePage--;
-        drawArticle();
-      });
-      prev.disabled = articlePage === 0;
-      const next = button(labels.next, () => {
-        articlePage++;
-        drawArticle();
-      });
-      next.disabled = (articlePage + 1) * 2 >= chunks.length;
-      paper.replaceChildren(
-        back,
+        { className: "paper-dateline" },
+        el("span", { textContent: dateWords(date, { weekday: true }) }),
+      ),
+    ];
+  };
+  const layoutOf = (outlet) =>
+    LAYOUTS.includes(outlet.layout) ? outlet.layout : "broadsheet";
+  // A story opened to read: under the masthead, its headline, its deck when
+  // the lede is not the headline, and every paragraph it has, in columns.
+  const article = (story) => {
+    const outlet = outlets.get(chosen);
+    const text = told(story);
+    const deck =
+      story.paragraphs && story.lede && story.lede !== story.headline
+        ? story.lede
+        : null;
+    paper.replaceChildren(
+      ...masthead(outlet, layoutOf(outlet)),
+      el(
+        "article",
+        { className: "paper-article" },
         el("h2", {
           className: "article-title",
-          textContent: story.headline ?? story.lede,
+          textContent: headlineOf(story),
         }),
-        body,
-        ...(chunks.length > 2
-          ? [el("nav", { className: "paper-pager" }, prev, next)]
+        ...(deck
+          ? [el("p", { className: "article-deck", textContent: deck })]
           : []),
-      );
-    };
-    drawArticle();
+        ...imageFor(story),
+        el(
+          "div",
+          { className: "article-body" },
+          ...text.map((paragraph) => el("p", { textContent: paragraph })),
+        ),
+      ),
+    );
   };
   const draw = () => {
     const outlet = outlets.get(chosen);
-    const layout = ["broadsheet", "modern", "tabloid", "weekly"].includes(
-      outlet.layout,
-    )
-      ? outlet.layout
-      : "broadsheet";
+    const layout = layoutOf(outlet);
     paper.className = `paper paper-${layout}`;
-    // A front page (owner, Oct 27: "News is a newspaper with story text"):
-    // the lead story with its text, the next stories with theirs beside it,
-    // and stories with only a headline as briefs. Every word is the English
-    // engine's; record rows with kinds and series names are not printed.
-    // Print takes the story's written paragraphs, else its lede; a
-    // newscast's spoken lines (greetings, hand-offs) are not print.
-    const told = (story) =>
-      story.paragraphs ?? (story.lede && story.headline ? [story.lede] : []);
-    const pageStories = outlet.stories.slice(page * 6, page * 6 + 6);
-    const [lead, ...rest] = pageStories;
+    // The front page, every story on it: the lead with its text and photo,
+    // the next stories with text beside it, and the stories with only a
+    // headline as briefs across the foot. Every word is the English engine's;
+    // record rows with kinds and series names are not printed.
+    // The lead is the story with the most to print (the paper's written
+    // story before a one-line notice); the rest keep their order, newest first.
+    const lead = outlet.stories.reduce(
+      (best, story) =>
+        best && told(best).length >= told(story).length ? best : story,
+      undefined,
+    );
+    const rest = outlet.stories.filter((story) => story !== lead);
     const withText = rest.filter((story) => told(story).length);
     const briefs = rest.filter((story) => !told(story).length);
     const storyBlock = (story, className, paragraphs) => {
-      const headline = button(headlineOf(story), () => article(story));
-      headline.className = "story-headline";
+      const headline = makeButton({
+        className: "story-headline",
+        textContent: headlineOf(story),
+      });
+      headline.onclick = () => article(story);
+      const text = told(story).slice(0, paragraphs);
       return el(
         "article",
         { className: `paper-story ${className}` },
         headline,
+        ...(text.length && className === "lead"
+          ? [el("p", { className: "story-lede", textContent: text[0] })]
+          : []),
         ...(className === "lead" ? imageFor(story) : []),
-        ...told(story)
-          .slice(0, paragraphs)
-          .map((text, at) =>
-            el("p", {
-              className: at === 0 ? "story-lede" : "story-text",
-              textContent: text,
-            }),
-          ),
+        ...(className === "lead"
+          ? text.length > 1
+            ? [
+                el(
+                  "div",
+                  { className: "story-body" },
+                  ...text
+                    .slice(1)
+                    .map((line) =>
+                      el("p", { className: "story-text", textContent: line }),
+                    ),
+                ),
+              ]
+            : []
+          : text.map((line, at) =>
+              el("p", {
+                className: at === 0 ? "story-lede" : "story-text",
+                textContent: line,
+              }),
+            )),
       );
     };
-    const name = el("h2", { textContent: outlet.name ?? labels.title });
-    engraveMasthead(name, outlet);
     paper.replaceChildren(
-      el(
-        "header",
-        { className: "paper-masthead" },
-        name,
-        el("span", {
-          className: "paper-date",
-          textContent: dateWords(date),
-        }),
-      ),
+      ...masthead(outlet, layout),
       el(
         "div",
         { className: "paper-stories" },
         ...(lead ? [storyBlock(lead, "lead", 4)] : []),
-        el(
-          "div",
-          { className: "paper-column" },
-          ...withText.map((story) => storyBlock(story, "second", 2)),
-          ...briefs.map((story) => storyBlock(story, "brief", 0)),
-        ),
+        ...(withText.length
+          ? [
+              el(
+                "div",
+                { className: "paper-column" },
+                ...withText.map((story) => storyBlock(story, "second", 2)),
+              ),
+            ]
+          : []),
+        ...(briefs.length
+          ? [
+              el(
+                "div",
+                { className: "paper-briefs" },
+                ...briefs.map((story) => storyBlock(story, "brief", 0)),
+              ),
+            ]
+          : []),
       ),
     );
-    if (outlet.stories.length > 6) {
-      const back = button(labels.previous, () => {
-        page--;
-        draw();
-      });
-      back.disabled = page === 0;
-      const next = button(labels.next, () => {
-        page++;
-        draw();
-      });
-      next.disabled = (page + 1) * 6 >= outlet.stories.length;
-      paper.append(el("nav", { className: "paper-pager" }, back, next));
-    }
     chooseTab(outletPicker, "outlet", chosen);
   };
   if (outlets.size > 1)
@@ -232,7 +248,6 @@ export function newspaperScreen({
           label: outlet.name,
           onSelect: () => {
             chosen = key;
-            page = 0;
             draw();
           },
         }),
