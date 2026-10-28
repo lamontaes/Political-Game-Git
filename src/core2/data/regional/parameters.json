@@ -294,7 +294,7 @@
     "value": 0.5,
     "tag": "ESTIMATED",
     "citation": "How far a state's unemployment rate sits from its published LAUS rate beyond the nation's move: about the typical 12-month change in a state's rate relative to the nation's (BLS LAUS state series, 2010-2024).",
-    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between macroWorldOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
     "spread": {
       "low": 0.25,
       "high": 1.0,
@@ -306,7 +306,7 @@
     "value": 0.02,
     "tag": "ESTIMATED",
     "citation": "How far a state's payroll jobs and hourly pay sit from their published CES levels beyond the nation's move: about a year of a state's growth relative to the nation's (BLS CES state series).",
-    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between macroWorldOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
     "spread": {
       "low": 0.01,
       "high": 0.04,
@@ -318,7 +318,7 @@
     "value": 1.0,
     "tag": "ESTIMATED",
     "citation": "How far a state's or metro's regional price parity sits from BEA's published one: about BEA's year-to-year revision and change in a state's RPP (BEA Regional Price Parities, 2008-2023).",
-    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between macroWorldOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published state series is the center; a state's offset is drawn once from the world's seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, on top of the world's national offset.",
     "spread": {
       "low": 0.5,
       "high": 2.0,

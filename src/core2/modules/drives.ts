@@ -1420,7 +1420,7 @@ function raiseFromCounted(
         !person?.alive ||
         daysBetweenText(person.birthDate, c.date) /
           api.parameter("daysPerMeanYear") <
-          api.parameter("benchmarkAdultMinimumAge")
+          api.parameter("votingAge")
       )
         continue;
       adults += api.parameter("one");

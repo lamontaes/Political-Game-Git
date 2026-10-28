@@ -501,7 +501,7 @@ export function buildDeepPast(
           : opened;
         const school = schoolFor(
           open,
-          `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
+          `${data.version}:${ageOnDate(birth, opening) < p("votingAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
         );
         const [campusId] = school ?? [];
         // The campus keeps the directory's place, grades and size; its name

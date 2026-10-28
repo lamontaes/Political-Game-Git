@@ -5,12 +5,13 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/old-engine-opening-port
 pr:
 after: core-old-engine-02-gov-rules-duplicates
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 steps 2–5"
+claimed-at: 2026-10-28T14:54:34.350Z
 ---
 
 **What.** This item records the October19 audit snapshot at `0104686`; its paths and counts require a current check before implementation. The audit confirmed four pieces of the opening town builder that still live only in the old core. Work patterns and schedules (`living-world/work-schedules.ts`, 714 lines, used by `src/core2/opening-work.ts`); town workplaces, employment mix, labor status and tenure tables (`living-world/town-employment.ts` plus its `.generated` file, 1,718 lines, used by `src/core2/opening-employment.ts`), with `jailTermOn` from `justice/jail-terms.ts` and `organizationProfileAt` from `life-queries.ts`, which should become reads of core2's own organization and justice records; traits, personality, upbringing and trait definitions (`trait-packs`, `trait-registry`, `people-traits`, `personality-catalogue`, `people-upbringing`, `people-trait-definitions`, used by `population.ts` and `src/bench/card.ts`); and character history (`character-history.ts`, used by `town-households.ts`). Open drafts carry most of it: #5084 and #5097 (schedules), #5093, #5100 and #5073 (jobs and jail terms), #5104 → #5108 → #5110 (traits). Finish on those branches, in that order, and add the character-history lift, which has no branch yet.

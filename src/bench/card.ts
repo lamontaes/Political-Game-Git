@@ -43,6 +43,17 @@ export function personCard(core: CoreState, personId: string) {
   const household = core.households.get(person.householdId);
   // Faces for the People map: each the figure a room here would draw.
   const place = scenePlace(core, personId).place;
+  // The People screen's groups a tie falls in: family by kind, by a relation
+  // word or by sharing the home; coworkers at work; friends; politics.
+  const homeIds = new Set(household?.memberIds ?? []);
+  const groupsOf = (otherId: string, kind: string, relation: unknown) => [
+    ...(kind === "family" || relation || homeIds.has(otherId)
+      ? ["family"]
+      : []),
+    ...(kind === "coworker" ? ["work"] : []),
+    ...(kind === "friend" ? ["friends"] : []),
+    ...(kind === "politics" ? ["politics"] : []),
+  ];
   const ties = [...(core.relationshipsByPerson.get(personId) ?? [])]
     .map((id) => core.relationships.get(id))
     .filter((row) => row !== undefined)
@@ -53,6 +64,11 @@ export function personCard(core: CoreState, personId: string) {
         name: name(otherId),
         kind: row.kind,
         relation: relationWord(core, otherId, relationOf(otherId)),
+        groups: groupsOf(
+          otherId,
+          row.kind,
+          relationWord(core, otherId, relationOf(otherId)),
+        ),
         level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
@@ -83,6 +99,7 @@ export function personCard(core: CoreState, personId: string) {
           personId: id,
           name: name(id),
           relation: relationWord(core, id, relationOf(id)),
+          groups: ["family"],
           alive: core.people.get(id)?.alive ?? true,
           face: faceOf(core, id, place),
         })),
@@ -267,7 +284,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const school =
     (family || housemate) &&
     ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date)) <
-      coreAPI(core).parameter("benchmarkAdultMinimumAge")
+      coreAPI(core).parameter("votingAge")
       ? (schoolsOf(core, otherId)
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
@@ -346,6 +363,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     publicKnowledge: core.modules.has(PAST_MODULE_ID)
       ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
       : null,
+    // Their headshot for the talk box: the same face the People map draws.
+    face: faceOf(core, otherId, scenePlace(core, viewerId).place),
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [

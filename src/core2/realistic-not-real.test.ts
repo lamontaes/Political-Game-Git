@@ -18,7 +18,10 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { publishedMonths, type MacroMonth } from "./macro-model";
 import { MACRO_MODULE_ID } from "./modules/macro";
-import { publishedPlaceReferencePopulation } from "./gov-rules/place-population";
+import {
+  placeReferencePopulation,
+  publishedPlaceReferencePopulation,
+} from "./gov-rules/place-population";
 import { CREDIT_MODULE_ID } from "./modules/credit";
 import { worldGoods } from "./modules/place-prices";
 import goodsData from "./data/prices/goods.json" with { type: "json" };
@@ -61,7 +64,7 @@ import {
   type OpeningEmploymentAllocation,
 } from "./opening-employment";
 import { parameter } from "./parameters";
-import { corePlaceByKey } from "./place-lookup";
+import { corePlaceByKey, searchCorePlaces } from "./place-lookup";
 import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
 import { placeEarningsOf, publishedPlaceEarnings } from "./residents";
 import { TOWN_JOB_SOC } from "./reference/town-job-soc";
@@ -72,6 +75,7 @@ import {
 import {
   nationalMedianAnnualWage,
   townJobRate,
+  townPayAreas,
   townPayPercentile,
 } from "./town-pay";
 import {
@@ -361,10 +365,20 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     }
     // An hourly rate rounds to the cent, so two worlds can share one
     // occupation's rate (Southgate, Michigan, seed 724f31c69c6190c5: a hotel
-    // clerk at $17.18 in both); the worlds' local pay differs as a whole.
-    expect(localA.join(), `${where} local pay: other world`).not.toBe(
-      localB.join(),
-    );
+    // clerk at $17.18 in both); the worlds' local pay differs as a whole. A
+    // territory outside the BLS wage areas has no local rate for any
+    // occupation, so its row is empty in both worlds for a data reason and
+    // its jobs read the national pay checked above (Leusoali'i, American
+    // Samoa, seed 1564c1a4803378be).
+    if (localA.length === 0)
+      expect(
+        townPayAreas(jurisdiction),
+        `${where} local pay: empty with a wage area`,
+      ).toEqual([]);
+    else
+      expect(localA.join(), `${where} local pay: other world`).not.toBe(
+        localB.join(),
+      );
     for (const years of [0, 5, 20])
       differs(
         `pay percentile at ${years} years`,
@@ -512,17 +526,46 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
   });
 
   it("the town's population (audit row 28)", () => {
-    const geoid = corePlaceByKey(place.key)?.sourceGeoid;
+    const town = corePlaceByKey(place.key);
+    const geoid = town?.sourceGeoid;
     const real = geoid
       ? publishedPlaceReferencePopulation(geoid)?.value
       : undefined;
     const size = (core: CoreState) =>
       Number(core.placeMetadata.referencePopulation);
-    if (real === undefined) return;
-    expect(size(a), `${where} referencePopulation`).not.toBe(real);
-    expect(size(a), `${where} referencePopulation`).not.toBe(size(b));
+    if (real === undefined || !town) return;
+    expect(size(a), `${where} referencePopulation: published`).not.toBe(real);
+    expect(size(a), `${where} referencePopulation: the engine's draw`).toBe(
+      placeReferencePopulation(geoid!, a.seed)?.value,
+    );
+    // A count is whole and a small town's spread is a few people, so two
+    // worlds can draw one town's count alike (Branchville, Virginia, seed
+    // 709839a49d0953f4: 116 in both against 119 published). The world's
+    // populations differ as a row: the town with the other places of its
+    // state, which the coarse-place engine draws by the same rule.
+    const others = [
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+        stateJurisdictionKey: town.stateJurisdictionKey,
+        scope: "locality",
+      }),
+    ]
+      .filter(
+        (p) =>
+          p.key !== town.key &&
+          p.sourceGeoid &&
+          publishedPlaceReferencePopulation(p.sourceGeoid),
+      )
+      .sort((p, q) => p.key.localeCompare(q.key))
+      .slice(0, 12)
+      .map((p) => p.sourceGeoid!);
+    const row = (core: CoreState) =>
+      [
+        size(core),
+        ...others.map((g) => placeReferencePopulation(g, core.seed)?.value),
+      ].join();
+    expect(row(a), `${where} populations: other world`).not.toBe(row(b));
     process.stdout.write(
-      `POPULATION ${where}: ${size(a)} and ${size(b)} against ${real} published\n`,
+      `POPULATION ${where}: ${size(a)} and ${size(b)} against ${real} published; ${others.length} other places in the row\n`,
     );
   });
 
@@ -578,17 +621,32 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       (newsData as unknown as { places: Record<string, PlaceNews> }).places,
     );
     expect(places.length, where).toBeGreaterThan(0);
+    // A state's count is whole and most states hold a few stations, so two
+    // worlds' totals can coincide (Aunu'u, American Samoa, seed
+    // 0099ec5284330be1: 325 television stations in both); each kind's total
+    // differs from the published one, and the states' counts differ between
+    // worlds as a row.
     for (const kind of ["newspaper", "television", "radio"] as const) {
       const total = (read: (counts: PlaceNews) => number) =>
         places.reduce((sum, counts) => sum + read(counts), 0);
-      differs(
-        `${kind} outlets across states`,
+      expect(
         total((c) => worldOutletCounts(a.seed, c, 1)[kind]),
-        total((c) => Math.round(publishedOutletLevels(c, 1)[kind])),
-        total((c) => worldOutletCounts(b.seed, c, 1)[kind]),
-      );
+        `${where} ${kind} outlets across states: published`,
+      ).not.toBe(total((c) => Math.round(publishedOutletLevels(c, 1)[kind])));
     }
+    const outletRow = (seed: string) =>
+      places
+        .map((c) => {
+          const n = worldOutletCounts(seed, c, 1);
+          return `${n.newspaper}/${n.television}/${n.radio}`;
+        })
+        .join();
+    expect(outletRow(a.seed), `${where} outlets: other world`).not.toBe(
+      outletRow(b.seed),
+    );
     // Row 27: every price the market sets; what the Postal Service or a law sets stays as published.
+    const marketA: number[] = [],
+      marketB: number[] = [];
     for (const [kind, row] of Object.entries(
       (
         unitPriceData as unknown as {
@@ -603,13 +661,21 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
         expect(unitPrice(apiB, kind), `${where} ${kind}`).toBe(
           publishedUnitPrice(kind),
         );
-      } else
-        differs(
-          `price of ${kind}`,
+      } else {
+        expect(
           unitPrice(apiA, kind),
-          publishedUnitPrice(kind),
-          unitPrice(apiB, kind),
-        );
+          `${where} price of ${kind}: published`,
+        ).not.toBe(publishedUnitPrice(kind));
+        marketA.push(unitPrice(apiA, kind));
+        marketB.push(unitPrice(apiB, kind));
+      }
+    // A price rounds to the cent, so two worlds can share one small price
+    // (Branchville, Virginia, seed 709839a49d0953f4: a 16-cent mailer in both
+    // against 20 published); the market's prices differ as a whole.
+    expect(marketA.length, `${where} market prices`).toBeGreaterThan(0);
+    expect(marketA.join(), `${where} market prices: other world`).not.toBe(
+      marketB.join(),
+    );
   });
   it("the federal debt, its holders, the payees' and charges' mixes and the states' federal stakes (audit rows 51 and 52)", () => {
     // What each holder held at the opening: its balance less what it lent since.

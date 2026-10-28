@@ -180,7 +180,7 @@ function electionLawParts(
     const birthDate =
       voter.birthDate ?? api.state.people.get(voter.id)?.birthDate;
     const years = birthDate
-      ? ageOn(birthDate, api.state.date) - reachParameter("adultAge")
+      ? ageOn(birthDate, api.state.date) - reachParameter("votingAge")
       : 0;
     parts.sameDay = -(
       reachParameter("sameDayRegistrationRelief") * sameDayWeight(years)
@@ -259,7 +259,7 @@ const SPECS: readonly LawSpec[] = [
     paidAt: "vote",
     share: (api, v) =>
       sameDayWeight(
-        ageOn(v.birthDate, api.state.date) - reachParameter("adultAge"),
+        ageOn(v.birthDate, api.state.date) - reachParameter("votingAge"),
       ),
   },
   {

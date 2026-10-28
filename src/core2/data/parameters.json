@@ -969,11 +969,6 @@
     "tag": "SOURCED",
     "citation": "The age below which a household member is the speaker's child at home, as the age of majority: 18 in 47 states, 19 in two, 21 in one (state statutes on the age of majority; Legal Information Institute, 'Age of majority')."
   },
-  "benchmarkAdultMinimumAge": {
-    "value": 18,
-    "tag": "SOURCED",
-    "citation": "Benchmark adult-employee selection criterion, not a law or an actor decision."
-  },
   "bytesPerKiB": {
     "value": 1024,
     "tag": "SOURCED",
@@ -6808,23 +6803,12 @@
     "value": 0.06,
     "tag": "ESTIMATED",
     "citation": "How far a world's budget line sits from the published one, as a share of it: about a year's change in a state or local government's line (Census Annual Survey of State and Local Government Finances, fiscal 2021 to 2022, functions moved 2% to 10%) and the federal receipts and outlays' year-to-year change (Monthly Treasury Statement, fiscal 2024 to 2025).",
-    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published line is the center; a world's offset for each government and line is drawn once from its seed at Start, its size between budgetWorldOffsetFloorShare of this spread and the whole spread.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published line is the center; a world's offset for each government and line is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread.",
     "spread": {
       "low": 0.03,
       "high": 0.12,
       "unit": "share of the published line",
       "citation": "data/research/money/public-budget-bases.json; data/research/money/federal-budget-fy2025.json."
-    }
-  },
-  "budgetWorldOffsetFloorShare": {
-    "value": 0.34,
-    "tag": "TUNABLE",
-    "citation": "The smallest share of the spread a world's budget offset takes, so no world opens on the published line.",
-    "spread": {
-      "low": 0.25,
-      "high": 0.5,
-      "unit": "share of the spread",
-      "citation": "Matches macroWorldOffsetFloorShare."
     }
   },
   "budgetWorldDebtSpreadShare": {
@@ -7025,12 +7009,12 @@
   "worldDrawOffsetFloorShare": {
     "value": 0.34,
     "tag": "TUNABLE",
-    "citation": "The smallest share of a spread a world's starting offset takes, so no world opens on the published figure.",
+    "citation": "The smallest share of a spread a world's starting offset takes, so no world opens on the published figure: the one floor for every starting draw (the national and state economy, the budget lines, the housing medians, pay, rents and the rest).",
     "spread": {
       "low": 0.25,
       "high": 0.5,
       "unit": "share of the spread",
-      "citation": "Matches macroWorldOffsetFloorShare."
+      "citation": "Checked against one-decimal rounding and the 0.25-point policy step (macroPolicyStepPct): a third of the unemployment spread keeps a world's rate 0.27 points or more from the published one, and a third of the policy spread keeps it a step away."
     }
   },
   "jobsWorldAgeRateSpreadShare": {
