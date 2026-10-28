@@ -307,9 +307,11 @@ document.addEventListener("keydown", (event) => {
   else if ($("front").hidden) openSheet("options");
 });
 
-async function renderScene() {
+async function renderScene({ keepBackdrop = false } = {}) {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
-  $("backdrop").src = scene.backdrop.url;
+  // The opening's staged story sets the backdrop itself; setting the room's
+  // here first would load two pictures in a row (owner, Oct 28, point 2).
+  if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawPeople(scene.people, (p) => talkTo(p.personId));
@@ -495,9 +497,9 @@ async function renderJournalNote() {
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
   shownJournalLine = line;
 }
-async function refresh() {
+async function refresh(scene = {}) {
   await Promise.all([
-    renderScene(),
+    renderScene(scene),
     renderCard(),
     renderJournalNote(),
     markNews(false),
@@ -1005,12 +1007,13 @@ function spokenLines(lines) {
 }
 // The narrator speaks first and alone; Continue, then the person talks (owner,
 // Oct 28 sitting, 36: "The narrator shows first, Continue, then the person
-// talks"). What comes after the narration waits here for that Continue.
-let afterNarration;
+// talks"). What comes next (the person, the next part of a speech) waits
+// here for that Continue.
+let onContinue;
 /** The narration alone with one Continue, then `then`; no narration, `then` at once. */
 function narrateFirst(setting, then) {
   if (!setting.length) return then();
-  afterNarration = then;
+  onContinue = then;
   talkControls({ silent: false, leave: false });
   fillTalk({ lines: setting, replies: [] });
   setScales({ available: false });
@@ -1103,9 +1106,9 @@ $("talk-lie").addEventListener("click", () => {
 // Continue, bottom left, when there is nothing to answer: the beat is over, and
 // a stop that held the clock for it goes on.
 $("talk-next").addEventListener("click", async () => {
-  if (afterNarration) {
-    const then = afterNarration;
-    afterNarration = undefined;
+  if (onContinue) {
+    const then = onContinue;
+    onContinue = undefined;
     await then();
     return;
   }
@@ -1131,7 +1134,7 @@ $("talk-leave").addEventListener("click", async () => {
     renderPacket();
     return;
   }
-  afterNarration = undefined;
+  onContinue = undefined;
   await post("/api/talk/leave");
   renderTalk(undefined);
 });
@@ -1650,15 +1653,22 @@ async function showStory(momentId) {
   // A speech heard (the address on the evening news): its speaker's own
   // words from the record, then Continue.
   if (story.speech) {
-    narrateFirst(setting, () => {
+    // The speech plays one part per Continue (owner, Oct 28 sitting, 11:
+    // "Each Continue can carry a paragraph"); the last Continue ends it.
+    const parts = story.speech.parts?.length
+      ? story.speech.parts
+      : [story.speech.text];
+    const sayPart = (at) => {
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
       talkControls({ silent: false, leave: false });
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: story.speech.text })],
+        lines: [talkLine({ kind: "speech", text: parts[at] })],
         replies: [],
       });
       setScales({ available: false });
-    });
+      if (at + 1 < parts.length) onContinue = () => sayPart(at + 1);
+    };
+    narrateFirst(setting, () => sayPart(0));
     return;
   }
   if (withId) {
@@ -2556,15 +2566,19 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
-    // A chapter's title heads it only when there is more than one chapter: a
-    // lone title over the only story restates the screen (principles rule 3).
+    // One story from birth, a paragraph to each turn of the life, with no
+    // heading over any part of it (owner, Oct 27: "written like a story,
+    // not individual sections... from birth"; "remove all those
+    // subheadings").
     return recordScreen({
-      sections: chapters.map((c) => ({
-        title: chapters.length > 1 ? c.title : undefined,
-        items: [
-          { text: c.lines.map((l) => l.text).join(" "), tone: "narrative" },
-        ],
-      })),
+      sections: [
+        {
+          items: chapters.map((c) => ({
+            text: c.lines.map((l) => l.text).join(" "),
+            tone: "narrative",
+          })),
+        },
+      ],
     });
   },
   async handoff() {
@@ -3560,15 +3574,18 @@ let titleLife = null;
 function rotateTitle(scenes, seconds) {
   let at = 0;
   const next = $("backdrop-next");
+  // The rotation runs only on the title menu itself: a creator panel keeps the
+  // painting it opened on (owner, Oct 28: "the double background jump").
+  const onTitleMenu = () => !$("front").hidden && !$("front-main").hidden;
   setInterval(() => {
-    if ($("front").hidden) return;
+    if (!onTitleMenu()) return;
     at = (at + 1) % scenes.length;
     next.src = scenes[at].backdrop.url;
     next.onload = () => {
       next.onload = null;
       next.classList.add("fading");
       setTimeout(() => {
-        if ($("front").hidden) return next.classList.remove("fading");
+        if (!onTitleMenu()) return next.classList.remove("fading");
         const back = $("backdrop");
         back.src = next.src;
         back.style.animation = "none";
@@ -4132,9 +4149,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     for (const id of ["rings", "card"]) show(id, true);
     $("game").classList.add("in-play");
     renderPacket(life.packet);
-    await refresh();
+    await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
     showNewsSurface(await nightsNews(life.personId));
-    // The scene the director staged for the evening (the address) plays first.
+    // The scene the director staged for the evening (the address) plays first
+    // and sets the one backdrop the opening loads.
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     coachFirstChoices();
   } catch (error) {
