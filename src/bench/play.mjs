@@ -21,6 +21,7 @@ import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { listRow, personRow } from "./ui/list-row.mjs";
+import { headshot } from "./ui/headshot.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -2732,29 +2733,6 @@ function portraitUrl() {
   return me.portrait
     ? `/api/portrait?id=${encodeURIComponent(me.id)}`
     : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
-}
-/**
- * A round headshot cut from a person's figure: the head fills the middle of
- * the circle at FACE_SHARE of its width, its top FACE_TOP down from the rim.
- */
-const FACE_SHARE = 0.56;
-const FACE_TOP = 0.17;
-function headshot(face) {
-  const [top, middle, width] = face.head;
-  const scale = FACE_SHARE / width;
-  // The figure's size and offset in fractions of the round frame, as a
-  // background placed in percent (an offset over the room left beside it).
-  const wide = face.width * scale;
-  const tall = face.height * scale;
-  const left = 0.5 - middle * scale;
-  const down = FACE_TOP - top * scale;
-  const frame = el("span", { className: "headshot" });
-  Object.assign(frame.style, {
-    backgroundImage: `url("${face.url}")`,
-    backgroundSize: `${wide * 100}% ${tall * 100}%`,
-    backgroundPosition: `${(left / (1 - wide)) * 100}% ${(down / (1 - tall)) * 100}%`,
-  });
-  return frame;
 }
 /** A record image has no substitute when its producer has not supplied one. */
 function recordImage(url, className) {
