@@ -210,6 +210,14 @@ function storyPhoto(story) {
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
+/** The night's paper: the news engine's stories the player heard, newest first. */
+async function nightsNews(personId) {
+  const rows = await api(`/api/news?id=${encodeURIComponent(personId)}`);
+  const stories = rows
+    .filter((r) => r.headline || r.lede)
+    .filter(storyHeadline);
+  return { stories, outlet: stories[0]?.outlet };
+}
 function showNewsSurface(news) {
   const story = news?.stories?.[0];
   if (!story) return;
@@ -1200,11 +1208,7 @@ function renderFiling(value) {
       paged: (items) => menuPages(items, 8),
     });
     buttons.unshift(
-      makeButton({
-        className: "reply",
-        textContent: counter.chooseRace,
-        onclick: () => show("race-menu", true),
-      }),
+      talkReply({}, counter.chooseRace, () => show("race-menu", true)),
     );
     if (!value.result && !value.overlay) show("race-menu", true);
   }
@@ -1774,7 +1778,7 @@ async function showPerson(person) {
         c.shared?.length && {
           title: labels.together,
           items: c.shared.map((s) => {
-            const line = row(labels.sharedWords?.[s.kind], s.employer ?? "");
+            const line = row(labels.sharedWords?.[s.kind], s.name ?? "");
             line.dataset.record = s.recordId;
             return { node: line };
           }),
@@ -2753,25 +2757,17 @@ const sheets = {
             : []),
         ]
       : [];
-    const [rows, opening] = await Promise.all([
-      api(`/api/news?id=${encodeURIComponent(me.id)}`),
-      api(`/api/opening?id=${encodeURIComponent(me.id)}`),
-    ]);
     const labels = controls.news;
-    // One feed: the night's lead story the toast showed first, then what you heard,
-    // newest first. News and the toast read the same stories through storyHeadline.
-    const stories = [
-      ...(opening?.news?.stories ?? []),
-      ...rows.filter((r) => r.headline || r.lede),
-    ].filter(storyHeadline);
+    // One feed, what you heard, newest first: News and the toast read the
+    // news engine's same stories through storyHeadline.
+    const { stories } = await nightsNews(me.id);
     const outlets = new Map();
     for (const story of stories) {
-      const outlet = story.outlet ??
-        opening?.news?.outlet ?? {
-          id: "news",
-          name: labels.title,
-          layout: "broadsheet",
-        };
+      const outlet = story.outlet ?? {
+        id: "news",
+        name: labels.title,
+        layout: "broadsheet",
+      };
       const key = outlet.id ?? outlet.name;
       if (!outlets.has(key)) outlets.set(key, { ...outlet, stories: [] });
       outlets.get(key).stories.push(story);
@@ -3573,7 +3569,8 @@ $("front-continue").addEventListener("click", async () => {
   const opening = await api(
     `/api/opening?id=${encodeURIComponent(life.personId)}`,
   );
-  if (opening?.home?.date === life.date) showNewsSurface(opening.news);
+  if (opening?.home?.date === life.date)
+    showNewsSurface(await nightsNews(life.personId));
 });
 // The desktop window closes (and the app quits); a browser tab has no Quit.
 if (window.location.protocol === "app:") {
@@ -4069,7 +4066,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();
-    showNewsSurface(opening?.news);
+    showNewsSurface(await nightsNews(life.personId));
     coachFirstChoices();
   } catch (error) {
     $("front-status").textContent = error.message;

@@ -3,7 +3,6 @@ import { ageOnDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { buildDeepPast } from "../deep-past";
 import { initialFocusPeople } from "../focus";
-import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { parameter } from "../parameters";
 import { buildPopulation } from "../population";
 import { gameStartDate } from "../game-start";
@@ -33,8 +32,7 @@ export function prepareWorldAt(options: {
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   if (!player)
     throw new Error("No eligible recorded adult worker in drawn place");
-  const peers = buildOpeningPeerContacts(input, { personIds: [player.id] });
-  input = { ...peers.input, playerId: player.id };
+  input = { ...input, playerId: player.id };
   input = {
     ...input,
     focusPersonIds: [...initialFocusPeople(input)].sort(),

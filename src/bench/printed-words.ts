@@ -8,7 +8,7 @@
  */
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate, spokenDate } from "../core2/kernel/dates";
 import { partyName } from "../core2/appointments";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { lawChain, lawInForce } from "../core2/modules/laws";
@@ -67,11 +67,6 @@ const MONTHS = [
   "November",
   "December",
 ];
-/** An ISO date as people say it: "January 20, 2025". */
-const sayDate = (iso: string) => {
-  const [year, month, day] = iso.split("-").map(Number);
-  return `${MONTHS[month! - 1]} ${day}, ${year}`;
-};
 const dollars = (minor: number, cents = false) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -172,7 +167,7 @@ class Reader {
     return this.fact("yes");
   }
   date(): Fact {
-    return this.fact(sayDate(this.story.date));
+    return this.fact(spokenDate(this.story.date));
   }
   private table(module: string, name: string) {
     return this.core.modules.has(module)
@@ -794,7 +789,7 @@ const filing: Builder = (read, f) => {
       ...read.who(id, "name", false),
       ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
       ...(f.electionDate
-        ? { when: read.fact(sayDate(f.electionDate), f.contestId ?? "") }
+        ? { when: read.fact(spokenDate(f.electionDate), f.contestId ?? "") }
         : {}),
     },
     ["name", "office"],
